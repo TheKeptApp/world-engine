@@ -36,6 +36,7 @@ public struct GeneratedChunk: Sendable {
     /// Lakes and ponds: the `water` material.
     public var waterMesh = MeshBuffers()
     public var staticFeatures: [FeatureRange] = []
+    public var waterFeatures: [FeatureRange] = []
 
     public var id: String { "\(index.x)_\(index.y)" }
 }
@@ -88,6 +89,10 @@ public struct SceneGenerator: Sendable {
     /// Region that gets full street-level detail; everything else is simple context.
     public var focus: Rect2D
     public var chunkSize = 200.0
+    /// 0 = full detail; 1 = reduced (every building simple, no curbs or sidewalk edges).
+    public var lod = 0
+    /// Palette to continue from (keeps slot numbers equal across detail levels).
+    public var startPalette: Palette?
 
     public init(features: MapFeatures, profile: StyleProfile, seasonal: SeasonalPalette, baseColors: [String: String],
                 season: Int, focus: Rect2D) {
@@ -105,7 +110,7 @@ public struct SceneGenerator: Sendable {
     }
 
     public func generate() -> GeneratedScene {
-        var palette = Palette(seasonal: seasonal, season: season, base: baseColors)
+        var palette = startPalette ?? Palette(seasonal: seasonal, season: season, base: baseColors)
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
         let streetscape = Streetscape(context: context, buildings: buildingIndex)
@@ -118,7 +123,7 @@ public struct SceneGenerator: Sendable {
         for i in 0..<nx { for j in 0..<ny {
             let r = Rect2D(min: b.min + LocalPoint(Double(i), Double(j)) * chunkSize,
                            max: simd_min(b.max, b.min + LocalPoint(Double(i + 1), Double(j + 1)) * chunkSize))
-            chunks[SIMD2(i, j)] = GeneratedChunk(index: SIMD2(i, j), rect: r, detail: r.intersects(focus) ? .full : .simple)
+            chunks[SIMD2(i, j)] = GeneratedChunk(index: SIMD2(i, j), rect: r, detail: lod == 0 && r.intersects(focus) ? .full : .simple)
         } }
         func append(_ m: MeshBuffers, feature: String, to key: SIMD2<Int>) {
             guard !m.isEmpty, chunks[key] != nil else { return }
@@ -171,7 +176,12 @@ public struct SceneGenerator: Sendable {
                 guard let clipped = Clipping.clip(area.polygon, to: chunks[key]!.rect), let clean = clipped.cleaned(minArea: 0.2),
                       var cap = Triangulator.cap(clean, y: y) else { continue }
                 cap.repaint(from: 0, Paint(slot: n(slotName), shade: shade, flags: flags))
-                if area.kind == .water || area.kind == .pool { chunks[key]!.waterMesh.append(cap) } else { append(cap, feature: area.ref.description, to: key) }
+                if area.kind == .water || area.kind == .pool {
+                    chunks[key]!.waterFeatures.append(FeatureRange(feature: area.ref.description, start: chunks[key]!.waterMesh.vertexCount, count: cap.vertexCount))
+                    chunks[key]!.waterMesh.append(cap)
+                } else {
+                    append(cap, feature: area.ref.description, to: key)
+                }
             }
             if area.kind == .water {
                 // Shore band along the real water edge (not along chunk cuts).
@@ -198,7 +208,7 @@ public struct SceneGenerator: Sendable {
         for sw in features.sidewalks {
             addLines(sw.centerline, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),
                      feature: sw.ref.description, into: &chunks)
-            if Rect2D(enclosing: sw.centerline).intersects(focus) {
+            if lod == 0, Rect2D(enclosing: sw.centerline).intersects(focus) {
                 addSidewalkEdges(sw.centerline, width: 1.6, paint: Paint(slot: n("curb")), feature: sw.ref.description, into: &chunks)
             }
         }
@@ -208,7 +218,7 @@ public struct SceneGenerator: Sendable {
         var generatedSidewalkMeters = 0.0, curbMeters = 0.0, generatedLamps = 0
         for (i, road) in features.roads.enumerated() {
             for piece in Clipping.clip(polyline: road.centerline, to: focus) {
-                for curb in streetscape.curbLines(roadIndex: i, piece: piece) {
+                for curb in streetscape.curbLines(roadIndex: i, piece: piece) where lod == 0 {
                     curbMeters += Polyline.length(curb)
                     addCurb(curb, road: road, paint: Paint(slot: n("curb")), into: &chunks)
                 }
@@ -216,7 +226,9 @@ public struct SceneGenerator: Sendable {
                     generatedSidewalkMeters += Polyline.length(sw)
                     addLines(sw, width: 1.5, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), shade: 1.01, flags: .sidewalk),
                              feature: "gen:sidewalk:\(road.ref)", into: &chunks)
-                    addSidewalkEdges(sw, width: 1.5, paint: Paint(slot: n("curb")), feature: "gen:sidewalk:\(road.ref)", into: &chunks)
+                    if lod == 0 {
+                        addSidewalkEdges(sw, width: 1.5, paint: Paint(slot: n("curb")), feature: "gen:sidewalk:\(road.ref)", into: &chunks)
+                    }
                     scene.clutter.blockedLines.append((sw, 1.5))
                 }
                 for (spot, facing) in streetscape.generatedLamps(roadIndex: i, piece: piece, existing: &lampSpots) {

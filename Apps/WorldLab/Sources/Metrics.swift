@@ -67,6 +67,8 @@ final class TestRun {
     let renderer: String
     var statusLine = ""
     var finished = false
+    /// Extra header text (e.g. the web backend actually in use), set before `begin()`.
+    @ObservationIgnored var note = ""
 
     @ObservationIgnored private var start = Date()
     @ObservationIgnored private var lastSecond = Date()
@@ -102,7 +104,7 @@ final class TestRun {
         secondsLog = FileHandle(forWritingAtPath: base + "-seconds.csv")
         framesLog = FileHandle(forWritingAtPath: base + "-frames.csv")
         let screen = UIScreen.main.bounds.size, scale = UIScreen.main.scale
-        write(secondsLog, "\(header) drawable=\(Int(screen.width * scale))x\(Int(screen.height * scale))\n")
+        write(secondsLog, "\(header) \(note) screen=\(Int(screen.width * scale))x\(Int(screen.height * scale))\n")
         write(secondsLog, "seconds,fps,frame_ms_avg,frame_ms_max,pct_over_16_9,gpu_ms_avg,memory_mb,thermal,battery\n")
         write(framesLog, "frame_ms,gpu_ms\n")
         UIApplication.shared.isIdleTimerDisabled = true
@@ -177,6 +179,7 @@ final class TestRun {
             "batteryEnd": batteryEnd,
             "batteryUsedPercent": batteryStart >= 0 ? Double(batteryStart - batteryEnd) * 100 : -1,
             "header": header,
+            "note": note,
         ]
         if let data = try? JSONSerialization.data(withJSONObject: summary, options: [.prettyPrinted, .sortedKeys]) {
             try? data.write(to: URL(fileURLWithPath: base + "-summary.json"))

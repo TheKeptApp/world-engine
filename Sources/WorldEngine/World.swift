@@ -101,24 +101,11 @@ public final class World {
     /// Loads an area directory (manifest + OSM data) and builds the world.
     public static func load(areaDirectory: URL, options: WorldOptions = .init()) async throws -> World {
         let start = Date()
-        let generated = try await Task.detached(priority: .userInitiated) { () throws -> (AreaManifest, GeneratedScene, MapFeatures, LightingState) in
-            let manifest = try AreaLoader.loadManifest(areaDirectory)
-            let features = try AreaLoader.loadFeatures(areaDirectory)
-            let profile = try options.profileID.map(StyleLibrary.profile(id:)) ?? StyleLibrary.profile(at: manifest.center)
-            let season = options.season ?? profile.seasons.season(at: options.date, longitude: manifest.center.longitude)
-            let lighting = LightingModel.state(at: options.date, location: manifest.center, tables: try StyleLibrary.lighting())
-            let focus: Rect2D
-            if let f = options.focus {
-                let a = manifest.frame.localPoint(of: GeoCoordinate(latitude: f.south, longitude: f.west))
-                let b = manifest.frame.localPoint(of: GeoCoordinate(latitude: f.north, longitude: f.east))
-                focus = Rect2D(min: simd_min(a, b), max: simd_max(a, b))
-            } else {
-                focus = features.bounds
-            }
-            let gen = SceneGenerator(features: features, profile: profile, seasonal: try StyleLibrary.seasonalPalette(),
-                                     baseColors: try StyleLibrary.baseColors(), season: season, focus: focus)
-            return (manifest, gen.generate(), features, lighting)
+        let recipe = WorldRecipe(profileID: options.profileID, date: options.date, season: options.season, focus: options.focus)
+        let build = try await Task.detached(priority: .userInitiated) {
+            try WorldBuild.generate(areaDirectory: areaDirectory, recipe: recipe)
         }.value
+        let generated = (build.manifest, build.scene, build.features, build.lighting)
         let world = try World(manifest: generated.0, scene: generated.1, features: generated.2, lighting: generated.3, options: options)
         world.stats.buildSeconds = Date().timeIntervalSince(start)
         return world
@@ -187,9 +174,19 @@ public final class World {
 
     /// Adds an app-provided entity at a lat/lon, standing on the ground (its origin = its feet).
     public func place(_ entity: Entity, at c: GeoCoordinate, heading: Float? = nil) {
-        if entity.parent !== rootEntity { rootEntity.addChild(entity) }
+        if entity.parent !== rootEntity { adopt(entity) }
         entity.position = position(of: c)
         if let heading { entity.orientation = simd_quatf(angle: -heading, axis: [0, 1, 0]) }
+    }
+
+    /// Adds a host entity to the world and lets its models receive the world's sky light.
+    private func adopt(_ entity: Entity) {
+        rootEntity.addChild(entity)
+        func visit(_ e: Entity) {
+            if e.components.has(ModelComponent.self) { receiveIBL(e) }
+            for c in e.children { visit(c) }
+        }
+        visit(entity)
     }
 
     /// Removes an entity the app placed (and stops its motion).
@@ -201,7 +198,7 @@ public final class World {
     /// Walks an entity along a route at `speed` m/s, facing the direction of travel.
     @discardableResult
     public func move(_ entity: Entity, along route: [GeoCoordinate], speed: Double, loop: Bool = true) -> WorldMotion {
-        if entity.parent !== rootEntity { rootEntity.addChild(entity) }
+        if entity.parent !== rootEntity { adopt(entity) }
         motions.removeAll { $0.entity === entity }
         let m = WorldMotion(entity: entity, route: route.map(frame.localPoint(of:)), speed: speed, loop: loop)
         motions.append(m)

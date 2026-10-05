@@ -110,7 +110,7 @@ struct RealityKitScreen: View {
             let dir = Bundle.main.url(forResource: demo.area, withExtension: nil)!
             let w = try await World.load(areaDirectory: dir, options: WorldOptions(
                 focus: demo.focusBox, profileID: options.profile, date: options.date(demo), diagnostics: options.diagnostics))
-            let character = await makeCharacter()
+            let character = await makeCharacter(world: w)
             let motion = w.move(character, along: demo.routeCoordinates, speed: demo.walkSpeed, loop: true)
             w.contactEntity = character
             let cam = WorldCamera(mode: .street(following: character))
@@ -151,9 +151,16 @@ enum Presets {
             let anchor = world.position(of: GeoCoordinate(latitude: f.streetAnchor.lat, longitude: f.streetAnchor.lon))
             world.place(character, at: GeoCoordinate(latitude: f.streetAnchor.lat, longitude: f.streetAnchor.lon))
             character.orientation = simd_quatf(angle: -.pi / 2, axis: [0, 1, 0]) // face west (−X)
-            let o = f.streetCameraOffset, t = f.streetTargetOffset
-            camera.mode = .fixed(position: anchor + SIMD3(o[0], o[1], o[2]), target: anchor + SIMD3(t[0], t[1], t[2]),
-                                 fieldOfViewDegrees: f.fovDegrees)
+            // v2: the fixture was set for a 0.65 m upright stand-in; fit the actual character's
+            // projected bounds to the same 22% along the fixture's view direction.
+            let o = SIMD3(f.streetCameraOffset[0], f.streetCameraOffset[1], f.streetCameraOffset[2])
+            let t = SIMD3(f.streetTargetOffset[0], f.streetTargetOffset[1], f.streetTargetOffset[2])
+            let dir = simd_normalize(o - t)
+            let b = character.visualBounds(relativeTo: character)
+            let d = b.isEmpty ? simd_length(o - t) : WorldCamera.fittedDistance(
+                bounds: b, orientation: character.orientation, viewDirection: -dir, fieldOfViewDegrees: f.fovDegrees, fraction: 0.22)
+            camera.mode = .fixed(position: anchor + t + dir * d, target: anchor + t, fieldOfViewDegrees: f.fovDegrees)
+            print("FIXTURE character bounds \(b.extents) fitted distance \(d) m (fixture \(simd_length(o - t)) m)")
         case "v2-06":
             stop(at: 150)
             let c = world.position(of: GeoCoordinate(latitude: f.aerialCenter.lat, longitude: f.aerialCenter.lon))

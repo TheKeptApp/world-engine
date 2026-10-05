@@ -47,17 +47,35 @@ public struct ClutterField: Sendable {
         let c0 = Int(((center.x - radius) / cellSize).rounded(.down)), c1 = Int(((center.x + radius) / cellSize).rounded(.up))
         let r0 = Int(((center.y - radius) / cellSize).rounded(.down)), r1 = Int(((center.y + radius) / cellSize).rounded(.up))
         for cx in c0...c1 { for cy in r0...r1 {
-            var rng = StableRandom(UInt64(bitPattern: Int64(cx)), UInt64(bitPattern: Int64(cy)), salt: "tufts")
-            for _ in 0..<tuftsPerCell {
-                let p = LocalPoint((Double(cx) + rng.unit()) * cellSize, (Double(cy) + rng.unit()) * cellSize)
-                let yaw = rng.range(0, 6.28), s = rng.range(0.8, 1.3)
-                let dist = simd_distance(p, center)
-                guard dist <= radius, isLawnEdge(p) else { continue }
-                out.append((dist, SIMD4(p.x, p.y, yaw, s)))
+            for q in candidates(cellX: cx, cellY: cy) {
+                let dist = simd_distance(LocalPoint(q.x, q.y), center)
+                guard dist <= radius, isLawnEdge(LocalPoint(q.x, q.y)) else { continue }
+                out.append((dist, q))
             }
         } }
         out.sort { $0.0 < $1.0 }
         return out.prefix(Self.maxClusters).map(\.1)
+    }
+
+    /// Candidate tufts (x, y, yaw, scale) of one 6 m cell, seeded by the cell's coordinates.
+    public func candidates(cellX cx: Int, cellY cy: Int) -> [SIMD4<Double>] {
+        var rng = StableRandom(UInt64(bitPattern: Int64(cx)), UInt64(bitPattern: Int64(cy)), salt: "tufts")
+        return (0..<tuftsPerCell).map { _ in
+            let p = LocalPoint((Double(cx) + rng.unit()) * cellSize, (Double(cy) + rng.unit()) * cellSize)
+            let yaw = rng.range(0, 6.28), s = rng.range(0.8, 1.3)
+            return SIMD4(p.x, p.y, yaw, s)
+        }
+    }
+
+    /// Every edge-tuft placement in the field (for export; renderers apply the nearest-200 rule).
+    public func allTuftPlacements() -> [SIMD4<Double>] {
+        let c0 = Int((bounds.min.x / cellSize).rounded(.down)), c1 = Int((bounds.max.x / cellSize).rounded(.up))
+        let r0 = Int((bounds.min.y / cellSize).rounded(.down)), r1 = Int((bounds.max.y / cellSize).rounded(.up))
+        var out: [SIMD4<Double>] = []
+        for cy in r0...r1 { for cx in c0...c1 {
+            out += candidates(cellX: cx, cellY: cy).filter { isLawnEdge(LocalPoint($0.x, $0.y)) }
+        } }
+        return out
     }
 
     /// Tuft transforms (scene space) near `center`.

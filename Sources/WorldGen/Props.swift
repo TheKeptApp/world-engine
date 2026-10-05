@@ -17,7 +17,7 @@ public enum PropKind: String, Sendable, CaseIterable, Codable {
 public struct PropLibrary: Sendable {
     /// Shape variants per kind (instances pick one at generation time).
     public static let variants: [PropKind: Int] = [
-        .treeBroad: 1, .treeOval: 1, .treeSpreading: 1, .conifer: 1, .lamp: 1, .bench: 1, .bush: 2, .flowerBush: 1, .tuft: 2,
+        .treeBroad: 1, .treeOval: 1, .treeSpreading: 1, .conifer: 1, .lamp: 1, .bench: 1, .bush: 2, .flowerBush: 2, .tuft: 2,
     ]
 
     /// Detail levels per kind: trees and bushes have near/mid/far meshes, chosen at render time.

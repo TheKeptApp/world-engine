@@ -1,3 +1,4 @@
+import Metal
 import Foundation
 import RealityKit
 import WorldEngine
@@ -66,12 +67,12 @@ struct LaunchOptions {
 /// The walking character: DogWell's Luna (converted to USDZ, see scripts/convert-dog.sh) with her
 /// walk clip when bundled, else a 0.65 m capsule stand-in. Origin at the feet, facing +Z.
 @MainActor
-func makeCharacter() async -> Entity {
-    if let url = Bundle.main.url(forResource: "luna_light", withExtension: "usdz"),
+func makeCharacter(world: World) async -> Entity {
+    if let url = Bundle.main.url(forResource: "luna_light", withExtension: "usdz", subdirectory: "dog"),
        let dog = try? await Entity(contentsOf: url) {
         dog.name = "Luna"
-        if let walk = dog.availableAnimations.first(where: { $0.name?.contains("walk") == true && $0.name?.contains("turn") == false })
-            ?? dog.availableAnimations.first {
+        DogCoat.apply(to: dog, fill: world.shaderGlobals.fillSky)
+        if let walk = dog.availableAnimations.first {
             dog.playAnimation(walk.repeat())
         }
         let root = Entity()
@@ -94,4 +95,27 @@ func makeCharacter() async -> Entity {
     root.addChild(body)
     root.addChild(nose)
     return root
+}
+
+/// Luna's coat material (see DogCoat.metal): vertex-color coat + world fill + readability rim.
+@MainActor
+enum DogCoat {
+    static let rimStrength: Float = 0.35
+
+    static func apply(to dog: Entity, fill: SIMD3<Float>) {
+        guard let device = MTLCreateSystemDefaultDevice(), let library = device.makeDefaultLibrary(),
+              var coat = try? CustomMaterial(surfaceShader: .init(named: "dogCoatSurface", in: library), lightingModel: .lit) else { return }
+        coat.custom.value = SIMD4(fill.x, fill.y, fill.z, rimStrength)
+        func visit(_ e: Entity) {
+            if var model = e.components[ModelComponent.self] {
+                // The body part carries the coat colors; other parts keep their own materials.
+                for m in model.mesh.contents.models { for part in m.parts where part.id == "luna_body" {
+                    if part.materialIndex < model.materials.count { model.materials[part.materialIndex] = coat }
+                } }
+                e.components.set(model)
+            }
+            for c in e.children { visit(c) }
+        }
+        visit(dog)
+    }
 }
