@@ -14,3 +14,5 @@
 - Regional looks live in data (`Sources/WorldGen/Profiles/*.json`, selected by location via `regions.json`). Real OSM tags always override profiles.
 - Commands: `scripts/test.sh`, `scripts/generate.sh`, `scripts/snapshots.sh <out.png> -preset NAME`, `scripts/device.sh build`, `scripts/walk_test.sh LABEL`, `swift run worldbake …`.
 - Signing: the team ID lives in `.local/team_id` (git-ignored), never in `project.yml`.
+- `docs/proposals/` is written by ChatGPT: read-only input. Never edit it. The visual source of truth is `docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md` (VISUAL_DIRECTION.md is kept consistent with it).
+- `~/Desktop/worldengine-handoff/dog/` may be read (DogWell dog exports); never write there.
