@@ -1,11 +1,26 @@
-# WorldEngine: Milestone 1 technical plan (revision 2)
+# WorldEngine: Milestone 1 technical plan (revision 3)
 
-**Status:** foundation built (Prompt 2, part D). Rendering not started.
+**Status:** first visual milestone (M1b) built and at its gate. See [milestone1/m1b-gate-report.md](milestone1/m1b-gate-report.md).
 **Binding requirements:** [VISUAL_DIRECTION.md](VISUAL_DIRECTION.md) (street view, scale, generalization).
 **Measured data:** [data/sloans-lake-street-data.md](data/sloans-lake-street-data.md).
-**Toolchain (checked 2026-10-05):** Xcode 26.4, Swift 6.3, iOS 26.4 SDK. Minimum iOS 18.0 (approved).
+**Toolchain (checked 2026-10-05):** Xcode 26.4 (+ Metal Toolchain component), Swift 6.3, iOS 26.4 SDK. **Minimum iOS 26.0** (raised in Prompt 3).
 
-## What changed since revision 1, and why
+## What changed in revision 3 (Prompt 3 decisions + what building M1b taught us)
+
+| Area | Revision 2 | Revision 3 | Why |
+|---|---|---|---|
+| Minimum OS | iOS 18 | **iOS 26.0** | GPU instancing (`MeshInstancesComponent`) and RealityView post-processing are iOS 26-only (owner decision A.1). |
+| Props | Merged or instanced, TBD | **Instanced** (trees, bushes, grass tufts, lamps, benches) | A.1. Measured: half the mesh memory of merging (15.7 MB vs 30.0 MB), slightly more draw calls (108 vs 91 scene total). |
+| Regional look | Style parameters | **Style profiles as data** (`Sources/WorldGen/Profiles/*.json`), selected by location via `regions.json`; default + Front Range | A.3. See [style-profiles.md](style-profiles.md). |
+| Cut-away of thin blockers | Dithered alpha test in the shared shader | Same shader logic, but **opaque `CustomMaterial` ignores shader opacity** (found by testing). Thin-blocker materials (foliage, lamps, benches) use the transparent pipeline at full opacity with depth writes + alpha threshold; buildings stay opaque and the camera pushes in. | RealityKit behavior, verified with debug views. |
+| Fog / camera-relative effects | Derived camera position from the view matrix | **Camera position passed explicitly** in the globals texture (split coarse/fine for half-float precision) | Simpler and verifiable. |
+| Post-processing (tilt-shift, color grade, GPU timing) | iOS 26 `customPostProcessing` | **Blocked for now:** assigning `RealityViewCameraContent.renderingEffects.customPostProcessing` traps inside RealityKit 26.4 (Simulator and iPhone). Needs a minimal repro and an Apple feedback, or a workaround. | Found in M1b. |
+| GPU measurement | Instruments | Instruments **forces the GPU to its minimum performance state while tracing** on this setup, so traced GPU time is a worst case; frame rate and heat are measured with no trace attached. | Found in M1b. |
+| Golden hour | "Golden hour" | 17:45 MDT, 22 Sept (sun 13° up, WSW) | Sun 5° up barely lights the ground; 13° gives real shadows and warm light. |
+| Generalization areas | Downtown Denver + Bernal Heights | **Downtown Denver** (after `building:part` support) + **flat sparse suburb** (proposed: Plano TX, Russell Creek Park); Bernal Heights moves to the terrain milestone | A.4. |
+| Horizon | Hand-entered or DEM | **Generated from elevation data** (same source as terrain), later milestone | A.5. |
+
+## What changed in revision 2 (street view), and why
 
 | Area | Revision 1 (aerial only) | Revision 2 (street + aerial) | Why |
 |---|---|---|---|
@@ -30,14 +45,15 @@ Sources/
   WorldGeo/      ✅ built   lat/lon ↔ local meters (exact WGS84), 2D polygons, clipping, StableRandom
   WorldMap/      ✅ built   Overpass JSON → typed features; ring assembly; height/width rules; area manifest
   WorldMesh/     ✅ built   earcut port, footprint extrusion, road ribbons → plain MeshBuffers
-  WorldGen/      planned   procedural detail: house kit, roofs, facades, sidewalks/curbs, props, clutter, trees
-  WorldEngine/   started   RealityKit + SwiftUI: chunks, LOD, materials, camera rigs, environment, public API
-                           (today: WorldAttributionView only)
+  WorldGen/      ✅ M1b     houses (roofs, facades, porches, garages), sidewalks/curbs, lamps, trees, clutter,
+                           regional style profiles (data), chunked scene generation
+  WorldEngine/   ✅ M1b     RealityKit + SwiftUI: chunks, CustomMaterial shaders (palette, fog, cut-away),
+                           instancing, sun/sky, street camera + occlusion, route motion, WorldView
   worldbake/     ✅ built   macOS tool: init-area, fetch, stats, datamap, ring-stats
-Tests/           ✅ 61 tests (89 cases incl. parameterized), `swift test`, all pass
+Tests/           ✅ 83 tests (123 cases incl. parameterized), `swift test`, all pass
 Data/areas/sloans-lake/      ✅ manifest.json, osm.json (4.4 MB), osm.overpassql, NOTICE.md
-Apps/WorldLab/   ✅ project.yml (XcodeGen 2.46.0, pinned in Tools/), empty shell app
-scripts/         ✅ generate.sh, test.sh, snapshots.sh
+Apps/WorldLab/   ✅ project.yml (XcodeGen 2.46.0, iOS 26), demo route + presets + HUD + metrics
+scripts/         ✅ generate.sh, test.sh, snapshots.sh, device.sh, walk_test.sh, gpu_sample.sh, gpu_frames.py
 ```
 
 - **Concurrency:** everything except `WorldEngine` is pure Swift, `Sendable`, and runs off the main thread.
@@ -368,11 +384,12 @@ Unchanged from revision 1 (place, move along route, camera, time of day, weather
 | Sub-milestone | Scope | Estimate |
 |---|---|---|
 | **M1a Foundation** ✅ | XcodeGen, WorldLab shell, data fetch, Geo/Map/Mesh modules, tests, data map | done |
-| **M1b First visual** | One street of houses + lake path, stand-in, golden hour, street camera (see §9) | 9–11 days |
-| **M1c Whole area** | All chunks, L0/L1/L2 + cross-fade, clutter, props, apartments/commercial, aerial mode + transitions, backdrop ring, horizon | 8–10 days |
-| **M1d Environment** | Real sun, light keyframes, night lights, weather states + easing, rain/snow particles, wet/snow shaders, seasons, leaves | 7–9 days |
-| **M1e Device + generalization** | iPhone 13-class performance and 10-minute thermal walk, tuning, two more areas, three-area screenshot set | 5–7 days |
-| **Total remaining** | | **≈ 29–37 working days** |
+| **M1b First visual** ✅ (at gate) | Street of houses + lake path, stand-in, golden hour, street camera, cut-away, instancing, device walk test | done |
+| **M1b follow-ups** | Normal-clock GPU number; post-processing workaround (color grade, tilt-shift); stylized tufts and more tree shapes; vertex AO + bounce light; facade patterns; corner-lot front choice | 3–5 days |
+| **M1c Whole area** | L0/L1/L2 detail levels + cross-fade, apartments/commercial facades, `building:part`, aerial mode + transitions, backdrop ring, horizon from elevation data | 9–11 days |
+| **M1d Environment** | Real sun over time, light keyframes, night lights, weather states + easing, rain/snow particles, wet/snow shaders, seasons, leaves | 7–9 days |
+| **M1e Device + generalization** | iPhone 13-class performance, 10-minute walks per mode, Downtown Denver + flat suburb (default-profile worst case), tree scatter where OSM has none, three-area screenshot set | 5–7 days |
+| **Total remaining** | | **≈ 24–32 working days** |
 
 **Later milestones:** terrain; any-location loading; ambient cars and pedestrians; building overrides.
 

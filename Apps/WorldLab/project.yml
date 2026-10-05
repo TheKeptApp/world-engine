@@ -4,7 +4,7 @@ name: WorldLab
 options:
   bundleIdPrefix: com.lincolnlabs
   deploymentTarget:
-    iOS: "18.0"
+    iOS: "26.0"
   createIntermediateGroups: true
   developmentLanguage: en
 packages:
@@ -20,6 +20,12 @@ targets:
     platform: iOS
     sources:
       - Sources
+      - path: Resources
+        buildPhase: resources
+      # The demo area's data, bundled as a folder named "sloans-lake".
+      - path: ../../Data/areas/sloans-lake
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: WorldEngine
         product: WorldEngine
