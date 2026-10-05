@@ -1,0 +1,115 @@
+{
+  "status": "Proposed comparison data, not an engine API schema",
+  "axes": {
+    "east": "+X",
+    "up": "+Y",
+    "north": "-Z"
+  },
+  "angles": "degrees clockwise from true north; elevations above horizontal, pitch_down positive",
+  "frame_aspect": 1.7777777777777777,
+  "street": {
+    "anchor_latlon": [
+      39.7511195,
+      -105.0389
+    ],
+    "camera_offset_xyz_m": [
+      2.6,
+      1.25,
+      0
+    ],
+    "look_at_offset_xyz_m": [
+      0,
+      0.48,
+      0
+    ],
+    "horizontal_distance_behind_m": 2.6,
+    "slant_distance_to_target_m": 2.711623130156549,
+    "pitch_down_deg": 16.496858005748532,
+    "heading_deg": 270,
+    "vertical_fov_deg": 50,
+    "near_m": 0.1,
+    "far_m": 3000,
+    "character_fixture_height_m": 0.65,
+    "character_projected_fraction_target": 0.22,
+    "character_projected_fraction_range": [
+      0.2,
+      0.25
+    ],
+    "look_ahead_m": 0
+  },
+  "aerial": {
+    "anchor_latlon": [
+      39.7494,
+      -105.0445
+    ],
+    "camera_offset_xyz_m": [
+      0,
+      1474.4736797201851,
+      1032.4375854318828
+    ],
+    "look_at_offset_xyz_m": [
+      0,
+      0,
+      0
+    ],
+    "heading_deg": 0,
+    "pitch_down_deg": 55,
+    "vertical_fov_deg": 50,
+    "slant_distance_to_target_m": 1800,
+    "near_m": 1,
+    "far_m": 5000,
+    "horizon_visible": false
+  },
+  "solar_fixtures": [
+    {
+      "images": [
+        "01",
+        "06",
+        "09"
+      ],
+      "utc": "2026-10-15T23:44:01Z",
+      "local": "2026-10-15T17:44:01-06:00",
+      "elevation_deg": 6.0010930761,
+      "azimuth_deg": 253.2842856739
+    },
+    {
+      "images": [
+        "02"
+      ],
+      "utc": "2027-01-15T15:15:00Z",
+      "local": "2027-01-15T08:15:00-07:00",
+      "elevation_deg": 8.2394502831,
+      "azimuth_deg": 126.3889508743
+    },
+    {
+      "images": [
+        "03"
+      ],
+      "utc": "2026-10-16T00:35:00Z",
+      "local": "2026-10-15T18:35:00-06:00",
+      "elevation_deg": -3.5650510155,
+      "azimuth_deg": 261.4911848757
+    },
+    {
+      "images": [
+        "04"
+      ],
+      "utc": "2026-07-15T19:07:00Z",
+      "local": "2026-07-15T13:07:00-06:00",
+      "elevation_deg": 71.6744515021,
+      "azimuth_deg": 180.5750880383
+    },
+    {
+      "images": [
+        "05"
+      ],
+      "utc": "2026-10-16T03:00:00Z",
+      "local": "2026-10-15T21:00:00-06:00",
+      "elevation_deg": -31.2183098467,
+      "azimuth_deg": 285.6594951484
+    }
+  ],
+  "timezone": "America/Denver",
+  "solar_method": "Repository SolarPosition NOAA-equation method, without atmospheric refraction; computed read-only in review",
+  "image_warning": "Generated images approximate these controls and are not physically validated; oversizing/shadow/layout deviations listed in spec."
+}
