@@ -116,7 +116,7 @@ async function main() {
     return { backend, out };
   };
   status('');
-  renderer.setAnimationLoop(async () => {
+  renderer.setAnimationLoop(async (time) => {
     const dt = Math.min(clock.getDelta(), 0.1);
     const now = performance.now() / 1000;
     // Same order as RealityKit's update: camera, then motion and world.
@@ -138,7 +138,7 @@ async function main() {
 
     renderer.info.reset();
     if (post) post.render(); else renderer.render(scene, camera);
-    reporter.frame(dt, renderer.info.render);
+    reporter.frame(time, renderer.info.render);
 
     hudTimer += dt;
     if (showHUD && hudTimer > 0.5) {

@@ -10,12 +10,16 @@ export class FrameReporter {
     this.lastPost = performance.now();
     this.last = null;
     this.native?.postMessage({ type: 'ready', backend, requested, pixelRatio: window.devicePixelRatio,
+      isolated: window.crossOriginIsolated === true,
       drawable: [Math.round(innerWidth * devicePixelRatio), Math.round(innerHeight * devicePixelRatio)] });
   }
 
-  /** Call once per frame after rendering. Uses the rAF-to-rAF interval (presentation pacing). */
-  frame(_dt, info) {
-    const t = performance.now();
+  /**
+   * Call once per frame with the animation-frame timestamp (vsync-aligned frame start), so the
+   * interval measures frame pacing rather than when this frame's JavaScript happened to finish.
+   */
+  frame(time, info) {
+    const t = time;
     if (this.last !== null) {
       const ms = t - this.last;
       this.batch.push(Math.round(ms * 1000) / 1000);

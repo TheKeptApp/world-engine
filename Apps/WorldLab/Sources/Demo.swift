@@ -45,6 +45,8 @@ struct LaunchOptions {
     var renderer: String?
     /// Comma-separated engine diagnostics, e.g. `-diag noShadows,noPost`.
     var diagnostics: Set<String> = []
+    /// `-date ISO8601`: the moment for this run (overrides the fixtures).
+    var dateOverride: Date?
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -58,10 +60,14 @@ struct LaunchOptions {
         frame16x9 = args.contains("-frame16x9")
         renderer = value("-renderer")
         diagnostics = Set((value("-diag") ?? "").split(separator: ",").map(String.init))
+        dateOverride = value("-date").flatMap { ISO8601DateFormatter().date(from: $0) }
     }
 
-    /// The moment for this run: v2 golden-hour fixture, or v2 summer noon for the noon preset.
-    func date(_ demo: DemoConfig) -> Date { preset == "v2-04" ? demo.noonDate : demo.goldenDate }
+    /// The moment for this run: `-date`, else v2 summer noon for the noon preset, else the v2
+    /// golden-hour fixture.
+    func date(_ demo: DemoConfig) -> Date {
+        dateOverride ?? (preset == "v2-04" ? demo.noonDate : demo.goldenDate)
+    }
 }
 
 /// The walking character: DogWell's Luna (converted to USDZ, see scripts/convert-dog.sh) with her

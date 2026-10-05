@@ -61,7 +61,9 @@ final class Metrics {
 @MainActor
 @Observable
 final class TestRun {
-    static let duration: Double = 600
+    /// 600 s for the matched test; `-testseconds N` shortens it for checks.
+    static let duration: Double = ProcessInfo.processInfo.arguments.firstIndex(of: "-testseconds")
+        .flatMap { i in ProcessInfo.processInfo.arguments.dropFirst(i + 1).first.flatMap(Double.init) } ?? 600
     static let brightness: CGFloat = 0.5
 
     let renderer: String

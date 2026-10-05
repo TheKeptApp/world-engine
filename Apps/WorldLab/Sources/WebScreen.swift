@@ -77,15 +77,16 @@ final class WebModel: NSObject, WKScriptMessageHandler {
         switch body["type"] as? String {
         case "ready":
             let actual = body["backend"] as? String ?? "?"
-            print("WEB ready backend=\(actual) requested=\(requested) drawable=\(body["drawable"] ?? "?") pixelRatio=\(body["pixelRatio"] ?? "?")")
+            print("WEB ready backend=\(actual) requested=\(requested) drawable=\(body["drawable"] ?? "?") pixelRatio=\(body["pixelRatio"] ?? "?") isolated=\(body["isolated"] ?? "?")")
             if let test {
-                test.note = "backend=\(actual) requested=\(requested) drawable=\((body["drawable"] as? [Int])?.map(String.init).joined(separator: "x") ?? "?")"
+                test.note = "backend=\(actual) requested=\(requested) drawable=\((body["drawable"] as? [Int])?.map(String.init).joined(separator: "x") ?? "?") isolated=\(body["isolated"] ?? "?")"
                 test.begin()
                 statusTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
                     MainActor.assumeIsolated { self?.pushStatus() }
                 }
             }
         case "frames":
+            snapshotIfRequested()
             guard let test, let intervals = body["intervals"] as? [Double] else { return }
             for ms in intervals { test.frame(dt: ms / 1000, gpuMs: nil) }
         case "log":
@@ -95,6 +96,23 @@ final class WebModel: NSObject, WKScriptMessageHandler {
             error = "Web renderer error: \(body["message"] ?? "")"
         default:
             break
+        }
+    }
+
+    /// `-snapshot SECONDS`: saves one PNG of the web view to Documents (device screenshots).
+    @ObservationIgnored private var snapshotTaken = false
+    @ObservationIgnored private let started = Date()
+    private func snapshotIfRequested() {
+        let args = ProcessInfo.processInfo.arguments
+        guard !snapshotTaken, let i = args.firstIndex(of: "-snapshot"), i + 1 < args.count, let delay = Double(args[i + 1]),
+              Date().timeIntervalSince(started) > delay, let webView else { return }
+        snapshotTaken = true
+        webView.takeSnapshot(with: nil) { image, error in
+            guard let data = image?.pngData() else { print("WEB snapshot failed \(String(describing: error))"); return }
+            let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let name = "snapshot-\(self.requested)-\(args.firstIndex(of: "-preset").map { args[$0 + 1] } ?? "walk").png"
+            try? data.write(to: docs.appendingPathComponent(name))
+            print("WEB snapshot saved \(name)")
         }
     }
 

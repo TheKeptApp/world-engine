@@ -76,6 +76,8 @@ final class LocalServer: @unchecked Sendable {
             }
         }
         var head = "HTTP/1.1 \(status)\r\nContent-Type: \(type)\r\nContent-Length: \(body.count)\r\n"
+        // Cross-origin isolation: WebKit then gives the page fine-grained timers for frame timing.
+        head += "Cross-Origin-Opener-Policy: same-origin\r\nCross-Origin-Embedder-Policy: require-corp\r\n"
         head += "Cache-Control: no-cache\r\nConnection: close\r\n\r\n"
         c.send(content: Data(head.utf8) + body, completion: .contentProcessed { _ in c.cancel() })
     }

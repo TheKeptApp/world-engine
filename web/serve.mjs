@@ -27,7 +27,8 @@ createServer(async (req, res) => {
     try {
       const s = await stat(file);
       if (!s.isFile()) break;
-      res.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
+      res.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache',
+        'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Embedder-Policy': 'require-corp' });
       res.end(await readFile(file));
       return;
     } catch { break; }
