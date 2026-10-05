@@ -7,3 +7,8 @@
 - Xcode projects are generated (XcodeGen). Never hand-edit or commit `.xcodeproj`.
 - "© OpenStreetMap contributors" must stay visible whenever the world is on screen.
 - Current plan: `docs/plan-m1.md`.
+- Binding visual requirements: `docs/VISUAL_DIRECTION.md`. Nothing place-specific in engine or generator code; areas are data.
+- All generated detail is seeded via `OSMRef.random(salt)` / `StableRandom`. Never `Hasher`, `random()` or `SystemRandomNumberGenerator`.
+- Minimum iOS 18.0. Don't raise it. Report iOS 26-only tradeoffs instead.
+- Report before any design decision not covered by the plan goes into code.
+- Commands: `scripts/test.sh`, `scripts/generate.sh`, `scripts/snapshots.sh <name>`, `swift run worldbake …`.
