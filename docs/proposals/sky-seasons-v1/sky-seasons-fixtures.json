@@ -1,0 +1,3725 @@
+{
+  "schemaVersion": "proposal.sky-seasons-fixtures.v1",
+  "createdDate": "2026-10-05",
+  "evidencePolicy": {
+    "verified": "Source content or local inspection verified on stated date; not a measured sky/plant observation.",
+    "assumption_calculated": "Numerical model expectation, not independent ground truth.",
+    "assumption": "Proposed parameter, calendar, location or display condition."
+  },
+  "reference": {
+    "astronomyRevision": "865d3da7d8112bbc7911238052c6af4aaf877181",
+    "sourceSHA256": "41248c7b1edbf9d11119528eef7455a6dc55abde9f1aab40d363015e956c1729",
+    "solarModel": "SolarPosition.swift equations transcribed for offline arithmetic; unmodified engine",
+    "lunarModel": "Astronomy Engine GeoMoon/Equator; airless topocentric coordinates; phase/limb from topocentric Sun\u2013Moon geometry",
+    "moonRiseSetConvention": "Topocentric geometric center altitude + 34/60 degrees + physical angular radius = 0; no horizon dip",
+    "timezoneDatabase": "Python system zoneinfo; exact distribution version unavailable; serialized UTC offsets authoritative for these fixtures",
+    "rootToleranceSeconds": 0.001,
+    "serializationRoundingSeconds": 1,
+    "evidence": "assumption_calculated",
+    "solarSourceSHA256AtInspection": "088b5c5e32f7606c275e06d99fccc85a22e1005a0b3b547457006e849e71545c"
+  },
+  "tolerances": {
+    "sunDirectionAngularDeg": 0.1,
+    "sunEventSeconds": 120,
+    "moonDirectionAngularDeg": 0.15,
+    "moonEventSeconds": 300,
+    "illuminatedFractionAbsolute": 0.01,
+    "brightLimbAngleDegAwayFromNewFull": 1,
+    "season": "Exact calendar-demo outputs within rounding only; no biological accuracy claim"
+  },
+  "locations": [
+    {
+      "id": "denver",
+      "name": "Denver",
+      "latitudeDeg": 39.7392,
+      "longitudeDeg": -104.9903,
+      "elevationM": 1609,
+      "timeZone": "America/Denver",
+      "evidence": "assumption",
+      "description": "Rounded public city reference coordinate and approximate elevation; not a private location"
+    },
+    {
+      "id": "plano",
+      "name": "Plano",
+      "latitudeDeg": 33.0198,
+      "longitudeDeg": -96.6989,
+      "elevationM": 205,
+      "timeZone": "America/Chicago",
+      "evidence": "assumption",
+      "description": "Rounded public city reference coordinate and approximate elevation; not a private location"
+    },
+    {
+      "id": "seattle",
+      "name": "Seattle",
+      "latitudeDeg": 47.6062,
+      "longitudeDeg": -122.3321,
+      "elevationM": 50,
+      "timeZone": "America/Los_Angeles",
+      "evidence": "assumption",
+      "description": "Rounded public city reference coordinate and approximate elevation; not a private location"
+    },
+    {
+      "id": "sydney",
+      "name": "Sydney",
+      "latitudeDeg": -33.8688,
+      "longitudeDeg": 151.2093,
+      "elevationM": 40,
+      "timeZone": "Australia/Sydney",
+      "evidence": "assumption",
+      "description": "Rounded public city reference coordinate and approximate elevation; not a private location"
+    }
+  ],
+  "sources": [
+    {
+      "id": "solar-local",
+      "url": "../../../Sources/WorldGeo/SolarPosition.swift",
+      "claim": "Existing geometric NOAA-style solar equations; read 2026-10-05",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "noaa",
+      "url": "https://gml.noaa.gov/grad/solcalc/calcdetails.html",
+      "claim": "NOAA calculation conventions",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "usno-definitions",
+      "url": "https://aa.usno.navy.mil/faq/RST_defs",
+      "claim": "Rise/set and twilight definitions",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "astronomy-pinned",
+      "url": "https://raw.githubusercontent.com/cosinekitty/astronomy/865d3da7d8112bbc7911238052c6af4aaf877181/source/python/astronomy/astronomy.py",
+      "claim": "Pinned reference used in memory for lunar positions",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "npn",
+      "url": "https://www.usanpn.org/data/maps/spring",
+      "claim": "Spring indices are modeled early-season plant timing",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "csu-flower",
+      "url": "https://planttalk.colostate.edu/topics/trees-shrubs-vines/1747-0-flowering-crabapple/",
+      "claim": "Front Range crabapple bloom April\u2013May",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "csu-grass",
+      "url": "https://extension.colostate.edu/resource/turfgrass-species-selection-guidelines/",
+      "claim": "Grass species have different seasonal behavior",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "csu-fall",
+      "url": "https://csfs.colostate.edu/forests-trees/aspen-fall-colors/",
+      "claim": "High-elevation autumn timing; NOT a Denver urban peak calendar",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "wsu-lawn",
+      "url": "https://extension.wsu.edu/king/mg-home/gardening-resources/tip-sheets/tip-sheet-11",
+      "claim": "Summer lawn dormancy depends on watering",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "bom-sydney",
+      "url": "https://www.bom.gov.au/climate/averages/tables/cw_066062.shtml",
+      "claim": "Sydney climate context; no temperature series ingested",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    },
+    {
+      "id": "tamu-lawn",
+      "url": "https://agrilifeextension.tamu.edu/library/landscaping/bermudagrass-home-lawn-management-calendar/",
+      "claim": "Bermudagrass seasonal management context",
+      "checkedOn": "2026-10-05",
+      "evidence": "verified_source"
+    }
+  ],
+  "validation": {
+    "solarVsAstronomyEngineMaxAltitudeDifferenceDeg": 0.01021,
+    "sampleCount": 18,
+    "evidence": "verified_calculation_on_2026-10-05",
+    "independentUSNOSample": {
+      "url": "https://aa.usno.navy.mil/api/rstt/oneday?date=2026-01-03&coords=39.7392,-104.9903&tz=-7",
+      "retrievedOn": "2026-10-05",
+      "data": {
+        "closestphase": {
+          "day": 3,
+          "month": 1,
+          "phase": "Full Moon",
+          "time": "03:03",
+          "year": 2026
+        },
+        "curphase": "Full Moon",
+        "day": 3,
+        "day_of_week": "Saturday",
+        "fracillum": "100%",
+        "isdst": false,
+        "label": null,
+        "month": 1,
+        "moondata": [
+          {
+            "phen": "Set",
+            "time": "07:56"
+          },
+          {
+            "phen": "Rise",
+            "time": "17:10"
+          }
+        ],
+        "sundata": [
+          {
+            "phen": "Begin Civil Twilight",
+            "time": "06:51"
+          },
+          {
+            "phen": "Rise",
+            "time": "07:21"
+          },
+          {
+            "phen": "Upper Transit",
+            "time": "12:05"
+          },
+          {
+            "phen": "Set",
+            "time": "16:48"
+          },
+          {
+            "phen": "End Civil Twilight",
+            "time": "17:18"
+          }
+        ],
+        "tz": -7.0,
+        "year": 2026
+      },
+      "note": "USNO illumination is local noon; do not compare to fixture 20:00 phase. Rise/set comparison uses level horizon; observer-height differences are small.",
+      "calculatedMinusReferenceSeconds": {
+        "civilDawn": 3,
+        "sunrise": 15,
+        "solarNoon": -25,
+        "sunset": 6,
+        "civilDusk": 18,
+        "moonset": 6,
+        "moonrise": -7
+      }
+    },
+    "artifactChecks": {
+      "checkedOn": "2026-10-05",
+      "result": "passed",
+      "checks": [
+        "18 fixtures",
+        "finite numeric values",
+        "solar event order",
+        "band interval order",
+        "phase angle/illumination identity",
+        "seasonal weights sum to 1",
+        "fractions in range",
+        "source ID resolution",
+        "UTC/local instant agreement",
+        "daylight duration",
+        "23/25-hour DST dates",
+        "moon event order",
+        "grass palette weights sum to 1"
+      ]
+    }
+  },
+  "fixtures": [
+    {
+      "id": "denver-2026-01-03",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-01-04T03:00:00Z",
+        "local": "2026-01-03T20:00:00-07:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -36.075,
+        "azimuthDeg": 269.086,
+        "sunrise": {
+          "utc": "2026-01-03T14:21:15Z",
+          "local": "2026-01-03T07:21:15-07:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-01-03T23:48:06Z",
+          "local": "2026-01-03T16:48:06-07:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-01-03T19:04:35Z",
+          "local": "2026-01-03T12:04:35-07:00"
+        },
+        "civilDawn": {
+          "utc": "2026-01-03T13:51:03Z",
+          "local": "2026-01-03T06:51:03-07:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-01-04T00:18:18Z",
+          "local": "2026-01-03T17:18:18-07:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-01-03T13:17:19Z",
+          "local": "2026-01-03T06:17:19-07:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-01-04T00:52:02Z",
+          "local": "2026-01-03T17:52:02-07:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-01-03T14:02:36Z",
+              "local": "2026-01-03T07:02:36-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-01-03T15:03:36Z",
+              "local": "2026-01-03T08:03:36-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-01-03T23:05:45Z",
+              "local": "2026-01-03T16:05:45-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-01-04T00:06:45Z",
+              "local": "2026-01-03T17:06:45-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-01-03T13:51:03Z",
+              "local": "2026-01-03T06:51:03-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-01-03T14:02:36Z",
+              "local": "2026-01-03T07:02:36-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-01-04T00:06:45Z",
+              "local": "2026-01-03T17:06:45-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-01-04T00:18:18Z",
+              "local": "2026-01-03T17:18:18-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 34011,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 27.985,
+        "azimuthDeg": 80.171,
+        "phaseAngleTopocentricDeg": 11.036,
+        "illuminatedFractionTopocentric": 0.99075,
+        "phaseLongitudeGeocentricDeg": 189.719,
+        "phaseLabel": "near_full",
+        "brightLimbAngleEquatorialDeg": 82.824,
+        "brightLimbAngleFromZenithDeg": 139.248,
+        "distanceKm": 361490.4,
+        "angularDiameterDeg": 0.5508,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-01-03T14:56:06Z",
+            "local": "2026-01-03T07:56:06-07:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-01-04T00:09:53Z",
+            "local": "2026-01-03T17:09:53-07:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-02-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-02-15T13:30:00Z",
+        "local": "2026-02-15T06:30:00-07:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -4.982,
+        "azimuthDeg": 102.196,
+        "sunrise": {
+          "utc": "2026-02-15T13:52:13Z",
+          "local": "2026-02-15T06:52:13-07:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-02-16T00:36:27Z",
+          "local": "2026-02-15T17:36:27-07:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-02-15T19:14:04Z",
+          "local": "2026-02-15T12:14:04-07:00"
+        },
+        "civilDawn": {
+          "utc": "2026-02-15T13:24:36Z",
+          "local": "2026-02-15T06:24:36-07:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-02-16T01:04:06Z",
+          "local": "2026-02-15T18:04:06-07:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-02-15T12:53:01Z",
+          "local": "2026-02-15T05:53:01-07:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-02-16T01:35:42Z",
+          "local": "2026-02-15T18:35:42-07:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-02-15T13:35:14Z",
+              "local": "2026-02-15T06:35:14-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-02-15T14:29:44Z",
+              "local": "2026-02-15T07:29:44-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-02-15T23:58:55Z",
+              "local": "2026-02-15T16:58:55-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-02-16T00:53:27Z",
+              "local": "2026-02-15T17:53:27-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-02-15T13:24:36Z",
+              "local": "2026-02-15T06:24:36-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-02-15T13:35:14Z",
+              "local": "2026-02-15T06:35:14-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-02-16T00:53:27Z",
+              "local": "2026-02-15T17:53:27-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-02-16T01:04:06Z",
+              "local": "2026-02-15T18:04:06-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 38654,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 3.204,
+        "azimuthDeg": 123.629,
+        "phaseAngleTopocentricDeg": 157.027,
+        "illuminatedFractionTopocentric": 0.03966,
+        "phaseLongitudeGeocentricDeg": 336.921,
+        "phaseLabel": "waning_crescent",
+        "brightLimbAngleEquatorialDeg": 66.792,
+        "brightLimbAngleFromZenithDeg": 110.832,
+        "distanceKm": 391940.1,
+        "angularDiameterDeg": 0.508,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-02-15T13:04:52Z",
+            "local": "2026-02-15T06:04:52-07:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-02-15T22:50:09Z",
+            "local": "2026-02-15T15:50:09-07:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-03-08",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-03-08T13:00:00Z",
+        "local": "2026-03-08T07:00:00-06:00"
+      },
+      "localDayDurationSeconds": 82800,
+      "sun": {
+        "elevationDeg": -5.092,
+        "azimuthDeg": 91.958,
+        "sunrise": {
+          "utc": "2026-03-08T13:22:11Z",
+          "local": "2026-03-08T07:22:11-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-03-09T00:59:43Z",
+          "local": "2026-03-08T18:59:43-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-03-08T19:10:38Z",
+          "local": "2026-03-08T13:10:38-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-03-08T12:55:17Z",
+          "local": "2026-03-08T06:55:17-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-03-09T01:26:39Z",
+          "local": "2026-03-08T19:26:39-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-03-08T12:24:05Z",
+          "local": "2026-03-08T06:24:05-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-03-09T01:57:55Z",
+          "local": "2026-03-08T19:57:55-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-03-08T13:05:41Z",
+              "local": "2026-03-08T07:05:41-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-03-08T13:58:05Z",
+              "local": "2026-03-08T07:58:05-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-03-09T00:23:46Z",
+              "local": "2026-03-08T18:23:46-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-03-09T01:16:14Z",
+              "local": "2026-03-08T19:16:14-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-03-08T12:55:17Z",
+              "local": "2026-03-08T06:55:17-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-03-08T13:05:41Z",
+              "local": "2026-03-08T07:05:41-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-03-09T01:16:14Z",
+              "local": "2026-03-08T19:16:14-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-03-09T01:26:39Z",
+              "local": "2026-03-08T19:26:39-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 41852,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 20.385,
+        "azimuthDeg": 213.426,
+        "phaseAngleTopocentricDeg": 58.653,
+        "illuminatedFractionTopocentric": 0.76011,
+        "phaseLongitudeGeocentricDeg": 238.756,
+        "phaseLabel": "waning_gibbous",
+        "brightLimbAngleEquatorialDeg": 110.668,
+        "brightLimbAngleFromZenithDeg": 83.428,
+        "distanceKm": 399540.5,
+        "angularDiameterDeg": 0.4983,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-03-08T15:32:03Z",
+            "local": "2026-03-08T09:32:03-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "missing_one_crossing_this_civil_day",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-04-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-04-16T02:30:00Z",
+        "local": "2026-04-15T20:30:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -10.266,
+        "azimuthDeg": 292.463,
+        "sunrise": {
+          "utc": "2026-04-15T12:22:14Z",
+          "local": "2026-04-15T06:22:14-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-04-16T01:38:17Z",
+          "local": "2026-04-15T19:38:17-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-04-15T18:59:55Z",
+          "local": "2026-04-15T12:59:55-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-04-15T11:54:19Z",
+          "local": "2026-04-15T05:54:19-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-04-16T02:06:18Z",
+          "local": "2026-04-15T20:06:18-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-04-15T11:20:54Z",
+          "local": "2026-04-15T05:20:54-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-04-16T02:39:50Z",
+          "local": "2026-04-15T20:39:50-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-04-15T12:05:11Z",
+              "local": "2026-04-15T06:05:11-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-04-15T12:58:23Z",
+              "local": "2026-04-15T06:58:23-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-04-16T01:02:03Z",
+              "local": "2026-04-15T19:02:03-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-04-16T01:55:23Z",
+              "local": "2026-04-15T19:55:23-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-04-15T11:54:19Z",
+              "local": "2026-04-15T05:54:19-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-04-15T12:05:11Z",
+              "local": "2026-04-15T06:05:11-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-04-16T01:55:23Z",
+              "local": "2026-04-15T19:55:23-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-04-16T02:06:18Z",
+              "local": "2026-04-15T20:06:18-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 47763,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": -27.277,
+        "azimuthDeg": 303.004,
+        "phaseAngleTopocentricDeg": 160.262,
+        "illuminatedFractionTopocentric": 0.02938,
+        "phaseLongitudeGeocentricDeg": 341.201,
+        "phaseLabel": "waning_crescent",
+        "brightLimbAngleEquatorialDeg": 72.598,
+        "brightLimbAngleFromZenithDeg": 32.289,
+        "distanceKm": 372330.8,
+        "angularDiameterDeg": 0.5347,
+        "aboveGeometricHorizon": false,
+        "events": [
+          {
+            "utc": "2026-04-15T11:14:03Z",
+            "local": "2026-04-15T05:14:03-06:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-04-15T23:55:03Z",
+            "local": "2026-04-15T17:55:03-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "spring_green_up",
+          "leafFraction": 0.043,
+          "flowerFraction": 1,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0.043,
+            "summer": 0.0,
+            "autumn": 0.0,
+            "winter": 0.957
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0.684,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0.684,
+            "summer": 0.0,
+            "autumn": 0,
+            "winter": 0.316
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-05-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-05-15T11:00:00Z",
+        "local": "2026-05-15T05:00:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -8.405,
+        "azimuthDeg": 56.682,
+        "sunrise": {
+          "utc": "2026-05-15T11:45:15Z",
+          "local": "2026-05-15T05:45:15-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-05-16T02:07:59Z",
+          "local": "2026-05-15T20:07:59-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-05-15T18:56:20Z",
+          "local": "2026-05-15T12:56:20-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-05-15T11:14:45Z",
+          "local": "2026-05-15T05:14:45-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-05-16T02:38:34Z",
+          "local": "2026-05-15T20:38:34-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-05-15T10:37:05Z",
+          "local": "2026-05-15T04:37:05-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-05-16T03:16:24Z",
+          "local": "2026-05-15T21:16:24-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-05-15T11:26:44Z",
+              "local": "2026-05-15T05:26:44-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-05-15T12:23:46Z",
+              "local": "2026-05-15T06:23:46-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-05-16T01:29:21Z",
+              "local": "2026-05-15T19:29:21-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-05-16T02:26:33Z",
+              "local": "2026-05-15T20:26:33-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-05-15T11:14:45Z",
+              "local": "2026-05-15T05:14:45-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-05-15T11:26:44Z",
+              "local": "2026-05-15T05:26:44-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-05-16T02:26:33Z",
+              "local": "2026-05-15T20:26:33-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-05-16T02:38:34Z",
+              "local": "2026-05-15T20:38:34-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 51764,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 3.9,
+        "azimuthDeg": 71.47,
+        "phaseAngleTopocentricDeg": 160.755,
+        "illuminatedFractionTopocentric": 0.02794,
+        "phaseLongitudeGeocentricDeg": 340.594,
+        "phaseLabel": "waning_crescent",
+        "brightLimbAngleEquatorialDeg": 80.31,
+        "brightLimbAngleFromZenithDeg": 129.879,
+        "distanceKm": 361706.4,
+        "angularDiameterDeg": 0.5504,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-05-15T10:33:04Z",
+            "local": "2026-05-15T04:33:04-06:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-05-16T01:17:16Z",
+            "local": "2026-05-15T19:17:16-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "spring_green_up",
+          "leafFraction": 0.957,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0.957,
+            "summer": 0.0,
+            "autumn": 0.0,
+            "winter": 0.043
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0.5,
+            "summer": 0.5,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-06-21",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-06-22T03:30:00Z",
+        "local": "2026-06-21T21:30:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -9.818,
+        "azimuthDeg": 311.973,
+        "sunrise": {
+          "utc": "2026-06-21T11:32:11Z",
+          "local": "2026-06-21T05:32:11-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-06-22T02:31:30Z",
+          "local": "2026-06-21T20:31:30-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-06-21T19:01:51Z",
+          "local": "2026-06-21T13:01:51-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-06-21T10:59:30Z",
+          "local": "2026-06-21T04:59:30-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-06-22T03:04:11Z",
+          "local": "2026-06-21T21:04:11-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-06-21T10:18:03Z",
+          "local": "2026-06-21T04:18:03-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-06-22T03:45:38Z",
+          "local": "2026-06-21T21:45:38-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T11:12:25Z",
+              "local": "2026-06-21T05:12:25-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T12:12:46Z",
+              "local": "2026-06-21T06:12:46-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T01:50:55Z",
+              "local": "2026-06-21T19:50:55-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T02:51:17Z",
+              "local": "2026-06-21T20:51:17-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T10:59:30Z",
+              "local": "2026-06-21T04:59:30-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T11:12:25Z",
+              "local": "2026-06-21T05:12:25-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T02:51:17Z",
+              "local": "2026-06-21T20:51:17-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T03:04:11Z",
+              "local": "2026-06-21T21:04:11-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 53959,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 34.699,
+        "azimuthDeg": 225.632,
+        "phaseAngleTopocentricDeg": 87.251,
+        "illuminatedFractionTopocentric": 0.52398,
+        "phaseLongitudeGeocentricDeg": 92.737,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -66.687,
+        "brightLimbAngleFromZenithDeg": -100.149,
+        "distanceKm": 386009.3,
+        "angularDiameterDeg": 0.5158,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-06-21T06:35:01Z",
+            "local": "2026-06-21T00:35:01-06:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-06-21T18:58:51Z",
+            "local": "2026-06-21T12:58:51-06:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-07-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-07-15T18:00:00Z",
+        "local": "2026-07-15T12:00:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": 66.913,
+        "azimuthDeg": 137.607,
+        "sunrise": {
+          "utc": "2026-07-15T11:44:40Z",
+          "local": "2026-07-15T05:44:40-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-07-16T02:26:56Z",
+          "local": "2026-07-15T20:26:56-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-07-15T19:06:00Z",
+          "local": "2026-07-15T13:06:00-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-07-15T11:13:01Z",
+          "local": "2026-07-15T05:13:01-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-07-16T02:58:31Z",
+          "local": "2026-07-15T20:58:31-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-07-15T10:33:22Z",
+          "local": "2026-07-15T04:33:22-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-07-16T03:38:01Z",
+          "local": "2026-07-15T21:38:01-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-07-15T11:25:29Z",
+              "local": "2026-07-15T05:25:29-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-07-15T12:24:17Z",
+              "local": "2026-07-15T06:24:17-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-07-16T01:47:24Z",
+              "local": "2026-07-15T19:47:24-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-07-16T02:46:05Z",
+              "local": "2026-07-15T20:46:05-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-07-15T11:13:01Z",
+              "local": "2026-07-15T05:13:01-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-07-15T11:25:29Z",
+              "local": "2026-07-15T05:25:29-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-07-16T02:46:05Z",
+              "local": "2026-07-15T20:46:05-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-07-16T02:58:31Z",
+              "local": "2026-07-15T20:58:31-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 52936,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 51.819,
+        "azimuthDeg": 113.234,
+        "phaseAngleTopocentricDeg": 160.672,
+        "illuminatedFractionTopocentric": 0.02818,
+        "phaseLongitudeGeocentricDeg": 18.671,
+        "phaseLabel": "waxing_crescent",
+        "brightLimbAngleEquatorialDeg": -77.46,
+        "brightLimbAngleFromZenithDeg": -29.344,
+        "distanceKm": 359197.5,
+        "angularDiameterDeg": 0.5543,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-07-15T13:05:05Z",
+            "local": "2026-07-15T07:05:05-06:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-07-16T03:42:48Z",
+            "local": "2026-07-15T21:42:48-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-08-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-08-16T04:00:00Z",
+        "local": "2026-08-15T22:00:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -21.484,
+        "azimuthDeg": 311.239,
+        "sunrise": {
+          "utc": "2026-08-15T12:12:13Z",
+          "local": "2026-08-15T06:12:13-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-08-16T01:55:56Z",
+          "local": "2026-08-15T19:55:56-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-08-15T19:04:24Z",
+          "local": "2026-08-15T13:04:24-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-08-15T11:43:20Z",
+          "local": "2026-08-15T05:43:20-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-08-16T02:24:43Z",
+          "local": "2026-08-15T20:24:43-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-08-15T11:08:20Z",
+          "local": "2026-08-15T05:08:20-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-08-16T02:59:34Z",
+          "local": "2026-08-15T20:59:34-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-08-15T11:54:38Z",
+              "local": "2026-08-15T05:54:38-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-08-15T12:49:15Z",
+              "local": "2026-08-15T06:49:15-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-08-16T01:19:00Z",
+              "local": "2026-08-15T19:19:00-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-08-16T02:13:28Z",
+              "local": "2026-08-15T20:13:28-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-08-15T11:43:20Z",
+              "local": "2026-08-15T05:43:20-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-08-15T11:54:38Z",
+              "local": "2026-08-15T05:54:38-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-08-16T02:13:28Z",
+              "local": "2026-08-15T20:13:28-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-08-16T02:24:43Z",
+              "local": "2026-08-15T20:24:43-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 49423,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": -7.76,
+        "azimuthDeg": 267.871,
+        "phaseAngleTopocentricDeg": 135.93,
+        "illuminatedFractionTopocentric": 0.14076,
+        "phaseLongitudeGeocentricDeg": 44.248,
+        "phaseLabel": "waxing_crescent",
+        "brightLimbAngleEquatorialDeg": -62.356,
+        "brightLimbAngleFromZenithDeg": -113.028,
+        "distanceKm": 384263.5,
+        "angularDiameterDeg": 0.5181,
+        "aboveGeometricHorizon": false,
+        "events": [
+          {
+            "utc": "2026-08-15T15:31:44Z",
+            "local": "2026-08-15T09:31:44-06:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-08-16T03:23:09Z",
+            "local": "2026-08-15T21:23:09-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-09-22",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-09-23T00:30:00Z",
+        "local": "2026-09-22T18:30:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": 4.322,
+        "azimuthDeg": 266.39,
+        "sunrise": {
+          "utc": "2026-09-22T12:47:44Z",
+          "local": "2026-09-22T06:47:44-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-09-23T00:56:48Z",
+          "local": "2026-09-22T18:56:48-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-09-22T18:52:36Z",
+          "local": "2026-09-22T12:52:36-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-09-22T12:20:48Z",
+          "local": "2026-09-22T06:20:48-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-09-23T01:23:41Z",
+          "local": "2026-09-22T19:23:41-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-09-22T11:49:16Z",
+          "local": "2026-09-22T05:49:16-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-09-23T01:55:09Z",
+          "local": "2026-09-22T19:55:09-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-09-22T12:31:15Z",
+              "local": "2026-09-22T06:31:15-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-09-22T13:23:21Z",
+              "local": "2026-09-22T07:23:21-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-09-23T00:21:15Z",
+              "local": "2026-09-22T18:21:15-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-09-23T01:13:16Z",
+              "local": "2026-09-22T19:13:16-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-09-22T12:20:48Z",
+              "local": "2026-09-22T06:20:48-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-09-22T12:31:15Z",
+              "local": "2026-09-22T06:31:15-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-09-23T01:13:16Z",
+              "local": "2026-09-22T19:13:16-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-09-23T01:23:41Z",
+              "local": "2026-09-22T19:23:41-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 43744,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 12.879,
+        "azimuthDeg": 126.917,
+        "phaseAngleTopocentricDeg": 43.666,
+        "illuminatedFractionTopocentric": 0.86169,
+        "phaseLongitudeGeocentricDeg": 135.913,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -109.748,
+        "brightLimbAngleFromZenithDeg": -69.495,
+        "distanceKm": 393910.5,
+        "angularDiameterDeg": 0.5054,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-09-22T08:25:41Z",
+            "local": "2026-09-22T02:25:41-06:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-09-22T23:06:25Z",
+            "local": "2026-09-22T17:06:25-06:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "autumn_onset",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0.018,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0.0,
+            "summer": 0.9818,
+            "autumn": 0.0182,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-10-15",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-10-16T00:30:00Z",
+        "local": "2026-10-15T18:30:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -2.654,
+        "azimuthDeg": 260.735,
+        "sunrise": {
+          "utc": "2026-10-15T13:10:20Z",
+          "local": "2026-10-15T07:10:20-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-10-16T00:20:23Z",
+          "local": "2026-10-15T18:20:23-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-10-15T18:45:39Z",
+          "local": "2026-10-15T12:45:39-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-10-15T12:43:08Z",
+          "local": "2026-10-15T06:43:08-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-10-16T00:47:33Z",
+          "local": "2026-10-15T18:47:33-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-10-15T12:11:50Z",
+          "local": "2026-10-15T06:11:50-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-10-16T01:18:49Z",
+          "local": "2026-10-15T19:18:49-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-10-15T12:53:38Z",
+              "local": "2026-10-15T06:53:38-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-10-15T13:46:56Z",
+              "local": "2026-10-15T07:46:56-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-10-15T23:43:49Z",
+              "local": "2026-10-15T17:43:49-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-10-16T00:37:05Z",
+              "local": "2026-10-15T18:37:05-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-10-15T12:43:08Z",
+              "local": "2026-10-15T06:43:08-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-10-15T12:53:38Z",
+              "local": "2026-10-15T06:53:38-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-10-16T00:37:05Z",
+              "local": "2026-10-15T18:37:05-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-10-16T00:47:33Z",
+              "local": "2026-10-15T18:47:33-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 40203,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 17.914,
+        "azimuthDeg": 202.326,
+        "phaseAngleTopocentricDeg": 118.797,
+        "illuminatedFractionTopocentric": 0.25914,
+        "phaseLongitudeGeocentricDeg": 61.165,
+        "phaseLabel": "waxing_crescent",
+        "brightLimbAngleEquatorialDeg": -84.094,
+        "brightLimbAngleFromZenithDeg": -103.547,
+        "distanceKm": 402077.0,
+        "angularDiameterDeg": 0.4952,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-10-15T18:26:02Z",
+            "local": "2026-10-15T12:26:02-06:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-10-16T03:14:37Z",
+            "local": "2026-10-15T21:14:37-06:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "autumn_peak",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 1,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-11-01",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-11-01T13:30:00Z",
+        "local": "2026-11-01T06:30:00-07:00"
+      },
+      "localDayDurationSeconds": 90000,
+      "sun": {
+        "elevationDeg": -0.601,
+        "azimuthDeg": 108.53,
+        "sunrise": {
+          "utc": "2026-11-01T13:28:44Z",
+          "local": "2026-11-01T06:28:44-07:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-11-01T23:57:45Z",
+          "local": "2026-11-01T16:57:45-07:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-11-01T18:43:29Z",
+          "local": "2026-11-01T11:43:29-07:00"
+        },
+        "civilDawn": {
+          "utc": "2026-11-01T13:00:43Z",
+          "local": "2026-11-01T06:00:43-07:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-11-02T00:25:44Z",
+          "local": "2026-11-01T17:25:44-07:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-11-01T12:28:51Z",
+          "local": "2026-11-01T05:28:51-07:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-11-02T00:57:35Z",
+          "local": "2026-11-01T17:57:35-07:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-11-01T13:11:29Z",
+              "local": "2026-11-01T06:11:29-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-11-01T14:06:58Z",
+              "local": "2026-11-01T07:06:58-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-11-01T23:19:32Z",
+              "local": "2026-11-01T16:19:32-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-11-02T00:14:58Z",
+              "local": "2026-11-01T17:14:58-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-11-01T13:00:43Z",
+              "local": "2026-11-01T06:00:43-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-11-01T13:11:29Z",
+              "local": "2026-11-01T06:11:29-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-11-02T00:14:58Z",
+              "local": "2026-11-01T17:14:58-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-11-02T00:25:44Z",
+              "local": "2026-11-01T17:25:44-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 37741,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 68.749,
+        "azimuthDeg": 207.499,
+        "phaseAngleTopocentricDeg": 86.046,
+        "illuminatedFractionTopocentric": 0.53447,
+        "phaseLongitudeGeocentricDeg": 266.234,
+        "phaseLabel": "waning_gibbous",
+        "brightLimbAngleEquatorialDeg": 104.105,
+        "brightLimbAngleFromZenithDeg": 81.845,
+        "distanceKm": 365713.0,
+        "angularDiameterDeg": 0.5444,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-11-01T20:11:18Z",
+            "local": "2026-11-01T13:11:18-07:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-11-02T06:26:32Z",
+            "local": "2026-11-01T23:26:32-07:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "leaf_drop",
+          "leafFraction": 0.648,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 0.352,
+          "paletteWeights": {
+            "spring": 0.0,
+            "summer": 0.0,
+            "autumn": 0.648,
+            "winter": 0.352
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "denver-2026-12-21",
+      "locationId": "denver",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-12-22T00:30:00Z",
+        "local": "2026-12-21T17:30:00-07:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -9.636,
+        "azimuthDeg": 247.449,
+        "sunrise": {
+          "utc": "2026-12-21T14:17:33Z",
+          "local": "2026-12-21T07:17:33-07:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-12-21T23:38:49Z",
+          "local": "2026-12-21T16:38:49-07:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-12-21T18:58:11Z",
+          "local": "2026-12-21T11:58:11-07:00"
+        },
+        "civilDawn": {
+          "utc": "2026-12-21T13:47:06Z",
+          "local": "2026-12-21T06:47:06-07:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-12-22T00:09:16Z",
+          "local": "2026-12-21T17:09:16-07:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-12-21T13:13:08Z",
+          "local": "2026-12-21T06:13:08-07:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-12-22T00:43:14Z",
+          "local": "2026-12-21T17:43:14-07:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T13:58:44Z",
+              "local": "2026-12-21T06:58:44-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T15:00:23Z",
+              "local": "2026-12-21T08:00:23-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T22:55:59Z",
+              "local": "2026-12-21T15:55:59-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-21T23:57:38Z",
+              "local": "2026-12-21T16:57:38-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T13:47:06Z",
+              "local": "2026-12-21T06:47:06-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T13:58:44Z",
+              "local": "2026-12-21T06:58:44-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T23:57:38Z",
+              "local": "2026-12-21T16:57:38-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-22T00:09:16Z",
+              "local": "2026-12-21T17:09:16-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 33676,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 33.796,
+        "azimuthDeg": 84.124,
+        "phaseAngleTopocentricDeg": 28.532,
+        "illuminatedFractionTopocentric": 0.93928,
+        "phaseLongitudeGeocentricDeg": 151.111,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -93.713,
+        "brightLimbAngleFromZenithDeg": -36.222,
+        "distanceKm": 358351.4,
+        "angularDiameterDeg": 0.5556,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-12-21T11:42:07Z",
+            "local": "2026-12-21T04:42:07-07:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-12-21T21:11:28Z",
+            "local": "2026-12-21T14:11:28-07:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "denver-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 1,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "plano-2026-06-21",
+      "locationId": "plano",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-06-22T02:30:00Z",
+        "local": "2026-06-21T21:30:00-05:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -9.878,
+        "azimuthDeg": 306.487,
+        "sunrise": {
+          "utc": "2026-06-21T11:18:38Z",
+          "local": "2026-06-21T06:18:38-05:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-06-22T01:38:44Z",
+          "local": "2026-06-21T20:38:44-05:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-06-21T18:28:41Z",
+          "local": "2026-06-21T13:28:41-05:00"
+        },
+        "civilDawn": {
+          "utc": "2026-06-21T10:49:52Z",
+          "local": "2026-06-21T05:49:52-05:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-06-22T02:07:29Z",
+          "local": "2026-06-21T21:07:29-05:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-06-21T10:14:35Z",
+          "local": "2026-06-21T05:14:35-05:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-06-22T02:42:46Z",
+          "local": "2026-06-21T21:42:46-05:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T11:01:09Z",
+              "local": "2026-06-21T06:01:09-05:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T11:55:04Z",
+              "local": "2026-06-21T06:55:04-05:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T01:02:17Z",
+              "local": "2026-06-21T20:02:17-05:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T01:56:12Z",
+              "local": "2026-06-21T20:56:12-05:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T10:49:52Z",
+              "local": "2026-06-21T05:49:52-05:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T11:01:09Z",
+              "local": "2026-06-21T06:01:09-05:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T01:56:12Z",
+              "local": "2026-06-21T20:56:12-05:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T02:07:29Z",
+              "local": "2026-06-21T21:07:29-05:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 51606,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 43.328,
+        "azimuthDeg": 222.969,
+        "phaseAngleTopocentricDeg": 87.742,
+        "illuminatedFractionTopocentric": 0.5197,
+        "phaseLongitudeGeocentricDeg": 92.247,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -66.65,
+        "brightLimbAngleFromZenithDeg": -101.611,
+        "distanceKm": 385046.7,
+        "angularDiameterDeg": 0.5171,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-06-21T06:00:14Z",
+            "local": "2026-06-21T01:00:14-05:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-06-21T18:22:58Z",
+            "local": "2026-06-21T13:22:58-05:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "plano-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "warm_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "tamu-lawn"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "plano-2026-12-21",
+      "locationId": "plano",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-12-22T03:30:00Z",
+        "local": "2026-12-21T21:30:00-06:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -50.535,
+        "azimuthDeg": 272.467,
+        "sunrise": {
+          "utc": "2026-12-21T13:25:51Z",
+          "local": "2026-12-21T07:25:51-06:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-12-21T23:24:09Z",
+          "local": "2026-12-21T17:24:09-06:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-12-21T18:25:00Z",
+          "local": "2026-12-21T12:25:00-06:00"
+        },
+        "civilDawn": {
+          "utc": "2026-12-21T12:58:27Z",
+          "local": "2026-12-21T06:58:27-06:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-12-21T23:51:34Z",
+          "local": "2026-12-21T17:51:34-06:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-12-21T12:27:31Z",
+          "local": "2026-12-21T06:27:31-06:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-12-22T00:22:30Z",
+          "local": "2026-12-21T18:22:30-06:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T13:08:57Z",
+              "local": "2026-12-21T07:08:57-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T14:03:39Z",
+              "local": "2026-12-21T08:03:39-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T22:46:21Z",
+              "local": "2026-12-21T16:46:21-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-21T23:41:03Z",
+              "local": "2026-12-21T17:41:03-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T12:58:27Z",
+              "local": "2026-12-21T06:58:27-06:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T13:08:57Z",
+              "local": "2026-12-21T07:08:57-06:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T23:41:03Z",
+              "local": "2026-12-21T17:41:03-06:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-21T23:51:34Z",
+              "local": "2026-12-21T17:51:34-06:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 35898,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 75.902,
+        "azimuthDeg": 118.377,
+        "phaseAngleTopocentricDeg": 27.307,
+        "illuminatedFractionTopocentric": 0.94428,
+        "phaseLongitudeGeocentricDeg": 152.85,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -92.018,
+        "brightLimbAngleFromZenithDeg": -37.157,
+        "distanceKm": 355219.7,
+        "angularDiameterDeg": 0.5605,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-12-21T10:47:14Z",
+            "local": "2026-12-21T04:47:14-06:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-12-21T20:58:20Z",
+            "local": "2026-12-21T14:58:20-06:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "plano-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 1,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0,
+          "policy": "warm_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "tamu-lawn"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "seattle-2026-06-21",
+      "locationId": "seattle",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-06-22T04:30:00Z",
+        "local": "2026-06-21T21:30:00-07:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -3.337,
+        "azimuthDeg": 310.901,
+        "sunrise": {
+          "utc": "2026-06-21T12:11:35Z",
+          "local": "2026-06-21T05:11:35-07:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-06-22T04:10:52Z",
+          "local": "2026-06-21T21:10:52-07:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-06-21T20:11:14Z",
+          "local": "2026-06-21T13:11:14-07:00"
+        },
+        "civilDawn": {
+          "utc": "2026-06-21T11:30:50Z",
+          "local": "2026-06-21T04:30:50-07:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-06-22T04:51:36Z",
+          "local": "2026-06-21T21:51:36-07:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-06-21T10:34:22Z",
+          "local": "2026-06-21T03:34:22-07:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-06-22T05:48:03Z",
+          "local": "2026-06-21T22:48:03-07:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T11:47:11Z",
+              "local": "2026-06-21T04:47:11-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T12:59:55Z",
+              "local": "2026-06-21T05:59:55-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T03:22:32Z",
+              "local": "2026-06-21T20:22:32-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T04:35:15Z",
+              "local": "2026-06-21T21:35:15-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-21T11:30:50Z",
+              "local": "2026-06-21T04:30:50-07:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-21T11:47:11Z",
+              "local": "2026-06-21T04:47:11-07:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-22T04:35:15Z",
+              "local": "2026-06-21T21:35:15-07:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-22T04:51:36Z",
+              "local": "2026-06-21T21:51:36-07:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 57557,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 29.976,
+        "azimuthDeg": 219.133,
+        "phaseAngleTopocentricDeg": 86.655,
+        "illuminatedFractionTopocentric": 0.52918,
+        "phaseLongitudeGeocentricDeg": 93.227,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -66.734,
+        "brightLimbAngleFromZenithDeg": -92.013,
+        "distanceKm": 386674.2,
+        "angularDiameterDeg": 0.5149,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-06-21T07:46:35Z",
+            "local": "2026-06-21T00:46:35-07:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-06-21T20:13:39Z",
+            "local": "2026-06-21T13:13:39-07:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "seattle-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "notes": "No drought or irrigation evidence; 0.6 winter floor and summer greenness are display priors. Summer dormancy must use a separate supplied dry scenario.",
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "wsu-lawn"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "seattle-2026-12-21",
+      "locationId": "seattle",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-12-22T05:30:00Z",
+        "local": "2026-12-21T21:30:00-08:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -50.486,
+        "azimuthDeg": 293.638,
+        "sunrise": {
+          "utc": "2026-12-21T15:54:49Z",
+          "local": "2026-12-21T07:54:49-08:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-12-22T00:20:20Z",
+          "local": "2026-12-21T16:20:20-08:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-12-21T20:07:34Z",
+          "local": "2026-12-21T12:07:34-08:00"
+        },
+        "civilDawn": {
+          "utc": "2026-12-21T15:18:43Z",
+          "local": "2026-12-21T07:18:43-08:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-12-22T00:56:26Z",
+          "local": "2026-12-21T16:56:26-08:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-12-21T14:39:22Z",
+          "local": "2026-12-21T06:39:22-08:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-12-22T01:35:47Z",
+          "local": "2026-12-21T17:35:47-08:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T15:32:24Z",
+              "local": "2026-12-21T07:32:24-08:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T16:47:49Z",
+              "local": "2026-12-21T08:47:49-08:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T23:27:19Z",
+              "local": "2026-12-21T15:27:19-08:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-22T00:42:45Z",
+              "local": "2026-12-21T16:42:45-08:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-21T15:18:43Z",
+              "local": "2026-12-21T07:18:43-08:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-21T15:32:24Z",
+              "local": "2026-12-21T07:32:24-08:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-22T00:42:45Z",
+              "local": "2026-12-21T16:42:45-08:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-22T00:56:26Z",
+              "local": "2026-12-21T16:56:26-08:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 30331,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 66.407,
+        "azimuthDeg": 155.578,
+        "phaseAngleTopocentricDeg": 26.245,
+        "illuminatedFractionTopocentric": 0.94846,
+        "phaseLongitudeGeocentricDeg": 154.012,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -91.621,
+        "brightLimbAngleFromZenithDeg": -73.626,
+        "distanceKm": 355216.3,
+        "angularDiameterDeg": 0.5605,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-12-21T13:26:09Z",
+            "local": "2026-12-21T05:26:09-08:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-12-21T21:50:40Z",
+            "local": "2026-12-21T13:50:40-08:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "seattle-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 1,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0.802,
+          "policy": "cool_season",
+          "waterStress": null,
+          "irrigation": null,
+          "notes": "No drought or irrigation evidence; 0.6 winter floor and summer greenness are display priors. Summer dormancy must use a separate supplied dry scenario.",
+          "paletteWeights": {
+            "spring": 0.0,
+            "summer": 0.802,
+            "autumn": 0,
+            "winter": 0.198
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Representative cohorts, not an observed city-wide species mix; calendar profile only."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "wsu-lawn"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "sydney-2026-06-21",
+      "locationId": "sydney",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-06-21T11:30:00Z",
+        "local": "2026-06-21T21:30:00+10:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -56.315,
+        "azimuthDeg": 261.764,
+        "sunrise": {
+          "utc": "2026-06-20T20:59:57Z",
+          "local": "2026-06-21T06:59:57+10:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-06-21T06:53:50Z",
+          "local": "2026-06-21T16:53:50+10:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-06-21T01:56:54Z",
+          "local": "2026-06-21T11:56:54+10:00"
+        },
+        "civilDawn": {
+          "utc": "2026-06-20T20:32:14Z",
+          "local": "2026-06-21T06:32:14+10:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-06-21T07:21:34Z",
+          "local": "2026-06-21T17:21:34+10:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-06-20T20:00:59Z",
+          "local": "2026-06-21T06:00:59+10:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-06-21T07:52:49Z",
+          "local": "2026-06-21T17:52:49+10:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-20T20:42:51Z",
+              "local": "2026-06-21T06:42:51+10:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-20T21:38:16Z",
+              "local": "2026-06-21T07:38:16+10:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-21T06:15:31Z",
+              "local": "2026-06-21T16:15:31+10:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-21T07:10:56Z",
+              "local": "2026-06-21T17:10:56+10:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-06-20T20:32:14Z",
+              "local": "2026-06-21T06:32:14+10:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-06-20T20:42:51Z",
+              "local": "2026-06-21T06:42:51+10:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-06-21T07:10:56Z",
+              "local": "2026-06-21T17:10:56+10:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-06-21T07:21:34Z",
+              "local": "2026-06-21T17:21:34+10:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 35633,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 24.492,
+        "azimuthDeg": 288.788,
+        "phaseAngleTopocentricDeg": 95.86,
+        "illuminatedFractionTopocentric": 0.44895,
+        "phaseLongitudeGeocentricDeg": 84.82,
+        "phaseLabel": "waxing_crescent",
+        "brightLimbAngleEquatorialDeg": -66.503,
+        "brightLimbAngleFromZenithDeg": 165.322,
+        "distanceKm": 383242.0,
+        "angularDiameterDeg": 0.5195,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-06-21T01:24:59Z",
+            "local": "2026-06-21T11:24:59+10:00",
+            "kind": "moonrise"
+          },
+          {
+            "utc": "2026-06-21T13:38:53Z",
+            "local": "2026-06-21T23:38:53+10:00",
+            "kind": "moonset"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": false
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "sydney-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "bare_winter",
+          "leafFraction": 0,
+          "flowerFraction": 0,
+          "autumnColorFraction": 1,
+          "leafDropProgress": 1,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 0,
+            "autumn": 0,
+            "winter": 1
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 0.104,
+          "policy": "warm_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0.0,
+            "summer": 0.104,
+            "autumn": 0,
+            "winter": 0.896
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Bare winter refers only to representative temperate deciduous cohort. Evergreen canopy remains present; no city-wide deciduous fraction is assumed."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "bom-sydney"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    },
+    {
+      "id": "sydney-2026-12-21",
+      "locationId": "sydney",
+      "evidence": "assumption_calculated",
+      "at": {
+        "utc": "2026-12-21T10:30:00Z",
+        "local": "2026-12-21T21:30:00+11:00"
+      },
+      "localDayDurationSeconds": 86400,
+      "sun": {
+        "elevationDeg": -15.059,
+        "azimuthDeg": 227.419,
+        "sunrise": {
+          "utc": "2026-12-20T18:40:39Z",
+          "local": "2026-12-21T05:40:39+11:00",
+          "branch": "rising"
+        },
+        "sunset": {
+          "utc": "2026-12-21T09:05:26Z",
+          "local": "2026-12-21T20:05:26+11:00",
+          "branch": "setting"
+        },
+        "solarNoon": {
+          "utc": "2026-12-21T01:53:02Z",
+          "local": "2026-12-21T12:53:02+11:00"
+        },
+        "civilDawn": {
+          "utc": "2026-12-20T18:11:29Z",
+          "local": "2026-12-21T05:11:29+11:00",
+          "branch": "rising"
+        },
+        "civilDusk": {
+          "utc": "2026-12-21T09:34:36Z",
+          "local": "2026-12-21T20:34:36+11:00",
+          "branch": "setting"
+        },
+        "nauticalDawn": {
+          "utc": "2026-12-20T17:35:35Z",
+          "local": "2026-12-21T04:35:35+11:00",
+          "branch": "rising"
+        },
+        "nauticalDusk": {
+          "utc": "2026-12-21T10:10:30Z",
+          "local": "2026-12-21T21:10:30+11:00",
+          "branch": "setting"
+        },
+        "goldenHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-20T18:22:56Z",
+              "local": "2026-12-21T05:22:56+11:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-20T19:17:32Z",
+              "local": "2026-12-21T06:17:32+11:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T08:28:33Z",
+              "local": "2026-12-21T19:28:33+11:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-21T09:23:09Z",
+              "local": "2026-12-21T20:23:09+11:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "blueHourIntervals": [
+          {
+            "branch": "rising",
+            "start": {
+              "utc": "2026-12-20T18:11:29Z",
+              "local": "2026-12-21T05:11:29+11:00",
+              "branch": "rising"
+            },
+            "end": {
+              "utc": "2026-12-20T18:22:56Z",
+              "local": "2026-12-21T05:22:56+11:00",
+              "branch": "rising"
+            }
+          },
+          {
+            "branch": "setting",
+            "start": {
+              "utc": "2026-12-21T09:23:09Z",
+              "local": "2026-12-21T20:23:09+11:00",
+              "branch": "setting"
+            },
+            "end": {
+              "utc": "2026-12-21T09:34:36Z",
+              "local": "2026-12-21T20:34:36+11:00",
+              "branch": "setting"
+            }
+          }
+        ],
+        "daylightSeconds": 51887,
+        "status": "normal"
+      },
+      "moon": {
+        "altitudeGeometricTopocentricDeg": 31.108,
+        "azimuthDeg": 10.941,
+        "phaseAngleTopocentricDeg": 36.872,
+        "illuminatedFractionTopocentric": 0.89999,
+        "phaseLongitudeGeocentricDeg": 143.076,
+        "phaseLabel": "waxing_gibbous",
+        "brightLimbAngleEquatorialDeg": -97.338,
+        "brightLimbAngleFromZenithDeg": 72.712,
+        "distanceKm": 361329.7,
+        "angularDiameterDeg": 0.551,
+        "aboveGeometricHorizon": true,
+        "events": [
+          {
+            "utc": "2026-12-20T15:29:23Z",
+            "local": "2026-12-21T02:29:23+11:00",
+            "kind": "moonset"
+          },
+          {
+            "utc": "2026-12-21T06:05:51Z",
+            "local": "2026-12-21T17:05:51+11:00",
+            "kind": "moonrise"
+          }
+        ],
+        "eventStatus": "normal",
+        "aboveStandardRiseSetHorizonAtDayStart": true
+      },
+      "season": {
+        "evidence": "assumption",
+        "profileId": "sydney-calendar-demo-v1",
+        "dataKind": "climatological_art_prior",
+        "recentTemperatures": null,
+        "climateNormalsSample": null,
+        "representativeDeciduous": {
+          "state": "full_summer",
+          "leafFraction": 1,
+          "flowerFraction": 0,
+          "autumnColorFraction": 0,
+          "leafDropProgress": 0,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          }
+        },
+        "representativeEvergreen": {
+          "leafFraction": 1,
+          "state": "retained_foliage"
+        },
+        "grass": {
+          "greenFraction": 1,
+          "policy": "warm_season",
+          "waterStress": null,
+          "irrigation": null,
+          "paletteWeights": {
+            "spring": 0,
+            "summer": 1,
+            "autumn": 0,
+            "winter": 0
+          },
+          "dormancyCauseDisplayPrior": "cold_palette_only; cause not observed"
+        },
+        "notes": "Bare winter refers only to representative temperate deciduous cohort. Evergreen canopy remains present; no city-wide deciduous fraction is assumed."
+      },
+      "sources": [
+        "solar-local",
+        "noaa",
+        "usno-definitions",
+        "astronomy-pinned",
+        "csu-flower",
+        "csu-grass",
+        "npn",
+        "csu-fall",
+        "bom-sydney"
+      ],
+      "displayScenario": {
+        "evidence": "assumption",
+        "cloudFraction": 0,
+        "obscurationIntensity": 0,
+        "activePrecipitation": false,
+        "terrainHorizonDeg": 0,
+        "description": "Synthetic clear open horizon; no observed or forecast weather."
+      }
+    }
+  ],
+  "calendarProfiles": {
+    "evidence": "assumption",
+    "dateBasis": "day-of-year, 2026 non-leap fixture year; Sydney dates below 200 add 365",
+    "parameterOrder": [
+      "leafStart",
+      "leafFull",
+      "summerMature",
+      "colorStart",
+      "colorPeak",
+      "dropStart",
+      "dropEnd",
+      "grassStart",
+      "grassFull",
+      "grassDormancyStart",
+      "grassDormancyEnd"
+    ],
+    "profiles": {
+      "denver-calendar-demo-v1": [
+        100,
+        140,
+        165,
+        263,
+        288,
+        295,
+        320,
+        80,
+        120,
+        310,
+        345
+      ],
+      "plano-calendar-demo-v1": [
+        65,
+        105,
+        135,
+        295,
+        320,
+        325,
+        350,
+        85,
+        120,
+        300,
+        340
+      ],
+      "seattle-calendar-demo-v1": [
+        75,
+        120,
+        150,
+        270,
+        295,
+        305,
+        330,
+        55,
+        95,
+        345,
+        380
+      ],
+      "sydney-calendar-demo-v1": [
+        245,
+        285,
+        315,
+        465,
+        490,
+        500,
+        530,
+        230,
+        275,
+        505,
+        545
+      ]
+    },
+    "seattleGrassFloor": 0.6,
+    "flowerWindowOffsetsFromLeafStart": [
+      -5,
+      5,
+      15,
+      30
+    ],
+    "note": "Chosen illustrative priors, not downloaded climate normals. Sydney profile applies only to temperate deciduous cohort; evergreen cohort retains foliage."
+  }
+}
