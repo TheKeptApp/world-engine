@@ -1,513 +1,504 @@
-# WorldEngine: Milestone 1 technical plan
+# WorldEngine: Milestone 1 technical plan (revision 2)
 
-Status: proposal, awaiting approval. No feature code has been written.
-Toolchain on the build Mac (checked 2026-10-05): Xcode 26.4, Swift 6.3, iOS 26.4 SDK, iPhone 17-series simulators. No Homebrew, XcodeGen or Tuist is installed.
+**Status:** foundation built (Prompt 2, part D). Rendering not started.
+**Binding requirements:** [VISUAL_DIRECTION.md](VISUAL_DIRECTION.md) (street view, scale, generalization).
+**Measured data:** [data/sloans-lake-street-data.md](data/sloans-lake-street-data.md).
+**Toolchain (checked 2026-10-05):** Xcode 26.4, Swift 6.3, iOS 26.4 SDK. Minimum iOS 18.0 (approved).
 
----
+## What changed since revision 1, and why
 
-## 0. Area check (coordinates verified against OpenStreetMap)
-
-| Feature | OSM object | Bounds (lat / lon) | Center |
+| Area | Revision 1 (aerial only) | Revision 2 (street + aerial) | Why |
 |---|---|---|---|
-| Sloan's Lake (water) | relation 4049789 | 39.7441–39.7527 / −105.0531 to −105.0368 | 39.7484, −105.0449 |
-| Sloan's Lake Park | relation 20618025 | 39.7440–39.7548 / −105.0532 to −105.0358 | 39.7494, −105.0445 |
+| Default camera | Isometric overview | **Third-person street camera**; aerial is the second mode | First app is a walking game (B) |
+| Batching | One mesh per material, whole world (~12 draw calls) | **Per material per 200 m chunk**, 3 levels of detail (LOD) | At street level most of the world is behind the camera; whole-world meshes can't be culled (B.1) |
+| LOD | "Not needed" | L0 full detail under 150 m, L1 simplified to 600 m, L2 silhouettes beyond, clutter under ~50 m | Required (B.2) |
+| Geometry | Extruded boxes, flat roofs | Generated houses (roofs, doors, windows, porches), apartments, storefronts, sidewalks/curbs, clutter; all seeded by OSM ID | Street view needs detail OSM lacks (B.3) |
+| Materials | Stock `PhysicallyBasedMaterial`, fixed pastel palette | **`CustomMaterial` (Metal shaders)**, palette as data in a texture, fog/snow/wet/night in the shader | RealityKit has no scene fog (checked SDK); palettes must shift by season, time and weather (B.4) |
+| World edge | None | Buildings-only backdrop ring (3 × 3 km), fog, per-location horizon | Data edge is visible from the lake path (B.6) |
+| Environment | API stubs only | Sun from real time and place, keyframed light, night lights, eased weather, particles, seasons | B.9 |
+| Budget | ~240k triangles, aerial | ~290k main + ~100k shadow triangles, ≤ 100 draw calls; 60 fps on iPhone 13-class | B.7 |
+| Data format | One raw file | Manifest with a list of bounded sources, merged and de-duplicated by OSM ID | Ready for tiles and any-location loading (C.6) |
+| Effort | 8–9 days | ~30–38 days in 5 sub-milestones | Scope roughly 4× |
 
-The center in the brief (39.750, −105.045) is correct. It sits on the water about 180 m north of the lake's middle and about 70 m from the park's center.
+---
 
-**One issue.** The lake is about 1.4 km east–west and 0.95 km north–south, and the park is about 1.5 × 1.2 km. A 1 × 1 km box cuts off both ends of the lake.
+## 1. Repo and modules
 
-I measured both options with live Overpass queries (data timestamp 2026-10-05):
+```
+Package.swift                  WorldEngine package (product: WorldEngine only)
+Sources/
+  WorldGeo/      ✅ built   lat/lon ↔ local meters (exact WGS84), 2D polygons, clipping, StableRandom
+  WorldMap/      ✅ built   Overpass JSON → typed features; ring assembly; height/width rules; area manifest
+  WorldMesh/     ✅ built   earcut port, footprint extrusion, road ribbons → plain MeshBuffers
+  WorldGen/      planned   procedural detail: house kit, roofs, facades, sidewalks/curbs, props, clutter, trees
+  WorldEngine/   started   RealityKit + SwiftUI: chunks, LOD, materials, camera rigs, environment, public API
+                           (today: WorldAttributionView only)
+  worldbake/     ✅ built   macOS tool: init-area, fetch, stats, datamap, ring-stats
+Tests/           ✅ 61 tests (89 cases incl. parameterized), `swift test`, all pass
+Data/areas/sloans-lake/      ✅ manifest.json, osm.json (4.4 MB), osm.overpassql, NOTICE.md
+Apps/WorldLab/   ✅ project.yml (XcodeGen 2.46.0, pinned in Tools/), empty shell app
+scripts/         ✅ generate.sh, test.sh, snapshots.sh
+```
 
-| | **A: 1.0 × 1.0 km** (as briefed) | **B: 1.6 × 1.2 km** (recommended) |
+- **Concurrency:** everything except `WorldEngine` is pure Swift, `Sendable`, and runs off the main thread.
+- **Where host-app code goes:** only into `WorldEngine`.
+- **Generator code** lives in `WorldGen`. It takes typed features plus style data and returns `MeshBuffers` per chunk, LOD and material class. That keeps it unit-testable on the Mac and keeps RealityKit out of it.
+
+---
+
+## 2. Data
+
+### 2.1 Stored format (generic, ready for tiles)
+- **`manifest.json`** holds: area id, name, center (the origin of the local frame), size, and a **list of sources**. Each source has a format, path, layers, bounds, data timestamp, size, SHA-256 and license.
+- **Today:** one `osm-overpass-json` source with layer `all`.
+- **Later:** many tile sources; nothing else changes.
+- **Loader:** `AreaLoader` reads every source and **merges them, de-duplicating by OSM element ID**, so overlapping tiles combine cleanly. Covered by `mergingDocumentsDeduplicatesByID`.
+- **Feature identity:** every feature carries an `OSMRef` (`way/123`). It is the seed for all generated detail and the key for future per-building overrides.
+- **No place-specific code:** the area (center, size) is input data, and every rule keys off tags. The same tool and builder produced the downtown Denver and Bernal Heights measurements below without changes.
+
+### 2.2 What Sloan's Lake actually has (D.6)
+
+Full tables are in [data/sloans-lake-street-data.md](data/sloans-lake-street-data.md).
+
+| Street-view input | Mapped in OSM | What must be generated |
 |---|---|---|
-| Center | 39.7500, −105.0450 | 39.7494, −105.0445 (park center) |
-| Bounding box (S, W, N, E) | 39.7455, −105.0508, 39.7545, −105.0392 | 39.7440, −105.0538, 39.7548, −105.0352 |
-| Raw Overpass JSON | 1.9 MB (214 KB gzipped) | 4.2 MB (470 KB gzipped) |
-| Buildings | 555 | 1,400 |
-| …with a `height` tag | 0 | 1 |
-| …with `building:levels` | 55 (10%) | 131 (9%) |
-| Roads and paths (ways) | 277 | 617 |
-| Mapped individual trees (`natural=tree`) | 2,270 | 5,389 |
-| Lake and park complete? | No, both clipped | Yes |
+| Buildings | 1,399 (769 houses, 490 detached garages, 84 sheds) | Nothing; all footprints exist |
+| `height` | 0 | Heights come from levels (9%) or type defaults (91%) |
+| `building:levels` | 130 (1: 74, 2: 12, 3: 44) | Default by type for the rest |
+| `roof:shape` | **0** | **All roofs.** Gabled vs. hipped chosen from footprint shape + seeded choice |
+| `roof:colour` / `building:colour` | 62 / 16 | Use when present; otherwise seeded palette pick |
+| Building types | house, garage, shed, yes, retail, roof, commercial, apartments, office, public, toilets, residential | Rules per type |
+| Sidewalks | **212 separate ways, 20.8 km** (`footway=sidewalk`) + 69 crossings | Roads aren't tagged: 26.8 km of street side has no `sidewalk` tag, only 3.7 km says `separate`. **Rule: generate a sidewalk only where no mapped sidewalk runs parallel within ~15 m.** Most streets here already have one. |
+| Curbs | 0 | All curbs along road edges |
+| Benches | 56 (park) | Streets: none; generate a few along park paths where none are within ~60 m |
+| Street lamps | 55 (park paths, Sheridan Blvd) | **Residential streets have almost none.** Generate at ~35–45 m spacing, alternating sides |
+| Trees | **5,400 mapped**, no species / leaf type / height | Place all mapped trees; leaf type and size seeded; scatter more only in parks with gaps |
+| Yard and verge grass | 1,550 `landuse=grass` polygons (26 ha), mostly tree lawns and yards | Grass tufts and flower beds can key off these |
+| Hedges / fences | 12 / 6 ways | Few; yard fences and hedges generated sparingly |
+| Other | 32 picnic tables, 15 hydrants, 5 bike racks | Use as mapped |
 
-**Recommendation:** use B. The whole lake and park fit, and the data and triangle budget stay small. If you prefer A, the plan works unchanged except that the lake and park polygons get clipped at the box edge (section 3.4).
+**Takeaway:** the footprints, paths, sidewalks and trees are real. Roofs, facades, curbs, street lamps, leaf types and clutter are generated.
 
-Three findings from the measurement shape the plan:
-1. Nearly no building has a real height, and only about 10% have a floor count. **The height fallback by building type decides how about 90% of the city looks.**
-2. Most buildings are houses, detached garages and sheds (about 95%), so typical buildings are small and low-poly.
-3. Thousands of trees are already mapped as individual points. We will place those first and scatter extra trees only into park areas that have none nearby.
-
----
-
-## 1. Repo and project structure
-
-```
-world-engine/
-├── Package.swift                  # the WorldEngine Swift package (the thing apps depend on)
-├── Sources/
-│   ├── WorldGeo/                  # pure Swift: lat/lon ↔ local meters, bounding boxes
-│   ├── WorldMap/                  # pure Swift: Overpass JSON parsing, ring assembly, feature
-│   │                              #   classification (tags → building/road/area/tree), height rules
-│   ├── WorldMesh/                 # pure Swift + simd: triangulation, clipping, extrusion, road
-│   │                              #   ribbons, tree generation → plain vertex/index buffers
-│   ├── WorldEngine/               # RealityKit + SwiftUI: the ONLY public module apps import
-│   │                              #   (World, WorldView, camera, materials, placement, routes)
-│   └── worldbake/                 # macOS command-line tool: fetch Overpass data, write manifest
-├── Tests/
-│   ├── WorldGeoTests/  WorldMapTests/  WorldMeshTests/   # run with `swift test` on the Mac
-│   ├── WorldEngineTests/                                 # run on the iOS simulator
-│   └── Fixtures/                                         # tiny hand-written OSM files
-├── Data/
-│   └── areas/sloans-lake/         # raw extract + query + manifest (ODbL data, see §6)
-├── Apps/
-│   └── WorldLab/
-│       ├── project.yml            # XcodeGen spec (the source of truth for the Xcode project)
-│       └── Sources/ Resources/
-├── Tools/
-│   └── Package.swift              # pins the XcodeGen version; built locally, no Homebrew
-├── scripts/
-│   ├── generate.sh                # build pinned XcodeGen → generate WorldLab.xcodeproj
-│   ├── test.sh                    # swift test + simulator tests
-│   └── snapshots.sh               # build, launch in simulator, capture screenshots
-└── docs/
-    ├── plan-m1.md
-    ├── integration-contract.md    # (M1) the shareable API doc from §7
-    └── screenshots/m1/
-```
-
-**Why four modules:** everything except `WorldEngine` is pure Swift with no RealityKit, so geometry and data logic can be unit-tested quickly on the Mac without a simulator. Later the same code could run in an offline bake tool or on a server. Host apps see only `WorldEngine`, which keeps the public surface small. The internals stay `package`-visible rather than public.
-
-**Settings:** Swift 6 language mode with strict concurrency. Minimum iOS 18.0, the first version with `LowLevelMesh`, `RealityView` on iOS and `OrthographicCameraComponent`. Host apps would need iOS 18 or later; tell me if any of them target lower.
-
-**Engine vs. demo data:** the engine does not bundle Sloan's Lake. WorldLab bundles `Data/areas/sloans-lake/` as an app resource and passes the file URL to the engine. Any app can load any area the same way.
-
-### Generating the Xcode project: XcodeGen (recommended)
-
-| Option | Verdict |
-|---|---|
-| **XcodeGen** | **Recommended.** One short `project.yml` describes the WorldLab app. Running it regenerates `WorldLab.xcodeproj` deterministically. The `.xcodeproj` is git-ignored, so it can never drift or cause merge conflicts, and no one hand-edits it. It's mature, MIT-licensed, a build-time tool only, and nothing ships in the app. |
-| Tuist | More powerful, but heavier. It needs its own installer (mise), has its own project DSL and cache, and pushes its cloud features. That's overkill for one demo app. |
-| Hand-made `.xcodeproj` | Rejected. It's opaque and merge-hostile, and you'd eventually have to click through Xcode settings. |
-| Swift Playgrounds `.swiftpm` app | Can't cleanly express a separate test target and resource layout, and is awkward for command-line builds. |
-
-**How it's installed without Homebrew:** `Tools/Package.swift` declares XcodeGen at an exact version. `scripts/generate.sh` builds it once with `swift build` into `Tools/.build/`, which is git-ignored, then runs it. The version is pinned in `Tools/Package.resolved`, so every machine gets the same generator. The first run downloads XcodeGen's source from GitHub. **I'll ask before that download in step 2.**
+### 2.3 Debug map
+- **Where:** `docs/screenshots/m1/data-map.png`, produced by `worldbake datamap` from the parsed features (not the raw file), so it also checks the parser.
+- **What it shows:** buildings in **orange where height or levels are tagged (130)** and **grey where not (1,269)**, plus roads, paths, sidewalks, water, parks, trees, benches and lamps.
 
 ---
 
-## 2. Data pipeline
+## 3. Geometry and generation
 
-### Fetch (once, by me, with the `worldbake` tool)
-- One Overpass query for the bounding box. It collects:
-  - buildings: `building=*` ways and relations
-  - roads and paths: `highway=*` ways
-  - water: `natural=water`, `waterway=*`
-  - green areas: `leisure=park|garden|pitch|playground`, `landuse=grass|forest|recreation_ground|meadow`, `natural=wood|scrub|grassland`
-  - trees: `natural=tree` nodes and `natural=tree_row` ways
-  - every node those ways and relations need
-- Output is `out body`, **not** `out meta`. That keeps contributor usernames, user IDs and edit timestamps out of the repo, so no personal data gets in.
-- The tool sends a descriptive User-Agent, makes a single request, and falls back across public Overpass mirrors. **Today the main Overpass server returned "too busy" or timeout errors on two of three tries.** That alone justifies committing the data.
+### 3.1 Built now (pure functions, tested)
+- **Earcut port:** 2.2.4, ISC license, without the z-order hash. Handles holes and courtyards. `Triangulator` rejects results whose triangle area differs from the polygon area by more than 1%, which catches self-intersections.
+- **Footprint extrusion:** flat-shaded walls with outward normals, courtyard walls facing in, flat roof.
+- **Ribbons:** miter joins with a bevel fallback, always facing up.
+- **Clipping:** Sutherland–Hodgman for polygons and Liang–Barsky for lines. Buildings are kept whole if their centroid is inside the area.
 
-### Store (in the repo, so builds never touch the network)
-```
-Data/areas/sloans-lake/
-  overpass.json      # raw Overpass JSON, unmodified: ~4.2 MB for area B (~1.9 MB for A)
-  query.overpassql   # the exact query, so anyone can re-fetch
-  manifest.json      # bbox, center, OSM data timestamp, fetch date, query hash, license = ODbL-1.0
-  NOTICE.md          # "© OpenStreetMap contributors, ODbL" + link
-```
-4 MB of JSON is fine in git. If we later add many areas (more than about 50 MB in total), we switch to compressed `.json.gz` or Git LFS.
+### 3.2 Generated detail (WorldGen, planned; all seeded by `OSMRef`)
 
-### Load (at runtime, in the engine)
-1. **Parse:** decode the Overpass JSON into nodes, ways and relations (`Codable`, on a background task).
-2. **Assemble rings:** join multipolygon relation member ways into closed rings, then assign inner rings (holes) to their containing outer ring by point-in-polygon. The lake and park are multipolygon relations.
-3. **Classify:** turn tags into a typed feature model: `Building`, `Road(kind, width)`, `Area(kind)`, `Tree`. Unknown tags are ignored and counted in the load report.
-4. **Project:** convert to local meters (section 3.1) and clip to the area box (section 3.4).
-5. **Build meshes:** see section 3.
+**Houses**
+- **Front side:** the footprint edge facing the nearest street (vehicle road within 40 m), preferring the edge nearest the house's address street.
+- **Roof:**
+  - A footprint at least 85% the size of its minimum oriented bounding rectangle gets a gabled roof (ridge along the long axis) or a hipped roof, chosen by seed.
+  - L- and T-shapes are split into rectangles, each roofed.
+  - Other shapes get a hipped roof via a straight skeleton (M1c) or a low flat roof.
+  - Overhang 0.4 m; pitch 25–40° by seed.
+  - Stylized: roof height is added on top of wall height.
+- **Door, porch or steps, chimney** on the front side.
+- **Windows** per wall by length and floors.
+- **Garage:** Sloan's Lake already maps 490 detached garages, so a garage is generated only when the footprint has a narrow wing on the side facing a service road or driveway.
 
-The typed feature model (step 3) is the seam for future data sources. Overture and lidar heights get merged here, keyed by OSM ID or by footprint overlap, without touching the geometry code.
+**Apartments**
+- Window grid by floor.
+- Balconies on street-facing walls, every other bay by seed.
+- Flat roof with a parapet.
 
-Expected load time for area B: parsing 4 MB of JSON plus building meshes is on the order of a few hundred milliseconds on a recent iPhone. M1 measures the real number. If it's too slow, M2 adds a compact pre-baked binary format produced by `worldbake`.
+**Commercial and retail**
+- Ground-floor storefront glass band on street-facing walls.
+- Awning by seed.
+- Flat roof with a parapet.
 
-### Building heights now (M1)
-Applied in order, first match wins:
-1. `height` tag. Accepts `12`, `12 m`, `12.5m`, `40'` and `40'6"` (feet converted to meters). Garbage values fall through to the next rule.
-2. `building:levels` × 3.2 m, plus `roof:levels` × 3.2 m if present.
-3. **Default by `building` type:**
+**Streets**
+- Curbs: 15 cm raised edge on the road ribbon.
+- Sidewalks per the rule in 2.2, with grass verges between curb and sidewalk where OSM grass exists.
+- Path edges: darker border strips.
 
-| Type | Default height |
-|---|---|
-| `house`, `detached`, `semidetached_house` | 7.0 m |
-| `residential`, `terrace` | 8.0 m |
-| `garage`, `garages`, `carport` | 3.0 m |
-| `shed` | 2.5 m |
-| `roof` (canopy) | thin slab at 3.0 m |
-| `apartments` | 12.8 m (4 levels) |
-| `commercial`, `retail` | 5.0 m |
-| `office` | 10.0 m |
-| `church` | 10.0 m |
-| `school` | 8.0 m |
-| `industrial`, `warehouse` | 7.0 m |
-| `yes` and anything unknown | 6.0 m |
+**Props**
+- Lamps and benches: mapped first, then generated by spacing rules.
+- Fences and hedges: as mapped, plus sparse seeded yard fences.
 
-`min_height` (when present) lifts the base. Fallback heights get a **deterministic ±10% jitter seeded by the OSM ID**, so a street of identical houses doesn't look stamped out, and the result is identical on every run. All defaults live in a `HeightRules` value that apps can override.
+**Vegetation**
+- Trees: smooth, low-poly canopies. Leaf type when tagged, otherwise seeded deciduous/evergreen by a **style parameter** (decision 2).
+- Clutter: grass tufts, bushes and flower beds in yards, verges and parks. Only placed in chunks near the camera.
 
-### Building heights later (M2 or later)
-- **Overture Maps buildings** include a `height` attribute for many buildings. Its sources vary by region, so first we check how much of this area it actually covers. Overture buildings are themselves ODbL (they include OSM), so mixing them in keeps the same license obligations (section 6).
-- **USGS 3DEP lidar** (public domain) is the more direct option: for each footprint, take a high percentile of the lidar surface model minus the ground model. `worldbake` would do this offline and write a small `heights.json` keyed by OSM way ID. The engine then uses it as rule 0, ahead of everything above.
-- Height sources merge into the feature model only, so this is a data change, not an engine change.
+**Determinism**
+- All randomness comes from `StableRandom(osmRef, salt)`, a portable SplitMix64.
+- A golden-value test fails if the generator ever changes.
+- Never `Hasher` or `random()`.
+
+**Overrides (designed, not built)**
+- `BuildingOverride { wallColor, roofColor, roofShape, doorColor, doorStyle }`, keyed by `OSMRef`.
+- Applied after generation. It's a pure function of (building, seed, override), so an override changes only that house.
+- Stored by the host app, never by the engine. ODbL note: keep override data separate from OSM data (see licensing).
+
+### 3.3 Mesh API
+- **Mesh upload:** `LowLevelMesh` (iOS 18+, main-actor). Geometry is built off the main thread into `MeshBuffers`, and only the copy into the `LowLevelMesh` runs on the main actor.
+- **Vertex layout:**
+  - position (float3)
+  - normal (packed)
+  - color / palette index (uv1)
+  - flags: window, emissive, sway weight (uv2)
 
 ---
 
-## 3. Geometry
+## 4. Rendering
 
-### 3.1 Coordinates
-- Exact WGS84 → ECEF → local ENU (east, north, up) around the area center, computed in `Double`. Over 1–2 km the curvature drop is about 8 cm, so we discard the up component and treat the ground as flat in M1.
-- RealityKit axes (right-handed, Y up): **east = +X, north = −Z, up = +Y**, in meters. Vertex buffers use `Float`. At ≤1 km from the origin, Float precision is about 0.06 mm.
-- **Terrain is assumed flat in M1.** The area is gently sloped. Real elevation (USGS DEM) is a later milestone, and the placement APIs already return ground-snapped positions, so callers won't change.
+### 4.1 Chunks and draw calls (B.1)
+- **Chunk size:** 200 m. Area B (1,600 × 1,200 m) is **8 × 6 = 48 chunks**.
+- **Material classes:**
 
-### 3.2 Polygon triangulation (including holes and courtyards)
-- **Algorithm:** a Swift port of **earcut** (Mapbox; ISC license; the notice is kept). It's the standard choice for map footprints. It handles concave shapes and holes by bridging each hole into the outer ring, it's fast and simple, and it needs no dependency.
-- **Clean-up before triangulating:**
-  - drop the duplicated closing point
-  - merge points closer than 1 cm
-  - remove collinear points
-  - force the outer ring counter-clockwise and holes clockwise (viewed from above)
-  - drop rings with an area under 0.5 m²
-- **Bad data:** if a ring self-intersects or earcut's area check fails (triangle-area sum vs. polygon area off by more than 1%), skip that feature, log its OSM ID and count it in the load report. One broken building never breaks the world.
+  | Class | Contents |
+  |---|---|
+  | `static` | Buildings, ground, roads, props; windows are a vertex flag |
+  | `foliage` | Smooth shading, wind sway |
+  | `water` | Lake and ponds |
+  | `clutter` | L0 only |
 
-### 3.3 Building extrusion
-- **Walls:** one quad (2 triangles) per edge of every ring, outer ring and courtyard holes alike. Each quad has its own outward-facing normal. Hole edges face into the courtyard automatically because of the winding rule above.
-- **Roof:** the triangulated footprint at height *h*, facing up. No floor (never visible).
-- **Flat shading:** each face gets its own vertices with the face normal, so no smoothing between faces and a crisp low-poly look.
-- `building=roof` (carport canopies) is a thin slab with no walls.
-- Typical house with 8–9 footprint corners: about 16 wall triangles plus about 7 roof triangles, roughly 23 triangles.
-- `building:part` and roof shapes (gabled, hipped) are out of scope for M1.
+- **Per chunk:** one entity per LOD, holding one `LowLevelMesh` with one part per material class.
 
-### 3.4 Clipping to the area box
-Features that straddle the box edge are clipped to the box:
-- **Polygons:** Sutherland–Hodgman against the box, applied to outer and inner rings. It works for concave polygons because the clip region is convex.
-- **Lines:** Liang–Barsky, segment by segment.
-
-Buildings are kept whole if their centroid is inside the box, so we never get half-houses.
-
-### 3.5 Road and path ribbons
-- **Width:** the `width` tag if present, else `lanes` × 3.3 m, else a default by type:
-
-| Type | Default width |
-|---|---|
-| primary | 12 m |
-| secondary | 10 m |
-| tertiary | 8 m |
-| residential, unclassified | 6 m |
-| service | 4 m |
-| cycleway | 2.5 m |
-| footway, path, pedestrian | 2 m |
-| track | 3 m |
-
-- **Ribbon:** offset the polyline left and right by half the width. Joins are mitered, falling back to a bevel when the miter exceeds 2× the half-width (sharp turns). Duplicate points are removed first, which prevents NaNs.
-- **Overlaps:** roads overlap at intersections. Ribbons of the same material overlapping at the same height are invisible as seams, so M1 doesn't need true intersection geometry.
-
-### 3.6 Ground layers (no flicker)
-- **Layers, bottom to top:**
-  1. base ground plane (covers the whole area)
-  2. parks and grass
-  3. water
-  4. roads
-  5. paths
-- **How each layer stays visible:** each layer is also raised a few centimeters, and draw order is fixed with `ModelSortGroupComponent`. That's RealityKit's built-in way to stop flicker between overlapping flat surfaces. The offsets alone would flicker when the camera is far away.
-
-### 3.7 Trees
-- **Mapped trees:** every mapped `natural=tree` node becomes a tree.
-- **Scattered trees:** park and wood polygons get extra trees by Poisson-disk sampling (minimum spacing about 8 m). Candidates are rejected if they are within 6 m of a mapped tree, within 2 m of a path or road ribbon, or inside water or a pitch. A seeded random generator keeps the result identical every run.
-- **Model:** a low-poly tree with a faceted canopy (an icosahedron squashed vertically, 20 triangles) and a 3-sided trunk (6 triangles), so about 26 triangles each. Scale and rotation vary per tree, using the same seeded generator.
-- **Batching:** all trees are merged into two meshes, canopy and trunk.
-
-### 3.8 Which RealityKit mesh API: `LowLevelMesh` (recommended)
-| | `MeshDescriptor` → `MeshResource.generate` | **`LowLevelMesh`** (iOS 18+) |
+| Street mode (typical view) | Chunks | Draw calls |
 |---|---|---|
-| Vertex layout | RealityKit decides; positions, normals and UVs as Swift arrays | We define it exactly (interleaved position and normal, `uint32` indices) |
-| Build cost | RealityKit re-processes the arrays on the CPU | We write straight into GPU buffers; no extra processing pass |
-| Multiple materials in one mesh | Yes (via parts) | Yes (`LowLevelMesh.Part` with a `materialIndex`) |
-| Updating later | Regenerate the whole resource | Update buffers in place (useful for weather, e.g. snow, or streaming chunks) |
-| Ease | Easier | More code, but contained in one file |
+| L0 (< 150 m) | ~4 | 4 × 3 classes + 4 clutter = 16 |
+| L1 (150–600 m) | ~12 in view | 12 × 2 = 24 |
+| L2 + backdrop sectors (> 600 m) | 8 sectors | 8 |
+| Sky dome, horizon, ground ring | | 3 |
+| Character (host) | | ~5 |
+| **Total** | | **≈ 56** (ceiling: 100) |
 
-**Choice: `LowLevelMesh`.** Geometry code outputs plain `MeshBuffers` (positions, normals, indices, material slot). A small adapter in `WorldEngine` copies them into a `LowLevelMesh` and wraps that in a `MeshResource`. The adapter is the only RealityKit-specific mesh code, so swapping to `MeshDescriptor` would take about an hour if `LowLevelMesh` ever misbehaves. (I checked the iOS 26.4 SDK: `LowLevelMesh` is iOS 18+ and main-actor-isolated. Heavy geometry work happens off the main thread, and only the final buffer copy runs on the main actor.)
+**Aerial mode:**
+- The whole area is in view, so L1 chunks merge into 400 m super-chunks (12 × 2 = 24) plus L2 and the backdrop.
+- That comes to **≈ 40 draw calls**.
 
----
+### 4.2 Detail by distance (B.2)
+- **Thresholds:** 150 m and 600 m, measured from the camera's look-at point in street mode and from the camera in aerial mode.
+- **Hysteresis:** ±10% stops LODs flickering at the boundary.
+- **Cross-fade:** LOD changes cross-fade over ~0.4 s with a dithered alpha test (`CustomMaterial.opacityThreshold` plus screen-space noise). That avoids the cost of the transparency pass.
+- **Clutter:** exists only in L0 chunks and fades out by ~50 m.
+- **L1 content:** boxes with simple roofs, no facades, 20-triangle trees, merged ground.
+- **L2 content:** footprint blocks with flat roofs, tree blobs merged per chunk, fog-tinted.
 
-## 4. Rendering and performance
+### 4.3 Shading, palette, weather in materials (B.4)
 
-### Batching
-- A fixed **palette of about 12 pastel materials**, each a `PhysicallyBasedMaterial` with no textures, high roughness and zero metallic:
-  - ground
-  - grass
-  - water
-  - road
-  - path
-  - 3 wall tints
-  - 2 roof tints
-  - tree canopy
-  - trunk
-- Each building picks a wall tint and a roof tint deterministically from its OSM ID.
-- **Every feature that shares a material is merged into one mesh part.** The whole world is a single `LowLevelMesh` with about 12 parts, which is about 12 draw calls for the world.
-- The character capsule and any host-app entities add their own draw calls.
-- Later optimization, not needed in M1: per-vertex color with one material could bring the world to 2–3 draw calls.
-
-### Estimated triangle budget (area B)
-| Layer | Count | Triangles |
+| Item | Approach | Notes |
 |---|---|---|
-| Buildings | 1,400 × ~23 | ~32k |
-| Roads and paths | ~620 ways | ~20k |
-| Water, parks, grass, pitches | | ~10k |
-| Trees (mapped + scattered) | ~7k × 26 | ~180k |
-| **Total** | | **~240k** (area A: about 110k) |
+| Base look | **`CustomMaterial`** (Metal surface shader, iOS 15+, works in `RealityView`). Lit by RealityKit's PBR and shadows. | Recommended over `ShaderGraphMaterial`, which must be authored in Reality Composer Pro as USD and is hard to review or generate. |
+| Palettes as data | Palette JSON → small **`LowLevelTexture`** (rows = palettes; columns = slots like "wall 3" or "grass"). Vertices store a palette slot. The shader blends two palette rows by a uniform. | Season, time and weather change palettes **without rebuilding meshes**. |
+| Flat vs smooth | Buildings: per-face vertices (flat). Trees, bushes, character stand-in: shared vertices with normals pointing out from the canopy center (soft, toy-like). | |
+| Snow | Shader: `snowAmount × smoothstep(normal.y) × noise` → white, rougher. | Up-facing only, uniform-driven, eased. |
+| Wet | Shader: darker base, roughness down to ~0.2, puddle mask on flat ground from world-position noise. | |
+| Fog/haze | **RealityKit has no scene fog** (searched the iOS 26.4 SDK: no fog API). Fog is done **in our shaders**: fog factor from distance and height. The lit color is scaled by (1 − f), and f × fog color is added as emissive. | Works on iOS 18. Host entities (characters) aren't fogged; they're near the camera, so it doesn't show. |
+| Night windows and lamps | Window flag × `nightFactor` × seeded on/off per window → emissive. Lamp heads emissive. The **nearest 4–8 lamps** get real `PointLightComponent`s (no shadows); the rest are emissive only. | |
+| Tilt-shift (aerial) | Post-process blur on depth. `RealityView` post-processing (`PostProcessEffect`) is **iOS 26+ only**. | **Tradeoff:** on iOS 18–25 aerial view has no tilt-shift. The alternative, `ARView` in `.nonAR` mode, has post-processing on iOS 15+, but it's the older UIKit API. Recommend RealityView with iOS 26-only tilt-shift (decision 1). |
+| Wind sway | `CustomMaterial` geometry modifier: vertex offset by the sway weight in uv2 × time. | Trees and clutter only. |
 
-- **Budget ceiling:** 400k triangles and 25 draw calls for the world.
-- **Memory:** with flat shading, roughly 3 vertices per triangle at 24 bytes each comes to about 17 MB of vertex data for area B. That's acceptable, and normals could be packed to 16-bit later if needed.
-- **Headroom:** I expect this to be well within budget for a recent iPhone (iPhone 12 or later, which handles over 1M static triangles per frame in RealityKit). **These are estimates; M1 measures on a real device.**
+**Shader uniforms:** `CustomMaterial` gives one `float4` custom parameter plus one custom texture per material. We pack global state (time of day, wetness, snow, fog) into the texture's last row. The SDK confirms shaders can read world position, vertex color, uv0–uv7, time and view direction on iOS 18.
 
-### Level of detail (LOD)
-**Not needed for 1–2 km².** At the default isometric zoom almost the whole area is on screen, so splitting it into chunks would add draw calls without culling anything.
-- **Built-in readiness:** the mesh builder is chunk-aware from day one. Features are bucketed by a grid cell that defaults to one cell, so larger areas later just raise the grid size and gain frustum culling.
-- **Tree escape hatch:** if trees prove too heavy, `MeshInstancesComponent` (GPU instancing, iOS 26+) is available. We'd use it only on iOS 26, with the merged mesh as the fallback.
+### 4.4 Camera (B.5)
 
-### Lighting
-- One directional "sun" light with shadows, plus image-based ambient light from the built-in environment.
-- **Risk:** shadow maps spread across 1.5 km can look blurry. Fallback: limit shadow distance, or turn shadows off for trees.
+**Street rig: a spring arm**
+- **Target:** the character's position plus about 0.8 × its height.
+- **Distance:** so the character fills a target fraction of screen height (default 22%): distance = h / (2·tan(FOV/2)·fraction).
+  - For FOV 50°, a 0.6 m character → ~2.9 m; a 1.8 m character → ~8.8 m.
+- **Tunables:** screen fraction (or fixed distance), height offset, pitch (default 14°), FOV, zoom limits (0.5×–2.5× default distance), damping, recenter delay (5 s).
+- **Controls:** drag orbits (yaw and pitch, clamped 5°–60°); pinch zooms within limits. After 5 s idle, a critically damped spring brings the camera back behind the direction of travel.
 
-### Reporting
-- `World.stats` reports:
-  - triangle count per layer
-  - draw calls (number of mesh parts)
-  - vertex memory
-  - parse and build time
-  - features skipped
-- WorldLab shows these in a debug overlay.
-- I cross-check the numbers on a device with Xcode's GPU frame capture and the "RealityKit Trace" Instruments template. **Simulator performance is not representative,** so frame-rate claims come from a real iPhone only.
+**Occlusion**
+- **Large blockers (buildings, terrain later):** a sphere cast (`Scene.convexCast`, radius 0.3 m) from target to desired camera position against per-chunk static collision shapes. On a hit, the camera pulls in fast and eases back out slowly. The cast radius exceeds the near-plane half-size (near plane 0.1 m), so it **never clips**.
+- **Thin blockers (lamp posts, trunks, hedges):** merged meshes can't be faded per object, so the shared shader **dither-cuts any world fragment inside a capsule from camera to character**. The character's position and radius go in the material's `float4` parameter.
+- This is cheaper than pulling the camera in at every tree among 5,400. The capsule radius shrinks to 0 when nothing is blocking.
 
-### Camera
-- Custom rig, not the built-in camera controls, so we can enforce game-like limits.
-- **Default:** perspective with a narrow field of view (~30°), pitched 35° down, rotated 45°. That reads as isometric but keeps depth.
-- **Optional true isometric:** `OrthographicCameraComponent` (iOS 18+).
+**Aerial rig**
+- Orbit around a ground point: pitch 30°–65°, narrow FOV (~30°), optional orthographic.
+- Tilt-shift on iOS 26+.
 
-| Gesture | Action |
+**Transitions**
+- Interpolate rig parameters (target, yaw, pitch, log-distance, FOV) with ease-in-out over ~1.2 s.
+- The path arcs upward so it never passes through buildings.
+
+### 4.5 World edge (B.6)
+**Backdrop ring:** measured with `worldbake ring-stats` on a 3 × 3 km box centered on area B, minus area B.
+
+| Measure | Value |
 |---|---|
-| One-finger drag | Pan across the ground |
-| Pinch | Zoom |
-| Two-finger twist | Orbit (rotate) |
-| Two-finger vertical drag | Tilt (15°–75°) |
+| Buildings in the ring | **12,274** (13,673 in the box) |
+| Footprint vertices | 79,741 |
+| Raw Overpass JSON, buildings only | 11.9 MB (1.3 MB zlib) |
+| Compact block format (int16 decimeter vertices + height) | **~390 KB** |
+| As-is extruded blocks | 215k triangles: too many |
+| **Planned:** drop buildings < 30 m² (garages and sheds ≈ 40%), simplify the rest to oriented boxes when rectangular (else 2 m Douglas–Peucker), flat roofs, merge into 8 sectors | **≈ 70–75k triangles**, of which ~25k are in view at once, all in fog |
 
-The camera stays clamped inside the area.
+**Fog**
+- The fog distance is set so the backdrop's outer edge (1.5 km) is ~90% fogged in street mode.
+- Aerial mode uses lighter haze.
 
-### Demo character
-- A capsule made with `MeshResource.generateCapsule` (no imported models). WorldLab passes it to the engine through the same public API any app would use.
+**Horizon backdrop**
+- A camera-centered (translation-only) ring of silhouette layers, unlit and fog-blended.
+- It's **configured per location as data:** a profile of (azimuth → elevation angle) in the area manifest.
+- **For Sloan's Lake:** the Front Range is ~25–60 km west and rises 1.5–2.5 km above the city, which is about 2–5° above the horizon to the west.
+- **Profile source (decision 4):** generated by `worldbake horizon` from a global DEM, so it's automatic and generic, or a hand-entered profile in data for the first visual milestone.
+- This is the one place geography may be distorted (C.1).
 
-### Attribution
-- `WorldView` always draws "© OpenStreetMap contributors" in a corner overlay, legible over any background.
-- Tapping it opens openstreetmap.org/copyright.
-- Host apps can choose the corner but cannot hide it (section 6).
+### 4.6 Environment (B.9)
+**Sun and sky**
+- **Sun:** NOAA solar-position algorithm, pure Swift and unit-tested, from date and time + the manifest's center gives azimuth and elevation. That drives the `DirectionalLightComponent`.
+- **Shadows:** `shadowProjection: .automatic(maximumDistance:)` (iOS 18 API), ~100 m in street mode.
+- **Light and sky color:** keyframed by **sun elevation**, not clock time, so dawn, golden hour and night work at any latitude or season. The keyframes are data.
+
+**Weather**
+- **States:** `WeatherState` (clear / cloudy / rain / snow / fog, each with an intensity).
+- **Blending:** the engine blends continuous parameters (cloud cover, wetness, snow cover, fog density, precipitation rate) toward targets over 3–10 s. Snow builds up over minutes and never snaps.
+- **The engine doesn't call WeatherKit:** the host app maps WeatherKit conditions to `WeatherState`. That keeps the engine free of entitlements and networking. WorldLab gets a debug picker.
+
+**Particles**
+- Rain streaks and snowflakes come from `ParticleEmitterComponent` (iOS 18) in a ~30 × 20 × 30 m box that follows the camera.
+- Falling leaves are emitted near trees close to the camera in autumn.
+
+**Seasons**
+- Season phase comes from date + hemisphere (latitude sign). Seasonality strength scales with latitude (weak in the tropics), so no per-place tuning is needed.
+- Seasonal palettes for trees and grass.
+- Deciduous trees swap to a bare-branch mesh variant in winter. Chunk meshes are rebuilt at season change, which is rare.
+
+**Ambient light**
+- Image-based lighting uses 3–4 small bundled environment maps (day, golden, overcast, night), switched with intensity ramps.
+
+**Later milestones:** ambient cars and pedestrians (B.8); terrain; any-location streaming.
+
+### 4.7 Budget (B.7)
+
+**Street mode, typical frame, area B**
+
+| Content | Triangles |
+|---|---|
+| L0 chunks (~4): houses ~300 triangles each with facades, ~120 trees × 100, ground with curbs, props | ~130k |
+| Clutter (< 50 m): ~1,500 tufts × 8 + ~200 bushes × 40 | ~20k |
+| L1 chunks (~12 in view) | ~85k |
+| L2 + backdrop in view | ~35k |
+| Sky, horizon, ground ring | ~2k |
+| Character (host budget) | ~20k |
+| **Main pass** | **≈ 290k** (ceiling 400k) |
+| Shadow pass (casters within ~100 m) | ≈ 100k (ceiling 150k) |
+| Draw calls | ≈ 56 (ceiling 100) |
+
+**Aerial mode:** ≈ 250k triangles, ≈ 40 draw calls.
+
+**iPhone 13 (A15) target**
+- 60 fps with no throttling over 10 minutes needs real headroom, so the goal is **GPU frame time ≤ 10 ms** (60% of the 16.7 ms budget).
+- **Main risk:** fill rate at native 3× resolution with custom PBR shaders, shadows and fog. RealityView doesn't expose a render-scale setting.
+- **Fallbacks:**
+  - cheaper shader paths
+  - shorter shadow distance
+  - fewer L0 chunks
+  - `ARView(.nonAR)` with `contentScaleFactor` as a last resort
+- Measured on a device with Instruments (RealityKit Trace, thermal state) during a scripted 10-minute walk.
+
+**iOS 18 vs 26:**
+- **Instancing:** on iOS 26, trees and clutter can use `MeshInstancesComponent`, which takes less memory and builds faster. On iOS 18 they are merged meshes. Same look, so this is a performance-only difference.
+- **Tilt-shift:** iOS 26 only.
+- The minimum stays iOS 18.
 
 ---
 
-## 5. Tests
+## 5. Tests and visual checks
+- **Unit tests now:** 61 tests (89 cases), all passing in `swift test`.
 
-**Framework:** Swift Testing. Pure modules run with `swift test` on the Mac in seconds. `WorldEngine` tests run on the iPhone 17 Pro simulator via `xcodebuild test`. `scripts/test.sh` runs both, and I run it, so you don't have to.
-
-| Area | Tests |
+| Suite | What it covers |
 |---|---|
-| **Coordinate conversion** | Center → (0, 0, 0). 0.001° north at this latitude → ~111.0 m along −Z (WGS84 value, ±1 cm). 0.001° east → ~85.6 m along +X. Lat/lon → local → lat/lon round trip within 1 mm. Axis convention (north = −Z, east = +X). |
-| **Triangulation** | Square → 2 triangles. Square with square hole → 8 triangles, area = outer − inner. L-shape, U-shape, courtyard. Duplicate closing point, collinear points, near-zero area, self-intersecting ring (skipped, not a crash). All output triangles face up. Fuzz: 1,000 random simple polygons, triangle area sum = polygon area (±0.1%). |
-| **Extrusion** | 10 × 10 m box, h = 6 → 8 wall + 2 roof triangles, normals outward, bounds = (10, 6, 10). Courtyard walls face inward to the courtyard. Flat-shaded vertex count is correct. |
-| **Height fallback** | `"12"`→12, `"12 m"`→12, `"40'"`→12.19, `"40'6\""`→12.34, `"tall"`→falls through. Levels 3 → 9.6. Levels 2 + roof:levels 1 → 9.6. Each type default. `min_height`. Jitter is identical across runs and stays within ±10%. |
-| **Road ribbons** | Straight line width 6 → 6 m-wide rectangle. 90° turn → miter. Hairpin → bevel. Duplicate points → no NaN. |
-| **Data** | Ring assembly from split multipolygon member ways. Inner/outer assignment. Parser on a tiny hand-written fixture. Clipping a lake-like polygon to a box. |
-| **Integration** | Load the real Sloan's Lake extract. Feature counts are in the expected range, the triangle total is under the 400k ceiling, and fewer than 1% of features are skipped. |
+| Coordinates | WGS84 distances, 1 mm round trip, scene axes, bounding boxes |
+| Polygons | Cleaning, orientation |
+| Clipping | Polygons, polylines |
+| Determinism | Golden value |
+| Tag parsing | Lengths, feet and inches |
+| Height fallback | All rules, jitter determinism |
+| Road widths, sidewalk tags | |
+| Ring assembly | |
+| Fixture | Hand-made OSM with a courtyard multipolygon, clipped road and water, a bench as a way, a broken way |
+| Real-area | Ranges on the committed extract |
+| Triangulation | Shapes, holes, degenerate input, 1,000-polygon fuzz |
+| Extrusion | Counts, outward normals, courtyards |
+| Ribbons | Miter, bevel, duplicates |
 
-### Visual checks
-- `scripts/snapshots.sh` builds WorldLab and boots the iPhone 17 Pro simulator.
-- It launches the app with a fixed camera preset and fixed lighting (`-camera iso | top | street | lake-edge`).
-- It waits for a "world ready" signal, then captures the screen with `xcrun simctl io booted screenshot`.
-- Screenshots go to `docs/screenshots/m1/<preset>.png` and are committed, so each change shows a visible before and after in git.
-- Tree scatter and colors are seeded, so screenshots are reproducible. M1 relies on human review; automatic image diffing can come later.
+- **Next:**
+  - WorldGen tests: roof selection, front-side choice, sidewalk inference, seeded stability.
+  - Sun-position tests against NOAA reference values.
+  - Chunking and LOD tests: every triangle lands in exactly one chunk.
+- **Visual checks:** `scripts/snapshots.sh <name>` builds WorldLab, launches it in the iPhone 17 Pro simulator and saves `docs/screenshots/m1/<name>.png`.
+  - Camera presets (`street`, `street-orbit`, `aerial`, `lake-edge`) and a fixed time (golden hour) arrive with rendering. Seeds make screenshots reproducible.
+  - Today: `worldlab-shell.png` (empty shell, attribution visible) and `data-map.png`.
 
 ---
 
-## 6. Licensing checklist (OpenStreetMap / ODbL)
+## 6. Licensing (unchanged from revision 1, plus additions)
+- **Attribution:** "© OpenStreetMap contributors" on the map at all times (`WorldAttributionView`, fixed colors, legible on any background), plus a `NOTICE.md` beside each extract.
+- **Share-alike risks:** generated detail is a Produced Work, so attribution only. The **per-building overrides** (3.2) are app or user data and must be stored separately from OSM data and never published merged with it.
+- **New data sources:**
 
-**Attribution: where it goes**
-- [ ] On the map, at all times: "© OpenStreetMap contributors", drawn by `WorldView` itself and linking to openstreetmap.org/copyright.
-- [ ] Each host app's About or Acknowledgements screen: the same line plus "Data available under the Open Database License".
-- [ ] Repo: README, plus `Data/areas/*/NOTICE.md` next to every extract.
-- [ ] Screenshots and marketing images of the map (App Store, social): include the attribution line in the image or caption.
-- [ ] Don't use the OpenStreetMap logo in a way that suggests OSM endorses the apps.
-
-**What is fine (only attribution needed).** Rendering the world on screen, including screenshots and video, is a **Produced Work** under ODbL. You can show it in commercial apps and keep the app and its code closed-source. **The ODbL does not affect our code license.**
-
-**What would trigger share-alike.** Share-alike means you must offer the database under ODbL. It's triggered by making a **Derivative Database** and then using it publicly (shipping it in an app counts as public use).
-
-| Action | Effect |
+| Source | License and requirements |
 |---|---|
-| Shipping the raw extract in an app bundle (WorldLab and future apps) | Public use of an OSM database: keep it ODbL and attributed. It's unmodified, so it's simple. |
-| **Shipping a pre-baked format** of OSM data (a planned possibility for M2) | It's still the database in another form, so it's ODbL. Fine, but we must offer it, or the bake tool and inputs, under ODbL on request. |
-| **Merging other data into OSM features** (Overture or lidar heights, ML-estimated heights, hand-fixed footprints) and shipping the result | A Derivative Database: the merged data must be offered under ODbL. Overture buildings are already ODbL, and USGS lidar is public domain, so this is manageable, but it **is** share-alike. |
-| **Storing app or user data on top of OSM features** (e.g., a DogWell user tags a park as "dog friendly", stored keyed to that OSM park) | **The main risk area.** Keep app and user data in a **separate** store, linked only loosely (by coordinates or our own IDs). Never publish a merged OSM-plus-user dataset. A separate store is a "Collective Database" and doesn't pull user data under ODbL. |
-| Routes and positions computed by the app on top of the map (a dog-walk route) | Usually fine as produced output, but don't publish them as a database of OSM-derived geometry. |
-
-**Other licenses**
-- Earcut port: ISC license, notice kept in source.
-- XcodeGen: MIT, build tool only, never shipped.
-- Overpass and Nominatim usage policies: we fetch rarely, with an identifying User-Agent, and cache in the repo. That complies.
-
-*This is engineering guidance, not legal advice. Before a public App Store launch that uses merged datasets, a short review by counsel is worth it.*
+| Copernicus DEM (horizon, terrain) | Free, attribution required |
+| USGS 3DEP | Public domain |
+| Hosted tiles | ODbL; offer on request |
 
 ---
 
-## 7. Integration contract (public API of `WorldEngine`)
-
-Shareable with app teams. Names may get small refinements in M1; the shape is the commitment.
-
-```swift
-import WorldEngine
-```
-
-**Describing and loading a world**
+## 7. Integration contract
+Unchanged from revision 1 (place, move along route, camera, time of day, weather, coordinate conversion), with these additions:
 
 | API | What it does |
 |---|---|
-| `GeoCoordinate(latitude:longitude:)` | A WGS84 lat/lon point; the only geographic type apps use. |
-| `WorldArea(center:size:)` | The region to build: a center coordinate and a size in meters (east–west × north–south). |
-| `WorldSource.overpassJSON(url:)` | Points the engine at a bundled raw OSM extract file. |
-| `WorldStyle` | Palette, height rules, road widths and tree density; `.default` is the pastel look. |
-| `World.load(area:source:style:) async throws -> World` | Parses data and builds all meshes off the main thread; returns a ready world. |
-| `World.loadReport` | Feature counts, skipped features with OSM IDs, and timings. |
-
-**Showing a world**
-
-| API | What it does |
-|---|---|
-| `WorldView(world:)` | Ready-made SwiftUI view: RealityView, camera rig, gestures and OSM attribution. The recommended way to show a world. |
-| `World.rootEntity` | The world as a plain RealityKit `Entity`, for apps with their own RealityView. The app must then also show `WorldAttributionView()`. |
-| `WorldAttributionView()` | The required "© OpenStreetMap contributors" label, for custom layouts. |
-
-**Coordinates**
-
-| API | What it does |
-|---|---|
-| `World.position(of: GeoCoordinate) -> SIMD3<Float>` | Converts lat/lon to a ground-level position in world meters. |
-| `World.coordinate(at: SIMD3<Float>) -> GeoCoordinate` | Converts a world position back to lat/lon. |
-| `World.coordinate(atScreenPoint:in:) -> GeoCoordinate?` | Turns a tap on the map into the lat/lon on the ground, or nil if off-map. |
-
-**Placing and moving entities** (M1 implements place and move; the app owns the entity)
-
-| API | What it does |
-|---|---|
-| `World.place(_ entity: Entity, at: GeoCoordinate, heading: Angle? = nil)` | Adds any app-provided entity to the world at a lat/lon, standing on the ground. |
-| `World.remove(_ entity: Entity)` | Removes an entity the app placed; the engine never deletes app entities on its own. |
-| `World.move(_ entity:, along: [GeoCoordinate], speed: Double, options:) -> WorldMotion` | Walks an entity along a route at a speed in m/s, turning to face the direction of travel. |
-| `WorldMotion.pause()` / `resume()` / `cancel()` | Controls a running route movement. |
-| `WorldMotion.progress: AsyncStream<WorldMotion.Progress>` | Reports distance covered, current coordinate and finish, so the app can drive its own logic. |
-
-**Camera**
-
-| API | What it does |
-|---|---|
-| `WorldCamera` (observable, owned by `WorldView`) | Holds the current camera state; apps may read it or drive it. |
-| `WorldCamera.focus(on: GeoCoordinate, zoom:, animated:)` | Moves the camera to look at a place. |
-| `WorldCamera.follow(_ entity: Entity?)` | Keeps an entity (e.g., the app's character) in view; nil stops following. |
-| `WorldCamera.mode` (`.isometric`, `.orthographic`, `.free`) | Switches camera style. Isometric is the default. |
-| `WorldCamera.gesturesEnabled` | Lets the app temporarily disable pan, zoom and orbit. |
-
-**Environment** (API designed now; M1 provides default lighting, real behavior comes later)
-
-| API | What it does |
-|---|---|
-| `World.setTimeOfDay(_ date: Date)` | Sets sun direction and light color for that local time at the world's location. |
-| `World.setWeather(_ weather: WeatherState)` | Sets the weather look. `WeatherState` is clear, cloudy, rain, snow or fog, each with an intensity from 0 to 1. |
-
-**Diagnostics**
-
-| API | What it does |
-|---|---|
-| `World.stats` | Triangle count, draw calls, vertex memory and build time, for performance dashboards. |
-
-**Guarantees to host apps**
-- The engine never touches app data, networking, analytics or UI outside `WorldView`.
-- It never retains or modifies app entities beyond position and orientation while moving them.
-- All public API is main-actor and Swift 6 concurrency-safe.
+| `WorldCamera.mode = .street(following: Entity) / .aerial` | Switches camera mode; the transition is animated. |
+| `WorldCamera.streetSettings` | Screen fraction, height, pitch, FOV, zoom limits, recenter delay. |
+| `WorldMotion` speed | In m/s and changeable while moving. Apps compress time, not space (C.2). |
+| `World.setSeason(override:)` | Optional; the default comes from the date. |
+| `World.setBuildingOverride(_:for: OSMRef)` | Planned, not in M1. |
+| `World.setHorizon(_:)` | Planned. Defaults to the area manifest's profile. |
 
 ---
 
-## 8. Risks, unknowns and time estimates
+## 8. Sub-milestones and effort
 
-### Risks
+| Sub-milestone | Scope | Estimate |
+|---|---|---|
+| **M1a Foundation** ✅ | XcodeGen, WorldLab shell, data fetch, Geo/Map/Mesh modules, tests, data map | done |
+| **M1b First visual** | One street of houses + lake path, stand-in, golden hour, street camera (see §9) | 9–11 days |
+| **M1c Whole area** | All chunks, L0/L1/L2 + cross-fade, clutter, props, apartments/commercial, aerial mode + transitions, backdrop ring, horizon | 8–10 days |
+| **M1d Environment** | Real sun, light keyframes, night lights, weather states + easing, rain/snow particles, wet/snow shaders, seasons, leaves | 7–9 days |
+| **M1e Device + generalization** | iPhone 13-class performance and 10-minute thermal walk, tuning, two more areas, three-area screenshot set | 5–7 days |
+| **Total remaining** | | **≈ 29–37 working days** |
 
-| # | Risk / unknown | Likelihood | Mitigation |
+**Later milestones:** terrain; any-location loading; ambient cars and pedestrians; building overrides.
+
+---
+
+## 9. First visual milestone (M1b): proposal
+
+**Scene**
+- One residential street east of the lake (about two blocks, roughly 2 × 2 chunks) plus the lake path segment beside it.
+- **Detail:** full L0 only, no LOD yet. Generated houses (roofs, doors, windows, porches), the mapped garages, mapped sidewalks plus generated curbs, verges, mapped trees (smooth), mapped and generated lamps and benches.
+- **Ground:** water and ground.
+
+**Light and sky**
+- Golden hour at a fixed date and time, so screenshots are reproducible.
+- Shader fog and a sky gradient.
+- Simple flat western horizon silhouette from data.
+
+**Character and camera**
+- A capsule stand-in walks a route along the street and onto the lake path, at tunable speed.
+- Street camera: follow, drag-orbit, pinch zoom, 5 s recenter, sphere-cast pull-in.
+
+**Output**
+- Screenshots `m1b-street`, `m1b-orbit`, `m1b-lake-path`.
+- Triangle and draw-call counts.
+- The first device performance read (I'll ask for the Team ID then).
+
+The street and route are WorldLab demo data (coordinates in the app's demo config), not engine code.
+
+---
+
+## 10. Generalization, terrain and any-location (C.4–C.6)
+
+### 10.1 Proposed generalization areas
+Measured with the same tool and rules, each 1.6 × 1.2 km.
+
+| | Sloan's Lake (B) | **Downtown Denver** (16th St / Union Station, 39.7495, −104.9960) | **Bernal Heights, San Francisco** (park summit, 37.7432, −122.4148) |
 |---|---|---|---|
-| 1 | Missing heights make the city look uniform (measured: about 0% `height`, about 10% levels) | Certain | Type defaults + seeded jitter now; lidar or Overture heights later |
-| 2 | Overpass is unreliable (2 of 3 requests failed today) | High | Fetch once, commit the raw data; mirror fallback in `worldbake` |
-| 3 | Broken OSM polygons (self-intersections, unclosed multipolygons) | Medium | Clean-up, skip-and-log, load report |
-| 4 | Flicker between flat ground layers when zoomed out | Medium | `ModelSortGroupComponent` + small offsets; check in screenshots |
-| 5 | Sun shadows blurry or costly across 1.5 km | Medium | Tune shadow distance; disable tree shadows; fake depth via wall tints |
-| 6 | 5–7k trees dominate the triangle count | Medium | Low-poly trees merged into one mesh; `MeshInstancesComponent` on iOS 26 if needed |
-| 7 | `LowLevelMesh` quirks with Swift 6 main-actor rules | Low–medium | Geometry stays pure Swift; small adapter; `MeshDescriptor` fallback |
-| 8 | Simulator performance isn't real | Certain | Frame-rate numbers only from a real iPhone (needs signing, §9) |
-| 9 | Flat-terrain assumption: ground elevation varies by tens of meters around the lake | Low for M1 | Ground-snapped API now; DEM terrain later |
-| 10 | Gestures conflict with host-app UI (sheets, scroll views) | Medium, later | `gesturesEnabled` flag; document patterns |
-| 11 | Overture height coverage for Denver unknown | Unknown | Measure before committing to it; lidar is the fallback |
-| 12 | Area choice (A vs. B) | Decision | Recommend B (§0) |
+| Character | Lake, park, houses | Mid/high-rise core | Steep hill (~30 m → 133 m), dense row houses |
+| Raw OSM JSON | 4.4 MB | **13.5 MB** | **6.3 MB** |
+| Buildings | 1,399 | 660 + **3,346 `building:part`s** | 4,671 |
+| with `height` / levels | 0% / 9% | 47% / 80% | **90%** / 0% |
+| `roof:shape` | 0 | 50 (dome, round, pyramidal…) | 0 |
+| Dominant type | house | commercial | **`yes` (95%)** |
+| Trees / lamps / benches | 5,400 / 55 / 56 | 3,406 / 1,011 / 116 | 29 / 0 / 15 |
+| Mapped sidewalks | 212 ways | 600 ways, 57.8 km | 147 ways |
 
-### Time estimates (focused working time, mostly my implementation plus your review)
+**What they will test**
+- **Downtown:** needs **`building:part` rendering** (draw parts instead of the outline when a building has parts; not yet implemented).
+- **Bernal:** tests heights from tags with no type information, and tree scatter when OSM has almost no trees.
+- **Bernal terrain:** Bernal is only a true hilly test **after terrain**. Before that it renders flat, which still tests the generation rules.
+- **Data freshness:** the Bernal fetch came from a mirror with data from 2026-05-06. Re-fetch from the main server when the test runs.
 
-| Part | Estimate |
+### 10.2 Terrain (later milestone)
+
+**Elevation sources**
+
+| Region | Source | Resolution | License |
+|---|---|---|---|
+| US | **USGS 3DEP**, 1/3 arc-second DEM | ~10 m | Public domain |
+| US | USGS 3DEP lidar-derived DEMs | 1 m | Public domain |
+| Global | **Copernicus DEM GLO-30** | 30 m | Free, attribution required |
+| Global | NASADEM / SRTM | 30 m | Public domain |
+| Global | AWS Terrain Tiles (Terrarium) | Mixed | Open, attribution required |
+
+**Plan:** bake per-chunk height grids (e.g., 2 m spacing) with `worldbake`, using 3DEP in the US and Copernicus elsewhere.
+
+**Flat-world assumptions to avoid now (so terrain isn't a dead end)**
+
+| Assumption | Fix |
 |---|---|
-| Package and XcodeGen setup, WorldLab skeleton, scripts | 0.5 day |
-| `worldbake` fetch + commit extract; parser, ring assembly, classification | 1 day |
-| Coordinates, height rules, clipping + tests | 0.5–1 day |
-| Earcut port + triangulation tests and fuzzing | 1 day |
-| Extrusion, road ribbons, ground layers, trees + tests | 1.5 days |
-| RealityKit adapter (`LowLevelMesh`), materials, batching, lighting | 1 day |
-| Camera rig, gestures, attribution, capsule, place/move API, environment stubs | 1.5 days |
-| Snapshot script, device performance pass, tuning, integration-contract doc | 1 day |
-| **Total** | **≈ 8–9 working days** (expect about 1.5× if lighting or shadows need extra tuning) |
+| Ground at y = 0 | All placement goes through `World.groundHeight(at:)` (returns 0 in M1). |
+| Ground layers stacked at fixed y offsets | Layers drape on terrain: per-vertex height + offset along the normal, plus `ModelSortGroup` order. Never a fixed y. |
+| Ground as one flat triangulated polygon | Ground polygons must be subdivided to a grid (≤ 4 m) so they can bend. WorldGen triangulates ground on a grid-clipped basis from the start. |
+| Buildings at one base height | Base = minimum terrain height under the footprint, walls extend down ~1 m (skirt). |
+| Road ribbons flat | Ribbons get vertex heights sampled along the centerline; curbs follow. |
+| Camera, sphere casts, routes and fog in flat terms | Use real collision against terrain; fog on distance, not on y alone. |
+| Water | Stays flat at its own level. Lakes need the shoreline height, taken from the DEM. |
+
+### 10.3 Loading any location (later milestone)
+
+**Options**
+
+| Option | How | Monthly cost at small scale | Verdict |
+|---|---|---|---|
+| **A. Own tiles** | Monthly planet (or US) build with **Planetiler** using a custom profile that keeps our layers (trees, benches, lamps, sidewalks, building parts; the standard OpenMapTiles schema drops street furniture). Output: one **PMTiles** archive (~70–120 GB planet, ~10–15 GB US) on **Cloudflare R2** + CDN. The app range-requests z14 tiles (~1.9 km at 40°N). | Storage ~$0.30–2; R2 has no egress fees; requests ~$0.36 per million; monthly rebuild on a rented 64–128 GB machine for a few hours ~$5–20. **≈ $10–30/month.** | **Recommended** |
+| B. Self-hosted Overpass | Our own Overpass server, queried live | ~$100–250/month (server with 32 GB RAM, ~500 GB SSD); heavy queries, poor scaling | No |
+| C. Commercial vector tiles (Mapbox, MapTiler, Stadia) | Their tiles | Free tiers, then ~$25–100+/month. Their schemas drop benches, lamps, trees and sidewalk detail, and their terms restrict caching and storage. | No |
+| D. Overture Maps (GeoParquet on S3) | Tile ourselves like A, mixing in Overture building heights | Same as A | Possible input to A |
+
+Public Overpass servers stay a developer tool only (C.6).
+
+**Built into the M1 data format now (already in code)**
+1. Manifest with **multiple bounded sources** and a format version.
+2. **Merge and de-duplicate by OSM ID** across sources.
+3. Features keyed and seeded by `OSMRef`, never by position or tile, so a house looks the same whichever tile it came from.
+4. **Building ownership by centroid:** each building belongs to exactly one tile.
+5. A local frame per session, separate from the data. Streaming will re-center the origin (floating origin) as the player walks far, which keeps Float precision.
+6. Source-agnostic feature model: the loader can read `osm-tile-v1` alongside Overpass JSON.
+
+**Still to design (M2):** tile addressing (slippy z/x/y), a chunk cache with eviction, and background loading.
 
 ---
 
-## 9. What you need to do by hand
+## 11. Risks (ranked)
 
-### A. Decisions (just reply in chat)
-1. **Area:** B (1.6 × 1.2 km, whole lake; recommended) or A (1 × 1 km)?
-2. **Bundle ID prefix** for WorldLab, in reverse-domain form, e.g. `com.yourcompany`. I won't guess one. It becomes `<prefix>.worldlab`.
-3. **Minimum iOS:** OK with iOS 18.0?
-4. **OK to download XcodeGen's source from GitHub** (MIT license, about 5 MB, build-time only) when step 2 starts?
-
-### B. Nothing needed for the simulator
-Screenshots and tests run in the iOS Simulator with no Apple account.
-
-### C. To run WorldLab on your own iPhone (needed for real performance numbers)
-
-Because the Xcode project is generated, **don't set signing inside Xcode.** Give me your Team ID and I'll put it in `project.yml`.
-
-**1. Find your Team ID**
-1. Open **Xcode**.
-2. In the menu bar click **Xcode → Settings…** (or press ⌘,).
-3. Click the **Accounts** tab.
-4. If no Apple ID is listed, click **+** at bottom left → **Apple ID** → **Continue**, and sign in yourself.
-5. Select your Apple ID in the left list. On the right, under **Team**, you'll see your team name. A free "Personal Team" works for running on your own phone.
-6. To get the Team ID: open **developer.apple.com/account** in Safari → sign in → scroll to **Membership details** → copy **Team ID** (10 characters). Paste it to me in chat.
-   - With only a free Personal Team, there's no Membership page. Tell me that and I'll set it up a different way.
-
-**2. Prepare the iPhone (one time)**
-1. Connect the iPhone to the Mac with a cable and unlock it. If it asks **"Trust This Computer?"**, tap **Trust** and enter your passcode.
-2. On the iPhone: **Settings → Privacy & Security** → scroll to the bottom → **Developer Mode** → turn **On** → tap **Restart**. After restarting, tap **Turn On** and enter your passcode.
-   - Developer Mode only appears after the phone has been connected to Xcode once. If it's missing, leave the phone connected, open Xcode, wait a minute, then look again.
-
-**3. First launch on the phone (after I've built it)**
-1. If the phone shows **"Untrusted Developer"**: on the iPhone go to **Settings → General → VPN & Device Management** → tap your Apple ID under **Developer App** → **Trust** → **Trust**.
-2. Free Personal Team apps expire after 7 days. I'll just reinstall when needed.
+| # | Risk | Mitigation |
+|---|---|---|
+| 1 | **Performance and heat on iPhone 13 at native resolution** (custom shaders + shadows + fog) | 10 ms GPU budget, early device measurement in M1b, fallbacks in 4.7 |
+| 2 | **Generated houses look wrong** (roofs on odd footprints, front-side choice) | Rectangle/L/T decomposition first, straight skeleton later, screenshot review per change |
+| 3 | `CustomMaterial` limits (one `float4` + one texture for uniforms; fog via emissive interacts with tone mapping) | Packed uniform texture; validate fog look in M1b |
+| 4 | Thin-blocker see-through flickers among 5,400 trees | Capsule cut with hysteresis; pull-in only for large blockers |
+| 5 | LOD popping | Dithered cross-fade + hysteresis |
+| 6 | iOS 18 vs 26 split (tilt-shift, instancing) | Same look; performance and tilt-shift are the only differences |
+| 7 | Data gaps (roofs, leaf types, lamps, curbs) | Rules + style data; sidewalk-inference test |
+| 8 | Overpass unreliability (failures again today) and stale mirrors | Committed data; check the timestamp at fetch; own tiles for apps |
+| 9 | `building:part` handling for dense areas | Implement before the downtown test |
+| 10 | Mesh memory (48 chunks × 3 LODs) and build time | Build LODs lazily; L0 only near the camera |
+| 11 | Terrain retrofit | Flat-world assumptions avoided (10.2) |
 
 ---
 
-## Step 1 deliverables
-- Git repository initialized on `main` with `.gitignore`, `.gitattributes`, `README.md` and `CLAUDE.md` (working rules for future sessions).
-- This plan, `docs/plan-m1.md`.
-- No feature code, no Xcode project and no map data committed yet.
+## 12. Decisions needed
+Listed in the Prompt 2 report. In short:
+1. Tilt-shift approach (iOS 26-only vs `ARView`).
+2. Default deciduous/evergreen mix and whether per-area style data is allowed.
+3. Generalization areas.
+4. Horizon profile source.
+5. M1b scope.
+6. GitHub backup via the steps given.

@@ -1,0 +1,41 @@
+# XcodeGen spec for the WorldLab demo app. This file is the source of truth:
+# scripts/generate.sh regenerates WorldLab.xcodeproj (git-ignored). Never edit the .xcodeproj.
+name: WorldLab
+options:
+  bundleIdPrefix: com.lincolnlabs
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+packages:
+  WorldEngine:
+    path: ../..
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+targets:
+  WorldLab:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    dependencies:
+      - package: WorldEngine
+        product: WorldEngine
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lincolnlabs.worldlab
+        PRODUCT_NAME: WorldLab
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: WorldLab
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        CODE_SIGN_STYLE: Automatic
+        # Set when device testing starts (signing needs the Team ID).
+        DEVELOPMENT_TEAM: ""
+        ENABLE_PREVIEWS: YES
