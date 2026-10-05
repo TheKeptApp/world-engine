@@ -1,0 +1,38 @@
+{
+  "id": "front-range",
+  "name": "Colorado Front Range (Denver-area bungalows, Denver squares, Tudors, ranches)",
+  "trees": { "deciduousShare": 0.85 },
+  "houses": {
+    "roofMix": { "gabled": 0.45, "hipped": 0.5, "flat": 0.05 },
+    "roofPitchDegrees": [24, 42],
+    "overhangMeters": [0.35, 0.7],
+    "porchLikelihood": 0.7,
+    "chimneyLikelihood": 0.45,
+    "foundationMeters": [0.45, 0.8],
+    "windowSpacingMeters": [2.3, 3.0],
+    "sidingPalette": [
+      { "color": "#B5644C", "weight": 4 }, { "color": "#9A6A52", "weight": 3 },
+      { "color": "#C9A37E", "weight": 2 }, { "color": "#E8DDC6", "weight": 2 },
+      { "color": "#F0ECE3", "weight": 1 }, { "color": "#AEBB9E", "weight": 1 },
+      { "color": "#93A6B8", "weight": 1 }, { "color": "#D8C091", "weight": 1 }
+    ],
+    "trimPalette": [
+      { "color": "#F4F0E6", "weight": 4 }, { "color": "#E6DCC4", "weight": 2 },
+      { "color": "#3F5A47", "weight": 1 }, { "color": "#3C3F45", "weight": 1 }
+    ],
+    "roofPalette": [
+      { "color": "#4F5055", "weight": 3 }, { "color": "#6B5648", "weight": 2 },
+      { "color": "#5F6872", "weight": 2 }, { "color": "#7C4C3D", "weight": 1 }
+    ],
+    "doorPalette": [
+      { "color": "#8C332E", "weight": 2 }, { "color": "#2C4665", "weight": 2 },
+      { "color": "#35583F", "weight": 2 }, { "color": "#86603D", "weight": 2 }
+    ]
+  },
+  "garages": {
+    "doorFacing": "alleyThenStreet",
+    "doubleDoorMinWidthMeters": 6.0,
+    "roofMix": { "gabled": 0.55, "hipped": 0.1, "flat": 0.35 },
+    "wallHeightMeters": [2.5, 2.9]
+  }
+}

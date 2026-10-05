@@ -6,7 +6,7 @@ street-level third-person camera and an aerial diorama view.
 
 It is app-agnostic. Host apps add their own characters as plain RealityKit entities.
 
-- **Status:** foundation built; rendering next. See [docs/plan-m1.md](docs/plan-m1.md) and
+- **Status:** first visual milestone (street of houses + lake path, street camera) built; iOS 26.0 minimum. See [docs/plan-m1.md](docs/plan-m1.md) and
   [docs/VISUAL_DIRECTION.md](docs/VISUAL_DIRECTION.md).
 - **Demo app:** WorldLab (`Apps/WorldLab`, generated with XcodeGen).
 
@@ -17,7 +17,8 @@ It is app-agnostic. Host apps add their own characters as plain RealityKit entit
 | `Sources/WorldGeo` | Coordinates (exact WGS84 ↔ local meters), polygons, clipping, deterministic random |
 | `Sources/WorldMap` | Raw OSM → typed features (buildings, roads, paths, sidewalks, areas, trees, benches, lamps) |
 | `Sources/WorldMesh` | Earcut triangulation, footprint extrusion, road ribbons |
-| `Sources/WorldEngine` | RealityKit/SwiftUI engine (public API) |
+| `Sources/WorldGen` | Street-level generation (houses, roofs, sidewalks, curbs, lamps, trees, clutter) + regional style profiles (data) |
+| `Sources/WorldEngine` | RealityKit/SwiftUI engine (public API), Metal shaders |
 | `Sources/worldbake` | Data tool: `init-area`, `fetch`, `stats`, `datamap`, `ring-stats` |
 | `Data/areas/` | Committed area extracts (ODbL) |
 | `Apps/WorldLab` | Demo app (`project.yml` is the source of truth) |
@@ -27,7 +28,9 @@ It is app-agnostic. Host apps add their own characters as plain RealityKit entit
 ```bash
 scripts/test.sh                      # unit tests
 scripts/generate.sh                  # build pinned XcodeGen, generate WorldLab.xcodeproj
-scripts/snapshots.sh worldlab-shell  # build, run in simulator, save screenshot
+scripts/snapshots.sh out.png -preset street-mid   # build, run in simulator, save screenshot
+scripts/device.sh build              # Release build + install on the connected iPhone
+scripts/walk_test.sh baseline        # 10-minute device walk: fps, memory, heat + GPU samples
 swift run worldbake stats Data/areas/sloans-lake
 ```
 

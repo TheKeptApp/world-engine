@@ -9,6 +9,8 @@
 - Current plan: `docs/plan-m1.md`.
 - Binding visual requirements: `docs/VISUAL_DIRECTION.md`. Nothing place-specific in engine or generator code; areas are data.
 - All generated detail is seeded via `OSMRef.random(salt)` / `StableRandom`. Never `Hasher`, `random()` or `SystemRandomNumberGenerator`.
-- Minimum iOS 18.0. Don't raise it. Report iOS 26-only tradeoffs instead.
+- Minimum iOS 26.0 (approved in Prompt 3 for GPU instancing and RealityView post-processing). Report anything that works worse on 26 than on 18.
 - Report before any design decision not covered by the plan goes into code.
-- Commands: `scripts/test.sh`, `scripts/generate.sh`, `scripts/snapshots.sh <name>`, `swift run worldbake …`.
+- Regional looks live in data (`Sources/WorldGen/Profiles/*.json`, selected by location via `regions.json`). Real OSM tags always override profiles.
+- Commands: `scripts/test.sh`, `scripts/generate.sh`, `scripts/snapshots.sh <out.png> -preset NAME`, `scripts/device.sh build`, `scripts/walk_test.sh LABEL`, `swift run worldbake …`.
+- Signing: the team ID lives in `.local/team_id` (git-ignored), never in `project.yml`.

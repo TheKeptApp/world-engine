@@ -1,0 +1,33 @@
+{
+  "id": "default",
+  "name": "Generic temperate (default)",
+  "trees": { "deciduousShare": 0.65 },
+  "houses": {
+    "roofMix": { "gabled": 0.6, "hipped": 0.35, "flat": 0.05 },
+    "roofPitchDegrees": [22, 36],
+    "overhangMeters": [0.3, 0.55],
+    "porchLikelihood": 0.45,
+    "chimneyLikelihood": 0.25,
+    "foundationMeters": [0.3, 0.6],
+    "windowSpacingMeters": [2.4, 3.2],
+    "sidingPalette": [
+      { "color": "#E9E1D2", "weight": 3 }, { "color": "#D7DDE2", "weight": 2 },
+      { "color": "#E6D3A8", "weight": 2 }, { "color": "#C9D6C0", "weight": 2 },
+      { "color": "#E3C9BE", "weight": 1 }, { "color": "#BFCAD6", "weight": 1 }
+    ],
+    "trimPalette": [ { "color": "#F7F5EF", "weight": 4 }, { "color": "#5B6670", "weight": 1 } ],
+    "roofPalette": [
+      { "color": "#5C5F66", "weight": 3 }, { "color": "#7A6A5C", "weight": 2 }, { "color": "#8E5E4E", "weight": 1 }
+    ],
+    "doorPalette": [
+      { "color": "#8E3B36", "weight": 2 }, { "color": "#2F4A6B", "weight": 2 },
+      { "color": "#3E5E46", "weight": 1 }, { "color": "#7A5A3C", "weight": 1 }
+    ]
+  },
+  "garages": {
+    "doorFacing": "alleyThenStreet",
+    "doubleDoorMinWidthMeters": 6.0,
+    "roofMix": { "gabled": 0.7, "hipped": 0.1, "flat": 0.2 },
+    "wallHeightMeters": [2.5, 2.9]
+  }
+}
