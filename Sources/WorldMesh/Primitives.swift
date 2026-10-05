@@ -89,6 +89,9 @@ public enum Ribbon {
 
         // Per vertex: left/right edge points where the incoming segment ends and the outgoing begins.
         var inL = [LocalPoint](repeating: .zero, count: n), inR = inL, outL = inL, outR = inL
+        // Distance along the centerline at each vertex (for path-aligned patterns like joints).
+        var along = [Double](repeating: 0, count: n)
+        for i in 1..<n { along[i] = along[i - 1] + simd_distance(pts[i - 1], pts[i]) }
         for i in 0..<n {
             let p = pts[i]
             if i == 0 || i == n - 1 {
@@ -114,30 +117,41 @@ public enum Ribbon {
                 outL[i] = p + n1 * h; outR[i] = p - n1 * h
                 // Fill the gap on the outer side of the turn.
                 let d0 = pts[i] - pts[i - 1], d1 = pts[i + 1] - pts[i]
+                let s = Float(along[i])
                 if RingMath.cross(d0, d1) > 0 {
-                    addUpTriangle(p, inR[i], outR[i], y: y, into: &mesh)
+                    addUpTriangle(p, inR[i], outR[i], y: y, along: (s, s, s), across: (0, -Float(h), -Float(h)), into: &mesh)
                 } else {
-                    addUpTriangle(p, outL[i], inL[i], y: y, into: &mesh)
+                    addUpTriangle(p, outL[i], inL[i], y: y, along: (s, s, s), across: (0, Float(h), Float(h)), into: &mesh)
                 }
             }
         }
+        let hh = Float(h)
         for k in 0..<(n - 1) {
             let l0 = outL[k], r0 = outR[k], l1 = inL[k + 1], r1 = inR[k + 1]
-            addUpTriangle(r0, r1, l1, y: y, into: &mesh)
-            addUpTriangle(r0, l1, l0, y: y, into: &mesh)
+            let s0 = Float(along[k]), s1 = Float(along[k + 1])
+            addUpTriangle(r0, r1, l1, y: y, along: (s0, s1, s1), across: (-hh, -hh, hh), into: &mesh)
+            addUpTriangle(r0, l1, l0, y: y, along: (s0, s1, s0), across: (-hh, hh, hh), into: &mesh)
         }
         return mesh
     }
 
     /// Adds a triangle wound counter-clockwise from above (so it faces up), whatever the input
-    /// order. Degenerate triangles are dropped.
-    static func addUpTriangle(_ a: LocalPoint, _ b: LocalPoint, _ c: LocalPoint, y: Double, into mesh: inout MeshBuffers) {
+    /// order. Degenerate triangles are dropped. `along`/`across` go to the extra channel (z, w).
+    static func addUpTriangle(_ a: LocalPoint, _ b: LocalPoint, _ c: LocalPoint, y: Double,
+                              along: (Float, Float, Float) = (0, 0, 0), across: (Float, Float, Float) = (0, 0, 0),
+                              into mesh: inout MeshBuffers) {
         let cr = RingMath.cross(b - a, c - a)
         guard abs(cr) > 1e-9 else { return }
-        let (p, q) = cr > 0 ? (b, c) : (c, b)
-        let i = mesh.addVertex(scene(a, y), normal: sceneUp)
-        mesh.addVertex(scene(p, y), normal: sceneUp)
-        mesh.addVertex(scene(q, y), normal: sceneUp)
+        let ao = mesh.extra.x, seed = mesh.extra.y
+        let verts: [(LocalPoint, Float, Float)] = cr > 0
+            ? [(a, along.0, across.0), (b, along.1, across.1), (c, along.2, across.2)]
+            : [(a, along.0, across.0), (c, along.2, across.2), (b, along.1, across.1)]
+        let i = UInt32(mesh.positions.count)
+        for (p, s, t) in verts {
+            mesh.extra = SIMD4(ao, seed, s, t)
+            mesh.addVertex(scene(p, y), normal: sceneUp)
+        }
+        mesh.extra = SIMD4(ao, seed, 0, 0)
         mesh.addTriangle(i, i + 1, i + 2)
     }
 }

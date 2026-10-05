@@ -47,9 +47,10 @@ struct ProfileTests {
         #expect(regions.profileID(at: GeoCoordinate(latitude: 40.7128, longitude: -74.0060)) == "default")
         let fr = try StyleLibrary.profile(id: "front-range")
         let def = try StyleLibrary.profile(id: "default")
-        #expect(fr.trees.deciduousShare == 0.85)
+        #expect(fr.trees.deciduousShare == 0.90)
         #expect(def.id == "default")
-        #expect(try StyleLibrary.baseColors()["lawn"] != nil)
+        #expect(try StyleLibrary.baseColors()["windowDay"] != nil)
+        #expect(try StyleLibrary.seasonalPalette().surfaces["lawn"]?.count == 4)
     }
 
     @Test func paletteDeduplicatesColors() throws {
@@ -176,8 +177,9 @@ struct BuildingGenerationTests {
         var palette = Palette(base: try StyleLibrary.baseColors())
         let b = building(41, rect(-5, 0, 5, 12), tags: ["building:levels": "2"])
         let g = try Self.generator().generate(b, palette: &palette, detail: .full)
-        #expect(g.eaveHeight > 2 * 2.9 && g.eaveHeight < 2 * 2.9 + 0.9)
-        #expect(g.topHeight > g.eaveHeight)
+        // Two floors of the chosen house type (2.6–3.3 m each) plus a foundation up to 0.9 m.
+        #expect(g.eaveHeight > 2 * 2.6 && g.eaveHeight < 2 * 3.3 + 0.9)
+        #expect(g.roofShape == .flat || g.topHeight > g.eaveHeight)
     }
 
     static let oddFootprints: [(String, Ring)] = {
@@ -248,12 +250,26 @@ struct PropTests {
     @Test(arguments: PropKind.allCases)
     func propMeshesAreWellFormed(_ kind: PropKind) throws {
         let palette = Palette(base: try StyleLibrary.baseColors())
-        for v in 0..<PropLibrary.variants[kind]! {
-            let m = PropLibrary.mesh(kind, variant: v, palette: palette)
+        for v in 0..<PropLibrary.variants[kind]! { for lod in 0..<PropLibrary.lodCount(kind) {
+            let m = PropLibrary.mesh(kind, variant: v, lod: lod, palette: palette)
             #expect(!m.isEmpty)
             #expect(m.paints.count == m.positions.count)
-            if kind != .tuft { #expect(windingConsistent(m), "\(kind) \(v)") }
+            if kind != .tuft { #expect(windingConsistent(m), "\(kind) \(v) \(lod)") }
+        } }
+    }
+}
+
+@Suite("Prop budgets")
+struct PropBudgetTests {
+    @Test func printTriangleCounts() throws {
+        let palette = Palette(seasonal: try StyleLibrary.seasonalPalette(), season: 2, base: try StyleLibrary.baseColors())
+        var line = "PROPTRIS"
+        for kind in PropKind.allCases {
+            for v in 0..<(PropLibrary.variants[kind] ?? 1) { for lod in 0..<PropLibrary.lodCount(kind) {
+                line += " \(kind.rawValue)/\(v)/\(lod)=\(PropLibrary.mesh(kind, variant: v, lod: lod, palette: palette).triangleCount)"
+            } }
         }
+        print(line)
     }
 }
 
@@ -270,15 +286,80 @@ struct RealSceneTests {
         let profile = try StyleLibrary.profile(at: manifest.center)
         #expect(profile.id == "front-range")
         let start = Date()
-        let gen = SceneGenerator(features: features, profile: profile, baseColors: try StyleLibrary.baseColors(),
-                                 focus: Rect2D(min: LocalPoint(90, -260), max: LocalPoint(360, 340)))
-        let scene = gen.generate()
+        let scene = try Self.generator(features: features, profile: profile).generate()
         let seconds = Date().timeIntervalSince(start)
         let tris = scene.chunks.reduce(0) { $0 + $1.staticMesh.triangleCount + $1.waterMesh.triangleCount }
-        print("SCENE chunks=\(scene.chunks.count) staticTris=\(tris) props=\(scene.props.reduce(0) { $0 + $1.transforms.count }) seconds=\(seconds) stats=\(scene.stats)")
+        print("SCENE chunks=\(scene.chunks.count) staticTris=\(tris) instances=\(scene.instances.count) seconds=\(seconds) stats=\(scene.stats)")
         #expect(scene.chunks.count == 48)
         #expect(scene.buildings.count > 1300)
         #expect(scene.chunks.allSatisfy { windingConsistent($0.staticMesh) })
         #expect(scene.stats["generatedLamps"]! > 0)
+        // Every house gets a type from the profile's catalog.
+        let types = Set(profile.houseTypes.map(\.id))
+        #expect(scene.buildings.allSatisfy { $0.houseType == nil || types.contains($0.houseType!) })
+    }
+
+    static func generator(features: MapFeatures, profile: StyleProfile) throws -> SceneGenerator {
+        SceneGenerator(features: features, profile: profile, seasonal: try StyleLibrary.seasonalPalette(),
+                       baseColors: try StyleLibrary.baseColors(), season: 2,
+                       focus: Rect2D(min: LocalPoint(90, -260), max: LocalPoint(378, 340)))
+    }
+
+    /// Same inputs → byte-identical geometry and identical placements (one decision owner).
+    @Test(.enabled(if: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path)))
+    func generationIsDeterministic() throws {
+        let manifest = try AreaLoader.loadManifest(Self.areaDir)
+        let features = try AreaLoader.loadFeatures(Self.areaDir)
+        let profile = try StyleLibrary.profile(at: manifest.center)
+        let a = try Self.generator(features: features, profile: profile).generate()
+        let b = try Self.generator(features: features, profile: profile).generate()
+        #expect(a.instances == b.instances)
+        #expect(a.chunks.count == b.chunks.count)
+        for (x, y) in zip(a.chunks, b.chunks) {
+            #expect(x.staticMesh.positions == y.staticMesh.positions)
+            #expect(x.staticMesh.paints == y.staticMesh.paints)
+            #expect(x.staticMesh.extras == y.staticMesh.extras)
+            #expect(x.staticFeatures == y.staticFeatures)
+        }
+        #expect(a.palette.colors == b.palette.colors)
+    }
+}
+
+@Suite("Light and palette data")
+struct LightTests {
+    static let sloans = GeoCoordinate(latitude: 39.7494, longitude: -105.0445)
+
+    @Test func goldenAndNoonFixturesResolveToTheirKeys() throws {
+        let tables = try StyleLibrary.lighting()
+        let iso = ISO8601DateFormatter()
+        let golden = LightingModel.state(at: iso.date(from: "2026-10-15T23:44:01Z")!, location: Self.sloans, tables: tables)
+        #expect(abs(golden.sunElevation - 6.0011) < 0.05)
+        #expect(abs(golden.sunAzimuth - 253.2843) < 0.05)
+        #expect(golden.keyA == "golden" && golden.blend < 0.01)
+        #expect(abs(golden.exposure - 1.45) < 0.01)
+        let noon = LightingModel.state(at: iso.date(from: "2026-07-15T19:07:00Z")!, location: Self.sloans, tables: tables)
+        #expect(abs(noon.sunElevation - 71.6745) < 0.05)
+        #expect(noon.keyB == "noon" && noon.blend > 0.99)
+        #expect(abs(noon.sunIntensity - 1) < 0.01)
+        // Night: no direct sun, windows lit.
+        let night = LightingModel.state(at: iso.date(from: "2026-10-16T04:00:00Z")!, location: Self.sloans, tables: tables)
+        #expect(night.sunIntensity == 0 && night.litWindows > 0.2)
+    }
+
+    @Test func fogPolicyLeavesStreetValuesAndOpensAerial() {
+        let street = FogPolicy.distances(start: 350, end: 1100, cameraHeight: 1.25)
+        #expect(street.start == 350 && street.end == 1100)
+        let aerial = FogPolicy.distances(start: 350, end: 1100, cameraHeight: 1474)
+        #expect(aerial.start > 900 && aerial.end > 2500)
+    }
+
+    @Test func seasonalSlotsComeFirstInFixedOrder() throws {
+        let seasonal = try StyleLibrary.seasonalPalette()
+        let base = try StyleLibrary.baseColors()
+        let summer = Palette(seasonal: seasonal, season: 1, base: base)
+        let autumn = Palette(seasonal: seasonal, season: 2, base: base)
+        // Same slot numbers in every season, different colors: renderers can swap one row.
+        for name in SeasonalPalette.order { #expect(summer.named(name) == autumn.named(name)) }
+        #expect(summer.colors[Int(summer.named("deciduous1"))] != autumn.colors[Int(autumn.named("deciduous1"))])
     }
 }

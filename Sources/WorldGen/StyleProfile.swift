@@ -4,49 +4,145 @@ import WorldGeo
 /// A regional style profile: the look of generated detail where OSM is silent.
 /// Pure data (JSON in `Profiles/`). Real OSM tags always win over profile choices.
 public struct StyleProfile: Codable, Sendable, Equatable {
-    public struct WeightedColor: Codable, Sendable, Equatable {
-        public var color: String
-        public var weight: Double
-    }
-
     public struct RoofMix: Codable, Sendable, Equatable {
         public var gabled: Double
         public var hipped: Double
         public var flat: Double
     }
 
+    public struct Seasons: Codable, Sendable, Equatable {
+        public var hemisphere: String
+        public var spring: [Int]
+        public var summer: [Int]
+        public var autumn: [Int]
+        public var winter: [Int]
+
+        /// Season index (0 spring, 1 summer, 2 autumn, 3 winter) for a month 1–12.
+        public func season(month: Int) -> Int {
+            if spring.contains(month) { return 0 }
+            if summer.contains(month) { return 1 }
+            if autumn.contains(month) { return 2 }
+            if winter.contains(month) { return 3 }
+            return 1 // unknown → neutral summer (v2 §3.2)
+        }
+    }
+
     public struct Trees: Codable, Sendable, Equatable {
         /// Share of trees that are deciduous when OSM has no `leaf_type`; the rest are conifers.
         public var deciduousShare: Double
+        /// Crown archetype weights: broad rounded, upright oval, open spreading.
+        public var crownWeights: [String: Double]
+        public var heightMeters: [Double]
+        public var youngShare: Double
+        public var youngHeightMeters: [Double]
     }
 
-    public struct Houses: Codable, Sendable, Equatable {
-        public var roofMix: RoofMix
-        public var roofPitchDegrees: [Double]
-        public var overhangMeters: [Double]
-        public var porchLikelihood: Double
-        public var chimneyLikelihood: Double
-        public var foundationMeters: [Double]
-        public var windowSpacingMeters: [Double]
-        public var sidingPalette: [WeightedColor]
-        public var trimPalette: [WeightedColor]
-        public var roofPalette: [WeightedColor]
-        public var doorPalette: [WeightedColor]
+    public struct Porch: Codable, Sendable, Equatable {
+        public var likelihood: Double
+        public var depth: [Double]
+        /// Share of the front facade the porch spans.
+        public var frontage: [Double]
+        /// covered | stoop | entry | canopy
+        public var style: String
     }
 
-    public struct Garages: Codable, Sendable, Equatable {
-        /// "alleyThenStreet": garage doors face the nearest alley/service road, else the street.
-        public var doorFacing: String
-        public var doubleDoorMinWidthMeters: Double
-        public var roofMix: RoofMix
-        public var wallHeightMeters: [Double]
+    public struct Windows: Codable, Sendable, Equatable {
+        /// One window bay per this many meters of facade.
+        public var bay: [Double]
+        public var width: [Double]
+        public var height: [Double]
+        /// Width of one broad living-room window on the front (ranch), if any.
+        public var broad: [Double]?
+    }
+
+    public struct HouseType: Codable, Sendable, Equatable {
+        public var id: String
+        /// Eligible floor counts (first is the default when OSM has no levels).
+        public var floors: [Int]
+        /// Wall height per floor.
+        public var perFloor: [Double]
+        public var minAspect: Double?
+        public var maxAspect: Double?
+        public var minRectangularity: Double?
+        /// Requires the long side of the footprint to face the street.
+        public var broadFrontage: Bool?
+        public var roof: RoofMix
+        public var pitch: [Double]
+        public var overhang: [Double]
+        public var parapet: [Double]?
+        public var porch: Porch
+        public var windows: Windows
+        /// Door position(s) as a share of the front facade.
+        public var door: [Double]
+        /// Coordinated tuples: [wall, trim, door, roof].
+        public var colors: [[String]]
+    }
+
+    public struct Thresholds: Codable, Sendable, Equatable {
+        public var smallArea: Double
+        public var largeArea: Double
+        public var hugeArea: Double
+        public var broadAspect: Double
+        public var squareAspect: Double
+        public var squareRectangularity: Double
+        public var narrowAspect: Double
+    }
+
+    public struct Outbuilding: Codable, Sendable, Equatable {
+        public var wallHeight: [Double]
+        public var roof: RoofMix?
+        public var pitch: [Double]
+        public var overhang: [Double]
+        public var doubleDoorMinWidthMeters: Double?
+        public var colors: [[String]]
     }
 
     public var id: String
+    public var version: Int
     public var name: String
+    public var seasons: Seasons
     public var trees: Trees
-    public var houses: Houses
-    public var garages: Garages
+    public var houseTypes: [HouseType]
+    /// Situation key → type weights (v2 §4.4). Keys: oneFloorBroad, oneFloor, twoFloorSquare,
+    /// twoFloorNarrow, twoFloor, threeFloor, unknown, small, large, semidetached.
+    public var typeRules: [String: [String: Double]]
+    public var typeThresholds: Thresholds
+    public var garage: Outbuilding
+    public var shed: Outbuilding
+    public var chimneyLikelihood: Double
+    public var foundationMeters: [Double]
+
+    enum CodingKeys: String, CodingKey {
+        case id, version, name, seasons, trees, houseTypes, typeRules, typeThresholds, garage, shed, chimneyLikelihood, foundationMeters
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        version = try c.decode(Int.self, forKey: .version)
+        name = try c.decode(String.self, forKey: .name)
+        seasons = try c.decode(Seasons.self, forKey: .seasons)
+        trees = try c.decode(Trees.self, forKey: .trees)
+        houseTypes = try c.decode([HouseType].self, forKey: .houseTypes)
+        // typeRules may contain a "comment" string; keep only weight maps.
+        let raw = try c.decode([String: AnyWeights].self, forKey: .typeRules)
+        typeRules = raw.compactMapValues(\.weights)
+        typeThresholds = try c.decode(Thresholds.self, forKey: .typeThresholds)
+        garage = try c.decode(Outbuilding.self, forKey: .garage)
+        shed = try c.decode(Outbuilding.self, forKey: .shed)
+        chimneyLikelihood = try c.decode(Double.self, forKey: .chimneyLikelihood)
+        foundationMeters = try c.decode([Double].self, forKey: .foundationMeters)
+    }
+
+    public func houseType(_ id: String) -> HouseType? { houseTypes.first { $0.id == id } }
+}
+
+/// Decodes either a weight map or a comment string.
+private struct AnyWeights: Decodable {
+    var weights: [String: Double]?
+    init(from decoder: Decoder) throws {
+        weights = try? decoder.singleValueContainer().decode([String: Double].self)
+    }
 }
 
 /// Regions (in data) that select a profile by location.
@@ -66,11 +162,54 @@ public struct RegionCatalog: Codable, Sendable {
     }
 }
 
+/// v2 §3.2: seasonal surface colors.
+public struct SeasonalPalette: Codable, Sendable {
+    public var seasons: [String]
+    /// Surface key → four hex colors (spring, summer, autumn, winter).
+    public var surfaces: [String: [String]]
+
+    /// Surface keys in a fixed order. Variant families stay contiguous so shaders can offset
+    /// from the first slot (deciduous1…4, conifer1…2).
+    public static let order = [
+        "ground", "lawn", "tufts", "deciduous1", "deciduous2", "deciduous3", "deciduous4",
+        "conifer1", "conifer2", "bushes", "road", "sidewalk", "curb", "water", "sand", "bark", "snow",
+    ]
+}
+
+/// v2 §3.3 time-of-day keys and §3.4 weather states.
+public struct LightingTables: Codable, Sendable {
+    public struct Key: Codable, Sendable, Equatable {
+        public var sun: String
+        public var sunIntensity: Double
+        public var skyTop: String
+        public var skyHorizon: String
+        public var ambientSky: String
+        public var ambientGround: String
+        public var fog: String
+        public var fogStart: Double
+        public var fogEnd: Double
+        public var shadowTint: String
+        public var litWindows: Double
+        /// Exposure multiplier applied to all scene light before tone mapping (v2 R9 "exposure
+        /// anchored before grade"; sunIntensity is not an exposure). Golden hour = 1.
+        public var exposure: Double?
+    }
+
+    public struct Fill: Codable, Sendable, Equatable {
+        public var sky: Double
+        public var ground: Double
+    }
+
+    public var keys: [String: Key]
+    public var anchors: [String: Double]
+    public var fill: Fill
+}
+
 /// Loads the bundled profile data.
 public enum StyleLibrary {
     public enum LoadError: Error { case missing(String) }
 
-    static func data(_ name: String) throws -> Data {
+    public static func data(_ name: String) throws -> Data {
         guard let url = Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Profiles") else {
             throw LoadError.missing(name)
         }
@@ -90,10 +229,18 @@ public enum StyleLibrary {
         try profile(id: regions().profileID(at: c))
     }
 
-    /// Named base colors shared by all regions.
+    /// Named season-independent colors shared by all regions.
     public static func baseColors() throws -> [String: String] {
         struct File: Codable { var colors: [String: String] }
         return try JSONDecoder().decode(File.self, from: data("base-palette")).colors
+    }
+
+    public static func seasonalPalette() throws -> SeasonalPalette {
+        try JSONDecoder().decode(SeasonalPalette.self, from: data("seasonal-palette"))
+    }
+
+    public static func lighting() throws -> LightingTables {
+        try JSONDecoder().decode(LightingTables.self, from: data("time-of-day"))
     }
 }
 

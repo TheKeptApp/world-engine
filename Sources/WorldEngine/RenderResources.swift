@@ -6,20 +6,33 @@ import WorldGen
 /// Scene-wide shader inputs written into the shared globals texture each frame.
 public struct ShaderGlobals: Sendable, Equatable {
     /// Linear RGB.
-    public var fogColor = SIMD3<Float>(0.9, 0.8, 0.7)
-    /// Exponential fog density per meter.
-    public var fogDensity: Float = 0.0018
-    /// Distance before fog starts (m).
-    public var fogStart: Float = 60
-    /// Character position relative to the camera (world axes); nil disables the cut-away.
-    public var characterView: SIMD3<Float>?
+    public var fogColor = SIMD3<Float>(0.8, 0.75, 0.7)
+    public var fogStart: Float = 350
+    public var fogEnd: Float = 1100
+    /// Character center relative to the camera (world axes); nil disables the cut-away.
+    public var characterRel: SIMD3<Float>?
     public var cutRadius: Float = 1.1
     public var wind: Float = 1
-    public var night: Float = 0
-    /// Shader debug view (1 = cut-away geometry as colors).
+    /// Share of windows lit (dusk/night) and their color (sRGB).
+    public var litFraction: Float = 0
+    public var litWindow = SIMD3<Float>(0.91, 0.75, 0.49)
+    /// Shader debug view (2 = cut-away decision, 3 = baked AO).
     public var debug: Float = 0
     /// Camera world position (fog distance and cut-away are measured from it).
     public var camera: SIMD3<Float> = .zero
+    /// R8 hemispheric fill (linear RGB × strength).
+    public var fillSky = SIMD3<Float>(0.15, 0.17, 0.2)
+    public var fillGround = SIMD3<Float>(0.05, 0.045, 0.04)
+    /// R8 contact: character ground point relative to the camera, footprint half extents
+    /// (along/across heading), heading (radians), opacity and edge softness (m).
+    public var contactRel: SIMD3<Float>?
+    public var contactHalf = SIMD2<Float>(0.3, 0.7)
+    public var contactHeading: Float = 0
+    public var contactOpacity: Float = 0.18
+    public var contactSoftness: Float = 0.12
+    /// Weather hooks (stubs in M1): wetness and snow coverage 0–1.
+    public var wetness: Float = 0
+    public var snow: Float = 0
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -35,13 +48,12 @@ final class RenderResources {
     private var staging: MTLBuffer
     private var paletteRow: [SIMD4<Float16>]
     private var lastGlobals: ShaderGlobals?
+    private var paletteDirty = true
 
     let staticMaterial: CustomMaterial
-    /// Same shader as `staticMaterial`, but drawn so the cut-away can remove pixels (lamps, benches).
+    /// Same shader family as `staticMaterial`, but cut-away capable (lamps, benches).
     let propMaterial: CustomMaterial
     let foliageMaterial: CustomMaterial
-    /// Foliage without cut-away support (opaque pipeline), for performance comparison.
-    let foliageOpaqueMaterial: CustomMaterial
     let waterMaterial: CustomMaterial
 
     init(palette: Palette) throws {
@@ -56,17 +68,13 @@ final class RenderResources {
             pixelFormat: .rgba16Float, width: Self.textureWidth, height: 2, textureUsage: [.shaderRead]))
         textureResource = try TextureResource(from: texture)
         staging = device.makeBuffer(length: Self.textureWidth * 2 * 8, options: .storageModeShared)!
+        paletteRow = []
 
-        paletteRow = (0..<Self.textureWidth).map { i in
-            let c = i < palette.colors.count ? palette.colors[i] : SIMD3<Float>(1, 0, 1)
-            return SIMD4(Float16(c.x), Float16(c.y), Float16(c.z), 1)
-        }
-
-        let lib = library, tex = textureResource
         // RealityKit ignores shader opacity on opaque custom materials, so materials that must be
         // cut away (thin blockers: trees, bushes, lamps, benches) use the transparent pipeline at
-        // full opacity with depth writes on and an alpha threshold. They look the same; the
-        // shader's cut-away can then discard pixels. Buildings stay opaque (the camera pushes in).
+        // full opacity with depth writes and an alpha threshold. Buildings stay opaque (the
+        // camera pushes in instead).
+        let lib = library, tex = textureResource
         func material(_ surface: String, geometry: String? = nil, cuttable: Bool) throws -> CustomMaterial {
             var m = try CustomMaterial(
                 surfaceShader: .init(named: surface, in: lib),
@@ -82,31 +90,50 @@ final class RenderResources {
             return m
         }
         staticMaterial = try material("worldStaticSurface", cuttable: false)
-        propMaterial = try material("worldStaticSurface", cuttable: true)
+        propMaterial = try material("worldPropSurface", cuttable: true)
         foliageMaterial = try material("worldFoliageSurface", geometry: "worldFoliageGeometry", cuttable: true)
-        foliageOpaqueMaterial = try material("worldFoliageSurface", geometry: "worldFoliageGeometry", cuttable: false)
         waterMaterial = try material("worldWaterSurface", cuttable: false)
+        setPalette(palette)
         update(globals: ShaderGlobals())
+    }
+
+    /// Replaces the palette row (season changes rewrite colors without touching meshes).
+    func setPalette(_ palette: Palette) {
+        paletteRow = (0..<Self.textureWidth).map { i in
+            let c = i < palette.colors.count ? palette.colors[i] : SIMD3<Float>(1, 0, 1)
+            return SIMD4(Float16(c.x), Float16(c.y), Float16(c.z), 1)
+        }
+        paletteDirty = true
+        lastGlobals = nil
     }
 
     /// Uploads the palette and globals (skipped when nothing changed).
     func update(globals g: ShaderGlobals) {
-        guard g != lastGlobals else { return }
+        guard g != lastGlobals || paletteDirty else { return }
         lastGlobals = g
+        paletteDirty = false
         let w = Self.textureWidth
         let p = staging.contents().bindMemory(to: SIMD4<Float16>.self, capacity: w * 2)
         for i in 0..<w { p[i] = paletteRow[i] }
         for i in 0..<w { p[w + i] = .zero }
-        p[w + 0] = SIMD4(Float16(g.fogColor.x), Float16(g.fogColor.y), Float16(g.fogColor.z), Float16(g.fogDensity))
-        p[w + 1] = SIMD4(Float16(g.fogStart), 0, Float16(g.cutRadius), g.characterView == nil ? 0 : 1)
-        let c = g.characterView ?? .zero
-        p[w + 2] = SIMD4(Float16(c.x), Float16(c.y), Float16(c.z), 0)
-        p[w + 3] = SIMD4(Float16(g.wind), Float16(g.night), Float16(g.debug), 0)
-        // Split so half floats keep millimeter precision across a few kilometers.
+        func h(_ v: Float) -> Float16 { Float16(v) }
+        p[w + 0] = SIMD4(h(g.fogColor.x), h(g.fogColor.y), h(g.fogColor.z), h(g.fogStart))
+        p[w + 1] = SIMD4(h(g.fogEnd), h(g.cutRadius), g.characterRel == nil ? 0 : 1, h(g.debug))
+        let c = g.characterRel ?? .zero
+        p[w + 2] = SIMD4(h(c.x), h(c.y), h(c.z), 0)
+        p[w + 3] = SIMD4(h(g.wind), h(g.litFraction), 0, 0)
+        // Camera split so half floats keep millimeter precision across a few kilometers.
         let coarse = g.camera.rounded(.toNearestOrEven)
         let fine = g.camera - coarse
-        p[w + 4] = SIMD4(Float16(coarse.x), Float16(coarse.y), Float16(coarse.z), 0)
-        p[w + 5] = SIMD4(Float16(fine.x), Float16(fine.y), Float16(fine.z), 0)
+        p[w + 4] = SIMD4(h(coarse.x), h(coarse.y), h(coarse.z), 0)
+        p[w + 5] = SIMD4(h(fine.x), h(fine.y), h(fine.z), 0)
+        p[w + 6] = SIMD4(h(g.fillSky.x), h(g.fillSky.y), h(g.fillSky.z), 0)
+        p[w + 7] = SIMD4(h(g.fillGround.x), h(g.fillGround.y), h(g.fillGround.z), 0)
+        p[w + 8] = SIMD4(h(g.litWindow.x), h(g.litWindow.y), h(g.litWindow.z), 0)
+        p[w + 9] = SIMD4(h(g.contactHalf.x), h(g.contactHalf.y), h(g.contactHeading), h(g.contactSoftness))
+        let cr = g.contactRel ?? .zero
+        p[w + 10] = SIMD4(h(cr.x), h(cr.y), h(cr.z), g.contactRel == nil ? 0 : h(g.contactOpacity))
+        p[w + 11] = SIMD4(h(g.wetness), h(g.snow), 0, 0)
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

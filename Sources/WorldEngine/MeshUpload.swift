@@ -3,11 +3,11 @@ import Metal
 import RealityKit
 import WorldMesh
 
-/// Copies `WorldMesh.MeshBuffers` into a RealityKit `LowLevelMesh`.
-/// Vertex layout (40 bytes): position float3, normal float3, paint float4 (uv2).
+/// Copies `MeshBuffers` into a RealityKit `LowLevelMesh`.
+/// Vertex layout (56 bytes): position float3, normal float3, paint float4 (uv2), extra float4 (uv3).
 @MainActor
 enum MeshUpload {
-    static let stride = 40
+    static let stride = 56
 
     /// One mesh with one part per buffer (parts use material indices 0, 1, ...).
     static func resource(_ parts: [WorldMesh.MeshBuffers]) throws -> MeshResource? {
@@ -21,6 +21,7 @@ enum MeshUpload {
                 .init(semantic: .position, format: .float3, offset: 0),
                 .init(semantic: .normal, format: .float3, offset: 12),
                 .init(semantic: .uv2, format: .float4, offset: 24),
+                .init(semantic: .uv3, format: .float4, offset: 40),
             ],
             vertexLayouts: [.init(bufferIndex: 0, bufferStride: stride)],
             indexCapacity: indexCount,
@@ -31,14 +32,15 @@ enum MeshUpload {
             var o = 0
             for m in parts {
                 for i in 0..<m.vertexCount {
-                    let p = m.positions[i], n = m.normals[i], c = m.paints[i]
+                    let p = m.positions[i], n = m.normals[i]
                     raw.storeBytes(of: p.x, toByteOffset: o, as: Float.self)
                     raw.storeBytes(of: p.y, toByteOffset: o + 4, as: Float.self)
                     raw.storeBytes(of: p.z, toByteOffset: o + 8, as: Float.self)
                     raw.storeBytes(of: n.x, toByteOffset: o + 12, as: Float.self)
                     raw.storeBytes(of: n.y, toByteOffset: o + 16, as: Float.self)
                     raw.storeBytes(of: n.z, toByteOffset: o + 20, as: Float.self)
-                    raw.storeBytes(of: c, toByteOffset: o + 24, as: SIMD4<Float>.self)
+                    raw.storeBytes(of: m.paints[i], toByteOffset: o + 24, as: SIMD4<Float>.self)
+                    raw.storeBytes(of: m.extras[i], toByteOffset: o + 40, as: SIMD4<Float>.self)
                     o += stride
                 }
             }

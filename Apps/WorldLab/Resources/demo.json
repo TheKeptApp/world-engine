@@ -1,13 +1,13 @@
 {
- "comment": "WorldLab demo data (not engine code): the focus box that gets full street detail, the stand-in's walking loop (stitched from OSM sidewalk/crossing/trail ways along Raleigh Street and Sloan's Lake Trail), and camera presets for screenshots.",
+ "comment": "WorldLab demo data (not engine code): the focus box that gets full street detail, the stand-in's walking loop (stitched from OSM sidewalk/crossing/trail ways along Raleigh Street and Sloan's Lake Trail), and camera presets for screenshots. Focus extends east to cover the v2 comparison fixture on West 23rd Avenue (39.7511195, \u2212105.0389).",
  "area": "sloans-lake",
  "focus": {
   "south": 39.747058,
   "west": -105.04345,
   "north": 39.752462,
-  "east": -105.040299
+  "east": -105.037966
  },
- "walkSpeed": 1.4,
+ "walkSpeed": 0.87,
  "route": [
   {
    "lat": 39.7487981,
@@ -189,5 +189,34 @@
    "lat": 39.7488441,
    "lon": -105.0422546
   }
- ]
+ ],
+ "fixtures": {
+  "comment": "v2 spec \u00a76.2 comparison presets (proposal data, copied here as WorldLab demo data).",
+  "streetAnchor": {
+   "lat": 39.7511195,
+   "lon": -105.0389
+  },
+  "streetCameraOffset": [
+   2.6,
+   1.25,
+   0.0
+  ],
+  "streetTargetOffset": [
+   0.0,
+   0.48,
+   0.0
+  ],
+  "aerialCenter": {
+   "lat": 39.7494,
+   "lon": -105.0445
+  },
+  "aerialCameraOffset": [
+   0.0,
+   1474.4736797201851,
+   1032.4375854318828
+  ],
+  "fovDegrees": 50,
+  "goldenUTC": "2026-10-15T23:44:01Z",
+  "noonUTC": "2026-07-15T19:07:00Z"
+ }
 }

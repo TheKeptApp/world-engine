@@ -33,6 +33,8 @@ public final class WorldCamera {
         case street(following: Entity)
         /// Orbit view looking at a ground point.
         case overview(center: SIMD3<Float>, distance: Float, pitchDegrees: Float, yawDegrees: Float, fieldOfViewDegrees: Float)
+        /// Exact camera position and look-at point (reproducible comparison presets).
+        case fixed(position: SIMD3<Float>, target: SIMD3<Float>, fieldOfViewDegrees: Float)
     }
 
     public var mode: Mode
@@ -63,6 +65,11 @@ public final class WorldCamera {
     /// Places `camera` for this frame. Returns the follow target (for the cut-away), if any.
     func update(camera: Entity, scene: RealityKit.Scene?, dt: Float) -> SIMD3<Float>? {
         switch mode {
+        case let .fixed(position, target, fov):
+            setFOV(camera, fov)
+            camera.look(at: target, from: position, relativeTo: nil)
+            lookTarget = target
+            return nil
         case let .overview(center, distance, pitch, yaw, fov):
             setFOV(camera, fov)
             let p = pitch * .pi / 180, y = yaw * .pi / 180
