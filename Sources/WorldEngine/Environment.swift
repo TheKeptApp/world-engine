@@ -93,11 +93,15 @@ extension World {
         light.intensity = L.sunIntensity * direct * L.exposure * Self.sunLux
         sunEntity.components.set(light)
         if !options.diagnostics.contains("noShadows"), L.sunIntensity * direct > 0.01 {
-            if !sunEntity.components.has(DirectionalLightComponent.Shadow.self) {
-                var shadow = DirectionalLightComponent.Shadow()
-                shadow.shadowProjection = .automatic(maximumDistance: shadowDistance)
+            // Low sun casts long shadows (at 6.5° a 10 m tree's shadow is 88 m long), so the range opens
+            // from 60 m to the bible's upper 80 m below 15° of sun (look-fix §2.3: 60–80 m coverage).
+            let range = elevation < 15 ? max(shadowDistance, 80) : shadowDistance
+            var shadow = sunEntity.components[DirectionalLightComponent.Shadow.self] ?? DirectionalLightComponent.Shadow()
+            if shadow.depthBias != 1.5 || appliedShadowRange != range {
+                shadow.shadowProjection = .automatic(maximumDistance: range)
                 shadow.depthBias = 1.5
                 sunEntity.components.set(shadow)
+                appliedShadowRange = range
             }
         } else {
             sunEntity.components.remove(DirectionalLightComponent.Shadow.self)

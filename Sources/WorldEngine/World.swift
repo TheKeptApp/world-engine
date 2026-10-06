@@ -488,6 +488,8 @@ public final class World {
     /// texels then cover 25% less ground, which also sharpens the jagged wall-base shadows.
     /// GPU attribution measures other ranges with `setShadowDistance(_:)`.
     var shadowDistance: Float = 60
+    /// The shadow range last given to the sun (`apply` widens it at low sun).
+    var appliedShadowRange: Float = 0
 
     /// Opaque materials for trees and bushes outside the cut-away zone (on by default; switched off
     /// only to measure what it saves, `World.Feature.opaqueDetail`).
