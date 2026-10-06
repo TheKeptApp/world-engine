@@ -305,6 +305,7 @@ public struct BuildingGenerator: Sendable {
                 recipe.crossGableWidth = rr?.crossGableWidth ?? recipe.crossGableWidth
                 recipe.crossGableCentered = rr?.crossGableCentered ?? false
                 recipe.crossGablePitchBoost = rr?.crossGablePitchBoost ?? 0
+                recipe.sideCrossGable = rr?.sideCrossGable ?? 0
             }
             var pr = b.ref.random("roof-plan")
             plan = RoofPlanner.plan(footprint: fp, shape: shape, front: frontNormal, recipe: recipe, eave: H, rng: &pr)

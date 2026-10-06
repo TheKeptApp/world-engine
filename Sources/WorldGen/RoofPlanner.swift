@@ -26,6 +26,8 @@ public struct RoofRecipe: Sendable, Equatable {
     public var crossGableCentered = false
     /// Extra pitch for the crossing gable (steeper accent), still kept below the main ridge.
     public var crossGablePitchBoost: Double = 0
+    /// Chance of one flush crossing gable on a side wall when the gable end faces the street.
+    public var sideCrossGable: Double = 0
 }
 
 /// The masses of one house roof.
@@ -220,14 +222,25 @@ enum RoofPlanner {
 
         // Flush crossing gable on a single-mass roof whose long side faces the street.
         var cross: Int?
-        if out.count == 1, clip == nil, recipe.mainForm == .gable || recipe.mainForm == .hip, frontSign != 0,
-           recipe.crossGable > 0, rng.chance(recipe.crossGable) {
+        // Street side when the long side faces the street; otherwise (gable end to the street) one
+        // side wall, toward the middle of the house.
+        var side = frontSign
+        var sideWall = false
+        if frontSign == 0, recipe.sideCrossGable > 0, out.count == 1, clip == nil, rng.chance(recipe.sideCrossGable) {
+            side = rng.chance(0.5) ? 1 : -1
+            sideWall = true
+        }
+        if out.count == 1, clip == nil, recipe.mainForm == .gable || recipe.mainForm == .hip, side != 0,
+           sideWall || (recipe.crossGable > 0 && rng.chance(recipe.crossGable)) {
+            let frontSign = side
             let m = out[0]
             let L = m.halfLength, W = m.halfWidth
             let w = min(rng.range(recipe.crossGableWidth) * 2 * L, 2 * L - 1.2)
             if w >= 2.6, W >= 2.4 {
                 var sc = 0.0
-                if !recipe.crossGableCentered {
+                if sideWall {
+                    sc = rng.range(-0.15, 0.15) * L
+                } else if !recipe.crossGableCentered {
                     let room = L - w / 2 - 0.3
                     let margin = rng.range(0.4, 1.0)
                     sc = max(0, room - margin) * (rng.chance(0.5) ? 1 : -1)
