@@ -3,8 +3,9 @@
 Input is any `worldengine.stars/1` file (unit vectors, equatorial J2000, epoch J2000), by default the
 engine's own Yale Bright Star Catalogue extract (`Sources/WorldEnvironment/Catalog/stars-bsc5-bright256.json`,
 public domain, see its STARS-NOTICE.md). That file stops at magnitude 3.4. A fuller extract (BSC5 to
-magnitude 6.5, about 9,100 stars) in the same schema is a follow-up: `scripts/data/build_star_catalog.py` keeps
-the brightest 256 and needs a count option and a rule for stars without B-V (docs/live-world/sky.md).
+magnitude 6.5, about 9,000 stars) in the same schema comes from `scripts/data/build_star_catalog.py OUT --count all
+--missing-bv null` (stars without B-V carry ci null and are drawn white); it is not built yet because the BSC5 source
+host (HEASARC) is denied by the cloud network policy. Pass it with `--catalog`.
 
 Per star: space motion to the date (when the catalogue gives it), annual aberration, precession and
 nutation, then horizon coordinates and refraction. Stellar parallax (< 1 arcsec) is ignored.

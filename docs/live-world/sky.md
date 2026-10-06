@@ -212,8 +212,12 @@ a few sky-quality-meter readings.
 ## 4. Known limits
 
 - The engine's star file has the 256 brightest stars (to magnitude 3.4). Under a dark sky the eye reaches about 6.5,
-  so the sky is sparse until a fuller BSC5 extract (about 9,100 stars) is baked in the same schema; the
-  generator `scripts/data/build_star_catalog.py` needs a count option and a rule for stars without B-V.
+  so the sky is sparse until a fuller BSC5 extract (about 9,000 stars) is baked in the same schema. The generator
+  now has it: `python3 scripts/data/build_star_catalog.py OUT --count all --missing-bv null` keeps every merged star
+  to V 6.5; stars without a BSC5 B-V carry `ci: null` and are drawn white (no colour guessed from spectral type).
+  Not baked yet: its input (HEASARC `bsc5p`) is denied by the cloud network policy (2026-10-06); run it on the Mac,
+  or here once heasarc.gsfc.nasa.gov is allowed. Where the 9,000-star file lives (engine catalogue or a sky-only
+  data file) is an owner decision; it is about 1.5 MB as JSON.
 - Planet positions are good to arcseconds except Jupiter (about 1.5 arcmin) and Saturn (about 5 arcmin), which is the
   stated accuracy of the Standish table 1 fit. Both are far below what a phone screen shows; a VSOP87 series would fix it.
 - Elements are valid 1800-2050 only (`state: "unavailable"` outside).
