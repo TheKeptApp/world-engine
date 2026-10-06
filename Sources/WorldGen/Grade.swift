@@ -15,12 +15,19 @@ public struct GradeTable: Codable, Sendable {
         /// reach the bible's key:fill (overcast 0.15, rain 0.10, storm 0.05, fog 0: "no legible hard
         /// sun shadow"), which the weather model's direct factors leave several times too high.
         public var direct: Double?
+        /// Renderer multipliers on the R8 sky fill and ground bounce (default 1), tuned toward the
+        /// bible's lift (§2.3 shade-to-sun ratio) and night floor (§2.4 trunk, roof and wall bands).
+        public var fill: Double?
+        public var groundFill: Double?
 
-        public init(luma: Double, saturation: Double, air: Air? = nil, direct: Double? = nil) {
+        public init(luma: Double, saturation: Double, air: Air? = nil, direct: Double? = nil, fill: Double? = nil,
+                    groundFill: Double? = nil) {
             self.luma = luma
             self.saturation = saturation
             self.air = air
             self.direct = direct
+            self.fill = fill
+            self.groundFill = groundFill
         }
 
         func mixed(_ b: Grade, _ t: Double) -> Grade {
@@ -31,9 +38,15 @@ public struct GradeTable: Codable, Sendable {
             case let (nil, y?): y
             default: nil
             }
-            let da = direct ?? 1, db = b.direct ?? 1
+            // Direct: missing means 1 (no cut). Fill: missing means "as the other state", so weather
+            // without its own fill keeps the clear state's lift.
+            func one(_ x: Double?, _ y: Double?) -> Double { (x ?? 1) + ((y ?? 1) - (x ?? 1)) * t }
+            func inherit(_ x: Double?, _ y: Double?) -> Double? {
+                guard let a = x ?? y, let c = y ?? x else { return nil }
+                return a + (c - a) * t
+            }
             return Grade(luma: luma + (b.luma - luma) * t, saturation: saturation + (b.saturation - saturation) * t, air: air,
-                         direct: da + (db - da) * t)
+                         direct: one(direct, b.direct), fill: inherit(fill, b.fill), groundFill: inherit(groundFill, b.groundFill))
         }
     }
 
@@ -72,7 +85,9 @@ public struct GradeTable: Codable, Sendable {
         public var luma: Double
         public var saturation: Double
         public var air: Air?
-        var grade: Grade { Grade(luma: luma, saturation: saturation, air: air) }
+        public var fill: Double?
+        public var groundFill: Double?
+        var grade: Grade { Grade(luma: luma, saturation: saturation, air: air, fill: fill, groundFill: groundFill) }
     }
 
     public struct Night: Codable, Sendable {

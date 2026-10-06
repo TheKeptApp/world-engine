@@ -116,10 +116,12 @@ extension World {
         }
         // Falling snow, not lying snow, takes the view away.
         g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
+        // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
+        let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
-            * lookTuning.fill
+            * lookTuning.fill * gradeFill
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
-            * lookTuning.fill * lookTuning.groundFill
+            * lookTuning.fill * lookTuning.groundFill * gradeFill * gradeGround
         g.litFraction = L.litWindows
         // Lit windows (lighting bible §2.4): #FFD19A core at night, the #E8A968 surround tone in twilight.
         g.litWindow = Palette.parse(elevation < -6 ? "#FFD19A" : "#E8A968")
