@@ -15,7 +15,8 @@ struct BuildingAreaTests {
     static func has(_ area: String) -> Bool { FileManager.default.fileExists(atPath: dir(area).appendingPathComponent("manifest.json").path) }
 
     /// (area, profile): the profile is an explicit test override (spec §2 selection precedence).
-    static let areas: [(String, String)] = [("evanston-south", "evanston"), ("lakeview-sheil-park", "chicago-dense-north"), ("sloans-lake", "front-range")]
+    static let areas: [(String, String)] = [("evanston-south", "evanston"), ("lakeview-sheil-park", "chicago-dense-north"), ("sloans-lake", "front-range"),
+                                            ("wilmette-vattmann-park", "wilmette")]
 
     /// Average triangles per house (near, mid, far, skyline) before the facade pass.
     static let houseBaseline: [String: [Double]] = [
@@ -125,6 +126,7 @@ struct BuildingViewBudgetTests {
         Camera(name: "lakeview-alley", area: "lakeview-sheil-park", profile: "chicago-dense-north", lat: 41.944063, lon: -87.666977, heading: 0, aerial: false),
         Camera(name: "lakeview-block-center", area: "lakeview-sheil-park", profile: "chicago-dense-north", lat: 41.94567, lon: -87.66361, heading: 90, aerial: false),
         Camera(name: "evanston-street", area: "evanston-south", profile: "evanston", lat: 42.0382, lon: -87.69135, heading: 180, aerial: false),
+        Camera(name: "wilmette-street", area: "wilmette-vattmann-park", profile: "wilmette", lat: 42.074933, lon: -87.719996, heading: 90, aerial: false),
     ]
 
     @Test(arguments: cameras.map(\.name))
