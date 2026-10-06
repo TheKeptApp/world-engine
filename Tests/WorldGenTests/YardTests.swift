@@ -112,7 +112,7 @@ struct YardTests {
             let p = LocalPoint(inst.x, inst.y)
             guard visible(p, 4) else { continue }
             let dist = simd_distance(p, eye)
-            let lod = PropLibrary.lodCount(inst.kind) == 3 ? (dist < PropLibrary.lodDistances[0] ? 0 : dist < PropLibrary.lodDistances[1] ? 1 : 2) : 0
+            let lod = min(PropLibrary.lodCount(inst.kind) - 1, PropLibrary.lodDistances.filter { dist >= $0 }.count)
             let key = "\(inst.kind.rawValue)-\(inst.variant)-\(lod)"
             if propTris[key] == nil { propTris[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: lod, palette: b.scene.palette).triangleCount }
             if inst.kind.isTree { trees += propTris[key]! } else { shrubs += propTris[key]! }
