@@ -207,6 +207,23 @@ class StoreTests(unittest.TestCase):
             st.load("visual")
             self.assertEqual(len(calls), 3)
 
+    def test_any_http_error_stops_for_a_day(self):
+        for status in (301, 404, 503):
+            clock = [0.0]
+            calls = []
+
+            def getter(url):
+                calls.append(url)
+                raise fetch.FetchError("HTTP %d" % status, status)
+
+            with tempfile.TemporaryDirectory() as d:
+                st = celestrak.ElementStore(d, getter=getter, clock=lambda: clock[0])
+                _, _, err = st.load("visual")
+                self.assertIn("needsHuman", err)
+                clock[0] += 12 * 3600
+                st.load("visual")
+                self.assertEqual(len(calls), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

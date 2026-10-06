@@ -3,7 +3,10 @@
 API: https://celestrak.org/NORAD/elements/gp.php?GROUP=<group>&FORMAT=json (OMM keys). CelesTrak asks
 clients not to fetch the same data more often than it changes (GP data update about every 2 hours) and
 blocks clients that do, so this store never fetches a group more often than `min_refresh_seconds`
-(2 hours, configurable upward only), uses an honest User-Agent, and backs off for a day after 403 or 429.
+(2 hours, configurable upward only) and uses an honest User-Agent. CelesTrak's usage policy (read 2026-10-06,
+https://celestrak.org/usage-policy.php) says machine clients must stop on ANY non-200 response (301, 403, 404,
+429, 50x) and report it to a human: redirects are not followed, and any HTTP error stops this store for a day
+and is reported as `needsHuman` in the error text. Network errors (no HTTP status) retry after `min_refresh`.
 The cache holds the latest response per group only (`.cache/`, git-ignored); raw elements are never sent
 to phones (the contract carries computed positions and passes only).
 """
@@ -36,7 +39,7 @@ class ElementStore:
         self.cache_dir = cache_dir
         self.min_refresh = max(MIN_REFRESH_SECONDS, float(min_refresh_seconds))
         self.refresh = max(self.min_refresh, float(refresh_seconds))
-        self.get = getter or (lambda url: fetch.http_get(url, user_agent=USER_AGENT))
+        self.get = getter or (lambda url: fetch.http_get(url, user_agent=USER_AGENT, follow_redirects=False))
         self.clock = clock
         os.makedirs(cache_dir, exist_ok=True)
 
@@ -77,8 +80,9 @@ class ElementStore:
                 error = None
             except fetch.FetchError as exc:
                 error = "fetch failed: %s" % exc
-                if exc.status in (403, 429):
+                if exc.status is not None:
                     doc["blockedUntil"] = now + BLOCKED_BACKOFF_SECONDS
+                    error += " (needsHuman: CelesTrak answered non-200; stopped for a day)"
                 doc["lastError"] = error
             except (ValueError, ElementError) as exc:
                 error = "bad response: %s" % exc
