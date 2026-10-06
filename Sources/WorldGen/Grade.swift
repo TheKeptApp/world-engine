@@ -11,11 +11,16 @@ public struct GradeTable: Codable, Sendable {
         public var saturation: Double
         /// §2.3 clear-air fade; a cap of 0 leaves the distance to weather extinction (rain, fog).
         public var air: Air?
+        /// Renderer multiplier on the environment's direct sun (default 1). Weather states use it to
+        /// reach the bible's key:fill (overcast 0.15, rain 0.10, storm 0.05, fog 0: "no legible hard
+        /// sun shadow"), which the weather model's direct factors leave several times too high.
+        public var direct: Double?
 
-        public init(luma: Double, saturation: Double, air: Air? = nil) {
+        public init(luma: Double, saturation: Double, air: Air? = nil, direct: Double? = nil) {
             self.luma = luma
             self.saturation = saturation
             self.air = air
+            self.direct = direct
         }
 
         func mixed(_ b: Grade, _ t: Double) -> Grade {
@@ -26,7 +31,9 @@ public struct GradeTable: Codable, Sendable {
             case let (nil, y?): y
             default: nil
             }
-            return Grade(luma: luma + (b.luma - luma) * t, saturation: saturation + (b.saturation - saturation) * t, air: air)
+            let da = direct ?? 1, db = b.direct ?? 1
+            return Grade(luma: luma + (b.luma - luma) * t, saturation: saturation + (b.saturation - saturation) * t, air: air,
+                         direct: da + (db - da) * t)
         }
     }
 

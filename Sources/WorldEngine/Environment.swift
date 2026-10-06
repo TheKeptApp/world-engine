@@ -41,7 +41,11 @@ extension World {
         // diffuse sky also becomes the main light source, so sky fill grows as the sun is hidden.
         // Daytime only: night keeps its own key.
         var L = env.light.timeOfDay
-        let hidden = Float(max(0, 1 - env.light.directStrength))
+        // The bible's weather key:fill (Profiles/grade.json `direct`): the renderer takes away more
+        // of the direct sun under cloud, rain and fog than the weather model does.
+        let directCut = Self.weatherDirectCut(env)
+        let directEff = env.light.directStrength * directCut
+        let hidden = Float(max(0, 1 - directEff))
         let dayWeight = Float(smoothstepD(-2, 8, env.light.sunElevationDeg))
         L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
         let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
@@ -74,7 +78,7 @@ extension World {
         let elevation = env.light.sunElevationDeg
 
         // Sun: time-of-day colour and intensity × direct strength (weather, cloud, 0–2° fade-in).
-        let direct = Float(env.light.directStrength)
+        let direct = Float(directEff)
         var light = sunEntity.components[DirectionalLightComponent.self] ?? DirectionalLightComponent()
         let sc = WorldGen.Color.srgb(simd_normalize(L.sunColor + 1e-6))
         light.color = .init(red: CGFloat(sc.x), green: CGFloat(sc.y), blue: CGFloat(sc.z), alpha: 1)
@@ -198,6 +202,14 @@ extension World {
     }
 
     public static let phenologyProfiles: [PhenologyProfile] = [.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo]
+
+    /// Direct-sun multiplier of the bible's weather grade at this moment (1 when clear).
+    static func weatherDirectCut(_ env: EnvironmentDocument) -> Double {
+        guard let state = env.state.dominantState, let wg = gradeTable?.weather[state.rawValue], let cut = wg.direct else { return 1 }
+        var weight = min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? env.state.cloudCover01 ?? 0 : 0)))
+        if state == .snow { weight = max(weight, env.state.snowCover01 ?? 0) }
+        return 1 + (cut - 1) * weight
+    }
 
     /// The sky shader's cloud noise is roughly normal (mean 0.5, sd 0.10); the threshold is its
     /// (1 − cover) quantile so the covered share of the dome follows the cover.
