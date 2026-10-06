@@ -7,6 +7,7 @@ one documented JSON contract that phase 5A renders later. No renderer, engine or
 | Layer | Contract | Spec | Code |
 |---|---|---|---|
 | 1. Sky (stars, Sun, Moon, planets, light pollution) | `worldengine.live.sky/1` | [sky.md](sky.md) | `Tools/livefeeds/livefeeds/sky/` |
+| 2. Satellites (positions, passes, visibility) | `worldengine.live.satellites/1` | [satellites.md](satellites.md) | `Tools/livefeeds/livefeeds/sats/` |
 
 ## Shared vocabulary (every contract)
 

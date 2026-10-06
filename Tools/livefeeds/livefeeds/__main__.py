@@ -4,6 +4,7 @@
                                        [--idle-seconds S] [--cache-dir DIR] [--areas FILE]
     Tools/livefeeds/livefeeds.sh once  [--cache-dir DIR] [--areas FILE]
     Tools/livefeeds/livefeeds.sh sky   --lat L --lon L [--elev M] [--time ISO8601] [--radiance FILE] [--catalog FILE]
+    Tools/livefeeds/livefeeds.sh sats  --lat L --lon L [--elev M] [--time ISO8601] [--hours H] [--elements FILE] [--ids N,N]
     Tools/livefeeds/livefeeds.sh test
 """
 
@@ -127,6 +128,33 @@ def cmd_sky_radiance(args) -> int:
     return 0
 
 
+def cmd_sats(args) -> int:
+    from .sats import celestrak, contract as scontract, elements as selements
+    cfg = scontract.load_config()
+    fetched, err = None, None
+    if args.elements:
+        with open(args.elements, "r", encoding="utf-8") as fh:
+            text = fh.read()
+        els = selements.parse_omm_json(json.loads(text)) if text.lstrip().startswith("[") else selements.parse_tle_text(text)
+        fetched = os.path.getmtime(args.elements)
+    else:
+        cache = args.cache_dir or os.environ.get("LIVEFEEDS_CACHE") or os.path.join(HERE, ".cache")
+        store = celestrak.ElementStore(cache, cfg.get("minRefreshSeconds", 7200), cfg.get("refreshSeconds", 21600))
+        els, errs = [], []
+        for group in cfg["groups"]:
+            e, f, er = store.load(group, allow_fetch=not args.offline)
+            els += e
+            fetched = f if fetched is None or (f and f < fetched) else fetched
+            if er:
+                errs.append("%s: %s" % (group, er))
+        err = "; ".join(errs) or None
+    ids = [int(x) for x in args.ids.split(",")] if args.ids else None
+    doc = scontract.build(els, args.lat, args.lon, args.elev, _parse_time(args.time), args.hours, fetched, err,
+                          cfg, ids, visible_only=args.visible_only)
+    print(json.dumps(doc, indent=1 if args.pretty else None, separators=None if args.pretty else (",", ":")))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="livefeeds", description="RTD Denver live-vehicle relay prototype")
     sub = p.add_subparsers(dest="command", required=True)
@@ -165,6 +193,20 @@ def main(argv=None) -> int:
     r.add_argument("--year", type=int, required=True, help="composite year")
     r.add_argument("--source-file", help="original granule name, recorded in the output")
     r.set_defaults(func=cmd_sky_radiance)
+
+    t = sub.add_parser("sats", help="print the satellites contract (worldengine.live.satellites/1)")
+    t.add_argument("--lat", type=float, required=True)
+    t.add_argument("--lon", type=float, required=True)
+    t.add_argument("--elev", type=float, default=0.0)
+    t.add_argument("--time", help="window start, ISO 8601 (default now)")
+    t.add_argument("--hours", type=float, default=48.0)
+    t.add_argument("--elements", help="local TLE text or OMM JSON instead of CelesTrak")
+    t.add_argument("--ids", help="comma-separated NORAD ids to keep")
+    t.add_argument("--offline", action="store_true", help="use cached CelesTrak data only")
+    t.add_argument("--visible-only", action="store_true", help="keep only passes visible to the eye")
+    t.add_argument("--cache-dir")
+    t.add_argument("--pretty", action="store_true")
+    t.set_defaults(func=cmd_sats)
 
     args = p.parse_args(argv)
     try:
