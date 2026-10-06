@@ -68,7 +68,7 @@ Target (avg ≥ 58, 1% low ≥ 50) **met at 2.5×**; native 3× still misses the
 - **Trees and bushes beyond 20 m use an opaque material**; only those near the camera (where the cut-away can apply) keep the transparent one. **Measured: the old set-up cost 3 ms more per frame (24%)** in the test view, at the same clock.
 - The sky dome and stars are unlit (their colour is all ours).
 - Flat ground, water, the boundary ground and grass tufts no longer draw into the sun's shadow map.
-- Not yet measured cleanly; the daytime session will give the new total for the walking loop.
+- **One clean number so far:** in the third run the phone briefly cooled to nominal heat and one phase got the maximum clock: the street view with all of these changes, **without MSAA, took 8.5 ms per frame** (51% busy at 60 fps). MSAA cost about 8% in the first run, so with it the view should be about 9–9.5 ms: well below the ~14 ms before, but still about 1 ms over the 8 ms aim. The daytime session measures the walking loop properly.
 
 **What was cut or changed:** nothing visible was cut. Changed: render scale 3.0× → 2.5× (heat steps to 2.25×/2.0×); the experimental RealityRenderer host was not adopted; the invisible GPU savings above. Visible cuts that would close the rest of the gap (shorter shadow range, MSAA off) are a decision for you (§9).
 
@@ -193,6 +193,7 @@ The traced seconds aren't representative (attaching Instruments stalls frames), 
 | Walking loop, one feature off per 100 s | GPU time changed from 11 to 15 ms along the street with every feature on, so each phase measured a different stretch of street | No (moved to `discarded/`); the camera is now fixed |
 | Fixed street view, old materials (`street-run1/`) | Shadows ≈ 37% of the frame, trees ≈ 28% of the main pass, MSAA ≈ 8%, surface extras ≈ 1%, sky pixels dearer than ground (clock-matched pairs only) | Yes, as shares |
 | Fixed street view, opaque trees beyond 20 m (`street/`) | The old transparent trees cost 3.0 ms (24%) more per frame at the same clock. Every other pair ran while the GPU scaled its clock to the load (busy time ≈ 15.3 ms whatever was switched off), so those pairs say nothing | Only the tree result |
+| Same view after a 12-minute rest, all of tonight's changes plus 50 m / 30 m shadow ranges (`street-v3/`) | Mostly "fair" heat; the GPU again held itself ≈ 92% busy at its minimum state, so the pairs say nothing. One phase (MSAA off) ran at the maximum clock: **8.5 ms per frame** | Only the 8.5 ms |
 
 Heat was "serious" for almost all of it (the phone had been rendering on the charger for hours), and the trace shows the GPU at its minimum or medium clock although maximum was asked for. Attaching Instruments also drops frames, so none of these runs give fps numbers.
 
@@ -234,8 +235,8 @@ My recommendation: **c** for computers, and **b** if a public web link is needed
 1. **Calm mode (Prompt 5 asked for 30 fps when still).** RealityView ignores every frame-rate control, so calm mode can't be done with it. Options:
    - **(a) No calm mode for now; pause when hidden stays (recommended).** No cost, no risk. I'd also file an Apple Feedback asking for a frame-rate control on RealityView, and re-test on each iOS release.
    - (b) Switch the idle postcard to the RealityRenderer host. Calm mode works there (30.0 fps), but that host walks at 55.3 fps with a 23.9 fps 1% low, and swapping hosts when the camera starts moving would likely hitch. About 2 days to make it seamless, and it might still not be.
-2. **GPU budget (the 8 ms aim).** Before tonight the walking loop needed about 14 ms. The opaque trees saved about a quarter of the frame in the test view, and the other invisible savings are in; the daytime session gives the new walking-loop number. If it is still above 8 ms, what's left is visible:
-   - **Shadow range** (now 80 m): shadows are about a third of the frame. A shorter range drops distant shadows (long golden-hour shadows across the street would end sooner); I'll measure 50 m and 30 m in the daytime session.
+2. **GPU budget (the 8 ms aim).** Before tonight the walking loop needed about 14 ms. The opaque trees saved about a quarter of the frame in the test view, and the one clean measurement after all of tonight's changes puts the street view at about 9–9.5 ms with MSAA (8.5 ms without). The daytime session gives the walking-loop number. If it is still above 8 ms, what's left is visible:
+   - **Shadow range** (now 80 m): shadows were about a third of the frame. A shorter range drops distant shadows (long golden-hour shadows across the street would end sooner); 50 m and 30 m are ready to measure in the daytime session (tonight's attempt ran at the clock-scaling state).
    - **MSAA off**: about 8%; edges of roofs, wires and trunks would shimmer slightly at 2.5×.
    - **Longer-term, no visible loss** (5B budget work): baked ground shadows and occlusion for static geometry, cheaper lighting for distant trees.
    - My recommendation: decide after the daytime numbers; if a cut is needed, the shadow range first.
