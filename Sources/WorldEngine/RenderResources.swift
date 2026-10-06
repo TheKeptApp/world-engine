@@ -72,6 +72,14 @@ public struct ShaderGlobals: Sendable, Equatable {
     /// Canopy map placement: scene x, z of its minimum corner and its size (metres).
     public var canopyOrigin = SIMD2<Float>(0, 0)
     public var canopySize = SIMD2<Float>(1, 1)
+    /// Lighting bible §2.3 clear-air fade: colour (linear), cap (share at long range), start and
+    /// the distance where it reaches half the cap (m). Weather extinction (§3.2) uses
+    /// `fogStart`/`fogEnd` (90% of contrast gone at the end) at strength `fogWeight` (0 = none).
+    public var airColor = SIMD3<Float>(0.33, 0.48, 0.69)
+    public var airCap: Float = 0.35
+    public var airStart: Float = 300
+    public var airD50: Float = 1800
+    public var fogWeight: Float = 0
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -211,6 +219,8 @@ final class RenderResources {
         let co = g.canopyOrigin.rounded(.toNearestOrEven), cs = g.canopySize.rounded(.toNearestOrEven)
         p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
         p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
+        p[w + 27] = SIMD4(h(g.airColor.x), h(g.airColor.y), h(g.airColor.z), h(g.airCap))
+        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), 0)
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
@@ -219,6 +229,43 @@ final class RenderResources {
                   to: target, destinationSlice: 0, destinationLevel: 0, destinationOrigin: MTLOrigin())
         blit.endEncoding()
         cb.commit()
+    }
+
+    /// Whether the engine's compiled shader library is in its bundle. Always true in app builds;
+    /// `swift build` on the Mac copies the Metal source uncompiled, so Mac tests check first.
+    nonisolated static var shaderLibraryAvailable: Bool {
+        guard let device = MTLCreateSystemDefaultDevice() else { return false }
+        return (try? device.makeDefaultLibrary(bundle: .module)) != nil
+    }
+
+    /// Globals texel of postcard quality mode (row 1): x = extra ambient occlusion, w = 1 when on.
+    /// The live upload clears the row, so the live view always reads zero (off).
+    static let postcardQualityTexel = 29
+
+    /// A copy of the palette and globals as last uploaded, for an offscreen copy of the world
+    /// (postcard exports): the live texture changes with every frame of the live view, this one
+    /// never does. The bytes are copied on the CPU first, so a later upload can't race the copy.
+    /// Quality mode scales the sky and ground fill and sets its texel; defaults leave it as is.
+    func frozenTexture(fillSkyScale: Float = 1, fillGroundScale: Float = 1, ambientOcclusion: Float = 0) throws -> TextureResource {
+        let w = Self.textureWidth, h = Self.textureHeight
+        let copy = try LowLevelTexture(descriptor: .init(pixelFormat: .rgba16Float, width: w, height: h, textureUsage: [.shaderRead]))
+        guard let bytes = device.makeBuffer(bytes: staging.contents(), length: w * h * 8, options: .storageModeShared),
+              let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { throw WorldError.metalUnavailable }
+        let p = bytes.contents().bindMemory(to: SIMD4<Float16>.self, capacity: w * h)
+        func scale(_ i: Int, _ f: Float) {
+            guard f != 1 else { return }
+            p[w + i] = SIMD4(Float16(Float(p[w + i].x) * f), Float16(Float(p[w + i].y) * f), Float16(Float(p[w + i].z) * f), p[w + i].w)
+        }
+        scale(6, fillSkyScale)      // fill from the sky (texel 6, see `update`)
+        scale(7, fillGroundScale)   // ground-coloured fill from below (texel 7)
+        if ambientOcclusion > 0 { p[w + Self.postcardQualityTexel] = SIMD4(Float16(ambientOcclusion), 0, 0, 1) }
+        let target = copy.replace(using: cb)
+        blit.copy(from: bytes, sourceOffset: 0, sourceBytesPerRow: w * 8, sourceBytesPerImage: w * h * 8,
+                  sourceSize: MTLSize(width: w, height: h, depth: 1),
+                  to: target, destinationSlice: 0, destinationLevel: 0, destinationOrigin: MTLOrigin())
+        blit.endEncoding()
+        cb.commit()
+        return try TextureResource(from: copy)
     }
 }
 

@@ -179,14 +179,16 @@ public enum WorldPackage {
         // Instances.
         let instances: [[String: Any]] = build.scene.instances.map { i in
             let c = PropLibrary.cell(x: i.x, y: i.y)
-            return ["id": i.source, "kind": i.kind.rawValue, "variant": i.variant,
-                    "position": [round(i.x, 4), round(i.height, 4), round(-i.y, 4)],
-                    "yaw": round(i.yaw, 6), "scale": round(i.scale, 6), "cell": [c.x, c.y]]
+            var entry: [String: Any] = ["id": i.source, "kind": i.kind.rawValue, "variant": i.variant,
+                                        "position": [round(i.x, 4), round(i.height, 4), round(-i.y, 4)],
+                                        "yaw": round(i.yaw, 6), "scale": round(i.scale, 6), "cell": [c.x, c.y]]
+            if i.stretch != SIMD2(1, 1) { entry["stretch"] = [round(i.stretch.x, 6), round(i.stretch.y, 6)] }
+            return entry
         }
         summary.instances = instances.count
         files["instances.json"] = try json([
             "schema": 1, "count": instances.count,
-            "transform": "matrix = translate(position) × rotateY(yaw, right-handed about +Y) × uniform scale",
+            "transform": "matrix = translate(position) × rotateY(yaw, right-handed about +Y) × scale(scale·stretch[0], scale, scale·stretch[1]); stretch absent = [1, 1]",
             "instances": instances,
         ] as [String: Any], pretty: false)
 

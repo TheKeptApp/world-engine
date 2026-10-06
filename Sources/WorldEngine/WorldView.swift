@@ -188,7 +188,11 @@ private struct WorldRealityView: View {
                     let cutTarget = camera.update(camera: cam, scene: event.scene, dt: Float(dt))
                     world.update(deltaTime: dt, camera: cam, focusPoint: camera.lookTarget, cutAwayTarget: cutTarget)
                     surface.frame(camera: cam)
-                    post?.settings.exposureTarget = world.exposureTarget
+                    if let post {
+                        post.settings.exposureTarget = world.exposureTarget
+                        post.settings.saturation = WorldPostProcess.Settings.default.saturation * world.gradeSaturation * world.lookTuning.saturation
+                        post.settings.contrast = WorldPostProcess.Settings.default.contrast * world.lookTuning.contrast
+                    }
                     onFrame?(dt)
                 }
             }

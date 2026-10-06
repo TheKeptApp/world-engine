@@ -5,17 +5,20 @@ import simd
 import Testing
 @testable import WorldGen
 @testable import WorldGeo
+@testable import WorldMap
 @testable import WorldMesh
 
-/// Deciduous tree silhouettes (Props.swift): the bare skeleton every detail level draws, and the far
-/// crown. Meshes are unit height; trunk, branches and crown are told apart by sway (0, 0.3, 1).
+/// Deciduous tree silhouettes (Props.swift): the bare skeleton every detail level draws, the far
+/// crown and per-tree proportions. Meshes are unit height; trunk, branches and crown are told apart by
+/// sway (0, 0.3, 1).
 @Suite("Tree silhouettes")
 struct TreeSilhouetteTests {
     static let kinds: [PropKind] = [.treeBroad, .treeOval, .treeSpreading]
-    /// Branch triangles per tree at near, mid and far detail (thousands of trees are drawn).
-    static let branchBudget = [260, 90, 30]
-    /// The far crown may add 40 triangles to the old 8-triangle octahedron.
-    static let farCrownBudget = 48
+    /// Branch triangles per tree at near, mid and far detail (thousands of trees are drawn; at far
+    /// detail the trunk carries the leader).
+    static let branchBudget = [260, 90, 15]
+    /// Whole-tree triangles at mid, far and skyline detail.
+    static let totalBudget = [Int.max, PropLibrary.treeTriangleBudget.mid, PropLibrary.treeTriangleBudget.far, PropLibrary.skylineTriangleBudget]
 
     enum Part { case trunk, branch, crown }
 
@@ -98,35 +101,52 @@ struct TreeSilhouetteTests {
 
     // MARK: - Tests
 
-    @Test(arguments: kinds)
+    @Test(arguments: kinds + [.conifer, .bush, .flowerBush])
     func meshesAreDeterministic(_ kind: PropKind) throws {
-        for lod in 0..<3 { #expect(try Self.mesh(kind, lod: lod) == Self.mesh(kind, lod: lod), "\(kind) lod \(lod)") }
+        #expect(PropLibrary.lodCount(kind) == 4 && PropLibrary.lodDistances.count == 3)
+        for lod in 0..<4 { #expect(try Self.mesh(kind, lod: lod) == Self.mesh(kind, lod: lod), "\(kind) lod \(lod)") }
     }
 
+    /// Budgets per tree: branches per level, whole tree at mid (≤ 200), far (`treeTriangleBudget.far`)
+    /// and skyline (≤ 12: a crown and a two-triangle trunk card, no branches); conifers and bushes stay
+    /// within the skyline budget there too.
     @Test(arguments: kinds)
     func trianglesStayWithinBudget(_ kind: PropKind) throws {
         var line = "TREETRIS \(kind.rawValue)"
-        for lod in 0..<3 {
+        for lod in 0..<4 {
             let m = try Self.mesh(kind, lod: lod)
             let trunk = Self.triangles(m, .trunk).count, branches = Self.triangles(m, .branch).count, crown = Self.triangles(m, .crown).count
             line += " | lod\(lod) trunk \(trunk) branches \(branches) crown \(crown) total \(m.triangleCount)"
-            #expect(branches <= Self.branchBudget[lod], "\(kind) lod \(lod): \(branches) branch triangles")
-            if lod == 2 { #expect(crown <= Self.farCrownBudget, "\(kind): far crown \(crown) triangles") }
+            #expect(m.triangleCount <= Self.totalBudget[lod], "\(kind) lod \(lod): \(m.triangleCount) triangles")
+            if lod < 3 {
+                #expect(branches <= Self.branchBudget[lod], "\(kind) lod \(lod): \(branches) branch triangles")
+                #expect(trunk > 0 && branches > 0 && crown > 0, "\(kind) lod \(lod): a part is missing")
+            } else {
+                #expect(trunk <= 2 && branches == 0 && crown > 0, "\(kind): the skyline level is a crown on a trunk card")
+            }
+        }
+        for other in [PropKind.conifer, .bush, .flowerBush] {
+            let m = try Self.mesh(other, lod: 3)
+            line += " | \(other.rawValue) lod3 \(m.triangleCount)"
+            #expect(m.triangleCount <= PropLibrary.skylineTriangleBudget, "\(other): \(m.triangleCount) skyline triangles")
         }
         print(line)
     }
 
-    /// Nothing pokes out of a leafy crown: every branch vertex lies inside that level's crown (a closed
-    /// lobe, or the far crown) or right under it, checked against the crown mesh itself.
+    /// Nothing pokes out of a leafy crown: every branch vertex lies inside that level's crown (its closed
+    /// lobes) or right under it, checked against the crown mesh itself; so does the far trunk where it
+    /// carries on as the leader, and the skyline trunk card's top.
     @Test(arguments: kinds)
     func branchesStayInsideTheLeafyCrown(_ kind: PropKind) throws {
-        for lod in 0..<3 {
+        let trunkTop = PropLibrary.lobes(kind).trunkTop + 0.08
+        for lod in 0..<4 {
             let m = try Self.mesh(kind, lod: lod)
             let crown = Self.pieces(m, Self.triangles(m, .crown))
-            #expect(crown.count == [PropLibrary.lobes(kind).lobes.count, 2, 1][lod], "\(kind) lod \(lod): \(crown.count) crown pieces")
+            #expect(crown.count == [PropLibrary.lobes(kind).lobes.count, 2, 2, 1][lod], "\(kind) lod \(lod): \(crown.count) crown pieces")
             var outside: [SIMD3<Float>] = []
-            for v in 0..<m.vertexCount where Self.part(m, vertex: v) == .branch {
+            for v in 0..<m.vertexCount {
                 let p = m.positions[v]
+                guard Self.part(m, vertex: v) == .branch || (Self.part(m, vertex: v) == .trunk && p.y > trunkTop) else { continue }
                 if !crown.contains(where: { Self.inside(m, $0, p) }) && !crown.contains(where: { Self.under(m, $0, p) }) { outside.append(p) }
             }
             #expect(outside.isEmpty, "\(kind) lod \(lod): \(outside.count) branch vertices outside the crown, first \(String(describing: outside.first))")
@@ -150,12 +170,13 @@ struct TreeSilhouetteTests {
     }
 
     /// Paint and leaf-drop data stay as the shaders expect: bark trunk (sway 0) and branches (sway 0.3,
-    /// AO 0.75) with no leaf threshold; crown lobes sway 1 with thresholds in (0.1, 1], the far crown 0.5.
+    /// AO 0.75) with no leaf threshold; crown lobes sway 1 with thresholds in (0.1, 1], the skyline crown
+    /// 0.5 (with the skyline shade).
     @Test(arguments: kinds)
     func paintsAndLeafThresholds(_ kind: PropKind) throws {
         let palette = try Self.palette()
         let bark = Float(palette.named("bark")), leaves = Float(palette.named("deciduous1"))
-        for lod in 0..<3 {
+        for lod in 0..<4 {
             let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette)
             var wrong = 0
             for v in 0..<m.vertexCount {
@@ -165,11 +186,12 @@ struct TreeSilhouetteTests {
                 case .branch: if paint.x != bark || paint.z != 0 || paint.w != Float(0.3) || extra.y != 0 || abs(extra.x - 0.75) > 1e-6 { wrong += 1 }
                 case .crown:
                     let flags = Float(Paint.Flags.variant4.rawValue)
-                    if paint.x != leaves || paint.z != flags || (lod == 2 ? extra.y != 0.5 : !(extra.y > 0.1 && extra.y <= 1)) { wrong += 1 }
+                    let shade = lod == 3 ? PropLibrary.skylineShade : 1
+                    if paint.x != leaves || paint.z != flags || paint.y != shade || (lod == 3 ? extra.y != 0.5 : !(extra.y > 0.1 && extra.y <= 1)) { wrong += 1 }
                 }
             }
             #expect(wrong == 0, "\(kind) lod \(lod): \(wrong) vertices with unexpected paint or leaf threshold")
-            #expect(Self.triangles(m, .branch).count > 0 && Self.triangles(m, .crown).count > 0)
+            #expect(Self.triangles(m, .crown).count > 0 && (lod == 3 || Self.triangles(m, .branch).count > 0))
         }
     }
 
@@ -194,34 +216,127 @@ struct TreeSilhouetteTests {
         #expect(bare.hi.y >= 0.85 * leafy.hi.y, "\(kind): bare crown reaches \(bare.hi.y / leafy.hi.y) of the leafy top")
     }
 
-    /// The far crown is round, not a diamond: its faces stay near the ellipsoid through its corners (an
-    /// octahedron's sink to 58%), and seen from the side it covers about what the near crown covers.
+    /// The far crown is the mid crown's two lobes, cheaper: the larger lobe stays round (an icosahedron,
+    /// its faces at 75% or more of its corners' reach; an octahedron's sink to 58%), each lobe keeps its
+    /// mid leaf threshold, and from the side at eight yaws and from above the far crown covers about what
+    /// the mid crown covers, so the switch keeps the outline.
     @Test(arguments: kinds)
-    func farCrownIsRoundAndKeepsTheNearOutline(_ kind: PropKind) throws {
-        let far = try Self.mesh(kind, lod: 2), near = try Self.mesh(kind, lod: 0)
-        let (center, radii) = PropLibrary.farCrownEllipsoid(PropLibrary.lobes(kind))
-        let farCrown = Self.triangles(far, .crown), nearCrown = Self.triangles(near, .crown)
-        let sunk = farCrown.filter { t in
-            let (a, b, c) = Self.corners(far, t)
-            return simd_length(((a + b + c) / 3 - center) / radii) < 0.8
+    func farCrownKeepsTheMidOutline(_ kind: PropKind) throws {
+        let far = try Self.mesh(kind, lod: 2), mid = try Self.mesh(kind, lod: 1)
+        let farCrown = Self.triangles(far, .crown), midCrown = Self.triangles(mid, .crown)
+        let farLobes = Self.pieces(far, farCrown), midLobes = Self.pieces(mid, midCrown)
+        #expect(farLobes.count == 2 && midLobes.count == 2)
+        for (f, md) in zip(farLobes, midLobes) {
+            let a = far.extras[Int(far.indices[f.triangles[0] * 3])].y, b = mid.extras[Int(mid.indices[md.triangles[0] * 3])].y
+            #expect(a == b, "\(kind): far lobe threshold \(a), mid \(b)")
         }
-        #expect(sunk.isEmpty, "\(kind): \(sunk.count) far crown faces sink inside the ellipsoid")
-        let ratio = (0..<8).map { k -> Double in
+        // An icosahedron draws the larger mid lobe (the smaller one too from a 52-triangle budget).
+        func middle(_ p: Piece) -> SIMD3<Float> { (p.lo + p.hi) / 2 }
+        let largerMid = midLobes.max { simd_length($0.hi - $0.lo) < simd_length($1.hi - $1.lo) }!
+        let large = farLobes.min { simd_distance(middle($0), middle(largerMid)) < simd_distance(middle($1), middle(largerMid)) }!
+        #expect(large.triangles.count == 20, "\(kind): the far lobes have \(farLobes.map(\.triangles.count)) triangles")
+        for lobe in farLobes where lobe.triangles.count == 20 {
+            let center = middle(lobe)
+            let sunk = lobe.triangles.filter { t in
+                let (a, b, c) = Self.corners(far, t)
+                let reach = (simd_distance(a, center) + simd_distance(b, center) + simd_distance(c, center)) / 3
+                return simd_distance((a + b + c) / 3, center) < 0.75 * reach
+            }
+            #expect(sunk.isEmpty, "\(kind): \(sunk.count) faces of a far lobe sink toward its centre")
+        }
+        let side = (0..<8).map { k -> Double in
             let yaw = Float(k) * .pi / 4
-            return Double(Self.coverage(far, farCrown, yaw: yaw)) / Double(Self.coverage(near, nearCrown, yaw: yaw))
-        }.reduce(0, +) / 8
-        #expect(ratio > 0.85 && ratio < 1.15, "\(kind): far crown covers \(ratio) of the near crown")
+            return Double(Self.coverage(far, farCrown, yaw: yaw)) / Double(Self.coverage(mid, midCrown, yaw: yaw))
+        }
+        let above = Double(Self.coverage(far, farCrown, fromAbove: true)) / Double(Self.coverage(mid, midCrown, fromAbove: true))
+        print("FARCOVER \(kind.rawValue) side \(side.map { String(format: "%.3f", $0) }) above \(String(format: "%.3f", above))")
+        #expect(side.allSatisfy { $0 > 0.9 && $0 < 1.1 }, "\(kind): far crown covers \(side) of the mid crown from the side")
+        #expect(above > 0.9 && above < 1.1, "\(kind): far crown covers \(above) of the mid crown from above")
+    }
+
+    /// The skyline crown (one 10-triangle dome) keeps about the far crown's outline at the switch, from
+    /// the side at eight yaws, and from above (the whole aerial view is drawn at this level) it is at most
+    /// 10% wider than the far crown.
+    @Test(arguments: kinds)
+    func skylineCrownKeepsTheFarOutline(_ kind: PropKind) throws {
+        let sky = try Self.mesh(kind, lod: 3), far = try Self.mesh(kind, lod: 2)
+        let skyCrown = Self.triangles(sky, .crown), farCrown = Self.triangles(far, .crown)
+        #expect(Self.pieces(sky, skyCrown).count == 1)
+        let side = (0..<8).map { k -> Double in
+            let yaw = Float(k) * .pi / 4
+            return Double(Self.coverage(sky, skyCrown, yaw: yaw)) / Double(Self.coverage(far, farCrown, yaw: yaw))
+        }
+        let above = Double(Self.coverage(sky, skyCrown, fromAbove: true)) / Double(Self.coverage(far, farCrown, fromAbove: true))
+        print("SKYCOVER \(kind.rawValue) side \(side.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", side.reduce(0, +) / 8)) above \(String(format: "%.3f", above))")
+        #expect(side.allSatisfy { $0 > 0.8 && $0 < 1.25 }, "\(kind): skyline crown covers \(side) of the far crown from the side")
+        #expect(abs(side.reduce(0, +) / 8 - 1) < 0.1, "\(kind): skyline crown covers \(side) of the far crown from the side")
+        #expect(above > 0.95 && above < 1.21, "\(kind): skyline crown covers \(above) of the far crown from above")
+    }
+
+    /// A row of one archetype doesn't repeat at far detail: the far crown is lopsided like the mid crown,
+    /// so turning a tree (instances have their own yaw) changes its outline; some pair of yaws overlaps
+    /// by 85% or less.
+    @Test(arguments: kinds)
+    func farOutlineChangesWithYaw(_ kind: PropKind) throws {
+        let far = try Self.mesh(kind, lod: 2)
+        let crown = Self.triangles(far, .crown)
+        let masks = (0..<8).map { Self.mask(far, crown, yaw: Float($0) * .pi / 4) }
+        var lowest = 1.0
+        for a in 0..<8 { for b in (a + 1)..<8 {
+            let both = zip(masks[a], masks[b]).filter { $0 && $1 }.count, either = zip(masks[a], masks[b]).filter { $0 || $1 }.count
+            lowest = min(lowest, Double(both) / Double(max(1, either)))
+        } }
+        #expect(lowest <= 0.85, "\(kind): far outlines at all yaws overlap by at least \(lowest)")
+    }
+
+    /// Per-tree proportions: every generated tree gets its own crown width and oval footprint (stable,
+    /// from its own seed, so kinds, heights and yaws keep their draws); other props stay unstretched.
+    @Test func generatedTreesGetTheirOwnProportions() throws {
+        var f = MapFeatures(frame: LocalFrame(origin: GeoCoordinate(latitude: 39.75, longitude: -105.04)), bounds: Rect2D(centerWidth: 400, height: 400))
+        for i in 0..<60 {
+            let position = LocalPoint(Double(i % 10) * 12 - 60, Double(i / 10) * 12 - 36)
+            f.points.append(PointFeature(ref: OSMRef(.node, Int64(500 + i)), kind: .tree, position: position, tags: [:]))
+        }
+        f.points.append(PointFeature(ref: OSMRef(.node, 9), kind: .bench, position: LocalPoint(80, 80), tags: [:]))
+        let gen = SceneGenerator(features: f, profile: try StyleLibrary.profile(id: "front-range"), seasonal: try StyleLibrary.seasonalPalette(),
+                                 baseColors: try StyleLibrary.baseColors(), season: 1, focus: f.bounds)
+        let scene = gen.generate()
+        let trees = scene.instances.filter(\.kind.isTree)
+        #expect(trees.count == 60)
+        #expect(scene.instances.filter { !$0.kind.isTree }.allSatisfy { $0.stretch == SIMD2(1, 1) })
+        #expect(scene.instances == gen.generate().instances)
+        #expect(Set(trees.map { "\($0.stretch)" }).count == trees.count, "neighbouring trees share proportions")
+        for t in trees {
+            let ref = OSMRef(.node, Int64(t.source.split(separator: "/").last!)!)
+            #expect(t.stretch == SceneGenerator.treeStretch(ref))
+            let width = (t.stretch.x + t.stretch.y) / 2, oval = t.stretch.x / t.stretch.y
+            #expect(width >= 0.88 && width < 1.14 && oval > 0.85 && oval < 1.18, "\(t.source): \(t.stretch)")
+            // Stretch scales the prop's own x and z before its yaw; height stays the instance scale.
+            let m = t.transform
+            #expect(abs(simd_length(SIMD3(m.columns.0.x, m.columns.0.y, m.columns.0.z)) - Float(t.scale * t.stretch.x)) < 1e-3)
+            #expect(abs(simd_length(SIMD3(m.columns.1.x, m.columns.1.y, m.columns.1.z)) - Float(t.scale)) < 1e-4)
+            #expect(abs(simd_length(SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z)) - Float(t.scale * t.stretch.y)) < 1e-3)
+        }
+        let widths = trees.map { ($0.stretch.x + $0.stretch.y) / 2 }
+        #expect(widths.max()! - widths.min()! > 0.15, "crown widths span only \(widths.min()!)–\(widths.max()!)")
     }
 
     // MARK: - Silhouettes
 
-    /// Pixels a side view at `yaw` (orthographic, 1.2 tree heights across) shows of `tris`; `paint` also
-    /// colours them into `pixels`.
-    static func coverage(_ m: MeshBuffers, _ tris: [Int], yaw: Float, size: Int = 160,
+    /// Pixels a side view at `yaw` (orthographic, 1.2 tree heights across; or the view from above)
+    /// shows of `tris`; `paint` also colours them into `pixels`.
+    static func coverage(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160,
                          paint: (color: SIMD3<UInt8>, pixels: UnsafeMutableBufferPointer<SIMD3<UInt8>>)? = nil) -> Int {
+        mask(m, tris, yaw: yaw, fromAbove: fromAbove, size: size, paint: paint).filter { $0 }.count
+    }
+
+    static func mask(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160,
+                     paint: (color: SIMD3<UInt8>, pixels: UnsafeMutableBufferPointer<SIMD3<UInt8>>)? = nil) -> [Bool] {
         var covered = [Bool](repeating: false, count: size * size)
         let scale = Float(size) / 1.2
-        func screen(_ p: SIMD3<Float>) -> SIMD2<Float> { SIMD2((cos(yaw) * p.x - sin(yaw) * p.z + 0.6) * scale, (1.1 - p.y) * scale) }
+        func screen(_ p: SIMD3<Float>) -> SIMD2<Float> {
+            fromAbove ? SIMD2((p.x + 0.6) * scale, (p.z + 0.6) * scale) : SIMD2((cos(yaw) * p.x - sin(yaw) * p.z + 0.6) * scale, (1.1 - p.y) * scale)
+        }
         for t in tris {
             let (pa, pb, pc) = corners(m, t)
             let a = screen(pa), b = screen(pb), c = screen(pc)
@@ -241,7 +356,7 @@ struct TreeSilhouetteTests {
                 }
             }
         }
-        return covered.filter { $0 }.count
+        return covered
     }
 
     /// Visual check, off by default: `TREE_SILHOUETTES=<dir> swift test --filter TreeSilhouetteTests`
