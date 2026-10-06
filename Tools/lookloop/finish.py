@@ -82,6 +82,8 @@ def main():
                 print(f"  {vid}: grade rejected ({e})")
                 failed.append(vid)
     captured = [vid for vid in views if vid in signals]
+    ct = os.path.join(run, "capture.tsv")
+    capture_failed = [ln.split("\t")[0] for ln in open(ct) if "\tfailed\t" in ln] if os.path.exists(ct) else []
     placeholders = [vid for vid, v in views.items() if v.get("active", True) is False]
 
     # Per-view table, criterion means and the most common fixes.
@@ -103,6 +105,11 @@ def main():
     mean_parity = round(sum(parity.values()) / len(parity)) if parity else None
     ord_par = [parity[v] for v in parity if views[v]["group"] == "ordinary"]
     ordinary_parity = round(sum(ord_par) / len(ord_par)) if ord_par else None
+    # P2's gate (owner): buildings and ground criteria average >= 3.5 on the region views.
+    bg_keys = (("scores", "silhouettes"), ("scores", "houseVariety"), ("scores", "groundRichness"), ("artDirection", "adGroundRich"))
+    bg = [g[sect][k]["score"] for vid, g, _, _ in rows if g and views[vid]["group"] == "region"
+          for sect, k in bg_keys if g[sect].get(k, {}).get("score") is not None]
+    region_bg = round(sum(bg) / len(bg), 2) if bg else None
     milestones = " · ".join(f"{name} ≥{t}%: {'**met**' if mean_parity is not None and mean_parity >= t else 'not yet'}" for name, t in MILESTONES)
     mean50 = round(sum(g["v2Score50"] for g in scored) / len(scored), 1) if scored else None
     meanAD = [g["adMean"] for g in scored if g.get("adMean") is not None]
@@ -121,7 +128,7 @@ def main():
 
     out = {
         "run": meta, "views": {vid: {"grade": g, "signals": signals[vid]} for vid, g, _, _ in rows},
-        "aggregate": {"meanConceptParity": mean_parity, "ordinaryParity": ordinary_parity, "milestones": milestones,
+        "aggregate": {"meanConceptParity": mean_parity, "regionBuildingsGround": region_bg, "ordinaryParity": ordinary_parity, "milestones": milestones,
                       "meanV2Score50": mean50, "conceptParity": parity, "meanArtDirection": meanAD, "gatePasses": passes, "graded": len(scored),
                       "captured": len(captured), "failedGrades": failed, "placeholders": placeholders,
                       "criterionMeans": {k: round(sum(v) / len(v), 2) for k, v in crit.items()},
@@ -160,12 +167,14 @@ def main():
           f"Run {when} · engine `{meta.get('engineCommit', '-')}`{' + uncommitted changes' if meta.get('dirtyEngineFiles') else ''} · checkout `{meta.get('commit', git('rev-parse', '--short', 'HEAD'))}` on `{meta.get('branch', git('branch', '--show-current'))}`"
           f" · {len(captured)} views ({len(captured) - len(reused & set(captured))} rendered, {len(reused & set(captured))} unchanged and reused), {len(scored)} graded"
           + (f" ({', '.join(failed)} failed)" if failed else "")
+          + (f" · **capture failed: {', '.join(capture_failed)}** (logs in the run directory)" if capture_failed else "")
           + (f" · run time {meta['minutes']} min" if meta.get("minutes") else "")
           + f" · graders {', '.join(f'`{x}`' for x in sorted({g.get('grader', '?') for g in scored}))}"
           + (" · **gate run**" if meta.get("gate") else ""), "",
           f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'} ([regressions.md](regressions.md)).", "",
           f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}", "",
-          f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%.", "",
+          f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
+          + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
           f"Gate per view: parity ≥ 100 % of its calibrated target concept **and** v2's per-criterion floors (no §8.3 score < 3, "
           f"geography ≥ 4, character ≥ 4 when scored, no hard-gate flags). Long-term goal: v2 mean {fmt(mean50)}/50 against 40 · "
           f"art direction {fmt(meanAD)}/5, {adpasses}/{len(scored)} at the art-direction bar.", "",

@@ -166,6 +166,13 @@ def parse_log(path):
     out["frameMsMedian"] = round(1000 / out["fpsMedian"], 2) if out.get("fpsMedian") else None
     out["gpuMsMedian"] = med(gpu[2:] or gpu)
     out["renderSamples"] = len(fps)
+    # In-view counts (5A's hook): VIEW lines once a second, and the VIEWSHOT line of a view-list capture.
+    vt = [(int(t), int(d)) for t, d in re.findall(r"^VIEW t=\d+ triangles=(\d+) draws=(\d+)", after, re.M)]
+    shot = re.search(r"^VIEWSHOT id=\S+ .*?triangles=(\d+) draws=(\d+)", text, re.M)
+    if shot:
+        out["viewTriangles"], out["viewDraws"] = int(shot.group(1)), int(shot.group(2))
+    elif vt:
+        out["viewTriangles"], out["viewDraws"] = sorted(vt)[len(vt) // 2]
     sm = re.findall(r"RENDER t=\d+ fps=[\d.]+ gpu=\S+ ([\d.]+)× (\d+x\d+)", after)
     if sm:
         out["renderScale"], out["renderSize"] = float(sm[-1][0]), sm[-1][1]
@@ -243,7 +250,8 @@ def sheet(view, frame, targets, prev, sig, perf):
         lines.append(f"vs previous: pixel change {p['pixelChange']}  dLuma {p['dLumaMean']:+}  dSat {p['dSaturation']:+}  dEdge {p['dEdge']:+}")
     tri = perf.get("triangles")
     lines.append("Simulator (not device): " + ", ".join(filter(None, [
-        f"triangles {tri:,}" if tri else None, f"draws {perf['draws']}" if perf.get("draws") else None,
+        f"in view {perf['viewTriangles']:,} tris / {perf['viewDraws']} draws" if perf.get("viewTriangles") else None,
+        f"world {tri:,} tris" if tri else None, f"draws {perf['draws']}" if perf.get("draws") and not perf.get("viewDraws") else None,
         f"frame {perf['frameMsMedian']} ms ({perf['fpsMedian']} fps)" if perf.get("frameMsMedian") else "frame time n/a",
         f"GPU {perf['gpuMsMedian']} ms" if perf.get("gpuMsMedian") else "GPU n/a",
         f"world built in {perf['loadSeconds']} s" if perf.get("loadSeconds") else None])))

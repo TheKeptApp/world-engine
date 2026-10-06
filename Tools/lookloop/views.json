@@ -592,6 +592,216 @@
    "area": "sloans-lake"
   },
   {
+   "id": "wilmette-street",
+   "group": "region",
+   "title": "Wilmette, Highland Ave looking east, golden hour (regions 01)",
+   "active": false,
+   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "look": {
+    "lat": 42.074933,
+    "lon": -87.719996,
+    "heightM": 1.65,
+    "headingDeg": 90,
+    "pitchDeg": -3,
+    "fovDeg": 50
+   },
+   "weatherPreset": "clear",
+   "utc": "2026-09-15T23:23:26Z",
+   "local": "2026-09-15 18:23 CDT",
+   "weather": "clear, cloud 0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "street eye 1.65 m, heading 90 (east), pitch -3, vFOV 50 (Highland Ave north sidewalk; P2 camera = regions fixture camera)",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 268.3,
+    "shadowBearingDeg": 88.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png",
+     "label": "regions 01 North Shore golden"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-street-rain",
+   "group": "region",
+   "title": "Wilmette, Highland Ave, rain midday (regions 02)",
+   "active": false,
+   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "look": {
+    "lat": 42.074933,
+    "lon": -87.719996,
+    "heightM": 1.65,
+    "headingDeg": 90,
+    "pitchDeg": -3,
+    "fovDeg": 50
+   },
+   "weatherPreset": "rain",
+   "utc": "2026-09-15T17:00:00Z",
+   "local": "2026-09-15 12:00 CDT",
+   "weather": "rain (WorldLab light-rain preset)",
+   "season": "late summer",
+   "character": false,
+   "wet": true,
+   "camera": "street eye 1.65 m, heading 90 (east), pitch -3, vFOV 50 (Highland Ave north sidewalk; P2 camera = regions fixture camera)",
+   "sun": {
+    "elevationDeg": 49.4,
+    "azimuthDeg": 162.2,
+    "shadowBearingDeg": 342.2,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png",
+     "label": "regions 02 North Shore rain"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-street-fall",
+   "group": "region",
+   "title": "Wilmette, Highland Ave, peak fall afternoon (regions 03)",
+   "active": false,
+   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "look": {
+    "lat": 42.074933,
+    "lon": -87.719996,
+    "heightM": 1.65,
+    "headingDeg": 90,
+    "pitchDeg": -3,
+    "fovDeg": 50
+   },
+   "weatherPreset": "clear",
+   "utc": "2026-10-22T20:00:00Z",
+   "local": "2026-10-22 15:00 CDT",
+   "weather": "clear, cloud 0.1",
+   "season": "peak fall",
+   "character": false,
+   "wet": false,
+   "camera": "street eye 1.65 m, heading 90 (east), pitch -3, vFOV 50 (Highland Ave north sidewalk; P2 camera = regions fixture camera)",
+   "sun": {
+    "elevationDeg": 27.2,
+    "azimuthDeg": 220.6,
+    "shadowBearingDeg": 40.6,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png",
+     "label": "regions 03 North Shore fall"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-street-snow",
+   "group": "region",
+   "title": "Wilmette, Highland Ave, snow midday (regions 04)",
+   "active": false,
+   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "look": {
+    "lat": 42.074933,
+    "lon": -87.719996,
+    "heightM": 1.65,
+    "headingDeg": 90,
+    "pitchDeg": -3,
+    "fovDeg": 50
+   },
+   "weatherPreset": "snow",
+   "utc": "2026-01-15T18:00:00Z",
+   "local": "2026-01-15 12:00 CST",
+   "weather": "falling snow, SWE 6 mm (WorldLab snow preset)",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "camera": "street eye 1.65 m, heading 90 (east), pitch -3, vFOV 50 (Highland Ave north sidewalk; P2 camera = regions fixture camera)",
+   "sun": {
+    "elevationDeg": 26.9,
+    "azimuthDeg": 179.9,
+    "shadowBearingDeg": 359.9,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png",
+     "label": "regions 04 North Shore snow"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-aerial",
+   "group": "region",
+   "title": "Wilmette, low oblique over the Vattmann Park blocks",
+   "active": false,
+   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "overview": {
+    "lat": 42.0755,
+    "lon": -87.718,
+    "distanceM": 110,
+    "pitchDeg": 32,
+    "yawDeg": 200,
+    "fovDeg": 45
+   },
+   "weatherPreset": "clear",
+   "utc": "2026-10-22T20:00:00Z",
+   "local": "2026-10-22 15:00 CDT",
+   "weather": "clear",
+   "season": "peak fall",
+   "character": false,
+   "wet": false,
+   "camera": "low oblique, distance 110 m, pitch 32, yaw 200, vFOV 45 (P2 camera)",
+   "sun": {
+    "elevationDeg": 27.2,
+    "azimuthDeg": 220.6,
+    "shadowBearingDeg": 40.6,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png",
+     "label": "regions 03 (street concept; style reference only)"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
    "id": "evanston-street",
    "group": "region",
    "title": "Evanston South, Wesley Ave looking south, peak fall afternoon",
