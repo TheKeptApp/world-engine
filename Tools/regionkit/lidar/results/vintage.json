@@ -1,0 +1,24 @@
+{
+ "footprintsWithoutLidarRoof": 38,
+ "lidarAcquisition": "2017-04-16 to 2017-05-07 (FGDC metadata of the delivery tile at the area centre)",
+ "lidarClustersOutsideOSM": {
+  "areaM2Percentiles": {
+   "p25": 55.0,
+   "p50": 107.5,
+   "p75": 183.2
+  },
+  "areaM2Total": 77904,
+  "count": 420
+ },
+ "naipCheck": {
+  "clustersNonVegetatedInNaip": 305,
+  "clustersVegetatedInNaip": 115,
+  "missingFootprintsNonVegetatedInNaip": 22,
+  "missingFootprintsVegetatedInNaip": 16,
+  "ndviThreshold": 0.2,
+  "note": "non-vegetated = median NDVI below the threshold (roof or pavement); vegetated = trees or lawn in the NAIP year",
+  "scene": "il_m_4208759_sw_16_030_20230710_20240209 (2023-07-10, 0.3 m)"
+ },
+ "osmTimestamp": "2026-10-06T06:35:36Z",
+ "tool": "regionkit-lidar 0.1"
+}

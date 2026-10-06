@@ -41,7 +41,7 @@
       3,
       6
     ],
-    "canopyShare": 0.58
+    "canopyShare": 0.55
   },
   "houseTypes": [
     {
@@ -767,12 +767,12 @@
     "comment": "Documentation only; the profile decoder ignores this object. Fields not listed here are unmeasured proposal values.",
     "trees.canopyShare": {
       "status": "measured",
-      "value": 0.58,
-      "measuredValue": 0.583,
-      "source": "USDA NAIP, 10 July 2023, leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask over one 500 m x 500 m cell centred on Vattman Park (Tools/regionkit/aerial).",
-      "check": "Photo-interpreted random points: 0.543 (n = 92, 95 % interval 0.442-0.645); mask vs points agree at 85 % (kappa 0.69).",
-      "sample": "one cell, 0.25 km2",
-      "reference": "docs/research/aerial.md",
+      "value": 0.55,
+      "measuredValue": 0.551,
+      "source": "USDA NAIP 2023 leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask; value = canopy share of the area's built fabric (land without parks of at least 1,000 m2 and without water). Tools/regionkit/aerial/canopy_areas.py, results in Tools/regionkit/aerial/results/canopy_areas.json; docs/research/aerial.md section 13.",
+      "area": "Data/areas/wilmette-vattmann-park (1 km2)",
+      "acquired": "2023-07-10",
+      "check": "50 photo-interpreted points: 0.476 (0.33-0.62); mask vs points agree 74 %. An earlier 0.25 km2 study cell gave 0.58.",
       "date": "2026-10-06"
     }
   }

@@ -46,9 +46,9 @@
       "kind": "imagery",
       "title": "USDA NAIP aerial imagery",
       "text": "NAIP imagery provided by USDA Farm Service Agency",
-      "detail": "Shown only when NAIP-derived values are used (for example zone roof-colour or canopy shares). Public domain; USDA requests this credit.",
+      "detail": "Measured tree-canopy shares in the regional profiles (trees.canopyShare) come from NAIP imagery, so the credit is always shown. Public domain; USDA requests this credit.",
       "license": "public-domain",
-      "condition": "naipDerivedValues",
+      "condition": "always",
       "surfaces": ["app", "web", "package"],
       "burnIn": false
     },

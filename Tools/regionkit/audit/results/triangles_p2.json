@@ -1,0 +1,2215 @@
+{
+ "date": "2026-10-22T20:00:00Z",
+ "generatorCommit": "b8f6c71",
+ "method": "measured: worldbake export per run, GLB accessor counts per chunk and LOD, instances.json + prototype triangles, audit street-view culling (pkgtris.py)",
+ "runs": {
+  "edgewater-broadway-armory-park:chicago-dense-north:whole": {
+   "chunkMaxLod0": 80668,
+   "chunkMaxRaisedLod0": 78474,
+   "chunkMaxRaisedLod1": 6760,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 7,
+    "bush": 4079,
+    "conifer": 17,
+    "flowerBush": 1251,
+    "lamp": 203,
+    "treeBroad": 475,
+    "treeOval": 423,
+    "treeSpreading": 473
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 567726,
+     "garage": 42515,
+     "house": 424460,
+     "shed": 202
+    },
+    "byKind": {
+     "areasOther": 17126,
+     "buildings": 1034903,
+     "curbs": 132048,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 22029
+    },
+    "flat": 219864,
+    "raised": 989881,
+    "raisedByKind": {
+     "buildings": 989881
+    },
+    "tris": 1209903,
+    "water": 158
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 20854,
+     "garage": 12084,
+     "house": 47217,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 15938,
+     "buildings": 80259,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 4709
+    },
+    "raised": 80259,
+    "tris": 104703
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 15689,
+    "centreMean": 340087,
+    "lampsBenchesMean": 5746,
+    "n": 200,
+    "shadowRaisedRadius80Max": 132977,
+    "shadowRaisedRadius80Mean": 44724,
+    "shadowRaisedWedge80Max": 132977,
+    "shadowRaisedWedge80Mean": 40475,
+    "shadowTrees80Mean": 9338,
+    "staticMean": 272914,
+    "totalMax": 923669,
+    "totalMean": 339670,
+    "totalMin": 45806,
+    "totalP90": 644939,
+    "treesMean": 41920,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 878803,
+    "totalMean": 320647,
+    "totalP90": 606609
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 428166,
+    "viewMean": 212086,
+    "viewP90": 326697
+   },
+   "worldbake": "120 files, 168.6 MB, 25 chunks, 1209903/104703 triangles (lod0/lod1), 6928 instances, 133665 tuft candidates, 2.6 s"
+  },
+  "edgewater-broadway-armory-park:chicago-dense-north:worldlab": {
+   "chunkMaxLod0": 58455,
+   "chunkMaxRaisedLod0": 47643,
+   "chunkMaxRaisedLod1": 6760,
+   "chunks": 25,
+   "focus": [
+    -234.997,
+    -299.505,
+    235.002,
+    299.501
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 7,
+    "bush": 1460,
+    "conifer": 17,
+    "flowerBush": 483,
+    "lamp": 67,
+    "treeBroad": 486,
+    "treeOval": 433,
+    "treeSpreading": 478
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 173336,
+     "garage": 22635,
+     "house": 189496,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 16328,
+     "buildings": 385571,
+     "curbs": 39924,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 9911
+    },
+    "flat": 86224,
+    "raised": 369149,
+    "raisedByKind": {
+     "buildings": 369149
+    },
+    "tris": 455531,
+    "water": 158
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 20854,
+     "garage": 12084,
+     "house": 47217,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 15938,
+     "buildings": 80259,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 3047
+    },
+    "raised": 80259,
+    "tris": 103041
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 5714,
+    "centreMean": 191893,
+    "lampsBenchesMean": 1679,
+    "n": 200,
+    "shadowRaisedRadius80Max": 47643,
+    "shadowRaisedRadius80Mean": 15801,
+    "shadowRaisedWedge80Max": 47643,
+    "shadowRaisedWedge80Mean": 15134,
+    "shadowTrees80Mean": 9414,
+    "staticMean": 109202,
+    "totalMax": 464080,
+    "totalMean": 162544,
+    "totalMin": 4330,
+    "totalP90": 382675,
+    "treesMean": 42548,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 457798,
+    "totalMean": 154532,
+    "totalP90": 354423
+   },
+   "worldbake": "120 files, 74.0 MB, 25 chunks, 455531/103041 triangles (lod0/lod1), 3431 instances, 39731 tuft candidates, 1.7 s"
+  },
+  "edgewater-broadway-armory-park:default:whole": {
+   "chunkMaxLod0": 79175,
+   "chunkMaxRaisedLod0": 76961,
+   "chunkMaxRaisedLod1": 6539,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 7,
+    "bush": 3683,
+    "conifer": 102,
+    "flowerBush": 1285,
+    "lamp": 203,
+    "treeBroad": 481,
+    "treeOval": 457,
+    "treeSpreading": 313
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 462962,
+     "garage": 42520,
+     "house": 333172,
+     "shed": 202
+    },
+    "byKind": {
+     "areasOther": 16844,
+     "buildings": 838856,
+     "curbs": 132048,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 22029
+    },
+    "flat": 223442,
+    "raised": 789974,
+    "raisedByKind": {
+     "buildings": 789974
+    },
+    "tris": 1013574,
+    "water": 158
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 20854,
+     "garage": 12089,
+     "house": 47428,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 15756,
+     "buildings": 80475,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 4709
+    },
+    "raised": 80475,
+    "tris": 104737
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 14794,
+    "centreMean": 296586,
+    "lampsBenchesMean": 5746,
+    "n": 200,
+    "shadowRaisedRadius80Max": 130928,
+    "shadowRaisedRadius80Mean": 36018,
+    "shadowRaisedWedge80Max": 130928,
+    "shadowRaisedWedge80Mean": 32312,
+    "shadowTrees80Mean": 8648,
+    "staticMean": 232466,
+    "totalMax": 794369,
+    "totalMean": 293776,
+    "totalMin": 39909,
+    "totalP90": 550354,
+    "treesMean": 37368,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 749084,
+    "totalMean": 273568,
+    "totalP90": 515920
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 396182,
+    "viewMean": 186917,
+    "viewP90": 287938
+   },
+   "worldbake": "120 files, 144.3 MB, 25 chunks, 1013574/104737 triangles (lod0/lod1), 6531 instances, 133296 tuft candidates, 2.0 s"
+  },
+  "edgewater-broadway-armory-park:default:worldlab": {
+   "chunkMaxLod0": 48334,
+   "chunkMaxRaisedLod0": 37120,
+   "chunkMaxRaisedLod1": 6539,
+   "chunks": 25,
+   "focus": [
+    -234.997,
+    -299.505,
+    235.002,
+    299.501
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 7,
+    "bush": 1266,
+    "conifer": 102,
+    "flowerBush": 505,
+    "lamp": 67,
+    "treeBroad": 488,
+    "treeOval": 462,
+    "treeSpreading": 320
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 128036,
+     "garage": 22640,
+     "house": 156384,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 16108,
+     "buildings": 307164,
+     "curbs": 39924,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 9911
+    },
+    "flat": 87454,
+    "raised": 289292,
+    "raisedByKind": {
+     "buildings": 289292
+    },
+    "tris": 376904,
+    "water": 158
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 20854,
+     "garage": 12089,
+     "house": 47428,
+     "shed": 104
+    },
+    "byKind": {
+     "areasOther": 15756,
+     "buildings": 80475,
+     "ground": 50,
+     "roadsPaths": 3589,
+     "sidewalks": 3047
+    },
+    "raised": 80475,
+    "tris": 103075
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 5240,
+    "centreMean": 169336,
+    "lampsBenchesMean": 1679,
+    "n": 200,
+    "shadowRaisedRadius80Max": 37120,
+    "shadowRaisedRadius80Mean": 12305,
+    "shadowRaisedWedge80Max": 37120,
+    "shadowRaisedWedge80Mean": 11824,
+    "shadowTrees80Mean": 8723,
+    "staticMean": 92100,
+    "totalMax": 395442,
+    "totalMean": 140314,
+    "totalMin": 4331,
+    "totalP90": 317204,
+    "treesMean": 37894,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 385424,
+    "totalMean": 131669,
+    "totalP90": 295232
+   },
+   "worldbake": "120 files, 64.1 MB, 25 chunks, 376904/103075 triangles (lod0/lod1), 3217 instances, 39658 tuft candidates, 2.6 s"
+  },
+  "lakeview-sheil-park:chicago-dense-north:whole": {
+   "chunkMaxLod0": 65823,
+   "chunkMaxRaisedLod0": 53866,
+   "chunkMaxRaisedLod1": 7363,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 14,
+    "bush": 5266,
+    "conifer": 27,
+    "flowerBush": 1685,
+    "lamp": 294,
+    "treeBroad": 677,
+    "treeOval": 591,
+    "treeSpreading": 672
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 194446,
+     "garage": 99743,
+     "house": 883236,
+     "shed": 120
+    },
+    "byKind": {
+     "areasOther": 24781,
+     "buildings": 1177545,
+     "curbs": 166158,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 8538
+    },
+    "flat": 276469,
+    "raised": 1103549,
+    "raisedByKind": {
+     "buildings": 1103549
+    },
+    "tris": 1380018,
+    "water": 0
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 12358,
+     "garage": 28443,
+     "house": 84560,
+     "shed": 62
+    },
+    "byKind": {
+     "areasOther": 22751,
+     "buildings": 125423,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 1978
+    },
+    "raised": 125423,
+    "tris": 153148
+   },
+   "osmTimestamp": "2026-10-06T06:22:21Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 20767,
+    "centreMean": 456783,
+    "lampsBenchesMean": 9000,
+    "n": 200,
+    "shadowRaisedRadius80Max": 99092,
+    "shadowRaisedRadius80Mean": 49351,
+    "shadowRaisedWedge80Max": 99092,
+    "shadowRaisedWedge80Mean": 45691,
+    "shadowTrees80Mean": 14692,
+    "staticMean": 314870,
+    "totalMax": 1083852,
+    "totalMean": 408913,
+    "totalMin": 54947,
+    "totalP90": 800759,
+    "treesMean": 60874,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 1049107,
+    "totalMean": 385356,
+    "totalP90": 747095
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 513718,
+    "viewMean": 265133,
+    "viewP90": 393033
+   },
+   "worldbake": "120 files, 198.9 MB, 25 chunks, 1380018/153148 triangles (lod0/lod1), 9226 instances, 169157 tuft candidates, 2.4 s"
+  },
+  "lakeview-sheil-park:chicago-dense-north:worldlab": {
+   "chunkMaxLod0": 61803,
+   "chunkMaxRaisedLod0": 51911,
+   "chunkMaxRaisedLod1": 7363,
+   "chunks": 25,
+   "focus": [
+    -235,
+    -299.502,
+    234.997,
+    299.499
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 14,
+    "bush": 1907,
+    "conifer": 27,
+    "flowerBush": 593,
+    "lamp": 94,
+    "treeBroad": 679,
+    "treeOval": 592,
+    "treeSpreading": 673
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 75594,
+     "garage": 54496,
+     "house": 368627,
+     "shed": 102
+    },
+    "byKind": {
+     "areasOther": 23393,
+     "buildings": 498819,
+     "curbs": 47658,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 4248
+    },
+    "flat": 105623,
+    "raised": 471491,
+    "raisedByKind": {
+     "buildings": 471491
+    },
+    "tris": 577114,
+    "water": 0
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 12358,
+     "garage": 28443,
+     "house": 84560,
+     "shed": 62
+    },
+    "byKind": {
+     "areasOther": 22751,
+     "buildings": 125423,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 1880
+    },
+    "raised": 125423,
+    "tris": 153050
+   },
+   "osmTimestamp": "2026-10-06T06:22:21Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 7877,
+    "centreMean": 272588,
+    "lampsBenchesMean": 2592,
+    "n": 200,
+    "shadowRaisedRadius80Max": 51911,
+    "shadowRaisedRadius80Mean": 20711,
+    "shadowRaisedWedge80Max": 51911,
+    "shadowRaisedWedge80Mean": 19510,
+    "shadowTrees80Mean": 14711,
+    "staticMean": 136840,
+    "totalMax": 604826,
+    "totalMean": 211705,
+    "totalMin": 9079,
+    "totalP90": 482085,
+    "treesMean": 60994,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 591215,
+    "totalMean": 203282,
+    "totalP90": 454453
+   },
+   "worldbake": "120 files, 98.0 MB, 25 chunks, 577114/153050 triangles (lod0/lod1), 4579 instances, 47616 tuft candidates, 2.2 s"
+  },
+  "lakeview-sheil-park:default:whole": {
+   "chunkMaxLod0": 53084,
+   "chunkMaxRaisedLod0": 38435,
+   "chunkMaxRaisedLod1": 7234,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 14,
+    "bush": 5001,
+    "conifer": 175,
+    "flowerBush": 1798,
+    "lamp": 294,
+    "treeBroad": 692,
+    "treeOval": 593,
+    "treeSpreading": 429
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 115536,
+     "garage": 99754,
+     "house": 660658,
+     "shed": 120
+    },
+    "byKind": {
+     "areasOther": 24382,
+     "buildings": 876068,
+     "curbs": 166158,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 8538
+    },
+    "flat": 283320,
+    "raised": 794822,
+    "raisedByKind": {
+     "buildings": 794822
+    },
+    "tris": 1078142,
+    "water": 0
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 12358,
+     "garage": 28454,
+     "house": 83779,
+     "shed": 62
+    },
+    "byKind": {
+     "areasOther": 22516,
+     "buildings": 124653,
+     "ground": 50,
+     "roadsPaths": 2946,
+     "sidewalks": 1978
+    },
+    "raised": 124653,
+    "tris": 152143
+   },
+   "osmTimestamp": "2026-10-06T06:22:21Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 20101,
+    "centreMean": 385317,
+    "lampsBenchesMean": 9000,
+    "n": 200,
+    "shadowRaisedRadius80Max": 65022,
+    "shadowRaisedRadius80Mean": 35279,
+    "shadowRaisedWedge80Max": 65022,
+    "shadowRaisedWedge80Mean": 32823,
+    "shadowTrees80Mean": 12901,
+    "staticMean": 251479,
+    "totalMax": 878685,
+    "totalMean": 338412,
+    "totalMin": 43902,
+    "totalP90": 649305,
+    "treesMean": 54430,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 846947,
+    "totalMean": 314459,
+    "totalP90": 612044
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 444372,
+    "viewMean": 227590,
+    "viewP90": 347331
+   },
+   "worldbake": "120 files, 161.4 MB, 25 chunks, 1078142/152143 triangles (lod0/lod1), 8996 instances, 168303 tuft candidates, 2.4 s"
+  },
+  "lincoln-park-oz-park:chicago-dense-north:whole": {
+   "chunkMaxLod0": 69182,
+   "chunkMaxRaisedLod0": 57794,
+   "chunkMaxRaisedLod1": 6960,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 9,
+    "bush": 4903,
+    "conifer": 30,
+    "flowerBush": 1670,
+    "lamp": 259,
+    "treeBroad": 612,
+    "treeOval": 486,
+    "treeSpreading": 593
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 249912,
+     "garage": 57782,
+     "house": 809293,
+     "shed": 114
+    },
+    "byKind": {
+     "areasOther": 21106,
+     "buildings": 1117101,
+     "curbs": 141300,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 8560
+    },
+    "flat": 237226,
+    "raised": 1053809,
+    "raisedByKind": {
+     "buildings": 1053809
+    },
+    "tris": 1291041,
+    "water": 6
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 13824,
+     "garage": 16521,
+     "house": 75907,
+     "shed": 60
+    },
+    "byKind": {
+     "areasOther": 19296,
+     "buildings": 106312,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 1952
+    },
+    "raised": 106312,
+    "tris": 130534
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 19009,
+    "centreMean": 359551,
+    "lampsBenchesMean": 7325,
+    "n": 200,
+    "shadowRaisedRadius80Max": 106977,
+    "shadowRaisedRadius80Mean": 54271,
+    "shadowRaisedWedge80Max": 96693,
+    "shadowRaisedWedge80Mean": 44386,
+    "shadowTrees80Mean": 11859,
+    "staticMean": 292008,
+    "totalMax": 958381,
+    "totalMean": 373283,
+    "totalMin": 60491,
+    "totalP90": 653995,
+    "treesMean": 51539,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 904499,
+    "totalMean": 350806,
+    "totalP90": 642373
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 462515,
+    "viewMean": 237005,
+    "viewP90": 352066
+   },
+   "worldbake": "120 files, 183.2 MB, 25 chunks, 1291041/130534 triangles (lod0/lod1), 8562 instances, 146217 tuft candidates, 2.3 s"
+  },
+  "lincoln-park-oz-park:chicago-dense-north:worldlab": {
+   "chunkMaxLod0": 63841,
+   "chunkMaxRaisedLod0": 54364,
+   "chunkMaxRaisedLod1": 6960,
+   "chunks": 25,
+   "focus": [
+    -235.001,
+    -299.501,
+    234.998,
+    299.498
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 9,
+    "bush": 1320,
+    "conifer": 30,
+    "flowerBush": 484,
+    "lamp": 65,
+    "treeBroad": 611,
+    "treeOval": 487,
+    "treeSpreading": 594
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 102586,
+     "garage": 26071,
+     "house": 266525,
+     "shed": 78
+    },
+    "byKind": {
+     "areasOther": 19771,
+     "buildings": 395260,
+     "curbs": 33888,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 3334
+    },
+    "flat": 77421,
+    "raised": 377800,
+    "raisedByKind": {
+     "buildings": 377800
+    },
+    "tris": 455227,
+    "water": 6
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 13824,
+     "garage": 16521,
+     "house": 75907,
+     "shed": 60
+    },
+    "byKind": {
+     "areasOther": 19281,
+     "buildings": 106312,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 1582
+    },
+    "raised": 106312,
+    "tris": 130149
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "chicago-dense-north",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 5511,
+    "centreMean": 173638,
+    "lampsBenchesMean": 1600,
+    "n": 200,
+    "shadowRaisedRadius80Max": 71011,
+    "shadowRaisedRadius80Mean": 19022,
+    "shadowRaisedWedge80Max": 71011,
+    "shadowRaisedWedge80Mean": 15596,
+    "shadowTrees80Mean": 11838,
+    "staticMean": 106415,
+    "totalMax": 469134,
+    "totalMean": 168521,
+    "totalMin": 9787,
+    "totalP90": 340928,
+    "treesMean": 51592,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 455448,
+    "totalMean": 162186,
+    "totalP90": 331952
+   },
+   "worldbake": "120 files, 78.4 MB, 25 chunks, 455227/130149 triangles (lod0/lod1), 3600 instances, 33241 tuft candidates, 1.8 s"
+  },
+  "lincoln-park-oz-park:default:whole": {
+   "chunkMaxLod0": 57672,
+   "chunkMaxRaisedLod0": 45477,
+   "chunkMaxRaisedLod1": 7788,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 9,
+    "bush": 4628,
+    "conifer": 143,
+    "flowerBush": 1745,
+    "lamp": 259,
+    "treeBroad": 622,
+    "treeOval": 522,
+    "treeSpreading": 348
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 153916,
+     "garage": 57787,
+     "house": 640252,
+     "shed": 114
+    },
+    "byKind": {
+     "areasOther": 20807,
+     "buildings": 852069,
+     "curbs": 141300,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 8560
+    },
+    "flat": 244027,
+    "raised": 781677,
+    "raisedByKind": {
+     "buildings": 781677
+    },
+    "tris": 1025710,
+    "water": 6
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 13824,
+     "garage": 16526,
+     "house": 76429,
+     "shed": 60
+    },
+    "byKind": {
+     "areasOther": 19117,
+     "buildings": 106839,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 1952
+    },
+    "raised": 106839,
+    "tris": 130882
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 18412,
+    "centreMean": 303623,
+    "lampsBenchesMean": 7325,
+    "n": 200,
+    "shadowRaisedRadius80Max": 67552,
+    "shadowRaisedRadius80Mean": 38738,
+    "shadowRaisedWedge80Max": 67552,
+    "shadowRaisedWedge80Mean": 32683,
+    "shadowTrees80Mean": 10716,
+    "staticMean": 237104,
+    "totalMax": 801408,
+    "totalMean": 312121,
+    "totalMin": 49493,
+    "totalP90": 548867,
+    "treesMean": 45878,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 742690,
+    "totalMean": 289149,
+    "totalP90": 526034
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 391639,
+    "viewMean": 205130,
+    "viewP90": 314004
+   },
+   "worldbake": "120 files, 150.6 MB, 25 chunks, 1025710/130882 triangles (lod0/lod1), 8276 instances, 145678 tuft candidates, 2.4 s"
+  },
+  "lincoln-park-oz-park:default:worldlab": {
+   "chunkMaxLod0": 47582,
+   "chunkMaxRaisedLod0": 37737,
+   "chunkMaxRaisedLod1": 7788,
+   "chunks": 25,
+   "focus": [
+    -235.001,
+    -299.501,
+    234.998,
+    299.498
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 9,
+    "bush": 1284,
+    "conifer": 143,
+    "flowerBush": 510,
+    "lamp": 65,
+    "treeBroad": 623,
+    "treeOval": 523,
+    "treeSpreading": 349
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 72314,
+     "garage": 26076,
+     "house": 222357,
+     "shed": 78
+    },
+    "byKind": {
+     "areasOther": 19590,
+     "buildings": 320825,
+     "curbs": 33888,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 3334
+    },
+    "flat": 79240,
+    "raised": 301365,
+    "raisedByKind": {
+     "buildings": 301365
+    },
+    "tris": 380611,
+    "water": 6
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 13824,
+     "garage": 16526,
+     "house": 76429,
+     "shed": 60
+    },
+    "byKind": {
+     "areasOther": 19100,
+     "buildings": 106839,
+     "ground": 50,
+     "roadsPaths": 2918,
+     "sidewalks": 1582
+    },
+    "raised": 106839,
+    "tris": 130495
+   },
+   "osmTimestamp": "2026-10-06T12:34:03Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 5501,
+    "centreMean": 153423,
+    "lampsBenchesMean": 1600,
+    "n": 200,
+    "shadowRaisedRadius80Max": 55789,
+    "shadowRaisedRadius80Mean": 15184,
+    "shadowRaisedWedge80Max": 55789,
+    "shadowRaisedWedge80Mean": 12459,
+    "shadowTrees80Mean": 10721,
+    "staticMean": 90197,
+    "totalMax": 397654,
+    "totalMean": 146655,
+    "totalMin": 8472,
+    "totalP90": 290272,
+    "treesMean": 45954,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 382487,
+    "totalMean": 139811,
+    "totalP90": 276571
+   },
+   "worldbake": "120 files, 69.1 MB, 25 chunks, 380611/130495 triangles (lod0/lod1), 3506 instances, 33065 tuft candidates, 1.8 s"
+  },
+  "loop-daley-plaza:default:whole": {
+   "chunkMaxLod0": 187246,
+   "chunkMaxRaisedLod0": 180925,
+   "chunkMaxRaisedLod1": 1335,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 99,
+    "bush": 1649,
+    "conifer": 53,
+    "flowerBush": 653,
+    "lamp": 70,
+    "treeBroad": 338,
+    "treeOval": 301,
+    "treeSpreading": 210
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 2016394,
+     "garage": 911,
+     "house": 16353,
+     "shed": 1492
+    },
+    "byKind": {
+     "areasOther": 6059,
+     "buildings": 2035150,
+     "curbs": 173844,
+     "ground": 50,
+     "roadsPaths": 9584,
+     "sidewalks": 14950
+    },
+    "flat": 221521,
+    "raised": 2018116,
+    "raisedByKind": {
+     "buildings": 2018116
+    },
+    "tris": 2240042,
+    "water": 405
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 19850,
+     "garage": 345,
+     "house": 1542,
+     "shed": 754
+    },
+    "byKind": {
+     "areasOther": 5999,
+     "buildings": 22491,
+     "ground": 50,
+     "roadsPaths": 9584,
+     "sidewalks": 3246
+    },
+    "raised": 22491,
+    "tris": 41775
+   },
+   "osmTimestamp": "2026-10-06T12:33:02Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 6654,
+    "centreMean": 566229,
+    "lampsBenchesMean": 2586,
+    "n": 200,
+    "shadowRaisedRadius80Max": 443156,
+    "shadowRaisedRadius80Mean": 139372,
+    "shadowRaisedWedge80Max": 332630,
+    "shadowRaisedWedge80Mean": 90442,
+    "shadowTrees80Mean": 5900,
+    "staticMean": 488903,
+    "totalMax": 1832038,
+    "totalMean": 525069,
+    "totalMin": 17334,
+    "totalP90": 1045584,
+    "treesMean": 23524,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 1506361,
+    "totalMean": 511923,
+    "totalP90": 1020637
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 654027,
+    "viewMean": 277398,
+    "viewP90": 473225
+   },
+   "worldbake": "120 files, 282.6 MB, 25 chunks, 2240042/41775 triangles (lod0/lod1), 3373 instances, 80895 tuft candidates, 1.6 s"
+  },
+  "loop-daley-plaza:default:worldlab": {
+   "chunkMaxLod0": 187270,
+   "chunkMaxRaisedLod0": 180925,
+   "chunkMaxRaisedLod1": 1335,
+   "chunks": 25,
+   "focus": [
+    -235.003,
+    -299.499,
+    235,
+    299.496
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 99,
+    "bush": 651,
+    "conifer": 53,
+    "flowerBush": 266,
+    "lamp": 56,
+    "treeBroad": 336,
+    "treeOval": 301,
+    "treeSpreading": 210
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 942416,
+     "garage": 629,
+     "house": 7744,
+     "shed": 940
+    },
+    "byKind": {
+     "areasOther": 6017,
+     "buildings": 951729,
+     "curbs": 50052,
+     "ground": 50,
+     "roadsPaths": 9584,
+     "sidewalks": 6758
+    },
+    "flat": 78939,
+    "raised": 945251,
+    "raisedByKind": {
+     "buildings": 945251
+    },
+    "tris": 1024595,
+    "water": 405
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 19850,
+     "garage": 345,
+     "house": 1542,
+     "shed": 754
+    },
+    "byKind": {
+     "areasOther": 5991,
+     "buildings": 22491,
+     "ground": 50,
+     "roadsPaths": 9584,
+     "sidewalks": 3030
+    },
+    "raised": 22491,
+    "tris": 41551
+   },
+   "osmTimestamp": "2026-10-06T12:33:02Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 2768,
+    "centreMean": 311641,
+    "lampsBenchesMean": 2265,
+    "n": 200,
+    "shadowRaisedRadius80Max": 443156,
+    "shadowRaisedRadius80Mean": 82590,
+    "shadowRaisedWedge80Max": 332630,
+    "shadowRaisedWedge80Mean": 45226,
+    "shadowTrees80Mean": 5891,
+    "staticMean": 238726,
+    "totalMax": 1084666,
+    "totalMean": 270516,
+    "totalMin": 5010,
+    "totalP90": 688414,
+    "treesMean": 23356,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 858572,
+    "totalMean": 261319,
+    "totalP90": 672786
+   },
+   "worldbake": "120 files, 133.0 MB, 25 chunks, 1024595/41551 triangles (lod0/lod1), 1972 instances, 21713 tuft candidates, 1.0 s"
+  },
+  "river-north-montgomery-ward-park:default:whole": {
+   "chunkMaxLod0": 76059,
+   "chunkMaxRaisedLod0": 70761,
+   "chunkMaxRaisedLod1": 2686,
+   "chunks": 25,
+   "focus": [
+    -500,
+    -500,
+    500,
+    500
+   ],
+   "fullDetailChunks": 25,
+   "instances": {
+    "bench": 7,
+    "bush": 2236,
+    "conifer": 33,
+    "flowerBush": 839,
+    "lamp": 181,
+    "treeBroad": 324,
+    "treeOval": 290,
+    "treeSpreading": 194
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 468161,
+     "garage": 376,
+     "house": 75896,
+     "shed": 278
+    },
+    "byKind": {
+     "areasOther": 5424,
+     "buildings": 544711,
+     "curbs": 122700,
+     "ground": 50,
+     "roadsPaths": 4898,
+     "sidewalks": 12856
+    },
+    "flat": 159000,
+    "raised": 531639,
+    "raisedByKind": {
+     "buildings": 531639
+    },
+    "tris": 690952,
+    "water": 313
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 7143,
+     "garage": 122,
+     "house": 9044,
+     "shed": 144
+    },
+    "byKind": {
+     "areasOther": 5052,
+     "buildings": 16453,
+     "ground": 50,
+     "roadsPaths": 4898,
+     "sidewalks": 2752
+    },
+    "raised": 16453,
+    "tris": 29518
+   },
+   "osmTimestamp": "2026-10-06T12:33:02Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 8780,
+    "centreMean": 201803,
+    "lampsBenchesMean": 4852,
+    "n": 200,
+    "shadowRaisedRadius80Max": 100683,
+    "shadowRaisedRadius80Mean": 34870,
+    "shadowRaisedWedge80Max": 100683,
+    "shadowRaisedWedge80Mean": 24345,
+    "shadowTrees80Mean": 5913,
+    "staticMean": 153882,
+    "totalMax": 549969,
+    "totalMean": 193474,
+    "totalMin": 6666,
+    "totalP90": 424616,
+    "treesMean": 22558,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 540962,
+    "totalMean": 186831,
+    "totalP90": 414576
+   },
+   "whatIfDistanceLod150m": {
+    "note": "full-detail chunk within 150 m of the camera, lod1 beyond; props as current",
+    "viewMax": 332168,
+    "viewMean": 119313,
+    "viewP90": 226985
+   },
+   "worldbake": "120 files, 92.3 MB, 25 chunks, 690952/29518 triangles (lod0/lod1), 4104 instances, 82765 tuft candidates, 1.1 s"
+  },
+  "river-north-montgomery-ward-park:default:worldlab": {
+   "chunkMaxLod0": 76843,
+   "chunkMaxRaisedLod0": 70761,
+   "chunkMaxRaisedLod1": 2686,
+   "chunks": 25,
+   "focus": [
+    -235,
+    -299.5,
+    234.997,
+    299.496
+   ],
+   "fullDetailChunks": 9,
+   "instances": {
+    "bench": 7,
+    "bush": 835,
+    "conifer": 30,
+    "flowerBush": 307,
+    "lamp": 84,
+    "treeBroad": 328,
+    "treeOval": 288,
+    "treeSpreading": 197
+   },
+   "lod0": {
+    "buildingByRole": {
+     "block": 198001,
+     "garage": 122,
+     "house": 36914,
+     "shed": 144
+    },
+    "byKind": {
+     "areasOther": 5177,
+     "buildings": 235181,
+     "curbs": 32952,
+     "ground": 50,
+     "roadsPaths": 4898,
+     "sidewalks": 4496
+    },
+    "flat": 51977,
+    "raised": 230777,
+    "raisedByKind": {
+     "buildings": 230777
+    },
+    "tris": 283067,
+    "water": 313
+   },
+   "lod1": {
+    "buildingByRole": {
+     "block": 7143,
+     "garage": 122,
+     "house": 9044,
+     "shed": 144
+    },
+    "byKind": {
+     "areasOther": 5001,
+     "buildings": 16453,
+     "ground": 50,
+     "roadsPaths": 4898,
+     "sidewalks": 2024
+    },
+    "raised": 16453,
+    "tris": 28739
+   },
+   "osmTimestamp": "2026-10-06T12:33:02Z",
+   "profile": "default",
+   "prototypeTris": {
+    "bench-0": [
+     72
+    ],
+    "bush-0": [
+     80,
+     20,
+     8
+    ],
+    "bush-1": [
+     80,
+     20,
+     8
+    ],
+    "conifer-0": [
+     66,
+     42,
+     14
+    ],
+    "flowerBush-0": [
+     80,
+     20,
+     8
+    ],
+    "flowerBush-1": [
+     80,
+     20,
+     8
+    ],
+    "lamp-0": [
+     102
+    ],
+    "treeBroad-0": [
+     571,
+     238,
+     81
+    ],
+    "treeOval-0": [
+     571,
+     238,
+     81
+    ],
+    "treeSpreading-0": [
+     663,
+     235,
+     84
+    ],
+    "tuft-0": [
+     18
+    ],
+    "tuft-1": [
+     24
+    ]
+   },
+   "view": {
+    "bushesMean": 3491,
+    "centreMean": 117887,
+    "lampsBenchesMean": 2051,
+    "n": 200,
+    "shadowRaisedRadius80Max": 71385,
+    "shadowRaisedRadius80Mean": 15547,
+    "shadowRaisedWedge80Max": 71385,
+    "shadowRaisedWedge80Mean": 10412,
+    "shadowTrees80Mean": 5914,
+    "staticMean": 64698,
+    "totalMax": 337426,
+    "totalMean": 96253,
+    "totalMin": 3968,
+    "totalP90": 262599,
+    "treesMean": 22611,
+    "tufts": 3400
+   },
+   "viewGridCulling": {
+    "note": "same measured counts, chunks culled by their 200 m grid squares as in the pre-P2 audit",
+    "totalMax": 331153,
+    "totalMean": 95473,
+    "totalP90": 259973
+   },
+   "worldbake": "120 files, 41.1 MB, 25 chunks, 283067/28739 triangles (lod0/lod1), 2076 instances, 23670 tuft candidates, 0.9 s"
+  }
+ }
+}

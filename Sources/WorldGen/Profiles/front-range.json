@@ -5,6 +5,7 @@
   "comment": "v2 spec §4.2–4.4 and §3.2. Dimensions are eligibility/proportion guides, never instructions to resize a footprint.",
   "seasons": { "hemisphere": "north", "spring": [3, 4, 5], "summer": [6, 7, 8], "autumn": [9, 10, 11], "winter": [12, 1, 2] },
   "trees": {
+    "canopyShare": 0.25,
     "deciduousShare": 0.90,
     "crownWeights": { "broad": 0.45, "oval": 0.30, "spreading": 0.25 },
     "heightMeters": [9, 15],
@@ -69,5 +70,18 @@
   "shed": { "wallHeight": [2.0, 2.4], "pitch": [8, 18], "overhang": [0.10, 0.20],
             "colors": [["#8B967E", "#D5CCB8", "#6C7D70", "#676C6A"], ["#AB8E73", "#DBCBB0", "#7C6859", "#686568"]] },
   "chimneyLikelihood": 0.35,
-  "foundationMeters": [0.45, 0.75]
+  "foundationMeters": [0.45, 0.75],
+  "provenance": {
+    "comment": "Documentation only; the profile decoder ignores this object.",
+    "trees.canopyShare": {
+      "status": "measured",
+      "value": 0.25,
+      "measuredValue": 0.248,
+      "source": "USDA NAIP 2023 leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask; value = canopy share of the area's built fabric (land without parks of at least 1,000 m2 and without water). Tools/regionkit/aerial/canopy_areas.py, results in Tools/regionkit/aerial/results/canopy_areas.json; docs/research/aerial.md section 13.",
+      "area": "Data/areas/sloans-lake (1.92 km2; fabric value, the lake is 37 % of the area)",
+      "acquired": "2023-09-25",
+      "check": "50 photo-interpreted points: 0.196 (0.11-0.33); mask vs points agree 91 %. One mature inner-city area; suburbs likely lower.",
+      "date": "2026-10-06"
+    }
+  }
 }

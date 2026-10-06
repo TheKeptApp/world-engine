@@ -37,6 +37,15 @@ UV_CACHE_DIR=/tmp/aerial-uv uv run --no-project --python python3 --with numpy \
 | `points` | 100 stable random points as 15 m contact sheets with a crosshair, for a photo-interpreted canopy check | work dir only |
 | `score` | Compares the hand labels (`labels.json`, `labels_B.json`, `points_labels.json` in the work dir) with the estimates | `results/accuracy.json` |
 
+**Canopy of the committed test areas** (phase 5B, for the profiles' `trees.canopyShare`):
+`canopy_areas.py fetch | analyse | points | score --work DIR [--only AREA ...]`. It reads each area listed in
+`data/canopy_areas.json` (committed `Data/areas/*`: manifest rectangle, streets, parks and water from its
+`osm.json`; no Overpass request). It fetches the newest NAIP window, mosaicking quarter-quads when one doesn't
+cover the area (about 55 MB per km² at 0.3 m). It applies the unchanged canopy mask and writes area, land,
+residential-fabric and block shares to `results/canopy_areas.json`. `points` makes 50 stable random points per
+area as contact sheets for a photo check; `score` reads `areas/<id>/points_labels.json` (`{"P01": "tree" |
+"not" | "?"}`) from the work dir. Same command line as above, with `canopy_areas.py` in place of `aerial.py`.
+
 The work directory defaults to `$AERIAL_WORK` or `<system temp>/worldengine-aerial`; the tool refuses a work
 directory inside the repository. Delete it when done: it holds imagery, crops, per-building estimates and labels.
 
@@ -53,6 +62,8 @@ directory inside the repository. Delete it when done: it holds imagery, crops, p
   relative to the scene's median roof colour), plus suggested render colours per family.
 - `data/params.json`: every threshold (footprint erosion, vegetation and shadow masks, roof heuristic, canopy
   texture, sample sizes and seeds, hint confidence thresholds).
+- `canopy_areas.py`, `data/canopy_areas.json`, `results/canopy_areas.json`: canopy per committed test area
+  (phase 5B); area and block aggregates and the point-check counts, no imagery or masks.
 - `results/summary.json`, `results/accuracy.json`: aggregates only. No building IDs, no per-building values,
   no geometry. Any colour or distribution statistic over fewer than 5 buildings (`minGroupN`) is replaced by
   its count only.

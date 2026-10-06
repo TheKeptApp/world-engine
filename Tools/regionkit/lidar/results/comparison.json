@@ -1,0 +1,1062 @@
+{
+ "all": {
+  "complexFlag": {
+   "bothComplex": 98,
+   "bothSimple": 338,
+   "lidarComplex": 443,
+   "lidarComplex_p2Simple": 345,
+   "lidarSimple_p2Complex": 10,
+   "n": 791,
+   "p2MeshComplex": 108,
+   "shareLidarComplexWhereP2Simple": 0.505,
+   "shareLidarComplexWhereP2Simple95ci": [
+    0.4677,
+    0.5425
+   ]
+  },
+  "fourClass_lidarVsP2mesh": {
+   "agree": 237,
+   "agreement": 0.2996,
+   "agreement95ci": [
+    0.2687,
+    0.3325
+   ],
+   "kappa": 0.115,
+   "matrix": {
+    "complex": {
+     "complex": 98,
+     "flat": 39,
+     "gable": 236,
+     "hip": 70
+    },
+    "flat": {
+     "complex": 7,
+     "flat": 23,
+     "gable": 45,
+     "hip": 8
+    },
+    "gable": {
+     "complex": 2,
+     "flat": 16,
+     "gable": 88,
+     "hip": 18
+    },
+    "hip": {
+     "complex": 1,
+     "flat": 22,
+     "gable": 90,
+     "hip": 28
+    }
+   },
+   "n": 791,
+   "perClass": {
+    "complex": {
+     "n": 443,
+     "precision": 0.907,
+     "recall": 0.221,
+     "recall95ci": [
+      0.1851,
+      0.2622
+     ]
+    },
+    "flat": {
+     "n": 83,
+     "precision": 0.23,
+     "recall": 0.277,
+     "recall95ci": [
+      0.1923,
+      0.3816
+     ]
+    },
+    "gable": {
+     "n": 124,
+     "precision": 0.192,
+     "recall": 0.71,
+     "recall95ci": [
+      0.6244,
+      0.7823
+     ]
+    },
+    "hip": {
+     "n": 141,
+     "precision": 0.226,
+     "recall": 0.199,
+     "recall95ci": [
+      0.1411,
+      0.272
+     ]
+    }
+   }
+  },
+  "lidarComplexReasons": {
+   "mixed flat and sloped": 94,
+   "no opposite pair": 161,
+   "off-axis plane": 31,
+   "planes": 374
+  },
+  "lidarMix": {
+   "form": {
+    "complex": 446,
+    "flat": 86,
+    "gable": 124,
+    "hip": 141
+   },
+   "simple": {
+    "flat": 98,
+    "gable": 441,
+    "hip": 257,
+    "unknown": 1
+   }
+  },
+  "lidarPitchBySimple": {
+   "gable": {
+    "n": 441,
+    "p10": 20.5,
+    "p25": 26.1,
+    "p50": 33.5,
+    "p75": 40.8,
+    "p90": 44.2
+   },
+   "hip": {
+    "n": 257,
+    "p10": 18.4,
+    "p25": 21.8,
+    "p50": 28.8,
+    "p75": 36.0,
+    "p90": 40.7
+   }
+  },
+  "n": 797,
+  "p2MeshPitchBySimple": {
+   "gable": {
+    "n": 538,
+    "p10": 18.4,
+    "p25": 28.3,
+    "p50": 40.4,
+    "p75": 46.2,
+    "p90": 48.9
+   },
+   "hip": {
+    "n": 153,
+    "p10": 14.4,
+    "p25": 18.5,
+    "p50": 28.9,
+    "p75": 40.6,
+    "p90": 46.1
+   }
+  },
+  "p2Mix": {
+   "meshForm": {
+    "complex": 108,
+    "flat": 100,
+    "gable": 459,
+    "hip": 124,
+    "unknown": 6
+   },
+   "roofShape": {
+    "flat": 100,
+    "gabled": 530,
+    "hipped": 167
+   }
+  },
+  "simpleForm_lidarVsP2roofShape": {
+   "agree": 381,
+   "agreement": 0.4786,
+   "agreement95ci": [
+    0.4441,
+    0.5134
+   ],
+   "kappa": 0.0497,
+   "matrix": {
+    "flat": {
+     "flat": 26,
+     "gable": 56,
+     "hip": 16
+    },
+    "gable": {
+     "flat": 41,
+     "gable": 302,
+     "hip": 98
+    },
+    "hip": {
+     "flat": 33,
+     "gable": 171,
+     "hip": 53
+    }
+   },
+   "n": 796,
+   "perClass": {
+    "flat": {
+     "n": 98,
+     "precision": 0.26,
+     "recall": 0.265,
+     "recall95ci": [
+      0.188,
+      0.3604
+     ]
+    },
+    "gable": {
+     "n": 441,
+     "precision": 0.571,
+     "recall": 0.685,
+     "recall95ci": [
+      0.64,
+      0.7264
+     ]
+    },
+    "hip": {
+     "n": 257,
+     "precision": 0.317,
+     "recall": 0.206,
+     "recall95ci": [
+      0.1613,
+      0.2598
+     ]
+    }
+   }
+  }
+ },
+ "area": "Data/areas/evanston-south",
+ "buildings": {
+  "classifiedByRole": {
+   "block": 13,
+   "garage": 134,
+   "house": 650
+  },
+  "inBoth": 887,
+  "onlyGeneratorSide": 0,
+  "onlyLidarSide": 0,
+  "status": {
+   "classified": 797,
+   "footprint too small or eroded away": 15,
+   "lidar roof partly seen (coverage below threshold)": 37,
+   "no lidar roof (built after the flight, footprint off, or not classed building)": 38
+  }
+ },
+ "byRole": {
+  "block": {
+   "complexFlag": {
+    "bothComplex": 0,
+    "bothSimple": 9,
+    "lidarComplex": 4,
+    "lidarComplex_p2Simple": 4,
+    "lidarSimple_p2Complex": 0,
+    "n": 13,
+    "p2MeshComplex": 0,
+    "shareLidarComplexWhereP2Simple": 0.308,
+    "shareLidarComplexWhereP2Simple95ci": [
+     0.1268,
+     0.5763
+    ]
+   },
+   "fourClass_lidarVsP2mesh": {
+    "agree": 7,
+    "agreement": 0.5385,
+    "agreement95ci": [
+     0.2914,
+     0.7679
+    ],
+    "kappa": 0.0,
+    "matrix": {
+     "complex": {
+      "complex": 0,
+      "flat": 4,
+      "gable": 0,
+      "hip": 0
+     },
+     "flat": {
+      "complex": 0,
+      "flat": 7,
+      "gable": 0,
+      "hip": 0
+     },
+     "gable": {
+      "complex": 0,
+      "flat": 2,
+      "gable": 0,
+      "hip": 0
+     },
+     "hip": {
+      "complex": 0,
+      "flat": 0,
+      "gable": 0,
+      "hip": 0
+     }
+    },
+    "n": 13,
+    "perClass": {
+     "complex": {
+      "n": 4,
+      "precision": null,
+      "recall": null,
+      "recall95ci": null
+     },
+     "flat": {
+      "n": 7,
+      "precision": 0.538,
+      "recall": 1.0,
+      "recall95ci": [
+       0.6457,
+       1.0
+      ]
+     },
+     "gable": {
+      "n": 2,
+      "precision": null,
+      "recall": null,
+      "recall95ci": null
+     },
+     "hip": {
+      "n": 0,
+      "precision": null,
+      "recall": null,
+      "recall95ci": null
+     }
+    }
+   },
+   "lidarComplexReasons": {
+    "mixed flat and sloped": 2,
+    "no opposite pair": 4,
+    "planes": 2
+   },
+   "lidarMix": {
+    "form": {
+     "complex": 4,
+     "flat": 7,
+     "gable": 2
+    },
+    "simple": {
+     "flat": 9,
+     "gable": 4
+    }
+   },
+   "lidarPitchBySimple": {
+    "gable": {
+     "n": 4,
+     "suppressed": true
+    },
+    "hip": {
+     "n": 0,
+     "suppressed": true
+    }
+   },
+   "n": 13,
+   "p2MeshPitchBySimple": {
+    "gable": {
+     "n": 0,
+     "suppressed": true
+    },
+    "hip": {
+     "n": 0,
+     "suppressed": true
+    }
+   },
+   "p2Mix": {
+    "meshForm": {
+     "flat": 13
+    },
+    "roofShape": {
+     "flat": 13
+    }
+   },
+   "simpleForm_lidarVsP2roofShape": {
+    "agree": 9,
+    "agreement": 0.6923,
+    "agreement95ci": [
+     0.4237,
+     0.8732
+    ],
+    "kappa": 0.0,
+    "matrix": {
+     "flat": {
+      "flat": 9,
+      "gable": 0,
+      "hip": 0
+     },
+     "gable": {
+      "flat": 4,
+      "gable": 0,
+      "hip": 0
+     },
+     "hip": {
+      "flat": 0,
+      "gable": 0,
+      "hip": 0
+     }
+    },
+    "n": 13,
+    "perClass": {
+     "flat": {
+      "n": 9,
+      "precision": 0.692,
+      "recall": 1.0,
+      "recall95ci": [
+       0.7008,
+       1.0
+      ]
+     },
+     "gable": {
+      "n": 4,
+      "precision": null,
+      "recall": null,
+      "recall95ci": null
+     },
+     "hip": {
+      "n": 0,
+      "precision": null,
+      "recall": null,
+      "recall95ci": null
+     }
+    }
+   }
+  },
+  "garage": {
+   "complexFlag": {
+    "bothComplex": 0,
+    "bothSimple": 105,
+    "lidarComplex": 29,
+    "lidarComplex_p2Simple": 29,
+    "lidarSimple_p2Complex": 0,
+    "n": 134,
+    "p2MeshComplex": 0,
+    "shareLidarComplexWhereP2Simple": 0.216,
+    "shareLidarComplexWhereP2Simple95ci": [
+     0.1551,
+     0.2935
+    ]
+   },
+   "fourClass_lidarVsP2mesh": {
+    "agree": 52,
+    "agreement": 0.3881,
+    "agreement95ci": [
+     0.3098,
+     0.4726
+    ],
+    "kappa": 0.0924,
+    "matrix": {
+     "complex": {
+      "complex": 0,
+      "flat": 5,
+      "gable": 23,
+      "hip": 1
+     },
+     "flat": {
+      "complex": 0,
+      "flat": 4,
+      "gable": 5,
+      "hip": 0
+     },
+     "gable": {
+      "complex": 0,
+      "flat": 12,
+      "gable": 41,
+      "hip": 2
+     },
+     "hip": {
+      "complex": 0,
+      "flat": 9,
+      "gable": 25,
+      "hip": 7
+     }
+    },
+    "n": 134,
+    "perClass": {
+     "complex": {
+      "n": 29,
+      "precision": null,
+      "recall": 0.0,
+      "recall95ci": [
+       0.0,
+       0.117
+      ]
+     },
+     "flat": {
+      "n": 9,
+      "precision": 0.133,
+      "recall": 0.444,
+      "recall95ci": [
+       0.1888,
+       0.7334
+      ]
+     },
+     "gable": {
+      "n": 55,
+      "precision": 0.436,
+      "recall": 0.745,
+      "recall95ci": [
+       0.617,
+       0.8419
+      ]
+     },
+     "hip": {
+      "n": 41,
+      "precision": 0.7,
+      "recall": 0.171,
+      "recall95ci": [
+       0.0853,
+       0.3126
+      ]
+     }
+    }
+   },
+   "lidarComplexReasons": {
+    "mixed flat and sloped": 8,
+    "no opposite pair": 17,
+    "off-axis plane": 1,
+    "planes": 11
+   },
+   "lidarMix": {
+    "form": {
+     "complex": 29,
+     "flat": 9,
+     "gable": 55,
+     "hip": 41
+    },
+    "simple": {
+     "flat": 9,
+     "gable": 79,
+     "hip": 46
+    }
+   },
+   "lidarPitchBySimple": {
+    "gable": {
+     "n": 79,
+     "p10": 18.5,
+     "p25": 21.5,
+     "p50": 26.5,
+     "p75": 32.6,
+     "p90": 35.7
+    },
+    "hip": {
+     "n": 46,
+     "p10": 17.4,
+     "p25": 18.1,
+     "p50": 19.7,
+     "p75": 25.4,
+     "p90": 29.6
+    }
+   },
+   "n": 134,
+   "p2MeshPitchBySimple": {
+    "gable": {
+     "n": 94,
+     "p10": 16.0,
+     "p25": 17.1,
+     "p50": 20.3,
+     "p75": 22.8,
+     "p90": 24.0
+    },
+    "hip": {
+     "n": 10,
+     "p10": 17.9,
+     "p25": 19.1,
+     "p50": 20.6,
+     "p75": 21.4,
+     "p90": 22.3
+    }
+   },
+   "p2Mix": {
+    "meshForm": {
+     "flat": 30,
+     "gable": 94,
+     "hip": 10
+    },
+    "roofShape": {
+     "flat": 30,
+     "gabled": 94,
+     "hipped": 10
+    }
+   },
+   "simpleForm_lidarVsP2roofShape": {
+    "agree": 70,
+    "agreement": 0.5224,
+    "agreement95ci": [
+     0.4384,
+     0.6052
+    ],
+    "kappa": 0.1249,
+    "matrix": {
+     "flat": {
+      "flat": 4,
+      "gable": 5,
+      "hip": 0
+     },
+     "gable": {
+      "flat": 17,
+      "gable": 59,
+      "hip": 3
+     },
+     "hip": {
+      "flat": 9,
+      "gable": 30,
+      "hip": 7
+     }
+    },
+    "n": 134,
+    "perClass": {
+     "flat": {
+      "n": 9,
+      "precision": 0.133,
+      "recall": 0.444,
+      "recall95ci": [
+       0.1888,
+       0.7334
+      ]
+     },
+     "gable": {
+      "n": 79,
+      "precision": 0.628,
+      "recall": 0.747,
+      "recall95ci": [
+       0.6411,
+       0.8297
+      ]
+     },
+     "hip": {
+      "n": 46,
+      "precision": 0.7,
+      "recall": 0.152,
+      "recall95ci": [
+       0.0757,
+       0.2822
+      ]
+     }
+    }
+   }
+  },
+  "house": {
+   "complexFlag": {
+    "bothComplex": 98,
+    "bothSimple": 224,
+    "lidarComplex": 410,
+    "lidarComplex_p2Simple": 312,
+    "lidarSimple_p2Complex": 10,
+    "n": 644,
+    "p2MeshComplex": 108,
+    "shareLidarComplexWhereP2Simple": 0.582,
+    "shareLidarComplexWhereP2Simple95ci": [
+     0.5399,
+     0.6231
+    ]
+   },
+   "fourClass_lidarVsP2mesh": {
+    "agree": 178,
+    "agreement": 0.2764,
+    "agreement95ci": [
+     0.2433,
+     0.3122
+    ],
+    "kappa": 0.0927,
+    "matrix": {
+     "complex": {
+      "complex": 98,
+      "flat": 30,
+      "gable": 213,
+      "hip": 69
+     },
+     "flat": {
+      "complex": 7,
+      "flat": 12,
+      "gable": 40,
+      "hip": 8
+     },
+     "gable": {
+      "complex": 2,
+      "flat": 2,
+      "gable": 47,
+      "hip": 16
+     },
+     "hip": {
+      "complex": 1,
+      "flat": 13,
+      "gable": 65,
+      "hip": 21
+     }
+    },
+    "n": 644,
+    "perClass": {
+     "complex": {
+      "n": 410,
+      "precision": 0.907,
+      "recall": 0.239,
+      "recall95ci": [
+       0.2003,
+       0.2826
+      ]
+     },
+     "flat": {
+      "n": 67,
+      "precision": 0.211,
+      "recall": 0.179,
+      "recall95ci": [
+       0.1055,
+       0.2875
+      ]
+     },
+     "gable": {
+      "n": 67,
+      "precision": 0.129,
+      "recall": 0.701,
+      "recall95ci": [
+       0.5834,
+       0.7977
+      ]
+     },
+     "hip": {
+      "n": 100,
+      "precision": 0.184,
+      "recall": 0.21,
+      "recall95ci": [
+       0.1417,
+       0.2998
+      ]
+     }
+    }
+   },
+   "lidarComplexReasons": {
+    "mixed flat and sloped": 84,
+    "no opposite pair": 140,
+    "off-axis plane": 30,
+    "planes": 361
+   },
+   "lidarMix": {
+    "form": {
+     "complex": 413,
+     "flat": 70,
+     "gable": 67,
+     "hip": 100
+    },
+    "simple": {
+     "flat": 80,
+     "gable": 358,
+     "hip": 211,
+     "unknown": 1
+    }
+   },
+   "lidarPitchBySimple": {
+    "gable": {
+     "n": 358,
+     "p10": 22.2,
+     "p25": 27.8,
+     "p50": 35.0,
+     "p75": 41.5,
+     "p90": 44.5
+    },
+    "hip": {
+     "n": 211,
+     "p10": 19.1,
+     "p25": 22.8,
+     "p50": 30.1,
+     "p75": 37.2,
+     "p90": 42.3
+    }
+   },
+   "n": 650,
+   "p2MeshPitchBySimple": {
+    "gable": {
+     "n": 444,
+     "p10": 28.7,
+     "p25": 36.7,
+     "p50": 42.5,
+     "p75": 46.9,
+     "p90": 49.4
+    },
+    "hip": {
+     "n": 143,
+     "p10": 14.4,
+     "p25": 18.4,
+     "p50": 30.0,
+     "p75": 41.1,
+     "p90": 46.1
+    }
+   },
+   "p2Mix": {
+    "meshForm": {
+     "complex": 108,
+     "flat": 57,
+     "gable": 365,
+     "hip": 114,
+     "unknown": 6
+    },
+    "roofShape": {
+     "flat": 57,
+     "gabled": 436,
+     "hipped": 157
+    }
+   },
+   "simpleForm_lidarVsP2roofShape": {
+    "agree": 302,
+    "agreement": 0.4653,
+    "agreement95ci": [
+     0.4273,
+     0.5038
+    ],
+    "kappa": 0.0113,
+    "matrix": {
+     "flat": {
+      "flat": 13,
+      "gable": 51,
+      "hip": 16
+     },
+     "gable": {
+      "flat": 20,
+      "gable": 243,
+      "hip": 95
+     },
+     "hip": {
+      "flat": 24,
+      "gable": 141,
+      "hip": 46
+     }
+    },
+    "n": 649,
+    "perClass": {
+     "flat": {
+      "n": 80,
+      "precision": 0.228,
+      "recall": 0.163,
+      "recall95ci": [
+       0.0975,
+       0.2584
+      ]
+     },
+     "gable": {
+      "n": 358,
+      "precision": 0.559,
+      "recall": 0.679,
+      "recall95ci": [
+       0.6287,
+       0.725
+      ]
+     },
+     "hip": {
+      "n": 211,
+      "precision": 0.293,
+      "recall": 0.218,
+      "recall95ci": [
+       0.1676,
+       0.2785
+      ]
+     }
+    }
+   }
+  }
+ },
+ "bytesDownloaded": {
+  "byKind": {
+   "ept-data": 117612558,
+   "ept-hierarchy": 189042,
+   "ept-meta": 2590
+  },
+  "total": 117804190
+ },
+ "classifierCheckOnP2Meshes": {
+  "agree": 780,
+  "agreement": 0.9861,
+  "agreement95ci": [
+   0.9753,
+   0.9922
+  ],
+  "kappa": 0.9717,
+  "matrix": {
+   "flat": {
+    "flat": 100,
+    "gable": 0,
+    "hip": 0
+   },
+   "gable": {
+    "flat": 0,
+    "gable": 527,
+    "hip": 0
+   },
+   "hip": {
+    "flat": 0,
+    "gable": 11,
+    "hip": 153
+   }
+  },
+  "n": 791,
+  "note": "rows: P2 roofShape (truth for the generated geometry); columns: classifier on the generated roof triangles",
+  "perClass": {
+   "flat": {
+    "n": 100,
+    "precision": 1.0,
+    "recall": 1.0,
+    "recall95ci": [
+     0.963,
+     1.0
+    ]
+   },
+   "gable": {
+    "n": 527,
+    "precision": 0.98,
+    "recall": 1.0,
+    "recall95ci": [
+     0.9928,
+     1.0
+    ]
+   },
+   "hip": {
+    "n": 164,
+    "precision": 1.0,
+    "recall": 0.933,
+    "recall95ci": [
+     0.8839,
+     0.9621
+    ]
+   }
+  }
+ },
+ "generated": "2026-10-06",
+ "generator": {
+  "generator": {
+   "name": "WorldEngine WorldGen",
+   "version": "b8f6c71"
+  },
+  "profile": "evanston",
+  "profileVersion": 2
+ },
+ "lidar": {
+  "dataset": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+  "lidarBuildingClustersOutsideOSM": {
+   "count": 420
+  },
+  "maxDepth": 10,
+  "pointStats": {
+   "class1": 47752,
+   "class2": 3161340,
+   "class3": 1535660,
+   "class4": 1499227,
+   "class5": 8738291,
+   "class6": 979398,
+   "class7": 39175,
+   "pointsInBox": 16000843,
+   "pointsRead": 18742855
+  }
+ },
+ "lidarFormByP2HouseFamily": {
+  "colonial": {
+   "form": {
+    "complex": 79,
+    "flat": 11,
+    "gable": 9,
+    "hip": 14
+   },
+   "n": 113,
+   "simple": {
+    "flat": 14,
+    "gable": 61,
+    "hip": 38
+   }
+  },
+  "midCentury": {
+   "form": {
+    "complex": 36,
+    "flat": 6,
+    "gable": 6,
+    "hip": 12
+   },
+   "n": 60,
+   "simple": {
+    "flat": 6,
+    "gable": 35,
+    "hip": 19
+   }
+  },
+  "modernInfill": {
+   "form": {
+    "complex": 30,
+    "flat": 12,
+    "gable": 2,
+    "hip": 13
+   },
+   "n": 57,
+   "simple": {
+    "flat": 13,
+    "gable": 20,
+    "hip": 24
+   }
+  },
+  "prairie": {
+   "form": {
+    "complex": 27,
+    "flat": 5,
+    "gable": 4,
+    "hip": 7
+   },
+   "n": 43,
+   "simple": {
+    "flat": 5,
+    "gable": 26,
+    "hip": 12
+   }
+  },
+  "queenAnne": {
+   "form": {
+    "complex": 91,
+    "flat": 12,
+    "gable": 15,
+    "hip": 23
+   },
+   "n": 141,
+   "simple": {
+    "flat": 14,
+    "gable": 78,
+    "hip": 48,
+    "unknown": 1
+   }
+  },
+  "shingleStyle": {
+   "form": {
+    "complex": 25,
+    "flat": 3,
+    "gable": 8,
+    "hip": 4
+   },
+   "n": 40,
+   "simple": {
+    "flat": 3,
+    "gable": 28,
+    "hip": 9
+   }
+  },
+  "tudor": {
+   "form": {
+    "complex": 125,
+    "flat": 21,
+    "gable": 23,
+    "hip": 27
+   },
+   "n": 196,
+   "simple": {
+    "flat": 25,
+    "gable": 110,
+    "hip": 61
+   }
+  }
+ },
+ "osmTimestamp": "2026-10-06T06:35:36Z",
+ "params": {
+  "axisTolDeg": 20.0,
+  "flatMaxPitch": 10.0,
+  "flatMinShare": 0.85,
+  "minCoverage": 0.5,
+  "minPlaneM2": 4.0,
+  "minPlaneShare": 0.06,
+  "mixedMinShare": 0.15,
+  "sideBand": 2.0,
+  "sideMinShare": 0.35
+ },
+ "privacy": "Aggregates only; per-building values stay in the work directory. Groups under 5 buildings report counts only.",
+ "profile": "evanston",
+ "ridgeOrientationBothGable": {
+  "n": 308,
+  "share": 0.792,
+  "share95ci": [
+   0.7434,
+   0.8338
+  ],
+  "within20deg": 244
+ },
+ "tool": "regionkit-lidar 0.1"
+}

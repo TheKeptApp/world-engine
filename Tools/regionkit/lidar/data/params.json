@@ -1,0 +1,33 @@
+{
+  "comment": "Thresholds of the lidar roof-form pilot, set before any hand check and before comparing with the generator. Distances in metres, angles in degrees, areas in m^2 (horizontal projection). The same raster and classifier (roofplanes.classify_roof) run on lidar planes and on the generator's roof triangles. minGroupN: privacy floor; a committed statistic over fewer buildings is reported as its count only.",
+  "footprintErosion": 0.75,
+  "minFootprintM2": 15,
+  "minHeightAboveGround": 2.0,
+  "groundCell": 5.0,
+  "points": {
+    "roofClass": 6,
+    "groundClass": 2,
+    "vegetationClasses": [3, 4, 5],
+    "note": "Return numbers are 1 of 1 for every point in this EPT, so first/last-return selection is impossible; the vendor's building class (6) is used, which also leaves out overhanging vegetation (classes 3-5)."
+  },
+  "normals": {"k": 12},
+  "regionGrow": {"radius": 1.0, "maxAngleDeg": 12.0, "maxDist": 0.2, "minPoints": 12, "seedMaxVariation": 0.02},
+  "cell": 0.5,
+  "fillDist": 1.0,
+  "align": {"cell": 0.5, "searchMeters": 3.0},
+  "mesh": {"minUp": 0.05, "planeAngleDeg": 2.0, "planeOffset": 0.08},
+  "classify": {
+    "minPlaneM2": 4.0,
+    "minPlaneShare": 0.06,
+    "minCoverage": 0.5,
+    "flatMaxPitch": 10.0,
+    "flatMinShare": 0.85,
+    "mixedMinShare": 0.15,
+    "sideBand": 2.0,
+    "sideMinShare": 0.35,
+    "axisTolDeg": 20.0
+  },
+  "vintage": {"minRoofPointShare": 0.3, "newBuildingMaxShare": 0.1},
+  "handCheck": {"n": 30, "seed": "worldengine-lidar-handcheck-1"},
+  "minGroupN": 5
+}

@@ -122,7 +122,10 @@ struct StyleProfileSchemaTests {
             #expect(zip(present, present.dropFirst()).allSatisfy { $0 < $1 }, "\(id): small < large < huge")
             #expect(t.smallArea <= t.largeArea && t.largeArea <= t.hugeArea, "\(id): absolute fallback kept")
         }
-        #expect(try StyleLibrary.profile(id: "wilmette").trees.canopyShare == 0.58)
+        // Measured NAIP canopy shares (docs/research/aerial.md §13); the default profile stays unmeasured.
+        let canopy: [String: Double] = ["evanston": 0.47, "chicago-dense-north": 0.18, "front-range": 0.25, "wilmette": 0.55]
+        for (id, share) in canopy { #expect(try StyleLibrary.profile(id: id).trees.canopyShare == share, "\(id)") }
+        #expect(try StyleLibrary.profile(id: "default").trees.canopyShare == nil)
         let catalog = try StyleLibrary.regions()
         #expect(ids.contains(catalog.defaultProfile))
         for r in catalog.regions { #expect(ids.contains(r.profile), "\(r.id) → \(r.profile)") }

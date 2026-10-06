@@ -69,6 +69,16 @@ recomputes from the committed results and the hand labels.
    - **Roof mix weights:** a cheap, aggregate-only alternative is to photo-interpret 50–100 random roofs per zone,
      weighted by footprint source.
    - Details are in [section 8](#8-recommendation).
+7. **Phase 5B: canopy of the committed test areas** ([section 13](#13-canopy-share-of-the-committed-test-areas-phase-5b)).
+   - Same mask, NAIP 2023 at 0.3 m. Residential fabric (land without parks or water):
+     - South Evanston **47 %**;
+     - Lakeview (Sheil Park) **18 %**;
+     - Sloan's Lake, Denver **25 %**;
+     - the new Wilmette test area (1 km² around Vattmann Park) **55 %**.
+   - Recommended `trees.canopyShare`: `evanston` **0.47**, `chicago-dense-north` **0.18**, `front-range` **0.25**,
+     `wilmette` **0.55** (now 0.58, from the 0.25 km² study cell).
+   - A 50-point photo check per area agrees 74–91 %. On balance the mask reads a few points lower than the
+     labelled points.
 
 ## 1. Licence and access
 
@@ -427,6 +437,11 @@ states.
     ranges and real heights. This is the right source for per-building roof type.
   - **Date:** the acquisition year is unverified (the project name says 2016, the delivery folder 2017). Houses
     built since are missing either way.
+  - **Since done (phase 5B):** the lidar pilot on South Evanston, in [lidar-roofs.md](lidar-roofs.md).
+    - The flight was 2017-04-16 to 05-07 (FGDC metadata).
+    - The EPT carries no return numbers.
+    - Reading to octree depth 10 gives about 4 building points per m² (118 MB per km²).
+    - On 30 hand-checked roofs the classifier gets the simple form right 26 times.
 - **Overture `roof_shape`** is empty for all 384 Overture rows in the query box (cell + 30 m; 293 merged
   footprints have their centroid in the cell). Overture's heights (Microsoft ML, or USGS lidar for OSM buildings)
   are present for all of them and could feed floors, but not roof type.
@@ -582,3 +597,70 @@ UV_CACHE_DIR=/tmp/aerial-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --pyth
   - [AWS registry: USGS 3DEP LiDAR Point Clouds](https://registry.opendata.aws/usgs-lidar/) (public domain).
 - Cross-references: [licensing.md](licensing.md) (O12, O13, V1), [data-coverage.md](data-coverage.md) (gap 4),
   [region-kit.md](region-kit.md).
+
+## 13. Canopy share of the committed test areas (phase 5B)
+
+Added 2026-10-06 for the profiles' new optional `trees.canopyShare` field (`docs/style-profiles.md`: "measured share (0–1) of the ground covered by tree crowns, zone level, from leaf-on aerial imagery"). Tool: `Tools/regionkit/aerial/canopy_areas.py` (data `data/canopy_areas.json`, results `results/canopy_areas.json`). It reuses this study's NAIP access and the unchanged canopy mask (NDVI > 0.2 and NIR texture > 8 DN over 1.5 m, opening and majority 0.9 m).
+
+**Areas and imagery.**
+- **Areas:** each committed area's own rectangle (manifest centre and size), laid out in the NAIP item's UTM grid.
+- **Streets, parks and water:** from the committed `osm.json`, so no Overpass request was made.
+  - Parks are public open space polygons of at least 1,000 m²: `leisure` park, pitch, playground, garden and similar; `landuse` recreation ground or cemetery; `natural=wood`.
+  - `landuse=grass` is not a park: Sloan's Lake maps 1,551 lawn and parkway polygons, and their street trees belong to the residential fabric.
+- **Imagery:**
+
+| Area (profile) | NAIP item(s) | Acquired | GSD | Window read |
+|---|---|---|---|---|
+| South Evanston (`evanston`) | `il_m_4208759_sw_16_030_20230710_20240209` | 2023-07-10 | 0.3 m | 54.3 MB of COG ranges |
+| Lakeview, Sheil Park (`chicago-dense-north`) | `il_m_4108703_ne_16_030_20230710_20240209` | 2023-07-10 | 0.3 m | 56.9 MB |
+| Sloan's Lake, Denver (`front-range`; 1.6 × 1.2 km) | `co_m_3910524_ne_13_030_20230925_20240104` + `co_m_3910516_se_13_030_20230925_20240104` (mosaic of two quarter-quads) | 2023-09-25 | 0.3 m | 120.2 MB |
+| Wilmette, Vattmann Park (`wilmette`; P2's new test area, added after its merge) | `il_m_4208759_nw_16_030_20230710_20240209` (the study cell's quarter-quad) | 2023-07-10 | 0.3 m | 56.3 MB |
+
+- The newest acquisition at each area is 2023. Older years at the same places: Illinois 2011–2021, Colorado 2011–2021.
+- Colorado 2023 is also 0.3 m. Its late-September date is still leaf-on in the scene, but its radiometry differs from the Illinois scene the texture threshold was set on (see the point check).
+
+**Canopy share (mask):**
+
+| Area | Whole area | Land (no water) | **Residential fabric** (no parks, no water) | In parks | Parks / water share of the area | Vegetation incl. lawns (fabric) |
+|---|---:|---:|---:|---:|---|---:|
+| South Evanston | 46.2 % | 46.2 % | **47.3 %** | 26.9 % | 5.6 % / 0 % | 60.8 % |
+| Lakeview (Sheil Park) | 17.8 % | 17.8 % | **17.8 %** | 19.8 % | 0.5 % / 0 % | 22.5 % |
+| Sloan's Lake | 14.9 % | 23.5 % | **24.8 %** | 21.4 % | 22.8 % / 37.3 % | 42.6 % |
+| Wilmette (Vattmann Park) | 53.7 % | 53.7 % | **55.1 %** | 33.9 % | 6.9 % / 0 % | 64.2 % |
+
+**Block faces.**
+- Faces are polygonised OSM street centrelines plus half the right-of-way, as in section 3.
+- "Residential" faces: at least 1 ha, with under 10 % park or water.
+- Faces closed by the area edge are included in "all", not in "complete".
+
+| Area | All faces: n, area-weighted | Complete faces: n, area-weighted, p10–p90 | Residential faces ≥ 1 ha: n, area-weighted, p25–p75 |
+|---|---|---|---|
+| South Evanston | 52, 46.2 % | 29, 50.1 %, 38.5–61.3 % | 34, 47.6 %, 41.1–55.8 % |
+| Lakeview (Sheil Park) | 68, 17.8 % | 37, 19.6 %, 4.6–26.6 % | 51, 18.3 %, 12.8–21.5 % |
+| Sloan's Lake | 68, 14.9 % | 37, 28.4 %, 19.5–35.9 % | 39, 24.7 %, 19.6–32.1 % |
+| Wilmette (Vattmann Park) | 46, 53.7 % | 19, 57.1 %, 50.6–70.5 % | 29, 56.9 %, 54.3–60.8 % |
+
+**Photo check** (50 stable random points per area inside the image; 15 m patches with a crosshair; labelled before the mask was looked at; same labeller and caveats as section 5):
+
+| Area | Readable | Agreement | Labels: canopy (95 % interval) | Mask at the same points | Mask misses / false tree |
+|---|---:|---:|---|---:|---|
+| South Evanston | 43 of 50 | 86.0 % | 53.5 % (38.9–67.5 %) | 48.8 % | 4 / 2 |
+| Lakeview (Sheil Park) | 47 | 87.2 % | 31.9 % (20.4–46.2 %) | 23.4 % | 5 / 1 |
+| Sloan's Lake | 46 | 91.3 % | 19.6 % (10.7–33.2 %) | 15.2 % | 3 / 1 |
+| Wilmette (Vattmann Park) | 42 | 73.8 % | 47.6 % (33.4–62.3 %) | 50.0 % | 5 / 6 |
+
+- In Evanston, Lakeview and Sloan's Lake the mask is below the labels at the points; in Wilmette it is 2 points above, as in the Wilmette study. Pooled over the four checks: 17 missed tree points against 10 false ones (n = 178 readable).
+- Wilmette's agreement (74 %, n = 42) is lower than the study's 85 % (n = 92); the causes were not analysed.
+- Each area's interval is ±12–14 points, so the checks support the mask values but cannot fix a correction factor.
+- 16 of Sloan's Lake's points fell on the lake.
+
+**Recommended `trees.canopyShare`.** Use the residential-fabric share: parks and water have their own surfaces in the generator, and street and yard trees belong to the fabric.
+
+| Profile | Value | Reasoning |
+|---|---:|---|
+| `evanston` | **0.47** | Fabric 47.3 % (whole area 46.2 %; complete blocks 50 %). The parks (Crown, Grey, Larimer: 5.6 % of the area) are less wooded (27 %), so they lower the whole-area value slightly rather than inflate it. Point check 53.5 % (39–68 %). |
+| `chicago-dense-north` | **0.18** | Fabric = whole area = 17.8 %; residential blocks 18.3 %. **The park does not inflate it:** Sheil Park is a 1,739 m² polygon in OSM, parks are 0.5 % of the area, and their canopy (19.8 %) matches the fabric. The point check reads higher (31.9 %, interval 20–46 %); with 5 of 15 tree points missed, the true value may be 0.20–0.25. The coordinator may round up, but the measured mask is 0.18. |
+| `front-range` | **0.25** | Fabric 24.8 %, residential blocks 24.7 %, land 23.5 %. The whole-area 14.9 % is deflated by Sloan Lake (37 % of the area) and must not be used. Caveat: one inner-city neighbourhood with mature trees stands for a profile that covers Colorado Springs to Fort Collins, and newer suburbs will be far lower. The Illinois texture threshold was not re-tuned for this scene (point check 91 %, mask slightly low). |
+| `wilmette` (now 0.58) | **0.55** | The committed 1 km² test area (P2, same park anchor) gives fabric 55.1 % (whole area 53.7 %, residential blocks 56.9 %). The current 0.58 is the whole-cell mask of the 0.25 km² study cell (section 4), a smaller and more wooded window. Use 0.55 for the same definition as the other profiles, or keep 0.58; the difference is within the method error. |
+
+**Bytes:** NAIP COG ranges 287,689,177 + STAC searches 135,028 + SAS tokens 1,602 = **287.8 MB** (`results/canopy_areas.json` `bytesDownloaded`; Wilmette 56.3 MB of it). No Overpass or Overture requests.
