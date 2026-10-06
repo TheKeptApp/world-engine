@@ -348,6 +348,18 @@ struct EnvironmentDocumentTests {
         #expect(throws: (any Error).self) { _ = try EnvironmentDocument.decode(try bad.json()) }
     }
 
+    @Test func blowingSnowNeedsGroundSnowForParticles() throws {
+        let observer = SkyObserver(latitude: 39.74, longitude: -104.99, timeZoneID: "America/Denver")
+        let resolver = EnvironmentResolver(observer: observer, tables: try StyleLibrary.lighting())
+        let at = ISO8601DateFormatter().date(from: "2026-01-10T18:00:00Z")!
+        let sample = WeatherSample(validTime: at, condition: .blowingSnow, cloudCover01: 0.5, temperatureC: -8, visibilityM: 1500, windSpeedMps: 12)
+        let bare = resolver.resolve(.init(time: at, mode: .demo, sample: sample, cell: nil, surface: .unknown(at: at), includeEvents: false))
+        #expect(bare.presentation.particles.snow == 0 && bare.state.dominantState == .snow)
+        let snowy = resolver.resolve(.init(time: at, mode: .demo, sample: sample, cell: nil,
+                                           surface: .assumedReference(wetness: 0, snowWaterEquivalentMm: 10, at: at), includeEvents: false))
+        #expect(snowy.presentation.particles.snow > 0)
+    }
+
     @Test func perTreeOffsetsAreStable() {
         var a = StableRandom(2, 123_456, salt: Phenology.timingSalt)
         var b = StableRandom(2, 123_456, salt: Phenology.timingSalt)

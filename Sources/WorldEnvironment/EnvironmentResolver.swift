@@ -95,8 +95,10 @@ public struct EnvironmentResolver: Sendable {
         let phen = phenologyProfile.flatMap { p in observer.timeZone.map { Phenology.resolve(at: t, timeZone: $0, profile: p) } }
         let dropping = phen.map { 4 * $0.deciduous.drop * (1 - $0.deciduous.drop) } ?? 0
         let liquid = 1 - (sample.frozenFraction ?? (label == .snow ? 1 : 0))
-        let particles = ParticleBudget.resolve(state: label, intensity: intensity ?? 0, liquidShare: liquid, leafDropRate: dropping,
-                                               aerial: input.aerial)
+        // Blowing snow is resuspension, never new snowfall: particles only over supported ground snow.
+        let blowingWithoutSnow = (resolved?.flags.contains("blowingSnowNoNewSnowfall") ?? false) && (input.surface.snowCover01 ?? 0) <= 0
+        let particles = ParticleBudget.resolve(state: label, intensity: blowingWithoutSnow ? 0 : (intensity ?? 0), liquidShare: liquid,
+                                               leafDropRate: dropping, aerial: input.aerial)
 
         let surface = input.surface
         var uncertainty: [String] = []
