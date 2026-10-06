@@ -9,7 +9,7 @@ RENDER/VIEW lines while that view was up, and its VIEWSHOT line) and appends to 
 without capturing anything when the build has no view-list hook (no VIEWREADY), so the caller can fall
 back to one launch per view. Env: SETTLE (view settle seconds), LOAD_TIMEOUT.
 """
-import base64, functools, json, os, subprocess, sys, time
+import base64, functools, json, os, shutil, subprocess, sys, time
 
 print = functools.partial(print, flush=True)  # progress lines reach the run log as they happen
 
@@ -25,10 +25,18 @@ def area_of(args):
     return a[a.index("-area") + 1] if "-area" in a else "sloans-lake"
 
 
+def date_of(args):
+    a = args.split()
+    return a[a.index("-date") + 1] if "-date" in a else None
+
+
+# One launch per (area, calendar date): the world bakes its season and palette from the launch date, so a
+# view that sets another date in place would keep the wrong season. Each group launches with its date.
 groups = {}
 for line in open(os.path.join(run, "views.tsv")):
     vid, args = line.rstrip("\n").split("\t", 1)
-    groups.setdefault(area_of(args), []).append((vid, args))
+    d = date_of(args)
+    groups.setdefault((area_of(args), d[:10] if d else None), []).append((vid, args, d))
 
 
 def record(vid, status, seconds="-"):
@@ -37,7 +45,9 @@ def record(vid, status, seconds="-"):
 
 
 first = True
-for area, views in groups.items():
+for (area, day), views in groups.items():
+    launch_date = next((d for _, _, d in views if d), None)
+    views = [(vid, args) for vid, args, _ in views]
     specs = []
     for vid, args in views:
         a = args.split()
@@ -45,12 +55,12 @@ for area, views in groups.items():
             i = a.index("-area")
             a = a[:i] + a[i + 2:]
         specs.append({"id": vid, "args": a})
-    log = os.path.join(run, "logs", f"_launch-{area}.log")
+    log = os.path.join(run, "logs", f"_launch-{area}-{day or 'default'}.log")
     # Never pre-create the log (com.apple.provenance on files this session makes gets the launch refused).
     if os.path.exists(log):
         os.remove(log)
     launch = ["xcrun", "simctl", "launch", "--terminate-running-process", f"--stdout={log}", f"--stderr={log}", udid, bundle,
-              *common, *(["-area", area] if area != "sloans-lake" else []),
+              *common, *(["-area", area] if area != "sloans-lake" else []), *(["-date", launch_date] if launch_date else []),
               "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
     env = dict(os.environ, SIMCTL_CHILD_NSUnbufferedIO="YES")
     for attempt in range(6):  # refusals come and go with host load: back off for up to ~2 min
@@ -75,21 +85,32 @@ for area, views in groups.items():
             if ln.startswith("STATS ") and stats is None:
                 stats, t_stats = ln, time.time()
                 deadline = t_stats + float(settle) + 90
-                print(f"  {area}: world in {time.time() - t0:.1f} s")
+                print(f"  {area} {day or ''}: world in {time.time() - t0:.1f} s")
             elif ln.startswith("VIEWREADY id="):
+                # The app captures its own frame right after this line and then moves on, so a simctl
+                # screenshot lands on the NEXT view. Frames come from the in-app capture (VIEWSHOT);
+                # one UI screenshot per launch shows the OSM credit is on screen.
                 vid = ln.split("=", 1)[1].strip()
-                try:
-                    subprocess.run(["xcrun", "simctl", "io", udid, "screenshot", os.path.join(run, "raw", f"{vid}.png")],
-                                   capture_output=True, timeout=30)
-                except subprocess.TimeoutExpired:
-                    pass
                 seen.add(vid)
+                if len(seen) == 1:
+                    os.makedirs(os.path.join(run, "ui"), exist_ok=True)
+                    try:
+                        subprocess.run(["xcrun", "simctl", "io", udid, "screenshot", os.path.join(run, "ui", f"{area}-{day or 'default'}.png")],
+                                       capture_output=True, timeout=30)
+                    except subprocess.TimeoutExpired:
+                        pass
             elif ln.startswith("VIEWSHOT id="):
                 vid = ln.split()[1].split("=", 1)[1]
+                if "file=" in ln:
+                    container = subprocess.run(["xcrun", "simctl", "get_app_container", udid, bundle, "data"],
+                                               capture_output=True, text=True).stdout.strip()
+                    src = os.path.join(container, "Documents", ln.split("file=", 1)[1].split()[0])
+                    if os.path.exists(src):
+                        shutil.copy(src, os.path.join(run, "raw", f"{vid}.png"))
                 body = [stats or ""] + [c for c in chunk if c.startswith(("RENDER ", "VIEW "))] + [ln]
                 open(os.path.join(run, "logs", f"{vid}.log"), "w").write("\n".join(body) + "\n")
                 chunk = []
-                ok = vid in seen and "failed" not in ln and "skipped" not in ln
+                ok = os.path.exists(os.path.join(run, "raw", f"{vid}.png")) and "failed" not in ln and "skipped" not in ln
                 record(vid, "ok" if ok else "failed", f"{time.time() - t0:.1f}")
                 print(f"  {vid}  {'ok' if ok else 'FAILED: ' + ln}")
                 deadline = time.time() + 90  # next view: settle plus set-up
@@ -109,3 +130,10 @@ for area, views in groups.items():
             if not any(l.startswith(vid + "\t") for l in open(os.path.join(run, "capture.tsv"))):
                 record(vid, "failed")
     subprocess.run(["xcrun", "simctl", "terminate", udid, bundle], capture_output=True)
+
+# Record where the frames came from (reviewers must not flag the missing UI overlay on in-app frames).
+meta_path = os.path.join(run, "run.json")
+if os.path.exists(meta_path):
+    meta = json.load(open(meta_path))
+    meta["frameSource"] = "in-app capture (WorldLab -viewlist, Documents/views); UI screenshots with the OSM credit in ui/"
+    json.dump(meta, open(meta_path, "w"), indent=1)

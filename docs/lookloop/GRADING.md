@@ -120,7 +120,7 @@ Report only what you can see. Use these ids:
 - `moved-geography`
 - `authored-surface-imagery` (photo textures or painted ground)
 - `full-surface-reflection` (mirror-lake or mirror-road)
-- `osm-credit-missing` ("© OpenStreetMap contributors" must be visible)
+- `osm-credit-missing` ("© OpenStreetMap contributors" must be visible). Exception: batched runs use WorldLab's in-app view captures, which contain no UI (the run's `run.json` `frameSource` says so). For those frames, do not raise this flag; the credit is checked on the run's UI screenshots (`ui/`) by the tools.
 - `clipped-snow-or-black-holes`
 - `capture-failed`
 

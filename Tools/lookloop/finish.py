@@ -82,6 +82,8 @@ def main():
                 print(f"  {vid}: grade rejected ({e})")
                 failed.append(vid)
     captured = [vid for vid in views if vid in signals]
+    if not captured and publish:
+        sys.exit("finish: no view was captured in this run; nothing published (see capture.tsv and the logs)")
     ct = os.path.join(run, "capture.tsv")
     capture_failed = [ln.split("\t")[0] for ln in open(ct) if "\tfailed\t" in ln] if os.path.exists(ct) else []
     placeholders = [vid for vid, v in views.items() if v.get("active", True) is False]
