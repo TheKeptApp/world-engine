@@ -71,6 +71,8 @@ public struct GradeTuning: Codable, Sendable {
     /// Bible states that are clear skies, interpolated by sun elevation.
     public var clearStates: [String]
     public var night: Night
+    /// Weather weight (intensity or cover) at which a label's bible state applies in full.
+    public var weatherFullAt: [String: Double]?
 }
 
 /// The per-state grade: the whole-frame brightness a renderer's exposure aims for, its saturation,
@@ -164,8 +166,9 @@ public struct GradeTable: Sendable {
     public var nightElevation: Double
     public var moonless: Grade
     public var moon: Grade
-    /// Weather grades by `DominantState` raw value.
+    /// Weather grades by `DominantState` raw value, and the weight at which each applies in full.
     public var weather: [String: Grade]
+    public var fullAt: [String: Double]
 
     public init(bible: LightingBible, tuning: GradeTuning) throws {
         func grade(_ name: String) throws -> Grade {
@@ -184,6 +187,7 @@ public struct GradeTable: Sendable {
         for (label, state) in tuning.weatherStates { w[label] = try grade(state) }
         for (label, o) in tuning.otherWeather { w[label] = Grade(luma: o.luma, saturation: o.saturation, air: o.air, direct: o.direct) }
         weather = w
+        fullAt = tuning.weatherFullAt ?? [:]
     }
 
     /// The grade for a moment.
