@@ -125,12 +125,36 @@ public struct HouseFamilyGrammar: Codable, Sendable, Equatable {
 }
 
 public struct HouseFamilyLibrary: Codable, Sendable, Equatable {
+    /// Minimum encoded-sRGB luma (Y8 = .2126R + .7152G + .0722B) for generated wall and roof base
+    /// colours: a documented gamut rule (v2 §4.3) that lifts only the darkest profile colours,
+    /// keeping their hue. OSM colour tags are never changed.
+    public struct ToneFloors: Codable, Sendable, Equatable {
+        /// Value gain for roof/wall base colours (1 = unchanged), applied before the floors.
+        public var roofGain: Double
+        public var wallGain: Double
+        /// Minimum Y8 luma after the gain.
+        public var roof: Double
+        public var wall: Double
+    }
+
     public var version: Int
     public var families: [String: HouseFamilyGrammar]
+    public var toneFloors: ToneFloors?
 
-    public init(version: Int = 1, families: [String: HouseFamilyGrammar] = [:]) {
+    public init(version: Int = 1, families: [String: HouseFamilyGrammar] = [:], toneFloors: ToneFloors? = nil) {
         self.version = version
         self.families = families
+        self.toneFloors = toneFloors
+    }
+
+    /// `hex` scaled by `gain` (hue kept), then up to `floor` Y8 luma if still darker.
+    public static func lifted(_ hex: String, gain: Double, floor: Double) -> String {
+        let c = Palette.parse(hex)
+        let y = (0.2126 * Double(c.x) + 0.7152 * Double(c.y) + 0.0722 * Double(c.z)) * 255
+        guard y > 0 else { return hex }
+        let target = max(y * gain, floor)
+        guard abs(target - y) > 0.5 else { return hex }
+        return Palette.hex(simd_min(c * Float(target / y), SIMD3(repeating: 1)))
     }
 
     public func grammar(_ id: String?) -> HouseFamilyGrammar { id.flatMap { families[$0] } ?? HouseFamilyGrammar() }

@@ -1,6 +1,12 @@
 {
   "version": 1,
-  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex).",
+  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes.",
+  "toneFloors": {
+    "roofGain": 1.0,
+    "wallGain": 1.0,
+    "roof": 56,
+    "wall": 80
+  },
   "families": {
     "tudor": {
       "aspect": [

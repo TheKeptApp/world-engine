@@ -205,3 +205,9 @@ Before / after (`buildingviz`, same camera):
     Pitch (lidar median 35° vs drawn 43°) and the gable/hip mix are profile values: left to P1/owner.
 31. **scene.json decisions** now carry `family`, `profile`, `roofMasses`, `crossGable`, `dormers`,
     `roofFallback`.
+32. **Look-fix §1 densities and lawn colour** per region ([yards.md](yards.md#look-fix-v1-1-2--round-3)):
+    lawn endpoint pairs as seasonal palette keys `lawnA`/`lawnB`, per-lot tone in `extra.y` (renderer
+    mixes), neighbour-aware value steps, bed areas, shrub counts, yard-tree means and caps, street-tree
+    spacing, fall litter patches.
+33. **Tone guard, not lift**: roofs ≥ #303942, walls ≥ Y8 80 (5A's `tone-targets.md`); no palette
+    hex changed, because the profiles already comply and lifting would wash out after 5A's fill fix.

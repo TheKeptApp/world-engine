@@ -87,6 +87,8 @@ public struct GeneratedScene: Sendable {
     public var lots: [GeneratedLot] = []
     /// Where leaves collect beyond crowns: curbs, hedges, walk edges.
     public var litterHints: [LitterHint] = []
+    /// Fall leaf-litter patches under deciduous trees (season mask is the renderer's).
+    public var litterPatches: [LitterPatch] = []
     /// Buildings by ~100 m cell at each distance LOD, when `SceneGenerator.buildingLODs` is on
     /// (then building meshes are not in the chunks' static meshes).
     public var buildingCells: [BuildingCell] = []
@@ -132,13 +134,59 @@ public struct SceneGenerator: Sendable {
         self.focus = focus
     }
 
+    /// Small single-storey `building=yes` outbuildings (14–75 m²) with a principal building
+    /// (≥ 70 m²) within 30 m that stands at least 4 m closer to the nearest street: detached
+    /// garages behind houses (footprint and position evidence; tagged buildings are never changed).
+    static func detachedGarages(_ features: MapFeatures, context: StreetContext) -> Set<OSMRef> {
+        var principals: [SIMD2<Int>: [(LocalPoint, Double)]] = [:]
+        func key(_ p: LocalPoint) -> SIMD2<Int> { SIMD2(Int((p.x / 30).rounded(.down)), Int((p.y / 30).rounded(.down))) }
+        func streetDistance(_ p: LocalPoint) -> Double { context.streetIndex.nearest(to: p, within: 80)?.distance ?? 80 }
+        for b in features.buildings where !b.isPart && b.footprint.area >= 70 {
+            let c = b.footprint.centroid
+            principals[key(c), default: []].append((c, streetDistance(c)))
+        }
+        var out: Set<OSMRef> = []
+        for b in features.buildings where !b.isPart && b.type == "yes" {
+            let area = b.footprint.area
+            guard area >= 14, area <= 75, b.levels.map({ $0 <= 1.5 }) ?? true, !(b.hasHeightTag && b.height.top > 6.5) else { continue }
+            let c = b.footprint.centroid
+            let d = streetDistance(c)
+            let k = key(c)
+            var found = false
+            for dx in -1...1 { for dy in -1...1 where !found {
+                for (pc, pd) in principals[k &+ SIMD2(dx, dy)] ?? [] where simd_distance(pc, c) <= 30 && pd + 4 <= d {
+                    found = true
+                    break
+                }
+            } }
+            if found { out.insert(b.ref) }
+        }
+        return out
+    }
+
+    /// The seasonal palette with the area profile's lawn endpoint pair as `lawnA` / `lawnB`.
+    static func withLawnEndpoints(_ seasonal: SeasonalPalette, profileID: String) -> SeasonalPalette {
+        guard let ends = YardLibrary.bundled.rules(for: profileID).lawnEndpoints else { return seasonal }
+        var out = seasonal
+        var a: [String] = [], b: [String] = []
+        for season in seasonal.seasons {
+            let key = season == "autumn" ? "fall" : season
+            guard let pair = ends[key] ?? ends[season], pair.count == 2 else { return seasonal }
+            a.append(pair[0])
+            b.append(pair[1])
+        }
+        out.surfaces["lawnA"] = a
+        out.surfaces["lawnB"] = b
+        return out
+    }
+
     func chunkIndex(_ p: LocalPoint) -> SIMD2<Int> {
         SIMD2(Int(((p.x - features.bounds.min.x) / chunkSize).rounded(.down)),
               Int(((p.y - features.bounds.min.y) / chunkSize).rounded(.down)))
     }
 
     public func generate() -> GeneratedScene {
-        var palette = startPalette ?? Palette(seasonal: seasonal, season: season, base: baseColors)
+        var palette = startPalette ?? Palette(seasonal: Self.withLawnEndpoints(seasonal, profileID: profile.id), season: season, base: baseColors)
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
         let streetscape = Streetscape(context: context, buildings: buildingIndex)
@@ -148,9 +196,11 @@ public struct SceneGenerator: Sendable {
             let id = zones?.profile(at: b.footprint.centroid)?.id ?? profile.id
             houseAreas[id, default: []].append(b.footprint.area)
         }
+        let detachedGarages = Self.detachedGarages(features, context: context)
         func makeGenerator(_ p: StyleProfile) -> BuildingGenerator {
             var g = BuildingGenerator(profile: p, context: context)
             g.obstacles = buildingIndex
+            g.detachedGarages = detachedGarages
             let t = p.typeThresholds.resolved(houseAreas: houseAreas[p.id] ?? [])
             if t != p.typeThresholds { g.areaThresholds = t }
             return g

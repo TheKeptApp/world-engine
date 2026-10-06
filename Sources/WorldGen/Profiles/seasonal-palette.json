@@ -1,23 +1,125 @@
 {
-  "comment": "v2 spec §3.2 seasonal material palettes (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles.",
-  "seasons": ["spring", "summer", "autumn", "winter"],
+  "comment": "v2 spec \u00a73.2 seasonal material palettes (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 \u00a71.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y).",
+  "seasons": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+  ],
   "surfaces": {
-    "ground":      ["#AFA184", "#B3A080", "#AC9677", "#A5A092"],
-    "lawn":        ["#91AD79", "#82986B", "#9B9C6D", "#A6A58F"],
-    "tufts":       ["#A5BA82", "#96A572", "#B8AA76", "#B8AF95"],
-    "deciduous1":  ["#8DAA73", "#718E65", "#C4A15B", "#786E66"],
-    "deciduous2":  ["#A7BE85", "#849B6A", "#B98251", "#8A7B6C"],
-    "deciduous3":  ["#B9C997", "#98AD78", "#A9654C", "#A08C74"],
-    "deciduous4":  ["#77966E", "#658475", "#A6A06B", "#9E8D79"],
-    "conifer1":    ["#577C70", "#527468", "#5F7768", "#627970"],
-    "conifer2":    ["#6B8B76", "#65816D", "#73806C", "#758B80"],
-    "bushes":      ["#7F9C72", "#738B66", "#92916A", "#7F897A"],
-    "road":        ["#85888B", "#898A89", "#898582", "#878B90"],
-    "sidewalk":    ["#CDC7B7", "#D0C8B6", "#C9C0AE", "#C5C9C7"],
-    "curb":        ["#BBB9AE", "#C0BCAE", "#BDB5A7", "#B7BFC1"],
-    "water":       ["#6F9898", "#638D91", "#759491", "#7E959E"],
-    "sand":        ["#C3B18B", "#C9B58F", "#C5AA80", "#B6AF9A"],
-    "bark":        ["#807465", "#7C7263", "#817362", "#807973"],
-    "snow":        ["#E8EDF0", "#E8EDF0", "#E8EDF0", "#E8EDF0"]
+    "ground": [
+      "#AFA184",
+      "#B3A080",
+      "#AC9677",
+      "#A5A092"
+    ],
+    "lawn": [
+      "#91AD79",
+      "#82986B",
+      "#9B9C6D",
+      "#A6A58F"
+    ],
+    "tufts": [
+      "#A5BA82",
+      "#96A572",
+      "#B8AA76",
+      "#B8AF95"
+    ],
+    "deciduous1": [
+      "#8DAA73",
+      "#718E65",
+      "#C4A15B",
+      "#786E66"
+    ],
+    "deciduous2": [
+      "#A7BE85",
+      "#849B6A",
+      "#B98251",
+      "#8A7B6C"
+    ],
+    "deciduous3": [
+      "#B9C997",
+      "#98AD78",
+      "#A9654C",
+      "#A08C74"
+    ],
+    "deciduous4": [
+      "#77966E",
+      "#658475",
+      "#A6A06B",
+      "#9E8D79"
+    ],
+    "conifer1": [
+      "#577C70",
+      "#527468",
+      "#5F7768",
+      "#627970"
+    ],
+    "conifer2": [
+      "#6B8B76",
+      "#65816D",
+      "#73806C",
+      "#758B80"
+    ],
+    "bushes": [
+      "#7F9C72",
+      "#738B66",
+      "#92916A",
+      "#7F897A"
+    ],
+    "road": [
+      "#85888B",
+      "#898A89",
+      "#898582",
+      "#878B90"
+    ],
+    "sidewalk": [
+      "#CDC7B7",
+      "#D0C8B6",
+      "#C9C0AE",
+      "#C5C9C7"
+    ],
+    "curb": [
+      "#BBB9AE",
+      "#C0BCAE",
+      "#BDB5A7",
+      "#B7BFC1"
+    ],
+    "water": [
+      "#6F9898",
+      "#638D91",
+      "#759491",
+      "#7E959E"
+    ],
+    "sand": [
+      "#C3B18B",
+      "#C9B58F",
+      "#C5AA80",
+      "#B6AF9A"
+    ],
+    "bark": [
+      "#807465",
+      "#7C7263",
+      "#817362",
+      "#807973"
+    ],
+    "snow": [
+      "#E8EDF0",
+      "#E8EDF0",
+      "#E8EDF0",
+      "#E8EDF0"
+    ],
+    "lawnA": [
+      "#71944F",
+      "#648146",
+      "#858949",
+      "#8D8A68"
+    ],
+    "lawnB": [
+      "#91AD69",
+      "#8C9C59",
+      "#ABA16A",
+      "#ABA58A"
+    ]
   }
 }

@@ -174,3 +174,72 @@ struct CanopyShareTests {
         print("CANOPY \(area) profile=\(profile) share=\(String(format: "%.3f", share)) target=\(target.map { String(format: "%.2f", $0) } ?? "unmeasured") trees mapped=\(mapped) generated=\(generated)")
     }
 }
+
+/// look-fix-v1 §1 rules on real data.
+@Suite("Look-fix yards", .serialized)
+struct LookFixYardTests {
+    @Test(arguments: YardTests.cases)
+    func lotsStepsCapsBedsAndLitter(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let b = try YardTests.build(area, profile)
+        let rules = YardLibrary.bundled.rules(for: profile)
+        // Neighbouring lots differ by one or two value steps (4–10 %), never equal.
+        var poly: [(Polygon2D, Float)] = []
+        for lot in b.scene.lots { for r in lot.outline { poly.append((Polygon2D(outer: r), lot.lawnShade)) } }
+        var pairs = 0, bad = 0
+        for i in poly.indices {
+            for j in (i + 1)..<min(poly.count, i + 80) where poly[i].0.bounds.expanded(by: 1.5).intersects(poly[j].0.bounds) {
+                // Adjacent if some vertex of one lies within 1.5 m of the other's outline.
+                guard poly[i].0.outer.contains(where: { GeometryCheck.distanceToBoundary(poly[j].0, $0) < 1.5 }) else { continue }
+                pairs += 1
+                let d = abs(poly[i].1 - poly[j].1)
+                if d < 0.035 || d > 0.105 { bad += 1 }
+            }
+        }
+        #expect(pairs == 0 || Double(bad) / Double(pairs) < 0.1, "\(area): \(bad) of \(pairs) neighbouring lots outside 4–10 %")
+        // Generated trees per lot within the zone cap.
+        var perLot: [String: Int] = [:]
+        for inst in b.scene.instances where inst.source.hasPrefix("gen:yardtree:") || inst.source.hasPrefix("gen:canopytree:") {
+            let ref = inst.source.split(separator: ":")[2]
+            perLot[String(ref), default: 0] += 1
+        }
+        #expect(perLot.values.allSatisfy { $0 <= (rules.maxYardTreesPerLot ?? 3) }, "\(area): max \(perLot.values.max() ?? 0) trees on a lot")
+        // Beds near the zone's bed area (side returns may stop short where the yard is too small).
+        let beds = b.scene.stats["beds"] ?? 0, bedArea = b.scene.stats["bedSquareMeters"] ?? 0
+        if beds > 0, let range = rules.bedArea {
+            let mean = Double(bedArea) / Double(beds)
+            #expect(mean >= range[0] * 0.5 && mean <= range[1] * 1.1, "\(area): mean bed \(mean) m²")
+        }
+        // Litter: 1–3 patches per deciduous tree at most, radius 0.4–1.2 m, never on carriageways.
+        let deciduous = b.scene.instances.filter { $0.kind.isTree && $0.kind != .conifer }.count
+        let litter = b.scene.litterPatches
+        #expect(litter.count <= deciduous * 3 && litter.count >= deciduous / 2)
+        #expect(litter.allSatisfy { $0.radius >= 0.4 && $0.radius <= 1.2 && (0...2).contains($0.tone) })
+        let roads = SegmentIndex(b.features.roads.filter { $0.kind.isVehicular }.map(\.centerline))
+        let widths = b.features.roads.filter { $0.kind.isVehicular }.map(\.width)
+        let onRoad = litter.filter { p in roads.nearest(to: LocalPoint(p.x, p.y), within: 15).map { $0.distance < widths[$0.line] / 2 - 0.6 } ?? false }
+        #expect(onRoad.isEmpty, "\(area): \(onRoad.count) litter patches on carriageways")
+        print("LOOKFIX \(area) lots=\(b.scene.lots.count) neighbourPairs=\(pairs) outOfBand=\(bad) beds=\(beds) meanBed=\(beds > 0 ? bedArea / beds : 0)m² litter=\(litter.count) deciduous=\(deciduous) shrubs=\(b.scene.stats["shrubs"] ?? 0) yardTrees=\(b.scene.stats["yardTrees"] ?? 0) canopyTrees=\(b.scene.stats["canopyTrees"] ?? 0) streetTrees=\(b.scene.stats["streetTrees"] ?? 0)")
+    }
+
+    @Test func toneRuleLiftsDarkRoofsAndKeepsOSMColours() throws {
+        #expect(HouseFamilyLibrary.lifted("#59636B", gain: 1.15, floor: 80) != "#59636B")
+        let lifted = Palette.parse(HouseFamilyLibrary.lifted("#202428", gain: 1.0, floor: 80))
+        #expect((0.2126 * lifted.x + 0.7152 * lifted.y + 0.0722 * lifted.z) * 255 >= 79.5)
+        #expect(HouseFamilyLibrary.lifted("#C0C0C0", gain: 1.0, floor: 80) == "#C0C0C0")
+        // An OSM roof colour wins over the tone rule.
+        let gen = BuildingGenerator(profile: try StyleLibrary.profile(id: "evanston"), context: testContext())
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        let g = gen.generate(testBuilding(9001, BuildingGeometryTests.rect(0, 0, 12, 9), tags: ["roof:colour": "#303942"]), palette: &palette, lod: .near)
+        #expect(g.colors[3].uppercased() == "#303942")
+    }
+
+    @Test func treeGridAvoidsRepeatedVariants() {
+        var grid = TreeGrid(cell: 8)
+        grid.insert(LocalPoint(0, 0), kind: .treeBroad, variant: 1)
+        grid.insert(LocalPoint(5, 0), kind: .treeBroad, variant: 2)
+        grid.insert(LocalPoint(0, 6), kind: .treeOval, variant: 3)
+        grid.insert(LocalPoint(30, 30), kind: .treeBroad, variant: 4)
+        #expect(grid.nearestVariants(LocalPoint(1, 1), kind: .treeBroad, count: 3) == [1, 2])
+    }
+}

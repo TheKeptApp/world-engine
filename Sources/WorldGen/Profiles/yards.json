@@ -1,26 +1,241 @@
 {
   "version": 1,
-  "comment": "canopyFill: share of a measured trees.canopyShare to reach with extra yard trees; maxTreesPerKm2: render-budget ceiling on mapped + generated trees (raise when far tree LODs get cheaper). Yard and street-tree rules per style profile ID (generator defaults; profiles without an entry use 'default'). streetTreeSpacing and yardTreesPerHouse are seeded from regions-chicagoland-miami proposedAdditions (streetTreeSpacingMeters, yardTreesPerEligibleResidentialCell). All values are design judgments [J]; trees.canopyShare in a profile, when measured, is the calibration target. Lots are inferred yard cells for dressing only: never cadastral boundaries, never navigation.",
+  "comment": "Yard and street-tree rules per style profile ID (profiles without an entry use 'default'). Densities, lawn endpoint colours and bed areas follow look-fix-v1 \u00a71.1-\u00a71.2 (ceilings/priors, not quotas): North Shore -> evanston, wilmette; Lakeview -> chicago-dense-north; Denver -> front-range, default. canopyFill: share of a measured trees.canopyShare to reach with extra yard trees, capped by maxYardTreesPerLot and maxTreesPerKm2 (render budget; raise when far tree LODs get cheaper). Lots are inferred yard cells for dressing only: never cadastral boundaries, never navigation. All values are design judgments [J]. Lakeview: 0\u201320 % lawn (look-fix \u00a71.2) via frontGarden/rearPaving; fences per concepts ground-04 (front iron) and regions 06 (alley privacy).",
   "rules": {
     "default": {
-      "maxLotDepth": 30, "streetTreeSpacing": 20, "minParkway": 1.2, "yardTreesPerHouse": 0.8,
-      "frontHedge": 0.12, "sideHedge": 0.12, "shrubs": [1, 3], "beds": 0.5, "lawnShade": [0.9, 1.08], "frontWalk": 0.85, "canopyFill": 0.8, "maxTreesPerKm2": 2600
+      "maxLotDepth": 30,
+      "streetTreeSpacing": 17,
+      "minParkway": 1.2,
+      "yardTreesPerHouse": 1.0,
+      "frontHedge": 0.12,
+      "sideHedge": 0.12,
+      "shrubs": [
+        3,
+        6
+      ],
+      "beds": 0.75,
+      "lawnShade": [
+        0.92,
+        1.07
+      ],
+      "frontWalk": 0.85,
+      "canopyFill": 0.8,
+      "maxTreesPerKm2": 2600,
+      "lawnEndpoints": {
+        "spring": [
+          "#71944F",
+          "#91AD69"
+        ],
+        "summer": [
+          "#648146",
+          "#8C9C59"
+        ],
+        "fall": [
+          "#858949",
+          "#ABA16A"
+        ],
+        "winter": [
+          "#8D8A68",
+          "#ABA58A"
+        ]
+      },
+      "bedArea": [
+        8,
+        18
+      ],
+      "maxYardTreesPerLot": 2,
+      "frontGarden": 0.05,
+      "rearPaving": 0.2,
+      "frontFence": 0.05,
+      "rearFence": 0.4
     },
     "front-range": {
-      "maxLotDepth": 32, "streetTreeSpacing": 18, "minParkway": 1.2, "yardTreesPerHouse": 1.0,
-      "frontHedge": 0.12, "sideHedge": 0.15, "shrubs": [1, 3], "beds": 0.55, "lawnShade": [0.9, 1.1], "frontWalk": 0.85, "canopyFill": 0.8, "maxTreesPerKm2": 2600
+      "maxLotDepth": 32,
+      "streetTreeSpacing": 17,
+      "minParkway": 1.2,
+      "yardTreesPerHouse": 1.0,
+      "frontHedge": 0.12,
+      "sideHedge": 0.15,
+      "shrubs": [
+        3,
+        6
+      ],
+      "beds": 0.75,
+      "lawnShade": [
+        0.92,
+        1.07
+      ],
+      "frontWalk": 0.85,
+      "canopyFill": 0.8,
+      "maxTreesPerKm2": 2600,
+      "lawnEndpoints": {
+        "spring": [
+          "#82954B",
+          "#A5AD65"
+        ],
+        "summer": [
+          "#788743",
+          "#9D9B5D"
+        ],
+        "fall": [
+          "#98945D",
+          "#B7AA78"
+        ],
+        "winter": [
+          "#A19A78",
+          "#BBB095"
+        ]
+      },
+      "bedArea": [
+        8,
+        18
+      ],
+      "maxYardTreesPerLot": 2,
+      "frontGarden": 0.05,
+      "rearPaving": 0.2,
+      "frontFence": 0.05,
+      "rearFence": 0.4
     },
     "evanston": {
-      "maxLotDepth": 40, "streetTreeSpacing": 18, "minParkway": 1.2, "yardTreesPerHouse": 1.4,
-      "frontHedge": 0.2, "sideHedge": 0.3, "shrubs": [2, 4], "beds": 0.7, "lawnShade": [0.9, 1.1], "frontWalk": 0.9, "canopyFill": 0.8, "maxTreesPerKm2": 2600
+      "maxLotDepth": 40,
+      "streetTreeSpacing": 15.5,
+      "minParkway": 1.2,
+      "yardTreesPerHouse": 1.6,
+      "frontHedge": 0.2,
+      "sideHedge": 0.3,
+      "shrubs": [
+        5,
+        9
+      ],
+      "beds": 0.9,
+      "lawnShade": [
+        0.92,
+        1.07
+      ],
+      "frontWalk": 0.9,
+      "canopyFill": 0.8,
+      "maxTreesPerKm2": 2600,
+      "lawnEndpoints": {
+        "spring": [
+          "#71944F",
+          "#91AD69"
+        ],
+        "summer": [
+          "#648146",
+          "#8C9C59"
+        ],
+        "fall": [
+          "#858949",
+          "#ABA16A"
+        ],
+        "winter": [
+          "#8D8A68",
+          "#ABA58A"
+        ]
+      },
+      "bedArea": [
+        12,
+        26
+      ],
+      "maxYardTreesPerLot": 3,
+      "frontGarden": 0.0,
+      "rearPaving": 0.1,
+      "frontFence": 0.04,
+      "rearFence": 0.15
     },
     "wilmette": {
-      "maxLotDepth": 45, "streetTreeSpacing": 18, "minParkway": 1.2, "yardTreesPerHouse": 1.4,
-      "frontHedge": 0.22, "sideHedge": 0.35, "shrubs": [2, 5], "beds": 0.75, "lawnShade": [0.9, 1.1], "frontWalk": 0.9, "canopyFill": 0.8, "maxTreesPerKm2": 2600
+      "maxLotDepth": 45,
+      "streetTreeSpacing": 15.5,
+      "minParkway": 1.2,
+      "yardTreesPerHouse": 1.6,
+      "frontHedge": 0.22,
+      "sideHedge": 0.35,
+      "shrubs": [
+        5,
+        9
+      ],
+      "beds": 0.9,
+      "lawnShade": [
+        0.92,
+        1.07
+      ],
+      "frontWalk": 0.9,
+      "canopyFill": 0.8,
+      "maxTreesPerKm2": 2600,
+      "lawnEndpoints": {
+        "spring": [
+          "#71944F",
+          "#91AD69"
+        ],
+        "summer": [
+          "#648146",
+          "#8C9C59"
+        ],
+        "fall": [
+          "#858949",
+          "#ABA16A"
+        ],
+        "winter": [
+          "#8D8A68",
+          "#ABA58A"
+        ]
+      },
+      "bedArea": [
+        12,
+        26
+      ],
+      "maxYardTreesPerLot": 3,
+      "frontGarden": 0.0,
+      "rearPaving": 0.1,
+      "frontFence": 0.04,
+      "rearFence": 0.15
     },
     "chicago-dense-north": {
-      "maxLotDepth": 24, "streetTreeSpacing": 17, "minParkway": 1.0, "yardTreesPerHouse": 0.65,
-      "frontHedge": 0.25, "sideHedge": 0.05, "shrubs": [1, 3], "beds": 0.45, "lawnShade": [0.9, 1.08], "frontWalk": 0.95, "canopyFill": 0.8, "maxTreesPerKm2": 2600
+      "maxLotDepth": 24,
+      "streetTreeSpacing": 18.5,
+      "minParkway": 0.8,
+      "yardTreesPerHouse": 0.3,
+      "frontHedge": 0.25,
+      "sideHedge": 0.05,
+      "shrubs": [
+        1,
+        3
+      ],
+      "beds": 0.6,
+      "lawnShade": [
+        0.92,
+        1.07
+      ],
+      "frontWalk": 0.95,
+      "canopyFill": 0.8,
+      "maxTreesPerKm2": 2600,
+      "lawnEndpoints": {
+        "spring": [
+          "#738D50",
+          "#92A46A"
+        ],
+        "summer": [
+          "#6F804D",
+          "#929663"
+        ],
+        "fall": [
+          "#91905E",
+          "#A9A276"
+        ],
+        "winter": [
+          "#918D73",
+          "#ADA78F"
+        ]
+      },
+      "bedArea": [
+        2,
+        6
+      ],
+      "maxYardTreesPerLot": 1,
+      "frontGarden": 0.45,
+      "rearPaving": 0.6,
+      "frontFence": 0.35,
+      "rearFence": 0.5
     }
   }
 }
