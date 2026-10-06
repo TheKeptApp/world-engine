@@ -1,0 +1,4404 @@
+{
+ "area": "Data/areas/wilmette-vattmann-park",
+ "coverage": {
+  "msAll": {
+   "analysed": 1172,
+   "fewPoints": 1,
+   "noBuilding": 42,
+   "partial": 8,
+   "tooSmall": 7
+  },
+  "msOsmFree": {
+   "analysed": 1154,
+   "fewPoints": 1,
+   "noBuilding": 42,
+   "partial": 8,
+   "tooSmall": 7
+  },
+  "msOsmMatched": {
+   "analysed": 18
+  },
+  "usgsOsmMatched": {
+   "analysed": 25
+  }
+ },
+ "coverageMinPoints50": {
+  "msAll": {
+   "analysed": 1158,
+   "fewPoints": 15,
+   "noBuilding": 42,
+   "partial": 8,
+   "tooSmall": 7
+  },
+  "msOsmFree": {
+   "analysed": 1140,
+   "fewPoints": 15,
+   "noBuilding": 42,
+   "partial": 8,
+   "tooSmall": 7
+  },
+  "msOsmMatched": {
+   "analysed": 18
+  },
+  "usgsOsmMatched": {
+   "analysed": 25
+  }
+ },
+ "generated": "2026-10-06",
+ "groups": {
+  "msAll": {
+   "all": {
+    "areaSpearman": {
+     "lidarTop": 0.528,
+     "overtureHeight": 0.524
+    },
+    "binned": [
+     {
+      "lidarHighShare": 0.06,
+      "lidarMedian": 4.19,
+      "lidarP10": 3.36,
+      "lidarP90": 5.26,
+      "n": 133,
+      "overtureBin": "0-3"
+     },
+     {
+      "lidarHighShare": 0.099,
+      "lidarMedian": 4.29,
+      "lidarP10": 3.45,
+      "lidarP90": 7.07,
+      "n": 131,
+      "overtureBin": "3-4"
+     },
+     {
+      "lidarHighShare": 0.258,
+      "lidarMedian": 5.24,
+      "lidarP10": 3.62,
+      "lidarP90": 9.34,
+      "n": 120,
+      "overtureBin": "4-5"
+     },
+     {
+      "lidarHighShare": 0.683,
+      "lidarMedian": 8.49,
+      "lidarP10": 4.63,
+      "lidarP90": 10.28,
+      "n": 303,
+      "overtureBin": "5-6"
+     },
+     {
+      "lidarHighShare": 0.854,
+      "lidarMedian": 9.23,
+      "lidarP10": 6.83,
+      "lidarP90": 11.09,
+      "n": 316,
+      "overtureBin": "6-7"
+     },
+     {
+      "lidarHighShare": 0.802,
+      "lidarMedian": 9.11,
+      "lidarP10": 6.88,
+      "lidarP90": 15.3,
+      "n": 106,
+      "overtureBin": "7-8"
+     },
+     {
+      "lidarHighShare": 0.878,
+      "lidarMedian": 9.68,
+      "lidarP10": 7.02,
+      "lidarP90": 16.09,
+      "n": 41,
+      "overtureBin": "8-9"
+     },
+     {
+      "lidarHighShare": 0.773,
+      "lidarMedian": 9.64,
+      "lidarP10": 5.23,
+      "lidarP90": 16.23,
+      "n": 22,
+      "overtureBin": "9+"
+     }
+    ],
+    "errorVsTop": {
+     "bias": -2.36,
+     "interceptOvOnRef": 3.192,
+     "interceptRefOnOv": 1.675,
+     "medianAbsError": 2.22,
+     "medianError": -2.13,
+     "n": 1172,
+     "pearsonR": 0.571,
+     "rmse": 3.62,
+     "slopeOvOnRef": 0.289,
+     "slopeRefOnOv": 1.126,
+     "spearmanRho": 0.611,
+     "within95ci": [
+      0.3197,
+      0.3741
+     ],
+     "withinShare": 0.346
+    },
+    "lidarTop": {
+     "n": 1172,
+     "p10": 3.75,
+     "p25": 4.73,
+     "p50": 8.09,
+     "p75": 9.54,
+     "p90": 10.89
+    },
+    "lowHigh": {
+     "lidarHighGivenOvertureLowCI": [
+      0.3415,
+      0.4138
+     ],
+     "lidarHighGivenOvertureLowShare": 0.377,
+     "lidarHighN": 667,
+     "overtureLowGivenLidarHigh": 259,
+     "overtureLowGivenLidarHighCI": [
+      0.3521,
+      0.4258
+     ],
+     "overtureLowGivenLidarHighShare": 0.388,
+     "overtureLowN": 687
+    },
+    "n": 1172,
+    "overtureHeight": {
+     "n": 1172,
+     "p10": 2.89,
+     "p25": 4.23,
+     "p50": 5.72,
+     "p75": 6.46,
+     "p90": 7.38
+    },
+    "referenceComparison": {
+     "eave_p15": {
+      "bias": 0.92,
+      "interceptOvOnRef": 2.789,
+      "interceptRefOnOv": 1.633,
+      "medianAbsError": 1.07,
+      "medianError": 0.83,
+      "n": 1172,
+      "pearsonR": 0.559,
+      "rmse": 1.8,
+      "slopeOvOnRef": 0.588,
+      "slopeRefOnOv": 0.532,
+      "spearmanRho": 0.625,
+      "within95ci": [
+       0.612,
+       0.6669
+      ],
+      "withinShare": 0.64
+     },
+     "lidarEave": {
+      "n": 1172,
+      "p10": 2.82,
+      "p25": 3.08,
+      "p50": 4.12,
+      "p75": 6.13,
+      "p90": 6.91
+     },
+     "lidarSpan": {
+      "n": 1172,
+      "p10": 0.84,
+      "p25": 1.41,
+      "p50": 2.44,
+      "p75": 4.18,
+      "p90": 6.14
+     },
+     "midway_top_eave": {
+      "bias": -0.72,
+      "interceptOvOnRef": 2.406,
+      "interceptRefOnOv": 1.654,
+      "medianAbsError": 1.12,
+      "medianError": -0.75,
+      "n": 1172,
+      "pearsonR": 0.64,
+      "rmse": 1.85,
+      "slopeOvOnRef": 0.494,
+      "slopeRefOnOv": 0.829,
+      "spearmanRho": 0.644,
+      "within95ci": [
+       0.5939,
+       0.6493
+      ],
+      "withinShare": 0.622
+     },
+     "n": 1172,
+     "roofMean": {
+      "bias": -0.57,
+      "interceptOvOnRef": 2.097,
+      "interceptRefOnOv": 1.631,
+      "medianAbsError": 1.18,
+      "medianError": -0.77,
+      "n": 1172,
+      "pearsonR": 0.67,
+      "rmse": 1.64,
+      "slopeOvOnRef": 0.557,
+      "slopeRefOnOv": 0.805,
+      "spearmanRho": 0.666,
+      "within95ci": [
+       0.5922,
+       0.6477
+      ],
+      "withinShare": 0.62
+     },
+     "roofMedian": {
+      "bias": -0.53,
+      "interceptOvOnRef": 2.401,
+      "interceptRefOnOv": 1.491,
+      "medianAbsError": 1.27,
+      "medianError": -0.73,
+      "n": 1172,
+      "pearsonR": 0.648,
+      "rmse": 1.74,
+      "slopeOvOnRef": 0.51,
+      "slopeRefOnOv": 0.825,
+      "spearmanRho": 0.645,
+      "within95ci": [
+       0.5534,
+       0.6098
+      ],
+      "withinShare": 0.582
+     },
+     "top_p95": {
+      "bias": -2.36,
+      "interceptOvOnRef": 3.192,
+      "interceptRefOnOv": 1.675,
+      "medianAbsError": 2.22,
+      "medianError": -2.13,
+      "n": 1172,
+      "pearsonR": 0.571,
+      "rmse": 3.62,
+      "slopeOvOnRef": 0.289,
+      "slopeRefOnOv": 1.126,
+      "spearmanRho": 0.611,
+      "within95ci": [
+       0.3197,
+       0.3741
+      ],
+      "withinShare": 0.346
+     },
+     "top_p99": {
+      "bias": -3.24,
+      "interceptOvOnRef": 3.295,
+      "interceptRefOnOv": 1.3,
+      "medianAbsError": 2.66,
+      "medianError": -2.63,
+      "n": 1172,
+      "pearsonR": 0.58,
+      "rmse": 4.6,
+      "slopeOvOnRef": 0.248,
+      "slopeRefOnOv": 1.356,
+      "spearmanRho": 0.611,
+      "within95ci": [
+       0.2475,
+       0.2984
+      ],
+      "withinShare": 0.272
+     }
+    }
+   },
+   "analysed": 1172,
+   "byFootprintArea": {
+    "45to90": {
+     "areaSpearman": {
+      "lidarTop": 0.242,
+      "overtureHeight": 0.301
+     },
+     "binned": [
+      {
+       "lidarHighShare": 0.057,
+       "lidarMedian": 4.27,
+       "lidarP10": 3.4,
+       "lidarP90": 5.27,
+       "n": 105,
+       "overtureBin": "0-3"
+      },
+      {
+       "lidarHighShare": 0.093,
+       "lidarMedian": 4.32,
+       "lidarP10": 3.44,
+       "lidarP90": 5.8,
+       "n": 86,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.132,
+       "lidarMedian": 4.67,
+       "lidarP10": 3.51,
+       "lidarP90": 9.96,
+       "n": 53,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.273,
+       "lidarMedian": 4.72,
+       "lidarP10": 3.63,
+       "lidarP90": 11.37,
+       "n": 44,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.586,
+       "lidarMedian": 8.51,
+       "lidarP10": 4.29,
+       "lidarP90": 12.05,
+       "n": 29,
+       "overtureBin": "6-7"
+      },
+      {
+       "lidarHighShare": 0.556,
+       "lidarMedian": 7.82,
+       "lidarP10": 4.33,
+       "lidarP90": 12.84,
+       "n": 9,
+       "overtureBin": "7-8"
+      },
+      {
+       "n": 4,
+       "overtureBin": "8-9",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 0.833,
+       "lidarMedian": 11.81,
+       "lidarP10": 7.97,
+       "lidarP90": 16.47,
+       "n": 6,
+       "overtureBin": "9+"
+      }
+     ],
+     "errorVsTop": {
+      "bias": -1.65,
+      "interceptOvOnRef": 2.772,
+      "interceptRefOnOv": 2.058,
+      "medianAbsError": 1.39,
+      "medianError": -1.15,
+      "n": 336,
+      "pearsonR": 0.46,
+      "rmse": 3.35,
+      "slopeOvOnRef": 0.235,
+      "slopeRefOnOv": 0.9,
+      "spearmanRho": 0.365,
+      "within95ci": [
+       0.4942,
+       0.6
+      ],
+      "withinShare": 0.548
+     },
+     "lidarTop": {
+      "n": 336,
+      "p10": 3.48,
+      "p25": 3.91,
+      "p50": 4.51,
+      "p75": 5.46,
+      "p90": 10.15
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.0828,
+       0.1566
+      ],
+      "lidarHighGivenOvertureLowShare": 0.115,
+      "lidarHighN": 63,
+      "overtureLowGivenLidarHigh": 33,
+      "overtureLowGivenLidarHighCI": [
+       0.4027,
+       0.6422
+      ],
+      "overtureLowGivenLidarHighShare": 0.524,
+      "overtureLowN": 288
+     },
+     "n": 336,
+     "overtureHeight": {
+      "n": 336,
+      "p10": 2.41,
+      "p25": 2.84,
+      "p50": 3.67,
+      "p75": 5.18,
+      "p90": 6.31
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 0.82,
+       "interceptOvOnRef": 1.345,
+       "interceptRefOnOv": 2.066,
+       "medianAbsError": 0.76,
+       "medianError": 0.51,
+       "n": 336,
+       "pearsonR": 0.503,
+       "rmse": 1.67,
+       "slopeOvOnRef": 0.842,
+       "slopeRefOnOv": 0.3,
+       "spearmanRho": 0.291,
+       "within95ci": [
+        0.6793,
+        0.7739
+       ],
+       "withinShare": 0.729
+      },
+      "lidarEave": {
+       "n": 336,
+       "p10": 2.65,
+       "p25": 2.83,
+       "p50": 2.99,
+       "p75": 3.27,
+       "p90": 4.37
+      },
+      "lidarSpan": {
+       "n": 336,
+       "p10": 0.76,
+       "p25": 1.01,
+       "p50": 1.4,
+       "p75": 1.98,
+       "p90": 6.98
+      },
+      "midway_top_eave": {
+       "bias": -0.41,
+       "interceptOvOnRef": 1.95,
+       "interceptRefOnOv": 2.062,
+       "medianAbsError": 1.0,
+       "medianError": -0.45,
+       "n": 336,
+       "pearsonR": 0.537,
+       "rmse": 1.77,
+       "slopeOvOnRef": 0.48,
+       "slopeRefOnOv": 0.6,
+       "spearmanRho": 0.373,
+       "within95ci": [
+        0.6238,
+        0.7234
+       ],
+       "withinShare": 0.676
+      },
+      "n": 336,
+      "roofMean": {
+       "bias": -0.06,
+       "interceptOvOnRef": 1.366,
+       "interceptRefOnOv": 2.149,
+       "medianAbsError": 0.94,
+       "medianError": -0.29,
+       "n": 336,
+       "pearsonR": 0.571,
+       "rmse": 1.46,
+       "slopeOvOnRef": 0.659,
+       "slopeRefOnOv": 0.495,
+       "spearmanRho": 0.39,
+       "within95ci": [
+        0.67,
+        0.7655
+       ],
+       "withinShare": 0.72
+      },
+      "roofMedian": {
+       "bias": 0.1,
+       "interceptOvOnRef": 1.628,
+       "interceptRefOnOv": 1.951,
+       "medianAbsError": 0.92,
+       "medianError": -0.16,
+       "n": 336,
+       "pearsonR": 0.559,
+       "rmse": 1.51,
+       "slopeOvOnRef": 0.621,
+       "slopeRefOnOv": 0.502,
+       "spearmanRho": 0.32,
+       "within95ci": [
+        0.6576,
+        0.7544
+       ],
+       "withinShare": 0.708
+      },
+      "top_p95": {
+       "bias": -1.65,
+       "interceptOvOnRef": 2.772,
+       "interceptRefOnOv": 2.058,
+       "medianAbsError": 1.39,
+       "medianError": -1.15,
+       "n": 336,
+       "pearsonR": 0.46,
+       "rmse": 3.35,
+       "slopeOvOnRef": 0.235,
+       "slopeRefOnOv": 0.9,
+       "spearmanRho": 0.365,
+       "within95ci": [
+        0.4942,
+        0.6
+       ],
+       "withinShare": 0.548
+      },
+      "top_p99": {
+       "bias": -2.2,
+       "interceptOvOnRef": 2.628,
+       "interceptRefOnOv": 1.725,
+       "medianAbsError": 1.53,
+       "medianError": -1.45,
+       "n": 336,
+       "pearsonR": 0.514,
+       "rmse": 3.82,
+       "slopeOvOnRef": 0.237,
+       "slopeRefOnOv": 1.116,
+       "spearmanRho": 0.422,
+       "within95ci": [
+        0.4292,
+        0.5355
+       ],
+       "withinShare": 0.482
+      }
+     }
+    },
+    "90plus": {
+     "areaSpearman": {
+      "lidarTop": 0.069,
+      "overtureHeight": 0.003
+     },
+     "binned": [
+      {
+       "n": 2,
+       "overtureBin": "0-3",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 0.083,
+       "lidarMedian": 5.55,
+       "lidarP10": 4.2,
+       "lidarP90": 7.05,
+       "n": 12,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.455,
+       "lidarMedian": 7.23,
+       "lidarP10": 4.71,
+       "lidarP90": 9.25,
+       "n": 44,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.781,
+       "lidarMedian": 8.74,
+       "lidarP10": 6.6,
+       "lidarP90": 10.18,
+       "n": 242,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.919,
+       "lidarMedian": 9.32,
+       "lidarP10": 7.64,
+       "lidarP90": 10.93,
+       "n": 270,
+       "overtureBin": "6-7"
+      },
+      {
+       "lidarHighShare": 0.83,
+       "lidarMedian": 9.21,
+       "lidarP10": 7.01,
+       "lidarP90": 15.43,
+       "n": 94,
+       "overtureBin": "7-8"
+      },
+      {
+       "lidarHighShare": 0.914,
+       "lidarMedian": 9.68,
+       "lidarP10": 7.59,
+       "lidarP90": 15.88,
+       "n": 35,
+       "overtureBin": "8-9"
+      },
+      {
+       "lidarHighShare": 0.846,
+       "lidarMedian": 9.5,
+       "lidarP10": 6.56,
+       "lidarP90": 15.93,
+       "n": 13,
+       "overtureBin": "9+"
+      }
+     ],
+     "errorVsTop": {
+      "bias": -2.89,
+      "interceptOvOnRef": 4.836,
+      "interceptRefOnOv": 3.927,
+      "medianAbsError": 2.8,
+      "medianError": -2.78,
+      "n": 712,
+      "pearsonR": 0.36,
+      "rmse": 3.72,
+      "slopeOvOnRef": 0.155,
+      "slopeRefOnOv": 0.834,
+      "spearmanRho": 0.364,
+      "within95ci": [
+       0.185,
+       0.2451
+      ],
+      "withinShare": 0.213
+     },
+     "lidarTop": {
+      "n": 712,
+      "p10": 6.65,
+      "p25": 7.91,
+      "p50": 8.97,
+      "p75": 9.85,
+      "p90": 10.89
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.6459,
+       0.7491
+      ],
+      "lidarHighGivenOvertureLowShare": 0.7,
+      "lidarHighN": 579,
+      "overtureLowGivenLidarHigh": 210,
+      "overtureLowGivenLidarHighCI": [
+       0.3246,
+       0.4026
+      ],
+      "overtureLowGivenLidarHighShare": 0.363,
+      "overtureLowN": 300
+     },
+     "n": 712,
+     "overtureHeight": {
+      "n": 712,
+      "p10": 5.1,
+      "p25": 5.58,
+      "p50": 6.17,
+      "p75": 6.78,
+      "p90": 7.62
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 0.93,
+       "interceptOvOnRef": 5.129,
+       "interceptRefOnOv": 3.094,
+       "medianAbsError": 1.26,
+       "medianError": 0.97,
+       "n": 712,
+       "pearsonR": 0.275,
+       "rmse": 1.78,
+       "slopeOvOnRef": 0.212,
+       "slopeRefOnOv": 0.357,
+       "spearmanRho": 0.316,
+       "within95ci": [
+        0.569,
+        0.6406
+       ],
+       "withinShare": 0.605
+      },
+      "lidarEave": {
+       "n": 712,
+       "p10": 3.7,
+       "p25": 4.13,
+       "p50": 4.97,
+       "p75": 6.65,
+       "p90": 7.15
+      },
+      "lidarSpan": {
+       "n": 712,
+       "p10": 1.74,
+       "p25": 2.34,
+       "p50": 3.08,
+       "p75": 4.72,
+       "p90": 5.86
+      },
+      "midway_top_eave": {
+       "bias": -0.98,
+       "interceptOvOnRef": 4.328,
+       "interceptRefOnOv": 3.511,
+       "medianAbsError": 1.21,
+       "medianError": -0.97,
+       "n": 712,
+       "pearsonR": 0.398,
+       "rmse": 1.83,
+       "slopeOvOnRef": 0.266,
+       "slopeRefOnOv": 0.596,
+       "spearmanRho": 0.407,
+       "within95ci": [
+        0.5633,
+        0.6351
+       ],
+       "withinShare": 0.6
+      },
+      "n": 712,
+      "roofMean": {
+       "bias": -0.96,
+       "interceptOvOnRef": 4.063,
+       "interceptRefOnOv": 4.511,
+       "medianAbsError": 1.34,
+       "medianError": -1.16,
+       "n": 712,
+       "pearsonR": 0.363,
+       "rmse": 1.66,
+       "slopeOvOnRef": 0.304,
+       "slopeRefOnOv": 0.433,
+       "spearmanRho": 0.368,
+       "within95ci": [
+        0.5308,
+        0.6033
+       ],
+       "withinShare": 0.567
+      },
+      "roofMedian": {
+       "bias": -1.04,
+       "interceptOvOnRef": 4.469,
+       "interceptRefOnOv": 5.02,
+       "medianAbsError": 1.45,
+       "medianError": -1.27,
+       "n": 712,
+       "pearsonR": 0.298,
+       "rmse": 1.77,
+       "slopeOvOnRef": 0.245,
+       "slopeRefOnOv": 0.363,
+       "spearmanRho": 0.31,
+       "within95ci": [
+        0.476,
+        0.5492
+       ],
+       "withinShare": 0.513
+      },
+      "top_p95": {
+       "bias": -2.89,
+       "interceptOvOnRef": 4.836,
+       "interceptRefOnOv": 3.927,
+       "medianAbsError": 2.8,
+       "medianError": -2.78,
+       "n": 712,
+       "pearsonR": 0.36,
+       "rmse": 3.72,
+       "slopeOvOnRef": 0.155,
+       "slopeRefOnOv": 0.834,
+       "spearmanRho": 0.364,
+       "within95ci": [
+        0.185,
+        0.2451
+       ],
+       "withinShare": 0.213
+      },
+      "top_p99": {
+       "bias": -3.96,
+       "interceptOvOnRef": 4.957,
+       "interceptRefOnOv": 3.025,
+       "medianAbsError": 3.33,
+       "medianError": -3.33,
+       "n": 712,
+       "pearsonR": 0.382,
+       "rmse": 4.97,
+       "slopeOvOnRef": 0.127,
+       "slopeRefOnOv": 1.149,
+       "spearmanRho": 0.41,
+       "within95ci": [
+        0.1104,
+        0.1604
+       ],
+       "withinShare": 0.133
+      }
+     }
+    },
+    "under45": {
+     "areaSpearman": {
+      "lidarTop": -0.08,
+      "overtureHeight": -0.164
+     },
+     "binned": [
+      {
+       "lidarHighShare": 0.077,
+       "lidarMedian": 3.8,
+       "lidarP10": 3.2,
+       "lidarP90": 4.57,
+       "n": 26,
+       "overtureBin": "0-3"
+      },
+      {
+       "lidarHighShare": 0.121,
+       "lidarMedian": 3.79,
+       "lidarP10": 3.43,
+       "lidarP90": 8.18,
+       "n": 33,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.174,
+       "lidarMedian": 4.4,
+       "lidarP10": 3.44,
+       "lidarP90": 11.06,
+       "n": 23,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.353,
+       "lidarMedian": 4.81,
+       "lidarP10": 3.62,
+       "lidarP90": 13.02,
+       "n": 17,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.294,
+       "lidarMedian": 4.5,
+       "lidarP10": 3.81,
+       "lidarP90": 15.74,
+       "n": 17,
+       "overtureBin": "6-7"
+      },
+      {
+       "n": 3,
+       "overtureBin": "7-8",
+       "suppressed": true
+      },
+      {
+       "n": 2,
+       "overtureBin": "8-9",
+       "suppressed": true
+      },
+      {
+       "n": 3,
+       "overtureBin": "9+",
+       "suppressed": true
+      }
+     ],
+     "errorVsTop": {
+      "bias": -1.29,
+      "interceptOvOnRef": 3.502,
+      "interceptRefOnOv": 2.495,
+      "medianAbsError": 1.34,
+      "medianError": -0.66,
+      "n": 124,
+      "pearsonR": 0.346,
+      "rmse": 3.72,
+      "slopeOvOnRef": 0.164,
+      "slopeRefOnOv": 0.728,
+      "spearmanRho": 0.374,
+      "within95ci": [
+       0.4766,
+       0.6485
+      ],
+      "withinShare": 0.565
+     },
+     "lidarTop": {
+      "n": 124,
+      "p10": 3.42,
+      "p25": 3.63,
+      "p50": 4.16,
+      "p75": 5.27,
+      "p90": 12.78
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.102,
+       0.2465
+      ],
+      "lidarHighGivenOvertureLowShare": 0.162,
+      "lidarHighN": 25,
+      "overtureLowGivenLidarHigh": 16,
+      "overtureLowGivenLidarHighCI": [
+       0.4452,
+       0.7975
+      ],
+      "overtureLowGivenLidarHighShare": 0.64,
+      "overtureLowN": 99
+     },
+     "n": 124,
+     "overtureHeight": {
+      "n": 124,
+      "p10": 2.6,
+      "p25": 3.05,
+      "p50": 4.08,
+      "p75": 5.52,
+      "p90": 6.37
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 1.15,
+       "interceptOvOnRef": 3.556,
+       "interceptRefOnOv": 2.895,
+       "medianAbsError": 1.06,
+       "medianError": 0.71,
+       "n": 124,
+       "pearsonR": 0.155,
+       "rmse": 2.21,
+       "slopeOvOnRef": 0.27,
+       "slopeRefOnOv": 0.089,
+       "spearmanRho": 0.255,
+       "within95ci": [
+        0.5088,
+        0.679
+       ],
+       "withinShare": 0.597
+      },
+      "lidarEave": {
+       "n": 124,
+       "p10": 2.67,
+       "p25": 2.84,
+       "p50": 3.0,
+       "p75": 3.23,
+       "p90": 4.02
+      },
+      "lidarSpan": {
+       "n": 124,
+       "p10": 0.58,
+       "p25": 0.69,
+       "p50": 1.02,
+       "p75": 1.49,
+       "p90": 9.25
+      },
+      "midway_top_eave": {
+       "bias": -0.07,
+       "interceptOvOnRef": 3.067,
+       "interceptRefOnOv": 2.695,
+       "medianAbsError": 1.16,
+       "medianError": -0.1,
+       "n": 124,
+       "pearsonR": 0.353,
+       "rmse": 2.16,
+       "slopeOvOnRef": 0.305,
+       "slopeRefOnOv": 0.408,
+       "spearmanRho": 0.365,
+       "within95ci": [
+        0.5169,
+        0.6865
+       ],
+       "withinShare": 0.605
+      },
+      "n": 124,
+      "roofMean": {
+       "bias": 0.32,
+       "interceptOvOnRef": 2.95,
+       "interceptRefOnOv": 2.755,
+       "medianAbsError": 1.04,
+       "medianError": 0.13,
+       "n": 124,
+       "pearsonR": 0.334,
+       "rmse": 1.97,
+       "slopeOvOnRef": 0.362,
+       "slopeRefOnOv": 0.307,
+       "spearmanRho": 0.383,
+       "within95ci": [
+        0.566,
+        0.7313
+       ],
+       "withinShare": 0.653
+      },
+      "roofMedian": {
+       "bias": 0.61,
+       "interceptOvOnRef": 3.446,
+       "interceptRefOnOv": 2.889,
+       "medianAbsError": 1.06,
+       "medianError": 0.29,
+       "n": 124,
+       "pearsonR": 0.235,
+       "rmse": 2.16,
+       "slopeOvOnRef": 0.26,
+       "slopeRefOnOv": 0.213,
+       "spearmanRho": 0.349,
+       "within95ci": [
+        0.5495,
+        0.7164
+       ],
+       "withinShare": 0.637
+      },
+      "top_p95": {
+       "bias": -1.29,
+       "interceptOvOnRef": 3.502,
+       "interceptRefOnOv": 2.495,
+       "medianAbsError": 1.34,
+       "medianError": -0.66,
+       "n": 124,
+       "pearsonR": 0.346,
+       "rmse": 3.72,
+       "slopeOvOnRef": 0.164,
+       "slopeRefOnOv": 0.728,
+       "spearmanRho": 0.374,
+       "within95ci": [
+        0.4766,
+        0.6485
+       ],
+       "withinShare": 0.565
+      },
+      "top_p99": {
+       "bias": -1.93,
+       "interceptOvOnRef": 3.524,
+       "interceptRefOnOv": 2.917,
+       "medianAbsError": 1.5,
+       "medianError": -0.94,
+       "n": 124,
+       "pearsonR": 0.335,
+       "rmse": 4.31,
+       "slopeOvOnRef": 0.144,
+       "slopeRefOnOv": 0.778,
+       "spearmanRho": 0.353,
+       "within95ci": [
+        0.4133,
+        0.5867
+       ],
+       "withinShare": 0.5
+      }
+     }
+    }
+   },
+   "candidates": 1230
+  },
+  "msOsmFree": {
+   "all": {
+    "areaSpearman": {
+     "lidarTop": 0.528,
+     "overtureHeight": 0.527
+    },
+    "binned": [
+     {
+      "lidarHighShare": 0.061,
+      "lidarMedian": 4.18,
+      "lidarP10": 3.35,
+      "lidarP90": 5.26,
+      "n": 132,
+      "overtureBin": "0-3"
+     },
+     {
+      "lidarHighShare": 0.099,
+      "lidarMedian": 4.29,
+      "lidarP10": 3.45,
+      "lidarP90": 7.07,
+      "n": 131,
+      "overtureBin": "3-4"
+     },
+     {
+      "lidarHighShare": 0.252,
+      "lidarMedian": 5.24,
+      "lidarP10": 3.62,
+      "lidarP90": 9.35,
+      "n": 119,
+      "overtureBin": "4-5"
+     },
+     {
+      "lidarHighShare": 0.672,
+      "lidarMedian": 8.44,
+      "lidarP10": 4.58,
+      "lidarP90": 10.38,
+      "n": 293,
+      "overtureBin": "5-6"
+     },
+     {
+      "lidarHighShare": 0.855,
+      "lidarMedian": 9.23,
+      "lidarP10": 6.84,
+      "lidarP90": 11.11,
+      "n": 311,
+      "overtureBin": "6-7"
+     },
+     {
+      "lidarHighShare": 0.802,
+      "lidarMedian": 9.11,
+      "lidarP10": 6.88,
+      "lidarP90": 15.3,
+      "n": 106,
+      "overtureBin": "7-8"
+     },
+     {
+      "lidarHighShare": 0.878,
+      "lidarMedian": 9.68,
+      "lidarP10": 7.02,
+      "lidarP90": 16.09,
+      "n": 41,
+      "overtureBin": "8-9"
+     },
+     {
+      "lidarHighShare": 0.762,
+      "lidarMedian": 9.5,
+      "lidarP10": 5.11,
+      "lidarP90": 16.15,
+      "n": 21,
+      "overtureBin": "9+"
+     }
+    ],
+    "errorVsTop": {
+     "bias": -2.35,
+     "interceptOvOnRef": 3.203,
+     "interceptRefOnOv": 1.683,
+     "medianAbsError": 2.18,
+     "medianError": -2.09,
+     "n": 1154,
+     "pearsonR": 0.569,
+     "rmse": 3.62,
+     "slopeOvOnRef": 0.288,
+     "slopeRefOnOv": 1.122,
+     "spearmanRho": 0.614,
+     "within95ci": [
+      0.3248,
+      0.3798
+     ],
+     "withinShare": 0.352
+    },
+    "lidarTop": {
+     "n": 1154,
+     "p10": 3.74,
+     "p25": 4.7,
+     "p50": 8.05,
+     "p75": 9.53,
+     "p90": 10.91
+    },
+    "lowHigh": {
+     "lidarHighGivenOvertureLowCI": [
+      0.3319,
+      0.4044
+     ],
+     "lidarHighGivenOvertureLowShare": 0.367,
+     "lidarHighN": 651,
+     "overtureLowGivenLidarHigh": 248,
+     "overtureLowGivenLidarHighCI": [
+      0.3444,
+      0.4189
+     ],
+     "overtureLowGivenLidarHighShare": 0.381,
+     "overtureLowN": 675
+    },
+    "n": 1154,
+    "overtureHeight": {
+     "n": 1154,
+     "p10": 2.89,
+     "p25": 4.16,
+     "p50": 5.72,
+     "p75": 6.46,
+     "p90": 7.38
+    },
+    "referenceComparison": {
+     "eave_p15": {
+      "bias": 0.94,
+      "interceptOvOnRef": 2.772,
+      "interceptRefOnOv": 1.64,
+      "medianAbsError": 1.07,
+      "medianError": 0.86,
+      "n": 1154,
+      "pearsonR": 0.559,
+      "rmse": 1.8,
+      "slopeOvOnRef": 0.593,
+      "slopeRefOnOv": 0.527,
+      "spearmanRho": 0.629,
+      "within95ci": [
+       0.6114,
+       0.6667
+      ],
+      "withinShare": 0.64
+     },
+     "lidarEave": {
+      "n": 1154,
+      "p10": 2.82,
+      "p25": 3.07,
+      "p50": 4.11,
+      "p75": 6.08,
+      "p90": 6.9
+     },
+     "lidarSpan": {
+      "n": 1154,
+      "p10": 0.84,
+      "p25": 1.41,
+      "p50": 2.44,
+      "p75": 4.18,
+      "p90": 6.15
+     },
+     "midway_top_eave": {
+      "bias": -0.71,
+      "interceptOvOnRef": 2.406,
+      "interceptRefOnOv": 1.662,
+      "medianAbsError": 1.11,
+      "medianError": -0.73,
+      "n": 1154,
+      "pearsonR": 0.638,
+      "rmse": 1.84,
+      "slopeOvOnRef": 0.494,
+      "slopeRefOnOv": 0.825,
+      "spearmanRho": 0.647,
+      "within95ci": [
+       0.6,
+       0.6557
+      ],
+      "withinShare": 0.628
+     },
+     "n": 1154,
+     "roofMean": {
+      "bias": -0.55,
+      "interceptOvOnRef": 2.088,
+      "interceptRefOnOv": 1.643,
+      "medianAbsError": 1.17,
+      "medianError": -0.74,
+      "n": 1154,
+      "pearsonR": 0.669,
+      "rmse": 1.63,
+      "slopeOvOnRef": 0.56,
+      "slopeRefOnOv": 0.8,
+      "spearmanRho": 0.669,
+      "within95ci": [
+       0.5982,
+       0.654
+      ],
+      "withinShare": 0.627
+     },
+     "roofMedian": {
+      "bias": -0.51,
+      "interceptOvOnRef": 2.394,
+      "interceptRefOnOv": 1.505,
+      "medianAbsError": 1.26,
+      "medianError": -0.7,
+      "n": 1154,
+      "pearsonR": 0.647,
+      "rmse": 1.73,
+      "slopeOvOnRef": 0.512,
+      "slopeRefOnOv": 0.818,
+      "spearmanRho": 0.648,
+      "within95ci": [
+       0.5589,
+       0.6156
+      ],
+      "withinShare": 0.588
+     },
+     "top_p95": {
+      "bias": -2.35,
+      "interceptOvOnRef": 3.203,
+      "interceptRefOnOv": 1.683,
+      "medianAbsError": 2.18,
+      "medianError": -2.09,
+      "n": 1154,
+      "pearsonR": 0.569,
+      "rmse": 3.62,
+      "slopeOvOnRef": 0.288,
+      "slopeRefOnOv": 1.122,
+      "spearmanRho": 0.614,
+      "within95ci": [
+       0.3248,
+       0.3798
+      ],
+      "withinShare": 0.352
+     },
+     "top_p99": {
+      "bias": -3.22,
+      "interceptOvOnRef": 3.296,
+      "interceptRefOnOv": 1.279,
+      "medianAbsError": 2.63,
+      "medianError": -2.6,
+      "n": 1154,
+      "pearsonR": 0.58,
+      "rmse": 4.58,
+      "slopeOvOnRef": 0.248,
+      "slopeRefOnOv": 1.355,
+      "spearmanRho": 0.615,
+      "within95ci": [
+       0.2514,
+       0.3029
+      ],
+      "withinShare": 0.276
+     }
+    }
+   },
+   "analysed": 1154,
+   "byFootprintArea": {
+    "45to90": {
+     "areaSpearman": {
+      "lidarTop": 0.238,
+      "overtureHeight": 0.292
+     },
+     "binned": [
+      {
+       "lidarHighShare": 0.058,
+       "lidarMedian": 4.26,
+       "lidarP10": 3.4,
+       "lidarP90": 5.27,
+       "n": 104,
+       "overtureBin": "0-3"
+      },
+      {
+       "lidarHighShare": 0.093,
+       "lidarMedian": 4.32,
+       "lidarP10": 3.44,
+       "lidarP90": 5.8,
+       "n": 86,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.132,
+       "lidarMedian": 4.67,
+       "lidarP10": 3.51,
+       "lidarP90": 9.96,
+       "n": 53,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.256,
+       "lidarMedian": 4.58,
+       "lidarP10": 3.63,
+       "lidarP90": 11.47,
+       "n": 43,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.607,
+       "lidarMedian": 8.51,
+       "lidarP10": 4.28,
+       "lidarP90": 12.17,
+       "n": 28,
+       "overtureBin": "6-7"
+      },
+      {
+       "lidarHighShare": 0.556,
+       "lidarMedian": 7.82,
+       "lidarP10": 4.33,
+       "lidarP90": 12.84,
+       "n": 9,
+       "overtureBin": "7-8"
+      },
+      {
+       "n": 4,
+       "overtureBin": "8-9",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 0.833,
+       "lidarMedian": 11.81,
+       "lidarP10": 7.97,
+       "lidarP90": 16.47,
+       "n": 6,
+       "overtureBin": "9+"
+      }
+     ],
+     "errorVsTop": {
+      "bias": -1.65,
+      "interceptOvOnRef": 2.767,
+      "interceptRefOnOv": 2.04,
+      "medianAbsError": 1.38,
+      "medianError": -1.15,
+      "n": 333,
+      "pearsonR": 0.461,
+      "rmse": 3.36,
+      "slopeOvOnRef": 0.235,
+      "slopeRefOnOv": 0.905,
+      "spearmanRho": 0.364,
+      "within95ci": [
+       0.4988,
+       0.6051
+      ],
+      "withinShare": 0.553
+     },
+     "lidarTop": {
+      "n": 333,
+      "p10": 3.48,
+      "p25": 3.86,
+      "p50": 4.51,
+      "p75": 5.43,
+      "p90": 10.19
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.0804,
+       0.1537
+      ],
+      "lidarHighGivenOvertureLowShare": 0.112,
+      "lidarHighN": 62,
+      "overtureLowGivenLidarHigh": 32,
+      "overtureLowGivenLidarHighCI": [
+       0.3945,
+       0.6359
+      ],
+      "overtureLowGivenLidarHighShare": 0.516,
+      "overtureLowN": 286
+     },
+     "n": 333,
+     "overtureHeight": {
+      "n": 333,
+      "p10": 2.4,
+      "p25": 2.84,
+      "p50": 3.66,
+      "p75": 5.15,
+      "p90": 6.31
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 0.82,
+       "interceptOvOnRef": 1.293,
+       "interceptRefOnOv": 2.066,
+       "medianAbsError": 0.76,
+       "medianError": 0.52,
+       "n": 333,
+       "pearsonR": 0.506,
+       "rmse": 1.67,
+       "slopeOvOnRef": 0.858,
+       "slopeRefOnOv": 0.299,
+       "spearmanRho": 0.288,
+       "within95ci": [
+        0.6796,
+        0.7746
+       ],
+       "withinShare": 0.73
+      },
+      "lidarEave": {
+       "n": 333,
+       "p10": 2.65,
+       "p25": 2.83,
+       "p50": 2.99,
+       "p75": 3.27,
+       "p90": 4.3
+      },
+      "lidarSpan": {
+       "n": 333,
+       "p10": 0.76,
+       "p25": 1.0,
+       "p50": 1.39,
+       "p75": 1.98,
+       "p90": 7.07
+      },
+      "midway_top_eave": {
+       "bias": -0.41,
+       "interceptOvOnRef": 1.939,
+       "interceptRefOnOv": 2.053,
+       "medianAbsError": 0.98,
+       "medianError": -0.44,
+       "n": 333,
+       "pearsonR": 0.538,
+       "rmse": 1.76,
+       "slopeOvOnRef": 0.481,
+       "slopeRefOnOv": 0.602,
+       "spearmanRho": 0.372,
+       "within95ci": [
+        0.6267,
+        0.7266
+       ],
+       "withinShare": 0.679
+      },
+      "n": 333,
+      "roofMean": {
+       "bias": -0.06,
+       "interceptOvOnRef": 1.347,
+       "interceptRefOnOv": 2.145,
+       "medianAbsError": 0.91,
+       "medianError": -0.29,
+       "n": 333,
+       "pearsonR": 0.573,
+       "rmse": 1.46,
+       "slopeOvOnRef": 0.663,
+       "slopeRefOnOv": 0.495,
+       "spearmanRho": 0.386,
+       "within95ci": [
+        0.6734,
+        0.769
+       ],
+       "withinShare": 0.724
+      },
+      "roofMedian": {
+       "bias": 0.11,
+       "interceptOvOnRef": 1.61,
+       "interceptRefOnOv": 1.947,
+       "medianAbsError": 0.91,
+       "medianError": -0.16,
+       "n": 333,
+       "pearsonR": 0.56,
+       "rmse": 1.5,
+       "slopeOvOnRef": 0.626,
+       "slopeRefOnOv": 0.502,
+       "spearmanRho": 0.315,
+       "within95ci": [
+        0.6609,
+        0.7577
+       ],
+       "withinShare": 0.712
+      },
+      "top_p95": {
+       "bias": -1.65,
+       "interceptOvOnRef": 2.767,
+       "interceptRefOnOv": 2.04,
+       "medianAbsError": 1.38,
+       "medianError": -1.15,
+       "n": 333,
+       "pearsonR": 0.461,
+       "rmse": 3.36,
+       "slopeOvOnRef": 0.235,
+       "slopeRefOnOv": 0.905,
+       "spearmanRho": 0.364,
+       "within95ci": [
+        0.4988,
+        0.6051
+       ],
+       "withinShare": 0.553
+      },
+      "top_p99": {
+       "bias": -2.19,
+       "interceptOvOnRef": 2.639,
+       "interceptRefOnOv": 1.756,
+       "medianAbsError": 1.51,
+       "medianError": -1.44,
+       "n": 333,
+       "pearsonR": 0.51,
+       "rmse": 3.82,
+       "slopeOvOnRef": 0.235,
+       "slopeRefOnOv": 1.104,
+       "spearmanRho": 0.416,
+       "within95ci": [
+        0.4333,
+        0.54
+       ],
+       "withinShare": 0.486
+      }
+     }
+    },
+    "90plus": {
+     "areaSpearman": {
+      "lidarTop": 0.069,
+      "overtureHeight": 0.007
+     },
+     "binned": [
+      {
+       "n": 2,
+       "overtureBin": "0-3",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 0.083,
+       "lidarMedian": 5.55,
+       "lidarP10": 4.2,
+       "lidarP90": 7.05,
+       "n": 12,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.442,
+       "lidarMedian": 7.21,
+       "lidarP10": 4.7,
+       "lidarP90": 9.26,
+       "n": 43,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.773,
+       "lidarMedian": 8.71,
+       "lidarP10": 6.6,
+       "lidarP90": 10.21,
+       "n": 233,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.917,
+       "lidarMedian": 9.31,
+       "lidarP10": 7.63,
+       "lidarP90": 10.95,
+       "n": 266,
+       "overtureBin": "6-7"
+      },
+      {
+       "lidarHighShare": 0.83,
+       "lidarMedian": 9.21,
+       "lidarP10": 7.01,
+       "lidarP90": 15.43,
+       "n": 94,
+       "overtureBin": "7-8"
+      },
+      {
+       "lidarHighShare": 0.914,
+       "lidarMedian": 9.68,
+       "lidarP10": 7.59,
+       "lidarP90": 15.88,
+       "n": 35,
+       "overtureBin": "8-9"
+      },
+      {
+       "lidarHighShare": 0.833,
+       "lidarMedian": 9.31,
+       "lidarP10": 6.43,
+       "lidarP90": 14.26,
+       "n": 12,
+       "overtureBin": "9+"
+      }
+     ],
+     "errorVsTop": {
+      "bias": -2.87,
+      "interceptOvOnRef": 4.884,
+      "interceptRefOnOv": 3.977,
+      "medianAbsError": 2.78,
+      "medianError": -2.77,
+      "n": 697,
+      "pearsonR": 0.352,
+      "rmse": 3.71,
+      "slopeOvOnRef": 0.151,
+      "slopeRefOnOv": 0.823,
+      "spearmanRho": 0.367,
+      "within95ci": [
+       0.189,
+       0.2502
+      ],
+      "withinShare": 0.218
+     },
+     "lidarTop": {
+      "n": 697,
+      "p10": 6.62,
+      "p25": 7.86,
+      "p50": 8.94,
+      "p75": 9.85,
+      "p90": 10.9
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.6342,
+       0.7401
+      ],
+      "lidarHighGivenOvertureLowShare": 0.69,
+      "lidarHighN": 564,
+      "overtureLowGivenLidarHigh": 200,
+      "overtureLowGivenLidarHighCI": [
+       0.3162,
+       0.395
+      ],
+      "overtureLowGivenLidarHighShare": 0.355,
+      "overtureLowN": 290
+     },
+     "n": 697,
+     "overtureHeight": {
+      "n": 697,
+      "p10": 5.11,
+      "p25": 5.58,
+      "p50": 6.17,
+      "p75": 6.8,
+      "p90": 7.63
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 0.95,
+       "interceptOvOnRef": 5.155,
+       "interceptRefOnOv": 3.116,
+       "medianAbsError": 1.27,
+       "medianError": 0.99,
+       "n": 697,
+       "pearsonR": 0.27,
+       "rmse": 1.79,
+       "slopeOvOnRef": 0.208,
+       "slopeRefOnOv": 0.35,
+       "spearmanRho": 0.319,
+       "within95ci": [
+        0.5672,
+        0.6397
+       ],
+       "withinShare": 0.604
+      },
+      "lidarEave": {
+       "n": 697,
+       "p10": 3.7,
+       "p25": 4.12,
+       "p50": 4.9,
+       "p75": 6.63,
+       "p90": 7.14
+      },
+      "lidarSpan": {
+       "n": 697,
+       "p10": 1.73,
+       "p25": 2.33,
+       "p50": 3.08,
+       "p75": 4.72,
+       "p90": 5.87
+      },
+      "midway_top_eave": {
+       "bias": -0.96,
+       "interceptOvOnRef": 4.377,
+       "interceptRefOnOv": 3.547,
+       "medianAbsError": 1.18,
+       "medianError": -0.95,
+       "n": 697,
+       "pearsonR": 0.391,
+       "rmse": 1.82,
+       "slopeOvOnRef": 0.261,
+       "slopeRefOnOv": 0.587,
+       "spearmanRho": 0.41,
+       "within95ci": [
+        0.5716,
+        0.6439
+       ],
+       "withinShare": 0.608
+      },
+      "n": 697,
+      "roofMean": {
+       "bias": -0.94,
+       "interceptOvOnRef": 4.13,
+       "interceptRefOnOv": 4.586,
+       "medianAbsError": 1.32,
+       "medianError": -1.12,
+       "n": 697,
+       "pearsonR": 0.352,
+       "rmse": 1.65,
+       "slopeOvOnRef": 0.296,
+       "slopeRefOnOv": 0.418,
+       "spearmanRho": 0.368,
+       "within95ci": [
+        0.5383,
+        0.6115
+       ],
+       "withinShare": 0.575
+      },
+      "roofMedian": {
+       "bias": -1.01,
+       "interceptOvOnRef": 4.551,
+       "interceptRefOnOv": 5.121,
+       "medianAbsError": 1.44,
+       "medianError": -1.26,
+       "n": 697,
+       "pearsonR": 0.284,
+       "rmse": 1.75,
+       "slopeOvOnRef": 0.235,
+       "slopeRefOnOv": 0.344,
+       "spearmanRho": 0.309,
+       "within95ci": [
+        0.4823,
+        0.5563
+       ],
+       "withinShare": 0.519
+      },
+      "top_p95": {
+       "bias": -2.87,
+       "interceptOvOnRef": 4.884,
+       "interceptRefOnOv": 3.977,
+       "medianAbsError": 2.78,
+       "medianError": -2.77,
+       "n": 697,
+       "pearsonR": 0.352,
+       "rmse": 3.71,
+       "slopeOvOnRef": 0.151,
+       "slopeRefOnOv": 0.823,
+       "spearmanRho": 0.367,
+       "within95ci": [
+        0.189,
+        0.2502
+       ],
+       "withinShare": 0.218
+      },
+      "top_p99": {
+       "bias": -3.94,
+       "interceptOvOnRef": 4.962,
+       "interceptRefOnOv": 2.89,
+       "medianAbsError": 3.31,
+       "medianError": -3.31,
+       "n": 697,
+       "pearsonR": 0.386,
+       "rmse": 4.95,
+       "slopeOvOnRef": 0.127,
+       "slopeRefOnOv": 1.167,
+       "spearmanRho": 0.419,
+       "within95ci": [
+        0.1128,
+        0.1638
+       ],
+       "withinShare": 0.136
+      }
+     }
+    },
+    "under45": {
+     "areaSpearman": {
+      "lidarTop": -0.08,
+      "overtureHeight": -0.164
+     },
+     "binned": [
+      {
+       "lidarHighShare": 0.077,
+       "lidarMedian": 3.8,
+       "lidarP10": 3.2,
+       "lidarP90": 4.57,
+       "n": 26,
+       "overtureBin": "0-3"
+      },
+      {
+       "lidarHighShare": 0.121,
+       "lidarMedian": 3.79,
+       "lidarP10": 3.43,
+       "lidarP90": 8.18,
+       "n": 33,
+       "overtureBin": "3-4"
+      },
+      {
+       "lidarHighShare": 0.174,
+       "lidarMedian": 4.4,
+       "lidarP10": 3.44,
+       "lidarP90": 11.06,
+       "n": 23,
+       "overtureBin": "4-5"
+      },
+      {
+       "lidarHighShare": 0.353,
+       "lidarMedian": 4.81,
+       "lidarP10": 3.62,
+       "lidarP90": 13.02,
+       "n": 17,
+       "overtureBin": "5-6"
+      },
+      {
+       "lidarHighShare": 0.294,
+       "lidarMedian": 4.5,
+       "lidarP10": 3.81,
+       "lidarP90": 15.74,
+       "n": 17,
+       "overtureBin": "6-7"
+      },
+      {
+       "n": 3,
+       "overtureBin": "7-8",
+       "suppressed": true
+      },
+      {
+       "n": 2,
+       "overtureBin": "8-9",
+       "suppressed": true
+      },
+      {
+       "n": 3,
+       "overtureBin": "9+",
+       "suppressed": true
+      }
+     ],
+     "errorVsTop": {
+      "bias": -1.29,
+      "interceptOvOnRef": 3.502,
+      "interceptRefOnOv": 2.495,
+      "medianAbsError": 1.34,
+      "medianError": -0.66,
+      "n": 124,
+      "pearsonR": 0.346,
+      "rmse": 3.72,
+      "slopeOvOnRef": 0.164,
+      "slopeRefOnOv": 0.728,
+      "spearmanRho": 0.374,
+      "within95ci": [
+       0.4766,
+       0.6485
+      ],
+      "withinShare": 0.565
+     },
+     "lidarTop": {
+      "n": 124,
+      "p10": 3.42,
+      "p25": 3.63,
+      "p50": 4.16,
+      "p75": 5.27,
+      "p90": 12.78
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.102,
+       0.2465
+      ],
+      "lidarHighGivenOvertureLowShare": 0.162,
+      "lidarHighN": 25,
+      "overtureLowGivenLidarHigh": 16,
+      "overtureLowGivenLidarHighCI": [
+       0.4452,
+       0.7975
+      ],
+      "overtureLowGivenLidarHighShare": 0.64,
+      "overtureLowN": 99
+     },
+     "n": 124,
+     "overtureHeight": {
+      "n": 124,
+      "p10": 2.6,
+      "p25": 3.05,
+      "p50": 4.08,
+      "p75": 5.52,
+      "p90": 6.37
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 1.15,
+       "interceptOvOnRef": 3.556,
+       "interceptRefOnOv": 2.895,
+       "medianAbsError": 1.06,
+       "medianError": 0.71,
+       "n": 124,
+       "pearsonR": 0.155,
+       "rmse": 2.21,
+       "slopeOvOnRef": 0.27,
+       "slopeRefOnOv": 0.089,
+       "spearmanRho": 0.255,
+       "within95ci": [
+        0.5088,
+        0.679
+       ],
+       "withinShare": 0.597
+      },
+      "lidarEave": {
+       "n": 124,
+       "p10": 2.67,
+       "p25": 2.84,
+       "p50": 3.0,
+       "p75": 3.23,
+       "p90": 4.02
+      },
+      "lidarSpan": {
+       "n": 124,
+       "p10": 0.58,
+       "p25": 0.69,
+       "p50": 1.02,
+       "p75": 1.49,
+       "p90": 9.25
+      },
+      "midway_top_eave": {
+       "bias": -0.07,
+       "interceptOvOnRef": 3.067,
+       "interceptRefOnOv": 2.695,
+       "medianAbsError": 1.16,
+       "medianError": -0.1,
+       "n": 124,
+       "pearsonR": 0.353,
+       "rmse": 2.16,
+       "slopeOvOnRef": 0.305,
+       "slopeRefOnOv": 0.408,
+       "spearmanRho": 0.365,
+       "within95ci": [
+        0.5169,
+        0.6865
+       ],
+       "withinShare": 0.605
+      },
+      "n": 124,
+      "roofMean": {
+       "bias": 0.32,
+       "interceptOvOnRef": 2.95,
+       "interceptRefOnOv": 2.755,
+       "medianAbsError": 1.04,
+       "medianError": 0.13,
+       "n": 124,
+       "pearsonR": 0.334,
+       "rmse": 1.97,
+       "slopeOvOnRef": 0.362,
+       "slopeRefOnOv": 0.307,
+       "spearmanRho": 0.383,
+       "within95ci": [
+        0.566,
+        0.7313
+       ],
+       "withinShare": 0.653
+      },
+      "roofMedian": {
+       "bias": 0.61,
+       "interceptOvOnRef": 3.446,
+       "interceptRefOnOv": 2.889,
+       "medianAbsError": 1.06,
+       "medianError": 0.29,
+       "n": 124,
+       "pearsonR": 0.235,
+       "rmse": 2.16,
+       "slopeOvOnRef": 0.26,
+       "slopeRefOnOv": 0.213,
+       "spearmanRho": 0.349,
+       "within95ci": [
+        0.5495,
+        0.7164
+       ],
+       "withinShare": 0.637
+      },
+      "top_p95": {
+       "bias": -1.29,
+       "interceptOvOnRef": 3.502,
+       "interceptRefOnOv": 2.495,
+       "medianAbsError": 1.34,
+       "medianError": -0.66,
+       "n": 124,
+       "pearsonR": 0.346,
+       "rmse": 3.72,
+       "slopeOvOnRef": 0.164,
+       "slopeRefOnOv": 0.728,
+       "spearmanRho": 0.374,
+       "within95ci": [
+        0.4766,
+        0.6485
+       ],
+       "withinShare": 0.565
+      },
+      "top_p99": {
+       "bias": -1.93,
+       "interceptOvOnRef": 3.524,
+       "interceptRefOnOv": 2.917,
+       "medianAbsError": 1.5,
+       "medianError": -0.94,
+       "n": 124,
+       "pearsonR": 0.335,
+       "rmse": 4.31,
+       "slopeOvOnRef": 0.144,
+       "slopeRefOnOv": 0.778,
+       "spearmanRho": 0.353,
+       "within95ci": [
+        0.4133,
+        0.5867
+       ],
+       "withinShare": 0.5
+      }
+     }
+    }
+   },
+   "candidates": 1212
+  },
+  "msOsmMatched": {
+   "all": {
+    "areaSpearman": {
+     "lidarTop": 0.325,
+     "overtureHeight": 0.057
+    },
+    "binned": [
+     {
+      "n": 1,
+      "overtureBin": "0-3",
+      "suppressed": true
+     },
+     {
+      "n": 0,
+      "overtureBin": "3-4",
+      "suppressed": true
+     },
+     {
+      "n": 1,
+      "overtureBin": "4-5",
+      "suppressed": true
+     },
+     {
+      "lidarHighShare": 1.0,
+      "lidarMedian": 9.15,
+      "lidarP10": 8.82,
+      "lidarP90": 9.88,
+      "n": 10,
+      "overtureBin": "5-6"
+     },
+     {
+      "lidarHighShare": 0.8,
+      "lidarMedian": 9.45,
+      "lidarP10": 6.35,
+      "lidarP90": 10.64,
+      "n": 5,
+      "overtureBin": "6-7"
+     },
+     {
+      "n": 0,
+      "overtureBin": "7-8",
+      "suppressed": true
+     },
+     {
+      "n": 0,
+      "overtureBin": "8-9",
+      "suppressed": true
+     },
+     {
+      "n": 1,
+      "overtureBin": "9+",
+      "suppressed": true
+     }
+    ],
+    "errorVsTop": {
+     "bias": -3.36,
+     "interceptOvOnRef": 1.636,
+     "interceptRefOnOv": 1.395,
+     "medianAbsError": 3.4,
+     "medianError": -3.4,
+     "n": 18,
+     "pearsonR": 0.781,
+     "rmse": 3.7,
+     "slopeOvOnRef": 0.456,
+     "slopeRefOnOv": 1.337,
+     "spearmanRho": 0.479,
+     "within95ci": [
+      0.0,
+      0.1759
+     ],
+     "withinShare": 0.0
+    },
+    "lidarTop": {
+     "n": 18,
+     "p10": 6.95,
+     "p25": 8.84,
+     "p50": 9.19,
+     "p75": 9.83,
+     "p90": 10.45
+    },
+    "lowHigh": {
+     "lidarHighGivenOvertureLowCI": [
+      0.6461,
+      0.9851
+     ],
+     "lidarHighGivenOvertureLowShare": 0.917,
+     "lidarHighN": 16,
+     "overtureLowGivenLidarHigh": 11,
+     "overtureLowGivenLidarHighCI": [
+      0.444,
+      0.8584
+     ],
+     "overtureLowGivenLidarHighShare": 0.688,
+     "overtureLowN": 12
+    },
+    "n": 18,
+    "overtureHeight": {
+     "n": 18,
+     "p10": 4.92,
+     "p25": 5.29,
+     "p50": 5.71,
+     "p75": 6.29,
+     "p90": 6.73
+    },
+    "referenceComparison": {
+     "eave_p15": {
+      "bias": -0.09,
+      "interceptOvOnRef": 2.847,
+      "interceptRefOnOv": 1.52,
+      "medianAbsError": 1.17,
+      "medianError": -0.37,
+      "n": 18,
+      "pearsonR": 0.617,
+      "rmse": 1.38,
+      "slopeOvOnRef": 0.504,
+      "slopeRefOnOv": 0.754,
+      "spearmanRho": 0.427,
+      "within95ci": [
+       0.4375,
+       0.8372
+      ],
+      "withinShare": 0.667
+     },
+     "lidarEave": {
+      "n": 18,
+      "p10": 3.04,
+      "p25": 5.0,
+      "p50": 6.52,
+      "p75": 6.9,
+      "p90": 7.56
+     },
+     "lidarSpan": {
+      "n": 18,
+      "p10": 1.9,
+      "p25": 2.2,
+      "p50": 2.56,
+      "p75": 4.56,
+      "p90": 5.06
+     },
+     "midway_top_eave": {
+      "bias": -1.72,
+      "interceptOvOnRef": 1.643,
+      "interceptRefOnOv": 1.457,
+      "medianAbsError": 2.17,
+      "medianError": -2.13,
+      "n": 18,
+      "pearsonR": 0.761,
+      "rmse": 2.12,
+      "slopeOvOnRef": 0.554,
+      "slopeRefOnOv": 1.046,
+      "spearmanRho": 0.535,
+      "within95ci": [
+       0.09,
+       0.4522
+      ],
+      "withinShare": 0.222
+     },
+     "n": 18,
+     "roofMean": {
+      "bias": -1.75,
+      "interceptOvOnRef": 1.474,
+      "interceptRefOnOv": 1.145,
+      "medianAbsError": 2.01,
+      "medianError": -1.98,
+      "n": 18,
+      "pearsonR": 0.796,
+      "rmse": 2.1,
+      "slopeOvOnRef": 0.575,
+      "slopeRefOnOv": 1.103,
+      "spearmanRho": 0.597,
+      "within95ci": [
+       0.09,
+       0.4522
+      ],
+      "withinShare": 0.222
+     },
+     "roofMedian": {
+      "bias": -1.81,
+      "interceptOvOnRef": 1.703,
+      "interceptRefOnOv": 0.846,
+      "medianAbsError": 2.11,
+      "medianError": -2.01,
+      "n": 18,
+      "pearsonR": 0.793,
+      "rmse": 2.21,
+      "slopeOvOnRef": 0.54,
+      "slopeRefOnOv": 1.165,
+      "spearmanRho": 0.586,
+      "within95ci": [
+       0.09,
+       0.4522
+      ],
+      "withinShare": 0.222
+     },
+     "top_p95": {
+      "bias": -3.36,
+      "interceptOvOnRef": 1.636,
+      "interceptRefOnOv": 1.395,
+      "medianAbsError": 3.4,
+      "medianError": -3.4,
+      "n": 18,
+      "pearsonR": 0.781,
+      "rmse": 3.7,
+      "slopeOvOnRef": 0.456,
+      "slopeRefOnOv": 1.337,
+      "spearmanRho": 0.479,
+      "within95ci": [
+       0.0,
+       0.1759
+      ],
+      "withinShare": 0.0
+     },
+     "top_p99": {
+      "bias": -4.82,
+      "interceptOvOnRef": 3.022,
+      "interceptRefOnOv": 4.331,
+      "medianAbsError": 4.2,
+      "medianError": -4.2,
+      "n": 18,
+      "pearsonR": 0.535,
+      "rmse": 5.38,
+      "slopeOvOnRef": 0.264,
+      "slopeRefOnOv": 1.084,
+      "spearmanRho": 0.293,
+      "within95ci": [
+       0.0,
+       0.1759
+      ],
+      "withinShare": 0.0
+     }
+    }
+   },
+   "analysed": 18,
+   "byFootprintArea": {
+    "45to90": {
+     "n": 3,
+     "suppressed": true
+    },
+    "90plus": {
+     "areaSpearman": {
+      "lidarTop": -0.121,
+      "overtureHeight": -0.136
+     },
+     "binned": [
+      {
+       "n": 0,
+       "overtureBin": "0-3",
+       "suppressed": true
+      },
+      {
+       "n": 0,
+       "overtureBin": "3-4",
+       "suppressed": true
+      },
+      {
+       "n": 1,
+       "overtureBin": "4-5",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 1.0,
+       "lidarMedian": 9.25,
+       "lidarP10": 8.85,
+       "lidarP90": 9.89,
+       "n": 9,
+       "overtureBin": "5-6"
+      },
+      {
+       "n": 4,
+       "overtureBin": "6-7",
+       "suppressed": true
+      },
+      {
+       "n": 0,
+       "overtureBin": "7-8",
+       "suppressed": true
+      },
+      {
+       "n": 0,
+       "overtureBin": "8-9",
+       "suppressed": true
+      },
+      {
+       "n": 1,
+       "overtureBin": "9+",
+       "suppressed": true
+      }
+     ],
+     "errorVsTop": {
+      "bias": -3.81,
+      "interceptOvOnRef": -0.039,
+      "interceptRefOnOv": 1.742,
+      "medianAbsError": 3.5,
+      "medianError": -3.5,
+      "n": 15,
+      "pearsonR": 0.91,
+      "rmse": 3.91,
+      "slopeOvOnRef": 0.617,
+      "slopeRefOnOv": 1.342,
+      "spearmanRho": 0.506,
+      "within95ci": [
+       -0.0,
+       0.2039
+      ],
+      "withinShare": 0.0
+     },
+     "lidarTop": {
+      "n": 15,
+      "p10": 8.84,
+      "p25": 9.05,
+      "p50": 9.32,
+      "p75": 9.9,
+      "p90": 10.64
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.7225,
+       1.0
+      ],
+      "lidarHighGivenOvertureLowShare": 1.0,
+      "lidarHighN": 15,
+      "overtureLowGivenLidarHigh": 10,
+      "overtureLowGivenLidarHighCI": [
+       0.4171,
+       0.8482
+      ],
+      "overtureLowGivenLidarHighShare": 0.667,
+      "overtureLowN": 10
+     },
+     "n": 15,
+     "overtureHeight": {
+      "n": 15,
+      "p10": 5.08,
+      "p25": 5.45,
+      "p50": 5.76,
+      "p75": 6.36,
+      "p90": 6.74
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": -0.22,
+       "interceptOvOnRef": 2.728,
+       "interceptRefOnOv": 1.782,
+       "medianAbsError": 1.13,
+       "medianError": -0.41,
+       "n": 15,
+       "pearsonR": 0.627,
+       "rmse": 1.21,
+       "slopeOvOnRef": 0.53,
+       "slopeRefOnOv": 0.741,
+       "spearmanRho": 0.459,
+       "within95ci": [
+        0.4171,
+        0.8482
+       ],
+       "withinShare": 0.667
+      },
+      "lidarEave": {
+       "n": 15,
+       "p10": 4.37,
+       "p25": 5.31,
+       "p50": 6.66,
+       "p75": 7.01,
+       "p90": 7.95
+      },
+      "lidarSpan": {
+       "n": 15,
+       "p10": 2.21,
+       "p25": 2.39,
+       "p50": 2.8,
+       "p75": 4.86,
+       "p90": 5.16
+      },
+      "midway_top_eave": {
+       "bias": -2.01,
+       "interceptOvOnRef": 0.026,
+       "interceptRefOnOv": 1.762,
+       "medianAbsError": 2.17,
+       "medianError": -2.17,
+       "n": 15,
+       "pearsonR": 0.882,
+       "rmse": 2.13,
+       "slopeOvOnRef": 0.747,
+       "slopeRefOnOv": 1.042,
+       "spearmanRho": 0.57,
+       "within95ci": [
+        0.0705,
+        0.4519
+       ],
+       "withinShare": 0.2
+      },
+      "n": 15,
+      "roofMean": {
+       "bias": -2.05,
+       "interceptOvOnRef": -0.146,
+       "interceptRefOnOv": 1.434,
+       "medianAbsError": 2.0,
+       "medianError": -2.0,
+       "n": 15,
+       "pearsonR": 0.918,
+       "rmse": 2.13,
+       "slopeOvOnRef": 0.765,
+       "slopeRefOnOv": 1.101,
+       "spearmanRho": 0.665,
+       "within95ci": [
+        0.0705,
+        0.4519
+       ],
+       "withinShare": 0.2
+      },
+      "roofMedian": {
+       "bias": -2.14,
+       "interceptOvOnRef": 0.277,
+       "interceptRefOnOv": 1.075,
+       "medianAbsError": 2.07,
+       "medianError": -2.07,
+       "n": 15,
+       "pearsonR": 0.91,
+       "rmse": 2.25,
+       "slopeOvOnRef": 0.705,
+       "slopeRefOnOv": 1.176,
+       "spearmanRho": 0.661,
+       "within95ci": [
+        0.0705,
+        0.4519
+       ],
+       "withinShare": 0.2
+      },
+      "top_p95": {
+       "bias": -3.81,
+       "interceptOvOnRef": -0.039,
+       "interceptRefOnOv": 1.742,
+       "medianAbsError": 3.5,
+       "medianError": -3.5,
+       "n": 15,
+       "pearsonR": 0.91,
+       "rmse": 3.91,
+       "slopeOvOnRef": 0.617,
+       "slopeRefOnOv": 1.342,
+       "spearmanRho": 0.506,
+       "within95ci": [
+        -0.0,
+        0.2039
+       ],
+       "withinShare": 0.0
+      },
+      "top_p99": {
+       "bias": -4.96,
+       "interceptOvOnRef": 4.335,
+       "interceptRefOnOv": 6.995,
+       "medianAbsError": 4.26,
+       "medianError": -4.26,
+       "n": 15,
+       "pearsonR": 0.321,
+       "rmse": 5.54,
+       "slopeOvOnRef": 0.155,
+       "slopeRefOnOv": 0.663,
+       "spearmanRho": 0.152,
+       "within95ci": [
+        -0.0,
+        0.2039
+       ],
+       "withinShare": 0.0
+      }
+     }
+    },
+    "under45": {
+     "n": 0,
+     "suppressed": true
+    }
+   },
+   "candidates": 18
+  },
+  "usgsOsmMatched": {
+   "all": {
+    "areaSpearman": {
+     "lidarTop": 0.143,
+     "overtureHeight": 0.213
+    },
+    "binned": [
+     {
+      "n": 0,
+      "overtureBin": "0-3",
+      "suppressed": true
+     },
+     {
+      "n": 1,
+      "overtureBin": "3-4",
+      "suppressed": true
+     },
+     {
+      "n": 0,
+      "overtureBin": "4-5",
+      "suppressed": true
+     },
+     {
+      "n": 3,
+      "overtureBin": "5-6",
+      "suppressed": true
+     },
+     {
+      "n": 2,
+      "overtureBin": "6-7",
+      "suppressed": true
+     },
+     {
+      "n": 4,
+      "overtureBin": "7-8",
+      "suppressed": true
+     },
+     {
+      "lidarHighShare": 1.0,
+      "lidarMedian": 7.71,
+      "lidarP10": 7.59,
+      "lidarP90": 9.0,
+      "n": 5,
+      "overtureBin": "8-9"
+     },
+     {
+      "lidarHighShare": 0.9,
+      "lidarMedian": 9.61,
+      "lidarP10": 8.22,
+      "lidarP90": 12.67,
+      "n": 10,
+      "overtureBin": "9+"
+     }
+    ],
+    "errorVsTop": {
+     "bias": 0.21,
+     "interceptOvOnRef": -0.51,
+     "interceptRefOnOv": 0.67,
+     "medianAbsError": 0.4,
+     "medianError": 0.28,
+     "n": 25,
+     "pearsonR": 0.988,
+     "rmse": 0.7,
+     "slopeOvOnRef": 1.084,
+     "slopeRefOnOv": 0.9,
+     "spearmanRho": 0.941,
+     "within95ci": [
+      0.7503,
+      0.9778
+     ],
+     "withinShare": 0.92
+    },
+    "lidarTop": {
+     "n": 25,
+     "p10": 5.75,
+     "p25": 6.98,
+     "p50": 7.71,
+     "p75": 9.38,
+     "p90": 9.78
+    },
+    "lowHigh": {
+     "lidarHighGivenOvertureLowCI": [
+      0.0,
+      0.4899
+     ],
+     "lidarHighGivenOvertureLowShare": 0.0,
+     "lidarHighN": 16,
+     "overtureLowGivenLidarHigh": 0,
+     "overtureLowGivenLidarHighCI": [
+      0.0,
+      0.1936
+     ],
+     "overtureLowGivenLidarHighShare": 0.0,
+     "overtureLowN": 4
+    },
+    "n": 25,
+    "overtureHeight": {
+     "n": 25,
+     "p10": 5.6,
+     "p25": 7.1,
+     "p50": 8.3,
+     "p75": 9.3,
+     "p90": 10.16
+    },
+    "referenceComparison": {
+     "eave_p15": {
+      "bias": 3.8,
+      "interceptOvOnRef": 5.79,
+      "interceptRefOnOv": 4.25,
+      "medianAbsError": 3.27,
+      "medianError": 3.27,
+      "n": 25,
+      "pearsonR": 0.225,
+      "rmse": 5.35,
+      "slopeOvOnRef": 0.601,
+      "slopeRefOnOv": 0.084,
+      "spearmanRho": 0.451,
+      "within95ci": [
+       0.0222,
+       0.2497
+      ],
+      "withinShare": 0.08
+     },
+     "lidarEave": {
+      "n": 25,
+      "p10": 3.73,
+      "p25": 4.0,
+      "p50": 4.53,
+      "p75": 5.54,
+      "p90": 6.71
+     },
+     "lidarSpan": {
+      "n": 25,
+      "p10": 1.01,
+      "p25": 2.11,
+      "p50": 3.15,
+      "p75": 4.2,
+      "p90": 5.12
+     },
+     "midway_top_eave": {
+      "bias": 2.0,
+      "interceptOvOnRef": -2.975,
+      "interceptRefOnOv": 2.46,
+      "medianAbsError": 1.81,
+      "medianError": 1.81,
+      "n": 25,
+      "pearsonR": 0.924,
+      "rmse": 2.9,
+      "slopeOvOnRef": 1.734,
+      "slopeRefOnOv": 0.492,
+      "spearmanRho": 0.818,
+      "within95ci": [
+       0.2667,
+       0.6293
+      ],
+      "withinShare": 0.44
+     },
+     "n": 25,
+     "roofMean": {
+      "bias": 1.68,
+      "interceptOvOnRef": -0.418,
+      "interceptRefOnOv": 0.714,
+      "medianAbsError": 1.7,
+      "medianError": 1.7,
+      "n": 25,
+      "pearsonR": 0.971,
+      "rmse": 2.1,
+      "slopeOvOnRef": 1.295,
+      "slopeRefOnOv": 0.727,
+      "spearmanRho": 0.856,
+      "within95ci": [
+       0.2667,
+       0.6293
+      ],
+      "withinShare": 0.44
+     },
+     "roofMedian": {
+      "bias": 1.49,
+      "interceptOvOnRef": 0.764,
+      "interceptRefOnOv": -0.129,
+      "medianAbsError": 1.55,
+      "medianError": 1.55,
+      "n": 25,
+      "pearsonR": 0.964,
+      "rmse": 1.83,
+      "slopeOvOnRef": 1.099,
+      "slopeRefOnOv": 0.845,
+      "spearmanRho": 0.829,
+      "within95ci": [
+       0.2667,
+       0.6293
+      ],
+      "withinShare": 0.44
+     },
+     "top_p95": {
+      "bias": 0.21,
+      "interceptOvOnRef": -0.51,
+      "interceptRefOnOv": 0.67,
+      "medianAbsError": 0.4,
+      "medianError": 0.28,
+      "n": 25,
+      "pearsonR": 0.988,
+      "rmse": 0.7,
+      "slopeOvOnRef": 1.084,
+      "slopeRefOnOv": 0.9,
+      "spearmanRho": 0.941,
+      "within95ci": [
+       0.7503,
+       0.9778
+      ],
+      "withinShare": 0.92
+     },
+     "top_p99": {
+      "bias": 0.0,
+      "interceptOvOnRef": -0.651,
+      "interceptRefOnOv": 0.878,
+      "medianAbsError": 0.4,
+      "medianError": 0.13,
+      "n": 25,
+      "pearsonR": 0.983,
+      "rmse": 0.74,
+      "slopeOvOnRef": 1.074,
+      "slopeRefOnOv": 0.9,
+      "spearmanRho": 0.916,
+      "within95ci": [
+       0.8046,
+       0.9929
+      ],
+      "withinShare": 0.96
+     }
+    }
+   },
+   "analysed": 25,
+   "byFootprintArea": {
+    "45to90": {
+     "n": 1,
+     "suppressed": true
+    },
+    "90plus": {
+     "areaSpearman": {
+      "lidarTop": 0.05,
+      "overtureHeight": 0.117
+     },
+     "binned": [
+      {
+       "n": 0,
+       "overtureBin": "0-3",
+       "suppressed": true
+      },
+      {
+       "n": 1,
+       "overtureBin": "3-4",
+       "suppressed": true
+      },
+      {
+       "n": 0,
+       "overtureBin": "4-5",
+       "suppressed": true
+      },
+      {
+       "n": 2,
+       "overtureBin": "5-6",
+       "suppressed": true
+      },
+      {
+       "n": 2,
+       "overtureBin": "6-7",
+       "suppressed": true
+      },
+      {
+       "n": 4,
+       "overtureBin": "7-8",
+       "suppressed": true
+      },
+      {
+       "lidarHighShare": 1.0,
+       "lidarMedian": 7.71,
+       "lidarP10": 7.59,
+       "lidarP90": 9.0,
+       "n": 5,
+       "overtureBin": "8-9"
+      },
+      {
+       "lidarHighShare": 0.9,
+       "lidarMedian": 9.61,
+       "lidarP10": 8.22,
+       "lidarP90": 12.67,
+       "n": 10,
+       "overtureBin": "9+"
+      }
+     ],
+     "errorVsTop": {
+      "bias": 0.22,
+      "interceptOvOnRef": -0.505,
+      "interceptRefOnOv": 0.676,
+      "medianAbsError": 0.41,
+      "medianError": 0.3,
+      "n": 24,
+      "pearsonR": 0.987,
+      "rmse": 0.71,
+      "slopeOvOnRef": 1.084,
+      "slopeRefOnOv": 0.899,
+      "spearmanRho": 0.934,
+      "within95ci": [
+       0.7415,
+       0.9768
+      ],
+      "withinShare": 0.917
+     },
+     "lidarTop": {
+      "n": 24,
+      "p10": 6.53,
+      "p25": 7.33,
+      "p50": 8.01,
+      "p75": 9.4,
+      "p90": 9.78
+     },
+     "lowHigh": {
+      "lidarHighGivenOvertureLowCI": [
+       0.0,
+       0.5615
+      ],
+      "lidarHighGivenOvertureLowShare": 0.0,
+      "lidarHighN": 16,
+      "overtureLowGivenLidarHigh": 0,
+      "overtureLowGivenLidarHighCI": [
+       0.0,
+       0.1936
+      ],
+      "overtureLowGivenLidarHighShare": 0.0,
+      "overtureLowN": 3
+     },
+     "n": 24,
+     "overtureHeight": {
+      "n": 24,
+      "p10": 6.14,
+      "p25": 7.4,
+      "p50": 8.6,
+      "p75": 9.38,
+      "p90": 10.17
+     },
+     "referenceComparison": {
+      "eave_p15": {
+       "bias": 3.87,
+       "interceptOvOnRef": 6.391,
+       "interceptRefOnOv": 4.454,
+       "medianAbsError": 3.29,
+       "medianError": 3.29,
+       "n": 24,
+       "pearsonR": 0.185,
+       "rmse": 5.45,
+       "slopeOvOnRef": 0.503,
+       "slopeRefOnOv": 0.068,
+       "spearmanRho": 0.39,
+       "within95ci": [
+        0.0232,
+        0.2585
+       ],
+       "withinShare": 0.083
+      },
+      "lidarEave": {
+       "n": 24,
+       "p10": 3.84,
+       "p25": 4.03,
+       "p50": 4.59,
+       "p75": 5.68,
+       "p90": 6.73
+      },
+      "lidarSpan": {
+       "n": 24,
+       "p10": 0.97,
+       "p25": 2.07,
+       "p50": 3.29,
+       "p75": 4.21,
+       "p90": 5.21
+      },
+      "midway_top_eave": {
+       "bias": 2.05,
+       "interceptOvOnRef": -3.161,
+       "interceptRefOnOv": 2.565,
+       "medianAbsError": 1.86,
+       "medianError": 1.86,
+       "n": 24,
+       "pearsonR": 0.922,
+       "rmse": 2.95,
+       "slopeOvOnRef": 1.756,
+       "slopeRefOnOv": 0.484,
+       "spearmanRho": 0.797,
+       "within95ci": [
+        0.2447,
+        0.6117
+       ],
+       "withinShare": 0.417
+      },
+      "n": 24,
+      "roofMean": {
+       "bias": 1.71,
+       "interceptOvOnRef": -0.439,
+       "interceptRefOnOv": 0.751,
+       "medianAbsError": 1.85,
+       "medianError": 1.85,
+       "n": 24,
+       "pearsonR": 0.97,
+       "rmse": 2.13,
+       "slopeOvOnRef": 1.298,
+       "slopeRefOnOv": 0.724,
+       "spearmanRho": 0.84,
+       "within95ci": [
+        0.2447,
+        0.6117
+       ],
+       "withinShare": 0.417
+      },
+      "roofMedian": {
+       "bias": 1.51,
+       "interceptOvOnRef": 0.789,
+       "interceptRefOnOv": -0.121,
+       "medianAbsError": 1.58,
+       "medianError": 1.58,
+       "n": 24,
+       "pearsonR": 0.963,
+       "rmse": 1.86,
+       "slopeOvOnRef": 1.097,
+       "slopeRefOnOv": 0.845,
+       "spearmanRho": 0.81,
+       "within95ci": [
+        0.2447,
+        0.6117
+       ],
+       "withinShare": 0.417
+      },
+      "top_p95": {
+       "bias": 0.22,
+       "interceptOvOnRef": -0.505,
+       "interceptRefOnOv": 0.676,
+       "medianAbsError": 0.41,
+       "medianError": 0.3,
+       "n": 24,
+       "pearsonR": 0.987,
+       "rmse": 0.71,
+       "slopeOvOnRef": 1.084,
+       "slopeRefOnOv": 0.899,
+       "spearmanRho": 0.934,
+       "within95ci": [
+        0.7415,
+        0.9768
+       ],
+       "withinShare": 0.917
+      },
+      "top_p99": {
+       "bias": 0.01,
+       "interceptOvOnRef": -0.668,
+       "interceptRefOnOv": 0.908,
+       "medianAbsError": 0.4,
+       "medianError": 0.14,
+       "n": 24,
+       "pearsonR": 0.983,
+       "rmse": 0.76,
+       "slopeOvOnRef": 1.076,
+       "slopeRefOnOv": 0.898,
+       "spearmanRho": 0.906,
+       "within95ci": [
+        0.7976,
+        0.9926
+       ],
+       "withinShare": 0.958
+      }
+     }
+    },
+    "under45": {
+     "n": 0,
+     "suppressed": true
+    }
+   },
+   "candidates": 25
+  }
+ },
+ "lidar": {
+  "acquired": "2017-04 to 2017-05 (flight, per the dataset name and the pilot's FGDC check)",
+  "dataset": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+  "globalShift": {
+   "eastMeters": -1.0,
+   "iouAtBest": 0.7281,
+   "iouAtZero": 0.6422,
+   "northMeters": 1.0
+  },
+  "pointStats": {
+   "class1": 53401,
+   "class2": 3648794,
+   "class3": 1547017,
+   "class4": 1502893,
+   "class5": 9149375,
+   "class6": 943070,
+   "class7": 36684,
+   "pointsInBox": 16881234,
+   "pointsRead": 20966945
+  }
+ },
+ "overtureRelease": "2026-09-23.1",
+ "privacy": "Aggregates only; per-building values stay in the work directory. Groups under 5 buildings report counts only.",
+ "records": {
+  "byHeightSource": {
+   "Microsoft ML Buildings (inferred)": 1230,
+   "Microsoft ML Buildings (property) + OSM": 19,
+   "USGS Lidar (property) + OSM": 27
+  },
+  "centroidOutsideArea": 21,
+  "msOsmFreeInsideOsmFootprint": 0,
+  "multipolygon": 1,
+  "total": 1279,
+  "withoutHeight": 3
+ },
+ "rules": {
+  "msOsmFree": {
+   "all": {
+    "n": 1154,
+    "perFloor2.8": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.5015,
+       0.559
+      ],
+      "exactShare": 0.53,
+      "floorsDistribution": {
+       "1": 499,
+       "2": 488,
+       "3plus": 167
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.239,
+      "keptHeightMedianAbsErrorM": 0.94,
+      "lowerThanLidarShare": 0.231,
+      "n": 1154
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.6026,
+       0.6582
+      ],
+      "exactShare": 0.631,
+      "floorsDistribution": {
+       "1": 385,
+       "2": 762,
+       "3plus": 7
+      },
+      "heightKeptShare": 0.396,
+      "higherThanLidarShare": 0.182,
+      "keptHeightMedianAbsErrorM": 1.37,
+      "lowerThanLidarShare": 0.187,
+      "n": 1154
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.3682,
+       0.4245
+      ],
+      "exactShare": 0.396,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 1154,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.448,
+      "lowerThanLidarShare": 0.156,
+      "n": 1154
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.2556,
+       0.3074
+      ],
+      "exactShare": 0.281,
+      "floorsDistribution": {
+       "1": 298,
+       "2": 839,
+       "3plus": 17
+      },
+      "heightKeptShare": 0.415,
+      "higherThanLidarShare": 0.417,
+      "keptHeightMedianAbsErrorM": 2.55,
+      "lowerThanLidarShare": 0.302,
+      "n": 1154
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.3477,
+       0.4035
+      ],
+      "exactShare": 0.375,
+      "floorsDistribution": {
+       "1": 64,
+       "2": 1073,
+       "3plus": 17
+      },
+      "heightKeptShare": 0.146,
+      "higherThanLidarShare": 0.45,
+      "keptHeightMedianAbsErrorM": 1.87,
+      "lowerThanLidarShare": 0.175,
+      "n": 1154
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.5921,
+       0.648
+      ],
+      "exactShare": 0.62,
+      "floorsDistribution": {
+       "1": 410,
+       "2": 728,
+       "3plus": 16
+      },
+      "heightKeptShare": 0.465,
+      "higherThanLidarShare": 0.185,
+      "keptHeightMedianAbsErrorM": 1.39,
+      "lowerThanLidarShare": 0.194,
+      "n": 1154
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.3597,
+       0.4158
+      ],
+      "exactShare": 0.387,
+      "floorsDistribution": {
+       "1": 16,
+       "2": 1124,
+       "3plus": 14
+      },
+      "heightKeptShare": 0.054,
+      "higherThanLidarShare": 0.453,
+      "keptHeightMedianAbsErrorM": 1.83,
+      "lowerThanLidarShare": 0.159,
+      "n": 1154
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.4557,
+       0.5132
+      ],
+      "exactShare": 0.484,
+      "floorsDistribution": {
+       "1": 934,
+       "2": 203,
+       "3plus": 17
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.061,
+      "keptHeightMedianAbsErrorM": 2.18,
+      "lowerThanLidarShare": 0.455,
+      "n": 1154
+     },
+     "lidarFloorsDistribution": {
+      "1": 517,
+      "2": 457,
+      "3plus": 180
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9967,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 517,
+       "2": 457,
+       "3plus": 180
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 1154
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.4144,
+       0.4716
+      ],
+      "exactShare": 0.443,
+      "floorsDistribution": {
+       "1": 399,
+       "2": 591,
+       "3plus": 164
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.328,
+      "keptHeightMedianAbsErrorM": 1.22,
+      "lowerThanLidarShare": 0.23,
+      "n": 1154
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.4213,
+       0.4786
+      ],
+      "exactShare": 0.45,
+      "floorsDistribution": {
+       "1": 463,
+       "2": 592,
+       "3plus": 99
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.28,
+      "keptHeightMedianAbsErrorM": 1.29,
+      "lowerThanLidarShare": 0.27,
+      "n": 1154
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.3282,
+       0.3833
+      ],
+      "exactShare": 0.355,
+      "floorsDistribution": {
+       "1": 208,
+       "2": 681,
+       "3plus": 265
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.477,
+      "keptHeightMedianAbsErrorM": 1.55,
+      "lowerThanLidarShare": 0.168,
+      "n": 1154
+     }
+    },
+    "perFloor3": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.5659,
+       0.6224
+      ],
+      "exactShare": 0.594,
+      "floorsDistribution": {
+       "1": 592,
+       "2": 476,
+       "3plus": 86
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.202,
+      "keptHeightMedianAbsErrorM": 0.94,
+      "lowerThanLidarShare": 0.204,
+      "n": 1154
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.6175,
+       0.6727
+      ],
+      "exactShare": 0.646,
+      "floorsDistribution": {
+       "1": 406,
+       "2": 743,
+       "3plus": 5
+      },
+      "heightKeptShare": 0.396,
+      "higherThanLidarShare": 0.221,
+      "keptHeightMedianAbsErrorM": 1.37,
+      "lowerThanLidarShare": 0.133,
+      "n": 1154
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.3707,
+       0.4272
+      ],
+      "exactShare": 0.399,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 1154,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.505,
+      "lowerThanLidarShare": 0.096,
+      "n": 1154
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.264,
+       0.3163
+      ],
+      "exactShare": 0.289,
+      "floorsDistribution": {
+       "1": 330,
+       "2": 815,
+       "3plus": 9
+      },
+      "heightKeptShare": 0.415,
+      "higherThanLidarShare": 0.447,
+      "keptHeightMedianAbsErrorM": 2.55,
+      "lowerThanLidarShare": 0.263,
+      "n": 1154
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.3571,
+       0.4132
+      ],
+      "exactShare": 0.385,
+      "floorsDistribution": {
+       "1": 71,
+       "2": 1074,
+       "3plus": 9
+      },
+      "heightKeptShare": 0.146,
+      "higherThanLidarShare": 0.498,
+      "keptHeightMedianAbsErrorM": 1.87,
+      "lowerThanLidarShare": 0.117,
+      "n": 1154
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.6123,
+       0.6676
+      ],
+      "exactShare": 0.64,
+      "floorsDistribution": {
+       "1": 434,
+       "2": 711,
+       "3plus": 9
+      },
+      "heightKeptShare": 0.465,
+      "higherThanLidarShare": 0.219,
+      "keptHeightMedianAbsErrorM": 1.39,
+      "lowerThanLidarShare": 0.14,
+      "n": 1154
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.3648,
+       0.421
+      ],
+      "exactShare": 0.393,
+      "floorsDistribution": {
+       "1": 18,
+       "2": 1128,
+       "3plus": 8
+      },
+      "heightKeptShare": 0.054,
+      "higherThanLidarShare": 0.507,
+      "keptHeightMedianAbsErrorM": 1.83,
+      "lowerThanLidarShare": 0.101,
+      "n": 1154
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.5128,
+       0.5702
+      ],
+      "exactShare": 0.542,
+      "floorsDistribution": {
+       "1": 987,
+       "2": 158,
+       "3plus": 9
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.049,
+      "keptHeightMedianAbsErrorM": 2.18,
+      "lowerThanLidarShare": 0.409,
+      "n": 1154
+     },
+     "lidarFloorsDistribution": {
+      "1": 583,
+      "2": 460,
+      "3plus": 111
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9967,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 583,
+       "2": 460,
+       "3plus": 111
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 1154
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.4816,
+       0.5392
+      ],
+      "exactShare": 0.51,
+      "floorsDistribution": {
+       "1": 477,
+       "2": 571,
+       "3plus": 106
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.295,
+      "keptHeightMedianAbsErrorM": 1.22,
+      "lowerThanLidarShare": 0.194,
+      "n": 1154
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.5084,
+       0.5659
+      ],
+      "exactShare": 0.537,
+      "floorsDistribution": {
+       "1": 541,
+       "2": 553,
+       "3plus": 60
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.244,
+      "keptHeightMedianAbsErrorM": 1.29,
+      "lowerThanLidarShare": 0.218,
+      "n": 1154
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.3648,
+       0.421
+      ],
+      "exactShare": 0.393,
+      "floorsDistribution": {
+       "1": 284,
+       "2": 703,
+       "3plus": 167
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.451,
+      "keptHeightMedianAbsErrorM": 1.55,
+      "lowerThanLidarShare": 0.157,
+      "n": 1154
+     }
+    },
+    "perFloor3.2": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.629,
+       0.6837
+      ],
+      "exactShare": 0.657,
+      "floorsDistribution": {
+       "1": 645,
+       "2": 478,
+       "3plus": 31
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.172,
+      "keptHeightMedianAbsErrorM": 0.94,
+      "lowerThanLidarShare": 0.171,
+      "n": 1154
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.6044,
+       0.6599
+      ],
+      "exactShare": 0.633,
+      "floorsDistribution": {
+       "1": 423,
+       "2": 728,
+       "3plus": 3
+      },
+      "heightKeptShare": 0.396,
+      "higherThanLidarShare": 0.256,
+      "keptHeightMedianAbsErrorM": 1.37,
+      "lowerThanLidarShare": 0.112,
+      "n": 1154
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.3418,
+       0.3974
+      ],
+      "exactShare": 0.369,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 1154,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.558,
+      "lowerThanLidarShare": 0.073,
+      "n": 1154
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.2581,
+       0.31
+      ],
+      "exactShare": 0.283,
+      "floorsDistribution": {
+       "1": 368,
+       "2": 782,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.415,
+      "higherThanLidarShare": 0.465,
+      "keptHeightMedianAbsErrorM": 2.55,
+      "lowerThanLidarShare": 0.251,
+      "n": 1154
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.3375,
+       0.393
+      ],
+      "exactShare": 0.365,
+      "floorsDistribution": {
+       "1": 84,
+       "2": 1066,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.146,
+      "higherThanLidarShare": 0.537,
+      "keptHeightMedianAbsErrorM": 1.87,
+      "lowerThanLidarShare": 0.098,
+      "n": 1154
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.6061,
+       0.6616
+      ],
+      "exactShare": 0.634,
+      "floorsDistribution": {
+       "1": 455,
+       "2": 695,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.465,
+      "higherThanLidarShare": 0.247,
+      "keptHeightMedianAbsErrorM": 1.39,
+      "lowerThanLidarShare": 0.119,
+      "n": 1154
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.3384,
+       0.3939
+      ],
+      "exactShare": 0.366,
+      "floorsDistribution": {
+       "1": 20,
+       "2": 1130,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.054,
+      "higherThanLidarShare": 0.556,
+      "keptHeightMedianAbsErrorM": 1.83,
+      "lowerThanLidarShare": 0.078,
+      "n": 1154
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.5615,
+       0.6182
+      ],
+      "exactShare": 0.59,
+      "floorsDistribution": {
+       "1": 1037,
+       "2": 113,
+       "3plus": 4
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.032,
+      "keptHeightMedianAbsErrorM": 2.18,
+      "lowerThanLidarShare": 0.378,
+      "n": 1154
+     },
+     "lidarFloorsDistribution": {
+      "1": 644,
+      "2": 426,
+      "3plus": 84
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9967,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 644,
+       "2": 426,
+       "3plus": 84
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 1154
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.5528,
+       0.6096
+      ],
+      "exactShare": 0.581,
+      "floorsDistribution": {
+       "1": 542,
+       "2": 547,
+       "3plus": 65
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.258,
+      "keptHeightMedianAbsErrorM": 1.22,
+      "lowerThanLidarShare": 0.16,
+      "n": 1154
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.5807,
+       0.6369
+      ],
+      "exactShare": 0.609,
+      "floorsDistribution": {
+       "1": 614,
+       "2": 506,
+       "3plus": 34
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.207,
+      "keptHeightMedianAbsErrorM": 1.29,
+      "lowerThanLidarShare": 0.184,
+      "n": 1154
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.423,
+       0.4803
+      ],
+      "exactShare": 0.451,
+      "floorsDistribution": {
+       "1": 355,
+       "2": 700,
+       "3plus": 99
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.41,
+      "keptHeightMedianAbsErrorM": 1.55,
+      "lowerThanLidarShare": 0.139,
+      "n": 1154
+     }
+    }
+   },
+   "houseSized": {
+    "n": 697,
+    "perFloor2.8": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.4352,
+       0.5091
+      ],
+      "exactShare": 0.472,
+      "floorsDistribution": {
+       "1": 104,
+       "2": 469,
+       "3plus": 124
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.297,
+      "keptHeightMedianAbsErrorM": 0.91,
+      "lowerThanLidarShare": 0.231,
+      "n": 697
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.5441,
+       0.6171
+      ],
+      "exactShare": 0.581,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.227,
+      "lowerThanLidarShare": 0.192,
+      "n": 697
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.5441,
+       0.6171
+      ],
+      "exactShare": 0.581,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.227,
+      "lowerThanLidarShare": 0.192,
+      "n": 697
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.3716,
+       0.4444
+      ],
+      "exactShare": 0.407,
+      "floorsDistribution": {
+       "1": 271,
+       "2": 416,
+       "3plus": 10
+      },
+      "heightKeptShare": 0.584,
+      "higherThanLidarShare": 0.175,
+      "keptHeightMedianAbsErrorM": 2.53,
+      "lowerThanLidarShare": 0.418,
+      "n": 697
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.511,
+       0.5846
+      ],
+      "exactShare": 0.548,
+      "floorsDistribution": {
+       "1": 55,
+       "2": 632,
+       "3plus": 10
+      },
+      "heightKeptShare": 0.202,
+      "higherThanLidarShare": 0.23,
+      "keptHeightMedianAbsErrorM": 1.74,
+      "lowerThanLidarShare": 0.222,
+      "n": 697
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.5268,
+       0.6002
+      ],
+      "exactShare": 0.564,
+      "floorsDistribution": {
+       "1": 25,
+       "2": 663,
+       "3plus": 9
+      },
+      "heightKeptShare": 0.115,
+      "higherThanLidarShare": 0.232,
+      "keptHeightMedianAbsErrorM": 1.53,
+      "lowerThanLidarShare": 0.204,
+      "n": 697
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.5325,
+       0.6059
+      ],
+      "exactShare": 0.57,
+      "floorsDistribution": {
+       "1": 13,
+       "2": 677,
+       "3plus": 7
+      },
+      "heightKeptShare": 0.067,
+      "higherThanLidarShare": 0.232,
+      "keptHeightMedianAbsErrorM": 1.46,
+      "lowerThanLidarShare": 0.198,
+      "n": 697
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.3044,
+       0.3745
+      ],
+      "exactShare": 0.339,
+      "floorsDistribution": {
+       "1": 549,
+       "2": 138,
+       "3plus": 10
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.026,
+      "keptHeightMedianAbsErrorM": 2.78,
+      "lowerThanLidarShare": 0.636,
+      "n": 697
+     },
+     "lidarFloorsDistribution": {
+      "1": 158,
+      "2": 405,
+      "3plus": 134
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9945,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 158,
+       "2": 405,
+       "3plus": 134
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 697
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.4239,
+       0.4977
+      ],
+      "exactShare": 0.461,
+      "floorsDistribution": {
+       "1": 123,
+       "2": 421,
+       "3plus": 153
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.307,
+      "keptHeightMedianAbsErrorM": 0.95,
+      "lowerThanLidarShare": 0.232,
+      "n": 697
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.4182,
+       0.4919
+      ],
+      "exactShare": 0.455,
+      "floorsDistribution": {
+       "1": 243,
+       "2": 385,
+       "3plus": 69
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.184,
+      "keptHeightMedianAbsErrorM": 1.17,
+      "lowerThanLidarShare": 0.362,
+      "n": 697
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.4324,
+       0.5063
+      ],
+      "exactShare": 0.469,
+      "floorsDistribution": {
+       "1": 109,
+       "2": 411,
+       "3plus": 177
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.327,
+      "keptHeightMedianAbsErrorM": 0.99,
+      "lowerThanLidarShare": 0.204,
+      "n": 697
+     }
+    },
+    "perFloor3": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.4751,
+       0.5491
+      ],
+      "exactShare": 0.512,
+      "floorsDistribution": {
+       "1": 207,
+       "2": 438,
+       "3plus": 52
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.26,
+      "keptHeightMedianAbsErrorM": 0.91,
+      "lowerThanLidarShare": 0.228,
+      "n": 697
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.5412,
+       0.6143
+      ],
+      "exactShare": 0.578,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.316,
+      "lowerThanLidarShare": 0.106,
+      "n": 697
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.5412,
+       0.6143
+      ],
+      "exactShare": 0.578,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.316,
+      "lowerThanLidarShare": 0.106,
+      "n": 697
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.38,
+       0.453
+      ],
+      "exactShare": 0.416,
+      "floorsDistribution": {
+       "1": 297,
+       "2": 396,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.584,
+      "higherThanLidarShare": 0.224,
+      "keptHeightMedianAbsErrorM": 2.53,
+      "lowerThanLidarShare": 0.36,
+      "n": 697
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.5225,
+       0.596
+      ],
+      "exactShare": 0.56,
+      "floorsDistribution": {
+       "1": 61,
+       "2": 632,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.202,
+      "higherThanLidarShare": 0.304,
+      "keptHeightMedianAbsErrorM": 1.74,
+      "lowerThanLidarShare": 0.136,
+      "n": 697
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.5325,
+       0.6059
+      ],
+      "exactShare": 0.57,
+      "floorsDistribution": {
+       "1": 28,
+       "2": 665,
+       "3plus": 4
+      },
+      "heightKeptShare": 0.115,
+      "higherThanLidarShare": 0.313,
+      "keptHeightMedianAbsErrorM": 1.53,
+      "lowerThanLidarShare": 0.118,
+      "n": 697
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.5354,
+       0.6087
+      ],
+      "exactShare": 0.572,
+      "floorsDistribution": {
+       "1": 15,
+       "2": 679,
+       "3plus": 3
+      },
+      "heightKeptShare": 0.067,
+      "higherThanLidarShare": 0.316,
+      "keptHeightMedianAbsErrorM": 1.46,
+      "lowerThanLidarShare": 0.112,
+      "n": 697
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.3702,
+       0.4429
+      ],
+      "exactShare": 0.406,
+      "floorsDistribution": {
+       "1": 581,
+       "2": 112,
+       "3plus": 4
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.032,
+      "keptHeightMedianAbsErrorM": 2.78,
+      "lowerThanLidarShare": 0.562,
+      "n": 697
+     },
+     "lidarFloorsDistribution": {
+      "1": 220,
+      "2": 403,
+      "3plus": 74
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9945,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 220,
+       "2": 403,
+       "3plus": 74
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 697
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.4594,
+       0.5335
+      ],
+      "exactShare": 0.496,
+      "floorsDistribution": {
+       "1": 163,
+       "2": 444,
+       "3plus": 90
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.306,
+      "keptHeightMedianAbsErrorM": 0.95,
+      "lowerThanLidarShare": 0.198,
+      "n": 697
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.5081,
+       0.5818
+      ],
+      "exactShare": 0.545,
+      "floorsDistribution": {
+       "1": 288,
+       "2": 369,
+       "3plus": 40
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.172,
+      "keptHeightMedianAbsErrorM": 1.17,
+      "lowerThanLidarShare": 0.283,
+      "n": 697
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.448,
+       0.522
+      ],
+      "exactShare": 0.485,
+      "floorsDistribution": {
+       "1": 153,
+       "2": 428,
+       "3plus": 116
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.331,
+      "keptHeightMedianAbsErrorM": 0.99,
+      "lowerThanLidarShare": 0.184,
+      "n": 697
+     }
+    },
+    "perFloor3.2": {
+     "binnedCorrectionCV": {
+      "exact95ci": [
+       0.5658,
+       0.6383
+      ],
+      "exactShare": 0.603,
+      "floorsDistribution": {
+       "1": 248,
+       "2": 436,
+       "3plus": 13
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.22,
+      "keptHeightMedianAbsErrorM": 0.91,
+      "lowerThanLidarShare": 0.178,
+      "n": 697
+     },
+     "dropAllIfFootprintAtLeast90": {
+      "exact95ci": [
+       0.4952,
+       0.569
+      ],
+      "exactShare": 0.532,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.393,
+      "lowerThanLidarShare": 0.075,
+      "n": 697
+     },
+     "dropAllOvertureHeights": {
+      "exact95ci": [
+       0.4952,
+       0.569
+      ],
+      "exactShare": 0.532,
+      "floorsDistribution": {
+       "1": 0,
+       "2": 697,
+       "3plus": 0
+      },
+      "heightKeptShare": 0.0,
+      "higherThanLidarShare": 0.393,
+      "lowerThanLidarShare": 0.075,
+      "n": 697
+     },
+     "dropBelow6": {
+      "exact95ci": [
+       0.3575,
+       0.4299
+      ],
+      "exactShare": 0.393,
+      "floorsDistribution": {
+       "1": 327,
+       "2": 369,
+       "3plus": 1
+      },
+      "heightKeptShare": 0.584,
+      "higherThanLidarShare": 0.258,
+      "keptHeightMedianAbsErrorM": 2.53,
+      "lowerThanLidarShare": 0.349,
+      "n": 697
+     },
+     "dropBelow7": {
+      "exact95ci": [
+       0.488,
+       0.5619
+      ],
+      "exactShare": 0.525,
+      "floorsDistribution": {
+       "1": 74,
+       "2": 622,
+       "3plus": 1
+      },
+      "heightKeptShare": 0.202,
+      "higherThanLidarShare": 0.362,
+      "keptHeightMedianAbsErrorM": 1.74,
+      "lowerThanLidarShare": 0.113,
+      "n": 697
+     },
+     "dropBelow7.5IfFootprintAtLeast90": {
+      "exact95ci": [
+       0.498,
+       0.5719
+      ],
+      "exactShare": 0.535,
+      "floorsDistribution": {
+       "1": 32,
+       "2": 664,
+       "3plus": 1
+      },
+      "heightKeptShare": 0.115,
+      "higherThanLidarShare": 0.379,
+      "keptHeightMedianAbsErrorM": 1.53,
+      "lowerThanLidarShare": 0.086,
+      "n": 697
+     },
+     "dropBelow8": {
+      "exact95ci": [
+       0.4923,
+       0.5662
+      ],
+      "exactShare": 0.529,
+      "floorsDistribution": {
+       "1": 17,
+       "2": 679,
+       "3plus": 1
+      },
+      "heightKeptShare": 0.067,
+      "higherThanLidarShare": 0.389,
+      "keptHeightMedianAbsErrorM": 1.46,
+      "lowerThanLidarShare": 0.082,
+      "n": 697
+     },
+     "keepOvertureHeights": {
+      "exact95ci": [
+       0.4253,
+       0.4991
+      ],
+      "exactShare": 0.462,
+      "floorsDistribution": {
+       "1": 614,
+       "2": 82,
+       "3plus": 1
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.023,
+      "keptHeightMedianAbsErrorM": 2.78,
+      "lowerThanLidarShare": 0.515,
+      "n": 697
+     },
+     "lidarFloorsDistribution": {
+      "1": 274,
+      "2": 371,
+      "3plus": 52
+     },
+     "lidarTop (ceiling)": {
+      "exact95ci": [
+       0.9945,
+       1.0
+      ],
+      "exactShare": 1.0,
+      "floorsDistribution": {
+       "1": 274,
+       "2": 371,
+       "3plus": 52
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.0,
+      "keptHeightMedianAbsErrorM": 0.0,
+      "lowerThanLidarShare": 0.0,
+      "n": 697
+     },
+     "linearCorrectionCV": {
+      "exact95ci": [
+       0.5153,
+       0.5889
+      ],
+      "exactShare": 0.552,
+      "floorsDistribution": {
+       "1": 203,
+       "2": 441,
+       "3plus": 53
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.284,
+      "keptHeightMedianAbsErrorM": 0.95,
+      "lowerThanLidarShare": 0.164,
+      "n": 697
+     },
+     "plus2m": {
+      "exact95ci": [
+       0.589,
+       0.6607
+      ],
+      "exactShare": 0.626,
+      "floorsDistribution": {
+       "1": 330,
+       "2": 346,
+       "3plus": 21
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.146,
+      "keptHeightMedianAbsErrorM": 1.17,
+      "lowerThanLidarShare": 0.228,
+      "n": 697
+     },
+     "plus3m": {
+      "exact95ci": [
+       0.4966,
+       0.5705
+      ],
+      "exactShare": 0.534,
+      "floorsDistribution": {
+       "1": 191,
+       "2": 437,
+       "3plus": 69
+      },
+      "heightKeptShare": 1.0,
+      "higherThanLidarShare": 0.308,
+      "keptHeightMedianAbsErrorM": 0.99,
+      "lowerThanLidarShare": 0.158,
+      "n": 697
+     }
+    }
+   }
+  }
+ },
+ "sensitivity": {
+  "minBuildingPoints10": {
+   "errorVsTop": {
+    "bias": -2.35,
+    "interceptOvOnRef": 3.203,
+    "interceptRefOnOv": 1.683,
+    "medianAbsError": 2.18,
+    "medianError": -2.09,
+    "n": 1154,
+    "pearsonR": 0.569,
+    "rmse": 3.62,
+    "slopeOvOnRef": 0.288,
+    "slopeRefOnOv": 1.122,
+    "spearmanRho": 0.614,
+    "within95ci": [
+     0.3248,
+     0.3798
+    ],
+    "withinShare": 0.352
+   },
+   "lowHigh": {
+    "lidarHighGivenOvertureLowCI": [
+     0.3319,
+     0.4044
+    ],
+    "lidarHighGivenOvertureLowShare": 0.367,
+    "lidarHighN": 651,
+    "overtureLowGivenLidarHigh": 248,
+    "overtureLowGivenLidarHighCI": [
+     0.3444,
+     0.4189
+    ],
+    "overtureLowGivenLidarHighShare": 0.381,
+    "overtureLowN": 675
+   },
+   "n": 1154
+  },
+  "minBuildingPoints50": {
+   "errorVsTop": {
+    "bias": -2.34,
+    "interceptOvOnRef": 3.183,
+    "interceptRefOnOv": 1.644,
+    "medianAbsError": 2.18,
+    "medianError": -2.09,
+    "n": 1140,
+    "pearsonR": 0.574,
+    "rmse": 3.59,
+    "slopeOvOnRef": 0.292,
+    "slopeRefOnOv": 1.127,
+    "spearmanRho": 0.617,
+    "within95ci": [
+     0.3237,
+     0.379
+    ],
+    "withinShare": 0.351
+   },
+   "lowHigh": {
+    "lidarHighGivenOvertureLowCI": [
+     0.3322,
+     0.4054
+    ],
+    "lidarHighGivenOvertureLowShare": 0.368,
+    "lidarHighN": 646,
+    "overtureLowGivenLidarHigh": 244,
+    "overtureLowGivenLidarHighCI": [
+     0.3411,
+     0.4157
+    ],
+    "overtureLowGivenLidarHighShare": 0.378,
+    "overtureLowN": 663
+   },
+   "n": 1140
+  }
+ },
+ "thresholds": {
+  "eaveBand": {
+   "fromEdgeM": 0.5,
+   "minPoints": 10,
+   "percentile": 15,
+   "toEdgeM": 2.0
+  },
+  "floors": {
+   "defaultFallbackFloors": 2,
+   "minFloors": 1,
+   "perFloor": 3.0,
+   "perFloorSensitivity": [
+    2.8,
+    3.2
+   ],
+   "riseCapM": 5.0
+  },
+  "footprintErosion": 0.5,
+  "groundRing": {
+   "innerM": 3.0,
+   "minPoints": 8,
+   "outerM": 8.0,
+   "wideOuterM": 15.0
+  },
+  "minBuildingPoints": 20,
+  "minFootprintM2": 15,
+  "minHeightAboveGround": 1.0,
+  "minRoofCover": 0.5,
+  "noBuildingMaxCover": 0.1,
+  "rules": {
+   "cvFolds": 5,
+   "dropBelowM": [
+    6.0,
+    7.0,
+    8.0
+   ],
+   "dropHouseBelowM": 7.5,
+   "houseMinAreaM2": 90,
+   "offsetsM": [
+    2.0,
+    3.0
+   ]
+  },
+  "strataAreaM2": [
+   45,
+   90
+  ],
+  "tolerance": {
+   "highLidar": 7.5,
+   "lowOverture": 6.0,
+   "within": 1.5
+  },
+  "topPercentile": 95
+ },
+ "tool": "regionkit-lidar-heights 0.1"
+}

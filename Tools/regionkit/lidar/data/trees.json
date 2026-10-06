@@ -1,0 +1,51 @@
+{
+  "comment": "Tree-height measurement from USGS 3DEP lidar (data, not code). Areas are committed test areas (read-only); each maps to the profile whose trees.* values the result may update. Distances in metres. Thresholds were fixed before the validation crops were viewed except where a 'tunedOn' note says otherwise. minGroupN: privacy floor (no distribution over fewer than this many trees is committed).",
+  "ept": {
+    "root": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/",
+    "dataset": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+    "tnmProject": "IL_4_County_QL1_LiDAR_2016_B16",
+    "acquired": "2017-04-16 to 2017-05-07 (leaf-off to early leaf-out)",
+    "maxDepth": 10,
+    "maxBytesTotal": 400000000
+  },
+  "marginMeters": 10,
+  "fabric": {
+    "comment": "Built fabric = the area minus parks of at least parkMinAreaM2 and water: the same tag tables and rule as Tools/regionkit/aerial/data/canopy_areas.json, so the canopy share of the profiles (NAIP) and these tree statistics describe the same land.",
+    "parkTags": {"leisure": ["park", "pitch", "playground", "golf_course", "garden", "nature_reserve", "dog_park", "recreation_ground", "track"], "landuse": ["recreation_ground", "cemetery", "forest", "village_green"], "natural": ["wood"]},
+    "waterTags": {"natural": ["water"], "landuse": ["reservoir", "basin"], "leisure": ["swimming_pool"], "water": []},
+    "parkMinAreaM2": 1000
+  },
+  "areas": {
+    "evanston": {"area": "Data/areas/evanston-south", "profile": "evanston", "footprintFiles": ["osm.json"], "proposalSubset": "all"},
+    "wilmette": {"area": "Data/areas/wilmette-vattmann-park", "profile": "wilmette", "footprintFiles": ["osm.json", "overture-buildings.json"], "proposalSubset": "all"},
+    "chicago-dense-north": {"area": "Data/areas/lakeview-sheil-park", "profile": "chicago-dense-north", "footprintFiles": ["osm.json"], "proposalSubset": "clearOfBuildings"}
+  },
+  "params": {
+    "groundClass": 2,
+    "buildingClass": 6,
+    "vegetationClasses": [3, 4, 5],
+    "groundCell": 2.0,
+    "chmCell": 1.0,
+    "minHeightAboveGround": 2.0,
+    "maxHeightAboveGround": 45.0,
+    "footprintBuffer": 1.5,
+    "smoothSigma": 1.0,
+    "minTreeHeight": 3.0,
+    "window": {"base": 1.0, "perMeter": 0.12, "minRadius": 1.5, "maxRadius": 5.0},
+    "crown": {"minRelativeHeight": 0.3, "minAbsoluteHeight": 2.5, "topLayerMeters": 1.5},
+    "minTopThicknessCells": 1.2,
+    "clearCells": 3,
+    "minCrownPoints": 60,
+    "supportRadius": 2.0,
+    "supportDepth": 3.0,
+    "youngBelowMeters": 7.0,
+    "meshRatio": 0.3335,
+    "minCrownCells": 3,
+    "roofClutter": {"minRoofHeight": 2.5, "closeCells": 1, "maxHoleCells": 60, "wallCells": 1, "heightCells": 2, "bandAboveMeters": 0.75, "topOnRoofMinAboveMeters": 5.0},
+    "dropTopsInsideFootprintEroded": null,
+    "percentiles": [10, 25, 50, 75, 90],
+    "minGroupN": 5,
+    "validationTrees": 24,
+    "validationSeed": "worldengine-trees-validation-1"
+  }
+}

@@ -80,8 +80,9 @@ Every loop summary now reports **concept parity**: the view's /50 as a percentag
 - **v2 /50** is the absolute spec gate.
 - **Parity** shows how close the render is to the art it is chasing.
 
-**Decision for the owner.** v2's 40/50 gate sits about 5 points above the concept images.
-- (a) Keep 40/50 as the gate. Concept parity of 100 % is then not enough.
-- (b) Gate on parity, for example ≥ 100 % of the target concept, while keeping v2's per-criterion floors.
+**Owner decision (6 Oct 2026).**
+- The gate is concept parity ≥ 100 % plus v2's per-criterion floors.
+- 40/50 stays a long-term goal.
+- Milestones for the mean parity: ≥ 85 % at the end of 5A's wrap, ≥ 100 % by the end of 5B.
 
-Re-run calibration (`lookloop.sh calibrate`, then 22 Opus reviewers) after any change to GRADING.md.
+Re-run calibration (`lookloop.sh calibrate`, then 22 Opus reviewers) after any change to GRADING.md that affects scoring, because parity depends on these concept scores.

@@ -70,6 +70,9 @@ worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
 worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S]
 worldbake compose <dir> --date ISO [--focus S,W,N,E]
+worldbake fetch <dir> --layers context [--building-band-km 1.5|1.0|0.5] [--max-mb 25] [--probe 1] [--split 1] [--no-split 1] [--cache-dir PATH] [--dry-run 1]
+    (context ring: real OSM at low detail, area bounds + 3 km, building footprints within the band; see docs/data/context-rings.md)
+worldbake stats <dir> --layers context
 """
 
 func writeManifest(_ m: AreaManifest, to dir: URL) throws {
@@ -93,6 +96,12 @@ do {
         )
         try writeManifest(m, to: dir)
         print("Wrote \(dir.path)/\(AreaManifest.fileName) bbox \(m.bounds.overpassString)")
+
+    case "fetch" where args.options["layers"] == "context":
+        try await ContextRing.fetch(dir: dir, options: args.options)
+
+    case "stats" where args.options["layers"] == "context":
+        print(try ContextRing.stats(dir: dir))
 
     case "fetch":
         var m = try AreaLoader.loadManifest(dir)

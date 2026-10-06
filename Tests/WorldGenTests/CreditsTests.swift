@@ -90,6 +90,33 @@ struct CreditsTests {
         #expect(CreditBurnIn.lines(for: c.merged(weather: w, surface: .image)) == [CreditBurnIn.osmLine, w.modifiedNotice!])
     }
 
+    /// Live-feed attribution from the relay (data contract §8.8): one credit per source, shown in the
+    /// app and on the web, burned into exports, never in the package.
+    @Test func mergeAddsLiveFeedCredits() throws {
+        let c = try CreditsCatalog.bundled()
+        let rtd = LiveFeedCredit(source: "rtd", text: "Live vehicle positions: RTD, Denver. Unofficial: not endorsed by RTD.",
+                                 url: "https://example.invalid/feeds", licenseUrl: "https://example.invalid/licence")
+        let app = c.merged(liveFeeds: [rtd, rtd], surface: .app)
+        let live = app.filter { $0.kind == .liveData }
+        #expect(live.count == 1 && live[0].id == "live-rtd" && live[0].text == rtd.text && live[0].burnIn)
+        #expect(live[0].url == rtd.url && live[0].licenseURL == rtd.licenseUrl)
+        let marked = LiveFeedCredit(source: "x", text: "X feed", markLightURL: "https://example.invalid/l.png", markDarkURL: "https://example.invalid/d.png")
+        let m = try #require(c.merged(liveFeeds: [marked], surface: .app).first { $0.id == "live-x" })
+        #expect(m.markLightURL == marked.markLightURL && m.markDarkURL == marked.markDarkURL)
+        let ids = app.map(\.id)
+        #expect(ids.firstIndex(of: "openstreetmap")! < ids.firstIndex(of: "live-rtd")!)
+        #expect(!c.merged(liveFeeds: [rtd], surface: .package).contains { $0.kind == .liveData })
+        #expect(CreditBurnIn.lines(for: c.merged(liveFeeds: [rtd], surface: .image)) == [CreditBurnIn.osmLine, rtd.text])
+        #expect(!c.merged(surface: .app).contains { $0.kind == .liveData })
+        // Illustrative, not-live entries (ambient planes) never become "Live data".
+        let ambient = LiveFeedCredit(source: "ambient", text: "Illustrative air traffic, not live.", live: false)
+        let amb = try #require(c.merged(liveFeeds: [ambient], surface: .app).first { $0.id == "illustrative-ambient" })
+        #expect(amb.kind == .illustrative && !amb.title.contains("Live"))
+        // The relay's JSON attribution entry decodes directly.
+        let json = #"{"source":"rtd","text":"t","url":"https://example.invalid","licenseUrl":"https://example.invalid/l"}"#
+        #expect(try JSONDecoder().decode(LiveFeedCredit.self, from: Data(json.utf8)).licenseUrl == "https://example.invalid/l")
+    }
+
     @Test func burnInLinesAlwaysStartWithOSM() throws {
         #expect(CreditBurnIn.lines(for: []) == [CreditBurnIn.osmLine])
         let c = try CreditsCatalog.bundled()

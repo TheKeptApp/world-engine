@@ -16,6 +16,21 @@ stable catalog-ID order) by combining fluxes, m = -2.5 log10(sum 10^(-0.4 m_i)),
 normalized position; sort by magnitude, then catalog ID; keep the brightest 256. Deterministic: the same
 input bytes give the same output bytes.
 
+Shared combined V (added after an independent check found delta Ser wrongly in the 256). A flux sum is only
+right when each row carries its own component's V. For close pairs that photometry could not separate, BSC5 lists
+both components with the SAME V, and that V is the light of the pair together, not of each star: HR 5788 and
+HR 5789 (delta Ser) both read 3.80 while their multiple-star field m_mdiff says the two differ by 1.1 mag, so the
+two cannot each be 3.80. Summing them gave 3.047, a phantom 0.75 mag too bright (true combined V 3.80, fainter
+than the cut). Rule: within one merged group, components that carry exactly the same V and a multiple-star
+magnitude difference m_mdiff > 0 are one measurement; that V is counted once (its flux shared equally between
+them for the position weighting). Rows with different V stay resolved components and are flux-summed as before
+(alpha Cen, Castor, Mizar and the rest all have different V per row). Identical V with m_mdiff 0 or missing would
+be two equal stars measured separately and is still summed (none occurs in BSC5). The multiple-star fields are
+HEASARC's m_cnt (components in the system), m_id (component letters), m_mdiff (magnitude difference of the two
+brightest components) and m_sep (their separation in arcsec). That the shared V is a combined magnitude is
+inferred from the data (equal V against a positive m_mdiff); the catalogue's own CDS ReadMe, where it would be
+stated, could not be read (CDS blocks automated access) and is unverified.
+
 BSC5 specifics (decisions logged in the output header and in Catalog/STARS-NOTICE.md):
   * Catalog ID = HR number (the Bright Star Catalogue number), `hr` repeats it as a string, `hd` is the Henry
     Draper number, `hip` is null (BSC5 carries no Hipparcos cross-identification).
@@ -132,7 +147,7 @@ for r in rows:
         vel = [dist * ARCSEC * (pmra * e_ra[k] + pmdec * e_de[k]) + vr * u[k] for k in range(3)]
     bayer, con = designation(r['alt_name'])
     stars.append(dict(id=hr, hd=int(r['hd']) if num(r['hd']) else None, name=None, bayer=bayer, con=con,
-                      mag=mag, ci=num(r['bv_color']), u=u, dist=dist, vel=vel,
+                      mag=mag, mdiff=num(r['m_mdiff']), ci=num(r['bv_color']), u=u, dist=dist, vel=vel,
                       pm=math.hypot(pmra or 0.0, pmdec or 0.0)))
 stars.sort(key=lambda s: s['id'])
 
@@ -181,11 +196,23 @@ groups = defaultdict(list)
 for i in range(len(stars)):
     groups[find(i)].append(i)
 
-merged = []
+merged, shared_v = [], []
 for root, members in groups.items():
     ms = sorted((stars[i] for i in members), key=lambda s: s['id'])
-    fluxes = [10 ** (-0.4 * s['mag']) for s in ms]
+    # Shared combined V: components with exactly the same V and m_mdiff > 0 are one measurement (see the docstring).
+    same_v = defaultdict(list)
+    for s in ms:
+        same_v[s['mag']].append(s)
+    fluxes = []
+    for s in ms:
+        twins = same_v[s['mag']]
+        shared = len(twins) > 1 and all((t['mdiff'] or 0) > 0 for t in twins)
+        fluxes.append(10 ** (-0.4 * s['mag']) / (len(twins) if shared else 1))
     mag = -2.5 * math.log10(sum(fluxes))
+    for v, twins in same_v.items():
+        if len(twins) > 1 and all((t['mdiff'] or 0) > 0 for t in twins):
+            summed = -2.5 * math.log10(sum(10 ** (-0.4 * t['mag']) for t in ms))   # what summing every row would give
+            shared_v.append((sorted(t['id'] for t in twins), v, summed, mag))
     u = [sum(fl * s['u'][k] for fl, s in zip(fluxes, ms)) for k in range(3)]
     n = math.sqrt(sum(c * c for c in u)); u = [c / n for c in u]
     primary = min(ms, key=lambda s: (s['mag'], s['id']))
@@ -193,6 +220,7 @@ for root, members in groups.items():
     merged.append(dict(id=primary['id'], components=[s['id'] for s in ms], hd=primary['hd'], name=named,
                        bayer=primary['bayer'], con=primary['con'], mag=mag, ci=primary['ci'], u=u,
                        dist=primary['dist'], vel=primary['vel'], pm=primary['pm']))
+shared_v.sort()
 
 merged.sort(key=lambda s: (s['mag'], s['id']))
 top = merged[:COUNT]
@@ -226,6 +254,9 @@ out = {
     "changes": [
         "Excluded the 14 HR numbers that are not stars (no magnitude in BSC5), HR 5958 (T CrB, a recurrent nova listed at its 1946 maximum) and HR 681 (Mira, a long-period variable listed near its maximum); considered stars to magnitude 6.5.",
         "Merged components within 2 arcminutes into one point: combined flux magnitude, flux-weighted normalized position; identity, color index and velocity of the brightest component.",
+        "Shared combined V: BSC5 lists some close pairs with the same V in both rows and a positive multiple-star magnitude difference (m_mdiff), which makes that V the light of the pair together; "
+        "components with the same V and m_mdiff > 0 are counted once instead of flux-summed (otherwise HR 5788/5789 = delta Ser would read 3.05 instead of 3.80); rows with different V are summed as before"
+        + (f" (applies to {len(shared_v)} groups among the candidates: " + ", ".join("HR " + "/".join(map(str, ids)) + f" V {v:.2f}" for ids, v, _, _ in shared_v) + ")." if shared_v else "."),
         "Converted the BSC5 J2000 right ascension/declination to unit vectors; rounded vectors to 1e-7, magnitudes to 0.001, color index (BSC5 B-V, two decimals) to 0.001.",
         "id and hr are the HR (Bright Star Catalogue) number, hd the Henry Draper number; hip is null (BSC5 has no Hipparcos cross-identification).",
         "distPc is 1/parallax and velPcPerYear the space velocity from BSC5 proper motion, parallax and radial velocity, only for stars with a parallax of at least 0.001 arcsec "
@@ -247,5 +278,7 @@ print(f"{len(stars)} candidates, {len(merged)} after merging, kept {len(top)}; f
 print(f"BSC5 sha256 {sha_bsc}\nIAU-CSN sha256 {sha_iau}")
 for why, hrs in skipped.items():
     print(f"skipped ({why}): {sorted(hrs)}")
+for ids, v, summed, mag in shared_v:
+    print(f"shared combined V counted once: HR {'/'.join(map(str, ids))}, V {v:.2f} in each row; flux-summing would give {summed:.3f}, now {mag:.3f}")
 if multi:
     print("IAU names for one HR number (first alphabetical used):", multi)

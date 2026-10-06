@@ -4,7 +4,7 @@
 
 ## 1. What is decided
 
-- **The world package is an ODbL Derivative Database (6a).** Its data files (`world.json`, `chunks/*/scene.json`, chunk GLBs, `instances.json`, `clutter-tufts.bin`, `collision.json`, `environment.json`) are licensed under ODbL 1.0. Every package carries `LICENSE-DATA.md` (`docs/package-format.md`, Licensing).
+- **The world package is an ODbL Derivative Database (6a).** Its data files (`world.json`, `chunks/*/scene.json`, chunk GLBs, `instances.json`, `clutter-tufts.bin`, `collision.json`, `environment.json`) are licensed under ODbL 1.0. Every package carries `LICENSE-DATA.md` (`docs/package-format.md`, Licensing). One nuance: `environment.json` is listed as ODbL for the location and experience defaults derived from the map data, but its lighting tables are WorldEngine content (the package code says so, in `Sources/WorldPackage/WorldPackage.swift`).
 - **The engine provides the credits; host apps must show them (6b).** Data: `Sources/WorldGen/Profiles/credits.json` (model and merge: `Sources/WorldGen/Credits.swift`). UI: `WorldCreditsView` and `WorldCreditsButton` (`Sources/WorldEngine/WorldCreditsView.swift`).
 - **The OSM credit is always visible, and burned into every export (6c).** `WorldAttributionView` stays on screen, never collapsed. The (i) `WorldCreditsButton` adds the licence information, as the OSMF attribution guideline describes for interactive maps. Every exported image passes through `CreditBurnIn` / `WorldCredits.burnIn(...)`. There are no credit-free exports.
 - **Fab (6e).** Personal tier for now. Fab assets go only inside app bundles (compiled, not extractable), never into world packages, the public data download or white-label deliverables. The Fab EULA §6(a) question stays with the lawyer.
@@ -53,9 +53,13 @@ The offer must be live **before any public release**: App Store, public web, or 
 | OpenStreetMap | all surfaces, burned in | "© OpenStreetMap contributors", link to /copyright, "available under the Open Database License" |
 | ODbL offer | app, web, package | Placeholder until the download URL exists |
 | Star catalog | app, web | "Stars: Yale Bright Star Catalogue, 5th rev. ed. (Hoffleit & Warren 1991), public domain." (courtesy; IAU star names credited in STARS-NOTICE.md) |
-| NAIP | app, web, package | Only when NAIP-derived values are used; "NAIP imagery provided by USDA Farm Service Agency" |
+| NAIP | app, web, package | Always shown (measured NAIP canopy shares ship in profiles); "NAIP imagery provided by USDA Farm Service Agency" |
 | Weather provider | app, web, image | Host-supplied: filled from the host `WeatherProvider`'s attribution (Apple Weather mark, legal link, modified-data notice) |
 | Earcut | app | ISC, full notice text |
 | three.js | web | MIT, full notice text |
 
-`CreditsCatalog.merged(sources:weather:naipDerivedValues:surface:)` adds one credit per distinct manifest source (licence plus attribution, de-duplicated; OSM tiles fold into the OSM entry), so any new source, such as Overture buildings, is credited from its own manifest `attribution` and `license` without code changes.
+`CreditsCatalog.merged(sources:weather:naipDerivedValues:liveFeeds:surface:)` adds one credit per distinct manifest source (licence plus attribution, de-duplicated; OSM tiles fold into the OSM entry when the attribution text and licence match exactly), so any new source, such as Overture buildings, is credited from its own manifest `attribution` and `license` without code changes.
+
+**Live feeds (host-supplied).** When live vehicles are on screen, the host passes each feed's attribution entry from the relay response (`liveFeeds:`, type `WorldLiveFeedCredit`) to the same calls; each becomes a `liveData` credit shown in the app and on the web and burned into exported images, never written into a package (`docs/research/live-feeds.md` §8.8).
+
+**Illustrative (not live).** An entry with `live: false` (for example the ambient-planes snapshot's attribution) is not a live feed: it becomes a separate `illustrative` credit, listed under "Illustrative (not live)" in `WorldCreditsView` instead of "Live data", with the same surfaces (app, web, image) and burn-in rules, and also never written into a package.
