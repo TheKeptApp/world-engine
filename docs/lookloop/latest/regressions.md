@@ -14,3 +14,9 @@ Caution: graders differ (claude-opus-5-5 then, claude-sonnet-5-5 now). A one-poi
 | [showcase-06](sheets/showcase-06.jpg) | depthFog | 3 | 2 | Only the far tree band gets a slight warm haze; near, mid and far have almost the same contrast and the lake stays saturated. Visibility 1200 m smoke wall is not readable. |
 | [showcase-10](sheets/showcase-10.jpg) | geography | 4 | 3 | Lake outline, island, causeway and street grid plausible for Sloan's Lake facing north; shadows too soft to judge bearing; the cropped square tile is doubtful. |
 | [lakeview-street](sheets/lakeview-street.jpg) | light | 3 | 2 | Golden hour reads as cool pink-lilac; facades and lawns have no warm key and almost no visible long cast shadows toward camera; only the sidewalk glows |
+
+## Same-grader check (Sonnet vs Sonnet, ccb5f77 frames → ad2ebfc)
+
+| View | Before (ccb5f77, Sonnet) | Now (ad2ebfc, Sonnet) | Commit |
+|---|---|---|---|
+| [showcase-11](sheets/showcase-11.jpg) | 23.8 | 20.0 (−3.8) | `ad2ebfc` (P2 yards). Sloan's Lake aerial in fog: check the sheet; one-view swings of ±2.5 are Sonnet noise in this comparison, this one is past the 3-point rule. |
