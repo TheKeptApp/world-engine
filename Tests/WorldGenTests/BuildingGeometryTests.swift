@@ -429,6 +429,15 @@ struct SideWallTests {
         let gen = try FacadeKitTests.generator("chicago-dense-north")
         var palette = Palette(base: try StyleLibrary.baseColors())
         let fp = Polygon2D(outer: Self.ring)
+        let chimney = Float(palette.named("chimney"))
+        /// Chimney-coloured vertices standing clear of the side walls below `zMax`.
+        func breastPoints(_ m: MeshBuffers, below zMax: Double) -> [LocalPoint] {
+            zip(m.positions, m.paints).compactMap { p, paint in
+                let lp = LocalPoint(Double(p.x), Double(-p.z))
+                guard paint.x == chimney, Double(p.y) < zMax, lp.y > 0.5, lp.y < 17.5, !fp.contains(lp) else { return nil }
+                return GeometryCheck.distanceToBoundary(fp, lp) > 0.16 ? lp : nil
+            }
+        }
         var breasts = 0
         for id in Int64(1)...Int64(300) {
             let b = testBuilding(11000 + id, Self.ring)
@@ -437,7 +446,7 @@ struct SideWallTests {
             breasts += 1
             #expect(g.hasChimney)
             // The breast: beside a side wall, 0.25–0.4 m proud, at most 1.8 m wide.
-            let side = FacadeKitTests.outside(g.mesh, fp, z0: 0.5, z1: 2.0).filter { $0.y > 0.5 && $0.y < 17.5 }
+            let side = breastPoints(g.mesh, below: g.eaveHeight - 0.4)
             #expect(!side.isEmpty, "#\(id) breast missing")
             for q in side { #expect(GeometryCheck.distanceToBoundary(fp, q) <= 0.42, "#\(id): \(q) too far out") }
             if let lo = side.map(\.y).min(), let hi = side.map(\.y).max() { #expect(hi - lo <= 1.8 + 1e-6, "#\(id) breast \(hi - lo) m wide") }
@@ -449,7 +458,7 @@ struct SideWallTests {
             // Mid keeps the stack, not the projection.
             let mid = gen.generate(b, palette: &palette, lod: .mid)
             #expect(mid.chimneyBreast)
-            #expect(FacadeKitTests.outside(mid.mesh, fp, z0: 0.5, z1: 2.0).filter { $0.y > 0.5 && $0.y < 17.5 }.isEmpty, "#\(id) mid")
+            #expect(breastPoints(mid.mesh, below: mid.eaveHeight - 0.5).isEmpty, "#\(id) mid")
         }
         #expect(breasts >= 5, "only \(breasts) breasts")
     }
