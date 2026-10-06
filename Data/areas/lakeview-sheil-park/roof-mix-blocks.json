@@ -7,7 +7,7 @@
   "flightDates": "2017-04-16 to 2017-05-07",
   "licence": "US Government Public Domain",
   "credit": "USGS 3D Elevation Program",
-  "methodVersion": "regionkit-lidar-roofs 1.0",
+  "methodVersion": "regionkit-lidar-roofs 2.0",
   "blocks": "faces of the OSM street centrelines (highway classes as Tools/regionkit/aerial canopy_areas.json streetClasses) plus the area rectangle, clipped to it; faces under 50 m2 dropped",
   "blockId": "blk- + first 8 hex of sha1 over the sorted OSM way ids of the street ways running along the face boundary, comma-joined; a repeat of the same set gets -2, -3; changes if OSM splits or merges those ways",
   "assignment": "a building is in the face that contains its footprint centroid",
@@ -15,22 +15,22 @@
   "shares": "fractions of nClassified (buildings with a lidar form), keys flat/hip/gable/mansard/complex"
  },
  "summary": {
-  "buildingsInArea": 2799,
+  "buildingsInArea": 2823,
   "buildingsOutsideAnyBlock": 0,
-  "buildingsClassified": 2571,
+  "buildingsClassified": 2584,
   "blocks": 69,
   "blocksWithShares": 58,
   "blocksSuppressed": 11,
   "blocksClipped": 32,
-  "buildingsInPublishedBlocks": 2570,
-  "nClassified": 2571,
+  "buildingsInPublishedBlocks": 2583,
+  "nClassified": 2584,
   "suppressed": false,
   "shares": {
    "flat": 0.543,
-   "hip": 0.112,
-   "gable": 0.126,
+   "hip": 0.116,
+   "gable": 0.175,
    "mansard": 0.0,
-   "complex": 0.219
+   "complex": 0.166
   },
   "pitchClassShares": {
    "flat": 0.543,
@@ -119,10 +119,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.267,
-    "hip": 0.08,
-    "gable": 0.267,
+    "hip": 0.093,
+    "gable": 0.347,
     "mansard": 0.0,
-    "complex": 0.387
+    "complex": 0.293
    },
    "pitchClassShares": {
     "flat": 0.267,
@@ -152,10 +152,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.379,
-    "hip": 0.069,
-    "gable": 0.276,
+    "hip": 0.103,
+    "gable": 0.31,
     "mansard": 0.0,
-    "complex": 0.276
+    "complex": 0.207
    },
    "pitchClassShares": {
     "flat": 0.379,
@@ -187,9 +187,9 @@
    "shares": {
     "flat": 0.562,
     "hip": 0.156,
-    "gable": 0.094,
+    "gable": 0.125,
     "mansard": 0.0,
-    "complex": 0.188
+    "complex": 0.156
    },
    "pitchClassShares": {
     "flat": 0.562,
@@ -212,23 +212,23 @@
     507895770,
     1205663849
    ],
-   "nBuildings": 52,
-   "nClassified": 47,
+   "nBuildings": 53,
+   "nClassified": 48,
    "suppressed": false,
    "shares": {
-    "flat": 0.426,
-    "hip": 0.128,
-    "gable": 0.106,
+    "flat": 0.417,
+    "hip": 0.125,
+    "gable": 0.208,
     "mansard": 0.0,
-    "complex": 0.34
+    "complex": 0.25
    },
    "pitchClassShares": {
-    "flat": 0.426,
-    "low": 0.213,
-    "medium": 0.128,
-    "steep": 0.234
+    "flat": 0.417,
+    "low": 0.229,
+    "medium": 0.125,
+    "steep": 0.229
    },
-   "medianPitchDeg": 18.8
+   "medianPitchDeg": 18.7
   },
   {
    "id": "blk-1c8a2fa0",
@@ -249,9 +249,9 @@
    "shares": {
     "flat": 0.297,
     "hip": 0.054,
-    "gable": 0.297,
+    "gable": 0.378,
     "mansard": 0.0,
-    "complex": 0.351
+    "complex": 0.27
    },
    "pitchClassShares": {
     "flat": 0.297,
@@ -284,9 +284,9 @@
    "shares": {
     "flat": 0.586,
     "hip": 0.138,
-    "gable": 0.0,
+    "gable": 0.069,
     "mansard": 0.0,
-    "complex": 0.276
+    "complex": 0.207
    },
    "pitchClassShares": {
     "flat": 0.586,
@@ -315,10 +315,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.312,
-    "hip": 0.031,
-    "gable": 0.219,
+    "hip": 0.062,
+    "gable": 0.375,
     "mansard": 0.0,
-    "complex": 0.438
+    "complex": 0.25
    },
    "pitchClassShares": {
     "flat": 0.312,
@@ -342,23 +342,23 @@
     319240881,
     487715539
    ],
-   "nBuildings": 155,
-   "nClassified": 146,
+   "nBuildings": 156,
+   "nClassified": 147,
    "suppressed": false,
    "shares": {
-    "flat": 0.562,
-    "hip": 0.062,
-    "gable": 0.185,
+    "flat": 0.565,
+    "hip": 0.061,
+    "gable": 0.245,
     "mansard": 0.0,
-    "complex": 0.192
+    "complex": 0.129
    },
    "pitchClassShares": {
-    "flat": 0.562,
-    "low": 0.205,
-    "medium": 0.144,
-    "steep": 0.089
+    "flat": 0.565,
+    "low": 0.204,
+    "medium": 0.143,
+    "steep": 0.088
    },
-   "medianPitchDeg": 2.5
+   "medianPitchDeg": 2.4
   },
   {
    "id": "blk-22b1d8f6",
@@ -374,15 +374,15 @@
     487715539,
     507895769
    ],
-   "nBuildings": 62,
+   "nBuildings": 63,
    "nClassified": 55,
    "suppressed": false,
    "shares": {
     "flat": 0.364,
     "hip": 0.055,
-    "gable": 0.127,
+    "gable": 0.218,
     "mansard": 0.0,
-    "complex": 0.455
+    "complex": 0.364
    },
    "pitchClassShares": {
     "flat": 0.364,
@@ -412,9 +412,9 @@
    "shares": {
     "flat": 0.778,
     "hip": 0.063,
-    "gable": 0.079,
+    "gable": 0.095,
     "mansard": 0.0,
-    "complex": 0.079
+    "complex": 0.063
    },
    "pitchClassShares": {
     "flat": 0.778,
@@ -444,9 +444,9 @@
    "shares": {
     "flat": 0.431,
     "hip": 0.086,
-    "gable": 0.207,
+    "gable": 0.259,
     "mansard": 0.0,
-    "complex": 0.276
+    "complex": 0.224
    },
    "pitchClassShares": {
     "flat": 0.431,
@@ -476,9 +476,9 @@
    "shares": {
     "flat": 0.766,
     "hip": 0.047,
-    "gable": 0.047,
+    "gable": 0.078,
     "mansard": 0.0,
-    "complex": 0.141
+    "complex": 0.109
    },
    "pitchClassShares": {
     "flat": 0.766,
@@ -535,23 +535,23 @@
     319240879,
     1088129614
    ],
-   "nBuildings": 9,
-   "nClassified": 9,
+   "nBuildings": 10,
+   "nClassified": 10,
    "suppressed": false,
    "shares": {
-    "flat": 0.667,
-    "hip": 0.111,
-    "gable": 0.0,
+    "flat": 0.6,
+    "hip": 0.1,
+    "gable": 0.2,
     "mansard": 0.0,
-    "complex": 0.222
+    "complex": 0.1
    },
    "pitchClassShares": {
-    "flat": 0.667,
-    "low": 0.222,
+    "flat": 0.6,
+    "low": 0.3,
     "medium": 0.0,
-    "steep": 0.111
+    "steep": 0.1
    },
-   "medianPitchDeg": 2.1
+   "medianPitchDeg": 2.2
   },
   {
    "id": "blk-2f41f766",
@@ -572,9 +572,9 @@
    "shares": {
     "flat": 0.467,
     "hip": 0.133,
-    "gable": 0.2,
+    "gable": 0.267,
     "mansard": 0.0,
-    "complex": 0.2
+    "complex": 0.133
    },
    "pitchClassShares": {
     "flat": 0.467,
@@ -635,10 +635,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.6,
-    "hip": 0.14,
-    "gable": 0.02,
+    "hip": 0.16,
+    "gable": 0.12,
     "mansard": 0.0,
-    "complex": 0.24
+    "complex": 0.12
    },
    "pitchClassShares": {
     "flat": 0.6,
@@ -717,15 +717,15 @@
     982392986,
     1223548426
    ],
-   "nBuildings": 21,
+   "nBuildings": 22,
    "nClassified": 19,
    "suppressed": false,
    "shares": {
     "flat": 0.474,
     "hip": 0.105,
-    "gable": 0.158,
+    "gable": 0.316,
     "mansard": 0.0,
-    "complex": 0.263
+    "complex": 0.105
    },
    "pitchClassShares": {
     "flat": 0.474,
@@ -768,15 +768,15 @@
     507895769,
     1234775284
    ],
-   "nBuildings": 42,
+   "nBuildings": 43,
    "nClassified": 38,
    "suppressed": false,
    "shares": {
     "flat": 0.263,
     "hip": 0.184,
-    "gable": 0.158,
+    "gable": 0.237,
     "mansard": 0.0,
-    "complex": 0.395
+    "complex": 0.316
    },
    "pitchClassShares": {
     "flat": 0.263,
@@ -824,9 +824,9 @@
    "shares": {
     "flat": 0.706,
     "hip": 0.0,
-    "gable": 0.059,
+    "gable": 0.118,
     "mansard": 0.0,
-    "complex": 0.235
+    "complex": 0.176
    },
    "pitchClassShares": {
     "flat": 0.706,
@@ -873,23 +873,23 @@
     1223548418,
     1494292634
    ],
-   "nBuildings": 57,
-   "nClassified": 52,
+   "nBuildings": 58,
+   "nClassified": 53,
    "suppressed": false,
    "shares": {
-    "flat": 0.25,
-    "hip": 0.192,
-    "gable": 0.173,
+    "flat": 0.264,
+    "hip": 0.189,
+    "gable": 0.226,
     "mansard": 0.0,
-    "complex": 0.385
+    "complex": 0.321
    },
    "pitchClassShares": {
-    "flat": 0.25,
-    "low": 0.269,
-    "medium": 0.173,
-    "steep": 0.308
+    "flat": 0.264,
+    "low": 0.264,
+    "medium": 0.17,
+    "steep": 0.302
    },
-   "medianPitchDeg": 24.1
+   "medianPitchDeg": 24.0
   },
   {
    "id": "blk-5913cb43",
@@ -958,23 +958,23 @@
     982392986,
     1223548428
    ],
-   "nBuildings": 68,
-   "nClassified": 64,
+   "nBuildings": 70,
+   "nClassified": 66,
    "suppressed": false,
    "shares": {
-    "flat": 0.531,
-    "hip": 0.078,
-    "gable": 0.125,
+    "flat": 0.545,
+    "hip": 0.076,
+    "gable": 0.167,
     "mansard": 0.0,
-    "complex": 0.266
+    "complex": 0.212
    },
    "pitchClassShares": {
-    "flat": 0.531,
-    "low": 0.188,
-    "medium": 0.156,
-    "steep": 0.125
+    "flat": 0.545,
+    "low": 0.182,
+    "medium": 0.152,
+    "steep": 0.121
    },
-   "medianPitchDeg": 2.6
+   "medianPitchDeg": 2.5
   },
   {
    "id": "blk-651a13cf",
@@ -1054,15 +1054,15 @@
     1223548417,
     1223548429
    ],
-   "nBuildings": 51,
+   "nBuildings": 52,
    "nClassified": 43,
    "suppressed": false,
    "shares": {
     "flat": 0.535,
-    "hip": 0.14,
-    "gable": 0.07,
+    "hip": 0.163,
+    "gable": 0.116,
     "mansard": 0.0,
-    "complex": 0.256
+    "complex": 0.186
    },
    "pitchClassShares": {
     "flat": 0.535,
@@ -1117,15 +1117,15 @@
     1223548429,
     1494292633
    ],
-   "nBuildings": 46,
+   "nBuildings": 47,
    "nClassified": 41,
    "suppressed": false,
    "shares": {
     "flat": 0.537,
     "hip": 0.073,
-    "gable": 0.122,
+    "gable": 0.171,
     "mansard": 0.0,
-    "complex": 0.268
+    "complex": 0.22
    },
    "pitchClassShares": {
     "flat": 0.537,
@@ -1155,9 +1155,9 @@
    "shares": {
     "flat": 0.383,
     "hip": 0.191,
-    "gable": 0.149,
+    "gable": 0.191,
     "mansard": 0.0,
-    "complex": 0.277
+    "complex": 0.234
    },
    "pitchClassShares": {
     "flat": 0.383,
@@ -1181,15 +1181,15 @@
     1205663849,
     1223548429
    ],
-   "nBuildings": 54,
+   "nBuildings": 55,
    "nClassified": 53,
    "suppressed": false,
    "shares": {
     "flat": 0.453,
-    "hip": 0.226,
-    "gable": 0.075,
+    "hip": 0.245,
+    "gable": 0.132,
     "mansard": 0.0,
-    "complex": 0.245
+    "complex": 0.17
    },
    "pitchClassShares": {
     "flat": 0.453,
@@ -1219,9 +1219,9 @@
    "shares": {
     "flat": 0.308,
     "hip": 0.282,
-    "gable": 0.231,
+    "gable": 0.308,
     "mansard": 0.0,
-    "complex": 0.179
+    "complex": 0.103
    },
    "pitchClassShares": {
     "flat": 0.308,
@@ -1251,9 +1251,9 @@
    "shares": {
     "flat": 0.64,
     "hip": 0.12,
-    "gable": 0.06,
+    "gable": 0.12,
     "mansard": 0.0,
-    "complex": 0.18
+    "complex": 0.12
    },
    "pitchClassShares": {
     "flat": 0.64,
@@ -1299,7 +1299,7 @@
     1328669511,
     1494805663
    ],
-   "nBuildings": 19,
+   "nBuildings": 20,
    "nClassified": 19,
    "suppressed": false,
    "shares": {
@@ -1334,23 +1334,23 @@
     1205663851,
     1223548429
    ],
-   "nBuildings": 65,
-   "nClassified": 62,
+   "nBuildings": 67,
+   "nClassified": 64,
    "suppressed": false,
    "shares": {
-    "flat": 0.484,
-    "hip": 0.21,
-    "gable": 0.129,
+    "flat": 0.5,
+    "hip": 0.203,
+    "gable": 0.156,
     "mansard": 0.0,
-    "complex": 0.177
+    "complex": 0.141
    },
    "pitchClassShares": {
-    "flat": 0.484,
-    "low": 0.274,
-    "medium": 0.129,
-    "steep": 0.113
+    "flat": 0.5,
+    "low": 0.266,
+    "medium": 0.125,
+    "steep": 0.109
    },
-   "medianPitchDeg": 13.8
+   "medianPitchDeg": 7.7
   },
   {
    "id": "blk-81b119cb",
@@ -1368,23 +1368,23 @@
     1115336835,
     1115336836
    ],
-   "nBuildings": 18,
-   "nClassified": 17,
+   "nBuildings": 19,
+   "nClassified": 18,
    "suppressed": false,
    "shares": {
-    "flat": 0.941,
+    "flat": 0.889,
     "hip": 0.0,
-    "gable": 0.0,
+    "gable": 0.111,
     "mansard": 0.0,
-    "complex": 0.059
+    "complex": 0.0
    },
    "pitchClassShares": {
-    "flat": 0.941,
-    "low": 0.0,
+    "flat": 0.889,
+    "low": 0.056,
     "medium": 0.0,
-    "steep": 0.059
+    "steep": 0.056
    },
-   "medianPitchDeg": 1.9
+   "medianPitchDeg": 2.0
   },
   {
    "id": "blk-8fd63c9f",
@@ -1406,9 +1406,9 @@
    "shares": {
     "flat": 0.816,
     "hip": 0.061,
-    "gable": 0.061,
+    "gable": 0.082,
     "mansard": 0.0,
-    "complex": 0.061
+    "complex": 0.041
    },
    "pitchClassShares": {
     "flat": 0.816,
@@ -1438,9 +1438,9 @@
    "shares": {
     "flat": 0.5,
     "hip": 0.15,
-    "gable": 0.125,
+    "gable": 0.15,
     "mansard": 0.0,
-    "complex": 0.225
+    "complex": 0.2
    },
    "pitchClassShares": {
     "flat": 0.5,
@@ -1463,15 +1463,15 @@
     161377434,
     1205663849
    ],
-   "nBuildings": 63,
+   "nBuildings": 64,
    "nClassified": 59,
    "suppressed": false,
    "shares": {
     "flat": 0.576,
     "hip": 0.017,
-    "gable": 0.136,
+    "gable": 0.203,
     "mansard": 0.0,
-    "complex": 0.271
+    "complex": 0.203
    },
    "pitchClassShares": {
     "flat": 0.576,
@@ -1501,9 +1501,9 @@
    "shares": {
     "flat": 0.774,
     "hip": 0.097,
-    "gable": 0.081,
+    "gable": 0.113,
     "mansard": 0.0,
-    "complex": 0.048
+    "complex": 0.016
    },
    "pitchClassShares": {
     "flat": 0.774,
@@ -1565,9 +1565,9 @@
    "shares": {
     "flat": 0.745,
     "hip": 0.091,
-    "gable": 0.036,
+    "gable": 0.055,
     "mansard": 0.0,
-    "complex": 0.127
+    "complex": 0.109
    },
    "pitchClassShares": {
     "flat": 0.745,
@@ -1596,10 +1596,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.267,
-    "hip": 0.133,
-    "gable": 0.147,
+    "hip": 0.16,
+    "gable": 0.227,
     "mansard": 0.0,
-    "complex": 0.453
+    "complex": 0.347
    },
    "pitchClassShares": {
     "flat": 0.267,
@@ -1623,21 +1623,21 @@
     1223548417,
     1494292634
    ],
-   "nBuildings": 55,
-   "nClassified": 49,
+   "nBuildings": 56,
+   "nClassified": 50,
    "suppressed": false,
    "shares": {
-    "flat": 0.49,
-    "hip": 0.061,
-    "gable": 0.143,
+    "flat": 0.48,
+    "hip": 0.06,
+    "gable": 0.2,
     "mansard": 0.0,
-    "complex": 0.306
+    "complex": 0.26
    },
    "pitchClassShares": {
-    "flat": 0.49,
-    "low": 0.204,
-    "medium": 0.061,
-    "steep": 0.245
+    "flat": 0.48,
+    "low": 0.2,
+    "medium": 0.08,
+    "steep": 0.24
    },
    "medianPitchDeg": 17.9
   },
@@ -1660,9 +1660,9 @@
    "shares": {
     "flat": 0.682,
     "hip": 0.114,
-    "gable": 0.068,
+    "gable": 0.091,
     "mansard": 0.0,
-    "complex": 0.136
+    "complex": 0.114
    },
    "pitchClassShares": {
     "flat": 0.682,
@@ -1746,9 +1746,9 @@
    "shares": {
     "flat": 0.448,
     "hip": 0.034,
-    "gable": 0.31,
+    "gable": 0.345,
     "mansard": 0.0,
-    "complex": 0.207
+    "complex": 0.172
    },
    "pitchClassShares": {
     "flat": 0.448,
@@ -1776,10 +1776,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.577,
-    "hip": 0.154,
-    "gable": 0.038,
+    "hip": 0.192,
+    "gable": 0.077,
     "mansard": 0.0,
-    "complex": 0.231
+    "complex": 0.154
    },
    "pitchClassShares": {
     "flat": 0.577,
@@ -1802,21 +1802,21 @@
     982392986,
     1223548428
    ],
-   "nBuildings": 46,
-   "nClassified": 42,
+   "nBuildings": 48,
+   "nClassified": 43,
    "suppressed": false,
    "shares": {
-    "flat": 0.762,
-    "hip": 0.167,
-    "gable": 0.071,
+    "flat": 0.744,
+    "hip": 0.186,
+    "gable": 0.07,
     "mansard": 0.0,
     "complex": 0.0
    },
    "pitchClassShares": {
-    "flat": 0.762,
-    "low": 0.214,
-    "medium": 0.0,
-    "steep": 0.024
+    "flat": 0.744,
+    "low": 0.209,
+    "medium": 0.023,
+    "steep": 0.023
    },
    "medianPitchDeg": 2.5
   },
@@ -1839,10 +1839,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.755,
-    "hip": 0.075,
-    "gable": 0.038,
+    "hip": 0.094,
+    "gable": 0.057,
     "mansard": 0.0,
-    "complex": 0.132
+    "complex": 0.094
    },
    "pitchClassShares": {
     "flat": 0.755,
@@ -1870,10 +1870,10 @@
    "suppressed": false,
    "shares": {
     "flat": 0.241,
-    "hip": 0.155,
-    "gable": 0.276,
+    "hip": 0.172,
+    "gable": 0.328,
     "mansard": 0.0,
-    "complex": 0.328
+    "complex": 0.259
    },
    "pitchClassShares": {
     "flat": 0.241,
@@ -1921,9 +1921,9 @@
    "shares": {
     "flat": 0.452,
     "hip": 0.097,
-    "gable": 0.194,
+    "gable": 0.29,
     "mansard": 0.0,
-    "complex": 0.258
+    "complex": 0.161
    },
    "pitchClassShares": {
     "flat": 0.452,
@@ -1949,23 +1949,23 @@
     1234775284,
     1494292634
    ],
-   "nBuildings": 64,
-   "nClassified": 55,
+   "nBuildings": 67,
+   "nClassified": 56,
    "suppressed": false,
    "shares": {
-    "flat": 0.291,
-    "hip": 0.145,
-    "gable": 0.182,
+    "flat": 0.286,
+    "hip": 0.161,
+    "gable": 0.268,
     "mansard": 0.0,
-    "complex": 0.382
+    "complex": 0.286
    },
    "pitchClassShares": {
-    "flat": 0.291,
-    "low": 0.2,
-    "medium": 0.164,
-    "steep": 0.345
+    "flat": 0.286,
+    "low": 0.214,
+    "medium": 0.161,
+    "steep": 0.339
    },
-   "medianPitchDeg": 26.5
+   "medianPitchDeg": 25.2
   },
   {
    "id": "blk-e75697cf",
@@ -2056,9 +2056,9 @@
    "shares": {
     "flat": 0.556,
     "hip": 0.111,
-    "gable": 0.074,
+    "gable": 0.148,
     "mansard": 0.0,
-    "complex": 0.259
+    "complex": 0.185
    },
    "pitchClassShares": {
     "flat": 0.556,
@@ -2082,23 +2082,23 @@
     793709314,
     982392986
    ],
-   "nBuildings": 45,
-   "nClassified": 41,
+   "nBuildings": 46,
+   "nClassified": 42,
    "suppressed": false,
    "shares": {
-    "flat": 0.39,
-    "hip": 0.073,
-    "gable": 0.22,
+    "flat": 0.381,
+    "hip": 0.071,
+    "gable": 0.357,
     "mansard": 0.0,
-    "complex": 0.317
+    "complex": 0.19
    },
    "pitchClassShares": {
-    "flat": 0.39,
-    "low": 0.122,
-    "medium": 0.268,
-    "steep": 0.22
+    "flat": 0.381,
+    "low": 0.143,
+    "medium": 0.262,
+    "steep": 0.214
    },
-   "medianPitchDeg": 22.4
+   "medianPitchDeg": 22.5
   },
   {
    "id": "blk-ffa09e1d",
@@ -2120,9 +2120,9 @@
    "shares": {
     "flat": 0.519,
     "hip": 0.093,
-    "gable": 0.13,
+    "gable": 0.185,
     "mansard": 0.0,
-    "complex": 0.259
+    "complex": 0.204
    },
    "pitchClassShares": {
     "flat": 0.519,

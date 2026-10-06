@@ -212,11 +212,128 @@ def mix_of(records, min_n, pc):
     return out
 
 
+# ---------------------------------------------------------------- footprints: OSM plus Overture (the engine's merge)
+
+
+def overture_ref(gers):
+    """The engine's ref of an Overture feature (Sources/WorldMap/OvertureSource.swift `OSMRef.init(overtureID:)`):
+    the first 16 hex digits of the GERS id (hyphens ignored) as a UInt64, stored bit for bit in a signed Int64,
+    written 'overture/<int64>'. None when the id has fewer than 16 hex digits."""
+    hexs = "".join(c for c in gers if c != "-")[:16]
+    if len(hexs) != 16:
+        return None
+    try:
+        v = int(hexs, 16)
+    except ValueError:
+        return None
+    if v >= 1 << 63:
+        v -= 1 << 64
+    return f"overture/{v}"
+
+
+def osm_building_union(pilot, man, root=None):
+    """Every OSM building and building:part footprint of the area's osm.json (also those whose centroid is outside
+    the area), as one shapely geometry: the engine drops an Overture footprint whose centroid is inside it."""
+    import shapely
+    from shapely.geometry import Polygon
+    with open(os.path.join(root or REPO, pilot["area"], "osm.json")) as f:
+        osm = json.load(f)
+    lat0, lon0 = man["center"]["latitude"], man["center"]["longitude"]
+    nodes = {e["id"]: (e["lat"], e["lon"]) for e in osm["elements"] if e["type"] == "node"}
+    polys = []
+    for w in osm["elements"]:
+        t = w.get("tags", {}) if w["type"] == "way" else {}
+        if w["type"] != "way" or not ("building" in t or "building:part" in t) or t.get("area") == "no":
+            continue
+        if len(w["nodes"]) < 4 or w["nodes"][0] != w["nodes"][-1]:
+            continue
+        pts = [nodes[i] for i in w["nodes"] if i in nodes]
+        if len(pts) < 4:
+            continue
+        e, n = rp.local_en(lat0, lon0, [p[0] for p in pts], [p[1] for p in pts])
+        polys.append(Polygon(list(zip(e.tolist(), n.tolist()))).buffer(0))
+    return shapely.union_all(polys) if polys else None
+
+
+def overture_footprints(pilot, man, root=None):
+    """Overture buildings the engine adds on top of OSM (OvertureBuildings.merge): records with no OpenStreetMap
+    source, a footprint centroid inside the area and outside every OSM building or part; ids sorted, a repeated
+    ref (two GERS ids sharing 16 hex digits) keeps the first. A record with several polygons keeps its largest
+    polygon (one key per ref). Returns ({ref: {"poly", "tags"}}, report)."""
+    from shapely.geometry import Polygon
+    import shapely
+    with open(os.path.join(root or REPO, pilot["area"], "overture-buildings.json")) as f:
+        ov = json.load(f)
+    lat0, lon0 = man["center"]["latitude"], man["center"]["longitude"]
+    hw, hh = man["widthMeters"] / 2, man["heightMeters"] / 2
+    union = osm_building_union(pilot, man, root)
+    out, seen_ids, seen_refs = {}, set(), {}
+    rep = Counter()
+    for r in sorted(ov["buildings"], key=lambda r: r["id"]):
+        if r["id"] in seen_ids:
+            continue
+        seen_ids.add(r["id"])
+        rep["records"] += 1
+        if any(s.get("dataset") == "OpenStreetMap" for s in r["sources"]):
+            rep["droppedOsmSource"] += 1
+            continue
+        ref = overture_ref(r["id"])
+        if ref is None:
+            rep["skipped"] += 1
+            continue
+        if ref in seen_refs and seen_refs[ref] != r["id"]:
+            rep["refCollision"] += 1
+            continue
+        seen_refs[ref] = r["id"]
+        best, inside_osm, outside = None, False, False
+        for rings in r["polygons"]:
+            conv = []
+            for ring in rings:
+                e, n = rp.local_en(lat0, lon0, [c[1] for c in ring], [c[0] for c in ring])
+                conv.append(list(zip(e.tolist(), n.tolist())))
+            if len(conv[0]) < 4:
+                continue
+            poly = Polygon(conv[0], conv[1:]).buffer(0)
+            if poly.is_empty:
+                continue
+            c = poly.centroid
+            if not (abs(c.x) <= hw and abs(c.y) <= hh):
+                outside = True
+                continue
+            if union is not None and shapely.contains_xy(union, c.x, c.y):
+                inside_osm = True
+                continue
+            if poly.area < 1.0:
+                continue
+            if best is None or poly.area > best.area:
+                best = poly
+        if best is None:
+            rep["droppedInsideOsm" if inside_osm else "droppedOutsideBounds" if outside else "skipped"] += 1
+            continue
+        out[ref] = {"poly": best, "tags": {"overture:id": r["id"]}}
+        rep["added"] += 1
+        if len(r["polygons"]) > 1:
+            rep["multiPolygonRecords"] += 1
+    return out, dict(rep)
+
+
+def all_footprints(L, pilot, man, area):
+    """OSM footprints (L.footprints) plus, when the area lists `overture`, the Overture ones the engine adds.
+    Returns (fps, osm_timestamp, overture report or None)."""
+    fps, osm_ts = L.footprints(pilot, man)
+    if not area.get("overture"):
+        return fps, osm_ts, None
+    ov, rep = overture_footprints(pilot, man)
+    for k, v in ov.items():
+        fps[k] = v
+    return fps, osm_ts, rep
+
+
 # ---------------------------------------------------------------- area pipeline
 
 
 def area_cfg(cfg, area):
-    return {"area": area["area"], "ept": cfg["ept"], "marginMeters": cfg["marginMeters"]}
+    return {"area": area["area"], "ept": cfg["ept"], "marginMeters": area.get("marginMeters", cfg["marginMeters"])}
 
 
 def cmd_fetch(args, cfg, area, work):
@@ -251,7 +368,9 @@ def prepare_points(cfg, area, work):
     params = L.load("params.json")
     hprm = H.load_params()
     man = L.area_manifest(pilot)
-    fps, osm_ts = L.footprints(pilot, man)
+    fps, osm_ts, ov_report = all_footprints(L, pilot, man, area)
+    if ov_report:
+        log(f"[{area['id']}] overture footprints: {ov_report}")
     pts, stats = L.load_points(work, man, pilot["marginMeters"])
     log(f"[{area['id']}] points {stats}")
     ground_h = L.ground_model(pts[2], params["groundCell"])
@@ -265,22 +384,24 @@ def prepare_points(cfg, area, work):
         arr[:, 1] += shift["northMeters"]
     ground_h = L.ground_model(pts[2], params["groundCell"])
     height = bld_all[:, 2] - ground_h(bld_all[:, 0], bld_all[:, 1])
-    return {"L": L, "H": H, "params": params, "hprm": hprm, "man": man, "fps": fps, "osm_ts": osm_ts, "stats": stats,
+    return {"L": L, "H": H, "params": params, "hprm": hprm, "man": man, "fps": fps, "osm_ts": osm_ts, "overture": ov_report, "stats": stats,
             "ground": pts[2], "ground_h": ground_h, "shift": shift, "hw": hw, "hh": hh,
             "bld2": bld_all[height >= params["minHeightAboveGround"]],
             "bld1": bld_all[height >= hprm["minHeightAboveGround"]]}
 
 
 def cmd_measure(args, cfg, area, work):
+    """Per footprint: points, cover, height measure and the plane raster (planes, cells, cell->plane), pickled in
+    the work directory (`raster_dump.pkl`); then `emit` writes lidar-roofs.json from it."""
+    import pickle
     import shapely
     from scipy.spatial import cKDTree
     D = prepare_points(cfg, area, work)
     L, H, params, hprm = D["L"], D["H"], D["params"], D["hprm"]
-    cls_params = params["classify"]
     idx2, idx1, gidx = L.PointIndex(D["bld2"]), L.PointIndex(D["bld1"]), L.PointIndex(D["ground"])
     wide = hprm["groundRing"]["wideOuterM"]
     hw, hh = D["hw"], D["hh"]
-    records, skipped, planes_dump = {}, Counter(), {}
+    items, skipped = {}, Counter()
     n_fp = 0
     t0 = time.time()
     for i, (fid, fp) in enumerate(sorted(D["fps"].items())):
@@ -311,26 +432,65 @@ def cmd_measure(args, cfg, area, work):
             skipped["partialCover"] += 1
             continue
         rect = L.rect_of(er)
-        res, planes = L.lidar_roof(P, ras, params)
-        if res["form"] == "unknown":
-            skipped["unclassifiable"] += 1
-            continue
+        pl = rp.planes_from_points(P, gx, gy, inside, params)
         cbh = idx1.query(poly.buffer(1).bounds)
         cg = gidx.query(poly.buffer(wide).bounds)
         hts = H.measure(poly, D["bld1"][cbh], D["ground"][cg], hprm, fallback_ground=float(D["ground_h"](c.x, c.y)))
         extras = {"points": int(len(P)), "cover": cover, "density": len(P) / (n_cells * params["cell"] ** 2)}
-        rec = make_record(res, planes, rect, hts, extras, cfg, cls_params)
+        items[fid] = {"raster": None if pl is None else {"planes": pl[0], "cells": pl[1].astype(np.float32), "cellPlane": pl[2].astype(np.int32), "area": pl[3]},
+                      "rect": rect, "hts": hts, "extras": extras, "footprintM2": float(poly.area)}
+        if i % 400 == 0:
+            log(f"[{area['id']}] {i}/{len(D['fps'])} ({time.time() - t0:.0f} s)")
+    meta = {"nFp": n_fp, "skipped": dict(skipped), "shift": D["shift"], "osmTs": D["osm_ts"], "overture": D["overture"]}
+    with open(work.p("raster_dump.pkl"), "wb") as f:
+        pickle.dump({"items": items, "meta": meta}, f)
+    log(f"[{area['id']}] raster dump: {len(items)} footprints with a plane raster, skipped {dict(skipped)}")
+
+
+def classify_items(items, cfg, rules):
+    """Run the classifier and the record builder on pickled rasters. Returns (records, skipped counter, per-ref detail
+    {baseForm, reasons, mansard, planes})."""
+    cls_params = load_params()["classify"]
+    records, skipped, detail = {}, Counter(), {}
+    for fid, it in sorted(items.items()):
+        ras = it["raster"]
+        if ras is None:
+            skipped["unclassifiable"] += 1
+            continue
+        res = rp.classify_roof(ras["planes"], ras["cells"], ras["cellPlane"], it["rect"], ras["area"], cls_params, rules)
+        if res["form"] == "unknown":
+            skipped["unclassifiable"] += 1
+            continue
+        rec = make_record(res, ras["planes"], it["rect"], it["hts"], it["extras"], cfg, cls_params)
         if rec is None or rec["topM"] is None:
             skipped["noHeight"] += 1
             continue
         records[fid] = rec
-        planes_dump[fid] = {"planes": [{k: round(v, 2) for k, v in pl.items()} for pl in planes],
-                            "baseForm": res["form"], "mansard": mansard_rule(planes, rect, cls_params, cfg["mansard"])}
-        if i % 400 == 0:
-            log(f"[{area['id']}] {i}/{len(D['fps'])} ({time.time() - t0:.0f} s)")
-    with open(work.p("planes_dump.json"), "w") as f:
-        json.dump(planes_dump, f)
-    write_lidar_roofs(cfg, area, D, records, skipped, n_fp)
+        detail[fid] = {"baseForm": res["form"], "reasons": res["reasons"], "simple": res["simple"],
+                       "mansard": mansard_rule(ras["planes"], it["rect"], cls_params, cfg["mansard"])}
+    return records, skipped, detail
+
+
+def load_params():
+    with open(os.path.join(HERE, "data", "params.json")) as f:
+        return json.load(f)
+
+
+def load_dump(work):
+    import pickle
+    with open(work.p("raster_dump.pkl"), "rb") as f:
+        return pickle.load(f)
+
+
+def cmd_emit(args, cfg, area, work):
+    """lidar-roofs.json from the raster dump with the classifier chosen by --classifier (v2 default, v1 = the 1.0 rules)."""
+    dump = load_dump(work)
+    rules = None if args.classifier == "v1" else cfg["classifier"]["rules"]
+    records, skipped, _ = classify_items(dump["items"], cfg, rules)
+    meta = dump["meta"]
+    sk = Counter(meta["skipped"])
+    sk.update(skipped)
+    write_lidar_roofs(cfg, area, meta, records, sk, meta["nFp"], args.classifier)
 
 
 def hand_check_numbers():
@@ -344,9 +504,49 @@ def hand_check_numbers():
     return hc, mans
 
 
-def write_lidar_roofs(cfg, area, D, records, skipped, n_fp):
-    hc, mans = hand_check_numbers()
-    simple = hc.get("simple_handVsLidar", {})
+def footprints_header(area, D):
+    note = ("closed building ways and building multipolygons whose centroid is inside the area; keys are OSM refs "
+            "(way/<id>, relation/<id>)")
+    out = {"source": f"{area['area']}/osm.json", "osmTimestamp": D["osmTs"], "note": note}
+    if D.get("overture"):
+        out["source"] = [f"{area['area']}/osm.json", f"{area['area']}/overture-buildings.json"]
+        out["overtureMerge"] = D["overture"]
+        out["note"] = (note + "; plus the Overture buildings the engine adds (no OpenStreetMap source, centroid in the area and outside every "
+                       "OSM building or part), keyed by the engine's ref: overture/<signed int64 of the first 16 hex digits of the GERS id> "
+                       "(Sources/WorldMap/OvertureSource.swift OSMRef.init(overtureID:))")
+    return out
+
+
+def hand_check_header(area_id, mans):
+    """Header block on how well the forms were checked. 2.0: the NAIP hand check of results/roofaccuracy.json (test set,
+    per area), the pilot's check, and the mansard rule, which stays UNVALIDATED."""
+    out = {}
+    p = os.path.join(HERE, "results", "roofaccuracy.json")
+    if os.path.exists(p):
+        with open(p) as f:
+            acc = json.load(f)
+        t = acc["sets"]["test"]
+        row = lambda d: {  # noqa: E731
+            "n": d["n"], "cantTell": d["nCantTell"], "accuracy": d["accuracy"], "wilson95": d["wilson95"],
+            "simpleCalledComplexRate": d["simpleCalledComplex"]["rate"], "complexCalledSimpleRate": d["complexCalledSimple"]["rate"]}
+        out["roofAccuracy"] = {
+            "what": "forms hand-labelled from NAIP 0.3 m imagery (roofs the 1.0 classifier had classified, stable seeded sample of about 50 per area, labels frozen before the rule changed); accuracy = share of labelled roofs whose lidar form equals the hand label, roofs the labeller could not read excluded",
+            "methodVersions": acc["methodVersions"],
+            "thisArea": ({"before": row(t[area_id]["before"]), "after": row(t[area_id]["after"])} if area_id in t else
+                         "not hand-checked: no NAIP sample was labelled here; the rule was checked on evanston-south and lakeview-sheil-park (pooled below)"),
+            "pooledEvanstonAndLakeview": {"before": row(t["pooled"]["before"]), "after": row(t["pooled"]["after"])},
+            "target": 0.8,
+            "details": "Tools/regionkit/lidar/results/roofaccuracy.json; docs/research/lidar-roofs.md section 15",
+        }
+    out["pilotCheck"] = "30 South Evanston roofs (houses and garages), labelled from the lidar points themselves, 1.0 rules: simple form 26 of 30, four classes 24 of 30 (docs section 4)"
+    out["mansard"] = ("UNVALIDATED. The mansard rule (steep planes round a flat or low top) is unchanged from 1.0 and was set on a single flagged roof "
+                      "(a truncated hip, not a classic mansard); no independent mansard sample exists, so its precision and recall are unknown")
+    out["scope"] = "hand-labelled areas: South Evanston (houses, garages) and Lakeview (flat-roofed rows and courtyard buildings); the suburban areas Wilmette, Winnetka and Kenilworth were not hand-checked"
+    return out
+
+
+def write_lidar_roofs(cfg, area, D, records, skipped, n_fp, classifier="v2"):
+    _, mans = hand_check_numbers()
     forms = Counter(r["form"] for r in records.values())
     classes = Counter(r["pitchClass"] for r in records.values())
     n = len(records)
@@ -365,25 +565,20 @@ def write_lidar_roofs(cfg, area, D, records, skipped, n_fp):
         "licence": cfg["licence"]["name"],
         "credit": cfg["licence"]["courtesy"],
         "licenceNote": cfg["licence"]["note"],
-        "footprints": {"source": f"{area['area']}/osm.json", "osmTimestamp": D["osm_ts"],
-                       "note": "closed building ways and building multipolygons whose centroid is inside the area; keys are OSM refs (way/<id>, relation/<id>)"},
+        "footprints": footprints_header(area, D),
         "methodVersion": cfg["methodVersion"],
-        "method": "docs/research/lidar-roofs.md section 14",
+        "method": "docs/research/lidar-roofs.md sections 14 and 15",
+        "complexRule": {"version": cfg["methodVersion"], "rules": cfg["classifier"]["rules"],
+                        "summary": "2.0 complex rule: touching planes of one slope merged, sloped planes under minorShare of the roof ignored (dormers, porches, chimneys), mixed flat/sloped from a flat share of mixedMinShare, no-opposite-pair needs noPairMinPlanes major planes; fitted on tuning sets, checked on a frozen NAIP hand-labelled test set (handCheck)"},
         "lidarShiftMeters": {"east": D["shift"]["eastMeters"], "north": D["shift"]["northMeters"]},
-        "handCheck": {
-            "simpleFormAccuracy": simple.get("agreement", 0.867),
-            "simpleFormCorrect": "26 of 30 (pilot, Evanston South, flat/gable/hip)",
-            "fourClassAccuracy": "24 of 30 (80 %; flat/gable/hip/complex; the complex class over-calls: 6 of 18 simple roofs read complex)",
-            "mansard": mans or "see docs/research/lidar-roofs.md section 14",
-            "scope": "the accuracy figures come from South Evanston (houses and garages); the classifier was not hand-checked on Chicago flat-roofed courtyard and multi-unit buildings (Lakeview) - unverified there",
-        },
+        "handCheck": hand_check_header(area["id"], mans),
         "pitchClasses": "flat < 10 deg; low 10 to < 25; medium 25 to 40; steep > 40 (pitchDeg = dominant plane slope)",
         "fields": {
             "topM": "roof top above ground, m (95th percentile of building points, ground = median class-2 ring 3 to 8 m around the footprint)",
             "eaveM": "eave height above ground, m (15th percentile of points within 0.5 to 2 m of the footprint edge); null when too few points",
             "pitchDeg": "slope of the dominant plane, degrees; mansard = mean slope of the steep lower planes",
             "pitchClass": "flat / low / medium / steep",
-            "form": "flat / gable / hip / mansard / complex",
+            "form": "flat / gable / hip / mansard / complex (mansard is UNVALIDATED: rule unchanged since 1.0, no independent mansard sample)",
             "points": "building-class lidar points inside the footprint eroded by 0.75 m",
             "confidence": "heuristic 0-1 score (point cover, density, plane coverage, form factor); not a probability",
         },
@@ -467,7 +662,7 @@ def cmd_blocks(args, cfg, area, work):
     lat0, lon0 = man["center"]["latitude"], man["center"]["longitude"]
     with open(os.path.join(REPO, area["area"], "lidar-roofs.json")) as f:
         lr = json.load(f)
-    fps, _ = L.footprints(pilot, man)
+    fps, _, _ = all_footprints(L, pilot, man, area)
     streets = street_lines(cfg, area, man)
     faces = block_faces(streets, (-hw, -hh, hw, hh), bcfg["minAreaM2"])
     polys = [f["poly"] for f in faces]
@@ -542,8 +737,7 @@ def cmd_mansard(args, cfg, area, work):
     from scipy.spatial import cKDTree
     D = prepare_points(cfg, area, work)
     L = D["L"]
-    with open(work.p("planes_dump.json")) as f:
-        dump = json.load(f)
+    _, _, dump = classify_items(load_dump(work)["items"], cfg, cfg["classifier"]["rules"])
     flagged = [k for k, v in dump.items() if v["mansard"]["mansard"]]
     near = sorted((k for k, v in dump.items() if not v["mansard"]["mansard"] and v["mansard"]["steepShare"] > 0.12),
                   key=lambda k: -dump[k]["mansard"]["steepShare"])
@@ -612,7 +806,8 @@ def cmd_mansard(args, cfg, area, work):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["fetch", "measure", "blocks", "mansard", "all"])
+    ap.add_argument("cmd", choices=["fetch", "measure", "emit", "blocks", "mansard", "all"])
+    ap.add_argument("--classifier", choices=["v1", "v2"], default="v2", help="emit/all: v1 = the 1.0 complex rule (reproduces the first committed files), v2 = the current one")
     ap.add_argument("--work", required=True)
     ap.add_argument("--area", help="one area id (default: all in data/roofhints.json)")
     ap.add_argument("--refs", help="mansard: comma-separated OSM refs to render instead of the flagged and near-miss roofs")
@@ -621,8 +816,8 @@ def main():
     import lidar as L
     cfg = load_cfg()
     work_root = args.work
-    fns = {"fetch": [cmd_fetch], "measure": [cmd_measure], "blocks": [cmd_blocks], "mansard": [cmd_mansard],
-           "all": [cmd_fetch, cmd_measure, cmd_blocks]}[args.cmd]
+    fns = {"fetch": [cmd_fetch], "measure": [cmd_measure], "emit": [cmd_emit], "blocks": [cmd_blocks], "mansard": [cmd_mansard],
+           "all": [cmd_fetch, cmd_measure, cmd_emit, cmd_blocks]}[args.cmd]
     for area in cfg["areas"]:
         if args.area and area["id"] != args.area:
             continue
