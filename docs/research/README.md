@@ -9,6 +9,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 | [region-kit.md](region-kit.md) | The region kit (`Tools/regionkit/`): what it measures, how to run it, accuracy against the hand-made profiles (Denver, Plano, ChatGPT's 11 Chicagoland/Miami profiles), the zone drafts, zones in the schema, what open data can't supply |
 | [data-coverage.md](data-coverage.md) | 46 sample cells (North Shore, Chicago, 11 metros): what OSM and Overture hold, the ranked gaps and how the generator should handle each, the dense-Chicago triangle estimate |
 | [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, HYG stars, Fab), blockers, questions for a lawyer. Not legal advice |
+| [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
 
 Tools: [`Tools/regionkit/`](../../Tools/regionkit/README.md) (region kit; drafts in `Tools/regionkit/drafts/`) and
 [`Tools/regionkit/audit/`](../../Tools/regionkit/audit/README.md) (coverage audit). Both are offline Python research
@@ -39,7 +40,12 @@ tools; nothing is loaded at runtime. No raw map data is committed, only aggregat
 6. **Mapped trees are rare** in most places: 78 per km² in Chicago neighbourhoods,
    0.5 on the North Shore, against 2,812 at Sloan's Lake. The generator places only mapped trees, so
    Chicagoland streets would be nearly treeless.
-7. **Licensing:** nothing blocks internal development. Before a public release: a credits screen with the ODbL
+7. **Live feeds:** transit data is free but every licence is revocable. RTD is the easiest (no key, redistribution
+   granted). CTA limits the purpose ("assisting" riders), Pace's static data is "non commercial use" and its live URLs are
+   undocumented, and Metra's terms require a relay (unverified: metra.com blocks automated access). Community
+   aircraft feeds are non-commercial except adsb.lol (ODbL, ask the operator); commercial aircraft feeds cost about
+   $1.6k–18k a month for two metros. Upstream cost scales with active areas and poll interval, not users.
+8. **Licensing:** nothing blocks internal development. Before a public release: a credits screen with the ODbL
    "offer", credit burned into exported images/widgets, and Apple Weather attribution. The world package is most
    likely an ODbL Derivative Database, not a Produced Work as `docs/plan-m1.md` §6 assumes.
 
