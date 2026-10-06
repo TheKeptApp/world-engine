@@ -1,0 +1,1729 @@
+{
+  "comment": "Coverage-audit sample cells (data, not code). Each cell is a 1000 m x 1000 m box (+-500 m) around a named public anchor (park, plaza, civic building or station). Rule shared with Tools/regionkit (so numbers line up): find the named OSM feature with a small Overpass query (`out center`), take its centre rounded to 4 decimals, box +-500 m. Candidates must match one of `names` exactly and the `match`/`matchAny` tags; ties go to the first name, then the nearest to `near` (a disambiguation hint only, never the centre). `center`/`osm`/`resolved` are written by `audit.py resolve`. `why` documents the choice. No private places.",
+  "cellHalfSizeMeters": 500,
+  "metros": [
+    {
+      "id": "chicagoland",
+      "name": "Chicago and the North Shore",
+      "anchorSearch": {
+        "bbox": [
+          41.75,
+          -87.85,
+          42.15,
+          -87.55
+        ]
+      },
+      "cells": [
+        {
+          "id": "evanston-lovelace-park",
+          "region": "North Shore",
+          "place": "Evanston",
+          "tier": "north-shore",
+          "anchor": {
+            "names": [
+              "Lovelace Park",
+              "Walter S. Lovelace Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              42.064,
+              -87.712
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            42.068,
+            -87.726
+          ],
+          "osm": "way/23609354",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 1.236,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Walter S. Lovelace Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "wilmette-vattmann-park",
+          "region": "North Shore",
+          "place": "Wilmette",
+          "tier": "north-shore",
+          "anchor": {
+            "names": [
+              "Vattmann Park",
+              "Vattman Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              42.073,
+              -87.72
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            42.0779,
+            -87.7137
+          ],
+          "osm": "way/23609352",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.756,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Vattman Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "winnetka-village-green",
+          "region": "North Shore",
+          "place": "Winnetka",
+          "tier": "north-shore",
+          "anchor": {
+            "names": [
+              "Village Green",
+              "Village Green Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              42.107,
+              -87.735
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            42.1052,
+            -87.7289
+          ],
+          "osm": "way/184364632",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.542,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Village Green Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "kenilworth-station",
+          "region": "North Shore",
+          "place": "Kenilworth",
+          "tier": "north-shore",
+          "anchor": {
+            "name": "Kenilworth",
+            "matchAny": [
+              {
+                "railway": [
+                  "station",
+                  "halt"
+                ]
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [
+              42.0856,
+              -87.7166
+            ]
+          },
+          "why": "Owner-specified (Metra station).",
+          "center": [
+            42.0871,
+            -87.7176
+          ],
+          "osm": "node/7134004731",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.185,
+            "matchedTags": {
+              "name": "Kenilworth",
+              "public_transport": "station",
+              "railway": "station"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "loop-daley-plaza",
+          "region": "Chicago",
+          "place": "Loop",
+          "tier": "chicago-downtown",
+          "anchor": {
+            "names": [
+              "Daley Plaza",
+              "Richard J. Daley Plaza",
+              "Richard J. Daley Center"
+            ],
+            "near": [
+              41.884,
+              -87.6303
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.8839,
+            -87.6302
+          ],
+          "osm": "relation/1969327",
+          "resolved": {
+            "found": true,
+            "candidates": 2,
+            "distanceFromHintKm": 0.018,
+            "matchedTags": {
+              "highway": "pedestrian",
+              "name": "Daley Plaza"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "river-north-montgomery-ward-park",
+          "region": "Chicago",
+          "place": "River North",
+          "tier": "chicago-downtown",
+          "anchor": {
+            "name": "Montgomery Ward Park",
+            "near": [
+              41.8945,
+              -87.64
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.8938,
+            -87.6425
+          ],
+          "osm": "way/153561199",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.224,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Montgomery Ward Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "lincoln-park-oz-park",
+          "region": "Chicago",
+          "place": "Lincoln Park",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "name": "Oz Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              41.9205,
+              -87.646
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.9206,
+            -87.6457
+          ],
+          "osm": "way/28292473",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.03,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Oz Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "lakeview-gill-park",
+          "region": "Chicago",
+          "place": "Lakeview",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "names": [
+              "Gill Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              41.952,
+              -87.651
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.9522,
+            -87.6504
+          ],
+          "osm": "way/1103063291",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.053,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Gill Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "edgewater-broadway-armory-park",
+          "region": "Chicago",
+          "place": "Rogers Park / Edgewater",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "name": "Broadway Armory Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              41.9906,
+              -87.6603
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.9893,
+            -87.6596
+          ],
+          "osm": "way/1509645561",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.151,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Broadway Armory Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "logan-square-centennial-monument",
+          "region": "Chicago",
+          "place": "Logan Square",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "names": [
+              "Illinois Centennial Monument",
+              "Logan Square"
+            ],
+            "matchAny": [
+              {
+                "historic": "*"
+              },
+              {
+                "tourism": "*"
+              },
+              {
+                "man_made": "*"
+              },
+              {
+                "memorial": "*"
+              },
+              {
+                "leisure": "park"
+              },
+              {
+                "place": "square"
+              },
+              {
+                "highway": "*"
+              }
+            ],
+            "near": [
+              41.9295,
+              -87.7073
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.9284,
+            -87.7073
+          ],
+          "osm": "way/163901343",
+          "resolved": {
+            "found": true,
+            "candidates": 3,
+            "distanceFromHintKm": 0.123,
+            "matchedTags": {
+              "historic": "monument",
+              "name": "Illinois Centennial Monument",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "lincoln-square-giddings-plaza",
+          "region": "Chicago",
+          "place": "Lincoln Square",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "name": "Giddings Plaza",
+            "near": [
+              41.9686,
+              -87.6893
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.9676,
+            -87.6876
+          ],
+          "osm": "way/112536216",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.179,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Giddings Plaza"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "portage-park-park",
+          "region": "Chicago",
+          "place": "Portage Park",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "name": "Portage Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              41.957,
+              -87.765
+            ]
+          },
+          "why": "Owner-specified (the park).",
+          "center": [
+            41.9551,
+            -87.7646
+          ],
+          "osm": "way/208236541",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.218,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Portage Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "hyde-park-nichols-park",
+          "region": "Chicago",
+          "place": "Hyde Park",
+          "tier": "chicago-neighbourhood",
+          "anchor": {
+            "name": "Nichols Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              41.799,
+              -87.5935
+            ]
+          },
+          "why": "Owner-specified.",
+          "center": [
+            41.7973,
+            -87.5938
+          ],
+          "osm": "way/217621413",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.188,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Nichols Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "denver",
+      "name": "Denver",
+      "anchorSearch": {
+        "bbox": [
+          39.5,
+          -105.1,
+          39.8,
+          -104.85
+        ]
+      },
+      "cells": [
+        {
+          "id": "denver-union-station",
+          "region": "Denver",
+          "place": "LoDo, Denver",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Denver Union Station",
+              "Union Station"
+            ],
+            "matchAny": [
+              {
+                "building": "*"
+              },
+              {
+                "railway": "station"
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [
+              39.7527,
+              -105.0001
+            ]
+          },
+          "why": "Main station; dense downtown/LoDo mixed use.",
+          "center": [
+            39.7532,
+            -105.0003
+          ],
+          "osm": "way/25650822",
+          "resolved": {
+            "found": true,
+            "candidates": 2,
+            "distanceFromHintKm": 0.061,
+            "matchedTags": {
+              "building": "train_station",
+              "name": "Union Station",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "englewood-station",
+          "region": "Denver",
+          "place": "Englewood",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Englewood",
+              "Englewood Station"
+            ],
+            "matchAny": [
+              {
+                "railway": "station"
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [
+              39.6556,
+              -104.9999
+            ]
+          },
+          "why": "Light-rail station in a first-ring suburb: retail centre plus small post-war houses.",
+          "center": [
+            39.6556,
+            -104.9999
+          ],
+          "osm": "node/1362259732",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.002,
+            "matchedTags": {
+              "name": "Englewood",
+              "public_transport": "station",
+              "railway": "station"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "highlands-ranch-civic-green",
+          "region": "Denver",
+          "place": "Highlands Ranch",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Civic Green Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              39.553,
+              -104.97
+            ]
+          },
+          "why": "Small civic park at the planned town centre; subdivisions all round.",
+          "center": [
+            39.5457,
+            -104.9959
+          ],
+          "osm": "way/164523989",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 2.364,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Civic Green Park"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dfw",
+      "name": "Dallas-Fort Worth",
+      "anchorSearch": {
+        "bbox": [
+          32.7,
+          -96.9,
+          33.2,
+          -96.65
+        ]
+      },
+      "cells": [
+        {
+          "id": "dallas-main-street-garden",
+          "region": "Dallas-Fort Worth",
+          "place": "Downtown Dallas",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Main Street Garden",
+              "Main Street Garden Park"
+            ],
+            "near": [
+              32.7816,
+              -96.7975
+            ]
+          },
+          "why": "Small downtown park among towers.",
+          "center": [
+            32.7812,
+            -96.7948
+          ],
+          "osm": "way/168713822",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.254,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Main Street Garden"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "richardson-city-hall",
+          "region": "Dallas-Fort Worth",
+          "place": "Richardson",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Richardson City Hall / Civic Center",
+              "Richardson City Hall"
+            ],
+            "near": [
+              32.9596,
+              -96.7315
+            ]
+          },
+          "why": "Civic centre of a post-war inner-ring suburb (ranch houses, strip retail). OSM names it 'Richardson City Hall / Civic Center'.",
+          "center": [
+            32.9596,
+            -96.7315
+          ],
+          "osm": "way/379973180",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.005,
+            "matchedTags": {
+              "name": "Richardson City Hall / Civic Center"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        },
+        {
+          "id": "frisco-city-hall",
+          "region": "Dallas-Fort Worth",
+          "place": "Frisco",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Frisco City Hall",
+              "George A. Purefoy Municipal Center"
+            ],
+            "near": [
+              33.154,
+              -96.8215
+            ]
+          },
+          "why": "Civic centre (Frisco Square) of a fast-growing outer suburb.",
+          "center": [
+            33.15,
+            -96.8346
+          ],
+          "osm": "way/98252231",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 1.296,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "public",
+              "name": "Frisco City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:49:52Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "houston",
+      "name": "Houston",
+      "anchorSearch": {
+        "bbox": [
+          29.55,
+          -95.7,
+          29.8,
+          -95.3
+        ]
+      },
+      "cells": [
+        {
+          "id": "houston-market-square-park",
+          "region": "Houston",
+          "place": "Downtown Houston",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Market Square Park"
+            ],
+            "near": [
+              29.7625,
+              -95.362
+            ]
+          },
+          "why": "Small historic-district park downtown.",
+          "center": [
+            29.7627,
+            -95.3623
+          ],
+          "osm": "way/44631709",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.038,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Market Square Park"
+            },
+            "osmTimestamp": "2026-10-06T05:50:55Z"
+          }
+        },
+        {
+          "id": "bellaire-city-hall",
+          "region": "Houston",
+          "place": "Bellaire",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Bellaire City Hall"
+            ],
+            "near": [
+              29.7058,
+              -95.4628
+            ]
+          },
+          "why": "Civic centre of an inner-ring residential suburb.",
+          "center": [
+            29.7034,
+            -95.4684
+          ],
+          "osm": "way/378479711",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.603,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Bellaire City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:50:55Z"
+          }
+        },
+        {
+          "id": "sugar-land-city-hall",
+          "region": "Houston",
+          "place": "Sugar Land",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Sugar Land City Hall",
+              "Sugar Land Town Hall"
+            ],
+            "near": [
+              29.5953,
+              -95.6217
+            ]
+          },
+          "why": "Civic centre (Town Square) of an outer suburb. OSM names it 'Sugar Land Town Hall'.",
+          "center": [
+            29.5953,
+            -95.6217
+          ],
+          "osm": "way/212722661",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.004,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Sugar Land Town Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:50:55Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "anchorSearch": {
+        "bbox": [
+          33.3,
+          -112.25,
+          33.6,
+          -111.7
+        ]
+      },
+      "cells": [
+        {
+          "id": "phoenix-civic-space-park",
+          "region": "Phoenix",
+          "place": "Downtown Phoenix",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Civic Space Park"
+            ],
+            "near": [
+              33.4528,
+              -112.0736
+            ]
+          },
+          "why": "Small downtown park.",
+          "center": [
+            33.4532,
+            -112.0745
+          ],
+          "osm": "way/115012139",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.093,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Civic Space Park"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "glendale-murphy-park",
+          "region": "Phoenix",
+          "place": "Glendale",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Murphy Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              33.5386,
+              -112.1857
+            ]
+          },
+          "why": "Historic downtown square of an inner-ring suburb.",
+          "center": [
+            33.5392,
+            -112.1844
+          ],
+          "osm": "relation/5944602",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.141,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Murphy Park"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "gilbert-civic-center",
+          "region": "Phoenix",
+          "place": "Gilbert",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Gilbert Municipal Center",
+              "Gilbert Civic Center"
+            ],
+            "near": [
+              33.3307,
+              -111.7882
+            ]
+          },
+          "why": "Civic centre of an outer suburb. OSM names it 'Gilbert Civic Center'.",
+          "center": [
+            33.3307,
+            -111.7882
+          ],
+          "osm": "way/1123025421",
+          "resolved": {
+            "found": true,
+            "candidates": 3,
+            "distanceFromHintKm": 0.001,
+            "matchedTags": {
+              "amenity": "townhall",
+              "name": "Gilbert Civic Center"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "losangeles",
+      "name": "Los Angeles",
+      "anchorSearch": {
+        "bbox": [
+          33.95,
+          -118.65,
+          34.45,
+          -118.2
+        ]
+      },
+      "cells": [
+        {
+          "id": "la-pershing-square",
+          "region": "Los Angeles",
+          "place": "Downtown Los Angeles",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Pershing Square"
+            ],
+            "near": [
+              34.0485,
+              -118.2526
+            ]
+          },
+          "why": "Downtown public square.",
+          "center": [
+            34.0484,
+            -118.253
+          ],
+          "osm": "way/80579943",
+          "resolved": {
+            "found": true,
+            "candidates": 11,
+            "distanceFromHintKm": 0.04,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Pershing Square"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "culver-city-city-hall",
+          "region": "Los Angeles",
+          "place": "Culver City",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Culver City City Hall",
+              "Culver City Hall"
+            ],
+            "near": [
+              34.0219,
+              -118.3965
+            ]
+          },
+          "why": "Civic centre of an inner-ring city: main street plus bungalow blocks.",
+          "center": [
+            34.0214,
+            -118.3957
+          ],
+          "osm": "way/26664166",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.098,
+            "matchedTags": {
+              "amenity": "townhall",
+              "name": "Culver City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "santa-clarita-city-hall",
+          "region": "Los Angeles",
+          "place": "Santa Clarita (Valencia)",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Santa Clarita City Hall"
+            ],
+            "near": [
+              34.4172,
+              -118.56
+            ]
+          },
+          "why": "Civic centre of an outer suburb.",
+          "center": [
+            34.4127,
+            -118.5538
+          ],
+          "osm": "way/472600569",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.76,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Santa Clarita City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "seattle",
+      "name": "Seattle",
+      "anchorSearch": {
+        "bbox": [
+          47.55,
+          -122.4,
+          47.8,
+          -121.95
+        ]
+      },
+      "cells": [
+        {
+          "id": "seattle-westlake-park",
+          "region": "Seattle",
+          "place": "Downtown Seattle",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Westlake Park"
+            ],
+            "near": [
+              47.6113,
+              -122.3374
+            ]
+          },
+          "why": "Downtown plaza.",
+          "center": [
+            47.6109,
+            -122.3371
+          ],
+          "osm": "way/8097291",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.05,
+            "matchedTags": {
+              "highway": "pedestrian",
+              "leisure": "park",
+              "name": "Westlake Park"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "shoreline-city-hall",
+          "region": "Seattle",
+          "place": "Shoreline",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Shoreline City Hall"
+            ],
+            "near": [
+              47.7566,
+              -122.342
+            ]
+          },
+          "why": "Civic centre of a post-war inner-ring suburb.",
+          "center": [
+            47.7563,
+            -122.3435
+          ],
+          "osm": "way/309273896",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.113,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Shoreline City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "sammamish-city-hall",
+          "region": "Seattle",
+          "place": "Sammamish",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Sammamish City Hall",
+              "Sammamish Commons"
+            ],
+            "near": [
+              47.6014,
+              -122.0367
+            ]
+          },
+          "why": "Civic centre of a wooded outer suburb. OSM names the city hall 'Sammamish Commons'.",
+          "center": [
+            47.6014,
+            -122.0367
+          ],
+          "osm": "way/237989542",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.002,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Sammamish Commons"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "minneapolis",
+      "name": "Minneapolis-St Paul",
+      "anchorSearch": {
+        "bbox": [
+          44.85,
+          -93.35,
+          45.0,
+          -92.88
+        ]
+      },
+      "cells": [
+        {
+          "id": "minneapolis-peavey-plaza",
+          "region": "Minneapolis",
+          "place": "Downtown Minneapolis",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Peavey Plaza"
+            ],
+            "near": [
+              44.9725,
+              -93.2753
+            ]
+          },
+          "why": "Downtown plaza.",
+          "center": [
+            44.9723,
+            -93.2756
+          ],
+          "osm": "way/133660900",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.031,
+            "matchedTags": {
+              "historic": "heritage",
+              "leisure": "park",
+              "name": "Peavey Plaza"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "richfield-city-hall",
+          "region": "Minneapolis",
+          "place": "Richfield",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Richfield City Hall",
+              "Richfield Municipal Center"
+            ],
+            "near": [
+              44.8807,
+              -93.2681
+            ]
+          },
+          "why": "Civic centre of a post-war inner-ring suburb.",
+          "center": [
+            44.8807,
+            -93.2689
+          ],
+          "osm": "way/699013981",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.061,
+            "matchedTags": {
+              "building": "yes",
+              "name": "Richfield Municipal Center"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        },
+        {
+          "id": "woodbury-city-hall",
+          "region": "Minneapolis",
+          "place": "Woodbury",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Woodbury City Hall"
+            ],
+            "near": [
+              44.937,
+              -92.934
+            ]
+          },
+          "why": "Civic centre of an outer suburb.",
+          "center": [
+            44.9189,
+            -92.9367
+          ],
+          "osm": "way/159445274",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 2.022,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Woodbury City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:52:59Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "atlanta",
+      "name": "Atlanta",
+      "anchorSearch": {
+        "bbox": [
+          33.7,
+          -84.42,
+          34.1,
+          -84.25
+        ]
+      },
+      "cells": [
+        {
+          "id": "atlanta-woodruff-park",
+          "region": "Atlanta",
+          "place": "Downtown Atlanta",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Woodruff Park",
+              "Robert W. Woodruff Park"
+            ],
+            "near": [
+              33.755,
+              -84.3887
+            ]
+          },
+          "why": "Downtown park.",
+          "center": [
+            33.7556,
+            -84.3886
+          ],
+          "osm": "way/34775457",
+          "resolved": {
+            "found": true,
+            "candidates": 4,
+            "distanceFromHintKm": 0.066,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Woodruff Park"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        },
+        {
+          "id": "decatur-square",
+          "region": "Atlanta",
+          "place": "Decatur",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Decatur Square",
+              "Decatur History Center"
+            ],
+            "near": [
+              33.7751,
+              -84.2965
+            ]
+          },
+          "why": "Town square of an inner-ring suburb with older houses. No feature is named 'Decatur Square'; the anchor is the old DeKalb County courthouse on the square, now the Decatur History Center.",
+          "center": [
+            33.7751,
+            -84.2965
+          ],
+          "osm": "way/25559294",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.003,
+            "matchedTags": {
+              "building": "yes",
+              "name": "Decatur History Center",
+              "tourism": "museum"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        },
+        {
+          "id": "alpharetta-city-hall",
+          "region": "Atlanta",
+          "place": "Alpharetta",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Alpharetta City Hall"
+            ],
+            "near": [
+              34.0752,
+              -84.2941
+            ]
+          },
+          "why": "Civic centre (City Center) of an outer suburb.",
+          "center": [
+            34.0746,
+            -84.2923
+          ],
+          "osm": "way/537030894",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.18,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "public",
+              "name": "Alpharetta City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "anchorSearch": {
+        "bbox": [
+          25.7,
+          -80.35,
+          26.05,
+          -80.15
+        ]
+      },
+      "cells": [
+        {
+          "id": "miami-brickell-station",
+          "region": "Miami",
+          "place": "Brickell, Miami",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Brickell"
+            ],
+            "matchAny": [
+              {
+                "railway": "station"
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [
+              25.7579,
+              -80.1953
+            ]
+          },
+          "why": "Metrorail station in the dense high-rise core.",
+          "center": [
+            25.7627,
+            -80.1953
+          ],
+          "osm": "node/462742178",
+          "resolved": {
+            "found": true,
+            "candidates": 2,
+            "distanceFromHintKm": 0.537,
+            "matchedTags": {
+              "name": "Brickell",
+              "public_transport": "station",
+              "railway": "station"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        },
+        {
+          "id": "coral-gables-venetian-pool",
+          "region": "Miami",
+          "place": "Coral Gables",
+          "tier": "inner-suburb",
+          "anchor": {
+            "name": "Venetian Pool",
+            "near": [
+              25.7462,
+              -80.2737
+            ]
+          },
+          "why": "Public pool in a residential inner-ring suburb; same cell as Tools/regionkit/regions/miami.json.",
+          "center": [
+            25.7458,
+            -80.2732
+          ],
+          "osm": "way/297000205",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.071,
+            "matchedTags": {
+              "historic": "heritage",
+              "leisure": "swimming_pool",
+              "name": "Venetian Pool",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        },
+        {
+          "id": "pembroke-pines-city-hall",
+          "region": "Miami",
+          "place": "Pembroke Pines",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Pembroke Pines City Hall",
+              "City of Pembroke Pines City Hall"
+            ],
+            "near": [
+              26.0085,
+              -80.295
+            ]
+          },
+          "why": "Civic centre of an outer suburb.",
+          "center": [
+            26.0033,
+            -80.2866
+          ],
+          "osm": "node/7295782017",
+          "resolved": {
+            "found": true,
+            "candidates": 2,
+            "distanceFromHintKm": 1.024,
+            "matchedTags": {
+              "amenity": "townhall",
+              "name": "Pembroke Pines City Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:54:01Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "boston",
+      "name": "Boston",
+      "anchorSearch": {
+        "bbox": [
+          42.25,
+          -71.4,
+          42.45,
+          -71.03
+        ]
+      },
+      "cells": [
+        {
+          "id": "boston-post-office-square",
+          "region": "Boston",
+          "place": "Financial District, Boston",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Norman B. Leventhal Park",
+              "Post Office Square"
+            ],
+            "near": [
+              42.3561,
+              -71.0555
+            ]
+          },
+          "why": "Small park in the financial district.",
+          "center": [
+            42.3563,
+            -71.0556
+          ],
+          "osm": "way/29835286",
+          "resolved": {
+            "found": true,
+            "candidates": 3,
+            "distanceFromHintKm": 0.022,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Norman B. Leventhal Park"
+            },
+            "osmTimestamp": "2026-10-06T05:56:06Z"
+          }
+        },
+        {
+          "id": "arlington-town-hall",
+          "region": "Boston",
+          "place": "Arlington, MA",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Robbins Memorial Town Hall",
+              "Arlington Town Hall"
+            ],
+            "near": [
+              42.4155,
+              -71.1565
+            ]
+          },
+          "why": "Town hall of an inner suburb of small-lot houses.",
+          "center": [
+            42.4157,
+            -71.1564
+          ],
+          "osm": "way/36894756",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.028,
+            "matchedTags": {
+              "amenity": "townhall",
+              "building": "yes",
+              "name": "Arlington Town Hall"
+            },
+            "osmTimestamp": "2026-10-06T05:56:06Z"
+          }
+        },
+        {
+          "id": "natick-common",
+          "region": "Boston",
+          "place": "Natick",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Natick Common",
+              "Natick Town Common"
+            ],
+            "near": [
+              42.2836,
+              -71.3486
+            ]
+          },
+          "why": "Town common of an outer suburb.",
+          "center": [
+            42.2837,
+            -71.3471
+          ],
+          "osm": "node/1408379945",
+          "resolved": {
+            "found": true,
+            "candidates": 2,
+            "distanceFromHintKm": 0.12,
+            "matchedTags": {
+              "highway": "bus_stop",
+              "name": "Natick Common",
+              "public_transport": "platform"
+            },
+            "osmTimestamp": "2026-10-06T05:56:06Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "newyork",
+      "name": "New York",
+      "anchorSearch": {
+        "bbox": [
+          40.7,
+          -74.25,
+          40.85,
+          -73.45
+        ]
+      },
+      "cells": [
+        {
+          "id": "manhattan-bryant-park",
+          "region": "New York",
+          "place": "Midtown Manhattan",
+          "tier": "urban-core",
+          "anchor": {
+            "names": [
+              "Bryant Park"
+            ],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [
+              40.7536,
+              -73.9832
+            ]
+          },
+          "why": "Dense inner core (Midtown) for the tall-building and building:part extreme.",
+          "center": [
+            40.7538,
+            -73.9835
+          ],
+          "osm": "way/22727025",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.033,
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Bryant Park",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T05:57:06Z"
+          }
+        },
+        {
+          "id": "montclair-bay-street-station",
+          "region": "New York",
+          "place": "Montclair, NJ",
+          "tier": "inner-suburb",
+          "anchor": {
+            "names": [
+              "Bay Street"
+            ],
+            "matchAny": [
+              {
+                "railway": "station"
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [
+              40.8083,
+              -74.2086
+            ]
+          },
+          "why": "Rail station in an inner New Jersey suburb with older houses and a main street.",
+          "center": [
+            40.8082,
+            -74.2087
+          ],
+          "osm": "node/7009814499",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 0.017,
+            "matchedTags": {
+              "name": "Bay Street",
+              "public_transport": "station",
+              "railway": "station"
+            },
+            "osmTimestamp": "2026-10-06T05:57:06Z"
+          }
+        },
+        {
+          "id": "levittown-public-library",
+          "region": "New York",
+          "place": "Levittown, NY (Long Island)",
+          "tier": "outer-suburb",
+          "anchor": {
+            "names": [
+              "Levittown Public Library"
+            ],
+            "near": [
+              40.7263,
+              -73.5155
+            ]
+          },
+          "why": "Public library among post-war Long Island subdivision houses.",
+          "center": [
+            40.7233,
+            -73.5297
+          ],
+          "osm": "node/368050040",
+          "resolved": {
+            "found": true,
+            "candidates": 1,
+            "distanceFromHintKm": 1.243,
+            "matchedTags": {
+              "amenity": "library",
+              "name": "Levittown Public Library"
+            },
+            "osmTimestamp": "2026-10-06T05:57:06Z"
+          }
+        }
+      ]
+    }
+  ]
+}

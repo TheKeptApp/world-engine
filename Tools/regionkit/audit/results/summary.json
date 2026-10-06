@@ -1,0 +1,358 @@
+{
+ "_all": {
+  "buildingParts": 4916,
+  "buildingsFromRelations": 155,
+  "cells": 46,
+  "cellsWhereStrictDiffers": [
+   "shoreline-city-hall"
+  ],
+  "cellsWithEsriExtras": 7,
+  "dupWayAlsoRelationOuter": 2,
+  "extrasWithFloors": 0,
+  "houses": 18575,
+  "housesWithHeightOrLevels": 7274,
+  "osmBuildings": 28427,
+  "osmMissingHeightOrLevels": 16287,
+  "overtureBuildings": 33434,
+  "overtureExtra": 5049,
+  "overtureExtraByDataset": {
+   "Esri Community Maps": 533,
+   "Microsoft ML Buildings": 4516
+  },
+  "overtureExtraStrict": 5048,
+  "overtureFillSources": {
+   "Esri Community Maps": 19,
+   "Microsoft ML Buildings": 6398,
+   "USGS Lidar": 7551
+  },
+  "overtureFillsFloors": 0,
+  "overtureFillsHeight": 13972,
+  "overtureFillsPct": 85.8,
+  "overtureHeightSources": {
+   "Esri Community Maps": 156,
+   "Microsoft ML Buildings": 12318,
+   "OpenStreetMap": 4085,
+   "USGS Lidar": 13960
+  },
+  "overtureHeights": 30519,
+  "overtureOsmSourceVersions": {
+   "2026-09-06T00:00:00.000Z": 28384,
+   "2026-09-07T18:15:27.000Z": 1
+  },
+  "overturePctHeight": 91.3,
+  "partsFromRelations": 43,
+  "partsWithHeightOrLevels": 4776,
+  "pctHeight": 14.4,
+  "pctHeightOrLevels": 42.7,
+  "pctLevels": 32.0,
+  "pctMaterialOrColour": 2.3,
+  "pctRoofColourOrMaterial": 1.9,
+  "pctRoofShape": 2.6
+ },
+ "_chicagoOvertureExtraShare": {
+  "edgewater-broadway-armory-park": 0.7,
+  "hyde-park-nichols-park": 0.3,
+  "lakeview-gill-park": 0.6,
+  "lincoln-park-oz-park": 0.6,
+  "lincoln-square-giddings-plaza": 0.9,
+  "logan-square-centennial-monument": 0.9,
+  "loop-daley-plaza": 0.2,
+  "portage-park-park": 0.8,
+  "river-north-montgomery-ward-park": 0.8
+ },
+ "_chicagoSmallYesNoLevels": {
+  "buildings": 12719,
+  "count": 3525,
+  "definition": "building=yes outlines under 60 m2 without building:levels, as a share of all OSM buildings in the cell; no road test",
+  "pct": 27.7,
+  "perCell": {
+   "edgewater-broadway-armory-park": 437,
+   "hyde-park-nichols-park": 128,
+   "lakeview-gill-park": 192,
+   "lincoln-park-oz-park": 673,
+   "lincoln-square-giddings-plaza": 511,
+   "logan-square-centennial-monument": 490,
+   "portage-park-park": 1094
+  }
+ },
+ "_northShoreRoofShapes": {},
+ "_simplePerBuildingDense": {
+  "edgewater-broadway-armory-park": 57.4,
+  "lincoln-park-oz-park": 48.4,
+  "loop-daley-plaza": 51.4,
+  "river-north-montgomery-ward-park": 41.4
+ },
+ "_suburbsWithoutHeightImport": {
+  "cells": 19,
+  "heightImportCells": [
+   "culver-city-city-hall",
+   "santa-clarita-city-hall",
+   "coral-gables-venetian-pool"
+  ],
+  "houses": 6231,
+  "housesWithHeightOrLevels": 197,
+  "largestContributor": "richardson-city-hall",
+  "largestContributorHousesWithHeightOrLevels": 134,
+  "pct": 3.2,
+  "pctWithoutLargest": 1.0,
+  "perCell": {
+   "alpharetta-city-hall": [
+    254,
+    2
+   ],
+   "arlington-town-hall": [
+    647,
+    5
+   ],
+   "bellaire-city-hall": [
+    443,
+    1
+   ],
+   "decatur-square": [
+    183,
+    3
+   ],
+   "englewood-station": [
+    118,
+    0
+   ],
+   "frisco-city-hall": [
+    27,
+    1
+   ],
+   "gilbert-civic-center": [
+    183,
+    0
+   ],
+   "glendale-murphy-park": [
+    451,
+    24
+   ],
+   "highlands-ranch-civic-green": [
+    84,
+    2
+   ],
+   "levittown-public-library": [
+    791,
+    0
+   ],
+   "montclair-bay-street-station": [
+    49,
+    0
+   ],
+   "natick-common": [
+    1000,
+    0
+   ],
+   "pembroke-pines-city-hall": [
+    104,
+    2
+   ],
+   "richardson-city-hall": [
+    222,
+    134
+   ],
+   "richfield-city-hall": [
+    942,
+    4
+   ],
+   "sammamish-city-hall": [
+    192,
+    0
+   ],
+   "shoreline-city-hall": [
+    490,
+    19
+   ],
+   "sugar-land-city-hall": [
+    0,
+    0
+   ],
+   "woodbury-city-hall": [
+    51,
+    0
+   ]
+  }
+ },
+ "_untaggedHousesOneStorey": {
+  "natick": {
+   "floors": 1084,
+   "floorsFromOSM": 0,
+   "n": 1000,
+   "tris": 257294,
+   "untaggedFloors": 1084,
+   "untaggedN": 1000,
+   "untaggedOneFloor": 916,
+   "windowTris": 96480
+  },
+  "oneStorey": 5162,
+  "pct": 85.0,
+  "scope": "houses without building:levels in the suburban cells without a height import, triangle model with the bundled profiles",
+  "untagged": 6071
+ },
+ "chicago-downtown": {
+  "blocksPctHeightOrLevels": 61.2,
+  "buildingParts": 171,
+  "cells": 2,
+  "housesPctHeightOrLevels": 16.2,
+  "osmBuildings": 833,
+  "osmMissingHeightOrLevels": 453,
+  "overtureBuildings": 840,
+  "overtureExtra": 4,
+  "overtureExtraByDataset": {
+   "Microsoft ML Buildings": 4
+  },
+  "overtureExtraShareOfOverture": 0.5,
+  "overtureExtraStrict": 4,
+  "overtureFillsPct": 63.6,
+  "overturePctHeight": 74.5,
+  "overturePctNumFloors": 44.8,
+  "pctHeight": 10.1,
+  "pctHeightOrLevels": 45.6,
+  "pctLevels": 45.0,
+  "pctMaterialOrColour": 5.4,
+  "pctRoofColourOrMaterial": 1.1,
+  "pctRoofShape": 1.0,
+  "smallYesNoLevels": 50,
+  "smallYesNoLevelsPct": 6.0,
+  "treesPerKm2": 240.5
+ },
+ "chicago-neighbourhood": {
+  "blocksPctHeightOrLevels": 68.7,
+  "buildingParts": 75,
+  "cells": 7,
+  "housesPctHeightOrLevels": 52.8,
+  "osmBuildings": 12719,
+  "osmMissingHeightOrLevels": 6171,
+  "overtureBuildings": 12811,
+  "overtureExtra": 94,
+  "overtureExtraByDataset": {
+   "Microsoft ML Buildings": 94
+  },
+  "overtureExtraShareOfOverture": 0.7,
+  "overtureExtraStrict": 94,
+  "overtureFillsPct": 87.9,
+  "overturePctHeight": 93.9,
+  "overturePctNumFloors": 51.1,
+  "pctHeight": 0.0,
+  "pctHeightOrLevels": 51.5,
+  "pctLevels": 51.4,
+  "pctMaterialOrColour": 0.0,
+  "pctRoofColourOrMaterial": 0.0,
+  "pctRoofShape": 1.2,
+  "smallYesNoLevels": 3525,
+  "smallYesNoLevelsPct": 27.7,
+  "treesPerKm2": 78.0
+ },
+ "inner-suburb": {
+  "blocksPctHeightOrLevels": 48.7,
+  "buildingParts": 202,
+  "cells": 11,
+  "housesPctHeightOrLevels": 23.6,
+  "osmBuildings": 6726,
+  "osmMissingHeightOrLevels": 4582,
+  "overtureBuildings": 7836,
+  "overtureExtra": 1113,
+  "overtureExtraByDataset": {
+   "Esri Community Maps": 369,
+   "Microsoft ML Buildings": 744
+  },
+  "overtureExtraShareOfOverture": 14.2,
+  "overtureExtraStrict": 1112,
+  "overtureFillsPct": 91.7,
+  "overturePctHeight": 91.6,
+  "overturePctNumFloors": 7.0,
+  "pctHeight": 27.8,
+  "pctHeightOrLevels": 31.9,
+  "pctLevels": 8.4,
+  "pctMaterialOrColour": 0.0,
+  "pctRoofColourOrMaterial": 0.0,
+  "pctRoofShape": 3.6,
+  "smallYesNoLevels": 591,
+  "smallYesNoLevelsPct": 8.8,
+  "treesPerKm2": 19.1
+ },
+ "north-shore": {
+  "blocksPctHeightOrLevels": 5.6,
+  "buildingParts": 0,
+  "cells": 4,
+  "housesPctHeightOrLevels": 0.0,
+  "osmBuildings": 154,
+  "osmMissingHeightOrLevels": 148,
+  "overtureBuildings": 3601,
+  "overtureExtra": 3448,
+  "overtureExtraByDataset": {
+   "Microsoft ML Buildings": 3448
+  },
+  "overtureExtraShareOfOverture": 95.8,
+  "overtureExtraStrict": 3448,
+  "overtureFillsPct": 89.2,
+  "overturePctHeight": 99.6,
+  "overturePctNumFloors": 0.2,
+  "pctHeight": 0.0,
+  "pctHeightOrLevels": 3.9,
+  "pctLevels": 3.9,
+  "pctMaterialOrColour": 0.0,
+  "pctRoofColourOrMaterial": 0.0,
+  "pctRoofShape": 0.0,
+  "smallYesNoLevels": 5,
+  "smallYesNoLevelsPct": 3.2,
+  "treesPerKm2": 0.5
+ },
+ "outer-suburb": {
+  "blocksPctHeightOrLevels": 15.6,
+  "buildingParts": 10,
+  "cells": 11,
+  "housesPctHeightOrLevels": 13.2,
+  "osmBuildings": 4314,
+  "osmMissingHeightOrLevels": 3732,
+  "overtureBuildings": 4546,
+  "overtureExtra": 262,
+  "overtureExtraByDataset": {
+   "Esri Community Maps": 89,
+   "Microsoft ML Buildings": 173
+  },
+  "overtureExtraShareOfOverture": 5.8,
+  "overtureExtraStrict": 262,
+  "overtureFillsPct": 83.1,
+  "overturePctHeight": 85.9,
+  "overturePctNumFloors": 1.2,
+  "pctHeight": 12.4,
+  "pctHeightOrLevels": 13.5,
+  "pctLevels": 1.3,
+  "pctMaterialOrColour": 0.0,
+  "pctRoofColourOrMaterial": 0.0,
+  "pctRoofShape": 0.1,
+  "smallYesNoLevels": 254,
+  "smallYesNoLevelsPct": 5.9,
+  "treesPerKm2": 21.4
+ },
+ "urban-core": {
+  "blocksPctHeightOrLevels": 70.5,
+  "buildingParts": 4458,
+  "cells": 11,
+  "housesPctHeightOrLevels": 68.0,
+  "osmBuildings": 3681,
+  "osmMissingHeightOrLevels": 1201,
+  "overtureBuildings": 3800,
+  "overtureExtra": 128,
+  "overtureExtraByDataset": {
+   "Esri Community Maps": 75,
+   "Microsoft ML Buildings": 53
+  },
+  "overtureExtraShareOfOverture": 3.4,
+  "overtureExtraStrict": 128,
+  "overtureFillsPct": 68.5,
+  "overturePctHeight": 84.0,
+  "overturePctNumFloors": 40.7,
+  "pctHeight": 43.4,
+  "pctHeightOrLevels": 67.4,
+  "pctLevels": 42.4,
+  "pctMaterialOrColour": 16.2,
+  "pctRoofColourOrMaterial": 14.6,
+  "pctRoofShape": 9.1,
+  "smallYesNoLevels": 100,
+  "smallYesNoLevelsPct": 2.7,
+  "treesPerKm2": 515.5
+ }
+}
