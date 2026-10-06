@@ -325,7 +325,7 @@ Most of the latest step is generated trees. Lakeview's whole cell went from 5 tr
 | Cell | Baseline static | Measured static | Baseline view mean / p90 / max | Measured, grid culling (same method) | Measured, entity culling (engine) |
 |---|---:|---:|---|---|---|
 | Loop | 2,188,944 | 2,240,042 (+2.3 %) | 496,198 / 973,985 / 1,439,850 | 511,923 / 1,020,637 / 1,506,361 | 525,069 / 1,045,584 / 1,832,038 |
-| River North | 667,908 | 690,952 (+3.4 %) | 173,499 / 363,811 / 481,699 | 186,831 / 414,576 / 540,962 | 193,474 / 424,616 / 549,969 |
+| River North | 667,908 | 690,952 (+3.5 %) | 173,499 / 363,811 / 481,699 | 186,831 / 414,576 / 540,962 | 193,474 / 424,616 / 549,969 |
 | Lincoln Park | 932,888 | 1,025,710 (+9.9 %) | 244,803 / 430,282 / 600,282 | 289,149 / 526,034 / 742,690 | 312,121 / 548,867 / 801,408 |
 | Edgewater | 981,255 | 1,013,574 (+3.3 %) | 247,994 / 450,828 / 641,205 | 273,568 / 515,920 / 749,084 | 293,776 / 550,354 / 794,369 |
 
@@ -338,7 +338,7 @@ What changed:
   - Trees: the generator now places parkway and yard trees: 841–1,971 per cell against 5–425 mapped before. They add **23–61 k triangles to the average street view**, against the 100 k the pre-P2 audit estimated for Sloan's Lake density.
   - Yard ground: lawns, walks, driveways and beds add 16–25 k static triangles per residential cell.
   - Bushes: more shrubs and hedges roughly double the bush triangles in view in the residential cells, to 15–21 k with the whole cell at full detail.
-- **Culling the two chunk entities by their mesh bounds** (what the engine does) adds 3–8 % to the means and up to 26 % to the worst views (Loop).
+- **Culling the two chunk entities by their mesh bounds** (what the engine does) adds 3–8 % to the means and up to 26 % to the worst views (Loop). The 3–8 % holds for the whole-cell runs (the WorldLab-sized runs can be much smaller: River North +0.8 % on the mean). The 26.3 % is the WorldLab-sized Loop run (worst view 1,084,666 against 858,572 with grid culling); the whole Loop cell gives 21.6 % (1,832,038 against 1,506,361).
   - Generated curb and sidewalk-edge runs belong to the chunk where they start, so a flat-ground entity's bounds can reach about 70 m into the next chunk (Lakeview).
 - **Tree prototypes are heavier than the pre-P2 audit assumed:**
   - broad and oval 571 / 238 / 81 triangles near / mid / far, spreading 663 / 235 / 84;

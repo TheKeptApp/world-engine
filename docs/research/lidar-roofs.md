@@ -40,9 +40,9 @@ profiles' `trees.heightMeters` and `trees.youngShare`: see [section 13](#13-tree
      gables 26.5° against 20°.
    - Ridge direction is mostly right where both see a gable: within 20° for 79 % (n = 308).
 5. **The 2017 lidar and 2026 OSM mostly agree, but OSM misses structures.** 38 footprints have no lidar roof
-   (22 of them on a non-vegetated surface in NAIP 2023, so probably built after the flight). Lidar sees 420
-   building-class structures of at least 30 m² with no OSM footprint within 1.5 m (median 108 m², 7.8 ha in
-   all); 305 of them are still non-vegetated in 2023. Most look like unmapped garages and houses; this is not
+   (22 of them on a non-vegetated surface in NAIP 2023, so probably built after the flight, or the footprint sits
+   on pavement). Lidar sees 420 building-class structures of at least 30 m² with no OSM footprint within
+   1.5 m (median 108 m², 7.8 ha in all); 305 of them are still non-vegetated in 2023. Most look like unmapped garages and houses; this is not
    checked per building.
 6. **Recommendation.** Feed lidar to the generator **at profile level now**: roof-form mix by role, complex
    share and pitch per zone. Per-building hints would raise per-building correctness from about 48 % to about
@@ -199,7 +199,7 @@ For garages the correction lands at about zero; the hand-checked garages had no 
 | Garage hip | 19.7° (18.1–25.4), n = 46 | 20.6° (n = 10) |
 
 The `evanston` families' pitch ranges are steep for gables: Tudor 40–52°, Queen Anne 38–50°, Colonial
-28–40°. Garages use 15–27° in every profile.
+28–40°. Garages use 15–25° in the `evanston`, `wilmette` and `chicago-dense-north` profiles; only `default` and `front-range` use 15–27°.
 
 ## 6. Agreement with P2's assigned roofs
 
@@ -255,7 +255,7 @@ not checked here. Buildings built after July 2023 are invisible to both checks.
 **Profile level now (aggregates only).**
 - Houses in the `evanston` zone:
   - Raise the hip share: about 32 % of simple forms against P2's 25 %.
-  - Raise the share of complex assemblies (wings, crossing gables) towards 40–45 % of houses. P2 has 17 %.
+  - Raise the share of complex assemblies (wings, crossing gables) towards 40–45 % of houses. P2 has 17 %. *(2026-10-06: P2 commits 8c69ac8 and 56addf9 have since moved evanston-south to 47 % multi-mass roofs.)*
   - Lower the gable pitch: median 35°, IQR 28–42°, against P2's 43°.
   - Flat stays near 10 %.
 - Garages: hip about a third and flat under 10 % (P2: 7 % hip, 22 % flat); gable pitch around 20–33°.

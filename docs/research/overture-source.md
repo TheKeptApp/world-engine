@@ -19,7 +19,7 @@ swift run worldbake fetch Data/areas/<area> --layers overture --release 2026-09-
 - **One command.** `worldbake` runs `uv run --script scripts/data/fetch_overture.py`. The helper
   declares its one dependency (`duckdb==1.5.6`) inline, so uv installs DuckDB into its own cache the
   first time; nothing is installed system-wide. Needs [uv](https://docs.astral.sh/uv/) on the
-  PATH or in `~/.local/bin`. DuckDB's `httpfs` extension goes to `$WORLDBAKE_CACHE/duckdb-extensions`
+  PATH or in one of `~/.local/bin`, `~/.cargo/bin`, `/opt/homebrew/bin` and `/usr/local/bin`. DuckDB's `httpfs` extension goes to `$WORLDBAKE_CACHE/duckdb-extensions`
   when `WORLDBAKE_CACHE` is set, else to DuckDB's default directory.
 - **What is read.** The release is the `latest` entry of the STAC catalog
   (`https://stac.overturemaps.org/catalog.json`) unless `--release` is given. From the release's
@@ -77,7 +77,8 @@ separate decision on Overture heights for OSM buildings (licensing O12).
 
 `AreaLoader.loadDocument` skips `overture-buildings-v1` sources; it still throws for unknown formats.
 After `MapFeatureBuilder.build`, `OvertureBuildings.merge` reads every Overture source of the
-manifest. It processes records in GERS ID order; an ID already seen in an earlier source is skipped.
+manifest. It processes the records of each file in GERS ID order (the order is per file, not global
+across sources); an ID already seen in an earlier source is skipped.
 
 1. A record with any `OpenStreetMap` source is dropped (OSM already has the building).
 2. For each polygon of a remaining record:
@@ -97,8 +98,10 @@ unusable, added, and the buildings appended. `worldbake stats` prints these coun
 Overture source nothing is read and loading is exactly as before (regression tests on the fixture,
 `sloans-lake` and `evanston-south`).
 
-Checked on the demo areas: no added footprint has a vertex inside an OSM footprint, and none contains
-an OSM centroid. So the centroid rule is enough there, as the audit found for 45 of 46 cells.
+Reproduced on the committed Wilmette area (`wilmette-vattmann-park`): 1,279 records − 49 OSM-sourced −
+0 inside OSM − 18 outside the area = 1,212 added. No added footprint has a vertex inside an OSM
+footprint (0 vertex overlaps), and none contains an OSM centroid (0). So the centroid rule is enough
+there, as the audit found for 45 of 46 cells.
 
 ## Tags and heights
 
