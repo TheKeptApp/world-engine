@@ -1,4 +1,5 @@
 import Foundation
+import WorldGen
 
 /// Per-label atmosphere at full intensity (weather spec §5): tint and weight in linear light,
 /// direct-light multiplier and fog distance policy. Interpolated once from clear by intensity.
@@ -16,20 +17,20 @@ public struct AtmospherePreset: Codable, Sendable, Equatable {
         public var streetStart: Double, streetEnd: Double, aerialStart: Double, aerialEnd: Double
     }
 
+    /// The preset for a label, from WorldGen's weather.json (data, not code).
     public static func of(_ s: DominantState) -> AtmospherePreset {
-        switch s {
-        case .clear: .init(tint: nil, tintWeight: 0, directMultiplier: 1, fogStartFactor: 1, fogEndFactor: 1, absoluteFog: nil)
-        case .cloudy: .init(tint: "#BEC8D0", tintWeight: 0.15, directMultiplier: 0.40, fogStartFactor: 0.85, fogEndFactor: 0.85, absoluteFog: nil)
-        case .rain: .init(tint: "#8F9FAA", tintWeight: 0.22, directMultiplier: 0.18, fogStartFactor: 0.40, fogEndFactor: 0.50, absoluteFog: nil)
-        case .snow: .init(tint: "#CDD6DF", tintWeight: 0.20, directMultiplier: 0.30, fogStartFactor: 0.35, fogEndFactor: 0.45, absoluteFog: nil)
-        case .fog: .init(tint: "#C1CACD", tintWeight: 0.30, directMultiplier: 0.12, fogStartFactor: 1, fogEndFactor: 1,
-                         absoluteFog: .init(streetStart: 25, streetEnd: 220, aerialStart: 100, aerialEnd: 600))
-        case .haze: .init(tint: "#C8BCA8", tintWeight: 0.12, directMultiplier: 0.65, fogStartFactor: 0.65, fogEndFactor: 0.70, absoluteFog: nil)
-        case .smoke: .init(tint: "#AAA59C", tintWeight: 0.18, directMultiplier: 0.40, fogStartFactor: 0.45, fogEndFactor: 0.55, absoluteFog: nil)
-        case .dust: .init(tint: "#C2AF91", tintWeight: 0.20, directMultiplier: 0.50, fogStartFactor: 0.40, fogEndFactor: 0.50, absoluteFog: nil)
-        case .thunderstorm: .init(tint: "#8F9FAA", tintWeight: 0.22, directMultiplier: 0.12, fogStartFactor: 0.35, fogEndFactor: 0.45, absoluteFog: nil)
+        guard let st = table?.states[s.rawValue] else {
+            return .init(tint: nil, tintWeight: 0, directMultiplier: 1, fogStartFactor: 1, fogEndFactor: 1, absoluteFog: nil)
         }
+        var absolute: AbsoluteFog?
+        if let f = st.fog, f.count == 2, let a = st.aerialFog, a.count == 2 {
+            absolute = AbsoluteFog(streetStart: f[0], streetEnd: f[1], aerialStart: a[0], aerialEnd: a[1])
+        }
+        return .init(tint: st.tint, tintWeight: st.tintWeight, directMultiplier: st.sunMultiplier, fogStartFactor: st.fogStartScale,
+                     fogEndFactor: st.fogEndScale, absoluteFog: absolute)
     }
+
+    static let table: WeatherTable? = try? StyleLibrary.weather()
 }
 
 /// Weather's effect on the time-of-day light, as scalar endpoints (blendable).

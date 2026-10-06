@@ -1,12 +1,23 @@
 {
-  "comment": "v2 spec §3.4. Tint = linear-light blend on illumination/fog at the given weight. One dominant state at a time; transitions 8–20 s.",
+  "comment": "Weather atmosphere presets at full intensity: weather v1 §5 (supersedes and extends v2 §3.4 with haze, smoke, dust, thunderstorm and aerial fog). Tint is a linear-light blend at the given weight; sunMultiplier scales the time key's direct sun (combined as min(1 − 0.6C, mix(1, sunMultiplier, intensity))); fog scales multiply the time key's distances, or fog/aerialFog give absolute distances. Surface wetness and snow are NOT per-label constants: they come from the accumulation model (weather v1 §4). Transitions: weather v1 §5.",
+  "version": 2,
   "states": {
-    "clear":    { "tint": "#FFFFFF", "tintWeight": 0.0,  "sunMultiplier": 1.0,  "fogStartScale": 1.0,  "fogEndScale": 1.0,  "wetness": 0.0,  "snow": null },
-    "cloudy":   { "tint": "#BEC8D0", "tintWeight": 0.15, "sunMultiplier": 0.40, "fogStartScale": 0.85, "fogEndScale": 0.85, "wetness": 0.0,  "snow": null },
-    "rain":     { "tint": "#8F9FAA", "tintWeight": 0.22, "sunMultiplier": 0.18, "fogStartScale": 0.40, "fogEndScale": 0.50, "wetness": 0.70, "snow": null },
-    "snowfall": { "tint": "#CDD6DF", "tintWeight": 0.20, "sunMultiplier": 0.30, "fogStartScale": 0.35, "fogEndScale": 0.45, "wetness": 0.15, "snow": 0.65 },
-    "fog":      { "tint": "#C1CACD", "tintWeight": 0.30, "sunMultiplier": 0.12, "fogStart": 25,     "fogEnd": 220,      "wetness": 0.10, "snow": null }
+    "clear":        { "tint": null,      "tintWeight": 0.0,  "sunMultiplier": 1.0,  "fogStartScale": 1.0,  "fogEndScale": 1.0 },
+    "cloudy":       { "tint": "#BEC8D0", "tintWeight": 0.15, "sunMultiplier": 0.40, "fogStartScale": 0.85, "fogEndScale": 0.85 },
+    "rain":         { "tint": "#8F9FAA", "tintWeight": 0.22, "sunMultiplier": 0.18, "fogStartScale": 0.40, "fogEndScale": 0.50 },
+    "snow":         { "tint": "#CDD6DF", "tintWeight": 0.20, "sunMultiplier": 0.30, "fogStartScale": 0.35, "fogEndScale": 0.45 },
+    "fog":          { "tint": "#C1CACD", "tintWeight": 0.30, "sunMultiplier": 0.12, "fogStartScale": 1.0,  "fogEndScale": 1.0,
+                      "fog": [25, 220], "aerialFog": [100, 600] },
+    "haze":         { "tint": "#C8BCA8", "tintWeight": 0.12, "sunMultiplier": 0.65, "fogStartScale": 0.65, "fogEndScale": 0.70 },
+    "smoke":        { "tint": "#AAA59C", "tintWeight": 0.18, "sunMultiplier": 0.40, "fogStartScale": 0.45, "fogEndScale": 0.55 },
+    "dust":         { "tint": "#C2AF91", "tintWeight": 0.20, "sunMultiplier": 0.50, "fogStartScale": 0.40, "fogEndScale": 0.50 },
+    "thunderstorm": { "tint": "#8F9FAA", "tintWeight": 0.22, "sunMultiplier": 0.12, "fogStartScale": 0.35, "fogEndScale": 0.45 }
   },
-  "transitionSeconds": [8, 20],
-  "wetResponse": { "albedoDarkening": 0.12, "roughnessDry": 0.85, "roughnessWet": 0.50, "roadRoughnessWet": 0.45, "sidewalkRoughnessWet": 0.52 }
+  "wetResponse": {
+    "albedoDarkening": 0.12,
+    "roughnessDry": 0.85,
+    "roughnessWet": 0.5,
+    "roadRoughnessWet": 0.45,
+    "sidewalkRoughnessWet": 0.52
+  }
 }

@@ -176,6 +176,26 @@ public struct SeasonalPalette: Codable, Sendable {
     ]
 }
 
+/// Weather atmosphere presets (weather.json, weather v1 §5 / v2 §3.4).
+public struct WeatherTable: Codable, Sendable {
+    public struct State: Codable, Sendable, Equatable {
+        public var tint: String?
+        public var tintWeight: Double
+        public var sunMultiplier: Double
+        public var fogStartScale: Double
+        public var fogEndScale: Double
+        /// Absolute street / aerial fog distances (fog label), metres.
+        public var fog: [Double]?
+        public var aerialFog: [Double]?
+    }
+    public struct WetResponse: Codable, Sendable, Equatable {
+        public var albedoDarkening: Double, roughnessDry: Double, roughnessWet: Double, roadRoughnessWet: Double, sidewalkRoughnessWet: Double
+    }
+    public var version: Int
+    public var states: [String: State]
+    public var wetResponse: WetResponse
+}
+
 /// v2 §3.3 time-of-day keys and §3.4 weather states.
 public struct LightingTables: Codable, Sendable {
     public struct Key: Codable, Sendable, Equatable {
@@ -237,6 +257,11 @@ public enum StyleLibrary {
 
     public static func seasonalPalette() throws -> SeasonalPalette {
         try JSONDecoder().decode(SeasonalPalette.self, from: data("seasonal-palette"))
+    }
+
+    /// Weather atmosphere presets.
+    public static func weather() throws -> WeatherTable {
+        try JSONDecoder().decode(WeatherTable.self, from: data("weather"))
     }
 
     public static func lighting() throws -> LightingTables {

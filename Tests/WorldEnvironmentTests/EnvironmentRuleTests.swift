@@ -370,3 +370,22 @@ struct EnvironmentDocumentTests {
         #expect(late.autumnColorFraction < early.leafDropProgress + 1 && late.drop <= early.drop)
     }
 }
+
+@Suite("Weather data")
+struct WeatherDataTests {
+    @Test func presetsComeFromWeatherJSON() throws {
+        let table = try StyleLibrary.weather()
+        #expect(table.version == 2 && Set(table.states.keys) == Set(DominantState.allCases.map(\.rawValue)))
+        let rain = AtmospherePreset.of(.rain)
+        #expect(rain.tint == "#8F9FAA" && rain.tintWeight == 0.22 && rain.directMultiplier == 0.18)
+        #expect(AtmospherePreset.of(.fog).absoluteFog?.aerialEnd == 600)
+        // Direct light uses the minimum of the cloud factor and the label factor, never their product.
+        let r = Atmosphere.resolve(state: .rain, intensity: 1, cloud: 1, visibilityM: nil, visibilityReportingLimited: false,
+                                   baseFogStart: 350, baseFogEnd: 1100, aerial: false, sunFloor: false)
+        #expect(abs(r.directMultiplier - 0.18) < 1e-12 && abs(r.fogStartM - 140) < 1e-9 && abs(r.fogEndM - 550) < 1e-9)
+        // Visibility caps the fog (end ≤ V, start ≤ 0.1 V) with readability floors.
+        let v = Atmosphere.resolve(state: .haze, intensity: 0.5, cloud: 0.2, visibilityM: 300, visibilityReportingLimited: false,
+                                   baseFogStart: 350, baseFogEnd: 1100, aerial: false, sunFloor: false)
+        #expect(v.fogEndM == 300 && v.fogStartM == 30)
+    }
+}
