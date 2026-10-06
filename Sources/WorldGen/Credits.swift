@@ -20,6 +20,9 @@ public struct Credit: Codable, Sendable, Equatable, Identifiable {
         /// Live vehicle positions from a transit or aircraft feed, supplied by the host from the
         /// relay response's `attribution[]` (data contract, `docs/research/live-feeds.md` §8.8).
         case liveData
+        /// Illustrative, not-live content the host adds (e.g. ambient aircraft on real approach corridors,
+        /// `docs/research/ambient-planes.md`). Never presented as live.
+        case illustrative
         case code
     }
 
@@ -140,15 +143,19 @@ public struct LiveFeedCredit: Codable, Sendable, Equatable {
     /// terms ask for or allow a logo. RTD's terms do not allow its marks, so the relay sends none.
     public var markLightURL: String?
     public var markDarkURL: String?
+    /// `false` for illustrative, not-live content (the ambient-planes snapshot's entry); it then becomes an
+    /// `illustrative` credit, never a "Live data" one. Absent means live (relay feeds).
+    public var live: Bool?
 
     public init(source: String, text: String, url: String? = nil, licenseUrl: String? = nil,
-                markLightURL: String? = nil, markDarkURL: String? = nil) {
+                markLightURL: String? = nil, markDarkURL: String? = nil, live: Bool? = nil) {
         self.source = source
         self.text = text
         self.url = url
         self.licenseUrl = licenseUrl
         self.markLightURL = markLightURL
         self.markDarkURL = markDarkURL
+        self.live = live
     }
 }
 
@@ -251,8 +258,10 @@ public struct CreditsCatalog: Codable, Sendable, Equatable {
         }
         var seenFeeds = Set<String>()
         for f in liveFeeds where seenFeeds.insert(f.source).inserted {
+            let isLive = f.live ?? true
             added.append(Credit(
-                id: "live-\(f.source)", kind: .liveData, title: "Live data (\(f.source))", text: f.text,
+                id: isLive ? "live-\(f.source)" : "illustrative-\(f.source)", kind: isLive ? .liveData : .illustrative,
+                title: isLive ? "Live data (\(f.source))" : "Illustrative, not live (\(f.source))", text: f.text,
                 url: f.url, licenseURL: f.licenseUrl, condition: .always, surfaces: [.app, .web, .image],
                 burnIn: true, markLightURL: f.markLightURL, markDarkURL: f.markDarkURL))
         }

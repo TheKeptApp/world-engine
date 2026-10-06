@@ -108,6 +108,10 @@ struct CreditsTests {
         #expect(!c.merged(liveFeeds: [rtd], surface: .package).contains { $0.kind == .liveData })
         #expect(CreditBurnIn.lines(for: c.merged(liveFeeds: [rtd], surface: .image)) == [CreditBurnIn.osmLine, rtd.text])
         #expect(!c.merged(surface: .app).contains { $0.kind == .liveData })
+        // Illustrative, not-live entries (ambient planes) never become "Live data".
+        let ambient = LiveFeedCredit(source: "ambient", text: "Illustrative air traffic, not live.", live: false)
+        let amb = try #require(c.merged(liveFeeds: [ambient], surface: .app).first { $0.id == "illustrative-ambient" })
+        #expect(amb.kind == .illustrative && !amb.title.contains("Live"))
         // The relay's JSON attribution entry decodes directly.
         let json = #"{"source":"rtd","text":"t","url":"https://example.invalid","licenseUrl":"https://example.invalid/l"}"#
         #expect(try JSONDecoder().decode(LiveFeedCredit.self, from: Data(json.utf8)).licenseUrl == "https://example.invalid/l")

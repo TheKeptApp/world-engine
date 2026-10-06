@@ -44,6 +44,7 @@ public struct WorldCreditsView: View {
         .init(title: "Map data", kinds: [.mapData, .sourceData, .dataOffer]),
         .init(title: "Weather", kinds: [.weather]),
         .init(title: "Live data", kinds: [.liveData]),
+        .init(title: "Illustrative (not live)", kinds: [.illustrative]),
         .init(title: "Sky", kinds: [.skyData]),
         .init(title: "Imagery", kinds: [.imagery]),
         .init(title: "Open-source software", kinds: [.code]),

@@ -22,7 +22,7 @@ extension WeatherCredit {
 }
 
 /// The standard credits (decision 6b): the engine's static credits (`credits.json`: OpenStreetMap,
-/// the ODbL data offer, the star catalog, code notices, NAIP when used) merged with the world's
+/// the ODbL data offer, the star catalog, code notices, NAIP) merged with the world's
 /// manifest sources and the host's weather attribution.
 ///
 /// Host apps must show these credits: put `WorldCreditsView` on the app's credits/about screen,
