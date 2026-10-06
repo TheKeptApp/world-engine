@@ -58,4 +58,6 @@ The offer must be live **before any public release**: App Store, public web, or 
 | Earcut | app | ISC, full notice text |
 | three.js | web | MIT, full notice text |
 
-`CreditsCatalog.merged(sources:weather:naipDerivedValues:surface:)` adds one credit per distinct manifest source (licence plus attribution, de-duplicated; OSM tiles fold into the OSM entry), so any new source, such as Overture buildings, is credited from its own manifest `attribution` and `license` without code changes.
+`CreditsCatalog.merged(sources:weather:naipDerivedValues:liveFeeds:surface:)` adds one credit per distinct manifest source (licence plus attribution, de-duplicated; OSM tiles fold into the OSM entry), so any new source, such as Overture buildings, is credited from its own manifest `attribution` and `license` without code changes.
+
+**Live feeds (host-supplied).** When live vehicles are on screen, the host passes each feed's attribution entry from the relay response (`liveFeeds:`, type `WorldLiveFeedCredit`) to the same calls; each becomes a `liveData` credit shown in the app and on the web and burned into exported images, never written into a package (`docs/research/live-feeds.md` §8.8).
