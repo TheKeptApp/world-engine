@@ -1,10 +1,83 @@
 import Foundation
 
-/// The per-state grade of the lighting bible (look-fix-v1 §2.2, `Profiles/grade.json`): the
-/// whole-frame brightness a renderer's exposure aims for and its saturation, for clear skies by sun
-/// elevation, night by moon light, and weather states over them by intensity.
-public struct GradeTable: Codable, Sendable {
-    public struct Grade: Codable, Sendable, Equatable {
+/// The lighting bible as engine data: `Profiles/lighting-bible.json`, generated from
+/// docs/proposals/look-fix-v1 by scripts/lookfix_data.py (never edited by hand). States are the
+/// proposal's twelve lighting fixtures with their §2.2 targets and §2.3 lift, shade and clear-air
+/// fade; `night` holds §2.4 (the file also carries §3.1 wet ground and §3.2 extinction presets).
+public struct LightingBible: Codable, Sendable {
+    public struct State: Codable, Sendable {
+        public var fixture: String
+        public var utc: String
+        /// Sun elevation and azimuth at the fixture (degrees, the repository's SolarPosition).
+        public var elevation: Double
+        public var azimuth: Double
+        public var weather: [String: Double]
+        public var directTint: String?
+        public var skyFillTint: String
+        public var keyFill: Double
+        public var ev: Double
+        /// Whole-frame encoded-sRGB Y targets (0–255) and mean HSV saturation (0–255).
+        public var luma: Double
+        public var p5: Double
+        public var p50: Double
+        public var p95: Double
+        public var saturationS: Double
+        /// Shade-to-sun ratio range (linear luminance); nil where the bible gives no number.
+        public var lift: [Double]?
+        public var shadeTint: String
+        public var air: GradeTable.Air
+    }
+    public struct Night: Codable, Sendable {
+        public var ambientHorizon: String
+        public var ambientUpper: String
+        public var windowCore: String
+        public var windowSurround: String
+        public var litWindows: [Double]
+        public var patchBands: [String: [String: [Double]]]
+    }
+    public struct Source: Codable, Sendable {
+        public var path: String
+        public var sha256: String
+    }
+    public var sources: [String: Source]
+    public var states: [String: State]
+    public var night: Night
+}
+
+/// Hand-tuned renderer values on top of the bible (`Profiles/grade.json`), keyed by its states.
+public struct GradeTuning: Codable, Sendable {
+    public struct Tune: Codable, Sendable {
+        public var saturation: Double?
+        public var direct: Double?
+        public var fill: Double?
+        public var groundFill: Double?
+    }
+    public struct Other: Codable, Sendable {
+        public var luma: Double
+        public var saturation: Double
+        public var direct: Double?
+        public var air: GradeTable.Air
+    }
+    public struct Night: Codable, Sendable {
+        public var elevation: Double
+        public var moonless: String
+        public var moon: String
+    }
+    public var tuning: [String: Tune]
+    /// Weather label (DominantState raw value) → bible state.
+    public var weatherStates: [String: String]
+    /// Weather labels the bible has no state for, with our own targets.
+    public var otherWeather: [String: Other]
+    /// Bible states that are clear skies, interpolated by sun elevation.
+    public var clearStates: [String]
+    public var night: Night
+}
+
+/// The per-state grade: the whole-frame brightness a renderer's exposure aims for, its saturation,
+/// the clear-air fade and the light multipliers, for clear skies by sun elevation, night by moon
+/// light, and weather states over them by intensity. Built from the bible and the tuning.
+public struct GradeTable: Sendable {
+    public struct Grade: Sendable, Equatable {
         /// Target whole-frame mean display brightness (Y8 on 0–255).
         public var luma: Double
         /// Post-process saturation multiplier.
@@ -79,29 +152,39 @@ public struct GradeTable: Codable, Sendable {
         }
     }
 
-    public struct ClearPoint: Codable, Sendable {
+    public struct ClearPoint: Sendable {
         public var state: String
         public var elevation: Double
-        public var luma: Double
-        public var saturation: Double
-        public var air: Air?
-        public var fill: Double?
-        public var groundFill: Double?
-        var grade: Grade { Grade(luma: luma, saturation: saturation, air: air, fill: fill, groundFill: groundFill) }
-    }
-
-    public struct Night: Codable, Sendable {
-        /// Sun elevation at and below which it is full night.
-        public var elevation: Double
-        public var moonless: Grade
-        public var moon: Grade
+        public var grade: Grade
     }
 
     /// Clear-sky states by sun elevation, ascending.
     public var clear: [ClearPoint]
-    public var night: Night
-    /// Weather states by `DominantState` raw value.
+    /// Sun elevation at and below which it is full night, and the two night grades.
+    public var nightElevation: Double
+    public var moonless: Grade
+    public var moon: Grade
+    /// Weather grades by `DominantState` raw value.
     public var weather: [String: Grade]
+
+    public init(bible: LightingBible, tuning: GradeTuning) throws {
+        func grade(_ name: String) throws -> Grade {
+            guard let s = bible.states[name] else { throw StyleLibrary.LoadError.missing("lighting bible state \(name)") }
+            let t = tuning.tuning[name]
+            return Grade(luma: s.luma, saturation: t?.saturation ?? 1, air: s.air, direct: t?.direct, fill: t?.fill,
+                         groundFill: t?.groundFill)
+        }
+        clear = try tuning.clearStates.map { name in
+            ClearPoint(state: name, elevation: bible.states[name]?.elevation ?? 0, grade: try grade(name))
+        }.sorted { $0.elevation < $1.elevation }
+        nightElevation = tuning.night.elevation
+        moonless = try grade(tuning.night.moonless)
+        moon = try grade(tuning.night.moon)
+        var w: [String: Grade] = [:]
+        for (label, state) in tuning.weatherStates { w[label] = try grade(state) }
+        for (label, o) in tuning.otherWeather { w[label] = Grade(luma: o.luma, saturation: o.saturation, air: o.air, direct: o.direct) }
+        weather = w
+    }
 
     /// The grade for a moment.
     /// - Parameters:
@@ -110,18 +193,17 @@ public struct GradeTable: Codable, Sendable {
     ///   - weather: the dominant weather label's raw value, if any.
     ///   - weight: how strongly that weather applies (its intensity, 0–1).
     public func resolve(sunElevation e: Double, moonLight: Double, weather: String?, weight: Double) -> Grade {
-        let points = clear.sorted { $0.elevation < $1.elevation }
-        let nightGrade = night.moonless.mixed(night.moon, moonLight)
+        let nightGrade = moonless.mixed(moon, moonLight)
         var g: Grade
-        if let first = points.first, e < first.elevation {
+        if let first = clear.first, e < first.elevation {
             // Night to the first clear point (blue hour).
-            let span = first.elevation - night.elevation
-            g = span > 0 ? nightGrade.mixed(first.grade, (e - night.elevation) / span) : first.grade
-        } else if let last = points.last, e >= last.elevation {
+            let span = first.elevation - nightElevation
+            g = span > 0 ? nightGrade.mixed(first.grade, (e - nightElevation) / span) : first.grade
+        } else if let last = clear.last, e >= last.elevation {
             g = last.grade
         } else {
-            g = points.first?.grade ?? nightGrade
-            for (a, b) in zip(points, points.dropFirst()) where e >= a.elevation && e < b.elevation {
+            g = clear.first?.grade ?? nightGrade
+            for (a, b) in zip(clear, clear.dropFirst()) where e >= a.elevation && e < b.elevation {
                 g = a.grade.mixed(b.grade, (e - a.elevation) / (b.elevation - a.elevation))
             }
         }
@@ -140,8 +222,13 @@ public struct GradeTable: Codable, Sendable {
 }
 
 extension StyleLibrary {
-    /// The lighting bible's per-state grade (`Profiles/grade.json`).
+    /// The lighting bible (`Profiles/lighting-bible.json`, generated from the look-fix proposal).
+    public static func lightingBible() throws -> LightingBible {
+        try JSONDecoder().decode(LightingBible.self, from: data("lighting-bible"))
+    }
+
+    /// The bible's per-state grade with the hand-tuned renderer values (`Profiles/grade.json`).
     public static func grade() throws -> GradeTable {
-        try JSONDecoder().decode(GradeTable.self, from: data("grade"))
+        try GradeTable(bible: lightingBible(), tuning: JSONDecoder().decode(GradeTuning.self, from: data("grade")))
     }
 }

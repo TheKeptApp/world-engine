@@ -29,17 +29,13 @@ FIXTURES = os.path.join(ROOT, "docs/proposals/look-fix-v1/lighting-fixtures.json
 sys.path.insert(0, os.path.join(ROOT, "Tools/lookloop"))
 from analyze import signals  # noqa: E402  (the look loop's measurement, unchanged)
 
-# §2.2 state targets: Y mean, P5, P50, P95, mean saturation (HSV S, 0-255).
-TARGETS = {
-    "morning": (135, 45, 138, 222, 88), "midday": (145, 55, 148, 226, 90), "ordinary-1530": (140, 48, 143, 224, 90),
-    "golden-hour": (130, 36, 128, 222, 94), "blue-hour": (88, 25, 79, 167, 86), "overcast": (137, 64, 139, 207, 54),
-    "light-rain": (126, 48, 126, 198, 64), "storm": (96, 29, 91, 172, 60), "fog": (147, 78, 150, 194, 32),
-    "snow": (166, 63, 181, 230, 32), "moon-night": (57, 18, 45, 109, 94), "moonless-night": (43, 14, 34, 84, 88),
-}
+# Targets from the generated bible data (scripts/lookfix_data.py reads them out of the proposal):
+# §2.2 Y mean, P5, P50, P95 and mean saturation (HSV S, 0-255), §2.3 lift where the framing allows.
+BIBLE = json.load(open(os.path.join(ROOT, "Sources/WorldGen/Profiles/lighting-bible.json")))
+TARGETS = {k: (v["luma"], v["p5"], v["p50"], v["p95"], v["saturationS"]) for k, v in BIBLE["states"].items()}
 NIGHT = {"moon-night", "moonless-night"}
-# §2.3 lift (shade-to-sun ratio, linear) for the states that share the 15:30 sun and framing.
-LIFT = {"ordinary-1530": (0.30, 0.38), "overcast": (0.78, 0.88), "light-rain": (0.80, 0.90), "storm": (0.83, 0.93),
-        "fog": (0.88, 0.96)}
+# The path lift boxes fit the states that share the 15:30 sun and framing.
+LIFT = {k: tuple(BIBLE["states"][k]["lift"]) for k in ("ordinary-1530", "overcast", "light-rain", "storm", "fog")}
 
 
 def state(fid):
