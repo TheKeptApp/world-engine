@@ -162,11 +162,17 @@ struct LaunchOptions {
     /// `-weatherspec label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=0,visibility=…,wind=…`:
     /// explicit Demo weather (overrides `-weather`).
     var weatherSpec: SyntheticWeather?
+    /// `-tune key=0.8,fill=1.6,ground=1.5,ibl=0.3,target=0.02,sat=0.9,contrast=1`: look tuning on
+    /// top of the profiles (`World.LookTuning`), for sweeps on a device.
+    var tune: World.LookTuning?
     /// `-viewlist FILE` (JSON array of {"id", "args"}) or `-viewlist64 BASE64` (the same JSON):
     /// step through views in one launch, saving each frame (see `RealityKitScreen.runViewList`).
     var viewList: [ViewSpec]?
     /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
     var viewSettle: Double = 4
+    /// `-viewhold SECONDS`: wait this long after `VIEWREADY` before capturing and moving on, so an
+    /// outside screenshot (simctl io, with the letterbox and the OSM credit) lands on the same view.
+    var viewHold: Double = 0
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -201,10 +207,12 @@ struct LaunchOptions {
             focus = DemoConfig.Box(south: f[0], west: f[1], north: f[2], east: f[3])
         }
         weatherSpec = value("-weatherspec").flatMap(Self.weather(spec:))
+        tune = value("-tune").map(Self.tuning(spec:))
         let listData = value("-viewlist").flatMap { FileManager.default.contents(atPath: $0) }
             ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
         viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
         viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
+        viewHold = value("-viewhold").flatMap(Double.init) ?? 0
     }
 
     /// Parses `label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=6,visibility=1200,wind=4`.
@@ -219,6 +227,26 @@ struct LaunchOptions {
         return SyntheticWeather(label: label, intensity: d("intensity"), cloudFraction: d("cloud") ?? 0.5,
                                 precipitationMmPerHour: d("rate") ?? 0, visibilityM: d("visibility"), windSpeedMps: d("wind") ?? 3,
                                 wetness: d("wetness") ?? 0, snowWaterEquivalentMm: d("swe") ?? 0)
+    }
+
+    /// Parses `-tune` (unknown keys are ignored).
+    static func tuning(spec: String) -> World.LookTuning {
+        var t = World.LookTuning()
+        for part in spec.split(separator: ",") {
+            let kv = part.split(separator: "=", maxSplits: 1).map(String.init)
+            guard kv.count == 2, let v = Float(kv[1]) else { continue }
+            switch kv[0] {
+            case "key": t.key = v
+            case "fill": t.fill = v
+            case "ground": t.groundFill = v
+            case "ibl": t.iblEV = v
+            case "target": t.exposureTarget = v
+            case "sat": t.saturation = v
+            case "contrast": t.contrast = v
+            default: break
+            }
+        }
+        return t
     }
 
     /// A fixed view from `-camera`: the area's named camera, or explicit numbers.
