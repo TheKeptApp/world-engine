@@ -27,6 +27,8 @@ let package = Package(
         .target(name: "WorldPackage", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
         // macOS command-line tool: fetch area data, print stats, draw debug maps, export packages.
         .executableTarget(name: "worldbake", dependencies: ["WorldGeo", "WorldMap", "WorldGen", "WorldPackage"]),
+        // macOS command-line debug renderer for generated buildings (CPU rasterizer, no RealityKit).
+        .executableTarget(name: "buildingviz", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
 
         .testTarget(name: "WorldGeoTests", dependencies: ["WorldGeo"]),
         .testTarget(
