@@ -110,3 +110,15 @@ Lidar: U.S. Geological Survey, 3D Elevation Program (3DEP), project IL_4_County_
 `usgs-lidar-public` Entwine Point Tiles (Hobu, Inc., AWS Open Data); US Government public domain (AWS Open Data
 registry entry). Footprints © OpenStreetMap contributors (ODbL 1.0). NAIP imagery (vintage check) provided by
 USDA Farm Service Agency.
+
+## Roof hints and block roof-mix tables
+
+`roofhints.py` extends the pilot to per-footprint height, eave, pitch class and form (flat / gable / hip / mansard / complex) for the areas listed in `data/roofhints.json`, and to a block roof-mix table. It writes `Data/areas/<id>/lidar-roofs.json` and `roof-mix-blocks.json` (formats: `docs/research/lidar-roofs.md` section 14). About 218 MB of lidar for the two areas.
+
+```sh
+UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --python python3 \
+  --with numpy --with scipy --with shapely --with pillow --with rasterio --with "laspy[lazrs]" \
+  python Tools/regionkit/lidar/roofhints.py all --work /tmp/roofhints-work
+```
+
+Subcommands: `fetch`, `measure`, `blocks`, `mansard` (scratch hand-check images, `--n`, `--refs`), `all`. Tests: `tests/test_roofhints.py` (offline).
