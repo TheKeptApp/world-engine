@@ -1,0 +1,16 @@
+{
+  "comment": "Lidar roof-form pilot (data, not code). Area = a committed P2 test area (read-only); the profile is the one P2 uses for it (BuildingAreaTests, p2_gate_shots.sh). Lidar = USGS 3DEP Entwine Point Tiles in the public usgs-lidar-public bucket (not requester-pays); only octree nodes whose horizontal extent meets the area box (plus a margin) are read.",
+  "area": "Data/areas/evanston-south",
+  "profile": "evanston",
+  "exportDate": "2026-10-22T20:00:00Z",
+  "marginMeters": 15,
+  "ept": {
+    "root": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/",
+    "dataset": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+    "tnmProject": "IL_4_County_QL1_LiDAR_2016_B16",
+    "tnmDelivery": "IL_4County_Cook_2017",
+    "acquired": "2017-04-16 to 2017-05-07 (FGDC metadata of the delivery tile at the area centre)",
+    "maxDepth": 10,
+    "maxBytes": 450000000
+  }
+}

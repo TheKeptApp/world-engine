@@ -176,7 +176,7 @@ private struct WorldRealityView: View {
             effects.depthOfField = .disabled
             effects.cameraGrain = .disabled
             content.renderingEffects = effects
-            let world = world, camera = camera, onFrame = onFrame, surface = surface
+            let world = world, camera = camera, onFrame = onFrame, surface = surface, post = post
             // Keep the subscription alive for the world's lifetime (an unretained subscription can
             // be released at any time, which silently stops all per-frame updates). A view rebuilt
             // after a pause cancels its predecessor's: a RealityView torn down while the app was in
@@ -188,6 +188,7 @@ private struct WorldRealityView: View {
                     let cutTarget = camera.update(camera: cam, scene: event.scene, dt: Float(dt))
                     world.update(deltaTime: dt, camera: cam, focusPoint: camera.lookTarget, cutAwayTarget: cutTarget)
                     surface.frame(camera: cam)
+                    post?.settings.exposureTarget = world.exposureTarget
                     onFrame?(dt)
                 }
             }

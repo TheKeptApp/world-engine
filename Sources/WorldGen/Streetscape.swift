@@ -44,6 +44,32 @@ enum Polyline {
         return out
     }
 
+    /// Douglas–Peucker on an open polyline: keeps the ends and every point farther than
+    /// `tolerance` metres from the simplified line (bends survive, straight runs collapse).
+    static func simplify(_ l: [LocalPoint], tolerance: Double) -> [LocalPoint] {
+        guard l.count > 2 else { return l }
+        var keep = [Bool](repeating: false, count: l.count)
+        keep[0] = true
+        keep[l.count - 1] = true
+        var stack = [(0, l.count - 1)]
+        while let (i, j) = stack.popLast() {
+            guard j > i + 1 else { continue }
+            let a = l[i], d = l[j] - a, len = simd_length(d)
+            var worst = -1.0, at = i
+            for k in (i + 1)..<j {
+                let v = l[k] - a
+                let dist = len > 1e-9 ? abs(d.x * v.y - d.y * v.x) / len : simd_length(v)
+                if dist > worst { worst = dist; at = k }
+            }
+            if worst > tolerance {
+                keep[at] = true
+                stack.append((i, at))
+                stack.append((at, j))
+            }
+        }
+        return l.indices.filter { keep[$0] }.map { l[$0] }
+    }
+
     /// Splits `points` into runs where `keep` is true; runs shorter than `minLength` are dropped.
     static func runs(_ points: [LocalPoint], keep: [Bool], minLength: Double) -> [[LocalPoint]] {
         var out: [[LocalPoint]] = [], cur: [LocalPoint] = []
@@ -122,7 +148,9 @@ public struct Streetscape: Sendable {
             let edge = Polyline.offset(piece, by: side * road.width / 2)
             let samples = Polyline.resample(edge, step: 1.0).map(\.0)
             let keep = samples.map { !blockedByOtherRoad($0, own: i, extra: 0.6) }
-            out += Polyline.runs(samples, keep: keep, minLength: 2)
+            // The 1 m samples find the cuts at intersections; the curb itself only needs points at
+            // bends (P1's budget audit: curbs cost 12 triangles per street metre at 1 m).
+            out += Polyline.runs(samples, keep: keep, minLength: 2).map { Polyline.simplify($0, tolerance: 0.03) }
         }
         return out
     }

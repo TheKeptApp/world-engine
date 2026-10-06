@@ -126,6 +126,7 @@ extension World {
             precipitation?.isEnabled = on && !environmentState.precipitation.isEmpty
         case .buildings:
             for e in rootEntity.children where e.name.hasPrefix("Chunk ") { e.isEnabled = on }
+            setBuildingsVisible(on)
         case .opaqueDetail:
             opaqueDetail = on
         }

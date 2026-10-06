@@ -26,6 +26,7 @@
     ]
   },
   "trees": {
+    "canopyShare": 0.18,
     "deciduousShare": 0.95,
     "crownWeights": {
       "broad": 0.35,
@@ -1078,6 +1079,16 @@
       "residualTVD": { "before": 0.205, "after": 0.064 },
       "withAbsoluteThresholds": { "before": { "1": 0.442, "2": 0.387, "3+": 0.171 }, "after": { "1": 0.305, "2": 0.487, "3+": 0.208 } },
       "note": "Expected default floors of houses without building:levels, size-stratified: tagged houses evaluated with the tag hidden, per footprint-area bin, weighted like the untagged houses (bins cover 95.5 % of them). The absolute 60/220/350 m2 fallback leaves more houses in the one-floor-only small rule. Not modelled: the family grammar's frontage-aspect fit and the generator's alley-garage and huge-house role rules (the kit's role port predates them).",
+      "date": "2026-10-06"
+    },
+    "trees.canopyShare": {
+      "status": "measured",
+      "value": 0.18,
+      "measuredValue": 0.178,
+      "source": "USDA NAIP 2023 leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask; value = canopy share of the area's built fabric (land without parks of at least 1,000 m2 and without water). Tools/regionkit/aerial/canopy_areas.py, results in Tools/regionkit/aerial/results/canopy_areas.json; docs/research/aerial.md section 13.",
+      "area": "Data/areas/lakeview-sheil-park (1 km2)",
+      "acquired": "2023-07-10",
+      "check": "50 photo-interpreted points: 0.319 (0.20-0.46); mask vs points agree 87 %; true value may be 0.20-0.25.",
       "date": "2026-10-06"
     }
   }

@@ -13,12 +13,19 @@ public struct WorldRecipe: Sendable, Codable, Equatable {
     public var season: Int?
     /// Region with full street detail; nil = the whole area.
     public var focus: GeoBoundingBox?
+    /// Building distance LODs per ~100 m cell (`GeneratedScene.buildingCells`) for a renderer that
+    /// switches them at runtime; off for the package. Not part of the recipe's coded form.
+    public var buildingLODs = false
 
-    public init(profileID: String? = nil, date: Date = Date(), season: Int? = nil, focus: GeoBoundingBox? = nil) {
+    private enum CodingKeys: String, CodingKey { case profileID, date, season, focus }
+
+    public init(profileID: String? = nil, date: Date = Date(), season: Int? = nil, focus: GeoBoundingBox? = nil,
+                buildingLODs: Bool = false) {
         self.profileID = profileID
         self.date = date
         self.season = season
         self.focus = focus
+        self.buildingLODs = buildingLODs
     }
 }
 
@@ -34,6 +41,8 @@ public struct WorldBuild: Sendable {
     public var scene: GeneratedScene
     /// No-character experience defaults: composed postcards, aerial fit, motion bounds.
     public var experience: ExperienceDefaults?
+    /// Per-building zone profiles (nil when the recipe forces one profile).
+    public var zones: ZoneProfiles?
 
     public static func generate(areaDirectory: URL, recipe: WorldRecipe) throws -> WorldBuild {
         let manifest = try AreaLoader.loadManifest(areaDirectory)
@@ -42,9 +51,16 @@ public struct WorldBuild: Sendable {
         let season = recipe.season ?? profile.seasons.season(at: recipe.date, longitude: manifest.center.longitude)
         let lighting = LightingModel.state(at: recipe.date, location: manifest.center, tables: try StyleLibrary.lighting())
         let focus = Self.focusRect(recipe.focus, frame: manifest.frame) ?? features.bounds
-        let scene = try generator(features: features, profile: profile, season: season, focus: focus).generate()
+        // An explicit profile is a test override for every building; otherwise each building
+        // takes the zone profile at its centroid.
+        let zones = recipe.profileID == nil ? try ZoneProfiles.load(for: manifest) : nil
+        var gen = try generator(features: features, profile: profile, season: season, focus: focus)
+        gen.zones = zones
+        gen.buildingLODs = recipe.buildingLODs
+        let scene = gen.generate()
         var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
                                focus: focus, scene: scene)
+        build.zones = zones
         build.experience = ExperienceDefaults.compose(build: build, date: recipe.date)
         return build
     }
@@ -61,6 +77,7 @@ public struct WorldBuild: Sendable {
         var gen = try Self.generator(features: features, profile: profile, season: season, focus: focus)
         gen.lod = 1
         gen.startPalette = scene.palette
+        gen.zones = zones
         return gen.generate()
     }
 

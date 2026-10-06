@@ -162,6 +162,11 @@ struct LaunchOptions {
     /// `-weatherspec label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=0,visibility=…,wind=…`:
     /// explicit Demo weather (overrides `-weather`).
     var weatherSpec: SyntheticWeather?
+    /// `-viewlist FILE` (JSON array of {"id", "args"}) or `-viewlist64 BASE64` (the same JSON):
+    /// step through views in one launch, saving each frame (see `RealityKitScreen.runViewList`).
+    var viewList: [ViewSpec]?
+    /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
+    var viewSettle: Double = 4
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -196,6 +201,10 @@ struct LaunchOptions {
             focus = DemoConfig.Box(south: f[0], west: f[1], north: f[2], east: f[3])
         }
         weatherSpec = value("-weatherspec").flatMap(Self.weather(spec:))
+        let listData = value("-viewlist").flatMap { FileManager.default.contents(atPath: $0) }
+            ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
+        viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
+        viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
     }
 
     /// Parses `label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=6,visibility=1200,wind=4`.

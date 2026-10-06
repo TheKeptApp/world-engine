@@ -26,6 +26,7 @@
     ]
   },
   "trees": {
+    "canopyShare": 0.47,
     "deciduousShare": 0.92,
     "crownWeights": {
       "broad": 0.4,
@@ -761,5 +762,18 @@
   "foundationMeters": [
     0.2,
     0.5
-  ]
+  ],
+  "provenance": {
+    "comment": "Documentation only; the profile decoder ignores this object.",
+    "trees.canopyShare": {
+      "status": "measured",
+      "value": 0.47,
+      "measuredValue": 0.473,
+      "source": "USDA NAIP 2023 leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask; value = canopy share of the area's built fabric (land without parks of at least 1,000 m2 and without water). Tools/regionkit/aerial/canopy_areas.py, results in Tools/regionkit/aerial/results/canopy_areas.json; docs/research/aerial.md section 13.",
+      "area": "Data/areas/evanston-south (1 km2)",
+      "acquired": "2023-07-10",
+      "check": "50 photo-interpreted points: 0.535 (95 % interval 0.39-0.68); mask vs points agree 86 %.",
+      "date": "2026-10-06"
+    }
+  }
 }

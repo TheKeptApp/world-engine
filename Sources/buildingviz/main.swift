@@ -14,7 +14,8 @@ buildingviz --area DIR --profile ID --out out.png
   [--yaw 210] [--pitch 35] [--dist 90] [--fov 40] [--width 1600] [--height 900]
   [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1]
 buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...] [--ids 6]
-  (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50)
+  [--local X,Y] (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50;
+  --local aims at one cell: footprints start at x = 25 × column, y = −48 × row)
 Camera: yaw = compass direction the camera looks toward (0 north, 90 east), pitch = degrees down,
         target = center point at ground level (+3 m), distance in meters. Back faces are culled.
 """
@@ -33,7 +34,7 @@ do {
         let a = args[i]
         guard a.hasPrefix("--") else { fail("unexpected argument \(a)\n\(usage)") }
         let key = String(a.dropFirst(2))
-        if key == "gallery" || key == "help" { flags.insert(key); i += 1; continue }
+        if ["gallery", "help", "scene", "zones"].contains(key) { flags.insert(key); i += 1; continue }
         guard i + 1 < args.count else { fail("missing value for \(a)") }
         opts[key] = args[i + 1]
         i += 2
@@ -88,6 +89,8 @@ if isGallery {
     galleryRadius = (simd_length(LocalPoint(maxX + 40, 12 - minY + 30)) / 2)
     galleryHalf = LocalPoint((maxX + 40) / 2, (12 - minY + 30) / 2)
     radius = .infinity
+    // Close-ups: aim at one cell (footprints start at x = 25 × column, y = −48 × row).
+    if let (x, y) = pair("local") { centerLocal = LocalPoint(x, y) }
 } else {
     guard let area = opts["area"] else { fail("--area or --gallery is required\n\(usage)") }
     do {
@@ -108,10 +111,26 @@ let genStart = clock.now
 var gen = BuildingGenerator(profile: profile, context: StreetContext(features))
 gen.obstacles = PolygonIndex(features.buildings.map(\.footprint))
 
+// --scene: the whole generated world (zones, ground, yards, trees, props) instead of buildings only.
+let isScene = flags.contains("scene") && !isGallery
+var sceneBuild: WorldBuild?
 var generated: [GeneratedBuilding] = []
-for b in features.buildings where !b.isPart {
-    if radius.isFinite, simd_length(b.footprint.centroid - centerLocal) > radius { continue }
-    generated.append(gen.generate(b, palette: &palette, lod: lod))
+if isScene {
+    let manifest = try! AreaLoader.loadManifest(URL(fileURLWithPath: opts["area"]!))
+    let c = manifest.frame.coordinate(at: centerLocal)
+    let half = radius / 111_000
+    let focusBox = GeoBoundingBox(south: c.latitude - half, west: c.longitude - half / cos(c.latitude * .pi / 180),
+                                  north: c.latitude + half, east: c.longitude + half / cos(c.latitude * .pi / 180))
+    let date = opts["date"].flatMap { ISO8601DateFormatter().date(from: $0) } ?? ISO8601DateFormatter().date(from: "2026-07-15T19:00:00Z")!
+    do {
+        sceneBuild = try WorldBuild.generate(areaDirectory: URL(fileURLWithPath: opts["area"]!),
+                                             recipe: WorldRecipe(profileID: flags.contains("zones") ? nil : profileID, date: date, focus: focusBox))
+    } catch { fail("scene generation failed: \(error)") }
+} else {
+    for b in features.buildings where !b.isPart {
+        if radius.isFinite, simd_length(b.footprint.centroid - centerLocal) > radius { continue }
+        generated.append(gen.generate(b, palette: &palette, lod: lod))
+    }
 }
 let genTime = clock.now - genStart
 
@@ -134,8 +153,41 @@ let gc = SIMD3<Float>(target.x, gy, target.z)
 addQuad(gc + SIMD3(-extent, 0, extent), gc + SIMD3(extent, 0, extent), gc + SIMD3(extent, 0, -extent), gc + SIMD3(-extent, 0, -extent),
         color: groundColor)
 
+// Scene mode: chunk meshes and prop instances near the view.
+if let build = sceneBuild {
+    let pal = build.scene.palette
+    let reach = Float(radius * 2.5)
+    func addMesh(_ m: MeshBuffers, transform: simd_float4x4? = nil, cull: Bool) {
+        var k = 0
+        while k + 2 < m.indices.count {
+            let i0 = Int(m.indices[k]), i1 = Int(m.indices[k + 1]), i2 = Int(m.indices[k + 2])
+            k += 3
+            var a = m.positions[i0], b = m.positions[i1], c = m.positions[i2]
+            if let t = transform {
+                func tf(_ p: SIMD3<Float>) -> SIMD3<Float> { let q = t * SIMD4(p, 1); return SIMD3(q.x, q.y, q.z) }
+                a = tf(a); b = tf(b); c = tf(c)
+            }
+            let mid = (a + b + c) / 3
+            if simd_length(SIMD2(mid.x - target.x, mid.z - target.z)) > reach { continue }
+            let p0 = m.paints[i0]
+            let slot = min(max(0, Int(p0.x)), pal.colors.count - 1)
+            let ao = (m.extras[i0].x + m.extras[i1].x + m.extras[i2].x) / 3
+            scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull))
+        }
+    }
+    for chunk in build.scene.chunks { addMesh(chunk.staticMesh, cull: true); addMesh(chunk.waterMesh, cull: true) }
+    var propMeshes: [String: MeshBuffers] = [:]
+    for inst in build.scene.instances where simd_length(LocalPoint(inst.x, inst.y) - centerLocal) < Double(reach) {
+        let key = "\(inst.kind.rawValue)-\(inst.variant)"
+        if propMeshes[key] == nil { propMeshes[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: 0, palette: pal) }
+        addMesh(propMeshes[key]!, transform: inst.transform, cull: true)
+    }
+    let st = build.scene.stats
+    print("scene: profile \(build.profile.id) lots \(st["lots"] ?? 0) walks \(st["walks"] ?? 0) driveways \(st["driveways"] ?? 0) beds \(st["beds"] ?? 0) shrubs \(st["shrubs"] ?? 0) hedgeBushes \(st["hedgeBushes"] ?? 0) yardTrees \(st["yardTrees"] ?? 0) streetTrees \(st["streetTrees"] ?? 0) yardMillis \(st["yardMillis"] ?? 0) [raster \(st["yardMsRaster"] ?? 0) assign \(st["yardMsAssign"] ?? 0) lots \(st["yardMsLots"] ?? 0) street \(st["yardMsStreet"] ?? 0)] instances \(build.scene.instances.count)")
+}
+
 // Roads (flat ribbons).
-if (opts["roads"] ?? "1") != "0" {
+if !isScene, (opts["roads"] ?? "1") != "0" {
     let reach = (galleryRadius ?? radius) + 150
     for r in features.roads where r.kind.isVehicular && !r.isTunnel {
         let pts = r.centerline

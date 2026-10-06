@@ -198,6 +198,13 @@ struct RealityKitScreen: View {
             guard let seconds = options.snapshotSeconds else { return }
             await saveSnapshot(after: seconds)
         }
+        .task {
+            // `-viewlist`: step through several views in one launch (P3's look loop).
+            guard let list = options.viewList else { return }
+            while world == nil, error == nil { try? await Task.sleep(for: .milliseconds(200)) }
+            guard error == nil else { print("VIEWS failed: \(error ?? "")"); return }
+            await runViewList(list)
+        }
         .task { await PostcardExports.runLaunchArgument(source: { postcardSource }, failed: { error != nil }) }
     }
 
@@ -260,6 +267,93 @@ struct RealityKitScreen: View {
         }
         report("SNAPSHOT source=\(source) size=\(image.width)x\(image.height) view=\(render.summary)")
         report("SNAPSHOT saved \(name)")
+    }
+
+    /// RealityKit's capture of the view (the compositor's if RealityKit returns nothing or one flat
+    /// colour) as PNG data, or nil.
+    private func capturePNG() async -> (data: Data, size: String, source: WorldRenderState.SnapshotSource)? {
+        var polls = 0
+        while !render.attached, polls < 50 { try? await Task.sleep(for: .milliseconds(200)); polls += 1 }
+        for source in [options.snapshotSource, .compositor] {
+            if let image = await render.snapshot(source: source), !Self.isOneColour(image), let png = UIImage(cgImage: image).pngData() {
+                return (png, "\(image.width)x\(image.height)", source)
+            }
+        }
+        return nil
+    }
+
+    // MARK: View list (`-viewlist`)
+
+    /// `-viewlist FILE` / `-viewlist64 BASE64`: step through views in one launch (one area). Each view
+    /// is set up in place from its own launch arguments (preset, showcase, weather, weatherspec,
+    /// date, camera, mode, character), left to settle, then saved to Documents/views/<id>.png.
+    /// Prints `VIEWREADY id=…` before the capture (a Simulator script can screenshot then instead)
+    /// and `VIEWSHOT id=… file=… size=… triangles=… draws=…` after it, then `VIEWS done n=…`.
+    private func runViewList(_ list: [ViewSpec]) async {
+        guard let world, let camera, let env, let demo else { return }
+        UIApplication.shared.isIdleTimerDisabled = true
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("views")
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        var done = 0
+        for spec in list {
+            let o = LaunchOptions(["WorldLab"] + spec.args)
+            if let area = o.area, area != demo.area {
+                print("VIEWSHOT id=\(spec.id) skipped: area \(area) needs its own launch"); fflush(nil); continue
+            }
+            await applyView(o, world: world, camera: camera, env: env, demo: demo)
+            try? await Task.sleep(for: .seconds(options.viewSettle))
+            print("VIEWREADY id=\(spec.id)"); fflush(nil)
+            let file = dir.appendingPathComponent("\(spec.id).png")
+            try? FileManager.default.removeItem(at: file)
+            guard let shot = await capturePNG() else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
+            do { try shot.data.write(to: file, options: .atomic) } catch {
+                print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
+            }
+            print("VIEWSHOT id=\(spec.id) file=views/\(spec.id).png size=\(shot.size) source=\(shot.source) triangles=\(world.stats.viewTriangles) draws=\(world.stats.viewDrawCalls) \(render.summary)")
+            fflush(nil)
+            done += 1
+        }
+        print("VIEWS done n=\(done) of \(list.count)"); fflush(nil)
+    }
+
+    /// Sets one view up in place, as a launch with these options would (same area).
+    private func applyView(_ o: LaunchOptions, world: World, camera: WorldCamera, env: EnvironmentController, demo: DemoConfig) async {
+        camera.transitionSeconds = 0
+        camera.autoRecenter = true
+        camera.absoluteYaw = nil
+        camera.yawOffset = 0
+        camera.pitchOffset = 0
+        camera.zoom = 1
+        // Character: presets walk Luna (the matched-test setup); other views have none unless asked.
+        let wanted = demo.route.isEmpty ? "none" : (o.character ?? (o.preset != nil ? "luna" : "none"))
+        if wanted != characterChoice {
+            await setCharacter(wanted, world: world, camera: camera)
+            characterChoice = wanted
+        }
+        motion?.isPaused = false
+        if let id = o.showcase, let p = env.presets.first(where: { $0.id == "showcase-\(id)" }) {
+            select(preset: p, env: env, world: world, camera: camera)
+            env.aerial = p.camera == "aerial"
+            env.resolve()
+            return
+        }
+        env.select(env.presets.first { $0.id == (o.weather ?? "clear") } ?? env.presets[0])
+        if let spec = o.weatherSpec { env.select(.init(id: "custom", title: "Custom", weather: spec)) }
+        if let t = o.dateOverride ?? (o.preset != nil ? o.date(demo) : nil) { env.set(time: t) } else { env.goLive() }
+        env.aerial = false
+        if let preset = o.preset, let c = character, let m = motion {
+            camera.mode = .street(following: c)
+            Presets.apply(preset, demo: demo, world: world, camera: camera, motion: m, character: c)
+        } else if let spec = o.cameraSpec(demo) {
+            camera.mode = .postcard(Self.pose(spec, world: world))
+            env.aerial = spec.distance != nil || (spec.height ?? 1.65) > 60
+        } else if let m = o.mode {
+            mode = m
+            apply(mode: m, world: world, camera: camera, env: env)
+        } else {
+            camera.mode = .postcard(currentPostcard(world: world))
+        }
+        env.resolve()
     }
 
     /// True when a 16×16 reduction of the image has no more than one level of difference between any two samples.
@@ -608,4 +702,10 @@ struct HUD: View {
         .padding(.leading, 8)
         .allowsHitTesting(false)
     }
+}
+
+/// One view of a `-viewlist` run: an id and the launch arguments that set it up (P3's views.json entries).
+struct ViewSpec: Decodable, Sendable {
+    var id: String
+    var args: [String]
 }
