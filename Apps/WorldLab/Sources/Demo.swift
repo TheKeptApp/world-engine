@@ -47,6 +47,10 @@ struct LaunchOptions {
     var diagnostics: Set<String> = []
     /// `-date ISO8601`: the moment for this run (overrides the fixtures).
     var dateOverride: Date?
+    /// `-renderscale native|policy|<number>`, `-calm off`: display settings (default: the shared policy).
+    var renderSettings = WorldRenderSettings()
+    /// `-pausetest N`: pause at N s, resume at 2N s (checks that rendering stops).
+    var pauseTest: Double?
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -61,6 +65,14 @@ struct LaunchOptions {
         renderer = value("-renderer")
         diagnostics = Set((value("-diag") ?? "").split(separator: ",").map(String.init))
         dateOverride = value("-date").flatMap { ISO8601DateFormatter().date(from: $0) }
+        switch value("-renderscale") {
+        case "native": renderSettings.scale = nil
+        case let v?: renderSettings.fixedScale = Double(v)
+        case nil: break
+        }
+        if value("-calm") == "off" { renderSettings.calm = nil }
+        if value("-host") == "renderer" { renderSettings.host = .realityRenderer }
+        pauseTest = value("-pausetest").flatMap(Double.init)
     }
 
     /// The moment for this run: `-date`, else v2 summer noon for the noon preset, else the v2

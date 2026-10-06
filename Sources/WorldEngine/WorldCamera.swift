@@ -62,6 +62,9 @@ public final class WorldCamera {
 
     public func userDidInteract() { lastInteraction = Date() }
 
+    /// A touch moved the camera within the last half second (calm mode stays off).
+    var recentlyInteracted: Bool { Date().timeIntervalSince(lastInteraction) < 0.5 }
+
     /// Places `camera` for this frame. Returns the follow target (for the cut-away), if any.
     func update(camera: Entity, scene: RealityKit.Scene?, dt: Float) -> SIMD3<Float>? {
         switch mode {

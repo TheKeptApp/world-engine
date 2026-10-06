@@ -189,6 +189,9 @@ public final class World {
         visit(entity)
     }
 
+    /// Whether any entity is walking a route right now (calm mode stays off).
+    var hasActiveMotion: Bool { motions.contains { !$0.isPaused && $0.speed != 0 } }
+
     /// Removes an entity the app placed (and stops its motion).
     public func remove(_ entity: Entity) {
         motions.removeAll { $0.entity === entity }

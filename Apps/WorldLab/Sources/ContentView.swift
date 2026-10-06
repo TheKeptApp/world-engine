@@ -61,12 +61,15 @@ struct LauncherView: View {
 struct RealityKitScreen: View {
     let options: LaunchOptions
     let testRun: Bool
+    private let started = Date()
     @State private var world: World?
     @State private var camera: WorldCamera?
     @State private var error: String?
     @State private var metrics = Metrics()
     @State private var post = WorldPostProcess()
     @State private var test: TestRun?
+    @State private var render = WorldRenderState()
+    @State private var hostPaused = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -74,12 +77,14 @@ struct RealityKitScreen: View {
             if let world, let camera {
                 framed {
                     WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil,
-                              post: options.diagnostics.contains("noPost") ? nil : post) { dt in
-                        metrics.frame(dt: dt, gpuMs: post.recentGPUms(1).last)
-                        test?.frame(dt: dt, gpuMs: post.recentGPUms(1).last)
+                              post: options.diagnostics.contains("noPost") ? nil : post,
+                              settings: options.renderSettings, renderState: render, isPaused: hostPaused) { dt in
+                        let postMs = post.recentGPUms(1).last
+                        metrics.frame(dt: dt, gpuMs: render.gpuFrameMs ?? postMs)
+                        test?.frame(dt: dt, gpuMs: render.gpuFrameMs, postMs: postMs)
                     }
                 }
-                if options.hud { HUD(metrics: metrics, world: world, test: test) }
+                if options.hud { HUD(metrics: metrics, world: world, test: test, render: render) }
             } else if let error {
                 Text(error).foregroundStyle(.white).padding()
             } else {
@@ -92,6 +97,28 @@ struct RealityKitScreen: View {
             guard ProcessInfo.processInfo.arguments.contains("-viewdiag") else { return }
             try? await Task.sleep(for: .seconds(8))
             ViewDiagnostics.dump(tag: "realitykit")
+        }
+        .task {
+            // Console trace for checks: frame rate and display state once a second. Keeps the
+            // screen awake for unattended device checks.
+            guard ProcessInfo.processInfo.arguments.contains("-rendertrace") else { return }
+            UIApplication.shared.isIdleTimerDisabled = true
+            UIDevice.current.isBatteryMonitoringEnabled = true
+            print("CONDITIONS \(TestRun.conditions())")
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                if Int(Date().timeIntervalSince(started)) % 10 == 0 { print("CONDITIONS \(TestRun.conditions())") }
+                print(String(format: "RENDER t=%.0f fps=%.1f gpu=%@ %@", Date().timeIntervalSince(started), metrics.liveFPS(),
+                             render.gpuFrameMs.map { String(format: "%.2f", $0) } ?? "-", render.summary))
+            }
+        }
+        .task {
+            // `-pausetest N`: the host pauses the view at N s and resumes it at 2N s.
+            guard let n = options.pauseTest else { return }
+            try? await Task.sleep(for: .seconds(n))
+            hostPaused = true
+            try? await Task.sleep(for: .seconds(n))
+            hostPaused = false
         }
     }
 
@@ -125,6 +152,8 @@ struct RealityKitScreen: View {
             metrics.start(world: w)
             if testRun || options.metrics {
                 test = TestRun(renderer: "realitykit", stats: w.stats)
+                let render = render
+                test?.display = { String(format: "%.2f,%d", render.scale, render.framesPerSecond) }
                 test?.begin()
             }
             let st = w.stats
@@ -223,6 +252,7 @@ struct HUD: View {
     let metrics: Metrics
     let world: World
     let test: TestRun?
+    let render: WorldRenderState
 
     var body: some View {
         let s = world.stats
@@ -230,6 +260,7 @@ struct HUD: View {
             Text(String(format: "%.0f fps  frame %.1f ms  gpu %.1f ms", metrics.fps, metrics.frameMs, metrics.gpuMs))
             Text("view \(s.viewTriangles / 1000)k tris  all \(s.triangles / 1000)k (trees \(s.treeTriangles / 1000)k)  draws \(s.drawCalls)")
             Text(String(format: "mem %.0f MB  mesh %.1f MB  %@", metrics.memoryMB, Double(s.meshBytes) / 1_048_576, metrics.thermal))
+            Text(render.summary)
             if let test { Text(test.statusLine) }
         }
         .font(.system(size: 11, weight: .medium, design: .monospaced))

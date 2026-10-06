@@ -267,6 +267,11 @@ public enum StyleLibrary {
     public static func lighting() throws -> LightingTables {
         try JSONDecoder().decode(LightingTables.self, from: data("time-of-day"))
     }
+
+    /// Display policy (render scale, calm mode, pausing).
+    public static func display() throws -> DisplayPolicy {
+        try JSONDecoder().decode(DisplayPolicy.self, from: data("display"))
+    }
 }
 
 extension StableRandom {
