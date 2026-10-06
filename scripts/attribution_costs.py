@@ -19,9 +19,8 @@ import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-ORDER = ["all1", "noShadows", "all2", "noSky", "all3", "noPost", "all4", "noMSAA", "all5", "noSurfaceDetail",
-         "all6", "noFoliage", "all7", "noBuildings", "all8", "cutDetail", "all9",
-         "shadow50", "all10", "shadow30", "all11"]
+ORDER = ["all1", "noShadows", "all2", "shadow50", "all3", "shadow30", "all4", "noMSAA", "all5", "noFoliage", "all6",
+         "cutDetail", "all7", "noSky", "all8", "noSurfaceDetail", "all9", "noPost", "all10", "noBuildings", "all11"]
 STATES = {1: "min", 2: "medium", 3: "max"}
 MIN_FRAMES = 30
 

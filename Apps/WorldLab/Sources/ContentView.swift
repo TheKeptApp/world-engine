@@ -134,6 +134,12 @@ struct RealityKitScreen: View {
                 if Int(Date().timeIntervalSince(started)) % 10 == 0 { print("CONDITIONS \(TestRun.conditions())") }
                 print(String(format: "RENDER t=%.0f fps=%.1f gpu=%@ %@", Date().timeIntervalSince(started), metrics.liveFPS(),
                              render.gpuFrameMs.map { String(format: "%.2f", $0) } ?? "-", render.summary))
+                // What the current view asks the GPU to draw (P3's look loop): frustum-tested
+                // triangles and draw calls of the world (sky, rain and characters not counted).
+                if let w = world {
+                    print(String(format: "VIEW t=%.0f triangles=%d draws=%d", Date().timeIntervalSince(started),
+                                 w.stats.viewTriangles, w.stats.viewDrawCalls))
+                }
             }
         }
         .task {
@@ -154,30 +160,29 @@ struct RealityKitScreen: View {
                 try? await Task.sleep(for: .seconds(seconds))
             }
             // Every "off" phase sits between two "all" phases, so slow drift (heat, clocks) cancels.
+            // Most decision-relevant first (the phone warms during the run).
             await phase("all1") {}
             await phase("noShadows") { world.set(.shadows, enabled: false) }
             await phase("all2") { world.set(.shadows, enabled: true) }
-            await phase("noSky") { world.set(.sky, enabled: false) }
-            await phase("all3") { world.set(.sky, enabled: true) }
-            await phase("noPost") { post.settings.enabled = false }
-            await phase("all4") { post.settings.enabled = true }
+            await phase("shadow50") { world.setShadowDistance(50) }
+            await phase("all3") { world.setShadowDistance(80) }
+            await phase("shadow30") { world.setShadowDistance(30) }
+            await phase("all4") { world.setShadowDistance(80) }
             await phase("noMSAA") { multisampling = false }
             await phase("all5") { multisampling = true }
-            await phase("noSurfaceDetail") { world.set(.surfaceDetail, enabled: false) }
-            await phase("all6") { world.set(.surfaceDetail, enabled: true) }
             await phase("noFoliage") { world.set(.foliage, enabled: false) }
-            await phase("all7") { world.set(.foliage, enabled: true) }
-            await phase("noBuildings") { world.set(.buildings, enabled: false) }
-            await phase("all8") { world.set(.buildings, enabled: true) }
-            // The previous material set-up (every tree and bush on the cut-away pipeline), to
-            // measure what the opaque detail levels save.
+            await phase("all6") { world.set(.foliage, enabled: true) }
+            // The previous material set-up (every tree and bush on the cut-away pipeline).
             await phase("cutDetail") { world.set(.opaqueDetail, enabled: false) }
-            await phase("all9") { world.set(.opaqueDetail, enabled: true) }
-            // Shorter sun-shadow ranges (80 m is the default).
-            await phase("shadow50") { world.setShadowDistance(50) }
-            await phase("all10") { world.setShadowDistance(80) }
-            await phase("shadow30") { world.setShadowDistance(30) }
-            await phase("all11") { world.setShadowDistance(80) }
+            await phase("all7") { world.set(.opaqueDetail, enabled: true) }
+            await phase("noSky") { world.set(.sky, enabled: false) }
+            await phase("all8") { world.set(.sky, enabled: true) }
+            await phase("noSurfaceDetail") { world.set(.surfaceDetail, enabled: false) }
+            await phase("all9") { world.set(.surfaceDetail, enabled: true) }
+            await phase("noPost") { post.settings.enabled = false }
+            await phase("all10") { post.settings.enabled = true }
+            await phase("noBuildings") { world.set(.buildings, enabled: false) }
+            await phase("all11") { world.set(.buildings, enabled: true) }
             print("ATTR end \(iso.string(from: Date()))")
         }
         .task {
@@ -391,15 +396,23 @@ struct RealityKitScreen: View {
 
     private func load() async {
         do {
-            let demo = try DemoConfig.load()
+            guard var demo = try DemoConfig.load().forArea(options.area) else {
+                self.error = "Unknown area \(options.area ?? "") (demo.json areas)"
+                return
+            }
+            if let f = options.focus { demo.focus = f }
             self.demo = demo
-            let dir = Bundle.main.url(forResource: demo.area, withExtension: nil)!
+            guard let dir = Bundle.main.url(forResource: demo.area, withExtension: nil) else {
+                self.error = "Area \(demo.area) is not bundled"
+                return
+            }
             let w = try await World.load(areaDirectory: dir, options: WorldOptions(
-                focus: demo.focusBox, profileID: options.profile, date: options.date(demo), diagnostics: options.diagnostics))
+                focus: demo.focusBox, profileID: options.profile ?? demo.defaultProfile, date: options.date(demo), diagnostics: options.diagnostics))
             // Presets and test runs walk a character with the street camera (the matched-test
-            // setup); the experience opens on a composed postcard with no character.
-            let walking = options.preset != nil || testRun || options.metrics
-            let choice = options.character ?? (walking ? "luna" : "none")
+            // setup); the experience opens on a composed postcard with no character. Only the
+            // demo's own area has a walking loop.
+            let walking = demo.isDemoArea && (options.preset != nil || testRun || options.metrics)
+            let choice = demo.route.isEmpty ? "none" : (options.character ?? (walking ? "luna" : "none"))
             var cam: WorldCamera
             if choice != "none" {
                 let c = await makeCharacter(world: w, kind: choice)
@@ -429,7 +442,16 @@ struct RealityKitScreen: View {
                 }
             } else {
                 if let id = testWeather ?? options.weather, let p = e.presets.first(where: { $0.id == id }) { e.select(p) }
+                if let spec = options.weatherSpec { e.select(.init(id: "custom", title: "Custom", weather: spec)) }
                 if let t = options.dateOverride ?? (walking ? options.date(demo) : nil) { e.set(time: t) } else { e.goLive() }
+            }
+            // `-camera`: a named or explicit fixed view (P3's look loop, P2's areas).
+            if let spec = options.cameraSpec(demo) {
+                cam.mode = .postcard(Self.pose(spec, world: w))
+                e.aerial = spec.distance != nil || (spec.height ?? 1.65) > 60
+                e.resolve()
+            } else if options.camera != nil {
+                self.error = "Unknown camera \(options.camera ?? "") for \(demo.area)"
             }
             if let m = options.mode { mode = m }
             metrics.start(world: w)
@@ -451,6 +473,22 @@ struct RealityKitScreen: View {
         } catch {
             self.error = "Failed to build world: \(error)"
         }
+    }
+}
+
+extension RealityKitScreen {
+    /// The world pose of a named or explicit camera: standing at lat/lon (eye `height` m up), or
+    /// orbiting the ground point from `distance` m, looking along heading/pitch.
+    @MainActor
+    static func pose(_ c: DemoConfig.NamedCamera, world w: World) -> CameraPose {
+        let heading = c.heading * .pi / 180, pitch = (c.pitchDown ?? 3) * .pi / 180
+        // Scene axes: east +X, up +Y, north −Z.
+        let f = SIMD3(sin(heading) * cos(pitch), -sin(pitch), -cos(heading) * cos(pitch))
+        let origin = GeoCoordinate(latitude: c.lat, longitude: c.lon)
+        let eye = c.distance.map { -f * $0 } ?? SIMD3(0, c.height ?? 1.65, 0)
+        let target = c.distance == nil ? eye + f * 30 : SIMD3<Double>(0, 0, 0)
+        return w.pose(origin: origin, eye: [eye.x, eye.y, eye.z], target: [target.x, target.y, target.z],
+                      fieldOfViewDegrees: c.fov ?? 50)
     }
 }
 

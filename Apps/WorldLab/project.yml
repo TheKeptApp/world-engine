@@ -26,6 +26,13 @@ targets:
       - path: ../../Data/areas/sloans-lake
         type: folder
         buildPhase: resources
+      # P2's test areas, opened with `-area <id>` (demo.json `areas`).
+      - path: ../../Data/areas/evanston-south
+        type: folder
+        buildPhase: resources
+      - path: ../../Data/areas/lakeview-sheil-park
+        type: folder
+        buildPhase: resources
       # Generated, git-ignored, optional (scripts/generate.sh makes them):
       #   dog/      DogWell's dog for RealityKit (.usdz) and three.js (.glb), scripts/convert-dog.sh
       #   package/  the shared world package, scripts/export-package.sh

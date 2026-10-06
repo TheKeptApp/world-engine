@@ -45,6 +45,8 @@ public struct WorldStats: Sendable {
     public var clutterInstances = 0
     /// Triangles submitted for the current view (entities whose bounds meet the camera frustum).
     public var viewTriangles = 0
+    /// Draw calls for the current view (same test), refreshed twice a second.
+    public var viewDrawCalls = 0
     /// GPU bytes of world vertex/index data plus instance transforms.
     public var meshBytes = 0
     public var chunkCount = 0
@@ -106,7 +108,7 @@ public final class World {
     private var lodGroups: [LODGroup] = []
     var lodCenter: SIMD2<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
-    private var cullables: [(bounds: BoundingBox, triangles: Int)] = []
+    private var cullables: [(bounds: BoundingBox, triangles: Int, draws: Int)] = []
     private var tuftBounds: BoundingBox?
     private var viewClock = 0.0
     private var staticPropTriangles = 0
@@ -218,7 +220,7 @@ public final class World {
     /// Walkable ground for free exploring (built on first use).
     public lazy var walkMap = WalkMap(features: features, scene: scene)
 
-    /// Whether any entity is walking a route right now (calm mode stays off).
+    /// Whether any entity is walking a route right now.
     var hasActiveMotion: Bool { motions.contains { !$0.isPaused && $0.speed != 0 } }
 
     /// Removes an entity the app placed (and stops its motion).
@@ -266,7 +268,7 @@ public final class World {
         viewClock += dt
         if viewClock >= 0.5 {
             viewClock = 0
-            stats.viewTriangles = estimateViewTriangles(camera: camera)
+            (stats.viewTriangles, stats.viewDrawCalls) = estimateView(camera: camera)
         }
     }
 
@@ -330,7 +332,7 @@ public final class World {
                 rootEntity.addChild(e)
                 stats.staticTriangles += parts.reduce(0) { $0 + $1.triangleCount }
                 if let b = parts.compactMap(\.bounds).reduce(nil, { (acc: BoundingBox?, x) in acc.map { $0.union(BoundingBox(min: x.min, max: x.max)) } ?? BoundingBox(min: x.min, max: x.max) }) {
-                    cullables.append((b, parts.reduce(0) { $0 + $1.triangleCount }))
+                    cullables.append((b, parts.reduce(0) { $0 + $1.triangleCount }, parts.count))
                 }
                 baseDrawCalls += parts.count
                 stats.meshBytes += parts.reduce(0) { $0 + $1.gpuBytes }
@@ -400,7 +402,7 @@ public final class World {
                 e.name = "Props \(key)"
                 rootEntity.addChild(e)
                 staticPropBase += buffers.triangleCount * list.count
-                if let b = Self.bounds(of: buffers, list.map(\.transform)) { cullables.append((b, buffers.triangleCount * list.count)) }
+                if let b = Self.bounds(of: buffers, list.map(\.transform)) { cullables.append((b, buffers.triangleCount * list.count, 1)) }
                 baseDrawCalls += 1
                 stats.meshBytes += list.count * 64
                 continue
@@ -494,19 +496,20 @@ public final class World {
         recount()
     }
 
-    /// Triangles in entities whose bounds meet the camera frustum (what the GPU is asked to draw).
-    private func estimateViewTriangles(camera: Entity) -> Int {
+    /// Triangles and draw calls in entities whose bounds meet the camera frustum (what the GPU is
+    /// asked to draw; the sky dome, stars, rain and characters are not counted).
+    private func estimateView(camera: Entity) -> (triangles: Int, drawCalls: Int) {
         let fov = (camera.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50) * .pi / 180
         let planes = Self.frustumPlanes(view: camera.transformMatrix(relativeTo: nil).inverse, fovY: fov, aspect: viewAspect, near: 0.1, far: 5000)
-        var total = 0
-        for c in cullables where Self.intersects(c.bounds, planes) { total += c.triangles }
+        var total = 0, draws = 0
+        for c in cullables where Self.intersects(c.bounds, planes) { total += c.triangles; draws += c.draws }
         for g in lodGroups {
             for lod in g.levels.indices where g.counts[lod] > 0 {
-                if let b = g.bounds[lod], Self.intersects(b, planes) { total += g.counts[lod] * g.levels[lod].triangles }
+                if let b = g.bounds[lod], Self.intersects(b, planes) { total += g.counts[lod] * g.levels[lod].triangles; draws += 1 }
             }
         }
-        if let b = tuftBounds, Self.intersects(b, planes) { total += stats.clutterInstances * 17 }
-        return total
+        if let b = tuftBounds, Self.intersects(b, planes) { total += stats.clutterInstances * 17; draws += 1 }
+        return (total, draws)
     }
 
     /// Width / height of the view, for the triangle estimate (set by WorldView).

@@ -45,12 +45,9 @@ run() { # $1 = name, $2 = seconds, rest = app args
 
 run probe 30 -renderer realitykit -preset street-mid -rendertrace -diag gpustats
 run view-loop-2.5x 82 -renderer realitykit -rendertrace -metrics on -testseconds 60 -hud off
-run host-loop-2.5x 82 -renderer realitykit -rendertrace -metrics on -testseconds 60 -hud off -host renderer
 run view-loop-3.0x 82 -renderer realitykit -rendertrace -metrics on -testseconds 60 -hud off -renderscale native
 run view-loop-2.0x 82 -renderer realitykit -rendertrace -metrics on -testseconds 60 -hud off -renderscale 2.0
 run view-pause 32 -renderer realitykit -rendertrace -pausetest 10
-run host-idle-calm-off 140 -renderer realitykit -preset street-mid -rendertrace -metrics on -testseconds 120 -hud off -host renderer -calm off
-run host-idle-calm-on 140 -renderer realitykit -preset street-mid -rendertrace -metrics on -testseconds 120 -hud off -host renderer
 
 # Pull the TestRun logs written during this session (file names carry their start time).
 TMP=$(mktemp -d)

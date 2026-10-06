@@ -412,5 +412,92 @@
     "note": "WorldLab addition (art direction, Prompt 5): a clear, ordinary afternoon with fair-weather cloud, scored as hard as fall and snow"
    }
   ]
- }
+ },
+  "areas_comment": "Other bundled areas for `-area ID` (P2's test areas; data in Data/areas/<id>, OSM out body). Named cameras for `-camera NAME` stand on public streets inside each area: P2's gate cameras (scripts/p2_gate_shots.sh) and the regions-fixture compositions (docs/proposals/regions-chicagoland-miami/fixtures.json: eye 1.65 m, pitch 3° down, 50° FOV) placed inside the area, because the fixtures' own locations are approximate references outside these areas. 'distance' makes an orbit camera: it looks at lat/lon from that slant distance.",
+  "areas": {
+    "evanston-south": {
+      "focus": {
+        "south": 42.035,
+        "west": -87.694,
+        "north": 42.041,
+        "east": -87.6885
+      },
+      "profile": "evanston",
+      "locationLabel": "South Evanston",
+      "timeZone": "America/Chicago",
+      "cameras": {
+        "northshore-postcard": {
+          "lat": 42.037641,
+          "lon": -87.6925,
+          "heading": 90,
+          "pitchDown": 3,
+          "fov": 50,
+          "note": "Greenleaf Street looking east (regions northshore-postcard composition)"
+        },
+        "wesley-street": {
+          "lat": 42.0382,
+          "lon": -87.69135,
+          "heading": 180,
+          "pitchDown": 3,
+          "fov": 50,
+          "note": "Wesley Avenue, east sidewalk, looking south (P2 evanston-street)"
+        },
+        "evanston-aerial": {
+          "lat": 42.0378,
+          "lon": -87.6915,
+          "distance": 95,
+          "heading": 20,
+          "pitchDown": 32,
+          "fov": 45,
+          "note": "low oblique over the Wesley block (P2 evanston-aerial)"
+        }
+      }
+    },
+    "lakeview-sheil-park": {
+      "focus": {
+        "south": 41.9415,
+        "west": -87.669,
+        "north": 41.948,
+        "east": -87.6585
+      },
+      "profile": "chicago-dense-north",
+      "locationLabel": "Lakeview",
+      "timeZone": "America/Chicago",
+      "cameras": {
+        "lakeview-postcard": {
+          "lat": 41.943402,
+          "lon": -87.6632,
+          "heading": 90,
+          "pitchDown": 3,
+          "fov": 50,
+          "note": "West Roscoe Street, south sidewalk, looking east (regions lakeview-postcard composition)"
+        },
+        "roscoe-street": {
+          "lat": 41.943402,
+          "lon": -87.66075,
+          "heading": 270,
+          "pitchDown": 3,
+          "fov": 50,
+          "note": "West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)"
+        },
+        "chicago-alley": {
+          "lat": 41.944063,
+          "lon": -87.666977,
+          "heading": 0,
+          "pitchDown": 3,
+          "fov": 50,
+          "note": "alley behind the Roscoe block, looking north (P2 lakeview-alley; regions chicago-alley composition)"
+        },
+        "lakeview-aerial": {
+          "lat": 41.944,
+          "lon": -87.664,
+          "distance": 110,
+          "heading": 150,
+          "pitchDown": 32,
+          "fov": 45,
+          "note": "low oblique over the block (P2 lakeview-aerial)"
+        }
+      }
+    }
+  }
 }
