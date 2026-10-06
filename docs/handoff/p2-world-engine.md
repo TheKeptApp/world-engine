@@ -40,3 +40,10 @@ suggested 4k: Lakeview garden density was halved; still over — needs a decisio
 5A: tone targets in docs/m3/tone-targets.md (fill fix pending; no palette lift); bush LODs now 4 levels;
 tree variety via per-tree stretch. P1: Overture ML heights −2.35 m vs lidar (rule pending), canopy and tree
 heights from lidar coming. P3: region run 2.3/5 building+ground average; reruns after my merges.
+
+## Shrub-form branch (sub-agent, stopped)
+`worktree-agent-a0a5538e9eea80aaf` at 86a754f (local only): Props.swift bush/flowerBush variants 2/6/7 cushions,
+3 loose (leans ~7°), 4 upright, 5 hedge segment (1 m along +X); near 72 (flower 80) / mid 24 / far 8 /
+skyline 3 tris; variants 0/1 byte-identical. Full suite passed before the last hedge tweak (untested).
+Next: rebase onto 5A's phase5b bush changes, rerun tests, then make yards pick the forms and give
+variant 5 the hedge row's direction as yaw.
