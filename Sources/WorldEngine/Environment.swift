@@ -79,8 +79,15 @@ extension World {
         // weaker key with more fill, measured on the phone).
         L.sunIntensity *= (1 + Self.lowSunKeyGain * lowSun) * lookTuning.key * Float(clearGrade?.direct ?? 1)
         let lowSunFill = 1 - Self.lowSunFillCut * lowSun
-        let tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
-        let tw = Float(w.tintWeight)
+        var tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
+        var tw = Float(w.tintWeight)
+        // Smoke warms the whole scene, not only the distance (owner: ochre/peach; P3: the near lawn and
+        // path stayed cool): a peach tint on fill and fog and an orange cast on the sun, at its weight.
+        if state == .smoke {
+            tint = WorldGen.Color.linear(Palette.parse("#D9A06A"))
+            tw = 0.4 * Float(weight)
+            L.sunColor = simd_mix(L.sunColor, WorldGen.Color.linear(Palette.parse("#FF9A4D")) * simd_length(L.sunColor) / 1.2, SIMD3(repeating: 0.6 * Float(weight)))
+        }
         func tinted(_ c: SIMD3<Float>) -> SIMD3<Float> { c + (tint - c) * tw }
         func lin(_ c: SIMD3<Float>) -> SIMD3<Float> { WorldGen.Color.linear(c) }
         let elevation = env.light.sunElevationDeg
@@ -121,7 +128,7 @@ extension World {
             var end = e.end
             if let v = env.state.visibilityM { end = min(end, max(60, v)) }
             g.fogColor = e.color
-            g.fogStart = Float(min(e.start, end * 0.5))
+            g.fogStart = Float(min(label == .smoke ? 0 : e.start, end * 0.5))
             g.fogEnd = Float(end)
         }
         // Lighting bible atmosphere: the clear-air fade of the state (§2.3), and weather extinction
