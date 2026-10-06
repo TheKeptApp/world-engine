@@ -161,9 +161,11 @@ extension BuildingGenerator {
             let top = c.H + c.parapet
             m.paint = Paint(slot: c.trim.slot, shade: 0.95)
             let start = m.positions.count
-            for e in c.streetFacing.sorted() {
+            // Around mapped street bays too, so the cornice wraps their faces.
+            let bayFaces = Set(c.mappedBays.flatMap { $0 })
+            for e in c.streetFacing.union(bayFaces).sorted() {
                 let (p, dir, n, len) = Self.edge(ring, e)
-                guard len >= 1.5 else { continue }
+                guard len >= 1.5 || (bayFaces.contains(e) && len >= 0.3) else { continue }
                 m.addBox(center: p + dir * (len / 2) + n * 0.16, u: dir, halfLength: len / 2 + 0.16, halfWidth: 0.16,
                          z0: top - 0.5, z1: top + 0.06, bottom: true)
                 if near, stories >= 2 {
@@ -351,8 +353,9 @@ extension BuildingGenerator {
     // MARK: - Small kits
 
     /// A small gable over a door (Colonial entry pediment).
-    func addPediment(at p: LocalPoint, dir: LocalPoint, n: LocalPoint, z: Double, paint: Paint, roof: Paint, into m: inout MeshBuffers) {
-        let hw = 0.8, d = 0.5, rise = 0.42
+    // swiftlint:disable:next function_parameter_count
+    func addPediment(at p: LocalPoint, dir: LocalPoint, n: LocalPoint, z: Double, paint: Paint, roof: Paint,
+                     halfWidth hw: Double = 0.8, depth d: Double = 0.5, rise: Double = 0.42, into m: inout MeshBuffers) {
         func q(_ s: Double, _ t: Double, _ zz: Double) -> SIMD3<Float> { P(p + dir * s + n * t, zz) }
         m.paint = paint
         m.addCleanFace([q(-hw, d, z), q(hw, d, z), q(0, d, z + rise)], facing: D(n))

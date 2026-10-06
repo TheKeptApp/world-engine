@@ -86,6 +86,9 @@ public enum WorldPackage {
             ]
             if let t = g.houseType { d["houseType"] = t }
             if let p = g.porchStyle { d["porchStyle"] = p }
+            if let k = g.entryKit { d["entryKit"] = k }
+            // Inferred facade elements (not in the mapped footprint), flagged for review.
+            if !g.inferredBays.isEmpty { d["inferredFacade"] = g.inferredBays.map { _ in "bay" } }
             if let e = g.frontEdge { d["frontEdge"] = e }
             if let e = g.garageDoorEdge { d["garageDoorEdge"] = e; d["garageDoorFacesAlley"] = g.garageDoorFacesAlley }
             decisions[g.ref.description] = d
