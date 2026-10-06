@@ -387,7 +387,7 @@ def blocks_area(a, cfg, params, work, point_check):
         f["c"] = (round(c.x, 1), round(c.y, 1))
     faces.sort(key=lambda f: (-round(f["area"]), f["c"]))
     taken, blocks, dropped = set(), [], 0
-    crown_range = tuple(cfg["crownRangeM2"])
+    crown_range = tuple(a.get("crownRangeM2") or cfg["crownRangeM2"])
     for f in faces:
         poly = f["poly"]
         m = mask_of([poly], tr, shape) & valid
@@ -422,7 +422,7 @@ def blocks_area(a, cfg, params, work, point_check):
     blocks.sort(key=lambda r: r["id"])
     header = {
         "format": "worldengine-canopy-blocks 1", "area": a["id"], "profile": a["profile"],
-        "methodVersion": bm.METHOD_VERSION,
+        "methodVersion": bm.METHOD_VERSION_CALIBRATED if a.get("calibration") else bm.METHOD_VERSION,
         "naip": {"items": [{"id": u["id"], "datetime": u["datetime"]} for u in meta["items"]],
                  "acquired": meta["items"][0]["datetime"][:10], "gsdMeters": meta["gsdMeters"],
                  "credit": "NAIP imagery provided by USDA Farm Service Agency",
@@ -438,6 +438,8 @@ def blocks_area(a, cfg, params, work, point_check):
                             "note": "heuristic factors in blockmath.block_confidence; not a measured per-block accuracy"},
         "osmTimestamp": osm_ts, "blockCount": len(blocks),
     }
+    if a.get("calibration"):
+        header["calibration"] = a["calibration"]
     path = os.path.join(REPO, a["area"], "canopy-blocks.json")
     head = json.dumps(header, indent=1, ensure_ascii=False)
     with open(path, "w") as fh:
