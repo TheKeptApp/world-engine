@@ -317,11 +317,12 @@ public final class World {
     private func buildChunks() throws {
         // Soft world boundary: a plain ground under and around the area (v2 §3.3), fogged with
         // distance like everything else.
-        // The plain beyond the data reads as a neutral distant land (the base palette's backdrop
-        // colour), not as lawn: from the aerial a bright green field dominated the frame
-        // (P3's look loop: colour match to the concepts). A real context ring replaces it later.
+        // The plain beyond the data reads as a neutral distant land, not as lawn (from the aerial a
+        // bright green field dominated the frame): the lighting bible's coverage backdrop, #A9B4A0
+        // in summer and #BDC8D4 in winter (look-fix-v1 §4; a seasonal palette slot). A real
+        // context ring (P1) replaces it where data exists.
         var boundary = scene.boundaryGround
-        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop"), shade: 0.7))
+        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop")))
         if let ground = try MeshUpload.resource([boundary]) {
             let e = Entity()
             e.name = "Boundary ground"
