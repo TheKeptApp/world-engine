@@ -1,0 +1,373 @@
+{
+  "checkedOn": "2026-10-05",
+  "sources": [
+    {
+      "id": "DESIGN",
+      "title": "This proposal and owner scope",
+      "location": "WorldEngine-Regions-Chicagoland-Miami-Spec-v1.md",
+      "checkedOn": "2026-10-05",
+      "classification": "judgment",
+      "scope": "All chosen weights, dimensions, colors, dates, cameras, approximate bounds and performance allocations are review assumptions, not surveys. Phase 5B scope confirmed by owner."
+    },
+    {
+      "id": "LOCAL-SCHEMA",
+      "title": "StyleProfile and RegionCatalog Codable v2",
+      "location": "Sources/WorldGen/StyleProfile.swift",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Local source read; actual decoder contract, no standalone JSON Schema found."
+    },
+    {
+      "id": "LOCAL-GEN",
+      "title": "BuildingGenerator",
+      "location": "Sources/WorldGen/BuildingGenerator.swift",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Local source read; basic roof forms and block dispatch limitations."
+    },
+    {
+      "id": "LOCAL-SOLAR",
+      "title": "SolarPosition",
+      "location": "Sources/WorldGeo/SolarPosition.swift",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Local NOAA-style geometric solar model; source accuracy comment is not an independent measurement."
+    },
+    {
+      "id": "LOCAL-REGIONS",
+      "title": "Regional profiles v1",
+      "location": "docs/proposals/regions-v1/WorldEngine-Regional-Profiles-v1.md",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Existing profile conventions and proposed-additions envelope."
+    },
+    {
+      "id": "LOCAL-V2",
+      "title": "Visual v2",
+      "location": "docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Style, camera conventions and performance ceilings."
+    },
+    {
+      "id": "LOCAL-WEATHER",
+      "title": "Weather v1",
+      "location": "docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Weather tint/fog/particles/accumulation rules; targets are proposal assumptions."
+    },
+    {
+      "id": "LOCAL-SKY",
+      "title": "Sky and seasons v1",
+      "location": "docs/proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Continuous phenology and sun/moon conventions."
+    },
+    {
+      "id": "LOCAL-EXPERIENCE",
+      "title": "Experience v1",
+      "location": "docs/proposals/experience-v1/WorldEngine-Experience-Spec-v1.md",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Character-free cameras and concept manifest conventions."
+    },
+    {
+      "id": "EV-ARCH",
+      "title": "Evanston landmark inventory",
+      "location": "https://www.cityofevanston.org/Documents/Departments/Community%20Development/Planning%20and%20Zoning/Historic%20Preservation/Evanston%20Landmarks/EvanstonLandmarksInventory_Complete.pdf?t=202601161453210",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Examples establish vocabulary, not stock frequencies; private residence addresses excluded."
+    },
+    {
+      "id": "EV-TREES",
+      "title": "Evanston tree preservation guidance",
+      "location": "https://www.cityofevanston.org/Documents/Departments/Public%20Works/Services/Forestry%20and%20Tree%20Preservation/Tree%20Preservation%20Permits/PvtTreePres2026.pdf?t=202602091708540",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Species vocabulary, not a sampled canopy mixture."
+    },
+    {
+      "id": "WIN-FORM",
+      "title": "Winnetka residential design handbook in meeting packet",
+      "location": "https://www.villageofwinnetka.org/AgendaCenter/ViewFile/Agenda/_01122021-239",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Search-indexed handbook material; full-file retrieval unavailable in this review. No numerical stock claims."
+    },
+    {
+      "id": "WIL-FORM",
+      "title": "Wilmette appearance review guide",
+      "location": "https://www.wilmette.gov/DocumentCenter/View/1618",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Village-center style examples, not residential census; residential transfer is judgment."
+    },
+    {
+      "id": "KEN-FORM",
+      "title": "Kenilworth downtown historic survey",
+      "location": "https://vok.org/DocumentCenter/View/6581",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Business-district Tudor context only; residential mixture is judgment."
+    },
+    {
+      "id": "CHI-BUNG",
+      "title": "Chicago Architecture Center: Chicago bungalow",
+      "location": "https://www.architecture.org/online-resources/buildings-of-chicago/chicago-bungalow/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Bungalow form and classic narrow lot context."
+    },
+    {
+      "id": "CHI-FLATS",
+      "title": "Workers Cottage Initiative: two-flats",
+      "location": "https://workerscottage.org/twoflats.html",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Two-flat as dwelling arrangement across styles; no occupancy inference from facade."
+    },
+    {
+      "id": "CHI-COURT",
+      "title": "Edgewater Historical Society: courtyard buildings",
+      "location": "https://www.edgewaterhistory.org/ehs/local/courtyard-buildings",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Search-indexed courtyard description; full-page retrieval unavailable in this review."
+    },
+    {
+      "id": "CHI-GREY",
+      "title": "CTA RPM historic resources survey",
+      "location": "https://www.transitchicago.com/assets/1/6/RP_CWC_JP_RPM_PH1_RPB_Appendix_D_20150519_Part2.pdf",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Greystone facade and neighborhood building vocabulary; omit private addresses."
+    },
+    {
+      "id": "CHI-MIDDLE",
+      "title": "Chicago Architecture Center: missing middle infill",
+      "location": "https://www.architecture.org/online-resources/missing-middle-infill-housing",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Rowhouses, six-flats and courtyards as distinct forms."
+    },
+    {
+      "id": "CHI-BELT",
+      "title": "Chicago Bungalow Association: historic districts",
+      "location": "https://www.chicagobungalow.org/historic-districts",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Multiple north and south bungalow districts; does not imply uniform South Side."
+    },
+    {
+      "id": "CHI-BOULEVARD",
+      "title": "City of Chicago: Logan Square boulevards district",
+      "location": "https://webapps1.chicago.gov/landmarksweb/web/districtdetails.htm?disId=146",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Landscaped boulevard system and varied buildings."
+    },
+    {
+      "id": "SOUTH-GOTHIC",
+      "title": "University of Chicago architecture",
+      "location": "https://architecture.uchicago.edu/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Campus architecture; Gothic applies to supported institution parcels only."
+    },
+    {
+      "id": "SOUTH-BRONZE",
+      "title": "City of Chicago: Black Metropolis district",
+      "location": "https://webapps1.chicago.gov/landmarksweb/web/districtdetails.htm?disId=6",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Cultural/commercial district context; not a uniform house style."
+    },
+    {
+      "id": "CHI-SCHOOL",
+      "title": "Library of Congress: Reliance Building HABS",
+      "location": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0000/il0041/data/il0041data.pdf",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Chicago School reference vocabulary, not a landmark replica instruction."
+    },
+    {
+      "id": "CHI-DECO",
+      "title": "Chicago Architecture Center: Board of Trade",
+      "location": "https://www.architecture.org/online-resources/buildings-of-chicago/chicago-board-of-trade-building/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Art Deco massing reference; numerical envelope here is judgment."
+    },
+    {
+      "id": "CHI-BRIDGE",
+      "title": "Chicago Architecture Center: movable bridges",
+      "location": "https://www.architecture.org/online-resources/stories-of-chicago/chicagos-movable-bridges",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Bascule bridge reference; alignment requires mapped geometry."
+    },
+    {
+      "id": "CTA",
+      "title": "CTA Loop track renewal",
+      "location": "https://www.transitchicago.com/chicago-transit-board-approves-contractor-for-the-loop-track-renewal-project/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Elevated Loop structure context; topology must come from rail data."
+    },
+    {
+      "id": "WIL-STREET",
+      "title": "Wilmette community",
+      "location": "https://www.wilmette.gov/31/Community",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Brick streets and green lantern vocabulary."
+    },
+    {
+      "id": "WIL-BRICK",
+      "title": "Wilmette brick street policy",
+      "location": "https://www.wilmette.gov/DocumentCenter/View/207/Brick-Street-Policy-PDF",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Some brick is under asphalt; do not color all roads brick."
+    },
+    {
+      "id": "EV-ALLEYS",
+      "title": "Evanston alley maintenance",
+      "location": "https://www.cityofevanston.org/departments/public_works/services/alley_maintenance.php",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Unpaved alley maintenance confirms alley surface diversity."
+    },
+    {
+      "id": "EV-GIS",
+      "title": "Evanston planimetric GIS service",
+      "location": "https://maps.cityofevanston.org/arcgis/rest/services/OpenData/ArcGISOpenData3Planimetric/MapServer",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Possible audit source, not imported; license and alignment review still needed."
+    },
+    {
+      "id": "EV-DOWNTOWN",
+      "title": "Evanston downtown plan",
+      "location": "https://www.cityofevanston.org/departments/community_development/planning_zoning/area_planning/downtown_plan.php",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Downtown is a distinct planning context."
+    },
+    {
+      "id": "WIL-PARK",
+      "title": "Wilmette Park District public facilities",
+      "location": "https://wilmettepark.org/freedom-of-information-act/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Vattmann Park public test anchor; coordinates here approximate."
+    },
+    {
+      "id": "WIN-PARK",
+      "title": "Hubbard Woods Park",
+      "location": "https://www.winpark.org/beach_park/hubbard-woods-park/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Public park anchor."
+    },
+    {
+      "id": "KEN-PARK",
+      "title": "Townley Field",
+      "location": "https://kenilworthparkdistrict.org/parks/townley-field/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Public park anchor."
+    },
+    {
+      "id": "CHI-PARK",
+      "title": "Sheil Community Center Park",
+      "location": "https://www.chicagoparkdistrict.com/parks-facilities/sheil-bernard-community-center-park?page=0",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Public Lakeview anchor for phase 5B dense-city review."
+    },
+    {
+      "id": "FALL",
+      "title": "Morton Arboretum: when leaves change",
+      "location": "https://mortonarb.org/blog/when-do-leaves-change-color-in-fall/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Broad late-September/October variability and species differences; no fixed peak-date guarantee."
+    },
+    {
+      "id": "SPRING",
+      "title": "Morton Arboretum spring bloom report",
+      "location": "https://mortonarb.org/explore/activities/explore-grounds/spring-bloom-report/",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Spring bloom phenophases; selected fixture dates are judgment, not reported 2026 observations."
+    },
+    {
+      "id": "LAKE-EFFECT",
+      "title": "NWS Chicago November 9\u201310 2025 lake-effect event",
+      "location": "https://www.weather.gov/lot/2025_11_10_LakeEffectSnow",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Spatially variable lake-effect event, not fixture hourly forcing."
+    },
+    {
+      "id": "LAKE-ENHANCED",
+      "title": "NWS Chicago February 9 2010 snow",
+      "location": "https://www.weather.gov/lot/2010feb09",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Lake enhancement of a broader storm."
+    },
+    {
+      "id": "FOG",
+      "title": "NWS fog over water",
+      "location": "https://www.weather.gov/safety/fog-water",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Warm moist air over colder water can form fog and move inland."
+    },
+    {
+      "id": "MIAMI-WET",
+      "title": "Miami-Dade local mitigation strategy: flooding",
+      "location": "https://www.miamidade.gov/fire/library/OEM/local-mitigation-strategy-part-7-flooding-nfip-and-crs.pdf",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "South Florida wet-season context; selected storm dates/intensities are synthetic."
+    },
+    {
+      "id": "CG-FORM",
+      "title": "Coral Gables Mediterranean design",
+      "location": "https://www.coralgables.com/department/development-services/board-architects/mediterranean-design",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Municipal Mediterranean design context, not a universal style claim."
+    },
+    {
+      "id": "CG-DESIGN",
+      "title": "Coral Gables design best practices draft",
+      "location": "https://www.coralgables.com/sites/default/files/2023-10/Design-Best-Practices-2021sm-EK.pdf",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "October 2021 draft design reference; not asserted current building law."
+    },
+    {
+      "id": "MS-HISTORY",
+      "title": "Miami Shores story",
+      "location": "https://www.msvfl.gov/departments/community/TheMiamiShoresStory",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Historic Italian-influenced development context; present ranch share is judgment."
+    },
+    {
+      "id": "CG-TREES",
+      "title": "Coral Gables tree guide",
+      "location": "https://www.coralgables.com/sites/default/files/2022-05/TreeGuide.pdf",
+      "checkedOn": "2026-10-05",
+      "classification": "researched",
+      "scope": "Suitable broadleaf species and palms; not local abundance measurements."
+    }
+  ]
+}
