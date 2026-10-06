@@ -48,6 +48,8 @@ area as contact sheets for a photo check; `score` reads `areas/<id>/points_label
 
 `canopy_areas.py blocks --work DIR` (after `fetch`) writes `Data/areas/<id>/canopy-blocks.json`: per-block canopy
 share, tree counts, spacing and confidence (format: `docs/research/aerial.md` 13.9; pure functions in `blockmath.py`).
+Areas with a `calibration` entry in `data/canopy_areas.json` (wilmette, winnetka, kenilworth) use a calibrated effective
+crown area and method version `canopy-blocks 2` (`docs/research/aerial.md` 13.10).
 
 The work directory defaults to `$AERIAL_WORK` or `<system temp>/worldengine-aerial`; the tool refuses a work
 directory inside the repository. Delete it when done: it holds imagery, crops, per-building estimates and labels.

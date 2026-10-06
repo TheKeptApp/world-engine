@@ -79,6 +79,8 @@ recomputes from the committed results and the hand labels.
      `wilmette` **0.55** (the profile had 0.58, from the 0.25 km² study cell; it now carries 0.55).
    - A 50-point photo check per area agrees 74–91 %. On balance the mask reads a few points lower than the
      labelled points.
+   - Later calibration (13.10): Wilmette's tree count is corrected from 51 to **45 trees/ha** (95 % range 39–54),
+     and Winnetka (58 % canopy) and Kenilworth (58 %) were added.
 
 ## 1. Licence and access
 
@@ -667,7 +669,7 @@ Added 2026-10-06 for the profiles' new optional `trees.canopyShare` field (`docs
 
 ### 13.9 Per-block canopy and tree spacing (`Data/areas/<id>/canopy-blocks.json`)
 
-Added 2026-10-06 as the "area profile" data for the yard and street-tree generator. Written by `canopy_areas.py blocks` (reuses the NAIP windows and the unchanged canopy mask of this section; pure functions in `blockmath.py`, offline tests `tests/test_blockmath.py`). Aggregates per block only: no per-house values, no imagery. Four areas: evanston-south, lakeview-sheil-park, sloans-lake, wilmette-vattmann-park.
+Added 2026-10-06 as the "area profile" data for the yard and street-tree generator. Written by `canopy_areas.py blocks` (reuses the NAIP windows and the unchanged canopy mask of this section; pure functions in `blockmath.py`, offline tests `tests/test_blockmath.py`). Aggregates per block only: no per-house values, no imagery. Six areas: evanston-south, lakeview-sheil-park, sloans-lake, wilmette-vattmann-park, plus (calibration step, 13.10) winnetka-village-green and kenilworth-station. Method version `canopy-blocks 1` (evanston, lakeview, sloans-lake) uses the lidar crown below as divisor; `canopy-blocks 2` (wilmette, winnetka, kenilworth) uses a calibrated effective crown area and adds a `calibration` header object (13.10).
 
 **File.** A header plus a `blocks` array (one line per block, sorted by id).
 - Header: `format` (`worldengine-canopy-blocks 1`), `area`, `profile`, `methodVersion` (`canopy-blocks 1`), `naip` (item ids, acquisition date, `gsdMeters`, `credit` "NAIP imagery provided by USDA Farm Service Agency", licence: public domain), `canopyMethod`, `blockSource`, `crown` (mean and range of crown plan area, source), `confidenceBasis`, `osmTimestamp`, `blockCount`.
@@ -682,7 +684,7 @@ Added 2026-10-06 as the "area profile" data for the yard and street-tree generat
 - `frontageSpacingM` = frontageM / trees, where frontageM is the length of the face boundary that lies on streets. It is the spacing of a single street-tree row that alone would produce the block's canopy, so it is a lower bound on real street-tree spacing (most trees are in yards). Absent for fewer than one tree.
 
 Assumptions and caveats:
-- Leaf-on NAIP canopy merges touching crowns, so the count is canopy cover divided by the mean crown the lidar found, not a tree detection. Cross-check against the lidar counts (lidar-roofs.md 13.4): Evanston 40.7 trees/ha median over residential blocks against 37.6 detected, so it fits; Wilmette 55 against 36.8, because NAIP's leaf-on cover (0.55) exceeds the leaf-off lidar crowns (0.41), so Wilmette counts are probably about 1.4 times high; Lakeview 18 against 18.5 to 25.2.
+- Leaf-on NAIP canopy merges touching crowns, so the count is canopy cover divided by the mean crown the lidar found, not a tree detection. Cross-check against the lidar counts (lidar-roofs.md 13.4): Evanston 40.7 trees/ha median over residential blocks against 37.6 detected, so it fits; Wilmette 55 against 36.8, which looked like 1.4 times too high but was recalibrated in 13.10 (hand counts and point checks put it at 45 to 50, about 1.1 times high, not 1.4); Lakeview 18 against 18.5 to 25.2.
 - The 2017 lidar crowns are leaf-off and older than the 2023 NAIP; Denver's crown size is an assumption.
 - The mask is a lower bound where trees overhang buildings, and the point checks put it 2 to 8 points under the labels in three areas (above); this is not corrected.
 
@@ -691,15 +693,73 @@ Assumptions and caveats:
 - edge = 0.85 when the face is cut by the area window (`edgeCut`);
 - park/water = 0.80 when at least 10 % of the face is park or water.
 
-Tiers: `high` at 0.75 or more, `medium` at 0.6 or more, otherwise `low`. The header carries the area's agreement, so a consumer can rescale. Wilmette has no `high` block because its area agreement is 73.8 %.
+Tiers: `high` at 0.75 or more, `medium` at 0.6 or more, otherwise `low`. The header carries the area's agreement, so a consumer can rescale. Wilmette's tiers use the agreement of the fresh calibration check (75.9 %, n = 108; the earlier check gave 73.8 %, n = 42, and no `high` block); Winnetka's use 93.2 % (n = 44) and Kenilworth's 86.7 % (n = 45).
 
 | Area | Blocks (edge-cut) | Canopy p10 / median / p90 (complete residential faces, n) | Trees per ha | Grid spacing (m) | Frontage spacing (m) | Tiers high / medium / low |
 |---|---|---|---|---|---|---|
 | South Evanston | 50 (21) | 0.38 / 0.46 / 0.59 (28) | 34 / 41 / 53 | 13.5 / 15.0 / 17.0 | 4.7 / 6.3 / 7.9 | 28 / 10 / 12 |
 | Lakeview (Sheil Park) | 68 (31) | 0.14 / 0.19 / 0.26 (32) | 13 / 18 / 25 | 19.7 / 23.2 / 27.1 | 11 / 17 / 23 | 32 / 25 / 11 |
 | Sloan's Lake | 67 (30) | 0.20 / 0.28 / 0.35 (31) | 18 / 26 / 33 | 17.5 / 19.5 / 23.5 | 12 / 14 / 19 | 50 / 11 / 6 |
-| Wilmette (Vattmann Park) | 44 (25) | 0.54 / 0.60 / 0.64 (14) | 50 / 55 / 59 | 12.8 / 13.3 / 13.9 | 3.7 / 4.8 / 5.4 | 0 / 29 / 15 |
+| Wilmette (Vattmann Park), `canopy-blocks 2`, calibrated | 44 (25) | 0.55 / 0.60 / 0.65 (14) | 45 / 50 / 54 (was 50 / 55 / 59) | 13.7 / 14.2 / 14.8 | 4.3 / 5.4 / 6.2 | 14 / 19 / 11 |
+| Winnetka (Village Green), `canopy-blocks 2` | 53 (26) | 0.44 / 0.67 / 0.74 (24) | 47 / 72 / 79 | 11.2 / 11.8 / 14.6 | 3.7 / 4.2 / 6.2 | 39 / 4 / 10 |
+| Kenilworth (station), `canopy-blocks 2` | 50 (27) | 0.50 / 0.62 / 0.68 (16) | 46 / 58 / 63 | 12.6 / 13.2 / 14.8 | 3.9 / 4.6 / 6.6 | 16 / 15 / 19 |
 
 "Complete residential" = at least 1 ha, not edge-cut, under 10 % park or water. All other faces are in the files.
 
 **Bytes.** The NAIP windows were read again for this step: 287,689,177 bytes of COG ranges (plus STAC and token calls), as in the section above; no Overpass or lidar requests.
+
+### 13.10 Calibration of the tree count: Wilmette, then Winnetka and Kenilworth
+
+Added 2026-10-06. The question: are the Wilmette block counts (about 55 trees/ha, from NAIP canopy over the lidar crown of 108 m²) really about 1.4 times too high against the lidar tree-top count (36.8/ha)? Tool: `canopy_areas.py` (per-area `calibration` and `crownAreaM2` in `data/canopy_areas.json`) and the pure functions of `blockmath.py` (Wilson interval, ratio estimator, cluster bootstrap, paired difference, effective crown area; tests in `tests/test_blockmath.py`). All labelling and counting is by one labeller, from 0.3 m NAIP crops kept in scratch (not committed); the lidar tops are those of `Tools/regionkit/lidar/trees.py` (same settings, EPT depth ≤ 10).
+
+**Result.**
+- **Corrected Wilmette estimate: 45 trees/ha over the built fabric** (45.5; bootstrap over the 14 plots 42–49; 95 % range 39–54 when the spread between the hand count and the lidar count is added). Before: 51 at the fabric canopy share (block median 55). Block medians now 50 (p10–p90 45–54) instead of 55 (50–59).
+- The "1.4 times too high" reading was partly a lidar undercount. The lidar count (36.8) is a lower bound for true trees; in the same plots the hand count is 1.19 times the lidar tops (189 against 159; bootstrap of the ratio 1.07–1.32). The NAIP-based count was about 1.1 times high (51 against 45), not 1.4. The raw lidar number is 0.81 of the corrected value.
+- **Confidence: medium.** The sampling interval is ±7 %; the difference between the two ways of counting is ±20 %; the labeller is one person; dense plots (merged crowns) are counted with an uncertainty of about 25 %. The block values are therefore good to roughly ±15 % as a group, and no better than that for single blocks.
+
+**Method.**
+1. **Point check** (fresh stable sample: 120 points over the built fabric, SHA-256 seeded, a seed different from the 5B check; 15 m patches with a crosshair; labelled before the mask was looked at; tree = the crosshair lies under a tree crown, a shadow without foliage is not a tree; 12 unreadable). Of 108 readable points, 53 are tree (**49.1 %**, Wilson 39.8–58.4 %) while the mask says tree at 65 (60.2 %). Agreement 75.9 %; 7 missed tree points, 19 false ones. Paired difference label minus mask: **−11.1 points** (bootstrap −20.4 to −1.9). Applied to the mask's fabric share of 55.1 %, the label-corrected canopy is **about 0.44 (0.35–0.53)**.
+   - All 19 false points were reviewed on a mask-outline sheet: about 10 are tree shade on pavement, lawn or between houses, which the mask takes as canopy; the rest sit at crown edges or on small shrubs and hedges.
+   - Pooled with the 5B check (42 readable points, mask 2 points above the labels), the mask is 8.7 points above the labels (n = 150). The labeller's treatment of shade explains most of the difference between the two checks, so the size of the over-call is uncertain.
+   - **Not applied.** The block `canopyShare` stays the mask value, so it stays comparable with the profiles and the other areas. The label-corrected share is recorded in the header and in `results/canopy_areas.json`. Whether `trees.canopyShare` of the `wilmette` profile (0.55) should fall to 0.44 is left to the owner; the other profiles were measured with the same mask and may also be a few points high, but the evidence is not clear enough to change them.
+2. **Plots** (14 non-overlapping 50 m × 50 m squares, at least 95 % built fabric, stable random). Trees whose crown centre lies in the box were counted twice: by eye on the NAIP crop (before the lidar was looked at), and as kept lidar tree tops (leaf-off 2017, lidar-roofs.md 13.3). Counts per plot: eye 9–20, lidar 6–16; mask canopy 0.40–0.82. Eye total 189, lidar total 159 over 3.5 ha (54 and 45 trees/ha; the plots have a mean mask canopy of 60 % against the area's 55 %).
+   - Where the plots disagree, the eye count is higher (plots 5, 6, 7, 10, 12, 13, 14: small ornamental, understory and shaded trees, crowns merged under a taller one); where the crowns are separate the counts agree.
+   - The eye count may over-split multi-stem trees and big shrubs; the lidar count drops tops by its roof-clutter, thickness and point-count rules. Truth is taken as lying between them.
+3. **Effective crown area** = mask canopy area of the plots / trees. This is not a crown size: leaf-on crowns overlap, and the mask also takes in some shade. It converts this mask's canopy area into a tree count, so the mask's over-call of shade cancels (the plots and the blocks use the same mask).
+
+| Count used | Effective crown (m²) | Bootstrap over plots | Trees/ha (fabric mask 55.1 %) |
+|---|---:|---|---:|
+| Hand count | 111.7 | 101.3–123.1 | 49.4 (44.8–54.4) |
+| Lidar tops | 132.7 | 125.5–142.6 | 41.5 (38.7–43.9) |
+| **Mean of the two (used)** | **121.3** | 113.6–130.0 | **45.5 (42.4–48.6)** |
+| Before (lidar crown, nothing else) | 108 | | 51.1 |
+
+   - Applied as `crownAreaM2` 121 and `crownRangeM2` 101–143 (the extremes of the two rows), so `treesPerHaRange` of the blocks is 39–54 at the fabric canopy share.
+   - Cross-check with a different estimator: whole-area lidar tops (36.8/ha) × the hand/lidar ratio of the plots (1.19) = 43.7/ha, inside the interval.
+   - Canopy does scale roughly linearly with the count over the plots (about 21 trees per 50 m plot per unit of mask canopy), so a single factor is reasonable; the plots are too few to test a curve.
+
+**Winnetka and Kenilworth (coverage).** NAIP `il_m_4208759_nw_16_030_20230710_20240209` (acquired 2023-07-10, 0.3 m; the same quarter-quad covers the Wilmette, Kenilworth and Winnetka areas, so no mosaic), canopy method unchanged. 1 km² each, streets, parks and water from the committed `osm.json` (no Overpass request).
+
+| | Winnetka (Village Green) | Kenilworth (station) |
+|---|---|---|
+| Blocks (edge-cut), `canopy-blocks 2` | 53 (26) | 50 (27) |
+| Canopy, whole area / land / fabric | 54.9 % / 58.2 % / 58.2 % | 58.1 % / 58.1 % / 58.3 % |
+| Parks / water of the area | 1.8 % / 5.6 % (Lake Michigan) | 3.0 % / 0 % |
+| Canopy of complete residential blocks, p10 / p50 / p90 (n) | 0.44 / 0.67 / 0.74 (24) | 0.50 / 0.62 / 0.68 (16) |
+| Trees per ha | 47 / 72 / 79 | 46 / 58 / 63 |
+| Grid spacing (m) | 11.2 / 11.8 / 14.6 | 12.6 / 13.2 / 14.8 |
+| Photo check, 50 stable random points | 44 readable (6 unreadable: 3 on the lake), agreement 93.2 %, labels 50.0 % (35.8–64.2 %), mask at the points 52.3 % | 45 readable, agreement 86.7 %, labels 35.6 % (23.2–50.2 %), mask at the points 48.9 % (6 false tree points, 0 missed: shade again) |
+| Effective crown used | 93 m² (6 plots, eye 122 trees; eye-only 85.6, bootstrap 80.9–89.9) | 108 m² (6 plots, eye 97 trees; eye-only 99.4, bootstrap 90.8–110.3) |
+| Confidence (block tiers high / medium / low) | 39 / 4 / 10 | 16 / 15 / 19 |
+
+- **Calibration where justified.** Neither town has a lidar run here. Each got six 50 m plots counted by eye, and the eye-only effective crown was multiplied by Wilmette's mean-to-eye ratio (121.3 / 111.7 = 1.086) to put it on the same basis. Winnetka's eye-only value (85.6) lies outside Wilmette's interval (101–123), so Wilmette's 121 would not transfer: its lots hold more and narrower crowns (spruce rows, dense mixed woods). Kenilworth's interval overlaps Wilmette's; its own value is kept because six plots cannot tell the two apart. Ranges use Wilmette's ratios (0.835 to 1.18 around the estimate).
+- **Confidence is lower than the point checks suggest.** Six plots per town give an interval of only ±5–10 % on the effective crown, but the crowns of the dense plots were hard to separate (±25 %). Treat Winnetka and Kenilworth tree counts as about ±25 %. Winnetka's mask agrees with the labels (93 %); Kenilworth's reads about 13 points above them.
+- Winnetka's file includes Lake Michigan: the 5.6 % of the area that is water is left out of every block's land area (one lake-edge block has `waterPct` 37.6).
+
+**Other areas.** No change.
+- Evanston: block median 41 trees/ha against lidar tops 37.6. The hand-to-lidar ratio of Wilmette (1.19) would put the lidar-based figure at 45 and the NAIP-based one lies between the two.
+- Lakeview: 18 against 18.5–25.2 (all-trees to clear-of-buildings).
+- Sloan's Lake has no lidar run.
+- Their crown areas came from lidar tops directly, so the same undercount would make the counts slightly low, not high; the evidence from one town is not enough to apply a correction. The mask's shade over-call (11 points in Wilmette, 13 in Kenilworth) did not show in 5B for these three areas (the mask was below the labels at the points there), so it may depend on the labeller or the scene.
+
+**Bytes.** NAIP COG ranges 141,943,325 + STAC and SAS 71,874 (three areas, 0.3 m); lidar EPT depth ≤ 10 for Wilmette 131,698,496 (reproduces the 0.41 crown share and 36.8/ha of lidar-roofs.md 13.4); total 273,713,695 (`results/canopy_areas.json` `bytesDownloadedCalibrationRun`). No Overpass or Overture requests. Scratch crops and plot images were deleted.
