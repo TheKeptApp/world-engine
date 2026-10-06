@@ -580,7 +580,7 @@ Owner decisions, implemented as described in `docs/data-licensing.md`:
 - **6a. The world package is an ODbL Derivative Database.** Every package carries a licence notice (`LICENSE-DATA.md`); how the derived data will be offered publicly is documented (`docs/data-licensing.md` §2). No hosting yet. Rows O8, O9, O10.
 - **6b. The engine provides the credits.** A standard credits data file (`Sources/WorldGen/Profiles/credits.json`) and component (`WorldCreditsView`, `WorldCreditsButton`); host apps must show it. Row O13.
 - **6c. The OSM credit is always visible in interactive views and burned into every exported image.** A small (i) credits button complements the visible credit, per the OSMF attribution guideline; there are no credit-free exports (`CreditBurnIn`). Rows O3–O6.
-- **6d.** Star catalog: HYG (CC BY-SA) replaced by the public-domain Yale Bright Star Catalogue (same 256 brightest stars; visibility rules and tests unchanged). Done 2026-10-06; see rows H1-H3 and §5.
+- **6d.** Star catalog: HYG (CC BY-SA) replaced by the public-domain Yale Bright Star Catalogue (256 brightest stars, 254 of them the same as the HYG set; the two that differ sit at the magnitude cut; visibility rules and tests unchanged). Done 2026-10-06; see rows H1-H3 and §5.
 - **6e. Fab: Personal tier for now.** Fab assets go only inside app bundles, never in world packages or white-label deliverables. The Fab EULA §6(a) lawyer question (Q13) stays. Rows F1–F6.
 - **6f. Quick fixes approved:** (1) the web credit links to openstreetmap.org/copyright (O2, done); (2) a licence notice file and licence URL in the package exporter (O8, done); (3) credits burned into exported images (O4, helper done; export callers to do).
 
