@@ -2,7 +2,7 @@
 
 `Sources/WorldEnvironment/` resolves *when*, *where* and *what weather* into one versioned, renderer-neutral document, `environment.json` (`EnvironmentDocument`, schema `worldengine.environment/1`). It is pure Swift (Foundation + the WorldGeo/WorldGen data types), makes no network calls, and imports no renderer. RealityKit and three.js will both consume the same document; neither calls WeatherKit or computes accumulation itself.
 
-Specs implemented (read-only inputs): [weather v1](proposals/weather-v1/WorldEngine-Weather-Spec-v1.md), [sky and seasons v1](proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md), [visual v2 §3.3–3.4](proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md). No rendering of rain, snow or wet surfaces yet; the document carries the resolved state for that later step.
+Specs implemented (read-only inputs): [weather v1](proposals/weather-v1/WorldEngine-Weather-Spec-v1.md), [sky and seasons v1](proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md), [visual v2 §3.3–3.4](proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md). RealityKit renders the document (`World.apply(_:)`, below); the web renderer reads the package's light states only (decision 4: no web weather until the iPhone look is approved).
 
 ## What it resolves
 
@@ -19,7 +19,7 @@ Specs implemented (read-only inputs): [weather v1](proposals/weather-v1/WorldEng
 | Contract | `EnvironmentState.swift`, `EnvironmentResolver.swift` | The document: identity/model versions, coarse cell + observer, source time and mode, provenance, inputs, state (label, intensity, wind, wetness/snow with explicit `null`), light (sun, v2 time key, weather direct/tint/fog, fills, moon, stars), presentation (particles, transition timings, wet response), continuity, sky (sun day, moon, moon day, stars), phenology |
 | Provider | `WeatherProvider.swift` | `WeatherProvider` protocol (host-owned), `MockWeatherProvider`, 0.05° cell grid (centre only is ever sent), cell switching (500 m inside or 60 s), refresh (30 min, 15 min while precipitation changes, none while inactive), ≤ 240 h history windows, memory-only cache (fresh 30/15 min, stale ≤ 2 h, then discarded; no archive) |
 
-## Tests (`Tests/WorldEnvironmentTests/`, 39 tests, all passing)
+## Tests (`Tests/WorldEnvironmentTests/`, all passing)
 - **Weather fixtures (10/10):** label and intensity at the settled time; wind vector and sway amplitude; sun position; primary accumulation null (unknown initial state); both controlled reference runs (W=0/S=0 and W=1/S=100) over the 48–72 h histories for wetness, SWE, coverage and last-hour melt (worst error 5×10⁻⁷ vs tolerance 10⁻⁴); trace and inferred-phase hour counts; deterministic seeks.
 - **Sky and season fixtures (18/18):** every sun event and golden/blue interval (worst 0.5 s vs 120 s), daylight (0.8 s), day lengths; Moon direction (0.0023° vs 0.15°), illuminated fraction (0.00005 vs 0.01), phase identity, phase longitude, bright-limb angles (0.013° vs 1°), diameter, labels, rise/set (0.8 s vs 300 s) and event statuses; deciduous and grass states and palette weights.
 - **Rules and boundaries:** unit-slip rejection, all 34 codes, freezing rain ≠ snow, storm without rain has no particles, precipitation and cloud hysteresis, defaults flagged as assumed, phase conflicts, blowing snow adds no snowfall and no particles without ground snow, hail builds no snow, gaps/missing inputs stay null, 359°→1° wind blends as vectors, variable wind bearing stable and flagged, live hold and immediate precipitation, recap seeks repeat exactly, polar day/night, DST and leap days, next golden hour active/upcoming, star catalog license and constellation coverage, cell maths, cell switching, cache limits, history windows, document nulls and round trip, schema rejection, per-tree shifts.
@@ -27,8 +27,18 @@ Specs implemented (read-only inputs): [weather v1](proposals/weather-v1/WorldEng
 ## Star catalog license
 HYG Database v4.1 (David Nash / Astronomy Nexus) is CC BY-SA 4.0, verified in the catalog's own repository (`LICENSE`). The derived 256-star file is CC BY-SA 4.0 with attribution, license link and change notice (`Catalog/STARS-NOTICE.md`; extraction: `scripts/data/build_star_catalog.py`). Apps showing the stars must display: *Stars: HYG Database v4.1, David Nash / Astronomy Nexus, CC BY-SA 4.0 (modified).* (`StarCatalog.attribution`). The Southern Cross's faint fifth star (ε Cru, mag 3.59) falls below the 256 cut; Orion and the Big Dipper are complete.
 
+## Phase 5A changes (decision 5)
+- **Sun fade:** direct sun is zero below the horizon and fades in over 0–2° (`smoothstep(0, 2, e)`), applied once, in the time-of-day key's `sunIntensity` (so the package's light states and both renderers share it). `light.directStrength` is now the weather/cloud multiplier on top: direct sun = `timeOfDay.sunIntensity × directStrength`.
+- **Chronological keys:** time-of-day keys interpolate in time between the day's actual anchor crossings (night −12°, dawn −4° rising, morning +15° rising, noon, golden +6° setting, dusk −4° setting), skipping unreachable ones; elevation interpolation remains the fallback for days without crossings (weather v1 §5).
+- **Calendar wrap:** the phenology calendar starts its season-year in the quiet stretch after the last knot, so leaf-colour and leaf-drop values no longer reset on 1 January.
+- **Synthetic weather:** `SyntheticWeather` builds explicit Demo/showcase inputs (label, explicit intensity, cloud, rate, visibility, wetness/SWE checkpoint); `Input.intensityOverride` carries a scenario's stated intensity. All eleven experience-v1 showcase states resolve to the proposal's fog, direct strength, tint and snow-coverage values (`ShowcaseFixtureTests`).
+- Seasons use the calendar priors (climate-normal based) by default; temperature histories only where storage rules allow.
+
+## On screen (RealityKit, `Sources/WorldEngine/Environment.swift`)
+`World.apply(_ env: EnvironmentDocument)` maps the document onto: the sun light and shadows; fog colour/distances with the weather tint; sky/ground fill (with moonlight); lit windows; a camera-centred sky dome (gradient, clouds by cover with a calibrated threshold, sun disk and glow, the Moon as an analytic disk lit from its real Sun direction, 1.5× display size); ≤ 128 star points; continuous seasonal palettes now and for trees 7 days ahead/behind (per-tree offsets); lobe-by-lobe leaf drop over winter branches (dropped lobes collapse in the vertex stage); leaf litter under real crowns (canopy map); wet darkening, sheen and puddles with a Fresnel sky reflection; patchy snow on upward surfaces (0.8 m, 3.5 m and 18 m octaves, distance-faded); wind direction/strength/frequency for sway; rain streaks or snowflakes (RealityKit presets, budget counts, light rain floor 240) in a box ahead of the camera; and the image-based light (regenerated when the sun moves ≥ 2°).
+
 ## Not done yet (by design)
-- No live WeatherKit calls; no WeatherKit-backed provider yet (needs the capability first, below).
-- No rendering of rain, snow, wet surfaces, Moon disk or stars (after the engine decision).
+- No live WeatherKit provider (5B); WorldLab shows Demo weather only.
+- Web: no weather rendering until the iPhone look is approved.
 - Lightning and audio stay off (spec: Stretch).
 - Thermal (GDD) phenology needs calibrated cohorts and temperature histories; calendar priors are labeled as such.

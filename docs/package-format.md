@@ -22,9 +22,9 @@ Renderers never re-derive roofs, colors, placements or seeds. Code: `Sources/Wor
 | `boundary.glb` | Soft world boundary ground (12 km square, 2 cm below the chunks). |
 | `palettes.json` | Every palette slot (sRGB hex, names) for the recipe's season, plus all four seasons of the seasonal slots (slots 0…16, fixed order). |
 | `materials.json` | Meaning of the vertex channels and flags, and every shader constant (palette lookup and variants, lawn mottling, sidewalk joints, windows, emissive, foliage value and sway, water ripple, fill, fog, contact shadow, cut-away, grade, bloom, character coat). `WorldShaders.metal` and `web/src/materials.js` implement exactly this. |
-| `environment.json` | Location and timezone; resolved light states for named moments (`golden`, `noon`: sun direction, colors, intensities, exposure, fog, fill, lit windows, season, sky image); weather (clear); fog policy; the full time-of-day tables. |
+| `environment.json` | Location and timezone; resolved light states for named moments (`golden`, `noon`: sun direction, colors, intensities (direct sun fades in over 0–2° elevation), exposure, fog, fill, lit windows, season, sky image); weather (clear); fog policy; the full time-of-day tables (keys interpolate chronologically between the day's anchor crossings); and `experience`: the no-character defaults (composed postcards with scores and reasons, the aerial diorama fit, motion bounds for exploring and route flythrough; experience-v1 §3–4). |
 | `sky-<state>.png` | Equirectangular sky (three.js orientation, row 0 = zenith). |
-| `profiles/*.json` | The exact source profiles and tables used (provenance). |
+| `profiles/*.json` | The exact source profiles and tables used (provenance). `display.json` is the shared display policy (render scale by device heat, calm-mode frame rate, pausing when hidden). |
 
 ## Vertex channels (glTF application-specific attributes)
 

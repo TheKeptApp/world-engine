@@ -85,8 +85,10 @@ span_ms = [(max(e for _, e in frames[k]) - min(s for s, _ in frames[k])) / 1e6 f
 def summary(name, xs):
     xs = sorted(xs)
     p95 = xs[min(len(xs) - 1, int(len(xs) * 0.95))]
+    worst = xs[-max(1, len(xs) // 100):]   # slowest 1% (mean), like the fps 1% low
     print(f"{name}: frames={len(xs)} mean={statistics.mean(xs):.2f} ms median={statistics.median(xs):.2f} "
-          f"p95={p95:.2f} max={xs[-1]:.2f} over10ms={sum(x > 10 for x in xs)}")
+          f"p95={p95:.2f} worst1%={statistics.mean(worst):.2f} max={xs[-1]:.2f} over8ms={sum(x > 8 for x in xs)} "
+          f"over10ms={sum(x > 10 for x in xs)}")
 
 
 summary("GPU busy", busy_ms)
