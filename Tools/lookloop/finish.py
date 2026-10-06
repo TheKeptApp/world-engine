@@ -211,6 +211,27 @@ def main():
         md += ["", "## Most-cited fix areas (top fix 3 pts, second 2, third 1)", ""]
         for area, pts in fixes.most_common(6):
             md.append(f"- **{area}** ({pts} pts): " + "; ".join(fix_text[area][:3]))
+    # Top fixes per lane (look-fix-v1 ownership: P2 = buildings, yard/ground geometry, placement, vegetation
+    # assets, data; 5A = materials, light, weather, atmosphere, sky, post). Ground and vegetation are shared.
+    LANE = {"buildings": "P2", "ground": "P2 (+5A material)", "vegetation": "P2 (+5A LOD/shading)", "data": "P2",
+            "light": "5A", "sky": "5A", "weather": "5A", "fog": "5A", "water": "5A", "post": "5A", "camera": "5A",
+            "character": "5A"}
+    lanes = collections.defaultdict(collections.Counter)
+    lane_text = collections.defaultdict(list)
+    for g in scored:
+        for i, f in enumerate(g.get("topFixes", [])[:3]):
+            lane = LANE.get(f.get("area", ""), "unassigned").split(" ")[0]
+            lanes[lane][f.get("area", "?")] += 3 - i
+            lane_text[(lane, f.get("area", "?"))].append(f"{g['view']}: {f.get('fix', '')}")
+    if lanes:
+        md += ["", "## Top fixes per lane (top fix 3 pts, second 2, third 1)", ""]
+        for lane in ("5A", "P2", "unassigned"):
+            if lane not in lanes:
+                continue
+            md.append(f"**{lane}**" + (" (ground and vegetation shared with 5A for material and LOD)" if lane == "P2" else ""))
+            for area, pts in lanes[lane].most_common(5):
+                md.append(f"- {area} ({pts} pts): " + "; ".join(t[:160] for t in lane_text[(lane, area)][:3]))
+            md.append("")
     md += ["", "## Per-view summaries", ""]
     for vid, g, _, _ in rows:
         if g:

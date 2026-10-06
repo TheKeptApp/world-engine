@@ -76,15 +76,17 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 
 ## Timing
 
-| Run | Capture + analysis | Grading | Total |
+| Run | Capture + analysis | Grading | Notes |
 |---|---|---|---|
-| 6 Oct 01:02: first run, 17 views, 8 s settle, machine at load 400–660 | 13.9 min | 2.4 min (Opus) | 16.9 min |
-| 6 Oct 06:39: 17 views, 3 s settle, one kept-booted Simulator, install only on change | 6.8 min | about 1 min (17 Sonnet reviewers in parallel, slowest 41 s) | **about 8 min** of work. The row says 9.6 because I held the reviewers while calibration finished |
+| 6 Oct 01:02, 17 views | 13.9 min | 2.4 min (Opus) | One launch per view, 8 s settle, machine at load 400–660 |
+| 6 Oct 06:39, 17 views | 6.8 min | about 1 min (Sonnet) | One launch per view, 3 s settle |
+| 6 Oct 09:16 gate, 32 views | 3.5 min batched; region views redone in 3.75 min | about 3 min per wave (Opus, at most 20 at a time) | The row's 35 min includes a failed first attempt and the season recapture |
 
-- **Per view:** about 2 s launch, 11.5–15 s world build (rose after P2's buildings), 3 s settle, 1 s screenshot.
-- **Build:** the WorldLab build is incremental, about 5 s when nothing changed.
-- **Routine runs** after a docs-only or unrelated merge capture nothing: the plan reuses every view.
-- **Biggest remaining cost:** one world build per view. A WorldLab hook that switches views without relaunching would cut a full run to about 3 minutes (see hooks).
+**Batched capture** (`batch.py`) does one WorldLab launch per **area and calendar date**. The world bakes its season from the launch date, so mixing dates in one launch gives the wrong season; that bug was caught and fixed in this run. The 32 views take 11 launches, each of which builds a world in 13–25 s and then steps through its views about 4 s apart.
+
+- **Frames are WorldLab's in-app captures.** A simctl screenshot taken at `VIEWREADY` lands one view late.
+- **In-app frames match settled single-launch screenshots** within 3.8–5.9/255.
+- **Unchanged views are reused** (`plan.py`), so routine runs after unrelated merges capture nothing.
 
 ## Decisions (logged; covered by the specs or the P3 prompt)
 

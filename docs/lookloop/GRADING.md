@@ -68,7 +68,7 @@ Notes:
 - **Geography (9).** Each view entry carries `camera` (heading, pitch, FOV) and `sun` (elevation, azimuth, shadow bearing). Check the lit side of trunks and walls and the direction of cast shadows against them, relative to the camera heading. Quick reads:
   - v2 street faces west (270°). At golden hour the sun is ahead-left and shadows fall toward the camera and right.
   - The showcase street faces ESE (100°). The sun is behind or right, and no sunset disk or western mountains should appear.
-  - Aerials face north with no horizon.
+  - The Sloan's Lake aerials (v2-06, showcase 10/11) face north with no horizon. Region obliques use their own named camera; always take the heading from the view's `camera` field.
   - If shadows are too soft or absent to judge the bearing (overcast, fog, rain, night), score geography on paths, shoreline and layout alone, and say so.
   - Score from what is visible; you have no map overlay:
     - **5:** the shadow bearing is checked and correct, and the layout clearly matches the camera notes (for example lake side, street direction, backdrop azimuth).
