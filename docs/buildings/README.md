@@ -198,3 +198,10 @@ Before / after (`buildingviz`, same camera):
     ≥4 m from walls) until crown cover reaches target × `canopyFill` or the per-km² tree ceiling.
     Today: Wilmette 0.18 achieved vs 0.58 measured, stopped by the 2,600 trees/km² ceiling, which
     protects the in-view budget until cheaper far/mid tree LODs (5A) land; then raise the ceiling.
+30. **Complex-roof rate from P1's lidar pilot** (South Evanston, ~45 % of houses complex vs 29 % drawn):
+    new family field `sideCrossGable` (a flush crossing gable on a side wall when the gable end faces
+    the street; Tudor 0.5, Queen Anne 0.6, Shingle 0.4, Victorian row 0.35, cottage 0.15) plus Colonial
+    0.15 and mid-century 0.2 street-side crossing gables → 47 % complex. Far LOD +6 tris per house.
+    Pitch (lidar median 35° vs drawn 43°) and the gable/hip mix are profile values: left to P1/owner.
+31. **scene.json decisions** now carry `family`, `profile`, `roofMasses`, `crossGable`, `dormers`,
+    `roofFallback`.

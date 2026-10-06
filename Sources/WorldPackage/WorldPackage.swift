@@ -85,8 +85,14 @@ public enum WorldPackage {
                 "eaveHeight": round(g.eaveHeight, 3), "topHeight": round(g.topHeight, 3),
             ]
             if let t = g.houseType { d["houseType"] = t }
+            if let f = g.family { d["family"] = f }
+            if let p = g.profileID { d["profile"] = p }
             if let p = g.porchStyle { d["porchStyle"] = p }
             if let k = g.entryKit { d["entryKit"] = k }
+            if g.roofMasses > 0 { d["roofMasses"] = g.roofMasses }
+            if g.crossGable { d["crossGable"] = true }
+            if g.dormers > 0 { d["dormers"] = g.dormers }
+            if let f = g.roofFallback { d["roofFallback"] = f }
             // Inferred facade elements (not in the mapped footprint), flagged for review.
             if !g.inferredBays.isEmpty { d["inferredFacade"] = g.inferredBays.map { _ in "bay" } }
             if let e = g.frontEdge { d["frontEdge"] = e }

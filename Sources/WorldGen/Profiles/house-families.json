@@ -1,97 +1,429 @@
 {
   "version": 1,
-  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec §3-§5, §12). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win.",
+  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex).",
   "families": {
     "tudor": {
-      "aspect": [0.55, 1.0],
-      "roof": { "wingForm": "gable", "ridge": "alongFront", "crossGable": 0.85, "crossGableWidth": [0.35, 0.6], "crossGablePitchBoost": 4,
-                "chimney": 0.85, "chimneyPlacement": "front", "chimneyTall": true },
-      "facade": { "halfTimber": true, "gablePanel": true, "attic": true, "groupedWindows": true, "windowWidth": [0.65, 0.8], "windowHeight": [1.3, 1.5],
-                  "entry": "vestibule", "entryChance": 0.7, "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.55,
+        1.0
+      ],
+      "roof": {
+        "wingForm": "gable",
+        "ridge": "alongFront",
+        "crossGable": 0.85,
+        "crossGableWidth": [
+          0.35,
+          0.6
+        ],
+        "crossGablePitchBoost": 4,
+        "chimney": 0.85,
+        "chimneyPlacement": "front",
+        "chimneyTall": true,
+        "sideCrossGable": 0.5
+      },
+      "facade": {
+        "halfTimber": true,
+        "gablePanel": true,
+        "attic": true,
+        "groupedWindows": true,
+        "windowWidth": [
+          0.65,
+          0.8
+        ],
+        "windowHeight": [
+          1.3,
+          1.5
+        ],
+        "entry": "vestibule",
+        "entryChance": 0.7,
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "colonial": {
-      "aspect": [1.1, 1.6],
-      "roof": { "ridge": "alongFront", "crossGable": 0, "dormers": [1, 2], "dormerChance": 0.45, "dormerWidth": [1.0, 1.4],
-                "chimney": 0.7, "chimneyPlacement": "end" },
-      "facade": { "symmetric": true, "entryPediment": true, "windowWidth": [1.0, 1.2], "windowHeight": [1.5, 1.8], "entry": "portico", "entryChance": 0.75,
-                  "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        1.1,
+        1.6
+      ],
+      "roof": {
+        "ridge": "alongFront",
+        "crossGable": 0.15,
+        "dormers": [
+          1,
+          2
+        ],
+        "dormerChance": 0.45,
+        "dormerWidth": [
+          1.0,
+          1.4
+        ],
+        "chimney": 0.7,
+        "chimneyPlacement": "end"
+      },
+      "facade": {
+        "symmetric": true,
+        "entryPediment": true,
+        "windowWidth": [
+          1.0,
+          1.2
+        ],
+        "windowHeight": [
+          1.5,
+          1.8
+        ],
+        "entry": "portico",
+        "entryChance": 0.75,
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "prairie": {
-      "aspect": [1.3, 2.0],
-      "roof": { "wingForm": "hip", "ridge": "long", "chimney": 0.8, "chimneyPlacement": "central", "chimneyBroad": true },
-      "facade": { "bands": true, "groupedWindows": true, "windowGroup": 3, "windowWidth": [0.8, 0.95], "windowHeight": [1.0, 1.25], "mappedBays": true,
-                  "sideRhythm": true }
+      "aspect": [
+        1.3,
+        2.0
+      ],
+      "roof": {
+        "wingForm": "hip",
+        "ridge": "long",
+        "chimney": 0.8,
+        "chimneyPlacement": "central",
+        "chimneyBroad": true
+      },
+      "facade": {
+        "bands": true,
+        "groupedWindows": true,
+        "windowGroup": 3,
+        "windowWidth": [
+          0.8,
+          0.95
+        ],
+        "windowHeight": [
+          1.0,
+          1.25
+        ],
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "queenAnne": {
-      "aspect": [0.45, 1.1],
-      "roof": { "wingForm": "gable", "ridge": "alongFront", "crossGable": 0.9, "crossGableWidth": [0.4, 0.6], "crossGablePitchBoost": 2,
-                "chimney": 0.5, "chimneyPlacement": "rear" },
-      "facade": { "attic": true, "gablePanel": true, "porchStyle": "covered", "porchLikelihood": 0.75, "windowWidth": [0.9, 1.05], "windowHeight": [1.5, 1.75],
-                  "bay": { "chance": 0.8, "stories": [1, 2], "form": "angled", "width": [2.4, 3.0] }, "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.45,
+        1.1
+      ],
+      "roof": {
+        "wingForm": "gable",
+        "ridge": "alongFront",
+        "crossGable": 0.9,
+        "crossGableWidth": [
+          0.4,
+          0.6
+        ],
+        "crossGablePitchBoost": 2,
+        "chimney": 0.5,
+        "chimneyPlacement": "rear",
+        "sideCrossGable": 0.6
+      },
+      "facade": {
+        "attic": true,
+        "gablePanel": true,
+        "porchStyle": "covered",
+        "porchLikelihood": 0.75,
+        "windowWidth": [
+          0.9,
+          1.05
+        ],
+        "windowHeight": [
+          1.5,
+          1.75
+        ],
+        "bay": {
+          "chance": 0.8,
+          "stories": [
+            1,
+            2
+          ],
+          "form": "angled",
+          "width": [
+            2.4,
+            3.0
+          ]
+        },
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "shingleStyle": {
-      "aspect": [0.9, 1.6],
-      "roof": { "wingForm": "gable", "ridge": "alongFront", "crossGable": 0.35, "crossGableWidth": [0.35, 0.5],
-                "dormers": [1, 1], "dormerChance": 0.3, "dormerWidth": [1.6, 2.4], "chimney": 0.5, "chimneyPlacement": "end" },
-      "facade": { "attic": true, "porchStyle": "covered", "porchLikelihood": 0.5, "windowWidth": [0.95, 1.15], "windowHeight": [1.35, 1.6], "mappedBays": true,
-                  "sideRhythm": true }
+      "aspect": [
+        0.9,
+        1.6
+      ],
+      "roof": {
+        "wingForm": "gable",
+        "ridge": "alongFront",
+        "crossGable": 0.35,
+        "crossGableWidth": [
+          0.35,
+          0.5
+        ],
+        "dormers": [
+          1,
+          1
+        ],
+        "dormerChance": 0.3,
+        "dormerWidth": [
+          1.6,
+          2.4
+        ],
+        "chimney": 0.5,
+        "chimneyPlacement": "end",
+        "sideCrossGable": 0.4
+      },
+      "facade": {
+        "attic": true,
+        "porchStyle": "covered",
+        "porchLikelihood": 0.5,
+        "windowWidth": [
+          0.95,
+          1.15
+        ],
+        "windowHeight": [
+          1.35,
+          1.6
+        ],
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "midCentury": {
-      "aspect": [1.3, 2.0],
-      "roof": { "ridge": "long", "chimney": 0.4, "chimneyPlacement": "central", "chimneyBroad": true },
-      "facade": { "groupedWindows": true, "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        1.3,
+        2.0
+      ],
+      "roof": {
+        "ridge": "long",
+        "chimney": 0.4,
+        "chimneyPlacement": "central",
+        "chimneyBroad": true,
+        "crossGable": 0.2
+      },
+      "facade": {
+        "groupedWindows": true,
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "modernInfill": {
-      "facade": { "tallWindows": true }
+      "facade": {
+        "tallWindows": true
+      }
     },
     "plainBlock": {
       "role": "block"
     },
     "brickBungalow": {
-      "aspect": [0.4, 0.85],
-      "roof": { "wingForm": "hip", "ridge": "long", "dormers": [1, 1], "dormerChance": 0.35, "dormerWidth": [1.6, 2.4],
-                "chimney": 0.35, "chimneyPlacement": "rear" },
-      "facade": { "stoop": true, "groupedWindows": true, "lintels": true, "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.4,
+        0.85
+      ],
+      "roof": {
+        "wingForm": "hip",
+        "ridge": "long",
+        "dormers": [
+          1,
+          1
+        ],
+        "dormerChance": 0.35,
+        "dormerWidth": [
+          1.6,
+          2.4
+        ],
+        "chimney": 0.35,
+        "chimneyPlacement": "rear"
+      },
+      "facade": {
+        "stoop": true,
+        "groupedWindows": true,
+        "lintels": true,
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "brickStackedFacade": {
-      "aspect": [0.25, 0.75],
-      "facade": { "cornice": true, "stoop": true, "rearPorch": 0.8, "tallWindows": true, "windowWidth": [0.95, 1.1], "windowHeight": [1.75, 2.0], "lintels": true,
-                  "bay": { "chance": 0.7, "width": [2.4, 3.2], "depth": [0.45, 0.6] }, "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.25,
+        0.75
+      ],
+      "facade": {
+        "cornice": true,
+        "stoop": true,
+        "rearPorch": 0.8,
+        "tallWindows": true,
+        "windowWidth": [
+          0.95,
+          1.1
+        ],
+        "windowHeight": [
+          1.75,
+          2.0
+        ],
+        "lintels": true,
+        "bay": {
+          "chance": 0.7,
+          "width": [
+            2.4,
+            3.2
+          ],
+          "depth": [
+            0.45,
+            0.6
+          ]
+        },
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "greystoneFacade": {
-      "aspect": [0.25, 0.75],
-      "facade": { "cornice": true, "stoop": true, "rearPorch": 0.8, "tallWindows": true, "sideWall": ["#A97C68", "#AD9274"], "windowWidth": [0.95, 1.1],
-                  "windowHeight": [1.8, 2.0], "lintels": true, "bay": { "chance": 0.8, "form": "angled", "width": [2.6, 3.2], "depth": [0.5, 0.6] },
-                  "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.25,
+        0.75
+      ],
+      "facade": {
+        "cornice": true,
+        "stoop": true,
+        "rearPorch": 0.8,
+        "tallWindows": true,
+        "sideWall": [
+          "#A97C68",
+          "#AD9274"
+        ],
+        "windowWidth": [
+          0.95,
+          1.1
+        ],
+        "windowHeight": [
+          1.8,
+          2.0
+        ],
+        "lintels": true,
+        "bay": {
+          "chance": 0.8,
+          "form": "angled",
+          "width": [
+            2.6,
+            3.2
+          ],
+          "depth": [
+            0.5,
+            0.6
+          ]
+        },
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "frameCottage": {
-      "aspect": [0.3, 0.9],
-      "roof": { "ridge": "towardFront", "chimney": 0.2, "chimneyPlacement": "rear" },
-      "facade": { "attic": true, "stoop": true, "rearPorch": 0.25, "porchStyle": "covered", "porchLikelihood": 0.35, "windowWidth": [0.85, 1.0],
-                  "windowHeight": [1.4, 1.65], "mappedBays": true, "sideRhythm": true }
+      "aspect": [
+        0.3,
+        0.9
+      ],
+      "roof": {
+        "ridge": "towardFront",
+        "chimney": 0.2,
+        "chimneyPlacement": "rear",
+        "sideCrossGable": 0.15
+      },
+      "facade": {
+        "attic": true,
+        "stoop": true,
+        "rearPorch": 0.25,
+        "porchStyle": "covered",
+        "porchLikelihood": 0.35,
+        "windowWidth": [
+          0.85,
+          1.0
+        ],
+        "windowHeight": [
+          1.4,
+          1.65
+        ],
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "victorianRow": {
-      "aspect": [0.3, 0.9],
-      "roof": { "wingForm": "gable", "ridge": "towardFront", "chimney": 0.3, "chimneyPlacement": "rear" },
-      "facade": { "attic": true, "stoop": true, "rearPorch": 0.5, "tallWindows": true, "windowWidth": [0.85, 1.0], "windowHeight": [1.7, 1.95], "mappedBays": true,
-                  "sideRhythm": true }
+      "aspect": [
+        0.3,
+        0.9
+      ],
+      "roof": {
+        "wingForm": "gable",
+        "ridge": "towardFront",
+        "chimney": 0.3,
+        "chimneyPlacement": "rear",
+        "sideCrossGable": 0.35
+      },
+      "facade": {
+        "attic": true,
+        "stoop": true,
+        "rearPorch": 0.5,
+        "tallWindows": true,
+        "windowWidth": [
+          0.85,
+          1.0
+        ],
+        "windowHeight": [
+          1.7,
+          1.95
+        ],
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "sixFlat": {
-      "role": "block", "evidence": "apartments",
-      "facade": { "cornice": true, "stoop": true, "symmetric": true, "rearPorch": 0.85, "tallWindows": true, "windowWidth": [0.95, 1.1], "windowHeight": [1.75, 2.0],
-                  "lintels": true, "mappedBays": true, "sideRhythm": true }
+      "role": "block",
+      "evidence": "apartments",
+      "facade": {
+        "cornice": true,
+        "stoop": true,
+        "symmetric": true,
+        "rearPorch": 0.85,
+        "tallWindows": true,
+        "windowWidth": [
+          0.95,
+          1.1
+        ],
+        "windowHeight": [
+          1.75,
+          2.0
+        ],
+        "lintels": true,
+        "mappedBays": true,
+        "sideRhythm": true
+      }
     },
     "courtyardMass": {
-      "role": "block", "evidence": "court",
-      "facade": { "cornice": true, "tallWindows": true }
+      "role": "block",
+      "evidence": "court",
+      "facade": {
+        "cornice": true,
+        "tallWindows": true
+      }
     },
     "cornerMixedUse": {
-      "role": "block", "evidence": "commercial",
-      "facade": { "cornice": true, "storefront": true, "tallWindows": true }
+      "role": "block",
+      "evidence": "commercial",
+      "facade": {
+        "cornice": true,
+        "storefront": true,
+        "tallWindows": true
+      }
     },
     "vintageHighRise": {
-      "role": "block", "evidence": "tall",
-      "facade": { "cornice": true }
+      "role": "block",
+      "evidence": "tall",
+      "facade": {
+        "cornice": true
+      }
     }
   }
 }

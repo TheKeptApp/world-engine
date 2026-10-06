@@ -16,6 +16,8 @@ public struct HouseFamilyGrammar: Codable, Sendable, Equatable {
         public var crossGableWidth: [Double]?
         public var crossGableCentered: Bool?
         public var crossGablePitchBoost: Double?
+        /// Chance of a flush crossing gable on a side wall of a front-gabled house.
+        public var sideCrossGable: Double?
         /// Dormer count range on the street-facing slope, the chance of having any, and front width.
         public var dormers: [Int]?
         public var dormerChance: Double?
