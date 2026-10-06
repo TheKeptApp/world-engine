@@ -40,7 +40,7 @@ Scene axes are **east +X, up +Y, north −Z**, metres. Heading is clockwise from
 | Local look-at XYZ m | (29.50374325, 0.07992131, 5.20230597) | (0, 0, 0) |
 | Heading / downward pitch / roll | 100° / 3° / 0° | 0° / 55° / 0° |
 | Vertical field of view | 50° | 50° |
-| Aspect | 16:9; actual generated rasters are 1672×941 | Same |
+| Aspect | Target 16:9; generated 01 is 1673×940, 02–09 are 1672×941 | Target 16:9; generated 10–11 are 1672×941 |
 | Near / far planes | 0.1 / 3000 m | 1 / 5000 m |
 | Look-at slant distance | 30 m | 1800 m |
 | Ideal horizon | About 44.38% from image top | Outside frame; top ray is 30° below horizontal |
