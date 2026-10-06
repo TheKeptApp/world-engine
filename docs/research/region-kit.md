@@ -346,6 +346,8 @@ Real gaps (gap, evidence, smallest fix):
    in profiles. Leaf cycle / palms (Miami) are already covered by regions-v1 `proposedAdditions`; there is no
    tree species data in the Miami cells (1 tree mapped) to size them.
 
+**Update after P2 buildings (main `91ed01c`, merged 2026-10-06, after this analysis of `772ff24`).** P2 added an alley-garage rule to the generator (`BuildingGenerator.role(for:)`: `building=yes` of 14–75 m², at most 1.5 levels, a mapped alley edge within 9 m and no street front within 9 m becomes a garage), keeps large `building=yes` below the profile's `hugeArea` with ≤ 3 levels as houses, picks block families from tag evidence (`HouseFamilies.blockFamily`: tall, court, commercial, apartments, else the plain block), and adds roof assemblies (cross-gables, dormers, chimneys) and rear porches toward mapped alleys (`docs/buildings/README.md`). It also adopted `chicago-dense-north`, `evanston` and `wilmette` unchanged. So gaps 2 and 3 above are addressed on main; gap 1 (one profile per baked area) and gap 4 remain. The region kit's role port and situation counts follow the pre-P2 `role(of:)`; its probable-garage diagnostic (≤ 60 m², ≤ 8 m from a service road) approximates P2's rule but is not identical. The accuracy comparisons against those three profiles now apply to engine profiles.
+
 ## 6. What Chicagoland needs that open data can't supply
 
 | Need | What OSM has (measured) | How the generator should handle it |
