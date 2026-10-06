@@ -7,6 +7,7 @@ docs/lookloop/scoreboard.md.
 """
 import collections, datetime, json, os, shutil, subprocess, sys, time
 
+sys.dont_write_bytecode = True  # no __pycache__ next to the tools (nothing to commit by accident)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from grade import recompute  # noqa: E402  (same totals whether reviewers ran headless or in a session)
 
