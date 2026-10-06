@@ -46,6 +46,9 @@ residential-fabric and block shares to `results/canopy_areas.json`. `points` mak
 area as contact sheets for a photo check; `score` reads `areas/<id>/points_labels.json` (`{"P01": "tree" |
 "not" | "?"}`) from the work dir. Same command line as above, with `canopy_areas.py` in place of `aerial.py`.
 
+`canopy_areas.py blocks --work DIR` (after `fetch`) writes `Data/areas/<id>/canopy-blocks.json`: per-block canopy
+share, tree counts, spacing and confidence (format: `docs/research/aerial.md` 13.9; pure functions in `blockmath.py`).
+
 The work directory defaults to `$AERIAL_WORK` or `<system temp>/worldengine-aerial`; the tool refuses a work
 directory inside the repository. Delete it when done: it holds imagery, crops, per-building estimates and labels.
 
