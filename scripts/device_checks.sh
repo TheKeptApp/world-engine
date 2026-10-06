@@ -18,15 +18,21 @@ run() { # $1 = name, $2 = seconds, rest = app args
   xcrun devicectl device process launch --device "$DEVICE" --terminate-existing --console com.lincolnlabs.worldlab -- "$@" \
     > "$log" 2>&1 &
   local pid=$!
-  sleep 8
-  local cond; cond=$(grep -m1 "^CONDITIONS" "$log")
+  local waited=0 cond=""
+  while [ $waited -lt 20 ]; do
+    sleep 1; waited=$((waited + 1))
+    cond=$(grep -m1 "^CONDITIONS" "$log")
+    [ -n "$cond" ] && break
+    grep -q "failed to launch" "$log" && break
+  done
   echo "   $cond"
   if [[ "$cond" != *"lowPowerMode=false battery=unplugged"* ]]; then
     kill "$pid" 2>/dev/null; wait "$pid" 2>/dev/null
-    echo "STOPPED: the phone is charging, in Low Power Mode, or did not report its state. Nothing after this step ran."
+    grep -m1 -A3 "ERROR" "$log"
+    echo "STOPPED: the phone is charging, in Low Power Mode, locked, or did not report its state. Nothing after this step ran."
     exit 2
   fi
-  sleep $((secs - 8))
+  sleep $((secs > waited ? secs - waited : 1))
   kill "$pid" 2>/dev/null; wait "$pid" 2>/dev/null
   if grep "^CONDITIONS" "$log" | grep -qv "lowPowerMode=false battery=unplugged"; then
     echo "   WARNING: conditions changed during $name; discard it"

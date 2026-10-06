@@ -156,24 +156,51 @@ public struct PropLibrary: Sendable {
         let trunkR: Float = kind == .treeSpreading ? 0.022 : 0.018
         addCylinder(&m, radius: trunkR, z0: 0, z1: shape.trunkTop + 0.08, sides: lod == 0 ? 7 : (lod == 1 ? 5 : 3), smooth: true, cap: false)
         m.bakeAO(from: trunkStart) { p, _ in Float(0.85 - 0.3 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y))) }
-        if kind == .treeSpreading, lod < 2 {
-            for (target, _) in shape.lobes.dropFirst().prefix(2) {
-                addBranch(&m, from: SIMD3(0, shape.trunkTop - 0.04, 0), to: target * SIMD3(0.7, 1, 0.7), radius: 0.012, sides: lod == 0 ? 5 : 4)
+        // Branches: hidden inside the leafy crown, they carry the bare winter silhouette (sky-seasons
+        // §5.3: foliage is removed lobe by lobe while branches remain). One limb toward each lobe,
+        // splitting into two twigs at the crown's outer surface. Bare branches sway at 0.3 (R10).
+        m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
+        let branchStart = m.positions.count
+        let fork = SIMD3<Float>(0, shape.trunkTop - 0.04, 0)
+        let limbs = lod == 2 ? Array(shape.lobes.prefix(3)) : shape.lobes
+        for (k, (c, r)) in limbs.enumerated() {
+            let out = c - shape.crown
+            let horizontal = SIMD3<Float>(out.x, 0, out.z)
+            let angle = Float(k) * 2.4
+            let flat: SIMD3<Float> = simd_length(horizontal) > 1e-4 ? simd_normalize(horizontal) : SIMD3<Float>(cos(angle), 0, sin(angle))
+            let end: SIMD3<Float> = c + flat * (r * 0.55) + SIMD3<Float>(0, r * 0.25, 0)
+            addBranch(&m, from: fork, to: end, radius: lod == 0 ? 0.011 : 0.013, sides: lod == 0 ? 5 : 3)
+            guard lod == 0 else { continue }
+            let side = simd_normalize(simd_cross(flat, SIMD3(0, 1, 0)))
+            for s: Float in [-1, 1] {
+                let spread: SIMD3<Float> = flat * 0.6 + side * (s * 0.5) + SIMD3<Float>(0, 0.55, 0)
+                let tip: SIMD3<Float> = end + spread * (r * 0.85)
+                addBranch(&m, from: end, to: tip, radius: 0.005, sides: 3)
             }
         }
+        m.bakeAO(from: branchStart) { _, _ in 0.8 }
         // Crown: one color family per tree (the shader picks deciduous1…4 per instance); lobes
-        // share a softened ellipsoid normal so the crown reads as one sculpted mass.
+        // share a softened ellipsoid normal so the crown reads as one sculpted mass. Each lobe's
+        // vertices carry a stable leaf threshold in extra.y: the lobe shows while the tree's leaf
+        // fraction is at or above it, so autumn thins crowns lobe by lobe.
         m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
         if lod == 2 {
             let start = m.positions.count
             addEllipsoid(&m, center: shape.crown, radii: shape.radii * 0.95, octahedron: true)
+            for i in start..<m.positions.count { m.extras[i].y = 0.5 }
             bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: [])
             return m
         }
         let lobes = lod == 0 ? shape.lobes : Array(shape.lobes.prefix(2))
         let start = m.positions.count
-        for (c, r) in lobes {
+        for (k, (c, r)) in lobes.enumerated() {
             let lobeStart = m.positions.count
+            defer {
+                // Thresholds spread over (0.1, 1]: the top lobe keeps its leaves longest.
+                let rank = Double(k) + 0.5 // first lobe (the top one) lowest
+                let threshold = Float(0.1 + 0.9 * rank / Double(lobes.count))
+                for i in lobeStart..<m.positions.count { m.extras[i].y = threshold }
+            }
             addBlob(&m, center: c, radius: r * (lod == 0 ? 1 : 1.25), squash: 0.92, jitter: lod == 0 ? 0.05 : 0, rng: &rng, subdivide: true)
             for i in lobeStart..<m.positions.count {
                 let q = (m.positions[i] - shape.crown) / shape.radii

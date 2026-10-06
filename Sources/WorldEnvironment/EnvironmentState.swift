@@ -104,7 +104,8 @@ public struct EnvironmentDocument: Codable, Sendable, Equatable {
         public var branch: String
         /// The time-of-day light (v2 keys, linear light inside), before weather.
         public var timeOfDay: LightingState
-        /// Direct sun after the horizon gate smoothstep(0°, 2°, e) and weather: multiply the key's sun.
+        /// Weather and cloud multiplier on the time-of-day key's sun (whose intensity already carries
+        /// the 0–2° horizon fade): direct sun = timeOfDay.sunIntensity × directStrength.
         public var directStrength: Double
         public var weather: WeatherAppearance
         /// R8 fill strengths after the moon term (sky 0.20–0.35, ground 0.06–0.12).

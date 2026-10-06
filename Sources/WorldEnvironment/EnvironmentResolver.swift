@@ -34,6 +34,9 @@ public struct EnvironmentResolver: Sendable {
         public var previousLabel: DominantState?
         public var aerial: Bool
         public var includeEvents: Bool
+        /// Synthetic/demo states only: the scenario's explicit intensity (experience-v1 §1.3),
+        /// used instead of the one derived from rates and visibility. Never set for provider data.
+        public var intensityOverride: Double?
 
         public init(time: Date, mode: EnvironmentDocument.Time.Mode, sample: WeatherSample?, cell: WeatherCell?, surface: SurfaceState,
                     provider: String = "none", dataKind: String = "demo", attribution: WeatherAttributionInfo? = nil,
@@ -65,7 +68,11 @@ public struct EnvironmentResolver: Sendable {
 
         // Weather label, wind, atmosphere.
         var flags = input.sample?.flags ?? []
-        let resolved = input.sample.map { WeatherClassifier.classify($0, previous: input.previousLabel) }
+        var resolved = input.sample.map { WeatherClassifier.classify($0, previous: input.previousLabel) }
+        if let i = input.intensityOverride, resolved?.dominantState != nil {
+            resolved?.intensity01 = EnvMath.clamp01(i)
+            resolved?.assumedIntensity = false
+        }
         flags += resolved?.flags ?? []
         let sample = input.sample ?? WeatherSample(validTime: t)
         let seed = input.cell?.seed ?? 0
@@ -75,7 +82,9 @@ public struct EnvironmentResolver: Sendable {
         let appearance = WeatherAppearance.target(label: label ?? resolved?.displayFallback, intensity: intensity ?? 0, sample: sample,
                                                   wind: wind, baseFogStart: Double(key.fogStart), baseFogEnd: Double(key.fogEnd),
                                                   aerial: input.aerial, sunFloor: resolved?.flags.contains("sunFloor0.65") ?? false)
-        let direct = Atmosphere.directSunGate(elevationDegrees: sun.elevation) * appearance.directMultiplier
+        // The 0–2° horizon fade lives in the time-of-day key's sun intensity (shared with the
+        // package's light states); direct strength is the weather/cloud multiplier on top of it.
+        let direct = appearance.directMultiplier
 
         // Night: Moon fill, disk gate, stars.
         let moon = Moon.state(at: t, observer: observer)
