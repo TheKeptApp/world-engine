@@ -59,6 +59,44 @@ public struct HouseFamilyGrammar: Codable, Sendable, Equatable {
         /// Porch style and likelihood instead of the profile's (e.g. a covered porch for Queen Anne).
         public var porchStyle: String?
         public var porchLikelihood: Double?
+
+        // Facade pass (gaps 1 and 5 of the 5B gate). All optional: unset means the old behavior.
+
+        /// Window width / height ranges in meters instead of the profile's (tallWindows is then ignored).
+        public var windowWidth: [Double]?
+        public var windowHeight: [Double]?
+        /// Windows per street-facing group when `groupedWindows` (default 2; Prairie ribbons use 3).
+        public var windowGroup: Int?
+        /// Entry kit instead of the plain stoop/canopy: portico | vestibule | surround.
+        public var entry: String?
+        /// Likelihood of the entry kit (default 1); otherwise the old entry (pediment/canopy).
+        public var entryChance: Double?
+        /// Masonry openings (near only): a projecting sill under and a lintel over each window
+        /// on street-facing walls and bay faces, in the trim (stone) color.
+        public var lintels: Bool?
+        /// Dress protrusions of the mapped footprint on the street side as bays (windows on every
+        /// face, cornice around flat-roofed ones).
+        public var mappedBays: Bool?
+        /// An inferred shallow bay on the street facade where the mapped footprint has none.
+        public var bay: Bay?
+        /// Long side walls (≥ 12 m, not street-facing): grouped, smaller windows aligned per
+        /// story with blank stretches between; no openings on walls that touch a neighbor.
+        public var sideRhythm: Bool?
+        /// Side-wall window size relative to the front windows (default 0.85).
+        public var sideWindowScale: Double?
+    }
+
+    /// An inferred street bay (a user-requested exception to "no unmapped volume": kept shallow,
+    /// only where the space in front of the facade is clear).
+    public struct Bay: Codable, Sendable, Equatable {
+        public var chance: Double?
+        /// Story counts to choose from (e.g. [1, 2]); nil = full wall height.
+        public var stories: [Int]?
+        /// angled (three-sided, 45°) | box | nil (either).
+        public var form: String?
+        /// Overall width along the wall and projection, in meters.
+        public var width: [Double]?
+        public var depth: [Double]?
     }
 
     /// Preferred frontage width / depth (soft eligibility).

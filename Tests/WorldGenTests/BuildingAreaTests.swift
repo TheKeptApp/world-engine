@@ -17,6 +17,11 @@ struct BuildingAreaTests {
     /// (area, profile): the profile is an explicit test override (spec §2 selection precedence).
     static let areas: [(String, String)] = [("evanston-south", "evanston"), ("lakeview-sheil-park", "chicago-dense-north"), ("sloans-lake", "front-range")]
 
+    /// Average triangles per house (near, mid, far, skyline) before the facade pass.
+    static let houseBaseline: [String: [Double]] = [
+        "evanston-south": [401, 142, 45, 11], "lakeview-sheil-park": [511, 167, 53, 14], "sloans-lake": [429, 191, 91, 19],
+    ]
+
     struct Tally {
         var count = 0
         var tris: [BuildingLOD: Int] = [:]
@@ -34,6 +39,7 @@ struct BuildingAreaTests {
         var byRole: [String: Tally] = [:]
         var byFamily: [String: Tally] = [:]
         var fallbacks = 0, crossGables = 0, dormers = 0, chimneys = 0, porches = 0, optional = 0, nearHouses = 0
+        var inferredBays = 0, mappedBays = 0, kits: [String: Int] = [:]
         var bad: [String] = []
         var seconds: [BuildingLOD: Double] = [:]
         let buildings = features.buildings.filter { !$0.isPart }
@@ -61,6 +67,9 @@ struct BuildingAreaTests {
             dormers += g.dormers
             if g.hasChimney { chimneys += 1 }
             if g.hasRearPorch { porches += 1 }
+            inferredBays += g.inferredBays.count
+            mappedBays += g.mappedBays
+            if let k = g.entryKit { kits[k, default: 0] += 1 }
             if g.role == .house { optional += g.optionalRoofTriangles; nearHouses += 1 }
             #expect(g.optionalRoofTriangles <= BuildingGenerator.optionalRoofCap)
             // Sealing on a deterministic sample (ray casting is slow).
@@ -84,6 +93,7 @@ struct BuildingAreaTests {
         let time = BuildingLOD.allCases.map { "\($0)=\(String(format: "%.2f", seconds[$0, default: 0] / km2))s" }.joined(separator: " ")
         print("BUDGET \(area) buildings=\(buildings.count) km2=\(String(format: "%.2f", km2)) trisPerKm2[\(perKm2)] genSecondsPerKm2[\(time)]")
         print("BUDGET \(area) fallbacks=\(fallbacks) crossGables=\(crossGables) dormers=\(dormers) chimneys=\(chimneys) rearPorches=\(porches) optionalRoofTrisPerHouse=\(nearHouses > 0 ? optional / nearHouses : 0)")
+        print("BUDGET \(area) inferredBays=\(inferredBays) mappedBays=\(mappedBays) entryKits=\(kits.sorted { $0.key < $1.key })")
         for s in bad.prefix(40) { print("BAD \(area) \(s)") }
         // Budget (v2 §8.1, regions §4): optional roof detail stays far below its 12k visible cap,
         // and each LOD step at least halves the per-km² load.
@@ -93,6 +103,14 @@ struct BuildingAreaTests {
         #expect(Double(total[.far, default: 0]) / km2 <= 200_000)
         #expect(Double(total[.skyline, default: 0]) / km2 <= 60_000)
         for (k, t) in byRole where k == "house" { #expect(t.maxNear <= 2500, "largest house \(t.maxNear) triangles") }
+        // Facade pass budget against the measurements before it (gate-5b.md): average house near
+        // at most +45 %, mid at most +25 %, far and skyline unchanged.
+        if let base = Self.houseBaseline[area], let t = byRole["house"], t.count > 0 {
+            func avg(_ l: BuildingLOD) -> Double { Double(t.tris[l, default: 0]) / Double(t.count) }
+            #expect(avg(.near) <= base[0] * 1.45, "near \(avg(.near)) vs \(base[0])")
+            #expect(avg(.mid) <= base[1] * 1.25, "mid \(avg(.mid)) vs \(base[1])")
+            #expect(avg(.far) < base[2] + 1 && avg(.skyline) < base[3] + 1, "far \(avg(.far)) skyline \(avg(.skyline))")
+        }
         #expect(bad.isEmpty, "\(area): \(bad.count) problems, first: \(bad.first ?? "")")
     }
 }

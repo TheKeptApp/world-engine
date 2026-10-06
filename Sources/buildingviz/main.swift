@@ -14,7 +14,8 @@ buildingviz --area DIR --profile ID --out out.png
   [--yaw 210] [--pitch 35] [--dist 90] [--fov 40] [--width 1600] [--height 900]
   [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1]
 buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...] [--ids 6]
-  (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50)
+  [--local X,Y] (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50;
+  --local aims at one cell: footprints start at x = 25 × column, y = −48 × row)
 Camera: yaw = compass direction the camera looks toward (0 north, 90 east), pitch = degrees down,
         target = center point at ground level (+3 m), distance in meters. Back faces are culled.
 """
@@ -88,6 +89,8 @@ if isGallery {
     galleryRadius = (simd_length(LocalPoint(maxX + 40, 12 - minY + 30)) / 2)
     galleryHalf = LocalPoint((maxX + 40) / 2, (12 - minY + 30) / 2)
     radius = .infinity
+    // Close-ups: aim at one cell (footprints start at x = 25 × column, y = −48 × row).
+    if let (x, y) = pair("local") { centerLocal = LocalPoint(x, y) }
 } else {
     guard let area = opts["area"] else { fail("--area or --gallery is required\n\(usage)") }
     do {
