@@ -1,35 +1,41 @@
 # Look loop: regressions
 
-This run (2026-10-06 15:38, engine `bed615b`) against the previous published run (2026-10-06 14:28, engine `24491e5`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
+This run (2026-10-06 16:07, engine `d0c0e6b`) against the previous published run (2026-10-06 15:38, engine `bed615b`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
 
-**20 regression flag(s) in 10 view(s).**
+**26 regression flag(s) in 13 view(s).**
 
 | View | What | Before | Now | Reviewer's reason now |
 |---|---|---|---|---|
-| [showcase-06](sheets/showcase-06.jpg) | softnessAO | 3 | 2 | Trunks and the bench sit on the lawn with little contact shading; the path edge is a hard flat shape and crowns have no underside occlusion. |
-| [showcase-08](sheets/showcase-08.jpg) | groundRichness | 3 | 2 | Large smooth snow and grey-olive planes with a few thin tufts; no tan dormant-lawn patches, no beds or shrubs, and the path is a featureless pale slab with no seams. |
-| [showcase-09](sheets/showcase-09.jpg) | v2 /50 | 30.0 | 27.9 | At phone size this is a calm, coherent but dark and flat moonlit park: correct layout and Moon position, but no warm accents, lake glitter or ground richness. The biggest gap is the flat, uniform ground and lack of light |
-| [showcase-09](sheets/showcase-09.jpg) | softnessAO | 3 | 2 | Trunks and the bench sit on the ground with no visible contact darkening; the conifer base and path edges look pasted on flat ground. |
-| [showcase-09](sheets/showcase-09.jpg) | houseVariety | 3 | 2 | Only a thin row of tiny dark red-brown roofs on the horizon, with no lit windows; houses cannot be told apart at phone size. |
-| [showcase-11](sheets/showcase-11.jpg) | geography | 4 | 3 | The lake shape and north-up layout broadly resemble Sloan's Lake with the island, but the blocky rectangular detail boundary and the street-grid scale in the ring are doubtful. Shadows are too soft to check the 308 degre |
-| [ordinary-street](sheets/ordinary-street.jpg) | groundRichness | 3 | 2 | Lawns are near-flat colour with sparse identical grass tufts; large flat green carpet right of the walk, no beds, worn edges or leaf litter beyond a few specks. |
-| [ordinary-street](sheets/ordinary-street.jpg) | characterReadability | 4 | 3 | Black dog reads against the pale walk with contact intact, but it is small (~15% of frame height, below 20-25%) and almost a silhouette with little coat detail. |
-| [ordinary-street](sheets/ordinary-street.jpg) | adGroundRich | 3 | 2 | Two lawn tones and a few foundation shrubs, but the right lawn is a flat green plane and the left bush is a lone blob; no planting beds, worn edges or leaf litter. |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | v2 /50 | 31.1 | 28.9 | At phone size this is a clean stylized rain street with a dark sky, but the lawn is flat and dry-looking and the houses are flat. The biggest gap is weak rain readability and ground richness compared with the North Shore |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | softnessAO | 3 | 2 | Houses and trunks sit on lawn with little base or eave occlusion; one hard blob shadow on the walk is odd under overcast |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | groundRichness | 3 | 2 | Large flat lawn in one tone, plain walks, few small shrubs along the far foundations, no beds or streaks |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | adGroundRich | 3 | 2 | Mostly one lawn colour with a few small shrubs; no beds, worn edges, shade tone or litter |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | adRainReadable | 3 | 2 | Dark sky and a slightly sheened road read as weather, but walks and lawn look dry, no puddles, and streaks are barely visible |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | groundRichness | 3 | 2 | Large near-uniform white snow plane, one olive shadow blob and a few tiny sprigs; no patchy snow, no exposed lawn, no litter, quiet sidewalk is just a seam. |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | adGroundRich | 3 | 2 | One flat snow tone with a few foundation shrubs on the left; no patchy lawn, beds or fences, hard-edged walk. |
-| [evanston-aerial](sheets/evanston-aerial.jpg) | houseVariety | 4 | 3 | Several kit families (brick two-storey, gabled, apartment) but repetitive roof colours and similar massing across the block. |
-| [lakeview-street](sheets/lakeview-street.jpg) | groundRichness | 3 | 2 | Lawns are near-uniform flat green with only a few sparse tufts; no patches, worn edges or leaf litter; road and walk are plain. |
-| [lakeview-aerial](sheets/lakeview-aerial.jpg) | houseVariety | 4 | 3 | Several kit families (courtyard blocks, rowhouses, gabled houses, a teal-roofed one) read; many large brick boxes look alike. |
-| [lakeview-aerial](sheets/lakeview-aerial.jpg) | adRegional | 4 | 3 | Dense Chicago grid with alleys, brick courtyard blocks and street trees in fall colours read as Lakeview; the three-flat and greystone character is thin. |
+| [v2-04](sheets/v2-04.jpg) | groundRichness | 3 | 2 | Two flat lawn tones with sparse grass tufts; no beds, litter or worn edges in the foreground. |
+| [v2-04](sheets/v2-04.jpg) | adGroundRich | 3 | 2 | Only a few foundation shrubs; lawns are flat colour blocks with hard edges at the walk. |
+| [showcase-07](sheets/showcase-07.jpg) | v2 /50 | 31.1 | 28.9 | At phone size it reads as a clean, cool overcast snow scene with a believable lake edge, but it is sparse and monochrome next to the targets. The biggest gap is the flat, uniform snow ground with no melt patches, plantin |
+| [showcase-07](sheets/showcase-07.jpg) | softnessAO | 3 | 2 | Trunks and benches sit on the snow with little contact darkening; shadow patches are hard-edged olive blobs rather than soft occlusion. |
+| [showcase-07](sheets/showcase-07.jpg) | groundRichness | 3 | 2 | Large near-white snow carpet with a smooth path; only a few tiny grass tufts and no patchy melt, shrubs, shore edge or tone variation. |
+| [showcase-07](sheets/showcase-07.jpg) | adRainReadable | 3 | 2 | Heavy overcast sky helps, but no visible falling snow particles, no wet/slushy sheen on the path and no wet contrast. |
+| [showcase-08](sheets/showcase-08.jpg) | softnessAO | 3 | 2 | Conifers and trunks have little base occlusion; the bench and trunks sit on the ground with minimal contact shadow |
+| [showcase-10](sheets/showcase-10.jpg) | v2 /50 | 28.9 | 23.7 | At phone size this reads as a flat grey-teal map with a correctly shaped lake, not the canopied autumn rain aerial of the target. The biggest gap is the flat, uniform ground and missing tree canopy and wet-surface respon |
+| [showcase-10](sheets/showcase-10.jpg) | light | 3 | 2 | Flat overcast light with almost no key direction or shadow; the large pale grey ground plane washes out and architecture is not modelled. |
+| [showcase-10](sheets/showcase-10.jpg) | groundRichness | 3 | 2 | Outside the lake corridor the ground is a uniform grey-blue plane with a road grid; only the park fringe has some lawn variation. |
+| [showcase-10](sheets/showcase-10.jpg) | depthFog | 3 | 2 | Little atmospheric separation toward the top edge; the far grid is as crisp and the same flat grey as the near. The grey plane ends hard at the frame corners and reads as a tile, not a continuous world. |
+| [showcase-10](sheets/showcase-10.jpg) | houseVariety | 3 | 2 | Houses read as dark rectangles of near-identical tone; some commercial and industrial blocks differ but no residential kit families are visible. |
+| [showcase-10](sheets/showcase-10.jpg) | adGroundRich | 3 | 2 | Land outside the park is one flat grey colour with hard parcel edges; few visible beds or shrubs, some leaf specks near the lake. |
+| [showcase-10](sheets/showcase-10.jpg) | adRegional | 3 | 2 | The lake and the bungalow grid are right, but the land-use pattern (flat grey plane, regular fields) reads generic, with no Front Range tree canopy or autumn cottonwood mass like the target. |
+| [showcase-11](sheets/showcase-11.jpg) | palette | 3 | 2 | Snow is a blue-grey mottled camo of pale and dark patches; lake is a flat slate. Flat and muddy versus the bright white and blue-teal of the targets; no clipping. |
+| [ordinary-trail](sheets/ordinary-trail.jpg) | softnessAO | 3 | 2 | Trunks and bench sit on the lawn with almost no contact darkening; large hard-edged shadow shapes, no base occlusion. |
+| [ordinary-street](sheets/ordinary-street.jpg) | softnessAO | 3 | 2 | House base is a dark flat band, shrubs sit as blobs, sidewalk has little edge occlusion; dog contact shadow is faint. |
+| [ordinary-street](sheets/ordinary-street.jpg) | houseVariety | 3 | 2 | Only a plain mauve box in foreground and one yellow block in distance; no porches, bungalow/foursquare profiles or entries visible. |
+| [wilmette-street-rain](sheets/wilmette-street-rain.jpg) | groundRichness | 3 | 2 | Large near lawns are nearly flat green with a hard-edged walk slab; only a few tufts and shrubs, no beds, litter or tonal patches. |
+| [wilmette-street-rain](sheets/wilmette-street-rain.jpg) | adGroundRich | 3 | 2 | Foreground lawns are one flat green with a hard-edged walk; a few shrubs and a hedge row at the back, no beds, worn edges or litter. |
+| [wilmette-street-snow](sheets/wilmette-street-snow.jpg) | groundRichness | 3 | 2 | Foreground is a large near-uniform white snow plane with one faint paving band; no patchy snow over straw lawn like the target; tiny stubble dots only. |
+| [wilmette-aerial](sheets/wilmette-aerial.jpg) | light | 4 | 3 | One coherent sun with shadows falling toward upper-right, consistent with the 40.6 deg bearing; however the light is fairly neutral, with little warm/cool contrast or glow as in the anchor. |
+| [wilmette-aerial](sheets/wilmette-aerial.jpg) | adRegional | 4 | 3 | Mid-century North Shore blocks with brick houses, mixed deciduous and conifer trees and peak-fall colour read as suburban Chicagoland; lawn green and low-pitch roofs are more generic than the anchor. |
+| [evanston-street](sheets/evanston-street.jpg) | adGroundRich | 3 | 2 | Mostly one flat green lawn with a few leaf specks and one lone shrub at left. There are no beds, foundation planting or worn edges. |
+| [lakeview-postcard](sheets/lakeview-postcard.jpg) | adRegional | 3 | 2 | Reads as a generic tree-lined suburban street; lacks Lakeview's dense three-flats with bays and stoops, and the sparse boulevard-less setting is not the target's dense look. |
+| [lakeview-alley](sheets/lakeview-alley.jpg) | softnessAO | 3 | 2 | Few contact shadows or eave occlusion; garage bases sit on the ground without dirt seams and the long walls are smooth planes. |
 
-## Same-grader check (Sonnet, §S, ccb5f77 frames → bed615b)
+## Same-grader check (Sonnet, §S): bed615b → d0c0e6b
 
-| View | Before (ccb5f77) | Now (bed615b) | Commit |
+| View | Before (bed615b) | Now (d0c0e6b) | Commit |
 |---|---|---|---|
-| [v2-06](sheets/v2-06.jpg) | 25.3 | 22.1 (−3.2) | Since 1c15fba (5A dcd3eb6/1c15fba range); bed615b (greener ring) did not recover it. |
-| [showcase-08](sheets/showcase-08.jpg) | 32.6 | 28.9 (−3.7) | One of 35827f6..bed615b (5A rain/snow/saturation merges, P2 side walls); within ±3 of 1c15fba, so check whether it is grader noise before acting. |
+| [showcase-10](sheets/showcase-10.jpg) | 28.9 | 23.7 (−5.2) | `d0c0e6b` (P2 ground pass 1, the only change). Back to its ccb5f77 baseline (23.7); reviewer: flat grey-teal ground, no canopy, no wet response. Likely grader spread on this aerial as much as the merge; recheck on the next run. |
+| [showcase-08](sheets/showcase-08.jpg) | 32.6 (ccb5f77) | 27.9 (−4.7 vs baseline) | Range 35827f6..d0c0e6b; −1.0 vs bed615b. |
