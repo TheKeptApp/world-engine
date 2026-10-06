@@ -104,6 +104,8 @@ extension World {
 extension World {
     public enum Feature: String, CaseIterable, Sendable {
         case shadows, sky, foliage, surfaceDetail, particles, buildings
+        /// Opaque trees and bushes outside the cut-away zone (off = every level cuttable, as before).
+        case opaqueDetail
     }
 
     public func set(_ feature: Feature, enabled on: Bool) {
@@ -120,11 +122,22 @@ extension World {
             shaderGlobals.debug = on ? 0 : 5
             resources.update(globals: shaderGlobals)
         case .particles:
+            particlesAllowed = on
             precipitation?.isEnabled = on && !environmentState.precipitation.isEmpty
         case .buildings:
             for e in rootEntity.children where e.name.hasPrefix("Chunk ") { e.isEnabled = on }
+        case .opaqueDetail:
+            opaqueDetail = on
         }
     }
 
     private func featureWasEnabled(_ e: Entity) -> Bool { true }
+
+    /// Sun shadow range in metres (diagnostics: GPU cost of shorter shadow ranges).
+    public func setShadowDistance(_ meters: Float) {
+        shadowDistance = meters
+        guard var shadow = sunEntity.components[DirectionalLightComponent.Shadow.self] else { return }
+        shadow.shadowProjection = .automatic(maximumDistance: meters)
+        sunEntity.components.set(shadow)
+    }
 }

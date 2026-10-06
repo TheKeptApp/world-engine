@@ -169,6 +169,15 @@ struct RealityKitScreen: View {
             await phase("all7") { world.set(.foliage, enabled: true) }
             await phase("noBuildings") { world.set(.buildings, enabled: false) }
             await phase("all8") { world.set(.buildings, enabled: true) }
+            // The previous material set-up (every tree and bush on the cut-away pipeline), to
+            // measure what the opaque detail levels save.
+            await phase("cutDetail") { world.set(.opaqueDetail, enabled: false) }
+            await phase("all9") { world.set(.opaqueDetail, enabled: true) }
+            // Shorter sun-shadow ranges (80 m is the default).
+            await phase("shadow50") { world.setShadowDistance(50) }
+            await phase("all10") { world.setShadowDistance(80) }
+            await phase("shadow30") { world.setShadowDistance(30) }
+            await phase("all11") { world.setShadowDistance(80) }
             print("ATTR end \(iso.string(from: Date()))")
         }
         .task {

@@ -88,15 +88,21 @@ public final class World {
 
     private var tuftEntity: (entity: Entity, data: LowLevelInstanceData, center: LocalPoint)?
     private var tuftMesh: MeshResource?
-    /// LOD props (trees, bushes) per kind/variant/cell, with one entity per detail level.
+    /// LOD props (trees, bushes) per kind/variant/cell, with one entity per slot: 0 = near detail
+    /// inside the cut-away zone (cuttable), 1 = the rest of the near detail, 2 = mid, 3 = far
+    /// (1–3 opaque; see `RenderResources.foliageOpaqueMaterial`).
     private struct LODGroup {
         var kind: PropKind
         var variant: Int
         var instances: [PropInstance]
         var levels: [(entity: Entity, data: LowLevelInstanceData, triangles: Int, buffers: WorldMesh.MeshBuffers)]
-        var counts = [0, 0, 0]
-        var bounds: [BoundingBox?] = [nil, nil, nil]
+        var counts = [0, 0, 0, 0]
+        var bounds: [BoundingBox?] = [nil, nil, nil, nil]
     }
+    /// Trees and bushes this close to the camera keep the cut-away (transparent) material. The
+    /// character is at most ~8 m from the follow camera and detail is re-bucketed every 8 m, so a
+    /// blocker always falls inside.
+    static let cutZoneMeters: Float = 20
     private var lodGroups: [LODGroup] = []
     var lodCenter: SIMD2<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
@@ -275,7 +281,7 @@ public final class World {
         sunEntity.components.set(light)
         if !options.diagnostics.contains("noShadows"), lighting.sunIntensity > 0.01 {
             var shadow = DirectionalLightComponent.Shadow()
-            shadow.shadowProjection = .automatic(maximumDistance: 80)
+            shadow.shadowProjection = .automatic(maximumDistance: shadowDistance)
             shadow.depthBias = 1.5
             sunEntity.components.set(shadow)
         }
@@ -301,28 +307,42 @@ public final class World {
             let e = Entity()
             e.name = "Boundary ground"
             e.components.set(ModelComponent(mesh: ground, materials: [resources.staticMaterial]))
+            e.components.set(DynamicLightShadowComponent(castsShadow: false))
             receiveIBL(e)
             rootEntity.addChild(e)
             stats.staticTriangles += scene.boundaryGround.triangleCount
             baseDrawCalls += 1
         }
         for chunk in scene.chunks {
-            var parts: [WorldMesh.MeshBuffers] = [], materials: [any Material] = []
-            if !chunk.staticMesh.isEmpty { parts.append(chunk.staticMesh); materials.append(resources.staticMaterial) }
-            if !chunk.waterMesh.isEmpty { parts.append(chunk.waterMesh); materials.append(resources.waterMaterial) }
-            guard let mesh = try MeshUpload.resource(parts) else { continue }
-            let e = Entity()
-            e.name = "Chunk \(chunk.id)"
-            e.components.set(ModelComponent(mesh: mesh, materials: materials))
-            receiveIBL(e)
-            rootEntity.addChild(e)
-            stats.staticTriangles += parts.reduce(0) { $0 + $1.triangleCount }
-            if let b = parts.compactMap(\.bounds).reduce(nil, { (acc: BoundingBox?, x) in acc.map { $0.union(BoundingBox(min: x.min, max: x.max)) } ?? BoundingBox(min: x.min, max: x.max) }) {
-                cullables.append((b, parts.reduce(0) { $0 + $1.triangleCount }))
+            // Flat ground (lawns, streets, paths, curbs, water) can't shadow anything, so it stays
+            // out of the sun's shadow map; buildings and other raised geometry cast.
+            let (flat, raised) = Self.splitFlatGround(chunk.staticMesh)
+            for (suffix, staticPart, casts) in [("ground", flat, false), ("", raised, true)] {
+                var parts: [WorldMesh.MeshBuffers] = [], materials: [any Material] = []
+                if !staticPart.isEmpty { parts.append(staticPart); materials.append(resources.staticMaterial) }
+                if !casts, !chunk.waterMesh.isEmpty { parts.append(chunk.waterMesh); materials.append(resources.waterMaterial) }
+                guard let mesh = try MeshUpload.resource(parts) else { continue }
+                let e = Entity()
+                e.name = suffix.isEmpty ? "Chunk \(chunk.id)" : "Chunk \(chunk.id) \(suffix)"
+                e.components.set(ModelComponent(mesh: mesh, materials: materials))
+                if !casts { e.components.set(DynamicLightShadowComponent(castsShadow: false)) }
+                receiveIBL(e)
+                rootEntity.addChild(e)
+                stats.staticTriangles += parts.reduce(0) { $0 + $1.triangleCount }
+                if let b = parts.compactMap(\.bounds).reduce(nil, { (acc: BoundingBox?, x) in acc.map { $0.union(BoundingBox(min: x.min, max: x.max)) } ?? BoundingBox(min: x.min, max: x.max) }) {
+                    cullables.append((b, parts.reduce(0) { $0 + $1.triangleCount }))
+                }
+                baseDrawCalls += parts.count
+                stats.meshBytes += parts.reduce(0) { $0 + $1.gpuBytes }
             }
-            baseDrawCalls += parts.count
-            stats.meshBytes += parts.reduce(0) { $0 + $1.gpuBytes }
         }
+    }
+
+    /// Splits static geometry into flat ground (every corner within 0.3 m of the ground plane:
+    /// lawns, streets, paths, curbs) and the rest. The ground is flat at y = 0 today; with terrain
+    /// this must compare against the ground height instead.
+    static func splitFlatGround(_ m: WorldMesh.MeshBuffers) -> (flat: WorldMesh.MeshBuffers, raised: WorldMesh.MeshBuffers) {
+        m.partitioned { $0.y < 0.3 && $1.y < 0.3 && $2.y < 0.3 }
     }
 
     private var meshCache: [String: (MeshResource, WorldMesh.MeshBuffers)] = [:]
@@ -336,7 +356,30 @@ public final class World {
         return (r, buffers)
     }
 
-    private func material(for k: PropKind) -> CustomMaterial { k.isFoliage ? resources.foliageMaterial : resources.propMaterial }
+    private func material(for k: PropKind, cuttable: Bool = true) -> CustomMaterial {
+        if cuttable || !opaqueDetail { return k.isFoliage ? resources.foliageMaterial : resources.propMaterial }
+        return k.isFoliage ? resources.foliageOpaqueMaterial : resources.propOpaqueMaterial
+    }
+
+    /// Rain and snow particles allowed (`World.Feature.particles`; diagnostics only).
+    var particlesAllowed = true
+
+    /// How far from the camera the sun casts shadows (m). 80 m by default; GPU attribution
+    /// measures shorter ranges with `setShadowDistance(_:)`.
+    var shadowDistance: Float = 80
+
+    /// Opaque materials for trees and bushes outside the cut-away zone (on by default; switched off
+    /// only to measure what it saves, `World.Feature.opaqueDetail`).
+    var opaqueDetail = true {
+        didSet {
+            guard opaqueDetail != oldValue else { return }
+            for g in lodGroups {
+                for (slot, level) in g.levels.enumerated() {
+                    level.entity.components[ModelComponent.self]?.materials = [material(for: g.kind, cuttable: slot == 0)]
+                }
+            }
+        }
+    }
 
     private func buildProps() throws {
         if options.diagnostics.contains("noProps") { recount(); return }
@@ -362,22 +405,23 @@ public final class World {
                 stats.meshBytes += list.count * 64
                 continue
             }
-            // Trees, bushes: one entity per detail level, refilled as the camera moves.
+            // Trees, bushes: one entity per slot (cut-away zone, near, mid, far), refilled as the
+            // camera moves.
             var group = LODGroup(kind: kind, variant: variant, instances: list, levels: [])
-            for lod in 0..<3 {
-                guard let (mesh, buffers) = try cached(kind, variant, lod: lod) else { continue }
+            for slot in 0..<4 {
+                guard let (mesh, buffers) = try cached(kind, variant, lod: max(0, slot - 1)) else { continue }
                 let data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: list.count)
                 let e = Entity()
-                e.name = "LOD \(key) \(lod)"
+                e.name = "LOD \(key) \(slot)"
                 e.isEnabled = false
-                e.components.set(ModelComponent(mesh: mesh, materials: [material(for: kind)]))
+                e.components.set(ModelComponent(mesh: mesh, materials: [material(for: kind, cuttable: slot == 0)]))
                 receiveIBL(e)
                 rootEntity.addChild(e)
                 group.levels.append((e, data, buffers.triangleCount, buffers))
             }
-            guard group.levels.count == 3 else { continue }
+            guard group.levels.count == 4 else { continue }
             lodGroups.append(group)
-            stats.meshBytes += list.count * 64 * 3
+            stats.meshBytes += list.count * 64 * 4
         }
         if let (mesh, _) = try cached(.tuft, 0) { tuftMesh = mesh }
         staticPropTriangles = staticPropBase
@@ -418,15 +462,15 @@ public final class World {
         let c = SIMD2(camera.x, camera.z)
         if let last = lodCenter, simd_distance(last, c) < Float(PropLibrary.lodRebucketMeters) { return }
         lodCenter = c
-        let near = Float(PropLibrary.lodDistances[0]), mid = Float(PropLibrary.lodDistances[1])
+        let cut = Self.cutZoneMeters, near = Float(PropLibrary.lodDistances[0]), mid = Float(PropLibrary.lodDistances[1])
         var trees = 0, others = 0
         for gi in lodGroups.indices {
-            var buckets: [[simd_float4x4]] = [[], [], []]
+            var buckets: [[simd_float4x4]] = [[], [], [], []]
             for inst in lodGroups[gi].instances {
                 let d = simd_distance(SIMD2(Float(inst.x), Float(-inst.y)), c)
-                buckets[d < near ? 0 : (d < mid ? 1 : 2)].append(inst.transform)
+                buckets[d < cut ? 0 : (d < near ? 1 : (d < mid ? 2 : 3))].append(inst.transform)
             }
-            for lod in 0..<3 {
+            for lod in 0..<4 {
                 let (entity, data, tris, buffers) = lodGroups[gi].levels[lod]
                 let ts = buckets[lod]
                 data.instanceCount = ts.count
@@ -457,7 +501,7 @@ public final class World {
         var total = 0
         for c in cullables where Self.intersects(c.bounds, planes) { total += c.triangles }
         for g in lodGroups {
-            for lod in 0..<3 where g.counts[lod] > 0 {
+            for lod in g.levels.indices where g.counts[lod] > 0 {
                 if let b = g.bounds[lod], Self.intersects(b, planes) { total += g.counts[lod] * g.levels[lod].triangles }
             }
         }
@@ -506,6 +550,9 @@ public final class World {
                 e.name = "Clutter tufts"
                 e.isEnabled = false
                 e.components.set(ModelComponent(mesh: mesh, materials: [resources.foliageMaterial]))
+                // Ankle-high tufts: their shadows don't read, but drawing them into the sun's
+                // shadow map costs every frame.
+                e.components.set(DynamicLightShadowComponent(castsShadow: false))
                 receiveIBL(e)
                 rootEntity.addChild(e)
                 tuftEntity = (e, data, p)

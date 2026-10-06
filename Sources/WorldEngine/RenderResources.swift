@@ -99,6 +99,11 @@ final class RenderResources {
     /// Same shader family as `staticMaterial`, but cut-away capable (lamps, benches).
     let propMaterial: CustomMaterial
     let foliageMaterial: CustomMaterial
+    /// Opaque variants for detail that can't stand between the camera and the character (trees
+    /// and bushes beyond the cut-away zone). The cut-away's transparent pipeline costs the GPU its
+    /// hidden-surface removal, so every overlapping lobe was shaded; opaque lobes are shaded once.
+    let propOpaqueMaterial: CustomMaterial
+    let foliageOpaqueMaterial: CustomMaterial
     let waterMaterial: CustomMaterial
 
     init(palette: Palette) throws {
@@ -137,6 +142,8 @@ final class RenderResources {
         staticMaterial = try material("worldStaticSurface", cuttable: false)
         propMaterial = try material("worldPropSurface", cuttable: true)
         foliageMaterial = try material("worldFoliageSurface", geometry: "worldFoliageGeometry", cuttable: true)
+        propOpaqueMaterial = try material("worldPropSurface", cuttable: false)
+        foliageOpaqueMaterial = try material("worldFoliageSurface", geometry: "worldFoliageGeometry", cuttable: false)
         waterMaterial = try material("worldWaterSurface", cuttable: false)
         setPalette(palette)
         update(globals: ShaderGlobals())

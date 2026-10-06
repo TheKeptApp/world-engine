@@ -107,6 +107,8 @@ final class TestRun {
     @ObservationIgnored private var savedBrightness: CGFloat = 0.5
     @ObservationIgnored private var secondsLog: FileHandle?
     @ObservationIgnored private var framesLog: FileHandle?
+    @ObservationIgnored private var pendingFrames = ""
+    @ObservationIgnored private let io = DispatchQueue(label: "worldlab.testrun.log")
     @ObservationIgnored private var base = ""
     @ObservationIgnored private var startConditions = ""
     @ObservationIgnored private let header: String
@@ -154,8 +156,10 @@ final class TestRun {
         secondFrames.append(ms)
         if let g = gpuMs { gpuAll.append(Float(g)); secondGPU.append(g) }
         if let p = postMs { postAll.append(Float(p)) }
-        write(framesLog, String(format: "%.3f,%@,%@\n", ms, gpuMs.map { String(format: "%.3f", $0) } ?? "",
-                                postMs.map { String(format: "%.3f", $0) } ?? ""))
+        // Frame lines are buffered and written once a second off the main thread: a file write
+        // per frame on the main thread can stall a frame when the disk is busy.
+        pendingFrames += String(format: "%.3f,%@,%@\n", ms, gpuMs.map { String(format: "%.3f", $0) } ?? "",
+                                postMs.map { String(format: "%.3f", $0) } ?? "")
         let now = Date()
         let t = now.timeIntervalSince(start)
         guard now.timeIntervalSince(lastSecond) >= 1 else { return }
@@ -169,6 +173,8 @@ final class TestRun {
         if thermal.last?.1 != th { thermal.append((t, th)) }
         let shown = display?() ?? ","
         if scaleLog.last?.1 != shown { scaleLog.append((t, shown)) }
+        write(framesLog, pendingFrames)
+        pendingFrames = ""
         write(secondsLog, String(format: "%.0f,%.1f,%.2f,%.2f,%.2f,%.2f,%.0f,%@,%.2f,%@\n", t, fps, avg, secondFrames.max() ?? 0, over, gpu, mem, th,
                                  UIDevice.current.batteryLevel, shown))
         statusLine = String(format: "TEST %@ %.0f/%.0f s  %@", renderer, t, Self.duration, th)
@@ -226,8 +232,13 @@ final class TestRun {
         if let data = try? JSONSerialization.data(withJSONObject: summary, options: [.prettyPrinted, .sortedKeys]) {
             try? data.write(to: URL(fileURLWithPath: base + "-summary.json"))
         }
-        try? secondsLog?.close()
-        try? framesLog?.close()
+        write(framesLog, pendingFrames)
+        pendingFrames = ""
+        let files = (secondsLog, framesLog)
+        io.async {
+            try? files.0?.close()
+            try? files.1?.close()
+        }
         UIScreen.main.brightness = savedBrightness
         UIApplication.shared.isIdleTimerDisabled = false
         statusLine = String(format: "DONE %@: %.1f fps avg, 1%% low %.1f", renderer, avgFps, low1)
@@ -244,7 +255,9 @@ final class TestRun {
         return "lowPowerMode=\(ProcessInfo.processInfo.isLowPowerModeEnabled) battery=\(state) level=\(UIDevice.current.batteryLevel)"
     }
 
+    /// Writes on a serial queue, in order, off the main thread.
     private func write(_ h: FileHandle?, _ s: String) {
-        if let d = s.data(using: .utf8) { h?.write(d) }
+        guard let h, !s.isEmpty, let d = s.data(using: .utf8) else { return }
+        io.async { h.write(d) }
     }
 }

@@ -213,3 +213,25 @@ struct RibbonTests {
         #expect(abs(m.surfaceArea - 25) < 1e-4)
     }
 }
+
+@Suite("Mesh partition")
+struct MeshPartitionTests {
+    @Test func splitsTrianglesAndKeepsAttributes() {
+        var m = MeshBuffers()
+        m.paint = Paint(slot: 3)
+        m.addQuad([0, 0, 0], [1, 0, 0], [1, 0, -1], [0, 0, -1], normal: [0, 1, 0])  // flat, 2 triangles
+        m.paint = Paint(slot: 5)
+        m.extra = SIMD4(0.5, 0.25, 0, 0)
+        m.addQuad([0, 0, 0], [1, 0, 0], [1, 3, 0], [0, 3, 0], normal: [0, 0, 1])    // wall, 2 triangles
+        let (flat, raised) = m.partitioned { $0.y < 0.3 && $1.y < 0.3 && $2.y < 0.3 }
+        #expect(flat.triangleCount == 2 && raised.triangleCount == 2)
+        #expect(flat.vertexCount == 4 && raised.vertexCount == 4)
+        #expect(flat.positions.allSatisfy { $0.y == 0 } && raised.positions.contains { $0.y == 3 })
+        #expect(flat.paints.allSatisfy { $0 == Paint(slot: 3).packed } && raised.paints.allSatisfy { $0 == Paint(slot: 5).packed })
+        #expect(raised.extras.allSatisfy { $0 == SIMD4(0.5, 0.25, 0, 0) })
+        for part in [flat, raised] { #expect(part.indices.allSatisfy { Int($0) < part.vertexCount }) }
+        // Same triangles, same corners, in order.
+        let corners = { (b: MeshBuffers) in b.indices.map { b.positions[Int($0)] } }
+        #expect(corners(flat) + corners(raised) == corners(m))
+    }
+}

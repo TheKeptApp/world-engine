@@ -46,7 +46,7 @@ extension World {
         if !options.diagnostics.contains("noShadows"), L.sunIntensity * direct > 0.01 {
             if !sunEntity.components.has(DirectionalLightComponent.Shadow.self) {
                 var shadow = DirectionalLightComponent.Shadow()
-                shadow.shadowProjection = .automatic(maximumDistance: 80)
+                shadow.shadowProjection = .automatic(maximumDistance: shadowDistance)
                 shadow.depthBias = 1.5
                 sunEntity.components.set(shadow)
             }
@@ -218,7 +218,9 @@ extension World {
         guard skyDome == nil else { return }
         let lib = resources.library, tex = resources.textureResource
         do {
-            var sky = try CustomMaterial(surfaceShader: .init(named: "worldSkySurface", in: lib), lightingModel: .lit)
+            // Unlit: the dome's colour is all ours, so RealityKit's lighting (sun, shadow lookups,
+            // image-based light) would be wasted work on a large share of the screen.
+            var sky = try CustomMaterial(surfaceShader: .init(named: "worldSkySurface", in: lib), lightingModel: .unlit)
             sky.custom.texture = .init(tex)
             sky.faceCulling = .none
             let dome = Entity()
@@ -228,7 +230,7 @@ extension World {
             rootEntity.addChild(dome)
             skyDome = dome
 
-            var star = try CustomMaterial(surfaceShader: .init(named: "worldStarSurface", in: lib), lightingModel: .lit)
+            var star = try CustomMaterial(surfaceShader: .init(named: "worldStarSurface", in: lib), lightingModel: .unlit)
             star.custom.texture = .init(tex)
             star.faceCulling = .none
             star.blending = .transparent(opacity: .init(floatLiteral: 1))
@@ -282,7 +284,17 @@ extension World {
         // Precipitation box centred ~9 m ahead (most particles inside the view), 4 m up.
         let flat = simd_length(SIMD2(forward.x, forward.z)) > 1e-3 ? simd_normalize(SIMD3(forward.x, 0, forward.z)) : SIMD3<Float>(0, 0, -1)
         precipitation?.position = camera + flat * 9 + SIMD3(0, 4, 0)
+        // From the air there are no local streaks (experience-v1 §10: "remove giant screen-spanning
+        // rain streaks at this altitude"; weather v1 §6 allows omitting them): wetness, cloud and
+        // fog carry the weather.
+        if let p = precipitation {
+            let wanted = particlesAllowed && !environmentState.precipitation.isEmpty && camera.y < Self.precipitationCeiling
+            if p.isEnabled != wanted { p.isEnabled = wanted }
+        }
     }
+
+    /// Camera height above which rain and snow particles are switched off (aerial views).
+    static let precipitationCeiling: Float = 60
 
     // MARK: - Precipitation
 

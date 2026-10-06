@@ -1,0 +1,31 @@
+GPU busy per frame by clock state (frames):
+  all1             medium  1.32 ms (1)  min 18.31 ms (211)  mixed 17.42 ms (88)
+  noShadows        medium  9.56 ms (266)  min 13.76 ms (59)  mixed 11.90 ms (10)
+  all2             medium 15.18 ms (396)
+  noSky            medium 14.31 ms (6)  min 15.45 ms (267)  mixed 14.93 ms (60)
+  all3             medium 15.24 ms (331)
+  noPost           min 21.20 ms (249)
+  all4             min 20.67 ms (253)
+  noMSAA           min 19.37 ms (276)
+  all5             min 21.40 ms (245)
+  noSurfaceDetail  min 19.98 ms (261)
+  all6             min 19.00 ms (283)
+  noFoliage        min 15.19 ms (329)
+  all7             medium 15.29 ms (326)  mixed 17.73 ms (4)
+  noBuildings      min 21.98 ms (245)
+  all8             min 19.33 ms (275)
+
+Feature costs (neighbouring all phases minus the phase, same clock state):
+  noShadows        medium: saves  5.62 ms of 15.18 (37.0%; 1 neighbour(s))  |  min: saves  4.55 ms of 18.31 (24.9%; 1 neighbour(s))
+  noSky            no common clock state with its neighbours
+  noPost           min: saves -0.53 ms of 20.67 (-2.6%; 1 neighbour(s))
+  noMSAA           min: saves  1.67 ms of 21.03 ( 7.9%; 2 neighbour(s))
+  noSurfaceDetail  min: saves  0.23 ms of 20.20 ( 1.1%; 2 neighbour(s))
+  noFoliage        min: saves  3.81 ms of 19.00 (20.0%; 1 neighbour(s))
+  noBuildings      min: saves -2.65 ms of 19.33 (-13.7%; 1 neighbour(s))
+
+GPU time per pass, ms per frame (largest clock state of each phase):
+  all1 [min]: Fragment: Initial CB:Render Command 1 14.13; Vertex: Initial CB:Render Command 0 1.18; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 1 0.84; Fragment: Initial CB:Render Command 2 0.70; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.25
+  noShadows [medium]: Fragment: Initial CB:Render Command 0 6.81; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.07; Vertex: Initial CB:Render Command 0 0.95; Fragment: Initial CB:Render Command 1 0.50; Compute: Deformation Command Buffer:DeformerEncoder 0.25
+  all2 [medium]: Fragment: Initial CB:Render Command 1 11.26; Vertex: Initial CB:Render Command 0 1.32; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.14; Vertex: Initial CB:Render Command 1 0.72; Fragment: Initial CB:Render Command 2 0.53; Compute: Deformation Command Buffer:DeformerEncoder 0.22; Fragment: Initial CB:Render Command 0 0.20
+
