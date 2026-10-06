@@ -98,6 +98,9 @@ public struct BuildingGenerator: Sendable {
 
     /// Combined optional roof detail per near building (regions spec §4 table).
     public static let optionalRoofCap = 200
+    /// Size thresholds resolved for this area (percentiles of local house footprints); nil = the profile's.
+    public var areaThresholds: StyleProfile.Thresholds?
+    var thresholds: StyleProfile.Thresholds { areaThresholds ?? profile.typeThresholds }
 
     public init(profile: StyleProfile, context: StreetContext) {
         self.profile = profile
@@ -120,7 +123,7 @@ public struct BuildingGenerator: Sendable {
 
     /// The footprint situation key for the profile's type rules.
     func situation(_ b: Building, shape: FootprintAnalysis, broadFront: Bool) -> String {
-        let t = profile.typeThresholds
+        let t = thresholds
         let area = b.footprint.area
         let aspect = shape.obb.halfWidth > 0 ? shape.obb.halfLength / shape.obb.halfWidth : 1
         if b.type == "semidetached_house" { return "semidetached" }
@@ -162,6 +165,8 @@ public struct BuildingGenerator: Sendable {
            context.alleyEdge(of: b.footprint.outer, radius: 9) != nil, context.frontEdge(of: b.footprint.outer, radius: 9) == nil {
             return .garage
         }
+        // Absolute huge-house area here: relative thresholds are percentiles of houses already under
+        // the static 250 m² rule, so they can't decide whether a larger building is a house.
         if base == .block, area < profile.typeThresholds.hugeArea, b.levels.map({ $0 <= 3 }) ?? true { return .house }
         return base
     }

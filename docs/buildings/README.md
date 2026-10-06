@@ -189,3 +189,7 @@ Before / after (`buildingviz`, same camera):
 26. **Parkway trees by zone spacing** in the curb–sidewalk strip; mapped trees count first.
 27. **Yard ground 2 cm over the base lawn** (5A: no z-fighting at 2.5x); new palette names `yardBed`,
     `driveway`.
+28. **Relative size thresholds** (P1 fields `*AreaPercentile`): with ≥30 house candidates of a zone
+    profile in the area, small/large/huge for the situation keys are those percentiles of the local
+    house footprints; the house-vs-block role keeps the profile's absolute `hugeArea` (percentiles of
+    houses under the 250 m² rule can't decide whether a larger building is a house).
