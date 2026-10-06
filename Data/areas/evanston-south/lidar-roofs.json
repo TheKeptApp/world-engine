@@ -8,7 +8,7 @@
    "delivery": "IL_4County_Cook_2017",
    "access": "Entwine Point Tiles, public usgs-lidar-public bucket (AWS Open Data), anonymous HTTPS, octree depth <= 10",
    "flightDates": "2017-04-16 to 2017-05-07",
-   "flightDatesNote": "FGDC metadata (begdate/enddate) of the delivery tile at the Evanston test area, read in the Phase 5B pilot. The Lakeview tile's own metadata was not read; same delivery, so the same flight window is assumed (unverified for that tile).",
+   "flightDatesNote": "FGDC metadata (begdate/enddate) of the delivery tile at the Evanston test area, read in the Phase 5B pilot. The tile metadata of the other areas (Lakeview, Wilmette, Winnetka, Kenilworth) was not read; same delivery, so the same flight window is assumed (unverified for those tiles).",
    "points": "vendor building class (6) at least 2 m above a 5 m ground grid (classification) / 1 m (heights); about 4 points per m2 of roof"
   },
   "licence": "US Government Public Domain",
@@ -19,45 +19,85 @@
    "osmTimestamp": "2026-10-06T06:35:36Z",
    "note": "closed building ways and building multipolygons whose centroid is inside the area; keys are OSM refs (way/<id>, relation/<id>)"
   },
-  "methodVersion": "regionkit-lidar-roofs 1.0",
-  "method": "docs/research/lidar-roofs.md section 14",
+  "methodVersion": "regionkit-lidar-roofs 2.0",
+  "method": "docs/research/lidar-roofs.md sections 14 and 15",
+  "complexRule": {
+   "version": "regionkit-lidar-roofs 2.0",
+   "rules": {
+    "mergeAspectDeg": 15.0,
+    "mergePitchDeg": 6.0,
+    "minorShare": 0.07,
+    "mixedMinShare": 0.25,
+    "noPairMinPlanes": 2,
+    "cellM": 0.5
+   },
+   "summary": "2.0 complex rule: touching planes of one slope merged, sloped planes under minorShare of the roof ignored (dormers, porches, chimneys), mixed flat/sloped from a flat share of mixedMinShare, no-opposite-pair needs noPairMinPlanes major planes; fitted on tuning sets, checked on a frozen NAIP hand-labelled test set (handCheck)"
+  },
   "lidarShiftMeters": {
    "east": -1.0,
    "north": 1.0
   },
   "handCheck": {
-   "simpleFormAccuracy": 0.8667,
-   "simpleFormCorrect": "26 of 30 (pilot, Evanston South, flat/gable/hip)",
-   "fourClassAccuracy": "24 of 30 (80 %; flat/gable/hip/complex; the complex class over-calls: 6 of 18 simple roofs read complex)",
-   "mansard": {
-    "comment": "Hand check of the mansard rule (roofhints.mansard_rule), 2026-10-06. Aggregates only; no refs or images committed. Roofs were viewed as scratch point-cloud height surfaces (facet colours) with two side views, the same style as the pilot's hand check, and judged by the agent from the same points the rule used (a check of the rule's reading, not ground truth).",
-    "roofsInspected": 21,
-    "selection": "Not a random sample: the one roof the first rule version flagged, the highest-scoring near misses (steep share of significant plane area) in both areas (16), and the 4 roofs a looser steep threshold (42 deg) would flag. Evanston South 12, Lakeview 9.",
-    "firstRuleVersion": {
-     "steepMinPitch": 50,
-     "acceptedTwoOppositeSidesOverFlatTop": true,
-     "flagged": 1,
-     "falsePositives": 1,
-     "note": "the one flagged roof was a flat roof with a steep gable strip across the middle (two steep sides only)"
+   "roofAccuracy": {
+    "what": "forms hand-labelled from NAIP 0.3 m imagery (roofs the 1.0 classifier had classified, stable seeded sample of about 50 per area, labels frozen before the rule changed); accuracy = share of labelled roofs whose lidar form equals the hand label, roofs the labeller could not read excluded",
+    "methodVersions": {
+     "before": "regionkit-lidar-roofs 1.0",
+     "after": "regionkit-lidar-roofs 2.0"
     },
-    "finalRule": {
-     "flagged": 1,
-     "flaggedCorrect": 1,
-     "flaggedNote": "a flat-topped roof with four 45 deg sides (a truncated hip / deck roof): a steep ring round a flat top as the rule defines it, but not a classic 60-80 deg mansard",
-     "rejectedInspected": 20,
-     "rejectedCorrect": 20,
-     "rejectedNote": "gables, hips and cross-gables with steep (45-55 deg) planes; three of the four loose-threshold candidates were cross-gable complex roofs"
+    "thisArea": {
+     "before": {
+      "n": 36,
+      "cantTell": 14,
+      "accuracy": 0.694,
+      "wilson95": [
+       0.5314,
+       0.82
+      ],
+      "simpleCalledComplexRate": 0.333,
+      "complexCalledSimpleRate": 0.133
+     },
+     "after": {
+      "n": 36,
+      "cantTell": 14,
+      "accuracy": 0.694,
+      "wilson95": [
+       0.5314,
+       0.82
+      ],
+      "simpleCalledComplexRate": 0.286,
+      "complexCalledSimpleRate": 0.2
+     }
     },
-    "findings": [
-     "Planes of 50 deg or more are rare: 92 of 10,753 planes of at least 4 m2 (0.9 %) in the two areas, and none forms a ring round a flat or low top. No classic steep mansard was found in either area; about 45 deg (12:12) is the dominant steep slope.",
-     "Thresholds (steepMinPitch 45, ringMinShare 0.95, maxSteepPlanes 5) were set on these same roofs after the first version failed, so 1 of 1 and 20 of 20 are not an independent accuracy estimate. Recall cannot be estimated: no independent set of true mansards exists in the two areas."
-    ],
-    "mansardShareOfClassified": {
-     "evanston-south": "1 of 792",
-     "lakeview-sheil-park": "0 of 2571"
-    }
+    "pooledEvanstonAndLakeview": {
+     "before": {
+      "n": 81,
+      "cantTell": 19,
+      "accuracy": 0.741,
+      "wilson95": [
+       0.636,
+       0.8237
+      ],
+      "simpleCalledComplexRate": 0.258,
+      "complexCalledSimpleRate": 0.105
+     },
+     "after": {
+      "n": 81,
+      "cantTell": 19,
+      "accuracy": 0.802,
+      "wilson95": [
+       0.703,
+       0.8746
+      ],
+      "simpleCalledComplexRate": 0.161,
+      "complexCalledSimpleRate": 0.158
+     }
+    },
+    "target": 0.8,
+    "details": "Tools/regionkit/lidar/results/roofaccuracy.json; docs/research/lidar-roofs.md section 15"
    },
-   "scope": "the accuracy figures come from South Evanston (houses and garages); the classifier was not hand-checked on Chicago flat-roofed courtyard and multi-unit buildings (Lakeview) - unverified there"
+   "pilotCheck": "30 South Evanston roofs (houses and garages), labelled from the lidar points themselves, 1.0 rules: simple form 26 of 30, four classes 24 of 30 (docs section 4)",
+   "mansard": "UNVALIDATED. The mansard rule (steep planes round a flat or low top) is unchanged from 1.0 and was set on a single flagged roof (a truncated hip, not a classic mansard); no independent mansard sample exists, so its precision and recall are unknown",
+   "scope": "hand-labelled areas: South Evanston (houses, garages) and Lakeview (flat-roofed rows and courtyard buildings); the suburban areas Wilmette, Winnetka and Kenilworth were not hand-checked"
   },
   "pitchClasses": "flat < 10 deg; low 10 to < 25; medium 25 to 40; steep > 40 (pitchDeg = dominant plane slope)",
   "fields": {
@@ -65,7 +105,7 @@
    "eaveM": "eave height above ground, m (15th percentile of points within 0.5 to 2 m of the footprint edge); null when too few points",
    "pitchDeg": "slope of the dominant plane, degrees; mansard = mean slope of the steep lower planes",
    "pitchClass": "flat / low / medium / steep",
-   "form": "flat / gable / hip / mansard / complex",
+   "form": "flat / gable / hip / mansard / complex (mansard is UNVALIDATED: rule unchanged since 1.0, no independent mansard sample)",
    "points": "building-class lidar points inside the footprint eroded by 0.75 m",
    "confidence": "heuristic 0-1 score (point cover, density, plane coverage, form factor); not a probability"
   },
@@ -84,10 +124,10 @@
   "shares": {
    "form": {
     "flat": 0.106,
-    "hip": 0.178,
-    "gable": 0.157,
+    "hip": 0.208,
+    "gable": 0.23,
     "mansard": 0.001,
-    "complex": 0.558
+    "complex": 0.455
    },
    "pitchClass": {
     "flat": 0.106,
@@ -184,9 +224,9 @@
    "eaveM": 4.1,
    "pitchDeg": 23.1,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 31,
-   "confidence": 0.7
+   "confidence": 0.88
   },
   "way/1414726598": {
    "topM": 11.6,
@@ -265,9 +305,9 @@
    "eaveM": 4.1,
    "pitchDeg": 30.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 427,
-   "confidence": 0.74
+   "confidence": 0.93
   },
   "way/1414747748": {
    "topM": 11.6,
@@ -301,18 +341,18 @@
    "eaveM": 2.8,
    "pitchDeg": 11.2,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 43,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414747772": {
    "topM": 7.9,
    "eaveM": 5.3,
    "pitchDeg": 28.6,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 762,
-   "confidence": 0.78
+   "confidence": 0.97
   },
   "way/1414747775": {
    "topM": 3.8,
@@ -544,9 +584,9 @@
    "eaveM": 7.1,
    "pitchDeg": 38.5,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 293,
-   "confidence": 0.6
+   "confidence": 0.75
   },
   "way/1414763126": {
    "topM": 4.9,
@@ -580,9 +620,9 @@
    "eaveM": 6.0,
    "pitchDeg": 21.8,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 212,
-   "confidence": 0.6
+   "confidence": 0.75
   },
   "way/1414763131": {
    "topM": 6.4,
@@ -652,9 +692,9 @@
    "eaveM": 5.7,
    "pitchDeg": 43.1,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 354,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414763140": {
    "topM": 10.4,
@@ -751,9 +791,9 @@
    "eaveM": 4.4,
    "pitchDeg": 44.2,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 208,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414763151": {
    "topM": 4.2,
@@ -841,9 +881,9 @@
    "eaveM": 2.7,
    "pitchDeg": 33.0,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 209,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414763165": {
    "topM": 7.6,
@@ -868,9 +908,9 @@
    "eaveM": 4.6,
    "pitchDeg": 35.2,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 536,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414763169": {
    "topM": 3.4,
@@ -922,9 +962,9 @@
    "eaveM": 3.3,
    "pitchDeg": 36.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 45,
-   "confidence": 0.65
+   "confidence": 0.81
   },
   "way/1414763175": {
    "topM": 6.8,
@@ -1093,9 +1133,9 @@
    "eaveM": 6.9,
    "pitchDeg": 39.9,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 450,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414763197": {
    "topM": 7.6,
@@ -1273,9 +1313,9 @@
    "eaveM": 3.4,
    "pitchDeg": 23.5,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 493,
-   "confidence": 0.62
+   "confidence": 0.78
   },
   "way/1414928030": {
    "topM": 9.6,
@@ -1327,9 +1367,9 @@
    "eaveM": 7.3,
    "pitchDeg": 44.2,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 654,
-   "confidence": 0.79
+   "confidence": 0.99
   },
   "way/1414928038": {
    "topM": 4.6,
@@ -1525,9 +1565,9 @@
    "eaveM": 5.0,
    "pitchDeg": 43.3,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 421,
-   "confidence": 0.79
+   "confidence": 0.98
   },
   "way/1414928064": {
    "topM": 8.6,
@@ -1606,9 +1646,9 @@
    "eaveM": 6.4,
    "pitchDeg": 39.4,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 406,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928075": {
    "topM": 9.8,
@@ -1750,9 +1790,9 @@
    "eaveM": 3.0,
    "pitchDeg": 13.7,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "hip",
    "points": 723,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928403": {
    "topM": 12.4,
@@ -1903,9 +1943,9 @@
    "eaveM": 4.3,
    "pitchDeg": 41.9,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 728,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928423": {
    "topM": 3.2,
@@ -2128,9 +2168,9 @@
    "eaveM": 6.3,
    "pitchDeg": 45.5,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 417,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928457": {
    "topM": 10.3,
@@ -2245,9 +2285,9 @@
    "eaveM": 3.9,
    "pitchDeg": 43.0,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 568,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928473": {
    "topM": 8.1,
@@ -2326,9 +2366,9 @@
    "eaveM": 4.2,
    "pitchDeg": 42.1,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 313,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928707": {
    "topM": 11.5,
@@ -2470,9 +2510,9 @@
    "eaveM": 4.5,
    "pitchDeg": 39.2,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 414,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928723": {
    "topM": 3.6,
@@ -2488,9 +2528,9 @@
    "eaveM": 6.5,
    "pitchDeg": 39.5,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 411,
-   "confidence": 0.79
+   "confidence": 0.98
   },
   "way/1414928725": {
    "topM": 7.6,
@@ -2560,9 +2600,9 @@
    "eaveM": 4.6,
    "pitchDeg": 44.7,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 418,
-   "confidence": 0.76
+   "confidence": 0.96
   },
   "way/1414928734": {
    "topM": 8.6,
@@ -2578,9 +2618,9 @@
    "eaveM": 7.9,
    "pitchDeg": 43.8,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 529,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928736": {
    "topM": 3.7,
@@ -2659,18 +2699,18 @@
    "eaveM": 4.6,
    "pitchDeg": 45.0,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 632,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928745": {
    "topM": 10.4,
    "eaveM": 7.4,
    "pitchDeg": 44.9,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 576,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414928746": {
    "topM": 7.3,
@@ -2731,9 +2771,9 @@
    "eaveM": 4.5,
    "pitchDeg": 36.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 359,
-   "confidence": 0.68
+   "confidence": 0.85
   },
   "way/1414928757": {
    "topM": 10.3,
@@ -2803,9 +2843,9 @@
    "eaveM": 7.2,
    "pitchDeg": 44.9,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 628,
-   "confidence": 0.76
+   "confidence": 0.95
   },
   "way/1414929088": {
    "topM": 3.5,
@@ -2839,9 +2879,9 @@
    "eaveM": 7.1,
    "pitchDeg": 31.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 553,
-   "confidence": 0.75
+   "confidence": 0.93
   },
   "way/1414929094": {
    "topM": 4.0,
@@ -2866,9 +2906,9 @@
    "eaveM": 4.4,
    "pitchDeg": 46.1,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 227,
-   "confidence": 0.59
+   "confidence": 0.74
   },
   "way/1414929097": {
    "topM": 8.7,
@@ -2884,18 +2924,18 @@
    "eaveM": 7.5,
    "pitchDeg": 38.3,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 414,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414929099": {
    "topM": 8.7,
    "eaveM": 4.2,
    "pitchDeg": 39.2,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 430,
-   "confidence": 0.56
+   "confidence": 0.7
   },
   "way/1414929100": {
    "topM": 8.4,
@@ -2911,9 +2951,9 @@
    "eaveM": 3.1,
    "pitchDeg": 34.1,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 90,
-   "confidence": 0.62
+   "confidence": 0.77
   },
   "way/1414929102": {
    "topM": 7.3,
@@ -2929,9 +2969,9 @@
    "eaveM": 7.4,
    "pitchDeg": 43.0,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 533,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414929105": {
    "topM": 8.1,
@@ -3001,9 +3041,9 @@
    "eaveM": 3.2,
    "pitchDeg": 47.3,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 136,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414929113": {
    "topM": 4.7,
@@ -3019,9 +3059,9 @@
    "eaveM": 7.8,
    "pitchDeg": 44.5,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 444,
-   "confidence": 0.79
+   "confidence": 0.99
   },
   "way/1414929118": {
    "topM": 10.0,
@@ -3100,9 +3140,9 @@
    "eaveM": 3.2,
    "pitchDeg": 29.6,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 48,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414929129": {
    "topM": 5.1,
@@ -3505,9 +3545,9 @@
    "eaveM": 7.9,
    "pitchDeg": 43.9,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 309,
-   "confidence": 0.57
+   "confidence": 0.72
   },
   "way/1414929984": {
    "topM": 3.5,
@@ -3631,9 +3671,9 @@
    "eaveM": 7.0,
    "pitchDeg": 22.8,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "hip",
    "points": 473,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414929998": {
    "topM": 5.0,
@@ -3793,9 +3833,9 @@
    "eaveM": 4.1,
    "pitchDeg": 32.4,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 588,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414930021": {
    "topM": 6.8,
@@ -3856,9 +3896,9 @@
    "eaveM": 8.8,
    "pitchDeg": 39.7,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 591,
-   "confidence": 0.65
+   "confidence": 0.82
   },
   "way/1414930034": {
    "topM": 5.1,
@@ -3883,9 +3923,9 @@
    "eaveM": 3.2,
    "pitchDeg": 45.5,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 241,
-   "confidence": 0.77
+   "confidence": 0.96
   },
   "way/1414930037": {
    "topM": 3.8,
@@ -3910,9 +3950,9 @@
    "eaveM": 5.1,
    "pitchDeg": 41.8,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 298,
-   "confidence": 0.78
+   "confidence": 0.98
   },
   "way/1414930040": {
    "topM": 10.2,
@@ -4000,9 +4040,9 @@
    "eaveM": 2.8,
    "pitchDeg": 28.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 35,
-   "confidence": 0.3
+   "confidence": 0.37
   },
   "way/1414930051": {
    "topM": 10.5,
@@ -4045,9 +4085,9 @@
    "eaveM": 3.5,
    "pitchDeg": 19.1,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "hip",
    "points": 665,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414930057": {
    "topM": 10.9,
@@ -4180,9 +4220,9 @@
    "eaveM": 6.0,
    "pitchDeg": 29.3,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 337,
-   "confidence": 0.77
+   "confidence": 0.96
   },
   "way/1414931572": {
    "topM": 8.6,
@@ -4261,9 +4301,9 @@
    "eaveM": 2.9,
    "pitchDeg": 30.0,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 42,
-   "confidence": 0.56
+   "confidence": 0.71
   },
   "way/1414931588": {
    "topM": 8.5,
@@ -4333,9 +4373,9 @@
    "eaveM": 5.9,
    "pitchDeg": 44.3,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 544,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931598": {
    "topM": 10.1,
@@ -4351,9 +4391,9 @@
    "eaveM": 2.9,
    "pitchDeg": 22.7,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 54,
-   "confidence": 0.43
+   "confidence": 0.54
   },
   "way/1414931602": {
    "topM": 4.2,
@@ -4441,9 +4481,9 @@
    "eaveM": 7.1,
    "pitchDeg": 42.3,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 296,
-   "confidence": 0.35
+   "confidence": 0.44
   },
   "way/1414931616": {
    "topM": 7.3,
@@ -4495,18 +4535,18 @@
    "eaveM": 3.1,
    "pitchDeg": 27.1,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 64,
-   "confidence": 0.31
+   "confidence": 0.38
   },
   "way/1414931624": {
    "topM": 12.4,
    "eaveM": 6.5,
    "pitchDeg": 33.7,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 571,
-   "confidence": 0.78
+   "confidence": 0.98
   },
   "way/1414931626": {
    "topM": 3.4,
@@ -4576,9 +4616,9 @@
    "eaveM": 7.2,
    "pitchDeg": 27.6,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 277,
-   "confidence": 0.77
+   "confidence": 0.97
   },
   "way/1414931636": {
    "topM": 8.1,
@@ -4630,9 +4670,9 @@
    "eaveM": 4.1,
    "pitchDeg": 44.9,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 710,
-   "confidence": 0.77
+   "confidence": 0.96
   },
   "way/1414931642": {
    "topM": 8.9,
@@ -4729,9 +4769,9 @@
    "eaveM": 2.6,
    "pitchDeg": 18.6,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 98,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931653": {
    "topM": 4.1,
@@ -4783,9 +4823,9 @@
    "eaveM": 7.2,
    "pitchDeg": 39.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 493,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931659": {
    "topM": 7.8,
@@ -4909,9 +4949,9 @@
    "eaveM": 6.1,
    "pitchDeg": 33.9,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 477,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931674": {
    "topM": 3.7,
@@ -4990,9 +5030,9 @@
    "eaveM": 7.0,
    "pitchDeg": 44.1,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 415,
-   "confidence": 0.64
+   "confidence": 0.81
   },
   "way/1414931684": {
    "topM": 9.6,
@@ -5098,9 +5138,9 @@
    "eaveM": 2.9,
    "pitchDeg": 10.5,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 149,
-   "confidence": 0.8
+   "confidence": 0.99
   },
   "way/1414931698": {
    "topM": 6.5,
@@ -5152,9 +5192,9 @@
    "eaveM": 8.2,
    "pitchDeg": 45.4,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 699,
-   "confidence": 0.75
+   "confidence": 0.93
   },
   "way/1414931708": {
    "topM": 10.0,
@@ -5233,9 +5273,9 @@
    "eaveM": 3.2,
    "pitchDeg": 22.8,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 416,
-   "confidence": 0.77
+   "confidence": 0.97
   },
   "way/1414931718": {
    "topM": 10.2,
@@ -5287,9 +5327,9 @@
    "eaveM": 5.4,
    "pitchDeg": 39.2,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 560,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931725": {
    "topM": 9.7,
@@ -5314,18 +5354,18 @@
    "eaveM": 6.3,
    "pitchDeg": 38.9,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 437,
-   "confidence": 0.73
+   "confidence": 0.91
   },
   "way/1414931728": {
    "topM": 9.8,
    "eaveM": 7.2,
    "pitchDeg": 40.6,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 513,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931729": {
    "topM": 4.4,
@@ -5350,9 +5390,9 @@
    "eaveM": 3.3,
    "pitchDeg": 26.6,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 737,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931732": {
    "topM": 6.1,
@@ -5440,9 +5480,9 @@
    "eaveM": 5.0,
    "pitchDeg": 30.1,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 531,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1414931744": {
    "topM": 7.4,
@@ -5791,9 +5831,9 @@
    "eaveM": 5.3,
    "pitchDeg": 34.8,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 500,
-   "confidence": 0.7
+   "confidence": 0.88
   },
   "way/1415289004": {
    "topM": 6.9,
@@ -5863,9 +5903,9 @@
    "eaveM": 5.3,
    "pitchDeg": 44.7,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 412,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415289019": {
    "topM": 4.7,
@@ -5881,9 +5921,9 @@
    "eaveM": 4.3,
    "pitchDeg": 30.1,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 432,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415289021": {
    "topM": 4.4,
@@ -5899,9 +5939,9 @@
    "eaveM": 4.6,
    "pitchDeg": 44.3,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 345,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415289024": {
    "topM": 5.2,
@@ -6043,9 +6083,9 @@
    "eaveM": 7.5,
    "pitchDeg": 45.7,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 435,
-   "confidence": 0.69
+   "confidence": 0.86
   },
   "way/1415289217": {
    "topM": 11.2,
@@ -6097,9 +6137,9 @@
    "eaveM": 4.0,
    "pitchDeg": 30.3,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 323,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415289232": {
    "topM": 8.3,
@@ -6142,9 +6182,9 @@
    "eaveM": 2.4,
    "pitchDeg": 41.7,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "hip",
    "points": 122,
-   "confidence": 0.79
+   "confidence": 0.99
   },
   "way/1415289242": {
    "topM": 8.5,
@@ -6169,9 +6209,9 @@
    "eaveM": 3.8,
    "pitchDeg": 30.1,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 583,
-   "confidence": 0.77
+   "confidence": 0.96
   },
   "way/1415289246": {
    "topM": 3.8,
@@ -6196,9 +6236,9 @@
    "eaveM": 7.4,
    "pitchDeg": 27.6,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "hip",
    "points": 585,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415289257": {
    "topM": 7.6,
@@ -6250,9 +6290,9 @@
    "eaveM": 4.8,
    "pitchDeg": 42.8,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 306,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415290686": {
    "topM": 7.6,
@@ -6403,9 +6443,9 @@
    "eaveM": 3.9,
    "pitchDeg": 34.5,
    "pitchClass": "medium",
-   "form": "complex",
+   "form": "gable",
    "points": 522,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1415290726": {
    "topM": 5.2,
@@ -6682,9 +6722,9 @@
    "eaveM": 2.4,
    "pitchDeg": 21.8,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 59,
-   "confidence": 0.52
+   "confidence": 0.65
   },
   "way/1425626498": {
    "topM": 9.5,
@@ -6736,9 +6776,9 @@
    "eaveM": 6.3,
    "pitchDeg": 43.5,
    "pitchClass": "steep",
-   "form": "complex",
+   "form": "gable",
    "points": 402,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/1493444226": {
    "topM": 8.2,
@@ -6889,9 +6929,9 @@
    "eaveM": 3.2,
    "pitchDeg": 22.5,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 556,
-   "confidence": 0.76
+   "confidence": 0.95
   },
   "way/226021807": {
    "topM": 7.9,
@@ -7024,9 +7064,9 @@
    "eaveM": 3.1,
    "pitchDeg": 22.4,
    "pitchClass": "low",
-   "form": "complex",
+   "form": "gable",
    "points": 231,
-   "confidence": 0.8
+   "confidence": 1.0
   },
   "way/226021831": {
    "topM": 8.1,

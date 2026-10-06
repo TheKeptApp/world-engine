@@ -14,6 +14,9 @@ than 5 buildings are reported as counts.
 A follow-up measures **tree heights and crown radii** from the same lidar for three test areas and updates the
 profiles' `trees.heightMeters` and `trees.youngShare`: see [section 13](#13-tree-heights-follow-up-2026-10-06).
 Per-footprint roof hints (height, pitch class, form incl. mansard) and block roof-mix tables for P2: [section 14](#14-per-footprint-roof-hints-and-block-roof-mix-tables-2026-10-06).
+The roof classifier's complex over-call, a NAIP hand check (about 50 roofs per area, before and after), the 2.0 rule and
+the same files for Wilmette, Winnetka and Kenilworth: [section 15](#15-roof-classifier-20-naip-hand-check-the-complex-rule-and-three-more-areas-2026-10-06). **Sections 14.2 to 14.4 describe the 1.0 run;
+the committed files are 2.0 (section 15). The mansard rule is UNVALIDATED.**
 
 ## Summary
 
@@ -707,6 +710,8 @@ dates were read from the Evanston tile's metadata; Lakeview is in the same deliv
 
 ### 14.3 Form rules and the mansard check
 
+**The mansard rule is UNVALIDATED** (see 15.6): it was set on one flagged roof, no independent sample exists, and it is unchanged in 2.0.
+
 `flat`, `gable`, `hip` and `complex` are unchanged from section 3 step 4. **Mansard** (new;
 `roofhints.mansard_rule`, thresholds in `data/roofhints.json`) is evaluated on the significant planes and wins over the
 base form:
@@ -787,3 +792,222 @@ Two steep sides only (a gambrel, or a flat roof with a steep strip) is deliberat
 
 Python wheels are tooling and not counted. Re-run: `roofhints.py all --work DIR` from the repository root (work
 directory outside the repository; see the tool README), then the offline tests.
+
+## 15. Roof classifier 2.0: NAIP hand check, the complex rule, and three more areas (2026-10-06)
+
+The owner asked to cut the misclassification of simple roofs as complex, to check about 50 roofs per area against
+NAIP imagery and report accuracy before and after (target: at least 80 % of roofs correctly labelled), to keep the
+mansard rule marked unvalidated, and to extend the lidar roof hints and the block roof mix to Wilmette, Winnetka and
+Kenilworth. Tools: `Tools/regionkit/lidar/roofaccuracy.py` (sampling, crops, scoring, report; data
+`data/roofaccuracy.json`, tests `tests/test_roofaccuracy.py`) and `roofhints.py` (method version 2.0, data
+`data/roofhints.json`). Aggregates: `Tools/regionkit/lidar/results/roofaccuracy.json`. Per-roof labels, crops and
+imagery are not committed.
+
+### 15.1 Summary
+
+1. **Accuracy on the frozen test set** (roofs the labeller could read; 19 of 100 sampled roofs were unreadable under
+   tree cover or shadow and are excluded and counted):
+
+   | | n | 1.0 (before) | 2.0 (after) | Simple roofs called complex, before, after |
+   |---|---:|---:|---:|---:|
+   | South Evanston | 36 | 25 (69.4 %, interval 53.1–82.0) | 25 (69.4 %, 53.1–82.0) | 7 of 21 (33 %), 6 of 21 (29 %) |
+   | Lakeview (Sheil Park) | 45 | 35 (77.8 %, 63.7–87.5) | 40 (88.9 %, 76.5–95.2) | 9 of 41 (22 %), 4 of 41 (10 %) |
+   | **Pooled** | **81** | **60 (74.1 %, 63.6–82.4)** | **65 (80.2 %, 70.3–87.5)** | **16 of 62 (26 %), 10 of 62 (16 %)** |
+
+   The pooled figure reaches the 80 % target by a hair and with a wide interval (lower bound 70 %). **The target is not
+   met in South Evanston (69.4 %, unchanged)**, where the rule moved some roofs from complex to the right simple form
+   and others the wrong way. Section 15.5 says what limits it.
+2. **The rule.** 2.0 changes only the complex test (15.4): touching planes of one slope are merged, small planes are
+   ignored, a porch-sized flat part is not "mixed", a single dominant slope is not "no opposite pair". It only ever
+   turned complex into gable or hip (82 roofs in Evanston, 134 in Lakeview; heights and pitches are unchanged). The
+   complex share falls from 55.8 % to 45.5 % in Evanston and from 21.9 % to 16.6 % in Lakeview (Lakeview
+   also gains 13 Overture footprints).
+3. **Mansard stays UNVALIDATED.** The rule is unchanged. No sampled roof, by hand or by the classifier, was a
+   mansard in either area (one roof in South Evanston is flagged, 3 in Wilmette, 1 in Winnetka, 3 in Kenilworth; none
+   was checked). It is marked UNVALIDATED in every file header, in `data/roofhints.json` and here, and nothing was
+   tuned on it.
+4. **Three more areas** (Wilmette, Winnetka, Kenilworth) have `lidar-roofs.json` and `roof-mix-blocks.json`,
+   with the engine's own refs (`overture/<id>` for Overture footprints). Their roof forms were **not** hand-checked.
+   Winnetka and Kenilworth read 63–65 % complex; with a classifier that still calls about one simple roof in six
+   complex and a hand-labelled complex share of 40–50 % in Evanston, that is likely too high, and unverified.
+
+### 15.2 Evaluation protocol
+
+- **Population.** Every roof the 1.0 classifier had classified from OSM footprints (`way/…`, `relation/…`) in the
+  committed `lidar-roofs.json` of each area: South Evanston 792, Lakeview 2,571 (Overture records were not in
+  that file).
+- **Draw.** The *n* refs with the smallest `sha256(seed|area id|ref)`, as `roofplanes.stable_sample`. Test set
+  *n* = 50 per area, seed `worldengine-roofaccuracy-eval-1`. Tuning set *n* = 30 per area, seed
+  `worldengine-roofaccuracy-tune-1`, drawn among the roofs not in the test set (disjoint). Seeds, sizes and the label
+  rules are data in `data/roofaccuracy.json`. A frozen copy of the 1.0 output for the sampled refs is kept with the
+  sample (work directory), so "before" is the 1.0 file as committed (re-running `roofhints.py emit --classifier v1`
+  reproduces the 1.0 forms of every roof exactly; it did, byte for byte, before the 2.0 headers were added).
+- **Imagery.** NAIP 2023, flown 2023-07-10 (items `il_m_4208759_sw_16_030_20230710_20240209` for Evanston and
+  `il_m_4108703_ne_16_030_20230710_20240209` for Lakeview), 0.3 m, leaf-on, from the Planetary Computer by windowed
+  COG reads (anonymous token): 94.5 MB for 160 roofs (100 test, 60 tuning). Public domain (USDA FSA; credit "NAIP imagery provided by USDA
+  Farm Service Agency"). Crops are scratch only. For each roof: a window around the footprint (at least 24 m, footprint
+  plus 5 m), plain, with the OSM outline, and a lidar height-and-hillshade panel. The sheets show no classifier output.
+- **Labeller.** The agent that built the tool (an AI model), not a person, from the crops, before the classifier was
+  changed. It had seen no classifier output for the roofs, and labelled the tuning set the same way. This is a limit: hip against gable on small low-pitched
+  garages is hard to read at 0.3 m, and a model's labels are not a survey.
+- **Label rules** (frozen in `data/roofaccuracy.json` before labelling): `flat`, `gable` (one ridge, two slopes), `hip`
+  (slopes on four sides), `complex` (two or more distinct masses or ridge directions of comparable size: L, T or U
+  plans, cross gables, a wing or addition of about a fifth of the roof or more, a large flat part beside a large
+  pitched part), `mansard`, `cant_tell` (tree cover, shadow, or not a roof). Dormers, chimneys, small porch roofs and
+  skylights do not make a roof complex.
+- **Freeze.** Labels were written to the work directory and hashed before any classifier change (SHA-256 of the
+  labels file: Evanston `e92381bb…8b912`, Lakeview `4d7c3c6d…70784`). The git history shows the rule changed
+  afterwards.
+- **Accuracy** = hand label equals the classifier's form (flat / gable / hip / complex / mansard), over roofs not
+  labelled `cant_tell`. Interval: Wilson 95 %. "Simple called complex" = of roofs labelled flat, gable or hip, the share
+  the classifier calls complex.
+
+### 15.3 Results
+
+**Test set, per class** (hand-labelled roofs, correct before → after; predicted-as-class before → after):
+
+| | South Evanston | Lakeview | Pooled |
+|---|---|---|---|
+| flat | 5: 5 → 5 (5 → 5) | 26: 23 → 23 (23 → 23) | 31: 28 → 28 |
+| gable | 7: 4 → 4 (7 → 7) | 7: 3 → 7 (4 → 8) | 14: 7 → 11 (11 → 15) |
+| hip | 9: 4 → 5 (4 → 6) | 8: 5 → 6 (5 → 6) | 17: 9 → 11 (9 → 12) |
+| complex | 15: 12 → 11 (19 → 17) | 4: 4 → 4 (13 → 8) | 19: 16 → 15 (32 → 25) |
+| mansard | 0 (1 predicted) | 0 | 0 |
+| Complex called simple | 2 of 15 → 3 of 15 | 0 of 4 → 0 of 4 | 2 of 19 → 3 of 19 |
+| Simple form exactly right (flat/gable/hip roofs) | 13 of 21 → 14 of 21 | 31 of 41 → 36 of 41 | 44 of 62 (71 %) → 50 of 62 (81 %) |
+| Unreadable (excluded) | 14 | 5 | 19 |
+
+**Pooled confusion after** (rows: hand label; columns: classifier): flat 28 flat, 3 complex; gable 11 gable, 3 complex;
+hip 11 hip, 2 gable, 4 complex; complex 15 complex, 2 gable, 1 hip, 1 mansard. 16 errors in 81: **10** are simple
+roofs called complex, 4 are complex roofs called simple or mansard, 2 are hips read as gables.
+
+**Tuning set** (the only data the rule was fitted on; 49 readable roofs, 11 unreadable): pooled 35 of 49 (71.4 %)
+before and after; simple called complex 4 of 33 → 2 of 33; complex called simple 1 of 16 → 2 of 16. South Evanston
+15 → 14 of 21, Lakeview 20 → 21 of 28. The tuning set had few over-calls, so it constrained the rule more than it
+drove it (15.4).
+
+### 15.4 What changed in the rule
+
+Plane extraction, the flat and simple-form rules and every threshold in `params.json` are unchanged. Only the complex
+test (`roofplanes.classify_roof(..., rules)`; thresholds in `data/roofhints.json` `classifier.rules`) changed:
+
+| Change | 1.0 | 2.0 | Why |
+|---|---|---|---|
+| Merge near-coplanar planes | none | touching significant sloped planes with aspects within 15° and pitches within 6° are one plane (`merge_coplanar`); touching flat planes are one | a dormer, chimney or noise splits one slope into several planes |
+| Ignore small planes | every significant plane (4 m² and 6 %) counts | a sloped plane under 7 % of the significant roof area is minor: it does not count towards "more sloped planes than the form needs" (gable 2, hip 4) or "off-axis plane" | dormers, porches, chimney planes |
+| "Mixed flat and sloped" | 15–85 % flat | 25–85 % flat | a porch or addition roof is rarely over a quarter of the roof |
+| "No opposite pair" | counts for any roof | counts only with at least 2 major sloped planes | a single dominant slope is a mono-pitch roof, not a complex one |
+
+The fourth reason does not require a second mass on its own, so the classifier no longer turns a single-slope roof
+into "complex" (it reads as gable). A fifth idea in the brief, "require secondary masses above a size share", is the
+second row. The values were chosen on the tuning set and by checking that the whole-area complex share lands near the
+hand-labelled share (Evanston: 45.5 % against 42 % of the readable test roofs and 48 % of the tuning roofs; the pilot
+estimated about 45 % for houses). They were set before the test set was scored, and the test set was scored once with
+them. A coarser `minorShare` (0.15) turned 7 to 8 of 16 true complex roofs into simple ones on the tuning set and was
+rejected; merging planes made no difference to the tuning-set accuracy (one roof fewer) but is kept: without it the whole-area complex share stays at 52 % in Evanston, far from the hand-labelled 42–48 %. A second tuning set of roofs the 1.0 rule called complex
+was drawn and abandoned: from lidar alone, without imagery, the labeller could not tell a real second mass from a
+fragmented slope, and no more NAIP was downloaded (byte budget).
+
+### 15.5 What limits the accuracy
+
+South Evanston stays at 69 %, and the pooled figure is about 80 %. From the counts:
+
+- **Over-calls remain the largest error.** 10 of 62 simple roofs (16 %) are still called complex. By reason (a roof may
+  have several): 7 have more major sloped planes than the simple form, 4 have no opposite pair, 3 are mixed flat and
+  sloped (rooftop decks and flat roofs with a large sloped part, in Lakeview), 1 is off-axis. A secondary mass
+  that is larger than 7 % of the roof but smaller than "about a fifth", which is the label rule, is called complex
+  by the classifier and simple by the labeller. The two thresholds do not coincide and no value of `minorShare`
+  closes the gap without turning true complex roofs simple (the tuning set shows this).
+- **Hip against gable.** 2 hips read as gable; the simple-form accuracy among flat/gable/hip roofs is 81 %. Small
+  low-pitched garages are the hard case: the hand label (from imagery) and the lidar planes disagree and either could be
+  wrong.
+- **Under-calls.** 4 complex roofs read as simple; cross gables whose wing slope has the pitch and aspect of the main
+  slope are merged, and a hip with dormers can look like a plain hip.
+- **Readability and sample size.** 14 of the 50 Evanston roofs could not be labelled (tree cover): the accuracy
+  applies to roofs visible from above. The intervals are wide (lower bound 70 % pooled, 53 % in Evanston). The
+  labeller is a model, not a surveyor.
+- **Lidar density.** About 4 points per m² of roof (depth 10): too few for planes under a few square metres.
+
+An accuracy above 80 % in South Evanston would need a better secondary-mass test (for instance planes weighted by
+height difference, or a real ridge-line fit) and a larger hand-labelled set; neither was attempted.
+
+### 15.6 Mansard: UNVALIDATED
+
+The mansard rule (section 14.3) is unchanged. It was set on one flagged roof (a truncated hip, not a classic
+mansard) and 20 near misses; no independent set exists, and the NAIP hand check found no mansard in 100 roofs. It is
+**UNVALIDATED** (precision and recall unknown) in the `handCheck.mansard` field of every header, in
+`data/roofhints.json`, and in `Data/areas/*/NOTICE.md`. P2 should treat the `mansard` share as noise and not as a
+count of mansard roofs. Nothing was tuned on it.
+
+### 15.7 Regenerated and new files
+
+`Data/areas/<id>/lidar-roofs.json` and `roof-mix-blocks.json`, method version `regionkit-lidar-roofs 2.0`, for five areas.
+Same lidar, alignment, planes and heights as 14 (heights and pitches of the two old areas are byte-identical).
+
+**Keys.** The engine's refs: `way/<id>`, `relation/<id>` for OSM, and `overture/<id>` for Overture footprints, where `<id>` is the
+first 16 hex digits of the Overture (GERS) id read as an unsigned 64-bit number and written as a signed 64-bit integer
+(`OSMRef.init(overtureID:)` in `Sources/WorldMap/OvertureSource.swift`; `roofhints.overture_ref`, tested against
+the boundary values). Footprints follow `OvertureBuildings.merge`: records with an OpenStreetMap source are dropped, a
+footprint whose centroid is inside an OSM building or part is dropped, the centroid must be inside the area, ids in
+sorted order, a repeated ref keeps the first, under 1 m² dropped. A record with several polygons would share one ref
+in the engine; here the largest polygon represents it (none of the five areas has such a record).
+
+**Coverage of the lidar.** `ept.json` bounds reach 42.16° N; Winnetka (42.10°) and Kenilworth (42.08°) are inside, and
+all three new areas read normally (class 6 points in the box: Wilmette 943,070, Winnetka 730,268, Kenilworth 747,233).
+
+**Footprints, classified and form shares** (shares of classified roofs):
+
+| | Evanston S. | Lakeview | Wilmette | Winnetka | Kenilworth |
+|---|---:|---:|---:|---:|---:|
+| Footprints in the area (of them Overture) | 887 (0) | 2,823 (24) | 1,258 (1,212) | 582 (533) | 816 (800) |
+| Classified | 792 | 2,584 | 1,169 | 498 | 746 |
+| Skipped: noLidarBuilding / tooFewPoints / partialCover / unclassifiable / tooSmall | 38 / 9 / 14 / 19 / 15 | 144 / 47 / 5 / 34 / 9 | 43 / 13 / 6 / 20 / 7 | 19 / 6 / 3 / 52 / 4 | 10 / 6 / 6 / 39 / 9 |
+| Flat | 10.6 % | 54.3 % | 2.7 % | 8.4 % | 5.6 % |
+| Hip | 20.8 % | 11.6 % | 20.8 % | 10.2 % | 10.2 % |
+| Gable | 23.0 % | 17.5 % | 26.7 % | 18.3 % | 19.3 % |
+| Mansard (UNVALIDATED) | 0.1 % | 0.0 % | 0.3 % | 0.2 % | 0.4 % |
+| Complex | 45.5 % | 16.6 % | 49.6 % | 62.9 % | 64.5 % |
+| Pitch class flat / low / medium / steep | 10.6 / 27.1 / 36.9 / 25.4 | 54.3 / 22.4 / 11.3 / 12.0 | 2.7 / 29.0 / 55.8 / 12.6 | 8.4 / 16.7 / 55.6 / 19.3 | 5.6 / 20.0 / 53.1 / 21.3 |
+| Median `pitchDeg` | 30.1 | 2.8 | 29.8 | 31.6 | 31.4 |
+
+(Evanston before 2.0: 10.6 flat, 17.8 hip, 15.7 gable, 0.1 mansard, 55.8 complex. Lakeview before 2.0: 54.3, 11.2,
+12.6, 0.0, 21.9.)
+
+**Blocks** (`roof-mix-blocks.json`; same definition as 14.4; the privacy floor is unchanged: a block with fewer than 5
+classified roofs has `suppressed: true` and null shares):
+
+| | Evanston S. | Lakeview | Wilmette | Winnetka | Kenilworth |
+|---|---:|---:|---:|---:|---:|
+| Blocks (clipped by the area edge) | 52 (23) | 69 (32) | 45 (26) | 58 (30) | 60 (29) |
+| With shares / suppressed | 34 / 18 | 58 / 11 | 37 / 8 | 39 / 19 | 36 / 24 |
+| Classified roofs in blocks with shares | 771 of 792 | 2,583 of 2,584 | 1,158 of 1,169 | 479 of 498 | 734 of 746 |
+
+Winnetka and Kenilworth have many small or partial blocks (centre-of-village areas with large lots), hence the
+suppressed blocks. Winnetka's 52 unclassifiable roofs (10 %) are mostly Microsoft-derived footprints under trees.
+
+**Winnetka lidar margin.** The area box plus 6 m instead of 15 m (31 octree nodes fewer, 15.2 MB less), to stay inside
+the 700 MB download cap. Roofs whose centroid is inside the area but which reach more than 6 m beyond its edge may
+have lost points and be skipped (`partialCover`); 3 were.
+
+### 15.8 Decisions and bytes
+
+1. The test set was scored once, with the rule frozen; no test-set roof was inspected after scoring beyond aggregate counts
+   (reasons, confusion).
+2. The rule was set on 49 tuning roofs, on the whole-area complex share, and on principles; a rule that reads more
+   simple roofs correctly on the tuning set would have been a coarser one that loses true complex roofs, so the
+   choice favours not over-fitting 49 roofs over a better tuning score.
+3. Lakeview now includes its 24 Overture footprints; the global lidar shift is unchanged (0.5 m west, 0 north).
+4. Unverified, as before: the USGS copyright page (403), the flight dates for the tiles of the four areas whose
+   metadata was not read.
+
+| Bytes downloaded | |
+|---|---:|
+| EPT LAZ nodes: Evanston 117,612,558; Lakeview 99,876,912; Wilmette 131,479,560; Winnetka 115,520,463; Kenilworth 127,423,376 | 591,912,869 |
+| EPT hierarchy and `ept.json` (five areas) | 940,419 |
+| NAIP COG byte ranges (test 56,373,249; tuning 38,166,408), STAC and token requests (183,188) | 94,722,845 |
+| **Total** | **687,576,133 (about 687.6 MB)** |
+
+Python wheels are tooling and not counted. Re-run (from the repository root; work directory outside the repository):
+`roofhints.py fetch`, `measure`, `emit` (`--classifier v1` reproduces the 1.0 forms), `blocks`; `roofaccuracy.py sample`, `crops
+--set test|tune`, (label by hand into `labels_<set>_<area>.json`), `score`, `report`. Offline tests:
+`python -m unittest discover -s Tools/regionkit/lidar/tests`.

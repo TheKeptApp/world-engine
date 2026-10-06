@@ -1,0 +1,24 @@
+{
+  "comment": "Roof-form evaluation (roofaccuracy.py), data not code. The evaluation set is drawn and hand-labelled from NAIP imagery BEFORE the classifier is changed; the tuning set (different seed, disjoint from the evaluation set) is the only set the new complex rule may be fitted on. Draw: the n refs with the smallest sha256(seed|area id|ref) among the OSM-keyed classified roofs (way/ and relation/ refs) of the committed lidar-roofs.json before the change.",
+  "test": {"n": 50, "seed": "worldengine-roofaccuracy-eval-1"},
+  "tune": {"n": 30, "seed": "worldengine-roofaccuracy-tune-1"},
+  "areas": [
+    {"id": "evanston-south", "area": "Data/areas/evanston-south", "state": "il"},
+    {"id": "lakeview-sheil-park", "area": "Data/areas/lakeview-sheil-park", "state": "il"}
+  ],
+  "naip": {
+    "stacSearch": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+    "tokenEndpoint": "https://planetarycomputer.microsoft.com/api/sas/v1/token/naip"
+  },
+  "crop": {"marginM": 5.0, "minHalfM": 12.0, "roofsPerSheet": 4},
+  "labelProtocol": {
+    "classes": ["flat", "gable", "hip", "complex", "mansard", "cant_tell"],
+    "flat": "no visible ridge or slope: flat or nearly flat roof (parapet, membrane, gravel, mechanical units); a single mono-pitch slope also counts as gable only if a ridge is visible, otherwise flat",
+    "gable": "one main roof mass with a single ridge and two opposite slopes",
+    "hip": "one main roof mass with a ridge (or point) and slopes on all four sides",
+    "complex": "two or more distinct roof masses or ridge directions of comparable size: L, T or U plans, cross gables, a wing or addition whose roof is at least about a fifth of the whole, or a large flat part beside a large pitched part",
+    "mansard": "steep lower slopes round a flat or shallow top on at least three sides",
+    "ignore": "dormers, chimneys, small porch or bay roofs, skylights, solar panels, mechanical boxes and tree shadow do not make a roof complex",
+    "cant_tell": "tree cover, shadow or image quality hides the roof, or the footprint is not a roof (the label is excluded from every accuracy figure and counted)"
+  }
+}
