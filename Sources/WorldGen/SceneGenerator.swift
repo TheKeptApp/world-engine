@@ -114,7 +114,8 @@ public struct SceneGenerator: Sendable {
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
         let streetscape = Streetscape(context: context, buildings: buildingIndex)
-        let generator = BuildingGenerator(profile: profile, context: context)
+        var generator = BuildingGenerator(profile: profile, context: context)
+        generator.obstacles = buildingIndex
 
         // Chunk grid.
         let b = features.bounds
