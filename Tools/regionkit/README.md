@@ -20,6 +20,7 @@ The owner does not use Terminal; an agent runs these from the repository root.
 | `Tools/regionkit/regionkit.sh compare` | Accuracy summary for every zone with a `reference` profile (writes `drafts/accuracy.json`) |
 | `Tools/regionkit/regionkit.sh test` | Unit tests (no network) |
 | `Tools/regionkit/regionkit.sh validate [FILE...]` | Validates profiles; without arguments: every engine/proposal profile and every draft |
+| `Tools/regionkit/regionkit.sh floors regions/chicagoland.json --zone dense-north --profile chicago-dense-north` | Recalibrates an existing profile's `typeRules` unknown/small/large on a zone's cells with the drafting floor fit; prints before/after default floors, the measured truth, the residual and the new weights as JSON (writes nothing) |
 | `Tools/regionkit/regionkit.sh anchors regions/X.json --write` | Resolves the named public anchors of a config (one batched Overpass query) and writes their centres |
 | `Tools/regionkit/regionkit.sh find --bbox S,W,N,E --tag leisure=park` | Lists named public features to choose anchors from |
 | `Tools/regionkit/regionkit.sh fetch regions/X.json` | Fetches (or confirms cached) data without drafting |
@@ -74,8 +75,14 @@ Gates: roof mix and tree leaf type/heights n >= 30, typeRules n >= 30 houses wit
 pitch n >= 20, colours n >= 30, garage roof n >= 20. Roof mixes are fitted by iterative proportional
 fitting (zero weights stay zero); typeRules weights are scaled per default-floor group until the expected
 default floors after the generator's eligibility filter match the size-stratified measured shares;
-thresholds use a percentile transfer from Denver's Sloan's Lake houses. Details and caveats:
-`docs/research/region-kit.md`.
+absolute thresholds use a percentile transfer from Denver's Sloan's Lake houses. Every draft also gets the
+relative thresholds `typeThresholds.smallAreaPercentile` / `largeAreaPercentile` / `hugeAreaPercentile` =
+0.02 / 0.865 / 0.99 (owner decision: thresholds relative to the local houses; Denver calibration
+0.021 / 0.865 / 0.990, rounded), unless the template already has them; the absolute m² values stay as the
+fallback for areas with fewer than 30 house candidates. `floors` applies the same floor fit to an existing
+profile, splitting area classes with the profile's relative thresholds (quantiles of the zone's principal
+houses) where present. The committed `drafts/` predate the relative thresholds; the next `all` run writes
+them. Details and caveats: `docs/research/region-kit.md`.
 
 ## Tests
 
@@ -83,8 +90,10 @@ thresholds use a percentile transfer from Denver's Sloan's Lake houses. Details 
 multipolygon assembly on synthetic fixtures; polygon area, centroid, clipping, rasterised union areas;
 minimum-area rectangle, aspect, rectangularity and footprint classes (ported Swift test cases);
 `role()` / `situation()` / eligibility / tag-parsing parity with the Swift rules; shrinkage, IPF and the
-floor-group fit; Koppen on O'Hare normals and constructed cases; validator on every known profile plus
-broken variants; cache keys and offline cache hits; an end-to-end measurement of a synthetic cell.
+floor-group fit; relative thresholds and the `floors` check; Koppen on O'Hare normals and constructed cases;
+validator on every known profile plus broken variants and the optional fields (`trees.canopyShare` and the
+area percentiles: types, 0-1 ranges, small < large < huge; `provenance` as a documentation key); cache keys
+and offline cache hits; an end-to-end measurement of a synthetic cell.
 
 ## Data sources and licences
 

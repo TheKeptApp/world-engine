@@ -37,6 +37,11 @@ def area_bin(a):
 
 # front-range reference points for the threshold percentile transfer (Sloan's Lake houses).
 FRONT_RANGE_THRESHOLDS = {"smallArea": 60.0, "largeArea": 220.0, "hugeArea": 350.0}
+# Relative size thresholds written into every draft (owner decision: thresholds relative to the local
+# houses, absolute m2 only as the fallback). Denver calibration: front-range's 60 / 220 / 350 m2 sit at
+# the 0.021 / 0.865 / 0.990 quantiles of Sloan's Lake house footprints (docs/research/region-kit.md 1.5);
+# rounded to 0.02 / 0.865 / 0.99 (0.865 kept unrounded so the large class stays the top 13.5 %).
+DEFAULT_AREA_PERCENTILES = {"smallAreaPercentile": 0.02, "largeAreaPercentile": 0.865, "hugeAreaPercentile": 0.99}
 
 
 def r3(x):
@@ -215,6 +220,87 @@ def fit_floor_groups(prof, key, w, types, grp, eval_sets, target, iters=200, tol
     tot = sum(raw.values())
     new_w = {tid: round(v / tot * 100, 2) if tot else x for (tid, v), x in zip(raw.items(), w.values())}
     return new_w, e, missing
+
+
+# --- typeRules: default-floor calibration ------------------------------------------------------
+FLOOR_FIT_NOTE = ("principal houses only (probable garages excluded); target = floor mix of tagged houses post-stratified by "
+                  "footprint-area bin (tagging depends on size), per-bin shrinkage n_b/(n_b+k); family weights scaled per "
+                  "default-floor group until the expected default floors AFTER eligibility filtering match; groups without a "
+                  "family stay unrepresented; other tagging biases remain")
+MIN_HOUSES_FOR_PERCENTILES = 30   # StyleProfile.Thresholds: relative thresholds need >= 30 house candidates
+
+
+def relative_thresholds(th, areas):
+    """The intended generator rule for the optional relative thresholds (StyleProfile.Thresholds): with at
+    least MIN_HOUSES_FOR_PERCENTILES house footprints, each threshold that has a `<key>Percentile` becomes that
+    quantile of `areas`; otherwise the absolute m2 value stays.
+    Returns (thresholds dict, {key: "percentile" | "absolute"})."""
+    out = dict(th)
+    used = {}
+    for key in ("smallArea", "largeArea", "hugeArea"):
+        p = th.get(key + "Percentile")
+        if p is not None and len(areas) >= MIN_HOUSES_FOR_PERCENTILES:
+            out[key] = stats.percentile(areas, p)
+            used[key] = "percentile"
+        else:
+            used[key] = "absolute"
+    return out, used
+
+
+def calibrate_floor_rules(prof, PH, k=K_DEFAULT):
+    """Rescales `typeRules` unknown / small / large of `prof` IN PLACE so its expected default floors match
+    the levels-tagged principal houses in `PH` (method: FLOOR_FIT_NOTE). The area classes use
+    prof["typeThresholds"] smallArea / largeArea. Returns (per-rule details, n houses with levels); the
+    details are None (and nothing changes) below GATE_LEVELS."""
+    th = prof["typeThresholds"]
+    with_lv = [b for b in PH if has_levels(b)]
+    if len(with_lv) < GATE_LEVELS:
+        return None, len(with_lv)
+    types = {h["id"]: h for h in prof["houseTypes"]}
+    grp = floor_group
+    rule_changes = {}
+    for key in ("unknown", "small", "large"):
+        w = prof["typeRules"].get(key)
+        if not isinstance(w, dict) or not w:
+            continue
+        if key == "small":
+            cls = [b for b in PH if b["area"] < th["smallArea"]]
+        elif key == "large":
+            cls = [b for b in PH if b["area"] > th["largeArea"]]
+        else:
+            cls = [b for b in PH if th["smallArea"] <= b["area"] <= th["largeArea"]]
+        tagged = [b for b in cls if has_levels(b)]
+        untagged = [b for b in cls if not has_levels(b)] or tagged
+        n_c = len(tagged)
+        total_w = sum(max(0, x) for x in w.values())
+        G_share = Counter()
+        for tid, x in w.items():
+            if tid in types:
+                G_share[grp(types[tid]["floors"][0])] += max(0, x) / total_w if total_w else 0
+        # Post-stratify by footprint area: the floor mix of tagged houses in each area bin, shrunk
+        # toward the template's group share with that bin's n, weighted by where the UNTAGGED houses are.
+        bins = Counter(area_bin(b["area"]) for b in untagged)
+        per_bin = {}
+        target = {g: 0.0 for g in ("1", "2", "3+")}
+        eval_sets = []   # (bin weight, houses evaluated with levels hidden)
+        for bn, cnt in sorted(bins.items()):
+            tb = [b for b in tagged if area_bin(b["area"]) == bn]
+            mc = Counter(grp(b["levels_int"]) for b in tb)
+            sb = {g: stats.shrink(mc[g] / len(tb) if tb else None, G_share[g], len(tb), k) for g in target}
+            per_bin[AREA_BIN_LABELS[bn]] = {"untagged": cnt, "tagged": len(tb), "target": {g: r3(v) for g, v in sb.items()}}
+            for g in target:
+                target[g] += cnt / len(untagged) * sb[g]
+            eval_sets.append((cnt / len(untagged), tb or [b for b in untagged if area_bin(b["area"]) == bn]))
+        meas = Counter(grp(b["levels_int"]) for b in tagged)
+        new_w, achieved, missing_mass = fit_floor_groups(prof, key, w, types, grp, eval_sets, target)
+        prof["typeRules"][key] = new_w
+        rule_changes[key] = {"housesInAreaClass": len(cls), "nWithLevels": n_c,
+                             "measuredFloorShareTagged": {g: r3(meas[g] / n_c) if n_c else None for g in ("1", "2", "3+")},
+                             "templateGroupShare": {g: r3(G_share[g]) for g in ("1", "2", "3+")},
+                             "target": {g: r3(target[g]) for g in ("1", "2", "3+")},
+                             "achievedAfterEligibility": {g: r3(achieved.get(g)) for g in ("1", "2", "3+")}, "byAreaBin": per_bin,
+                             "unrepresentableShare": r3(missing_mass), "from": w, "to": new_w}
+    return rule_changes, len(with_lv)
 
 
 # --- IPF ---------------------------------------------------------------------------------------
@@ -409,65 +495,28 @@ def make_draft(zone_id, zone_name, region_id, cells, template, template_id, denv
     else:
         prov.add("typeThresholds.smallArea/largeArea/hugeArea", "template", {k2: th[k2] for k2 in ("smallArea", "largeArea", "hugeArea")},
                  n=len(areas))
+    # Relative thresholds: quantiles of the area's own house footprints (the absolutes above are the
+    # fallback for areas with fewer than 30 house candidates). A template's own percentiles are kept.
+    pct_keys = tuple(DEFAULT_AREA_PERCENTILES)
+    if all(th.get(k2) is not None for k2 in pct_keys):
+        prov.add("typeThresholds.small/large/hugeAreaPercentile", "template", {k2: th[k2] for k2 in pct_keys})
+    else:
+        for k2 in pct_keys:
+            th[k2] = DEFAULT_AREA_PERCENTILES[k2]
+        prov.add("typeThresholds.small/large/hugeAreaPercentile", "default", dict(DEFAULT_AREA_PERCENTILES),
+                 source="Denver calibration: quantiles of front-range's 60/220/350 m2 in Sloan's Lake house footprints (0.021/0.865/0.990), rounded",
+                 note="generator rule: with >= 30 house candidates in the area, threshold = this quantile of the area's house footprint areas; else the absolute m2 values")
     prov.add("typeThresholds.aspect/rectangularity", "template",
              {k2: th[k2] for k2 in ("broadAspect", "squareAspect", "squareRectangularity", "narrowAspect")})
 
     # typeRules: floor shares ----------------------------------------------------------------
-    with_lv = [b for b in PH if has_levels(b)]
-    types = {h["id"]: h for h in prof["houseTypes"]}
-
-    def grp(f):
-        return "1" if f == 1 else "2" if f == 2 else "3+"
-
-    if len(with_lv) >= GATE_LEVELS:
-        rule_changes = {}
-        for key in ("unknown", "small", "large"):
-            w = prof["typeRules"].get(key)
-            if not isinstance(w, dict) or not w:
-                continue
-            if key == "small":
-                cls = [b for b in PH if b["area"] < th["smallArea"]]
-            elif key == "large":
-                cls = [b for b in PH if b["area"] > th["largeArea"]]
-            else:
-                cls = [b for b in PH if th["smallArea"] <= b["area"] <= th["largeArea"]]
-            tagged = [b for b in cls if has_levels(b)]
-            untagged = [b for b in cls if not has_levels(b)] or tagged
-            n_c = len(tagged)
-            total_w = sum(max(0, x) for x in w.values())
-            G_share = Counter()
-            for tid, x in w.items():
-                if tid in types:
-                    G_share[grp(types[tid]["floors"][0])] += max(0, x) / total_w if total_w else 0
-            # Post-stratify by footprint area: the floor mix of tagged houses in each area bin, shrunk
-            # toward the template's group share with that bin's n, weighted by where the UNTAGGED houses are.
-            bins = Counter(area_bin(b["area"]) for b in untagged)
-            per_bin = {}
-            target = {g: 0.0 for g in ("1", "2", "3+")}
-            eval_sets = []   # (bin weight, houses evaluated with levels hidden)
-            for bn, cnt in sorted(bins.items()):
-                tb = [b for b in tagged if area_bin(b["area"]) == bn]
-                mc = Counter(grp(b["levels_int"]) for b in tb)
-                sb = {g: stats.shrink(mc[g] / len(tb) if tb else None, G_share[g], len(tb), k) for g in target}
-                per_bin[AREA_BIN_LABELS[bn]] = {"untagged": cnt, "tagged": len(tb), "target": {g: r3(v) for g, v in sb.items()}}
-                for g in target:
-                    target[g] += cnt / len(untagged) * sb[g]
-                eval_sets.append((cnt / len(untagged), tb or [b for b in untagged if area_bin(b["area"]) == bn]))
-            meas = Counter(grp(b["levels_int"]) for b in tagged)
-            new_w, achieved, missing_mass = fit_floor_groups(prof, key, w, types, grp, eval_sets, target)
-            prof["typeRules"][key] = new_w
-            rule_changes[key] = {"housesInAreaClass": len(cls), "nWithLevels": n_c,
-                                 "measuredFloorShareTagged": {g: r3(meas[g] / n_c) if n_c else None for g in ("1", "2", "3+")},
-                                 "templateGroupShare": {g: r3(G_share[g]) for g in ("1", "2", "3+")},
-                                 "target": {g: r3(target[g]) for g in ("1", "2", "3+")},
-                                 "achievedAfterEligibility": {g: r3(achieved.get(g)) for g in ("1", "2", "3+")}, "byAreaBin": per_bin,
-                                 "unrepresentableShare": r3(missing_mass), "from": w, "to": new_w}
+    rule_changes, n_lv = calibrate_floor_rules(prof, PH, k)
+    if rule_changes is not None:
         prov.add("typeRules.unknown/small/large", "calibrated", {k2: prof["typeRules"].get(k2) for k2 in ("unknown", "small", "large")},
-                 n=len(with_lv), source="building:levels on houses, grouped by each family's default (first) floor count",
-                 measured=rule_changes,
-                 note="principal houses only (probable garages excluded); target = floor mix of tagged houses post-stratified by footprint-area bin (tagging depends on size), per-bin shrinkage n_b/(n_b+k); family weights scaled per default-floor group until the expected default floors AFTER eligibility filtering match; groups without a family stay unrepresented; other tagging biases remain")
+                 n=n_lv, source="building:levels on houses, grouped by each family's default (first) floor count",
+                 measured=rule_changes, note=FLOOR_FIT_NOTE)
     else:
-        prov.add("typeRules.unknown/small/large", "template", None, n=len(with_lv), note="needs >= %d houses with building:levels" % GATE_LEVELS)
+        prov.add("typeRules.unknown/small/large", "template", None, n=n_lv, note="needs >= %d houses with building:levels" % GATE_LEVELS)
     prov.add("typeRules.(levels situations)", "template", None, note="oneFloor*/twoFloor*/threeFloor/semidetached weights kept")
 
     # houseTypes: perFloor --------------------------------------------------------------------
