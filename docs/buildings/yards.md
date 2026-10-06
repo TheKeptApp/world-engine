@@ -85,6 +85,10 @@ region, not quotas), in `Profiles/yards.json`:
 - **Hedges**: each row is a straight line through the row's cells, built from **hedge segments**
   (variant 5, 1 m along the segment's +X) laid end to end every 1 m, yaw = row direction (half turned
   end for end), scale 1.0–1.06. Stat `hedgeSegments` (was `hedgeBushes`).
+- **Shrub triangles**: near 72 (80 with flowers), mid 20 (hedge 16), far 8 (hedge 6), skyline 3–4; the
+  old round bushes were 80/20/8. Generated shrub+hedge triangles in view (YardTests street cameras)
+  went from 19 610 / 12 584 / 13 082 / 11 312 / 17 444 to 18 444 / 11 108 / 11 810 / 10 520 / 15 820
+  (Lakeview street / alley / block centre, Evanston street, Wilmette street), −9 % overall.
 - **Trees**: per-lot caps apply to yard and canopy-calibration trees; generated trees avoid repeating
   the variant of the nearest three of the same form (no-op while tree kinds have one mesh variant; the
   renderer varies crowns by per-tree stretch).
