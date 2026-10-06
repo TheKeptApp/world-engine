@@ -82,6 +82,7 @@ Status values: **Done** (in repo), **Partly**, **To do**, **Needs lawyer**, **N/
 | **LR1** | Show the attribution of every live feed that has vehicles on screen, alongside the OpenStreetMap credit | App screen, exports | Registry strings pass through the relay response; the host displays them; burn into exports with O4–O6 | To do (before using any feed) | Per-feed sources in LT1–LT14 and LA1–LA11 |
 | **LR2** | Keep no more live data than each provider allows: latest snapshot only; no live data in the repo, packages, fixtures or export metadata | Relay, repo | Snapshot expires in minutes; synthetic fixtures only | To do (before using any feed) | LT6, LA3, LA7, LA9 |
 | **LR3** | Keys stay server-side: Metra requires redistribution through our own host, CTA caps keys per account | Relay | Secret store; one key per feed and environment | To do (before using any feed) | LT1, LT8 |
+| **N1** | USDA NAIP aerial imagery (only if NAIP-derived statistics are used, e.g. zone roof-colour or canopy shares from `Tools/regionkit/aerial/`): public domain; USDA requests the credit "NAIP imagery provided by USDA Farm Service Agency". Per-building hints keyed by OSM ID would fall under O12 | Credits screen, package notice, research docs | Credit line in the credits list and in any data notice that carries NAIP-derived values; no per-building NAIP values in packages until O12 is decided (`docs/research/aerial.md` §8) | N/A yet (research only) | NAIP tile metadata (TIFF ImageDescription) and USDA FSA FGDC metadata ("Use_Constraints: None"), quoted in `docs/research/aerial.md` §1; [USDA FSA policies](https://www.fsa.usda.gov/help/policies-and-links) (not re-checked: the page timed out for the checker) |
 
 ---
 
@@ -492,6 +493,10 @@ Everything below is paraphrased.
 - *Fab EULA* (last updated 2024-10-01; bot check on scripted fetches, read in a normal browser): https://www.fab.com/eula
 - Epic Developer Community, *Licenses and Pricing in Fab*: https://dev.epicgames.com/documentation/en-us/fab/licenses-and-pricing-in-fab
 - Not accessible: Fab support article https://support.fab.com/s/article/license-and-pricing (needs JavaScript; certificate error on fetch). Not needed, since the EULA is the binding text.
+
+**Aerial imagery** (accessed 2026-10-06; details in `docs/research/aerial.md`)
+- USDA NAIP via Microsoft Planetary Computer, collection `naip` (2023 Illinois, 0.3 m, 4 bands): https://planetarycomputer.microsoft.com/dataset/naip
+- USDA FSA policies and links: https://www.fsa.usda.gov/help/policies-and-links
 
 **Live transit and aircraft feeds** (accessed 2026-10-06; full list with read status in `docs/research/live-feeds.md` §7.4)
 - Metra, all **unverified (site blocks automated access; confirm in a normal browser)**: https://metra.com/developers, https://metra.com/metra-gtfs-api, https://metra.com/gtfs-realtime-api-key-request-license-agreement, https://metra.com/terms-and-conditions

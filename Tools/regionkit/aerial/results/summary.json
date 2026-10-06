@@ -1,0 +1,1497 @@
+{
+ "tool": "regionkit-aerial 0.1",
+ "generated": "2026-10-06",
+ "privacy": "Aggregates only. Per-building estimates, crops and hand labels stay in the work directory outside the repository.",
+ "cell": {
+  "id": "wilmette-vattmann-park",
+  "sizeMeters": 500,
+  "crs": "EPSG:26916",
+  "anchor": "public park (see data/cell.json)"
+ },
+ "sources": {
+  "imagery": {
+   "dataset": "USDA NAIP via Microsoft Planetary Computer (STAC collection naip)",
+   "item": "il_m_4208759_nw_16_030_20230710_20240209",
+   "acquired": "2023-07-10",
+   "gsdMeters": 0.3,
+   "bands": [
+    "red",
+    "green",
+    "blue",
+    "nir"
+   ],
+   "licence": "Public domain (USDA FSA); credit requested: 'NAIP imagery provided by USDA Farm Service Agency'",
+   "otherItemsAtCell": [
+    {
+     "id": "il_m_4208759_nw_16_060_20210905",
+     "datetime": "2021-09-05T16:00:00Z",
+     "gsd": 0.6
+    },
+    {
+     "id": "il_m_4208759_nw_16_060_20190802_20200108",
+     "datetime": "2019-08-02T00:00:00Z",
+     "gsd": 0.6
+    },
+    {
+     "id": "il_m_4208759_nw_16_1_20170903_20170927",
+     "datetime": "2017-09-03T00:00:00Z",
+     "gsd": 1.0
+    },
+    {
+     "id": "il_m_4208759_nw_16_1_20150822_20151021",
+     "datetime": "2015-08-22T00:00:00Z",
+     "gsd": 1.0
+    },
+    {
+     "id": "il_m_4208759_nw_16_1_20140613_20141029",
+     "datetime": "2014-06-13T00:00:00Z",
+     "gsd": 1.0
+    },
+    {
+     "id": "il_m_4208759_nw_16_1_20120619_20120820",
+     "datetime": "2012-06-19T00:00:00Z",
+     "gsd": 1.0
+    },
+    {
+     "id": "il_m_4208759_nw_16_1_20110825_20111017",
+     "datetime": "2011-08-25T00:00:00Z",
+     "gsd": 1.0
+    }
+   ]
+  },
+  "osm": {
+   "timestampOsmBase": "2026-10-06T06:48:49Z",
+   "licence": "ODbL 1.0, (c) OpenStreetMap contributors"
+  },
+  "overture": {
+   "release": "2026-09-23.1",
+   "theme": "buildings",
+   "licence": "ODbL 1.0 (Microsoft ML Buildings footprints)",
+   "files": 1
+  }
+ },
+ "footprints": {
+  "osmInQuery": 28,
+  "overtureNoOsmInQuery": 356,
+  "overtureDroppedAsOsmOverlap": 0,
+  "inCell": 293,
+  "belowMinArea": 1,
+  "kept": 292,
+  "keptOsm": 19,
+  "keptOverture": 273
+ },
+ "alignment": {
+  "fullResolution": {
+   "dxPixels": 3,
+   "dyPixels": 4,
+   "eastMeters": 0.9,
+   "northMeters": -1.2,
+   "gradientAtZero": 6.333,
+   "gradientAtBest": 9.891,
+   "sceneNeutralAB": [
+    -1.8,
+    1.5
+   ]
+  },
+  "degraded0p6m": {
+   "dxPixels": 2,
+   "dyPixels": 2,
+   "eastMeters": 1.2,
+   "northMeters": -1.2,
+   "gradientAtZero": 6.973,
+   "gradientAtBest": 9.77,
+   "sceneNeutralAB": [
+    -1.85,
+    1.7
+   ]
+  }
+ },
+ "estimated": {
+  "ok": 274,
+  "notEstimated": 18
+ },
+ "roofColour": {
+  "all": {
+   "rules1Absolute": {
+    "families": {
+     "n": 274,
+     "counts": {
+      "black": 29,
+      "charcoal": 79,
+      "grey": 130,
+      "white": 4,
+      "brown": 6,
+      "tan": 2,
+      "red": 1,
+      "green": 2,
+      "blue": 1,
+      "unknown": 20
+     },
+     "shares": {
+      "black": 0.106,
+      "charcoal": 0.288,
+      "grey": 0.474,
+      "white": 0.015,
+      "brown": 0.022,
+      "tan": 0.007,
+      "red": 0.004,
+      "green": 0.007,
+      "blue": 0.004,
+      "unknown": 0.073
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 29,
+      "medianHex": "#2C303A",
+      "medianLab": [
+       19.9,
+       0.7,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 79,
+      "medianHex": "#5B5F61",
+      "medianLab": [
+       40.1,
+       -1.5,
+       -1.5
+      ]
+     },
+     "grey": {
+      "n": 130,
+      "medianHex": "#7D807A",
+      "medianLab": [
+       53.2,
+       -2.3,
+       2.7
+      ]
+     },
+     "white": {
+      "n": 4,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 6,
+      "medianHex": "#776D5F",
+      "medianLab": [
+       46.6,
+       1.6,
+       9.2
+      ]
+     },
+     "tan": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "rules2SceneRelative": {
+    "families": {
+     "n": 274,
+     "counts": {
+      "black": 27,
+      "charcoal": 67,
+      "grey": 98,
+      "white": 7,
+      "brown": 20,
+      "tan": 29,
+      "red": 1,
+      "green": 2,
+      "blue": 3,
+      "unknown": 20
+     },
+     "shares": {
+      "black": 0.099,
+      "charcoal": 0.245,
+      "grey": 0.358,
+      "white": 0.026,
+      "brown": 0.073,
+      "tan": 0.106,
+      "red": 0.004,
+      "green": 0.007,
+      "blue": 0.011,
+      "unknown": 0.073
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 27,
+      "medianHex": "#2C303A",
+      "medianLab": [
+       20.0,
+       0.6,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 67,
+      "medianHex": "#5A5F61",
+      "medianLab": [
+       40.1,
+       -1.6,
+       -1.9
+      ]
+     },
+     "grey": {
+      "n": 98,
+      "medianHex": "#797D78",
+      "medianLab": [
+       52.1,
+       -2.6,
+       2.3
+      ]
+     },
+     "white": {
+      "n": 7,
+      "medianHex": "#C4C7C6",
+      "medianLab": [
+       79.9,
+       -1.1,
+       -0.2
+      ]
+     },
+     "brown": {
+      "n": 20,
+      "medianHex": "#6F665F",
+      "medianLab": [
+       43.8,
+       2.1,
+       5.4
+      ]
+     },
+     "tan": {
+      "n": 29,
+      "medianHex": "#88877C",
+      "medianLab": [
+       56.1,
+       -1.7,
+       6.0
+      ]
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 3,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "allRoofs": {
+    "n": 254,
+    "medianLab": [
+     46.9,
+     -1.8,
+     1.5
+    ],
+    "medianHex": "#6D706D",
+    "lightnessPercentiles": {
+     "p0": 17.2,
+     "p10": 26.66,
+     "p25": 39.425,
+     "p50": 46.9,
+     "p75": 54.0,
+     "p90": 58.87,
+     "p100": 85.1
+    },
+    "chromaPercentiles": {
+     "p0": 0.539,
+     "p10": 2.221,
+     "p25": 3.041,
+     "p50": 4.028,
+     "p75": 5.555,
+     "p90": 7.123,
+     "p100": 17.045
+    }
+   }
+  },
+  "osmOnly": {
+   "rules1Absolute": {
+    "families": {
+     "n": 16,
+     "counts": {
+      "black": 1,
+      "charcoal": 5,
+      "grey": 8,
+      "white": 2,
+      "brown": 0,
+      "tan": 0,
+      "red": 0,
+      "green": 0,
+      "blue": 0,
+      "unknown": 0
+     },
+     "shares": {
+      "black": 0.062,
+      "charcoal": 0.312,
+      "grey": 0.5,
+      "white": 0.125,
+      "brown": 0.0,
+      "tan": 0.0,
+      "red": 0.0,
+      "green": 0.0,
+      "blue": 0.0,
+      "unknown": 0.0
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "charcoal": {
+      "n": 5,
+      "medianHex": "#545556",
+      "medianLab": [
+       36.2,
+       -0.4,
+       -0.5
+      ]
+     },
+     "grey": {
+      "n": 8,
+      "medianHex": "#8A8D89",
+      "medianLab": [
+       58.1,
+       -1.8,
+       1.4
+      ]
+     },
+     "white": {
+      "n": 2,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "rules2SceneRelative": {
+    "families": {
+     "n": 16,
+     "counts": {
+      "black": 1,
+      "charcoal": 5,
+      "grey": 6,
+      "white": 3,
+      "brown": 1,
+      "tan": 0,
+      "red": 0,
+      "green": 0,
+      "blue": 0,
+      "unknown": 0
+     },
+     "shares": {
+      "black": 0.062,
+      "charcoal": 0.312,
+      "grey": 0.375,
+      "white": 0.188,
+      "brown": 0.062,
+      "tan": 0.0,
+      "red": 0.0,
+      "green": 0.0,
+      "blue": 0.0,
+      "unknown": 0.0
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "charcoal": {
+      "n": 5,
+      "medianHex": "#545556",
+      "medianLab": [
+       36.2,
+       -0.4,
+       -0.5
+      ]
+     },
+     "grey": {
+      "n": 6,
+      "medianHex": "#898D89",
+      "medianLab": [
+       58.1,
+       -2.0,
+       1.4
+      ]
+     },
+     "white": {
+      "n": 3,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "allRoofs": {
+    "n": 16,
+    "medianLab": [
+     51.5,
+     -1.0,
+     0.6
+    ],
+    "medianHex": "#797B7A",
+    "lightnessPercentiles": {
+     "p0": 27.2,
+     "p10": 31.65,
+     "p25": 41.975,
+     "p50": 51.55,
+     "p75": 65.8,
+     "p90": 77.65,
+     "p100": 84.8
+    },
+    "chromaPercentiles": {
+     "p0": 0.728,
+     "p10": 1.03,
+     "p25": 1.835,
+     "p50": 2.943,
+     "p75": 3.998,
+     "p90": 5.038,
+     "p100": 5.707
+    }
+   }
+  },
+  "overtureOnly": {
+   "rules1Absolute": {
+    "families": {
+     "n": 258,
+     "counts": {
+      "black": 28,
+      "charcoal": 74,
+      "grey": 122,
+      "white": 2,
+      "brown": 6,
+      "tan": 2,
+      "red": 1,
+      "green": 2,
+      "blue": 1,
+      "unknown": 20
+     },
+     "shares": {
+      "black": 0.109,
+      "charcoal": 0.287,
+      "grey": 0.473,
+      "white": 0.008,
+      "brown": 0.023,
+      "tan": 0.008,
+      "red": 0.004,
+      "green": 0.008,
+      "blue": 0.004,
+      "unknown": 0.078
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 28,
+      "medianHex": "#2B303A",
+      "medianLab": [
+       19.7,
+       0.8,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 74,
+      "medianHex": "#5B5F61",
+      "medianLab": [
+       40.2,
+       -1.5,
+       -1.5
+      ]
+     },
+     "grey": {
+      "n": 122,
+      "medianHex": "#7D807A",
+      "medianLab": [
+       53.2,
+       -2.3,
+       2.8
+      ]
+     },
+     "white": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 6,
+      "medianHex": "#776D5F",
+      "medianLab": [
+       46.6,
+       1.6,
+       9.2
+      ]
+     },
+     "tan": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "rules2SceneRelative": {
+    "families": {
+     "n": 258,
+     "counts": {
+      "black": 26,
+      "charcoal": 62,
+      "grey": 92,
+      "white": 4,
+      "brown": 19,
+      "tan": 29,
+      "red": 1,
+      "green": 2,
+      "blue": 3,
+      "unknown": 20
+     },
+     "shares": {
+      "black": 0.101,
+      "charcoal": 0.24,
+      "grey": 0.357,
+      "white": 0.016,
+      "brown": 0.074,
+      "tan": 0.112,
+      "red": 0.004,
+      "green": 0.008,
+      "blue": 0.012,
+      "unknown": 0.078
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 26,
+      "medianHex": "#2C303A",
+      "medianLab": [
+       19.9,
+       0.6,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 62,
+      "medianHex": "#5A6062",
+      "medianLab": [
+       40.2,
+       -1.8,
+       -2.0
+      ]
+     },
+     "grey": {
+      "n": 92,
+      "medianHex": "#797D78",
+      "medianLab": [
+       52.0,
+       -2.7,
+       2.3
+      ]
+     },
+     "white": {
+      "n": 4,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 19,
+      "medianHex": "#6F665F",
+      "medianLab": [
+       43.8,
+       2.4,
+       5.3
+      ]
+     },
+     "tan": {
+      "n": 29,
+      "medianHex": "#88877C",
+      "medianLab": [
+       56.1,
+       -1.7,
+       6.0
+      ]
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 3,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "allRoofs": {
+    "n": 238,
+    "medianLab": [
+     46.4,
+     -1.9,
+     1.6
+    ],
+    "medianHex": "#6C6F6B",
+    "lightnessPercentiles": {
+     "p0": 17.2,
+     "p10": 25.68,
+     "p25": 39.425,
+     "p50": 46.4,
+     "p75": 53.675,
+     "p90": 58.56,
+     "p100": 85.1
+    },
+    "chromaPercentiles": {
+     "p0": 0.539,
+     "p10": 2.384,
+     "p25": 3.095,
+     "p50": 4.071,
+     "p75": 5.657,
+     "p90": 7.407,
+     "p100": 17.045
+    }
+   }
+  },
+  "main": {
+   "rules1Absolute": {
+    "families": {
+     "n": 214,
+     "counts": {
+      "black": 16,
+      "charcoal": 67,
+      "grey": 111,
+      "white": 4,
+      "brown": 4,
+      "tan": 2,
+      "red": 1,
+      "green": 1,
+      "blue": 0,
+      "unknown": 8
+     },
+     "shares": {
+      "black": 0.075,
+      "charcoal": 0.313,
+      "grey": 0.519,
+      "white": 0.019,
+      "brown": 0.019,
+      "tan": 0.009,
+      "red": 0.005,
+      "green": 0.005,
+      "blue": 0.0,
+      "unknown": 0.037
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 16,
+      "medianHex": "#2D313A",
+      "medianLab": [
+       20.4,
+       0.8,
+       -6.2
+      ]
+     },
+     "charcoal": {
+      "n": 67,
+      "medianHex": "#5A5E5F",
+      "medianLab": [
+       39.6,
+       -1.4,
+       -1.2
+      ]
+     },
+     "grey": {
+      "n": 111,
+      "medianHex": "#7D807B",
+      "medianLab": [
+       53.2,
+       -2.3,
+       2.5
+      ]
+     },
+     "white": {
+      "n": 4,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 4,
+      "suppressed": "n < 5"
+     },
+     "tan": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "rules2SceneRelative": {
+    "families": {
+     "n": 214,
+     "counts": {
+      "black": 15,
+      "charcoal": 57,
+      "grey": 86,
+      "white": 6,
+      "brown": 15,
+      "tan": 23,
+      "red": 1,
+      "green": 2,
+      "blue": 1,
+      "unknown": 8
+     },
+     "shares": {
+      "black": 0.07,
+      "charcoal": 0.266,
+      "grey": 0.402,
+      "white": 0.028,
+      "brown": 0.07,
+      "tan": 0.107,
+      "red": 0.005,
+      "green": 0.009,
+      "blue": 0.005,
+      "unknown": 0.037
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 15,
+      "medianHex": "#2E323B",
+      "medianLab": [
+       20.7,
+       0.6,
+       -6.0
+      ]
+     },
+     "charcoal": {
+      "n": 57,
+      "medianHex": "#595E60",
+      "medianLab": [
+       39.6,
+       -1.6,
+       -1.9
+      ]
+     },
+     "grey": {
+      "n": 86,
+      "medianHex": "#797E79",
+      "medianLab": [
+       52.2,
+       -2.5,
+       2.2
+      ]
+     },
+     "white": {
+      "n": 6,
+      "medianHex": "#C7C9C9",
+      "medianLab": [
+       80.9,
+       -1.0,
+       -0.2
+      ]
+     },
+     "brown": {
+      "n": 15,
+      "medianHex": "#6E665E",
+      "medianLab": [
+       43.8,
+       1.8,
+       5.6
+      ]
+     },
+     "tan": {
+      "n": 23,
+      "medianHex": "#88877D",
+      "medianLab": [
+       56.1,
+       -1.6,
+       5.7
+      ]
+     },
+     "red": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "allRoofs": {
+    "n": 206,
+    "medianLab": [
+     47.5,
+     -1.9,
+     1.5
+    ],
+    "medianHex": "#6E716E",
+    "lightnessPercentiles": {
+     "p0": 17.2,
+     "p10": 30.25,
+     "p25": 40.125,
+     "p50": 47.45,
+     "p75": 54.375,
+     "p90": 59.35,
+     "p100": 85.1
+    },
+    "chromaPercentiles": {
+     "p0": 0.539,
+     "p10": 2.102,
+     "p25": 2.873,
+     "p50": 3.866,
+     "p75": 5.351,
+     "p90": 6.448,
+     "p100": 17.045
+    }
+   }
+  },
+  "small": {
+   "rules1Absolute": {
+    "families": {
+     "n": 60,
+     "counts": {
+      "black": 13,
+      "charcoal": 12,
+      "grey": 19,
+      "white": 0,
+      "brown": 2,
+      "tan": 0,
+      "red": 0,
+      "green": 1,
+      "blue": 1,
+      "unknown": 12
+     },
+     "shares": {
+      "black": 0.217,
+      "charcoal": 0.2,
+      "grey": 0.317,
+      "white": 0.0,
+      "brown": 0.033,
+      "tan": 0.0,
+      "red": 0.0,
+      "green": 0.017,
+      "blue": 0.017,
+      "unknown": 0.2
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 13,
+      "medianHex": "#2B2F39",
+      "medianLab": [
+       19.4,
+       0.7,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 12,
+      "medianHex": "#5B6163",
+      "medianLab": [
+       40.6,
+       -1.8,
+       -2.2
+      ]
+     },
+     "grey": {
+      "n": 19,
+      "medianHex": "#7E8078",
+      "medianLab": [
+       53.2,
+       -2.3,
+       3.8
+      ]
+     },
+     "brown": {
+      "n": 2,
+      "suppressed": "n < 5"
+     },
+     "green": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "blue": {
+      "n": 1,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "rules2SceneRelative": {
+    "families": {
+     "n": 60,
+     "counts": {
+      "black": 12,
+      "charcoal": 10,
+      "grey": 12,
+      "white": 1,
+      "brown": 5,
+      "tan": 6,
+      "red": 0,
+      "green": 0,
+      "blue": 2,
+      "unknown": 12
+     },
+     "shares": {
+      "black": 0.2,
+      "charcoal": 0.167,
+      "grey": 0.2,
+      "white": 0.017,
+      "brown": 0.083,
+      "tan": 0.1,
+      "red": 0.0,
+      "green": 0.0,
+      "blue": 0.033,
+      "unknown": 0.2
+     }
+    },
+    "medianColourPerFamily": {
+     "black": {
+      "n": 12,
+      "medianHex": "#2B303A",
+      "medianLab": [
+       19.6,
+       0.6,
+       -6.9
+      ]
+     },
+     "charcoal": {
+      "n": 10,
+      "medianHex": "#5A6164",
+      "medianLab": [
+       40.6,
+       -2.0,
+       -2.6
+      ]
+     },
+     "grey": {
+      "n": 12,
+      "medianHex": "#787D77",
+      "medianLab": [
+       52.0,
+       -3.2,
+       2.8
+      ]
+     },
+     "white": {
+      "n": 1,
+      "suppressed": "n < 5"
+     },
+     "brown": {
+      "n": 5,
+      "medianHex": "#726760",
+      "medianLab": [
+       44.3,
+       3.3,
+       5.3
+      ]
+     },
+     "tan": {
+      "n": 6,
+      "medianHex": "#86867A",
+      "medianLab": [
+       55.5,
+       -1.9,
+       6.2
+      ]
+     },
+     "blue": {
+      "n": 2,
+      "suppressed": "n < 5"
+     }
+    }
+   },
+   "allRoofs": {
+    "n": 48,
+    "medianLab": [
+     43.9,
+     -1.5,
+     0.6
+    ],
+    "medianHex": "#666867",
+    "lightnessPercentiles": {
+     "p0": 17.6,
+     "p10": 18.8,
+     "p25": 25.9,
+     "p50": 43.9,
+     "p75": 52.3,
+     "p90": 57.31,
+     "p100": 72.7
+    },
+    "chromaPercentiles": {
+     "p0": 1.7,
+     "p10": 2.976,
+     "p25": 3.782,
+     "p50": 5.112,
+     "p75": 6.984,
+     "p90": 8.008,
+     "p100": 10.959
+    }
+   }
+  }
+ },
+ "roofType": {
+  "all": {
+   "n": 274,
+   "counts": {
+    "flat": 15,
+    "gable": 90,
+    "hip": 96,
+    "complex": 53,
+    "unknown": 20
+   },
+   "shares": {
+    "flat": 0.055,
+    "gable": 0.328,
+    "hip": 0.35,
+    "complex": 0.193,
+    "unknown": 0.073
+   }
+  },
+  "osmOnly": {
+   "n": 16,
+   "counts": {
+    "flat": 1,
+    "gable": 2,
+    "hip": 8,
+    "complex": 5,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.062,
+    "gable": 0.125,
+    "hip": 0.5,
+    "complex": 0.312,
+    "unknown": 0.0
+   }
+  },
+  "overtureOnly": {
+   "n": 258,
+   "counts": {
+    "flat": 14,
+    "gable": 88,
+    "hip": 88,
+    "complex": 48,
+    "unknown": 20
+   },
+   "shares": {
+    "flat": 0.054,
+    "gable": 0.341,
+    "hip": 0.341,
+    "complex": 0.186,
+    "unknown": 0.078
+   }
+  },
+  "main": {
+   "n": 214,
+   "counts": {
+    "flat": 8,
+    "gable": 76,
+    "hip": 74,
+    "complex": 48,
+    "unknown": 8
+   },
+   "shares": {
+    "flat": 0.037,
+    "gable": 0.355,
+    "hip": 0.346,
+    "complex": 0.224,
+    "unknown": 0.037
+   }
+  },
+  "small": {
+   "n": 60,
+   "counts": {
+    "flat": 7,
+    "gable": 14,
+    "hip": 22,
+    "complex": 5,
+    "unknown": 12
+   },
+   "shares": {
+    "flat": 0.117,
+    "gable": 0.233,
+    "hip": 0.367,
+    "complex": 0.083,
+    "unknown": 0.2
+   }
+  }
+ },
+ "roofTypeAtConfidence": {
+  "threshold": 0.7,
+  "all": {
+   "n": 158,
+   "counts": {
+    "flat": 10,
+    "gable": 61,
+    "hip": 84,
+    "complex": 3,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.063,
+    "gable": 0.386,
+    "hip": 0.532,
+    "complex": 0.019,
+    "unknown": 0.0
+   }
+  },
+  "osmOnly": {
+   "n": 8,
+   "counts": {
+    "flat": 0,
+    "gable": 1,
+    "hip": 7,
+    "complex": 0,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.0,
+    "gable": 0.125,
+    "hip": 0.875,
+    "complex": 0.0,
+    "unknown": 0.0
+   }
+  },
+  "overtureOnly": {
+   "n": 150,
+   "counts": {
+    "flat": 10,
+    "gable": 60,
+    "hip": 77,
+    "complex": 3,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.067,
+    "gable": 0.4,
+    "hip": 0.513,
+    "complex": 0.02,
+    "unknown": 0.0
+   }
+  },
+  "main": {
+   "n": 122,
+   "counts": {
+    "flat": 4,
+    "gable": 50,
+    "hip": 65,
+    "complex": 3,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.033,
+    "gable": 0.41,
+    "hip": 0.533,
+    "complex": 0.025,
+    "unknown": 0.0
+   }
+  },
+  "small": {
+   "n": 36,
+   "counts": {
+    "flat": 6,
+    "gable": 11,
+    "hip": 19,
+    "complex": 0,
+    "unknown": 0
+   },
+   "shares": {
+    "flat": 0.167,
+    "gable": 0.306,
+    "hip": 0.528,
+    "complex": 0.0,
+    "unknown": 0.0
+   }
+  }
+ },
+ "canopyOverRoofs": {
+  "all": {
+   "n": 274,
+   "mostlyHiddenByCanopy": 32,
+   "colourUnknown": 20,
+   "vegShareInFootprint": {
+    "p0": 0.0,
+    "p10": 0.019,
+    "p25": 0.054,
+    "p50": 0.149,
+    "p75": 0.358,
+    "p90": 0.526,
+    "p100": 0.913
+   }
+  },
+  "osmOnly": {
+   "n": 16,
+   "mostlyHiddenByCanopy": 0,
+   "colourUnknown": 0,
+   "vegShareInFootprint": {
+    "p0": 0.0,
+    "p10": 0.02,
+    "p25": 0.032,
+    "p50": 0.053,
+    "p75": 0.083,
+    "p90": 0.18,
+    "p100": 0.302
+   }
+  },
+  "overtureOnly": {
+   "n": 258,
+   "mostlyHiddenByCanopy": 32,
+   "colourUnknown": 20,
+   "vegShareInFootprint": {
+    "p0": 0.0,
+    "p10": 0.02,
+    "p25": 0.06,
+    "p50": 0.166,
+    "p75": 0.364,
+    "p90": 0.527,
+    "p100": 0.913
+   }
+  },
+  "main": {
+   "n": 214,
+   "mostlyHiddenByCanopy": 19,
+   "colourUnknown": 8,
+   "vegShareInFootprint": {
+    "p0": 0.0,
+    "p10": 0.02,
+    "p25": 0.049,
+    "p50": 0.126,
+    "p75": 0.311,
+    "p90": 0.464,
+    "p100": 0.9
+   }
+  },
+  "small": {
+   "n": 60,
+   "mostlyHiddenByCanopy": 13,
+   "colourUnknown": 12,
+   "vegShareInFootprint": {
+    "p0": 0.0,
+    "p10": 0.019,
+    "p25": 0.099,
+    "p50": 0.329,
+    "p75": 0.475,
+    "p90": 0.608,
+    "p100": 0.913
+   }
+  }
+ },
+ "canopy": {
+  "cellCanopyPct": 58.3,
+  "cellVegetationPct": 67.7,
+  "streetWaysUsed": 45,
+  "blocksAll": {
+   "n": 18,
+   "areaWeightedMeanPct": 58.3,
+   "meanPct": 60.8,
+   "percentiles": {
+    "p0": 22.7,
+    "p10": 39.63,
+    "p25": 58.375,
+    "p50": 63.5,
+    "p75": 69.7,
+    "p90": 73.55,
+    "p100": 85.1
+   },
+   "histogram10pct": {
+    "0-10": 0,
+    "10-20": 0,
+    "20-30": 2,
+    "30-40": 0,
+    "40-50": 1,
+    "50-60": 4,
+    "60-70": 7,
+    "70-80": 3,
+    "80-90": 1,
+    "90-100": 0
+   }
+  },
+  "blocksFullyInside": {
+   "n": 4,
+   "areaWeightedMeanPct": 63.1,
+   "meanPct": 65.1,
+   "percentiles": {
+    "p0": 59.3,
+    "p10": 60.56,
+    "p25": 62.45,
+    "p50": 64.55,
+    "p75": 67.25,
+    "p90": 70.22,
+    "p100": 72.2
+   },
+   "histogram10pct": {
+    "0-10": 0,
+    "10-20": 0,
+    "20-30": 0,
+    "30-40": 0,
+    "40-50": 0,
+    "50-60": 1,
+    "60-70": 2,
+    "70-80": 1,
+    "80-90": 0,
+    "90-100": 0
+   }
+  },
+  "blockValuesSorted": [
+   {
+    "canopyPct": 22.7,
+    "vegetationPct": 25.5,
+    "areaM2": 746,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 28.5,
+    "vegetationPct": 44.5,
+    "areaM2": 10111,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 44.4,
+    "vegetationPct": 49.9,
+    "areaM2": 33134,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 54.0,
+    "vegetationPct": 62.0,
+    "areaM2": 31530,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 58.2,
+    "vegetationPct": 68.5,
+    "areaM2": 4019,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 58.9,
+    "vegetationPct": 67.0,
+    "areaM2": 11507,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 59.3,
+    "vegetationPct": 75.9,
+    "areaM2": 39815,
+    "fullyInsideCell": true
+   },
+   {
+    "canopyPct": 62.0,
+    "vegetationPct": 70.3,
+    "areaM2": 19725,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 63.5,
+    "vegetationPct": 70.9,
+    "areaM2": 22050,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 63.5,
+    "vegetationPct": 72.5,
+    "areaM2": 20383,
+    "fullyInsideCell": true
+   },
+   {
+    "canopyPct": 65.6,
+    "vegetationPct": 73.7,
+    "areaM2": 37971,
+    "fullyInsideCell": true
+   },
+   {
+    "canopyPct": 69.4,
+    "vegetationPct": 84.5,
+    "areaM2": 436,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 69.7,
+    "vegetationPct": 75.0,
+    "areaM2": 196,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 69.7,
+    "vegetationPct": 77.4,
+    "areaM2": 2338,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 70.4,
+    "vegetationPct": 84.2,
+    "areaM2": 3521,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 72.2,
+    "vegetationPct": 80.1,
+    "areaM2": 5225,
+    "fullyInsideCell": true
+   },
+   {
+    "canopyPct": 76.7,
+    "vegetationPct": 82.2,
+    "areaM2": 5688,
+    "fullyInsideCell": false
+   },
+   {
+    "canopyPct": 85.1,
+    "vegetationPct": 86.7,
+    "areaM2": 1588,
+    "fullyInsideCell": false
+   }
+  ],
+  "method": "canopy = NDVI > 0.20 AND NIR texture (std over vegetation pixels, 1.5 m window) > 8 DN, opening 0.9 m, majority 0.9 m"
+ },
+ "bytesDownloaded": {
+  "total": 22741941,
+  "byKind": {
+   "naip-cog-ranges": 18580724,
+   "naip-stac": 23556,
+   "naip-token": 404,
+   "overpass": 75008,
+   "overture-parquet": 3950552,
+   "overture-stac": 111697
+  },
+  "note": "Data requests only (measured response bodies; NAIP = sum of COG byte ranges from GDAL's log; Overture = DuckDB HTTP log). Python wheels and the DuckDB httpfs extension are listed in docs/research/aerial.md."
+ }
+}
