@@ -85,6 +85,7 @@ struct RealityKitScreen: View {
     @State private var postcardIndex = 0
     @State private var showControls = true
     @State private var multisampling = true
+    @State private var postcardSheet = false
 
     /// The experience UI (strip, scrubber, mode bar) shows outside presets, tests and showcase shots.
     private var experienceUI: Bool { options.preset == nil && !testRun && !options.metrics && options.showcase == nil && options.hud }
@@ -204,6 +205,14 @@ struct RealityKitScreen: View {
             guard error == nil else { print("VIEWS failed: \(error ?? "")"); return }
             await runViewList(list)
         }
+        .task { await PostcardExports.runLaunchArgument(source: { postcardSource }, failed: { error != nil }) }
+    }
+
+    /// The world, the current postcard pose, the environment and the on-screen grade (PostcardExport.swift).
+    private var postcardSource: PostcardExports.Source? {
+        guard let world, let camera, let env else { return nil }
+        return .init(world: world, pose: PostcardExports.pose(camera: camera, fallback: currentPostcard(world: world)), env: env,
+                     post: options.diagnostics.contains("noPost") ? nil : post.settings)
     }
 
     // MARK: Snapshot (`-snapshot SECONDS`)
@@ -297,7 +306,15 @@ struct RealityKitScreen: View {
             if options.viewHold > 0 { try? await Task.sleep(for: .seconds(options.viewHold)) }
             let file = dir.appendingPathComponent("\(spec.id).png")
             try? FileManager.default.removeItem(at: file)
-            guard let shot = await capturePNG() else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
+            // `-capturequality`: the postcard quality-mode render of this view instead (PostcardExport.swift).
+            let shot: (data: Data, size: String, source: String)?
+            if spec.args.contains("-capturequality") {
+                shot = await PostcardExports.qualityCapture(world: world, camera: camera, size: render.drawableSize,
+                                                            post: options.diagnostics.contains("noPost") ? nil : post.settings)
+            } else {
+                shot = await capturePNG().map { (data: $0.data, size: $0.size, source: "\($0.source)") }
+            }
+            guard let shot else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
             do { try shot.data.write(to: file, options: .atomic) } catch {
                 print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
             }
@@ -406,6 +423,7 @@ struct RealityKitScreen: View {
                             }
                         }
                         Button(showControls ? "Clean view" : "Show controls") { showControls.toggle() }
+                        Button("Export postcard") { postcardSheet = true }
                     } label: {
                         Image(systemName: "ellipsis.circle").font(.title2)
                     }
@@ -421,6 +439,7 @@ struct RealityKitScreen: View {
                     .background(.ultraThinMaterial, in: Circle()).padding(.trailing, 12).padding(.top, 8)
             }
         }
+        .sheet(isPresented: $postcardSheet) { PostcardExportSheet(source: postcardSource) }
         .onChange(of: mode) { _, m in apply(mode: m, world: world, camera: camera, env: env) }
         .onChange(of: characterChoice) { _, c in Task { await setCharacter(c, world: world, camera: camera) } }
     }

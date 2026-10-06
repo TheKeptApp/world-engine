@@ -43,6 +43,7 @@ struct Globals {
     float3 moonDir; float moonRadius; float3 moonLight; float moonOpacity; half3 moonColor;
     half3 litterA; half3 litterB; float leafLitter; float2 canopyOrigin; float2 canopySize;
     half3 airColor; float airCap; float airStart; float airD50; float fogWeight;
+    float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
 Globals readGlobals(texture2d<half> tex) {
@@ -77,6 +78,8 @@ Globals readGlobals(texture2d<half> tex) {
     half4 t27 = tex.read(uint2(27, 1)), t28 = tex.read(uint2(28, 1));
     g.airColor = t27.rgb; g.airCap = float(t27.a);
     g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b);
+    half4 t29 = tex.read(uint2(29, 1));
+    g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
 }
 
@@ -282,6 +285,9 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
     half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
+    // Postcard quality mode only (never on screen): the baked contact AO takes a further share of
+    // the fill (lighting bible §2.3: another 10–20% within a contact; open surfaces have AO 1).
+    if (g.postcardQuality) { fill *= 1.0h - half(g.postcardAO) * (1.0h - su.ao); }
     // Atmosphere along optical depth (lighting bible: clear-air fade plus weather extinction).
     float4 atm = atmosphere(g, opticalDistance(dist, g.camera.y, wp.y));
     half fog = half(atm.w);

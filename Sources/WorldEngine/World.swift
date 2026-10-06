@@ -93,7 +93,7 @@ public final class World {
     /// LOD props (trees, bushes) per kind/variant/cell, with one entity per slot: 0 = near detail
     /// inside the cut-away zone (cuttable), 1 = the rest of the near detail, 2 = mid, 3 = far,
     /// 4 = skyline (1–4 opaque; see `RenderResources.foliageOpaqueMaterial`).
-    private struct LODGroup {
+    struct LODGroup {
         var kind: PropKind
         var variant: Int
         var instances: [PropInstance]
@@ -102,20 +102,20 @@ public final class World {
         var bounds: [BoundingBox?] = [nil, nil, nil, nil, nil]
     }
     /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
-    private struct BuildingCellState {
+    struct BuildingCellState {
         var rect: Rect2D
         var bounds: BoundingBox?
         var levels: [(lod: BuildingLOD, entity: Entity, triangles: Int)]
         var active: Int?
     }
-    private var buildingCells: [BuildingCellState] = []
+    private(set) var buildingCells: [BuildingCellState] = []
     /// Triangles of the enabled building LODs.
     private var buildingTriangles = 0
     /// Trees and bushes this close to the camera keep the cut-away (transparent) material. The
     /// character is at most ~8 m from the follow camera and detail is re-bucketed every 8 m, so a
     /// blocker always falls inside.
     static let cutZoneMeters: Float = 20
-    private var lodGroups: [LODGroup] = []
+    private(set) var lodGroups: [LODGroup] = []
     var lodCenter: SIMD3<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
     private var cullables: [(bounds: BoundingBox, triangles: Int, draws: Int)] = []
