@@ -1,0 +1,269 @@
+{
+ "schema": "worldengine.ambient-planes-area/1",
+ "note": "Runway geometry derived from OpenStreetMap (aeroway=runway ways with ref), base data 2026-10-06, (c) OpenStreetMap contributors, ODbL 1.0 (https://www.openstreetmap.org/copyright). Tables copied from docs/research/ambient-planes.md section 2.3; flows and model from sections 3 and 4 (all model values are assumptions).",
+ "aircraftMode": "ambient",
+ "airport": "ORD",
+ "timeZone": "America/Chicago",
+ "osmBaseTimestamp": "2026-10-06T14:13:27Z",
+ "runways": [
+  {
+   "ref": "04L",
+   "threshold": [
+    41.98166,
+    -87.91393
+   ],
+   "headingTrueDeg": 39.5,
+   "lengthM": 2285,
+   "osmWay": 4357998
+  },
+  {
+   "ref": "04R",
+   "threshold": [
+    41.95334,
+    -87.89942
+   ],
+   "headingTrueDeg": 41.5,
+   "lengthM": 2460,
+   "osmWay": 4357995
+  },
+  {
+   "ref": "09C",
+   "threshold": [
+    41.98832,
+    -87.93158
+   ],
+   "headingTrueDeg": 90.0,
+   "lengthM": 3427,
+   "osmWay": 599431864
+  },
+  {
+   "ref": "09L",
+   "threshold": [
+    42.00283,
+    -87.92668
+   ],
+   "headingTrueDeg": 90.0,
+   "lengthM": 2286,
+   "osmWay": 27347454
+  },
+  {
+   "ref": "09R",
+   "threshold": [
+    41.9839,
+    -87.93158
+   ],
+   "headingTrueDeg": 90.0,
+   "lengthM": 3430,
+   "osmWay": 807922883
+  },
+  {
+   "ref": "10C",
+   "threshold": [
+    41.9657,
+    -87.93151
+   ],
+   "headingTrueDeg": 89.9,
+   "lengthM": 3290,
+   "osmWay": 188230191
+  },
+  {
+   "ref": "10L",
+   "threshold": [
+    41.969,
+    -87.93154
+   ],
+   "headingTrueDeg": 89.9,
+   "lengthM": 3961,
+   "osmWay": 4368525
+  },
+  {
+   "ref": "10R",
+   "threshold": [
+    41.95721,
+    -87.92787
+   ],
+   "headingTrueDeg": 89.9,
+   "lengthM": 2285,
+   "osmWay": 673227833
+  },
+  {
+   "ref": "22L",
+   "threshold": [
+    41.96993,
+    -87.87976
+   ],
+   "headingTrueDeg": 221.5,
+   "lengthM": 2460,
+   "osmWay": 4357995
+  },
+  {
+   "ref": "22R",
+   "threshold": [
+    41.99754,
+    -87.89639
+   ],
+   "headingTrueDeg": 219.5,
+   "lengthM": 2285,
+   "osmWay": 4357998
+  },
+  {
+   "ref": "27C",
+   "threshold": [
+    41.98832,
+    -87.89023
+   ],
+   "headingTrueDeg": 270.0,
+   "lengthM": 3427,
+   "osmWay": 599431864
+  },
+  {
+   "ref": "27L",
+   "threshold": [
+    41.98391,
+    -87.89019
+   ],
+   "headingTrueDeg": 270.0,
+   "lengthM": 3430,
+   "osmWay": 807922883
+  },
+  {
+   "ref": "27R",
+   "threshold": [
+    42.00284,
+    -87.89909
+   ],
+   "headingTrueDeg": 270.0,
+   "lengthM": 2286,
+   "osmWay": 27347454
+  },
+  {
+   "ref": "28C",
+   "threshold": [
+    41.96577,
+    -87.89182
+   ],
+   "headingTrueDeg": 269.9,
+   "lengthM": 3290,
+   "osmWay": 188230191
+  },
+  {
+   "ref": "28L",
+   "threshold": [
+    41.95726,
+    -87.9003
+   ],
+   "headingTrueDeg": 269.9,
+   "lengthM": 2285,
+   "osmWay": 673227833
+  },
+  {
+   "ref": "28R",
+   "threshold": [
+    41.96908,
+    -87.88375
+   ],
+   "headingTrueDeg": 269.9,
+   "lengthM": 3961,
+   "osmWay": 4368525
+  }
+ ],
+ "defaultFlow": "west",
+ "flows": {
+  "west": {
+   "landingHeadingTrueDeg": 270.0,
+   "arrivals": [
+    "27L",
+    "28R"
+   ],
+   "departures": [
+    "27C",
+    "28C"
+   ]
+  },
+  "east": {
+   "landingHeadingTrueDeg": 90.0,
+   "arrivals": [
+    "09R",
+    "10L"
+   ],
+   "departures": [
+    "09C",
+    "10C"
+   ]
+  }
+ },
+ "model": {
+  "corridorNm": 12,
+  "glideDeg": 3.0,
+  "thresholdCrossingM": 15,
+  "slotSeconds": 150,
+  "jitterSeconds": 25,
+  "arrivalPeak": 0.6,
+  "departurePeak": 0.4,
+  "mediumShare": 0.7,
+  "approachKt": {
+   "medium": [
+    140,
+    150
+   ],
+   "heavy": [
+    150,
+    160
+   ]
+  },
+  "corridorStartKt": 185,
+  "speedChangeStartNm": 6,
+  "touchdownM": 300,
+  "rolloutM": 1700,
+  "rolloutEndKt": 30,
+  "dissolveSeconds": 3,
+  "departure": {
+   "rotateKt": 150,
+   "rollM": [
+    1800,
+    2400
+   ],
+   "rollMarginM": 800,
+   "climbKt": 170,
+   "climbTan": 0.1051,
+   "ceilingM": 3000,
+   "beyondRunwayNm": 12,
+   "fadeInSeconds": 3
+  },
+  "fadeNm": 1.5,
+  "hullVariants": 3,
+  "departureQuietHours": [
+   22,
+   5
+  ],
+  "hourlyMultiplier": [
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.25,
+   0.6,
+   0.85,
+   1.0,
+   0.9,
+   0.75,
+   0.7,
+   0.75,
+   0.8,
+   0.8,
+   0.85,
+   0.95,
+   1.0,
+   0.95,
+   0.9,
+   0.75,
+   0.55,
+   0.35,
+   0.2
+  ],
+  "windMinKt": 4,
+  "windSwitchMarginKt": 2
+ },
+ "attribution": "© OpenStreetMap contributors"
+}

@@ -1,0 +1,229 @@
+{
+ "schema": "worldengine.ambient-planes-area/1",
+ "note": "Runway geometry derived from OpenStreetMap (aeroway=runway ways with ref), base data 2026-10-06, (c) OpenStreetMap contributors, ODbL 1.0 (https://www.openstreetmap.org/copyright). Tables copied from docs/research/ambient-planes.md section 2.3; flows and model from sections 3 and 4 (all model values are assumptions).",
+ "aircraftMode": "ambient",
+ "airport": "DEN",
+ "timeZone": "America/Denver",
+ "osmBaseTimestamp": "2026-10-06T14:15:32Z",
+ "runways": [
+  {
+   "ref": "07",
+   "threshold": [
+    39.84094,
+    -104.72666
+   ],
+   "headingTrueDeg": 90.5,
+   "lengthM": 3655,
+   "osmWay": 20199112
+  },
+  {
+   "ref": "08",
+   "threshold": [
+    39.87755,
+    -104.66223
+   ],
+   "headingTrueDeg": 90.5,
+   "lengthM": 3656,
+   "osmWay": 20199011
+  },
+  {
+   "ref": "16L",
+   "threshold": [
+    39.89702,
+    -104.68681
+   ],
+   "headingTrueDeg": 180.5,
+   "lengthM": 3656,
+   "osmWay": 20199004
+  },
+  {
+   "ref": "16R",
+   "threshold": [
+    39.89578,
+    -104.6961
+   ],
+   "headingTrueDeg": 180.5,
+   "lengthM": 4874,
+   "osmWay": 20199001
+  },
+  {
+   "ref": "17L",
+   "threshold": [
+    39.86494,
+    -104.64131
+   ],
+   "headingTrueDeg": 180.6,
+   "lengthM": 3655,
+   "osmWay": 20199006
+  },
+  {
+   "ref": "17R",
+   "threshold": [
+    39.86126,
+    -104.66018
+   ],
+   "headingTrueDeg": 180.5,
+   "lengthM": 3657,
+   "osmWay": 20199008
+  },
+  {
+   "ref": "25",
+   "threshold": [
+    39.84065,
+    -104.68396
+   ],
+   "headingTrueDeg": 270.5,
+   "lengthM": 3655,
+   "osmWay": 20199112
+  },
+  {
+   "ref": "26",
+   "threshold": [
+    39.87724,
+    -104.6195
+   ],
+   "headingTrueDeg": 270.6,
+   "lengthM": 3656,
+   "osmWay": 20199011
+  },
+  {
+   "ref": "34L",
+   "threshold": [
+    39.85189,
+    -104.6966
+   ],
+   "headingTrueDeg": 0.5,
+   "lengthM": 4874,
+   "osmWay": 20199001
+  },
+  {
+   "ref": "34R",
+   "threshold": [
+    39.86409,
+    -104.6872
+   ],
+   "headingTrueDeg": 0.5,
+   "lengthM": 3656,
+   "osmWay": 20199004
+  },
+  {
+   "ref": "35L",
+   "threshold": [
+    39.82832,
+    -104.66056
+   ],
+   "headingTrueDeg": 0.5,
+   "lengthM": 3657,
+   "osmWay": 20199008
+  },
+  {
+   "ref": "35R",
+   "threshold": [
+    39.83202,
+    -104.64173
+   ],
+   "headingTrueDeg": 0.6,
+   "lengthM": 3655,
+   "osmWay": 20199006
+  }
+ ],
+ "defaultFlow": "south",
+ "flows": {
+  "south": {
+   "landingHeadingTrueDeg": 180.5,
+   "arrivals": [
+    "16L",
+    "16R"
+   ],
+   "departures": [
+    "17L",
+    "17R"
+   ]
+  },
+  "north": {
+   "landingHeadingTrueDeg": 0.5,
+   "arrivals": [
+    "35L",
+    "35R"
+   ],
+   "departures": [
+    "34L",
+    "34R"
+   ]
+  }
+ },
+ "model": {
+  "corridorNm": 12,
+  "glideDeg": 3.0,
+  "thresholdCrossingM": 15,
+  "slotSeconds": 150,
+  "jitterSeconds": 25,
+  "arrivalPeak": 0.6,
+  "departurePeak": 0.4,
+  "mediumShare": 0.7,
+  "approachKt": {
+   "medium": [
+    140,
+    150
+   ],
+   "heavy": [
+    150,
+    160
+   ]
+  },
+  "corridorStartKt": 185,
+  "speedChangeStartNm": 6,
+  "touchdownM": 300,
+  "rolloutM": 1700,
+  "rolloutEndKt": 30,
+  "dissolveSeconds": 3,
+  "departure": {
+   "rotateKt": 150,
+   "rollM": [
+    1800,
+    2400
+   ],
+   "rollMarginM": 800,
+   "climbKt": 170,
+   "climbTan": 0.1051,
+   "ceilingM": 3000,
+   "beyondRunwayNm": 12,
+   "fadeInSeconds": 3
+  },
+  "fadeNm": 1.5,
+  "hullVariants": 3,
+  "departureQuietHours": [
+   22,
+   5
+  ],
+  "hourlyMultiplier": [
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.25,
+   0.6,
+   0.85,
+   1.0,
+   0.9,
+   0.75,
+   0.7,
+   0.75,
+   0.8,
+   0.8,
+   0.85,
+   0.95,
+   1.0,
+   0.95,
+   0.9,
+   0.75,
+   0.55,
+   0.35,
+   0.2
+  ],
+  "windMinKt": 4,
+  "windSwitchMarginKt": 2
+ },
+ "attribution": "© OpenStreetMap contributors"
+}
