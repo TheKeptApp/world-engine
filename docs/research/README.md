@@ -12,6 +12,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 | [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
 | [overture-source.md](overture-source.md) | Overture buildings as a second footprint source (owner decision 2026-10-06): `worldbake fetch --layers overture`, the `overture-buildings-v1` file, merge rules (OSM wins), identity (`overture/<id>`), credits and the ODbL note |
 | [aerial.md](aerial.md) | Feasibility of reading roofs and tree canopy from USDA NAIP aerial imagery (proof of concept on a 0.25 km² Wilmette cell): licence and small-area access, method, hand-checked accuracy, recommendation. Aggregates only |
+| [lidar-roofs.md](lidar-roofs.md) | Phase 5B pilot: roof forms (flat/gable/hip/complex, pitch, ridge) from USGS 3DEP lidar for South Evanston, hand-checked, compared with the roof forms P2's generator assigns; vintage check; recommendation and North Shore scaling. Aggregates only |
 | [outreach-drafts.md](outreach-drafts.md) | Draft emails (not sent) to Metra, CTA, Pace and the adsb.lol operator with the questions the live-feed terms leave open, for the owner to review and send |
 
 Tools: [`Tools/regionkit/`](../../Tools/regionkit/README.md) (region kit; drafts in `Tools/regionkit/drafts/`) and
@@ -44,13 +45,17 @@ evidence, roof assemblies (cross-gables, dormers, chimneys), rear porches, and t
    and porches: 30–44 % of the generator's "houses" in three Chicago zones (region kit's heuristic; the audit's
    simpler size-only count gives 28 % of all buildings). **P2 has since fixed the garage and block points**
    (an alley-garage rule from size and mapped alley access; block families from tag evidence). Still open on
-   main: one profile per baked area, `building:part` skipped, a building way that is also a multipolygon outer
-   drawn twice, and tagged `type=building` relations assembled into extra full-height buildings.
+   main: one profile per baked area and `building:part` skipped. The duplicate multipolygon outer and the
+   `type=building` relation buildings were fixed by P2 in `1085568`.
 5. **Dense Chicago breaks the triangle budget at full detail** (estimate for the `772ff24` generator, nothing
    built): a whole Loop cell is 2.2 M static triangles, 97 % of its building triangles are window frames, and
    curbs cost 12 triangles per street metre. Residential cells fit on average but not in the worst views. Facade
-   LOD has to come before floors-from-height or towers. P2 changed building and tree geometry, so the estimate
-   needs a re-run against current main (or a measured `worldbake export`).
+   LOD has to come before floors-from-height or towers. **Measured after P2** (generator `b8f6c71`, exported
+   packages): the estimate held for what it modelled. Whole cells are 0.69–2.24 M static triangles
+   (`chicago-dense-north` adds 19–28 %), and P2's new parkway and yard trees add 23–61 k to the average view. With
+   a WorldLab-sized focus the mean view is 96–271 k. The Loop and Lakeview break the 400 k ceiling at p90, and
+   every dense-north cell breaks it in its worst view (464–605 k). One Loop chunk alone casts 181 k shadow
+   triangles, over the 150 k ceiling ([data-coverage.md](data-coverage.md#triangle-counts-for-a-dense-chicago-cell)).
 6. **Mapped trees are rare** in most places: 78 per km² in Chicago neighbourhoods,
    0.5 on the North Shore, against 2,812 at Sloan's Lake. The generator places only mapped trees, so
    Chicagoland streets would be nearly treeless.
@@ -63,7 +68,12 @@ evidence, roof assemblies (cross-gables, dormers, chimneys), rear porches, and t
    photo-interpreted points 85 %, canopy 58 % in the Wilmette cell). Roof colour is usable only as a zone-level
    lightness mix (60–65 % exact on hand-checked roofs; black/white untested; warm roofs underestimated). Roof type
    was not shown to beat a constant guess, so no per-building roof hints from NAIP; USGS 3DEP lidar (public domain,
-   readable by area) is the better source for roof form.
+   readable by area) is the better source for roof form. **Phase 5B:**
+   - Canopy measured for the test areas: residential fabric South Evanston 47 %, Lakeview 18 %, Sloan's Lake 25 %,
+     Wilmette 55 % (`aerial.md` §13).
+   - The lidar pilot reads South Evanston's roofs right 87 % of the time on simple form. P2's per-building roof
+     forms agree with lidar only at chance level (48 %). Real houses are more often hipped and complex, with
+     flatter gables than the `evanston` profile draws ([lidar-roofs.md](lidar-roofs.md)).
 9. **Licensing:** nothing blocks internal development. Before a public release: a credits screen with the ODbL
    "offer", credit burned into exported images/widgets, and Apple Weather attribution. The world package is most
    likely an ODbL Derivative Database, not a Produced Work as `docs/plan-m1.md` §6 assumes.
