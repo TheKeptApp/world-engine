@@ -39,9 +39,39 @@ public struct LightingBible: Codable, Sendable {
         public var path: String
         public var sha256: String
     }
+    /// §3.2 extinction presets ("fog-light", "smoke-medium", "rain-light", "storm-rain", …): the
+    /// scattering colour and the distances where extinction starts and where 90% of contrast is gone.
+    public struct Extinction: Codable, Sendable {
+        public var color: String
+        public var start: Double
+        public var end: Double
+    }
     public var sources: [String: Source]
     public var states: [String: State]
     public var night: Night
+    public var extinction: [String: Extinction]
+
+    /// The extinction for a weather label at an intensity: fog and smoke run light → medium → dense
+    /// over intensity 0 → 0.5 → 1 (distances and colour interpolated), rain uses the light-rain
+    /// preset, thunderstorms storm rain; nil for labels the bible has no preset for.
+    public func extinction(label: String, intensity: Double) -> (color: SIMD3<Float>, start: Double, end: Double)? {
+        func ext(_ k: String) -> Extinction? { extinction[k] }
+        func lin(_ e: Extinction) -> SIMD3<Float> { Color.linear(Palette.parse(e.color)) }
+        switch label {
+        case "fog", "smoke":
+            guard let a = ext("\(label)-light"), let b = ext("\(label)-medium"), let c = ext("\(label)-dense") else { return nil }
+            let i = min(1, max(0, intensity))
+            let (x, y, t) = i < 0.5 ? (a, b, i / 0.5) : (b, c, (i - 0.5) / 0.5)
+            let col = lin(x) + (lin(y) - lin(x)) * Float(t)
+            return (col, x.start + (y.start - x.start) * t, x.end + (y.end - x.end) * t)
+        case "rain":
+            return ext("rain-light").map { (lin($0), $0.start, $0.end) }
+        case "thunderstorm":
+            return ext("storm-rain").map { (lin($0), $0.start, $0.end) }
+        default:
+            return nil
+        }
+    }
 }
 
 /// Hand-tuned renderer values on top of the bible (`Profiles/grade.json`), keyed by its states.

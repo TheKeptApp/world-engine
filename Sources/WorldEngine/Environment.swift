@@ -110,6 +110,16 @@ extension World {
         g.fogColor = tinted(lin(L.fog))
         g.fogStart = Float(w.fogStartM)
         g.fogEnd = Float(w.fogEndM)
+        // Lighting bible §3.2 presets where it has them (fog and smoke light → dense by intensity,
+        // light rain, storm rain): their scattering colour and distances; a reported visibility
+        // still caps the end (bounded calibration, §3.2).
+        if let label = state, let e = Self.lightingBible?.extinction(label: label.rawValue, intensity: raw) {
+            var end = e.end
+            if let v = env.state.visibilityM { end = min(end, max(60, v)) }
+            g.fogColor = e.color
+            g.fogStart = Float(min(e.start, end * 0.5))
+            g.fogEnd = Float(end)
+        }
         // Lighting bible atmosphere: the clear-air fade of the state (§2.3), and weather extinction
         // (§3.2) only for weather that carries it, at its intensity.
         if let air = grade?.air {
