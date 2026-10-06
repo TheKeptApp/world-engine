@@ -27,10 +27,10 @@ renderer (5A).
      invented without a garage (spec §3: no invented access). `driveway` palette colour.
    - **Foundation bed** (`beds`): mulch strip along the front wall, skipping the door (`yardBed` colour).
    - **Shrubs** (`shrubs`): a flowering pair at the walk, a few more along front lot edges.
-   - **Hedges** (`frontHedge`, `sideHedge`): rows of the existing bush prop (one variant per row,
-     ~1.05 m spacing) behind the sidewalk and along one side lot line in the front yard. The spec only
+   - **Hedges** (`frontHedge`, `sideHedge`): straight rows of 1 m hedge segments (bush variant 5,
+     yawed to the row; see the look-fix section) behind the sidewalk and along one side lot line in the front yard. The spec only
      allows boundaries on mapped/evidenced lines; the owner asked for hedges along lot lines, so they
-     are profile-driven, low (scale 0.9–1.05), and part of the inferred dressing.
+     are profile-driven, ~0.95–1 m high (scale 1.0–1.06), and part of the inferred dressing.
    - **Specimen trees** (`yardTreesPerHouse`): back yard preferred, ≥3.5 m from walls, ≥7 m from other
      trees, species and size from the zone profile's tree rules.
 4. **Parkway trees** (`streetTreeSpacing`, `minParkway`): along vehicular streets (not service, track,
@@ -55,7 +55,7 @@ profile is forced (`WorldRecipe.profileID == nil`); yards use each building's pr
 `GeneratedScene.lots`, `GeneratedScene.litterHints`, yard meshes in chunk static meshes (features
 `gen:lot:`, `gen:walk:`, `gen:driveway:`, `gen:bed:`), instances with sources `gen:shrub:`, `gen:hedge:`,
 `gen:yardtree:`, `gen:streettree:`, stats (`lots`, `walks`, `driveways`, `beds`, `shrubs`,
-`hedgeBushes`, `yardTrees`, `streetTrees`, `yardMillis`).
+`hedgeSegments`, `yardTrees`, `streetTrees`, `yardMillis`).
 
 ## Look-fix v1 (§1, §2) — round 3
 
@@ -76,8 +76,19 @@ region, not quotas), in `Profiles/yards.json`:
   `GeneratedLot` carries `lawnShade`, `tone`, `seed`, `ruleVersion` = 2.
 - **Beds**: depth 0.6–1.2 m toward the zone's bed area along the front wall (door kept clear), plus
   side returns at the front corners when the front alone is short; ±2.5 % value per bed.
-- **Shrubs**: placed on front-yard lot edges and foundation positions; new shrub forms (cushion, loose,
-  upright, hedge segment) arrive with the prop-variant work.
+- **Shrubs**: placed on front-yard lot edges and foundation positions (counts per lot unchanged, from
+  `shrubs`). The site picks the form (bush/flowerBush variants, `SceneGenerator.shrubVariant`, seeded per
+  shrub): **cushions** (2, 6, 7: low rounded, wide two-mound, compact four-lobe) in foundation beds and
+  front gardens; **upright** (4, ~1.35 m, narrow) beside the walk and at lot corners (two cell sides
+  leave the lot) and house corners (footprint vertex within 2.2 m); lot-edge shrubs a mix of **loose**
+  (3, leaning ~7°, 40 %) and cushions. The original round bushes (0, 1) are no longer placed in yards.
+- **Hedges**: each row is a straight line through the row's cells, built from **hedge segments**
+  (variant 5, 1 m along the segment's +X) laid end to end every 1 m, yaw = row direction (half turned
+  end for end), scale 1.0–1.06. Stat `hedgeSegments` (was `hedgeBushes`).
+- **Shrub triangles**: near 72 (80 with flowers), mid 20 (hedge 16), far 8 (hedge 6), skyline 3–4; the
+  old round bushes were 80/20/8. Generated shrub+hedge triangles in view (YardTests street cameras)
+  went from 19 610 / 12 584 / 13 082 / 11 312 / 17 444 to 18 444 / 11 108 / 11 810 / 10 520 / 15 820
+  (Lakeview street / alley / block centre, Evanston street, Wilmette street), −9 % overall.
 - **Trees**: per-lot caps apply to yard and canopy-calibration trees; generated trees avoid repeating
   the variant of the nearest three of the same form (no-op while tree kinds have one mesh variant; the
   renderer varies crowns by per-tree stretch).

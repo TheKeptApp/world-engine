@@ -53,6 +53,22 @@ def cmd_find(args):
     _log("OSM base %s" % meta.get("timestamp_osm_base"))
 
 
+def cmd_osmclip(args):
+    from . import osmclip
+    for d in args.area_dir:
+        if not os.path.isabs(d):          # regionkit.sh changes directory: resolve against the repository root
+            d = os.path.join(paths.REPO, d)
+        osmclip.clip_area(d, min_members=args.min_members, write=not args.dry_run, log=print)
+
+
+def cmd_areacheck(args):
+    from . import areacheck
+    rows = areacheck.area_rows(args.areas_dir, budget=args.budget if args.budget is not None else areacheck.BUDGET_MB_PER_KM2)
+    print(areacheck.format_rows(rows))
+    if any(r["problems"] for r in rows):
+        sys.exit(1)
+
+
 def build_parser():
     p = argparse.ArgumentParser(prog="regionkit", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -66,6 +82,17 @@ def build_parser():
     f.add_argument("--bbox", required=True, help="S,W,N,E")
     f.add_argument("--tag", required=True, help="key=value, e.g. leisure=park")
     f.set_defaults(func=cmd_find)
+
+    c = sub.add_parser("osmclip", help="clip relations with >= 300 members in an area's osm.json to its context-ring box")
+    c.add_argument("area_dir", nargs="+", help="Data/areas/<id> (one or more)")
+    c.add_argument("--min-members", type=int, default=300)
+    c.add_argument("--dry-run", action="store_true")
+    c.set_defaults(func=cmd_osmclip)
+
+    k = sub.add_parser("areacheck", help="flag detailed osm.json files over the size budget or with huge relations")
+    k.add_argument("--budget", type=float, default=None, help="MB per km2 (default: areacheck.BUDGET_MB_PER_KM2)")
+    k.add_argument("--areas-dir", default=None)
+    k.set_defaults(func=cmd_areacheck)
 
     try:
         from . import commands

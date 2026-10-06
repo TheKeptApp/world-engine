@@ -1,0 +1,1696 @@
+{
+ "header": {
+  "format": "roof-mix-blocks/1",
+  "area": "kenilworth-station",
+  "derivedFrom": "lidar-roofs.json (same directory)",
+  "source": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+  "flightDates": "2017-04-16 to 2017-05-07",
+  "licence": "US Government Public Domain",
+  "credit": "USGS 3D Elevation Program",
+  "methodVersion": "regionkit-lidar-roofs 2.0",
+  "blocks": "faces of the OSM street centrelines (highway classes as Tools/regionkit/aerial canopy_areas.json streetClasses) plus the area rectangle, clipped to it; faces under 50 m2 dropped",
+  "blockId": "blk- + first 8 hex of sha1 over the sorted OSM way ids of the street ways running along the face boundary, comma-joined; a repeat of the same set gets -2, -3; changes if OSM splits or merges those ways",
+  "assignment": "a building is in the face that contains its footprint centroid",
+  "privacyFloor": "shares, pitchClassShares and medianPitchDeg are null when fewer than 5 classified buildings (suppressed: true)",
+  "shares": "fractions of nClassified (buildings with a lidar form), keys flat/hip/gable/mansard/complex"
+ },
+ "summary": {
+  "buildingsInArea": 816,
+  "buildingsOutsideAnyBlock": 0,
+  "buildingsClassified": 746,
+  "blocks": 60,
+  "blocksWithShares": 36,
+  "blocksSuppressed": 24,
+  "blocksClipped": 29,
+  "buildingsInPublishedBlocks": 734,
+  "nClassified": 746,
+  "suppressed": false,
+  "shares": {
+   "flat": 0.056,
+   "hip": 0.102,
+   "gable": 0.193,
+   "mansard": 0.004,
+   "complex": 0.645
+  },
+  "pitchClassShares": {
+   "flat": 0.056,
+   "low": 0.2,
+   "medium": 0.531,
+   "steep": 0.213
+  },
+  "medianPitchDeg": 31.4,
+  "note": "area-level mix over every classified footprint (not only those in published blocks)"
+ },
+ "blocks": [
+  {
+   "id": "blk-003f5416",
+   "centroid": {
+    "lat": 42.082886,
+    "lon": -87.719563
+   },
+   "areaM2": 31578,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23168838,
+    23264734,
+    110104852,
+    173258010
+   ],
+   "nBuildings": 31,
+   "nClassified": 29,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.034,
+    "hip": 0.069,
+    "gable": 0.276,
+    "mansard": 0.0,
+    "complex": 0.621
+   },
+   "pitchClassShares": {
+    "flat": 0.034,
+    "low": 0.241,
+    "medium": 0.552,
+    "steep": 0.172
+   },
+   "medianPitchDeg": 29.9
+  },
+  {
+   "id": "blk-09903581",
+   "centroid": {
+    "lat": 42.084878,
+    "lon": -87.712908
+   },
+   "areaM2": 34700,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264772,
+    23264773,
+    23264792,
+    40875786,
+    148852328
+   ],
+   "nBuildings": 36,
+   "nClassified": 33,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.121,
+    "gable": 0.242,
+    "mansard": 0.03,
+    "complex": 0.606
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.03,
+    "medium": 0.848,
+    "steep": 0.121
+   },
+   "medianPitchDeg": 33.6
+  },
+  {
+   "id": "blk-0ad96187",
+   "centroid": {
+    "lat": 42.090985,
+    "lon": -87.715488
+   },
+   "areaM2": 23969,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271864,
+    23271865,
+    24073467,
+    148852313
+   ],
+   "nBuildings": 14,
+   "nClassified": 12,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.0,
+    "gable": 0.167,
+    "mansard": 0.0,
+    "complex": 0.833
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.25,
+    "medium": 0.583,
+    "steep": 0.167
+   },
+   "medianPitchDeg": 33.8
+  },
+  {
+   "id": "blk-11607e9b",
+   "centroid": {
+    "lat": 42.082825,
+    "lon": -87.715447
+   },
+   "areaM2": 8838,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23127361,
+    23168838,
+    23264734,
+    1021399321
+   ],
+   "nBuildings": 15,
+   "nClassified": 15,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.067,
+    "hip": 0.333,
+    "gable": 0.2,
+    "mansard": 0.0,
+    "complex": 0.4
+   },
+   "pitchClassShares": {
+    "flat": 0.067,
+    "low": 0.4,
+    "medium": 0.333,
+    "steep": 0.2
+   },
+   "medianPitchDeg": 27.2
+  },
+  {
+   "id": "blk-147631cb",
+   "centroid": {
+    "lat": 42.087324,
+    "lon": -87.717393
+   },
+   "areaM2": 192,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    206236011
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-186759c8",
+   "centroid": {
+    "lat": 42.088952,
+    "lon": -87.721108
+   },
+   "areaM2": 19534,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271911,
+    23271912,
+    23271913,
+    1058880038,
+    1163289472
+   ],
+   "nBuildings": 31,
+   "nClassified": 30,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.033,
+    "hip": 0.2,
+    "gable": 0.267,
+    "mansard": 0.0,
+    "complex": 0.5
+   },
+   "pitchClassShares": {
+    "flat": 0.033,
+    "low": 0.367,
+    "medium": 0.367,
+    "steep": 0.233
+   },
+   "medianPitchDeg": 26.2
+  },
+  {
+   "id": "blk-2a801735",
+   "centroid": {
+    "lat": 42.08492,
+    "lon": -87.722432
+   },
+   "areaM2": 49286,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264709,
+    23271908,
+    24114722,
+    60930757,
+    110104852,
+    173258010,
+    206020580
+   ],
+   "nBuildings": 47,
+   "nClassified": 41,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.073,
+    "hip": 0.073,
+    "gable": 0.195,
+    "mansard": 0.024,
+    "complex": 0.634
+   },
+   "pitchClassShares": {
+    "flat": 0.073,
+    "low": 0.122,
+    "medium": 0.585,
+    "steep": 0.22
+   },
+   "medianPitchDeg": 30.1
+  },
+  {
+   "id": "blk-3352a123",
+   "centroid": {
+    "lat": 42.086784,
+    "lon": -87.721732
+   },
+   "areaM2": 20820,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271910,
+    23271914,
+    24114724
+   ],
+   "nBuildings": 38,
+   "nClassified": 35,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.086,
+    "hip": 0.057,
+    "gable": 0.257,
+    "mansard": 0.0,
+    "complex": 0.6
+   },
+   "pitchClassShares": {
+    "flat": 0.086,
+    "low": 0.114,
+    "medium": 0.514,
+    "steep": 0.286
+   },
+   "medianPitchDeg": 33.8
+  },
+  {
+   "id": "blk-3b59ef8f",
+   "centroid": {
+    "lat": 42.087663,
+    "lon": -87.719443
+   },
+   "areaM2": 17229,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271910,
+    23271911,
+    59237171,
+    1214351414
+   ],
+   "nBuildings": 22,
+   "nClassified": 20,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.15,
+    "hip": 0.0,
+    "gable": 0.35,
+    "mansard": 0.0,
+    "complex": 0.5
+   },
+   "pitchClassShares": {
+    "flat": 0.15,
+    "low": 0.25,
+    "medium": 0.45,
+    "steep": 0.15
+   },
+   "medianPitchDeg": 27.1
+  },
+  {
+   "id": "blk-43038562",
+   "centroid": {
+    "lat": 42.090945,
+    "lon": -87.712611
+   },
+   "areaM2": 25614,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271865,
+    59527844,
+    148852313
+   ],
+   "nBuildings": 10,
+   "nClassified": 9,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.111,
+    "gable": 0.222,
+    "mansard": 0.0,
+    "complex": 0.667
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.0,
+    "medium": 0.667,
+    "steep": 0.333
+   },
+   "medianPitchDeg": 32.1
+  },
+  {
+   "id": "blk-476ecd53",
+   "centroid": {
+    "lat": 42.088862,
+    "lon": -87.719968
+   },
+   "areaM2": 15446,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271911,
+    23271913,
+    59237171,
+    1058880038,
+    1163289472,
+    1214351414
+   ],
+   "nBuildings": 4,
+   "nClassified": 3,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-4c35a22e",
+   "centroid": {
+    "lat": 42.086283,
+    "lon": -87.723313
+   },
+   "areaM2": 795,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271914,
+    24114722,
+    24114724
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-4c8a6044",
+   "centroid": {
+    "lat": 42.083297,
+    "lon": -87.720512
+   },
+   "areaM2": 717,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23168838,
+    173258010,
+    206020600
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-4e1f363b",
+   "centroid": {
+    "lat": 42.087464,
+    "lon": -87.723306
+   },
+   "areaM2": 12916,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271914,
+    24107466,
+    24114724
+   ],
+   "nBuildings": 19,
+   "nClassified": 18,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.167,
+    "hip": 0.111,
+    "gable": 0.222,
+    "mansard": 0.0,
+    "complex": 0.5
+   },
+   "pitchClassShares": {
+    "flat": 0.167,
+    "low": 0.222,
+    "medium": 0.222,
+    "steep": 0.389
+   },
+   "medianPitchDeg": 27.8
+  },
+  {
+   "id": "blk-4f41efea",
+   "centroid": {
+    "lat": 42.082847,
+    "lon": -87.723141
+   },
+   "areaM2": 4557,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264709,
+    110104852
+   ],
+   "nBuildings": 7,
+   "nClassified": 6,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.5,
+    "gable": 0.167,
+    "mansard": 0.0,
+    "complex": 0.333
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.667,
+    "medium": 0.333,
+    "steep": 0.0
+   },
+   "medianPitchDeg": 23.5
+  },
+  {
+   "id": "blk-51193199",
+   "centroid": {
+    "lat": 42.086044,
+    "lon": -87.712256
+   },
+   "areaM2": 17995,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264773,
+    23264792,
+    28639431,
+    148852328,
+    148852748
+   ],
+   "nBuildings": 16,
+   "nClassified": 15,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.067,
+    "gable": 0.0,
+    "mansard": 0.0,
+    "complex": 0.933
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.067,
+    "medium": 0.733,
+    "steep": 0.2
+   },
+   "medianPitchDeg": 33.6
+  },
+  {
+   "id": "blk-5c17bff5",
+   "centroid": {
+    "lat": 42.089029,
+    "lon": -87.723301
+   },
+   "areaM2": 5499,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271913,
+    23271914,
+    24107466
+   ],
+   "nBuildings": 8,
+   "nClassified": 8,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.125,
+    "gable": 0.375,
+    "mansard": 0.0,
+    "complex": 0.5
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.0,
+    "medium": 0.625,
+    "steep": 0.375
+   },
+   "medianPitchDeg": 37.3
+  },
+  {
+   "id": "blk-5c6139a6",
+   "centroid": {
+    "lat": 42.090024,
+    "lon": -87.711812
+   },
+   "areaM2": 4712,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271865,
+    59527844
+   ],
+   "nBuildings": 1,
+   "nClassified": 1,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-6642e6a0",
+   "centroid": {
+    "lat": 42.08359,
+    "lon": -87.712637
+   },
+   "areaM2": 24002,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264771,
+    23264772,
+    23271863,
+    40875786
+   ],
+   "nBuildings": 32,
+   "nClassified": 31,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.129,
+    "gable": 0.258,
+    "mansard": 0.0,
+    "complex": 0.613
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.226,
+    "medium": 0.645,
+    "steep": 0.129
+   },
+   "medianPitchDeg": 30.6
+  },
+  {
+   "id": "blk-6c284d13",
+   "centroid": {
+    "lat": 42.089007,
+    "lon": -87.71828
+   },
+   "areaM2": 121230,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264790,
+    23271868,
+    59237171,
+    148852324,
+    148852753,
+    173258014,
+    661299109,
+    661299112,
+    661299114,
+    1299692009,
+    1299692010,
+    1299692011
+   ],
+   "nBuildings": 42,
+   "nClassified": 37,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.054,
+    "hip": 0.162,
+    "gable": 0.108,
+    "mansard": 0.0,
+    "complex": 0.676
+   },
+   "pitchClassShares": {
+    "flat": 0.054,
+    "low": 0.189,
+    "medium": 0.595,
+    "steep": 0.162
+   },
+   "medianPitchDeg": 30.6
+  },
+  {
+   "id": "blk-6e5947c9",
+   "centroid": {
+    "lat": 42.082777,
+    "lon": -87.712445
+   },
+   "areaM2": 343,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271863
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-73cc27ee",
+   "centroid": {
+    "lat": 42.089964,
+    "lon": -87.723296
+   },
+   "areaM2": 5664,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271913,
+    23271914,
+    23271916
+   ],
+   "nBuildings": 11,
+   "nClassified": 10,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.1,
+    "gable": 0.4,
+    "mansard": 0.0,
+    "complex": 0.5
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.2,
+    "medium": 0.8,
+    "steep": 0.0
+   },
+   "medianPitchDeg": 28.5
+  },
+  {
+   "id": "blk-74b64093",
+   "centroid": {
+    "lat": 42.085168,
+    "lon": -87.717042
+   },
+   "areaM2": 6405,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23168839,
+    24113674,
+    173258010,
+    968348174,
+    1299692008
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-750d1790",
+   "centroid": {
+    "lat": 42.086202,
+    "lon": -87.717771
+   },
+   "areaM2": 1194,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271909,
+    24114722,
+    24114724,
+    1299692011
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-75a4ceef",
+   "centroid": {
+    "lat": 42.083507,
+    "lon": -87.723267
+   },
+   "areaM2": 5460,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264709,
+    23264710,
+    110104852
+   ],
+   "nBuildings": 5,
+   "nClassified": 5,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.2,
+    "hip": 0.2,
+    "gable": 0.0,
+    "mansard": 0.0,
+    "complex": 0.6
+   },
+   "pitchClassShares": {
+    "flat": 0.2,
+    "low": 0.0,
+    "medium": 0.8,
+    "steep": 0.0
+   },
+   "medianPitchDeg": 29.8
+  },
+  {
+   "id": "blk-777eb159",
+   "centroid": {
+    "lat": 42.090178,
+    "lon": -87.71655
+   },
+   "areaM2": 25530,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271864,
+    660027657,
+    661299113,
+    661299114
+   ],
+   "nBuildings": 17,
+   "nClassified": 14,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.071,
+    "gable": 0.143,
+    "mansard": 0.0,
+    "complex": 0.786
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.214,
+    "medium": 0.429,
+    "steep": 0.357
+   },
+   "medianPitchDeg": 36.3
+  },
+  {
+   "id": "blk-7ad62454",
+   "centroid": {
+    "lat": 42.087948,
+    "lon": -87.712917
+   },
+   "areaM2": 26873,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264792,
+    23271864,
+    59527844,
+    148852748
+   ],
+   "nBuildings": 15,
+   "nClassified": 10,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.1,
+    "hip": 0.1,
+    "gable": 0.1,
+    "mansard": 0.0,
+    "complex": 0.7
+   },
+   "pitchClassShares": {
+    "flat": 0.1,
+    "low": 0.0,
+    "medium": 0.5,
+    "steep": 0.4
+   },
+   "medianPitchDeg": 39.0
+  },
+  {
+   "id": "blk-7f721df7",
+   "centroid": {
+    "lat": 42.084676,
+    "lon": -87.719455
+   },
+   "areaM2": 52081,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271908,
+    23271909,
+    24114722,
+    173258010,
+    1299692010
+   ],
+   "nBuildings": 36,
+   "nClassified": 33,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.061,
+    "hip": 0.03,
+    "gable": 0.121,
+    "mansard": 0.0,
+    "complex": 0.788
+   },
+   "pitchClassShares": {
+    "flat": 0.061,
+    "low": 0.121,
+    "medium": 0.333,
+    "steep": 0.485
+   },
+   "medianPitchDeg": 39.8
+  },
+  {
+   "id": "blk-854f043f",
+   "centroid": {
+    "lat": 42.084381,
+    "lon": -87.723428
+   },
+   "areaM2": 3295,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264710,
+    23264711,
+    110104852
+   ],
+   "nBuildings": 2,
+   "nClassified": 2,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-887e4b55",
+   "centroid": {
+    "lat": 42.085124,
+    "lon": -87.723564
+   },
+   "areaM2": 387,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264711,
+    110104852
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-9fc75ab4",
+   "centroid": {
+    "lat": 42.086232,
+    "lon": -87.719378
+   },
+   "areaM2": 2764,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271908,
+    23271909,
+    24114722,
+    24114724
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-a12c11b2",
+   "centroid": {
+    "lat": 42.089076,
+    "lon": -87.714753
+   },
+   "areaM2": 23291,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271864,
+    59527844,
+    659999230,
+    661299113
+   ],
+   "nBuildings": 14,
+   "nClassified": 12,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.167,
+    "gable": 0.0,
+    "mansard": 0.0,
+    "complex": 0.833
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.083,
+    "medium": 0.667,
+    "steep": 0.25
+   },
+   "medianPitchDeg": 32.8
+  },
+  {
+   "id": "blk-a94ae7e3",
+   "centroid": {
+    "lat": 42.091466,
+    "lon": -87.723297
+   },
+   "areaM2": 1571,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271914,
+    23271917
+   ],
+   "nBuildings": 2,
+   "nClassified": 2,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-ad648b8d",
+   "centroid": {
+    "lat": 42.086078,
+    "lon": -87.718533
+   },
+   "areaM2": 390,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271909,
+    24114722,
+    206020603
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-af46f4b2",
+   "centroid": {
+    "lat": 42.08496,
+    "lon": -87.716285
+   },
+   "areaM2": 493,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    24113674,
+    968348174,
+    1299692008
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-b5c47117",
+   "centroid": {
+    "lat": 42.083754,
+    "lon": -87.715775
+   },
+   "areaM2": 18486,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23168838,
+    24113674,
+    968348174,
+    1021399321
+   ],
+   "nBuildings": 17,
+   "nClassified": 15,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.2,
+    "hip": 0.133,
+    "gable": 0.133,
+    "mansard": 0.0,
+    "complex": 0.533
+   },
+   "pitchClassShares": {
+    "flat": 0.2,
+    "low": 0.267,
+    "medium": 0.533,
+    "steep": 0.0
+   },
+   "medianPitchDeg": 26.2
+  },
+  {
+   "id": "blk-c272eea3",
+   "centroid": {
+    "lat": 42.086107,
+    "lon": -87.720673
+   },
+   "areaM2": 434,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271908,
+    24114722,
+    60930757
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-c5a94e2a",
+   "centroid": {
+    "lat": 42.083296,
+    "lon": -87.721704
+   },
+   "areaM2": 381,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271908,
+    173258010,
+    206020580
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-c65af632",
+   "centroid": {
+    "lat": 42.087046,
+    "lon": -87.711845
+   },
+   "areaM2": 4571,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264792,
+    28639431,
+    148852748
+   ],
+   "nBuildings": 1,
+   "nClassified": 1,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-c75596da",
+   "centroid": {
+    "lat": 42.086265,
+    "lon": -87.721724
+   },
+   "areaM2": 3336,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271908,
+    23271914,
+    24114722,
+    24114724
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-c7df8d01",
+   "centroid": {
+    "lat": 42.083829,
+    "lon": -87.718591
+   },
+   "areaM2": 26300,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23168838,
+    23168839,
+    173258010,
+    206020600
+   ],
+   "nBuildings": 17,
+   "nClassified": 16,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.188,
+    "hip": 0.125,
+    "gable": 0.0,
+    "mansard": 0.062,
+    "complex": 0.625
+   },
+   "pitchClassShares": {
+    "flat": 0.188,
+    "low": 0.125,
+    "medium": 0.438,
+    "steep": 0.25
+   },
+   "medianPitchDeg": 32.5
+  },
+  {
+   "id": "blk-c83a364f",
+   "centroid": {
+    "lat": 42.091398,
+    "lon": -87.714176
+   },
+   "areaM2": 4651,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271865,
+    148852313
+   ],
+   "nBuildings": 2,
+   "nClassified": 2,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-cd9b100b",
+   "centroid": {
+    "lat": 42.086395,
+    "lon": -87.716291
+   },
+   "areaM2": 77,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    173258014
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-cdf8be05",
+   "centroid": {
+    "lat": 42.091462,
+    "lon": -87.717059
+   },
+   "areaM2": 2000,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271864,
+    24073467
+   ],
+   "nBuildings": 1,
+   "nClassified": 1,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-ce8c168b",
+   "centroid": {
+    "lat": 42.09052,
+    "lon": -87.721996
+   },
+   "areaM2": 35443,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271913,
+    23271914,
+    59237171
+   ],
+   "nBuildings": 45,
+   "nClassified": 43,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.047,
+    "hip": 0.093,
+    "gable": 0.186,
+    "mansard": 0.0,
+    "complex": 0.674
+   },
+   "pitchClassShares": {
+    "flat": 0.047,
+    "low": 0.395,
+    "medium": 0.465,
+    "steep": 0.093
+   },
+   "medianPitchDeg": 27.2
+  },
+  {
+   "id": "blk-cef65ce0",
+   "centroid": {
+    "lat": 42.082947,
+    "lon": -87.722552
+   },
+   "areaM2": 697,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264709,
+    110104852,
+    173258010
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-d2286c20",
+   "centroid": {
+    "lat": 42.088169,
+    "lon": -87.721987
+   },
+   "areaM2": 36545,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271910,
+    23271911,
+    23271912,
+    23271913,
+    23271914
+   ],
+   "nBuildings": 54,
+   "nClassified": 52,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.115,
+    "gable": 0.192,
+    "mansard": 0.0,
+    "complex": 0.692
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.269,
+    "medium": 0.462,
+    "steep": 0.269
+   },
+   "medianPitchDeg": 33.2
+  },
+  {
+   "id": "blk-d3947981",
+   "centroid": {
+    "lat": 42.086178,
+    "lon": -87.714851
+   },
+   "areaM2": 27114,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264792,
+    24093743,
+    40875786,
+    148852318,
+    173258014,
+    661299109,
+    661299111
+   ],
+   "nBuildings": 18,
+   "nClassified": 16,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.188,
+    "gable": 0.188,
+    "mansard": 0.0,
+    "complex": 0.625
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.438,
+    "medium": 0.375,
+    "steep": 0.188
+   },
+   "medianPitchDeg": 27.2
+  },
+  {
+   "id": "blk-d63497a6",
+   "centroid": {
+    "lat": 42.086741,
+    "lon": -87.719016
+   },
+   "areaM2": 24164,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264723,
+    23271910,
+    24114724,
+    59237171
+   ],
+   "nBuildings": 35,
+   "nClassified": 34,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.206,
+    "hip": 0.147,
+    "gable": 0.176,
+    "mansard": 0.0,
+    "complex": 0.471
+   },
+   "pitchClassShares": {
+    "flat": 0.206,
+    "low": 0.176,
+    "medium": 0.471,
+    "steep": 0.147
+   },
+   "medianPitchDeg": 27.4
+  },
+  {
+   "id": "blk-d9043957",
+   "centroid": {
+    "lat": 42.089996,
+    "lon": -87.713741
+   },
+   "areaM2": 24943,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271864,
+    23271865,
+    59527844,
+    148852313
+   ],
+   "nBuildings": 15,
+   "nClassified": 10,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.1,
+    "hip": 0.0,
+    "gable": 0.2,
+    "mansard": 0.0,
+    "complex": 0.7
+   },
+   "pitchClassShares": {
+    "flat": 0.1,
+    "low": 0.2,
+    "medium": 0.3,
+    "steep": 0.4
+   },
+   "medianPitchDeg": 37.5
+  },
+  {
+   "id": "blk-dc6f2623",
+   "centroid": {
+    "lat": 42.085373,
+    "lon": -87.720431
+   },
+   "areaM2": 30121,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271908,
+    23271909,
+    24114722,
+    206020603,
+    206020612
+   ],
+   "nBuildings": 18,
+   "nClassified": 18,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.056,
+    "hip": 0.0,
+    "gable": 0.167,
+    "mansard": 0.0,
+    "complex": 0.778
+   },
+   "pitchClassShares": {
+    "flat": 0.056,
+    "low": 0.111,
+    "medium": 0.556,
+    "steep": 0.278
+   },
+   "medianPitchDeg": 33.4
+  },
+  {
+   "id": "blk-df5eac09",
+   "centroid": {
+    "lat": 42.087061,
+    "lon": -87.713883
+   },
+   "areaM2": 27004,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23264792,
+    148852748,
+    661299110,
+    661299111
+   ],
+   "nBuildings": 20,
+   "nClassified": 19,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.0,
+    "gable": 0.263,
+    "mansard": 0.0,
+    "complex": 0.737
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.0,
+    "medium": 0.684,
+    "steep": 0.316
+   },
+   "medianPitchDeg": 34.3
+  },
+  {
+   "id": "blk-e1cba678",
+   "centroid": {
+    "lat": 42.088973,
+    "lon": -87.712246
+   },
+   "areaM2": 19896,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271864,
+    23271865,
+    59527844
+   ],
+   "nBuildings": 12,
+   "nClassified": 10,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.3,
+    "gable": 0.1,
+    "mansard": 0.0,
+    "complex": 0.6
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.0,
+    "medium": 0.9,
+    "steep": 0.1
+   },
+   "medianPitchDeg": 32.5
+  },
+  {
+   "id": "blk-ec8f8433",
+   "centroid": {
+    "lat": 42.090885,
+    "lon": -87.723291
+   },
+   "areaM2": 5530,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23271914,
+    23271916,
+    23271917
+   ],
+   "nBuildings": 7,
+   "nClassified": 6,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.167,
+    "hip": 0.0,
+    "gable": 0.0,
+    "mansard": 0.0,
+    "complex": 0.833
+   },
+   "pitchClassShares": {
+    "flat": 0.167,
+    "low": 0.0,
+    "medium": 0.667,
+    "steep": 0.167
+   },
+   "medianPitchDeg": 35.1
+  },
+  {
+   "id": "blk-f13492c4",
+   "centroid": {
+    "lat": 42.091126,
+    "lon": -87.718252
+   },
+   "areaM2": 17708,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264790,
+    23271864,
+    148852753,
+    660027657
+   ],
+   "nBuildings": 12,
+   "nClassified": 11,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.091,
+    "hip": 0.091,
+    "gable": 0.182,
+    "mansard": 0.0,
+    "complex": 0.636
+   },
+   "pitchClassShares": {
+    "flat": 0.091,
+    "low": 0.364,
+    "medium": 0.545,
+    "steep": 0.0
+   },
+   "medianPitchDeg": 25.8
+  },
+  {
+   "id": "blk-f5548bfb",
+   "centroid": {
+    "lat": 42.082646,
+    "lon": -87.714289
+   },
+   "areaM2": 165,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23127361,
+    1021399321
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-f8580be4",
+   "centroid": {
+    "lat": 42.088193,
+    "lon": -87.71573
+   },
+   "areaM2": 23218,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271868,
+    148852324,
+    659999230,
+    661299110,
+    661299112
+   ],
+   "nBuildings": 19,
+   "nClassified": 16,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.062,
+    "hip": 0.0,
+    "gable": 0.375,
+    "mansard": 0.0,
+    "complex": 0.562
+   },
+   "pitchClassShares": {
+    "flat": 0.062,
+    "low": 0.312,
+    "medium": 0.25,
+    "steep": 0.375
+   },
+   "medianPitchDeg": 28.2
+  },
+  {
+   "id": "blk-faa8e541",
+   "centroid": {
+    "lat": 42.084195,
+    "lon": -87.721649
+   },
+   "areaM2": 263,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23271908,
+    23271909,
+    206020612
+   ],
+   "nBuildings": 0,
+   "nClassified": 0,
+   "suppressed": true,
+   "shares": null,
+   "pitchClassShares": null,
+   "medianPitchDeg": null
+  },
+  {
+   "id": "blk-fc064f38",
+   "centroid": {
+    "lat": 42.084327,
+    "lon": -87.714811
+   },
+   "areaM2": 52301,
+   "clippedByAreaEdge": true,
+   "boundingStreetWays": [
+    23264771,
+    23271863,
+    24093743,
+    40875786,
+    148852318,
+    173258014,
+    1021399321,
+    1299692008,
+    1299692009
+   ],
+   "nBuildings": 24,
+   "nClassified": 21,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.0,
+    "hip": 0.048,
+    "gable": 0.095,
+    "mansard": 0.0,
+    "complex": 0.857
+   },
+   "pitchClassShares": {
+    "flat": 0.0,
+    "low": 0.095,
+    "medium": 0.762,
+    "steep": 0.143
+   },
+   "medianPitchDeg": 30.7
+  },
+  {
+   "id": "blk-fd5c0fb7",
+   "centroid": {
+    "lat": 42.083973,
+    "lon": -87.717004
+   },
+   "areaM2": 19278,
+   "clippedByAreaEdge": false,
+   "boundingStreetWays": [
+    23168838,
+    23168839,
+    24113674,
+    968348174
+   ],
+   "nBuildings": 24,
+   "nClassified": 24,
+   "suppressed": false,
+   "shares": {
+    "flat": 0.042,
+    "hip": 0.042,
+    "gable": 0.292,
+    "mansard": 0.0,
+    "complex": 0.625
+   },
+   "pitchClassShares": {
+    "flat": 0.042,
+    "low": 0.208,
+    "medium": 0.542,
+    "steep": 0.208
+   },
+   "medianPitchDeg": 30.4
+  }
+ ]
+}

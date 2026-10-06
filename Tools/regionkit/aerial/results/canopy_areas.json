@@ -117,6 +117,141 @@
     "wholeArea": 60.0
    }
   },
+  "kenilworth-station": {
+   "areaM2": 999800,
+   "blocks": {
+    "all": {
+     "areaM2": 999999,
+     "areaWeightedMeanPct": 58.1,
+     "meanPct": 51.7,
+     "n": 60,
+     "percentiles": {
+      "p10": 26.4,
+      "p25": 46.2,
+      "p50": 58.3,
+      "p75": 63.0,
+      "p90": 67.1
+     }
+    },
+    "atLeast1ha": {
+     "areaM2": 924578,
+     "areaWeightedMeanPct": 58.2,
+     "meanPct": 58.9,
+     "n": 31,
+     "percentiles": {
+      "p10": 44.7,
+      "p25": 57.5,
+      "p50": 62.1,
+      "p75": 64.9,
+      "p90": 67.9
+     }
+    },
+    "atLeast1haResidential": {
+     "areaM2": 788349,
+     "areaWeightedMeanPct": 60.7,
+     "meanPct": 60.5,
+     "n": 29,
+     "percentiles": {
+      "p10": 53.3,
+      "p25": 57.9,
+      "p50": 62.1,
+      "p75": 65.1,
+      "p90": 67.9
+     }
+    },
+    "fullyInside": {
+     "areaM2": 448472,
+     "areaWeightedMeanPct": 58.8,
+     "meanPct": 47.4,
+     "n": 31,
+     "percentiles": {
+      "p10": 23.9,
+      "p25": 31.9,
+      "p50": 57.2,
+      "p75": 62.4,
+      "p90": 66.4
+     }
+    },
+    "note": "faces of OSM street centrelines incl. half the right-of-way; 'residential' = faces of >= 1 ha with < 10 % park or water"
+   },
+   "calibration": {
+    "ci95": [
+     90.8,
+     110.3
+    ],
+    "eyeOnlyEffectiveCrownAreaM2": 99.4,
+    "eyePerPlot": [
+     15,
+     11,
+     20,
+     18,
+     17,
+     16
+    ],
+    "fabricMaskShare": 0.583,
+    "plots": 6,
+    "treesCountedEye": 97
+   },
+   "canopyPct": {
+    "fabricExclParksWater": 58.3,
+    "inParks": 50.2,
+    "land": 58.1,
+    "wholeArea": 58.1
+   },
+   "coverPct": {
+    "parks": 3.0,
+    "water": 0.0
+   },
+   "naip": {
+    "gsdMeters": 0.3,
+    "items": [
+     {
+      "datetime": "2023-07-10T16:00:00Z",
+      "gsd": 0.3,
+      "id": "il_m_4208759_nw_16_030_20230710_20240209"
+     }
+    ],
+    "olderYearsAtArea": [
+     "2021",
+     "2019",
+     "2017",
+     "2015",
+     "2014",
+     "2012",
+     "2011"
+    ],
+    "rangeBytes": 40916079,
+    "unfilledPixels": 0,
+    "year": "2023"
+   },
+   "osmTimestamp": "2026-10-06T19:48:42Z",
+   "pointCheck": {
+    "agreementPct": 86.7,
+    "cantTell": 5,
+    "confusion(label->mask)": {
+     "not": {
+      "not": 23,
+      "tree": 6
+     },
+     "tree": {
+      "not": 0,
+      "tree": 16
+     }
+    },
+    "labelCanopy95ciPct": [
+     23.2,
+     50.2
+    ],
+    "labelCanopyPct": 35.6,
+    "maskCanopyAtPointsPct": 48.9,
+    "n": 45
+   },
+   "profile": "default",
+   "vegetationPct": {
+    "fabricExclParksWater": 67.1,
+    "wholeArea": 67.8
+   }
+  },
   "lakeview-sheil-park": {
    "areaM2": 999800,
    "blocks": {
@@ -412,6 +547,145 @@
     },
     "note": "faces of OSM street centrelines incl. half the right-of-way; 'residential' = faces of >= 1 ha with < 10 % park or water"
    },
+   "calibration": {
+    "effectiveCrownAreaM2": {
+     "eye": [
+      111.7,
+      101.3,
+      123.1
+     ],
+     "lidar": [
+      132.7,
+      125.5,
+      142.6
+     ],
+     "mid": [
+      121.3,
+      113.6,
+      130.0
+     ]
+    },
+    "labelCorrectedFabricCanopyShare": {
+     "ci95": [
+      0.35,
+      0.53
+     ],
+     "ci95Points": [
+      1.9,
+      20.4
+     ],
+     "estimate": 0.44,
+     "mask": 0.551,
+     "maskMinusLabelPoints": 11.1
+    },
+    "plots": [
+     {
+      "eye": 12,
+      "lidarTops": 12,
+      "maskCanopy": 0.67,
+      "plot": 1
+     },
+     {
+      "eye": 11,
+      "lidarTops": 12,
+      "maskCanopy": 0.621,
+      "plot": 2
+     },
+     {
+      "eye": 11,
+      "lidarTops": 11,
+      "maskCanopy": 0.556,
+      "plot": 3
+     },
+     {
+      "eye": 16,
+      "lidarTops": 16,
+      "maskCanopy": 0.815,
+      "plot": 4
+     },
+     {
+      "eye": 13,
+      "lidarTops": 9,
+      "maskCanopy": 0.416,
+      "plot": 5
+     },
+     {
+      "eye": 20,
+      "lidarTops": 15,
+      "maskCanopy": 0.804,
+      "plot": 6
+     },
+     {
+      "eye": 10,
+      "lidarTops": 7,
+      "maskCanopy": 0.57,
+      "plot": 7
+     },
+     {
+      "eye": 13,
+      "lidarTops": 13,
+      "maskCanopy": 0.67,
+      "plot": 8
+     },
+     {
+      "eye": 15,
+      "lidarTops": 15,
+      "maskCanopy": 0.686,
+      "plot": 9
+     },
+     {
+      "eye": 13,
+      "lidarTops": 10,
+      "maskCanopy": 0.567,
+      "plot": 10
+     },
+     {
+      "eye": 10,
+      "lidarTops": 10,
+      "maskCanopy": 0.445,
+      "plot": 11
+     },
+     {
+      "eye": 16,
+      "lidarTops": 10,
+      "maskCanopy": 0.513,
+      "plot": 12
+     },
+     {
+      "eye": 9,
+      "lidarTops": 6,
+      "maskCanopy": 0.397,
+      "plot": 13
+     },
+     {
+      "eye": 20,
+      "lidarTops": 13,
+      "maskCanopy": 0.712,
+      "plot": 14
+     }
+    ],
+    "treesPerHaFabric": {
+     "eye": [
+      49.4,
+      44.8,
+      54.4
+     ],
+     "eyeOverLidar": 1.19,
+     "lidar": [
+      41.5,
+      38.7,
+      43.9
+     ],
+     "lidarWholeAreaTops": 36.8,
+     "mid": [
+      45.5,
+      42.4,
+      48.6
+     ],
+     "uncalibrated": 51.1,
+     "wholeAreaLidarTimesRatio": 43.7
+    }
+   },
    "canopyPct": {
     "fabricExclParksWater": 55.1,
     "inParks": 33.9,
@@ -446,6 +720,28 @@
    },
    "osmTimestamp": "2026-10-06T13:38:41Z",
    "pointCheck": {
+    "agreementPct": 75.9,
+    "cantTell": 12,
+    "confusion(label->mask)": {
+     "not": {
+      "not": 36,
+      "tree": 19
+     },
+     "tree": {
+      "not": 7,
+      "tree": 46
+     }
+    },
+    "labelCanopy95ciPct": [
+     39.8,
+     58.4
+    ],
+    "labelCanopyPct": 49.1,
+    "maskCanopyAtPointsPct": 60.2,
+    "n": 108,
+    "note": "fresh stable sample over the built fabric (calibration, aerial.md 13.10); the earlier 50-point check is in pointCheckEarlier"
+   },
+   "pointCheckEarlier": {
     "agreementPct": 73.8,
     "cantTell": 8,
     "confusion(label->mask)": {
@@ -471,6 +767,141 @@
     "fabricExclParksWater": 64.2,
     "wholeArea": 65.5
    }
+  },
+  "winnetka-village-green": {
+   "areaM2": 999800,
+   "blocks": {
+    "all": {
+     "areaM2": 999997,
+     "areaWeightedMeanPct": 54.9,
+     "meanPct": 57.9,
+     "n": 58,
+     "percentiles": {
+      "p10": 35.2,
+      "p25": 50.9,
+      "p50": 64.0,
+      "p75": 67.9,
+      "p90": 73.3
+     }
+    },
+    "atLeast1ha": {
+     "areaM2": 952541,
+     "areaWeightedMeanPct": 55.3,
+     "meanPct": 59.4,
+     "n": 41,
+     "percentiles": {
+      "p10": 35.8,
+      "p25": 54.2,
+      "p50": 64.9,
+      "p75": 68.3,
+      "p90": 72.8
+     }
+    },
+    "atLeast1haResidential": {
+     "areaM2": 762880,
+     "areaWeightedMeanPct": 59.8,
+     "meanPct": 60.8,
+     "n": 38,
+     "percentiles": {
+      "p10": 41.2,
+      "p25": 60.0,
+      "p50": 65.0,
+      "p75": 69.2,
+      "p90": 72.8
+     }
+    },
+    "fullyInside": {
+     "areaM2": 511758,
+     "areaWeightedMeanPct": 60.0,
+     "meanPct": 60.7,
+     "n": 28,
+     "percentiles": {
+      "p10": 40.9,
+      "p25": 55.3,
+      "p50": 65.9,
+      "p75": 69.5,
+      "p90": 73.2
+     }
+    },
+    "note": "faces of OSM street centrelines incl. half the right-of-way; 'residential' = faces of >= 1 ha with < 10 % park or water"
+   },
+   "calibration": {
+    "ci95": [
+     80.9,
+     89.9
+    ],
+    "eyeOnlyEffectiveCrownAreaM2": 85.6,
+    "eyePerPlot": [
+     18,
+     21,
+     20,
+     20,
+     21,
+     22
+    ],
+    "fabricMaskShare": 0.582,
+    "plots": 6,
+    "treesCountedEye": 122
+   },
+   "canopyPct": {
+    "fabricExclParksWater": 58.2,
+    "inParks": 56.3,
+    "land": 58.2,
+    "wholeArea": 54.9
+   },
+   "coverPct": {
+    "parks": 1.8,
+    "water": 5.6
+   },
+   "naip": {
+    "gsdMeters": 0.3,
+    "items": [
+     {
+      "datetime": "2023-07-10T16:00:00Z",
+      "gsd": 0.3,
+      "id": "il_m_4208759_nw_16_030_20230710_20240209"
+     }
+    ],
+    "olderYearsAtArea": [
+     "2021",
+     "2019",
+     "2017",
+     "2015",
+     "2014",
+     "2012",
+     "2011"
+    ],
+    "rangeBytes": 44722410,
+    "unfilledPixels": 0,
+    "year": "2023"
+   },
+   "osmTimestamp": "2026-10-06T19:13:04Z",
+   "pointCheck": {
+    "agreementPct": 93.2,
+    "cantTell": 6,
+    "confusion(label->mask)": {
+     "not": {
+      "not": 20,
+      "tree": 2
+     },
+     "tree": {
+      "not": 1,
+      "tree": 21
+     }
+    },
+    "labelCanopy95ciPct": [
+     35.8,
+     64.2
+    ],
+    "labelCanopyPct": 50.0,
+    "maskCanopyAtPointsPct": 52.3,
+    "n": 44
+   },
+   "profile": "default",
+   "vegetationPct": {
+    "fabricExclParksWater": 65.7,
+    "wholeArea": 62.5
+   }
   }
  },
  "bytesDownloaded": {
@@ -480,6 +911,12 @@
    "naip-token": 1602
   },
   "total": 287825807
+ },
+ "bytesDownloadedCalibrationRun": {
+  "lidarEptWilmette": 131698496,
+  "naipCogRangesWilmetteWinnetkaKenilworth": 141943325,
+  "stacAndToken": 71874,
+  "total": 273713695
  },
  "generated": "2026-10-06",
  "licence": "NAIP imagery provided by USDA Farm Service Agency (public domain); streets and parks (c) OpenStreetMap contributors (ODbL 1.0)",

@@ -9,6 +9,7 @@ committed area's osm.json, so no Overpass request is made.
   fetch     windowed NAIP read per area (work directory)
   analyse   canopy mask, area / land / residential-fabric shares, block faces -> results/canopy_areas.json
   points    50 stable random points per area as contact sheets for a photo check (work directory)
+  blocks    per-block canopy and tree-spacing file -> <area>/canopy-blocks.json (needs fetch and results/canopy_areas.json)
   score     point labels (work/<area>/points_labels.json) vs the mask -> added to results/canopy_areas.json
 
 Run from the repository root (see README.md); --work must be outside the repository.
@@ -338,13 +339,121 @@ def score_area(a, work):
             "maskCanopyAtPointsPct": round(100 * (m["tree"]["tree"] + m["not"]["tree"]) / n, 1) if n else None}
 
 
+# ---------------------------------------------------------------- per-block file (Data/areas/<id>/canopy-blocks.json)
+
+
+def osm_street_ways(a, cfg, crs):
+    """(OSM way id, LineString in UTM) of the street ways in the committed osm.json."""
+    from rasterio.warp import transform
+    from shapely.geometry import LineString
+    with open(os.path.join(REPO, a["area"], "osm.json")) as f:
+        osm = json.load(f)
+    nodes = {e["id"]: (e["lon"], e["lat"]) for e in osm["elements"] if e["type"] == "node"}
+    out = []
+    for w in (e for e in osm["elements"] if e["type"] == "way"):
+        if w.get("tags", {}).get("highway") not in cfg["streetClasses"]:
+            continue
+        pts = [nodes[i] for i in w["nodes"] if i in nodes]
+        if len(pts) >= 2:
+            xs, ys = transform("EPSG:4326", crs, [p[0] for p in pts], [p[1] for p in pts])
+            out.append((w["id"], LineString(list(zip(xs, ys)))))
+    return out
+
+
+def blocks_area(a, cfg, params, work, point_check):
+    import rasterio
+    from rasterio.warp import transform
+    from shapely.ops import unary_union
+    import blockmath as bm
+    wdir = os.path.join("areas", a["id"])
+    meta = json.load(open(work.p(wdir, "naip.json")))
+    with rasterio.open(work.p(wdir, "naip.tif")) as s:
+        img = s.read().astype(np.float64)
+        tr = s.transform
+    res = tr.a
+    valid = img.any(axis=0)
+    _, can = rc.canopy_mask(img[0], img[3], params["canopy"], res)
+    geo = geometry(a, area_manifest(a))
+    streets, parks, water, osm_ts = osm_layers(a, cfg, a["crs"])
+    ways = osm_street_ways(a, cfg, a["crs"])
+    street_buf = unary_union([g for _, g in ways]).buffer(0.5)
+    shape = can.shape
+    park_m = mask_of(parks, tr, shape) & valid
+    water_m = mask_of(water, tr, shape) & valid
+    agree = point_check["agreementPct"] / 100.0
+    faces = block_faces(streets, geo["utm"])
+    for f in faces:
+        c = f["poly"].centroid
+        f["c"] = (round(c.x, 1), round(c.y, 1))
+    faces.sort(key=lambda f: (-round(f["area"]), f["c"]))
+    taken, blocks, dropped = set(), [], 0
+    crown_range = tuple(a.get("crownRangeM2") or cfg["crownRangeM2"])
+    for f in faces:
+        poly = f["poly"]
+        m = mask_of([poly], tr, shape) & valid
+        npx = int(m.sum())
+        if poly.area < bm.MIN_FACE_M2 or npx == 0:
+            dropped += 1
+            continue
+        land = m & ~water_m
+        bound = poly.boundary
+        ids = [wid for wid, g in ways if bound.intersection(g.buffer(0.5)).length >= 5.0]
+        bid = bm.block_id(ids, taken)
+        taken.add(bid)
+        frontage = bound.intersection(street_buf).length
+        pw = round(100 * float((m & (park_m | water_m)).sum()) / npx, 1)
+        water_pct = round(100 * float((m & water_m).sum()) / npx, 1)
+        land_m2 = float(land.sum()) * res * res
+        share = float((can & land).sum()) / float(land.sum()) if land.sum() else None
+        conf, tier = bm.block_confidence(agree, poly.area, f["fullyInside"], pw)
+        est = bm.tree_estimate(share, land_m2, a["crownAreaM2"], frontage, crown_range) if land_m2 >= bm.MIN_FACE_M2 else None
+        lon, lat = transform(a["crs"], "EPSG:4326", [poly.centroid.x], [poly.centroid.y])
+        row = {"id": bid, "lat": round(lat[0], 5), "lon": round(lon[0], 5), "areaM2": round(poly.area),
+               "landAreaM2": round(land_m2), "frontageM": round(frontage), "edgeCut": not f["fullyInside"],
+               "parkOrWaterPct": pw, "waterPct": water_pct,
+               "canopyShare": None if share is None or land_m2 < bm.MIN_FACE_M2 else round(share, 3)}
+        if est:
+            row.update({"trees": round(est["trees"]), "treesPerHa": round(est["treesPerHa"], 1),
+                        "treesPerHaRange": [round(x, 1) for x in est["treesPerHaRange"]],
+                        "gridSpacingM": round(est["gridSpacingM"], 1),
+                        "frontageSpacingM": None if est["frontageSpacingM"] is None else round(est["frontageSpacingM"], 1)})
+        row.update({"confidence": conf, "confidenceTier": tier, "bounds": len(ids)})
+        blocks.append(row)
+    blocks.sort(key=lambda r: r["id"])
+    header = {
+        "format": "worldengine-canopy-blocks 1", "area": a["id"], "profile": a["profile"],
+        "methodVersion": bm.METHOD_VERSION_CALIBRATED if a.get("calibration") else bm.METHOD_VERSION,
+        "naip": {"items": [{"id": u["id"], "datetime": u["datetime"]} for u in meta["items"]],
+                 "acquired": meta["items"][0]["datetime"][:10], "gsdMeters": meta["gsdMeters"],
+                 "credit": "NAIP imagery provided by USDA Farm Service Agency",
+                 "licence": "public domain (USDA FSA NAIP); streets (c) OpenStreetMap contributors (ODbL 1.0)"},
+        "canopyMethod": "NDVI > %.2f and NIR texture > %.0f DN over %.1f m, opening %.1f m, majority %.1f m (data/params.json canopy)"
+                        % (params["canopy"]["vegNdvi"], params["canopy"]["textureMinStd"], params["canopy"]["textureRadiusMeters"],
+                           params["canopy"]["openingRadiusMeters"], params["canopy"]["majorityRadiusMeters"]),
+        "blockSource": "faces of the committed osm.json street centrelines (half right-of-way each side), clipped to the area rectangle; faces under %d m2 omitted (%d)" % (bm.MIN_FACE_M2, dropped),
+        "crown": {"meanAreaM2": a["crownAreaM2"], "rangeM2": list(crown_range), "source": a["crownSource"]},
+        "confidenceBasis": {"pointAgreementPct": point_check["agreementPct"], "pointsReadable": point_check["n"],
+                            "overallPointAgreementPct": 85,
+                            "maskMinusLabelCanopyPoints": round(point_check["maskCanopyAtPointsPct"] - point_check["labelCanopyPct"], 1),
+                            "note": "heuristic factors in blockmath.block_confidence; not a measured per-block accuracy"},
+        "osmTimestamp": osm_ts, "blockCount": len(blocks),
+    }
+    if a.get("calibration"):
+        header["calibration"] = a["calibration"]
+    path = os.path.join(REPO, a["area"], "canopy-blocks.json")
+    head = json.dumps(header, indent=1, ensure_ascii=False)
+    with open(path, "w") as fh:
+        fh.write(head[:-2] + ',\n "blocks": [\n' + ",\n".join("  " + json.dumps(b, separators=(",", ":")) for b in blocks) + "\n ]\n}\n")
+    aerial.log(f"[blocks] {a['id']}: {len(blocks)} blocks, dropped {dropped} -> {path}")
+
+
 def selected(cfg, args):
     return [a for a in cfg["areas"] if not args.only or a["id"] in args.only]
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["fetch", "analyse", "points", "score"])
+    ap.add_argument("command", choices=["fetch", "analyse", "points", "score", "blocks"])
     ap.add_argument("--work", required=True)
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--n", type=int, default=50, help="points per area for the photo check")
@@ -358,6 +467,10 @@ def main():
             fetch_area(a, cfg, work)
     elif args.command == "points":
         cmd_points(args, cfg, params, work)
+    elif args.command == "blocks":
+        prev = json.load(open(out_path))
+        for a in selected(cfg, args):
+            blocks_area(a, cfg, params, work, prev["areas"][a["id"]]["pointCheck"])
     else:
         prev = json.load(open(out_path)) if os.path.exists(out_path) else {"areas": {}}
         if args.command == "analyse":

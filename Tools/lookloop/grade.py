@@ -28,6 +28,9 @@ def extract(text):
     return json.loads(m.group(0))
 
 
+WEIGHTS = {"palette": 1.5, "light": 1.5, "depthFog": 1.5}
+
+
 def concept_score(view, scores):
     """Calibrated /50 of the view's parity concept: its first target, unless that is only a style reference."""
     t = (view.get("targets") or [{}])[0]
@@ -54,7 +57,9 @@ def recompute(g, view, concept=None):
     ad = [g["artDirection"][k]["score"] for k in AD if g["artDirection"].get(k, {}).get("score") is not None]
     g["v2Total"], g["v2Max"] = sum(v2), 5 * len(v2)
     half_up = lambda x, n: float(Decimal(str(x)).quantize(Decimal(1).scaleb(-n), rounding=ROUND_HALF_UP))
-    g["v2Score50"] = half_up(50 * g["v2Total"] / g["v2Max"], 1) if v2 else None
+    # Style target (R, 6 Oct 2026; GRADING.md §S): colour, light and atmosphere weigh 1.5, surface detail 1.
+    w = [(WEIGHTS.get(k, 1.0), g["scores"][k]["score"]) for k in V2 if g["scores"].get(k, {}).get("score") is not None]
+    g["v2Score50"] = half_up(50 * sum(a * s for a, s in w) / (5 * sum(a for a, _ in w)), 1) if v2 else None
     g["adMean"] = half_up(sum(ad) / len(ad), 2) if ad else None
     geo = g["scores"].get("geography", {}).get("score")
     char = g["scores"].get("characterReadability", {}).get("score")

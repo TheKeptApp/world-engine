@@ -110,3 +110,35 @@ Lidar: U.S. Geological Survey, 3D Elevation Program (3DEP), project IL_4_County_
 `usgs-lidar-public` Entwine Point Tiles (Hobu, Inc., AWS Open Data); US Government public domain (AWS Open Data
 registry entry). Footprints © OpenStreetMap contributors (ODbL 1.0). NAIP imagery (vintage check) provided by
 USDA Farm Service Agency.
+
+## Roof hints and block roof-mix tables
+
+`roofhints.py` extends the pilot to per-footprint height, eave, pitch class and form (flat / gable / hip / mansard / complex) for the areas listed in `data/roofhints.json`, and to a block roof-mix table. It writes `Data/areas/<id>/lidar-roofs.json` and `roof-mix-blocks.json` (formats: `docs/research/lidar-roofs.md` section 14). About 592 MB of lidar for the five areas (218 MB for the first two).
+
+```sh
+UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --python python3 \
+  --with numpy --with scipy --with shapely --with pillow --with rasterio --with "laspy[lazrs]" \
+  python Tools/regionkit/lidar/roofhints.py all --work /tmp/roofhints-work
+```
+
+Subcommands: `fetch`, `measure`, `emit`, `blocks`, `mansard` (scratch hand-check images, `--n`, `--refs`), `all`. Tests: `tests/test_roofhints.py` (offline).
+
+### Roof classifier 2.0, NAIP hand check, five areas
+
+`roofhints.py` now covers five areas (`data/roofhints.json`): evanston-south, lakeview-sheil-park, wilmette-vattmann-park,
+winnetka-village-green and kenilworth-station. Overture footprints are merged as the engine does and keyed by its ref
+(`overture/<id>`). `measure` pickles the plane rasters in the work directory; `emit` writes `lidar-roofs.json` from them
+(`--classifier v1` reproduces the 1.0 forms exactly); `blocks` writes `roof-mix-blocks.json`. About 592 MB of lidar for the
+five areas. The mansard rule is UNVALIDATED.
+
+`roofaccuracy.py` is the hand-check tool (protocol and results: `docs/research/lidar-roofs.md` section 15, data
+`data/roofaccuracy.json`, aggregates `results/roofaccuracy.json`): `sample` (stable seeded test and tuning sets), `crops --set test|tune`
+(NAIP windows, about 0.5 MB each; scratch only), `score`, `report`. Label by hand into `labels_<set>_<area>.json` of the work directory
+before running `score`; never fit the rule on the test set. Tests: `tests/test_roofaccuracy.py`, `tests/test_roofplanes.py` (ComplexRule2),
+`tests/test_roofhints.py` (OvertureFootprints).
+
+```sh
+UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --python python3 \
+  --with numpy --with scipy --with shapely --with pillow --with rasterio --with "laspy[lazrs]" \
+  python Tools/regionkit/lidar/roofhints.py all --work /tmp/roofhints-work
+```

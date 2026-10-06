@@ -138,15 +138,8 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.9,
-        "hipped": 0.1,
-        "flat": 0
-      },
-      "pitch": [
-        40,
-        52
-      ],
+      "roof": {"gabled": 0.866, "hipped": 0.134, "flat": 0.0},
+      "pitch": [34.5, 46.5],
       "overhang": [
         0.15,
         0.35
@@ -207,15 +200,8 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.75,
-        "hipped": 0.25,
-        "flat": 0
-      },
-      "pitch": [
-        28,
-        40
-      ],
+      "roof": {"gabled": 0.683, "hipped": 0.317, "flat": 0.0},
+      "pitch": [22.5, 34.5],
       "overhang": [
         0.25,
         0.45
@@ -277,11 +263,7 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.1,
-        "hipped": 0.9,
-        "flat": 0
-      },
+      "roof": {"gabled": 0.074, "hipped": 0.926, "flat": 0.0},
       "pitch": [
         12,
         22
@@ -340,15 +322,8 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.85,
-        "hipped": 0.15,
-        "flat": 0
-      },
-      "pitch": [
-        38,
-        50
-      ],
+      "roof": {"gabled": 0.803, "hipped": 0.197, "flat": 0.0},
+      "pitch": [32.5, 44.5],
       "overhang": [
         0.25,
         0.5
@@ -410,15 +385,8 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.75,
-        "hipped": 0.25,
-        "flat": 0
-      },
-      "pitch": [
-        35,
-        48
-      ],
+      "roof": {"gabled": 0.683, "hipped": 0.317, "flat": 0.0},
+      "pitch": [29.5, 42.5],
       "overhang": [
         0.25,
         0.5
@@ -480,11 +448,7 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0.4,
-        "hipped": 0.6,
-        "flat": 0
-      },
+      "roof": {"gabled": 0.324, "hipped": 0.676, "flat": 0.0},
       "pitch": [
         12,
         24
@@ -551,11 +515,7 @@
         2.8,
         3.2
       ],
-      "roof": {
-        "gabled": 0,
-        "hipped": 0,
-        "flat": 1
-      },
+      "roof": {"gabled": 0.0, "hipped": 0.0, "flat": 1.0},
       "pitch": [
         0,
         4
@@ -796,6 +756,24 @@
       "acquired": "2017-04-16 to 2017-05-07 (leaf-off)",
       "check": "0.077-0.129 over the detection settings. Leaf-off lidar sees small sparse trees less well (probably biased low); shrubs of 3-7 m count as trees (biased high). youngHeightMeters [3, 6] is unchanged: the measured young trees have median 5.7 m, but trees under 4 m are poorly detected, so the data do not settle it.",
       "date": "2026-10-06"
+    },
+    "houseTypes[].roof, houseTypes[].pitch": {
+      "status": "measured",
+      "date": "2026-10-06",
+      "source": "USGS 3DEP lidar (EPT USGS_LPC_IL_4County_Cook_2017_LAS_2019, flight April-May 2017), roof-plane classification of 650 houses in Data/areas/evanston-south (docs/research/lidar-roofs.md)",
+      "method": "Family roof mixes rescaled by iterative proportional fitting (Tools/regionkit draft.ipf_roofs, usage = typeRules.unknown, zero cells stay zero) toward the measured house mix gable 0.55 / hip 0.32 / flat 0.12; gable-dominant families' pitch ranges shifted by -5.5 deg so their usage-weighted midpoint matches the measured gable median 35 deg (IQR 28-42).",
+      "before": {
+        "gabled": 0.63,
+        "hipped": 0.29,
+        "flat": 0.08
+      },
+      "achieved": {
+        "gabled": 0.582,
+        "hipped": 0.338,
+        "flat": 0.08
+      },
+      "residualTVD": 0.041,
+      "note": "Flat share is limited by the flat-only families' usage (unchanged typeRules); one area only."
     }
   }
 }
