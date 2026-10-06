@@ -87,6 +87,19 @@ public struct GeneratedScene: Sendable {
     public var lots: [GeneratedLot] = []
     /// Where leaves collect beyond crowns: curbs, hedges, walk edges.
     public var litterHints: [LitterHint] = []
+    /// Buildings by ~100 m cell at each distance LOD, when `SceneGenerator.buildingLODs` is on
+    /// (then building meshes are not in the chunks' static meshes).
+    public var buildingCells: [BuildingCell] = []
+}
+
+/// The buildings of one cell at each distance LOD (regions §4, `BuildingLOD`): the renderer draws
+/// one LOD per cell by camera distance. Context cells (outside the focus) have far and skyline only.
+public struct BuildingCell: Sendable {
+    public var index: SIMD2<Int>
+    /// Local bounds of the cell (east, north metres).
+    public var rect: Rect2D
+    public var meshes: [BuildingLOD: MeshBuffers] = [:]
+    public var id: String { "\(index.x)_\(index.y)" }
 }
 
 public struct SceneGenerator: Sendable {
@@ -104,6 +117,10 @@ public struct SceneGenerator: Sendable {
     public var startPalette: Palette?
     /// Per-building zone profiles; nil = `profile` for every building.
     public var zones: ZoneProfiles?
+    /// Distance LODs for buildings: each building at every LOD into `GeneratedScene.buildingCells`
+    /// instead of the chunk meshes (RealityKit; the package keeps one detail level per chunk).
+    public var buildingLODs = false
+    public var buildingCellSize = 100.0
 
     public init(features: MapFeatures, profile: StyleProfile, seasonal: SeasonalPalette, baseColors: [String: String],
                 season: Int, focus: Rect2D) {
@@ -159,11 +176,31 @@ public struct SceneGenerator: Sendable {
 
         // Buildings.
         var yardSubjects: [YardSubject] = []
+        var cells: [SIMD2<Int>: BuildingCell] = [:]
         for (buildingIndex, building) in features.buildings.enumerated() where !building.isPart {
             let key = chunkIndex(building.footprint.centroid)
             guard let detail = chunks[key]?.detail else { continue }
-            var g = generatorFor(building.footprint.centroid).generate(building, palette: &palette, detail: detail)
-            append(g.mesh, feature: building.ref.description, to: key)
+            let buildingGenerator = generatorFor(building.footprint.centroid)
+            var g = buildingGenerator.generate(building, palette: &palette, detail: detail)
+            if buildingLODs {
+                // Every distance LOD of this building into its cell; the detail-level result is
+                // reused (near in the focus, far outside, as before) and drives yards and occluders.
+                let c = b.min
+                let ci = SIMD2(Int(((building.footprint.centroid.x - c.x) / buildingCellSize).rounded(.down)),
+                               Int(((building.footprint.centroid.y - c.y) / buildingCellSize).rounded(.down)))
+                if cells[ci] == nil {
+                    let lo = c + LocalPoint(Double(ci.x), Double(ci.y)) * buildingCellSize
+                    cells[ci] = BuildingCell(index: ci, rect: Rect2D(min: lo, max: lo + LocalPoint(buildingCellSize, buildingCellSize)))
+                }
+                let base: BuildingLOD = detail == .full ? .near : .far
+                let lods: [BuildingLOD] = detail == .full ? [.near, .mid, .far, .skyline] : [.far, .skyline]
+                for lod in lods {
+                    let m = lod == base ? g.mesh : buildingGenerator.generate(building, palette: &palette, lod: lod).mesh
+                    cells[ci]!.meshes[lod, default: MeshBuffers()].append(m)
+                }
+            } else {
+                append(g.mesh, feature: building.ref.description, to: key)
+            }
             scene.occluders.append(Occluder(hull: FootprintAnalysis.convexHull(building.footprint.outer), height: g.topHeight))
             for (k, (spot, s)) in g.bushSpots.enumerated() {
                 var r = building.ref.random("bush-\(k)")
@@ -175,6 +212,7 @@ public struct SceneGenerator: Sendable {
             yardSubjects.append(YardSubject(index: buildingIndex, building: building, generated: g))
             scene.buildings.append(g)
         }
+        scene.buildingCells = cells.keys.sorted { ($0.x, $0.y) < ($1.x, $1.y) }.map { cells[$0]! }
 
         // Ground: base lawn per chunk.
         let n = palette.named

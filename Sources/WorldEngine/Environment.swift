@@ -26,7 +26,7 @@ extension World {
     static let weatherSkyFillGain: Float = 1.2
     /// Low clear sun: key ×(1 + gain) and fill ×(1 − cut) at ≤ 4° elevation, fading out by 25°.
     static let lowSunKeyGain: Float = 0.8
-    static let lowSunFillCut: Float = 0.35
+    static let lowSunFillCut: Float = 0.12
     static let starDistance: Float = 4400
     /// Moon display scale: 1.5× the physical diameter (sky-seasons §3.2 postcard option).
     public static let moonDisplayScale = 1.5
@@ -45,6 +45,21 @@ extension World {
         let dayWeight = Float(smoothstepD(-2, 8, env.light.sunElevationDeg))
         L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
         let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
+        // Auto exposure aims lower at night (experience-v1 09: mean luma ~65 vs ~135 by day), and by
+        // day leans with the weather the way the concepts do: fog and snow bright (155-164), overcast
+        // a little bright (148), rain a little and storms clearly darker (131, 107).
+        let state = env.state.dominantState
+        let weight = Float(min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? Double(env.state.cloudCover01 ?? 0) : 0))))
+        let bias: Float = switch state {
+        case .fog: 0.07
+        case .snow: 0.08
+        case .cloudy: 0.04
+        case .smoke, .haze, .dust: 0.02
+        case .rain: -0.02
+        case .thunderstorm: -0.12
+        default: 0
+        }
+        exposureTarget = 0.28 + (0.26 + bias * weight) * Float(smoothstepD(-8, 4, env.light.sunElevationDeg))
         // Low clear sun (golden hour, early morning): at 6° the sun puts only ~10% of its light on
         // flat ground, so the sky fill washes its shadows out. A stronger key and less fill keep
         // the warm light and the long shadows readable (art direction: warm light that picks out

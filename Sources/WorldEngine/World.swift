@@ -101,6 +101,16 @@ public final class World {
         var counts = [0, 0, 0, 0]
         var bounds: [BoundingBox?] = [nil, nil, nil, nil]
     }
+    /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
+    private struct BuildingCellState {
+        var rect: Rect2D
+        var bounds: BoundingBox?
+        var levels: [(lod: BuildingLOD, entity: Entity, triangles: Int)]
+        var active: Int?
+    }
+    private var buildingCells: [BuildingCellState] = []
+    /// Triangles of the enabled building LODs.
+    private var buildingTriangles = 0
     /// Trees and bushes this close to the camera keep the cut-away (transparent) material. The
     /// character is at most ~8 m from the follow camera and detail is re-bucketed every 8 m, so a
     /// blocker always falls inside.
@@ -119,7 +129,8 @@ public final class World {
     /// Loads an area directory (manifest + OSM data) and builds the world.
     public static func load(areaDirectory: URL, options: WorldOptions = .init()) async throws -> World {
         let start = Date()
-        let recipe = WorldRecipe(profileID: options.profileID, date: options.date, season: options.season, focus: options.focus)
+        let recipe = WorldRecipe(profileID: options.profileID, date: options.date, season: options.season, focus: options.focus,
+                                 buildingLODs: true)
         let build = try await Task.detached(priority: .userInitiated) {
             try WorldBuild.generate(areaDirectory: areaDirectory, recipe: recipe)
         }.value
@@ -157,6 +168,7 @@ public final class World {
         buildLights()
         buildCanopyMap()
         try buildChunks()
+        try buildBuildingCells()
         try buildProps()
         buildOccluders()
         stats.profileID = scene.profile.id
@@ -309,7 +321,7 @@ public final class World {
         // colour), not as lawn: from the aerial a bright green field dominated the frame
         // (P3's look loop: colour match to the concepts). A real context ring replaces it later.
         var boundary = scene.boundaryGround
-        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop"), shade: 0.97))
+        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop"), shade: 0.7))
         if let ground = try MeshUpload.resource([boundary]) {
             let e = Entity()
             e.name = "Boundary ground"
@@ -345,6 +357,57 @@ public final class World {
         }
     }
 
+    /// Building cells: one entity per distance LOD (near, mid, far, skyline), all disabled until
+    /// `updateLODs` picks one per cell by camera distance.
+    private func buildBuildingCells() throws {
+        for cell in scene.buildingCells {
+            var state = BuildingCellState(rect: cell.rect, bounds: nil, levels: [], active: nil)
+            for lod in BuildingLOD.allCases {
+                guard let m = cell.meshes[lod], !m.isEmpty, let mesh = try MeshUpload.resource([m]) else { continue }
+                let e = Entity()
+                e.name = "Buildings \(cell.id) \(lod)"
+                e.isEnabled = false
+                e.components.set(ModelComponent(mesh: mesh, materials: [resources.staticMaterial]))
+                receiveIBL(e)
+                rootEntity.addChild(e)
+                state.levels.append((lod, e, m.triangleCount))
+                if let b = m.bounds {
+                    let box = BoundingBox(min: b.min, max: b.max)
+                    state.bounds = state.bounds.map { $0.union(box) } ?? box
+                }
+                stats.meshBytes += m.gpuBytes
+            }
+            if !state.levels.isEmpty { buildingCells.append(state) }
+        }
+    }
+
+    /// Diagnostics: hide or show every building cell (its current LOD comes back).
+    func setBuildingsVisible(_ on: Bool) {
+        for cell in buildingCells {
+            for (j, l) in cell.levels.enumerated() { l.entity.isEnabled = on && j == cell.active }
+        }
+    }
+
+    /// Enables one LOD per building cell: `BuildingLOD.forDistance` of the camera's distance to the
+    /// cell, or the nearest coarser level the cell has (context cells have far and skyline only).
+    private func updateBuildingLODs(camera c: SIMD2<Float>) {
+        var tris = 0
+        let p = LocalPoint(Double(c.x), Double(-c.y))
+        for i in buildingCells.indices {
+            let r = buildingCells[i].rect
+            let q = LocalPoint(min(max(p.x, r.min.x), r.max.x), min(max(p.y, r.min.y), r.max.y))
+            let want = BuildingLOD.forDistance(simd_distance(p, q))
+            let levels = buildingCells[i].levels
+            let pick = levels.firstIndex { $0.lod >= want } ?? (levels.count - 1)
+            if buildingCells[i].active != pick {
+                for (j, l) in levels.enumerated() { l.entity.isEnabled = j == pick }
+                buildingCells[i].active = pick
+            }
+            tris += levels[pick].triangles
+        }
+        buildingTriangles = tris
+    }
+
     /// Splits static geometry into flat ground (every corner within 0.3 m of the ground plane:
     /// lawns, streets, paths, curbs) and the rest. The ground is flat at y = 0 today; with terrain
     /// this must compare against the ground height instead.
@@ -370,6 +433,9 @@ public final class World {
 
     /// Rain and snow particles allowed (`World.Feature.particles`; diagnostics only).
     var particlesAllowed = true
+
+    /// Mean display brightness the post-process auto exposure aims for (set by `apply`).
+    public internal(set) var exposureTarget: Float = 0.54
 
     /// How far from the camera the sun casts shadows (m). 80 m by default; GPU attribution
     /// measures shorter ranges with `setShadowDistance(_:)`.
@@ -437,9 +503,10 @@ public final class World {
 
     private func recount() {
         stats.propTriangles = staticPropTriangles
-        stats.triangles = stats.staticTriangles + staticPropTriangles + stats.treeTriangles + stats.clutterInstances * 17
-        // Draw calls: chunks + static props (counted at build) + enabled LOD entities + tufts.
-        stats.drawCalls = baseDrawCalls + lodGroups.reduce(0) { $0 + $1.counts.filter { $0 > 0 }.count } + (stats.clutterInstances > 0 ? 1 : 0)
+        stats.triangles = stats.staticTriangles + buildingTriangles + staticPropTriangles + stats.treeTriangles + stats.clutterInstances * 17
+        // Draw calls: chunks + static props (counted at build) + building cells + enabled LOD entities + tufts.
+        stats.drawCalls = baseDrawCalls + buildingCells.count + lodGroups.reduce(0) { $0 + $1.counts.filter { $0 > 0 }.count }
+            + (stats.clutterInstances > 0 ? 1 : 0)
     }
 
     private func instancedEntity(mesh: MeshResource, buffers: WorldMesh.MeshBuffers, transforms: [simd_float4x4], material: CustomMaterial) throws -> Entity {
@@ -469,6 +536,7 @@ public final class World {
         let c = SIMD2(camera.x, camera.z)
         if let last = lodCenter, simd_distance(last, c) < Float(PropLibrary.lodRebucketMeters) { return }
         lodCenter = c
+        updateBuildingLODs(camera: c)
         let cut = Self.cutZoneMeters, near = Float(PropLibrary.lodDistances[0]), mid = Float(PropLibrary.lodDistances[1])
         var trees = 0, others = 0
         for gi in lodGroups.indices {
@@ -508,6 +576,9 @@ public final class World {
         let planes = Self.frustumPlanes(view: camera.transformMatrix(relativeTo: nil).inverse, fovY: fov, aspect: viewAspect, near: 0.1, far: 5000)
         var total = 0, draws = 0
         for c in cullables where Self.intersects(c.bounds, planes) { total += c.triangles; draws += c.draws }
+        for cell in buildingCells {
+            if let b = cell.bounds, let a = cell.active, Self.intersects(b, planes) { total += cell.levels[a].triangles; draws += 1 }
+        }
         for g in lodGroups {
             for lod in g.levels.indices where g.counts[lod] > 0 {
                 if let b = g.bounds[lod], Self.intersects(b, planes) { total += g.counts[lod] * g.levels[lod].triangles; draws += 1 }

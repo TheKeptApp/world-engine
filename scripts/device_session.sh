@@ -6,7 +6,8 @@
 #      (the launcher's test runs: Luna walks the loop at golden hour, 50% brightness, logs to Documents)
 #   4. copy the runs' logs from the phone
 # Stops at once if a run starts on the charger or in Low Power Mode.
-#   scripts/device_session.sh [out-dir]          Env: REST seconds between heavy steps (default 360)
+#   scripts/device_session.sh [out-dir]          Env: REST seconds between heavy steps (default 360),
+#   SKIP_LOOP=1 (no walking-loop trace), ONLY_GPU=1 (stop after the attribution), PHASES, PHASE_SECONDS
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/perf/m3-daytime}"; mkdir -p "$OUT/console" "$OUT/traces" "$OUT/runs"; OUT="$(cd "$OUT" && pwd)"   # xctrace needs absolute paths
@@ -62,6 +63,10 @@ echo "== 2. GPU attribution, fixed street view, $(stamp)"
 ALLOW_CHARGING=0 VIEW=street PHASE_SECONDS="${PHASE_SECONDS:-80}" PHASES="${PHASES:-all1 noShadows all2 shadow50 all3 shadow30 all4 noMSAA all5}" \
   "$ROOT/scripts/device_attribution.sh" "$OUT/attribution-street" || { echo "attribution stopped"; exit 2; }
 
+if [ "${ONLY_GPU:-0}" = 1 ]; then
+  xcrun devicectl device process launch --device "$CORE" --terminate-existing com.lincolnlabs.worldlab >/dev/null 2>&1
+  echo "== GPU steps done (ONLY_GPU), $(stamp)"; exit 0
+fi
 rest "$REST"
 echo "== 3. 10-minute clear run, $(stamp)"
 LOG="$OUT/console/run-clear.log"
