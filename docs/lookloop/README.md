@@ -1,5 +1,11 @@
 # Look loop
 
+**Gate (owner decision, 6 Oct 2026).** A view passes when both hold:
+- its **concept parity** is **≥ 100 %**: its v2 /50 divided by the calibrated /50 of its target concept;
+- **v2's per-criterion floors** are met: no §8.3 score below 3, geography ≥ 4, character ≥ 4, no hard-gate flags.
+
+Milestones for the mean parity: **≥ 85 % at the end of 5A's wrap**, **≥ 100 % by the end of 5B**. v2's 40/50 stays the long-term goal. Every summary and scoreboard row shows parity first.
+
 Deterministic look captures, side-by-side contact sheets, rubric grading and a dated scoreboard, so any session can check the look quickly and honestly.
 
 ## Run it (for every session)
@@ -105,8 +111,12 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 10. **One Simulator.**
     - `LookLoop iPhone 17 Pro` stays booted between views and runs, and capture never boots a second device.
     - It is the only simulator this session boots. The others on this Mac belong to other sessions.
-11. **Concept parity** is reported next to the v2 score: the view's /50 as a percentage of its target concept's calibrated /50. See calibration.md for why both numbers are needed.
+11. **Concept parity is the gate** (owner decision, 6 Oct 2026), with v2's per-criterion floors. 40/50 is the long-term goal. See calibration.md for why.
 12. **Device mode is not built yet.** It needs the `-capture` hook (below). The Simulator remains the gate.
+
+13. **look-fix-v1 (pending).** When ChatGPT's `docs/proposals/look-fix-v1/` lands, its "pass if…" checklists are added to GRADING.md as additional checks. The 2-hourly watch looks for it.
+    - Each check is reported per view.
+    - A failed check adds a top fix; it does not change the anchor scores.
 
 ## Hooks needed from other sessions
 

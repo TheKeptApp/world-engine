@@ -28,8 +28,22 @@ def extract(text):
     return json.loads(m.group(0))
 
 
-def recompute(g, view):
-    """Totals are recomputed from the scores so arithmetic slips never reach the scoreboard."""
+def concept_score(view, scores):
+    """Calibrated /50 of the view's parity concept: its first target, unless that is only a style reference."""
+    t = (view.get("targets") or [{}])[0]
+    if not t.get("path") or "style reference only" in t.get("label", ""):
+        return None
+    entry = scores.get(t["path"])
+    return entry["v2Score50"] if entry and entry.get("v2Score50") else None
+
+
+def recompute(g, view, concept=None):
+    """Totals and the gate are recomputed from the scores, so arithmetic slips never reach the scoreboard.
+
+    Gate (owner decision, 6 Oct 2026): concept parity >= 100 % of the view's calibrated target concept
+    AND v2's per-criterion floors. 40/50 is the long-term goal and is reported, not gated. A view with
+    no calibrated concept falls back to 40/50 plus the floors.
+    """
     na = set(view.get("na", []))
     for i, k in enumerate(V2, start=1):
         if i in na:
@@ -44,9 +58,14 @@ def recompute(g, view):
     g["adMean"] = half_up(sum(ad) / len(ad), 2) if ad else None
     geo = g["scores"].get("geography", {}).get("score")
     char = g["scores"].get("characterReadability", {}).get("score")
-    # v2 §8.3 gate on the v2 criteria only; the art-direction criteria have their own pass (GRADING.md §E).
-    g["gatePass"] = bool(v2) and g["v2Score50"] >= 40 and min(v2) >= 3 and (geo or 0) >= 4 \
-        and (char is None or char >= 4) and not g.get("hardGateFlags")
+    # v2 §8.3 per-criterion floors (v2 criteria only; art direction has its own bar).
+    g["v2Floors"] = bool(v2) and min(v2) >= 3 and (geo or 0) >= 4 and (char is None or char >= 4) \
+        and not g.get("hardGateFlags")
+    g["longTerm40"] = bool(v2) and g["v2Score50"] >= 40
+    g["conceptScore50"] = concept
+    g["parity"] = int(half_up(100 * g["v2Score50"] / concept, 0)) if concept and v2 else None
+    g["gateBasis"] = "parity" if g["parity"] is not None else "40/50 (no calibrated concept)"
+    g["gatePass"] = g["v2Floors"] and (g["parity"] >= 100 if g["parity"] is not None else g["longTerm40"])
     g["adPass"] = bool(ad) and min(ad) >= 3
     return g
 

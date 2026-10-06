@@ -5,7 +5,7 @@ description: Run WorldEngine's look loop, the official visual gate. It captures 
 
 # /lookloop
 
-The look loop is the official visual gate for every session. Details: `docs/lookloop/README.md`. Rubric procedure: `docs/lookloop/GRADING.md`.
+The look loop is the official visual gate for every session. A view passes at concept parity ≥ 100 % (its v2 /50 ÷ its target concept's calibrated /50) with v2's per-criterion floors met; 40/50 is the long-term goal. Details: `docs/lookloop/README.md`. Rubric procedure: `docs/lookloop/GRADING.md`.
 
 **Arguments**
 - none: routine run. Only views whose inputs changed are re-rendered and re-graded, by Sonnet reviewers.
@@ -37,7 +37,8 @@ The look loop is the official visual gate for every session. Details: `docs/look
    - writes `docs/lookloop/latest/` (frames, sheets, `summary.md`, `regressions.md`);
    - appends a dated row to `docs/lookloop/scoreboard.md`.
 
-5. Report back:
+5. Report back, **concept parity first**:
+   - the mean parity and gate passes against the milestones (≥ 85 % at the end of 5A's wrap, ≥ 100 % by the end of 5B);
    - the new scoreboard row;
    - every line of `docs/lookloop/latest/regressions.md`, meaning any view down 2 or more on /50 or any criterion down 1 or more against the previous run;
    - the top fixes from `summary.md`.

@@ -124,14 +124,20 @@ Report only what you can see. Use these ids:
 - `v2Max` = 5 × number of non-null §8.3 scores.
 - `v2Score50` = round(50 × v2Total / v2Max, 1). This makes views with different `na` lists comparable on the v2 /50 scale.
 - `adMean` = mean of the non-null art-direction scores, to 2 decimals.
-- `gatePass` is the v2 §8.3 gate. It is true only when **all** of the following hold:
-  - `v2Score50` ≥ 40.
+- `v2Floors` = v2's per-criterion minimums. It is true only when **all** of the following hold:
   - No non-null **§8.3** score is below 3.
   - `geography` ≥ 4.
   - `characterReadability` ≥ 4 when it is scored.
   - There are no hard-gate flags.
+- `gatePass`: the tools compute this when `finish` runs. It follows the owner's decision of 6 Oct 2026.
+  - It is true when **parity ≥ 100 %** and `v2Floors` holds.
+  - Parity = this view's `v2Score50` ÷ the calibrated `v2Score50` of its target concept (`docs/lookloop/calibration-scores.json`).
+  - A view whose target is only a style reference has no parity. For that view, `gatePass` = `v2Floors` and `v2Score50` ≥ 40.
+- `longTerm40` = `v2Score50` ≥ 40. This is v2's own bar, kept as the long-term goal and not gated.
 - `adPass` = every non-null art-direction score is ≥ 3. It is reported beside the gate and does not change it.
-  - The owner's richness rules ask for more than the concept images show (calibration: the concept art averaged 2.8 on rich ground). Folding them into the v2 gate would make the gate unreachable even for the targets.
+  - The owner's richness rules ask for more than the concept images show (calibration: the concept art averaged 2.8 on rich ground).
+
+Write `gatePass` from the floors and the 40/50 bar; `finish` replaces it with the parity rule. Scoring never depends on parity: score the anchors.
 
 ## F. Top 3 fixes
 
