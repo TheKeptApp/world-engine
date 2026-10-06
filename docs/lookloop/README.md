@@ -141,4 +141,4 @@ Still needed:
 | 5A | GPU frame time from the default RealityView host | Simulator frame time is vsync-capped; on device, Metal System Trace only |
 
 
-Gate trigger: run the full Opus `--gate` only after a routine Sonnet loop reaches mean parity ≥ 90 %. Sonnet scores about 6 parity points above Opus on the same frames; milestones are read from Opus gate rows only. See scoreboard.md.
+Gate trigger: run the full Opus `--gate` only after a routine Sonnet loop reaches mean parity ≥ 92 % (85 % + the measured offset). Under the §S rubric Sonnet scores 7.0 parity points above Opus on the same frames (ccb5f77: 80.2 vs 73.2); milestones are read from Opus gate rows only. See scoreboard.md.

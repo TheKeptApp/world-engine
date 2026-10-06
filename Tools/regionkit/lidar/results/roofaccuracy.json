@@ -1,0 +1,1278 @@
+{
+ "format": "roof-accuracy/1",
+ "methodVersions": {
+  "before": "regionkit-lidar-roofs 1.0",
+  "after": "regionkit-lidar-roofs 2.0"
+ },
+ "rules": {
+  "mergeAspectDeg": 15.0,
+  "mergePitchDeg": 6.0,
+  "minorShare": 0.07,
+  "mixedMinShare": 0.25,
+  "noPairMinPlanes": 2,
+  "cellM": 0.5
+ },
+ "protocol": {
+  "labels": {
+   "classes": [
+    "flat",
+    "gable",
+    "hip",
+    "complex",
+    "mansard",
+    "cant_tell"
+   ],
+   "flat": "no visible ridge or slope: flat or nearly flat roof (parapet, membrane, gravel, mechanical units); a single mono-pitch slope also counts as gable only if a ridge is visible, otherwise flat",
+   "gable": "one main roof mass with a single ridge and two opposite slopes",
+   "hip": "one main roof mass with a ridge (or point) and slopes on all four sides",
+   "complex": "two or more distinct roof masses or ridge directions of comparable size: L, T or U plans, cross gables, a wing or addition whose roof is at least about a fifth of the whole, or a large flat part beside a large pitched part",
+   "mansard": "steep lower slopes round a flat or shallow top on at least three sides",
+   "ignore": "dormers, chimneys, small porch or bay roofs, skylights, solar panels, mechanical boxes and tree shadow do not make a roof complex",
+   "cant_tell": "tree cover, shadow or image quality hides the roof, or the footprint is not a roof (the label is excluded from every accuracy figure and counted)"
+  },
+  "testSet": {
+   "n": 50,
+   "seed": "worldengine-roofaccuracy-eval-1"
+  },
+  "tuneSet": {
+   "n": 30,
+   "seed": "worldengine-roofaccuracy-tune-1"
+  },
+  "population": {
+   "evanston-south": {
+    "classifiedBefore": 792,
+    "osmKeyedBefore": 792
+   },
+   "lakeview-sheil-park": {
+    "classifiedBefore": 2571,
+    "osmKeyedBefore": 2571
+   }
+  }
+ },
+ "sets": {
+  "test": {
+   "evanston-south": {
+    "labelsSha256": "e92381bbd991bb40c70f8a4eaff5564b06939233c85e00809000c58637f8b912",
+    "before": {
+     "nLabelled": 50,
+     "nCantTell": 14,
+     "n": 36,
+     "correct": 25,
+     "accuracy": 0.694,
+     "wilson95": [
+      0.5314,
+      0.82
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 5,
+       "correct": 5,
+       "recall": 1.0,
+       "nPredicted": 5,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 7,
+       "correct": 4,
+       "recall": 0.571,
+       "nPredicted": 7,
+       "precision": 0.571
+      },
+      "hip": {
+       "nHand": 9,
+       "correct": 4,
+       "recall": 0.444,
+       "nPredicted": 4,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 15,
+       "correct": 12,
+       "recall": 0.8,
+       "nPredicted": 19,
+       "precision": 0.632
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 1,
+       "precision": 0.0
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 21,
+      "calledComplex": 7,
+      "rate": 0.333
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 15,
+      "calledSimple": 2,
+      "rate": 0.133
+     },
+     "confusion": {
+      "flat": {
+       "flat": 5,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 4,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 1,
+       "hip": 4,
+       "complex": 4,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 0,
+       "complex": 12,
+       "mansard": 1
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 21,
+      "correct": 13,
+      "rate": 0.619
+     }
+    },
+    "after": {
+     "nLabelled": 50,
+     "nCantTell": 14,
+     "n": 36,
+     "correct": 25,
+     "accuracy": 0.694,
+     "wilson95": [
+      0.5314,
+      0.82
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 5,
+       "correct": 5,
+       "recall": 1.0,
+       "nPredicted": 5,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 7,
+       "correct": 4,
+       "recall": 0.571,
+       "nPredicted": 7,
+       "precision": 0.571
+      },
+      "hip": {
+       "nHand": 9,
+       "correct": 5,
+       "recall": 0.556,
+       "nPredicted": 6,
+       "precision": 0.833
+      },
+      "complex": {
+       "nHand": 15,
+       "correct": 11,
+       "recall": 0.733,
+       "nPredicted": 17,
+       "precision": 0.647
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 1,
+       "precision": 0.0
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 21,
+      "calledComplex": 6,
+      "rate": 0.286
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 15,
+      "calledSimple": 3,
+      "rate": 0.2
+     },
+     "confusion": {
+      "flat": {
+       "flat": 5,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 4,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 1,
+       "hip": 5,
+       "complex": 3,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 1,
+       "complex": 11,
+       "mansard": 1
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 21,
+      "correct": 14,
+      "rate": 0.667
+     }
+    },
+    "notClassifiedAfter": 0
+   },
+   "lakeview-sheil-park": {
+    "labelsSha256": "4d7c3c6d050342e55e7ed82f6d63f10f77b425b769c32bda7ac5fbb23de70784",
+    "before": {
+     "nLabelled": 50,
+     "nCantTell": 5,
+     "n": 45,
+     "correct": 35,
+     "accuracy": 0.778,
+     "wilson95": [
+      0.6373,
+      0.8746
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 26,
+       "correct": 23,
+       "recall": 0.885,
+       "nPredicted": 23,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 7,
+       "correct": 3,
+       "recall": 0.429,
+       "nPredicted": 4,
+       "precision": 0.75
+      },
+      "hip": {
+       "nHand": 8,
+       "correct": 5,
+       "recall": 0.625,
+       "nPredicted": 5,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 4,
+       "correct": 4,
+       "recall": 1.0,
+       "nPredicted": 13,
+       "precision": 0.308
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 41,
+      "calledComplex": 9,
+      "rate": 0.22
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 4,
+      "calledSimple": 0,
+      "rate": 0.0
+     },
+     "confusion": {
+      "flat": {
+       "flat": 23,
+       "gable": 0,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 3,
+       "hip": 0,
+       "complex": 4,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 1,
+       "hip": 5,
+       "complex": 2,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 4,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 41,
+      "correct": 31,
+      "rate": 0.756
+     }
+    },
+    "after": {
+     "nLabelled": 50,
+     "nCantTell": 5,
+     "n": 45,
+     "correct": 40,
+     "accuracy": 0.889,
+     "wilson95": [
+      0.765,
+      0.9516
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 26,
+       "correct": 23,
+       "recall": 0.885,
+       "nPredicted": 23,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 7,
+       "correct": 7,
+       "recall": 1.0,
+       "nPredicted": 8,
+       "precision": 0.875
+      },
+      "hip": {
+       "nHand": 8,
+       "correct": 6,
+       "recall": 0.75,
+       "nPredicted": 6,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 4,
+       "correct": 4,
+       "recall": 1.0,
+       "nPredicted": 8,
+       "precision": 0.5
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 41,
+      "calledComplex": 4,
+      "rate": 0.098
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 4,
+      "calledSimple": 0,
+      "rate": 0.0
+     },
+     "confusion": {
+      "flat": {
+       "flat": 23,
+       "gable": 0,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 7,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 1,
+       "hip": 6,
+       "complex": 1,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 4,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 41,
+      "correct": 36,
+      "rate": 0.878
+     }
+    },
+    "notClassifiedAfter": 0
+   },
+   "pooled": {
+    "before": {
+     "nLabelled": 100,
+     "nCantTell": 19,
+     "n": 81,
+     "correct": 60,
+     "accuracy": 0.741,
+     "wilson95": [
+      0.636,
+      0.8237
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 31,
+       "correct": 28,
+       "recall": 0.903,
+       "nPredicted": 28,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 14,
+       "correct": 7,
+       "recall": 0.5,
+       "nPredicted": 11,
+       "precision": 0.636
+      },
+      "hip": {
+       "nHand": 17,
+       "correct": 9,
+       "recall": 0.529,
+       "nPredicted": 9,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 19,
+       "correct": 16,
+       "recall": 0.842,
+       "nPredicted": 32,
+       "precision": 0.5
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 1,
+       "precision": 0.0
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 62,
+      "calledComplex": 16,
+      "rate": 0.258
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 19,
+      "calledSimple": 2,
+      "rate": 0.105
+     },
+     "confusion": {
+      "flat": {
+       "flat": 28,
+       "gable": 0,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 7,
+       "hip": 0,
+       "complex": 7,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 9,
+       "complex": 6,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 0,
+       "complex": 16,
+       "mansard": 1
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 62,
+      "correct": 44,
+      "rate": 0.71
+     }
+    },
+    "after": {
+     "nLabelled": 100,
+     "nCantTell": 19,
+     "n": 81,
+     "correct": 65,
+     "accuracy": 0.802,
+     "wilson95": [
+      0.703,
+      0.8746
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 31,
+       "correct": 28,
+       "recall": 0.903,
+       "nPredicted": 28,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 14,
+       "correct": 11,
+       "recall": 0.786,
+       "nPredicted": 15,
+       "precision": 0.733
+      },
+      "hip": {
+       "nHand": 17,
+       "correct": 11,
+       "recall": 0.647,
+       "nPredicted": 12,
+       "precision": 0.917
+      },
+      "complex": {
+       "nHand": 19,
+       "correct": 15,
+       "recall": 0.789,
+       "nPredicted": 25,
+       "precision": 0.6
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 1,
+       "precision": 0.0
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 62,
+      "calledComplex": 10,
+      "rate": 0.161
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 19,
+      "calledSimple": 3,
+      "rate": 0.158
+     },
+     "confusion": {
+      "flat": {
+       "flat": 28,
+       "gable": 0,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 11,
+       "hip": 0,
+       "complex": 3,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 11,
+       "complex": 4,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 1,
+       "complex": 15,
+       "mansard": 1
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 62,
+      "correct": 50,
+      "rate": 0.806
+     }
+    }
+   }
+  },
+  "tune": {
+   "evanston-south": {
+    "labelsSha256": "c8634587822699de9e71282fc26763581421e1d5031ca0a395e48f31651a7098",
+    "before": {
+     "nLabelled": 30,
+     "nCantTell": 9,
+     "n": 21,
+     "correct": 15,
+     "accuracy": 0.714,
+     "wilson95": [
+      0.5004,
+      0.8619
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 2,
+       "correct": 2,
+       "recall": 1.0,
+       "nPredicted": 2,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 6,
+       "correct": 2,
+       "recall": 0.333,
+       "nPredicted": 4,
+       "precision": 0.5
+      },
+      "hip": {
+       "nHand": 3,
+       "correct": 1,
+       "recall": 0.333,
+       "nPredicted": 4,
+       "precision": 0.25
+      },
+      "complex": {
+       "nHand": 10,
+       "correct": 10,
+       "recall": 1.0,
+       "nPredicted": 11,
+       "precision": 0.909
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 11,
+      "calledComplex": 1,
+      "rate": 0.091
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 10,
+      "calledSimple": 0,
+      "rate": 0.0
+     },
+     "confusion": {
+      "flat": {
+       "flat": 2,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 3,
+       "complex": 1,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 1,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 10,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 11,
+      "correct": 5,
+      "rate": 0.455
+     }
+    },
+    "after": {
+     "nLabelled": 30,
+     "nCantTell": 9,
+     "n": 21,
+     "correct": 14,
+     "accuracy": 0.667,
+     "wilson95": [
+      0.4537,
+      0.8281
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 2,
+       "correct": 2,
+       "recall": 1.0,
+       "nPredicted": 2,
+       "precision": 1.0
+      },
+      "gable": {
+       "nHand": 6,
+       "correct": 2,
+       "recall": 0.333,
+       "nPredicted": 4,
+       "precision": 0.5
+      },
+      "hip": {
+       "nHand": 3,
+       "correct": 1,
+       "recall": 0.333,
+       "nPredicted": 5,
+       "precision": 0.2
+      },
+      "complex": {
+       "nHand": 10,
+       "correct": 9,
+       "recall": 0.9,
+       "nPredicted": 10,
+       "precision": 0.9
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 11,
+      "calledComplex": 1,
+      "rate": 0.091
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 10,
+      "calledSimple": 1,
+      "rate": 0.1
+     },
+     "confusion": {
+      "flat": {
+       "flat": 2,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 3,
+       "complex": 1,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 1,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 1,
+       "complex": 9,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 11,
+      "correct": 5,
+      "rate": 0.455
+     }
+    },
+    "notClassifiedAfter": 0
+   },
+   "lakeview-sheil-park": {
+    "labelsSha256": "9d224533c143d67b0f546399b7988c37167d0efcfbb3c19d9adfdff2dd02b2cd",
+    "before": {
+     "nLabelled": 30,
+     "nCantTell": 2,
+     "n": 28,
+     "correct": 20,
+     "accuracy": 0.714,
+     "wilson95": [
+      0.5294,
+      0.8475
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 15,
+       "correct": 12,
+       "recall": 0.8,
+       "nPredicted": 13,
+       "precision": 0.923
+      },
+      "gable": {
+       "nHand": 3,
+       "correct": 1,
+       "recall": 0.333,
+       "nPredicted": 5,
+       "precision": 0.2
+      },
+      "hip": {
+       "nHand": 4,
+       "correct": 2,
+       "recall": 0.5,
+       "nPredicted": 2,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 6,
+       "correct": 5,
+       "recall": 0.833,
+       "nPredicted": 8,
+       "precision": 0.625
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 22,
+      "calledComplex": 3,
+      "rate": 0.136
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 6,
+      "calledSimple": 1,
+      "rate": 0.167
+     },
+     "confusion": {
+      "flat": {
+       "flat": 12,
+       "gable": 2,
+       "hip": 0,
+       "complex": 1,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 1,
+       "hip": 0,
+       "complex": 2,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 2,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 1,
+       "gable": 0,
+       "hip": 0,
+       "complex": 5,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 22,
+      "correct": 15,
+      "rate": 0.682
+     }
+    },
+    "after": {
+     "nLabelled": 30,
+     "nCantTell": 2,
+     "n": 28,
+     "correct": 21,
+     "accuracy": 0.75,
+     "wilson95": [
+      0.5664,
+      0.8732
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 15,
+       "correct": 12,
+       "recall": 0.8,
+       "nPredicted": 13,
+       "precision": 0.923
+      },
+      "gable": {
+       "nHand": 3,
+       "correct": 2,
+       "recall": 0.667,
+       "nPredicted": 7,
+       "precision": 0.286
+      },
+      "hip": {
+       "nHand": 4,
+       "correct": 2,
+       "recall": 0.5,
+       "nPredicted": 2,
+       "precision": 1.0
+      },
+      "complex": {
+       "nHand": 6,
+       "correct": 5,
+       "recall": 0.833,
+       "nPredicted": 6,
+       "precision": 0.833
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 22,
+      "calledComplex": 1,
+      "rate": 0.045
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 6,
+      "calledSimple": 1,
+      "rate": 0.167
+     },
+     "confusion": {
+      "flat": {
+       "flat": 12,
+       "gable": 3,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 0,
+       "complex": 1,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 2,
+       "hip": 2,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 1,
+       "gable": 0,
+       "hip": 0,
+       "complex": 5,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 22,
+      "correct": 16,
+      "rate": 0.727
+     }
+    },
+    "notClassifiedAfter": 0
+   },
+   "pooled": {
+    "before": {
+     "nLabelled": 60,
+     "nCantTell": 11,
+     "n": 49,
+     "correct": 35,
+     "accuracy": 0.714,
+     "wilson95": [
+      0.5759,
+      0.8215
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 17,
+       "correct": 14,
+       "recall": 0.824,
+       "nPredicted": 15,
+       "precision": 0.933
+      },
+      "gable": {
+       "nHand": 9,
+       "correct": 3,
+       "recall": 0.333,
+       "nPredicted": 9,
+       "precision": 0.333
+      },
+      "hip": {
+       "nHand": 7,
+       "correct": 3,
+       "recall": 0.429,
+       "nPredicted": 6,
+       "precision": 0.5
+      },
+      "complex": {
+       "nHand": 16,
+       "correct": 15,
+       "recall": 0.938,
+       "nPredicted": 19,
+       "precision": 0.789
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 33,
+      "calledComplex": 4,
+      "rate": 0.121
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 16,
+      "calledSimple": 1,
+      "rate": 0.062
+     },
+     "confusion": {
+      "flat": {
+       "flat": 14,
+       "gable": 2,
+       "hip": 0,
+       "complex": 1,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 3,
+       "hip": 3,
+       "complex": 3,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 4,
+       "hip": 3,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 1,
+       "gable": 0,
+       "hip": 0,
+       "complex": 15,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 33,
+      "correct": 20,
+      "rate": 0.606
+     }
+    },
+    "after": {
+     "nLabelled": 60,
+     "nCantTell": 11,
+     "n": 49,
+     "correct": 35,
+     "accuracy": 0.714,
+     "wilson95": [
+      0.5759,
+      0.8215
+     ],
+     "perClass": {
+      "flat": {
+       "nHand": 17,
+       "correct": 14,
+       "recall": 0.824,
+       "nPredicted": 15,
+       "precision": 0.933
+      },
+      "gable": {
+       "nHand": 9,
+       "correct": 4,
+       "recall": 0.444,
+       "nPredicted": 11,
+       "precision": 0.364
+      },
+      "hip": {
+       "nHand": 7,
+       "correct": 3,
+       "recall": 0.429,
+       "nPredicted": 7,
+       "precision": 0.429
+      },
+      "complex": {
+       "nHand": 16,
+       "correct": 14,
+       "recall": 0.875,
+       "nPredicted": 16,
+       "precision": 0.875
+      },
+      "mansard": {
+       "nHand": 0,
+       "correct": 0,
+       "recall": null,
+       "nPredicted": 0,
+       "precision": null
+      }
+     },
+     "simpleCalledComplex": {
+      "nSimpleByHand": 33,
+      "calledComplex": 2,
+      "rate": 0.061
+     },
+     "complexCalledSimple": {
+      "nComplexByHand": 16,
+      "calledSimple": 2,
+      "rate": 0.125
+     },
+     "confusion": {
+      "flat": {
+       "flat": 14,
+       "gable": 3,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      },
+      "gable": {
+       "flat": 0,
+       "gable": 4,
+       "hip": 3,
+       "complex": 2,
+       "mansard": 0
+      },
+      "hip": {
+       "flat": 0,
+       "gable": 4,
+       "hip": 3,
+       "complex": 0,
+       "mansard": 0
+      },
+      "complex": {
+       "flat": 1,
+       "gable": 0,
+       "hip": 1,
+       "complex": 14,
+       "mansard": 0
+      },
+      "mansard": {
+       "flat": 0,
+       "gable": 0,
+       "hip": 0,
+       "complex": 0,
+       "mansard": 0
+      }
+     },
+     "simpleFormAccuracy": {
+      "n": 33,
+      "correct": 21,
+      "rate": 0.636
+     }
+    }
+   }
+  }
+ }
+}

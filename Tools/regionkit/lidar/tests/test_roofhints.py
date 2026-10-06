@@ -33,6 +33,61 @@ def mansard_planes(steep=65.0, top_pitch=2.0):
             plane(4, 18, steep, 180, 0, -3.2)]  # south
 
 
+class OvertureFootprints(unittest.TestCase):
+    """The engine's ref for an Overture record and the footprint merge (Sources/WorldMap/OvertureSource.swift)."""
+
+    def test_ref_is_signed_int64_of_first_16_hex(self):
+        self.assertEqual(rh.overture_ref("000d07de-8477-475b-b2e4-c0adfe78ae8e"), "overture/%d" % 0x000D07DE8477475B)
+        self.assertEqual(rh.overture_ref("ffffffff-ffff-ffff-0000-000000000000"), "overture/-1")
+        self.assertEqual(rh.overture_ref("80000000-0000-0000-0000-000000000000"), "overture/-9223372036854775808")
+        self.assertEqual(rh.overture_ref("7fffffff-ffff-ffff-ffff-ffffffffffff"), "overture/9223372036854775807")
+
+    def test_ref_needs_16_hex_digits(self):
+        self.assertIsNone(rh.overture_ref("1234"))
+        self.assertIsNone(rh.overture_ref("zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz"))
+
+    def make_area(self, tmp):
+        """A tiny area: centre (42.0, -87.7), 200 m box; one OSM house; four Overture records."""
+        import json as js
+        man = {"center": {"latitude": 42.0, "longitude": -87.7}, "widthMeters": 200, "heightMeters": 200}
+        dlat, dlon = 1 / 111320.0, 1 / (111320.0 * math.cos(math.radians(42.0)))
+
+        def sq(e, n, w=8.0):  # closed [lon, lat] ring, e/n metres from the centre
+            pts = [(e, n), (e + w, n), (e + w, n + w), (e, n + w), (e, n)]
+            return [[-87.7 + x * dlon, 42.0 + y * dlat] for x, y in pts]
+        os.makedirs(os.path.join(tmp, "area"))
+        nodes = [{"type": "node", "id": 1 + i, "lat": 42.0 + y * dlat, "lon": -87.7 + x * dlon}
+                 for i, (x, y) in enumerate([(0, 0), (10, 0), (10, 10), (0, 10)])]
+        way = {"type": "way", "id": 100, "nodes": [1, 2, 3, 4, 1], "tags": {"building": "house"}}
+        with open(os.path.join(tmp, "area", "osm.json"), "w") as f:
+            js.dump({"elements": nodes + [way]}, f)
+        recs = [
+            {"id": "00000000-0000-0001-0000-000000000001", "sources": [{"dataset": "Microsoft ML Buildings"}], "polygons": [[sq(40, 40)]]},   # kept
+            {"id": "00000000-0000-0002-0000-000000000002", "sources": [{"dataset": "OpenStreetMap"}], "polygons": [[sq(60, 60)]]},            # OSM source: dropped
+            {"id": "00000000-0000-0003-0000-000000000003", "sources": [{"dataset": "Microsoft ML Buildings"}], "polygons": [[sq(1, 1, 6)]]},  # centroid inside the OSM house: dropped
+            {"id": "00000000-0000-0004-0000-000000000004", "sources": [{"dataset": "Microsoft ML Buildings"}], "polygons": [[sq(300, 0)]]},   # outside the box: dropped
+            {"id": "00000000-0000-0005-0000-000000000005", "sources": [{"dataset": "Microsoft ML Buildings"}], "polygons": [[sq(-50, -50, 4)], [sq(-30, -30, 8)]]},  # multi: largest kept
+            {"id": "00000000-0000-0006-0000-000000000006", "sources": [{"dataset": "Microsoft ML Buildings"}], "polygons": [[sq(-70, 40, 0.5)]]},  # under 1 m2: skipped
+        ]
+        with open(os.path.join(tmp, "area", "overture-buildings.json"), "w") as f:
+            js.dump({"format": "overture-buildings-v1", "buildings": recs}, f)
+        return man, {"area": "area"}
+
+    def test_merge_rules(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            man, pilot = self.make_area(tmp)
+            out, rep = rh.overture_footprints(pilot, man, root=tmp)
+        self.assertEqual(sorted(out), ["overture/1", "overture/5"])
+        self.assertEqual(rep["records"], 6)
+        self.assertEqual(rep["droppedOsmSource"], 1)
+        self.assertEqual(rep["droppedInsideOsm"], 1)
+        self.assertEqual(rep["droppedOutsideBounds"], 1)
+        self.assertEqual(rep["added"], 2)
+        self.assertEqual(rep["multiPolygonRecords"], 1)
+        self.assertAlmostEqual(out["overture/5"]["poly"].area, 64.0, delta=1.0)  # the 8 m square, not the 4 m one
+
+
 class PitchClass(unittest.TestCase):
     pc = CFG["pitchClasses"]
 

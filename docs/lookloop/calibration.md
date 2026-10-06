@@ -86,3 +86,9 @@ Every loop summary now reports **concept parity**: the view's /50 as a percentag
 - Milestones for the mean parity: ≥ 85 % at the end of 5A's wrap, ≥ 100 % by the end of 5B.
 
 Re-run calibration (`lookloop.sh calibrate`, then 22 Opus reviewers) after any change to GRADING.md that affects scoring, because parity depends on these concept scores.
+
+## Recalibration for style target B (6 Oct 2026, run 20261006-141433)
+
+R locked the look target as "rich stylized" (docs/decisions/style-target.md). GRADING.md §S now grades photoreal concepts fully on colour, light, atmosphere and weather without penalizing missing photo detail, weighs `palette`, `light` and `depthFog` 1.5 in `v2Score50`, and makes regions concepts 03, 04 and 06 the colour and mood anchors. Opus re-graded all 22 concepts: mean 35.2 → 35.5/50; the anchors 03 fall 36.2 → 36.3, 04 snow 38.8 → 41.6, 06 Chicago alley 38.8 → 41.6.
+
+Opus re-grade of the ccb5f77 gate frames under §S: parity 76.3 → 73.2 % (−3.1), ordinary-day 75.3 → 78.0 % (+2.7), v2 26.9 → 26.3, art direction 2.23 → 2.3, gate passes 0 → 0. Of the −3.1, −1.5 comes from re-grading the frames (colour, light and haze now weigh more, and those are where the frames are weakest: teal cast, flat light, floating aerials) and −1.6 from the higher concept scores. **This is a grader change, not a render change.**
