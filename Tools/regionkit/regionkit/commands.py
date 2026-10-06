@@ -1,4 +1,5 @@
-"""draft / all / compare / validate / fetch commands."""
+"""draft / all / compare / validate / floors / fetch commands."""
+import copy
 import json
 import os
 import sys
@@ -205,6 +206,52 @@ def cmd_validate(args):
     sys.exit(1 if bad else 0)
 
 
+def floor_check(cells, prof, k=draft.K_DEFAULT):
+    """Default-floor calibration of an existing profile (e.g. an engine profile) on a zone's cells.
+    The area classes use the profile's relative thresholds where present (StyleProfile.Thresholds rule:
+    quantiles of the principal houses' footprints, >= 30 houses), else its absolute m2 values. Returns the
+    size-stratified expected default floors before and after, the measured truth, the TVD residuals, the
+    recalibrated unknown/small/large weights, and the same weights evaluated with the absolute fallback."""
+    H = [b for c in cells for b in c.buildings if b["role"] == "house" and not b.get("probable_garage")]
+    th, used = draft.relative_thresholds(prof["typeThresholds"], [b["area"] for b in H])
+    eff = copy.deepcopy(prof)
+    eff["typeThresholds"].update(th)
+    before, truth, cov, nt = draft.stratified_floors(H, eff)
+    cal = copy.deepcopy(eff)
+    changes, n_lv = draft.calibrate_floor_rules(cal, H, k)
+    after = draft.stratified_floors(H, cal)[0]
+    absolute = copy.deepcopy(prof)
+    absolute["typeRules"] = cal["typeRules"]
+    keys = ("1", "2", "3+")
+
+    def r(m):
+        return {g: draft.r3(m[g]) for g in keys} if m else None
+
+    return {"principalHouses": len(H), "housesWithLevels": n_lv, "coveredUntaggedShare": draft.r3(cov),
+            "thresholds": {key: {"value": round(th[key], 1), "from": used[key]} for key in ("smallArea", "largeArea", "hugeArea")},
+            "truth": r(truth), "before": r(before), "after": r(after),
+            "tvdBefore": draft.r3(draft.tvd(before, truth, keys)) if before else None,
+            "tvdAfter": draft.r3(draft.tvd(after, truth, keys)) if after else None,
+            "afterWithAbsoluteThresholds": r(draft.stratified_floors(H, absolute)[0]),
+            "beforeWithAbsoluteThresholds": r(draft.stratified_floors(H, prof)[0]),
+            "typeRules": {key: cal["typeRules"].get(key) for key in ("unknown", "small", "large")},
+            "details": changes, "k": k}
+
+
+def cmd_floors(args):
+    cfg = paths.load_json(paths.config_path(args.config))
+    zone = next((z for z in cfg["zones"] if z["id"] == args.zone), None)
+    if zone is None:
+        sys.exit("no zone %r in %s" % (args.zone, args.config))
+    prof, src = profiles.load(args.profile)
+    cells = [get_cell(fetch.cell_spec(c), prof) for c in zone_cells(cfg, zone)]
+    out = {"region": cfg["region"], "zone": zone["id"], "profile": args.profile, "profileSource": src,
+           "cells": [{"id": c.spec["id"], "osmTimestamp": c.fetch.get("timestamp_osm_base"), "endpoint": c.fetch.get("endpoint")} for c in cells],
+           "attribution": "Derived from OpenStreetMap data, (c) OpenStreetMap contributors, ODbL 1.0",
+           "result": floor_check(cells, prof, k=args.k)}
+    print(json.dumps(out, indent=1))
+
+
 def cmd_fetch(args):
     cfg = paths.load_json(paths.config_path(args.config))
     fetch.fetch_config(cfg, zone=args.zone, log=_log)
@@ -232,6 +279,12 @@ def register(sub):
     v = sub.add_parser("validate", help="validate profile JSON files (default: all known profiles and drafts)")
     v.add_argument("files", nargs="*")
     v.set_defaults(func=cmd_validate)
+    fl = sub.add_parser("floors", help="recalibrate an existing profile's unknown/small/large weights on a zone (prints JSON, writes nothing)")
+    fl.add_argument("config")
+    fl.add_argument("--zone", required=True)
+    fl.add_argument("--profile", required=True, help="profile ID (engine profiles first, then proposals)")
+    fl.add_argument("--k", type=float, default=draft.K_DEFAULT)
+    fl.set_defaults(func=cmd_floors)
     f = sub.add_parser("fetch", help="fetch (or confirm cached) data for a region config")
     f.add_argument("config")
     f.add_argument("--zone")

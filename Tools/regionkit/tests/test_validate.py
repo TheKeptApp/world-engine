@@ -63,5 +63,67 @@ class Broken(unittest.TestCase):
         self.assertFalse(self.broken(lambda p: p["trees"].__setitem__("deciduousShare", 1.2)).ok)
 
 
+class OptionalFields(unittest.TestCase):
+    """trees.canopyShare and typeThresholds.*AreaPercentile are optional (absent or null = nil)."""
+
+    def setUp(self):
+        self.base, _ = profiles.load("front-range")
+        for k in validate.THRESH_PCT:
+            self.base["typeThresholds"].pop(k, None)
+        self.base["trees"].pop("canopyShare", None)
+        self.base.pop("provenance", None)
+
+    def check(self, mutate):
+        p = copy.deepcopy(self.base)
+        mutate(p)
+        return validate.validate(p)
+
+    def pct(self, s, l, h):
+        def m(p):
+            for k, v in zip(validate.THRESH_PCT, (s, l, h)):
+                p["typeThresholds"][k] = v
+        return m
+
+    def test_absent_and_null_are_fine(self):
+        r = self.check(lambda p: None)
+        self.assertTrue(r.ok, r.errors)
+        self.assertFalse(r.warnings)
+        r = self.check(self.pct(None, None, None))
+        self.assertTrue(r.ok, r.errors)
+        self.assertTrue(self.check(lambda p: p["trees"].__setitem__("canopyShare", None)).ok)
+
+    def test_valid_values_are_known_keys(self):
+        r = self.check(lambda p: (self.pct(0.02, 0.865, 0.99)(p), p["trees"].__setitem__("canopyShare", 0.58)))
+        self.assertTrue(r.ok, r.errors)
+        self.assertFalse([i for i in r.info if "Percentile" in i or "canopyShare" in i])   # not "unknown key"
+
+    def test_ranges(self):
+        self.assertFalse(self.check(lambda p: p["trees"].__setitem__("canopyShare", 1.3)).ok)
+        self.assertFalse(self.check(lambda p: p["trees"].__setitem__("canopyShare", -0.1)).ok)
+        self.assertFalse(self.check(lambda p: p["trees"].__setitem__("canopyShare", "0.5")).ok)
+        self.assertFalse(self.check(self.pct(0.02, 0.865, 1.5)).ok)
+        self.assertFalse(self.check(self.pct(-0.1, 0.865, 0.99)).ok)
+        self.assertFalse(self.check(self.pct(0.02, "0.865", 0.99)).ok)
+
+    def test_order(self):
+        self.assertFalse(self.check(self.pct(0.9, 0.865, 0.99)).ok)
+        self.assertFalse(self.check(self.pct(0.02, 0.99, 0.99)).ok)    # strictly increasing
+        self.assertFalse(self.check(self.pct(0.02, None, 0.01)).ok)    # order checked among present ones
+
+    def test_partial_set_warns(self):
+        r = self.check(self.pct(None, 0.865, None))
+        self.assertTrue(r.ok, r.errors)
+        self.assertTrue(any("area percentiles" in w for w in r.warnings))
+
+    def test_provenance_is_a_documentation_key(self):
+        r = self.check(lambda p: p.__setitem__("provenance", {"comment": "doc", "typeRules.unknown": {"status": "measured", "n": 3}}))
+        self.assertTrue(r.ok)
+        self.assertFalse(r.warnings)
+        self.assertFalse([i for i in r.info if "provenance" in i])
+        r = self.check(lambda p: p.__setitem__("provenance", "measured"))
+        self.assertTrue(r.ok)                                           # the decoder ignores it either way
+        self.assertTrue(any("provenance" in w for w in r.warnings))
+
+
 if __name__ == "__main__":
     unittest.main()

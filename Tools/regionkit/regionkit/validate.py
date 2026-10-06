@@ -5,10 +5,16 @@ Decoding rules mirrored from Sources/WorldGen/StyleProfile.swift (Codable, versi
   Bool must be true/false; optional keys may be absent or null);
 - `typeRules` values that are not objects (e.g. a "comment" string) are dropped by the decoder;
   an object value with a non-number weight would ALSO be silently dropped -> reported as an error;
-- unknown keys are ignored by the decoder -> reported as info.
+- unknown keys are ignored by the decoder -> reported as info; the documentation keys `comment` and
+  `provenance` (top level) are known and also ignored by the decoder.
+- optional fields (absent or null decode as nil): `trees.canopyShare` and
+  `typeThresholds.smallAreaPercentile` / `largeAreaPercentile` / `hugeAreaPercentile`.
 Semantic checks (errors): typeRules type ids exist in houseTypes; colour tuples are 4 x #RRGGBB;
 weights >= 0 with a positive sum per roof mix; [lo, hi] ranges have 2 numbers with lo <= hi;
-floors are integers >= 1; shares in [0, 1]; months 1-12; unique house type ids.
+floors are integers >= 1; shares in [0, 1]; months 1-12; unique house type ids; canopyShare and
+area percentiles in [0, 1]; present area percentiles strictly ordered small < large < huge.
+Warnings: only some of the three area percentiles present; `provenance` not an object of per-field
+objects (a `comment` string inside it is fine).
 """
 import re
 
@@ -20,12 +26,16 @@ TOP = {"id", "version", "name", "seasons", "trees", "houseTypes", "typeRules", "
        "chimneyLikelihood", "foundationMeters"}
 SEASONS = {"hemisphere", "spring", "summer", "autumn", "winter"}
 TREES = {"deciduousShare", "crownWeights", "heightMeters", "youngShare", "youngHeightMeters"}
+TREES_OPT = {"canopyShare"}
 HOUSE_REQ = {"id", "floors", "perFloor", "roof", "pitch", "overhang", "porch", "windows", "door", "colors"}
 HOUSE_OPT = {"minAspect", "maxAspect", "minRectangularity", "broadFrontage", "parapet"}
 PORCH = {"likelihood", "depth", "frontage", "style"}
 WINDOWS_REQ = {"bay", "width", "height"}
 WINDOWS_OPT = {"broad"}
 THRESH = {"smallArea", "largeArea", "hugeArea", "broadAspect", "squareAspect", "squareRectangularity", "narrowAspect"}
+# Optional percentile thresholds, in this order (each must be < the next when present).
+THRESH_PCT = ("smallAreaPercentile", "largeAreaPercentile", "hugeAreaPercentile")
+TOP_DOC = {"comment", "provenance"}   # documentation keys the decoder ignores
 OUT_REQ = {"wallHeight", "pitch", "overhang", "colors"}
 OUT_OPT = {"roof", "doubleDoorMinWidthMeters"}
 ROOF = {"gabled", "hipped", "flat"}
@@ -139,10 +149,36 @@ def _outbuilding(r, path, v):
     _colors(r, path + ".colors", v.get("colors"))
 
 
+def _percentiles(r, th):
+    """Optional relative thresholds: quantiles (0-1) of the area's house footprints; when present they
+    replace the absolute m2 values in areas with >= 30 house candidates (generator rule, StyleProfile.swift)."""
+    present = []
+    for k in THRESH_PCT:
+        v = th.get(k)
+        if v is None:
+            continue
+        if not _num(v):
+            r.err("$.typeThresholds." + k, "expected Double")
+        elif not 0 <= v <= 1:
+            r.err("$.typeThresholds." + k, "percentile outside [0, 1]: %s" % v)
+        else:
+            present.append((k, v))
+    for (k1, v1), (k2, v2) in zip(present, present[1:]):
+        if not v1 < v2:
+            r.err("$.typeThresholds", "expected %s < %s (%s, %s)" % (k1, k2, v1, v2))
+    if present and len(present) < len(THRESH_PCT):
+        r.warn("$.typeThresholds", "only %s of the area percentiles present (the others use absolute m2)" %
+               ", ".join(k for k, _ in present))
+
+
 def validate(p, name="profile"):
     r = Report(name)
-    if not _keys(r, "$", p, TOP, {"comment"}):
+    if not _keys(r, "$", p, TOP, TOP_DOC):
         return r
+    pv = p.get("provenance")
+    if pv is not None and (not isinstance(pv, dict) or
+                           not all(isinstance(x, dict) or (k == "comment" and isinstance(x, str)) for k, x in pv.items())):
+        r.warn("$.provenance", "expected an object of per-field objects, plus an optional comment (ignored by the decoder)")
     if not isinstance(p.get("id"), str):
         r.err("$.id", "expected String")
     if not _int(p.get("version")):
@@ -170,8 +206,10 @@ def validate(p, name="profile"):
             r.warn("$.seasons", "months do not cover 1-12 exactly once (season(month:) falls back to summer)")
 
     t = p.get("trees")
-    if _keys(r, "$.trees", t, TREES):
+    if _keys(r, "$.trees", t, TREES, TREES_OPT):
         _share(r, "$.trees.deciduousShare", t.get("deciduousShare"))
+        if t.get("canopyShare") is not None:
+            _share(r, "$.trees.canopyShare", t["canopyShare"])
         cw = t.get("crownWeights")
         if not isinstance(cw, dict) or not all(_num(x) for x in cw.values()):
             r.err("$.trees.crownWeights", "expected [String: Double]")
@@ -262,13 +300,14 @@ def validate(p, name="profile"):
             r.warn("$.typeRules", "no `unknown` rule (fallback for missing situation keys)")
 
     th = p.get("typeThresholds")
-    if _keys(r, "$.typeThresholds", th, THRESH):
+    if _keys(r, "$.typeThresholds", th, THRESH, THRESH_PCT):
         for k in THRESH:
             if th.get(k) is not None and not _num(th[k]):
                 r.err("$.typeThresholds." + k, "expected Double")
         if all(_num(th.get(k)) for k in ("smallArea", "largeArea", "hugeArea")):
             if not th["smallArea"] <= th["largeArea"] <= th["hugeArea"]:
                 r.err("$.typeThresholds", "expected smallArea <= largeArea <= hugeArea")
+        _percentiles(r, th)
 
     for k in ("garage", "shed"):
         _outbuilding(r, "$." + k, p.get(k))

@@ -88,6 +88,59 @@ class MakeDraft(unittest.TestCase):
         self.assertLess(p["trees"]["deciduousShare"], self.tmpl["trees"]["deciduousShare"])  # 40 conifers pull it down
         self.assertAlmostEqual(p["trees"]["deciduousShare"], round(stats.shrink(0.0, 0.8, 40, 30), 3))
 
+    def test_percentile_thresholds_written_with_absolute_fallback(self):
+        tmpl = copy.deepcopy(self.tmpl)
+        for k in draft.DEFAULT_AREA_PERCENTILES:
+            tmpl["typeThresholds"].pop(k, None)
+        hs = [house(area=float(a)) for a in range(80, 200)]          # 120 houses -> transfer applies
+        p, prov = draft.make_draft("z", "Zone", "r", [FakeCell(hs)], tmpl, "default", [float(a) for a in range(50, 400)], None)
+        th = p["typeThresholds"]
+        self.assertEqual({k: th[k] for k in draft.DEFAULT_AREA_PERCENTILES}, draft.DEFAULT_AREA_PERCENTILES)
+        self.assertEqual(draft.DEFAULT_AREA_PERCENTILES,
+                         {"smallAreaPercentile": 0.02, "largeAreaPercentile": 0.865, "hugeAreaPercentile": 0.99})
+        self.assertEqual(prov.items["typeThresholds.small/large/hugeAreaPercentile"]["status"], "default")
+        # the absolute values are still the percentile transfer (fallback), not the template's
+        self.assertEqual(prov.items["typeThresholds.smallArea/largeArea/hugeArea"]["status"], "calibrated")
+        self.assertNotEqual(th["largeArea"], tmpl["typeThresholds"]["largeArea"])
+        self.assertTrue(validate.validate(p).ok, validate.validate(p).errors)
+
+    def test_template_percentiles_kept_and_absolutes_kept_without_data(self):
+        tmpl = copy.deepcopy(self.tmpl)
+        tmpl["typeThresholds"].update(smallAreaPercentile=0.05, largeAreaPercentile=0.8, hugeAreaPercentile=0.95)
+        p, prov = draft.make_draft("z", "Zone", "r", [FakeCell([house() for _ in range(10)])], tmpl, "default", [100.0] * 50, None)
+        th = p["typeThresholds"]
+        self.assertEqual((th["smallAreaPercentile"], th["largeAreaPercentile"], th["hugeAreaPercentile"]), (0.05, 0.8, 0.95))
+        self.assertEqual(prov.items["typeThresholds.small/large/hugeAreaPercentile"]["status"], "template")
+        for k in ("smallArea", "largeArea", "hugeArea"):                 # n < 30: template absolutes
+            self.assertEqual(th[k], tmpl["typeThresholds"][k])
+
+    def test_relative_thresholds_rule(self):
+        th = dict(self.tmpl["typeThresholds"], smallAreaPercentile=0.1, largeAreaPercentile=0.9, hugeAreaPercentile=None)
+        areas = [float(a) for a in range(100, 200)]                    # 100 houses
+        out, used = draft.relative_thresholds(th, areas)
+        self.assertAlmostEqual(out["smallArea"], stats.percentile(areas, 0.1))
+        self.assertAlmostEqual(out["largeArea"], stats.percentile(areas, 0.9))
+        self.assertEqual(out["hugeArea"], th["hugeArea"])               # no percentile -> absolute
+        self.assertEqual(used, {"smallArea": "percentile", "largeArea": "percentile", "hugeArea": "absolute"})
+        out, used = draft.relative_thresholds(th, areas[:29])          # < 30 houses -> absolute fallback
+        self.assertEqual((out["smallArea"], out["largeArea"]), (th["smallArea"], th["largeArea"]))
+        self.assertEqual(set(used.values()), {"absolute"})
+
+    def test_floor_check_moves_toward_measured_floors(self):
+        from regionkit import commands
+        prof = copy.deepcopy(self.tmpl)        # unknown: compactGabled(1) 50, broadLow(1) 25, twoStoryHipped(2) 15, flatRoof(1) 10
+        prof["typeThresholds"].update(smallAreaPercentile=0.02, largeAreaPercentile=0.865, hugeAreaPercentile=0.99)
+        hs = [house(area=120 + i % 40, aspect=1.2, levels=2) for i in range(80)] + [house(area=120 + i % 40, aspect=1.2, levels=1) for i in range(20)]
+        hs += [house(area=120 + i % 40, aspect=1.2) for i in range(100)]
+        res = commands.floor_check([FakeCell(hs)], prof)
+        self.assertEqual(res["housesWithLevels"], 100)
+        self.assertEqual(res["thresholds"]["largeArea"]["from"], "percentile")
+        self.assertAlmostEqual(res["truth"]["2"], 0.8, places=3)
+        self.assertGreater(res["after"]["2"], res["before"]["2"])
+        self.assertLess(res["tvdAfter"], res["tvdBefore"])
+        self.assertEqual(prof["typeRules"]["unknown"], self.tmpl["typeRules"]["unknown"])   # input not modified
+        self.assertEqual(set(res["typeRules"]["unknown"]), set(self.tmpl["typeRules"]["unknown"]))  # no family added
+
     def test_perfloor_clamped(self):
         hs = [house(levels=2, height=9.0, roof="flat", area=150) for _ in range(25)]  # 4.5 m per level -> clamp 3.8
         p, prov = draft.make_draft("z", "Zone", "r", [FakeCell(hs)], self.tmpl, "default", [100.0] * 40, None)

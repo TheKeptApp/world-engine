@@ -911,6 +911,7 @@
     }
   ],
   "typeRules": {
+    "comment": "unknown and large: measured (OSM building:levels, 1,756 levels-tagged principal houses in three Chicago dense-north cells; regionkit floors, 2026-10-06), so houses without levels get default floors 1/2/3+ = 0.10/0.62/0.28 against a measured 0.075/0.68/0.245 with the relative size thresholds (previously 0.28/0.50/0.22), or 0.31/0.49/0.21 with the absolute 60/220 m2 fallback (previously 0.44/0.39/0.17). small and the levels-tagged situations are unchanged proposal values. Details: provenance below.",
     "oneFloorBroad": {
       "brickBungalow": 8,
       "frameCottage": 20
@@ -943,22 +944,22 @@
       "victorianRow": 22
     },
     "unknown": {
-      "brickBungalow": 8,
-      "brickStackedFacade": 30,
-      "greystoneFacade": 20,
-      "frameCottage": 20,
-      "victorianRow": 22
+      "brickBungalow": 2.98,
+      "brickStackedFacade": 38.51,
+      "greystoneFacade": 25.68,
+      "frameCottage": 7.45,
+      "victorianRow": 25.37
     },
     "small": {
       "brickBungalow": 8,
       "frameCottage": 20
     },
     "large": {
-      "brickBungalow": 8,
-      "brickStackedFacade": 30,
-      "greystoneFacade": 20,
-      "frameCottage": 20,
-      "victorianRow": 22
+      "brickBungalow": 1.77,
+      "brickStackedFacade": 22.76,
+      "greystoneFacade": 15.17,
+      "frameCottage": 4.44,
+      "victorianRow": 55.86
     },
     "semidetached": {
       "plainBlock": 100
@@ -971,7 +972,10 @@
     "broadAspect": 1.7,
     "squareAspect": 1.5,
     "squareRectangularity": 0.78,
-    "narrowAspect": 1.7
+    "narrowAspect": 1.7,
+    "smallAreaPercentile": 0.02,
+    "largeAreaPercentile": 0.865,
+    "hugeAreaPercentile": 0.99
   },
   "garage": {
     "wallHeight": [
@@ -1039,5 +1043,42 @@
   "foundationMeters": [
     0.65,
     1.15
-  ]
+  ],
+  "provenance": {
+    "comment": "Documentation only; the profile decoder ignores this object. Fields not listed here are unmeasured proposal values (docs/proposals/regions-chicagoland-miami).",
+    "typeRules.unknown": {
+      "status": "measured",
+      "previous": { "brickBungalow": 8, "brickStackedFacade": 30, "greystoneFacade": 20, "frameCottage": 20, "victorianRow": 22 },
+      "source": "OSM building:levels on principal houses (generator houses minus probable garages) in the region kit's Chicago dense-north cells lakeview-gill-park, lincoln-park-oz-park and edgewater-broadway-armory-park (1 km x 1 km each, Tools/regionkit/regions/chicagoland.json); (c) OpenStreetMap contributors, ODbL 1.0",
+      "method": "Tools/regionkit/regionkit.sh floors regions/chicagoland.json --zone dense-north --profile chicago-dense-north: families grouped by their first floors value, generator eligibility filter, target post-stratified by footprint-area bin with per-bin shrinkage k = 30; area classes from this profile's percentile thresholds (43.0 / 181.9 / 248.9 m2 on these houses). Only existing weights were rescaled; no family added.",
+      "n": 1756,
+      "nInRule": 1492,
+      "osmTimestamp": "2026-10-06T12:42:13Z (Gill Park, Oz Park cells), 2026-10-06T12:45:14Z (Broadway Armory Park cell)",
+      "date": "2026-10-06"
+    },
+    "typeRules.large": {
+      "status": "measured",
+      "previous": { "brickBungalow": 8, "brickStackedFacade": 30, "greystoneFacade": 20, "frameCottage": 20, "victorianRow": 22 },
+      "source": "as typeRules.unknown",
+      "method": "as typeRules.unknown",
+      "n": 1756,
+      "nInRule": 264,
+      "osmTimestamp": "as typeRules.unknown",
+      "date": "2026-10-06"
+    },
+    "typeRules.small": {
+      "status": "proposal",
+      "note": "No levels-tagged principal house lies below the small threshold (43 m2 here), so the calibration keeps the proposal weights. Both families default to one floor."
+    },
+    "defaultFloors": {
+      "status": "measured",
+      "truth": { "1": 0.075, "2": 0.679, "3+": 0.245 },
+      "before": { "1": 0.28, "2": 0.5, "3+": 0.22 },
+      "after": { "1": 0.1, "2": 0.616, "3+": 0.284 },
+      "residualTVD": { "before": 0.205, "after": 0.064 },
+      "withAbsoluteThresholds": { "before": { "1": 0.442, "2": 0.387, "3+": 0.171 }, "after": { "1": 0.305, "2": 0.487, "3+": 0.208 } },
+      "note": "Expected default floors of houses without building:levels, size-stratified: tagged houses evaluated with the tag hidden, per footprint-area bin, weighted like the untagged houses (bins cover 95.5 % of them). The absolute 60/220/350 m2 fallback leaves more houses in the one-floor-only small rule. Not modelled: the family grammar's frontage-aspect fit and the generator's alley-garage and huge-house role rules (the kit's role port predates them).",
+      "date": "2026-10-06"
+    }
+  }
 }

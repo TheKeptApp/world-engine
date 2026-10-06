@@ -40,7 +40,8 @@
     "youngHeightMeters": [
       3,
       6
-    ]
+    ],
+    "canopyShare": 0.58
   },
   "houseTypes": [
     {
@@ -690,7 +691,10 @@
     "broadAspect": 1.7,
     "squareAspect": 1.5,
     "squareRectangularity": 0.78,
-    "narrowAspect": 1.7
+    "narrowAspect": 1.7,
+    "smallAreaPercentile": 0.02,
+    "largeAreaPercentile": 0.865,
+    "hugeAreaPercentile": 0.99
   },
   "garage": {
     "wallHeight": [
@@ -758,5 +762,18 @@
   "foundationMeters": [
     0.2,
     0.5
-  ]
+  ],
+  "provenance": {
+    "comment": "Documentation only; the profile decoder ignores this object. Fields not listed here are unmeasured proposal values.",
+    "trees.canopyShare": {
+      "status": "measured",
+      "value": 0.58,
+      "measuredValue": 0.583,
+      "source": "USDA NAIP, 10 July 2023, leaf-on, 0.3 m, 4 bands (public domain; credit: NAIP imagery provided by USDA Farm Service Agency). NDVI plus near-infrared texture canopy mask over one 500 m x 500 m cell centred on Vattman Park (Tools/regionkit/aerial).",
+      "check": "Photo-interpreted random points: 0.543 (n = 92, 95 % interval 0.442-0.645); mask vs points agree at 85 % (kappa 0.69).",
+      "sample": "one cell, 0.25 km2",
+      "reference": "docs/research/aerial.md",
+      "date": "2026-10-06"
+    }
+  }
 }

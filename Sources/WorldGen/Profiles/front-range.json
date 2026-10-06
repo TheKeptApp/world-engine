@@ -62,7 +62,8 @@
     "large":          { "ranch": 60, "foursquare": 40 },
     "semidetached":   { "duplex": 100 }
   },
-  "typeThresholds": { "smallArea": 60, "largeArea": 220, "hugeArea": 350, "broadAspect": 1.7, "squareAspect": 1.4, "squareRectangularity": 0.78, "narrowAspect": 1.7 },
+  "typeThresholds": { "smallArea": 60, "largeArea": 220, "hugeArea": 350, "broadAspect": 1.7, "squareAspect": 1.4, "squareRectangularity": 0.78, "narrowAspect": 1.7,
+                      "smallAreaPercentile": 0.02, "largeAreaPercentile": 0.865, "hugeAreaPercentile": 0.99 },
   "garage": { "wallHeight": [2.5, 3.0], "roof": { "gabled": 0.6, "hipped": 0.05, "flat": 0.35 }, "pitch": [15, 27], "overhang": [0.20, 0.35],
               "doubleDoorMinWidthMeters": 6.0, "colors": [["#A69A84", "#DCCFB6", "#C7C1AF", "#65676C"], ["#8D9685", "#DED5C1", "#B9B6A9", "#636A70"]] },
   "shed": { "wallHeight": [2.0, 2.4], "pitch": [8, 18], "overhang": [0.10, 0.20],
