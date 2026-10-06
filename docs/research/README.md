@@ -11,6 +11,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 | [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, HYG stars, Fab), blockers, questions for a lawyer. Not legal advice |
 | [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
 | [aerial.md](aerial.md) | Feasibility of reading roofs and tree canopy from USDA NAIP aerial imagery (proof of concept on a 0.25 km² Wilmette cell): licence and small-area access, method, hand-checked accuracy, recommendation. Aggregates only |
+| [outreach-drafts.md](outreach-drafts.md) | Draft emails (not sent) to Metra, CTA, Pace and the adsb.lol operator with the questions the live-feed terms leave open, for the owner to review and send |
 
 Tools: [`Tools/regionkit/`](../../Tools/regionkit/README.md) (region kit; drafts in `Tools/regionkit/drafts/`) and
 [`Tools/regionkit/audit/`](../../Tools/regionkit/audit/README.md) (coverage audit). Both are offline Python research
