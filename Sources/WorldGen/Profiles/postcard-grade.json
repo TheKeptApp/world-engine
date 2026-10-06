@@ -1,0 +1,20 @@
+{
+  "schema": "worldengine.postcard-grade/1",
+  "comment": "Final grade for quality-mode postcards, one set per lighting state of the look-fix lighting bible (docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md §2.2 targets, §2.3 shade tints). Applied after WorldPostProcess, display-referred: out = (gain·(x + lift·(1 − x)))^(1/gamma) per channel, then saturation around Rec. 709 luma, then pixels darker than shadeThreshold (fading in over shadeSoftness) move toward shadeTint's hue at their own brightness by shadeTintStrength. Every state is identity until tuned (lift 0, gamma 1, gain 1, saturation 1, shadeTintStrength 0); shadeTint holds the bible's colour. The state comes from World.postcardLightState (PostcardLightState.resolve).",
+  "shadeThreshold": 0.35,
+  "shadeSoftness": 0.2,
+  "states": {
+    "morning": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#697DAB", "shadeTintStrength": 0 },
+    "midday": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#7184AC", "shadeTintStrength": 0 },
+    "ordinary": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#6E7FAC", "shadeTintStrength": 0 },
+    "golden": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#7777AA", "shadeTintStrength": 0 },
+    "blue": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#626C9E", "shadeTintStrength": 0 },
+    "overcast": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#8993AD", "shadeTintStrength": 0 },
+    "light-rain": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#7786A5", "shadeTintStrength": 0 },
+    "storm": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#606F94", "shadeTintStrength": 0 },
+    "fog": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#9CAABD", "shadeTintStrength": 0 },
+    "snow": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#A0AFCB", "shadeTintStrength": 0 },
+    "moon-night": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#465582", "shadeTintStrength": 0 },
+    "moonless-night": { "lift": [0, 0, 0], "gamma": [1, 1, 1], "gain": [1, 1, 1], "saturation": 1, "shadeTint": "#3E4974", "shadeTintStrength": 0 }
+  }
+}

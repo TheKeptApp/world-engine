@@ -101,7 +101,38 @@ public enum AreaLoader {
         return features
     }
 
+    /// The context ring's OSM extract alone (sources whose layers are `AreaManifest.contextLayer`),
+    /// or nil when the area has none. `loadDocument(_:manifest:layers:)` would merge the detailed
+    /// sources too (sources tagged "all" always load).
+    public static func loadContextDocument(_ directory: URL, manifest: AreaManifest) throws -> OSMDocument? {
+        let sources = manifest.contextSources
+        guard !sources.isEmpty else { return nil }
+        var only = manifest
+        only.sources = sources
+        return try loadDocument(directory, manifest: only, layers: [AreaManifest.contextLayer])
+    }
+
     public enum LoadError: Error {
         case unsupportedFormat(String)
+    }
+}
+
+extension AreaManifest {
+    /// Layer of the low-detail context ring around an area (docs/data/context-rings.md): real
+    /// ground beyond the area box, drawn outside it only and never part of the detailed world.
+    public static let contextLayer = "context"
+
+    /// OSM sources of the context ring (their layers name `contextLayer` and not "all").
+    public var contextSources: [Source] {
+        sources.filter { $0.layers.contains(Self.contextLayer) && !$0.layers.contains("all") && $0.format == "osm-overpass-json" }
+    }
+
+    /// The box the context sources cover (their bounds together), or nil without any.
+    public var contextBounds: GeoBoundingBox? {
+        let b = contextSources.map(\.bounds)
+        guard let first = b.first else { return nil }
+        return b.dropFirst().reduce(first) { a, x in
+            GeoBoundingBox(south: min(a.south, x.south), west: min(a.west, x.west), north: max(a.north, x.north), east: max(a.east, x.east))
+        }
     }
 }

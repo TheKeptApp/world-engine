@@ -57,13 +57,14 @@ function instancedMesh(geometry, material, wanted) {
   return mesh;
 }
 
-/** Writes instances (each {position:[x,y,z], yaw, scale}) into a mesh. */
+/** Writes instances (each {position:[x,y,z], yaw, scale, stretch?:[x,z]}) into a mesh. */
 function fill(mesh, list) {
   const origins = mesh.geometry.attributes.instOrigin;
   list.forEach((inst, i) => {
     tmpPos.fromArray(inst.position);
     tmpQuat.setFromAxisAngle(yAxis, inst.yaw);
-    tmpScale.setScalar(inst.scale);
+    const stretch = inst.stretch || [1, 1];
+    tmpScale.set(inst.scale * stretch[0], inst.scale, inst.scale * stretch[1]);
     tmpMatrix.compose(tmpPos, tmpQuat, tmpScale);
     mesh.setMatrixAt(i, tmpMatrix);
     origins.setXYZ(i, inst.position[0], inst.position[1], inst.position[2]);
@@ -181,7 +182,7 @@ export class WorldScene {
           this.root.add(mesh);
           return mesh;
         });
-        this.lodGroups.push({ key, kind: list[0].kind, isTree: proto.isTree, instances: list, levels, triangles: proto.triangles, counts: [0, 0, 0] });
+        this.lodGroups.push({ key, kind: list[0].kind, isTree: proto.isTree, instances: list, levels, triangles: proto.triangles, counts: levels.map(() => 0) });
       }
     }
 
@@ -199,19 +200,21 @@ export class WorldScene {
   /** Applies a light state's season to the palette. */
   setSeason(season) { setPalette(this.paletteTexture, this.palettes, season); }
 
-  /** Re-buckets trees and bushes into near/mid/far detail when the camera moved > 8 m. */
+  /** Re-buckets trees and bushes into their detail levels (near, mid, far, skyline) when the camera moved > 8 m. */
   updateLODs(cameraPosition) {
     const c = [cameraPosition.x, cameraPosition.z];
     if (this.lodCenter && Math.hypot(c[0] - this.lodCenter[0], c[1] - this.lodCenter[1]) < this.runtime.lodRebucketMeters) return;
     this.lodCenter = c;
-    const [near, mid] = this.runtime.lodDistances;
+    const distances = this.runtime.lodDistances;
     let trees = 0, others = 0;
     for (const grp of this.lodGroups) {
-      const buckets = [[], [], []];
+      const buckets = grp.levels.map(() => []);
       for (const inst of grp.instances) {
-        // Same as RealityKit: horizontal distance between camera and instance, in float.
+        // Same as RealityKit: horizontal distance between camera and instance, in float; level k from distances[k - 1].
         const d = Math.hypot(Math.fround(inst.position[0]) - c[0], Math.fround(inst.position[2]) - c[1]);
-        buckets[d < near ? 0 : d < mid ? 1 : 2].push(inst);
+        let lod = 0;
+        while (lod < buckets.length - 1 && lod < distances.length && d >= distances[lod]) lod++;
+        buckets[lod].push(inst);
       }
       buckets.forEach((list, lod) => {
         fill(grp.levels[lod], list);
