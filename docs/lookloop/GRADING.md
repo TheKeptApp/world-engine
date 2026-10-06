@@ -36,8 +36,9 @@ For view `<id>` in run directory `<run>`:
 5. Apply the strictness rules (section C). They outrank any instinct to be kind.
 6. List hard-gate flags (section D) that you can actually see. Do not guess.
 7. Compute the totals (section E).
-8. Write the top 3 fixes (section F).
-9. Write the result JSON (section G) to `<run>/grades/<id>.json`. If no file path or Write tool is available, output only the JSON instead (the headless runner saves it).
+8. Run the look-fix-v1 checks (section H).
+9. Write the top 3 fixes (section F).
+10. Write the result JSON (section G) to `<run>/grades/<id>.json`. If no file path or Write tool is available, output only the JSON instead (the headless runner saves it).
 
 ## A. Visual-v2 §8.3 criteria
 
@@ -67,7 +68,7 @@ Notes:
 - **Geography (9).** Each view entry carries `camera` (heading, pitch, FOV) and `sun` (elevation, azimuth, shadow bearing). Check the lit side of trunks and walls and the direction of cast shadows against them, relative to the camera heading. Quick reads:
   - v2 street faces west (270°). At golden hour the sun is ahead-left and shadows fall toward the camera and right.
   - The showcase street faces ESE (100°). The sun is behind or right, and no sunset disk or western mountains should appear.
-  - Aerials face north with no horizon.
+  - The Sloan's Lake aerials (v2-06, showcase 10/11) face north with no horizon. Region obliques use their own named camera; always take the heading from the view's `camera` field.
   - If shadows are too soft or absent to judge the bearing (overcast, fog, rain, night), score geography on paths, shoreline and layout alone, and say so.
   - Score from what is visible; you have no map overlay:
     - **5:** the shadow bearing is checked and correct, and the layout clearly matches the camera notes (for example lake side, street direction, backdrop azimuth).
@@ -97,13 +98,18 @@ These come from the owner and are scored like §8.3.
 3. **Targets are qualitative.** Numbers, map data and sun position outrank the concept art.
    - Do not penalize the capture for differing from listed target errors: the enlarged dog, oversized sun disk, invented houses, mountains in an east-facing frame, mis-placed Moon in 09.
    - Do penalize it for missing what the target does right: richness, softness, palette restraint, weather readability.
-4. **Phone size.** The final read is at phone size, so judge the frame as a whole first. Use the full-size frame to confirm a defect, not to hunt for sub-pixel issues.
-5. **Broken captures.**
+4. **look-fix-v1 references** are labelled "appearance reference; not calibrated".
+   - They show intent for ground, light, weather, aerial edges and sky.
+   - Per the pack's VALIDATION.md, the numbers and true astronomy govern over these images.
+   - They never set parity. Parity uses only the first (calibrated) target.
+   - Do not reward copying their invented details or sun and moon positions.
+5. **Phone size.** The final read is at phone size, so judge the frame as a whole first. Use the full-size frame to confirm a defect, not to hunt for sub-pixel issues.
+6. **Broken captures.**
    - If the frame is black, shows UI or error text, or is clearly not the requested view, set every applicable score to 1.
    - Add hard-gate flag `capture-failed` and explain.
-6. **Previous run.** Note in `vsPrevious` whether the view got better, worse or is unchanged, and how.
+7. **Previous run.** Note in `vsPrevious` whether the view got better, worse or is unchanged, and how.
    - The previous run never changes the scores. Scores are absolute against the anchors.
-7. **One decimal of honesty.** If you cannot tell (for example a detail is too small), say so in the reason. Do not inflate.
+8. **One decimal of honesty.** If you cannot tell (for example a detail is too small), say so in the reason. Do not inflate.
 
 ## D. Hard-gate flags
 
@@ -114,7 +120,7 @@ Report only what you can see. Use these ids:
 - `moved-geography`
 - `authored-surface-imagery` (photo textures or painted ground)
 - `full-surface-reflection` (mirror-lake or mirror-road)
-- `osm-credit-missing` ("© OpenStreetMap contributors" must be visible)
+- `osm-credit-missing` ("© OpenStreetMap contributors" must be visible). Exception: batched runs use WorldLab's in-app view captures, which contain no UI (the run's `run.json` `frameSource` says so). For those frames, do not raise this flag; the credit is checked on the run's UI screenshots (`ui/`) by the tools.
 - `clipped-snow-or-black-holes`
 - `capture-failed`
 
@@ -124,14 +130,21 @@ Report only what you can see. Use these ids:
 - `v2Max` = 5 × number of non-null §8.3 scores.
 - `v2Score50` = round(50 × v2Total / v2Max, 1). This makes views with different `na` lists comparable on the v2 /50 scale.
 - `adMean` = mean of the non-null art-direction scores, to 2 decimals.
-- `gatePass` is the v2 §8.3 gate. It is true only when **all** of the following hold:
-  - `v2Score50` ≥ 40.
+- `v2Floors` = v2's per-criterion minimums. It is true only when **all** of the following hold:
   - No non-null **§8.3** score is below 3.
   - `geography` ≥ 4.
   - `characterReadability` ≥ 4 when it is scored.
   - There are no hard-gate flags.
-- `adPass` = every non-null art-direction score is ≥ 3. It is reported beside the gate and does not change it.
-  - The owner's richness rules ask for more than the concept images show (calibration: the concept art averaged 2.8 on rich ground). Folding them into the v2 gate would make the gate unreachable even for the targets.
+- `gatePass`: the tools compute this when `finish` runs. It follows the owner's decision of 6 Oct 2026.
+  - It is true when **parity ≥ 100 %** and `v2Floors` holds.
+  - Parity = this view's `v2Score50` ÷ the calibrated `v2Score50` of its target concept (`docs/lookloop/calibration-scores.json`).
+  - A view whose target is only a style reference has no parity. For that view, `gatePass` = `v2Floors` and `v2Score50` ≥ 40.
+- `longTerm40` = `v2Score50` ≥ 40. This is v2's own bar, kept as the long-term goal and not gated.
+- `adPass` = every non-null art-direction score is ≥ 3 (look-fix §8). It is tracked separately now.
+- `gate5B` = `gatePass` and `adPass`. This is the **end-of-5B gate** (owner decision, 6 Oct 2026): parity ≥ 100 %, v2 floors, and every art-direction score ≥ 3.
+  - The owner's richness rules ask for more than the concept images show (calibration: the concept art averaged 2.8 on rich ground).
+
+Write `gatePass` from the floors and the 40/50 bar; `finish` replaces it with the parity rule. Scoring never depends on parity: score the anchors.
 
 ## F. Top 3 fixes
 
@@ -176,6 +189,41 @@ Do not propose engine code. Describe the visible change.
   ],
   "vsPrevious": "better|worse|unchanged|no previous: one sentence",
   "summary": "Two sentences: the overall read at phone size and the single biggest gap."
+}
+```
+
+## H. look-fix-v1 checks (additional; owner instruction 6 Oct 2026)
+
+These are the "pass if…" checklists of ChatGPT's look-fix pack (`docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md` §1.4, §2.4, §3.3, §4, §5, §6.3 and §8). They are extra checks.
+
+- They never change an anchor score or the gate.
+- A failed check must appear among the top fixes, unless three bigger fixes outrank it.
+
+Report each check as `true`, `false` or `null` with a one-line reason:
+- `null` when the check does not apply to this view. Start the reason with **"n/a:"**.
+- `null` when the check cannot be judged from a still. Start the reason with **"not checkable:"**. Examples: rain with particles hidden, stars during camera movement, all 12 lighting frames.
+
+The summary counts both kinds separately from passes and fails.
+
+| Id | Applies to | Pass if (all visible in this frame) |
+|---|---|---|
+| `LF-ground` | Views with visible foreground ground | `groundRichness` ≥ 3 and `adGroundRich` ≥ 3, plus all of:<br>- at least three distinct ground or planting layers in an eligible foreground (for example lawn tones, beds or shrubs, walks or drives, litter);<br>- grass does not span roads and yards indiscriminately;<br>- Lakeview views stay dense;<br>- no invented detail changes geography |
+| `LF-light` | All views | `light` ≥ 3 and `palette` ≥ 3, plus all of:<br>- dark roofs and trunks stay distinguishable;<br>- source and shadow bearings agree with the view's `sun`;<br>- summer reads as summer, and winter has bare northern deciduous trees;<br>- exposure does not flatten the architecture |
+| `LF-weather` | Wet, fog, smoke and snow views | **Wet** (`wet` true, not snow): `adRainReadable` ≥ 3 with three cues visible:<br>- wet surface contrast;<br>- small sheen or puddles;<br>- an atmospheric or sky change.<br>Judge with the particles present; whether the cues survive with particles hidden cannot be checked from a still, so say so.<br>**Fog/smoke:** contrast visibly differs between near (~50 m), mid (~150 m) and far (~500 m) objects.<br>**Snow:** the surface keeps its separation; no clipped snow, no invented ice, and no orange leaves in January |
+| `LF-aerial` | Aerial and oblique views | `silhouettes` ≥ 3, `depthFog` ≥ 3 and `geography` ≥ 4, plus all of:<br>- no horizon in a steep aerial;<br>- no floating tile or flat green plane outside the world;<br>- no uniform diamond crowns;<br>- no route hidden under an arbitrary fade |
+| `LF-trees` | Views with trees | `silhouettes` ≥ 3 and `adRegional` ≥ 3, plus all of:<br>- no three adjacent repeated inferred tree silhouettes;<br>- the season is correct for the date;<br>- at night, near and far trunks stay readable |
+| `LF-sky` | Views with visible sky | The sky strengthens palette, light and depth without moving astronomy, plus all of:<br>- no sunset disk in the ESE showcase view;<br>- sparse cumulus stays simple;<br>- water glitter obeys light and water geometry.<br>Star fixedness during camera movement needs video, so do not judge it |
+
+Add this field to the JSON of section G:
+
+```json
+"lookFixChecks": {
+  "LF-ground": {"pass": false, "reason": "..."},
+  "LF-light": {"pass": true, "reason": "..."},
+  "LF-weather": {"pass": null, "reason": "n/a: dry, clear view"},
+  "LF-aerial": {"pass": null, "reason": "n/a: street view"},
+  "LF-trees": {"pass": false, "reason": "..."},
+  "LF-sky": {"pass": true, "reason": "..."}
 }
 ```
 

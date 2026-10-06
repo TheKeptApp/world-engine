@@ -166,6 +166,13 @@ def parse_log(path):
     out["frameMsMedian"] = round(1000 / out["fpsMedian"], 2) if out.get("fpsMedian") else None
     out["gpuMsMedian"] = med(gpu[2:] or gpu)
     out["renderSamples"] = len(fps)
+    # In-view counts (5A's hook): VIEW lines once a second, and the VIEWSHOT line of a view-list capture.
+    vt = [(int(t), int(d)) for t, d in re.findall(r"^VIEW t=\d+ triangles=(\d+) draws=(\d+)", after, re.M)]
+    shot = re.search(r"^VIEWSHOT id=\S+ .*?triangles=(\d+) draws=(\d+)", text, re.M)
+    if shot:
+        out["viewTriangles"], out["viewDraws"] = int(shot.group(1)), int(shot.group(2))
+    elif vt:
+        out["viewTriangles"], out["viewDraws"] = sorted(vt)[len(vt) // 2]
     sm = re.findall(r"RENDER t=\d+ fps=[\d.]+ gpu=\S+ ([\d.]+)× (\d+x\d+)", after)
     if sm:
         out["renderScale"], out["renderSize"] = float(sm[-1][0]), sm[-1][1]
@@ -203,7 +210,8 @@ def label_panel(im, text, color):
 
 
 def sheet(view, frame, targets, prev, sig, perf):
-    panels = [label_panel(fit(t, PANEL_H), "TARGET  " + lab, COLORS["target"]) for lab, t in targets]
+    # At most three target panels (the calibrated concept first); further references are listed by name.
+    panels = [label_panel(fit(t, PANEL_H), "TARGET  " + lab, COLORS["target"]) for lab, t in targets[:3]]
     panels.append(label_panel(fit(frame, PANEL_H), "CURRENT  " + view["id"], COLORS["current"]))
     if prev is not None:
         panels.append(label_panel(fit(prev[1], PANEL_H), "PREVIOUS  " + prev[0], COLORS["previous"]))
@@ -225,7 +233,7 @@ def sheet(view, frame, targets, prev, sig, perf):
         x += p.width + gap
     y = head_h + panels[0].height + 10
     series = [("current", sig["current"]["_lumaHist"])]
-    for i, (_, t) in enumerate(targets):
+    for i, (_, t) in enumerate(targets[:1]):  # histogram against the calibrated concept only
         series.append((f"target:{i}", sig["targets"][i]["_lumaHist"]))
     if prev is not None:
         series.append(("previous", sig["previous"]["_lumaHist"]))
@@ -235,7 +243,7 @@ def sheet(view, frame, targets, prev, sig, perf):
         f"luma mean {c['lumaMean']}  p5/p50/p95 {c['lumaP5']}/{c['lumaP50']}/{c['lumaP95']}  clip black {c['clipBlackPct']}%  white {c['clipWhitePct']}%",
         f"saturation {c['saturationMean']}  colourfulness {c['colorfulness']}  edge (detail) {c['edgeMean']}  RGB {c['rgbMean']}",
     ]
-    for i, cmp in enumerate(sig["vsTargets"]):
+    for i, cmp in enumerate(sig["vsTargets"][:3]):
         lines.append(f"vs target {i + 1}: luma hist {cmp['lumaHistIntersection']}  RGB hist {cmp['rgbHistIntersection']}  hue {cmp['hueHistIntersection']}"
                      f"  dLuma {cmp['dLumaMean']:+}  dSat {cmp['dSaturation']:+}  dColour {cmp['dColorfulness']:+}  dEdge {cmp['dEdge']:+}")
     if sig.get("vsPrevious"):
@@ -243,7 +251,8 @@ def sheet(view, frame, targets, prev, sig, perf):
         lines.append(f"vs previous: pixel change {p['pixelChange']}  dLuma {p['dLumaMean']:+}  dSat {p['dSaturation']:+}  dEdge {p['dEdge']:+}")
     tri = perf.get("triangles")
     lines.append("Simulator (not device): " + ", ".join(filter(None, [
-        f"triangles {tri:,}" if tri else None, f"draws {perf['draws']}" if perf.get("draws") else None,
+        f"in view {perf['viewTriangles']:,} tris / {perf['viewDraws']} draws" if perf.get("viewTriangles") else None,
+        f"world {tri:,} tris" if tri else None, f"draws {perf['draws']}" if perf.get("draws") and not perf.get("viewDraws") else None,
         f"frame {perf['frameMsMedian']} ms ({perf['fpsMedian']} fps)" if perf.get("frameMsMedian") else "frame time n/a",
         f"GPU {perf['gpuMsMedian']} ms" if perf.get("gpuMsMedian") else "GPU n/a",
         f"world built in {perf['loadSeconds']} s" if perf.get("loadSeconds") else None])))

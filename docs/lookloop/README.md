@@ -1,5 +1,15 @@
 # Look loop
 
+**Gate (owner decision, 6 Oct 2026).** A view passes when both hold:
+- its **concept parity** is **≥ 100 %**: its v2 /50 divided by the calibrated /50 of its target concept;
+- **v2's per-criterion floors** are met: no §8.3 score below 3, geography ≥ 4, character ≥ 4, no hard-gate flags.
+
+Milestones for the mean parity: **≥ 85 % at the end of 5A's wrap**, **≥ 100 % by the end of 5B**.
+
+**End-of-5B gate:** each view also needs **every art-direction score ≥ 3**. This is look-fix-v1 §8, and it is tracked separately until then.
+
+**look-fix-v1 checks** (GRADING.md §H) are reported beside the gate. Checks that a still cannot show (rain with particles hidden, stars during camera movement, all 12 lighting frames) are marked "not checkable". v2's 40/50 stays the long-term goal. Every summary and scoreboard row shows parity first.
+
 Deterministic look captures, side-by-side contact sheets, rubric grading and a dated scoreboard, so any session can check the look quickly and honestly.
 
 ## Run it (for every session)
@@ -25,7 +35,7 @@ Options: `lookloop.sh run v2-01 showcase-03` runs only those views. `lookloop.sh
 | Step | Tool | Output |
 |---|---|---|
 | Plan | [plan.py](../../Tools/lookloop/plan.py) | Fingerprints each view's inputs and reuses unchanged views. The inputs are the git trees of `Sources`, `Apps/WorldLab`, `Package.swift` and the view's area; uncommitted changes there; the dog asset; the view entry; the common args; `capture.sh`; `GRADING.md`; and the targets. Reused views carry their previous frame and grade |
-| Capture | [capture.sh](../../Tools/lookloop/capture.sh) | `raw/<id>.png`, `logs/<id>.log`. WorldLab is launched once per view in the Simulator **LookLoop iPhone 17 Pro**, which is created on first use and is nobody else's device. Launch args come from [views.json](../../Tools/lookloop/views.json) plus `-renderer realitykit -hud off -frame16x9 -rendertrace`. The tool waits for WorldLab's `STATS` line (world built), then waits `SETTLE` seconds (default 3) and takes a screenshot. Frames at 2 s and 8 s differ by less than 0.1/255. The status bar and appearance are fixed. |
+| Capture | [capture.sh](../../Tools/lookloop/capture.sh), [batch.py](../../Tools/lookloop/batch.py) | **Batched:** one WorldLab launch per area with 5A's `-viewlist`, and a Simulator screenshot at each `VIEWREADY`, so frames keep the letterbox and the OSM credit. In-view triangles and draw calls come from the `VIEWSHOT`/`VIEW` lines. When the build has no view-list hook, it falls back to one launch per view. | `raw/<id>.png`, `logs/<id>.log`. WorldLab is launched once per view in the Simulator **LookLoop iPhone 17 Pro**, which is created on first use and is nobody else's device. Launch args come from [views.json](../../Tools/lookloop/views.json) plus `-renderer realitykit -hud off -frame16x9 -rendertrace`. The tool waits for WorldLab's `STATS` line (world built), then waits `SETTLE` seconds (default 3) and takes a screenshot. Frames at 2 s and 8 s differ by less than 0.1/255. The status bar and appearance are fixed. |
 | Signals and sheets | [analyze.py](../../Tools/lookloop/analyze.py) | `frames/<id>.jpg` (16:9 frame at phone width 1206 px), `sheets/<id>.jpg` (target \| current \| previous plus luma histogram and numbers), `overview.jpg`, `signals.json` |
 | Grading | [grade.py](../../Tools/lookloop/grade.py), or session sub-agents | `grades/<id>.json` per [GRADING.md](GRADING.md): v2 §8.3 scores, art-direction scores, total, gate, top 3 fixes |
 | Finish | [finish.py](../../Tools/lookloop/finish.py) | `grades.json`, `summary.md` (with concept parity), and `regressions.md`. The regression guard flags any view down 2 or more on /50, or any criterion down 1 or more, against the previous published run, with cautions when the grader or GRADING.md changed. Then it publishes to `docs/lookloop/latest/` and appends one row to `scoreboard.md` |
@@ -66,15 +76,17 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 
 ## Timing
 
-| Run | Capture + analysis | Grading | Total |
+| Run | Capture + analysis | Grading | Notes |
 |---|---|---|---|
-| 6 Oct 01:02: first run, 17 views, 8 s settle, machine at load 400–660 | 13.9 min | 2.4 min (Opus) | 16.9 min |
-| 6 Oct 06:39: 17 views, 3 s settle, one kept-booted Simulator, install only on change | 6.8 min | about 1 min (17 Sonnet reviewers in parallel, slowest 41 s) | **about 8 min** of work. The row says 9.6 because I held the reviewers while calibration finished |
+| 6 Oct 01:02, 17 views | 13.9 min | 2.4 min (Opus) | One launch per view, 8 s settle, machine at load 400–660 |
+| 6 Oct 06:39, 17 views | 6.8 min | about 1 min (Sonnet) | One launch per view, 3 s settle |
+| 6 Oct 09:16 gate, 32 views | 3.5 min batched; region views redone in 3.75 min | about 3 min per wave (Opus, at most 20 at a time) | The row's 35 min includes a failed first attempt and the season recapture |
 
-- **Per view:** about 2 s launch, 11.5–15 s world build (rose after P2's buildings), 3 s settle, 1 s screenshot.
-- **Build:** the WorldLab build is incremental, about 5 s when nothing changed.
-- **Routine runs** after a docs-only or unrelated merge capture nothing: the plan reuses every view.
-- **Biggest remaining cost:** one world build per view. A WorldLab hook that switches views without relaunching would cut a full run to about 3 minutes (see hooks).
+**Batched capture** (`batch.py`) does one WorldLab launch per **area and calendar date**. The world bakes its season from the launch date, so mixing dates in one launch gives the wrong season; that bug was caught and fixed in this run. The 32 views take 11 launches, each of which builds a world in 13–25 s and then steps through its views about 4 s apart.
+
+- **Frames are WorldLab's in-app captures.** A simctl screenshot taken at `VIEWREADY` lands one view late.
+- **In-app frames match settled single-launch screenshots** within 3.8–5.9/255.
+- **Unchanged views are reused** (`plan.py`), so routine runs after unrelated merges capture nothing.
 
 ## Decisions (logged; covered by the specs or the P3 prompt)
 
@@ -105,17 +117,26 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 10. **One Simulator.**
     - `LookLoop iPhone 17 Pro` stays booted between views and runs, and capture never boots a second device.
     - It is the only simulator this session boots. The others on this Mac belong to other sessions.
-11. **Concept parity** is reported next to the v2 score: the view's /50 as a percentage of its target concept's calibrated /50. See calibration.md for why both numbers are needed.
+11. **Concept parity is the gate** (owner decision, 6 Oct 2026), with v2's per-criterion floors. 40/50 is the long-term goal. See calibration.md for why.
 12. **Device mode is not built yet.** It needs the `-capture` hook (below). The Simulator remains the gate.
 
-## Hooks needed from other sessions
+13. **look-fix-v1 (pending).** When ChatGPT's `docs/proposals/look-fix-v1/` lands, its "pass if…" checklists are added to GRADING.md as additional checks. The 2-hourly watch looks for it.
+    - Each check is reported per view.
+    - A failed check adds a top fix; it does not change the anchor scores.
+
+## Hooks from other sessions
+
+Delivered by 5A (main 486b43a):
+- `-area`, named cameras (`-camera NAME`) and explicit cameras (`-camera lat,lon[,height],heading,pitchDown,fov`);
+- `-weatherspec`, used here for the regions fixtures' weather;
+- in-view `VIEW` counts;
+- `-viewlist` (batched capture);
+- `scripts/device_views.sh` (device frames).
+
+Still needed:
 
 | From | Hook | Why |
 |---|---|---|
-| WorldLab owner (5A) | `-area <id>` plus `-camera lat,lon,heightM,headingDeg,pitchDeg,fovDeg` and `-overview lat,lon,dist,pitch,yaw,fov` launch args, matching BuildingLab's `-area`/`-look`/`-overview`, with the Evanston South and Lakeview areas bundled | Activates the eight Evanston/Lakeview views (P2 cameras already in views.json). The 2-hourly watch activates them when this lands |
-| WorldLab owner (5A) | A sequence mode, for example `-showcase 01,02,…` that steps through states in one launch and prints `READY <id>` when each has settled | Removes 16 of 17 world builds: a full run in about 3 min |
-| WorldLab owner (5A) | Print `viewTriangles` and draw calls once settled (`VIEWSTATS` line) | Whole-world triangles are now 460k; v2's 400k ceiling is per view |
-| WorldLab / engine (5A) | GPU frame time from the default RealityView host in the `RENDER` line | Simulator frame time is vsync-capped |
-| WorldLab owner (5A) | `-capture <path>`: write the rendered frame (16:9) to Documents once settled | Device mode. `devicectl` cannot take screenshots; with this, the loop can capture on the iPhone (when 5A is not using it) and pull frames with `devicectl device copy from` |
-| P2 | Wilmette or Evanston and Lakeview area data on main | Done: `evanston-south` and `lakeview-sheil-park` are on main |
+| 5A | Bundle `wilmette-vattmann-park` (P2, on main) with a named camera at Highland Ave 42.074933,-87.719996, heading 90 | Activates the five Wilmette views. Their camera is the exact regions-fixture camera, the best concept comparison |
+| 5A | GPU frame time from the default RealityView host | Simulator frame time is vsync-capped; on device, Metal System Trace only |
 
