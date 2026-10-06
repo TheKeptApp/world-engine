@@ -31,7 +31,7 @@ struct CreditsTests {
         #expect(byID["earcut"]?.license == "ISC" && byID["earcut"]?.licenseText?.contains("Copyright (c) 2016, Mapbox") == true)
         #expect(byID["threejs"]?.license == "MIT" && byID["threejs"]?.surfaces == [.web])
         #expect(byID["naip"]?.text == "NAIP imagery provided by USDA Farm Service Agency")
-        #expect(byID["naip"]?.condition == .naipDerivedValues)
+        #expect(byID["naip"]?.condition == .always) // NAIP canopy shares ship in profiles
         #expect(byID["weather-provider"]?.condition == .hostSupplied)
         // Every licence referenced by a static credit is in the table.
         for credit in c.credits { if let l = credit.license, !l.hasPrefix("STAR_") { #expect(c.licenses[l] != nil, "\(l)") } }
@@ -66,7 +66,7 @@ struct CreditsTests {
         #expect(ids.firstIndex(of: mystery.id)! < ids.firstIndex(of: "odbl-offer")!)
         // Conditions and surfaces.
         #expect(!ids.contains("weather-provider"))
-        #expect(!ids.contains("naip"))
+        #expect(ids.contains("naip"))
         #expect(!ids.contains("threejs") && ids.contains("earcut"))
         #expect(c.merged(sources: sources, naipDerivedValues: true, surface: .app).contains { $0.id == "naip" })
         let web = c.merged(sources: sources, surface: .web).map(\.id)

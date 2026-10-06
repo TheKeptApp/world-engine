@@ -23,7 +23,7 @@ Generated detail (house types, roofs, colors, porches, tree crowns…) and the l
 | `trees.deciduousShare` | Share of trees that are deciduous when OSM has no `leaf_type`; the rest are conifers. |
 | `trees.crownWeights` | Weights for the broad / oval / spreading crown archetypes. |
 | `trees.heightMeters`, `youngShare`, `youngHeightMeters` | Height range when OSM has no `height`; share of young trees and their range. |
-| `trees.canopyShare` | *Optional.* Measured share (0–1) of the ground covered by tree crowns, zone level, from leaf-on aerial imagery (NAIP canopy mask). Not read by the generator yet. Set only where measured: `wilmette` 0.58. |
+| `trees.canopyShare` | *Optional.* Measured share (0–1) of the ground covered by tree crowns, zone level, from leaf-on aerial imagery (NAIP canopy mask). The generator calibrates generated yard trees toward it (`yards.json` `canopyFill`, under a tree-budget ceiling). Set only where measured: `evanston` 0.47, `chicago-dense-north` 0.18, `front-range` 0.25, `wilmette` 0.55. |
 | `houseTypes[]` | One entry per type: `floors` (eligible range), `perFloor` height, `roof` shape weights, `pitch`, `overhang`, `porch` (likelihood, depth, frontage, style), `windows` (bay rhythm, size, optional broad window), `door`, and `colors` (A/B tuples: wall / trim / door / roof). |
 | `typeRules` | v2 §4.4: footprint situation (one floor broad, two floors square, narrow…) → weights of house types. A `"comment"` string inside is allowed and ignored. |
 | `typeThresholds` | Size limits `smallArea` / `largeArea` / `hugeArea` (m²) and the aspect, rectangularity and frontage limits that decide the situation. |
@@ -35,7 +35,7 @@ Optional fields are decoded with `decodeIfPresent` (absent or `null` = nil); a p
 
 **Provenance (documentation only).** A profile may carry a top-level `"comment"` string, a top-level `"provenance"` object and a `typeRules.comment` string. The decoder ignores all three (`StyleProfile.init(from:)` decodes only its `CodingKeys`, and drops non-object `typeRules` values); `StyleProfileSchemaTests` checks this. `provenance` maps a field path to its status and source, e.g. `"typeRules.unknown": {"status": "measured", "source": "OSM building:levels, …", "n": 1756, "osmTimestamp": "…", "date": "2026-10-06"}`. Fields not listed are unmeasured priors. Measured so far:
 - `chicago-dense-north`: `typeRules.unknown` and `typeRules.large`, rescaled with `Tools/regionkit/regionkit.sh floors` so houses without levels get default floors 1/2/3+ = 0.10/0.62/0.28 (measured 0.075/0.68/0.245 on 1,756 levels-tagged houses; before 0.28/0.50/0.22).
-- `wilmette`: `trees.canopyShare` 0.58 (NAIP 2023, one 500 m cell; `docs/research/aerial.md`).
+- `trees.canopyShare` (NAIP 2023, canopy share of each test area's built fabric, `docs/research/aerial.md` §13): `evanston` 0.47 (evanston-south), `chicago-dense-north` 0.18 (lakeview-sheil-park), `front-range` 0.25 (sloans-lake), `wilmette` 0.55 (wilmette-vattmann-park; an earlier 0.25 km² cell gave 0.58).
 
 ## Rules
 - **OSM tags win:** `roof:shape`, `building:colour`, `roof:colour`, `building:levels`, `height`, `leaf_type`, `height` on trees. The shared package records which choices came from OSM and which from the profile (`scene.json`: `roofShapeFrom`, `floorsFrom`).
