@@ -37,6 +37,9 @@ TARGETS = {
     "snow": (166, 63, 181, 230, 32), "moon-night": (57, 18, 45, 109, 94), "moonless-night": (43, 14, 34, 84, 88),
 }
 NIGHT = {"moon-night", "moonless-night"}
+# §2.3 lift (shade-to-sun ratio, linear) for the states that share the 15:30 sun and framing.
+LIFT = {"ordinary-1530": (0.30, 0.38), "overcast": (0.78, 0.88), "light-rain": (0.80, 0.90), "storm": (0.83, 0.93),
+        "fog": (0.88, 0.96)}
 
 
 def state(fid):
@@ -114,8 +117,9 @@ def check(frames):
             total += 1
             cells.append(f"{g:5.0f}/{want:<3}{' ' if ok else '!'}")
         extra = f"black {sig['clipBlackPct']}% white {sig['clipWhitePct']}%"
-        if state(v["id"]) == "ordinary-1530":
-            extra += f"  lift {lift(im):.2f} (0.30-0.38)"
+        if state(v["id"]) in LIFT:
+            lo, hi = LIFT[state(v["id"])]
+            extra += f"  lift {lift(im):.2f} ({lo:.2f}-{hi:.2f})"
         if state(v["id"]) in NIGHT:
             lum = im.convert("L", (0.2126, 0.7152, 0.0722, 0)).histogram()
             dark = sum(lum[:80]) / sum(lum)
