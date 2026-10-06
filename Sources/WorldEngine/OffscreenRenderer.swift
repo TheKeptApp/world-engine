@@ -51,6 +51,9 @@ extension World {
         var ibl: Entity?
         var copies: [ObjectIdentifier: Entity] = [:]
         var hostEntities: Set<ObjectIdentifier> = []
+        // Tree and bush slots that quality mode refills anyway skip the instance copy.
+        let refilled = quality.nearDetail ? Set(lodGroups.flatMap { $0.levels.map { ObjectIdentifier($0.entity) } }) : []
+        var skipInstances: Set<ObjectIdentifier> = []
         for child in rootEntity.children {
             if child.name == "Occluders" { continue }
             let isCharacter = characters.contains { $0 === child }
@@ -58,6 +61,7 @@ extension World {
             let copy = child.clone(recursive: true)
             if child === iblEntity { ibl = copy }
             if isCharacter { hostEntities.insert(ObjectIdentifier(copy)) }
+            if refilled.contains(ObjectIdentifier(child)) { skipInstances.insert(ObjectIdentifier(copy)) }
             copies[ObjectIdentifier(child)] = copy
             root.addChild(copy)
         }
@@ -81,7 +85,7 @@ extension World {
                 }
                 if changed { e.components.set(model) }
                 // Instance data is a shared buffer the live view rewrites as its camera moves.
-                if let part = e.components[MeshInstancesComponent.self]?[partIndex: 0] {
+                if !skipInstances.contains(ObjectIdentifier(e)), let part = e.components[MeshInstancesComponent.self]?[partIndex: 0] {
                     let source = part.data
                     let n = source.instanceCount
                     if let data = try? LowLevelInstanceData(instanceCount: n, instanceCapacity: max(1, n)) {
@@ -113,8 +117,15 @@ final class OffscreenWorldRenderer {
     private var signalled: UInt64 = 0
     private let renderer: RealityRenderer
     private let camera = Entity()
-    private let post = WorldPostProcess()
+    private let post: WorldPostProcess
     private let finisher: PostcardFinisher
+    /// Metal memory the process held when the last picture's GPU work was done (bytes).
+    private(set) var lastAllocatedBytes = 0
+
+    /// Compiled once per process: the export's own post-processing (separate from the live view's
+    /// instance, which runs on RealityKit's render thread) and the postcard kernels.
+    private static var sharedPost: WorldPostProcess?
+    private static var sharedFinisher: PostcardFinisher?
 
     /// - Parameters:
     ///   - root: the world copy (`World.offscreenCopy`); this renderer owns it from now on.
@@ -127,7 +138,19 @@ final class OffscreenWorldRenderer {
         self.device = device
         self.queue = queue
         self.event = event
-        finisher = try PostcardFinisher(device: device)
+        if let f = Self.sharedFinisher, f.device === device {
+            finisher = f
+        } else {
+            finisher = try PostcardFinisher(device: device)
+            Self.sharedFinisher = finisher
+        }
+        if let p = Self.sharedPost {
+            post = p
+        } else {
+            post = WorldPostProcess()
+            post.prepare(device)
+            Self.sharedPost = post
+        }
         do {
             renderer = try RealityRenderer()
         } catch {
@@ -151,9 +174,10 @@ final class OffscreenWorldRenderer {
         if let settings {
             post.settings = settings
         } else {
-            post.settings.enabled = false
+            var off = WorldPostProcess.Settings()
+            off.enabled = false
+            post.settings = off
         }
-        post.prepare(device)
     }
 
     /// Releases the world copy.
@@ -161,15 +185,29 @@ final class OffscreenWorldRenderer {
         renderer.entities.removeAll()
     }
 
-    /// Advances the copy's simulation without drawing (rain and snow emitters start empty in a new
-    /// scene; this fills the air before the first frame).
-    func simulate(seconds: Double, step: Double = 1.0 / 30) async throws {
-        var t = 0.0, n = 0
+    /// Runs the copy's simulation for `seconds` in frames drawn into a 64 × 64 target (rain and
+    /// snow emitters start empty in a new scene, and `RealityRenderer.update` alone left the air
+    /// empty on the Mac), at most 24 frames.
+    func warmUp(seconds: Double) async throws {
+        let tiny = try texture(.bgra8Unorm_srgb, 64, 64, [.renderTarget, .shaderRead])
+        let output: RealityRenderer.CameraOutput
+        do {
+            output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: tiny))
+        } catch {
+            throw PostcardExportError.renderFailed("camera output: \(error)")
+        }
+        let step = max(0.1, seconds / 24)
+        var t = 0.0
         while t < seconds {
-            do { try renderer.update(step) } catch { throw PostcardExportError.renderFailed("RealityRenderer update: \(error)") }
+            signalled += 1
+            let value = signalled
+            do {
+                try renderer.updateAndRender(deltaTime: step, cameraOutput: output, actionsAfterRender: [.signal(event, value: value)])
+            } catch {
+                throw PostcardExportError.renderFailed("RealityRenderer: \(error)")
+            }
+            try await waitForGPU(value)
             t += step
-            n += 1
-            if n % 10 == 0 { await Task.yield() }
         }
     }
 
@@ -248,6 +286,7 @@ final class OffscreenWorldRenderer {
                   to: buffer, destinationOffset: 0, destinationBytesPerRow: bytesPerRow, destinationBytesPerImage: bytesPerRow * h)
         blit.endEncoding()
         try await PostcardFinisher.run(cb)
+        lastAllocatedBytes = device.currentAllocatedSize
         return try PostcardFinisher.image(buffer, width: w, height: h)
     }
 

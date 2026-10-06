@@ -109,26 +109,34 @@ final class OffscreenSession {
     let quality: PostcardQuality
     let grade: (PostcardGrade, threshold: Double, softness: Double)?
     let baseInfo: PostcardRenderInfo
-    /// Copy and set-up time, charged to the first picture.
-    private var pendingClone: Double
-    /// Rain or snow warm-up, charged to the first picture's settle time.
-    private var pendingSettle = 0.0
+    /// Preparation, copy and set-up times (and the rain or snow warm-up as settle time), charged
+    /// to the first picture.
+    private var pending = PostcardTiming()
+    private var first = true
 
     /// `widestVerticalFOV` and `widestHorizontalFOV` cover all the pictures to come: quality
     /// detail is decided for that frustum.
     init(world: World, eye: SIMD3<Double>, target: SIMD3<Double>, widestVerticalFOV: Double, widestHorizontalFOV: Double,
          quality: PostcardQuality, post: WorldPostProcess.Settings?, includeCharacters: Bool) async throws {
-        let started = Date()
+        var clock = Date()
+        func lap() -> Double {
+            let now = Date()
+            defer { clock = now }
+            return now.timeIntervalSince(clock) * 1000
+        }
+        var timing = PostcardTiming()
         let e = SIMD3<Float>(eye), t = SIMD3<Float>(target)
         // Camera state for this eye (a no-op when the live view already shows it), then a copy of
         // the world as it is now. Nothing the live view does afterwards reaches the copy.
         world.prepareOffscreenView(eye: e, target: t, keepContact: includeCharacters)
+        timing.prepare = lap()
         let copy: (root: Entity, copies: [ObjectIdentifier: Entity])
         do {
             copy = try world.offscreenCopy(includeCharacters: includeCharacters, quality: quality)
         } catch {
             throw PostcardExportError.renderFailed("world copy: \(error)")
         }
+        timing.copy = lap()
         var info = PostcardRenderInfo()
         let vHalf = widestVerticalFOV / 2 * .pi / 180, hHalf = widestHorizontalFOV / 2 * .pi / 180
         let planes = World.postcardFrustum(eye: e, target: t, verticalFOV: widestVerticalFOV, aspect: tan(hHalf) / tan(vHalf))
@@ -144,32 +152,33 @@ final class OffscreenSession {
         } else {
             grade = nil
         }
+        timing.quality = lap()
         renderer = try OffscreenWorldRenderer(root: copy.root, environment: world.skyEnvironment,
                                               background: WorldGen.Color.srgb(world.shaderGlobals.fogColor), post: post)
+        timing.setUp = lap()
         self.quality = quality
         baseInfo = info
-        pendingClone = Date().timeIntervalSince(started) * 1000
         if let seconds = World.precipitationWarmUp(in: copy.root) {
-            let warm = Date()
-            try await renderer.simulate(seconds: seconds)
-            pendingSettle = Date().timeIntervalSince(warm) * 1000
+            try await renderer.warmUp(seconds: seconds)
+            timing.settle = lap()
         }
+        pending = timing
     }
 
-    /// One picture of `width` × `height` from `pose` (supersampled per the quality).
+    /// One picture of `width` × `height` from `pose` (supersampled per the quality). The first
+    /// picture of a copy draws `quality.settleFrames` frames before the final one.
     func picture(pose: CameraPose, width: Int, height: Int) async throws -> (image: CGImage, info: PostcardRenderInfo, timing: PostcardTiming) {
-        var timing = PostcardTiming()
-        timing.clone = pendingClone
-        timing.settle = pendingSettle
-        pendingClone = 0
-        pendingSettle = 0
+        var timing = pending
+        pending = PostcardTiming()
         let size = quality.renderSize(width: width, height: height)
         var info = baseInfo
         info.renderWidth = size.width
         info.renderHeight = size.height
         info.supersample = Double(size.width) / Double(max(1, width))
         let image = try await renderer.render(pose: pose, width: width, height: height, renderWidth: size.width, renderHeight: size.height,
-                                              settleFrames: quality.settleFrames, grade: grade, timing: &timing)
+                                              settleFrames: first ? quality.settleFrames : 0, grade: grade, timing: &timing)
+        first = false
+        info.metalMegabytes = Double(renderer.lastAllocatedBytes) / 1_048_576
         return (image, info, timing)
     }
 

@@ -97,13 +97,17 @@ enum PostcardExports {
         return files
     }
 
-    /// `POSTCARD timing <file> clone=… settle=… render=… post=… frame=… total=… ms png=… ms` and
-    /// `POSTCARD info <file> render=WxH ss=… shadow=…m tufts=… near=… cells=… grade=…`.
+    /// `POSTCARD timing <file> clone=… settle=… render=… post=… frame=… total=… ms png=… ms`, for the
+    /// first image `POSTCARD clone <file> prepare=… copy=… quality=… setup=… ms`, and
+    /// `POSTCARD info <file> render=WxH ss=… shadow=…m box=…m tufts=… near=… cells=… grade=… metal=… MB`.
     static func report(_ p: PostcardImage, png: Double) {
         let i = p.info
         report("POSTCARD timing \(p.fileName) \(p.timing.line) " + String(format: "png=%.1f ms", png))
-        report("POSTCARD info \(p.fileName) render=\(i.renderWidth)x\(i.renderHeight) " + String(format: "ss=%.2f shadow=%.0fm", i.supersample, i.shadowDistance)
-               + " tufts=\(i.tufts) near=\(i.nearInstances) cells=\(i.nearBuildingCells) grade=\(i.gradeState?.rawValue ?? "none")")
+        if p.timing.clone > 0 { report("POSTCARD clone \(p.fileName) \(p.timing.cloneLine)") }
+        report("POSTCARD info \(p.fileName) render=\(i.renderWidth)x\(i.renderHeight) "
+               + String(format: "ss=%.2f shadow=%.0fm box=%.0fm", i.supersample, i.shadowDistance, i.shadowBox)
+               + " tufts=\(i.tufts) near=\(i.nearInstances) cells=\(i.nearBuildingCells) grade=\(i.gradeState?.rawValue ?? "none")"
+               + String(format: " metal=%.0f MB", i.metalMegabytes))
     }
 
     static func report(_ line: String) {

@@ -101,6 +101,15 @@ struct OffscreenPostcardTests {
 
     static func megabytes(_ bytes: Int) -> String { String(format: "%.0f MB", Double(bytes) / 1_048_576) }
 
+    /// The post settings a live view would hold for this world now (as `WorldView` sets them each frame).
+    static func livePost(_ world: World) -> WorldPostProcess.Settings {
+        var s = WorldPostProcess.Settings.default
+        s.exposureTarget = world.exposureTarget
+        s.saturation = WorldPostProcess.Settings.default.saturation * world.gradeSaturation * world.lookTuning.saturation
+        s.contrast = WorldPostProcess.Settings.default.contrast * world.lookTuning.contrast
+        return s
+    }
+
     @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
     func liveAndMaxQualityRenderAndLeaveTheLiveWorldAlone() async throws {
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
@@ -112,16 +121,16 @@ struct OffscreenPostcardTests {
         for (label, quality) in [("live", PostcardQuality.live), ("max", PostcardQuality.max)] {
             let baseline = device.currentAllocatedSize
             let started = Date()
-            let images = try await world.exportPostcards(pose: pose, request: PostcardRequest(text: Self.text, weather: .demo, styles: [.classic],
-                                                                                            quality: quality))
+            let request = PostcardRequest(text: Self.text, weather: .demo, styles: [.classic], post: Self.livePost(world), quality: quality)
+            let images = try await world.exportPostcards(pose: pose, request: request)
             let seconds = Date().timeIntervalSince(started)
             #expect(images.count == 3)
             for p in images {
                 #expect(p.image.width == p.size.pixelWidth && p.image.height == p.size.pixelHeight)
                 let picture = try #require(p.image.cropping(to: p.layout.picture))
                 #expect(Self.spread(picture) > 8, "\(label) \(p.fileName): picture looks flat")
-                print("POSTCARD timing \(label) \(p.fileName) \(p.timing.line)")
-                print("POSTCARD info \(label) \(p.fileName) render=\(p.info.renderWidth)x\(p.info.renderHeight) ss=\(p.info.supersample) shadow=\(p.info.shadowDistance)m tufts=\(p.info.tufts) near=\(p.info.nearInstances) cells=\(p.info.nearBuildingCells) grade=\(p.info.gradeState?.rawValue ?? "none")")
+                print("POSTCARD timing \(label) \(p.fileName) \(p.timing.line) [\(p.timing.cloneLine)]")
+                print("POSTCARD info \(label) \(p.fileName) render=\(p.info.renderWidth)x\(p.info.renderHeight) ss=\(p.info.supersample) shadow=\(p.info.shadowDistance)m box=\(p.info.shadowBox)m tufts=\(p.info.tufts) near=\(p.info.nearInstances) cells=\(p.info.nearBuildingCells) grade=\(p.info.gradeState?.rawValue ?? "none") metal=\(Int(p.info.metalMegabytes)) MB")
             }
             print("POSTCARD export \(label): \(String(format: "%.2f", seconds)) s, Metal memory \(Self.megabytes(baseline)) → \(Self.megabytes(device.currentAllocatedSize))")
             if quality == .max {
@@ -145,12 +154,82 @@ struct OffscreenPostcardTests {
         #expect(world.postcardLightState == .moonlessNight)
         let text = PostcardText(placeName: "Sloan's Lake", localTime: "Jul 15, 2026 · 10:30 PM MDT", condition: "Rain", temperature: "61°F",
                                 demoLabel: "Demo")
-        let images = try await world.exportPostcards(pose: pose, request: PostcardRequest(text: text, weather: .demo, sizes: [.portrait],
-                                                                                        styles: [.minimal], quality: .max))
+        let request = PostcardRequest(text: text, weather: .demo, sizes: [.portrait], styles: [.minimal], post: Self.livePost(world),
+                                      quality: .max)
+        let images = try await world.exportPostcards(pose: pose, request: request)
         let p = try #require(images.first)
         #expect(p.layout.colors == PostcardStyle.minimal.colors(.night))
-        print("POSTCARD timing rain-night \(p.fileName) \(p.timing.line)")
+        print("POSTCARD timing rain-night \(p.fileName) \(p.timing.line) [\(p.timing.cloneLine)]")
         try Self.save(images, prefix: "max-rain-night")
+        // The same rain by day (streaks read best against a bright sky).
+        let day = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .rain, cloudFraction: 0.9, precipitationMmPerHour: 2,
+                                                                                     wetness: 0.8))
+        #expect(day.postcardLightState == .lightRain || day.postcardLightState == .storm)
+        let dayRequest = PostcardRequest(text: text, weather: .demo, sizes: [.portrait], styles: [.bold], post: Self.livePost(day), quality: .max)
+        let dayImages = try await day.exportPostcards(pose: pose, request: dayRequest)
+        print("POSTCARD timing rain-day \(dayImages[0].fileName) \(dayImages[0].timing.line) state=\(day.postcardLightState.rawValue)")
+        try Self.save(dayImages, prefix: "max-rain-day")
+    }
+
+    /// Shadow fits side by side (bare pictures, for review): RealityKit's automatic fit at the live
+    /// 80 m and at quality mode's range, and the fitted orthographic box read as half or full size.
+    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    func shadowFitsForReview() async throws {
+        let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
+        let pose = try #require(world.postcards.first.map(world.pose(of:)))
+        let fit = World.postcardShadowFit
+        defer { World.postcardShadowFit = fit }
+        var short = PostcardQuality.max
+        short.maxShadowDistance = 80
+        for (name, fit, quality) in [("auto80", World.PostcardShadowFit.automatic, short), ("auto160", .automatic, PostcardQuality.max),
+                                     ("box160", .box(halfExtent: false), PostcardQuality.max)] {
+            World.postcardShadowFit = fit
+            let still = try await world.renderStill(pose: pose, width: 1016, height: 1066, quality: quality, post: Self.livePost(world),
+                                                    composedAspect: PostcardReframe.composedAspect)
+            print("POSTCARD shadow \(name): \(still.info.shadowDistance) m, box \(still.info.shadowBox) m, \(still.timing.line)")
+            if let output = Self.output {
+                let png = try PostcardFrame.pngData(still.image)
+                try png.write(to: output.appendingPathComponent("shadow-\(name).png"))
+            }
+        }
+    }
+
+    /// Cost per picture size and supersample factor (Metal memory when the picture is done, time).
+    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    func supersampleCostForReview() async throws {
+        let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
+        let pose = try #require(world.postcards.first.map(world.pose(of:)))
+        let device = MTLCreateSystemDefaultDevice()!
+        for (name, w, h) in [("square", 970, 752), ("portrait", 970, 1022), ("story", 970, 1222)] {
+            for factor in [1.0, 1.5, 2.0] {
+                var q = PostcardQuality.max
+                q.supersample = factor
+                let before = device.currentAllocatedSize
+                let still = try await world.renderStill(pose: pose, width: w, height: h, quality: q, post: Self.livePost(world),
+                                                        composedAspect: PostcardReframe.composedAspect)
+                print("POSTCARD cost \(name) ss=\(factor) render=\(still.info.renderWidth)x\(still.info.renderHeight) metal \(Self.megabytes(before)) → \(Int(still.info.metalMegabytes)) MB at the picture, \(Self.megabytes(device.currentAllocatedSize)) after; \(still.timing.line) [\(still.timing.cloneLine)]")
+            }
+        }
+    }
+
+    /// How many settle frames a fresh copy needs: the first frame against one after two settle
+    /// frames (prints the differences; the timing budget depends on it).
+    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    func settleFramesForReview() async throws {
+        let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
+        let pose = try #require(world.postcards.first.map(world.pose(of:)))
+        var images: [Int: CGImage] = [:]
+        for settle in [2, 0, 1] {
+            var q = PostcardQuality.max
+            q.settleFrames = settle
+            let still = try await world.renderStill(pose: pose, width: 1016, height: 765, quality: q, post: Self.livePost(world),
+                                                    composedAspect: PostcardReframe.composedAspect)
+            images[settle] = still.image
+            print("POSTCARD settle \(settle): \(still.timing.line)")
+        }
+        for settle in [0, 1] {
+            print("POSTCARD settle \(settle) vs 2: mean difference \(String(format: "%.3f", Self.meanDifference(images[settle]!, images[2]!)))")
+        }
     }
 
     @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
