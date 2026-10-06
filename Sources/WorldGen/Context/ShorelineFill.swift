@@ -97,11 +97,12 @@ enum ShorelineFill {
                 let s0 = ends[k].s, s1 = next.s
                 var span = s1 - s0
                 if span < 0 || (span == 0 && (k + 1) % ends.count <= k) { span += perimeter }
-                for (cs, c) in corners {
+                let passed = corners.map { (cs, c) -> (Double, LocalPoint) in
                     var d = cs - s0
                     if d < 0 { d += perimeter }
-                    if d > 0, d < span { ring.append(c) }
-                }
+                    return (d, c)
+                }.filter { $0.0 > 0 && $0.0 < span }.sorted { $0.0 < $1.0 }
+                ring.append(contentsOf: passed.map(\.1))
                 // Continue along the next chord away from the endpoint reached.
                 he = next.chord * 2 + (next.start ? 0 : 1)
             }

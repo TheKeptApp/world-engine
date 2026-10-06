@@ -55,6 +55,13 @@ public struct WorldStats: Sendable {
     public var season = 1
     public var lightKeys = ""
     public var generated: [String: Int] = [:]
+    /// Context ring (look-fix-v1 §4), 0 until it has loaded in the background: triangles of the
+    /// cell levels in use plus the ring's water, its cells, and seconds spent parsing the context
+    /// layer and generating the ring (off the main thread).
+    public var contextTriangles = 0
+    public var contextCells = 0
+    public var contextParseSeconds = 0.0
+    public var contextGenerateSeconds = 0.0
 }
 
 /// A built world: entities plus the engine-side state that animates it.
@@ -66,10 +73,11 @@ public final class World {
     public let lighting: LightingState
     /// No-character experience defaults (composed postcards, aerial fit, motion bounds).
     public let experience: ExperienceDefaults?
-    public private(set) var stats = WorldStats()
+    public internal(set) var stats = WorldStats()
     public var shaderGlobals = ShaderGlobals()
 
-    let scene: GeneratedScene
+    /// Mutable only for the palette: the context ring's buildings may add colours (`attachContext`).
+    var scene: GeneratedScene
     let features: MapFeatures
     let resources: RenderResources
     let options: WorldOptions
@@ -88,6 +96,8 @@ public final class World {
     /// The entity whose ground footprint gets the contact shadow (usually the followed character).
     public weak var contactEntity: Entity?
 
+    /// The context ring's entities and level state (World+Context.swift).
+    var context = ContextRuntime()
     private var tuftEntity: (entity: Entity, data: LowLevelInstanceData, center: LocalPoint)?
     private var tuftMesh: MeshResource?
     /// LOD props (trees, bushes) per kind/variant/cell, with one entity per slot: 0 = near detail
@@ -138,6 +148,8 @@ public final class World {
         let world = try World(manifest: generated.0, scene: generated.1, features: generated.2, lighting: generated.3,
                               experience: generated.4, options: options)
         world.stats.buildSeconds = Date().timeIntervalSince(start)
+        // The context ring builds in the background and appears when ready (World+Context.swift).
+        world.startContext(areaDirectory: areaDirectory)
         return world
     }
 
@@ -310,7 +322,7 @@ public final class World {
         rootEntity.addChild(iblEntity)
     }
 
-    private func receiveIBL(_ e: Entity) {
+    func receiveIBL(_ e: Entity) {
         e.components.set(ImageBasedLightReceiverComponent(imageBasedLight: iblEntity))
     }
 
@@ -476,6 +488,8 @@ public final class World {
     /// texels then cover 25% less ground, which also sharpens the jagged wall-base shadows.
     /// GPU attribution measures other ranges with `setShadowDistance(_:)`.
     var shadowDistance: Float = 60
+    /// The shadow range last given to the sun (`apply` widens it at low sun).
+    var appliedShadowRange: Float = 0
 
     /// Opaque materials for trees and bushes outside the cut-away zone (on by default; switched off
     /// only to measure what it saves, `World.Feature.opaqueDetail`).
@@ -538,12 +552,13 @@ public final class World {
         recount()
     }
 
-    private func recount() {
+    func recount() {
         stats.propTriangles = staticPropTriangles
         stats.triangles = stats.staticTriangles + buildingTriangles + staticPropTriangles + stats.treeTriangles + stats.clutterInstances * 17
         // Draw calls: chunks + static props (counted at build) + building cells + enabled LOD entities + tufts.
         stats.drawCalls = baseDrawCalls + buildingCells.count + lodGroups.reduce(0) { $0 + $1.counts.filter { $0 > 0 }.count }
-            + (stats.clutterInstances > 0 ? 1 : 0)
+            + (stats.clutterInstances > 0 ? 1 : 0) + contextDrawCalls
+        stats.triangles += stats.contextTriangles
     }
 
     private func instancedEntity(mesh: MeshResource, buffers: WorldMesh.MeshBuffers, transforms: [simd_float4x4], material: CustomMaterial) throws -> Entity {
@@ -577,6 +592,7 @@ public final class World {
         if let last = lodCenter, simd_distance(last, camera) < Float(PropLibrary.lodRebucketMeters) { return }
         lodCenter = camera
         updateBuildingLODs(camera: SIMD2(camera.x, camera.z))
+        updateContextLODs(camera: camera)
         let cut = Self.cutZoneMeters
         let edges = PropLibrary.lodDistances.map(Float.init)  // near→mid, mid→far, far→skyline
         var trees = 0, others = 0
@@ -629,7 +645,8 @@ public final class World {
             }
         }
         if let b = tuftBounds, Self.intersects(b, planes) { total += stats.clutterInstances * 17; draws += 1 }
-        return (total, draws)
+        let ring = contextView(planes)
+        return (total + ring.triangles, draws + ring.drawCalls)
     }
 
     /// Width / height of the view, for the triangle estimate (set by WorldView).

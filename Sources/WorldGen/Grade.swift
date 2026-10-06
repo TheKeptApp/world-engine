@@ -59,7 +59,12 @@ public struct LightingBible: Codable, Sendable {
         func lin(_ e: Extinction) -> SIMD3<Float> { Color.linear(Palette.parse(e.color)) }
         switch label {
         case "fog", "smoke":
-            guard let a = ext("\(label)-light"), let b = ext("\(label)-medium"), let c = ext("\(label)-dense") else { return nil }
+            guard var a = ext("\(label)-light"), var b = ext("\(label)-medium"), var c = ext("\(label)-dense") else { return nil }
+            if label == "smoke" {
+                // Owner direction (gate on ccb5f77): smoke warms the scene toward ochre/peach with
+                // distance; the bible's distances stay, its grey-tan colours give way.
+                (a.color, b.color, c.color) = ("#D9B48E", "#C99A6B", "#B5865A")
+            }
             let i = min(1, max(0, intensity))
             let (x, y, t) = i < 0.5 ? (a, b, i / 0.5) : (b, c, (i - 0.5) / 0.5)
             let col = lin(x) + (lin(y) - lin(x)) * Float(t)

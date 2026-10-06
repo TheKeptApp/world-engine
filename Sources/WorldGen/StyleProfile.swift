@@ -199,6 +199,8 @@ public struct SeasonalPalette: Codable, Sendable {
         "backdrop",
         // Lot lawn endpoint pair (look-fix §1.1); scenes override them per area profile.
         "lawnA", "lawnB",
+        // Context-ring land-use masses (look-fix-v1 §4), appended so earlier slots keep their indices.
+        "residential", "commercial", "wood", "farmland",
     ]
 }
 
