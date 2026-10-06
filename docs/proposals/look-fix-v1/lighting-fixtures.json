@@ -1,0 +1,320 @@
+{
+  "status": "proposal fixtures; math calculated 2026-10-06, appearance assumptions",
+  "observer": {
+    "latitude": 39.7528379,
+    "longitude": -105.0467978,
+    "elevationM": 1609
+  },
+  "camera": {
+    "headingDeg": 100,
+    "downPitchDeg": 3,
+    "eyeHeightM": 1.65,
+    "verticalFovDeg": 50,
+    "aspect": 1.7777777777777777
+  },
+  "sourceFiles": [
+    {
+      "path": "../../../Sources/WorldGeo/SolarPosition.swift",
+      "sha256": "099195813f430f817fe36aba36c585aac8c1308d31e53d016f32ccd40c07b713"
+    },
+    {
+      "path": "../../../Sources/WorldEnvironment/Moon.swift",
+      "sha256": "fc8366bd1477933a23a3d476d426f9fdaef5cc69c252f92c54dbbffca0f2b3f8"
+    },
+    {
+      "path": "../../../Sources/WorldEnvironment/Stars.swift",
+      "sha256": "48d75f36b54c4929899031760d40fff633a6420205f3603b9f415de1eadb5f4b"
+    }
+  ],
+  "calculation": "Python arithmetic transcription of repository formulas; no production code changed or executed",
+  "fixtures": [
+    {
+      "id": "lighting-01-morning",
+      "timestamp": "2026-07-15T08:00:00-06:00",
+      "utc": "2026-07-15T14:00:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.15,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 23.59907990312101,
+        "azimuthDeg": 81.03144294580619,
+        "shadowAzimuthDeg": 261.0314429458062,
+        "flatGroundShadowLengthPerHeight": 2.2890097597665147
+      },
+      "moon": {
+        "altitudeDeg": 8.423269765229312,
+        "azimuthDeg": 72.22159822800839,
+        "illuminatedFraction": 0.022882888450236838,
+        "angularDiameterDeg": 0.5490625910454058,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-02-midday",
+      "timestamp": "2026-07-15T13:06:00-06:00",
+      "utc": "2026-07-15T19:06:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.1,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 71.6718081820568,
+        "azimuthDeg": 179.82816861990048,
+        "shadowAzimuthDeg": 359.82816861990045,
+        "flatGroundShadowLengthPerHeight": 0.3312643257101597
+      },
+      "moon": {
+        "altitudeDeg": 61.93512878817178,
+        "azimuthDeg": 134.35044701045123,
+        "illuminatedFraction": 0.02943786207839444,
+        "angularDiameterDeg": 0.5548956005893743,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-03-ordinary-1530",
+      "timestamp": "2026-07-15T15:30:00-06:00",
+      "utc": "2026-07-15T21:30:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.15,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 54.38295512666725,
+        "azimuthDeg": 249.76820749862878,
+        "shadowAzimuthDeg": 69.76820749862878,
+        "flatGroundShadowLengthPerHeight": 0.7163797477441695
+      },
+      "moon": {
+        "altitudeDeg": 64.57162423163662,
+        "azimuthDeg": 213.56314675923207,
+        "illuminatedFraction": 0.032173766595572306,
+        "angularDiameterDeg": 0.554447225473896,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-04-golden-hour",
+      "timestamp": "2026-07-15T19:45:00-06:00",
+      "utc": "2026-07-16T01:45:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.15,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 6.4697776308005075,
+        "azimuthDeg": 292.5126084671993,
+        "shadowAzimuthDeg": 112.5126084671993,
+        "flatGroundShadowLengthPerHeight": 8.81824004002933
+      },
+      "moon": {
+        "altitudeDeg": 20.74639614088057,
+        "azimuthDeg": 274.5185668203321,
+        "illuminatedFraction": 0.03834425776130351,
+        "angularDiameterDeg": 0.5479694757064807,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-05-blue-hour",
+      "timestamp": "2026-07-15T21:00:00-06:00",
+      "utc": "2026-07-16T03:00:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.15,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": -6.192171003046511,
+        "azimuthDeg": 304.5425871978505,
+        "shadowAzimuthDeg": null,
+        "flatGroundShadowLengthPerHeight": null
+      },
+      "moon": {
+        "altitudeDeg": 6.843087662874071,
+        "azimuthDeg": 285.2599266805705,
+        "illuminatedFraction": 0.0407604852508332,
+        "angularDiameterDeg": 0.5453701147253686,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-06-overcast",
+      "timestamp": "2026-07-15T15:30:00-06:00",
+      "utc": "2026-07-15T21:30:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.96,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 54.38295512666725,
+        "azimuthDeg": 249.76820749862878,
+        "shadowAzimuthDeg": 69.76820749862878,
+        "flatGroundShadowLengthPerHeight": 0.7163797477441695
+      },
+      "moon": {
+        "altitudeDeg": 64.57162423163662,
+        "azimuthDeg": 213.56314675923207,
+        "illuminatedFraction": 0.032173766595572306,
+        "angularDiameterDeg": 0.554447225473896,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-07-light-rain",
+      "timestamp": "2026-07-15T15:30:00-06:00",
+      "utc": "2026-07-15T21:30:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.98,
+      "rainMmPerHour": 0.7,
+      "wetness": 0.65,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 54.38295512666725,
+        "azimuthDeg": 249.76820749862878,
+        "shadowAzimuthDeg": 69.76820749862878,
+        "flatGroundShadowLengthPerHeight": 0.7163797477441695
+      },
+      "moon": {
+        "altitudeDeg": 64.57162423163662,
+        "azimuthDeg": 213.56314675923207,
+        "illuminatedFraction": 0.032173766595572306,
+        "angularDiameterDeg": 0.554447225473896,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-08-storm",
+      "timestamp": "2026-07-15T15:30:00-06:00",
+      "utc": "2026-07-15T21:30:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 1,
+      "rainMmPerHour": 8,
+      "wetness": 0.95,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 54.38295512666725,
+        "azimuthDeg": 249.76820749862878,
+        "shadowAzimuthDeg": 69.76820749862878,
+        "flatGroundShadowLengthPerHeight": 0.7163797477441695
+      },
+      "moon": {
+        "altitudeDeg": 64.57162423163662,
+        "azimuthDeg": 213.56314675923207,
+        "illuminatedFraction": 0.032173766595572306,
+        "angularDiameterDeg": 0.554447225473896,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-09-fog",
+      "timestamp": "2026-07-15T15:30:00-06:00",
+      "utc": "2026-07-15T21:30:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 1,
+      "rainMmPerHour": 0,
+      "wetness": 0.2,
+      "snowCover": 0,
+      "season": "summer green; no leaf litter",
+      "sun": {
+        "elevationDeg": 54.38295512666725,
+        "azimuthDeg": 249.76820749862878,
+        "shadowAzimuthDeg": 69.76820749862878,
+        "flatGroundShadowLengthPerHeight": 0.7163797477441695
+      },
+      "moon": {
+        "altitudeDeg": 64.57162423163662,
+        "azimuthDeg": 213.56314675923207,
+        "illuminatedFraction": 0.032173766595572306,
+        "angularDiameterDeg": 0.554447225473896,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-10-snow",
+      "timestamp": "2026-01-15T12:00:00-07:00",
+      "utc": "2026-01-15T19:00:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.96,
+      "rainMmPerHour": 0,
+      "wetness": 0.2,
+      "snowCover": 0.8,
+      "season": "northern winter bare deciduous; no leaf litter",
+      "sun": {
+        "elevationDeg": 29.1917168414193,
+        "azimuthDeg": 177.40796853683705,
+        "shadowAzimuthDeg": 357.4079685368371,
+        "flatGroundShadowLengthPerHeight": 1.7898968883946915
+      },
+      "moon": {
+        "altitudeDeg": 13.892637044300319,
+        "azimuthDeg": 211.29167635268067,
+        "illuminatedFraction": 0.09012699017455805,
+        "angularDiameterDeg": 0.49530103716835466,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-11-moon-night",
+      "timestamp": "2026-01-03T19:00:00-07:00",
+      "utc": "2026-01-04T02:00:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.05,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "northern winter bare deciduous; no leaf litter",
+      "sun": {
+        "elevationDeg": -24.570144886167256,
+        "azimuthDeg": 260.0739166442655,
+        "shadowAzimuthDeg": null,
+        "flatGroundShadowLengthPerHeight": null
+      },
+      "moon": {
+        "altitudeDeg": 17.229785473767112,
+        "azimuthDeg": 71.95424081733694,
+        "illuminatedFraction": 0.9915888855028523,
+        "angularDiameterDeg": 0.5492992225951239,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    },
+    {
+      "id": "lighting-12-moonless-night",
+      "timestamp": "2026-01-18T19:00:00-07:00",
+      "utc": "2026-01-19T02:00:00+00:00",
+      "weatherStatus": "synthetic art fixture, not historical observation",
+      "cloudCover": 0.05,
+      "rainMmPerHour": 0,
+      "wetness": 0,
+      "snowCover": 0,
+      "season": "northern winter bare deciduous; no leaf litter",
+      "sun": {
+        "elevationDeg": -22.0918889745859,
+        "azimuthDeg": 261.32841878289287,
+        "shadowAzimuthDeg": null,
+        "flatGroundShadowLengthPerHeight": null
+      },
+      "moon": {
+        "altitudeDeg": -21.491798045411166,
+        "azimuthDeg": 256.98659670030327,
+        "illuminatedFraction": 0.0012718935528618358,
+        "angularDiameterDeg": 0.5016469336495926,
+        "model": "transcription of meeus47-topocentric-v1; not independent ephemeris verification"
+      }
+    }
+  ]
+}
