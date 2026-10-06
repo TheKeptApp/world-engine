@@ -2,6 +2,7 @@
  "changes": [
   "Excluded the 14 HR numbers that are not stars (no magnitude in BSC5), HR 5958 (T CrB, a recurrent nova listed at its 1946 maximum) and HR 681 (Mira, a long-period variable listed near its maximum); considered stars to magnitude 6.5.",
   "Merged components within 2 arcminutes into one point: combined flux magnitude, flux-weighted normalized position; identity, color index and velocity of the brightest component.",
+  "Shared combined V: BSC5 lists some close pairs with the same V in both rows and a positive multiple-star magnitude difference (m_mdiff), which makes that V the light of the pair together; components with the same V and m_mdiff > 0 are counted once instead of flux-summed (otherwise HR 5788/5789 = delta Ser would read 3.05 instead of 3.80); rows with different V are summed as before (applies to 4 groups among the candidates: HR 887/888 V 4.63, HR 4968/4969 V 5.22, HR 5788/5789 V 3.80, HR 6749/6750 V 5.77).",
   "Converted the BSC5 J2000 right ascension/declination to unit vectors; rounded vectors to 1e-7, magnitudes to 0.001, color index (BSC5 B-V, two decimals) to 0.001.",
   "id and hr are the HR (Bright Star Catalogue) number, hd the Henry Draper number; hip is null (BSC5 has no Hipparcos cross-identification).",
   "distPc is 1/parallax and velPcPerYear the space velocity from BSC5 proper motion, parallax and radial velocity, only for stars with a parallax of at least 0.001 arcsec (BSC5 parallaxes are pre-Hipparcos and rough for distant stars, so distPc only scales the motion and is not a quotable distance); the other 40 stars carry null and stay at their J2000 position (largest neglected proper motion 0.263 arcsec/year, HR 4763).",
@@ -4485,32 +4486,6 @@
    "velPcPerYear": null
   },
   {
-   "bayer": "Del",
-   "ci": 0.26,
-   "components": [
-    5788,
-    5789
-   ],
-   "con": "Ser",
-   "distPc": 47.619,
-   "hd": 138917,
-   "hip": null,
-   "hr": "5788",
-   "id": 5788,
-   "mag": 3.047,
-   "name": null,
-   "u": [
-    -0.5820218,
-    -0.7923387,
-    0.1828933
-   ],
-   "velPcPerYear": [
-    8.725757e-06,
-    4.073646e-05,
-    -8.24209e-06
-   ]
-  },
-  {
    "bayer": "Mu",
    "ci": 1.59,
    "components": [
@@ -6291,6 +6266,31 @@
     -5.763134e-06,
     7.689348e-05,
     -1.842977e-05
+   ]
+  },
+  {
+   "bayer": "The-2",
+   "ci": 0.18,
+   "components": [
+    1412
+   ],
+   "con": "Tau",
+   "distPc": 34.4828,
+   "hd": 28319,
+   "hip": null,
+   "hr": "1412",
+   "id": 1412,
+   "mag": 3.4,
+   "name": "Chamukuy",
+   "u": [
+    0.3732789,
+    0.8864972,
+    0.2734696
+   ],
+   "velPcPerYear": [
+    -1.559364e-07,
+    4.400094e-05,
+    7.167116e-06
    ]
   }
  ]
