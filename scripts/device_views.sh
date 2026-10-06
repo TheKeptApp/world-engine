@@ -4,7 +4,7 @@
 # (Documents/views/<id>.png) and copies them back. Views in another area than the first are skipped
 # (they need their own launch).
 #   scripts/device_views.sh [out-dir] [views.json] [view-id ...]
-# Env: SETTLE seconds per view (default 4), RENDERSCALE (default 2.5).
+# Env: SETTLE seconds per view (default 4), RENDERSCALE (default 2.5), AREA (another bundled area).
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/.build/device-views/$(date +%Y%m%d-%H%M%S)}"; mkdir -p "$OUT"; OUT="$(cd "$OUT" && pwd)"
@@ -26,7 +26,7 @@ N=$(echo "$LIST" | base64 -d | python3 -c "import json,sys;print(len(json.load(s
 LOG="$OUT/views.log"
 echo "$N views → $OUT"
 xcrun devicectl device process launch --device "$CORE" --terminate-existing --console com.lincolnlabs.worldlab -- \
-  -renderer realitykit -hud off -frame16x9 -rendertrace -renderscale "${RENDERSCALE:-2.5}" \
+  -renderer realitykit -hud off -frame16x9 -rendertrace -renderscale "${RENDERSCALE:-2.5}" ${AREA:+-area "$AREA"} \
   -viewlist64 "$LIST" -viewsettle "${SETTLE:-4}" > "$LOG" 2>&1 &
 PID=$!
 for _ in $(seq 1 $((60 + N * 30))); do
