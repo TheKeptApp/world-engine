@@ -68,6 +68,20 @@ struct GroundDetailTests {
         let km2 = b.features.bounds.width * b.features.bounds.height / 1e6
         let tris = Double((stats["lawnTriangles"] ?? 0) + (stats["parkwayTriangles"] ?? 0)) / km2
         print("ground detail \(area): lawn \(stats["lawnTriangles"] ?? 0) parkway \(stats["parkwayTriangles"] ?? 0) tris, \(Int(tris)) /km², mowed \(stats["mowedLots"] ?? 0)/\(lots), worn \(stats["wornEdges"] ?? 0)")
-        #expect(tris < 250_000, "\(area): \(Int(tris)) ground-detail triangles per km²")
+        #expect(tris < 150_000, "\(area): \(Int(tris)) ground-detail triangles per km²")
+    }
+
+    /// Yard shrubs stand back from public sidewalks so none fills a street-level view (P3 daily sheet:
+    /// a shrub beside the walk at the camera read as a boulder).
+    @Test(arguments: YardTests.cases)
+    func shrubsStandBackFromSidewalks(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let b = try YardTests.build(area, profile)
+        let walks = SegmentIndex(b.features.sidewalks.map(\.centerline))
+        // Walkway cells are filled 0.8 m either side of the centreline; shrubs clear them by 1.0–1.5 m
+        // (1 m raster: allow half a cell).
+        let close = b.scene.instances.filter { $0.source.hasPrefix("gen:shrub:") }
+            .filter { walks.nearest(to: LocalPoint($0.x, $0.y), within: 0.8 + 1.0 - 0.75) != nil }
+        #expect(close.isEmpty, "\(area): \(close.count) shrubs crowd a sidewalk, e.g. \(close.first.map { "\($0.x), \($0.y)" } ?? "")")
     }
 }

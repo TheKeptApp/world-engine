@@ -49,6 +49,8 @@ public struct YardRules: Codable, Sendable, Equatable {
     public var mowShare: Double?
     /// Likelihood of a worn strip beside each walk or driveway (0.3–0.7 m, one side, part of its length).
     public var wornEdges: Double?
+    /// Parkway strips between curb and sidewalk drawn as their own lawn band (drier, darker at the curb).
+    public var parkwayBand: Bool?
 }
 
 public struct YardLibrary: Codable, Sendable, Equatable {
@@ -63,7 +65,7 @@ public struct YardLibrary: Codable, Sendable, Equatable {
                                     sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85,
                                     canopyFill: nil, maxTreesPerKm2: nil, lawnEndpoints: nil, bedArea: nil, maxYardTreesPerLot: nil,
                                     frontGarden: nil, rearPaving: nil, frontFence: nil, rearFence: nil,
-                                    lawnPatches: nil, mowShare: nil, wornEdges: nil)
+                                    lawnPatches: nil, mowShare: nil, wornEdges: nil, parkwayBand: nil)
 
     /// The bundled library (fallback rules if the file is missing).
     public static let bundled: YardLibrary = {

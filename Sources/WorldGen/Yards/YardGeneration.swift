@@ -357,9 +357,10 @@ extension SceneGenerator {
                 }
             }
 
-            // Bushes keep clear of carriageways, walkways and walls.
-            func clear(_ p: LocalPoint) -> Bool {
-                !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: 0.4) && !raster.nearUse(p, .building, radius: 1.0)
+            // Bushes keep clear of carriageways, walls and public sidewalks/paths: 1.5 m, so one never
+            // stands right beside the walking path and fills a street-level view (P3 daily sheet).
+            func clear(_ p: LocalPoint, walkway: Double = 1.5) -> Bool {
+                !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: walkway) && !raster.nearUse(p, .building, radius: 1.0)
             }
             // Shrubs: a flowering pair at the walk, a few more near the lot edges in front. Where a shrub
             // stands picks its form (ShrubSite): upright beside the walk and at corners, cushions in beds,
@@ -429,7 +430,7 @@ extension SceneGenerator {
                     var line: [LocalPoint] = []
                     for k in 0..<n {
                         let p = c + axis * ((s0 + s1) / 2 + (Double(k) - Double(n - 1) / 2) * Self.hedgeSegmentSpacing)
-                        guard !raster.nearUse(p, .hard, radius: 1.2), clear(p) else { continue }
+                        guard !raster.nearUse(p, .hard, radius: 1.2), clear(p, walkway: 0.4) else { continue }
                         line.append(p)
                         // Half the segments are turned end for end so the lobed top does not repeat.
                         instances.append(PropInstance(kind: .bush, variant: Self.hedgeVariant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
@@ -448,7 +449,7 @@ extension SceneGenerator {
                         let k = raster.index(i, j)
                         guard owned(k), raster.use[k] == LotRaster.Use.open.rawValue, cellFront(k), gr.chance(0.3) else { continue }
                         let p = raster.center(i, j) + LocalPoint(gr.range(-0.3, 0.3), gr.range(-0.3, 0.3))
-                        guard !raster.nearUse(p, .walkway, radius: 0.5), !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .building, radius: 0.8),
+                        guard !raster.nearUse(p, .walkway, radius: 1.0), !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .building, radius: 0.8),
                               gardenShrubs.allSatisfy({ simd_distance($0, p) > 1.5 }) else { continue }
                         gardenShrubs.append(p)
                     } }
@@ -584,7 +585,7 @@ extension SceneGenerator {
             addStatic(lawn, job.feature, at: job.anchor)
         }
         stats["lawnTriangles"] = lawnTris
-        if lod == 0 {
+        if lod == 0, library.rules(for: profile.id).parkwayBand == true {
             let park = GroundDetail.parkways(features.roads, raster: raster, roadLines: roadLines, pools: pools, slot: n("lawn"),
                                              include: { self.focus.expanded(by: 30).contains($0) })
             stats["parkwayTriangles"] = park.triangleCount

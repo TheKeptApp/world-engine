@@ -116,7 +116,7 @@ struct GroundPools {
 
 enum GroundDetail {
     /// Lawn grid spacing along the bands (m); across them it is the band width or this.
-    static let gridStep = 3.0
+    static let gridStep = 4.0
 
     /// The lot lawn on a grid clipped to its rings, every vertex shaded by the field and pools.
     static func lawnMesh(_ rings: [Ring], field: LawnField, pools: GroundPools, slot: Int, y: Double) -> MeshBuffers {
@@ -125,35 +125,58 @@ enum GroundDetail {
         let along = LocalPoint(-across.y, across.x)
         let wa = field.mow?.width ?? gridStep, oa = field.mow?.start ?? 0
         let splits = field.splitLines()
-        for ring in rings {
-            let tri = Earcut.triangulate(Polygon2D(outer: ring))
-            for k in stride(from: 0, to: tri.indices.count - 2, by: 3) {
-                let t = [tri.vertices[tri.indices[k]], tri.vertices[tri.indices[k + 1]], tri.vertices[tri.indices[k + 2]]]
-                let tt = RingMath.signedArea(t) < 0 ? t.reversed() : t
-                let pa = tt.map { simd_dot($0, across) }, pb = tt.map { simd_dot($0, along) }
-                let i0 = Int(((pa.min()! - oa) / wa).rounded(.down)), i1 = Int(((pa.max()! - oa) / wa).rounded(.down))
-                let j0 = Int((pb.min()! / gridStep).rounded(.down)), j1 = Int((pb.max()! / gridStep).rounded(.down))
-                for i in i0...i1 { for j in j0...j1 {
-                    let a0 = oa + Double(i) * wa, b0 = Double(j) * gridStep
-                    var piece = ConvexClip.clip(tt, keep: Linear2(a: across, c: -a0))
-                    piece = ConvexClip.clip(piece, keep: Linear2(a: -across, c: a0 + wa))
-                    piece = ConvexClip.clip(piece, keep: Linear2(a: along, c: -b0))
-                    piece = ConvexClip.clip(piece, keep: Linear2(a: -along, c: b0 + gridStep))
-                    guard piece.count >= 3, ConvexClip.area(piece) > ConvexClip.minArea else { continue }
-                    var pieces = [piece]
+        // Each ring is clipped once per grid cell (Sutherland–Hodgman against the convex cell is
+        // exact for a concave ring up to zero-area bridges, which the triangulation drops), so an
+        // inside cell costs two triangles.
+        for ring0 in rings {
+            let ring = RingMath.signedArea(ring0) < 0 ? Array(ring0.reversed()) : ring0
+            let pa = ring.map { simd_dot($0, across) }, pb = ring.map { simd_dot($0, along) }
+            let i0 = Int(((pa.min()! - oa) / wa).rounded(.down)), i1 = Int(((pa.max()! - oa) / wa).rounded(.down))
+            let j0 = Int((pb.min()! / gridStep).rounded(.down)), j1 = Int((pb.max()! / gridStep).rounded(.down))
+            for i in i0...i1 { for j in j0...j1 {
+                let a0 = oa + Double(i) * wa, b0 = Double(j) * gridStep
+                var piece = ConvexClip.clip(ring, keep: Linear2(a: across, c: -a0))
+                piece = ConvexClip.clip(piece, keep: Linear2(a: -across, c: a0 + wa))
+                piece = ConvexClip.clip(piece, keep: Linear2(a: along, c: -b0))
+                piece = ConvexClip.clip(piece, keep: Linear2(a: -along, c: b0 + gridStep))
+                guard piece.count >= 3, abs(ConvexClip.area(piece)) > 0.05 else { continue }
+                // Concave leftovers: triangulate, then treat each triangle as a convex piece.
+                var convex: [[LocalPoint]] = []
+                if piece.count <= 4 || isConvex(piece) {
+                    convex = [piece]
+                } else {
+                    let tri = Earcut.triangulate(Polygon2D(outer: piece))
+                    for k in stride(from: 0, to: tri.indices.count - 2, by: 3) {
+                        let t = [tri.vertices[tri.indices[k]], tri.vertices[tri.indices[k + 1]], tri.vertices[tri.indices[k + 2]]]
+                        if abs(RingMath.signedArea(t)) > 1e-4 { convex.append(RingMath.signedArea(t) < 0 ? t.reversed() : t) }
+                    }
+                }
+                for pc in convex {
+                    var pieces = [pc]
                     for s in splits {
-                        let c = piece.reduce(LocalPoint(0, 0), +) / Double(piece.count)
+                        let c = pc.reduce(LocalPoint(0, 0), +) / Double(pc.count)
                         let d = c - s.a, t = simd_dot(d, s.u)
-                        guard t > -2.5, t < s.len + 2.5, abs(d.x * -s.u.y + d.y * s.u.x) < s.reach + 2.5 else { continue }
+                        guard t > -3, t < s.len + 3, abs(d.x * -s.u.y + d.y * s.u.x) < s.reach + 3 else { continue }
                         pieces = pieces.flatMap { p in
                             [ConvexClip.clip(p, keep: s.line), ConvexClip.clip(p, keep: -s.line)].filter { $0.count >= 3 && ConvexClip.area($0) > ConvexClip.minArea }
                         }
                     }
                     for p in pieces { addPiece(p, field: field, pools: pools, slot: slot, y: y, into: &m) }
-                } }
-            }
+                }
+            } }
         }
         return m
+    }
+
+    static func isConvex(_ p: [LocalPoint]) -> Bool {
+        var sign = 0.0
+        for i in p.indices {
+            let a = p[i], b = p[(i + 1) % p.count], c = p[(i + 2) % p.count]
+            let z = RingMath.cross(b - a, c - b)
+            if abs(z) < 1e-9 { continue }
+            if sign == 0 { sign = z } else if (z > 0) != (sign > 0) { return false }
+        }
+        return true
     }
 
     static func addPiece(_ poly: [LocalPoint], field: LawnField, pools: GroundPools, slot: Int, y: Double, into m: inout MeshBuffers) {
