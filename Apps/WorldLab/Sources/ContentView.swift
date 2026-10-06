@@ -1,3 +1,4 @@
+import CoreGraphics
 import RealityKit
 import SwiftUI
 import WorldEngine
@@ -178,6 +179,84 @@ struct RealityKitScreen: View {
             try? await Task.sleep(for: .seconds(n))
             hostPaused = false
         }
+        .task {
+            guard let seconds = options.snapshotSeconds else { return }
+            await saveSnapshot(after: seconds)
+        }
+    }
+
+    // MARK: Snapshot (`-snapshot SECONDS`)
+
+    /// The name part of the snapshot's file: `-snapshotname`, else showcase NN, the preset or the mode, else
+    /// walk (the street loop of tests) or postcard (the experience's opening view). File-name safe.
+    private var snapshotLabel: String {
+        let raw = options.snapshotName ?? options.showcase.map { "showcase-\($0)" } ?? options.preset ?? options.mode
+            ?? ((testRun || options.metrics) ? "walk" : "postcard")
+        return String(raw.map { $0.isASCII && ($0.isLetter || $0.isNumber || "-_.".contains($0)) ? $0 : "-" })
+    }
+
+    /// `-snapshot SECONDS`: once the world is on screen and has had SECONDS to settle, write a PNG of the
+    /// RealityKit view to Documents as `snapshot-realitykit-<name>.png` (the web renderer's naming) and print
+    /// `SNAPSHOT saved <file>`, or `SNAPSHOT failed ...`. scripts/device_snapshots.sh waits for that line and
+    /// pulls the file; the view only (no HUD, controls or attribution overlay), see `WorldRenderState.snapshot`.
+    private func saveSnapshot(after seconds: Double) async {
+        func report(_ line: String) { print(line); fflush(nil) }
+        UIApplication.shared.isIdleTimerDisabled = true // a screen that locks stops the rendering
+        let name = "snapshot-realitykit-\(snapshotLabel).png"
+        let file = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(name)
+        try? FileManager.default.removeItem(at: file) // a run that fails must not leave an older capture under this name
+        while world == nil, error == nil { try? await Task.sleep(for: .milliseconds(200)) }
+        if let error { report("SNAPSHOT failed \(name): \(error)"); return }
+        try? await Task.sleep(for: .seconds(seconds))
+        var polls = 0 // the view attaches just after the first frames; matters only for very short waits (-snapshot 0)
+        while !render.attached, polls < 50 { try? await Task.sleep(for: .milliseconds(200)); polls += 1 }
+
+        // The capture comes back nil, or as one flat colour, when RealityKit could not read the view:
+        // then the compositor's image of the view is the next best thing.
+        func capture(_ source: WorldRenderState.SnapshotSource) async -> CGImage? {
+            guard let image = await render.snapshot(source: source) else { report("SNAPSHOT \(source) capture returned nothing"); return nil }
+            guard !Self.isOneColour(image) else { report("SNAPSHOT \(source) capture is one flat colour"); return nil }
+            return image
+        }
+        var source = options.snapshotSource
+        var image = await capture(source)
+        if image == nil, source == .realityKit {
+            source = .compositor
+            report("SNAPSHOT trying the compositor instead")
+            image = await capture(source)
+        }
+        guard let image, let png = UIImage(cgImage: image).pngData() else {
+            report("SNAPSHOT failed \(name): no usable image (\(render.summary))")
+            return
+        }
+        do {
+            try png.write(to: file, options: .atomic)
+        } catch let failure {
+            report("SNAPSHOT failed \(name): \(failure)")
+            return
+        }
+        report("SNAPSHOT source=\(source) size=\(image.width)x\(image.height) view=\(render.summary)")
+        report("SNAPSHOT saved \(name)")
+    }
+
+    /// True when a 16×16 reduction of the image has no more than one level of difference between any two samples.
+    /// A real render of the world never does; a capture that failed quietly (all black) does.
+    private static func isOneColour(_ image: CGImage) -> Bool {
+        let side = 16
+        var pixels = [UInt8](repeating: 0, count: side * side * 4)
+        let drawn = pixels.withUnsafeMutableBytes { raw -> Bool in
+            guard let context = CGContext(data: raw.baseAddress, width: side, height: side, bitsPerComponent: 8, bytesPerRow: side * 4,
+                                          space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.interpolationQuality = .medium
+            context.draw(image, in: CGRect(x: 0, y: 0, width: side, height: side))
+            return true
+        }
+        guard drawn else { return false }
+        var low = 255, high = 0
+        for i in stride(from: 0, to: pixels.count, by: 4) {
+            for channel in 0..<3 { low = min(low, Int(pixels[i + channel])); high = max(high, Int(pixels[i + channel])) }
+        }
+        return high - low <= 1
     }
 
     // MARK: Experience UI
