@@ -113,6 +113,8 @@ struct PackageTests {
         for (e, i) in zip(list, build.scene.instances) {
             #expect(e["id"] as? String == i.source)
             #expect(e["kind"] as? String == i.kind.rawValue)
+            let stretch = e["stretch"] as? [Double] ?? [1, 1]
+            #expect(abs(stretch[0] - i.stretch.x) < 1e-5 && abs(stretch[1] - i.stretch.y) < 1e-5, "\(i.source) stretch")
             let p = e["position"] as! [Double]
             worstInstance = max(worstInstance, simd_distance(SIMD3(p[0], p[1], p[2]), SIMD3(i.x, i.height, -i.y)))
         }
