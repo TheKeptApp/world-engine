@@ -5,6 +5,7 @@ layers (sky first), each with its JSON contract in [`docs/live-world/`](../../do
 
 | Layer | Command | Contract |
 |---|---|---|
+| Planes (simulated) | `Tools/livefeeds/livefeeds.sh planes [--time ISO] [--areas ord,den] --pretty` | [`planes.md`](../../docs/live-world/planes.md) |
 | Transit (RTD) | `Tools/livefeeds/livefeeds.sh serve`; vehicles now carry `motion`, shapes at `/v1/shapes?ids=` | [`transit.md`](../../docs/live-world/transit.md) |
 | Satellites | `Tools/livefeeds/livefeeds.sh sats --lat 41.8781 --lon -87.6298 [--elements FILE] [--visible-only] --pretty` | [`satellites.md`](../../docs/live-world/satellites.md) |
 | Sky | `Tools/livefeeds/livefeeds.sh sky --lat 41.8781 --lon -87.6298 [--time 2026-10-06T04:00:00Z] [--radiance grid.json] --pretty` | [`sky.md`](../../docs/live-world/sky.md) |
@@ -58,6 +59,8 @@ with a python.org Python that ships no CA certificates, the tool falls back to t
 | `livefeeds/sky/` | Sky layer: `astro.py` (time, frames, horizon), `bodies.py` (Sun, Moon, planets), `stars.py`, `skyglow.py` (light pollution, limiting magnitude), `contract.py` |
 | `livefeeds/sats/` | Satellite layer: `elements.py` (TLE, OMM), `sgp4.py`, `passes.py` (frames, shadow, passes, magnitude), `celestrak.py` (polite fetch, cache), `contract.py` |
 | `livefeeds/transit/` | Route shapes (`shapes.py`: parse, simplify, project, walk) and smoothing (`smoothing.py`: relay `Tracker`, reference client `Smoother`) |
+| `livefeeds/planes/` | Simulated ambient aircraft (`ambient.py`) and the `StableRandom` port |
+| `data/ambient-planes/` | Per-airport runway, flow and model data (OSM-derived runways, ODbL) |
 | `data/satellites.json` | Element groups, refresh limits, standard magnitudes (data, not code) |
 | `validation/` | Reference comparisons that need PyPI packages (Skyfield + DE421); not part of the test suite |
 | `tests/` | `unittest` suite; `tests/pbenc.py` is a tiny protobuf encoder that builds synthetic feeds |

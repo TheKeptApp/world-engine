@@ -5,6 +5,7 @@
     Tools/livefeeds/livefeeds.sh once  [--cache-dir DIR] [--areas FILE]
     Tools/livefeeds/livefeeds.sh sky   --lat L --lon L [--elev M] [--time ISO8601] [--radiance FILE] [--catalog FILE]
     Tools/livefeeds/livefeeds.sh sats  --lat L --lon L [--elev M] [--time ISO8601] [--hours H] [--elements FILE] [--ids N,N]
+    Tools/livefeeds/livefeeds.sh planes [--time ISO8601] [--areas ord,den] [--wind-from DEG --wind-mps M]
     Tools/livefeeds/livefeeds.sh test
 """
 
@@ -156,6 +157,16 @@ def cmd_sats(args) -> int:
     return 0
 
 
+def cmd_planes(args) -> int:
+    from .planes import ambient
+    areas = [ambient.load_area(a.strip()) for a in args.areas.split(",") if a.strip()]
+    wind = (args.wind_from, args.wind_mps) if args.wind_from is not None and args.wind_mps is not None else None
+    doc = ambient.snapshot(areas, _parse_time(args.time), wind)
+    print(json.dumps(doc, ensure_ascii=False, indent=1 if args.pretty else None,
+                     separators=None if args.pretty else (",", ":")))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="livefeeds", description="RTD Denver live-vehicle relay prototype")
     sub = p.add_subparsers(dest="command", required=True)
@@ -208,6 +219,14 @@ def main(argv=None) -> int:
     t.add_argument("--cache-dir")
     t.add_argument("--pretty", action="store_true")
     t.set_defaults(func=cmd_sats)
+
+    a = sub.add_parser("planes", help="print simulated ambient aircraft (not live) for an instant")
+    a.add_argument("--time", help="ISO 8601 instant (default now)")
+    a.add_argument("--areas", default="ord,den", help="area files in data/ambient-planes/ (comma-separated)")
+    a.add_argument("--wind-from", type=float, help="wind direction, degrees true (from)")
+    a.add_argument("--wind-mps", type=float, help="wind speed, m/s")
+    a.add_argument("--pretty", action="store_true")
+    a.set_defaults(func=cmd_planes)
 
     args = p.parse_args(argv)
     try:
