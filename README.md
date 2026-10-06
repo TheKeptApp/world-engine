@@ -40,3 +40,6 @@ swift run worldbake stats Data/areas/sloans-lake
 Map data © OpenStreetMap contributors, available under the
 [Open Database License (ODbL)](https://www.openstreetmap.org/copyright).
 Any app built on WorldEngine must keep this attribution visible on the map.
+It must also show the engine's credits (`WorldCreditsView`, or `WorldCreditsButton` beside the world)
+and pass every exported image through `WorldCredits.burnIn(...)`. World packages carry their licence
+notice in `LICENSE-DATA.md`. See `docs/data-licensing.md`.

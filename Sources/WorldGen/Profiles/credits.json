@@ -1,0 +1,103 @@
+{
+  "schema": "worldengine.credits/1",
+  "comment": "Static engine credits and licence notices (decisions 6a-6f, 2026-10-06; docs/data-licensing.md). CreditsCatalog.merged(...) adds one credit per distinct manifest source (license + attribution) and fills the host-supplied weather entry from the host's WeatherProvider attribution. 'surfaces' says where an entry applies: app (credits screen), web (web renderer), package (world package notice and world.json credits), image (exported images). 'burnIn: true' entries are drawn onto every exported image by CreditBurnIn. 'placeholder: true' entries are pending: fill them before any public release.",
+  "credits": [
+    {
+      "id": "openstreetmap",
+      "kind": "mapData",
+      "title": "OpenStreetMap",
+      "text": "© OpenStreetMap contributors",
+      "detail": "Map data available under the Open Database License (ODbL 1.0).",
+      "url": "https://www.openstreetmap.org/copyright",
+      "displayURL": "openstreetmap.org/copyright",
+      "license": "ODbL-1.0",
+      "condition": "always",
+      "surfaces": ["app", "web", "package", "image"],
+      "burnIn": true,
+      "burnInText": "© OpenStreetMap contributors · openstreetmap.org/copyright"
+    },
+    {
+      "id": "odbl-offer",
+      "kind": "dataOffer",
+      "title": "World data download",
+      "text": "The world data is a Derivative Database of OpenStreetMap and is offered free of charge under the ODbL 1.0.",
+      "detail": "Download link to be published before any public release.",
+      "license": "ODbL-1.0",
+      "condition": "always",
+      "surfaces": ["app", "web", "package"],
+      "burnIn": false,
+      "placeholder": true,
+      "note": "ODBL_OFFER_URL_PENDING: set 'url' to the static download page once it exists (docs/data-licensing.md). The offer must be live before any public release."
+    },
+    {
+      "id": "star-catalog",
+      "kind": "skyData",
+      "title": "Yale Bright Star Catalogue",
+      "text": "Stars: Yale Bright Star Catalogue, 5th rev. ed. (Hoffleit & Warren 1991), public domain.",
+      "detail": "The 256 brightest stars, as distributed by NASA HEASARC. Courtesy credit; no licence condition. Star names (labels only, never drawn) come from the IAU Catalog of Star Names (IAU Working Group on Star Names, Creative Commons Attribution), credited in STARS-NOTICE.md.",
+      "url": "https://heasarc.gsfc.nasa.gov/W3Browse/star-catalog/bsc5p.html",
+      "license": "public-domain",
+      "condition": "always",
+      "surfaces": ["app", "web"],
+      "burnIn": false
+    },
+    {
+      "id": "naip",
+      "kind": "imagery",
+      "title": "USDA NAIP aerial imagery",
+      "text": "NAIP imagery provided by USDA Farm Service Agency",
+      "detail": "Shown only when NAIP-derived values are used (for example zone roof-colour or canopy shares). Public domain; USDA requests this credit.",
+      "license": "public-domain",
+      "condition": "naipDerivedValues",
+      "surfaces": ["app", "web", "package"],
+      "burnIn": false
+    },
+    {
+      "id": "weather-provider",
+      "kind": "weather",
+      "title": "Weather",
+      "text": "Weather data from the host's weather provider",
+      "detail": "Host-supplied: the provider mark and legal link come at runtime from the host WeatherProvider's attribution (for Apple Weather: the Apple Weather mark and the legal attribution page). Omitted when the host supplies no weather attribution.",
+      "condition": "hostSupplied",
+      "surfaces": ["app", "web", "image"],
+      "burnIn": true
+    },
+    {
+      "id": "earcut",
+      "kind": "code",
+      "title": "Earcut",
+      "text": "Earcut 2.2.4 (Swift port). Copyright (c) 2016, Mapbox",
+      "url": "https://github.com/mapbox/earcut",
+      "license": "ISC",
+      "licenseText": "ISC License\n\nCopyright (c) 2016, Mapbox\n\nPermission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.",
+      "condition": "always",
+      "surfaces": ["app"],
+      "burnIn": false
+    },
+    {
+      "id": "threejs",
+      "kind": "code",
+      "title": "three.js",
+      "text": "three.js 0.180.0. Copyright © 2010-2025 three.js authors",
+      "detail": "Web build only.",
+      "url": "https://threejs.org",
+      "license": "MIT",
+      "licenseText": "The MIT License\n\nCopyright © 2010-2025 three.js authors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+      "condition": "always",
+      "surfaces": ["web"],
+      "burnIn": false
+    }
+  ],
+  "licenses": {
+    "ODbL-1.0": { "name": "Open Database License 1.0", "url": "https://opendatacommons.org/licenses/odbl/1-0/", "attributionRequired": true, "shareAlike": true },
+    "CC-BY-4.0": { "name": "Creative Commons Attribution 4.0 International", "url": "https://creativecommons.org/licenses/by/4.0/", "attributionRequired": true, "shareAlike": false },
+    "CC-BY-SA-4.0": { "name": "Creative Commons Attribution-ShareAlike 4.0 International", "url": "https://creativecommons.org/licenses/by-sa/4.0/", "attributionRequired": true, "shareAlike": true },
+    "CDLA-Permissive-2.0": { "name": "Community Data License Agreement – Permissive 2.0", "url": "https://cdla.dev/permissive-2-0/", "attributionRequired": false, "shareAlike": false, "note": "Ship the agreement text with shared data (CDLA-Permissive-2.0 §2.1)." },
+    "Apache-2.0": { "name": "Apache License 2.0", "url": "https://www.apache.org/licenses/LICENSE-2.0", "attributionRequired": true, "shareAlike": false, "note": "Keep the source's NOTICE file." },
+    "CC0-1.0": { "name": "Creative Commons Zero 1.0 Universal", "url": "https://creativecommons.org/publicdomain/zero/1.0/", "attributionRequired": false, "shareAlike": false },
+    "PDDL-1.0": { "name": "Open Data Commons Public Domain Dedication and License 1.0", "url": "https://opendatacommons.org/licenses/pddl/1-0/", "attributionRequired": false, "shareAlike": false },
+    "public-domain": { "name": "Public domain", "attributionRequired": false, "shareAlike": false },
+    "ISC": { "name": "ISC License", "url": "https://opensource.org/license/isc-license-txt", "attributionRequired": true, "shareAlike": false },
+    "MIT": { "name": "MIT License", "url": "https://opensource.org/license/mit", "attributionRequired": true, "shareAlike": false }
+  }
+}
