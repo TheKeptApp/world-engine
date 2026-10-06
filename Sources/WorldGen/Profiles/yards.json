@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "Yard and street-tree rules per style profile ID (profiles without an entry use 'default'). Densities, lawn endpoint colours and bed areas follow look-fix-v1 \u00a71.1-\u00a71.2 (ceilings/priors, not quotas): North Shore -> evanston, wilmette; Lakeview -> chicago-dense-north; Denver -> front-range, default. canopyFill: share of a measured trees.canopyShare to reach with extra yard trees, capped by maxYardTreesPerLot and maxTreesPerKm2 (render budget; raise when far tree LODs get cheaper). Lots are inferred yard cells for dressing only: never cadastral boundaries, never navigation. All values are design judgments [J]. Lakeview: 0\u201320 % lawn (look-fix \u00a71.2) via frontGarden/rearPaving; fences per concepts ground-04 (front iron) and regions 06 (alley privacy).",
+  "comment": "Yard and street-tree rules per style profile ID (profiles without an entry use 'default'). Densities, lawn endpoint colours and bed areas follow look-fix-v1 §1.1-§1.2 (ceilings/priors, not quotas): North Shore -> evanston, wilmette; Lakeview -> chicago-dense-north; Denver -> front-range, default. canopyFill: share of a measured trees.canopyShare to reach with extra yard trees, capped by maxYardTreesPerLot and maxTreesPerKm2 (render budget; raise when far tree LODs get cheaper). Lots are inferred yard cells for dressing only: never cadastral boundaries, never navigation. All values are design judgments [J]. Lakeview: 0–20 % lawn (look-fix §1.2) via frontGarden/rearPaving; fences per concepts ground-04 (front iron) and regions 06 (alley privacy). Ground detail (look-fix §1.1): lawnPatches per lot, mowShare (front-lawn mowing bands, ≤ half of suburban lawns), wornEdges (likelihood of a worn strip beside each walk/drive).",
   "rules": {
     "default": {
       "maxLotDepth": 30,
@@ -47,7 +47,13 @@
       "frontGarden": 0.05,
       "rearPaving": 0.2,
       "frontFence": 0.05,
-      "rearFence": 0.4
+      "rearFence": 0.4,
+      "lawnPatches": [
+        3,
+        5
+      ],
+      "mowShare": 0.45,
+      "wornEdges": 0.5
     },
     "front-range": {
       "maxLotDepth": 32,
@@ -94,7 +100,13 @@
       "frontGarden": 0.05,
       "rearPaving": 0.2,
       "frontFence": 0.05,
-      "rearFence": 0.4
+      "rearFence": 0.4,
+      "lawnPatches": [
+        3,
+        5
+      ],
+      "mowShare": 0.45,
+      "wornEdges": 0.5
     },
     "evanston": {
       "maxLotDepth": 40,
@@ -141,7 +153,13 @@
       "frontGarden": 0.0,
       "rearPaving": 0.1,
       "frontFence": 0.04,
-      "rearFence": 0.15
+      "rearFence": 0.15,
+      "lawnPatches": [
+        3,
+        5
+      ],
+      "mowShare": 0.45,
+      "wornEdges": 0.5
     },
     "wilmette": {
       "maxLotDepth": 45,
@@ -188,7 +206,13 @@
       "frontGarden": 0.0,
       "rearPaving": 0.1,
       "frontFence": 0.04,
-      "rearFence": 0.15
+      "rearFence": 0.15,
+      "lawnPatches": [
+        3,
+        5
+      ],
+      "mowShare": 0.45,
+      "wornEdges": 0.5
     },
     "chicago-dense-north": {
       "maxLotDepth": 24,
@@ -235,7 +259,13 @@
       "frontGarden": 0.45,
       "rearPaving": 0.6,
       "frontFence": 0.35,
-      "rearFence": 0.5
+      "rearFence": 0.5,
+      "lawnPatches": [
+        2,
+        3
+      ],
+      "mowShare": 0.15,
+      "wornEdges": 0.3
     }
   }
 }

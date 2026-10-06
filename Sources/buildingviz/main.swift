@@ -34,7 +34,7 @@ do {
         let a = args[i]
         guard a.hasPrefix("--") else { fail("unexpected argument \(a)\n\(usage)") }
         let key = String(a.dropFirst(2))
-        if ["gallery", "help", "scene", "zones"].contains(key) { flags.insert(key); i += 1; continue }
+        if ["gallery", "help", "scene", "zones", "mix"].contains(key) { flags.insert(key); i += 1; continue }
         guard i + 1 < args.count else { fail("missing value for \(a)") }
         opts[key] = args[i + 1]
         i += 2
@@ -133,6 +133,22 @@ if isScene {
     }
 }
 let genTime = clock.now - genStart
+
+// --mix (with --scene): family mix of the whole area's buildings by role, then exit.
+if flags.contains("mix"), let s = sceneBuild?.scene {
+    var counts: [String: Int] = [:]
+    var fallbacks = 0
+    for g in s.buildings {
+        counts["\(g.role.rawValue) \(g.family ?? "-")", default: 0] += 1
+        if g.roofFallback != nil { fallbacks += 1 }
+    }
+    let total = s.buildings.count
+    print("buildings \(total)  roof fallbacks \(fallbacks) (\(String(format: "%.1f", 100 * Double(fallbacks) / Double(max(1, total)))) %)")
+    for (k, n) in counts.sorted(by: { $0.value > $1.value }) {
+        print(String(format: "%6d  %5.1f %%  %@", n, 100 * Double(n) / Double(max(1, total)), k))
+    }
+    exit(0)
+}
 
 // MARK: - Assemble scene
 
