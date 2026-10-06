@@ -30,6 +30,7 @@ scripts/test.sh                      # unit tests
 scripts/generate.sh                  # build pinned XcodeGen, generate WorldLab.xcodeproj
 scripts/snapshots.sh out.png -preset street-mid   # build, run in simulator, save screenshot
 scripts/device.sh build              # Release build + install on the connected iPhone
+scripts/device_snapshots.sh          # on-device screenshots (showcase 01-12, v2 presets) pulled to docs/screenshots/m3/device
 scripts/walk_test.sh baseline        # 10-minute device walk: fps, memory, heat + GPU samples
 swift run worldbake stats Data/areas/sloans-lake
 ```
