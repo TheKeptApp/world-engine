@@ -193,3 +193,8 @@ Before / after (`buildingviz`, same camera):
     profile in the area, small/large/huge for the situation keys are those percentiles of the local
     house footprints; the house-vs-block role keeps the profile's absolute `hugeArea` (percentiles of
     houses under the 250 m² rule can't decide whether a larger building is a house).
+29. **Canopy calibration** (`yards.json` `canopyFill`, `maxTreesPerKm2`): with a measured
+    `trees.canopyShare`, extra yard trees are planted (back yards, one per lot per round, ≥8 m apart,
+    ≥4 m from walls) until crown cover reaches target × `canopyFill` or the per-km² tree ceiling.
+    Today: Wilmette 0.18 achieved vs 0.58 measured, stopped by the 2,600 trees/km² ceiling, which
+    protects the in-view budget until cheaper far/mid tree LODs (5A) land; then raise the ceiling.
