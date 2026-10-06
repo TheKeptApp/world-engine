@@ -140,6 +140,11 @@ extension World {
             * lookTuning.fill * gradeFill
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
             * lookTuning.fill * lookTuning.groundFill * gradeFill * gradeGround
+        // The sky fill keeps the bible's hue but only half its chroma: at the ×3.2 fill that sets the
+        // bible's lift, the full #99AFE0 tint dominated foliage shading and cast crowns teal
+        // (owner, gate on ccb5f77: "remove the cyan/teal cast"; autumn colours muddied).
+        let fillLuma = simd_dot(g.fillSky, SIMD3<Float>(0.2126, 0.7152, 0.0722))
+        g.fillSky = simd_mix(SIMD3(repeating: fillLuma), g.fillSky, SIMD3(repeating: 0.5))
         g.litFraction = L.litWindows
         // Lit windows (lighting bible §2.4): the core colour at night, the surround tone in twilight.
         let night = Self.lightingBible?.night
@@ -174,8 +179,10 @@ extension World {
         // a uniform pale grey (experience-v1 05: "uniform pale gray horizon", no sun disk), smoke
         // to a flat beige-grey (06). The veil leans toward the obscurant's own colour.
         let obscured = label?.isObscuration ?? false
-        let veil: Float = obscured ? (label == .fog ? 0.95 : 0.75) * intensity : 0
-        let veilColor = label == .fog ? g.fogColor : simd_mix(g.fogColor, tint, SIMD3(repeating: 0.6))
+        // Smoke flattens the sky into one warm veil (owner: ochre/peach with distance), at the
+        // smoke's full weight; fog closes to its own grey; haze and dust as before.
+        let veil: Float = obscured ? (label == .fog ? 0.95 * intensity : label == .smoke ? 0.92 * Float(weight) : 0.75 * intensity) : 0
+        let veilColor = label == .fog || label == .smoke ? g.fogColor : simd_mix(g.fogColor, tint, SIMD3(repeating: 0.6))
         g.skyHorizon = simd_mix(horizon, veilColor, SIMD3(repeating: veil))
         g.skyTop = simd_mix(simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud)), veilColor, SIMD3(repeating: veil * 0.9))
         if veil > 0, label != .fog { g.fogColor = simd_mix(g.fogColor, veilColor, SIMD3(repeating: veil * 0.6)) }
