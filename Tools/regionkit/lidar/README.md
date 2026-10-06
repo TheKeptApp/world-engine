@@ -37,9 +37,38 @@ UV_CACHE_DIR=/tmp/lidar-uv uv run --no-project --python python3 --with numpy --w
 | `score` | Hand labels (`handcheck_labels.json` in the work dir) vs the classifier | `results/handcheck.json` |
 | `vintage --naip TIF` | Lidar-vs-OSM mismatches (footprints with no lidar roof; lidar buildings outside OSM), each checked for a non-vegetated surface in a NAIP scene (e.g. the GeoTIFF that `aerial/canopy_areas.py fetch` leaves in its work dir) | `results/vintage.json` |
 
+## Tree heights
+
+A second tool in the same directory measures tree heights and crown radii for the committed test areas that
+have a profile (evanston, wilmette, chicago-dense-north): canopy height model from the vendor's vegetation classes,
+roof, wall and wire clutter removed, height-adaptive local maxima, watershed crowns, percentiles, crown radius
+against height, a sensitivity sweep, and proposed `trees.heightMeters` / `trees.youngShare`. Method, results and
+checks: [`docs/research/lidar-roofs.md`](../../../docs/research/lidar-roofs.md) section 13. It reads about 350 MB of
+the same EPT dataset (depth ≤ 10, three areas) and needs scikit-image for the watershed (the pure-function tests skip
+that one test without it).
+
+```sh
+UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --python python3 \
+  --with numpy --with scipy --with shapely --with pillow --with rasterio --with "laspy[lazrs]" --with scikit-image \
+  python Tools/regionkit/lidar/trees.py fetch --work /tmp/trees-work
+# then: measure --sensitivity --write (aggregates -> results/trees.json), crops (scratch images for the visual check)
+```
+
+| Subcommand | What it does | Writes |
+|---|---|---|
+| `plan` | EPT nodes, points and density per depth for each area box | work dir |
+| `fetch [--max-depth N]` | Reads the octree nodes that meet each area box, one byte cap for all areas (`data/trees.json`) | work dir |
+| `measure [--areas ...] [--sensitivity] [--write]` | CHM, tops, crowns, statistics, cover check, mapped OSM trees with a height tag, proposal | `results/trees.json` (aggregates); per-tree arrays in the work dir |
+| `crops [--n N] [--near-buildings N] [--thin N] [--few-points N] [--removed N]` | Scratch PNGs: CHM crop with tops and crown outline beside a side view of the points, for a stable sample | work dir only |
+
+Tests: `python -m unittest discover -s Tools/regionkit/lidar/tests -p "test_treeheights.py"` (offline).
+`data/trees_validation.json` holds the visual-check counts (no coordinates).
+
 ## Files
 
 - `lidar.py`: pipeline (network, LAZ, footprints, package reading, images).
+- `trees.py`, `treeheights.py`, `data/trees.json`, `data/trees_validation.json`, `results/trees.json`,
+  `tests/test_treeheights.py`: the tree-height measurement above (`treeheights.py` holds the pure functions).
 - `roofplanes.py`: pure functions (Web Mercator and local-frame conversions, EPT node bounds, plane fits,
   point normals, region growing, plane rasters, upper envelope of a triangle soup, minimum-area rectangle, the
   roof classifier, global shift, Wilson intervals, kappa, stable sampling). Tested in `tests/test_roofplanes.py`
@@ -47,7 +76,7 @@ UV_CACHE_DIR=/tmp/lidar-uv uv run --no-project --python python3 --with numpy --w
 - `data/pilot.json`: area (a committed test area, read-only), profile, EPT dataset and byte cap.
 - `data/params.json`: every threshold (erosion, region growing, raster, classifier, vintage, hand-check sample,
   privacy floor), set before the hand check and before comparing with the generator.
-- `results/`: aggregates only (`comparison.json`, `handcheck.json`, `vintage.json`). No building IDs, no
+- `results/`: aggregates only (`comparison.json`, `handcheck.json`, `vintage.json`, `trees.json`). No building IDs, no
   per-building values, no geometry; any distribution over fewer than 5 buildings (`minGroupN`) is replaced by its
   count.
 
