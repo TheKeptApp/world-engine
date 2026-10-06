@@ -89,9 +89,11 @@ extension World {
                     let source = part.data
                     let n = source.instanceCount
                     if let data = try? LowLevelInstanceData(instanceCount: n, instanceCapacity: max(1, n)) {
-                        source.withTransforms { from in
-                            data.withMutableTransforms { to in for i in 0..<min(n, from.count, to.count) { to[i] = from[i] } }
-                        }
+                        // Copy out, then in: nesting the two buffer closures captures `data` in a
+                        // sending closure, which the strict-concurrency Release build rejects.
+                        var copied: [simd_float4x4] = []
+                        source.withTransforms { copied = Array($0.prefix(n)) }
+                        data.withMutableTransforms { to in for i in 0..<min(copied.count, to.count) { to[i] = copied[i] } }
                         if let instances = try? MeshInstancesComponent(mesh: model.mesh, instances: data, bounds: part.bounds) {
                             e.components.set(instances)
                         }
