@@ -54,7 +54,8 @@ def densest_window(snapshot, side: int = 3):
 
 def cmd_once(args) -> int:
     cfg = _config(args)
-    relay = Relay(cfg, load_areas(args.areas), log=_log)
+    relay = Relay(cfg, load_areas(args.areas), log=_log,
+                  shapes_fetch=lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent))
     outcome = relay.poll_once()
     now = relay.clock()
     snap, state, reason = relay.view(now)
@@ -84,7 +85,7 @@ def cmd_once(args) -> int:
 def cmd_serve(args) -> int:
     cfg = _config(args)
     areas = load_areas(args.areas)
-    relay = Relay(cfg, areas, log=_log)
+    relay = Relay(cfg, areas, log=_log, shapes_fetch=lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent))
     server = make_server(relay, args.host, args.port)
     host, port = server.server_address[:2]
     _log("livefeeds %s serving http://%s:%d/v1/vehicles?bbox=S,W,N,E  (poll every %ds, idle pause %ds, cache %s)"

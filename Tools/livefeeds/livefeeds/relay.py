@@ -16,6 +16,8 @@ from . import rtd, tiles
 from .fetch import FetchError, FetchResult, USER_AGENT, http_get
 from .gtfsrt import DecodeError, decode_feed
 from .salt import DailySalt
+from .transit.shapes import ShapeTable
+from .transit.smoothing import Tracker
 
 SCHEMA = 1
 MIN_POLL_INTERVAL = 30.0    # RTD is polled at most once every 30 s (owner's rule; the file refreshes about that often)
@@ -39,6 +41,8 @@ class Config:
     routes_max_age: float = 7 * 86400.0  # re-read static routes.txt after a week ...
     routes_refresh_min: float = 6 * 3600.0   # ... or after 6 h when the feed shows a route the table lacks
     routes_retry: float = 600.0          # never retry the static download more often than this
+    shapes_max_age: float = 7 * 86400.0  # route shapes (full static zip, about 10 MB) are re-read weekly
+    shapes_retry: float = 3600.0
     timeout: float = 20.0
     cache_dir: Optional[str] = None
 
@@ -96,6 +100,7 @@ class Relay:
     def __init__(self, cfg: Config, areas: List[Area],
                  fetch: Optional[Callable[[Optional[str], Optional[str]], FetchResult]] = None,
                  routes_fetch: Optional[Callable[[], Tuple[rtd.Routes, int]]] = None,
+                 shapes_fetch: Optional[Callable[[], Tuple[ShapeTable, int]]] = None,
                  clock: Callable[[], float] = time.time,
                  log: Optional[Callable[[str], None]] = None):
         self.cfg = cfg
@@ -104,6 +109,11 @@ class Relay:
         self.clock = clock
         self._fetch = fetch or (lambda etag, lm: http_get(cfg.feed_url, cfg.user_agent, etag, lm, cfg.timeout))
         self._routes_fetch = routes_fetch or (lambda: rtd.fetch_routes(cfg.routes_url, cfg.user_agent, clock))
+        # Shapes (for smoothing) are optional: without a fetcher vehicles are served unsmoothed (motion null).
+        self._shapes_fetch = shapes_fetch
+        self._shapes: Optional[ShapeTable] = None
+        self._shapes_tried_at: Optional[float] = None
+        self.tracker = Tracker()
         # One feed, one salt: the service day follows the first area's time zone (prototype: one area).
         self.salt = DailySalt(cfg.cache_dir, areas[0].timezone, areas[0].day_start_hour)
 
@@ -132,6 +142,9 @@ class Relay:
         self._wake = threading.Event()
         self._load_routes_cache()
         self._load_snapshot_cache()
+        p = self._path("shapes.json")
+        if p and shapes_fetch is not None:
+            self._shapes = ShapeTable.load(p)
 
     # -- disk cache --------------------------------------------------------------------------
     def _path(self, name: str) -> Optional[str]:
@@ -211,6 +224,35 @@ class Relay:
                 pass
         return True
 
+    def shape(self, shape_id: str):
+        s = self._shapes
+        return s.shapes.get(shape_id) if s else None
+
+    def _ensure_shapes(self, now: float) -> None:
+        if self._shapes_fetch is None:
+            return
+        s = self._shapes
+        if s is not None and now - s.fetched_at <= self.cfg.shapes_max_age:
+            return
+        if self._shapes_tried_at is not None and now - self._shapes_tried_at < self.cfg.shapes_retry:
+            return
+        self._shapes_tried_at = now
+        try:
+            new, nbytes = self._shapes_fetch()
+        except FetchError as e:
+            self.stats["shapesErrors"] += 1
+            self.log("shapes: %s (vehicles stay unsmoothed)" % e)
+            return
+        self.stats["shapesBytes"] += nbytes
+        self.stats["shapesFetches"] += 1
+        self._shapes = new
+        p = self._path("shapes.json")
+        if p:
+            try:
+                new.save(p)
+            except OSError:
+                pass
+
     # -- polling -----------------------------------------------------------------------------
     def _jitter(self, base: float) -> float:
         """Deterministic, positive-only spread (up to +10 percent) so the interval is never below the floor."""
@@ -262,6 +304,9 @@ class Relay:
         except DecodeError as e:
             return self._fail("decode error: %s" % e, None, None)
         norm = rtd.normalise(feed, self._routes, self.salt, now, self.cfg.max_vehicle_age)
+        self._ensure_shapes(now)
+        self.tracker.annotate(norm.vehicles, norm.trips, self._shapes, now)
+        norm.trips = {}
         if norm.unknown_routes:
             self._unknown_routes_seen = True
         self._etag, self._last_modified = res.etag, res.last_modified
@@ -383,6 +428,8 @@ class Relay:
                 "consecutiveErrors": self._errors,
                 "nextPollInSeconds": max(0.0, round(self._next_poll_at - now, 1)),
                 "pollIntervalSeconds": self.cfg.poll_interval,
+                "shapes": {"count": len(self._shapes.shapes) if self._shapes else 0,
+                           "ageSeconds": round(now - self._shapes.fetched_at) if self._shapes else None},
                 "routes": {"count": len(self._routes) if self._routes else 0,
                            "ageSeconds": round(now - self._routes.fetched_at) if self._routes else None},
                 "counters": dict(self.stats),
