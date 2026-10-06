@@ -47,7 +47,7 @@ struct YardTests {
         let roads = SegmentIndex(f.roads.filter { $0.kind.isVehicular }.map(\.centerline))
         let widths = f.roads.filter { $0.kind.isVehicular }.map(\.width)
         var bad: [String] = []
-        for inst in b.scene.instances where inst.source.hasPrefix("gen:yardtree") || inst.source.hasPrefix("gen:streettree")
+        for inst in b.scene.instances where inst.source.hasPrefix("gen:yardtree") || inst.source.hasPrefix("gen:streettree") || inst.source.hasPrefix("gen:canopytree")
             || inst.source.hasPrefix("gen:shrub") || inst.source.hasPrefix("gen:hedge") {
             let p = LocalPoint(inst.x, inst.y)
             if buildings.contains(p, margin: inst.kind.isTree ? 1.0 : 0.2) { bad.append("\(inst.source) in building") }
@@ -142,5 +142,35 @@ struct RelativeThresholdTests {
         if let q = t.largeAreaPercentile { #expect(abs(r.largeArea - (40 + q * 199)) < 1e-6) }
         #expect(r.hugeArea >= r.largeArea)
         #expect(r.broadAspect == t.broadAspect)
+    }
+}
+
+/// Tree crown cover achieved by mapped + generated trees, for calibration against a measured
+/// `trees.canopyShare` (P1, NAIP leaf-on). Printed as CANOPY lines; no assertion until measured
+/// values exist for every test area.
+@Suite("Canopy share")
+struct CanopyShareTests {
+    @Test(arguments: YardTests.cases)
+    func canopyShare(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let b = try YardTests.build(area, profile)
+        let bounds = b.features.bounds
+        let res = 1.0
+        let w = Int(bounds.width / res), h = Int(bounds.height / res)
+        var covered = [Bool](repeating: false, count: w * h)
+        var generated = 0, mapped = 0
+        for inst in b.scene.instances where inst.kind.isTree {
+            if inst.source.hasPrefix("gen:") { generated += 1 } else { mapped += 1 }
+            let r = Double(PropLibrary.lobes(inst.kind).radii.x) * inst.scale * 1.15 // lobes reach past the ellipsoid
+            let cx = (inst.x - bounds.min.x) / res, cy = (inst.y - bounds.min.y) / res
+            let rr = r / res
+            for j in max(0, Int(cy - rr))...min(h - 1, Int(cy + rr)) { for i in max(0, Int(cx - rr))...min(w - 1, Int(cx + rr)) {
+                let dx = Double(i) + 0.5 - cx, dy = Double(j) + 0.5 - cy
+                if dx * dx + dy * dy <= rr * rr { covered[j * w + i] = true }
+            } }
+        }
+        let share = Double(covered.filter { $0 }.count) / Double(w * h)
+        let target = try StyleLibrary.profile(id: profile).trees.canopyShare
+        print("CANOPY \(area) profile=\(profile) share=\(String(format: "%.3f", share)) target=\(target.map { String(format: "%.2f", $0) } ?? "unmeasured") trees mapped=\(mapped) generated=\(generated)")
     }
 }

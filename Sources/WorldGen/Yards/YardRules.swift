@@ -22,6 +22,11 @@ public struct YardRules: Codable, Sendable, Equatable {
     public var lawnShade: [Double]
     /// Likelihood of a front walk from the door to the sidewalk or street.
     public var frontWalk: Double
+    /// Share of the profile's measured `trees.canopyShare` to reach by planting extra yard trees
+    /// (nil = no canopy calibration).
+    public var canopyFill: Double?
+    /// Ceiling on mapped + generated trees per km² (render budget), applied to canopy planting.
+    public var maxTreesPerKm2: Double?
 }
 
 public struct YardLibrary: Codable, Sendable, Equatable {
@@ -33,7 +38,8 @@ public struct YardLibrary: Codable, Sendable, Equatable {
     }
 
     static let fallback = YardRules(maxLotDepth: 30, streetTreeSpacing: 20, minParkway: 1.2, yardTreesPerHouse: 0.8, frontHedge: 0.1,
-                                    sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85)
+                                    sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85,
+                                    canopyFill: nil, maxTreesPerKm2: nil)
 
     /// The bundled library (fallback rules if the file is missing).
     public static let bundled: YardLibrary = {
