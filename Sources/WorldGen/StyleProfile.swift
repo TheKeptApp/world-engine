@@ -197,6 +197,8 @@ public struct SeasonalPalette: Codable, Sendable {
         "ground", "lawn", "tufts", "deciduous1", "deciduous2", "deciduous3", "deciduous4",
         "conifer1", "conifer2", "bushes", "road", "sidewalk", "curb", "water", "sand", "bark", "snow",
         "backdrop",
+        // Context-ring land-use masses (look-fix-v1 §4), appended so earlier slots keep their indices.
+        "residential", "commercial", "wood", "farmland",
     ]
 }
 
