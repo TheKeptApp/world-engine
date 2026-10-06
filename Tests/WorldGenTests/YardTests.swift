@@ -80,11 +80,13 @@ struct YardTests {
         }
         #expect(treesInRoad.isEmpty, "\(treesInRoad.count) generated trees in carriageways, first \(treesInRoad.prefix(3))")
 
-        // Lots: sample across each carriageway (1 m raster tolerance at the curb).
+        // Lots: sample across each street carriageway (1 m raster tolerance at the curb). Alleys
+        // (service, 4 m) are left to the centreline check in lotsStayOffStreets…: their outlines
+        // may touch the 1 m band beside the alley centreline.
         let lotPolys = b.scene.lots.flatMap { $0.outline.map { Polygon2D(outer: $0) } }
         let index = PolygonIndex(lotPolys)
         var lotHits = 0, roscoeLotHits = 0
-        for r in vehicular {
+        for r in vehicular where r.kind != .service && r.kind != .track {
             let reach = r.width / 2 - 1
             guard reach > 0 else { continue }
             for (p, q) in zip(r.centerline, r.centerline.dropFirst()) {

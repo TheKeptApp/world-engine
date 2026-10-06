@@ -70,10 +70,12 @@ extension SceneGenerator {
         let t0 = Date()
         var raster = LotRaster(bounds: features.bounds, resolution: 1)
         for a in features.areas where Self.yardBlockedAreas.contains(a.kind) { raster.fill(a.polygon, .blocked) }
-        for r in features.roads { raster.fill(line: r.centerline, width: r.width, .road) }
         for p in features.paths { raster.fill(line: p.centerline, width: max(1.5, p.width), .walkway) }
         for s in features.sidewalks { raster.fill(line: s.centerline, width: 1.6, .walkway) }
         for s in generatedWalkways { raster.fill(line: s, width: 1.5, .walkway) }
+        // Carriageways last: where a crossing or a sidewalk corner overlaps the carriageway, the
+        // carriageway wins, so nothing generated (trees, litter, lots) lands in the street.
+        for r in features.roads { raster.fill(line: r.centerline, width: r.width, .road) }
         for s in subjects { raster.fill(s.building.footprint, .building, building: Int32(s.index)) }
 
         // Who grows a yard: houses and residential blocks; other buildings claim a narrow margin
