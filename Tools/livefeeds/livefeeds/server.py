@@ -2,6 +2,7 @@
 
     GET /v1/vehicles?bbox=S,W,N,E            vehicles in the zoom-14 tiles covering the box (max 4 x 4)
     GET /v1/vehicles?tiles=14/x0/y0/x1/y1    the canonical form of the same request (shares cache entries)
+    GET /v1/shapes?ids=A,B                   route shapes named by vehicles' motion.shapeId (max 50)
     GET /v1/status                           relay health: states, counts, ages, counters (no client data)
 
 Every JSON response carries `schema` and the `attribution` block. Nothing about clients is logged
@@ -17,6 +18,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from . import rtd, tiles
 from .relay import SCHEMA, Relay
+from .transit.smoothing import POSITION_FRESH_SECONDS
 
 
 def render_vehicle(v: dict, now: float) -> dict:
@@ -27,6 +29,9 @@ def render_vehicle(v: dict, now: float) -> dict:
         "lat": v["lat"], "lon": v["lon"], "heading": v["heading"], "speedMps": v["speedMps"],
         "stopStatus": v["stopStatus"], "timestamp": v["timestamp"], "ageSeconds": age,
         "source": v["source"],
+        "positionState": "fresh" if age <= POSITION_FRESH_SECONDS else "stale",
+        "basis": "observed",
+        "motion": v.get("motion") if age <= POSITION_FRESH_SECONDS else None,
     }
 
 
@@ -145,6 +150,8 @@ class Handler(BaseHTTPRequestHandler):
         parts = urlsplit(self.path)
         if parts.path == "/v1/vehicles":
             return self._vehicles(parse_qs(parts.query), send_body)
+        if parts.path == "/v1/shapes":
+            return self._shapes(parse_qs(parts.query), send_body)
         if parts.path == "/v1/status":
             now = self.relay.clock()
             return self._send(200, {"schema": SCHEMA, "status": self.relay.status(now),
@@ -176,6 +183,19 @@ class Handler(BaseHTTPRequestHandler):
         if _etag_matches(self.headers.get("If-None-Match"), etag):
             return self._send(304, None, send_body, cache, extra)
         self._send(200, payload, send_body, cache, extra)
+
+
+    def _shapes(self, query: dict, send_body: bool) -> None:
+        ids = [i for i in ",".join(query.get("ids", [])).split(",") if i]
+        if not ids or len(ids) > 50:
+            return self._error(400, "bad-request", "give ids=A,B,... (1 to 50 shape ids)", send_body)
+        found, missing = [], []
+        for sid in dict.fromkeys(ids):
+            sh = self.relay.shape(sid)
+            (found.append(sh.to_json()) if sh is not None else missing.append(sid))
+        # Shapes change at most weekly: long cache.
+        self._send(200, {"schema": SCHEMA, "shapes": found, "missing": missing, "basis": "observed",
+                         "attribution": [rtd.ATTRIBUTION]}, send_body, "public, max-age=86400")
 
 
 class RelayServer(ThreadingHTTPServer):

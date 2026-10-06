@@ -8,6 +8,7 @@ one documented JSON contract that phase 5A renders later. No renderer, engine or
 |---|---|---|---|
 | 1. Sky (stars, Sun, Moon, planets, light pollution) | `worldengine.live.sky/1` | [sky.md](sky.md) | `Tools/livefeeds/livefeeds/sky/` |
 | 2. Satellites (positions, passes, visibility) | `worldengine.live.satellites/1` | [satellites.md](satellites.md) | `Tools/livefeeds/livefeeds/sats/` |
+| 3. Transit (live vehicles smoothed along route shapes) | relay schema 1 (`live-feeds.md` §8) plus `motion` and `/v1/shapes` | [transit.md](transit.md) | `Tools/livefeeds/livefeeds/transit/`, relay |
 
 ## Shared vocabulary (every contract)
 

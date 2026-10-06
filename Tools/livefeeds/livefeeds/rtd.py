@@ -165,6 +165,34 @@ def fetch_routes(url: str = ROUTES_ZIP_URL, user_agent: str = USER_AGENT,
     return Routes.from_routes_txt(data.decode("utf-8", "replace"), clock(), url), downloaded
 
 
+def fetch_shapes(url: str = ROUTES_ZIP_URL, user_agent: str = USER_AGENT, clock=time.time):
+    """Download the whole static GTFS zip (about 10 MB, capped at 64 MB) once and build the shape table
+    from trips.txt and shapes.txt. Returns (ShapeTable, bytes downloaded)."""
+    from .transit.shapes import ShapeTable
+    downloaded = 0
+    resp = open_stream(url, user_agent)
+    try:
+        with tempfile.TemporaryFile() as tmp:
+            while True:
+                chunk = resp.read(1 << 20)
+                if not chunk:
+                    break
+                downloaded += len(chunk)
+                tmp.write(chunk)
+                if downloaded > 64 * 1024 * 1024:
+                    raise FetchError("static GTFS zip larger than 64 MB")
+            tmp.seek(0)
+            try:
+                z = zipfile.ZipFile(tmp)
+                trips, shapes = z.read("trips.txt"), z.read("shapes.txt")
+            except (zipfile.BadZipFile, KeyError) as e:
+                raise FetchError("static GTFS zip unusable: %s" % e)
+    finally:
+        resp.close()
+    table = ShapeTable.from_gtfs(trips.decode("utf-8", "replace"), shapes.decode("utf-8", "replace"), clock(), url)
+    return table, downloaded
+
+
 # -- normalisation ------------------------------------------------------------------------------
 
 @dataclass
@@ -173,6 +201,7 @@ class Normalised:
     feed_timestamp: int
     dropped: Dict[str, int]
     unknown_routes: Set[str] = field(default_factory=set)
+    trips: Dict[str, str] = field(default_factory=dict)   # record id -> raw trip id; memory only, never served or saved
 
 
 def _valid_position(lat: Optional[float], lon: Optional[float]) -> bool:
@@ -198,6 +227,7 @@ def normalise(feed: gtfsrt.Feed, routes: Routes, salt: DailySalt, now: float,
     dropped: Counter = Counter()
     unknown: Set[str] = set()
     out: List[dict] = []
+    trips: Dict[str, str] = {}
     for v in feed.vehicles:
         if v.lat is None or v.lon is None:
             dropped["noPosition"] += 1
@@ -236,8 +266,11 @@ def normalise(feed: gtfsrt.Feed, routes: Routes, salt: DailySalt, now: float,
         speed = None
         if v.speed is not None and 0.0 <= v.speed <= 70.0:
             speed = round(v.speed, 2)
+        rid = salt.vehicle_id(SOURCE, raw_id, now)
+        if v.trip_id:
+            trips[rid] = v.trip_id
         out.append({
-            "id": salt.vehicle_id(SOURCE, raw_id, now),
+            "id": rid,
             "kind": kind,
             "route": v.route_id,
             "routeName": short or None,
@@ -250,4 +283,4 @@ def normalise(feed: gtfsrt.Feed, routes: Routes, salt: DailySalt, now: float,
             "source": SOURCE,
         })
     out.sort(key=lambda r: r["id"])
-    return Normalised(out, feed_ts, dict(dropped), unknown)
+    return Normalised(out, feed_ts, dict(dropped), unknown, trips)
