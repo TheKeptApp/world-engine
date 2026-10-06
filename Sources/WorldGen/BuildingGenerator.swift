@@ -44,6 +44,10 @@ public struct GeneratedBuilding: Sendable {
     public var houseType: String?
     /// Family for any role that has one (house families and block families such as six-flats).
     public var family: String?
+    /// The style profile that generated this building (zones can differ within one area).
+    public var profileID: String?
+    /// Front door: a point on the wall and the outward normal (walks start here). Nil without a door.
+    public var entry: (point: LocalPoint, normal: LocalPoint)?
     /// Which color tuple (0 = A, 1 = B) and the resolved hex colors [wall, trim, door, roof].
     public var colorSet = 0
     public var colors: [String] = []
@@ -169,6 +173,7 @@ public struct BuildingGenerator: Sendable {
         let ring = fp.outer
         var g = GeneratedBuilding(ref: b.ref, role: role, footprintClass: shape.kind, roofShape: .flat)
         g.lod = lod
+        g.profileID = profile.id
 
         // Orientation first: it informs the house type (broad frontage) and the openings.
         switch role {
@@ -394,8 +399,22 @@ public struct BuildingGenerator: Sendable {
             if near { addContactSkirt(ring, palette: palette, into: &m) }
         }
         g.optionalRoofTriangles = optional
+        if g.entry == nil, let e = g.frontEdge, role == .house || role == .block {
+            g.entry = entryPoint(b, type: type, facade: facade, ring: ring, edge: e)
+        }
         g.mesh = m
         return g
+    }
+
+    /// The front door's point and outward normal, the same draw `addOpenings` makes (so LODs
+    /// without openings still know where the door is, e.g. for front walks).
+    func entryPoint(_ b: Building, type: StyleProfile.HouseType?, facade: HouseFamilyGrammar.Facade, ring: Ring, edge e: Int) -> (point: LocalPoint, normal: LocalPoint) {
+        let (p, dir, n, len) = Self.edge(ring, e)
+        var r = b.ref.random("door")
+        var doorAt = type.map { r.pick($0.door) { _ in 1 } } ?? 0.5
+        if facade.symmetric == true { doorAt = 0.5 }
+        let doorS = min(len - 0.7, max(0.7, len * doorAt))
+        return (p + dir * doorS, n)
     }
 
     /// Edges on the street side: facing the same way as the front edge and close to its line.
@@ -447,6 +466,7 @@ public struct BuildingGenerator: Sendable {
             if facade.symmetric == true { doorAt = 0.5 }
             let doorS = min(len - 0.7, max(0.7, len * doorAt))
             doorAtS = doorS
+            g.entry = (p + dir * doorS, n)
             let porch = c.type?.porch
             let porchStyle = facade.porchStyle ?? porch?.style ?? "canopy"
             let wantsPorch = r.chance(facade.porchLikelihood ?? porch?.likelihood ?? 0.3) && len >= 3.5 && !storefront
