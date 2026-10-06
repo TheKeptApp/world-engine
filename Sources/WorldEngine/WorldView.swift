@@ -2,7 +2,7 @@ import RealityKit
 import SwiftUI
 
 /// Ready-made SwiftUI view for a world: RealityView, camera rig, gestures, post-processing, display
-/// policy (render scale, calm mode, pausing when hidden) and the required OpenStreetMap attribution.
+/// policy (render scale by heat, pausing when hidden) and the required OpenStreetMap attribution.
 public struct WorldView: View {
     let world: World
     let camera: WorldCamera
@@ -25,8 +25,8 @@ public struct WorldView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     /// - Parameters:
-    ///   - settings: render scale, calm mode and pausing (default: the shared display policy).
-    ///   - renderState: optional observable the view keeps current (scale, frame rate, calm, paused).
+    ///   - settings: render scale and pausing (default: the shared display policy).
+    ///   - renderState: optional observable the view keeps current (scale, frame rate, paused).
     ///   - isPaused: stop rendering while true (the view also pauses itself when hidden).
     public init(world: World, camera: WorldCamera, gesturesEnabled: Bool = true, post: WorldPostProcess? = nil,
                 settings: WorldRenderSettings = .init(), renderState: WorldRenderState? = nil, isPaused: Bool = false,
@@ -47,8 +47,6 @@ public struct WorldView: View {
             // new view on resume.
             if surface.state.isPaused {
                 Color.black
-            } else if surface.settings.host == .realityRenderer, let host = rendererHost {
-                host
             } else {
                 WorldRealityView(world: world, camera: camera, post: post, surface: surface, multisampling: multisampling, onFrame: onFrame)
             }
@@ -73,15 +71,6 @@ public struct WorldView: View {
         }
     }
 
-    /// The experimental RealityRenderer host (iOS only).
-    private var rendererHost: AnyView? {
-        #if os(iOS)
-        AnyView(RendererHost(world: world, camera: camera, post: post, surface: surface, onFrame: onFrame))
-        #else
-        nil
-        #endif
-    }
-
     /// One-finger drag: orbit (follow), pan (aerial), look (explore).
     private var drag: some Gesture {
         DragGesture(minimumDistance: 4)
@@ -102,7 +91,6 @@ public struct WorldView: View {
                     break
                 }
                 camera.userDidInteract()
-                surface.wake()
             }
             .onEnded { _ in dragStart = nil; lastDrag = .zero; camera.userDidInteract() }
     }
@@ -122,7 +110,6 @@ public struct WorldView: View {
                     break
                 }
                 camera.userDidInteract()
-                surface.wake()
             }
             .onEnded { _ in zoomStart = nil; lastMagnification = 1 }
     }
@@ -135,7 +122,6 @@ public struct WorldView: View {
                 camera.aerial?.rotate(byDegrees: (v.rotation - lastRotation).degrees)
                 lastRotation = v.rotation
                 camera.userDidInteract()
-                surface.wake()
             }
             .onEnded { _ in lastRotation = .zero }
     }
@@ -155,7 +141,6 @@ public struct WorldView: View {
                 padOffset = o
                 camera.moveInput = SIMD2(Double(o.width / 45), Double(-o.height / 45))
                 camera.userDidInteract()
-                surface.wake()
             }
             .onEnded { _ in padOffset = .zero; camera.moveInput = .zero })
         .accessibilityLabel("Move")
@@ -191,8 +176,7 @@ private struct WorldRealityView: View {
             effects.depthOfField = .disabled
             effects.cameraGrain = .disabled
             content.renderingEffects = effects
-            let world = world, camera = camera, onFrame = onFrame, surface = surface
-            surface.gpuStats = world.options.diagnostics.contains("gpustats")
+            let world = world, camera = camera, onFrame = onFrame, surface = surface, post = post
             // Keep the subscription alive for the world's lifetime (an unretained subscription can
             // be released at any time, which silently stops all per-frame updates). A view rebuilt
             // after a pause cancels its predecessor's: a RealityView torn down while the app was in
@@ -203,7 +187,8 @@ private struct WorldRealityView: View {
                     let dt = event.deltaTime
                     let cutTarget = camera.update(camera: cam, scene: event.scene, dt: Float(dt))
                     world.update(deltaTime: dt, camera: cam, focusPoint: camera.lookTarget, cutAwayTarget: cutTarget)
-                    surface.frame(camera: cam, sceneMoving: world.hasActiveMotion || camera.recentlyInteracted)
+                    surface.frame(camera: cam)
+                    post?.settings.exposureTarget = world.exposureTarget
                     onFrame?(dt)
                 }
             }

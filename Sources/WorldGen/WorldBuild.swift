@@ -13,12 +13,19 @@ public struct WorldRecipe: Sendable, Codable, Equatable {
     public var season: Int?
     /// Region with full street detail; nil = the whole area.
     public var focus: GeoBoundingBox?
+    /// Building distance LODs per ~100 m cell (`GeneratedScene.buildingCells`) for a renderer that
+    /// switches them at runtime; off for the package. Not part of the recipe's coded form.
+    public var buildingLODs = false
 
-    public init(profileID: String? = nil, date: Date = Date(), season: Int? = nil, focus: GeoBoundingBox? = nil) {
+    private enum CodingKeys: String, CodingKey { case profileID, date, season, focus }
+
+    public init(profileID: String? = nil, date: Date = Date(), season: Int? = nil, focus: GeoBoundingBox? = nil,
+                buildingLODs: Bool = false) {
         self.profileID = profileID
         self.date = date
         self.season = season
         self.focus = focus
+        self.buildingLODs = buildingLODs
     }
 }
 
@@ -49,6 +56,7 @@ public struct WorldBuild: Sendable {
         let zones = recipe.profileID == nil ? try ZoneProfiles.load(for: manifest) : nil
         var gen = try generator(features: features, profile: profile, season: season, focus: focus)
         gen.zones = zones
+        gen.buildingLODs = recipe.buildingLODs
         let scene = gen.generate()
         var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
                                focus: focus, scene: scene)

@@ -29,3 +29,5 @@ ONLY="${ONLY:-street-loop route-flythrough}"
 [[ " $ONLY " == *" street-loop "* ]] && record street-loop -character luna -mode follow -date 2026-10-15T23:30:00Z
 [[ " $ONLY " == *" route-flythrough "* ]] && record route-flythrough -mode route -date 2026-10-15T23:30:00Z
 xcrun simctl terminate "$UDID" com.lincolnlabs.worldlab 2>/dev/null || true
+# One booted Simulator per session, shut down when idle (Mac load).
+[ "${KEEP_BOOTED:-0}" = 1 ] || xcrun simctl shutdown "$UDID" 2>/dev/null || true

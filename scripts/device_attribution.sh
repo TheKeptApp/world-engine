@@ -3,7 +3,7 @@
 # feature off at a time (60 s per phase), each "off" phase between two "all features on" phases so
 # slow drift (heat, clocks) cancels. The camera is fixed (a moving camera changes the GPU time by
 # several ms on its own): VIEW=street (default, `street-mid` with Luna standing, golden hour) or
-# VIEW=aerial (the v2 aerial fixture). Fixed 2.5× scale, calm mode off. A 5 s Metal System Trace at
+# VIEW=aerial (the v2 aerial fixture). Fixed 2.5× scale. A 5 s Metal System Trace at
 # full GPU clock is recorded inside each phase (long traces hang over Wi-Fi; a trace that would run
 # into the next phase is skipped). scripts/attribution_costs.py then compares frames at the same
 # GPU clock state (heat can hold the clock below the requested one).
@@ -13,9 +13,9 @@ set -uo pipefail
 # must not be used for heat or battery decisions.
 ALLOW_CHARGING="${ALLOW_CHARGING:-0}"
 VIEW="${VIEW:-street}"
-PHASE_SECONDS=60
+PHASE_SECONDS="${PHASE_SECONDS:-50}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="${1:-$ROOT/docs/perf/m3-phase5a-attribution/$VIEW}"; mkdir -p "$OUT/console" "$OUT/traces"
+OUT="${1:-$ROOT/docs/perf/m3-phase5a-attribution/$VIEW}"; mkdir -p "$OUT/console" "$OUT/traces"; OUT="$(cd "$OUT" && pwd)"   # xctrace needs absolute paths
 case "$VIEW" in
   street) PRESET=street-mid ;;
   aerial) PRESET=v2-06 ;;
@@ -25,10 +25,10 @@ CORE=$(xcrun devicectl list devices 2>/dev/null | awk '/iPhone/ && (/connected/ 
 UDID=$(xcrun devicectl device info details --device "$CORE" 2>/dev/null | sed -nE 's/^ *\? udid: *([0-9A-F-]+).*/\1/p' | head -1)
 TEMPLATE=$("$ROOT/scripts/make_gpu_template.py" "$ROOT/.build/templates/MetalSystemTrace-max.tracetemplate" 3)
 LOG="$OUT/console/attribution.log"
-PHASES="all1 noShadows all2 noSky all3 noPost all4 noMSAA all5 noSurfaceDetail all6 noFoliage all7 noBuildings all8 cutDetail all9 shadow50 all10 shadow30 all11"
+PHASES="${PHASES:-all1 noShadows all2 shadow50 all3 shadow30 all4 noMSAA all5 noFoliage all6 cutDetail all7 noSky all8 noSurfaceDetail all9 noPost all10 noBuildings all11}"
 xcrun devicectl device process launch --device "$CORE" --terminate-existing --console com.lincolnlabs.worldlab -- \
   -renderer realitykit -preset "$PRESET" -date 2026-10-15T23:44:01Z -weather clear -attribution $PHASE_SECONDS \
-  -renderscale 2.5 -calm off -rendertrace -hud off > "$LOG" 2>&1 &
+  -renderscale 2.5 -rendertrace -hud off > "$LOG" 2>&1 &
 PID=$!
 for _ in $(seq 1 60); do sleep 1; grep -q "^CONDITIONS" "$LOG" && break; done
 COND=$(grep -m1 "^CONDITIONS" "$LOG"); echo "$COND"

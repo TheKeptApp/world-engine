@@ -2,6 +2,7 @@ import Metal
 import Foundation
 import RealityKit
 import WorldEngine
+import WorldEnvironment
 
 /// WorldLab's demo data (Resources/demo.json): focus box, walking loop, speed, v2 fixtures.
 struct DemoConfig: Decodable {
@@ -42,6 +43,28 @@ struct DemoConfig: Decodable {
         var cameras: [String: Camera]
         var states: [State]
     }
+    /// A camera by name (`-camera NAME`): standing at lat/lon with the eye `height` m up, looking
+    /// along `heading` (clockwise from north) `pitchDown` degrees below level; with `distance` it
+    /// orbits instead: it looks at lat/lon (on the ground) from that slant distance.
+    struct NamedCamera: Decodable {
+        var lat: Double
+        var lon: Double
+        var height: Double?
+        var heading: Double
+        var pitchDown: Double?
+        var fov: Double?
+        var distance: Double?
+    }
+    /// Another bundled area (`-area ID`): Data/areas/<id> with its focus box, style profile, local
+    /// time zone, phenology, place label and named cameras. No walking loop or showcase.
+    struct Area: Decodable {
+        var focus: Box
+        var profile: String?
+        var locationLabel: String?
+        var timeZone: String?
+        var phenology: String?
+        var cameras: [String: NamedCamera]?
+    }
     var area: String
     var focus: Box
     var walkSpeed: Double
@@ -51,6 +74,37 @@ struct DemoConfig: Decodable {
     var timeZone: String?
     var phenology: String?
     var showcase: Showcase?
+    /// Named cameras of this area (`-camera NAME`).
+    var cameras: [String: NamedCamera]?
+    /// The other bundled areas, by id.
+    var areas: [String: Area]?
+    /// The area's style profile when `-profile` isn't given (nil: chosen by location).
+    var defaultProfile: String?
+    /// True for the demo's own area (Sloan's Lake): presets, the walking loop and the showcase.
+    var isDemoArea = true
+
+    /// The config for `-area ID`: the demo itself for nil or its own id, else that area (nil if
+    /// unknown).
+    func forArea(_ id: String?) -> DemoConfig? {
+        guard let id, id != area else { return self }
+        guard let a = areas?[id] else { return nil }
+        var c = self
+        c.area = id
+        c.focus = a.focus
+        c.locationLabel = a.locationLabel
+        c.timeZone = a.timeZone
+        c.phenology = a.phenology
+        c.defaultProfile = a.profile
+        c.cameras = a.cameras
+        c.route = []
+        c.showcase = nil
+        c.isDemoArea = false
+        return c
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case area, focus, walkSpeed, route, fixtures, locationLabel, timeZone, phenology, showcase, cameras, areas
+    }
 
     static func load() throws -> DemoConfig {
         let url = Bundle.main.url(forResource: "demo", withExtension: "json")!
@@ -76,7 +130,7 @@ struct LaunchOptions {
     var diagnostics: Set<String> = []
     /// `-date ISO8601`: the moment for this run (overrides the fixtures).
     var dateOverride: Date?
-    /// `-renderscale native|policy|<number>`, `-calm off`: display settings (default: the shared policy).
+    /// `-renderscale native|policy|<number>`: display settings (default: the shared policy).
     var renderSettings = WorldRenderSettings()
     /// `-pausetest N`: pause at N s, resume at 2N s (checks that rendering stops).
     var pauseTest: Double?
@@ -98,6 +152,21 @@ struct LaunchOptions {
     var snapshotName: String?
     /// `-snapshotsource realitykit|compositor`: how the snapshot is taken (default: RealityKit's own capture).
     var snapshotSource: WorldRenderState.SnapshotSource = .realityKit
+    /// `-area ID`: open another bundled area (demo.json `areas`; default: the demo's own area).
+    var area: String?
+    /// `-camera NAME` (the area's named cameras) or `-camera lat,lon,heading,pitchDown,fov`
+    /// (eye 1.65 m) or `-camera lat,lon,height,heading,pitchDown,fov`: a fixed view.
+    var camera: String?
+    /// `-focus south,west,north,east`: the box that gets full street detail.
+    var focus: DemoConfig.Box?
+    /// `-weatherspec label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=0,visibility=…,wind=…`:
+    /// explicit Demo weather (overrides `-weather`).
+    var weatherSpec: SyntheticWeather?
+    /// `-viewlist FILE` (JSON array of {"id", "args"}) or `-viewlist64 BASE64` (the same JSON):
+    /// step through views in one launch, saving each frame (see `RealityKitScreen.runViewList`).
+    var viewList: [ViewSpec]?
+    /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
+    var viewSettle: Double = 4
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -117,8 +186,6 @@ struct LaunchOptions {
         case let v?: renderSettings.fixedScale = Double(v)
         case nil: break
         }
-        if value("-calm") == "off" { renderSettings.calm = nil }
-        if value("-host") == "renderer" { renderSettings.host = .realityRenderer }
         pauseTest = value("-pausetest").flatMap(Double.init)
         character = value("-character")
         mode = value("-mode")
@@ -128,6 +195,41 @@ struct LaunchOptions {
         snapshotSeconds = value("-snapshot").flatMap(Double.init)
         snapshotName = value("-snapshotname")
         if value("-snapshotsource") == "compositor" { snapshotSource = .compositor }
+        area = value("-area")
+        camera = value("-camera")
+        if let f = value("-focus")?.split(separator: ",").compactMap({ Double($0) }), f.count == 4 {
+            focus = DemoConfig.Box(south: f[0], west: f[1], north: f[2], east: f[3])
+        }
+        weatherSpec = value("-weatherspec").flatMap(Self.weather(spec:))
+        let listData = value("-viewlist").flatMap { FileManager.default.contents(atPath: $0) }
+            ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
+        viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
+        viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
+    }
+
+    /// Parses `label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=6,visibility=1200,wind=4`.
+    static func weather(spec: String) -> SyntheticWeather? {
+        var v: [String: String] = [:]
+        for part in spec.split(separator: ",") {
+            let kv = part.split(separator: "=", maxSplits: 1).map(String.init)
+            if kv.count == 2 { v[kv[0]] = kv[1] }
+        }
+        guard let label = v["label"].flatMap(DominantState.init(rawValue:)) else { return nil }
+        let d = { (k: String) in v[k].flatMap(Double.init) }
+        return SyntheticWeather(label: label, intensity: d("intensity"), cloudFraction: d("cloud") ?? 0.5,
+                                precipitationMmPerHour: d("rate") ?? 0, visibilityM: d("visibility"), windSpeedMps: d("wind") ?? 3,
+                                wetness: d("wetness") ?? 0, snowWaterEquivalentMm: d("swe") ?? 0)
+    }
+
+    /// A fixed view from `-camera`: the area's named camera, or explicit numbers.
+    func cameraSpec(_ demo: DemoConfig) -> DemoConfig.NamedCamera? {
+        guard let camera else { return nil }
+        let n = camera.split(separator: ",").compactMap { Double($0) }
+        switch n.count {
+        case 5: return .init(lat: n[0], lon: n[1], height: 1.65, heading: n[2], pitchDown: n[3], fov: n[4])
+        case 6: return .init(lat: n[0], lon: n[1], height: n[2], heading: n[3], pitchDown: n[4], fov: n[5])
+        default: return demo.cameras?[camera]
+        }
     }
 
     /// The moment for this run: `-date`, else v2 summer noon for the noon preset, else the v2

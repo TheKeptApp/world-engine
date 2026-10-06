@@ -1,18 +1,15 @@
 {
-  "comment": "Display policy shared by every renderer (RealityKit reads it here, three.js from the package's profiles/display.json). Decisions: Prompt 5 (render below 3×: start at 2.5×, scale down to 2.0× as heat rises; 30 fps calm mode for an idle postcard; pause when hidden).",
+  "comment": "Display policy shared by every renderer (RealityKit reads it here, three.js from the package's profiles/display.json). Decisions: Prompt 5 (render below 3×: start at 2.5×, scale down to 2.0× as heat rises; pause when hidden). Calm mode (30 fps for an idle view) was dropped on 2026-10-06 (owner decision): RealityView has no frame-rate control.",
   "version": 1,
   "renderScale": {
     "comment": "Pixels per point, never above the screen's native scale. Steps down at once when the thermal state rises; steps back up only after the device has stayed at a cooler state for raiseAfterSeconds.",
-    "byThermalState": { "nominal": 2.5, "fair": 2.25, "serious": 2.0, "critical": 2.0 },
+    "byThermalState": {
+      "nominal": 2.5,
+      "fair": 2.25,
+      "serious": 2.0,
+      "critical": 2.0
+    },
     "raiseAfterSeconds": 60
-  },
-  "calm": {
-    "comment": "Idle postcard: once the camera, every moving entity and the user's touch have been still for afterSeconds, render at framesPerSecond. Any movement or touch returns to full rate on the next frame. Ambient animation (foliage sway, water, weather) keeps running at the calm rate.",
-    "framesPerSecond": 30,
-    "fullFramesPerSecond": 60,
-    "afterSeconds": 1.5,
-    "positionEpsilonMeters": 0.002,
-    "angleEpsilonDegrees": 0.05
   },
   "hidden": {
     "comment": "Stop rendering while the view is off screen or the app is not active; resume on return.",

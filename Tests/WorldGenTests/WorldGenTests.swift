@@ -366,3 +366,35 @@ struct LightTests {
         #expect(summer.colors[Int(summer.named("deciduous1"))] != autumn.colors[Int(autumn.named("deciduous1"))])
     }
 }
+
+@Suite("Building distance LODs")
+struct BuildingLODCellTests {
+    @Test(.enabled(if: FileManager.default.fileExists(atPath: RealSceneTests.areaDir.appendingPathComponent("manifest.json").path)))
+    func cellsCarryEveryLODAndChunksNoBuildings() throws {
+        let features = try AreaLoader.loadFeatures(RealSceneTests.areaDir)
+        let manifest = try AreaLoader.loadManifest(RealSceneTests.areaDir)
+        let profile = try StyleLibrary.profile(at: manifest.center)
+        let plain = try RealSceneTests.generator(features: features, profile: profile).generate()
+        var gen = try RealSceneTests.generator(features: features, profile: profile)
+        gen.buildingLODs = true
+        let lod = gen.generate()
+        #expect(!lod.buildingCells.isEmpty)
+        // Buildings moved out of the chunks into the cells.
+        let plainTris = plain.chunks.reduce(0) { $0 + $1.staticMesh.triangleCount }
+        let lodTris = lod.chunks.reduce(0) { $0 + $1.staticMesh.triangleCount }
+        #expect(lodTris < plainTris)
+        // Every cell has far and skyline; cells with near also have mid; detail never grows with distance.
+        for cell in lod.buildingCells {
+            #expect(cell.meshes[.far] != nil && cell.meshes[.skyline] != nil)
+            if cell.meshes[.near] != nil { #expect(cell.meshes[.mid] != nil) }
+            let counts = BuildingLOD.allCases.compactMap { cell.meshes[$0]?.triangleCount }
+            #expect(zip(counts, counts.dropFirst()).allSatisfy { $0 >= $1 }, "cell \(cell.id): \(counts)")
+        }
+        // Same buildings, same yards and occluders either way.
+        #expect(lod.buildings.count == plain.buildings.count && lod.occluders.count == plain.occluders.count)
+        let near = lod.buildingCells.compactMap { $0.meshes[.near]?.triangleCount }.reduce(0, +)
+        let far = lod.buildingCells.compactMap { $0.meshes[.far]?.triangleCount }.reduce(0, +)
+        let sky = lod.buildingCells.compactMap { $0.meshes[.skyline]?.triangleCount }.reduce(0, +)
+        print("BUILDINGLODS cells=\(lod.buildingCells.count) near=\(near) far=\(far) skyline=\(sky) chunkTris \(plainTris)→\(lodTris)")
+    }
+}
