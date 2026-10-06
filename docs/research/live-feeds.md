@@ -1,6 +1,6 @@
 # Live transit and aircraft feeds: terms, relay design and cost
 
-> **Not legal advice.** Research and design only. Written **2026-10-06**; every access date below is 2026-10-06. Nothing here changes the engine, the renderers or the package format, and the engine uses no live feed today. No account was created, no key was requested, no terms or cookie banner were accepted, and no provider was contacted. Licence texts change without notice, so re-read them before any use.
+> **Not legal advice.** Research and design only. Written **2026-10-06**; every access date below is 2026-10-06. Nothing here changes the engine, the renderers or the package format, and the engine uses no live feed today. No account was created, no key was requested, no terms or cookie banner were accepted, and no provider was contacted. That describes the research pass. The later prototype pass (§8, relay in `Tools/livefeeds/`) contacted Denver RTD only, with an honest client, and still created no account and requested no key; §8.12 lists what it fetched and RTD's wording that downloading the feeds means agreeing to the licence. Licence texts change without notice, so re-read them before any use.
 >
 > **Tags.** Every fact carries its link and one of these tags:
 >
@@ -76,8 +76,8 @@ CTA, Pace, RTD and the other pages loaded with an honest client. CTA, Pace and R
 | **CTA GTFS-RT (beta)** | `https://transitdata.transitchicago.com/GtfsRealtime/` `ServiceAlerts`, `TripUpdates`, `VehiclePositions` as `.pb` or `.json`, with `?key=` [V: [beta page](https://transitdata.transitchicago.com/)] | [C] | **Required**; how to get one is vague [V: beta page]. A third-party GitHub issue (repository `ghost-bus-tracker`, issue 1, opened 2026-10-05; owner name omitted) says Train Tracker and Bus Tracker keys are rejected here [T] | [C] |
 | **Pace static GTFS** | Link on the page: `https://www.pacebus.com/sites/default/files/2026-08/GTFS.zip` [V: [Pace data page](https://pacebus.com/route-timetable-data-services)] | About once a month, sometimes more [V]; only routes with IBS equipment [V] | None | None published |
 | **Pace GTFS-RT** (undocumented) | `https://tmweb.pacebus.com/TMGTFSRealTimeWebService/vehicle/VehiclePositions.pb`, `.../tripupdate/tripupdates.pb`, `.../alert/alerts.pb`. URLs come from [T: Transitland Atlas](https://raw.githubusercontent.com/transitland/transitland-atlas/main/feeds/pacebus.com.dmfr.json), not from a Pace page; the host `tmweb.pacebus.com` is the one Pace's own Bus Tracker links use [V: [Bus Tracker tools page](https://pacebus.com/bus-tracker-tools)]. HEAD returned 200, `application/protocol-buffer` [O] | About 30 s: `Last-Modified` was 07:13:41 GMT on two of the three files at one sample [O] | None (HEAD 200 unauthenticated) [O] | None found |
-| **RTD static GTFS** | `https://www.rtd-denver.com/files/gtfs/google_transit.zip` plus fares, flex, Bustang and per-mode zips [V: [RTD GTFS page](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs)] | Major schedule changes January, May and August [V] | None; page says read and agree to the licence first [V] | None published |
-| **RTD GTFS-RT** (arrival predictions and vehicle locations; whether trains and buses share the feeds is [C]) | `https://open-data.rtd-denver.com/files/gtfs-rt/rtd/VehiclePosition.pb`, `TripUpdate.pb`, `Alerts.pb`; Bustang feeds under `/cdot/` [V: [real-time page](https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds)] | RTD: accurate within 2 minutes [V]. Files refresh about every 30 s: `Last-Modified` 07:13:35 GMT on all three at one sample [O] | None (HEAD 200 unauthenticated) [O] | None published |
+| **RTD static GTFS** | `https://www.rtd-denver.com/files/gtfs/google_transit.zip` plus fares, flex, Bustang and per-mode zips [V: [RTD GTFS page](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs), re-read in the prototype pass]. The zip URL redirects twice (308 to `/api/download?feedType=gtfs&filename=google_transit.zip`, then 307 to a `nodejs-prod.rtd-denver.com` address) and answers 200 `application/zip`, 10,083,072 bytes on 2026-10-06, with no `Content-Length`, no `Range` support and `Cache-Control: no-store` [O]. `routes.txt` sits in the first ~106 KB of the archive (entry order: `trips.txt`, `agency.txt`, `calendar.txt`, `calendar_dates.txt`, `feed_info.txt`, `routes.txt`, `shapes.txt`, `stop_times.txt`, `stops.txt`) [O] | Major schedule changes January, May and August [V] | None; page says read and agree to the licence first [V] | None published |
+| **RTD GTFS-RT** (arrival predictions and vehicle locations; `VehiclePosition.pb` carries both light and commuter rail and buses: 633 entities on 2026-10-06, of which 47 rail and 498 bus routes resolved against static `routes.txt`, the rest vehicles with no trip or route [O]) | `https://open-data.rtd-denver.com/files/gtfs-rt/rtd/VehiclePosition.pb`, `TripUpdate.pb`, `Alerts.pb`; Bustang feeds under `/cdot/` [V: [real-time page](https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds)] | RTD: accurate within 2 minutes [V]. Files refresh about every 30 s: `Last-Modified` 07:13:35 GMT on all three at one sample [O]; prototype-pass measurement in §8.12 [O] | None (HEAD 200 unauthenticated) [O] | None published |
 
 **Table 2.1b: terms and cost**
 
@@ -155,9 +155,9 @@ CTA, Pace, RTD and the other pages loaded with an honest client. CTA, Pace and R
 
 ### 2.5 Denver RTD
 
-- **Real-time** ([page](https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds), re-read this pass [V]). Canonical URLs under `open-data.rtd-denver.com`, published Fall 2025; "accurate within 2 minutes". The page speaks of arrival predictions and vehicle locations; it does not say which modes the feeds carry (trains and buses sharing them is my assumption [C]). Observed: no key, files refresh about every 30 s [O]. Hosting looks like Azure blob storage (`x-ms-blob-type` header, earlier pass) [O].
-- **Licence** ([text](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement), re-read this pass [V]). Non-exclusive, limited, revocable rights to use, reproduce and redistribute; RTD marks "may not be used in association with Data"; RTD may require an "unofficial web site" notice; "does not warrant that the Data will be available"; RTD may alter or stop the data with or without notice; to the extent permitted by law you indemnify RTD; Colorado law, and disputes only in the courts of the City and County of Denver.
-- **Static GTFS** ([page](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs)): do not use the RTD logo, RTD maps or other RTD content without advance permission [V: earlier pass].
+- **Real-time** ([page](https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds), re-read this pass [V]). Canonical URLs under `open-data.rtd-denver.com`, published Fall 2025; "accurate within 2 minutes". The page speaks of arrival predictions and vehicle locations and lists the vehicle fields (trip `trip_id`, `route_id`, `direction_id`, `schedule_relationship`; vehicle `id`, `label`; position `latitude`, `longitude`, `bearing`; `stop_id`; `current_status`; `timestamp`); it does not list `speed` and does not say which modes the feeds carry [V, re-read in the prototype pass]. Observed in the prototype pass: `VehiclePosition.pb` carries trains and buses together (§8.12), `speed` is present on a small minority of vehicles, no key, files refresh about every 30 s [O]. The page also says the prior URLs were to be retired after December 5, 2025 [V]. Hosting is Azure blob storage (`x-ms-blob-type: BlockBlob`, `ETag`, `Last-Modified`, `Content-MD5` and no `Cache-Control` header on a HEAD, re-observed 2026-10-06) [O], so conditional requests work.
+- **Licence** ([text](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement), re-read this pass [V]). Non-exclusive, limited, revocable rights to use, reproduce and redistribute; RTD marks "may not be used in association with Data"; RTD "reserves the right to require" a notice, in the paragraph about links to the Data or RTD's website, that a site is unofficial and not endorsed by, sponsored by or affiliated with RTD, and that views expressed are not RTD's (no attribution line or credit wording is required); downloading or continuing to use the feeds is stated to mean agreement to the licence, which RTD may update without notice; "does not warrant that the Data will be available"; RTD may alter or stop the data with or without notice; to the extent permitted by law you indemnify RTD; Colorado law, and disputes only in the courts of the City and County of Denver.
+- **Static GTFS** ([page](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs), re-read in the prototype pass): do not use the RTD logo, RTD maps or other RTD content without advance permission [V]; the page links the same licence [V]. The current `routes.txt` has 130 routes: 120 bus (`route_type` 3), 6 light rail (0) and 4 commuter rail (2) [O]; `feed_info.txt` gave a feed start date of 20260927 [O].
 - The separate [website terms of use](https://www.rtd-denver.com/terms-of-use) (last updated February 2011) restrict copying website content to personal, non-commercial purposes; that covers the website, not the data feeds [V: earlier pass].
 
 ---
@@ -620,7 +620,7 @@ The Metra API-host header observations (`published.txt`, `schedule.zip`, `positi
 ### 7.2 Third-party and unconfirmed items (not unverified-by-blocking, but not authoritative)
 
 - **[T]** adsb.lol rate-limited about two thirds of the time at a 4 s poll, and requires a descriptive User-Agent (a third-party GitHub issue, repository `skylight`, issue 66; owner name omitted, so the link is not given); airplanes.live feeder-only (the same issue); a search-engine summary that ADS-B Exchange does not accept filtering requests; the apis.io Metra "rate limits"; a third-party GitHub issue (repository `ghost-bus-tracker`, issue 1, owner name omitted) that CTA Train Tracker and Bus Tracker keys fail on the CTA GTFS-RT beta; Transitland Atlas for the Pace GTFS-RT URLs.
-- **[C]** Metra: approval time, per-app keys, paid use, area filtering, the `route_id` string for UP-N. CTA: refresh rate and recommended polling for Train Tracker; which daily limit is right; GTFS-RT beta rate, key and terms; whether a relay is "your application". Pace: any official terms for the live endpoints. RTD: commercial use, rate limit, official refresh interval, Bustang terms, forum contents, which modes the GTFS-RT feeds carry. Aireon's own sales channels. Whether Cloudflare Workers can use a fixed egress IP. Whether FlightAware Standard covers a free app licensed to other app makers. adsb.lol: refresh rate, rate limits, attribution wording. adsb.fi: LADD handling. FlightAware: update rate, whether area search omits blocked aircraft, meaning of "commercial aircraft situational displays", whether the 2022 licence is current, in-app attribution. Flightradar24: LADD filtering in the API, Advanced rate limit (90 or 200). Real aircraft counts per box; real payload sizes and vehicle counts per tile.
+- **[C]** Metra: approval time, per-app keys, paid use, area filtering, the `route_id` string for UP-N. CTA: refresh rate and recommended polling for Train Tracker; which daily limit is right; GTFS-RT beta rate, key and terms; whether a relay is "your application". Pace: any official terms for the live endpoints. RTD: commercial use, rate limit, official refresh interval, Bustang terms, forum contents. Aireon's own sales channels. Whether Cloudflare Workers can use a fixed egress IP. Whether FlightAware Standard covers a free app licensed to other app makers. adsb.lol: refresh rate, rate limits, attribution wording. adsb.fi: LADD handling. FlightAware: update rate, whether area search omits blocked aircraft, meaning of "commercial aircraft situational displays", whether the 2022 licence is current, in-app attribution. Flightradar24: LADD filtering in the API, Advanced rate limit (90 or 200). Real aircraft counts per box; real payload sizes and vehicle counts per tile for any feed but RTD (RTD was measured in §8.12).
 - **Corrections to my earlier research notes.** (1) CTA bus routes are 127, not about 150 (the alerts page claim was not found), so a full sweep is 13 calls. (2) Pace's "not available for download" sentence is on the data page, not on the Bus Tracker tools page. (3) The "reply pretty quickly" sentence is on the Train Tracker overview, not the key-application page.
 
 ### 7.3 Procedural notes
@@ -672,9 +672,10 @@ The Metra API-host header observations (`published.txt`, `schedule.zip`, `positi
 **Denver RTD**
 - https://www.rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement (re-read)
 - https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds (re-read)
-- https://www.rtd-denver.com/open-records/open-spatial-information/gtfs (earlier)
+- https://www.rtd-denver.com/open-records/open-spatial-information/gtfs (re-read in the prototype pass)
 - https://www.rtd-denver.com/terms-of-use (earlier)
-- https://open-data.rtd-denver.com/files/gtfs-rt/rtd/VehiclePosition.pb, `TripUpdate.pb`, `Alerts.pb` (header requests, re-observed)
+- https://open-data.rtd-denver.com/files/gtfs-rt/rtd/VehiclePosition.pb, `TripUpdate.pb`, `Alerts.pb` (header requests, re-observed); `VehiclePosition.pb` fetched and decoded in the prototype pass (§8.12)
+- https://www.rtd-denver.com/files/gtfs/google_transit.zip (redirect chain and headers; `routes.txt` read from the start of the stream in the prototype pass, §8.12)
 
 **Aircraft**
 - OpenSky: https://openskynetwork.github.io/opensky-api/rest.html (re-read), https://openskynetwork.github.io/opensky-api/index.html (earlier), https://opensky-network.org/about/terms-of-use [U], https://opensky-network.org/data/api [U]
@@ -692,3 +693,213 @@ The Metra API-host header observations (`published.txt`, `schedule.zip`, `positi
 - https://aws.amazon.com/lambda/pricing/
 - https://aws.amazon.com/cloudfront/pricing/
 - https://docs.hetzner.com/cloud/billing/faq/ (plan prices on https://www.hetzner.com/cloud/ did not load without JavaScript)
+
+---
+
+## 8. Engine-side data contract
+
+> **Status: draft v1** (`schema` 1), written 2026-10-06 for phase 5A to build against after 5B. It describes what the renderer receives from the relay and how often. The relay prototype in [`Tools/livefeeds/`](../../Tools/livefeeds/README.md) implements it for Denver RTD only (trains and buses); it is a prototype, not a service. No engine, renderer or app code exists for it yet, and nothing here changes the world package format. While this section says "draft", a change may still be breaking; once 5A has built against it, it freezes as schema 1 and only additive changes are allowed (§8.10).
+>
+> **Relation to §4.5.** The §4.5 message was an illustration with compact keys (`v`, `pos`, `hdg`, `spd`, `t`, `src`). The contract below uses readable names and is what the prototype serves; where they differ, this section wins. A compact or binary encoding can follow later without changing the meaning of the fields.
+>
+> **Renderer-neutral.** Nothing below depends on RealityKit or three.js. The only engine-specific step is converting positions with the area's `LocalFrame` (§8.11).
+
+### 8.1 Roles and transport
+
+- **The host app polls; the engine core never touches the network.** The host fetches JSON from the relay over HTTPS with `GET`, decodes it, and hands the engine plain vehicle values, as it does for weather (§4, licensing checklist W7). The engine holds no relay URL, no key and no upstream URL, and does not parse relay JSON. This keeps the engine generic: it learns nothing about RTD, CTA or any host app.
+- **Phones never call an upstream feed.** They talk to the relay only (§4). The relay's address, TLS and any future client attestation are host configuration.
+- **One request per poll**, for one rectangle of tiles. The host sends `Accept-Encoding: gzip` and `If-None-Match` with the last `ETag` it received for that rectangle.
+- **Responses.** `200` with the JSON below; `304` with no body (data unchanged: keep what you hold, §8.6 rule 1); `400` with an error body (a bug in the request: do not retry unchanged); anything else, or no response, means "keep the last snapshot and apply §8.7 with local time".
+
+### 8.2 Requesting an area
+
+- **Canonical:** `GET /v1/vehicles?tiles=14/x0/y0/x1/y1`, an inclusive rectangle of zoom-14 Web-Mercator tiles. **Convenience:** `GET /v1/vehicles?bbox=S,W,N,E` (WGS84 degrees), snapped outward to the tile grid; the response's `Content-Location` header names the canonical form, and using it lets identical views share cache entries (§4.3).
+- **Tile maths** (OpenStreetMap slippy-map scheme): `x = floor((lon + 180) / 360 * 2^14)`, `y = floor((1 - asinh(tan(lat)) / pi) / 2 * 2^14)`, `y` grows southward. A tile is about 1.9 km on a side at Denver's latitude (§4.3).
+- **At most 4 x 4 tiles** (about 7.5 km square); larger requests get `400` (`area-too-large`). A typical request is the 3 x 3 tiles around the camera or covering the area's bounds.
+- **Coverage.** The relay serves only areas on its allowlist (data, `Tools/livefeeds/areas.json`). A rectangle outside them returns `200` with an empty `vehicles` list and `area.covered: false`; that is not an error, and it never causes an upstream poll (§4.12).
+- The response lists every vehicle inside the rectangle, sorted by `id`.
+
+### 8.3 Response schema (version 1)
+
+```json
+{
+  "schema": 1,
+  "live": true,
+  "generatedAt": 1790000031,
+  "feedTimestamp": 1790000029,
+  "state": "fresh",
+  "stale": false,
+  "pollIntervalSeconds": 15,
+  "area": { "z": 14, "x0": 3413, "y0": 6217, "x1": 3413, "y1": 6217,
+            "bbox": [39.740986, -105.007324, 39.75788, -104.985352], "covered": true },
+  "vehicles": [
+    { "id": "rtd:3fa91c0b77e2", "kind": "bus",  "route": "15",   "routeName": "15",
+      "lat": 39.75, "lon": -104.99, "heading": 90.0, "speedMps": null, "stopStatus": "inTransit",
+      "timestamp": 1790000021, "ageSeconds": 10, "source": "rtd" },
+    { "id": "rtd:b07c2e91d4aa", "kind": "rail", "route": "101E", "routeName": "E",
+      "lat": 39.7519, "lon": -104.9871, "heading": 201.4, "speedMps": 12.5, "stopStatus": "incoming",
+      "timestamp": 1790000019, "ageSeconds": 12, "source": "rtd" }
+  ],
+  "attribution": [
+    { "source": "rtd",
+      "text": "Live vehicle positions: Regional Transportation District (RTD), Denver, GTFS Realtime feed. Unofficial: not endorsed by, sponsored by or affiliated with RTD. Any views expressed are not those of RTD.",
+      "url": "https://www.rtd-denver.com/open-records/open-spatial-information/real-time-feeds",
+      "licenseUrl": "https://www.rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement" }
+  ]
+}
+```
+
+The sample is synthetic (ids and times are invented; the layout is what the prototype serves). Real responses are about 20 KB raw and 3 KB gzipped for a 3 x 3 window in the dense core (§8.12).
+
+**Top level**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `schema` | integer | Contract version, 1 (§8.10). On every JSON response, errors included. |
+| `live` | boolean | `true`: the data comes from a real-time feed. A host that substitutes recorded or synthetic data sets it to `false` before handing the snapshot to the engine. |
+| `generatedAt` | integer | Relay clock when this response was built, POSIX seconds UTC. The reference "now" for every age in the response. |
+| `feedTimestamp` | integer or `null` | The upstream feed's own header timestamp for the data served (the oldest, if several feeds). `null` when the relay has no data. |
+| `state` | string | `fresh`, `stale` or `unavailable` (§8.7). Unknown values must be treated as `unavailable`. |
+| `stale` | boolean | `state != "fresh"`. Convenience; `state` is the field to branch on. |
+| `pollIntervalSeconds` | integer | How often the host should poll (15 today). |
+| `area` | object | What the relay answered: `z` (14), `x0`, `y0`, `x1`, `y1` (inclusive tile rectangle), `bbox` (`[south, west, north, east]` of the whole rectangle, degrees), `covered` (false: outside every served area). |
+| `vehicles` | array | Vehicle records. Empty when `state` is `unavailable` or `covered` is false. |
+| `attribution` | array | One entry per source feed (§8.8). Present on every response. |
+
+**Vehicle**
+
+| Field | Type | Null? | Meaning |
+|---|---|---|---|
+| `id` | string | no | Opaque, salted, stable for one service day (§8.9). Use only as a key to follow the same vehicle between responses. |
+| `kind` | string | no | `rail` or `bus` today. Reserved: `aircraft`, `aircraft-ambient` (§8.4). Skip vehicles whose `kind` you do not know. |
+| `route` | string | no | The agency's route id (for example `15`, or `101E` for a light-rail route). |
+| `routeName` | string | yes | Public short name (for example `E` for `101E`). Label with `routeName ?? route`. |
+| `lat`, `lon` | number | no | WGS84 degrees, 5 decimals (about 1.1 m; the feed itself carries single-precision floats). |
+| `heading` | number | yes | Degrees clockwise from true north, in [0, 360); `null` when unknown. RTD sends a placeholder `0.0` for many vehicles; the relay turns exactly `0.0` into `null` (§8.12). |
+| `speedMps` | number | yes | Ground speed in metres per second. RTD reports it for a small minority of vehicles, so expect `null` (§8.12). |
+| `stopStatus` | string | yes | `stopped` (at a stop), `incoming` (about to arrive), `inTransit` (moving to the next stop), or `null`. |
+| `timestamp` | integer | no | When the vehicle's position was recorded, POSIX seconds UTC, as the agency reports it (the feed time if the agency omits it). |
+| `ageSeconds` | integer | no | `max(0, generatedAt - timestamp)`. |
+| `source` | string | no | Feed key; matches an `attribution[].source`. |
+
+**Attribution entry:** `source` (string), `text` (string, shown verbatim), `url` (information page), `licenseUrl` (licence page). Entries may gain fields (additive).
+
+**Error body** (HTTP 4xx): `{"schema": 1, "error": {"code": "...", "message": "..."}, "attribution": [...]}`. Codes today: `bad-request`, `bad-bbox`, `bad-tiles`, `area-too-large`, `not-found`, `method-not-allowed`, `uri-too-long`.
+
+Key order is not significant. JSON numbers are never `NaN` or infinite.
+
+**Which vehicles appear.** Revenue vehicles on a trip with a route found in the agency's static schedule. The relay drops, and counts: vehicles with no route (non-revenue; about 90 of 630 in the observed RTD feed), a route unknown to the static table, a mode other than rail or bus, no usable position, and positions more than 5 minutes older than the feed time.
+
+### 8.4 Field semantics and conventions
+
+- **Coordinates:** WGS84 (EPSG:4326) decimal degrees, latitude and longitude as named fields, never an array. Ground level: there is no height field for ground vehicles; the engine places them on its ground.
+- **Heading:** the direction of travel as reported by the vehicle (GPS course), degrees clockwise from true north. In the engine's scene axes (east = +X, north = -Z, up = +Y) the facing direction is `(sin h, 0, -cos h)`. RTD reports an exact `0.0` as a placeholder (68 percent of stopped and 23 percent of moving reports in the observed run, and it does not match the direction of travel, §8.12); the relay sends `null` for it. On `null`, keep the last known heading, or use the direction of travel between two reports once the vehicle moves. Do not rotate a vehicle whose `stopStatus` is `stopped`.
+- **Speed:** `speedMps` is metres per second, `null` when not reported. When `null`, estimate velocity from the last two reports of the same `id` (§8.6).
+- **Times:** POSIX seconds, UTC, integers. `timestamp` is the vehicle's own report time, not the fetch time, and can be a little later than `feedTimestamp` (up to about 50 s later in the first RTD sample) or minutes earlier. `ageSeconds` is the age at `generatedAt`; the host ages it locally between responses (§8.6).
+- **`kind` values.**
+  - `rail`: light rail and commuter rail (GTFS `route_type` 0, 1, 2 and the extended railway and tram ranges).
+  - `bus`: bus and trolleybus (3, 11, and the extended coach and bus ranges).
+  - Reserved, not sent yet: `aircraft`, a real tracked aircraft from an aircraft feed. It will add optional fields (for example `altitudeM`), will never carry registration, ICAO address, owner or (until a source's terms allow it) callsign, and is filtered upstream for LADD and PIA (§4.9).
+  - Reserved, not sent yet: `aircraft-ambient`, a decorative aircraft that is not an individually tracked real one (for example density-driven traffic over an airport). It must not be labelled or presented as a real flight, carries no identity guarantees, and its `source` is never a real feed's key, so no feed credit is claimed for it. Whether the relay or the host generates it is an open decision (§8.13).
+  - Clients skip an unknown `kind` and ignore unknown fields (§8.10).
+- **Nullable fields:** `feedTimestamp`, `routeName`, `heading`, `speedMps`, `stopStatus`. Everything else is always present.
+
+### 8.5 Update cadence
+
+| Hop | Interval | Basis |
+|---|---|---|
+| RTD publishes `VehiclePosition.pb` | about every 30 s | Observed (§8.12): the feed's header timestamp advanced by 30 s per file (31 s once), and each vehicle reported every 30 s. RTD publishes no interval or polling guideline; it states "accurate within 2 minutes" [V]. |
+| Relay polls RTD | 30 s, never below 30, plus up to 10 percent jitter | Owner rule and §4.4. Conditional GET; 304 is a good pull. Idle areas are not polled (§4.3). |
+| Host polls the relay | `pollIntervalSeconds`, 15 s | §4.6 and assumption A4. Responses carry `Cache-Control: public, max-age=10` and a weak `ETag`, so a CDN can sit in front and unchanged data costs a bodyless 304. |
+
+- **Typical age of a position when it reaches the host:** the vehicle's own age in the file (median about 2 s, 95th percentile about 38 s behind the feed time in the first sample) plus the file's age at the relay's pull (0 to about 30 s) plus up to 15 s of host polling. In the observed run the feed was 9 to 39 s old when the relay served it (median 28 s), and the oldest vehicle in the dense window was 183 to 319 s old (reports older than 5 minutes behind the feed time are dropped when ingested). Plan for positions that are 5 to 60 s old when received, and for a few that are minutes old.
+- **When to poll.** Only while the live layer is on, the world is on screen and the app is in the foreground. Poll once immediately when the layer turns on or the app returns to the foreground, then every `pollIntervalSeconds`. Do not poll faster than that (a per-install limit of one request per 5 s is planned, §4.12). While `state` is `unavailable`, or after errors, poll every 60 s and back off on repeated failures.
+- **The relay clock is the time base.** Do not compare `timestamp` with the phone's wall clock (phone clocks are often wrong). Use `generatedAt` and the host's monotonic clock (§8.6).
+
+### 8.6 Smoothing and dead reckoning between updates
+
+Vehicles move 10 to 30 m/s and data arrives every 15 to 45 s, so the renderer has to fill the gaps. This is guidance for ambient motion, not navigation; the numbers are starting values the engine exposes as settings.
+
+1. **Time base.** When a response arrives, record `receivedAt` on the host's monotonic clock. `serverNow(t) = generatedAt + (t - receivedAt)`. A `304` carries no new data: keep the previous reports and keep ageing them on the same time base.
+2. **Track per `id`.** Keep the last two distinct reports (by `timestamp`; ignore a report whose `timestamp` is not newer than the one held).
+3. **Render slightly in the past.** Draw each vehicle where it was at `serverNow - renderDelay`, with `renderDelay` 45 s by default (about 1.5 times RTD's refresh; allow 30 to 90 s). Between two reports that bracket that time, interpolate linearly in local metres (§8.11). This never overshoots and never needs a velocity.
+4. **Extrapolate only briefly.** If the render time is later than the newest report, continue along the last velocity for at most **30 s** (`maxExtrapolation`), then hold. Velocity is `speedMps` along `heading` when both exist, otherwise the displacement between the last two reports divided by the time between them (zero if they are less than 2 s or more than 120 s apart), clamped to 0 to 35 m/s for `bus` and 0 to 45 m/s for `rail`. A vehicle with `stopStatus` `stopped` is held, not extrapolated.
+5. **Never teleport.** Blend any difference between where a vehicle is drawn and where the data now puts it over about 3 s. If the difference exceeds 150 m (a new `id`, or a long gap), snap while faded out, then fade in over 1 s.
+6. **Heading.** Use the direction of the interpolated segment when it is longer than 3 m; otherwise keep the previous heading; turn by the shortest arc.
+7. **Optional snapping.** The engine may project a vehicle onto the nearest rail line (within 15 m) or road (within 25 m) of the world's own OSM data, for a tidier look. Never snap farther than that, and do not bake agency geometry into packages (§4.4).
+8. **Disappearance.** A vehicle that is missing from a `fresh` response stays under the rules above until its extrapolation budget ends, then fades out over 1 s (this covers a single missed report and a vehicle leaving the requested rectangle). A vehicle with a `timestamp` more than 120 s behind `serverNow` that has not been refreshed should fade out.
+9. **Budget.** The engine decides how many vehicles to draw; the densest 3 x 3 window observed held 90 to 95 vehicles.
+
+### 8.7 Stale and unavailable behaviour
+
+The relay sets `state` (initial values from §4.7, still to tune); the host also applies the same rules to its own clock, because the relay cannot say when the host cannot reach it.
+
+| `state` | Relay rule | Renderer behaviour |
+|---|---|---|
+| `fresh` | The relay's last good pull is at most 2 upstream polls (60 s) old, and the feed's own timestamp is at most 120 s old | Draw with §8.6. No notice. |
+| `stale` | Otherwise, up to 5 minutes | Keep the vehicles but allow no extrapolation beyond the §8.6 limit; freeze each vehicle where it ends up and fade to 40 percent opacity over 10 s. The host may show "live data delayed" (host UI, not engine). |
+| `unavailable` | Older than 5 minutes, no data yet, or the feed is disabled or revoked | `vehicles` is empty. Fade everything out over 2 s and remove it. The host may show "live data unavailable" or nothing. The world works without it. |
+
+- **Host-side rule:** if no `200` or `304` has arrived for `2 x pollIntervalSeconds` plus the request timeout, behave as `stale`; after 5 minutes, as `unavailable`. A new good response restores `fresh` and fades vehicles back in.
+- Live data is never a hard dependency (§4.7): a failed request must not delay, block or error the world's rendering.
+
+### 8.8 Attribution duty
+
+- Every response carries `attribution[]`, one entry per source feed, with the wording the relay owns. The host shows each entry's `text` **verbatim** (not shortened, edited or translated) for every source that has at least one vehicle on screen, including vehicles still fading, **alongside the OpenStreetMap credit**: the OSM credit stays visible and is never replaced or crowded out (CLAUDE.md; `docs/data-licensing.md` §1). The credits sheet also lists each source's `url` and `licenseUrl`.
+- **Exports.** Every exported image or video frame that contains vehicles of a source burns in that source's `text` together with the OSM line, through `WorldCredits.burnIn(...)` (decision 6c: no credit-free exports; `docs/data-licensing.md` §1 and §3). Frames with none of that source's vehicles do not need its credit.
+- **Mechanics (5A work).** Today the credit pipeline has a host-supplied slot only for the weather provider (`Credit.Condition.hostSupplied` handles `kind == .weather` in `Sources/WorldGen/Credits.swift`), so a live-feed credit needs a new host-supplied entry filled from the response's `attribution[]` and given `burnIn` for the image surface, the same way the weather provider's notice is. That change is not made here.
+- **RTD wording.** RTD's licence ([text](https://www.rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement), read 2026-10-06 [V]) requires no attribution text and no credit line. Its link clause says RTD may require a notice that a site is an "unofficial web site and is not endorsed by, sponsored by or affiliated with RTD", plus a statement that views expressed are not RTD's. RTD has not required it of us, but the relay always sends it, so the credit is a neutral line followed by that non-endorsement statement (the exact string is in the §8.3 sample and in `Tools/livefeeds/livefeeds/rtd.py`; the wording of our line is ours, not RTD's). No RTD logo, map or other mark is ever used; the name appears only as plain text inside `text`. If a feed's terms change, the relay changes `text` without an app release.
+
+### 8.9 Privacy
+
+- **Ids are salted and rotating.** `id` is `<source>:` plus 12 hex digits of HMAC-SHA256 over the agency's vehicle id with a random salt that is replaced each service day (03:00 local) and kept only for the current day. Raw agency vehicle ids, fleet labels and trip ids never leave the relay or reach disk. The host must not log, display, persist or transmit `id`, or join it with any user data; it is a key for one session.
+- **Aircraft** (reserved): LADD and PIA aircraft are dropped upstream before anything is cached (§4.9); no registration, ICAO address or owner is ever sent; aircraft ids use the same secret salt, never a bare hash of the ICAO address.
+- **Requests reveal the viewed area** to within about 2 km. The relay keeps no client addresses, no per-request log and no requested tiles, only aggregate counters (§4.13). The host should send no user identifier, cookie or install id with these requests.
+- **Nothing persists.** The snapshot lives in memory on the host. It is never written into a world package (the package is an ODbL derivative database; live data is not part of it), a postcard's metadata or a log.
+
+### 8.10 Versioning
+
+- `schema` is an integer on every JSON response. **Additive changes only within a number:** new optional fields, new `kind`, `stopStatus` or `source` values, new `attribution` fields, new endpoints. Names, units and meanings never change, and nothing is removed.
+- Clients must ignore unknown fields, skip vehicles with an unknown `kind`, ignore unknown `stopStatus` values (treat as `null`), and treat an unknown `state` as `unavailable`.
+- A breaking change gets a new `schema` number and a new path (`/v2/...`); the old path keeps working for a deprecation period. A client that receives a `schema` it does not know treats the relay as `unavailable`.
+- The prototype serves `schema` 1 in draft (see the status note above).
+
+### 8.11 Mapping WGS84 to scene coordinates
+
+- Use the area's own frame: `LocalFrame(origin: manifest.center)` (`AreaManifest.frame`, `Sources/WorldGeo/LocalFrame.swift`; the web port is `web/src/geo.js`). It is an exact WGS84 tangent plane in metres.
+- `localPoint(of:)` gives east and north in metres; `scenePosition(of:y:)` gives the scene position with east = +X, north = -Z, up = +Y. Vehicle `lat` and `lon` go in; the ground height comes from the engine's ground (the world is flat in M1).
+- Interpolate and extrapolate in these local metres, not in degrees (a degree of longitude shrinks with latitude).
+- Cull or fade vehicles outside the area's `localBounds`: the world is finite and the relay's tile rectangle may reach beyond it.
+- Heading to scene direction: §8.4.
+
+### 8.12 What the prototype observed (RTD, 2026-10-06)
+
+One relay run of 9 minutes (`serve`, 14:35 to 14:44 UTC) with 17 polls at the 30 s default, preceded by one `once` run and a few development fetches. Measurements, not promises. Payload bytes are wire bytes as received.
+
+| Measurement | Value |
+|---|---|
+| Polls to RTD in the run | 17, spaced 30 to 38 s (30, 31, 32, 33, 33, 32, 31, 30, 38, 32, 31, 31, 33, 32, 31, 31 s); never closer than 30 s |
+| HTTP results | all `200`. No `304` was seen because RTD rewrote the file between every pair of polls; the relay sends `If-None-Match` and `If-Modified-Since` (RTD sends `ETag` and `Last-Modified`), but RTD's reply to a matching validator was not observed. The first poll returned the file the earlier `once` run had already fetched (same header timestamp, so "unchanged") |
+| Upstream payload | 54,824 to 55,361 bytes per poll (about 55 KB, uncompressed: the wire size equals the protobuf size); 937,092 bytes for the 17 polls |
+| Feed contents | The first sample had 633 vehicle entities: 498 bus, 47 rail, 88 with no trip or route. Over the run: 528 to 538 vehicles served (rail 47 to 49, bus 480 to 491); dropped per poll: 88 to 94 with no route (non-revenue), 1 to 5 older than 5 minutes behind the feed time |
+| Feed age when pulled | 1 to 29 s (it crept up from 1 s to 28 s as the relay's 31 s cadence drifted against RTD's 30 s refresh, and would wrap when a refresh was missed) |
+| Feed timestamp cadence | 16 distinct files in the run; gaps 30 s (14 times) and 31 s (once). Per-vehicle report gaps: median, 10th and 90th percentile all 30 s (7,715 consecutive report pairs; the longest gap, 546 s, was a vehicle that went silent) |
+| `speed` | Present on a small minority: 23 of 633 vehicles in the first sample (15 of them 0.0). Treat as `null` |
+| `bearing` 0.0 | 1,458 of 6,253 moving (`inTransit`) reports and 1,376 of 2,018 `stopped` reports had exactly 0.0. A second check with two files 31 s apart, for vehicles that moved at least 40 m: non-zero bearings matched the direction of travel (median error 1.8 degrees, 88 percent within 30 degrees, 308 reports), exact 0.0 did not (median error 90 degrees, 23 percent within 30 degrees, 64 reports). So 0.0 is a placeholder |
+| Implied speed from consecutive reports (all vehicles, stopped ones included) | median 4.5 m/s, 90th percentile 13.7 m/s, maximum 152 m/s (position glitches exist: hence the speed clamps and the 150 m snap rule in §8.6) |
+| Vehicle timestamps against the feed header | from 51 s after it to 579 s before it in the first sample (median 2 s before, 95th percentile 38 s before) |
+| Served JSON, densest 3 x 3 window (`14/3412/6216/3414/6218`) | 90 to 95 vehicles; 19,805 to 20,850 bytes raw (median 20,449); 3,053 to 3,223 bytes gzipped (median 3,149), about 34 bytes per vehicle. This is a measured counterpart to the synthetic 75-vehicle, 3.0 KB estimate in assumption A5 (§5.1), which it supports |
+| Local client (every 20 s, gzip, `If-None-Match`) | 27 requests: 17 `200` and 10 `304`; every response `fresh` |
+| Static `routes.txt` | read from the start of the zip: 131,072 bytes instead of 10,083,072 (1.3 percent); 130 routes |
+| `state` over the run | `fresh` throughout. Stale and unavailable were exercised only by the offline tests (injected clocks and failures) |
+
+**What the prototype pass contacted.** Only RTD's own hosts, with the User-Agent `WorldEngine-livefeeds-prototype/0.1`, no key and no account: the licence, real-time feeds and static GTFS pages (HTML), header requests and downloads of `VehiclePosition.pb`, and the start of the static `google_transit.zip`. RTD's licence says that downloading or continuing to use the feeds means agreeing to it; the prototype read it first and follows what it can (no RTD marks, a non-endorsement credit, no accuracy claim). Whether paid or ad-supported use is allowed is still open (§6, RTD question 1). Nothing from the feed or the static zip is committed; tests use synthetic feeds built by a small encoder in the test code.
+
+### 8.13 Open decisions and unverified items
+
+- **RTD commercial use** is not addressed by the licence (§6, RTD 1); the credit wording is ours and RTD has not seen it (RTD 4).
+- **Ambient aircraft:** relay-generated or host-generated, and what `source` and credit apply (§8.4).
+- **Edge caching** was not tested (headers only, no CDN). **Real-phone latency** was not measured. The cadence figures are from one short run.
+- The static GTFS download path is fragile: a redirect chain to another host, no `Range` support, no `Content-Length`. The relay reads only the start of the stream and falls back to a full download.
+- Per-client rate limiting, client attestation and where the relay is hosted are open (§4.12, §4 intro).
+- Route colours and icons are not sent; the engine uses neutral liveries per `kind` (agency marks are not used).
