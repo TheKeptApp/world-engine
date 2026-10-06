@@ -1,0 +1,253 @@
+{
+  "id": "chicagoland-winnetka-draft",
+  "version": 2,
+  "name": "Winnetka (North Shore) (regionkit draft from template northeast-suburbs)",
+  "seasons": {
+    "hemisphere": "north",
+    "spring": [3, 4, 5],
+    "summer": [6, 7, 8],
+    "autumn": [9, 10, 11],
+    "winter": [12, 1, 2]
+  },
+  "trees": {
+    "deciduousShare": 0.85,
+    "crownWeights": {
+      "broad": 0.5,
+      "oval": 0.3,
+      "spreading": 0.2
+    },
+    "heightMeters": [9, 17],
+    "youngShare": 0.18,
+    "youngHeightMeters": [4, 7]
+  },
+  "houseTypes": [
+    {
+      "id": "capeLike",
+      "floors": [1],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 1,
+        "hipped": 0,
+        "flat": 0
+      },
+      "pitch": [35, 45],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.3,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#ADB0A3", "#E7E1CF", "#617886", "#636B72"],
+        ["#C1B8A3", "#E8DFCE", "#77624D", "#67686A"]
+      ]
+    },
+    {
+      "id": "colonialLike",
+      "floors": [2],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0.9,
+        "hipped": 0.1,
+        "flat": 0
+      },
+      "pitch": [28, 40],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.4,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#C9C4AF", "#E8E2D1", "#586F7C", "#626972"],
+        ["#A4B1B0", "#E8E3D4", "#7B5D51", "#606872"]
+      ]
+    },
+    {
+      "id": "broadRanch",
+      "floors": [1],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0.65,
+        "hipped": 0.35,
+        "flat": 0
+      },
+      "pitch": [15, 26],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.25,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [3.1, 3.8],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": [1.6, 2.2]
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#A48F7A", "#E2D9C4", "#58746F", "#666B69"],
+        ["#AAB19D", "#E5DFCD", "#846C55", "#616A6C"]
+      ],
+      "minAspect": 1.45,
+      "broadFrontage": true
+    },
+    {
+      "id": "compactGable",
+      "floors": [1, 2],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 1,
+        "hipped": 0,
+        "flat": 0
+      },
+      "pitch": [27, 38],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.4,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#91A4AB", "#E6E2D4", "#6D7868", "#626B75"],
+        ["#B8AA98", "#E6DECC", "#647B80", "#666971"]
+      ]
+    },
+    {
+      "id": "plainFallback",
+      "floors": [1, 2, 3],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0,
+        "hipped": 0,
+        "flat": 1
+      },
+      "pitch": [0, 5],
+      "overhang": [0.05, 0.15],
+      "porch": {
+        "likelihood": 0.15,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#C9C7BA", "#E1DED3", "#698080", "#606A72"]
+      ],
+      "parapet": [0.25, 0.4]
+    }
+  ],
+  "typeRules": {
+    "oneFloorBroad": {
+      "broadRanch": 75,
+      "capeLike": 25
+    },
+    "oneFloor": {
+      "capeLike": 1,
+      "compactGable": 1
+    },
+    "twoFloorSquare": {
+      "colonialLike": 1,
+      "compactGable": 1
+    },
+    "twoFloorNarrow": {
+      "colonialLike": 1,
+      "compactGable": 1,
+      "plainFallback": 1
+    },
+    "twoFloor": {
+      "colonialLike": 1,
+      "compactGable": 1
+    },
+    "threeFloor": {
+      "plainFallback": 100
+    },
+    "unknown": {
+      "capeLike": 25,
+      "colonialLike": 35,
+      "broadRanch": 30,
+      "compactGable": 10
+    },
+    "small": {
+      "capeLike": 85,
+      "plainFallback": 15
+    },
+    "large": {
+      "capeLike": 35,
+      "colonialLike": 35,
+      "broadRanch": 20,
+      "compactGable": 10
+    },
+    "semidetached": {
+      "plainFallback": 100
+    }
+  },
+  "typeThresholds": {
+    "smallArea": 60,
+    "largeArea": 220,
+    "hugeArea": 350,
+    "broadAspect": 1.7,
+    "squareAspect": 1.5,
+    "squareRectangularity": 0.78,
+    "narrowAspect": 1.7
+  },
+  "garage": {
+    "wallHeight": [2.5, 3.0],
+    "roof": {
+      "gabled": 0.6,
+      "hipped": 0.1,
+      "flat": 0.3
+    },
+    "pitch": [14, 25],
+    "overhang": [0.2, 0.35],
+    "doubleDoorMinWidthMeters": 6.0,
+    "colors": [
+      ["#ADB0A3", "#E7E1CF", "#617886", "#636B72"],
+      ["#C1B8A3", "#E8DFCE", "#77624D", "#67686A"]
+    ]
+  },
+  "shed": {
+    "wallHeight": [2.0, 2.4],
+    "pitch": [8, 18],
+    "overhang": [0.1, 0.2],
+    "colors": [
+      ["#8B967E", "#D5CCB8", "#6C7D70", "#676C6A"],
+      ["#AB8E73", "#DBCBB0", "#7C6859", "#686568"]
+    ]
+  },
+  "chimneyLikelihood": 0.55,
+  "foundationMeters": [0.4, 0.7],
+  "comment": "Drafted by Tools/regionkit from OpenStreetMap (ODbL, (c) OpenStreetMap contributors) and NOAA NCEI normals; template northeast-suburbs, shrinkage k=30. Per-field provenance and sample sizes: measurements.json. Review before use."
+}

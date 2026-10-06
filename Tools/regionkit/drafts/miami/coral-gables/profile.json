@@ -1,0 +1,224 @@
+{
+  "id": "miami-coral-gables-draft",
+  "version": 2,
+  "name": "Coral Gables (regionkit draft from template desert-southwest)",
+  "seasons": {
+    "hemisphere": "north",
+    "spring": [3, 4, 5],
+    "summer": [6, 7, 8],
+    "autumn": [9, 10, 11],
+    "winter": [12, 1, 2]
+  },
+  "trees": {
+    "deciduousShare": 0.98,
+    "crownWeights": {
+      "broad": 0.15,
+      "oval": 0.2,
+      "spreading": 0.65
+    },
+    "heightMeters": [5, 10],
+    "youngShare": 0.3,
+    "youngHeightMeters": [2.5, 5]
+  },
+  "houseTypes": [
+    {
+      "id": "desertRanch",
+      "floors": [1],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0.5,
+        "hipped": 0.5,
+        "flat": 0
+      },
+      "pitch": [12, 24],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.3,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [3.1, 3.8],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": [1.6, 2.2]
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#CDB995", "#E7DCC6", "#78624D", "#AA8165"],
+        ["#C5AD94", "#E1D3BC", "#5F7974", "#817C72"]
+      ],
+      "minAspect": 1.45,
+      "broadFrontage": true
+    },
+    {
+      "id": "stuccoHip",
+      "floors": [1, 2],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0.35,
+        "hipped": 0.65,
+        "flat": 0
+      },
+      "pitch": [18, 28],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.3,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#CDB18F", "#E9D9BD", "#72604E", "#B08767"],
+        ["#D0BEA1", "#EADFCB", "#5A7472", "#887F71"]
+      ]
+    },
+    {
+      "id": "stuccoTwo",
+      "floors": [2],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0.45,
+        "hipped": 0.55,
+        "flat": 0
+      },
+      "pitch": [18, 30],
+      "overhang": [0.3, 0.5],
+      "porch": {
+        "likelihood": 0.3,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#C7AB8A", "#E6D6BA", "#657872", "#A17F65"],
+        ["#CFBCA2", "#E8DDCB", "#81634E", "#817B71"]
+      ]
+    },
+    {
+      "id": "desertModern",
+      "floors": [1, 2, 3],
+      "perFloor": [2.9, 3.2],
+      "roof": {
+        "gabled": 0,
+        "hipped": 0,
+        "flat": 1
+      },
+      "pitch": [0, 5],
+      "overhang": [0.05, 0.15],
+      "porch": {
+        "likelihood": 0.2,
+        "depth": [0.8, 1.3],
+        "frontage": [0.2, 0.35],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [2.8, 3.3],
+        "width": [0.9, 1.2],
+        "height": [1.2, 1.5],
+        "broad": null
+      },
+      "door": [0.35, 0.5, 0.65],
+      "colors": [
+        ["#C9B998", "#E5DCC8", "#62807A", "#8B877B"],
+        ["#C1AC96", "#E7DBCA", "#7C6354", "#777C78"]
+      ],
+      "parapet": [0.25, 0.4]
+    }
+  ],
+  "typeRules": {
+    "oneFloorBroad": {
+      "desertRanch": 75,
+      "stuccoHip": 25
+    },
+    "oneFloor": {
+      "stuccoHip": 1
+    },
+    "twoFloorSquare": {
+      "stuccoHip": 1,
+      "stuccoTwo": 1
+    },
+    "twoFloorNarrow": {
+      "stuccoHip": 1,
+      "stuccoTwo": 1,
+      "desertModern": 1
+    },
+    "twoFloor": {
+      "stuccoHip": 1,
+      "stuccoTwo": 1
+    },
+    "threeFloor": {
+      "desertModern": 100
+    },
+    "unknown": {
+      "desertRanch": 30,
+      "stuccoHip": 40,
+      "stuccoTwo": 20,
+      "desertModern": 10
+    },
+    "small": {
+      "stuccoHip": 85,
+      "desertModern": 15
+    },
+    "large": {
+      "desertRanch": 35,
+      "stuccoHip": 35,
+      "stuccoTwo": 20,
+      "desertModern": 10
+    },
+    "semidetached": {
+      "desertModern": 100
+    }
+  },
+  "typeThresholds": {
+    "smallArea": 33.3,
+    "largeArea": 235.0,
+    "hugeArea": 874.0,
+    "broadAspect": 1.7,
+    "squareAspect": 1.5,
+    "squareRectangularity": 0.78,
+    "narrowAspect": 1.7
+  },
+  "garage": {
+    "wallHeight": [2.5, 3.0],
+    "roof": {
+      "gabled": 0.6,
+      "hipped": 0.1,
+      "flat": 0.3
+    },
+    "pitch": [14, 25],
+    "overhang": [0.2, 0.35],
+    "doubleDoorMinWidthMeters": 6.0,
+    "colors": [
+      ["#CDB995", "#E7DCC6", "#78624D", "#AA8165"],
+      ["#C5AD94", "#E1D3BC", "#5F7974", "#817C72"]
+    ]
+  },
+  "shed": {
+    "wallHeight": [2.0, 2.4],
+    "pitch": [8, 18],
+    "overhang": [0.1, 0.2],
+    "colors": [
+      ["#8B967E", "#D5CCB8", "#6C7D70", "#676C6A"],
+      ["#AB8E73", "#DBCBB0", "#7C6859", "#686568"]
+    ]
+  },
+  "chimneyLikelihood": 0.05,
+  "foundationMeters": [0.1, 0.25],
+  "comment": "Drafted by Tools/regionkit from OpenStreetMap (ODbL, (c) OpenStreetMap contributors) and NOAA NCEI normals; template desert-southwest, shrinkage k=30. Per-field provenance and sample sizes: measurements.json. Review before use."
+}

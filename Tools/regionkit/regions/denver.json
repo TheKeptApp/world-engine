@@ -1,0 +1,18 @@
+{
+  "region": "denver",
+  "name": "Denver, Colorado Front Range (accuracy check)",
+  "comment": "Accuracy check (a): draft from the committed Sloan's Lake extract with the GENERIC `default` template (to avoid circularity), then compare with the hand-made front-range.json. Nothing is fetched: the extract is read in place, read-only.",
+  "zones": [
+    {
+      "id": "sloans-lake",
+      "name": "Sloan's Lake, Denver (committed extract, 1600 m x 1200 m)",
+      "template": "default",
+      "templateReason": "Accuracy check: the generic default is used so the draft cannot simply copy the reference.",
+      "reference": "front-range",
+      "missingFamilies": [],
+      "cells": [
+        { "id": "sloans-lake-extract", "localExtract": "Data/areas/sloans-lake" }
+      ]
+    }
+  ]
+}

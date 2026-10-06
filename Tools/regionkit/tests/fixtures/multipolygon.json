@@ -1,0 +1,29 @@
+{
+  "comment": "Synthetic Overpass-style JSON (hand-written, not real map data). A building multipolygon whose outer ring is split over two ways (one reversed) plus an inner courtyard; a closed building way; a relation printed without members (as `out tags` prints oversized area relations).",
+  "osm3s": { "timestamp_osm_base": "2026-01-01T00:00:00Z" },
+  "elements": [
+    { "type": "node", "id": 1, "lat": 0.0000, "lon": 0.0000 },
+    { "type": "node", "id": 2, "lat": 0.0000, "lon": 0.0003 },
+    { "type": "node", "id": 3, "lat": 0.0003, "lon": 0.0003 },
+    { "type": "node", "id": 4, "lat": 0.0003, "lon": 0.0000 },
+    { "type": "node", "id": 5, "lat": 0.0001, "lon": 0.0001 },
+    { "type": "node", "id": 6, "lat": 0.0001, "lon": 0.0002 },
+    { "type": "node", "id": 7, "lat": 0.0002, "lon": 0.0002 },
+    { "type": "node", "id": 8, "lat": 0.0002, "lon": 0.0001 },
+    { "type": "node", "id": 9, "lat": 0.0005, "lon": 0.0005 },
+    { "type": "node", "id": 10, "lat": 0.0005, "lon": 0.0006 },
+    { "type": "node", "id": 11, "lat": 0.0006, "lon": 0.0006 },
+    { "type": "node", "id": 12, "lat": 0.0006, "lon": 0.0005 },
+    { "type": "node", "id": 13, "lat": 0.0004, "lon": 0.0004, "tags": { "natural": "tree", "genus": "Quercus", "species": "Quercus virginiana" } },
+    { "type": "way", "id": 100, "nodes": [1, 2, 3] },
+    { "type": "way", "id": 101, "nodes": [1, 4, 3] },
+    { "type": "way", "id": 102, "nodes": [5, 6, 7, 8, 5] },
+    { "type": "way", "id": 103, "nodes": [9, 10, 11, 12, 9], "tags": { "building": "house", "building:levels": "2", "roof:shape": "hipped" } },
+    { "type": "relation", "id": 200, "members": [
+        { "type": "way", "ref": 100, "role": "outer" },
+        { "type": "way", "ref": 101, "role": "outer" },
+        { "type": "way", "ref": 102, "role": "inner" } ],
+      "tags": { "type": "multipolygon", "building": "apartments" } },
+    { "type": "relation", "id": 201, "tags": { "type": "multipolygon", "natural": "water", "name": "Synthetic Lake" } }
+  ]
+}

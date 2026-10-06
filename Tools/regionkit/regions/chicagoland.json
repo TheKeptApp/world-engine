@@ -1,0 +1,528 @@
+{
+  "region": "chicagoland",
+  "name": "Chicagoland (Chicago and the North Shore suburbs)",
+  "comment": "Sample cells are 1000 m x 1000 m boxes (+-500 m) around named public anchors (parks, plazas, stations). `center` is the anchor's Overpass `out center` position rounded to 4 decimals, written by `regionkit.sh anchors`. `near` is only a disambiguation hint for same-named features. Places live here (data), never in tool code.",
+  "anchorSearch": {
+    "bbox": [41.75, -87.85, 42.15, -87.55]
+  },
+  "catalogCheck": "docs/proposals/regions-chicagoland-miami/region-catalog.json",
+  "zones": [
+    {
+      "id": "evanston",
+      "name": "Evanston (North Shore)",
+      "template": "northeast-suburbs",
+      "templateReason": "Closest existing vocabulary that is NOT the scored reference: detached 1-2 storey suburban houses with steep gabled (Cape/Colonial-like) and broad ranch families, no alleys assumed (regions-v1 northeast-suburbs). The town profiles in docs/proposals/regions-chicagoland-miami are the comparison references, never templates.",
+      "reference": "evanston",
+      "missingFamilies": [
+        "Generator support for the reference families' identity (cross-gables, dormers, steep Tudor roofs with chimneys, broad Prairie eaves, turrets): the profiles now name them, but BuildingGenerator renders one gabled/hipped/flat roof per rectangle",
+        "raised ranch / split-level (half-levels are rounded by the generator)",
+        "courtyard apartments (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "evanston-lovelace-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Lovelace Park", "Walter S. Lovelace Park"],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [42.064, -87.712]
+          },
+          "center": [42.068, -87.726],
+          "anchorResolved": {
+            "osm": "way/23609354",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Walter S. Lovelace Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "evanston-smith-park",
+          "radiusMeters": 500,
+          "extra": true,
+          "extraReason": "Second Evanston sample, inside the evanston-inland-review box of docs/proposals/regions-chicagoland-miami/region-catalog.json (the Lovelace Park anchor cell lies outside that box). Smith Park is the public park nearest the box centre (42.0485, -87.691), chosen from `regionkit.sh find --bbox 42.037,-87.699,42.060,-87.683 --tag leisure=park`.",
+          "anchor": {
+            "name": "Smith Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [42.0499, -87.6932]
+          },
+          "center": [42.0499, -87.6932],
+          "anchorResolved": {
+            "osm": "way/168243511",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Smith Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wilmette",
+      "name": "Wilmette (North Shore)",
+      "template": "northeast-suburbs",
+      "templateReason": "Closest existing vocabulary that is NOT the scored reference: detached 1-2 storey suburban houses with steep gabled (Cape/Colonial-like) and broad ranch families, no alleys assumed (regions-v1 northeast-suburbs). The town profiles in docs/proposals/regions-chicagoland-miami are the comparison references, never templates.",
+      "reference": "wilmette",
+      "missingFamilies": [
+        "Generator support for the reference families' identity (cross-gables, dormers, steep Tudor roofs with chimneys, broad Prairie eaves, turrets): the profiles now name them, but BuildingGenerator renders one gabled/hipped/flat roof per rectangle",
+        "raised ranch / split-level (half-levels are rounded by the generator)",
+        "courtyard apartments (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "wilmette-vattmann-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Vattmann Park", "Vattman Park"],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [42.073, -87.72]
+          },
+          "center": [42.0779, -87.7137],
+          "anchorResolved": {
+            "osm": "way/23609352",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Vattman Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "winnetka",
+      "name": "Winnetka (North Shore)",
+      "template": "northeast-suburbs",
+      "templateReason": "Closest existing vocabulary that is NOT the scored reference: detached 1-2 storey suburban houses with steep gabled (Cape/Colonial-like) and broad ranch families, no alleys assumed (regions-v1 northeast-suburbs). The town profiles in docs/proposals/regions-chicagoland-miami are the comparison references, never templates.",
+      "reference": "winnetka",
+      "missingFamilies": [
+        "Generator support for the reference families' identity (cross-gables, dormers, steep Tudor roofs with chimneys, broad Prairie eaves, turrets): the profiles now name them, but BuildingGenerator renders one gabled/hipped/flat roof per rectangle",
+        "raised ranch / split-level (half-levels are rounded by the generator)",
+        "courtyard apartments (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "winnetka-village-green",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Village Green", "Village Green Park"],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [42.107, -87.735]
+          },
+          "center": [42.1052, -87.7289],
+          "anchorResolved": {
+            "osm": "way/184364632",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Village Green Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kenilworth",
+      "name": "Kenilworth (North Shore)",
+      "template": "northeast-suburbs",
+      "templateReason": "Closest existing vocabulary that is NOT the scored reference: detached 1-2 storey suburban houses with steep gabled (Cape/Colonial-like) and broad ranch families, no alleys assumed (regions-v1 northeast-suburbs). The town profiles in docs/proposals/regions-chicagoland-miami are the comparison references, never templates.",
+      "reference": "kenilworth",
+      "missingFamilies": [
+        "Generator support for the reference families' identity (cross-gables, dormers, steep Tudor roofs with chimneys, broad Prairie eaves, turrets): the profiles now name them, but BuildingGenerator renders one gabled/hipped/flat roof per rectangle",
+        "raised ranch / split-level (half-levels are rounded by the generator)",
+        "courtyard apartments (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "kenilworth-station",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Kenilworth",
+            "matchAny": [
+              {
+                "railway": ["station", "halt"]
+              },
+              {
+                "public_transport": "station"
+              }
+            ],
+            "near": [42.0856, -87.7166]
+          },
+          "center": [42.0871, -87.7176],
+          "anchorResolved": {
+            "osm": "node/7134004731",
+            "matchedTags": {
+              "name": "Kenilworth",
+              "public_transport": "station",
+              "railway": "station"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "north-shore",
+      "name": "North Shore suburbs pooled (Evanston, Wilmette, Winnetka, Kenilworth)",
+      "template": "northeast-suburbs",
+      "templateReason": "Closest existing vocabulary that is NOT the scored reference: detached 1-2 storey suburban houses with steep gabled (Cape/Colonial-like) and broad ranch families, no alleys assumed (regions-v1 northeast-suburbs). The town profiles in docs/proposals/regions-chicagoland-miami are the comparison references, never templates.",
+      "poolZones": ["evanston", "wilmette", "winnetka", "kenilworth"],
+      "missingFamilies": [
+        "Generator support for the reference families' identity (cross-gables, dormers, steep Tudor roofs with chimneys, broad Prairie eaves, turrets): the profiles now name them, but BuildingGenerator renders one gabled/hipped/flat roof per rectangle",
+        "raised ranch / split-level (half-levels are rounded by the generator)",
+        "courtyard apartments (role block always takes the first flat-roof type)"
+      ],
+      "cells": []
+    },
+    {
+      "id": "dense-north",
+      "name": "Chicago dense north side (Lakeview, Lincoln Park, Edgewater)",
+      "template": "front-range",
+      "templateReason": "Front-range is the only profile with flat-roof 2-3 storey families (modern, duplex) plus a steep gabled cottage, the nearest vocabulary for two/three-flats and frame workers' cottages on narrow lots. Its bungalow/foursquare/ranch families will mostly be filtered out by aspect/levels.",
+      "missingFamilies": [
+        "Role dispatch for apartments: buildings with role `block` (building=apartments, yes >= 250 m2, ...) always use the FIRST flat-roof house type, so sixFlat / courtyardMass / cornerMixedUse / vintageHighRise in the reference profiles are never chosen for them",
+        "two/three-level rear porches and gangways, stoops, cornices (no geometry support)",
+        "Chicago brick bungalow attic/dormer and raised basement (one roof per rectangle, no dormers)"
+      ],
+      "reference": "chicago-dense-north",
+      "cells": [
+        {
+          "id": "lakeview-gill-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Gill Park"],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.952, -87.651]
+          },
+          "center": [41.9522, -87.6504],
+          "anchorResolved": {
+            "osm": "way/1103063291",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Gill Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "lincoln-park-oz-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Oz Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.9205, -87.646]
+          },
+          "center": [41.9206, -87.6457],
+          "anchorResolved": {
+            "osm": "way/28292473",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Oz Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "edgewater-broadway-armory-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Broadway Armory Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.9906, -87.6603]
+          },
+          "center": [41.9893, -87.6596],
+          "anchorResolved": {
+            "osm": "way/1509645561",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Broadway Armory Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "greystone",
+      "name": "Chicago greystone / two-flat neighbourhoods (Logan Square, Wicker Park, Lincoln Square)",
+      "template": "front-range",
+      "templateReason": "Same reasoning as dense-north: front-range's flat-roof modern/duplex families are the nearest stand-in for two-flats and greystones; cottage covers frame cottages.",
+      "missingFamilies": [
+        "Role dispatch for apartments: buildings with role `block` (building=apartments, yes >= 250 m2, ...) always use the FIRST flat-roof house type, so sixFlat / courtyardMass / cornerMixedUse / vintageHighRise in the reference profiles are never chosen for them",
+        "two/three-level rear porches and gangways, stoops, cornices (no geometry support)",
+        "Chicago brick bungalow attic/dormer and raised basement (one roof per rectangle, no dormers)"
+      ],
+      "reference": "chicago-greystone-twoflat",
+      "cells": [
+        {
+          "id": "logan-square-centennial-monument",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Illinois Centennial Monument", "Logan Square"],
+            "matchAny": [
+              {
+                "historic": "*"
+              },
+              {
+                "tourism": "*"
+              },
+              {
+                "man_made": "*"
+              },
+              {
+                "memorial": "*"
+              },
+              {
+                "leisure": "park"
+              },
+              {
+                "place": "square"
+              },
+              {
+                "highway": "*"
+              }
+            ],
+            "near": [41.9295, -87.7073]
+          },
+          "center": [41.9284, -87.7073],
+          "anchorResolved": {
+            "osm": "way/163901343",
+            "matchedTags": {
+              "historic": "monument",
+              "name": "Illinois Centennial Monument",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "wicker-park-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Wicker Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.9077, -87.6772]
+          },
+          "center": [41.908, -87.6762],
+          "anchorResolved": {
+            "osm": "way/5732180",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Wicker Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "lincoln-square-giddings-plaza",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Giddings Plaza",
+            "near": [41.9686, -87.6893]
+          },
+          "center": [41.9676, -87.6876],
+          "anchorResolved": {
+            "osm": "way/112536216",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Giddings Plaza"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bungalow-belt",
+      "name": "Chicago bungalow belt (Portage Park)",
+      "template": "front-range",
+      "templateReason": "Front-range has the only bungalow family (1 floor, mostly gabled); the Chicago brick bungalow is a different form (hipped, 1.5 storeys, narrow side to the street) but the nearest existing vocabulary.",
+      "missingFamilies": [
+        "Role dispatch for apartments: buildings with role `block` (building=apartments, yes >= 250 m2, ...) always use the FIRST flat-roof house type, so sixFlat / courtyardMass / cornerMixedUse / vintageHighRise in the reference profiles are never chosen for them",
+        "two/three-level rear porches and gangways, stoops, cornices (no geometry support)",
+        "Chicago brick bungalow attic/dormer and raised basement (one roof per rectangle, no dormers)"
+      ],
+      "reference": "chicago-bungalow-belt",
+      "cells": [
+        {
+          "id": "portage-park-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Portage Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.957, -87.765]
+          },
+          "center": [41.9551, -87.7646],
+          "anchorResolved": {
+            "osm": "way/208236541",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Portage Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "jefferson-park-park",
+          "radiusMeters": 500,
+          "extra": true,
+          "extraReason": "Second bungalow-belt sample (the brief allows extra residential cells); the park of the same name 1.3 km north of Portage Park, boxes do not overlap.",
+          "anchor": {
+            "names": ["Jefferson Park", "Jefferson Memorial Park"],
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.9693, -87.7617]
+          },
+          "center": [41.9686, -87.7637],
+          "anchorResolved": {
+            "osm": "way/27861631",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Jefferson Memorial Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "south-side",
+      "name": "Chicago South Side (Hyde Park, Bronzeville)",
+      "template": "front-range",
+      "templateReason": "Greystones, brick flats, row houses and large period houses; front-range's flat-roof multi-storey families plus foursquare are the nearest vocabulary.",
+      "missingFamilies": [
+        "Role dispatch for apartments: buildings with role `block` (building=apartments, yes >= 250 m2, ...) always use the FIRST flat-roof house type, so sixFlat / courtyardMass / cornerMixedUse / vintageHighRise in the reference profiles are never chosen for them",
+        "two/three-level rear porches and gangways, stoops, cornices (no geometry support)",
+        "Chicago brick bungalow attic/dormer and raised basement (one roof per rectangle, no dormers)"
+      ],
+      "reference": "chicago-south-historic",
+      "cells": [
+        {
+          "id": "hyde-park-nichols-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Nichols Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.799, -87.5935]
+          },
+          "center": [41.7973, -87.5938],
+          "anchorResolved": {
+            "osm": "way/217621413",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Nichols Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "bronzeville-ellis-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Ellis Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [41.8315, -87.607]
+          },
+          "center": [41.8292, -87.6107],
+          "anchorResolved": {
+            "osm": "way/35332716",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Ellis Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "id": "downtown",
+      "name": "Chicago downtown (Loop, River North) - lower priority, towers come later",
+      "template": "default",
+      "templateReason": "Generic profile: only its flatRoof family is relevant (blocks take the first flat-roof type). No profile has towers.",
+      "missingFamilies": [
+        "Tower role dispatch and massing (setbacks, podiums, crowns): chicagoSchoolMass / artDecoMass / modernGlassMass exist as IDs but blocks always take the first flat-roof type",
+        "elevated rail (the L) structure, bascule bridges, multi-level streets (not buildings; no generator object)"
+      ],
+      "reference": "chicago-downtown",
+      "cells": [
+        {
+          "id": "loop-daley-plaza",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Daley Plaza", "Richard J. Daley Plaza", "Richard J. Daley Center"],
+            "near": [41.884, -87.6303]
+          },
+          "center": [41.8839, -87.6302],
+          "anchorResolved": {
+            "osm": "relation/1969327",
+            "matchedTags": {
+              "highway": "pedestrian",
+              "name": "Daley Plaza"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "river-north-montgomery-ward-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Montgomery Ward Park",
+            "near": [41.8945, -87.64]
+          },
+          "center": [41.8938, -87.6425],
+          "anchorResolved": {
+            "osm": "way/153561199",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Montgomery Ward Park"
+            },
+            "osmTimestamp": "2026-10-06T04:27:36Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    }
+  ]
+}
