@@ -1,6 +1,6 @@
 # Licensing and attribution checklist
 
-> **Not legal advice.** This is an engineering checklist plus the questions to take to a lawyer. All sources were checked on **2026-10-05**, except the rows and sections updated on **2026-10-06**: H1–H3 (star catalogue), N1 and N2 (aerial and lidar), V1 and O12 (Overture), the live transit and aircraft feed block (checklist rows LT, LA and LR, §12, Q21–Q31 and the live-feed sources in §11), the aerial and lidar source groups in §11 and §13. Licence texts and guidelines change, so re-check them before any release. Where a source was ambiguous or could not be found, this document says so and turns it into a lawyer question instead of guessing.
+> **Not legal advice.** This is an engineering checklist plus the questions to take to a lawyer. All sources were checked on **2026-10-05**, except the rows and sections updated on **2026-10-06**: H1–H3 (star catalogue), N1 and N2 (aerial and lidar), V1 and O12 (Overture), the live transit and aircraft feed block (checklist rows LT, LA and LR, §12, Q21–Q31 and the live-feed sources in §11), the aerial and lidar source groups in §11 and §13, and the live-world lane sources in §14 (rows LW). Licence texts and guidelines change, so re-check them before any release. Where a source was ambiguous or could not be found, this document says so and turns it into a lawyer question instead of guessing.
 >
 > **How quotes are used:** short verbatim quotes (under 15 words, in quotation marks) come only from openly licensed or public licence texts: ODbL, openstreetmap.org/copyright, OSMF wiki pages, Creative Commons, CDLA-Permissive-2.0, Overture docs and the HYG README. Apple's and Epic's agreements are **paraphrased**, with exact section numbers, so a checker can compare each claim against the clause. The only quoted words from them are defined terms and phrases of a few words. Other quoted strings are repo text (file paths given) or attribution text we display. In the live-feed block (rows LT, LA and LR, §12 and Q21–Q31) short quotes under 15 words also come from the agency and provider terms (CTA, Pace, RTD, Metra, FlightAware, JETNET, adsb.lol and others), kept to key phrases; everything else there is paraphrased.
 
@@ -585,3 +585,22 @@ Owner decisions, implemented as described in `docs/data-licensing.md`:
 - **6f. Quick fixes approved:** (1) the web credit links to openstreetmap.org/copyright (O2, done); (2) a licence notice file and licence URL in the package exporter (O8, done); (3) credits burned into exported images (O4, helper done; export callers to do).
 
 Re-checked 2026-10-06 for this section: https://www.openstreetmap.org/copyright (credit OpenStreetMap; make clear the data is under the ODbL; link the licence when distributing data) and the OSMF Attribution Guideline, interactive maps (an "(i) button in the corner" or an About option as the place licence information stays findable).
+
+---
+
+## 14. Live-world lane sources (added 2026-10-06)
+
+Sources used by the renderer-neutral live-world layers in `Tools/livefeeds/` (specs in `docs/live-world/`). These layers
+run in a cloud session whose **network policy denies most hosts** (CelesTrak, JPL, NASA LAADS and Black Marble, CDS,
+CTA, RTD, adsb.lol). That is our own egress policy, not the sites blocking automated access, and nothing was fetched
+around it: no mirror, archive copy or third-party repackaging was used. Rows marked **not read this pass** must be
+checked from a normal connection before release. Status values as in §1.
+
+| # | Source | Used for | Licence / terms | Attribution in the contract | Status |
+|---|---|---|---|---|---|
+| **LW1** | Yale Bright Star Catalogue 5th rev. ed., the engine's existing extract (`Sources/WorldEnvironment/Catalog/`) | Sky: stars | Public domain in practice (rows H1-H3, `STARS-NOTICE.md`); no new download | `bsc5`: "Stars: Yale Bright Star Catalogue, 5th rev. ed. (Hoffleit & Warren), via NASA HEASARC. Star names: IAU Working Group on Star Names." (`required: true`, because the IAU names are CC BY and the contract carries them) | Done |
+| **LW2** | Meeus, *Astronomical Algorithms* 2nd ed. (1998): formulas and coefficient tables (ch. 12, 16, 21, 22, 41, 47, 48) | Sky: time, frames, Moon, magnitudes | Book is copyrighted; we use the published algorithms and numeric coefficients (facts), not its text. The lunar tables were already in the engine (`Moon.swift`) | None required | Done |
+| **LW3** | E. M. Standish, "Keplerian Elements for Approximate Positions of the Major Planets", JPL Solar System Dynamics (table 1) | Sky: planets | JPL/NASA publication; numeric elements (facts). Page not read this pass (host denied); elements reproduced from the published table and validated against DE421 to its stated accuracy | None required | Done (re-read the page from a normal connection) |
+| **LW4** | Krisciunas & Schaefer (1991), PASP 103, 1033 | Sky: moonlight brightness | Published formula (facts) | None required | Done |
+| **LW5** | NASA Black Marble VNP46A4 (VIIRS Day/Night Band annual radiance) | Sky: light pollution | NASA Earth science data are openly shared without restriction under NASA's Earth Science Data and Information Policy; NASA asks for a citation. **Not read this pass** (LAADS and blackmarble.gsfc.nasa.gov denied by the session's network policy); download needs an Earthdata login | `nasa-black-marble`: "Night lights: NASA Black Marble (VIIRS Day/Night Band), NASA Goddard Space Flight Center." (`required: false`, courtesy), sent only when a grid is used | To do: confirm the policy page and the product's citation text; no data baked yet |
+| **LW6** | Skyfield 1.55 (MIT) with `skyfield-data` 7.0.0 (JPL DE421, IERS finals2000A), from PyPI | Validation only (`Tools/livefeeds/validation/`), never shipped | MIT; DE421 is a JPL product; IERS data free | None (not shipped) | Done (dev only) |

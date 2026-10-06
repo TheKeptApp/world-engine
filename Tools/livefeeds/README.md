@@ -1,4 +1,15 @@
-# Live-feed relay prototype (Denver RTD only)
+# Live-feed relay prototype and live-world data layers
+
+This directory holds two things: the RTD relay prototype described below, and the renderer-neutral live-world
+layers (sky first), each with its JSON contract in [`docs/live-world/`](../../docs/live-world/README.md).
+
+| Layer | Command | Contract |
+|---|---|---|
+| Sky | `Tools/livefeeds/livefeeds.sh sky --lat 41.8781 --lon -87.6298 [--time 2026-10-06T04:00:00Z] [--radiance grid.json] --pretty` | [`sky.md`](../../docs/live-world/sky.md) |
+
+Validation scripts that need third-party packages (never imported by the modules) live in `validation/`.
+
+## RTD relay (Denver)
 
 A small local server that polls Denver RTD's public GTFS Realtime vehicle-position file (rail and bus),
 normalises it, caches it, and serves a small JSON per area that a phone would fetch. It is a
@@ -42,6 +53,8 @@ with a python.org Python that ships no CA certificates, the tool falls back to t
 | `livefeeds/salt.py` | Daily-rotating salted vehicle ids |
 | `livefeeds/server.py` | `http.server` handler: `/v1/vehicles`, `/v1/status`, ETag, gzip, cache headers |
 | `areas.json` | Allowlist of served areas (data, not code) |
+| `livefeeds/sky/` | Sky layer: `astro.py` (time, frames, horizon), `bodies.py` (Sun, Moon, planets), `stars.py`, `skyglow.py` (light pollution, limiting magnitude), `contract.py` |
+| `validation/` | Reference comparisons that need PyPI packages (Skyfield + DE421); not part of the test suite |
 | `tests/` | `unittest` suite; `tests/pbenc.py` is a tiny protobuf encoder that builds synthetic feeds |
 
 Never committed: raw feed bytes, the static zip, `routes.json` (derived route table), `snapshot.json`, `salt.json`. They

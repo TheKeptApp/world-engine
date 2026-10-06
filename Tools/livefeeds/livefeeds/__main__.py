@@ -3,6 +3,7 @@
     Tools/livefeeds/livefeeds.sh serve [--host H] [--port P] [--interval S] [--client-poll S]
                                        [--idle-seconds S] [--cache-dir DIR] [--areas FILE]
     Tools/livefeeds/livefeeds.sh once  [--cache-dir DIR] [--areas FILE]
+    Tools/livefeeds/livefeeds.sh sky   --lat L --lon L [--elev M] [--time ISO8601] [--radiance FILE] [--catalog FILE]
     Tools/livefeeds/livefeeds.sh test
 """
 
@@ -99,6 +100,33 @@ def cmd_serve(args) -> int:
     return 0
 
 
+def _parse_time(text):
+    if not text:
+        return time.time()
+    return datetime.datetime.fromisoformat(text.replace("Z", "+00:00")).timestamp()
+
+
+def cmd_sky(args) -> int:
+    from .sky import contract, skyglow
+    from .sky.bodies import Observer
+    grid = skyglow.RadianceGrid.load(args.radiance) if args.radiance else None
+    doc = contract.build(_parse_time(args.time), Observer(args.lat, args.lon, args.elev), args.catalog, grid)
+    print(json.dumps(doc, indent=1 if args.pretty else None, separators=None if args.pretty else (",", ":")))
+    return 0
+
+
+def cmd_sky_radiance(args) -> int:
+    from .sky import skyglow
+    with open(args.xyz, "r", encoding="utf-8") as fh:
+        doc = skyglow.grid_from_xyz(fh, args.product, args.year, {"name": "NASA Black Marble " + args.product,
+                                                                  "url": "https://blackmarble.gsfc.nasa.gov/",
+                                                                  "file": args.source_file or os.path.basename(args.xyz)})
+    with open(args.out, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, separators=(",", ":"))
+    print("wrote %s: %d x %d cells" % (args.out, doc["grid"]["rows"], doc["grid"]["cols"]))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="livefeeds", description="RTD Denver live-vehicle relay prototype")
     sub = p.add_subparsers(dest="command", required=True)
@@ -119,6 +147,24 @@ def main(argv=None) -> int:
     o = sub.add_parser("once", help="fetch once and print a summary")
     common(o)
     o.set_defaults(func=cmd_once)
+
+    k = sub.add_parser("sky", help="print the sky contract (worldengine.live.sky/1) for a place and time")
+    k.add_argument("--lat", type=float, required=True)
+    k.add_argument("--lon", type=float, required=True)
+    k.add_argument("--elev", type=float, default=0.0, help="metres above the ellipsoid")
+    k.add_argument("--time", help="ISO 8601 instant, e.g. 2026-10-06T02:00:00Z (default now)")
+    k.add_argument("--radiance", help="worldengine.radiance/1 grid (Black Marble derived)")
+    k.add_argument("--catalog", help="worldengine.stars/1 catalogue (default: the engine's BSC5 extract)")
+    k.add_argument("--pretty", action="store_true")
+    k.set_defaults(func=cmd_sky)
+
+    r = sub.add_parser("sky-radiance", help="bake a worldengine.radiance/1 grid from GDAL XYZ text")
+    r.add_argument("xyz")
+    r.add_argument("out")
+    r.add_argument("--product", default="VNP46A4")
+    r.add_argument("--year", type=int, required=True, help="composite year")
+    r.add_argument("--source-file", help="original granule name, recorded in the output")
+    r.set_defaults(func=cmd_sky_radiance)
 
     args = p.parse_args(argv)
     try:
