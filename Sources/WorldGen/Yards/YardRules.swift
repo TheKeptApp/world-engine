@@ -51,6 +51,8 @@ public struct YardRules: Codable, Sendable, Equatable {
     public var wornEdges: Double?
     /// Parkway strips between curb and sidewalk drawn as their own lawn band (drier, darker at the curb).
     public var parkwayBand: Bool?
+    /// Lawn detail contrast (nil = the look-fix spec values, `GroundContrast.spec`).
+    public var groundContrast: GroundContrast?
 }
 
 public struct YardLibrary: Codable, Sendable, Equatable {
@@ -65,7 +67,7 @@ public struct YardLibrary: Codable, Sendable, Equatable {
                                     sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85,
                                     canopyFill: nil, maxTreesPerKm2: nil, lawnEndpoints: nil, bedArea: nil, maxYardTreesPerLot: nil,
                                     frontGarden: nil, rearPaving: nil, frontFence: nil, rearFence: nil,
-                                    lawnPatches: nil, mowShare: nil, wornEdges: nil, parkwayBand: nil)
+                                    lawnPatches: nil, mowShare: nil, wornEdges: nil, parkwayBand: nil, groundContrast: nil)
 
     /// The bundled library (fallback rules if the file is missing).
     public static let bundled: YardLibrary = {

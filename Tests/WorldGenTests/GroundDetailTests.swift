@@ -9,6 +9,7 @@ import WorldMesh
 struct GroundDetailTests {
     @Test func fieldStaysInsideTheSpecBounds() {
         var f = LawnField(shade: 1, tone: 0.5, seed: 0.3)
+        f.patchLimit = 0.06
         for k in 0..<5 { f.patches.append(.init(c: LocalPoint(Double(k), 0), r: 2, amp: 0.06)) }
         #expect(abs(f.patchFactor(LocalPoint(2, 0)) - 1.06) < 1e-9, "summed patches clamp at +6 %")
         #expect(f.patchFactor(LocalPoint(100, 0)) == 1)
@@ -25,7 +26,7 @@ struct GroundDetailTests {
     @Test func poolsDarkenUnderCrownsOnly() {
         let tree = PropInstance(kind: .treeBroad, variant: 0, source: "t", x: 0, y: 0, height: 0, yaw: 0, scale: 10)
         let pools = GroundPools([tree])
-        #expect(abs(pools.factor(LocalPoint(0, 0)) - (1 - GroundPools.treeDepth)) < 1e-9)
+        #expect(abs(pools.factor(LocalPoint(0, 0)) - (1 - GroundContrast.spec.poolDepth[0])) < 1e-9)
         #expect(pools.factor(LocalPoint(40, 0)) == 1)
         #expect(pools.factor(LocalPoint(1, 0)) < pools.factor(LocalPoint(2.5, 0)))
     }
@@ -35,6 +36,7 @@ struct GroundDetailTests {
         guard BuildingAreaTests.has(area) else { return }
         let b = try YardTests.build(area, profile)
         let stats = b.scene.stats
+        let rules = YardLibrary.bundled.rules(for: profile)
         let lots = stats["lots"] ?? 0
         #expect((stats["lawnTriangles"] ?? 0) > 0)
         #expect((stats["mowedLots"] ?? 0) <= lots / 2 + 1, "\(area): at most half of the lawns mowed in bands")
@@ -53,7 +55,10 @@ struct GroundDetailTests {
             for fr in chunk.staticFeatures where fr.feature.hasPrefix("gen:lot:") {
                 for i in fr.start..<(fr.start + fr.count) {
                     let shade = chunk.staticMesh.paints[i].y
-                    #expect(shade > 0.92 * 0.94 * 0.985 * (1 - Float(GroundPools.treeDepth)) - 0.01 && shade < 1.07 * 1.06 * 1.015 * 1.04 + 0.01)
+                    let c = rules.groundContrast ?? .spec
+                    let lo = rules.lawnShade[0] * (1 - c.patchAmplitude[1]) * (1 - c.mowContrast / 2) * (1 - c.poolDepth[0])
+                    let hi = rules.lawnShade[1] * (1 + c.patchAmplitude[1]) * (1 + c.mowContrast / 2) * (1 + c.wornShade)
+                    #expect(Double(shade) > lo - 0.01 && Double(shade) < hi + 0.01)
                     let pos = chunk.staticMesh.positions[i]
                     let p = LocalPoint(Double(pos.x), -Double(pos.z))
                     if nearTree(p, 1.5) { under.append(shade) } else if !nearTree(p, 8) { open.append(shade) }
@@ -80,6 +85,10 @@ struct GroundDetailTests {
         let walks = SegmentIndex(b.features.sidewalks.map(\.centerline))
         // Walkway cells are filled 0.8 m either side of the centreline; shrubs clear them by 1.0–1.5 m
         // (1 m raster: allow half a cell).
+        // Yard and canopy trunks: ≥ 0.75 m from the pavement edge (look-fix §1.2).
+        let trunks = b.scene.instances.filter { $0.source.hasPrefix("gen:yardtree:") || $0.source.hasPrefix("gen:canopytree:") }
+            .filter { walks.nearest(to: LocalPoint($0.x, $0.y), within: 0.8 + 0.75) != nil }
+        #expect(trunks.isEmpty, "\(area): \(trunks.count) yard trees at a sidewalk edge")
         let close = b.scene.instances.filter { $0.source.hasPrefix("gen:shrub:") }
             .filter { walks.nearest(to: LocalPoint($0.x, $0.y), within: 0.8 + 1.0 - 0.75) != nil }
         #expect(close.isEmpty, "\(area): \(close.count) shrubs crowd a sidewalk, e.g. \(close.first.map { "\($0.x), \($0.y)" } ?? "")")

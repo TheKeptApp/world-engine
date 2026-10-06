@@ -247,6 +247,10 @@ extension SceneGenerator {
             // Lawn: emitted after every tree and shrub is placed (contact pools), with in-lot patches,
             // mowing bands on some front lawns and worn edges beside walks and drives (GroundDetail).
             var field = LawnField(shade: shade, tone: tone, seed: lotSeed)
+            let contrast = rules.groundContrast ?? .spec
+            field.patchLimit = contrast.patchAmplitude[1]
+            field.wornShade = contrast.wornShade
+            field.wornTone = contrast.wornTone
             let detailed = inFocus(anchor)
             if detailed {
                 var dr = s.building.ref.random("lawn-detail")
@@ -258,7 +262,7 @@ extension SceneGenerator {
                     tries += 1
                     let p = base + LocalPoint(dr.unit() * span.x, dr.unit() * span.y)
                     guard raster.ownerAt(p) == Int32(idx) else { continue }
-                    field.patches.append(.init(c: p, r: dr.range(1.5, 3.0), amp: dr.range(0.03, 0.06) * (dr.chance(0.5) ? 1 : -1)))
+                    field.patches.append(.init(c: p, r: dr.range(1.5, 3.0), amp: dr.range(contrast.patchAmplitude[0], contrast.patchAmplitude[1]) * (dr.chance(0.5) ? 1 : -1)))
                 }
                 if let (fp, fdir, fn, _) = front, dr.chance(rules.mowShare ?? 0) {
                     let across = fdir
@@ -268,7 +272,7 @@ extension SceneGenerator {
                         let n = max(2, min(4, Int(((hi2 - lo2) / 3.2).rounded())))
                         let w = max(2.5, min(4, (hi2 - lo2) / Double(n)))
                         let start = (lo2 + hi2) / 2 - w * Double(n) / 2
-                        field.mow = .init(across: across, start: start, width: w, count: n, amp: 0.03, front: (fp, fn))
+                        field.mow = .init(across: across, start: start, width: w, count: n, amp: contrast.mowContrast, front: (fp, fn))
                         stats["mowedLots", default: 0] += 1
                     }
                 }
@@ -495,7 +499,7 @@ extension SceneGenerator {
                 guard raster.owner[k] == Int32(idx), raster.use[k] == LotRaster.Use.open.rawValue else { continue }
                 let p = raster.center(i, j)
                 if isFrontYard(p), tr.chance(0.55) { continue }
-                guard !raster.nearUse(p, .building, radius: 3.5), !raster.nearUse(p, .hard, radius: 1.5),
+                guard !raster.nearUse(p, .building, radius: 3.5), !raster.nearUse(p, .hard, radius: 1.5), !raster.nearUse(p, .walkway, radius: 1.2),
                       !raster.nearUse(p, .road, radius: 2), !trees.near(p, 7) else { continue }
                 let inst = treeInstance(zoneProfile, random: &tr, at: p, source: "gen:yardtree:\(s.building.ref):\(planted)", trees: trees)
                 trees.insert(p, kind: inst.kind, variant: inst.variant)
@@ -572,7 +576,8 @@ extension SceneGenerator {
         stats["canopyTrees"] = plantForCanopy(raster, eligible: eligible, lo: lo, hi: hi, count: count, byIndex: byIndex, library: library,
                                               lotTrees: &lotTrees, trees: &trees, instances: &instances, scene: &scene)
         // Lot lawns and parkways, now that every tree, hedge and shrub is placed.
-        let pools = GroundPools(instances)
+        let sceneContrast = library.rules(for: profile.id).groundContrast ?? .spec
+        let pools = GroundPools(instances, treeDepth: sceneContrast.poolDepth[0], shrubDepth: sceneContrast.poolDepth[1])
         var lawnTris = 0
         for job in lawnJobs {
             var lawn: MeshBuffers
@@ -673,6 +678,7 @@ extension SceneGenerator {
                     guard raster.owner[k] == Int32(idx), raster.use[k] == LotRaster.Use.open.rawValue else { continue }
                     let p = raster.center(i, j)
                     guard !raster.nearUse(p, .building, radius: 4), !raster.nearUse(p, .hard, radius: 1.5), !raster.nearUse(p, .road, radius: 2.5),
+                          !raster.nearUse(p, .walkway, radius: 1.2),
                           !trees.near(p, 8) else { continue }
                     let inst = treeInstance(zoneProfile, random: &r, at: p, source: "gen:canopytree:\(s.building.ref):\(round)", trees: trees)
                     trees.insert(p, kind: inst.kind, variant: inst.variant)
