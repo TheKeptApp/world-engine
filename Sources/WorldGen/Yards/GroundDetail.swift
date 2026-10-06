@@ -8,6 +8,22 @@ import WorldMesh
 /// lots, worn edges beside walks and drives, and darker ground under trees, hedges and shrubs. All
 /// of it is baked into the lawn's own vertices (shade and tone), on a low grid clipped to the lot,
 /// so nothing is stacked as an overlay layer that could z-fight with the lawn.
+/// How strongly the lawn detail shows (yards.json `groundContrast`). `spec` is look-fix §1.1/§2.3;
+/// the owner approved stronger values (2026-10-06) because the spec contrast doesn't read at phone size.
+public struct GroundContrast: Codable, Sendable, Equatable {
+    /// Patch amplitude range (each patch ±), also the cap on summed patches.
+    public var patchAmplitude: [Double]
+    /// Value difference between neighbouring mowing bands.
+    public var mowContrast: Double
+    /// Darkening at the centre of a pool: under trees, under shrubs and hedges.
+    public var poolDepth: [Double]
+    /// Worn strip: shade lift and tone shift toward the dry endpoint at the hard edge.
+    public var wornShade: Double
+    public var wornTone: Double
+
+    public static let spec = GroundContrast(patchAmplitude: [0.03, 0.06], mowContrast: 0.03, poolDepth: [0.15, 0.12], wornShade: 0.04, wornTone: 0.4)
+}
+
 struct LawnField {
     struct Patch { var c: LocalPoint; var r: Double; var amp: Double }
     struct Mow { var across: LocalPoint; var start: Double; var width: Double; var count: Int; var amp: Double; var front: (LocalPoint, LocalPoint) }
@@ -21,10 +37,9 @@ struct LawnField {
     var mow: Mow?
     var worn: [Worn] = []
 
-    /// Largest summed patch deviation (look-fix §1.1: value variation ±3–6 %, never past the palette's bounds).
-    static let patchLimit = 0.06
-    /// Worn edges: lighter and drier toward the high endpoint, low contrast.
-    static let wornShade = 0.04, wornTone = 0.4
+    /// Largest summed patch deviation, and the worn edges' lift in shade and tone (from `GroundContrast`).
+    var patchLimit = GroundContrast.spec.patchAmplitude[1]
+    var wornShade = GroundContrast.spec.wornShade, wornTone = GroundContrast.spec.wornTone
 
     func patchFactor(_ p: LocalPoint) -> Double {
         var s = 0.0
@@ -32,7 +47,7 @@ struct LawnField {
             let d2 = simd_distance_squared(p, q.c) / (q.r * q.r)
             if d2 < 4 { s += q.amp * exp(-d2) }
         }
-        return 1 + min(Self.patchLimit, max(-Self.patchLimit, s))
+        return 1 + min(patchLimit, max(-patchLimit, s))
     }
 
     /// Band index of a point, nil outside the mowed front lawn.
@@ -80,17 +95,14 @@ struct GroundPools {
     struct Pool { var p: LocalPoint; var r: Double; var depth: Double }
     private var cells: [SIMD2<Int>: [Pool]] = [:]
     private let cell = 8.0
-    /// Under a tree crown, and under shrubs and hedges (look-fix §2.3: local 10–20 %, never whole yards).
-    static let treeDepth = 0.15, shrubDepth = 0.12
-
-    init(_ instances: [PropInstance]) {
+    init(_ instances: [PropInstance], treeDepth: Double = GroundContrast.spec.poolDepth[0], shrubDepth: Double = GroundContrast.spec.poolDepth[1]) {
         for inst in instances {
             let p = LocalPoint(inst.x, inst.y)
             if inst.kind.isTree {
                 let crown = Double(PropLibrary.lobes(inst.kind).radii.x) * inst.scale * max(inst.stretch.x, inst.stretch.y)
-                add(Pool(p: p, r: max(1.5, crown * 0.85), depth: Self.treeDepth))
+                add(Pool(p: p, r: max(1.5, crown * 0.85), depth: treeDepth))
             } else if inst.kind == .bush || inst.kind == .flowerBush {
-                add(Pool(p: p, r: max(1.0, 1.5 * inst.scale), depth: Self.shrubDepth))
+                add(Pool(p: p, r: max(1.0, 1.5 * inst.scale), depth: shrubDepth))
             }
         }
     }
@@ -185,9 +197,9 @@ enum GroundDetail {
         var idx: [UInt32] = []
         for p in poly {
             let w = field.wear(p)
-            let shade = Double(field.shade) * field.patchFactor(p) * mow * pools.factor(p) * (1 + LawnField.wornShade * w)
+            let shade = Double(field.shade) * field.patchFactor(p) * mow * pools.factor(p) * (1 + field.wornShade * w)
             m.paint = Paint(slot: slot, shade: Float(shade), flags: .lawn)
-            m.extra = SIMD4(1, min(1, field.tone + Float(LawnField.wornTone * w)), 0, field.seed)
+            m.extra = SIMD4(1, min(1, field.tone + Float(field.wornTone * w)), 0, field.seed)
             idx.append(m.addVertex(P(p, y), normal: sceneUp))
         }
         for k in 1..<(poly.count - 1) {
