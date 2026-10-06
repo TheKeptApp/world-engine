@@ -1,0 +1,81 @@
+{
+  "comment": "Hand-tuned renderer values on top of the lighting bible (Profiles/lighting-bible.json, generated from docs/proposals/look-fix-v1 by scripts/lookfix_data.py; its targets are never copied here). saturation: post-process saturation multiplier, tuned on the iPhone toward the bible's mean S. direct: multiplier on the weather model's direct sun toward the bible's key:fill and lift (§2.2-2.3). fill, groundFill: R8 fill multipliers toward the bible's lift and night floor. Measured with scripts/lighting_bible.py (6 Oct sweeps: clear days key 0.65 with fill 3.2 put the 15:30 shade-to-sun ratio at 0.37; night fill 0.6). weatherFullAt: the weather intensity (or cover) at which a label's bible state applies in full (the bible's light rain is 0.7 mm/h, intensity 0.22). Clear states interpolate by their fixtures' sun elevations; night blends moonless to moonlit by moon light below night.elevation; weather blends over the clear state by intensity in daylight.",
+  "tuning": {
+    "blue-hour": {"saturation": 0.9, "fill": 1.0, "groundFill": 1.0},
+    "golden-hour": {"saturation": 1.04, "fill": 1.0, "groundFill": 1.0},
+    "morning": {"saturation": 1.16, "direct": 0.65, "fill": 3.2, "groundFill": 1.5},
+    "ordinary-1530": {"saturation": 1.13, "direct": 0.65, "fill": 3.2, "groundFill": 1.5},
+    "midday": {"saturation": 1.12, "direct": 0.65, "fill": 3.2, "groundFill": 1.5},
+    "moonless-night": {"saturation": 0.39, "fill": 0.6, "groundFill": 0.6},
+    "moon-night": {"saturation": 0.6, "fill": 0.6, "groundFill": 0.6},
+    "overcast": {"saturation": 0.65, "direct": 0.15},
+    "light-rain": {"saturation": 0.86, "direct": 0.2},
+    "storm": {"saturation": 0.9, "direct": 0.15},
+    "fog": {"saturation": 0.6, "direct": 0.07},
+    "snow": {"saturation": 0.55, "direct": 0.15}
+  },
+  "clearStates": [
+    "blue-hour",
+    "golden-hour",
+    "morning",
+    "ordinary-1530",
+    "midday"
+  ],
+  "night": {
+    "elevation": -12,
+    "moonless": "moonless-night",
+    "moon": "moon-night"
+  },
+  "weatherStates": {
+    "cloudy": "overcast",
+    "rain": "light-rain",
+    "thunderstorm": "storm",
+    "fog": "fog",
+    "snow": "snow"
+  },
+  "otherWeather": {
+    "smoke": {
+      "luma": 135,
+      "saturation": 0.75,
+      "direct": 0.35,
+      "air": {
+        "start": 180,
+        "d50": 1200,
+        "cap": 0.0,
+        "color": "#AAB8C8"
+      }
+    },
+    "haze": {
+      "luma": 140,
+      "saturation": 0.85,
+      "direct": 1.0,
+      "air": {
+        "start": 180,
+        "d50": 1200,
+        "cap": 0.0,
+        "color": "#AAB8C8"
+      }
+    },
+    "dust": {
+      "luma": 138,
+      "saturation": 0.8,
+      "direct": 0.85,
+      "air": {
+        "start": 180,
+        "d50": 1200,
+        "cap": 0.0,
+        "color": "#AAB8C8"
+      }
+    }
+  },
+  "weatherFullAt": {
+    "rain": 0.2,
+    "thunderstorm": 0.7,
+    "cloudy": 0.9,
+    "fog": 0.5,
+    "snow": 0.6,
+    "smoke": 0.5,
+    "haze": 0.5,
+    "dust": 0.5
+  }
+}

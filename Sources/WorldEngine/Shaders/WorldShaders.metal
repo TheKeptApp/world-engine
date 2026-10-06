@@ -42,6 +42,8 @@ struct Globals {
     float3 sunDir; half3 sunDisk; half3 cloudColor;
     float3 moonDir; float moonRadius; float3 moonLight; float moonOpacity; half3 moonColor;
     half3 litterA; half3 litterB; float leafLitter; float2 canopyOrigin; float2 canopySize;
+    half3 airColor; float airCap; float airStart; float airD50; float fogWeight;
+    float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
 Globals readGlobals(texture2d<half> tex) {
@@ -73,6 +75,11 @@ Globals readGlobals(texture2d<half> tex) {
     g.litterA = t23.rgb; g.leafLitter = float(t23.a); g.litterB = t24.rgb;
     g.canopyOrigin = float2(t25.xy) + float2(t25.zw);
     g.canopySize = max(float2(t26.xy) + float2(t26.zw), float2(1.0));
+    half4 t27 = tex.read(uint2(27, 1)), t28 = tex.read(uint2(28, 1));
+    g.airColor = t27.rgb; g.airCap = float(t27.a);
+    g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b);
+    half4 t29 = tex.read(uint2(29, 1));
+    g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
 }
 
@@ -179,6 +186,19 @@ float opticalDistance(float dist, float h1, float h2) {
     return dist * f;
 }
 
+/// Lighting bible atmosphere (look-fix-v1): a clear-air fade capped at `airCap` that reaches half
+/// the cap at `airD50` (§2.3), and weather extinction with 90% of contrast gone at `fogEnd` (§3.2,
+/// T = exp(−k·(d − start)), k = ln 10 / (end − start)) at strength `fogWeight`. Transmissions
+/// multiply; the scattered colour is weighted by each part's contribution. xyz = colour, w = amount.
+float4 atmosphere(Globals g, float od) {
+    float air = g.airCap * (1.0 - exp(-0.693147 * max(0.0, od - g.airStart) / (g.airD50 - g.airStart)));
+    float k = 2.302585 / max(g.fogEnd - g.fogStart, 1.0);
+    float wx = g.fogWeight * (1.0 - exp(-k * max(0.0, od - g.fogStart)));
+    float amount = 1.0 - (1.0 - air) * (1.0 - wx);
+    float3 col = (air + wx) > 1e-4 ? (float3(g.airColor) * air + float3(g.fogColor) * wx) / (air + wx) : float3(g.fogColor);
+    return float4(col, amount);
+}
+
 struct Surface {
     half3 base; half3 emissive; half roughness; half specular; half ao; bool cuttable;
     /// Takes wetness and snow (not water).
@@ -187,8 +207,9 @@ struct Surface {
     half wetRoughness = -1.0h;
     /// Wet darkening for this surface (asphalt darkens most), else the global value.
     half wetDarkening = -1.0h;
-    /// Flat paved surface that collects puddles when wet.
+    /// Flat paved surface that collects puddles when wet, and the share it covers when soaked.
     bool puddles = false;
+    half puddleMax = 0.0h;
     /// Foliage removed by autumn (lobe threshold above the tree's leaf fraction).
     bool leafCut = false;
 };
@@ -210,23 +231,28 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     }
     // Debug 5 (GPU attribution): skip the weather/ground extras.
     if (su.weathered && !(g.debug > 4.5 && g.debug < 5.5)) {
-        // Wet (art direction, Prompt 5: rain must read): darker streets, a sheen that reflects
-        // the sky, puddles on flat paving; walls get half.
+        // Wet ground (lighting bible §3.1): darker paving, a restrained sky sheen, sky-only puddles
+        // on flat paving; walls get half. Accumulated wetness W, not the rain rate, drives it all.
         float exposure = mix(0.5, 1.0, smoothstep(0.3, 0.8, n.y));
         half wet = half(g.wetness * exposure);
-        // Wet grass (rough, matte) darkens and deepens most after paving: ~25% at full wetness.
-        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : half(g.wetDarkening) * (su.roughness > 0.9h ? 2.1h : 1.0h);
+        // Diffuse reduction at full W: asphalt and walks set their own (below); grass 8% (§3.1
+        // 6–10%); other ground, stone and walls the weather profile's value.
+        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.08h : half(g.wetDarkening));
         su.base *= 1.0h - darken * wet;
         half wr = su.wetRoughness >= 0.0h ? su.wetRoughness : half(g.wetRoughness);
         su.roughness = mix(su.roughness, min(su.roughness, wr), wet);
         su.specular = mix(su.specular, max(su.specular, 0.6h), wet);
         half puddle = 0.0h;
-        if (su.puddles && n.y > 0.95 && g.wetness > 0.15) {
-            // Blobs of 1–5 m that spread as wetness rises (stable in world space): ~10% of flat
-            // paving at moderate wetness, ~25% when soaked.
-            float p = valueNoise(wp.xz / 4.2 + 13.1) * 0.7 + valueNoise(wp.xz / 1.3 + 5.7) * 0.3;
-            float t = 0.30 + 0.14 * smoothstep(0.15, 1.0, g.wetness);
-            puddle = half(1.0 - smoothstep(t - 0.025, t + 0.01, p));
+        float pw = max(0.0, (g.wetness - 0.35) / 0.65);
+        if (su.puddles && n.y > 0.95 && pw > 0.0) {
+            // §3.1 puddles: irregular 0.2–1.5 m masks (stable in world space) that appear above
+            // W = 0.35 and cover `puddleMax` of flat paving when soaked (asphalt 6–10%, walks 3–5%;
+            // about half that at W = 0.65). Threshold t gives that coverage for this noise
+            // (measured: 2% at 0.182, 4% at 0.219, 8% at 0.265).
+            float p = valueNoise(wp.xz / 2.0 + 13.1) * 0.7 + valueNoise(wp.xz / 0.7 + 5.7) * 0.3;
+            float cover = float(su.puddleMax) * pow(pw, 0.8);
+            float t = 0.157 + 1.33 * cover;
+            puddle = half((1.0 - smoothstep(t - 0.02, t + 0.005, p)) * smoothstep(0.0, 0.01, cover));
             su.base = mix(su.base, su.base * 0.5h, puddle);
             su.roughness = mix(su.roughness, 0.03h, puddle);
             su.specular = mix(su.specular, 1.0h, puddle);
@@ -239,8 +265,10 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float fresnel = 0.02 + 0.98 * pow(1.0 - cosv, 5.0);
             float3 r = reflect(-v, n);
             float3 sky = mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5));
-            // Puddles keep a floor of 0.18 so near ones read as water, not shadow.
-            float amount = float(puddle) * max(fresnel * 0.95, 0.18) + (fresnel * 0.55 + 0.05) * float(wet) * (1.0 - float(puddle));
+            // §3.1: sky-only reflection in puddles, clamped to 0.35 (a floor of 0.12 keeps near ones
+            // reading as water, not shadow); outside them a broad restrained sheen (≤ 0.15).
+            float amount = float(puddle) * clamp(max(fresnel, 0.12), 0.0, 0.35)
+                + min(fresnel * 0.3 + 0.03, 0.15) * float(wet) * (1.0 - float(puddle));
             // Grass and other rough ground glint far less than paving.
             if (su.puddles) { su.emissive += half3(sky * amount); }
             else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }
@@ -257,12 +285,14 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
     half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
-    // Fog "starts at fogStart, ends at fogEnd" (v2 §3.3, weather v1 §5): a linear ramp. A
-    // smoothstep left the near half of the range almost clear (dense fog didn't read).
-    float fogT = saturate((opticalDistance(dist, g.camera.y, wp.y) - g.fogStart) / max(g.fogEnd - g.fogStart, 1.0));
-    half fog = half(fogT * 0.96);
+    // Postcard quality mode only (never on screen): the baked contact AO takes a further share of
+    // the fill (lighting bible §2.3: another 10–20% within a contact; open surfaces have AO 1).
+    if (g.postcardQuality) { fill *= 1.0h - half(g.postcardAO) * (1.0h - su.ao); }
+    // Atmosphere along optical depth (lighting bible: clear-air fade plus weather extinction).
+    float4 atm = atmosphere(g, opticalDistance(dist, g.camera.y, wp.y));
+    half fog = half(atm.w);
     s.set_base_color(su.base * contact * (1.0h - fog));
-    s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + g.fogColor * fog);
+    s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + half3(atm.xyz) * fog);
     s.set_roughness(su.roughness);
     s.set_specular(su.specular * (1.0h - fog));
     s.set_metallic(0.0h);
@@ -323,9 +353,11 @@ void worldStaticSurface(realitykit::surface_parameters params)
             su.base = mix(su.base, leaf * (1.0h - 0.25h * half(g.wetness)), half(clamp(cover, 0.0, 0.85)));
         }
     }
-    if (flags & 16u) { su.wetRoughness = 0.22h; su.wetDarkening = 0.34h; su.puddles = true; }
+    // §3.1 wet response: asphalt 28% darker, roughness to 0.42, puddles up to 8%; concrete walks
+    // 15%, 0.58, up to 4%.
+    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.28h; su.puddles = true; su.puddleMax = 0.08h; }
     if (flags & 8u) {
-        su.wetRoughness = 0.32h; su.wetDarkening = 0.22h; su.puddles = true;
+        su.wetRoughness = 0.58h; su.wetDarkening = 0.15h; su.puddles = true; su.puddleMax = 0.04h;
         // R7 sidewalk joints: transverse joints every 1.75 m along the path, ~1.2 cm wide,
         // darkening 14%; anti-aliased; gone by 60 m.
         float u = extra.z / 1.75;
@@ -389,6 +421,16 @@ void worldFoliageSurface(realitykit::surface_parameters params)
     // Crown lobes carry a leaf threshold in extra.y (0 = trunk, branches, other foliage).
     float leaf = mix(g.leafFraction.y, g.leafFraction.z, u);
     su.leafCut = extra.y > 0.0 && extra.y > leaf + 1e-3;
+    if (su.leafCut && extra.z > 0.5) {
+        // A bare skyline crown (beyond 400 m and from the air) reads as the tree's twig mass: the
+        // bark colour lifted toward grey, unsnowed, instead of vanishing (look-fix-v1 §5: retain
+        // aggregate height and colour; winter aerials showed no trees at all).
+        half3 bark = srgbToLinear(tex.read(uint2(15, 0)).rgb);
+        half bare = half(1.0 - smoothstep(0.0, 0.5, leaf));
+        su.base = mix(su.base, mix(bark, half3(dot(bark, half3(0.3h, 0.59h, 0.11h))), 0.35h) * 1.25h, bare);
+        su.leafCut = false;
+        su.weathered = false;
+    }
     finish(params, g, su, wp);
 }
 
@@ -406,7 +448,8 @@ void worldFoliageGeometry(realitykit::geometry_parameters params)
     // Leaf drop: a lobe past its threshold collapses to a point inside the crown, so it draws
     // nothing at all (alpha-cut transparent surfaces still showed grazing-angle rims).
     float lobe = params.geometry().uv3().y;
-    if (lobe > 0.0) {
+    // Skyline crowns (uv3.z = 1) stay in bare seasons as a twig mass (see worldFoliageSurface).
+    if (lobe > 0.0 && params.geometry().uv3().z < 0.5) {
         float u = hash12(origin.xz * 0.37 + 3.1);
         float leaf = mix(g.leafFraction.y, g.leafFraction.z, u);
         if (lobe > leaf + 1e-3) {
@@ -476,11 +519,14 @@ void worldSkySurface(realitykit::surface_parameters params)
     float3 wp = params.geometry().world_position();
     float3 d = normalize(wp - g.camera);
     float time = params.uniforms().time();
-    float3 top = float3(g.skyTop), horizon = float3(g.skyHorizon), fog = float3(g.fogColor);
+    float3 top = float3(g.skyTop), horizon = float3(g.skyHorizon);
     float3 c = mix(horizon, top, pow(clamp(d.y / 0.85, 0.0, 1.0), 0.5));
-    // Haze: the last few degrees meet the world's fog colour so distant geometry blends in.
-    c = mix(c, fog, (1.0 - smoothstep(0.0, 0.10, d.y)) * 0.7);
-    if (d.y < 0.0) { c = fog; }
+    // Haze: the last few degrees take the atmosphere's colour and amount at the far end of the
+    // world (4 km), so distant geometry blends into the sky.
+    float4 far = atmosphere(g, 4000.0);
+    float3 fog = far.xyz;
+    c = mix(c, fog, (1.0 - smoothstep(0.0, 0.10, d.y)) * max(far.w, 0.35));
+    if (d.y < 0.0) { c = mix(c, fog, max(far.w, 0.5)); }
     // Sun: 0.27° disk with a soft edge and glow, hidden by cloud.
     float cloud = cloudAt(g, d, time);
     float cosA = dot(d, normalize(g.sunDir));

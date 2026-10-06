@@ -36,6 +36,12 @@ public struct PhenologyProfile: Codable, Sendable, Equatable {
         knots: [65, 105, 135, 295, 320, 325, 350, 85, 120, 300, 340], grassPolicy: .warmSeason)
     public static let seattleDemo = PhenologyProfile(id: "seattle-calendar-demo-v1",
         knots: [75, 120, 150, 270, 295, 305, 330, 55, 95, 345, 380], grassPolicy: .coolSeason, grassFloor: 0.6)
+    /// Chicagoland (North Shore, Chicago neighborhoods): the regions-chicagoland-miami §7 fallback
+    /// envelope. Leaf-out late April to late May, early autumn from late September, broad peak mid to
+    /// late October, leaf drop late October through November, bare December to March; cool-season
+    /// grass.
+    public static let chicagoland = PhenologyProfile(id: "chicagoland-calendar-v1",
+        knots: [115, 145, 165, 268, 295, 298, 330, 90, 125, 305, 345], grassPolicy: .coolSeason)
     public static let sydneyDemo = PhenologyProfile(id: "sydney-calendar-demo-v1",
         knots: [245, 285, 315, 465, 490, 500, 530, 230, 275, 505, 545], grassPolicy: .warmSeason, seasonYearWrapBelowDay: 200)
 }

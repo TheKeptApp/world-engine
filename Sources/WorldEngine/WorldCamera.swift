@@ -79,6 +79,8 @@ public final class WorldCamera {
     @ObservationIgnored private var transitionFrom: CameraPose?
     @ObservationIgnored private var transitionTime = 0.0
     @ObservationIgnored private var lastPose: CameraPose?
+    /// The pose the camera was drawn from in the last frame (nil before the first frame).
+    public var currentPose: CameraPose? { lastPose }
     public var street = StreetCameraSettings()
     /// User orbit offsets (from drag) and zoom (from pinch).
     public var yawOffset: Float = 0
