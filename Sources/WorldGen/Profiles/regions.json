@@ -1,5 +1,5 @@
 {
-  "comment": "Regions select a style profile by location. Data only: generator code never names a place. First match wins; areas outside every region use the default profile.",
+  "comment": "Regions select a style profile by location. Data only: generator code never names a place. First match wins; areas outside every region use the default profile. The Chicagoland boxes do not overlap each other; they start from the review windows in docs/proposals/regions-chicagoland-miami/region-catalog.json, with town edges set from OSM admin boundaries (Evanston, Wilmette relations, OSM base 2026-10-06T12:40:13Z) and widened to cover the committed test areas and the region kit's sample cells (docs/research/region-kit.md 3.5). Only profiles that exist in the engine get boxes: Winnetka, Kenilworth and the other proposal zones resolve to the default.",
   "defaultProfile": "default",
   "regions": [
     {
@@ -7,6 +7,66 @@
       "profile": "front-range",
       "comment": "Colorado Front Range cities, Colorado Springs to Fort Collins, foothills to the eastern suburbs.",
       "bounds": { "south": 38.70, "west": -105.30, "north": 40.70, "east": -104.55 }
+    },
+    {
+      "id": "wilmette",
+      "profile": "wilmette",
+      "comment": "Wilmette's main part (east of -87.733). South edge just north of the Evanston-Wilmette town line (about Isabella St; OSM 42.0688-42.0696), so the box never reaches into Evanston (catalog check: the review window reached Lovelace Park, Evanston). North edge just south of Kenilworth (42.0827); east edge stops at the town line's jog near the lake (-87.6829). Holds the Vattman Park canopy cell.",
+      "bounds": { "south": 42.0697, "west": -87.7330, "north": 42.0825, "east": -87.6830 }
+    },
+    {
+      "id": "wilmette-west",
+      "profile": "wilmette",
+      "comment": "Wilmette west of Evanston (OSM: Wilmette spans 42.0650-42.0849 here), ending 50 m west of Evanston's west line (-87.7324).",
+      "bounds": { "south": 42.0650, "west": -87.7575, "north": 42.0848, "east": -87.7330 }
+    },
+    {
+      "id": "evanston",
+      "profile": "evanston",
+      "comment": "Evanston from Howard St (Chicago line) to the Wilmette line, from the city's west line (OSM -87.7086 to -87.7099) to the lake. Holds the committed test area Data/areas/evanston-south and the Smith Park cell. Known imprecision: up to 100 m of Wilmette south of 42.0697, and the Chicago blocks north of Howard St by the lake (outside the Evanston polygon east of about -87.677, south of 42.023), resolve to evanston.",
+      "bounds": { "south": 42.0190, "west": -87.7095, "north": 42.0697, "east": -87.6600 }
+    },
+    {
+      "id": "evanston-northwest",
+      "profile": "evanston",
+      "comment": "Evanston's northwest part, where the city line runs west to -87.7274 (north of 42.0575): Lovelace Park.",
+      "bounds": { "south": 42.0575, "west": -87.7274, "north": 42.0697, "east": -87.7095 }
+    },
+    {
+      "id": "evanston-far-northwest",
+      "profile": "evanston",
+      "comment": "The strip of Evanston west of -87.7274 between 42.0635 and the Wilmette line (city line at -87.7324).",
+      "bounds": { "south": 42.0635, "west": -87.7322, "north": 42.0697, "east": -87.7274 }
+    },
+    {
+      "id": "evanston-lakefront-north",
+      "profile": "evanston",
+      "comment": "Evanston's lakefront corner north of the Isabella St line, where the town line jogs north along -87.6828 to 42.0717.",
+      "bounds": { "south": 42.0697, "west": -87.6828, "north": 42.0717, "east": -87.6600 }
+    },
+    {
+      "id": "chicago-rogers-park",
+      "profile": "chicago-dense-north",
+      "comment": "Rogers Park, from the review window (west edge -87.681) south to the Edgewater box; north edge just south of Evanston's Howard St line (the review window reached 42.020, into Evanston).",
+      "bounds": { "south": 41.9990, "west": -87.6810, "north": 42.0190, "east": -87.6400 }
+    },
+    {
+      "id": "chicago-edgewater-uptown",
+      "profile": "chicago-dense-north",
+      "comment": "Edgewater (review window, west edge -87.674) extended south through Uptown to Montrose Ave so the lakefront corridor has no gap; east of the greystone window at Lincoln Square (-87.678). Holds the Broadway Armory Park cell.",
+      "bounds": { "south": 41.9620, "west": -87.6740, "north": 41.9990, "east": -87.6300 }
+    },
+    {
+      "id": "chicago-lakeview",
+      "profile": "chicago-dense-north",
+      "comment": "Lakeview, from the review window widened west to just past Ashland Ave (-87.672) and north to Montrose Ave, east to the lake. Holds the committed test area Data/areas/lakeview-sheil-park and the Gill Park cell.",
+      "bounds": { "south": 41.9320, "west": -87.6720, "north": 41.9620, "east": -87.6300 }
+    },
+    {
+      "id": "chicago-lincoln-park",
+      "profile": "chicago-dense-north",
+      "comment": "Lincoln Park, from the review window (south edge 41.914) widened west to Racine Ave (-87.659) and east to the lake. Holds the Oz Park cell.",
+      "bounds": { "south": 41.9140, "west": -87.6590, "north": 41.9320, "east": -87.6300 }
     }
   ]
 }

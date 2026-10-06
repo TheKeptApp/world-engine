@@ -24,6 +24,7 @@ import WorldMesh
 ///     boundary.glb                  soft world boundary ground
 ///     collision.json                building hulls for camera collision
 ///     palettes.json, materials.json, environment.json, sky-<state>.png, profiles/*.json
+///     LICENSE-DATA.md               licence notice: ODbL data files, every source, how to get the data
 public enum WorldPackage {
     public static let schema = "worldengine.package/1"
 
@@ -246,6 +247,13 @@ public enum WorldPackage {
             profileFiles.append("profiles/\(name).json")
         }
 
+        // Licence notice and credits (decisions 6a, 6b, 6f): the data files are an ODbL Derivative
+        // Database of OpenStreetMap; every manifest source is named with its licence.
+        let catalog = try CreditsCatalog.bundled()
+        let credits = catalog.merged(sources: build.manifest.sources, surface: .package)
+        files[dataNoticeFile] = Data(dataNotice(manifest: build.manifest, credits: credits, catalog: catalog,
+                                                generatorVersion: options.generatorVersion).utf8)
+
         // Manifest.
         var hashes: [String: Any] = [:]
         for (path, data) in files {
@@ -259,11 +267,19 @@ public enum WorldPackage {
                      "heightMeters": build.manifest.heightMeters],
             "sources": build.manifest.sources.map { s -> [String: Any] in
                 var d: [String: Any] = ["format": s.format, "license": s.license, "attribution": s.attribution, "layers": s.layers]
+                if let u = catalog.licenseURL(for: s.license) { d["licenseURL"] = u }
                 if let t = s.dataTimestamp { d["dataTimestamp"] = t }
                 if let h = s.sha256 { d["sha256"] = h }
                 return d
             },
             "attribution": "© OpenStreetMap contributors",
+            "dataLicense": [
+                "license": dataLicense, "licenseURL": catalog.licenseURL(for: dataLicense).map { $0 as Any } ?? NSNull(), "notice": dataNoticeFile,
+                "derivativeDatabase": derivativeDatabaseFiles.map(\.pattern),
+                "separatelyLicensed": separatelyLicensedFiles.map(\.pattern),
+                "offer": offerURL(catalog).map { ["status": "published", "url": $0] as [String: Any] } ?? ["status": "pending"],
+            ] as [String: Any],
+            "credits": try jsonObject(credits),
             "frame": [
                 "type": "local tangent plane (ENU) on WGS84, exact",
                 "origin": ["latitude": frame.origin.latitude, "longitude": frame.origin.longitude, "height": 0],
@@ -354,6 +370,113 @@ public enum WorldPackage {
         case let (nil, y?): y
         default: nil
         }
+    }
+
+    // MARK: - Licence notice (decisions 6a, 6f; docs/data-licensing.md)
+
+    /// The licence notice written into every package.
+    public static let dataNoticeFile = "LICENSE-DATA.md"
+    /// The package's data files are a Derivative Database of OpenStreetMap (decision 6a).
+    public static let dataLicense = "ODbL-1.0"
+
+    public struct FileClass: Sendable {
+        public var pattern: String
+        public var meaning: String
+    }
+
+    /// Files that form the Derivative Database (licensed under `dataLicense`).
+    public static let derivativeDatabaseFiles: [FileClass] = [
+        .init(pattern: "world.json", meaning: "manifest: sources, exact geographic frame, chunk index"),
+        .init(pattern: "chunks/*/scene.json", meaning: "feature tables keyed by OSM identity, with OSM tags and the generated choices"),
+        .init(pattern: "chunks/*/lod0.glb", meaning: "chunk geometry derived from the map data"),
+        .init(pattern: "chunks/*/lod1.glb", meaning: "reduced chunk geometry derived from the map data"),
+        .init(pattern: "instances.json", meaning: "placed props (positions derived from the map data)"),
+        .init(pattern: "clutter-tufts.bin", meaning: "edge-tuft candidates (positions derived from the map data)"),
+        .init(pattern: "collision.json", meaning: "building hulls"),
+        .init(pattern: "environment.json", meaning: "location and experience defaults derived from the map data (its lighting tables are WorldEngine content)"),
+    ]
+
+    /// Files that are WorldEngine's own content, not covered by the ODbL.
+    public static let separatelyLicensedFiles: [FileClass] = [
+        .init(pattern: "palettes.json", meaning: "colour palettes"),
+        .init(pattern: "materials.json", meaning: "material semantics and shader constants"),
+        .init(pattern: "profiles/*.json", meaning: "regional style profiles and shared tables"),
+        .init(pattern: "prototypes/*.glb", meaning: "prototype meshes (trees, bushes, props)"),
+        .init(pattern: "boundary.glb", meaning: "boundary ground"),
+        .init(pattern: "sky-*.png", meaning: "sky images"),
+    ]
+
+    /// Which class a package path belongs to: the ODbL data, separately licensed content, or the
+    /// notice itself (nil = unclassified, which the package tests reject).
+    public static func licenseClass(of path: String) -> String? {
+        func match(_ p: String) -> Bool { fnmatch(p, path, FNM_PATHNAME) == 0 }
+        if path == dataNoticeFile { return "notice" }
+        if derivativeDatabaseFiles.contains(where: { match($0.pattern) }) { return dataLicense }
+        if separatelyLicensedFiles.contains(where: { match($0.pattern) }) { return "separate" }
+        return nil
+    }
+
+    static func offerURL(_ catalog: CreditsCatalog) -> String? {
+        catalog.credits.first { $0.kind == .dataOffer && !$0.isPlaceholder }?.url
+    }
+
+    /// `LICENSE-DATA.md`: what is ODbL, every manifest source with its licence and attribution,
+    /// how to obtain the data, what is licensed separately, and the package credits.
+    static func dataNotice(manifest: AreaManifest, credits: [Credit], catalog: CreditsCatalog, generatorVersion: String) -> String {
+        let odbl = catalog.licenses[dataLicense]
+        let odblURL = odbl?.url ?? "https://opendatacommons.org/licenses/odbl/1-0/"
+        var s = "# Data licence notice\n\n"
+        s += "World package for \"\(manifest.name)\" (`\(manifest.id)`), generated by WorldEngine (generator version `\(generatorVersion)`).\n\n"
+
+        s += "## Licence\n\n"
+        s += "The data files listed below form a Derivative Database of OpenStreetMap. They are licensed under the "
+        s += "\(odbl?.name ?? "Open Database License 1.0") (ODbL 1.0):\n\(odblURL)\n\n"
+        s += "Map data © OpenStreetMap contributors, available under the Open Database License: https://www.openstreetmap.org/copyright\n\n"
+        s += "Data files covered by the ODbL:\n\n"
+        for f in derivativeDatabaseFiles { s += "- `\(f.pattern)`: \(f.meaning)\n" }
+
+        s += "\n## Sources\n\nEvery source this package was built from, with its licence and attribution:\n\n"
+        for src in manifest.sources {
+            let info = catalog.licenses[src.license]
+            let licence = info.map { "\(src.license) (\($0.name)" + ($0.url.map { ", \($0)" } ?? ", licence URL not on record") + ")" }
+                ?? "\(src.license) (licence URL not on record)"
+            s += "- **\(src.attribution)**. Licence: \(licence). Format `\(src.format)`, layers \(src.layers.joined(separator: ", "))"
+            if let t = src.dataTimestamp { s += ", data timestamp \(t)" }
+            if let h = src.sha256 { s += ", source SHA-256 `\(h)`" }
+            s += "."
+            if src.license != dataLicense { s += " Data from this source is also subject to its own licence." }
+            s += "\n"
+        }
+        if manifest.sources.isEmpty { s += "- (the area manifest lists no sources)\n" }
+
+        s += "\n## How to obtain the data\n\n"
+        s += "- **This package.** The data files listed above are included here in machine-readable form (JSON and glTF binary). "
+        s += "You may extract, use and share them under the ODbL.\n"
+        if let url = offerURL(catalog) {
+            s += "- **Public download.** The same data files are offered free of charge at \(url)\n"
+        } else {
+            s += "- **Public download.** Not yet published. A free download of the same data files will be offered before any public release.\n"
+        }
+        s += "- **Source data.** OpenStreetMap data is available from https://www.openstreetmap.org/ (full database: https://planet.openstreetmap.org/). "
+        s += "The sources above record the data timestamp and hash of the exact extract used.\n"
+
+        s += "\n## Separately licensed content\n\n"
+        s += "These files are WorldEngine's own content. They are not part of the Derivative Database, are not licensed under the ODbL, "
+        s += "and are licensed separately by the package's publisher:\n\n"
+        for f in separatelyLicensedFiles { s += "- `\(f.pattern)`: \(f.meaning)\n" }
+        let star = catalog.credits.first { $0.kind == .skyData }
+        s += "\nStar data: this package contains no star catalog. Where an app or renderer adds one, it carries its own licence"
+        s += star.map { ": \($0.text)" + ($0.license.map { " (\($0))" } ?? "") + ".\n" } ?? ".\n"
+
+        s += "\n## Credits\n\n"
+        for c in credits {
+            s += "- \(c.text)"
+            if let l = c.license { s += " (\(l))" }
+            if let u = c.url { s += ": \(u)" }
+            if c.isPlaceholder { s += " [pending]" }
+            s += "\n"
+        }
+        return s
     }
 
     // MARK: - Encoding helpers

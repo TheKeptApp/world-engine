@@ -244,7 +244,9 @@ struct StarTests {
     @Test func catalogIsTheLicensedSubset() throws {
         let c = try StarCatalog.bundled()
         #expect(c.stars.count == 256 && c.count == 256)
-        #expect(c.source.license == "CC BY-SA 4.0" && c.source.author.contains("David Nash"))
+        // Source change (HYG, CC BY-SA 4.0, replaced by the public-domain Yale Bright Star Catalogue): only the
+        // provenance expectation changes; counts, ordering and the constellation-coverage names below are unchanged.
+        #expect(c.source.license.hasPrefix("Public domain") && c.source.author.contains("Hoffleit") && c.source.name.contains("Bright Star"))
         // Sorted by unrounded magnitude, then ID; stored magnitudes are rounded to 0.001.
         #expect(zip(c.stars, c.stars.dropFirst()).allSatisfy { $0.mag <= $1.mag + 0.001 })
         let names = Set(c.stars.compactMap(\.name))
@@ -340,7 +342,7 @@ struct EnvironmentDocumentTests {
         #expect(doc.state.dominantState == .clear && doc.state.accumulationStatus == "unknown_initial_state")
         #expect(abs(doc.light.sunElevationDeg - 6.0011) < 0.01 && doc.light.branch == "setting")
         #expect(doc.phenology?.deciduous.state == "autumn_peak")
-        #expect(doc.sky.starAttribution.contains("CC BY-SA"))
+        #expect(doc.sky.starAttribution.contains("Yale Bright Star Catalogue") && doc.sky.starAttribution.contains("public domain")) // was CC BY-SA (HYG)
         let back = try EnvironmentDocument.decode(data)
         #expect(try back.json() == data) // ISO 8601 keeps whole seconds; the re-encoded document is identical
         var bad = doc

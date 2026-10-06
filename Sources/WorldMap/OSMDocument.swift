@@ -1,11 +1,14 @@
 import Foundation
 import WorldGeo
 
-/// Identifies an OSM element. Used as the stable seed for generated detail and as the key for
-/// future per-building overrides.
+/// Identifies a map feature: an OSM element, or a feature from a second source such as Overture.
+/// Used as the stable seed for generated detail and as the key for future per-building overrides.
 public struct OSMRef: Hashable, Codable, Sendable, CustomStringConvertible, Comparable {
     public enum Kind: String, Codable, Sendable, Comparable {
         case node, way, relation
+        /// An Overture Maps feature. `id` holds the first 16 hex digits of its GERS ID
+        /// (see `OSMRef.init(overtureID:)` in OvertureSource.swift).
+        case overture
         public static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
 
@@ -23,7 +26,7 @@ public struct OSMRef: Hashable, Codable, Sendable, CustomStringConvertible, Comp
 
     /// A deterministic generator for this element. `salt` separates independent uses.
     public func random(_ salt: String) -> StableRandom {
-        let kindCode: UInt64 = switch kind { case .node: 1; case .way: 2; case .relation: 3 }
+        let kindCode: UInt64 = switch kind { case .node: 1; case .way: 2; case .relation: 3; case .overture: 4 }
         return StableRandom(kindCode, UInt64(bitPattern: id), salt: salt)
     }
 }
@@ -82,7 +85,7 @@ public struct OSMDocument: Sendable {
                 ways[e.id] = OSMWay(id: e.id, nodeIDs: e.nodes ?? [], tags: tags)
             case "relation":
                 let members = (e.members ?? []).compactMap { m -> OSMRelation.Member? in
-                    guard let kind = OSMRef.Kind(rawValue: m.type) else { return nil }
+                    guard let kind = OSMRef.Kind(rawValue: m.type), kind != .overture else { return nil }
                     return OSMRelation.Member(kind: kind, ref: m.ref, role: m.role)
                 }
                 relations[e.id] = OSMRelation(id: e.id, members: members, tags: tags)

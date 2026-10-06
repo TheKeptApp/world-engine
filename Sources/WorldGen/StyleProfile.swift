@@ -35,6 +35,11 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         public var heightMeters: [Double]
         public var youngShare: Double
         public var youngHeightMeters: [Double]
+        /// Optional, zone level: measured share (0–1) of the ground covered by tree crowns, from leaf-on
+        /// aerial imagery (e.g. a NAIP canopy mask over a sample cell). Absent in most profiles; the
+        /// generator does not read it yet, and behaviour without it is unchanged. Decoded with
+        /// `decodeIfPresent` (synthesized `Codable` for an optional), so older JSON still decodes.
+        public var canopyShare: Double?
     }
 
     public struct Porch: Codable, Sendable, Equatable {
@@ -79,6 +84,8 @@ public struct StyleProfile: Codable, Sendable, Equatable {
     }
 
     public struct Thresholds: Codable, Sendable, Equatable {
+        /// Absolute footprint areas (m²) for the `small` / `large` situations and the huge-house limit.
+        /// They are the fallback when the percentile fields below are absent or the area has too few houses.
         public var smallArea: Double
         public var largeArea: Double
         public var hugeArea: Double
@@ -86,6 +93,17 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         public var squareAspect: Double
         public var squareRectangularity: Double
         public var narrowAspect: Double
+        /// Optional size thresholds relative to the local houses, as quantiles (0–1) of the area's house
+        /// footprint areas. Intended generator rule (not implemented here): if a percentile is present and
+        /// the area has at least 30 house candidates, that threshold = this percentile of the area's house
+        /// footprint areas; otherwise use the absolute m² value above. Expected order when present:
+        /// small < large < huge. Absent → behaviour unchanged (absolute values). Decoded with
+        /// `decodeIfPresent` (synthesized `Codable` for optionals), so older JSON still decodes.
+        public var smallAreaPercentile: Double?
+        /// See `smallAreaPercentile`; replaces `largeArea` under the same rule.
+        public var largeAreaPercentile: Double?
+        /// See `smallAreaPercentile`; replaces `hugeArea` under the same rule.
+        public var hugeAreaPercentile: Double?
     }
 
     public struct Outbuilding: Codable, Sendable, Equatable {
@@ -112,10 +130,15 @@ public struct StyleProfile: Codable, Sendable, Equatable {
     public var chimneyLikelihood: Double
     public var foundationMeters: [Double]
 
+    /// Decoded keys. Anything else in a profile file is ignored by the decoder: a top-level `"comment"`
+    /// string and a top-level `"provenance"` object (per-field status/source notes for reviewers) are
+    /// documentation only.
     enum CodingKeys: String, CodingKey {
         case id, version, name, seasons, trees, houseTypes, typeRules, typeThresholds, garage, shed, chimneyLikelihood, foundationMeters
     }
 
+    /// The optional fields of `Trees` and `Thresholds` (`canopyShare`, `*AreaPercentile`) are decoded by
+    /// those types' synthesized `Codable` (`decodeIfPresent`), so this decoder needs no change for them.
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(String.self, forKey: .id)
