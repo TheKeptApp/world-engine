@@ -26,16 +26,16 @@ public struct StarCatalog: Codable, Sendable {
         public var name: String, author: String, url: String, sha256: String, license: String, licenseURL: String
     }
 
-    /// The bundled 256-star HYG v4.1 subset (CC BY-SA 4.0; see Catalog/STARS-NOTICE.md).
+    /// The bundled 256-star Yale Bright Star Catalogue subset (public domain; see Catalog/STARS-NOTICE.md).
     public static func bundled() throws -> StarCatalog {
-        guard let url = Bundle.module.url(forResource: "stars-hyg-v41-bright256", withExtension: "json", subdirectory: "Catalog") else {
+        guard let url = Bundle.module.url(forResource: "stars-bsc5-bright256", withExtension: "json", subdirectory: "Catalog") else {
             throw CocoaError(.fileNoSuchFile)
         }
         return try JSONDecoder().decode(StarCatalog.self, from: Data(contentsOf: url))
     }
 
-    /// Credit line required wherever the stars are shown.
-    public static let attribution = "Stars: HYG Database v4.1, David Nash / Astronomy Nexus, CC BY-SA 4.0 (modified)."
+    /// Courtesy credit line for wherever the stars are shown. The catalogue's terms attach no credit condition (see Catalog/STARS-NOTICE.md).
+    public static let attribution = "Stars: Yale Bright Star Catalogue, 5th rev. ed. (Hoffleit & Warren 1991), public domain."
 }
 
 /// A visible star for drawing: scene direction, brightness and tint.
@@ -59,7 +59,7 @@ public struct StarField: Codable, Sendable, Equatable {
 
 public enum Stars {
     public static let maxVisible = 128
-    public static let model = "hyg-v41-256, IAU-1976 precession, mean sidereal time"
+    public static let model = "bsc5-256, IAU-1976 precession, mean sidereal time"
 
     /// Weather/time gate: nightFactor × (1 − C)³ × (1 − O) × (1 − 0.3B), off in active precipitation.
     public static func strength(sunElevationDeg: Double, cloud: Double?, obscuration: Double, moonFill b: Double,

@@ -1,0 +1,6297 @@
+{
+ "changes": [
+  "Excluded the 14 HR numbers that are not stars (no magnitude in BSC5), HR 5958 (T CrB, a recurrent nova listed at its 1946 maximum) and HR 681 (Mira, a long-period variable listed near its maximum); considered stars to magnitude 6.5.",
+  "Merged components within 2 arcminutes into one point: combined flux magnitude, flux-weighted normalized position; identity, color index and velocity of the brightest component.",
+  "Converted the BSC5 J2000 right ascension/declination to unit vectors; rounded vectors to 1e-7, magnitudes to 0.001, color index (BSC5 B-V, two decimals) to 0.001.",
+  "id and hr are the HR (Bright Star Catalogue) number, hd the Henry Draper number; hip is null (BSC5 has no Hipparcos cross-identification).",
+  "distPc is 1/parallax and velPcPerYear the space velocity from BSC5 proper motion, parallax and radial velocity, only for stars with a parallax of at least 0.001 arcsec (BSC5 parallaxes are pre-Hipparcos and rough for distant stars, so distPc only scales the motion and is not a quotable distance); the other 40 stars carry null and stay at their J2000 position (largest neglected proper motion 0.263 arcsec/year, HR 4763).",
+  "Proper names: IAU Catalog of Star Names, joined on HR (or HD) number.",
+  "Kept the 256 brightest after sorting by magnitude, then HR number; added component HR lists."
+ ],
+ "count": 256,
+ "epoch": "J2000.0",
+ "equinox": "J2000.0",
+ "frame": "unit direction vectors, equatorial J2000 (x toward RA 0h, z toward north celestial pole)",
+ "generator": "scripts/data/build_star_catalog.py",
+ "license": "This derived data file is public domain, like its source; star names are credited to the IAU WGSN (see STARS-NOTICE.md).",
+ "nameSource": {
+  "file": "https://www.pas.rochester.edu/~emamajek/WGSN/IAU-CSN.txt",
+  "license": "Creative Commons Attribution, per the IAU-CSN file header (names only; credited in STARS-NOTICE.md)",
+  "name": "IAU Catalog of Star Names (IAU-CSN), IAU Working Group on Star Names",
+  "sha256": "84fac0c90f1b19abc491c2793469e0caa7b003ad1bc93a790ca41147010d0eb0",
+  "url": "https://www.iau.org/public/themes/naming_stars/"
+ },
+ "schema": "worldengine.stars/1",
+ "source": {
+  "author": "Dorrit Hoffleit and Wayne H. Warren Jr.",
+  "distributor": "NASA HEASARC (table bsc5p; same catalogue as CDS V/50)",
+  "file": "https://heasarc.gsfc.nasa.gov/FTP/heasarc/dbase/tdat_files/heasarc_bsc5p.tdat.gz",
+  "license": "Public domain (distributed freely by NASA HEASARC; no copyright or licence condition found; see STARS-NOTICE.md)",
+  "licenseURL": "https://www.usa.gov/government-works",
+  "name": "Yale Bright Star Catalogue, 5th Revised Ed. (preliminary version, 1991)",
+  "sha256": "e2b2f8e9d615426f9478f88061235976143d49d8b25c6c15df3f3661c7095b53",
+  "sha256Of": "the decompressed .tdat file",
+  "url": "https://heasarc.gsfc.nasa.gov/W3Browse/star-catalog/bsc5p.html"
+ },
+ "stars": [
+  {
+   "bayer": "Alp",
+   "ci": 0.0,
+   "components": [
+    2491
+   ],
+   "con": "CMa",
+   "distPc": 2.6667,
+   "hd": 48915,
+   "hip": null,
+   "hr": "2491",
+   "id": 2491,
+   "mag": -1.46,
+   "name": "Sirius",
+   "u": [
+    -0.1874541,
+    0.9392178,
+    -0.2876298
+   ],
+   "velPcPerYear": [
+    9.421824e-06,
+    -1.067931e-05,
+    -1.256705e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.15,
+   "components": [
+    2326
+   ],
+   "con": "Car",
+   "distPc": 35.7143,
+   "hd": 45348,
+   "hip": null,
+   "hr": "2326",
+   "id": 2326,
+   "mag": -0.72,
+   "name": "Canopus",
+   "u": [
+    -0.063222,
+    0.6027396,
+    -0.7954294
+   ],
+   "velPcPerYear": [
+    -5.447999e-06,
+    1.542412e-05,
+    -1.487976e-05
+   ]
+  },
+  {
+   "bayer": "Alp-1",
+   "ci": 0.71,
+   "components": [
+    5459,
+    5460
+   ],
+   "con": "Cen",
+   "distPc": 1.3316,
+   "hd": 128620,
+   "hip": null,
+   "hr": "5459",
+   "id": 5459,
+   "mag": -0.287,
+   "name": "Rigil Kentaurus",
+   "u": [
+    -0.373857,
+    -0.3125905,
+    -0.8732228
+   ],
+   "velPcPerYear": [
+    -9.692356e-06,
+    2.254273e-05,
+    2.184623e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.23,
+   "components": [
+    5340
+   ],
+   "con": "Boo",
+   "distPc": 11.1111,
+   "hd": 124897,
+   "hip": null,
+   "hr": "5340",
+   "id": 5340,
+   "mag": -0.04,
+   "name": "Arcturus",
+   "u": [
+    -0.7837856,
+    -0.5269882,
+    0.3285782
+   ],
+   "velPcPerYear": [
+    -5.819169e-05,
+    3.182312e-05,
+    -0.000103333
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.0,
+   "components": [
+    7001
+   ],
+   "con": "Lyr",
+   "distPc": 8.1301,
+   "hd": 172167,
+   "hip": null,
+   "hr": "7001",
+   "id": 7001,
+   "mag": 0.03,
+   "name": "Vega",
+   "u": [
+    0.1250946,
+    -0.7694143,
+    0.6263809
+   ],
+   "velPcPerYear": [
+    4.934541e-06,
+    1.926378e-05,
+    -1.810808e-07
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.8,
+   "components": [
+    1708
+   ],
+   "con": "Aur",
+   "distPc": 13.6986,
+   "hd": 34029,
+   "hip": null,
+   "hr": "1708",
+   "id": 1708,
+   "mag": 0.08,
+   "name": "Capella",
+   "u": [
+    0.1304981,
+    0.6823155,
+    0.7193162
+   ],
+   "velPcPerYear": [
+    2.860321e-06,
+    4.182411e-05,
+    2.461867e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.03,
+   "components": [
+    1713
+   ],
+   "con": "Ori",
+   "distPc": 76.9231,
+   "hd": 34085,
+   "hip": null,
+   "hr": "1713",
+   "id": 1713,
+   "mag": 0.12,
+   "name": "Rigel",
+   "u": [
+    0.19505,
+    0.9703629,
+    -0.1426577
+   ],
+   "velPcPerYear": [
+    4.178597e-06,
+    2.078828e-05,
+    -3.432973e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.42,
+   "components": [
+    2943
+   ],
+   "con": "CMi",
+   "distPc": 3.4722,
+   "hd": 61421,
+   "hip": null,
+   "hr": "2943",
+   "id": 2943,
+   "mag": 0.38,
+   "name": "Procyon",
+   "u": [
+    -0.4181101,
+    0.9038201,
+    0.0910671
+   ],
+   "velPcPerYear": [
+    1.147191e-05,
+    3.668406e-06,
+    -1.742883e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.16,
+   "components": [
+    472
+   ],
+   "con": "Eri",
+   "distPc": 38.4615,
+   "hd": 10144,
+   "hip": null,
+   "hr": "472",
+   "id": 472,
+   "mag": 0.46,
+   "name": "Achernar",
+   "u": [
+    0.4927226,
+    0.2238071,
+    -0.8409131
+   ],
+   "velPcPerYear": [
+    -4.260124e-06,
+    1.752108e-05,
+    -1.729205e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.85,
+   "components": [
+    2061
+   ],
+   "con": "Ori",
+   "distPc": 200.0,
+   "hd": 39801,
+   "hip": null,
+   "hr": "2061",
+   "id": 2061,
+   "mag": 0.5,
+   "name": "Betelgeuse",
+   "u": [
+    0.0208902,
+    0.9914355,
+    0.1289158
+   ],
+   "velPcPerYear": [
+    -2.477976e-05,
+    2.069934e-05,
+    1.142255e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.23,
+   "components": [
+    5267
+   ],
+   "con": "Cen",
+   "distPc": 111.1111,
+   "hd": 122451,
+   "hip": null,
+   "hr": "5267",
+   "id": 5267,
+   "mag": 0.61,
+   "name": "Hadar",
+   "u": [
+    -0.4239374,
+    -0.2542827,
+    -0.8692625
+   ],
+   "velPcPerYear": [
+    -3.838506e-06,
+    1.779853e-05,
+    -1.039369e-05
+   ]
+  },
+  {
+   "bayer": "Alp-1",
+   "ci": -0.24,
+   "components": [
+    4729,
+    4730,
+    4731
+   ],
+   "con": "Cru",
+   "distPc": 125.0,
+   "hd": 108248,
+   "hip": null,
+   "hr": "4730",
+   "id": 4730,
+   "mag": 0.735,
+   "name": "Acrux",
+   "u": [
+    -0.4493938,
+    -0.052395,
+    -0.8917959
+   ],
+   "velPcPerYear": [
+    8.971087e-06,
+    2.301023e-05,
+    6.742208e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.22,
+   "components": [
+    7557
+   ],
+   "con": "Aql",
+   "distPc": 5.0505,
+   "hd": 187642,
+   "hip": null,
+   "hr": "7557",
+   "id": 7557,
+   "mag": 0.77,
+   "name": "Altair",
+   "u": [
+    0.4592213,
+    -0.8748423,
+    0.1541643
+   ],
+   "velPcPerYear": [
+    -1.224216e-06,
+    3.067526e-05,
+    5.239119e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.54,
+   "components": [
+    1457
+   ],
+   "con": "Tau",
+   "distPc": 20.8333,
+   "hd": 29139,
+   "hip": null,
+   "hr": "1457",
+   "id": 1457,
+   "mag": 0.85,
+   "name": "Aldebaran",
+   "u": [
+    0.3439064,
+    0.8949729,
+    0.2841687
+   ],
+   "velPcPerYear": [
+    1.500907e-05,
+    5.679908e-05,
+    -2.705765e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.83,
+   "components": [
+    6134
+   ],
+   "con": "Sco",
+   "distPc": 41.6667,
+   "hd": 148478,
+   "hip": null,
+   "hr": "6134",
+   "id": 6134,
+   "mag": 0.96,
+   "name": "Antares",
+   "u": [
+    -0.3448198,
+    -0.8264107,
+    -0.4451345
+   ],
+   "velPcPerYear": [
+    -1.138128e-07,
+    4.973124e-06,
+    -2.252042e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.23,
+   "components": [
+    5056
+   ],
+   "con": "Vir",
+   "distPc": 43.4783,
+   "hd": 116658,
+   "hip": null,
+   "hr": "5056",
+   "id": 5056,
+   "mag": 0.98,
+   "name": "Spica",
+   "u": [
+    -0.9140794,
+    -0.356354,
+    -0.1935733
+   ],
+   "velPcPerYear": [
+    -3.009488e-06,
+    8.102606e-06,
+    -5.988416e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.0,
+   "components": [
+    2990
+   ],
+   "con": "Gem",
+   "distPc": 10.6383,
+   "hd": 62509,
+   "hip": null,
+   "hr": "2990",
+   "id": 2990,
+   "mag": 1.14,
+   "name": "Pollux",
+   "u": [
+    -0.3915108,
+    0.7911623,
+    0.4698739
+   ],
+   "velPcPerYear": [
+    2.733407e-05,
+    1.779203e-05,
+    -6.526415e-07
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.09,
+   "components": [
+    8728
+   ],
+   "con": "PsA",
+   "distPc": 6.7114,
+   "hd": 216956,
+   "hip": null,
+   "hr": "8728",
+   "id": 8728,
+   "mag": 1.16,
+   "name": "Fomalhaut",
+   "u": [
+    0.8373331,
+    -0.2335841,
+    -0.4942791
+   ],
+   "velPcPerYear": [
+    6.349811e-06,
+    9.477437e-06,
+    -8.205602e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.23,
+   "components": [
+    4853
+   ],
+   "con": "Cru",
+   "distPc": null,
+   "hd": 111123,
+   "hip": null,
+   "hr": "4853",
+   "id": 4853,
+   "mag": 1.25,
+   "name": "Mimosa",
+   "u": [
+    -0.4937982,
+    -0.1043297,
+    -0.8632952
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.09,
+   "components": [
+    7924
+   ],
+   "con": "Cyg",
+   "distPc": null,
+   "hd": 197345,
+   "hip": null,
+   "hr": "7924",
+   "id": 7924,
+   "mag": 1.25,
+   "name": "Deneb",
+   "u": [
+    0.455649,
+    -0.5361831,
+    0.7105573
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.11,
+   "components": [
+    3982
+   ],
+   "con": "Leo",
+   "distPc": 22.2222,
+   "hd": 87901,
+   "hip": null,
+   "hr": "3982",
+   "id": 3982,
+   "mag": 1.35,
+   "name": "Regulus",
+   "u": [
+    -0.8645016,
+    0.4578669,
+    0.2073521
+   ],
+   "velPcPerYear": [
+    7.318989e-06,
+    2.635831e-05,
+    1.904738e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.21,
+   "components": [
+    2618
+   ],
+   "con": "CMa",
+   "distPc": 1000.0,
+   "hd": 52089,
+   "hip": null,
+   "hr": "2618",
+   "id": 2618,
+   "mag": 1.5,
+   "name": "Adhara",
+   "u": [
+    -0.2213551,
+    0.846388,
+    -0.4843855
+   ],
+   "velPcPerYear": [
+    -2.665641e-05,
+    2.528068e-05,
+    -6.512034e-07
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.03,
+   "components": [
+    2890,
+    2891
+   ],
+   "con": "Gem",
+   "distPc": 14.9254,
+   "hd": 60179,
+   "hip": null,
+   "hr": "2891",
+   "id": 2891,
+   "mag": 1.587,
+   "name": "Castor",
+   "u": [
+    -0.3406066,
+    0.7777669,
+    0.5282667
+   ],
+   "velPcPerYear": [
+    7.741585e-06,
+    1.316772e-05,
+    -2.779499e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.59,
+   "components": [
+    4763
+   ],
+   "con": "Cru",
+   "distPc": null,
+   "hd": 108903,
+   "hip": null,
+   "hr": "4763",
+   "id": 4763,
+   "mag": 1.63,
+   "name": "Gacrux",
+   "u": [
+    -0.5379666,
+    -0.0736086,
+    -0.8397462
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Lam",
+   "ci": -0.22,
+   "components": [
+    6527
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 158926,
+   "hip": null,
+   "hr": "6527",
+   "id": 6527,
+   "mag": 1.63,
+   "name": "Shaula",
+   "u": [
+    -0.0916385,
+    -0.7922608,
+    -0.6032621
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.22,
+   "components": [
+    1790
+   ],
+   "con": "Ori",
+   "distPc": 34.4828,
+   "hd": 35468,
+   "hip": null,
+   "hr": "1790",
+   "id": 1790,
+   "mag": 1.64,
+   "name": "Bellatrix",
+   "u": [
+    0.1506258,
+    0.982385,
+    0.1105968
+   ],
+   "velPcPerYear": [
+    4.299287e-06,
+    1.811238e-05,
+    -2.901645e-07
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.13,
+   "components": [
+    1791
+   ],
+   "con": "Tau",
+   "distPc": 35.7143,
+   "hd": 35497,
+   "hip": null,
+   "hr": "1791",
+   "id": 1791,
+   "mag": 1.65,
+   "name": "Elnath",
+   "u": [
+    0.1286598,
+    0.8684416,
+    0.4788068
+   ],
+   "velPcPerYear": [
+    -4.576913e-07,
+    2.290335e-05,
+    -2.21946e-05
+   ]
+  },
+  {
+   "bayer": "Gam-2",
+   "ci": -0.22,
+   "components": [
+    3206,
+    3207
+   ],
+   "con": "Vel",
+   "distPc": 58.8235,
+   "hd": 68273,
+   "hip": null,
+   "hr": "3207",
+   "id": 3207,
+   "mag": 1.676,
+   "name": null,
+   "u": [
+    -0.3629415,
+    0.572295,
+    -0.7353584
+   ],
+   "velPcPerYear": [
+    -1.270261e-05,
+    2.215889e-05,
+    -2.516214e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.0,
+   "components": [
+    3685
+   ],
+   "con": "Car",
+   "distPc": 47.619,
+   "hd": 80007,
+   "hip": null,
+   "hr": "3685",
+   "id": 3685,
+   "mag": 1.68,
+   "name": "Miaplacidus",
+   "u": [
+    -0.2588249,
+    0.2306046,
+    -0.9379932
+   ],
+   "velPcPerYear": [
+    8.741266e-06,
+    4.23029e-05,
+    1.34397e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.19,
+   "components": [
+    1903
+   ],
+   "con": "Ori",
+   "distPc": null,
+   "hd": 37128,
+   "hip": null,
+   "hr": "1903",
+   "id": 1903,
+   "mag": 1.7,
+   "name": "Alnilam",
+   "u": [
+    0.1035799,
+    0.9943999,
+    -0.0209763
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.13,
+   "components": [
+    8425
+   ],
+   "con": "Gru",
+   "distPc": 17.5439,
+   "hd": 209952,
+   "hip": null,
+   "hr": "8425",
+   "id": 8425,
+   "mag": 1.74,
+   "name": "Alnair",
+   "u": [
+    0.6029329,
+    -0.3197981,
+    -0.7308906
+   ],
+   "velPcPerYear": [
+    4.247984e-06,
+    1.016681e-05,
+    -1.773538e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.02,
+   "components": [
+    4905
+   ],
+   "con": "UMa",
+   "distPc": 111.1111,
+   "hd": 112185,
+   "hip": null,
+   "hr": "4905",
+   "id": 4905,
+   "mag": 1.77,
+   "name": "Alioth",
+   "u": [
+    -0.5442928,
+    -0.1307443,
+    0.8286443
+   ],
+   "velPcPerYear": [
+    1.649728e-05,
+    -5.808576e-05,
+    -9.436427e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.48,
+   "components": [
+    1017
+   ],
+   "con": "Per",
+   "distPc": 62.5,
+   "hd": 20902,
+   "hip": null,
+   "hr": "1017",
+   "id": 1017,
+   "mag": 1.79,
+   "name": "Mirfak",
+   "u": [
+    0.4049796,
+    0.5015533,
+    0.764484
+   ],
+   "velPcPerYear": [
+    -2.848248e-06,
+    8.04837e-06,
+    -6.447e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.07,
+   "components": [
+    4301
+   ],
+   "con": "UMa",
+   "distPc": 26.3158,
+   "hd": 95689,
+   "hip": null,
+   "hr": "4301",
+   "id": 4301,
+   "mag": 1.79,
+   "name": "Dubhe",
+   "u": [
+    -0.4591116,
+    0.1150476,
+    0.8808976
+   ],
+   "velPcPerYear": [
+    6.121427e-07,
+    1.549835e-05,
+    -1.215398e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.68,
+   "components": [
+    2693
+   ],
+   "con": "CMa",
+   "distPc": null,
+   "hd": 54605,
+   "hip": null,
+   "hr": "2693",
+   "id": 2693,
+   "mag": 1.84,
+   "name": "Wezen",
+   "u": [
+    -0.2633595,
+    0.8561741,
+    -0.444531
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.03,
+   "components": [
+    6879
+   ],
+   "con": "Sgr",
+   "distPc": 43.4783,
+   "hd": 169022,
+   "hip": null,
+   "hr": "6879",
+   "id": 6879,
+   "mag": 1.85,
+   "name": "Kaus Australis",
+   "u": [
+    0.0868783,
+    -0.8206784,
+    -0.564747
+   ],
+   "velPcPerYear": [
+    -1.085219e-05,
+    2.642574e-05,
+    -1.290697e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.28,
+   "components": [
+    3307
+   ],
+   "con": "Car",
+   "distPc": null,
+   "hd": 71129,
+   "hip": null,
+   "hr": "3307",
+   "id": 3307,
+   "mag": 1.86,
+   "name": "Avior",
+   "u": [
+    -0.2955686,
+    0.4124148,
+    -0.8617153
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.19,
+   "components": [
+    5191
+   ],
+   "con": "UMa",
+   "distPc": 28.5714,
+   "hd": 120315,
+   "hip": null,
+   "hr": "5191",
+   "id": 5191,
+   "mag": 1.86,
+   "name": "Alkaid",
+   "u": [
+    -0.5814596,
+    -0.2947999,
+    0.7582861
+   ],
+   "velPcPerYear": [
+    -2.131044e-06,
+    1.786666e-05,
+    -9.523926e-06
+   ]
+  },
+  {
+   "bayer": "The",
+   "ci": 0.4,
+   "components": [
+    6553
+   ],
+   "con": "Sco",
+   "distPc": 37.037,
+   "hd": 159532,
+   "hip": null,
+   "hr": "6553",
+   "id": 6553,
+   "mag": 1.87,
+   "name": "Sargas",
+   "u": [
+    -0.0722594,
+    -0.7278018,
+    -0.68197
+   ],
+   "velPcPerYear": [
+    2.630528e-06,
+    -7.667255e-07,
+    -9.601132e-07
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.03,
+   "components": [
+    2088
+   ],
+   "con": "Aur",
+   "distPc": 24.3902,
+   "hd": 40183,
+   "hip": null,
+   "hr": "2088",
+   "id": 2088,
+   "mag": 1.9,
+   "name": "Menkalinan",
+   "u": [
+    0.0014566,
+    0.7077529,
+    0.7064586
+   ],
+   "velPcPerYear": [
+    6.713264e-06,
+    -1.304277e-05,
+    -1.300507e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.21,
+   "components": [
+    1948,
+    1949
+   ],
+   "con": "Ori",
+   "distPc": 41.6667,
+   "hd": 37742,
+   "hip": null,
+   "hr": "1948",
+   "id": 1948,
+   "mag": 1.911,
+   "name": "Alnitak",
+   "u": [
+    0.0838099,
+    0.9959049,
+    -0.0339014
+   ],
+   "velPcPerYear": [
+    9.378269e-07,
+    1.83706e-05,
+    -1.027863e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.44,
+   "components": [
+    6217
+   ],
+   "con": "TrA",
+   "distPc": 32.2581,
+   "hd": 150798,
+   "hip": null,
+   "hr": "6217",
+   "id": 6217,
+   "mag": 1.92,
+   "name": "Atria",
+   "u": [
+    -0.1096137,
+    -0.3407172,
+    -0.9337541
+   ],
+   "velPcPerYear": [
+    3.941165e-06,
+    5.10131e-06,
+    9.617378e-07
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.0,
+   "components": [
+    2421
+   ],
+   "con": "Gem",
+   "distPc": 30.303,
+   "hd": 47105,
+   "hip": null,
+   "hr": "2421",
+   "id": 2421,
+   "mag": 1.93,
+   "name": "Alhena",
+   "u": [
+    -0.1571427,
+    0.9463601,
+    0.2823275
+   ],
+   "velPcPerYear": [
+    -4.283118e-06,
+    -1.187432e-05,
+    -9.672951e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.2,
+   "components": [
+    7790
+   ],
+   "con": "Pav",
+   "distPc": null,
+   "hd": 193924,
+   "hip": null,
+   "hr": "7790",
+   "id": 7790,
+   "mag": 1.94,
+   "name": "Peacock",
+   "u": [
+    0.3255906,
+    -0.4414254,
+    -0.8361426
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.04,
+   "components": [
+    3485
+   ],
+   "con": "Vel",
+   "distPc": 19.6078,
+   "hd": 74956,
+   "hip": null,
+   "hr": "3485",
+   "id": 3485,
+   "mag": 1.96,
+   "name": "Alsephina",
+   "u": [
+    -0.3803671,
+    0.4348598,
+    -0.8162216
+   ],
+   "velPcPerYear": [
+    1.560835e-06,
+    -5.105386e-06,
+    -5.953337e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.23,
+   "components": [
+    2294
+   ],
+   "con": "CMa",
+   "distPc": 52.6316,
+   "hd": 44743,
+   "hip": null,
+   "hr": "2294",
+   "id": 2294,
+   "mag": 1.98,
+   "name": "Mirzam",
+   "u": [
+    -0.0940693,
+    0.946632,
+    -0.3082838
+   ],
+   "velPcPerYear": [
+    -1.74751e-06,
+    3.306788e-05,
+    -1.071971e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.44,
+   "components": [
+    3748
+   ],
+   "con": "Hya",
+   "distPc": 45.4545,
+   "hd": 81797,
+   "hip": null,
+   "hr": "3748",
+   "id": 3748,
+   "mag": 1.98,
+   "name": "Alphard",
+   "u": [
+    -0.7779308,
+    0.6100487,
+    -0.1505467
+   ],
+   "velPcPerYear": [
+    4.224701e-06,
+    6.07692e-07,
+    7.805187e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.15,
+   "components": [
+    617
+   ],
+   "con": "Ari",
+   "distPc": 20.4082,
+   "hd": 12929,
+   "hip": null,
+   "hr": "617",
+   "id": 617,
+   "mag": 2.0,
+   "name": "Hamal",
+   "u": [
+    0.7796805,
+    0.4832968,
+    0.3981488
+   ],
+   "velPcPerYear": [
+    -1.611234e-05,
+    1.213007e-05,
+    -1.913333e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.6,
+   "components": [
+    424
+   ],
+   "con": "UMi",
+   "distPc": 142.8571,
+   "hd": 8890,
+   "hip": null,
+   "hr": "424",
+   "id": 424,
+   "mag": 2.02,
+   "name": "Polaris",
+   "u": [
+    0.0101264,
+    0.0078982,
+    0.9999175
+   ],
+   "velPcPerYear": [
+    -8.171156e-06,
+    2.700398e-05,
+    -1.751809e-05
+   ]
+  },
+  {
+   "bayer": "Sig",
+   "ci": -0.22,
+   "components": [
+    7121
+   ],
+   "con": "Sgr",
+   "distPc": null,
+   "hd": 175191,
+   "hip": null,
+   "hr": "7121",
+   "id": 7121,
+   "mag": 2.02,
+   "name": "Nunki",
+   "u": [
+    0.2140951,
+    -0.870573,
+    -0.443019
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.02,
+   "components": [
+    188
+   ],
+   "con": "Cet",
+   "distPc": 16.3934,
+   "hd": 4128,
+   "hip": null,
+   "hr": "188",
+   "id": 188,
+   "mag": 2.04,
+   "name": "Diphda",
+   "u": [
+    0.9339767,
+    0.1798133,
+    -0.3087957
+   ],
+   "velPcPerYear": [
+    9.696797e-06,
+    2.080617e-05,
+    -1.610934e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.11,
+   "components": [
+    15
+   ],
+   "con": "And",
+   "distPc": 31.25,
+   "hd": 358,
+   "hip": null,
+   "hr": "15",
+   "id": 15,
+   "mag": 2.06,
+   "name": "Alpheratz",
+   "u": [
+    0.8732671,
+    0.0319767,
+    0.4861913
+   ],
+   "velPcPerYear": [
+    5.273586e-07,
+    2.06377e-05,
+    -2.754676e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.58,
+   "components": [
+    337
+   ],
+   "con": "And",
+   "distPc": 20.4082,
+   "hd": 6860,
+   "hip": null,
+   "hr": "337",
+   "id": 337,
+   "mag": 2.06,
+   "name": "Mirach",
+   "u": [
+    0.7755544,
+    0.2435334,
+    0.5824146
+   ],
+   "velPcPerYear": [
+    3.370782e-06,
+    1.951794e-05,
+    -7.381955e-06
+   ]
+  },
+  {
+   "bayer": "Kap",
+   "ci": -0.17,
+   "components": [
+    2004
+   ],
+   "con": "Ori",
+   "distPc": 66.6667,
+   "hd": 38771,
+   "hip": null,
+   "hr": "2004",
+   "id": 2004,
+   "mag": 2.06,
+   "name": "Saiph",
+   "u": [
+    0.0526376,
+    0.984386,
+    -0.1679685
+   ],
+   "velPcPerYear": [
+    4.792012e-07,
+    2.106771e-05,
+    -4.244685e-06
+   ]
+  },
+  {
+   "bayer": "The",
+   "ci": 1.01,
+   "components": [
+    5288
+   ],
+   "con": "Cen",
+   "distPc": 15.3846,
+   "hd": 123139,
+   "hip": null,
+   "hr": "5288",
+   "id": 5288,
+   "mag": 2.06,
+   "name": "Menkent",
+   "u": [
+    -0.6852921,
+    -0.4227633,
+    -0.5929974
+   ],
+   "velPcPerYear": [
+    -1.488661e-06,
+    4.456569e-05,
+    -3.177634e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.02,
+   "components": [
+    5054,
+    5055
+   ],
+   "con": "UMa",
+   "distPc": 21.2766,
+   "hd": 116656,
+   "hip": null,
+   "hr": "5054",
+   "id": 5054,
+   "mag": 2.061,
+   "name": "Mizar",
+   "u": [
+    -0.5365501,
+    -0.2057679,
+    0.818397
+   ],
+   "velPcPerYear": [
+    6.221974e-06,
+    -1.10921e-05,
+    -6.207458e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.47,
+   "components": [
+    5563
+   ],
+   "con": "UMi",
+   "distPc": 25.641,
+   "hd": 131873,
+   "hip": null,
+   "hr": "5563",
+   "id": 5563,
+   "mag": 2.08,
+   "name": "Kochab",
+   "u": [
+    -0.2007279,
+    -0.1850724,
+    0.9620065
+   ],
+   "velPcPerYear": [
+    -5.047043e-06,
+    5.882572e-07,
+    1.713283e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.15,
+   "components": [
+    6556
+   ],
+   "con": "Oph",
+   "distPc": 14.9254,
+   "hd": 159561,
+   "hip": null,
+   "hr": "6556",
+   "id": 6556,
+   "mag": 2.08,
+   "name": "Rasalhague",
+   "u": [
+    -0.1065367,
+    -0.9702372,
+    0.2174619
+   ],
+   "velPcPerYear": [
+    6.826758e-06,
+    -1.738232e-05,
+    -1.307085e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.6,
+   "components": [
+    8636
+   ],
+   "con": "Gru",
+   "distPc": 125.0,
+   "hd": 214952,
+   "hip": null,
+   "hr": "8636",
+   "id": 8636,
+   "mag": 2.1,
+   "name": "Tiaki",
+   "u": [
+    0.6449283,
+    -0.2262667,
+    -0.7299801
+   ],
+   "velPcPerYear": [
+    2.546543e-05,
+    7.905149e-05,
+    -4.806667e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.05,
+   "components": [
+    936
+   ],
+   "con": "Per",
+   "distPc": 22.2222,
+   "hd": 19356,
+   "hip": null,
+   "hr": "936",
+   "id": 936,
+   "mag": 2.12,
+   "name": "Algol",
+   "u": [
+    0.5146518,
+    0.5527098,
+    0.6554734
+   ],
+   "velPcPerYear": [
+    1.838097e-06,
+    2.606407e-06,
+    2.600078e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.09,
+   "components": [
+    4534
+   ],
+   "con": "Leo",
+   "distPc": 12.1951,
+   "hd": 102647,
+   "hip": null,
+   "hr": "4534",
+   "id": 4534,
+   "mag": 2.14,
+   "name": "Denebola",
+   "u": [
+    -0.96673,
+    0.0461817,
+    0.2515955
+   ],
+   "velPcPerYear": [
+    -2.917188e-07,
+    2.943188e-05,
+    -6.523281e-06
+   ]
+  },
+  {
+   "bayer": "Gam-1",
+   "ci": 1.37,
+   "components": [
+    603,
+    604
+   ],
+   "con": "And",
+   "distPc": 76.9231,
+   "hd": 12533,
+   "hip": null,
+   "hr": "603",
+   "id": 603,
+   "mag": 2.164,
+   "name": "Almach",
+   "u": [
+    0.6338517,
+    0.3804839,
+    0.6733973
+   ],
+   "velPcPerYear": [
+    -5.219538e-06,
+    1.644021e-05,
+    -2.260084e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.01,
+   "components": [
+    4819
+   ],
+   "con": "Cen",
+   "distPc": 62.5,
+   "hd": 110304,
+   "hip": null,
+   "hr": "4819",
+   "id": 4819,
+   "mag": 2.17,
+   "name": null,
+   "u": [
+    -0.6458457,
+    -0.1182921,
+    -0.7542482
+   ],
+   "velPcPerYear": [
+    -5.230494e-06,
+    5.726328e-05,
+    3.633512e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.68,
+   "components": [
+    7796
+   ],
+   "con": "Cyg",
+   "distPc": 333.3333,
+   "hd": 194093,
+   "hip": null,
+   "hr": "7796",
+   "id": 7796,
+   "mag": 2.2,
+   "name": "Sadr",
+   "u": [
+    0.4437865,
+    -0.6208564,
+    0.6462128
+   ],
+   "velPcPerYear": [
+    1.627922e-06,
+    8.83867e-06,
+    -5.287117e-06
+   ]
+  },
+  {
+   "bayer": "Lam",
+   "ci": 1.66,
+   "components": [
+    3634
+   ],
+   "con": "Vel",
+   "distPc": 45.4545,
+   "hd": 78647,
+   "hip": null,
+   "hr": "3634",
+   "id": 3634,
+   "mag": 2.21,
+   "name": "Suhail",
+   "u": [
+    -0.5310908,
+    0.4952646,
+    -0.6874995
+   ],
+   "velPcPerYear": [
+    -8.361584e-06,
+    1.352265e-05,
+    -1.057567e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.17,
+   "components": [
+    168
+   ],
+   "con": "Cas",
+   "distPc": 62.5,
+   "hd": 3712,
+   "hip": null,
+   "hr": "168",
+   "id": 168,
+   "mag": 2.23,
+   "name": "Schedar",
+   "u": [
+    0.5428045,
+    0.096953,
+    0.8342442
+   ],
+   "velPcPerYear": [
+    2.918736e-06,
+    1.683495e-05,
+    -8.759245e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.22,
+   "components": [
+    1852
+   ],
+   "con": "Ori",
+   "distPc": 71.4286,
+   "hd": 36486,
+   "hip": null,
+   "hr": "1852",
+   "id": 1852,
+   "mag": 2.23,
+   "name": "Mintaka",
+   "u": [
+    0.1218388,
+    0.9925362,
+    -0.0052214
+   ],
+   "velPcPerYear": [
+    1.64954e-06,
+    1.627986e-05,
+    -7.780217e-07
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.02,
+   "components": [
+    5793
+   ],
+   "con": "CrB",
+   "distPc": 22.2222,
+   "hd": 139006,
+   "hip": null,
+   "hr": "5793",
+   "id": 5793,
+   "mag": 2.23,
+   "name": "Alphecca",
+   "u": [
+    -0.52917,
+    -0.7196425,
+    0.4495485
+   ],
+   "velPcPerYear": [
+    6.866451e-06,
+    -1.266736e-05,
+    -7.6455e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.52,
+   "components": [
+    6705
+   ],
+   "con": "Dra",
+   "distPc": 40.0,
+   "hd": 164058,
+   "hip": null,
+   "hr": "6705",
+   "id": 6705,
+   "mag": 2.23,
+   "name": "Eltanin",
+   "u": [
+    -0.009219,
+    -0.6225981,
+    0.7824874
+   ],
+   "velPcPerYear": [
+    -1.329926e-06,
+    1.496883e-05,
+    -2.470153e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.26,
+   "components": [
+    3165
+   ],
+   "con": "Pup",
+   "distPc": null,
+   "hd": 66811,
+   "hip": null,
+   "hr": "3165",
+   "id": 3165,
+   "mag": 2.25,
+   "name": "Naos",
+   "u": [
+    -0.3933332,
+    0.6573095,
+    -0.6428322
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Iot",
+   "ci": 0.18,
+   "components": [
+    3699
+   ],
+   "con": "Car",
+   "distPc": 58.8235,
+   "hd": 80404,
+   "hip": null,
+   "hr": "3699",
+   "id": 3699,
+   "mag": 2.25,
+   "name": "Aspidiske",
+   "u": [
+    -0.3871814,
+    0.333352,
+    -0.8596319
+   ],
+   "velPcPerYear": [
+    -2.912496e-06,
+    1.003401e-05,
+    -1.026339e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.34,
+   "components": [
+    21
+   ],
+   "con": "Cas",
+   "distPc": 13.8889,
+   "hd": 432,
+   "hip": null,
+   "hr": "21",
+   "id": 21,
+   "mag": 2.27,
+   "name": "Caph",
+   "u": [
+    0.5123852,
+    0.020531,
+    0.8585102
+   ],
+   "velPcPerYear": [
+    1.532777e-05,
+    3.599354e-05,
+    4.286309e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.15,
+   "components": [
+    6241
+   ],
+   "con": "Sco",
+   "distPc": 45.4545,
+   "hd": 151680,
+   "hip": null,
+   "hr": "6241",
+   "id": 6241,
+   "mag": 2.29,
+   "name": "Larawag",
+   "u": [
+    -0.2478707,
+    -0.7881033,
+    -0.5634299
+   ],
+   "velPcPerYear": [
+    -0.0001181832,
+    7.301825e-05,
+    -4.469703e-05
+   ]
+  },
+  {
+   "bayer": "Gam-1",
+   "ci": 1.15,
+   "components": [
+    4057,
+    4058
+   ],
+   "con": "Leo",
+   "distPc": 45.4545,
+   "hd": 89484,
+   "hip": null,
+   "hr": "4057",
+   "id": 4057,
+   "mag": 2.297,
+   "name": "Algieba",
+   "u": [
+    -0.8524586,
+    0.3976306,
+    0.3394175
+   ],
+   "velPcPerYear": [
+    -6.213462e-06,
+    -7.151025e-05,
+    -4.33151e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.22,
+   "components": [
+    5132
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 118716,
+   "hip": null,
+   "hr": "5132",
+   "id": 5132,
+   "mag": 2.3,
+   "name": null,
+   "u": [
+    -0.5396442,
+    -0.2513154,
+    -0.8035078
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.2,
+   "components": [
+    5469
+   ],
+   "con": "Lup",
+   "distPc": null,
+   "hd": 129056,
+   "hip": null,
+   "hr": "5469",
+   "id": 5469,
+   "mag": 2.3,
+   "name": null,
+   "u": [
+    -0.5149488,
+    -0.4395358,
+    -0.7359592
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.19,
+   "components": [
+    5440
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 127972,
+   "hip": null,
+   "hr": "5440",
+   "id": 5440,
+   "mag": 2.31,
+   "name": null,
+   "u": [
+    -0.5771007,
+    -0.4652737,
+    -0.6711745
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.12,
+   "components": [
+    5953
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 143275,
+   "hip": null,
+   "hr": "5953",
+   "id": 5953,
+   "mag": 2.32,
+   "name": "Dschubba",
+   "u": [
+    -0.4603692,
+    -0.800068,
+    -0.3846444
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.02,
+   "components": [
+    4295
+   ],
+   "con": "UMa",
+   "distPc": 18.8679,
+   "hd": 95418,
+   "hip": null,
+   "hr": "4295",
+   "id": 4295,
+   "mag": 2.37,
+   "name": "Merak",
+   "u": [
+    -0.5359151,
+    0.1389921,
+    0.8327522
+   ],
+   "velPcPerYear": [
+    7.200972e-06,
+    -9.616665e-06,
+    -8.498081e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.09,
+   "components": [
+    99
+   ],
+   "con": "Phe",
+   "distPc": 28.5714,
+   "hd": 2261,
+   "hip": null,
+   "hr": "99",
+   "id": 99,
+   "mag": 2.39,
+   "name": "Ankaa",
+   "u": [
+    0.7347013,
+    0.0846288,
+    -0.6730914
+   ],
+   "velPcPerYear": [
+    1.645768e-05,
+    3.020086e-05,
+    -9.219561e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.53,
+   "components": [
+    8308
+   ],
+   "con": "Peg",
+   "distPc": 166.6667,
+   "hd": 206778,
+   "hip": null,
+   "hr": "8308",
+   "id": 8308,
+   "mag": 2.39,
+   "name": "Enif",
+   "u": [
+    0.8172032,
+    -0.5502426,
+    0.1714992
+   ],
+   "velPcPerYear": [
+    1.828391e-05,
+    1.788662e-05,
+    8.09205e-08
+   ]
+  },
+  {
+   "bayer": "Kap",
+   "ci": -0.22,
+   "components": [
+    6580
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 160578,
+   "hip": null,
+   "hr": "6580",
+   "id": 6580,
+   "mag": 2.41,
+   "name": null,
+   "u": [
+    -0.0592981,
+    -0.7745498,
+    -0.6297272
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.67,
+   "components": [
+    8775
+   ],
+   "con": "Peg",
+   "distPc": 45.4545,
+   "hd": 217906,
+   "hip": null,
+   "hr": "8775",
+   "id": 8775,
+   "mag": 2.42,
+   "name": "Scheat",
+   "u": [
+    0.8558513,
+    -0.2142804,
+    0.4707467
+   ],
+   "velPcPerYear": [
+    4.206685e-06,
+    4.188226e-05,
+    3.096922e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.06,
+   "components": [
+    6378
+   ],
+   "con": "Oph",
+   "distPc": 19.2308,
+   "hd": 155125,
+   "hip": null,
+   "hr": "6378",
+   "id": 6378,
+   "mag": 2.43,
+   "name": "Sabik",
+   "u": [
+    -0.2067877,
+    -0.9401007,
+    -0.2710158
+   ],
+   "velPcPerYear": [
+    3.230727e-06,
+    -2.238105e-06,
+    9.072096e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.0,
+   "components": [
+    4554
+   ],
+   "con": "UMa",
+   "distPc": 35.7143,
+   "hd": 103287,
+   "hip": null,
+   "hr": "4554",
+   "id": 4554,
+   "mag": 2.44,
+   "name": "Phecda",
+   "u": [
+    -0.5918729,
+    0.0159381,
+    0.8058737
+   ],
+   "velPcPerYear": [
+    9.100136e-06,
+    -1.670005e-05,
+    -9.484076e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.22,
+   "components": [
+    8162
+   ],
+   "con": "Cep",
+   "distPc": 14.7059,
+   "hd": 203280,
+   "hip": null,
+   "hr": "8162",
+   "id": 8162,
+   "mag": 2.44,
+   "name": "Alderamin",
+   "u": [
+    0.3508645,
+    -0.2981342,
+    0.8876993
+   ],
+   "velPcPerYear": [
+    1.019449e-06,
+    1.326112e-05,
+    -7.470115e-06
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.08,
+   "components": [
+    2827
+   ],
+   "con": "CMa",
+   "distPc": null,
+   "hd": 58350,
+   "hip": null,
+   "hr": "2827",
+   "id": 2827,
+   "mag": 2.45,
+   "name": "Aludra",
+   "u": [
+    -0.3128498,
+    0.8139928,
+    -0.489429
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.03,
+   "components": [
+    7949
+   ],
+   "con": "Cyg",
+   "distPc": 17.5439,
+   "hd": 197989,
+   "hip": null,
+   "hr": "7949",
+   "id": 7949,
+   "mag": 2.46,
+   "name": "Aljanah",
+   "u": [
+    0.5501025,
+    -0.6206218,
+    0.5587628
+   ],
+   "velPcPerYear": [
+    6.131012e-06,
+    3.873216e-05,
+    1.685063e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.15,
+   "components": [
+    264
+   ],
+   "con": "Cas",
+   "distPc": 62.5,
+   "hd": 5394,
+   "hip": null,
+   "hr": "264",
+   "id": 264,
+   "mag": 2.47,
+   "name": null,
+   "u": [
+    0.4742316,
+    0.1197972,
+    0.8722116
+   ],
+   "velPcPerYear": [
+    -4.043356e-06,
+    7.104298e-06,
+    -6.985201e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.04,
+   "components": [
+    8781
+   ],
+   "con": "Peg",
+   "distPc": 26.3158,
+   "hd": 218045,
+   "hip": null,
+   "hr": "8781",
+   "id": 8781,
+   "mag": 2.49,
+   "name": "Markab",
+   "u": [
+    0.9370986,
+    -0.2303397,
+    0.2622781
+   ],
+   "velPcPerYear": [
+    -5.501784e-07,
+    8.412185e-06,
+    -6.243819e-06
+   ]
+  },
+  {
+   "bayer": "Bet-1",
+   "ci": -0.07,
+   "components": [
+    5984,
+    5985
+   ],
+   "con": "Sco",
+   "distPc": 111.1111,
+   "hd": 144217,
+   "hip": null,
+   "hr": "5984",
+   "id": 5984,
+   "mag": 2.497,
+   "name": "Acrab",
+   "u": [
+    -0.450964,
+    -0.8257303,
+    -0.3388228
+   ],
+   "velPcPerYear": [
+    -7.131849e-07,
+    5.437253e-06,
+    -9.283012e-06
+   ]
+  },
+  {
+   "bayer": "Kap",
+   "ci": -0.18,
+   "components": [
+    3734
+   ],
+   "con": "Vel",
+   "distPc": 76.9231,
+   "hd": 81188,
+   "hip": null,
+   "hr": "3734",
+   "id": 3734,
+   "mag": 2.5,
+   "name": "Markeb",
+   "u": [
+    -0.4426465,
+    0.3645221,
+    -0.8192605
+   ],
+   "velPcPerYear": [
+    -1.018547e-05,
+    1.22527e-05,
+    -1.650846e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.64,
+   "components": [
+    911
+   ],
+   "con": "Cet",
+   "distPc": 111.1111,
+   "hd": 18884,
+   "hip": null,
+   "hr": "911",
+   "id": 911,
+   "mag": 2.53,
+   "name": "Menkar",
+   "u": [
+    0.6982548,
+    0.7122878,
+    0.0713185
+   ],
+   "velPcPerYear": [
+    -1.300714e-05,
+    -2.019408e-05,
+    -4.380659e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.22,
+   "components": [
+    5231
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 121263,
+   "hip": null,
+   "hr": "5231",
+   "id": 5231,
+   "mag": 2.55,
+   "name": null,
+   "u": [
+    -0.5939215,
+    -0.3276595,
+    -0.7347765
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.12,
+   "components": [
+    4357
+   ],
+   "con": "Leo",
+   "distPc": 20.8333,
+   "hd": 97603,
+   "hip": null,
+   "hr": "4357",
+   "id": 4357,
+   "mag": 2.56,
+   "name": "Zosma",
+   "u": [
+    -0.9178149,
+    0.1862798,
+    0.3505933
+   ],
+   "velPcPerYear": [
+    1.1409e-05,
+    -1.69504e-05,
+    -1.946808e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.02,
+   "components": [
+    6175
+   ],
+   "con": "Oph",
+   "distPc": 333.3333,
+   "hd": 149757,
+   "hip": null,
+   "hr": "6175",
+   "id": 6175,
+   "mag": 2.56,
+   "name": null,
+   "u": [
+    -0.3476472,
+    -0.9195161,
+    -0.183389
+   ],
+   "velPcPerYear": [
+    2.377077e-05,
+    -1.102643e-06,
+    4.41179e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.21,
+   "components": [
+    1865
+   ],
+   "con": "Lep",
+   "distPc": 142.8571,
+   "hd": 36673,
+   "hip": null,
+   "hr": "1865",
+   "id": 1865,
+   "mag": 2.58,
+   "name": "Arneb",
+   "u": [
+    0.1130106,
+    0.9452794,
+    -0.3060646
+   ],
+   "velPcPerYear": [
+    2.136488e-06,
+    2.370514e-05,
+    -6.193675e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.97,
+   "components": [
+    5505,
+    5506
+   ],
+   "con": "Boo",
+   "distPc": 62.5,
+   "hd": 129989,
+   "hip": null,
+   "hr": "5506",
+   "id": 5506,
+   "mag": 2.589,
+   "name": "Izar",
+   "u": [
+    -0.6694855,
+    -0.5870541,
+    0.4551447
+   ],
+   "velPcPerYear": [
+    4.028379e-06,
+    2.327949e-05,
+    -2.247283e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.11,
+   "components": [
+    4662
+   ],
+   "con": "Crv",
+   "distPc": null,
+   "hd": 106625,
+   "hip": null,
+   "hr": "4662",
+   "id": 4662,
+   "mag": 2.59,
+   "name": "Gienah",
+   "u": [
+    -0.9512297,
+    -0.0657101,
+    -0.3014039
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.12,
+   "components": [
+    4621
+   ],
+   "con": "Cen",
+   "distPc": 38.4615,
+   "hd": 105435,
+   "hip": null,
+   "hr": "4621",
+   "id": 4621,
+   "mag": 2.6,
+   "name": null,
+   "u": [
+    -0.632656,
+    -0.0230833,
+    -0.7740889
+   ],
+   "velPcPerYear": [
+    -6.194472e-06,
+    6.118077e-06,
+    -9.652754e-06
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.08,
+   "components": [
+    7194
+   ],
+   "con": "Sgr",
+   "distPc": 40.0,
+   "hd": 176687,
+   "hip": null,
+   "hr": "7194",
+   "id": 7194,
+   "mag": 2.6,
+   "name": "Ascella",
+   "u": [
+    0.233943,
+    -0.834912,
+    -0.4981893
+   ],
+   "velPcPerYear": [
+    2.410505e-06,
+    -1.938403e-05,
+    -1.154539e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.11,
+   "components": [
+    5685
+   ],
+   "con": "Lib",
+   "distPc": null,
+   "hd": 135742,
+   "hip": null,
+   "hr": "5685",
+   "id": 5685,
+   "mag": 2.61,
+   "name": "Zubeneschamali",
+   "u": [
+    -0.6440044,
+    -0.7474478,
+    -0.1630342
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "The",
+   "ci": -0.08,
+   "components": [
+    2095
+   ],
+   "con": "Aur",
+   "distPc": 45.4545,
+   "hd": 40312,
+   "hip": null,
+   "hr": "2095",
+   "id": 2095,
+   "mag": 2.62,
+   "name": "Mahasim",
+   "u": [
+    0.0009672,
+    0.7963974,
+    0.6047729
+   ],
+   "velPcPerYear": [
+    -1.053496e-05,
+    3.524257e-05,
+    4.339586e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.13,
+   "components": [
+    553
+   ],
+   "con": "Ari",
+   "distPc": 13.5135,
+   "hd": 11636,
+   "hip": null,
+   "hr": "553",
+   "id": 553,
+   "mag": 2.64,
+   "name": "Sheratan",
+   "u": [
+    0.8202481,
+    0.4483287,
+    0.3552384
+   ],
+   "velPcPerYear": [
+    -2.427401e-06,
+    5.840884e-06,
+    -7.524494e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.12,
+   "components": [
+    1956
+   ],
+   "con": "Col",
+   "distPc": 1000.0,
+   "hd": 37795,
+   "hip": null,
+   "hr": "1956",
+   "id": 1956,
+   "mag": 2.64,
+   "name": "Phact",
+   "u": [
+    0.0734583,
+    0.8250493,
+    -0.5602656
+   ],
+   "velPcPerYear": [
+    -3.743689e-05,
+    -3.780183e-05,
+    -0.0001244648
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.89,
+   "components": [
+    4786
+   ],
+   "con": "Crv",
+   "distPc": 29.4118,
+   "hd": 109379,
+   "hip": null,
+   "hr": "4786",
+   "id": 4786,
+   "mag": 2.65,
+   "name": "Kraz",
+   "u": [
+    -0.9074666,
+    -0.1371874,
+    -0.3970945
+   ],
+   "velPcPerYear": [
+    1.049051e-05,
+    1.297492e-06,
+    -3.817965e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.17,
+   "components": [
+    5854
+   ],
+   "con": "Ser",
+   "distPc": 18.8679,
+   "hd": 140573,
+   "hip": null,
+   "hr": "5854",
+   "id": 5854,
+   "mag": 2.65,
+   "name": "Unukalhai",
+   "u": [
+    -0.5547152,
+    -0.8244797,
+    0.1119122
+   ],
+   "velPcPerYear": [
+    8.96432e-06,
+    -9.126039e-06,
+    4.615645e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.13,
+   "components": [
+    403
+   ],
+   "con": "Cas",
+   "distPc": 27.027,
+   "hd": 8538,
+   "hip": null,
+   "hr": "403",
+   "id": 403,
+   "mag": 2.68,
+   "name": "Ruchbah",
+   "u": [
+    0.4620415,
+    0.1815762,
+    0.8680713
+   ],
+   "velPcPerYear": [
+    -5.527091e-06,
+    3.964128e-05,
+    2.897019e-06
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.58,
+   "components": [
+    5235
+   ],
+   "con": "Boo",
+   "distPc": 9.2593,
+   "hd": 121370,
+   "hip": null,
+   "hr": "5235",
+   "id": 5235,
+   "mag": 2.68,
+   "name": "Muphrid",
+   "u": [
+    -0.8325422,
+    -0.4552607,
+    0.3156122
+   ],
+   "velPcPerYear": [
+    -5.807062e-06,
+    4.781074e-08,
+    -1.524928e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.22,
+   "components": [
+    5571
+   ],
+   "con": "Lup",
+   "distPc": null,
+   "hd": 132058,
+   "hip": null,
+   "hr": "5571",
+   "id": 5571,
+   "mag": 2.68,
+   "name": null,
+   "u": [
+    -0.5193122,
+    -0.5127002,
+    -0.6837055
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Iot",
+   "ci": 1.53,
+   "components": [
+    1577
+   ],
+   "con": "Aur",
+   "distPc": 47.619,
+   "hd": 31398,
+   "hip": null,
+   "hr": "1577",
+   "id": 1577,
+   "mag": 2.69,
+   "name": "Hassaleh",
+   "u": [
+    0.227243,
+    0.8056532,
+    0.5470682
+   ],
+   "velPcPerYear": [
+    4.13384e-06,
+    1.720714e-05,
+    6.592322e-06
+   ]
+  },
+  {
+   "bayer": "Mu",
+   "ci": 0.9,
+   "components": [
+    4216
+   ],
+   "con": "Vel",
+   "distPc": 45.4545,
+   "hd": 93497,
+   "hip": null,
+   "hr": "4216",
+   "id": 4216,
+   "mag": 2.69,
+   "name": null,
+   "u": [
+    -0.6175832,
+    0.2043358,
+    -0.7594984
+   ],
+   "velPcPerYear": [
+    -1.284925e-06,
+    -1.675165e-05,
+    -1.154141e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.2,
+   "components": [
+    4798
+   ],
+   "con": "Mus",
+   "distPc": null,
+   "hd": 109668,
+   "hip": null,
+   "hr": "4798",
+   "id": 4798,
+   "mag": 2.69,
+   "name": null,
+   "u": [
+    -0.3514809,
+    -0.057531,
+    -0.9344257
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Ups",
+   "ci": -0.22,
+   "components": [
+    6508
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 158408,
+   "hip": null,
+   "hr": "6508",
+   "id": 6508,
+   "mag": 2.69,
+   "name": "Lesath",
+   "u": [
+    -0.1012084,
+    -0.7890533,
+    -0.6059306
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Pi",
+   "ci": 1.62,
+   "components": [
+    2773
+   ],
+   "con": "Pup",
+   "distPc": 31.25,
+   "hd": 56855,
+   "hip": null,
+   "hr": "2773",
+   "id": 2773,
+   "mag": 2.7,
+   "name": null,
+   "u": [
+    -0.2634355,
+    0.7528505,
+    -0.6031732
+   ],
+   "velPcPerYear": [
+    -3.144408e-06,
+    1.311456e-05,
+    -9.386595e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 1.38,
+   "components": [
+    6859
+   ],
+   "con": "Sgr",
+   "distPc": 21.2766,
+   "hd": 168454,
+   "hip": null,
+   "hr": "6859",
+   "id": 6859,
+   "mag": 2.7,
+   "name": "Kaus Media",
+   "u": [
+    0.0793608,
+    -0.8638844,
+    -0.4973988
+   ],
+   "velPcPerYear": [
+    1.84049e-06,
+    1.943096e-05,
+    7.668294e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.52,
+   "components": [
+    7525
+   ],
+   "con": "Aql",
+   "distPc": 62.5,
+   "hd": 186791,
+   "hip": null,
+   "hr": "7525",
+   "id": 7525,
+   "mag": 2.72,
+   "name": "Tarazed",
+   "u": [
+    0.4395621,
+    -0.8791262,
+    0.1841801
+   ],
+   "velPcPerYear": [
+    4.029171e-06,
+    4.137521e-06,
+    -9.723761e-07
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 1.58,
+   "components": [
+    6056
+   ],
+   "con": "Oph",
+   "distPc": 29.4118,
+   "hd": 146051,
+   "hip": null,
+   "hr": "6056",
+   "id": 6056,
+   "mag": 2.74,
+   "name": "Yed Prior",
+   "u": [
+    -0.4439257,
+    -0.8937438,
+    -0.0644355
+   ],
+   "velPcPerYear": [
+    4.045567e-06,
+    2.224859e-05,
+    -1.903034e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.91,
+   "components": [
+    6132
+   ],
+   "con": "Dra",
+   "distPc": 19.6078,
+   "hd": 148387,
+   "hip": null,
+   "hr": "6132",
+   "id": 6132,
+   "mag": 2.74,
+   "name": "Athebyne",
+   "u": [
+    -0.1940054,
+    -0.4357006,
+    0.8789351
+   ],
+   "velPcPerYear": [
+    3.374651e-06,
+    1.155172e-05,
+    -9.818901e-06
+   ]
+  },
+  {
+   "bayer": "Iot",
+   "ci": 0.04,
+   "components": [
+    5028
+   ],
+   "con": "Cen",
+   "distPc": 16.129,
+   "hd": 115892,
+   "hip": null,
+   "hr": "5028",
+   "id": 5028,
+   "mag": 2.75,
+   "name": null,
+   "u": [
+    -0.7525865,
+    -0.2761401,
+    -0.5977962
+   ],
+   "velPcPerYear": [
+    -5.454922e-06,
+    2.640152e-05,
+    -5.328266e-06
+   ]
+  },
+  {
+   "bayer": "Alp-2",
+   "ci": 0.15,
+   "components": [
+    5531
+   ],
+   "con": "Lib",
+   "distPc": 17.2414,
+   "hd": 130841,
+   "hip": null,
+   "hr": "5531",
+   "id": 5531,
+   "mag": 2.75,
+   "name": "Zubenelgenubi",
+   "u": [
+    -0.7060749,
+    -0.6519942,
+    -0.2763363
+   ],
+   "velPcPerYear": [
+    2.347129e-06,
+    1.422751e-05,
+    -2.556233e-06
+   ]
+  },
+  {
+   "bayer": "The",
+   "ci": -0.22,
+   "components": [
+    4199
+   ],
+   "con": "Car",
+   "distPc": null,
+   "hd": 93030,
+   "hip": null,
+   "hr": "4199",
+   "id": 4199,
+   "mag": 2.76,
+   "name": null,
+   "u": [
+    -0.407983,
+    0.1425606,
+    -0.9017906
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Iot",
+   "ci": -0.24,
+   "components": [
+    1899
+   ],
+   "con": "Ori",
+   "distPc": 40.0,
+   "hd": 37043,
+   "hip": null,
+   "hr": "1899",
+   "id": 1899,
+   "mag": 2.77,
+   "name": "Hatysa",
+   "u": [
+    0.1064185,
+    0.9889758,
+    -0.1029661
+   ],
+   "velPcPerYear": [
+    2.396517e-06,
+    2.227148e-05,
+    -2.123809e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.94,
+   "components": [
+    6148
+   ],
+   "con": "Her",
+   "distPc": 41.6667,
+   "hd": 148856,
+   "hip": null,
+   "hr": "6148",
+   "id": 6148,
+   "mag": 2.77,
+   "name": "Kornephoros",
+   "u": [
+    -0.3552552,
+    -0.8599959,
+    0.3663343
+   ],
+   "velPcPerYear": [
+    -9.274284e-06,
+    2.940005e-05,
+    -1.256046e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.16,
+   "components": [
+    6603
+   ],
+   "con": "Oph",
+   "distPc": 30.303,
+   "hd": 161096,
+   "hip": null,
+   "hr": "6603",
+   "id": 6603,
+   "mag": 2.77,
+   "name": "Cebalrai",
+   "u": [
+    -0.0718199,
+    -0.994234,
+    0.0796287
+   ],
+   "velPcPerYear": [
+    -4.845829e-06,
+    1.448041e-05,
+    2.230778e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.2,
+   "components": [
+    5776
+   ],
+   "con": "Lup",
+   "distPc": 125.0,
+   "hd": 138690,
+   "hip": null,
+   "hr": "5776",
+   "id": 5776,
+   "mag": 2.78,
+   "name": null,
+   "u": [
+    -0.4447595,
+    -0.6073623,
+    -0.6582553
+   ],
+   "velPcPerYear": [
+    -1.644714e-06,
+    1.314005e-05,
+    -1.412019e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.13,
+   "components": [
+    1666
+   ],
+   "con": "Eri",
+   "distPc": 20.0,
+   "hd": 33111,
+   "hip": null,
+   "hr": "1666",
+   "id": 1666,
+   "mag": 2.79,
+   "name": "Cursa",
+   "u": [
+    0.2247004,
+    0.9703863,
+    -0.0886577
+   ],
+   "velPcPerYear": [
+    6.748697e-06,
+    -1.16882e-05,
+    -7.007012e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.98,
+   "components": [
+    6536
+   ],
+   "con": "Dra",
+   "distPc": 76.9231,
+   "hd": 159181,
+   "hip": null,
+   "hr": "6536",
+   "id": 6536,
+   "mag": 2.79,
+   "name": "Rastaban",
+   "u": [
+    -0.0786713,
+    -0.6064262,
+    0.7912384
+   ],
+   "velPcPerYear": [
+    -3.738754e-06,
+    1.756105e-05,
+    -1.27634e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.62,
+   "components": [
+    98
+   ],
+   "con": "Hyi",
+   "distPc": 6.5359,
+   "hd": 2151,
+   "hip": null,
+   "hr": "98",
+   "id": 98,
+   "mag": 2.8,
+   "name": null,
+   "u": [
+    0.2192352,
+    0.0247381,
+    -0.9753584
+   ],
+   "velPcPerYear": [
+    7.237608e-06,
+    7.144917e-05,
+    -2.067766e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.23,
+   "components": [
+    4656
+   ],
+   "con": "Cru",
+   "distPc": 333.3333,
+   "hd": 106490,
+   "hip": null,
+   "hr": "4656",
+   "id": 4656,
+   "mag": 2.8,
+   "name": "Imai",
+   "u": [
+    -0.5176575,
+    -0.034258,
+    -0.8549018
+   ],
+   "velPcPerYear": [
+    -3.61552e-06,
+    6.616353e-05,
+    -2.67805e-05
+   ]
+  },
+  {
+   "bayer": "Rho",
+   "ci": 0.43,
+   "components": [
+    3185
+   ],
+   "con": "Pup",
+   "distPc": 28.5714,
+   "hd": 67523,
+   "hip": null,
+   "hr": "3185",
+   "id": 3185,
+   "mag": 2.81,
+   "name": "Tureis",
+   "u": [
+    -0.4814133,
+    0.7738492,
+    -0.4115806
+   ],
+   "velPcPerYear": [
+    -1.436147e-05,
+    4.485062e-05,
+    -1.317686e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.65,
+   "components": [
+    6212
+   ],
+   "con": "Her",
+   "distPc": 9.8039,
+   "hd": 150680,
+   "hip": null,
+   "hr": "6212",
+   "id": 6212,
+   "mag": 2.81,
+   "name": null,
+   "u": [
+    -0.2868004,
+    -0.801958,
+    0.5240313
+   ],
+   "velPcPerYear": [
+    2.80184e-06,
+    7.417509e-05,
+    -2.156546e-05
+   ]
+  },
+  {
+   "bayer": "Lam",
+   "ci": 1.04,
+   "components": [
+    6913
+   ],
+   "con": "Sgr",
+   "distPc": 18.8679,
+   "hd": 169916,
+   "hip": null,
+   "hr": "6913",
+   "id": 6913,
+   "mag": 2.81,
+   "name": "Kaus Borealis",
+   "u": [
+    0.1099518,
+    -0.8964553,
+    -0.4292767
+   ],
+   "velPcPerYear": [
+    -9.714619e-06,
+    4.61436e-05,
+    3.593976e-06
+   ]
+  },
+  {
+   "bayer": "Alp-2",
+   "ci": -0.12,
+   "components": [
+    4914,
+    4915
+   ],
+   "con": "CVn",
+   "distPc": 37.037,
+   "hd": 112413,
+   "hip": null,
+   "hr": "4915",
+   "id": 4915,
+   "mag": 2.813,
+   "name": "Cor Caroli",
+   "u": [
+    -0.7612535,
+    -0.1898959,
+    0.6200263
+   ],
+   "velPcPerYear": [
+    -1.785035e-06,
+    4.285953e-05,
+    5.986905e-06
+   ]
+  },
+  {
+   "bayer": "Tau",
+   "ci": -0.25,
+   "components": [
+    6165
+   ],
+   "con": "Sco",
+   "distPc": 50.0,
+   "hd": 149438,
+   "hip": null,
+   "hr": "6165",
+   "id": 6165,
+   "mag": 2.82,
+   "name": "Paikauhale",
+   "u": [
+    -0.316202,
+    -0.8224827,
+    -0.4727986
+   ],
+   "velPcPerYear": [
+    -1.552072e-06,
+    1.367042e-06,
+    -5.666313e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.23,
+   "components": [
+    39
+   ],
+   "con": "Peg",
+   "distPc": null,
+   "hd": 886,
+   "hip": null,
+   "hr": "39",
+   "id": 39,
+   "mag": 2.83,
+   "name": "Algenib",
+   "u": [
+    0.9634823,
+    0.0557087,
+    0.2619131
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.94,
+   "components": [
+    4932
+   ],
+   "con": "Vir",
+   "distPc": 23.2558,
+   "hd": 113226,
+   "hip": null,
+   "hr": "4932",
+   "id": 4932,
+   "mag": 2.83,
+   "name": "Vindemiatrix",
+   "u": [
+    -0.9458541,
+    -0.2630939,
+    0.1901094
+   ],
+   "velPcPerYear": [
+    5.707251e-06,
+    3.353608e-05,
+    -5.081565e-07
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.82,
+   "components": [
+    1829
+   ],
+   "con": "Lep",
+   "distPc": 50.0,
+   "hd": 36079,
+   "hip": null,
+   "hr": "1829",
+   "id": 1829,
+   "mag": 2.84,
+   "name": "Nihal",
+   "u": [
+    0.1291476,
+    0.9261153,
+    -0.3544452
+   ],
+   "velPcPerYear": [
+    -1.94494e-06,
+    -2.09676e-05,
+    -1.509861e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.12,
+   "components": [
+    1203
+   ],
+   "con": "Per",
+   "distPc": 100.0,
+   "hd": 24398,
+   "hip": null,
+   "hr": "1203",
+   "id": 1203,
+   "mag": 2.85,
+   "name": null,
+   "u": [
+    0.4432494,
+    0.724251,
+    0.5281955
+   ],
+   "velPcPerYear": [
+    7.92197e-06,
+    1.851665e-05,
+    6.687175e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.29,
+   "components": [
+    5897
+   ],
+   "con": "TrA",
+   "distPc": 12.0482,
+   "hd": 141891,
+   "hip": null,
+   "hr": "5897",
+   "id": 5897,
+   "mag": 2.85,
+   "name": null,
+   "u": [
+    -0.2318016,
+    -0.3825302,
+    -0.8943929
+   ],
+   "velPcPerYear": [
+    1.234192e-06,
+    2.356431e-05,
+    -1.039828e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.46,
+   "components": [
+    6461
+   ],
+   "con": "Ara",
+   "distPc": 29.4118,
+   "hd": 157244,
+   "hip": null,
+   "hr": "6461",
+   "id": 6461,
+   "mag": 2.85,
+   "name": null,
+   "u": [
+    -0.0853657,
+    -0.5594998,
+    -0.8244226
+   ],
+   "velPcPerYear": [
+    -6.844139e-07,
+    3.077342e-06,
+    -2.01759e-06
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.28,
+   "components": [
+    591
+   ],
+   "con": "Hyi",
+   "distPc": 20.8333,
+   "hd": 12311,
+   "hip": null,
+   "hr": "591",
+   "id": 591,
+   "mag": 2.86,
+   "name": null,
+   "u": [
+    0.4135768,
+    0.2358283,
+    -0.8793971
+   ],
+   "velPcPerYear": [
+    -1.070199e-05,
+    2.459269e-05,
+    3.989612e-07
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.39,
+   "components": [
+    8502
+   ],
+   "con": "Tuc",
+   "distPc": 38.4615,
+   "hd": 211416,
+   "hip": null,
+   "hr": "8502",
+   "id": 8502,
+   "mag": 2.86,
+   "name": null,
+   "u": [
+    0.4482111,
+    -0.2125827,
+    -0.868283
+   ],
+   "velPcPerYear": [
+    7.208782e-06,
+    -1.82782e-05,
+    -4.127367e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.09,
+   "components": [
+    1165
+   ],
+   "con": "Tau",
+   "distPc": 125.0,
+   "hd": 23630,
+   "hip": null,
+   "hr": "1165",
+   "id": 1165,
+   "mag": 2.87,
+   "name": "Alcyone",
+   "u": [
+    0.4988647,
+    0.7644182,
+    0.4084101
+   ],
+   "velPcPerYear": [
+    1.681585e-06,
+    2.364507e-05,
+    -2.126903e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.03,
+   "components": [
+    7528
+   ],
+   "con": "Cyg",
+   "distPc": 33.3333,
+   "hd": 186882,
+   "hip": null,
+   "hr": "7528",
+   "id": 7528,
+   "mag": 2.87,
+   "name": "Fawaris",
+   "u": [
+    0.3119613,
+    -0.632769,
+    0.7087196
+   ],
+   "velPcPerYear": [
+    -1.079089e-06,
+    2.155834e-05,
+    -9.137832e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.29,
+   "components": [
+    8322
+   ],
+   "con": "Cap",
+   "distPc": 11.4943,
+   "hd": 207098,
+   "hip": null,
+   "hr": "8322",
+   "id": 8322,
+   "mag": 2.87,
+   "name": "Deneb Algedi",
+   "u": [
+    0.8034679,
+    -0.5265762,
+    -0.2777711
+   ],
+   "velPcPerYear": [
+    -7.417934e-07,
+    1.800909e-05,
+    -1.419475e-05
+   ]
+  },
+  {
+   "bayer": "Mu",
+   "ci": 1.64,
+   "components": [
+    2286
+   ],
+   "con": "Gem",
+   "distPc": 50.0,
+   "hd": 44478,
+   "hip": null,
+   "hr": "2286",
+   "id": 2286,
+   "mag": 2.88,
+   "name": "Tejat",
+   "u": [
+    -0.0923922,
+    0.9191567,
+    0.3829029
+   ],
+   "velPcPerYear": [
+    -1.925175e-05,
+    6.064379e-05,
+    -3.318557e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.18,
+   "components": [
+    1220
+   ],
+   "con": "Per",
+   "distPc": 111.1111,
+   "hd": 24760,
+   "hip": null,
+   "hr": "1220",
+   "id": 1220,
+   "mag": 2.89,
+   "name": null,
+   "u": [
+    0.3891607,
+    0.659698,
+    0.642925
+   ],
+   "velPcPerYear": [
+    -3.378281e-06,
+    1.335699e-05,
+    -1.006987e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.0,
+   "components": [
+    5671
+   ],
+   "con": "TrA",
+   "distPc": 100.0,
+   "hd": 135382,
+   "hip": null,
+   "hr": "5671",
+   "id": 5671,
+   "mag": 2.89,
+   "name": null,
+   "u": [
+    -0.2350302,
+    -0.277408,
+    -0.9315608
+   ],
+   "velPcPerYear": [
+    -1.686153e-05,
+    3.409775e-05,
+    -2.606252e-06
+   ]
+  },
+  {
+   "bayer": "Pi",
+   "ci": -0.19,
+   "components": [
+    5944
+   ],
+   "con": "Sco",
+   "distPc": 100.0,
+   "hd": 143018,
+   "hip": null,
+   "hr": "5944",
+   "id": 5944,
+   "mag": 2.89,
+   "name": "Fang",
+   "u": [
+    -0.45285,
+    -0.7753612,
+    -0.4401612
+   ],
+   "velPcPerYear": [
+    -4.174556e-07,
+    9.859506e-06,
+    -9.967931e-06
+   ]
+  },
+  {
+   "bayer": "Sig",
+   "ci": 0.13,
+   "components": [
+    6084
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 147165,
+   "hip": null,
+   "hr": "6084",
+   "id": 6084,
+   "mag": 2.89,
+   "name": "Alniyat",
+   "u": [
+    -0.3769106,
+    -0.8193525,
+    -0.4319721
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Pi",
+   "ci": 0.35,
+   "components": [
+    7264
+   ],
+   "con": "Sgr",
+   "distPc": 38.4615,
+   "hd": 178524,
+   "hip": null,
+   "hr": "7264",
+   "id": 7264,
+   "mag": 2.89,
+   "name": "Albaldah",
+   "u": [
+    0.2797692,
+    -0.8905199,
+    -0.3587526
+   ],
+   "velPcPerYear": [
+    -3.562982e-06,
+    1.134116e-05,
+    -2.42289e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.09,
+   "components": [
+    2845
+   ],
+   "con": "CMi",
+   "distPc": 52.6316,
+   "hd": 58715,
+   "hip": null,
+   "hr": "2845",
+   "id": 2845,
+   "mag": 2.9,
+   "name": "Gomeisa",
+   "u": [
+    -0.3672875,
+    0.9188655,
+    0.1441739
+   ],
+   "velPcPerYear": [
+    3.538052e-06,
+    2.68971e-05,
+    -6.351106e-06
+   ]
+  },
+  {
+   "bayer": "The-1",
+   "ci": 0.14,
+   "components": [
+    897,
+    898
+   ],
+   "con": "Eri",
+   "distPc": 28.5714,
+   "hd": 18622,
+   "hip": null,
+   "hr": "897",
+   "id": 897,
+   "mag": 2.906,
+   "name": "Acamar",
+   "u": [
+    0.5433193,
+    0.5351515,
+    -0.6468517
+   ],
+   "velPcPerYear": [
+    1.225493e-05,
+    3.321286e-06,
+    -5.931444e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.83,
+   "components": [
+    8232
+   ],
+   "con": "Aqr",
+   "distPc": 166.6667,
+   "hd": 204867,
+   "hip": null,
+   "hr": "8232",
+   "id": 8232,
+   "mag": 2.91,
+   "name": "Sadalsuud",
+   "u": [
+    0.7937074,
+    -0.600503,
+    -0.0970811
+   ],
+   "velPcPerYear": [
+    1.541967e-05,
+    9.611567e-06,
+    -7.128651e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.36,
+   "components": [
+    4825,
+    4826
+   ],
+   "con": "Vir",
+   "distPc": 10.101,
+   "hd": 110379,
+   "hip": null,
+   "hr": "4825",
+   "id": 4825,
+   "mag": 2.912,
+   "name": "Porrima",
+   "u": [
+    -0.9832095,
+    -0.1807188,
+    -0.0252949
+   ],
+   "velPcPerYear": [
+    1.509434e-05,
+    3.090657e-05,
+    1.104853e-06
+   ]
+  },
+  {
+   "bayer": "Bet-1",
+   "ci": 1.13,
+   "components": [
+    7417,
+    7418
+   ],
+   "con": "Cyg",
+   "distPc": 58.8235,
+   "hd": 183912,
+   "hip": null,
+   "hr": "7417",
+   "id": 7417,
+   "mag": 2.924,
+   "name": "Albireo",
+   "u": [
+    0.340597,
+    -0.8149613,
+    0.4688622
+   ],
+   "velPcPerYear": [
+    -7.730278e-06,
+    1.997679e-05,
+    -1.201178e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.7,
+   "components": [
+    915
+   ],
+   "con": "Per",
+   "distPc": 62.5,
+   "hd": 18925,
+   "hip": null,
+   "hr": "915",
+   "id": 915,
+   "mag": 2.93,
+   "name": null,
+   "u": [
+    0.4116467,
+    0.4292487,
+    0.8039232
+   ],
+   "velPcPerYear": [
+    2.106016e-06,
+    2.19607e-06,
+    1.5655e-06
+   ]
+  },
+  {
+   "bayer": "Tau",
+   "ci": 1.2,
+   "components": [
+    2553
+   ],
+   "con": "Pup",
+   "distPc": null,
+   "hd": 50310,
+   "hip": null,
+   "hr": "2553",
+   "id": 2553,
+   "mag": 2.93,
+   "name": null,
+   "u": [
+    -0.1371666,
+    0.6195289,
+    -0.7728966
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.86,
+   "components": [
+    8650
+   ],
+   "con": "Peg",
+   "distPc": 58.8235,
+   "hd": 215182,
+   "hip": null,
+   "hr": "8650",
+   "id": 8650,
+   "mag": 2.94,
+   "name": "Matar",
+   "u": [
+    0.8157771,
+    -0.2848755,
+    0.5033426
+   ],
+   "velPcPerYear": [
+    8.135533e-06,
+    1.690106e-06,
+    -4.101507e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.59,
+   "components": [
+    1231
+   ],
+   "con": "Eri",
+   "distPc": 100.0,
+   "hd": 25025,
+   "hip": null,
+   "hr": "1231",
+   "id": 1231,
+   "mag": 2.95,
+   "name": "Zaurak",
+   "u": [
+    0.4933876,
+    0.8378566,
+    -0.2335915
+   ],
+   "velPcPerYear": [
+    -5.773037e-07,
+    5.730136e-05,
+    -6.713714e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.05,
+   "components": [
+    4757
+   ],
+   "con": "Crv",
+   "distPc": 41.6667,
+   "hd": 108767,
+   "hip": null,
+   "hr": "4757",
+   "id": 4757,
+   "mag": 2.95,
+   "name": "Algorab",
+   "u": [
+    -0.950614,
+    -0.1245811,
+    -0.2842756
+   ],
+   "velPcPerYear": [
+    -6.404639e-06,
+    4.194459e-05,
+    -2.934325e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.17,
+   "components": [
+    6510
+   ],
+   "con": "Ara",
+   "distPc": 142.8571,
+   "hd": 158427,
+   "hip": null,
+   "hr": "6510",
+   "id": 6510,
+   "mag": 2.95,
+   "name": null,
+   "u": [
+    -0.0789797,
+    -0.6395845,
+    -0.7646528
+   ],
+   "velPcPerYear": [
+    -1.676518e-05,
+    3.942325e-05,
+    -3.124345e-05
+   ]
+  },
+  {
+   "bayer": "Ups",
+   "ci": 0.28,
+   "components": [
+    3890,
+    3891
+   ],
+   "con": "Car",
+   "distPc": 37.037,
+   "hd": 85123,
+   "hip": null,
+   "hr": "3890",
+   "id": 3890,
+   "mag": 2.957,
+   "name": null,
+   "u": [
+    -0.3525804,
+    0.2309372,
+    -0.9068379
+   ],
+   "velPcPerYear": [
+    -5.365965e-06,
+    6.090473e-06,
+    -1.215158e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.98,
+   "components": [
+    8414
+   ],
+   "con": "Aqr",
+   "distPc": 83.3333,
+   "hd": 209750,
+   "hip": null,
+   "hr": "8414",
+   "id": 8414,
+   "mag": 2.96,
+   "name": "Sadalmelik",
+   "u": [
+    0.8783519,
+    -0.4779819,
+    -0.0055802
+   ],
+   "velPcPerYear": [
+    1.102887e-05,
+    3.197467e-06,
+    -4.085706e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.4,
+   "components": [
+    2473
+   ],
+   "con": "Gem",
+   "distPc": 58.8235,
+   "hd": 48329,
+   "hip": null,
+   "hr": "2473",
+   "id": 2473,
+   "mag": 2.98,
+   "name": "Mebsuta",
+   "u": [
+    -0.1724817,
+    0.8887562,
+    0.4246911
+   ],
+   "velPcPerYear": [
+    -3.841927e-07,
+    1.096107e-05,
+    9.869171e-07
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.8,
+   "components": [
+    3873
+   ],
+   "con": "Leo",
+   "distPc": 100.0,
+   "hd": 84441,
+   "hip": null,
+   "hr": "3873",
+   "id": 3873,
+   "mag": 2.98,
+   "name": null,
+   "u": [
+    -0.7627965,
+    0.5055943,
+    0.4031327
+   ],
+   "velPcPerYear": [
+    7.408541e-06,
+    2.184495e-05,
+    -3.231249e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.54,
+   "components": [
+    1605
+   ],
+   "con": "Aur",
+   "distPc": 142.8571,
+   "hd": 31964,
+   "hip": null,
+   "hr": "1605",
+   "id": 1605,
+   "mag": 2.99,
+   "name": "Almaaz",
+   "u": [
+    0.1807403,
+    0.6984725,
+    0.692437
+   ],
+   "velPcPerYear": [
+    5.965318e-07,
+    -4.593789e-07,
+    -4.123249e-06
+   ]
+  },
+  {
+   "bayer": "Gam-2",
+   "ci": 1.0,
+   "components": [
+    6746
+   ],
+   "con": "Sgr",
+   "distPc": 40.0,
+   "hd": 165135,
+   "hip": null,
+   "hr": "6746",
+   "id": 6746,
+   "mag": 2.99,
+   "name": "Alnasl",
+   "u": [
+    0.0218515,
+    -0.8620232,
+    -0.5063975
+   ],
+   "velPcPerYear": [
+    -1.024348e-05,
+    -1.493901e-06,
+    -4.232984e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.01,
+   "components": [
+    7235
+   ],
+   "con": "Aql",
+   "distPc": 22.2222,
+   "hd": 177724,
+   "hip": null,
+   "hr": "7235",
+   "id": 7235,
+   "mag": 2.99,
+   "name": "Okab",
+   "u": [
+    0.2733446,
+    -0.9315961,
+    0.2396068
+   ],
+   "velPcPerYear": [
+    -6.807991e-06,
+    2.128927e-05,
+    -1.616763e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.14,
+   "components": [
+    622
+   ],
+   "con": "Tri",
+   "distPc": 45.4545,
+   "hd": 13161,
+   "hip": null,
+   "hr": "622",
+   "id": 622,
+   "mag": 3.0,
+   "name": null,
+   "u": [
+    0.6918495,
+    0.4388211,
+    0.5733937
+   ],
+   "velPcPerYear": [
+    -6.361285e-06,
+    3.510912e-05,
+    -1.357617e-06
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.19,
+   "components": [
+    1910
+   ],
+   "con": "Tau",
+   "distPc": 125.0,
+   "hd": 37202,
+   "hip": null,
+   "hr": "1910",
+   "id": 1910,
+   "mag": 3.0,
+   "name": "Tianguan",
+   "u": [
+    0.090832,
+    0.9282528,
+    0.3606887
+   ],
+   "velPcPerYear": [
+    2.304933e-06,
+    2.355514e-05,
+    -4.492085e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.33,
+   "components": [
+    4630
+   ],
+   "con": "Crv",
+   "distPc": 37.037,
+   "hd": 105707,
+   "hip": null,
+   "hr": "4630",
+   "id": 4630,
+   "mag": 3.0,
+   "name": null,
+   "u": [
+    -0.9221772,
+    -0.0407671,
+    -0.3846131
+   ],
+   "velPcPerYear": [
+    -6.244567e-06,
+    1.24852e-05,
+    3.537357e-07
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.92,
+   "components": [
+    5020
+   ],
+   "con": "Hya",
+   "distPc": 37.037,
+   "hd": 115659,
+   "hip": null,
+   "hr": "5020",
+   "id": 5020,
+   "mag": 3.0,
+   "name": null,
+   "u": [
+    -0.8653575,
+    -0.3103612,
+    -0.3934873
+   ],
+   "velPcPerYear": [
+    1.129747e-05,
+    -8.156785e-06,
+    -5.416275e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.13,
+   "components": [
+    1122
+   ],
+   "con": "Per",
+   "distPc": 62.5,
+   "hd": 22928,
+   "hip": null,
+   "hr": "1122",
+   "id": 1122,
+   "mag": 3.01,
+   "name": null,
+   "u": [
+    0.3783203,
+    0.5552472,
+    0.740658
+   ],
+   "velPcPerYear": [
+    -1.167239e-06,
+    1.335456e-05,
+    -3.892006e-06
+   ]
+  },
+  {
+   "bayer": "Psi",
+   "ci": 1.14,
+   "components": [
+    4335
+   ],
+   "con": "UMa",
+   "distPc": null,
+   "hd": 96833,
+   "hip": null,
+   "hr": "4335",
+   "id": 4335,
+   "mag": 3.01,
+   "name": null,
+   "u": [
+    -0.6961326,
+    0.1554021,
+    0.700892
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.12,
+   "components": [
+    8353
+   ],
+   "con": "Gru",
+   "distPc": 76.9231,
+   "hd": 207971,
+   "hip": null,
+   "hr": "8353",
+   "id": 8353,
+   "mag": 3.01,
+   "name": "Aldhanab",
+   "u": [
+    0.6775361,
+    -0.4154862,
+    -0.6068904
+   ],
+   "velPcPerYear": [
+    1.444797e-05,
+    3.576207e-05,
+    -4.983098e-06
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.19,
+   "components": [
+    2282
+   ],
+   "con": "CMa",
+   "distPc": 250.0,
+   "hd": 44402,
+   "hip": null,
+   "hr": "2282",
+   "id": 2282,
+   "mag": 3.02,
+   "name": "Furud",
+   "u": [
+    -0.0766095,
+    0.8620749,
+    -0.500957
+   ],
+   "velPcPerYear": [
+    -1.353391e-05,
+    2.906175e-05,
+    -1.324777e-05
+   ]
+  },
+  {
+   "bayer": "Omi-2",
+   "ci": -0.08,
+   "components": [
+    2653
+   ],
+   "con": "CMa",
+   "distPc": null,
+   "hd": 53138,
+   "hip": null,
+   "hr": "2653",
+   "id": 2653,
+   "mag": 3.02,
+   "name": null,
+   "u": [
+    -0.2483893,
+    0.8803545,
+    -0.4040775
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.19,
+   "components": [
+    5435
+   ],
+   "con": "Boo",
+   "distPc": 40.0,
+   "hd": 127762,
+   "hip": null,
+   "hr": "5435",
+   "id": 5435,
+   "mag": 3.03,
+   "name": "Seginus",
+   "u": [
+    -0.618176,
+    -0.4833124,
+    0.6198932
+   ],
+   "velPcPerYear": [
+    2.4265e-05,
+    4.703358e-05,
+    -1.748656e-07
+   ]
+  },
+  {
+   "bayer": "Iot-1",
+   "ci": 0.51,
+   "components": [
+    6615
+   ],
+   "con": "Sco",
+   "distPc": 52.6316,
+   "hd": 161471,
+   "hip": null,
+   "hr": "6615",
+   "id": 6615,
+   "mag": 3.03,
+   "name": null,
+   "u": [
+    -0.0413996,
+    -0.7634968,
+    -0.6444833
+   ],
+   "velPcPerYear": [
+    1.256749e-06,
+    2.317712e-05,
+    1.689455e-05
+   ]
+  },
+  {
+   "bayer": "Mu",
+   "ci": -0.17,
+   "components": [
+    5193
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 120324,
+   "hip": null,
+   "hr": "5193",
+   "id": 5193,
+   "mag": 3.04,
+   "name": null,
+   "u": [
+    -0.6548148,
+    -0.3394841,
+    -0.6752541
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.26,
+   "components": [
+    5788,
+    5789
+   ],
+   "con": "Ser",
+   "distPc": 47.619,
+   "hd": 138917,
+   "hip": null,
+   "hr": "5788",
+   "id": 5788,
+   "mag": 3.047,
+   "name": null,
+   "u": [
+    -0.5820218,
+    -0.7923387,
+    0.1828933
+   ],
+   "velPcPerYear": [
+    8.725757e-06,
+    4.073646e-05,
+    -8.24209e-06
+   ]
+  },
+  {
+   "bayer": "Mu",
+   "ci": 1.59,
+   "components": [
+    4069
+   ],
+   "con": "UMa",
+   "distPc": 28.5714,
+   "hd": 89758,
+   "hip": null,
+   "hr": "4069",
+   "id": 4069,
+   "mag": 3.05,
+   "name": "Tania Australis",
+   "u": [
+    -0.6819708,
+    0.3096129,
+    0.6626128
+   ],
+   "velPcPerYear": [
+    2.226723e-05,
+    2.364997e-06,
+    -1.059983e-05
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.18,
+   "components": [
+    4844
+   ],
+   "con": "Mus",
+   "distPc": 66.6667,
+   "hd": 110879,
+   "hip": null,
+   "hr": "4844",
+   "id": 4844,
+   "mag": 3.05,
+   "name": null,
+   "u": [
+    -0.3652805,
+    -0.0747848,
+    -0.9278887
+   ],
+   "velPcPerYear": [
+    -1.322374e-05,
+    1.015929e-05,
+    -4.190513e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 0.05,
+   "components": [
+    5735
+   ],
+   "con": "UMi",
+   "distPc": 333.3333,
+   "hd": 137422,
+   "hip": null,
+   "hr": "5735",
+   "id": 5735,
+   "mag": 3.05,
+   "name": "Pherkad",
+   "u": [
+    -0.1996438,
+    -0.2394676,
+    0.9501566
+   ],
+   "velPcPerYear": [
+    -3.102083e-06,
+    4.422927e-05,
+    6.18984e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 1.0,
+   "components": [
+    7310
+   ],
+   "con": "Dra",
+   "distPc": 31.25,
+   "hd": 180711,
+   "hip": null,
+   "hr": "7310",
+   "id": 7310,
+   "mag": 3.07,
+   "name": "Altais",
+   "u": [
+    0.1183247,
+    -0.3611874,
+    0.9249556
+   ],
+   "velPcPerYear": [
+    1.250171e-05,
+    7.583737e-06,
+    2.90043e-05
+   ]
+  },
+  {
+   "bayer": "Mu-1",
+   "ci": -0.2,
+   "components": [
+    6247
+   ],
+   "con": "Sco",
+   "distPc": null,
+   "hd": 151890,
+   "hip": null,
+   "hr": "6247",
+   "id": 6247,
+   "mag": 3.08,
+   "name": "Xamidimura",
+   "u": [
+    -0.2306699,
+    -0.7529593,
+    -0.6163145
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.79,
+   "components": [
+    7776
+   ],
+   "con": "Cap",
+   "distPc": 100.0,
+   "hd": 193495,
+   "hip": null,
+   "hr": "7776",
+   "id": 7776,
+   "mag": 3.08,
+   "name": "Dabih",
+   "u": [
+    0.5580855,
+    -0.7895875,
+    -0.2551317
+   ],
+   "velPcPerYear": [
+    5.926329e-06,
+    2.689366e-05,
+    5.895138e-06
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 1.0,
+   "components": [
+    3547
+   ],
+   "con": "Hya",
+   "distPc": 28.5714,
+   "hd": 76294,
+   "hip": null,
+   "hr": "3547",
+   "id": 3547,
+   "mag": 3.11,
+   "name": null,
+   "u": [
+    -0.6890253,
+    0.7172967,
+    0.1035834
+   ],
+   "velPcPerYear": [
+    -6.178654e-06,
+    2.622757e-05,
+    4.365351e-06
+   ]
+  },
+  {
+   "bayer": "Nu",
+   "ci": 1.25,
+   "components": [
+    4232
+   ],
+   "con": "Hya",
+   "distPc": 35.7143,
+   "hd": 93813,
+   "hip": null,
+   "hr": "4232",
+   "id": 4232,
+   "mag": 3.11,
+   "name": null,
+   "u": [
+    -0.9154043,
+    0.2902734,
+    -0.278884
+   ],
+   "velPcPerYear": [
+    -1.318933e-05,
+    -1.289226e-05,
+    3.354083e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 1.56,
+   "components": [
+    6832
+   ],
+   "con": "Sgr",
+   "distPc": 22.2222,
+   "hd": 167618,
+   "hip": null,
+   "hr": "6832",
+   "id": 6832,
+   "mag": 3.11,
+   "name": null,
+   "u": [
+    0.061555,
+    -0.7987637,
+    -0.5984877
+   ],
+   "velPcPerYear": [
+    -1.451389e-05,
+    8.859664e-06,
+    -1.502603e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.0,
+   "components": [
+    7869
+   ],
+   "con": "Ind",
+   "distPc": 21.7391,
+   "hd": 196171,
+   "hip": null,
+   "hr": "7869",
+   "id": 7869,
+   "mag": 3.11,
+   "name": null,
+   "u": [
+    0.4304425,
+    -0.5241847,
+    -0.7348127
+   ],
+   "velPcPerYear": [
+    7.120477e-06,
+    1.307997e-07,
+    5.469564e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": 1.16,
+   "components": [
+    2040
+   ],
+   "con": "Col",
+   "distPc": 43.4783,
+   "hd": 39425,
+   "hip": null,
+   "hr": "2040",
+   "id": 2040,
+   "mag": 3.12,
+   "name": "Wazn",
+   "u": [
+    0.0319964,
+    0.8107559,
+    -0.5845093
+   ],
+   "velPcPerYear": [
+    -7.566193e-06,
+    0.0001236545,
+    1.538062e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 1.55,
+   "components": [
+    3705
+   ],
+   "con": "Lyn",
+   "distPc": 40.0,
+   "hd": 80493,
+   "hip": null,
+   "hr": "3705",
+   "id": 3705,
+   "mag": 3.13,
+   "name": null,
+   "u": [
+    -0.6345652,
+    0.5275048,
+    0.564859
+   ],
+   "velPcPerYear": [
+    4.336206e-06,
+    5.212723e-05,
+    2.499262e-05
+   ]
+  },
+  {
+   "bayer": null,
+   "ci": 1.55,
+   "components": [
+    3803
+   ],
+   "con": null,
+   "distPc": 45.4545,
+   "hd": 82668,
+   "hip": null,
+   "hr": "3803",
+   "id": 3803,
+   "mag": 3.13,
+   "name": null,
+   "u": [
+    -0.4334507,
+    0.3289424,
+    -0.8389978
+   ],
+   "velPcPerYear": [
+    9.880013e-06,
+    1.354694e-06,
+    1.249239e-05
+   ]
+  },
+  {
+   "bayer": "Lam",
+   "ci": -0.04,
+   "components": [
+    4467
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 100841,
+   "hip": null,
+   "hr": "4467",
+   "id": 4467,
+   "mag": 3.13,
+   "name": null,
+   "u": [
+    -0.4511527,
+    0.047856,
+    -0.8911627
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Kap",
+   "ci": -0.2,
+   "components": [
+    5576
+   ],
+   "con": "Cen",
+   "distPc": null,
+   "hd": 132200,
+   "hip": null,
+   "hr": "5576",
+   "id": 5576,
+   "mag": 3.13,
+   "name": null,
+   "u": [
+    -0.5265372,
+    -0.5226991,
+    -0.6704806
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Zet",
+   "ci": 1.6,
+   "components": [
+    6285
+   ],
+   "con": "Ara",
+   "distPc": 22.7273,
+   "hd": 152786,
+   "hip": null,
+   "hr": "6285",
+   "id": 6285,
+   "mag": 3.13,
+   "name": null,
+   "u": [
+    -0.1480167,
+    -0.5393933,
+    -0.8289427
+   ],
+   "velPcPerYear": [
+    -2.404685e-07,
+    7.034781e-06,
+    2.867934e-06
+   ]
+  },
+  {
+   "bayer": "Iot",
+   "ci": 0.19,
+   "components": [
+    3569
+   ],
+   "con": "UMa",
+   "distPc": 13.3333,
+   "hd": 76644,
+   "hip": null,
+   "hr": "3569",
+   "id": 3569,
+   "mag": 3.14,
+   "name": "Talitha",
+   "u": [
+    -0.4711252,
+    0.4743982,
+    0.7436312
+   ],
+   "velPcPerYear": [
+    8.373159e-06,
+    3.229921e-05,
+    -2.92278e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.08,
+   "components": [
+    6410
+   ],
+   "con": "Her",
+   "distPc": 22.7273,
+   "hd": 156164,
+   "hip": null,
+   "hr": "6410",
+   "id": 6410,
+   "mag": 3.14,
+   "name": "Sarin",
+   "u": [
+    -0.1769196,
+    -0.8900778,
+    0.4200725
+   ],
+   "velPcPerYear": [
+    3.551322e-06,
+    2.973542e-05,
+    -3.288324e-05
+   ]
+  },
+  {
+   "bayer": "Pi",
+   "ci": 1.44,
+   "components": [
+    6418
+   ],
+   "con": "Her",
+   "distPc": 40.0,
+   "hd": 156283,
+   "hip": null,
+   "hr": "6418",
+   "id": 6418,
+   "mag": 3.16,
+   "name": null,
+   "u": [
+    -0.1560363,
+    -0.7852833,
+    0.5991517
+   ],
+   "velPcPerYear": [
+    -7.057157e-07,
+    2.231959e-05,
+    -1.53107e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.18,
+   "components": [
+    1641
+   ],
+   "con": "Aur",
+   "distPc": 45.4545,
+   "hd": 32630,
+   "hip": null,
+   "hr": "1641",
+   "id": 1641,
+   "mag": 3.17,
+   "name": "Haedus",
+   "u": [
+    0.1739117,
+    0.7316331,
+    0.6591417
+   ],
+   "velPcPerYear": [
+    -2.688225e-06,
+    1.632525e-05,
+    -6.550329e-06
+   ]
+  },
+  {
+   "bayer": "Nu",
+   "ci": -0.11,
+   "components": [
+    2451
+   ],
+   "con": "Pup",
+   "distPc": null,
+   "hd": 47670,
+   "hip": null,
+   "hr": "2451",
+   "id": 2451,
+   "mag": 3.17,
+   "name": null,
+   "u": [
+    -0.1195744,
+    0.7191418,
+    -0.6844976
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "The",
+   "ci": 0.46,
+   "components": [
+    3775
+   ],
+   "con": "UMa",
+   "distPc": 19.2308,
+   "hd": 82328,
+   "hip": null,
+   "hr": "3775",
+   "id": 3775,
+   "mag": 3.17,
+   "name": null,
+   "u": [
+    -0.4966181,
+    0.3713263,
+    0.7845299
+   ],
+   "velPcPerYear": [
+    1.453798e-05,
+    0.0001001885,
+    -1.866358e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": -0.12,
+   "components": [
+    6396
+   ],
+   "con": "Dra",
+   "distPc": 43.4783,
+   "hd": 155763,
+   "hip": null,
+   "hr": "6396",
+   "id": 6396,
+   "mag": 3.17,
+   "name": "Aldhibah",
+   "u": [
+    -0.0911418,
+    -0.4010543,
+    0.911509
+   ],
+   "velPcPerYear": [
+    -1.589629e-06,
+    1.20289e-05,
+    -1.394034e-05
+   ]
+  },
+  {
+   "bayer": "Phi",
+   "ci": -0.11,
+   "components": [
+    7039
+   ],
+   "con": "Sgr",
+   "distPc": null,
+   "hd": 173300,
+   "hip": null,
+   "hr": "7039",
+   "id": 7039,
+   "mag": 3.17,
+   "name": null,
+   "u": [
+    0.1763443,
+    -0.8734556,
+    -0.4538479
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Pi-3",
+   "ci": 0.45,
+   "components": [
+    1543
+   ],
+   "con": "Ori",
+   "distPc": 8.0,
+   "hd": 30652,
+   "hip": null,
+   "hr": "1543",
+   "id": 1543,
+   "mag": 3.19,
+   "name": "Tabit",
+   "u": [
+    0.2991499,
+    0.9464776,
+    0.1212004
+   ],
+   "velPcPerYear": [
+    -9.907882e-06,
+    2.862454e-05,
+    3.436866e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 1.46,
+   "components": [
+    1654
+   ],
+   "con": "Lep",
+   "distPc": 90.9091,
+   "hd": 32887,
+   "hip": null,
+   "hr": "1654",
+   "id": 1654,
+   "mag": 3.19,
+   "name": null,
+   "u": [
+    0.2179873,
+    0.8986779,
+    -0.3806042
+   ],
+   "velPcPerYear": [
+    -1.341121e-05,
+    -8.54702e-06,
+    -3.054934e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.24,
+   "components": [
+    5463
+   ],
+   "con": "Cir",
+   "distPc": 17.8571,
+   "hd": 128898,
+   "hip": null,
+   "hr": "5463",
+   "id": 5463,
+   "mag": 3.19,
+   "name": null,
+   "u": [
+    -0.3210507,
+    -0.275433,
+    -0.9061253
+   ],
+   "velPcPerYear": [
+    6.914024e-07,
+    2.249419e-05,
+    -1.498314e-05
+   ]
+  },
+  {
+   "bayer": "Kap",
+   "ci": 1.15,
+   "components": [
+    6299
+   ],
+   "con": "Oph",
+   "distPc": 32.2581,
+   "hd": 153210,
+   "hip": null,
+   "hr": "6299",
+   "id": 6299,
+   "mag": 3.2,
+   "name": null,
+   "u": [
+    -0.2650446,
+    -0.950377,
+    0.1628955
+   ],
+   "velPcPerYear": [
+    -2.872594e-05,
+    6.640994e-05,
+    -1.087236e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.99,
+   "components": [
+    8115
+   ],
+   "con": "Cyg",
+   "distPc": 37.037,
+   "hd": 202109,
+   "hip": null,
+   "hr": "8115",
+   "id": 8115,
+   "mag": 3.2,
+   "name": null,
+   "u": [
+    0.644463,
+    -0.5755253,
+    0.5034263
+   ],
+   "velPcPerYear": [
+    1.510003e-05,
+    -1.324405e-05,
+    6.43792e-08
+   ]
+  },
+  {
+   "bayer": null,
+   "ci": 1.17,
+   "components": [
+    6630
+   ],
+   "con": null,
+   "distPc": 25.0,
+   "hd": 161892,
+   "hip": null,
+   "hr": "6630",
+   "id": 6630,
+   "mag": 3.21,
+   "name": "Fuyue",
+   "u": [
+    -0.035309,
+    -0.7973988,
+    -0.6024189
+   ],
+   "velPcPerYear": [
+    4.92379e-06,
+    -2.30576e-05,
+    -1.221004e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.03,
+   "components": [
+    8974
+   ],
+   "con": "Cep",
+   "distPc": 15.625,
+   "hd": 222404,
+   "hip": null,
+   "hr": "8974",
+   "id": 8974,
+   "mag": 3.21,
+   "name": "Errai",
+   "u": [
+    0.2133122,
+    -0.0192753,
+    0.9767939
+   ],
+   "velPcPerYear": [
+    -2.074714e-05,
+    -3.22132e-06,
+    -3.950719e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": -0.22,
+   "components": [
+    5695
+   ],
+   "con": "Lup",
+   "distPc": null,
+   "hd": 136298,
+   "hip": null,
+   "hr": "5695",
+   "id": 5695,
+   "mag": 3.22,
+   "name": null,
+   "u": [
+    -0.4842159,
+    -0.5841306,
+    -0.6514035
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "The",
+   "ci": -0.07,
+   "components": [
+    7710
+   ],
+   "con": "Aql",
+   "distPc": 83.3333,
+   "hd": 191692,
+   "hip": null,
+   "hr": "7710",
+   "id": 7710,
+   "mag": 3.23,
+   "name": null,
+   "u": [
+    0.5420376,
+    -0.840232,
+    -0.0143354
+   ],
+   "velPcPerYear": [
+    -2.053917e-06,
+    3.15045e-05,
+    2.011728e-06
+   ]
+  },
+  {
+   "bayer": "Bet",
+   "ci": -0.22,
+   "components": [
+    8238
+   ],
+   "con": "Cep",
+   "distPc": 71.4286,
+   "hd": 205021,
+   "hip": null,
+   "hr": "8238",
+   "id": 8238,
+   "mag": 3.23,
+   "name": "Alfirk",
+   "u": [
+    0.2628435,
+    -0.2041396,
+    0.9429954
+   ],
+   "velPcPerYear": [
+    -1.831713e-06,
+    5.807321e-06,
+    -6.908559e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": 1.62,
+   "components": [
+    1208
+   ],
+   "con": "Hyi",
+   "distPc": 200.0,
+   "hd": 24512,
+   "hip": null,
+   "hr": "1208",
+   "id": 1208,
+   "mag": 3.24,
+   "name": null,
+   "u": [
+    0.148695,
+    0.2273127,
+    -0.9624026
+   ],
+   "velPcPerYear": [
+    2.253131e-05,
+    0.0001176931,
+    1.427681e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.96,
+   "components": [
+    6075
+   ],
+   "con": "Oph",
+   "distPc": 23.2558,
+   "hd": 146791,
+   "hip": null,
+   "hr": "6075",
+   "id": 6075,
+   "mag": 3.24,
+   "name": "Yed Posterior",
+   "u": [
+    -0.4278051,
+    -0.9001612,
+    -0.081808
+   ],
+   "velPcPerYear": [
+    1.286862e-05,
+    4.75083e-06,
+    5.443808e-06
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.05,
+   "components": [
+    7178
+   ],
+   "con": "Lyr",
+   "distPc": 47.619,
+   "hd": 176437,
+   "hip": null,
+   "hr": "7178",
+   "id": 7178,
+   "mag": 3.24,
+   "name": "Sulafat",
+   "u": [
+    0.2140744,
+    -0.8139288,
+    0.5400853
+   ],
+   "velPcPerYear": [
+    -5.107637e-06,
+    1.760444e-05,
+    -1.121079e-05
+   ]
+  },
+  {
+   "bayer": "Sig",
+   "ci": 1.51,
+   "components": [
+    2878
+   ],
+   "con": "Pup",
+   "distPc": 50.0,
+   "hd": 59717,
+   "hip": null,
+   "hr": "2878",
+   "id": 2878,
+   "mag": 3.25,
+   "name": null,
+   "u": [
+    -0.2762397,
+    0.6732909,
+    -0.685836
+   ],
+   "velPcPerYear": [
+    -2.43273e-05,
+    9.441825e-05,
+    -2.873508e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.94,
+   "components": [
+    6869
+   ],
+   "con": "Ser",
+   "distPc": 17.2414,
+   "hd": 168723,
+   "hip": null,
+   "hr": "6869",
+   "id": 6869,
+   "mag": 3.26,
+   "name": null,
+   "u": [
+    0.0927297,
+    -0.9944061,
+    -0.0505736
+   ],
+   "velPcPerYear": [
+    -4.494667e-05,
+    -1.045185e-05,
+    -5.890262e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 1.28,
+   "components": [
+    165
+   ],
+   "con": "And",
+   "distPc": 35.7143,
+   "hd": 3627,
+   "hip": null,
+   "hr": "165",
+   "id": 165,
+   "mag": 3.27,
+   "name": null,
+   "u": [
+    0.8458077,
+    0.1465842,
+    0.5129546
+   ],
+   "velPcPerYear": [
+    -2.112597e-06,
+    2.353299e-05,
+    -1.719781e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": -0.1,
+   "components": [
+    1465
+   ],
+   "con": "Dor",
+   "distPc": 55.5556,
+   "hd": 29305,
+   "hip": null,
+   "hr": "1465",
+   "id": 1465,
+   "mag": 3.27,
+   "name": null,
+   "u": [
+    0.2099884,
+    0.5330638,
+    -0.8196023
+   ],
+   "velPcPerYear": [
+    -7.439531e-06,
+    1.859286e-05,
+    -2.225659e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.21,
+   "components": [
+    2550
+   ],
+   "con": "Pic",
+   "distPc": 19.2308,
+   "hd": 50241,
+   "hip": null,
+   "hr": "2550",
+   "id": 2550,
+   "mag": 3.27,
+   "name": null,
+   "u": [
+    -0.0981778,
+    0.4600145,
+    -0.8824669
+   ],
+   "velPcPerYear": [
+    -4.366083e-07,
+    3.286706e-05,
+    -7.15581e-06
+   ]
+  },
+  {
+   "bayer": "Pi",
+   "ci": 1.12,
+   "components": [
+    5287
+   ],
+   "con": "Hya",
+   "distPc": 20.4082,
+   "hd": 123123,
+   "hip": null,
+   "hr": "5287",
+   "id": 5287,
+   "mag": 3.27,
+   "name": null,
+   "u": [
+    -0.7610832,
+    -0.4680918,
+    -0.4490461
+   ],
+   "velPcPerYear": [
+    -1.34749e-05,
+    -1.339842e-05,
+    -2.468793e-05
+   ]
+  },
+  {
+   "bayer": "The",
+   "ci": -0.22,
+   "components": [
+    6453
+   ],
+   "con": "Oph",
+   "distPc": null,
+   "hd": 157056,
+   "hip": null,
+   "hr": "6453",
+   "id": 6453,
+   "mag": 3.27,
+   "name": null,
+   "u": [
+    -0.1495456,
+    -0.8938889,
+    -0.4226095
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.05,
+   "components": [
+    8709
+   ],
+   "con": "Aqr",
+   "distPc": 26.3158,
+   "hd": 216627,
+   "hip": null,
+   "hr": "8709",
+   "id": 8709,
+   "mag": 3.27,
+   "name": "Skat",
+   "u": [
+    0.9232699,
+    -0.2706391,
+    -0.2726301
+   ],
+   "velPcPerYear": [
+    1.472632e-05,
+    -9.634778e-06,
+    -8.087538e-06
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 1.6,
+   "components": [
+    2216
+   ],
+   "con": "Gem",
+   "distPc": 71.4286,
+   "hd": 42995,
+   "hip": null,
+   "hr": "2216",
+   "id": 2216,
+   "mag": 3.28,
+   "name": "Propus",
+   "u": [
+    -0.0599256,
+    0.9218894,
+    0.3827909
+   ],
+   "velPcPerYear": [
+    2.223087e-05,
+    2.102855e-05,
+    3.599175e-06
+   ]
+  },
+  {
+   "bayer": "Sig",
+   "ci": 1.7,
+   "components": [
+    5603
+   ],
+   "con": "Lib",
+   "distPc": 15.625,
+   "hd": 133216,
+   "hip": null,
+   "hr": "5603",
+   "id": 5603,
+   "mag": 3.29,
+   "name": "Brachium",
+   "u": [
+    -0.6279233,
+    -0.6506312,
+    -0.4270729
+   ],
+   "velPcPerYear": [
+    -4.44266e-07,
+    7.502799e-06,
+    -1.198254e-06
+   ]
+  },
+  {
+   "bayer": "Iot",
+   "ci": 1.16,
+   "components": [
+    5744
+   ],
+   "con": "Dra",
+   "distPc": 25.0,
+   "hd": 137759,
+   "hip": null,
+   "hr": "5744",
+   "id": 5744,
+   "mag": 3.29,
+   "name": "Edasich",
+   "u": [
+    -0.3228145,
+    -0.4019669,
+    0.8568625
+   ],
+   "velPcPerYear": [
+    3.886603e-06,
+    6.581669e-06,
+    -8.577302e-06
+   ]
+  },
+  {
+   "bayer": "Alp-1",
+   "ci": 1.44,
+   "components": [
+    6406,
+    6407
+   ],
+   "con": "Her",
+   "distPc": null,
+   "hd": 156014,
+   "hip": null,
+   "hr": "6406",
+   "id": 6406,
+   "mag": 3.308,
+   "name": "Rasalgethi",
+   "u": [
+    -0.1904239,
+    -0.9497232,
+    0.2485248
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Bet",
+   "ci": 0.89,
+   "components": [
+    322
+   ],
+   "con": "Phe",
+   "distPc": 47.619,
+   "hd": 6595,
+   "hip": null,
+   "hr": "322",
+   "id": 322,
+   "mag": 3.31,
+   "name": null,
+   "u": [
+    0.6572786,
+    0.1949548,
+    -0.7279955
+   ],
+   "velPcPerYear": [
+    9.391951e-07,
+    -6.22316e-06,
+    5.862539e-07
+   ]
+  },
+  {
+   "bayer": "Mu",
+   "ci": -0.11,
+   "components": [
+    1702
+   ],
+   "con": "Lep",
+   "distPc": 43.4783,
+   "hd": 33904,
+   "hip": null,
+   "hr": "1702",
+   "id": 1702,
+   "mag": 3.31,
+   "name": null,
+   "u": [
+    0.1958307,
+    0.9400863,
+    -0.2790842
+   ],
+   "velPcPerYear": [
+    -3.577552e-06,
+    2.727131e-05,
+    -1.325458e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.08,
+   "components": [
+    4660
+   ],
+   "con": "UMa",
+   "distPc": 16.3934,
+   "hd": 106591,
+   "hip": null,
+   "hr": "4660",
+   "id": 4660,
+   "mag": 3.31,
+   "name": "Megrez",
+   "u": [
+    -0.5429309,
+    -0.0366008,
+    0.8389794
+   ],
+   "velPcPerYear": [
+    8.373124e-06,
+    -7.719976e-06,
+    -1.076521e-05
+   ]
+  },
+  {
+   "bayer": "Ome",
+   "ci": -0.08,
+   "components": [
+    4037
+   ],
+   "con": "Car",
+   "distPc": null,
+   "hd": 89080,
+   "hip": null,
+   "hr": "4037",
+   "id": 4037,
+   "mag": 3.32,
+   "name": null,
+   "u": [
+    -0.3053517,
+    0.1526811,
+    -0.9399196
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": null,
+   "ci": -0.09,
+   "components": [
+    4140
+   ],
+   "con": null,
+   "distPc": null,
+   "hd": 91465,
+   "hip": null,
+   "hr": "4140",
+   "id": 4140,
+   "mag": 3.32,
+   "name": null,
+   "u": [
+    -0.4397948,
+    0.1776365,
+    -0.8803555
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Tau",
+   "ci": 1.19,
+   "components": [
+    7234
+   ],
+   "con": "Sgr",
+   "distPc": 22.7273,
+   "hd": 177716,
+   "hip": null,
+   "hr": "7234",
+   "id": 7234,
+   "mag": 3.32,
+   "name": null,
+   "u": [
+    0.2550139,
+    -0.848123,
+    -0.464387
+   ],
+   "velPcPerYear": [
+    2.445631e-06,
+    -2.841458e-05,
+    -4.586546e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": 0.41,
+   "components": [
+    6380
+   ],
+   "con": "Sco",
+   "distPc": 15.873,
+   "hd": 155203,
+   "hip": null,
+   "hr": "6380",
+   "id": 6380,
+   "mag": 3.33,
+   "name": null,
+   "u": [
+    -0.150987,
+    -0.7126822,
+    -0.6850453
+   ],
+   "velPcPerYear": [
+    9.266238e-06,
+    3.48269e-05,
+    3.527285e-06
+   ]
+  },
+  {
+   "bayer": "Xi",
+   "ci": 1.24,
+   "components": [
+    3045
+   ],
+   "con": "Pup",
+   "distPc": 333.3333,
+   "hd": 63700,
+   "hip": null,
+   "hr": "3045",
+   "id": 3045,
+   "mag": 3.34,
+   "name": "Azmidi",
+   "u": [
+    -0.4164852,
+    0.8061052,
+    -0.4203981
+   ],
+   "velPcPerYear": [
+    3.65308e-06,
+    3.491459e-06,
+    -4.222444e-06
+   ]
+  },
+  {
+   "bayer": "The",
+   "ci": -0.01,
+   "components": [
+    4359
+   ],
+   "con": "Leo",
+   "distPc": 38.4615,
+   "hd": 97633,
+   "hip": null,
+   "hr": "4359",
+   "id": 4359,
+   "mag": 3.34,
+   "name": "Chertan",
+   "u": [
+    -0.9448078,
+    0.1911932,
+    0.2660515
+   ],
+   "velPcPerYear": [
+    -9.315409e-06,
+    1.349012e-05,
+    -1.202321e-05
+   ]
+  },
+  {
+   "bayer": "Gam",
+   "ci": -0.13,
+   "components": [
+    6462
+   ],
+   "con": "Ara",
+   "distPc": null,
+   "hd": 157246,
+   "hip": null,
+   "hr": "6462",
+   "id": 6462,
+   "mag": 3.34,
+   "name": null,
+   "u": [
+    -0.0832942,
+    -0.5474179,
+    -0.8327039
+   ],
+   "velPcPerYear": null
+  },
+  {
+   "bayer": "Nu",
+   "ci": 0.99,
+   "components": [
+    6698
+   ],
+   "con": "Oph",
+   "distPc": 47.619,
+   "hd": 163917,
+   "hip": null,
+   "hr": "6698",
+   "id": 6698,
+   "mag": 3.34,
+   "name": null,
+   "u": [
+    -0.0041853,
+    -0.9854773,
+    -0.1697556
+   ],
+   "velPcPerYear": [
+    -1.652369e-06,
+    -8.549266e-06,
+    -2.864845e-05
+   ]
+  },
+  {
+   "bayer": "Alp",
+   "ci": 0.91,
+   "components": [
+    1336
+   ],
+   "con": "Ret",
+   "distPc": 76.9231,
+   "hd": 27256,
+   "hip": null,
+   "hr": "1336",
+   "id": 1336,
+   "mag": 3.35,
+   "name": null,
+   "u": [
+    0.2054442,
+    0.4139781,
+    -0.8868003
+   ],
+   "velPcPerYear": [
+    -8.529509e-07,
+    3.60329e-05,
+    -2.489404e-05
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 1.57,
+   "components": [
+    8465
+   ],
+   "con": "Cep",
+   "distPc": 58.8235,
+   "hd": 210745,
+   "hip": null,
+   "hr": "8465",
+   "id": 8465,
+   "mag": 3.35,
+   "name": null,
+   "u": [
+    0.4683053,
+    -0.2415681,
+    0.8499029
+   ],
+   "velPcPerYear": [
+    -7.5215e-06,
+    8.693214e-06,
+    -1.504461e-05
+   ]
+  },
+  {
+   "bayer": "Eta",
+   "ci": -0.17,
+   "components": [
+    1788
+   ],
+   "con": "Ori",
+   "distPc": 142.8571,
+   "hd": 35411,
+   "hip": null,
+   "hr": "1788",
+   "id": 1788,
+   "mag": 3.36,
+   "name": null,
+   "u": [
+    0.1542448,
+    0.9871471,
+    -0.0418224
+   ],
+   "velPcPerYear": [
+    1.786385e-06,
+    2.040519e-05,
+    -8.55445e-07
+   ]
+  },
+  {
+   "bayer": "Xi",
+   "ci": 0.43,
+   "components": [
+    2484
+   ],
+   "con": "Gem",
+   "distPc": 18.1818,
+   "hd": 48737,
+   "hip": null,
+   "hr": "2484",
+   "id": 2484,
+   "mag": 3.36,
+   "name": "Alzirr",
+   "u": [
+    -0.1913794,
+    0.955807,
+    0.2231745
+   ],
+   "velPcPerYear": [
+    4.395304e-06,
+    3.01297e-05,
+    -1.070554e-05
+   ]
+  },
+  {
+   "bayer": "Omi",
+   "ci": 0.84,
+   "components": [
+    3323
+   ],
+   "con": "UMa",
+   "distPc": 111.1111,
+   "hd": 71369,
+   "hip": null,
+   "hr": "3323",
+   "id": 3323,
+   "mag": 3.36,
+   "name": "Muscida",
+   "u": [
+    -0.2981983,
+    0.3876906,
+    0.8722234
+   ],
+   "velPcPerYear": [
+    2.003866e-05,
+    9.145981e-05,
+    -1.035098e-05
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 0.32,
+   "components": [
+    7377
+   ],
+   "con": "Aql",
+   "distPc": 13.8889,
+   "hd": 182640,
+   "hip": null,
+   "hr": "7377",
+   "id": 7377,
+   "mag": 3.36,
+   "name": null,
+   "u": [
+    0.3639253,
+    -0.9298419,
+    0.0543354
+   ],
+   "velPcPerYear": [
+    4.839795e-06,
+    3.51153e-05,
+    3.846249e-06
+   ]
+  },
+  {
+   "bayer": "Zet",
+   "ci": 0.11,
+   "components": [
+    5107
+   ],
+   "con": "Vir",
+   "distPc": 22.7273,
+   "hd": 118098,
+   "hip": null,
+   "hr": "5107",
+   "id": 5107,
+   "mag": 3.37,
+   "name": "Heze",
+   "u": [
+    -0.9158,
+    -0.4014999,
+    -0.0103991
+   ],
+   "velPcPerYear": [
+    -4.771397e-07,
+    3.407887e-05,
+    4.765775e-06
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.18,
+   "components": [
+    5708
+   ],
+   "con": "Lup",
+   "distPc": 111.1111,
+   "hd": 136504,
+   "hip": null,
+   "hr": "5708",
+   "id": 5708,
+   "mag": 3.37,
+   "name": null,
+   "u": [
+    -0.4505729,
+    -0.5499129,
+    -0.7032637
+   ],
+   "velPcPerYear": [
+    -8.482043e-06,
+    5.796937e-06,
+    -1.073243e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": -0.15,
+   "components": [
+    542
+   ],
+   "con": "Cas",
+   "distPc": 100.0,
+   "hd": 11415,
+   "hip": null,
+   "hr": "542",
+   "id": 542,
+   "mag": 3.38,
+   "name": "Segin",
+   "u": [
+    0.3894257,
+    0.2123107,
+    0.8962543
+   ],
+   "velPcPerYear": [
+    -2.600757e-06,
+    1.625197e-05,
+    -1.184861e-05
+   ]
+  },
+  {
+   "bayer": "Eps",
+   "ci": 0.68,
+   "components": [
+    3482
+   ],
+   "con": "Hya",
+   "distPc": 37.037,
+   "hd": 74874,
+   "hip": null,
+   "hr": "3482",
+   "id": 3482,
+   "mag": 3.38,
+   "name": "Ashlesha",
+   "u": [
+    -0.6609846,
+    0.7420249,
+    0.1117965
+   ],
+   "velPcPerYear": [
+    3.240601e-07,
+    5.065739e-05,
+    -4.984099e-06
+   ]
+  },
+  {
+   "bayer": "Del",
+   "ci": 1.58,
+   "components": [
+    4910
+   ],
+   "con": "Vir",
+   "distPc": 45.4545,
+   "hd": 112300,
+   "hip": null,
+   "hr": "4910",
+   "id": 4910,
+   "mag": 3.38,
+   "name": "Minelauva",
+   "u": [
+    -0.9690069,
+    -0.2398199,
+    0.0592628
+   ],
+   "velPcPerYear": [
+    -7.676159e-06,
+    0.0001045719,
+    -1.297002e-05
+   ]
+  },
+  {
+   "bayer": "Lam",
+   "ci": -0.18,
+   "components": [
+    1879,
+    1880
+   ],
+   "con": "Ori",
+   "distPc": 142.8571,
+   "hd": 36861,
+   "hip": null,
+   "hr": "1879",
+   "id": 1879,
+   "mag": 3.39,
+   "name": "Meissa",
+   "u": [
+    0.1066417,
+    0.9792165,
+    0.1725184
+   ],
+   "velPcPerYear": [
+    3.785849e-06,
+    3.476222e-05,
+    1.905541e-06
+   ]
+  },
+  {
+   "bayer": "Rho",
+   "ci": 1.65,
+   "components": [
+    921
+   ],
+   "con": "Per",
+   "distPc": 90.9091,
+   "hd": 19058,
+   "hip": null,
+   "hr": "921",
+   "id": 921,
+   "mag": 3.39,
+   "name": null,
+   "u": [
+    0.5381838,
+    0.5630624,
+    0.6271515
+   ],
+   "velPcPerYear": [
+    -5.763134e-06,
+    7.689348e-05,
+    -1.842977e-05
+   ]
+  }
+ ]
+}
