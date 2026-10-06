@@ -800,7 +800,7 @@ Key order is not significant. JSON numbers are never `NaN` or infinite.
   - `rail`: light rail and commuter rail (GTFS `route_type` 0, 1, 2 and the extended railway and tram ranges).
   - `bus`: bus and trolleybus (3, 11, and the extended coach and bus ranges).
   - Reserved, not sent yet: `aircraft`, a real tracked aircraft from an aircraft feed. It will add optional fields (for example `altitudeM`), will never carry registration, ICAO address, owner or (until a source's terms allow it) callsign, and is filtered upstream for LADD and PIA (§4.9).
-  - Reserved, not sent yet: `aircraft-ambient`, a decorative aircraft that is not an individually tracked real one (for example density-driven traffic over an airport). It must not be labelled or presented as a real flight, carries no identity guarantees, and its `source` is never a real feed's key, so no feed credit is claimed for it. Whether the relay or the host generates it is an open decision (§8.13).
+  - Reserved, not sent yet: `aircraft-ambient`, a decorative aircraft that is not an individually tracked real one (for example density-driven traffic over an airport). It must not be labelled or presented as a real flight, carries no identity guarantees, and its `source` is never a real feed's key, so no feed credit is claimed for it. Whether the relay or the host generates it is an open decision (§8.13). Specification: `docs/research/ambient-planes.md` (proposes on-device generation, a snapshot with `live: false`, and the additive fields `altitudeM` and `label`).
   - Clients skip an unknown `kind` and ignore unknown fields (§8.10).
 - **Nullable fields:** `feedTimestamp`, `routeName`, `heading`, `speedMps`, `stopStatus`. Everything else is always present.
 

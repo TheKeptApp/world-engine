@@ -254,22 +254,37 @@ Render an ambient aircraft only when the camera could plausibly see it; draw not
 
 ## 7. Data contract
 
-Ambient aircraft use **the same vehicle record as live feeds**, so the host's drawing path is one path, with these values. **Field names other than `kind`, `live`, `altitudeM` and `label` follow the current `live-feeds.md` §4.5 shape (`pos`, `hdg`, `spd`, `t`, `src`, `q`); reconcile with the data-contract section being added to `live-feeds.md` at merge, where the contract's names win.**
+Ambient aircraft use **the same vehicle record as live feeds**: the contract in `live-feeds.md` §8 (schema 1), so the host's drawing path is one path. Ambient records add two fields, `altitudeM` and `label`, as the contract allows (additive fields, §8.10; aircraft kinds add optional fields such as `altitudeM`, §8.4). They travel in an on-device snapshot whose top-level `live` is `false`.
 
 ```jsonc
+// The snapshot the host hands to the engine (generated on device, never from the relay)
 {
-  "id": "amb:ORD:27L:20732:0123",  // opaque, stable, deterministic: airport:runway:dayNumber:slot (20732 = 2026-10-06). Not an ICAO address, never real.
-  "kind": "aircraft-ambient",       // the kind name in the data contract
-  "live": false,                    // always false for this kind; live aircraft are true
-  "label": "Illustrative air traffic — not live",   // the not-live text the host must show (§1)
-  "route": null,                    // no callsign, flight number or airline, ever
-  "pos": [41.98391, -87.81234],     // WGS84 latitude, longitude
-  "altitudeM": 352.7,               // metres above the threshold elevation of the runway in use (3.5 NM out: 15 + 0.052408 * 6,444 m)
-  "hdg": 270.0,                     // degrees true, equal to the runway's landing heading
-  "spd": 77.2,                      // ground speed, metres per second (150 kt)
-  "t": 1790000000,                  // world time (Unix seconds) the record is evaluated for
-  "src": "ambient",                 // not a feed
-  "q": "synthetic"                  // marks it as invented; live feeds use reported | derived | estimated
+  "schema": 1,
+  "live": false,                    // never presented as live (§1)
+  "generatedAt": 1790000000,        // world time the records are evaluated for (Unix seconds)
+  "feedTimestamp": null,            // no feed
+  "state": "fresh", "stale": false,
+  "vehicles": [
+    {
+      "id": "amb:ORD:27L:20732:0123",  // opaque, stable, deterministic: airport:runway:dayNumber:slot (20732 = 2026-10-06). Not an ICAO address, never real.
+      "kind": "aircraft-ambient",
+      "route": "ORD 27L",              // the runway in use; never a callsign, flight number or airline
+      "routeName": null,
+      "lat": 41.98391, "lon": -87.81234,  // WGS84
+      "heading": 270.0,                // degrees clockwise from true north, the runway's landing heading
+      "speedMps": 77.2,                // ground speed (150 kt)
+      "stopStatus": null,
+      "timestamp": 1790000000,
+      "ageSeconds": 0,
+      "source": "ambient",             // not a feed key, so no feed credit is claimed (contract §8.4)
+      "altitudeM": 352.7,              // additive: metres above the threshold elevation of the runway in use (3.5 NM out: 15 + 0.052408 * 6,444 m)
+      "label": "Illustrative air traffic — not live"   // additive: the not-live text the host must show (§1)
+    }
+  ],
+  "attribution": [
+    { "source": "ambient", "text": "Illustrative air traffic, not live. Runway geometry © OpenStreetMap contributors.",
+      "url": "https://www.openstreetmap.org/copyright" }
+  ]
 }
 ```
 
