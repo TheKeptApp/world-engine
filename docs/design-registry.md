@@ -4,7 +4,7 @@ The single list of every WorldEngine design pack, its status and which lanes use
 
 Status: **reference** (read for direction, not tracked), **in use** (lanes build or grade against it), **superseded** (kept for history), **pending** (announced, not yet in the repo). Lanes: 5A (light, weather, sky, post), P2 (buildings, yards, ground, vegetation placement), P3 (look loop and grading), L1, NJ.
 
-Last checked: 2026-10-06 (P3).
+Last checked: 2026-10-06 18:00 (P3).
 
 ## Packs in this repo
 
@@ -22,7 +22,7 @@ Last checked: 2026-10-06 (P3).
 | postcards-widgets-v1 | `docs/proposals/postcards-widgets-v1/` | 2026-10 | Scene studies, framed postcards, frame variations, widget boards, one-page spec | reference | — | Design proposal, not deployed UI. Widget attribution fit and provider review still required. Lane not assigned. |
 | look-fix-v1 | `docs/proposals/look-fix-v1/` | 2026-10-06 | Ground, lawn, shrubs, light, weather, aerial edges and sky fixes; 21 reference images; "pass if" checks | in use | 5A, P2, P3 | **R override:** lawn contrast exceeds §1.1 (P2 ground pass 2: in-lot patches ±10–15 %, pools −25 % under trees, −18 % under shrubs and hedges, mowing bands). "Pass if" checks are GRADING.md §H. Images are uncalibrated appearance references. |
 | vegetation-v1 | `docs/proposals/vegetation-v1/` | 2026-10-06 | Style-B tree and shrub reference: crown construction, four seasons for Chicago, Denver and Miami, shrubs, hedges and beds, exact colours (`vegetation-colours.json`), phone-distance and triangle budgets | in use | P2, P3 | **Gap:** Chicago needs a willow (later). P3: tree and shrub grading reference (GRADING.md §V, from the run after ec7a62a). |
-| ground-v1 | `docs/proposals/ground-v1/` | — | — | pending | — | Announced; not yet in the repo. |
+| ground-v1 | `docs/proposals/ground-v1/` | 2026-10-06 | Style-B ground construction: lawn tone, pavement rhythm, worn edges, soft contact shade, restrained weather response; colours in `ground-colours.json` | pending | P2, P3 | Landed in the main checkout on 2026-10-06 (17 MB) but **not yet committed to main**. Not yet used for grading; awaiting the owner's instruction (as with vegetation-v1). |
 | live-world-v1 | `docs/proposals/live-world-v1/` | — | — | pending | — | Announced; not yet in the repo. |
 
 ## External packs (other projects, listed by path only)
@@ -48,3 +48,4 @@ Listed at the owner's request, by path only; P3 does not read or use them. Paths
 ## Change log
 
 - 2026-10-06: registry created; seeded with every folder in `docs/proposals/`, the two pending packs and three external packs.
+- 2026-10-06 18:00: ground-v1 appeared in the main checkout (uncommitted); row filled in, still pending. No other pack folders changed.
