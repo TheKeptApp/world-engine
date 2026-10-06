@@ -300,3 +300,115 @@ struct BuildingRoleTests {
         #expect(Set(counts.keys).isSuperset(of: ["tudor", "colonial", "queenAnne"]))
     }
 }
+
+/// Facade pass: entry kits stay in front of the door within 1.6 m, inferred bays are shallow,
+/// sealed and only where the space in front is clear, details follow the LOD rules.
+@Suite("Facade kits")
+struct FacadeKitTests {
+    static func rect(_ x0: Double, _ y0: Double, _ x1: Double, _ y1: Double) -> Ring {
+        [LocalPoint(x0, y0), LocalPoint(x1, y0), LocalPoint(x1, y1), LocalPoint(x0, y1)]
+    }
+
+    static func generator(_ profile: String, obstacles: [Polygon2D] = []) throws -> BuildingGenerator {
+        var g = BuildingGenerator(profile: try StyleLibrary.profile(id: profile), context: testContext())
+        g.obstacles = PolygonIndex(obstacles)
+        return g
+    }
+
+    /// Vertices standing clear of the walls (beyond wall trim, sills and lintels) between
+    /// heights `z0` and `z1`, as local points.
+    static func outside(_ m: MeshBuffers, _ fp: Polygon2D, z0: Double, z1: Double) -> [LocalPoint] {
+        m.positions.compactMap { p in
+            let lp = LocalPoint(Double(p.x), Double(-p.z))
+            guard Double(p.y) > z0, Double(p.y) < z1, !fp.contains(lp) else { return nil }
+            return GeometryCheck.distanceToBoundary(fp, lp) > 0.16 ? lp : nil
+        }
+    }
+
+    @Test func entryKitsSitInFrontOfTheDoorWithinTheirDepth() throws {
+        let gen = try Self.generator("evanston")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        var kits: [String: Int] = [:]
+        for id in Int64(1)...Int64(240) {
+            let b = testBuilding(5000 + id, Self.rect(0, 0, 12, 9))
+            let g = gen.generate(b, palette: &palette, lod: .near)
+            guard let kit = g.entryKit, kit != "surround", let e = g.frontEdge else { continue }
+            kits[kit, default: 0] += 1
+            let (p, dir, n, len) = BuildingGenerator.edge(b.footprint.outer, e)
+            // Everything standing in front of the facade above the steps (columns, beam, pediment,
+            // vestibule walls and roof, the main eave): along the front wall, at most 1.6 m out
+            // (+ the 0.12 m vestibule rake), and the kit itself reaches beyond the eave.
+            func front(_ m: MeshBuffers, _ z0: Double, _ z1: Double) -> [(s: Double, t: Double)] {
+                Self.outside(m, b.footprint, z0: z0, z1: z1).map { (simd_dot($0 - p, dir), simd_dot($0 - p, n)) }.filter { $0.t > 0.16 }
+            }
+            let standing = front(g.mesh, 0.6, 5.0)
+            #expect(standing.contains { $0.t > 0.98 }, "\(kit) #\(id) has nothing standing in front of the door")
+            for q in standing {
+                #expect(q.t <= 1.72, "\(kit) #\(id): \(q.t) m out")
+                #expect(q.s >= -0.2 && q.s <= len + 0.2, "\(kit) #\(id): \(q.s) along a \(len) m wall")
+            }
+            // Mid keeps the portico roof and platform, not the columns.
+            if kit == "portico" {
+                let mid = gen.generate(b, palette: &palette, lod: .mid)
+                #expect(front(mid.mesh, 0.6, 2.4).isEmpty, "portico #\(id) has columns at mid")
+                #expect(front(mid.mesh, 2.4, 5.0).contains { $0.t > 0.98 }, "portico #\(id) lost its roof at mid")
+                #expect(mid.entryKit == "portico")
+            }
+        }
+        #expect((kits["portico"] ?? 0) > 3 && (kits["vestibule"] ?? 0) > 3, "\(kits)")
+    }
+
+    @Test func inferredBaysAreShallowSealedAndNeedClearSpace() throws {
+        let gen = try Self.generator("chicago-dense-north")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        let ring = Self.rect(0, 0, 8, 18)
+        var withBay: [Int64] = []
+        for id in Int64(1)...Int64(160) {
+            let b = testBuilding(7000 + id, ring)
+            let g = gen.generate(b, palette: &palette, lod: .near)
+            for bay in g.inferredBays {
+                withBay.append(id)
+                // Projection ≤ 0.6 m from the street wall (y = 0, facing −y), width 2.4–3.2 m.
+                let ys = bay.map(\.y), xs = bay.map(\.x)
+                #expect(ys.min()! >= -0.6 - 1e-6 && ys.max()! <= 1e-6, "#\(id) projects \(-ys.min()!) m")
+                #expect(xs.max()! - xs.min()! >= 2.4 - 1e-6 && xs.max()! - xs.min()! <= 3.2 + 1e-6, "#\(id) width")
+                // Sealed: rays from inside the bay volume always hit something.
+                let inside = (bay[0] + bay[1] + bay[2] + bay[3]) / 4
+                for z in [0.5, 2.0] {
+                    let o = SIMD3<Double>(LocalFrame.scenePosition(inside, y: z))
+                    for d in GeometryCheck.directions {
+                        #expect(GeometryCheck.hit(g.mesh, origin: o, dir: d) != nil, "#\(id) bay leaks at \(z) m toward \(d)")
+                    }
+                }
+            }
+            // Mid keeps the bay mass; far and skyline never have it.
+            if !g.inferredBays.isEmpty {
+                #expect(gen.generate(b, palette: &palette, lod: .mid).inferredBays.count == g.inferredBays.count)
+                #expect(gen.generate(b, palette: &palette, lod: .far).inferredBays.isEmpty)
+            }
+        }
+        #expect(withBay.count >= 10, "only \(withBay.count) inferred bays")
+        // A neighbor 1.5 m in front of the facade removes every inferred bay.
+        let blocked = try Self.generator("chicago-dense-north", obstacles: [Polygon2D(outer: Self.rect(-5, -4, 13, -1.5))])
+        for id in withBay {
+            #expect(blocked.generate(testBuilding(7000 + id, ring), palette: &palette, lod: .near).inferredBays.isEmpty, "#\(id)")
+        }
+    }
+
+    @Test func mappedStreetBaysAreDressed() throws {
+        let gen = try Self.generator("chicago-dense-north")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        // Deep city lot with a mapped three-sided bay beside a wider entry face.
+        let ring = [LocalPoint(0, 0.6), LocalPoint(0.9, 0.6), LocalPoint(1.5, 0), LocalPoint(3.3, 0), LocalPoint(3.9, 0.6),
+                    LocalPoint(8, 0.6), LocalPoint(8, 18), LocalPoint(0, 18)]
+        var dressed = 0
+        for id in Int64(1)...Int64(40) {
+            let g = gen.generate(testBuilding(9000 + id, ring), palette: &palette, lod: .near)
+            if g.mappedBays > 0 {
+                dressed += 1
+                #expect(g.inferredBays.isEmpty, "a mapped bay is never doubled by an inferred one")
+            }
+        }
+        #expect(dressed > 0)
+    }
+}

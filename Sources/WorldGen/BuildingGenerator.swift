@@ -44,6 +44,10 @@ public struct GeneratedBuilding: Sendable {
     public var houseType: String?
     /// Family for any role that has one (house families and block families such as six-flats).
     public var family: String?
+    /// The style profile that generated this building (zones can differ within one area).
+    public var profileID: String?
+    /// Front door: a point on the wall and the outward normal (walks start here). Nil without a door.
+    public var entry: (point: LocalPoint, normal: LocalPoint)?
     /// Which color tuple (0 = A, 1 = B) and the resolved hex colors [wall, trim, door, roof].
     public var colorSet = 0
     public var colors: [String] = []
@@ -75,6 +79,13 @@ public struct GeneratedBuilding: Sendable {
     public var optionalRoofTriangles = 0
     /// Where to plant foundation bushes (local points) with a seeded scale.
     public var bushSpots: [(LocalPoint, Float)] = []
+    /// Entry kit on the front door (portico | vestibule | surround), nil for the plain stoop/canopy.
+    public var entryKit: String?
+    /// Inferred facade elements (not in the mapped footprint): plan outlines of street bays added
+    /// in front of the facade. Logged for review like `roofFallback`.
+    public var inferredBays: [[LocalPoint]] = []
+    /// Mapped footprint protrusions dressed as bays.
+    public var mappedBays = 0
 }
 
 public struct BuildingGenerator: Sendable {
@@ -162,6 +173,7 @@ public struct BuildingGenerator: Sendable {
         let ring = fp.outer
         var g = GeneratedBuilding(ref: b.ref, role: role, footprintClass: shape.kind, roofShape: .flat)
         g.lod = lod
+        g.profileID = profile.id
 
         // Orientation first: it informs the house type (broad frontage) and the openings.
         switch role {
@@ -377,7 +389,9 @@ public struct BuildingGenerator: Sendable {
         let ctx = BuildContext(b: b, ring: ring, type: type, grammar: grammar, F: F, H: H, parapet: parapet, pitch: pitch,
                                overhang: overhang, wall: wallPaint, sideWall: sideWall, trim: trim, door: doorPaint, roof: roofPaint,
                                foundation: foundation, glass: glass, mainRect: mainRect, lod: lod, envelope: envelope, plan: plan,
-                               streetFacing: streetFacing)
+                               streetFacing: streetFacing, floors: max(1, g.floors),
+                               mappedBays: facade.mappedBays == true && (role == .house || role == .block)
+                                   ? mappedBays(ring, front: g.frontEdge, streetFacing: streetFacing) : [])
         if lod <= .mid {
             addOpenings(ctx, &g, palette: &palette, into: &m)
             addFacadeDetails(ctx, &g, into: &m)
@@ -385,8 +399,22 @@ public struct BuildingGenerator: Sendable {
             if near { addContactSkirt(ring, palette: palette, into: &m) }
         }
         g.optionalRoofTriangles = optional
+        if g.entry == nil, let e = g.frontEdge, role == .house || role == .block {
+            g.entry = entryPoint(b, type: type, facade: facade, ring: ring, edge: e)
+        }
         g.mesh = m
         return g
+    }
+
+    /// The front door's point and outward normal, the same draw `addOpenings` makes (so LODs
+    /// without openings still know where the door is, e.g. for front walks).
+    func entryPoint(_ b: Building, type: StyleProfile.HouseType?, facade: HouseFamilyGrammar.Facade, ring: Ring, edge e: Int) -> (point: LocalPoint, normal: LocalPoint) {
+        let (p, dir, n, len) = Self.edge(ring, e)
+        var r = b.ref.random("door")
+        var doorAt = type.map { r.pick($0.door) { _ in 1 } } ?? 0.5
+        if facade.symmetric == true { doorAt = 0.5 }
+        let doorS = min(len - 0.7, max(0.7, len * doorAt))
+        return (p + dir * doorS, n)
     }
 
     /// Edges on the street side: facing the same way as the front edge and close to its line.
@@ -413,7 +441,14 @@ public struct BuildingGenerator: Sendable {
         let win = c.type?.windows ?? StyleProfile.Windows(bay: [2.8, 3.2], width: [0.9, 1.2], height: [1.2, 1.5], broad: nil)
         let bay = rng.range(win.bay)
         var winW = rng.range(win.width), winH = rng.range(win.height)
-        if facade.tallWindows == true { winW = min(winW, 1.0); winH = max(winH, 1.65) }
+        if facade.windowWidth != nil || facade.windowHeight != nil {
+            // Family window size (own salt: the openings stream above is unchanged).
+            var ws = b.ref.random("window-size")
+            if let r = facade.windowWidth { winW = ws.range(r) }
+            if let r = facade.windowHeight { winH = ws.range(r) }
+        } else if facade.tallWindows == true {
+            winW = min(winW, 1.0); winH = max(winH, 1.65)
+        }
         let stories = role == .garage ? 1 : max(1, g.floors)
         let storyH = (H - F) / Double(stories)
         var doorSpan: (edge: Int, s0: Double, s1: Double)?
@@ -421,6 +456,8 @@ public struct BuildingGenerator: Sendable {
         var household = b.ref.random("household")
         let householdSeed = Float(household.unit())
         let storefront = facade.storefront == true
+        var doorAtS: Double?
+        var facadeBay: FacadeBay?
 
         if role == .house || role == .block, let e = g.frontEdge {
             let (p, dir, n, len) = Self.edge(ring, e)
@@ -428,20 +465,43 @@ public struct BuildingGenerator: Sendable {
             var doorAt = c.type.map { r.pick($0.door) { _ in 1 } } ?? 0.5
             if facade.symmetric == true { doorAt = 0.5 }
             let doorS = min(len - 0.7, max(0.7, len * doorAt))
+            doorAtS = doorS
+            g.entry = (p + dir * doorS, n)
             let porch = c.type?.porch
             let porchStyle = facade.porchStyle ?? porch?.style ?? "canopy"
             let wantsPorch = r.chance(facade.porchLikelihood ?? porch?.likelihood ?? 0.3) && len >= 3.5 && !storefront
             g.hasPorch = wantsPorch
             g.porchStyle = wantsPorch ? porchStyle : nil
-            // Door (0.9 × 2.05 m) with trim surround.
-            if near {
-                m.paint = c.trim
-                m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.58, s1: doorS + 0.58, z0: F, z1: F + 2.2, offset: 0.025)
+            // Entry kit (family data), only where no covered porch takes the entry.
+            var kit: String?
+            if let k = facade.entry, !storefront, !(wantsPorch && porchStyle == "covered") {
+                var kr = b.ref.random("entry-kit")
+                if kr.chance(facade.entryChance ?? 1) { kit = k }
             }
-            m.paint = c.door
-            m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.45, s1: doorS + 0.45, z0: F, z1: F + 2.05, offset: 0.045)
+            var kitHalf: Double?
+            if kit == "portico" {
+                kitHalf = addPortico(c, edge: e, doorS: doorS, into: &m)
+                if kitHalf == nil { kit = nil }
+            } else if kit == "vestibule" {
+                kitHalf = addVestibule(c, edge: e, doorS: doorS, into: &m)
+                if kitHalf == nil { kit = "surround" }
+            }
+            g.entryKit = kit
+            // Door (0.9 × 2.05 m) with trim surround; the vestibule carries its own.
+            if kit == "surround" {
+                addArchedDoor(c, origin: p, dir: dir, n: n, doorS: doorS, into: &m)
+            } else if kit != "vestibule" {
+                if near {
+                    m.paint = c.trim
+                    m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.58, s1: doorS + 0.58, z0: F, z1: F + 2.2, offset: 0.025)
+                }
+                m.paint = c.door
+                m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.45, s1: doorS + 0.45, z0: F, z1: F + 2.05, offset: 0.045)
+            }
             let eaveZ = H - c.overhang * tan(c.pitch * .pi / 180)
-            if wantsPorch, porchStyle == "covered" {
+            if let hw = kitHalf {
+                doorSpan = (e, doorS - hw - 0.3, doorS + hw + 0.3)
+            } else if wantsPorch, porchStyle == "covered" {
                 let depth = r.range(porch?.depth ?? [1.6, 2.2])
                 let width = min(len - 0.4, max(2.4, len * r.range(porch?.frontage ?? [0.5, 0.8])))
                 let s0 = max(0.2, min(len - 0.2 - width, doorS - width / 2))
@@ -475,7 +535,9 @@ public struct BuildingGenerator: Sendable {
                 let start = m.positions.count
                 m.paint = c.foundation
                 m.addBox(center: p + dir * doorS + n * 0.6, u: dir, halfLength: 0.8, halfWidth: 0.6, z0: 0, z1: F)
-                if facade.entryPediment == true {
+                if kit == "surround" {
+                    // The arched stone surround is the entry.
+                } else if facade.entryPediment == true {
                     addPediment(at: p + dir * doorS, dir: dir, n: n, z: F + 2.3, paint: c.trim, roof: c.roof, into: &m)
                 } else if wantsPorch || porchStyle == "canopy", !storefront {
                     Roofs.slab(OrientedRect(center: p + dir * doorS + n * min(depth, 1.2) / 2, u: dir, halfLength: 0.9, halfWidth: min(depth, 1.2) / 2),
@@ -484,14 +546,23 @@ public struct BuildingGenerator: Sendable {
                 m.bakeAO(from: start) { _, nn in nn.y < -0.5 ? 0.7 : 1 }
                 if near { addSteps(at: p + dir * doorS + n * 1.2, dir: dir, n: n, width: 1.2, height: F, foundation: c.foundation, into: &m) }
             }
-            // Foundation bushes along the front, skipping the entry.
+            // Inferred street bay beside the entry (family data, clear space only).
+            if let fb = planBay(c, g, doorSpan: doorSpan, winH: winH) {
+                facadeBay = fb
+                emitBay(c, fb, win: (winW, winH), lit: householdSeed, into: &m)
+                g.inferredBays.append(bayPlan(c, fb))
+            }
+            // Foundation bushes along the front, skipping the entry (and any bay).
             if !storefront {
                 var bush = b.ref.random("bushes")
                 var s = 0.8
                 let span = doorSpan!
                 while s < len - 0.6 {
                     if !(s > span.s0 - 0.5 && s < span.s1 + 0.5) && bush.chance(0.7) {
-                        g.bushSpots.append((p + dir * s + n * 0.9, Float(bush.range(0.7, 1.15))))
+                        let scale = Float(bush.range(0.7, 1.15))
+                        if !(facadeBay.map { s > $0.s0 - 0.4 && s < $0.s1 + 0.4 } ?? false) {
+                            g.bushSpots.append((p + dir * s + n * 0.9, scale))
+                        }
                     }
                     s += bush.range(1.5, 2.3)
                 }
@@ -529,18 +600,79 @@ public struct BuildingGenerator: Sendable {
 
         // Windows: front facade gets the type's rhythm; sides and rear are sparser (v2 §4.2).
         guard role == .house || role == .block || (role == .garage && rng.chance(0.4)) else { return }
+        let bayFaces = Set(c.mappedBays.flatMap { $0 })
+        g.mappedBays = c.mappedBays.count
+        let lintel: Paint? = facade.lintels == true && near ? c.trim : nil
         for e in 0..<ring.count {
             let (p, dir, n, len) = Self.edge(ring, e)
             if role == .garage, e == g.garageDoorEdge { continue }
             let isFront = e == g.frontEdge
             let street = c.streetFacing.contains(e)
+            let stoneHere = street || bayFaces.contains(e) ? lintel : nil
+            func lit(_ story: Int, _ k: Int) {
+                var wr = StableRandom(UInt64(e), UInt64(story * 31 + k), salt: "lit")
+                m.extra = SIMD4(1, min(0.999, householdSeed * 0.6 + Float(wr.unit()) * 0.4), 0, 0)
+            }
+            func rows(_ height: Double) -> [(Int, Double, Double)] {
+                (0..<stories).compactMap { story in
+                    let z0 = F + Double(story) * storyH + (story == 0 ? 0.85 : 0.8)
+                    let z1 = min(z0 + height, F + Double(story + 1) * storyH - 0.35, H - 0.3)
+                    return z1 - z0 > 0.6 ? (story, z0, z1) : nil
+                }
+            }
+            // Mapped bay faces: one window per story on each narrow face.
+            if bayFaces.contains(e), len < 2.0 {
+                let w = min(winW, len - 0.3)
+                guard w > 0.42 else { continue }
+                for (story, z0, z1) in rows(winH) where !(storefront && story == 0) {
+                    lit(story, 0)
+                    addWindow(origin: p, dir: dir, normal: n, sCenter: len / 2, width: w, z0: z0, z1: z1,
+                              glass: c.glass, trim: c.trim, frames: near, lintel: len >= w + 0.38 ? stoneHere : nil, into: &m)
+                    m.extra = SIMD4(1, 0, 0, 0)
+                }
+                continue
+            }
+            // Long side walls: grouped rhythm with blank stretches (family data).
+            if facade.sideRhythm == true, !street, len >= 12, role == .house || role == .block {
+                let scale = facade.sideWindowScale ?? 0.85
+                let w = max(0.6, winW * scale)
+                let groups = sideRhythmCenters(c, edge: e, width: w)
+                for (story, z0, z1) in rows(winH * (scale + 1) / 2) {
+                    for (gi, grp) in groups.enumerated() {
+                        for k in 0..<grp.count {
+                            let sc = grp.center - grp.width / 2 + w / 2 + Double(k) * (w + 0.4)
+                            lit(story, gi * 4 + k)
+                            addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: z0, z1: z1,
+                                      glass: c.glass, trim: c.trim, frames: near, into: &m)
+                            m.extra = SIMD4(1, 0, 0, 0)
+                        }
+                    }
+                }
+                continue
+            }
             let bayHere = street ? bay : bay * (role == .garage ? 2.5 : role == .house ? 1.35 : 1.7)
             var count: Int
             if len < 2.0 { continue }
             if len < 3.0 { count = rng.chance(0.5) ? 1 : 0 } else { count = max(1, Int(len / bayHere)) }
             if role == .garage { count = min(count, 1) }
             guard count > 0 else { continue }
-            let group = facade.groupedWindows == true && street && len >= 5 ? 2 : 1
+            let group = facade.groupedWindows == true && street && len >= 5 ? max(2, facade.windowGroup ?? 2) : 1
+            // Symmetric front: window bays mirrored about the centered door (Colonial / Georgian).
+            if isFront, facade.symmetric == true, let doorS = doorAtS, let span = doorSpan, span.edge == e {
+                let entryHalf = (span.s1 - span.s0) / 2
+                for (story, z0, z1) in rows(winH) where !(storefront && story == 0) {
+                    let offs = symmetricOffsets(len: len, doorS: doorS, minPitch: winW + 1.0, width: winW, entryHalf: entryHalf, story: story)
+                    for (k, o) in offs.enumerated() {
+                        // Over the door only where the entry roof stays below the sill.
+                        if o == 0, g.entryKit == "portico", z0 < F + 3.75 { continue }
+                        lit(story, k)
+                        addWindow(origin: p, dir: dir, normal: n, sCenter: doorS + o, width: winW, z0: z0, z1: z1,
+                                  glass: c.glass, trim: c.trim, frames: near, lintel: stoneHere, into: &m)
+                        m.extra = SIMD4(1, 0, 0, 0)
+                    }
+                }
+                continue
+            }
             for story in 0..<stories {
                 // Shopfronts take the street side of the ground floor.
                 if storefront, story == 0, street { continue }
@@ -549,6 +681,8 @@ public struct BuildingGenerator: Sendable {
                 guard z1 - z0 > 0.6 else { continue }
                 // Ranch: one broad living-room window on the front, ground floor.
                 var widths = [Double](repeating: winW * Double(group) + 0.12 * Double(group - 1), count: max(1, count / group))
+                // Ribbons of three or more: as many as fit with ≥ 1.2 m of wall between them.
+                if group > 2 { widths = [Double](repeating: widths[0], count: max(1, Int((len - 0.9 + 1.2) / (widths[0] + 1.2)))) }
                 if isFront, story == 0, let broad = win.broad, widths.count >= 2 { widths[0] = rng.range(broad) }
                 // Fit within corner clearance 0.45 m and 0.35 m between openings; drop windows first.
                 while !widths.isEmpty, widths.reduce(0, +) + Double(widths.count - 1) * 0.35 > len - 0.9 { widths.removeLast() }
@@ -557,10 +691,11 @@ public struct BuildingGenerator: Sendable {
                 for (k, w) in widths.enumerated() {
                     let sc = 0.45 + step * (Double(k) + 0.5)
                     if story == 0, let span = doorSpan, span.edge == e, sc + w / 2 > span.s0, sc - w / 2 < span.s1 { continue }
-                    var wr = StableRandom(UInt64(e), UInt64(story * 31 + k), salt: "lit")
-                    m.extra = SIMD4(1, min(0.999, householdSeed * 0.6 + Float(wr.unit()) * 0.4), 0, 0)
-                    addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: min(w, step - 0.35), z0: z0, z1: z1,
-                              glass: c.glass, trim: c.trim, frames: near, mullions: w > winW * 1.5 ? group : 1, into: &m)
+                    let ww = min(w, step - 0.35)
+                    if let fb = facadeBay, fb.edge == e, story < fb.stories, sc + ww / 2 > fb.s0 - 0.1, sc - ww / 2 < fb.s1 + 0.1 { continue }
+                    lit(story, k)
+                    addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: ww, z0: z0, z1: z1,
+                              glass: c.glass, trim: c.trim, frames: near, mullions: w > winW * 1.5 ? group : 1, lintel: stoneHere, into: &m)
                     m.extra = SIMD4(1, 0, 0, 0)
                 }
             }
@@ -635,7 +770,8 @@ public struct BuildingGenerator: Sendable {
 
     // swiftlint:disable:next function_parameter_count
     func addWindow(origin: LocalPoint, dir: LocalPoint, normal: LocalPoint, sCenter: Double, width: Double,
-                   z0: Double, z1: Double, glass: Paint, trim: Paint, frames: Bool = true, mullions: Int = 1, into m: inout MeshBuffers) {
+                   z0: Double, z1: Double, glass: Paint, trim: Paint, frames: Bool = true, mullions: Int = 1,
+                   lintel: Paint? = nil, into m: inout MeshBuffers) {
         guard width > 0.4 else { return }
         let s0 = sCenter - width / 2, s1 = sCenter + width / 2, f = 0.1
         m.paint = glass
@@ -644,8 +780,16 @@ public struct BuildingGenerator: Sendable {
         let seed = m.extra
         m.extra = SIMD4(1, 0, 0, 0)
         m.paint = trim
-        m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z0 - f, z1: z0, offset: 0.06)
-        m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z1, z1: z1 + f, offset: 0.06)
+        if let stone = lintel {
+            // Masonry opening: projecting sill below, lintel above, plain side frames.
+            m.paint = stone
+            addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - 0.14, s1: s1 + 0.14, z0: z0 - 0.13, z1: z0, depth: 0.1, ends: true, into: &m)
+            addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - 0.18, s1: s1 + 0.18, z0: z1, z1: z1 + 0.28, depth: 0.07, ends: true, into: &m)
+            m.paint = trim
+        } else {
+            m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z0 - f, z1: z0, offset: 0.06)
+            m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z1, z1: z1 + f, offset: 0.06)
+        }
         m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s0, z0: z0, z1: z1, offset: 0.06)
         m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s1, s1: s1 + f, z0: z0, z1: z1, offset: 0.06)
         m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0, s1: s1, z0: (z0 + z1) / 2 - 0.03, z1: (z0 + z1) / 2 + 0.03, offset: 0.05)
@@ -657,6 +801,19 @@ public struct BuildingGenerator: Sendable {
             }
         }
         m.extra = seed
+    }
+
+    /// A ledge standing out from a wall by `depth`: front and top faces, plus the two ends.
+    // swiftlint:disable:next function_parameter_count
+    func addLedge(origin: LocalPoint, dir: LocalPoint, normal: LocalPoint, s0: Double, s1: Double, z0: Double, z1: Double,
+                  depth: Double, ends: Bool, into m: inout MeshBuffers) {
+        func q(_ s: Double, _ t: Double, _ z: Double) -> SIMD3<Float> { P(origin + dir * s + normal * t, z) }
+        m.addFace([q(s0, depth, z0), q(s1, depth, z0), q(s1, depth, z1), q(s0, depth, z1)], facing: D(normal))
+        m.addFace([q(s0, 0, z1), q(s0, depth, z1), q(s1, depth, z1), q(s1, 0, z1)], facing: sceneUp)
+        if ends {
+            m.addFace([q(s0, 0, z0), q(s0, depth, z0), q(s0, depth, z1), q(s0, 0, z1)], facing: D(-dir))
+            m.addFace([q(s1, 0, z0), q(s1, depth, z0), q(s1, depth, z1), q(s1, 0, z1)], facing: D(dir))
+        }
     }
 
     /// Steps descending from `height` to the ground, starting at `top` and going out along `n`.
@@ -696,6 +853,9 @@ struct BuildContext {
     var envelope: RoofEnvelope?
     var plan: RoofPlan?
     var streetFacing: Set<Int>
+    var floors = 1
+    /// Mapped street bays: [side, front, side] edge indices (facade `mappedBays`).
+    var mappedBays: [[Int]] = []
 }
 
 @inline(__always)
