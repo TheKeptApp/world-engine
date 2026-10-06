@@ -415,6 +415,16 @@ void worldFoliageSurface(realitykit::surface_parameters params)
     // Crown lobes carry a leaf threshold in extra.y (0 = trunk, branches, other foliage).
     float leaf = mix(g.leafFraction.y, g.leafFraction.z, u);
     su.leafCut = extra.y > 0.0 && extra.y > leaf + 1e-3;
+    if (su.leafCut && extra.z > 0.5) {
+        // A bare skyline crown (beyond 400 m and from the air) reads as the tree's twig mass: the
+        // bark colour lifted toward grey, unsnowed, instead of vanishing (look-fix-v1 §5: retain
+        // aggregate height and colour; winter aerials showed no trees at all).
+        half3 bark = srgbToLinear(tex.read(uint2(15, 0)).rgb);
+        half bare = half(1.0 - smoothstep(0.0, 0.5, leaf));
+        su.base = mix(su.base, mix(bark, half3(dot(bark, half3(0.3h, 0.59h, 0.11h))), 0.35h) * 1.25h, bare);
+        su.leafCut = false;
+        su.weathered = false;
+    }
     finish(params, g, su, wp);
 }
 
@@ -432,7 +442,8 @@ void worldFoliageGeometry(realitykit::geometry_parameters params)
     // Leaf drop: a lobe past its threshold collapses to a point inside the crown, so it draws
     // nothing at all (alpha-cut transparent surfaces still showed grazing-angle rims).
     float lobe = params.geometry().uv3().y;
-    if (lobe > 0.0) {
+    // Skyline crowns (uv3.z = 1) stay in bare seasons as a twig mass (see worldFoliageSurface).
+    if (lobe > 0.0 && params.geometry().uv3().z < 0.5) {
         float u = hash12(origin.xz * 0.37 + 3.1);
         float leaf = mix(g.leafFraction.y, g.leafFraction.z, u);
         if (lobe > leaf + 1e-3) {

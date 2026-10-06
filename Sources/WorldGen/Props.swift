@@ -243,7 +243,9 @@ public struct PropLibrary: Sendable {
         let start = m.positions.count, base = UInt32(start)
         for (p, n) in zip(shell.corners, shell.normals) { m.addVertex(p, normal: n) }
         for f in shell.faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
-        for i in start..<m.positions.count { m.extras[i].y = 0.5 }
+        // Leaf threshold 0.5; z = 1 marks the skyline crown, which bare seasons keep as a twig mass
+        // (lighting bible §5: beyond 600 m retain aggregate height and colour) instead of dropping it.
+        for i in start..<m.positions.count { m.extras[i].y = 0.5; m.extras[i].z = 1 }
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: [])
         return m
     }
