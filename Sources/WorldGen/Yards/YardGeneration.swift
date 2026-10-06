@@ -354,6 +354,8 @@ extension SceneGenerator {
             }
         }
         stats["streetTrees"] = streetTrees
+        stats["canopyTrees"] = plantForCanopy(raster, eligible: eligible, lo: lo, hi: hi, count: count, byIndex: byIndex, library: library,
+                                              trees: &trees, instances: &instances, scene: &scene)
         let t4 = Date()
         stats["yardMsRaster"] = Int(t1.timeIntervalSince(t0) * 1000)
         stats["yardMsAssign"] = Int(t2.timeIntervalSince(t1) * 1000)
@@ -364,6 +366,67 @@ extension SceneGenerator {
             scene.litterHints.append(LitterHint(kind: .curb, line: road.centerline, weight: Float(road.width / 2)))
         }
         for (k, v) in stats { scene.stats[k] = v }
+    }
+
+    /// Extra yard trees toward the area profile's measured canopy share (P1, NAIP), until the
+    /// target × `canopyFill` or the `maxTreesPerKm2` budget ceiling is reached. Back yards first,
+    /// one tree per lot per round, so cover spreads instead of filling one lot.
+    // swiftlint:disable:next function_parameter_count
+    func plantForCanopy(_ raster: LotRaster, eligible: Set<Int>, lo: [Int: SIMD2<Int>], hi: [Int: SIMD2<Int>], count: [Int: Int],
+                        byIndex: [Int: YardSubject], library: YardLibrary, trees: inout TreeGrid, instances: inout [PropInstance],
+                        scene: inout GeneratedScene) -> Int {
+        let rules = library.rules(for: profile.id)
+        guard let measured = profile.trees.canopyShare, let fill = rules.canopyFill, fill > 0 else { return 0 }
+        let target = measured * fill
+        let area = features.bounds.width * features.bounds.height
+        let maxTrees = Int((rules.maxTreesPerKm2 ?? .infinity) * area / 1e6)
+        // Crown cover on a 2 m grid.
+        let res = 2.0
+        let gw = Int(features.bounds.width / res) + 1, gh = Int(features.bounds.height / res) + 1
+        var cover = [Bool](repeating: false, count: gw * gh)
+        var coveredCells = 0
+        func addCrown(_ p: LocalPoint, _ r: Double) {
+            let cx = (p.x - features.bounds.min.x) / res, cy = (p.y - features.bounds.min.y) / res, rr = r / res
+            for j in max(0, Int(cy - rr))...min(gh - 1, Int(cy + rr)) { for i in max(0, Int(cx - rr))...min(gw - 1, Int(cx + rr)) {
+                let dx = Double(i) + 0.5 - cx, dy = Double(j) + 0.5 - cy
+                if dx * dx + dy * dy <= rr * rr, !cover[j * gw + i] { cover[j * gw + i] = true; coveredCells += 1 }
+            } }
+        }
+        func crownRadius(_ inst: PropInstance) -> Double { Double(PropLibrary.lobes(inst.kind).radii.x) * inst.scale * 1.15 }
+        var total = 0
+        for inst in instances where inst.kind.isTree { addCrown(LocalPoint(inst.x, inst.y), crownRadius(inst)); total += 1 }
+        var share: Double { Double(coveredCells) / Double(gw * gh) }
+        var added = 0
+        let lots = eligible.sorted().filter { (count[$0] ?? 0) >= 40 }
+        var round = 0
+        while share < target, total < maxTrees, round < 6 {
+            round += 1
+            var plantedThisRound = 0
+            for idx in lots {
+                guard share < target, total < maxTrees, let l = lo[idx], let h = hi[idx], let s = byIndex[idx] else { break }
+                var r = s.building.ref.random("canopy-\(round)")
+                let zoneProfile = zones?.profiles[s.generated.profileID ?? profile.id] ?? profile
+                for _ in 0..<24 {
+                    let i = l.x + Int(r.next() % UInt64(h.x - l.x + 1)), j = l.y + Int(r.next() % UInt64(h.y - l.y + 1))
+                    let k = raster.index(i, j)
+                    guard raster.owner[k] == Int32(idx), raster.use[k] == LotRaster.Use.open.rawValue else { continue }
+                    let p = raster.center(i, j)
+                    guard !raster.nearUse(p, .building, radius: 4), !raster.nearUse(p, .hard, radius: 1.5), !raster.nearUse(p, .road, radius: 2.5),
+                          !trees.near(p, 8) else { continue }
+                    let inst = treeInstance(zoneProfile, random: &r, at: p, source: "gen:canopytree:\(s.building.ref):\(round)")
+                    trees.insert(p)
+                    instances.append(inst)
+                    scene.clutter.blockedPoints.append(p)
+                    addCrown(p, crownRadius(inst))
+                    total += 1
+                    added += 1
+                    plantedThisRound += 1
+                    break
+                }
+            }
+            if plantedThisRound == 0 { break }
+        }
+        return added
     }
 
     /// Walks from `start` along `dir` until a cell of a stopping use; nil if it hits a building,
