@@ -157,7 +157,15 @@ addQuad(gc + SIMD3(-extent, 0, extent), gc + SIMD3(extent, 0, extent), gc + SIMD
 if let build = sceneBuild {
     let pal = build.scene.palette
     let reach = Float(radius * 2.5)
+    /// The shaders' hash12 (WorldShaders.metal), for per-instance colour variants (`paletteSlot`).
+    func hash12(_ p: SIMD2<Float>) -> Float {
+        func fract(_ v: Float) -> Float { v - v.rounded(.down) }
+        var p3 = SIMD3<Float>(fract(p.x * 0.1031), fract(p.y * 0.1031), fract(p.x * 0.1031))
+        p3 += simd_dot(p3, SIMD3(p3.y, p3.z, p3.x) + 33.33)
+        return fract((p3.x + p3.y) * p3.z)
+    }
     func addMesh(_ m: MeshBuffers, transform: simd_float4x4? = nil, cull: Bool) {
+        let origin = transform.map { SIMD2<Float>($0.columns.3.x, $0.columns.3.z) } ?? .zero
         var k = 0
         while k + 2 < m.indices.count {
             let i0 = Int(m.indices[k]), i1 = Int(m.indices[k + 1]), i2 = Int(m.indices[k + 2])
@@ -170,7 +178,11 @@ if let build = sceneBuild {
             let mid = (a + b + c) / 3
             if simd_length(SIMD2(mid.x - target.x, mid.z - target.z)) > reach { continue }
             let p0 = m.paints[i0]
-            let slot = min(max(0, Int(p0.x)), pal.colors.count - 1)
+            var slot = Int(p0.x)
+            let flags = Int(p0.z + 0.5)
+            if flags & 32 != 0 { slot += Int(hash12(origin * 0.173) * 3.999) }
+            if flags & 64 != 0 { slot += Int(hash12(origin * 0.211) * 1.999) }
+            slot = min(max(0, slot), pal.colors.count - 1)
             let ao = (m.extras[i0].x + m.extras[i1].x + m.extras[i2].x) / 3
             scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull))
         }

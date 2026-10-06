@@ -190,6 +190,15 @@ public struct SeasonalPalette: Codable, Sendable {
     public var seasons: [String]
     /// Surface key → four hex colors (spring, summer, autumn, winter).
     public var surfaces: [String: [String]]
+    /// Deciduous crown colour family per crown form ("broad", "oval", "spreading"; the profile
+    /// `crownWeights` keys): trees of that form pick per instance among `count` consecutive slots from
+    /// `first` (count 1, 2 or 4). Absent → every crown picks among deciduous1…4.
+    public var crownColors: [String: CrownColors]?
+
+    public struct CrownColors: Codable, Sendable, Equatable {
+        public var first: String
+        public var count: Int
+    }
 
     /// Surface keys in a fixed order. Variant families stay contiguous so shaders can offset
     /// from the first slot (deciduous1…4, conifer1…2).

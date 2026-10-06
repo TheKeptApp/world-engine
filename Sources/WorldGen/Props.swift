@@ -471,7 +471,7 @@ public struct PropLibrary: Sendable {
     static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
         let shape = lobes(kind)
         let trunkR: Float = kind == .treeSpreading ? 0.022 : 0.018
-        if lod == 3 { return skylineTree(shape, palette: palette, trunkRadius: trunkR) }
+        if lod == 3 { return skylineTree(shape, palette: palette, trunkRadius: trunkR, kind: kind) }
         // Branches: hidden inside the leafy crown, they carry the bare winter silhouette (sky-seasons
         // §5.3: foliage is removed lobe by lobe while branches remain; visual v2: meaningful winter
         // silhouettes). Every detail level draws from one skeleton, so the bare outline holds across
@@ -481,7 +481,7 @@ public struct PropLibrary: Sendable {
         var split = rng
         var branchRng = StableRandom(seed: split.next())
         let skeleton = bareSkeleton(shape, style: BranchStyle.of(kind), trunkRadius: trunkR, rng: &branchRng)
-        if lod == 2 { return farTree(shape, skeleton: skeleton, trunkRadius: trunkR, palette: palette) }
+        if lod == 2 { return farTree(shape, skeleton: skeleton, trunkRadius: trunkR, palette: palette, kind: kind) }
 
         var m = MeshBuffers()
         // Trunk: thin, bark-colored; AO darker where it enters the crown.
@@ -494,13 +494,15 @@ public struct PropLibrary: Sendable {
         addBareBranches(&m, skeleton, lod: lod, trunkSides: trunkSides, within: crownEnvelope(shape, lod: lod))
         m.bakeAO(from: branchStart) { _, _ in 0.8 }
         if lod == 0 { addBranchStubs(&m, shape, trunkRadius: trunkR, rng: &rng) }
-        // Crown: one color family per tree (the shader picks deciduous1…4 per instance); lobes
+        // Crown: one colour per tree, from its form's family (`crownPaint`, picked per instance by the
+        // shader); lobes
         // share a softened ellipsoid normal so the crown reads as one sculpted mass. Each lobe's
         // vertices carry a stable leaf threshold in extra.y: the lobe shows while the tree's leaf
         // fraction is at or above it, so autumn thins crowns lobe by lobe. Near lobes are lumpy
         // geodesic spheres (the largest ones finer while the near budget allows); mid detail keeps
         // the top lobe and the first side lobe at 1.25×, its side lobe a 48-triangle cube sphere.
-        m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let lobes = lod == 0 ? shape.lobes : midLobes(shape)
         let fine = lod == 0 ? fineLobes(lobes, room: nearTriangleBudget - m.triangleCount) : []
         let start = m.positions.count
@@ -524,6 +526,23 @@ public struct PropLibrary: Sendable {
         // Overlap AO against the modelled lobe radii (mid lobes are drawn 1.25× larger).
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: Array(shape.lobes.prefix(lobes.count)))
         return m
+    }
+
+    /// The crown form key of a deciduous archetype (profile `crownWeights`, `SeasonalPalette.crownColors`).
+    static func crownForm(_ kind: PropKind) -> String {
+        kind == .treeOval ? "oval" : kind == .treeSpreading ? "spreading" : "broad"
+    }
+
+    /// Crown slot and colour-variant flag for a deciduous archetype: its form's colour family from the
+    /// seasonal palette (first slot + 1, 2 or 4 consecutive slots picked per instance by the shader),
+    /// else deciduous1…4. A family that leaves the deciduous slots falls back too.
+    public static func crownPaint(_ kind: PropKind, palette: Palette) -> (slot: Int, flags: Paint.Flags) {
+        let fallback = (palette.named("deciduous1"), Paint.Flags.variant4)
+        guard let family = palette.crownColors[crownForm(kind)], let first = SeasonalPalette.order.firstIndex(of: family.first),
+              [1, 2, 4].contains(family.count), first + family.count <= SeasonalPalette.order.count,
+              SeasonalPalette.order[first..<(first + family.count)].allSatisfy({ $0.hasPrefix("deciduous") })
+        else { return fallback }
+        return (palette.named(family.first), family.count == 4 ? .variant4 : family.count == 2 ? .variant2 : [])
     }
 
     /// Triangle ceiling per deciduous tree at near detail (within `lodDistances[0]`, a few dozen trees).
@@ -621,7 +640,7 @@ public struct PropLibrary: Sendable {
     /// threshold 0.5) and, with `trunk`, the trunk as one vertical card (two triangles back to back, from
     /// the ground into the crown) so distant crowns don't float above the ground; no branches.
     static func skylineTree(_ shape: TreeShape, palette: Palette, trunkRadius: Float, trunk: Bool = skylineTrunk,
-                            shell: CrownShell? = nil) -> MeshBuffers {
+                            shell: CrownShell? = nil, kind: PropKind = .treeBroad) -> MeshBuffers {
         var m = MeshBuffers()
         let shell = shell ?? skylineCrownShell(shape)
         if trunk {
@@ -634,7 +653,8 @@ public struct PropLibrary: Sendable {
             }
             m.bakeAO(from: 0) { p, _ in trunkAO(p, shape) }
         }
-        m.paint = Paint(slot: palette.named("deciduous1"), shade: skylineShade, flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, shade: skylineShade, flags: leaves.flags, sway: 1)
         let start = m.positions.count, base = UInt32(start)
         for (p, n) in zip(shell.corners, shell.normals) { m.addVertex(p, normal: n) }
         for f in shell.faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
@@ -703,7 +723,8 @@ public struct PropLibrary: Sendable {
     /// the limbs' end forks, then the top branches, as the budget allows (the bare winter outline), each
     /// kept inside a lobe's inscribed sphere.
     static func farTree(_ shape: TreeShape, skeleton: [Bough], trunkRadius: Float, palette: Palette,
-                        large: Polyhedron? = nil, small: Polyhedron? = nil, budget: Int = treeTriangleBudget.far) -> MeshBuffers {
+                        large: Polyhedron? = nil, small: Polyhedron? = nil, budget: Int = treeTriangleBudget.far,
+                        kind: PropKind = .treeBroad) -> MeshBuffers {
         var m = MeshBuffers()
         let lobes = farLobes(shape, large: large, small: small)
         let crown = farEnvelope(lobes)
@@ -716,7 +737,8 @@ public struct PropLibrary: Sendable {
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
         let crownTriangles = lobes.reduce(0) { $0 + $1.polyhedron.faces.count }
         addBareBranches(&m, skeleton, lod: 2, trunkSides: 3, within: crown, farSpikes: max(0, (budget - crownTriangles - 3) / 3))
-        m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let start = m.positions.count
         for (k, lobe) in lobes.enumerated() {
             let lobeStart = m.positions.count, base = UInt32(lobeStart)

@@ -1,5 +1,10 @@
 {
-  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y).",
+  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y). Deciduous crowns: deciduous1 golden/ochre (linden, elm, honeylocust), deciduous2 orange and deciduous3 red/russet (maples, oaks), deciduous4 late green in autumn (#739153, the look-fix-v1 §5 North Shore leaf family; late oaks) - the old olive #A6A06B read as a dead crown on the phone. crownColors: per crown form (profile crownWeights keys) the first slot and how many consecutive slots (1, 2 or 4) its trees pick from per instance (regions-chicagoland-miami §6 peak colour: maples red/orange, linden/locust/elm yellow/ochre, oak later russet; broad = maple, oval = linden/upright maple, spreading = oak/elm/honeylocust). Forms approximate silhouette, not species: OSM species tags would win once the generator reads them.",
+  "crownColors": {
+    "broad": {"first": "deciduous2", "count": 2},
+    "oval": {"first": "deciduous1", "count": 2},
+    "spreading": {"first": "deciduous1", "count": 4}
+  },
   "seasons": ["spring", "summer", "autumn", "winter"],
   "surfaces": {
     "ground":      ["#AFA184", "#B3A080", "#AC9677", "#A5A092"],
@@ -8,7 +13,7 @@
     "deciduous1":  ["#8DAA73", "#718E65", "#C4A15B", "#786E66"],
     "deciduous2":  ["#A7BE85", "#849B6A", "#B98251", "#8A7B6C"],
     "deciduous3":  ["#B9C997", "#98AD78", "#A9654C", "#A08C74"],
-    "deciduous4":  ["#77966E", "#658475", "#A6A06B", "#9E8D79"],
+    "deciduous4":  ["#77966E", "#658475", "#739153", "#9E8D79"],
     "conifer1":    ["#577C70", "#527468", "#5F7768", "#627970"],
     "conifer2":    ["#6B8B76", "#65816D", "#73806C", "#758B80"],
     "bushes":      ["#7F9C72", "#738B66", "#92916A", "#7F897A"],

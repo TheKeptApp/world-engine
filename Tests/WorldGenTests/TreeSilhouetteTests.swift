@@ -175,7 +175,7 @@ struct TreeSilhouetteTests {
     @Test(arguments: kinds)
     func paintsAndLeafThresholds(_ kind: PropKind) throws {
         let palette = try Self.palette()
-        let bark = Float(palette.named("bark")), leaves = Float(palette.named("deciduous1"))
+        let bark = Float(palette.named("bark")), crownPaint = PropLibrary.crownPaint(kind, palette: palette), leaves = Float(crownPaint.slot)
         for lod in 0..<4 {
             let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette)
             var wrong = 0
@@ -185,7 +185,7 @@ struct TreeSilhouetteTests {
                 case .trunk: if paint.x != bark || paint.z != 0 || paint.w != 0 || extra.y != 0 { wrong += 1 }
                 case .branch: if paint.x != bark || paint.z != 0 || paint.w != Float(0.3) || extra.y != 0 || abs(extra.x - 0.75) > 1e-6 { wrong += 1 }
                 case .crown:
-                    let flags = Float(Paint.Flags.variant4.rawValue)
+                    let flags = Float(crownPaint.flags.rawValue)
                     let shade = lod == 3 ? PropLibrary.skylineShade : 1
                     if paint.x != leaves || paint.z != flags || paint.y != shade || (lod == 3 ? extra.y != 0.5 : !(extra.y > 0.1 && extra.y <= 1)) { wrong += 1 }
                 }

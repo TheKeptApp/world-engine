@@ -96,3 +96,60 @@ struct PropTreeLookTests {
         #expect(!low.isEmpty, "\(kind): no branch stubs below the fork")
     }
 }
+
+/// Autumn colour per crown form (look-fix-v1 §5, regions-chicagoland-miami §6): maples (broad) red or
+/// orange, linden/upright (oval) yellow or orange, oak/elm/locust (spreading) yellow, orange, russet or
+/// late green; no olive slot anywhere, and late-green crowns stay a minority of the Evanston mix.
+@Suite("Tree autumn colour")
+struct TreeAutumnColourTests {
+    static func autumn() throws -> Palette {
+        Palette(seasonal: try StyleLibrary.seasonalPalette(), season: 2, base: try StyleLibrary.baseColors())
+    }
+
+    /// The slots a crown form's trees pick from.
+    static func slots(_ kind: PropKind, _ palette: Palette) -> [Int] {
+        let paint = PropLibrary.crownPaint(kind, palette: palette)
+        let count = paint.flags.contains(.variant4) ? 4 : paint.flags.contains(.variant2) ? 2 : 1
+        return (0..<count).map { paint.slot + $0 }
+    }
+
+    @Test func formsPickTheirAutumnFamilies() throws {
+        let p = try Self.autumn()
+        let d = (1...4).map { p.named("deciduous\($0)") }
+        #expect(Self.slots(.treeBroad, p) == [d[1], d[2]])
+        #expect(Self.slots(.treeOval, p) == [d[0], d[1]])
+        #expect(Self.slots(.treeSpreading, p) == d)
+        for kind in [PropKind.treeBroad, .treeOval, .treeSpreading] {
+            for lod in 0..<4 {
+                let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: p)
+                let crown = (0..<m.vertexCount).filter { TreeSilhouetteTests.part(m, vertex: $0) == .crown }
+                let expected = PropLibrary.crownPaint(kind, palette: p)
+                #expect(crown.allSatisfy { Int(m.paints[$0].x) == expected.slot && Int(m.paints[$0].z) == Int(expected.flags.rawValue) },
+                        "\(kind) lod \(lod): crown paint is not its form's family")
+            }
+        }
+    }
+
+    @Test func noCrownReadsOliveInAutumn() throws {
+        let p = try Self.autumn()
+        let weights = try StyleLibrary.profile(id: "evanston").trees.crownWeights
+        var green = 0.0
+        for (kind, form) in [(PropKind.treeBroad, "broad"), (.treeOval, "oval"), (.treeSpreading, "spreading")] {
+            let slots = Self.slots(kind, p)
+            for s in slots {
+                let c = p.colors[s]
+                let warm = c.x > c.y + 0.03
+                // Late green: clearly green (green over red by 0.08+), not a khaki/olive in between.
+                let lateGreen = c.y > c.x + 0.08
+                print("AUTUMNSLOT \(form) slot \(s) \(Palette.hex(c)) \(warm ? "warm" : lateGreen ? "late-green" : "OLIVE")")
+                #expect(warm || lateGreen, "\(form): slot \(s) \(Palette.hex(c)) reads olive")
+                if lateGreen { green += (weights[form] ?? 0) / Double(slots.count) }
+            }
+            #expect(slots.filter { p.colors[$0].y > p.colors[$0].x }.count * 2 < slots.count,
+                    "\(form): most of its trees stay green")
+        }
+        let total = weights.values.reduce(0, +)
+        print("AUTUMNSLOT late-green share \(green / total)")
+        #expect(green / total > 0 && green / total <= 0.15, "late-green share \(green / total)")
+    }
+}
