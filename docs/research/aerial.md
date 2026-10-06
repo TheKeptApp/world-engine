@@ -664,3 +664,42 @@ Added 2026-10-06 for the profiles' new optional `trees.canopyShare` field (`docs
 | `wilmette` (was 0.58; the profile now has 0.55) | **0.55** | The committed 1 km² test area (P2, same park anchor) gives fabric 55.1 % (whole area 53.7 %, residential blocks 56.9 %). The earlier 0.58 is the whole-cell mask of the 0.25 km² study cell (section 4), a smaller and more wooded window. Use 0.55 for the same definition as the other profiles (the profile now does); keeping 0.58 would have been within the method error too. |
 
 **Bytes:** NAIP COG ranges 287,689,177 + STAC searches 135,028 + SAS tokens 1,602 = **287.8 MB** (`results/canopy_areas.json` `bytesDownloaded`; Wilmette 56.3 MB of it). No Overpass or Overture requests.
+
+### 13.9 Per-block canopy and tree spacing (`Data/areas/<id>/canopy-blocks.json`)
+
+Added 2026-10-06 as the "area profile" data for the yard and street-tree generator. Written by `canopy_areas.py blocks` (reuses the NAIP windows and the unchanged canopy mask of this section; pure functions in `blockmath.py`, offline tests `tests/test_blockmath.py`). Aggregates per block only: no per-house values, no imagery. Four areas: evanston-south, lakeview-sheil-park, sloans-lake, wilmette-vattmann-park.
+
+**File.** A header plus a `blocks` array (one line per block, sorted by id).
+- Header: `format` (`worldengine-canopy-blocks 1`), `area`, `profile`, `methodVersion` (`canopy-blocks 1`), `naip` (item ids, acquisition date, `gsdMeters`, `credit` "NAIP imagery provided by USDA Farm Service Agency", licence: public domain), `canopyMethod`, `blockSource`, `crown` (mean and range of crown plan area, source), `confidenceBasis`, `osmTimestamp`, `blockCount`.
+- Block fields: `id`, `lat`, `lon` (centroid, 5 decimals), `areaM2`, `landAreaM2` (face minus water), `frontageM`, `edgeCut`, `parkOrWaterPct`, `waterPct`, `canopyShare` (0-1, of the land area; `null` below 500 m² of land), `trees`, `treesPerHa`, `treesPerHaRange`, `gridSpacingM`, `frontageSpacingM`, `confidence` (0-1), `confidenceTier`, `bounds` (number of bounding street ways). The tree fields are absent when the block has no canopy.
+
+**Block id.** `cb-` plus the first 8 hex digits of SHA-256 over the sorted OSM way ids of the street ways that bound the face (a street way bounds a face when at least 5 m of the face boundary lies within 0.5 m of it). It does not depend on geometry, the area window or block order, so it changes only when the street network around the block changes. Faces bounded by the same way set get `-2`, `-3` in order of descending area. Faces are the polygonised street centrelines clipped to the area rectangle (as above); faces under 500 m² (slivers cut by the window edge) are omitted.
+
+**Tree estimate.** Per block, with `crown` the lidar mean non-overlapping crown plan area per tree (lidar-roofs.md 13.4: Evanston 112 m², Wilmette 108, Lakeview 105 clear of buildings (92 for all detected trees); Sloan's Lake has no lidar run and borrows 108, the mean of the three):
+- `trees` = canopyShare × landArea / crown.
+- `treesPerHa` = canopyShare × 10,000 / crown. `treesPerHaRange` uses the lidar spread 112 to 92 m².
+- `gridSpacingM` = sqrt(10,000 / treesPerHa): the tree-to-tree distance on a square grid.
+- `frontageSpacingM` = frontageM / trees, where frontageM is the length of the face boundary that lies on streets. It is the spacing of a single street-tree row that alone would produce the block's canopy, so it is a lower bound on real street-tree spacing (most trees are in yards). Absent for fewer than one tree.
+
+Assumptions and caveats:
+- Leaf-on NAIP canopy merges touching crowns, so the count is canopy cover divided by the mean crown the lidar found, not a tree detection. Cross-check against the lidar counts (lidar-roofs.md 13.4): Evanston 40.7 trees/ha median over residential blocks against 37.6 detected, so it fits; Wilmette 55 against 36.8, because NAIP's leaf-on cover (0.55) exceeds the leaf-off lidar crowns (0.41), so Wilmette counts are probably about 1.4 times high; Lakeview 18 against 18.5 to 25.2.
+- The 2017 lidar crowns are leaf-off and older than the 2023 NAIP; Denver's crown size is an assumption.
+- The mask is a lower bound where trees overhang buildings, and the point checks put it 2 to 8 points under the labels in three areas (above); this is not corrected.
+
+**Confidence.** Basis: the photo check above, 85 % agreement per point overall (Evanston 86.0 %, n = 43; Lakeview 87.2 %, n = 47; Sloan's Lake 91.3 %, n = 46; Wilmette 73.8 %, n = 42). Per block, `confidence` = area point agreement × size × edge × park/water. These are heuristics, not a measured per-block accuracy:
+- size = min(1, sqrt(area / 10,000 m²)), at least 0.5 (faces under 1 ha);
+- edge = 0.85 when the face is cut by the area window (`edgeCut`);
+- park/water = 0.80 when at least 10 % of the face is park or water.
+
+Tiers: `high` at 0.75 or more, `medium` at 0.6 or more, otherwise `low`. The header carries the area's agreement, so a consumer can rescale. Wilmette has no `high` block because its area agreement is 73.8 %.
+
+| Area | Blocks (edge-cut) | Canopy p10 / median / p90 (complete residential faces, n) | Trees per ha | Grid spacing (m) | Frontage spacing (m) | Tiers high / medium / low |
+|---|---|---|---|---|---|---|
+| South Evanston | 50 (21) | 0.38 / 0.46 / 0.59 (28) | 34 / 41 / 53 | 13.5 / 15.0 / 17.0 | 4.7 / 6.3 / 7.9 | 28 / 10 / 12 |
+| Lakeview (Sheil Park) | 68 (31) | 0.14 / 0.19 / 0.26 (32) | 13 / 18 / 25 | 19.7 / 23.2 / 27.1 | 11 / 17 / 23 | 32 / 25 / 11 |
+| Sloan's Lake | 67 (30) | 0.20 / 0.28 / 0.35 (31) | 18 / 26 / 33 | 17.5 / 19.5 / 23.5 | 12 / 14 / 19 | 50 / 11 / 6 |
+| Wilmette (Vattmann Park) | 44 (25) | 0.54 / 0.60 / 0.64 (14) | 50 / 55 / 59 | 12.8 / 13.3 / 13.9 | 3.7 / 4.8 / 5.4 | 0 / 29 / 15 |
+
+"Complete residential" = at least 1 ha, not edge-cut, under 10 % park or water. All other faces are in the files.
+
+**Bytes.** The NAIP windows were read again for this step: 287,689,177 bytes of COG ranges (plus STAC and token calls), as in the section above; no Overpass or lidar requests.

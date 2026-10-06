@@ -12,10 +12,11 @@
   "parkComment": "Parks are public open space removed for the residential-fabric share. landuse=grass (1,551 small lawn and parkway polygons at Sloan's Lake), meadow and scrub are not parks: they sit inside residential blocks and their street trees belong to the fabric. Park polygons under parkMinAreaM2 are ignored.",
   "waterTags": {"natural": ["water"], "landuse": ["reservoir", "basin"], "leisure": ["swimming_pool"], "water": []},
   "blockMinAreaM2": 10000,
+  "crownRangeM2": [92, 112],
   "areas": [
-    {"id": "evanston-south", "area": "Data/areas/evanston-south", "profile": "evanston", "state": "il", "crs": "EPSG:26916"},
-    {"id": "lakeview-sheil-park", "area": "Data/areas/lakeview-sheil-park", "profile": "chicago-dense-north", "state": "il", "crs": "EPSG:26916"},
-    {"id": "sloans-lake", "area": "Data/areas/sloans-lake", "profile": "front-range", "state": "co", "crs": "EPSG:26913"},
-    {"id": "wilmette-vattmann-park", "area": "Data/areas/wilmette-vattmann-park", "profile": "wilmette", "state": "il", "crs": "EPSG:26916"}
+    {"id": "evanston-south", "area": "Data/areas/evanston-south", "profile": "evanston", "state": "il", "crs": "EPSG:26916", "crownAreaM2": 112, "crownSource": "lidar, Evanston (lidar-roofs.md 13.4)"},
+    {"id": "lakeview-sheil-park", "area": "Data/areas/lakeview-sheil-park", "profile": "chicago-dense-north", "state": "il", "crs": "EPSG:26916", "crownAreaM2": 105, "crownSource": "lidar, Lakeview clear of buildings (13.4; all detected trees 92 m2)"},
+    {"id": "sloans-lake", "area": "Data/areas/sloans-lake", "profile": "front-range", "state": "co", "crs": "EPSG:26913", "crownAreaM2": 108, "crownSource": "borrowed: mean of the three Illinois lidar areas (no lidar run in Denver)"},
+    {"id": "wilmette-vattmann-park", "area": "Data/areas/wilmette-vattmann-park", "profile": "wilmette", "state": "il", "crs": "EPSG:26916", "crownAreaM2": 108, "crownSource": "lidar, Wilmette (13.4)"}
   ]
 }

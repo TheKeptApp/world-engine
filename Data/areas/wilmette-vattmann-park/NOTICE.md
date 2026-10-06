@@ -16,3 +16,7 @@ Building footprints in `overture-buildings.json` come from the Overture Maps Fou
 
 - **How it was fetched:** with `worldbake fetch <dir> --layers overture` (`scripts/data/fetch_overture.py`), reading only the area's bounding box from Overture's public GeoParquet.
 - **Where to look up details:** `manifest.json` records the release, the fetch time and the file's SHA-256; the file lists the GeoParquet files read and every source dataset with its licence.
+
+## Canopy blocks
+
+`canopy-blocks.json` holds per-block canopy shares and tree-spacing estimates derived from USDA NAIP aerial imagery (public domain; requested credit: "NAIP imagery provided by USDA Farm Service Agency") and the street centrelines in `osm.json` (© OpenStreetMap contributors, ODbL 1.0). Aggregates per street-bounded block only; no imagery. The NAIP item, date and method are in the file header; format in `docs/research/aerial.md` 13.9.

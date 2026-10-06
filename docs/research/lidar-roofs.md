@@ -13,6 +13,7 @@ than 5 buildings are reported as counts.
 
 A follow-up measures **tree heights and crown radii** from the same lidar for three test areas and updates the
 profiles' `trees.heightMeters` and `trees.youngShare`: see [section 13](#13-tree-heights-follow-up-2026-10-06).
+Per-footprint roof hints (height, pitch class, form incl. mansard) and block roof-mix tables for P2: [section 14](#14-per-footprint-roof-hints-and-block-roof-mix-tables-2026-10-06).
 
 ## Summary
 
@@ -633,3 +634,156 @@ points and the crops lived in the scratch directory and were deleted.
 
 See the lidar tool README: `trees.py plan`, `fetch` (about 350 MB), `measure --sensitivity --write`, and `crops`
 for the visual check (scratch only). The tests (`tests/test_treeheights.py`) are offline.
+
+## 14. Per-footprint roof hints and block roof-mix tables (2026-10-06)
+
+The owner asked for height, roof pitch class and roof form per footprint for `evanston-south` and
+`lakeview-sheil-park`, and a block roof-mix table P2 can read. Tool:
+[`Tools/regionkit/lidar/roofhints.py`](../../Tools/regionkit/lidar/README.md) (data `data/roofhints.json`; offline
+tests `tests/test_roofhints.py`). Per-building values keyed by OSM ref are committed on purpose here, as generator
+hints (the O12 caveat in section 8 applies: lidar is public domain, the key is an OSM ref). Credit "USGS 3D Elevation
+Program". Nothing from the point cloud (points, crops, images) is committed.
+
+### 14.1 Files
+
+| File | Content |
+|---|---|
+| `Data/areas/<id>/lidar-roofs.json` | `header` and `buildings`: one record per classified footprint, keyed by OSM ref (`way/123`, `relation/45`) |
+| `Data/areas/<id>/roof-mix-blocks.json` | `header`, `summary` and `blocks`: roof-form shares per street block |
+
+Same lidar, alignment and plane classifier as the pilot (sections 3 and 4): same EPT dataset, depth 10 or less,
+vendor building class, one global footprint shift per area, region-grown planes, `classify_roof`. Heights use the
+Overture-height study's measure (`heights.measure`). The Evanston run reproduces the pilot's 280 nodes and
+117,612,558 bytes exactly.
+
+### 14.2 `lidar-roofs.json`
+
+```
+{ "header": {...}, "buildings": { "way/1058880041": {
+    "topM": 7.6, "eaveM": 3.9, "pitchDeg": 22.6, "pitchClass": "low", "form": "complex",
+    "points": 430, "confidence": 0.8 }, ... } }
+```
+
+| Field | Meaning |
+|---|---|
+| `topM` | Roof top above ground, m: 95th percentile of building-class points inside the footprint eroded by 0.5 m, above the median class-2 ground in a 3 to 8 m ring round the footprint (widened to 15 m, then the ground model, when the ring is thin) |
+| `eaveM` | Eave height, m: 15th percentile of the same points within 0.5 to 2 m of the footprint edge; `null` when fewer than 10 points |
+| `pitchDeg` | Slope of the dominant plane, degrees. Flat roofs: the largest plane. Gable, hip, complex: the largest significant plane of 10 degrees or more. Mansard: area-weighted mean of the steep planes. "Significant" = at least 4 m2 and 6 % of the roof |
+| `pitchClass` | `flat` under 10 degrees; `low` 10 to under 25; `medium` 25 to 40; `steep` over 40 |
+| `form` | `flat`, `gable`, `hip`, `mansard`, `complex` (14.3) |
+| `points` | Building-class points inside the footprint eroded by 0.75 m (the points the form is read from) |
+| `confidence` | Heuristic 0 to 1: roof cover x min(1, density / 3 per m2) x min(1, plane coverage / 0.9) x form factor (complex and mansard 0.8: the classifier over-calls complex on about a third of simple roofs, and the mansard rule has only a small check). Not a probability |
+
+Header: `source` (dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, USGS project and delivery, access, flight dates
+2017-04-16 to 2017-05-07), `licence` (US Government Public Domain), `credit` ("USGS 3D Elevation Program"),
+`methodVersion` (`regionkit-lidar-roofs 1.0`), the lidar shift, `handCheck` (86.7 % simple form, 24 of 30 four classes,
+mansard check, scope), `pitchClasses`, `fields`, `counts` (footprints in the area, classified, **skipped by reason**)
+and area-level `shares`.
+
+**Skipped footprints** (not in `buildings`; the header counts them):
+
+| Reason | Meaning |
+|---|---|
+| `tooSmallFootprint` | under 15 m2 |
+| `noLidarBuilding` | fewer than 30 building points and under 10 % cover: not there in 2017, or not classed building |
+| `tooFewPoints` | fewer than 30 building points but some cover |
+| `partialCover` | building points cover under 50 % of the eroded footprint (occluded, or footprint off the roof) |
+| `unclassifiable` | planes cover under half the footprint (`classify_roof` returns unknown) |
+
+| | Evanston South | Lakeview (Sheil Park) |
+|---|---:|---:|
+| Footprints in the area | 887 | 2,799 |
+| Classified | 792 | 2,571 |
+| Skipped: noLidarBuilding / tooFewPoints / partialCover / unclassifiable / tooSmall | 38 / 9 / 14 / 19 / 15 | 140 / 45 / 5 / 34 / 4 |
+| Form: flat / hip / gable / mansard / complex | 10.6 / 17.8 / 15.7 / 0.1 / 55.8 % | 54.3 / 11.2 / 12.6 / 0.0 / 21.9 % |
+| Pitch class: flat / low / medium / steep | 10.6 / 27.1 / 36.9 / 25.4 % | 54.3 / 22.4 / 11.3 / 12.0 % |
+| Median `pitchDeg` | 30.1 | 2.8 |
+
+Evanston's complex share is inflated by the known over-call (the pilot's corrected figure for houses is about 45 %,
+section 5). The hand-check accuracy is from South Evanston houses and garages. The classifier was **not** hand-checked
+on Chicago's flat-roofed courtyard and multi-unit buildings, so Lakeview is unverified in that respect. The flight
+dates were read from the Evanston tile's metadata; Lakeview is in the same delivery and the same dates are assumed
+(unverified for that tile).
+
+### 14.3 Form rules and the mansard check
+
+`flat`, `gable`, `hip` and `complex` are unchanged from section 3 step 4. **Mansard** (new;
+`roofhints.mansard_rule`, thresholds in `data/roofhints.json`) is evaluated on the significant planes and wins over the
+base form:
+
+- **steep planes**: pitch 45 degrees or more, at most 5 of them, holding at least 30 % of the significant area;
+- **top**: a plane under 25 degrees (flat or low) holding at least 10 %, centred inside the roof (|u| <= 0.6 half-length and |v| <= 0.6 half-width of the footprint's minimum-area rectangle);
+- **ring**: steep plus top planes hold at least 95 % of the significant area (no other slopes, no wings);
+- **sides**: steep planes facing out over at least 3 of the 4 sides of the rectangle (aspect within 45 degrees of the side's outward direction, centroid beyond 40 % of the half-extent).
+
+Two steep sides only (a gambrel, or a flat roof with a steep strip) is deliberately not a mansard.
+
+**Hand check** (`results/mansard-handcheck.json`; scratch images of the height surface plus two side views, deleted;
+21 roofs, chosen as the flagged roof, the highest-scoring near misses and the roofs a looser threshold would flag):
+
+- First version (steep from 50 degrees; two opposite steep sides over a flat top accepted): flagged 1 roof in the two
+  areas, a **false positive**, a flat roof with a steep gable strip across the middle. The rule became the one above.
+- Final rule: **1 roof flagged, correct by the rule's definition** (a flat top with four 45-degree sides: a truncated
+  hip or deck roof, not a classic 60 to 80 degree mansard); **20 near misses rejected correctly** (gables, hips and
+  cross-gables at 45 to 55 degrees). This is **not an independent accuracy**: the thresholds were set on these roofs.
+- **No classic steep mansard shows in either area.** Planes of 50 degrees or more are 92 of 10,753 planes of at least
+  4 m2 (0.9 %), none in a ring round a flat or low top; the typical steep slope is about 45 degrees (12:12). Recall
+  cannot be estimated (no independent mansard population). Result: 1 of 792 (Evanston) and 0 of 2,571 (Lakeview).
+  P2 should treat the `mansard` share as close to zero here and the rule as untested on real mansards (about 4 points
+  per m2 on a 65-degree slope may also lose planes).
+
+### 14.4 `roof-mix-blocks.json`
+
+```
+{ "header": {...}, "summary": {...}, "blocks": [ {
+    "id": "blk-096cedc1", "centroid": {"lat": 42.040784, "lon": -87.69119}, "areaM2": 15781,
+    "clippedByAreaEdge": false, "boundingStreetWays": [23405223, 384144170, ...],
+    "nBuildings": 19, "nClassified": 17, "suppressed": false,
+    "shares": {"flat": 0.0, "hip": 0.235, "gable": 0.235, "mansard": 0.0, "complex": 0.529},
+    "pitchClassShares": {"flat": 0.0, "low": 0.235, "medium": 0.588, "steep": 0.176},
+    "medianPitchDeg": 32.8 }, ... ] }
+```
+
+- **Blocks** = faces of the area's OSM street centrelines (highway classes motorway to tertiary, unclassified,
+  residential, living street and links: the `streetClasses` of `aerial/data/canopy_areas.json`) plus the area
+  rectangle, clipped to it, as the aerial tool's `block_faces`; faces under 50 m2 are dropped. `clippedByAreaEdge` is
+  true for faces cut by the area boundary (partial blocks).
+- **id**: `blk-` plus the first 8 hex of the SHA-1 of the sorted OSM way ids (comma-joined) of the street ways that run
+  along the face boundary (at least 5 m of the way, or 80 % of a shorter way, within 1 m of the boundary). Stable
+  while OSM does not split, merge or re-id those streets. A repeated set gets `-2`, `-3` in order of centroid.
+  `boundingStreetWays` lists the ids so a consumer can re-derive it.
+- **Assignment**: a building is in the face containing its footprint centroid (the smallest face on a shared edge).
+  Every footprint in both areas fell in a block.
+- `centroid`: the face polygon's centroid, WGS84. `nBuildings`: footprints in the face; `nClassified`: those with a
+  `lidar-roofs.json` record. Shares are fractions of `nClassified` over `flat`, `hip`, `gable`, `mansard`, `complex`
+  (sum 1); `pitchClassShares` likewise over the four pitch classes; `medianPitchDeg` is the median `pitchDeg`.
+- **Privacy floor**: when `nClassified` is under 5, `suppressed` is true and `shares`, `pitchClassShares` and
+  `medianPitchDeg` are `null`.
+- `summary`: counts (blocks, with shares, suppressed, clipped, buildings) and the area-level mix over every
+  classified footprint (an area aggregate, so it includes blocks under the floor).
+
+| | Evanston South | Lakeview |
+|---|---:|---:|
+| Blocks (clipped by the area edge) | 52 (23) | 69 (32) |
+| With shares / suppressed | 34 / 18 | 58 / 11 |
+| Classified buildings in blocks with shares | 771 of 792 | 2,570 of 2,571 |
+
+### 14.5 Decisions
+
+1. Mansard = steep planes round a flat or low top; two-sided steep roofs are not mansards; steep from 45 degrees
+   because 12:12 is the common steep slope (the brief's "steep" class is over 40).
+2. `pitchDeg` = the largest significant sloped plane, not the mean, so a dormer or porch does not move it.
+3. Skipped instead of guessed: under 30 points, under 50 % cover, or unclassifiable footprints.
+4. Footprints and shift as the pilot: closed ways and multipolygons of the committed `osm.json`, centroid in the area.
+5. Lakeview uses the same depth (10 or less, about 4 building points per m2 of roof as in the pilot) and the Evanston-set thresholds; no re-tuning.
+
+### 14.6 Bytes downloaded and how to re-run
+
+| What | Bytes |
+|---|---:|
+| EPT LAZ nodes: Evanston 280 (117,612,558) + Lakeview 295 (99,876,912) | 217,489,470 |
+| EPT hierarchy files and `ept.json` (both areas) | 382,599 |
+| **Total** | **217,872,069 (about 217.9 MB)** |
+
+Python wheels are tooling and not counted. Re-run: `roofhints.py all --work DIR` from the repository root (work
+directory outside the repository; see the tool README), then the offline tests.
