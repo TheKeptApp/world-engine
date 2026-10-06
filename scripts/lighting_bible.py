@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """The lighting bible's twelve states, rendered on the iPhone and measured against its targets.
 
-  scripts/lighting_bible.py run [out-dir]        one WorldLab launch on the phone (scripts/device_views.sh)
-                                                 steps through the 12 fixtures, then `check`
+  scripts/lighting_bible.py run [out-dir] [--tune SPEC]... [--only STATE,...]
+                                                 one WorldLab launch on the phone (scripts/device_views.sh)
+                                                 steps through the fixtures (once per --tune variant,
+                                                 WorldLab's `-tune` look tuning), then `check`
   scripts/lighting_bible.py check <frames-dir>   whole-frame signals against the targets
-  scripts/lighting_bible.py views                print the view list (JSON)
+  scripts/lighting_bible.py views [--tune SPEC]... [--only STATE,...]   print the view list (JSON)
 
 Source, read-only: docs/proposals/look-fix-v1 (LOOK-FIX-SPEC.md §2.1-2.2 and lighting-fixtures.json):
 the Sloan's Lake north-shore trail camera (eye 1.65 m, heading 100°, 3° down, 50° vertical FOV) at
@@ -27,18 +29,17 @@ FIXTURES = os.path.join(ROOT, "docs/proposals/look-fix-v1/lighting-fixtures.json
 sys.path.insert(0, os.path.join(ROOT, "Tools/lookloop"))
 from analyze import signals  # noqa: E402  (the look loop's measurement, unchanged)
 
-# §2.2 state targets: Y mean, P5, P50, P95, mean saturation (HSV S, 0-255).
-TARGETS = {
-    "morning": (135, 45, 138, 222, 88), "midday": (145, 55, 148, 226, 90), "ordinary-1530": (140, 48, 143, 224, 90),
-    "golden-hour": (130, 36, 128, 222, 94), "blue-hour": (88, 25, 79, 167, 86), "overcast": (137, 64, 139, 207, 54),
-    "light-rain": (126, 48, 126, 198, 64), "storm": (96, 29, 91, 172, 60), "fog": (147, 78, 150, 194, 32),
-    "snow": (166, 63, 181, 230, 32), "moon-night": (57, 18, 45, 109, 94), "moonless-night": (43, 14, 34, 84, 88),
-}
+# Targets from the generated bible data (scripts/lookfix_data.py reads them out of the proposal):
+# §2.2 Y mean, P5, P50, P95 and mean saturation (HSV S, 0-255), §2.3 lift where the framing allows.
+BIBLE = json.load(open(os.path.join(ROOT, "Sources/WorldGen/Profiles/lighting-bible.json")))
+TARGETS = {k: (v["luma"], v["p5"], v["p50"], v["p95"], v["saturationS"]) for k, v in BIBLE["states"].items()}
 NIGHT = {"moon-night", "moonless-night"}
+# The path lift boxes fit the states that share the 15:30 sun and framing.
+LIFT = {k: tuple(BIBLE["states"][k]["lift"]) for k in ("ordinary-1530", "overcast", "light-rain", "storm", "fog")}
 
 
 def state(fid):
-    return fid.split("-", 2)[2]  # lighting-03-ordinary-1530 -> ordinary-1530
+    return fid.split("~")[0].split("-", 2)[2]  # lighting-03-ordinary-1530~1 -> ordinary-1530
 
 
 def weather(f):
@@ -54,21 +55,48 @@ def weather(f):
     return f"label={'cloudy' if cc >= 0.7 else 'clear'},cloud={cc}"
 
 
-def views():
+def views(tunes=(None,), only=None):
+    """Fixture views, once per tuning variant (ids get ~N when there are several)."""
     doc = json.load(open(FIXTURES))
     o, c = doc["observer"], doc["camera"]
     cam = f"{o['latitude']},{o['longitude']},{c['headingDeg']},{c['downPitchDeg']},{c['verticalFovDeg']}"
     out = []
-    for f in doc["fixtures"]:
-        utc = datetime.fromisoformat(f["utc"]).strftime("%Y-%m-%dT%H:%M:%SZ")
-        out.append({"id": f["id"], "args": ["-camera", cam, "-date", utc, "-weatherspec", weather(f)]})
+    for i, tune in enumerate(tunes):
+        for f in doc["fixtures"]:
+            if only and state(f["id"]) not in only:
+                continue
+            utc = datetime.fromisoformat(f["utc"]).strftime("%Y-%m-%dT%H:%M:%SZ")
+            args = ["-camera", cam, "-date", utc, "-weatherspec", weather(f)] + (["-tune", tune] if tune else [])
+            out.append({"id": f["id"] + (f"~{i}" if len(tunes) > 1 else ""), "args": args, "tune": tune or ""})
     return out
 
 
+def lift(im):
+    """Shade-to-sun ratio (linear luminance) of the path at the ordinary 15:30 framing: sunlit path
+    centre vs the near tree's shadow on it (bible §2.3 lift, 0.30-0.38 at 15:30)."""
+    def lin(v):
+        v /= 255
+        return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
+    def y(box):
+        px = list(im.crop(box).get_flattened_data())
+        r, g, b = (sum(p[i] for p in px) / len(px) for i in range(3))
+        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    w, h = im.size
+    sx, sy = w / 982, h / 553
+    sun = y((int(400 * sx), int(455 * sy), int(440 * sx), int(475 * sy)))
+    shade = y((int(170 * sx), int(530 * sy), int(230 * sx), int(548 * sy)))
+    return shade / max(sun, 1e-6)
+
+
 def check(frames):
-    rows, passed, total = [], 0, 0
+    vf = os.path.join(frames, "views.json")
+    listed = json.load(open(vf)) if os.path.exists(vf) else views()
+    rows, passed, total, last_tune = [], 0, 0, None
     print(f"{'state':<16} {'Y mean':>12} {'P5':>9} {'P50':>9} {'P95':>9} {'sat':>9}  extra")
-    for v in views():
+    for v in listed:
+        if v.get("tune", "") != last_tune:
+            last_tune = v.get("tune", "")
+            print(f"-- tune: {last_tune or 'none'}")
         path = os.path.join(frames, v["id"] + ".png")
         if not os.path.exists(path):
             print(f"{state(v['id']):<16} missing frame")
@@ -85,6 +113,9 @@ def check(frames):
             total += 1
             cells.append(f"{g:5.0f}/{want:<3}{' ' if ok else '!'}")
         extra = f"black {sig['clipBlackPct']}% white {sig['clipWhitePct']}%"
+        if state(v["id"]) in LIFT:
+            lo, hi = LIFT[state(v["id"])]
+            extra += f"  lift {lift(im):.2f} ({lo:.2f}-{hi:.2f})"
         if state(v["id"]) in NIGHT:
             lum = im.convert("L", (0.2126, 0.7152, 0.0722, 0)).histogram()
             dark = sum(lum[:80]) / sum(lum)
@@ -96,17 +127,21 @@ def check(frames):
 
 
 def main():
-    cmd = sys.argv[1] if len(sys.argv) > 1 else "run"
+    args = sys.argv[1:]
+    tunes = [args[i + 1] for i, a in enumerate(args) if a == "--tune"] or [None]
+    only = next((set(args[i + 1].split(",")) for i, a in enumerate(args) if a == "--only"), None)
+    pos = [a for i, a in enumerate(args) if not a.startswith("--") and (i == 0 or args[i - 1] not in ("--tune", "--only"))]
+    cmd = pos[0] if pos else "run"
     if cmd == "views":
-        print(json.dumps(views(), indent=1))
+        print(json.dumps(views(tunes, only), indent=1))
     elif cmd == "check":
-        check(sys.argv[2])
+        check(pos[1])
     elif cmd == "run":
-        out = os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else os.path.join(
+        out = os.path.abspath(pos[1] if len(pos) > 1 else os.path.join(
             ROOT, ".build/lighting-bible", datetime.now().strftime("%Y%m%d-%H%M%S")))
         os.makedirs(out, exist_ok=True)
         vf = os.path.join(out, "views.json")
-        json.dump(views(), open(vf, "w"), indent=1)
+        json.dump(views(tunes, only), open(vf, "w"), indent=1)
         subprocess.run([os.path.join(ROOT, "scripts/device_views.sh"), out, vf], check=False)
         check(out)
     else:

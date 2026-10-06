@@ -46,10 +46,10 @@ public struct GeneratedChunk: Sendable {
     public var id: String { "\(index.x)_\(index.y)" }
 }
 
-/// One placed prop (tree, lamp, bench, bush). Trees pick their detail level at render time.
+/// One placed prop (tree, lamp, bench, bush). Trees and bushes pick their detail level at render time.
 public struct PropInstance: Sendable, Codable, Equatable {
     public var kind: PropKind
-    /// Variant for non-tree props (trees: 0, detail level chosen by distance).
+    /// Shape variant (`PropLibrary.variants`; trees have one, shaped per instance by `stretch`).
     public var variant: Int
     /// The OSM feature it came from, or a generator key (e.g. "gen:lamp:way/123:4").
     public var source: String
@@ -59,9 +59,13 @@ public struct PropInstance: Sendable, Codable, Equatable {
     public var height: Double
     public var yaw: Double
     public var scale: Double
+    /// Extra scale along the prop's own x and z axes (before yaw): trees get their own crown width and
+    /// an oval footprint; 1 for everything else.
+    public var stretch = SIMD2<Double>(1, 1)
 
     public var transform: simd_float4x4 {
-        simd_float4x4(translation: LocalFrame.scenePosition(LocalPoint(x, y), y: height), yaw: Float(yaw), scale: Float(scale))
+        simd_float4x4(translation: LocalFrame.scenePosition(LocalPoint(x, y), y: height), yaw: Float(yaw), scale: Float(scale),
+                      stretch: SIMD2<Float>(stretch))
     }
 }
 
@@ -400,7 +404,7 @@ public struct SceneGenerator: Sendable {
                 kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : .treeBroad
             }
             instances.append(PropInstance(kind: kind, variant: 0, source: tree.ref.description, x: tree.position.x, y: tree.position.y,
-                                          height: 0, yaw: r.range(0, 6.28), scale: height))
+                                          height: 0, yaw: r.range(0, 6.28), scale: height, stretch: Self.treeStretch(tree.ref)))
             scene.clutter.blockedPoints.append(tree.position)
         }
 
@@ -433,6 +437,16 @@ public struct SceneGenerator: Sendable {
     }
 
     // MARK: - Helpers
+
+    /// Per-tree crown proportions, so neighbouring trees of one archetype differ in outline (with the
+    /// instance yaw turning their lopsided crowns): crown width ×0.88–1.14 and an oval footprint (up to
+    /// 8% longer on one horizontal axis than the other). Height stays as mapped or drawn. Its own seed,
+    /// so kinds, heights and yaws are unchanged.
+    static func treeStretch(_ ref: OSMRef) -> SIMD2<Double> {
+        var r = ref.random("tree-shape")
+        let width = r.range(0.88, 1.14), oval = r.range(-0.08, 0.08)
+        return SIMD2(width * (1 + oval), width * (1 - oval))
+    }
 
     /// Ribbon(s) for a polyline, cut per chunk. Distance along the path continues across chunk cuts.
     func addLines(_ line: [LocalPoint], width: Double, y: Double, paint: Paint, feature: String, into chunks: inout [SIMD2<Int>: GeneratedChunk]) {
@@ -524,13 +538,13 @@ public struct SceneGenerator: Sendable {
 }
 
 extension simd_float4x4 {
-    /// Translation × rotation about +Y × uniform scale.
-    public init(translation t: SIMD3<Float>, yaw: Float, scale s: Float) {
+    /// Translation × rotation about +Y × scale (`scale` on every axis, times `stretch` on x and z).
+    public init(translation t: SIMD3<Float>, yaw: Float, scale s: Float, stretch: SIMD2<Float> = SIMD2(1, 1)) {
         let c = cos(yaw), si = sin(yaw)
         self.init(columns: (
-            SIMD4(c * s, 0, -si * s, 0),
+            SIMD4(c * s * stretch.x, 0, -si * s * stretch.x, 0),
             SIMD4(0, s, 0, 0),
-            SIMD4(si * s, 0, c * s, 0),
+            SIMD4(si * s * stretch.y, 0, c * s * stretch.y, 0),
             SIMD4(t.x, t.y, t.z, 1)
         ))
     }
