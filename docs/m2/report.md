@@ -61,23 +61,28 @@ Full logs: `docs/perf/m2-matched/`. Summary script: `scripts/analyze_runs.py`.
 
 | | RealityKit | three.js WebGPU | three.js WebGL2 |
 |---|---|---|---|
-| Run | 10 min (18:39) | **10-minute run pending**; two short checks (60 s, 46 s) | 10 min (19:00) |
-| Average fps | **48.5** | 59.9 / 58.7 | 19.3 |
-| 1% low fps | **23.3** | 38.3 / 43.0 | 7.1 |
-| Frames over 16.9 ms | 61.9% | 59.7% / 73.3% ¹ | 100% |
-| Missed frames (over 25 ms) | 22.8% | 0.34% / 0.13% | 100% |
-| Thermal state | nominal throughout | fair → serious ² | nominal throughout |
-| Memory peak | 448 MB | 29 MB ³ | 17 MB ³ |
-| Battery used | 0% (100 → 100%) ⁴ | — | 5% (100 → 95%) |
-| GPU ms | post pass only: 1.65 mean, 1.77 p95 ⁵ | not exposed | not exposed |
+| Run | 10 min (18:39) | 10 min (19:18) | 10 min (19:00) |
+| Average fps | 48.5 | **29.8** | 19.3 |
+| 1% low fps | 23.3 | 18.5 | 7.1 |
+| Frames over 16.9 ms | 61.9% | 100% | 100% |
+| Missed frames (over 25 ms) | 22.8% | 99.8% | 100% |
+| Thermal state | nominal throughout | nominal throughout | nominal throughout |
+| Memory peak | 448 MB | 17 MB ¹ | 17 MB ¹ |
+| Battery used | 0% (100 → 100%) ² | 0% (90 → 90%) ² | 5% (100 → 95%) |
+| GPU ms | post pass only: 1.65 mean, 1.77 p95 ³ | not exposed | not exposed |
+| Last 2 min vs minutes 2–3 (median frame time) | −3.9% | 0% | −1.9% |
+| Short checks earlier (60 s) | 59.8 avg, 46.1 1% low | 59.9 avg, 38.3 1% low (and 58.7 / 43.0 over 46 s) | 20.0 avg |
 
-¹ WebKit's frame timestamps are whole milliseconds, so 16/17 ms rounding inflates this column for the web. Missed frames are the reliable jank measure.
-² Both short checks ran back to back with a RealityKit check, so the phone started warm. Not a fair thermal reading.
-³ App process only. The web renderer's memory lives in WebKit's separate processes, which the app can't measure.
-⁴ The battery percentage is too coarse to rely on for 10 minutes. The RealityKit run never left 100%, so it may have been on charge or in iOS's full-charge hold. These runs didn't log charging state or Low Power Mode; they're logged from now on.
-⁵ RealityKit exposes no full-frame GPU timing outside Instruments, and Instruments lowers the GPU clock.
+¹ App process only. The web renderer's memory lives in WebKit's separate processes, which the app can't measure.
+² The battery percentage is too coarse to rely on over 10 minutes. These runs didn't log charging state or Low Power Mode; they're logged from now on.
+³ RealityKit exposes no full-frame GPU timing outside Instruments, and Instruments lowers the GPU clock.
 
-**RealityKit underperformed its own earlier check:** 48.5 fps over 10 minutes, against 59.8 fps for the same build in a 60-second check an hour earlier. The thermal state was nominal the whole time, so heat wasn't the cause. A repeat run with conditions logged is the only way to tell.
+**These runs look throttled, most likely by Low Power Mode, so treat them as invalid for the decision.**
+- **WebGPU was capped, not slow.** It ran at exactly 30 fps for the whole 10 minutes: 99.1% of frames at 33–34 ms, heat nominal. A struggling GPU scatters frame times; a flat 30 is a cap. WebKit halves animation frames to 30 fps in Low Power Mode.
+- **The short checks disagree with the 10-minute runs.** The same build ran WebGPU at 59.9 fps and RealityKit at 59.8 fps in my short checks earlier the same evening.
+- **RealityKit also fell short** of its own check, to 48.5 fps, with no heat.
+
+The protocol required Low Power Mode off. The build that records it in every log is committed, not yet installed.
 
 **Screenshots:** `docs/screenshots/m2/compare/v2-01.png`, `v2-04.png`, `v2-06.png`, each showing the v2 target, RealityKit and three.js side by side. Golden hour and noon for three.js are WebGPU frames captured on the iPhone; the aerial is WebGL2 in the Simulator. The same three.js shaders produce identical frames on both backends.
 
@@ -97,7 +102,31 @@ Full logs: `docs/perf/m2-matched/`. Summary script: `scripts/analyze_runs.py`.
 | **Total (1–9)** | **29** | **29** | Tie. Both are below v2's 40/50 Target gate |
 
 ## 6. Decision (rule E)
-Pending the WebGPU 10-minute run. See the summary in chat.
+**On the recorded data, RealityKit.** three.js's better mode, WebGPU, fails every performance gate:
+- average 29.8 fps (gate 58)
+- 1% low 18.5 fps (gate 50)
+- battery not comparable
+
+It passes:
+- never reached "serious" (nominal throughout)
+- rubric ≥ RealityKit's (a tie, 29 each)
+
+**Provisional:** both 10-minute runs show throttling (see §5), probably Low Power Mode. A clean re-run of both with the condition logging could change the WebGPU result. Its earlier 60-second checks reached 59.9 fps, but with 1% lows of 38–43, still under 50. No renderer is retired until you confirm.
+
+**Next phase on RealityKit (about 10 working days):**
+- **Hold 60 fps at native resolution, 3 days:**
+  - one Instruments GPU capture (click steps provided once)
+  - shadow distance and cascades
+  - quarter-resolution bloom
+  - LOD distances
+  - an optional render-scale setting (e.g. 2.5×)
+  - goal: average ≥ 59.4 fps and 1% low ≥ 50 on the matched loop
+- **Weather on screen from `environment.json`, 4 days:** wet surfaces, patchy snow, rain/snow particles, fog/tint/direct light, Moon disk, stars, lit windows.
+- **Generalization on Plano (Russell Creek Park), 2 days:** re-fetch the data and the same presets, no retuning.
+- **Ten-minute device runs and a video for rubric item 10, 1 day.**
 
 ## 7. Decisions needed
-See the summary in chat.
+1. **Re-run both 10-minute tests?** It would mean installing the build that logs Low Power Mode and charging state. Low Power Mode must be off (Settings → Battery) and the phone unplugged, with a 15-minute rest between runs.
+2. **Confirm the engine** after that, or accept RealityKit on this provisional result. Nothing is retired until you say so.
+3. **Render scale:** must the 60 fps target hold at the native 3× drawable, or may RealityKit render at a lower scale (e.g. 2.5×) and upscale?
+4. **Delete the iOS 26.4.1 DeviceSupport folder (about 5.5 GB)?** Your phone is on 26.4.2; the rule kept all of 26.4.x.
