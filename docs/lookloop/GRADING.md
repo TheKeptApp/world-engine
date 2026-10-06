@@ -10,6 +10,20 @@ Every reviewer works the same way, so scores are comparable run to run. When the
 
 Sources (read-only): visual-v2 §8.3 rubric (`docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md`), experience-v1 §2 per-image guidance, regions-chicagoland-miami §3, §5, §6 and §14, and the owner's art direction (Phase 5 and P3 prompts).
 
+## S. Style target (R decision, 6 Oct 2026; docs/decisions/style-target.md)
+
+The look target is **rich stylized**: simplified geometry, material hints, varied lawns, haze, wet/dry surface response. It is photoreal only in colour, light, atmosphere and weather. This section outranks any reading of the anchors that rewards photo detail.
+
+1. **Photoreal concepts.** When a target concept is more photoreal than this target, grade the capture's light, colour, atmosphere and weather against it fully. Do not lower any score for missing photo-like detail: individual bricks, shingles, grass blades, leaf-level foliage, photo textures, realistic cars or street clutter.
+2. **Detail criteria at the stylized bar.** For `silhouettes`, `softnessAO`, `groundRichness`, `houseVariety` and `adGroundRich`, the 5 anchor is met by clear stylized forms and material hints that read at phone size (lawn tone variation, beds and shrubs as simple masses, roof and crown families). Fine surface detail adds nothing.
+3. **Weights.** Colour, light and atmosphere count more than surface detail: `palette`, `light` and `depthFog` weigh 1.5 in `v2Score50` (section E). Weather is judged in `adRainReadable` and in those three.
+4. **Style anchors.** Three concepts set colour and mood for every view and weigh highest when judging `palette`, `light` and `depthFog`:
+   - `docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png` (fall)
+   - `docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png` (winter)
+   - `docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png` ("very Chicago")
+
+   Open the anchor nearest the view's season and mood alongside its own targets. Where a view's own target and an anchor disagree on colour or mood, follow the anchor; for layout, geography and time of day, follow the view's own target and data.
+
 ## Inputs
 
 For view `<id>` in run directory `<run>`:
@@ -33,7 +47,7 @@ For view `<id>` in run directory `<run>`:
      - 10 always for stills, because motion needs video.
    - Give one short reason per score that names what you saw.
 4. Score the three art-direction criteria (table B), 1–5, or `null` where marked not applicable.
-5. Apply the strictness rules (section C). They outrank any instinct to be kind.
+5. Apply the style target (section S) and the strictness rules (section C). They outrank any instinct to be kind.
 6. List hard-gate flags (section D) that you can actually see. Do not guess.
 7. Compute the totals (section E).
 8. Run the look-fix-v1 checks (section H).
@@ -128,7 +142,7 @@ Report only what you can see. Use these ids:
 
 - `v2Total` = sum of the non-null §8.3 scores.
 - `v2Max` = 5 × number of non-null §8.3 scores.
-- `v2Score50` = round(50 × v2Total / v2Max, 1). This makes views with different `na` lists comparable on the v2 /50 scale.
+- `v2Score50` = round(50 × Σ wᵢsᵢ / (5 × Σ wᵢ), 1) over the non-null §8.3 scores, with weight 1.5 for `palette`, `light` and `depthFog` and 1 for the rest (section S, since 6 Oct 2026). This keeps views with different `na` lists comparable on the v2 /50 scale. `v2Total` and `v2Max` stay unweighted.
 - `adMean` = mean of the non-null art-direction scores, to 2 decimals.
 - `v2Floors` = v2's per-criterion minimums. It is true only when **all** of the following hold:
   - No non-null **§8.3** score is below 3.

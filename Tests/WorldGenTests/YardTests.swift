@@ -54,8 +54,26 @@ struct YardTests {
             if let hit = roads.nearest(to: p, within: 12), hit.distance < widths[hit.line] / 2 + 0.3 { bad.append("\(inst.source) on road") }
         }
         #expect(bad.isEmpty, "\(area): \(bad.count) misplaced, first \(bad.prefix(3))")
+        // Shrub forms: hedges are hedge segments (variant 5) yawed along their row; garden (bed) shrubs
+        // are cushions; other yard shrubs are cushions, loose or upright, never the old round bushes.
+        let hedges = b.scene.instances.filter { $0.source.hasPrefix("gen:hedge:") }
+        #expect(hedges.allSatisfy { $0.kind == .bush && $0.variant == SceneGenerator.hedgeVariant }, "\(area): hedge not built from segments")
+        var alongRow = 0, acrossRow = 0
+        for (a, c) in zip(hedges, hedges.dropFirst()) where a.source.split(separator: ":")[2] == c.source.split(separator: ":")[2] {
+            let d = LocalPoint(c.x - a.x, c.y - a.y)
+            // Neighbours in one row: close together, same heading up to an end-for-end turn.
+            guard simd_length(d) > 0.5, simd_length(d) < 1.2, abs(sin(a.yaw - c.yaw)) < 1e-6 else { continue }
+            let u = d / simd_length(d)
+            if abs(u.x * sin(a.yaw) - u.y * cos(a.yaw)) < 0.02 { alongRow += 1 } else { acrossRow += 1 }
+        }
+        #expect(acrossRow == 0, "\(area): \(acrossRow) hedge segments not yawed along their row (\(alongRow) are)")
+        #expect(hedges.isEmpty || alongRow > 0, "\(area): no neighbouring hedge segments")
+        let shrubs = b.scene.instances.filter { $0.source.hasPrefix("gen:shrub:") }
+        let gardenShrubs = shrubs.filter { $0.source.split(separator: ":").last!.hasPrefix("g") }
+        #expect(gardenShrubs.allSatisfy { SceneGenerator.cushionVariants.contains($0.variant) }, "\(area): bed shrub not a cushion")
+        #expect(shrubs.allSatisfy { [2, 3, 4, 6, 7].contains($0.variant) }, "\(area): yard shrub with an old round-bush variant")
         let s = b.scene.stats
-        print("YARDS \(area) lots=\(b.scene.lots.count) walks=\(s["walks"] ?? 0) driveways=\(s["driveways"] ?? 0) beds=\(s["beds"] ?? 0) shrubs=\(s["shrubs"] ?? 0) hedgeBushes=\(s["hedgeBushes"] ?? 0) yardTrees=\(s["yardTrees"] ?? 0) streetTrees=\(s["streetTrees"] ?? 0) litterHints=\(b.scene.litterHints.count)")
+        print("YARDS \(area) lots=\(b.scene.lots.count) walks=\(s["walks"] ?? 0) driveways=\(s["driveways"] ?? 0) beds=\(s["beds"] ?? 0) shrubs=\(s["shrubs"] ?? 0) hedgeSegments=\(s["hedgeSegments"] ?? 0) yardTrees=\(s["yardTrees"] ?? 0) streetTrees=\(s["streetTrees"] ?? 0) litterHints=\(b.scene.litterHints.count)")
     }
 
     /// Lakeview's single-lane two-way streets (W Roscoe St: `lanes=1`, parked both sides) get a full
@@ -159,7 +177,7 @@ struct YardTests {
             return dist < r + 1 || acos(max(-1, min(1, simd_dot(d / dist, forward)))) <= halfFOV + atan(r / max(dist, 1))
         }
         var propTris: [String: Int] = [:]
-        var trees = 0, shrubs = 0, yardGround = 0
+        var trees = 0, shrubs = 0, hedgeTris = 0, yardGround = 0
         for inst in b.scene.instances where inst.source.hasPrefix("gen:") {
             let p = LocalPoint(inst.x, inst.y)
             guard visible(p, 4) else { continue }
@@ -168,6 +186,7 @@ struct YardTests {
             let key = "\(inst.kind.rawValue)-\(inst.variant)-\(lod)"
             if propTris[key] == nil { propTris[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: lod, palette: b.scene.palette).triangleCount }
             if inst.kind.isTree { trees += propTris[key]! } else { shrubs += propTris[key]! }
+            if inst.source.hasPrefix("gen:hedge:") { hedgeTris += propTris[key]! }
         }
         for chunk in b.scene.chunks {
             for fr in chunk.staticFeatures where fr.feature.hasPrefix("gen:lot") || fr.feature.hasPrefix("gen:walk") || fr.feature.hasPrefix("gen:driveway") || fr.feature.hasPrefix("gen:bed") {
@@ -177,7 +196,7 @@ struct YardTests {
         }
         let lodTris = (0..<3).map { PropLibrary.mesh(.treeBroad, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
         let bushTris = (0..<3).map { PropLibrary.mesh(.bush, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
-        print("VIEWYARDS \(name) generatedTreeTris=\(trees) shrubTris=\(shrubs) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris)")
+        print("VIEWYARDS \(name) generatedTreeTris=\(trees) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris)")
         #expect(trees + shrubs + yardGround <= 200_000, "\(name)")
     }
 }

@@ -1,0 +1,67 @@
+{
+  "comment": "Per-footprint lidar roof hints (roofhints.py): height, eave, pitch class, form (incl. mansard) and a block roof-mix table. Data, not code. Thresholds set before the mansard hand check. Plane extraction and the flat/gable/hip/complex classifier are unchanged from the pilot (params.json); heights use heights.json's ground-ring and eave-band rules. Distances in metres, angles in degrees, areas in m^2.",
+  "methodVersion": "regionkit-lidar-roofs 2.0",
+  "ept": {
+    "root": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/",
+    "dataset": "USGS_LPC_IL_4County_Cook_2017_LAS_2019",
+    "tnmProject": "IL_4_County_QL1_LiDAR_2016_B16",
+    "tnmDelivery": "IL_4County_Cook_2017",
+    "maxDepth": 10,
+    "maxBytesPerArea": 200000000
+  },
+  "flight": {
+    "dates": "2017-04-16 to 2017-05-07",
+    "source": "FGDC metadata (begdate/enddate) of the delivery tile at the Evanston test area, read in the Phase 5B pilot. The tile metadata of the other areas (Lakeview, Wilmette, Winnetka, Kenilworth) was not read; same delivery, so the same flight window is assumed (unverified for those tiles)."
+  },
+  "licence": {
+    "name": "US Government Public Domain",
+    "courtesy": "USGS 3D Elevation Program",
+    "note": "AWS Open Data registry lists the dataset as US Government Public Domain; the USGS copyright page itself was blocked (403) in the pilot, so the wording is unverified at the source. Acknowledgement of the originating agencies is requested in derived products (FGDC useconst)."
+  },
+  "areas": [
+    {"id": "evanston-south", "area": "Data/areas/evanston-south"},
+    {"id": "lakeview-sheil-park", "area": "Data/areas/lakeview-sheil-park", "overture": true},
+    {"id": "wilmette-vattmann-park", "area": "Data/areas/wilmette-vattmann-park", "overture": true},
+    {"id": "winnetka-village-green", "area": "Data/areas/winnetka-village-green", "overture": true, "marginMeters": 6},
+    {"id": "kenilworth-station", "area": "Data/areas/kenilworth-station", "overture": true}
+  ],
+  "marginMeters": 15,
+  "pitchClasses": {
+    "comment": "pitchDeg -> class. flat: < 10; low: 10 <= p < 25; medium: 25 <= p <= 40; steep: > 40.",
+    "flatBelow": 10.0,
+    "lowBelow": 25.0,
+    "mediumUpTo": 40.0
+  },
+  "classifier": {
+    "comment": "The 2.0 complex rule (roofplanes.classify_roof `rules`). Fitted on the tuning sets only (data/roofaccuracy.json), never on the test set. Plane extraction, the flat and simple-form rules and the thresholds in params.json are unchanged from 1.0. mergeAspectDeg / mergePitchDeg: touching significant sloped planes within these of each other are one slope (a dormer, chimney or noise splits a slope into several planes). minorShare: a sloped plane under this share of the significant roof area is a minor plane (dormer, porch, chimney plane): it no longer counts towards 'more sloped planes than the form needs' or 'off-axis plane'. mixedMinShare: flat share from which a roof is 'mixed flat and sloped' (1.0: 0.15; a porch or addition roof is rarely over a quarter of the roof). noPairMinPlanes: a roof needs this many major sloped planes before 'no opposite pair' counts (one dominant slope is a mono-pitch roof, not a complex one). cellM: raster cell size (params.json cell). The mansard rule below is unchanged and UNVALIDATED.",
+    "rules": {"mergeAspectDeg": 15.0, "mergePitchDeg": 6.0, "minorShare": 0.07, "mixedMinShare": 0.25, "noPairMinPlanes": 2, "cellM": 0.5}
+  },
+  "mansard": {
+    "comment": "Steep lower planes around a flat or low top. Evaluated on the significant planes (>= max(4 m2, 6 % of the roof)). A plane is steep at >= steepMinPitch and a top plane is < topMaxPitch. A side of the footprint rectangle is 'steep-covered' when a steep plane whose downhill aspect is within 45 deg of that side's outward direction has its centroid beyond sideCentroidMin of the half-extent on that side. Mansard when: steep planes hold >= steepMinShare of the significant area; a top plane with >= topMinShare of it sits in the central region (|u| <= centralShare*half-length, |v| <= centralShare*half-width); and at least minSides (3) sides are steep-covered. Two steep sides only (a gambrel, or a gable with a flat strip) is deliberately not a mansard: a first version that accepted two opposite sides over a flat top flagged a flat roof with a steep skylight strip.",
+    "steepMinPitch": 45.0,
+    "topMaxPitch": 25.0,
+    "steepMinShare": 0.30,
+    "topMinShare": 0.10,
+    "centralShare": 0.6,
+    "sideCentroidMin": 0.4,
+    "maxSteepPlanes": 5,
+    "ringMinShare": 0.95,
+    "minSides": 3
+  },
+  "confidence": {
+    "comment": "Heuristic 0-1 score, not a probability: min(1, roofCover) * min(1, pointsPerM2 / fullDensity) * min(1, planeCoverage / 0.9), times a form factor (complex 0.8: even after the 2.0 rule the classifier still calls some simple roofs complex, see results/roofaccuracy.json; mansard 0.8: UNVALIDATED rule).",
+    "fullDensity": 3.0,
+    "formFactor": {"flat": 1.0, "gable": 1.0, "hip": 1.0, "complex": 0.8, "mansard": 0.8}
+  },
+  "skip": {
+    "minPoints": 30,
+    "minRoofCover": 0.5
+  },
+  "blocks": {
+    "comment": "Faces of the area's OSM street centrelines (highway classes of aerial/data/canopy_areas.json streetClasses) plus the area rectangle, as aerial/canopy_areas.block_faces, in the pilot's local metre frame. A building belongs to the face that contains its footprint centroid.",
+    "minAreaM2": 50,
+    "minBuildings": 5,
+    "idBoundaryBufferM": 1.0,
+    "idMinSharedLengthM": 5.0
+  }
+}

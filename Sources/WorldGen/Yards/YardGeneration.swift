@@ -56,7 +56,26 @@ struct YardSubject {
     var generated: GeneratedBuilding
 }
 
+/// Where a yard shrub stands; it picks the shrub form (PropLibrary bush variants, look-fix-v1 §1.2).
+enum ShrubSite: Sendable { case bed, entry, corner, lotEdge }
+
 extension SceneGenerator {
+    /// Bush variants by form: 2, 6, 7 cushions; 3 loose; 4 upright; 5 hedge segment.
+    static let cushionVariants = [2, 6, 7]
+    static let looseVariant = 3, uprightVariant = 4, hedgeVariant = 5
+    /// Hedge segments are 1 m long; scale 1.0–1.06 lets neighbours overlap a little.
+    static let hedgeSegmentSpacing = 1.0
+
+    /// The form for a shrub at `site`: cushions in beds and gardens, upright beside the walk and at
+    /// lot and house corners, lot edges a mix of loose shrubs (40 %) and cushions.
+    static func shrubVariant(_ site: ShrubSite, _ r: inout StableRandom) -> Int {
+        switch site {
+        case .entry, .corner: return uprightVariant
+        case .lotEdge where r.chance(0.4): return looseVariant
+        case .bed, .lotEdge: return cushionVariants[Int(r.next() % UInt64(cushionVariants.count))]
+        }
+    }
+
     static let yardBlockedAreas: Set<AreaFeature.Kind> = [.park, .pitch, .playground, .parking, .water, .pool, .cemetery, .recreation,
                                                           .pedestrianArea, .sand, .wetland, .wood, .commercial]
     static let yardBuildingTypes: Set<String> = ["house", "detached", "semidetached_house", "bungalow", "residential", "terrace",
@@ -313,16 +332,20 @@ extension SceneGenerator {
             func clear(_ p: LocalPoint) -> Bool {
                 !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: 0.4) && !raster.nearUse(p, .building, radius: 1.0)
             }
-            // Shrubs: a flowering pair at the walk, a few more near the lot edges in front.
+            // Shrubs: a flowering pair at the walk, a few more near the lot edges in front. Where a shrub
+            // stands picks its form (ShrubSite): upright beside the walk and at corners, cushions in beds,
+            // loose shrubs mixed into the lot edges.
             if near {
                 var placed: [LocalPoint] = []
+                var sites: [ShrubSite] = []
                 var shr = s.building.ref.random("yard-shrubs")
                 if walks[idx] != nil, let (_, dir, _, _) = front, let entry = g.entry {
                     for sx in [-1.0, 1.0] {
                         let p = entry.point + entry.normal * 1.7 + dir * (sx * 1.05)
-                        if raster.useAt(p) == .open, clear(p) { placed.append(p) }
+                        if raster.useAt(p) == .open, clear(p) { placed.append(p); sites.append(.entry) }
                     }
                 }
+                let houseCorners = s.building.footprint.outer
                 let extra = rules.shrubs.count >= 2 ? rules.shrubs[0] + Int(shr.next() % UInt64(max(1, rules.shrubs[1] - rules.shrubs[0] + 1))) : 1
                 var tries = 0
                 while placed.count < extra + 2, tries < 160 {
@@ -334,10 +357,18 @@ extension SceneGenerator {
                     guard isFrontYard(p), raster.isEdge(i, j, owner: Int32(idx)) || raster.nearUse(p, .building, radius: 2.5), !raster.nearUse(p, .hard, radius: 1.5),
                           !raster.nearUse(p, .building, radius: 1.2), clear(p), placed.allSatisfy({ simd_distance($0, p) > 1.8 }) else { continue }
                     placed.append(p)
+                    // Lot corner: two sides of the cell leave the lot. House corner: a footprint vertex close by.
+                    let outside = [(1, 0), (-1, 0), (0, 1), (0, -1)].filter { d in
+                        let ni = i + d.0, nj = j + d.1
+                        return ni < 0 || nj < 0 || ni >= raster.w || nj >= raster.h || raster.owner[raster.index(ni, nj)] != Int32(idx)
+                    }.count
+                    let atHouseCorner = houseCorners.contains { simd_distance($0, p) < 2.2 }
+                    sites.append(outside >= 2 || atHouseCorner ? .corner : outside == 1 ? .lotEdge : .bed)
                 }
                 for (k, p) in placed.enumerated() {
                     var rr = s.building.ref.random("yard-shrub-\(k)")
-                    instances.append(PropInstance(kind: rr.chance(0.35) ? .flowerBush : .bush, variant: rr.chance(0.5) ? 0 : 1,
+                    let kind: PropKind = rr.chance(0.35) ? .flowerBush : .bush
+                    instances.append(PropInstance(kind: kind, variant: Self.shrubVariant(sites[k], &rr),
                                                   source: "gen:shrub:\(s.building.ref):\(k)", x: p.x, y: p.y, height: 0,
                                                   yaw: rr.range(0, 6.28), scale: rr.range(0.75, 1.15)))
                 }
@@ -355,22 +386,30 @@ extension SceneGenerator {
                         return o > Int32(idx) && raster.use[k] == LotRaster.Use.open.rawValue && eligible.contains(Int(o))
                     }.map { $0.filter(isFrontYard) }
                 }
+                // Each row is a straight hedge of 1 m segments (bush variant 5, long axis = local +X) yawed
+                // to the row, laid end to end along the line through the row's cells.
                 var hedgeCount = 0
-                let variant = hr.chance(0.5) ? 0 : 1
                 for row in rows where row.count >= 3 {
-                    var lastP: LocalPoint?
+                    guard simd_distance(row[0], row[row.count - 1]) > 0.5 else { continue }
+                    let c = row.reduce(LocalPoint.zero, +) / Double(row.count)
+                    let axis = simd_normalize(row[row.count - 1] - row[0])
+                    let along = row.map { simd_dot($0 - c, axis) }
+                    let (s0, s1) = (along.min()!, along.max()!)
+                    let n = Int((s1 - s0 + 1) / Self.hedgeSegmentSpacing)
+                    let yaw = atan2(axis.y, axis.x)
                     var line: [LocalPoint] = []
-                    for p in row where !raster.nearUse(p, .hard, radius: 1.2) && clear(p) {
-                        if let q = lastP, simd_distance(q, p) < 0.85 { continue }
-                        lastP = p
+                    for k in 0..<n {
+                        let p = c + axis * ((s0 + s1) / 2 + (Double(k) - Double(n - 1) / 2) * Self.hedgeSegmentSpacing)
+                        guard !raster.nearUse(p, .hard, radius: 1.2), clear(p) else { continue }
                         line.append(p)
-                        instances.append(PropInstance(kind: .bush, variant: variant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
-                                                      x: p.x, y: p.y, height: 0, yaw: hr.range(0, 6.28), scale: hr.range(1.0, 1.12)))
+                        // Half the segments are turned end for end so the lobed top does not repeat.
+                        instances.append(PropInstance(kind: .bush, variant: Self.hedgeVariant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
+                                                      x: p.x, y: p.y, height: 0, yaw: yaw + (hr.chance(0.5) ? .pi : 0), scale: hr.range(1.0, 1.06)))
                         hedgeCount += 1
                     }
                     if line.count >= 2 { scene.litterHints.append(LitterHint(kind: .hedge, line: line, weight: 0.8)) }
                 }
-                stats["hedgeBushes", default: 0] += hedgeCount
+                stats["hedgeSegments", default: 0] += hedgeCount
 
                 // A planted front garden: low shrubs spread through it.
                 if garden {
@@ -386,7 +425,8 @@ extension SceneGenerator {
                     } }
                     for (k, p) in gardenShrubs.enumerated() {
                         var rr = s.building.ref.random("garden-shrub-\(k)")
-                        instances.append(PropInstance(kind: rr.chance(0.2) ? .flowerBush : .bush, variant: rr.chance(0.5) ? 0 : 1,
+                        let kind: PropKind = rr.chance(0.2) ? .flowerBush : .bush
+                        instances.append(PropInstance(kind: kind, variant: Self.shrubVariant(.bed, &rr),
                                                       source: "gen:shrub:\(s.building.ref):g\(k)", x: p.x, y: p.y, height: 0,
                                                       yaw: rr.range(0, 6.28), scale: rr.range(0.6, 0.9)))
                     }

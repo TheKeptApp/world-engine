@@ -41,6 +41,7 @@ struct BuildingAreaTests {
         var byFamily: [String: Tally] = [:]
         var fallbacks = 0, crossGables = 0, dormers = 0, chimneys = 0, porches = 0, optional = 0, nearHouses = 0
         var inferredBays = 0, mappedBays = 0, kits: [String: Int] = [:]
+        var breasts = 0, gangwayStacks = 0, sideBays = 0
         var bad: [String] = []
         var seconds: [BuildingLOD: Double] = [:]
         let buildings = features.buildings.filter { !$0.isPart }
@@ -70,6 +71,9 @@ struct BuildingAreaTests {
             if g.hasRearPorch { porches += 1 }
             inferredBays += g.inferredBays.count
             mappedBays += g.mappedBays
+            if g.chimneyBreast { breasts += 1 }
+            gangwayStacks += g.gangwayStacks
+            sideBays += g.sideBays
             if let k = g.entryKit { kits[k, default: 0] += 1 }
             if g.role == .house { optional += g.optionalRoofTriangles; nearHouses += 1 }
             #expect(g.optionalRoofTriangles <= BuildingGenerator.optionalRoofCap)
@@ -94,7 +98,7 @@ struct BuildingAreaTests {
         let time = BuildingLOD.allCases.map { "\($0)=\(String(format: "%.2f", seconds[$0, default: 0] / km2))s" }.joined(separator: " ")
         print("BUDGET \(area) buildings=\(buildings.count) km2=\(String(format: "%.2f", km2)) trisPerKm2[\(perKm2)] genSecondsPerKm2[\(time)]")
         print("BUDGET \(area) fallbacks=\(fallbacks) crossGables=\(crossGables) dormers=\(dormers) chimneys=\(chimneys) rearPorches=\(porches) optionalRoofTrisPerHouse=\(nearHouses > 0 ? optional / nearHouses : 0)")
-        print("BUDGET \(area) inferredBays=\(inferredBays) mappedBays=\(mappedBays) entryKits=\(kits.sorted { $0.key < $1.key })")
+        print("BUDGET \(area) inferredBays=\(inferredBays) mappedBays=\(mappedBays) entryKits=\(kits.sorted { $0.key < $1.key }) chimneyBreasts=\(breasts) gangwayStacks=\(gangwayStacks) sideBays=\(sideBays)")
         for s in bad.prefix(40) { print("BAD \(area) \(s)") }
         // Budget (v2 §8.1, regions §4): optional roof detail stays far below its 12k visible cap,
         // and each LOD step at least halves the per-km² load.

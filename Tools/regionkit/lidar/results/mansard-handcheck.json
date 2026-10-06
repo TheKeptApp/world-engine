@@ -1,0 +1,19 @@
+{
+  "comment": "Hand check of the mansard rule (roofhints.mansard_rule), 2026-10-06. Aggregates only; no refs or images committed. Roofs were viewed as scratch point-cloud height surfaces (facet colours) with two side views, the same style as the pilot's hand check, and judged by the agent from the same points the rule used (a check of the rule's reading, not ground truth).",
+  "roofsInspected": 21,
+  "selection": "Not a random sample: the one roof the first rule version flagged, the highest-scoring near misses (steep share of significant plane area) in both areas (16), and the 4 roofs a looser steep threshold (42 deg) would flag. Evanston South 12, Lakeview 9.",
+  "firstRuleVersion": {"steepMinPitch": 50, "acceptedTwoOppositeSidesOverFlatTop": true, "flagged": 1, "falsePositives": 1, "note": "the one flagged roof was a flat roof with a steep gable strip across the middle (two steep sides only)"},
+  "finalRule": {
+    "flagged": 1,
+    "flaggedCorrect": 1,
+    "flaggedNote": "a flat-topped roof with four 45 deg sides (a truncated hip / deck roof): a steep ring round a flat top as the rule defines it, but not a classic 60-80 deg mansard",
+    "rejectedInspected": 20,
+    "rejectedCorrect": 20,
+    "rejectedNote": "gables, hips and cross-gables with steep (45-55 deg) planes; three of the four loose-threshold candidates were cross-gable complex roofs"
+  },
+  "findings": [
+    "Planes of 50 deg or more are rare: 92 of 10,753 planes of at least 4 m2 (0.9 %) in the two areas, and none forms a ring round a flat or low top. No classic steep mansard was found in either area; about 45 deg (12:12) is the dominant steep slope.",
+    "Thresholds (steepMinPitch 45, ringMinShare 0.95, maxSteepPlanes 5) were set on these same roofs after the first version failed, so 1 of 1 and 20 of 20 are not an independent accuracy estimate. Recall cannot be estimated: no independent set of true mansards exists in the two areas."
+  ],
+  "mansardShareOfClassified": {"evanston-south": "1 of 792", "lakeview-sheil-park": "0 of 2571"}
+}

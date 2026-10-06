@@ -333,7 +333,68 @@ def _ang_diff(a, b):
     return abs((a - b + 180.0) % 360.0 - 180.0)
 
 
-def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params):
+def merge_coplanar(sig, cells_xy, cell_plane, rules):
+    """Merge adjacent significant planes that are one slope broken by a dormer, chimney or noise: two planes join when
+    they touch (4-neighbour cells of the roof raster, `cellM` apart), their aspects are within `mergeAspectDeg` and
+    their pitches within `mergePitchDeg`; two flat planes (pitch below `flatMaxPitch`) join when they touch. Returns
+    (merged planes, relabelled cell_plane). A merged plane keeps the id of its largest member; its pitch and
+    aspect are the area-weighted mean (aspect: vector mean)."""
+    if len(sig) < 2:
+        return sig, cell_plane
+    cell = rules.get("cellM", 0.5)
+    ids = {pl["id"]: i for i, pl in enumerate(sig)}
+    parent = list(range(len(sig)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    xy = np.asarray(cells_xy, float)
+    ix = np.rint((xy[:, 0] - xy[:, 0].min()) / cell).astype(np.int64)  # cell centres differ by whole cells
+    iy = np.rint((xy[:, 1] - xy[:, 1].min()) / cell).astype(np.int64)
+    lab = {(int(a), int(b)): int(c) for a, b, c in zip(ix, iy, cell_plane)}
+    touching = set()
+    for (a, b), c in lab.items():
+        if c not in ids:
+            continue
+        for d in ((a + 1, b), (a, b + 1)):
+            e = lab.get(d)
+            if e is not None and e != c and e in ids:
+                touching.add((min(c, e), max(c, e)))
+    flat_max = rules.get("flatMaxPitch", 10.0)
+    for c, e in touching:
+        pc, pe = sig[ids[c]], sig[ids[e]]
+        both_flat = pc["pitch"] < flat_max and pe["pitch"] < flat_max
+        same_slope = (pc["pitch"] >= flat_max and pe["pitch"] >= flat_max
+                      and _ang_diff(pc["aspect"], pe["aspect"]) <= rules["mergeAspectDeg"]
+                      and abs(pc["pitch"] - pe["pitch"]) <= rules["mergePitchDeg"])
+        if both_flat or same_slope:
+            parent[find(ids[c])] = find(ids[e])
+    groups = {}
+    for i in range(len(sig)):
+        groups.setdefault(find(i), []).append(sig[i])
+    out, remap = [], {}
+    for members in groups.values():
+        big = max(members, key=lambda m: m["area"])
+        area = sum(m["area"] for m in members)
+        mp = dict(big)
+        mp["area"] = area
+        mp["pitch"] = sum(m["pitch"] * m["area"] for m in members) / area
+        vx = sum(m["area"] * math.sin(math.radians(m["aspect"])) for m in members)
+        vy = sum(m["area"] * math.cos(math.radians(m["aspect"])) for m in members)
+        if mp["pitch"] >= flat_max:
+            mp["aspect"] = math.degrees(math.atan2(vx, vy)) % 360.0
+        mp["cx"] = sum(m["cx"] * m["area"] for m in members) / area
+        mp["cy"] = sum(m["cy"] * m["area"] for m in members) / area
+        out.append(mp)
+        for m in members:
+            remap[m["id"]] = big["id"]
+    cp = np.array([remap.get(int(c), int(c)) for c in cell_plane], dtype=np.asarray(cell_plane).dtype)
+    return out, cp
+
+
+def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params, rules=None):
     """Roof form from planes (both sides of the comparison use this).
 
     planes: plane dicts (ids match cell_plane); cells_xy (m, 2) and cell_plane (m) = the roof raster inside the
@@ -341,8 +402,17 @@ def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params):
     Returns form (flat/gable/hip/complex/unknown), simple (flat/gable/hip/unknown), complex (bool), reasons,
     pitch (area-weighted mean of the significant sloped planes), ridge (bearing 0-180 of the main ridge for a
     gable or hip simple form) and side shares.
+
+    `rules` (None = the 1.0 rules above, exactly) switches on the 2.0 complex rule, which stops dormers, porches and
+    split slopes from reading as a second mass (docs/research/lidar-roofs.md section 15): `mergeAspectDeg` and
+    `mergePitchDeg` merge touching planes of one slope (`merge_coplanar`); `minorShare` makes a sloped plane under
+    that share of the significant roof area a minor plane that neither counts towards "more sloped planes than the
+    simple form has" nor towards "off-axis plane"; `mixedMinShare` replaces the flat share from which a roof is
+    "mixed flat and sloped"; `noPairMinPlanes` is how many major sloped planes a roof needs before "no opposite
+    pair" counts (a single dominant slope is a mono-pitch roof, not a complex one).
     """
     p = params
+    rules = rules or {}
     total = sum(pl["area"] for pl in planes)
     out = {"form": "unknown", "simple": "unknown", "complex": False, "reasons": [], "pitch": None, "ridge": None,
            "nPlanes": 0, "coverage": 0.0, "flatShare": None, "sideShares": None}
@@ -356,6 +426,9 @@ def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params):
     if out["coverage"] < p["minCoverage"]:
         out["reasons"].append("low coverage")
         return out
+    if rules.get("mergeAspectDeg") is not None:
+        sig, cell_plane = merge_coplanar(sig, cells_xy, cell_plane, {**rules, "flatMaxPitch": p["flatMaxPitch"]})
+        out["nPlanes"] = len(sig)
     flat = [pl for pl in sig if pl["pitch"] < p["flatMaxPitch"]]
     sloped = [pl for pl in sig if pl["pitch"] >= p["flatMaxPitch"]]
     flat_share = sum(pl["area"] for pl in flat) / sig_area
@@ -403,16 +476,17 @@ def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params):
         out["ridge"] = round(math.degrees(math.atan2(d[0], d[1])) % 180.0, 1)
     # Complex: more than the simple form explains.
     reasons = []
-    if p["mixedMinShare"] <= flat_share < p["flatMinShare"]:
+    if rules.get("mixedMinShare", p["mixedMinShare"]) <= flat_share < p["flatMinShare"]:
         reasons.append("mixed flat and sloped")
+    major = [pl for pl in sloped if pl["area"] >= rules.get("minorShare", 0.0) * sig_area]
     expected = {"gable": 2, "hip": 4}.get(simple, 2)
-    if len(sloped) > expected:
-        reasons.append(f"{len(sloped)} sloped planes")
+    if len(major) > expected:
+        reasons.append(f"{len(major)} sloped planes")
     axis = (math.degrees(math.atan2(u[0], u[1])) % 90.0)
     if any(min(_ang_diff(pl["aspect"] % 90.0, axis), 90 - _ang_diff(pl["aspect"] % 90.0, axis)) > p["axisTolDeg"]
-           for pl in sloped):
+           for pl in major):
         reasons.append("off-axis plane")
-    if not (long_pair or end_pair):
+    if not (long_pair or end_pair) and len(major) >= rules.get("noPairMinPlanes", 0):
         reasons.append("no opposite pair")
     out["reasons"] = reasons
     out["complex"] = bool(reasons)
@@ -420,13 +494,13 @@ def classify_roof(planes, cells_xy, cell_plane, rect, eroded_area, params):
     return out
 
 
-def roof_from_points(P, gx, gy, inside, rect, params):
-    """Lidar path: region growing on point normals -> nearest-point label raster on the eroded footprint ->
-    connected planes -> classify_roof. P: (n, 3) building points inside the eroded footprint.
-    Returns (classification dict, planes)."""
+def planes_from_points(P, gx, gy, inside, params):
+    """Lidar path up to the plane raster: region growing on point normals -> nearest-point label raster on the
+    eroded footprint -> connected planes. Returns (planes, cells_xy, cell_plane, eroded_area) or None (too few
+    points). `cells_xy` / `cell_plane` are the roof raster inside the footprint, as `classify_roof` takes them."""
     cell = params["cell"]
     if len(P) < params["regionGrow"]["minPoints"]:
-        return {"form": "unknown", "simple": "unknown", "complex": False, "reasons": ["too few points"]}, []
+        return None
     P = np.asarray(P, dtype=np.float64)
     normals, var = point_normals(P, params["normals"]["k"])
     labels = region_grow(P, normals, var, params["regionGrow"])
@@ -436,9 +510,17 @@ def roof_from_points(P, gx, gy, inside, rect, params):
     lab_normal = {int(lab): fit_plane(P[labels == lab])[0] for lab in np.unique(labels[labels >= 0])}
     comp_label = {int(c): int(np.bincount(grid[comp == c]).argmax()) for c in np.unique(comp[comp >= 0])}
     planes = planes_from_grid(comp, gx, gy, lambda c: lab_normal[comp_label[c]], cell)
-    res = classify_roof(planes, np.stack([gx[inside], gy[inside]], axis=1), comp[inside], rect,
-                        float(inside.sum()) * cell * cell, params["classify"])
-    return res, planes
+    return planes, np.stack([gx[inside], gy[inside]], axis=1), comp[inside], float(inside.sum()) * cell * cell
+
+
+def roof_from_points(P, gx, gy, inside, rect, params, rules=None):
+    """Lidar path: `planes_from_points` -> `classify_roof`. P: (n, 3) building points inside the eroded footprint.
+    `rules`: optional complex-rule overrides (see `classify_roof`). Returns (classification dict, planes)."""
+    pl = planes_from_points(P, gx, gy, inside, params)
+    if pl is None:
+        return {"form": "unknown", "simple": "unknown", "complex": False, "reasons": ["too few points"]}, []
+    planes, cells_xy, cell_plane, area = pl
+    return classify_roof(planes, cells_xy, cell_plane, rect, area, params["classify"], rules), planes
 
 
 def p2_simple(roof_shape):

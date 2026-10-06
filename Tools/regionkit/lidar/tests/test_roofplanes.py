@@ -166,6 +166,100 @@ class Classifier(unittest.TestCase):
         self.assertEqual(r["form"], "unknown")
 
 
+class ComplexRule2(unittest.TestCase):
+    """The 2.0 complex rule (`rules` argument of classify_roof): dormers, porches and split slopes are not a second
+    mass; a real cross gable still is. Rasters are built by hand: a 12 x 8 m roof on a 0.5 m grid (eroded footprint
+    11 x 7 m), south half falls south (aspect 180), north half falls north (aspect 0)."""
+    RULES = {"mergeAspectDeg": 15.0, "mergePitchDeg": 6.0, "minorShare": 0.07, "mixedMinShare": 0.25,
+             "noPairMinPlanes": 2, "cellM": 0.5}
+    RECT = (0.0, 0.0, 1.0, 0.0, 5.5, 3.5)
+
+    def raster(self, assign):
+        """assign(x, y) -> plane id; returns cells_xy, cell_plane for the 11 x 7 m eroded footprint."""
+        xs = np.arange(-5.25, 5.5, 0.5)
+        ys = np.arange(-3.25, 3.5, 0.5)
+        cells = np.array([(x, y) for y in ys for x in xs])
+        return cells, np.array([assign(x, y) for x, y in cells])
+
+    def run_rules(self, planes, assign, rules):
+        cells, cp = self.raster(assign)
+        return rp.classify_roof(planes, cells, cp, self.RECT, 77.0, PARAMS["classify"], rules)
+
+    @staticmethod
+    def pl(pid, area, pitch, aspect, cx, cy):
+        return {"id": pid, "area": area, "pitch": pitch, "aspect": aspect, "cx": cx, "cy": cy}
+
+    def test_split_slope_is_one_slope(self):
+        # north slope broken into two touching planes (a chimney or noise): 3 sloped planes under 1.0
+        planes = [self.pl(1, 38.5, 35, 0, 0, 1.75), self.pl(2, 12.0, 36, 4, 3, 1.75), self.pl(3, 26.5, 35, 180, 0, -1.75)]
+        assign = lambda x, y: 3 if y < 0 else (2 if x > 2.5 else 1)  # noqa: E731
+        old = self.run_rules(planes, assign, None)
+        new = self.run_rules(planes, assign, self.RULES)
+        self.assertEqual(old["form"], "complex", old)
+        self.assertEqual(new["form"], "gable", new)
+
+    def test_small_dormer_plane_is_minor(self):
+        # an 8 % steeper plane on the north slope: a dormer, not a wing
+        planes = [self.pl(1, 30.0, 35, 0, 0, 1.75), self.pl(2, 6.2, 48, 0, 3, 1.75), self.pl(3, 38.5, 35, 180, 0, -1.75)]
+        assign = lambda x, y: 3 if y < 0 else (2 if (x > 3 and y > 0.5) else 1)  # noqa: E731
+        rules = {**self.RULES, "minorShare": 0.10}
+        self.assertEqual(self.run_rules(planes, assign, None)["form"], "complex")
+        self.assertEqual(self.run_rules(planes, assign, rules)["form"], "gable")
+
+    def test_porch_flat_share_is_not_mixed(self):
+        # a flat porch roof holding about a fifth of the roof
+        planes = [self.pl(1, 30.0, 35, 0, 0, 1.75), self.pl(2, 15.0, 2, 0, 4, -1.75), self.pl(3, 32.0, 35, 180, 0, -1.75)]
+        assign = lambda x, y: 3 if y < 0 and x < 2.0 else (2 if y < 0 else 1)  # noqa: E731
+        old = self.run_rules(planes, assign, None)
+        new = self.run_rules(planes, assign, self.RULES)
+        self.assertIn("mixed flat and sloped", old["reasons"], old)
+        self.assertNotIn("mixed flat and sloped", new["reasons"], new)
+
+    def test_single_slope_is_not_complex(self):
+        planes = [self.pl(1, 77.0, 25, 0, 0, 0)]
+        assign = lambda x, y: 1  # noqa: E731
+        old = self.run_rules(planes, assign, None)
+        new = self.run_rules(planes, assign, self.RULES)
+        self.assertTrue(old["complex"], old)
+        self.assertFalse(new["complex"], new)
+
+    def test_major_extra_masses_stay_complex(self):
+        # a wing with its own slopes (two on-axis, one off-axis), each over a tenth of the roof: complex under 2.0
+        planes = [self.pl(1, 20.0, 35, 0, -2, 1.75), self.pl(2, 20.0, 35, 180, -2, -1.75),
+                  self.pl(3, 14.0, 35, 90, 4, 0), self.pl(4, 10.0, 35, 270, 2, 0), self.pl(5, 13.0, 30, 40, 4, 2)]
+        assign = lambda x, y: (3 if y > 1.5 else (5 if y > 0 else 4)) if x > 1 else (1 if y > 0 else 2)  # noqa: E731
+        res = self.run_rules(planes, assign, self.RULES)
+        self.assertEqual(res["form"], "complex", res)
+
+    def test_cross_gable_cloud_is_complex_under_new_rules(self):
+        import shapely
+        P, fp = cloud("cross", seed=4)
+        er = fp.buffer(-PARAMS["footprintErosion"])
+        x0, y0, x1, y1 = er.bounds
+        gx, gy = rp.raster_cells((x0, y0), (x1, y1), PARAMS["cell"])
+        inside = shapely.contains_xy(er, gx, gy)
+        P = P[shapely.contains_xy(er, P[:, 0], P[:, 1])]
+        res, _ = rp.roof_from_points(P, gx, gy, inside, rp.min_area_rect(np.array(er.exterior.coords)), PARAMS, self.RULES)
+        self.assertEqual(res["form"], "complex", res)
+
+    def test_merge_coplanar_keeps_far_apart_planes_apart(self):
+        # two planes with the same aspect and pitch that do not touch stay two planes
+        planes = [self.pl(1, 10.0, 35, 0, -3, 0), self.pl(2, 10.0, 35, 0, 3, 0)]
+        cells = np.array([[-3.0, 0.0], [3.0, 0.0]])
+        merged, cp = rp.merge_coplanar(planes, cells, np.array([1, 2]), self.RULES)
+        self.assertEqual(len(merged), 2)
+        self.assertEqual(list(cp), [1, 2])
+
+    def test_merge_coplanar_joins_touching_aspects_across_north(self):
+        planes = [self.pl(1, 10.0, 35, 356, 0, 0), self.pl(2, 10.0, 35, 5, 1, 0)]
+        cells = np.array([[0.0, 0.0], [0.5, 0.0]])
+        merged, cp = rp.merge_coplanar(planes, cells, np.array([1, 2]), self.RULES)
+        self.assertEqual(len(merged), 1)
+        self.assertAlmostEqual(merged[0]["area"], 20.0)
+        self.assertLess(min(merged[0]["aspect"], 360 - merged[0]["aspect"]), 3)  # about north (0 / 360), not 180
+        self.assertEqual(len(set(cp.tolist())), 1)
+
+
 class Stats(unittest.TestCase):
     def test_wilson(self):
         lo, hi = rp.wilson(50, 100)

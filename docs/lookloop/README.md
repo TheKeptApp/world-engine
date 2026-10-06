@@ -140,3 +140,9 @@ Still needed:
 | 5A | Bundle `wilmette-vattmann-park` (P2, on main) with a named camera at Highland Ave 42.074933,-87.719996, heading 90 | Activates the five Wilmette views. Their camera is the exact regions-fixture camera, the best concept comparison |
 | 5A | GPU frame time from the default RealityView host | Simulator frame time is vsync-capped; on device, Metal System Trace only |
 
+
+Gate trigger: run the full Opus `--gate` only after a routine Sonnet loop reaches mean parity ≥ 92 % (85 % + the measured offset). Under the §S rubric Sonnet scores 7.0 parity points above Opus on the same frames (ccb5f77: 80.2 vs 73.2); milestones are read from Opus gate rows only. See scoreboard.md.
+
+Heavy lock (owner, 6 Oct 2026): priority 5A > P2 > P3 > P1 (FoodZen paused). P3 holds `~/.agent-heavy-lock` only while capturing frames (build, Simulator, capture, analysis) and releases it before any grading; grading needs no lock.
+
+Daily sheet: each evening `python3 Tools/lookloop/daily.py` writes `docs/lookloop/daily/YYYY-MM-DD.png`, six key views (ordinary-street, light-rain-street, showcase-06 smoke, wilmette-street-snow, lakeview-postcard, v2-06 aerial) at the ccb5f77 baseline (`daily/baseline-ccb5f77/`) beside the latest published run, at phone width.

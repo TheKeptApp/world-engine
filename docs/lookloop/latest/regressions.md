@@ -1,61 +1,38 @@
 # Look loop: regressions
 
-This run (2026-10-06 12:40, engine `0125f38`) against the previous published run (2026-10-06 09:16, engine `78e7541`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
+This run (2026-10-06 14:28, engine `24491e5`) against the previous published run (2026-10-06 13:50, engine `f7ca60b`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
 
 Caution: docs/lookloop/GRADING.md changed between the two runs (see calibration.md for why). Score moves can come from the procedure rather than the render; compare the sheets before acting.
 
-**51 regression flag(s) in 22 view(s).**
+**22 regression flag(s) in 14 view(s).**
 
 | View | What | Before | Now | Reviewer's reason now |
 |---|---|---|---|---|
-| [v2-01](sheets/v2-01.jpg) | v2 /50 | 26.7 | 24.4 | At phone size this reads as a clean but flat, sterile low-poly street with no golden-hour light, far below the warm, rich target. The biggest gap is lighting: a low sun with no warm key or long shadows. |
-| [v2-01](sheets/v2-01.jpg) | softnessAO | 3 | 2 | Foundation shrubs sit on the lawn without visible contact shading; no eave, crown or dog contact shadow; the house base seam is a hard dark band. |
-| [v2-01](sheets/v2-01.jpg) | geography | 4 | 3 | Street layout (walk, parkway, road to the right, heading west) plausible, but with the sun at 6 deg no shadows are visible to verify the bearing, which is itself doubtful for a clear evening. |
-| [v2-04](sheets/v2-04.jpg) | softnessAO | 3 | 2 | Near house sits on lawn with a hard dark band and no eave/base occlusion; shrubs barely grounded; only the dog has a soft contact shadow. |
-| [v2-04](sheets/v2-04.jpg) | characterReadability | 4 | 3 | Black dog readable on the pale walk with contact shadow, but about 19% of frame height and coat reads as a near-black silhouette with little form. |
-| [v2-06](sheets/v2-06.jpg) | houseVariety | 3 | 2 | The NE grid is dense, but the houses are indistinguishable repeated blocks; one stray red building stands out; no visible garage or alley structure. |
-| [showcase-01](sheets/showcase-01.jpg) | v2 /50 | 31.3 | 27.5 | At phone size this reads as a clean but sterile low-poly park with consistent low sun and correct layout, well below the warmth and richness of target 01. The biggest gap is the flat, empty lawn and path edges. |
-| [showcase-01](sheets/showcase-01.jpg) | softnessAO | 3 | 2 | Trunks and bench sit on the lawn with no contact occlusion; crowns have hard faceted shading and no base AO; shadows are hard-edged. |
-| [showcase-01](sheets/showcase-01.jpg) | depthFog | 3 | 2 | Distance is a dense flat wall of identical small crowns at the horizon with little aerial perspective; the lake is a flat grey-blue band with no shore definition. |
-| [showcase-01](sheets/showcase-01.jpg) | geography | 5 | 4 | Camera ESE with lake on the right, no sun disk or mountains; cast shadows run away from camera toward the front-left, consistent with sun az 253 behind-right and shadow bearing 73. |
-| [showcase-02](sheets/showcase-02.jpg) | v2 /50 | 30.0 | 27.5 | At phone size it reads as a correct but sterile, blue-tinted low-poly park: lake right, path ESE, autumn trees on a flat lawn. The biggest gap is palette plus ground richness: a cold colour cast and a bare lawn where the |
-| [showcase-02](sheets/showcase-02.jpg) | palette | 3 | 2 | Strong cyan/teal cast: lawn is a minty blue-green, path is pale blue-white, conifers teal; autumn crowns are muddy olive/rust rather than the target's restrained warm yellows and oranges. |
-| [showcase-02](sheets/showcase-02.jpg) | softnessAO | 3 | 2 | Trunks and bench sit on the lawn with no visible contact darkening; no crown occlusion or soft overcast ground shadow, objects look pasted. |
-| [showcase-03](sheets/showcase-03.jpg) | v2 /50 | 30.0 | 27.5 | At phone size this reads as a clean but sterile low-poly park under a stormy sky with a cyan grade, not a wet autumn trail. Biggest gap: surfaces show almost no wetness and the lawn is a flat single-tone carpet. |
-| [showcase-03](sheets/showcase-03.jpg) | palette | 3 | 2 | Whole frame pushed teal/mint: lawn is uniform mint green, lake saturated cyan, path pale blue-white; autumn crowns survive but base relationships are not restrained. |
-| [showcase-03](sheets/showcase-03.jpg) | softnessAO | 3 | 2 | Trunks and bench meet the lawn with no contact darkening; no crown or base occlusion visible. |
-| [showcase-06](sheets/showcase-06.jpg) | softnessAO | 3 | 2 | Trunks meet the lawn with no visible contact darkening; bench and pine base sit on flat green with no occlusion. |
-| [showcase-06](sheets/showcase-06.jpg) | adGroundRich | 2 | 1 | One flat lawn colour everywhere, no shrubs or beds, hard grass/path edges. |
-| [showcase-07](sheets/showcase-07.jpg) | v2 /50 | 27.5 | 23.8 | At phone size this reads as a sterile, uniform snowfield with primitive cone conifers and stick trees, far below the target's path-and-shore winter scene. The biggest gap is the missing trail and flat ground: no path, pa |
-| [showcase-07](sheets/showcase-07.jpg) | silhouettes | 3 | 2 | Bare deciduous trees are readable but all share one stick archetype; conifers are stacked-cone primitives with hard black tier rims; distant houses are tiny boxes. |
-| [showcase-07](sheets/showcase-07.jpg) | groundRichness | 2 | 1 | Flat sterile white carpet across the whole foreground: no path, no edge clusters, no patchy snow over grass, only scattered tiny tufts and smudge blotches. |
-| [showcase-07](sheets/showcase-07.jpg) | geography | 4 | 3 | Heading ESE with lake on the right agrees and no mountains or sunset disk appear, but the lake trail itself is not visible at all (camera stands in an open snowfield), which is doubtful for a trail view; overcast shadows |
-| [showcase-07](sheets/showcase-07.jpg) | adGroundRich | 2 | 1 | One flat snow tone everywhere, no shrubs, beds, grass showing through or path edges. |
-| [showcase-08](sheets/showcase-08.jpg) | softnessAO | 3 | 2 | Hard-edged flat snow/grass polygons, no contact occlusion at trunk bases or the bench; conifer shading is banded; path and snow edges are knife-cut. |
-| [showcase-09](sheets/showcase-09.jpg) | depthFog | 3 | 2 | Horizon is a thin flat band; lake on the right is a flat pale plane with no shore or reflection, distance has little aerial separation and no skyline glow. |
-| [showcase-10](sheets/showcase-10.jpg) | adRegional | 3 | 2 | Land-use pattern (lake park plus grid) fits, but no Front Range cues: no cottonwood mass, no Denver bungalow texture readable, surroundings missing. |
-| [showcase-11](sheets/showcase-11.jpg) | v2 /50 | 21.3 | 18.8 | At phone size this reads as a small square diorama floating on a blue camouflage plane, with the lake recognisable but the town reduced to speckles. The biggest gap is the missing world-edge continuation and clean snow g |
-| [showcase-11](sheets/showcase-11.jpg) | groundRichness | 2 | 1 | Ground is a large noisy camouflage blotch pattern outside the world and coarse muddy blotches inside; no low-frequency calm, no patchy snow tied to features. |
-| [showcase-11](sheets/showcase-11.jpg) | geography | 4 | 3 | North-up lake with island and NE inlet and grid to the east plausibly match Sloan's Lake; shadows too weak to verify bearing; the square world cutoff and surrounding fake plane are doubtful. |
-| [showcase-11](sheets/showcase-11.jpg) | adGroundRich | 2 | 1 | No visible lawns, beds or shrubs; ground is blotch noise and grey patches. |
-| [ordinary-street](sheets/ordinary-street.jpg) | v2 /50 | 28.9 | 25.6 | At phone size this reads as a clean but flat, cool, toy-like street: the dog is readable and geography is consistent, but the lawn is a teal carpet and the houses are boxes. The biggest gap is lighting: no warm afternoon |
-| [ordinary-street](sheets/ordinary-street.jpg) | light | 3 | 2 | Mid-afternoon sun at 28 deg should give warm key and clear contrast; frame reads flat and cool-tinted, lit and shade sides of the house barely differ, weak cast shadows except faint ones on the road. |
-| [ordinary-street](sheets/ordinary-street.jpg) | softnessAO | 3 | 2 | Dog has only a faint contact shadow; house base meets lawn with a hard seam and no occlusion; foundation shrubs and grass tufts look pasted on; no crown or eave occlusion. |
-| [ordinary-street](sheets/ordinary-street.jpg) | characterReadability | 4 | 3 | Black dog is clearly readable against the light sidewalk at about 19% frame height and grounded, but coat is near pure black with little form shading and contact shadow is very weak. |
-| [light-rain-street](sheets/light-rain-street.jpg) | v2 /50 | 27.8 | 24.4 | At phone size this reads as a flat, slightly gloomy dry day with a saturated lawn and a black-cutout dog. The biggest gap is unreadable rain: no wet sheen, puddles or darkening on the bright walk. |
-| [light-rain-street](sheets/light-rain-street.jpg) | palette | 3 | 2 | Saturated teal-green lawn and pale lavender walk dominate; rain does not mute the base; dog coat is a near-black blob. |
-| [light-rain-street](sheets/light-rain-street.jpg) | light | 3 | 2 | Flat uniform overcast fill, no directional key, walk reads bluish-white like lit dry concrete; no rainy afternoon mood. |
-| [light-rain-street](sheets/light-rain-street.jpg) | characterReadability | 3 | 2 | Dog is a black silhouette with no coat detail over the pale walk, about 18% of height; contact barely visible. |
-| [light-rain-street](sheets/light-rain-street.jpg) | houseVariety | 3 | 2 | Near house is a plain box with blank wall; distant houses are identical flat-roof boxes with repeated windows. |
-| [wilmette-street-snow](sheets/wilmette-street-snow.jpg) | groundRichness | 2 | 1 | Flat sterile white carpet: road, sidewalk, parkway and lawns all merge, no patchy snow, no plowed road or walks, only a thin line and tiny stray specks. |
-| [wilmette-street-snow](sheets/wilmette-street-snow.jpg) | geography | 4 | 3 | Camera looks east down a tree-lined street, but the street itself is not legible (no roadway) and crisp shadows under full overcast are doubtful; south-sun bearing roughly consistent with shadows toward the left. |
-| [wilmette-street-snow](sheets/wilmette-street-snow.jpg) | adGroundRich | 2 | 1 | One uniform snow surface everywhere, hard edges, shrubs only as identical row blobs, no beds or variation. |
-| [evanston-street](sheets/evanston-street.jpg) | softnessAO | 3 | 2 | Trunks and shrubs meet ground with almost no contact occlusion; no eave or base darkening on houses, shrubs look pasted on. |
-| [evanston-street-rain](sheets/evanston-street-rain.jpg) | softnessAO | 3 | 2 | Trunks and shrubs meet the lawn with no contact darkening; house bases and eaves have no occlusion; shrubs look pasted on. |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | geography | 4 | 3 | Looking south down a tree-lined street plausibly matches the camera; shadows under overcast cannot verify bearing, but the roadway is indistinguishable from yards so the street layout is doubtful. |
-| [evanston-aerial](sheets/evanston-aerial.jpg) | geography | 5 | 4 | Heading 20 with shadow bearing 40.6: shadows fall away from camera and slightly right, consistent; street grid and alleys plausible, nothing contradicts. |
-| [lakeview-postcard](sheets/lakeview-postcard.jpg) | softnessAO | 3 | 2 | Shrubs and stoops sit on lawn with almost no contact darkening; trunk bases and house bases show no occlusion |
-| [lakeview-postcard](sheets/lakeview-postcard.jpg) | geography | 3 | 2 | Shadows fall away from camera (east) as the 88 deg bearing requires, but the roadway centre reads as a grass strip with a row of trees down the middle; Roscoe is a paved street, so the layout visibly contradicts it |
-| [lakeview-alley-winter](sheets/lakeview-alley-winter.jpg) | groundRichness | 2 | 1 | Alley is a single uniform white snow carpet wall-to-wall: no tire tracks, no exposed pavement, no edge drifts, no patchy melt. |
-| [lakeview-alley-winter](sheets/lakeview-alley-winter.jpg) | adRegional | 3 | 2 | Garage-lined alley is a Chicago cue, but missing bare street trees, wooden back porches, fences and brick two/three-flats that make Lakeview read as itself. |
-| [lakeview-aerial](sheets/lakeview-aerial.jpg) | softnessAO | 3 | 2 | Buildings and trunks meet ground with hard edges and no visible contact occlusion; no eave or base softening, cast shadows are faint. |
+| [v2-01](sheets/v2-01.jpg) | v2 /50 | 27.8 | 24.3 | At phone size the street reads as a flat, washed-out dusk-grey scene rather than autumn golden hour, with the dog readable but ground and house detail sparse. The biggest gap is the missing warm directional light and cas |
+| [v2-01](sheets/v2-01.jpg) | softnessAO | 3 | 2 | Only faint foundation darkening and a small shrub row; no tree or house cast shadows on lawn or walk, dog has barely any contact shadow. |
+| [v2-01](sheets/v2-01.jpg) | houseVariety | 3 | 2 | Near house is a plain pink wall with one window; the distant row is a uniform cream block with repeated windows. |
+| [v2-01](sheets/v2-01.jpg) | geography | 4 | 3 | Street runs west with a pink low-sky glow ahead, but shadows are too faint to verify the 73 degree bearing; nothing clearly contradicted. |
+| [v2-04](sheets/v2-04.jpg) | houseVariety | 3 | 2 | Only one near house wall and a repeated tan block row across the street; no porches, entries or varied mass. |
+| [v2-06](sheets/v2-06.jpg) | v2 /50 | 26.3 | 22.1 | At phone size the aerial is a desaturated, hazy beige plan view with a correct lake and grid layout but little golden-hour light or colour. The biggest gap is light and palette versus the warm, saturated target. |
+| [v2-06](sheets/v2-06.jpg) | palette | 3 | 2 | Everything outside the core is a washed grey-beige plane; lake is a flat grey-blue; saturation 51 vs target 134. Only the house core carries warm colour. |
+| [v2-06](sheets/v2-06.jpg) | softnessAO | 3 | 2 | Little visible contact shading or soft shadows; footprints sit as flat blocks. |
+| [v2-06](sheets/v2-06.jpg) | depthFog | 3 | 2 | Uniform grey-beige haze flattens the distance; no horizon, but little separation between near and far and no lake/shore atmosphere. |
+| [v2-06](sheets/v2-06.jpg) | adRegional | 3 | 2 | Lake plus bungalow grid reads loosely as Sloan's Lake, but the surrounding land-use is a generic beige plain with no Front Range cues. |
+| [showcase-03](sheets/showcase-03.jpg) | adRegional | 3 | 2 | Cottonwood-like autumn crowns and conifers are plausible for the Front Range, but there are no bungalows, mountain band or park cues; reads generic. |
+| [showcase-05](sheets/showcase-05.jpg) | softnessAO | 3 | 2 | Trunks and bench sit on the lawn with almost no contact shading; path edges are hard and bare, nothing under crowns. |
+| [showcase-06](sheets/showcase-06.jpg) | palette | 3 | 2 | Saturated mid-green lawn and teal conifers stay vivid under a heavy orange sky; smoke does not desaturate or unify the near field, so sky and ground split into two palettes (target is a uniform beige haze). |
+| [showcase-07](sheets/showcase-07.jpg) | adRainReadable | 3 | 2 | Snow cover and a dark overcast sky read as wintry, but falling snow is barely visible and the path has no wet or ice sheen. |
+| [showcase-08](sheets/showcase-08.jpg) | houseVariety | 3 | 2 | Houses are tiny and distant, and read as a dark roof strip with a few red or white boxes; little family variety is visible. |
+| [showcase-11](sheets/showcase-11.jpg) | palette | 3 | 2 | Grey-lilac blotchy snow and flat slate lake; low saturation and colourfulness vs the anchors' crisp blue water and warm tones, orange edge glints look like noise. |
+| [ordinary-street](sheets/ordinary-street.jpg) | houseVariety | 3 | 2 | Near house is a featureless mauve box with two windows and no roof or entry visible; distant yellow block is the only other type. |
+| [light-rain-street](sheets/light-rain-street.jpg) | softnessAO | 3 | 2 | Hedge blobs at the foundation have little contact shading; the house base is a flat dark band; the large boulder-like shrub floats on the lawn. |
+| [wilmette-street](sheets/wilmette-street.jpg) | groundRichness | 3 | 2 | Large near lawns are two flat green tones split by a walk; little patch, wear or litter variation; foreground shrub is a single blob. |
+| [wilmette-street](sheets/wilmette-street.jpg) | adGroundRich | 3 | 2 | Lawns are nearly flat green with hard edges at walks; foundation shrubs exist but beds, worn edges and leaf litter are missing. |
+| [lakeview-alley-winter](sheets/lakeview-alley-winter.jpg) | adRainReadable | 3 | 2 | Snow view marked wet: overcast sky and cool tone read as winter weather, but no visible wet or slush surface contrast, no sheen or puddles, and no falling flakes at phone size. |
+| [lakeview-aerial](sheets/lakeview-aerial.jpg) | depthFog | 3 | 2 | Almost no atmospheric perspective; far blocks are as crisp and saturated as near ones, and the frame is cut off at the top with no soft distance. |
+
+## Same-grader check (Sonnet, §S rubric, ccb5f77 frames → 1c15fba)
+
+| View | Before (ccb5f77) | Now (1c15fba) | Commit |
+|---|---|---|---|
+| [v2-06](sheets/v2-06.jpg) | 25.3 | 22.1 (−3.2) | One of 35827f6..1c15fba (5A: context ring, lawns dcd3eb6, saturation 1c15fba). The only view down more than 3; the ring raised it to 26.3 at 35827f6 on the old rubric, so check the 1c15fba saturation and lawn-tone changes on this golden-hour aerial. |

@@ -237,7 +237,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
         half wet = half(g.wetness * exposure);
         // Diffuse reduction at full W: asphalt and walks set their own (below); grass 8% (§3.1
         // 6–10%); other ground, stone and walls the weather profile's value.
-        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.08h : half(g.wetDarkening));
+        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.15h : half(g.wetDarkening));
         su.base *= 1.0h - darken * wet;
         half wr = su.wetRoughness >= 0.0h ? su.wetRoughness : half(g.wetRoughness);
         su.roughness = mix(su.roughness, min(su.roughness, wr), wet);
@@ -250,7 +250,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             // about half that at W = 0.65). Threshold t gives that coverage for this noise
             // (measured: 2% at 0.182, 4% at 0.219, 8% at 0.265).
             float p = valueNoise(wp.xz / 2.0 + 13.1) * 0.7 + valueNoise(wp.xz / 0.7 + 5.7) * 0.3;
-            float cover = float(su.puddleMax) * pow(pw, 0.8);
+            float cover = float(su.puddleMax) * pow(pw, 0.45);
             float t = 0.157 + 1.33 * cover;
             puddle = half((1.0 - smoothstep(t - 0.02, t + 0.005, p)) * smoothstep(0.0, 0.01, cover));
             su.base = mix(su.base, su.base * 0.5h, puddle);
@@ -268,13 +268,16 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             // §3.1: sky-only reflection in puddles, clamped to 0.35 (a floor of 0.12 keeps near ones
             // reading as water, not shadow); outside them a broad restrained sheen (≤ 0.15).
             float amount = float(puddle) * clamp(max(fresnel, 0.12), 0.0, 0.35)
-                + min(fresnel * 0.3 + 0.03, 0.15) * float(wet) * (1.0 - float(puddle));
+                + min(fresnel * 0.6 + 0.12, 0.38) * float(wet) * (1.0 - float(puddle));
             // Grass and other rough ground glint far less than paving.
             if (su.puddles) { su.emissive += half3(sky * amount); }
             else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }
         }
         // Snow covers patterns, leaves and wetness where it lies.
         half snow = half(snowMask(g, wp, n));
+        // Paving (walks, roads) holds a thinner, patchier dusting than lawn, so a snowed path still
+        // leads into the frame (look-fix §3.3 gives lawn 60–90% and no plowing; no tracks invented).
+        if (su.puddles) { snow *= half(0.45 + 0.4 * valueNoise(wp.xz / 1.7 + 61.0)); }
         su.base = mix(su.base, g.snowColor, snow);
         su.roughness = mix(su.roughness, 0.85h, snow);
         su.specular = mix(su.specular, 0.25h, snow);
@@ -284,7 +287,10 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // R8 fill: hemispheric sky/ground, occluded by baked AO (floor 0.65). Emissive, so no extra
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
-    half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
+    // Contact shading (look-fix §2.3: AO may take another 10–20% of ambient within 0.15–0.4 m of a
+    // contact): upright surfaces darken softly toward the ground (wall bases, trunks, posts).
+    half baseAO = abs(n.y) < 0.5 ? half(1.0 - 0.2 * (1.0 - smoothstep(0.05, 0.4, wp.y))) : 1.0h;
+    half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact * baseAO;
     // Postcard quality mode only (never on screen): the baked contact AO takes a further share of
     // the fill (lighting bible §2.3: another 10–20% within a contact; open surfaces have AO 1).
     if (g.postcardQuality) { fill *= 1.0h - half(g.postcardAO) * (1.0h - su.ao); }
@@ -304,6 +310,27 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     }
 }
 
+// ---- Context ring coverage fade (look-fix-v1 §4; WorldGen/Context/ContextRing.swift) --------------
+// Context-ring vertices (flag 256) carry their coverage box in uv3 (scene x min, z min, x max, z max)
+// and the fade width in paint.w. Over the last `width` metres inside the box the surface becomes the
+// boundary plain under the world (backdrop slot, roughness 0.88, specular 0.3, AO 1), so the data
+// ends without a cut. Mirrored on the CPU by ContextRing.fadeWeight (tests, offline renders).
+constant uint kBackdropSlot = 17;   // SeasonalPalette.order index of "backdrop" (tested)
+
+void contextCoverageFade(texture2d<half> tex, Globals g, thread Surface &su, float4 box, float width, float3 wp) {
+    float d = min(min(wp.x - box.x, box.z - wp.x), min(wp.z - box.y, box.w - wp.z));
+    half t = half(1.0 - smoothstep(0.0, max(width, 1.0), d));
+    su.ao = 1.0h;
+    if (t <= 0.0h) { return; }
+    su.base = mix(su.base, srgbToLinear(tex.read(uint2(kBackdropSlot, 0)).rgb), t);
+    su.roughness = mix(su.roughness, 0.88h, t);
+    su.specular = mix(su.specular, 0.3h, t);
+    if (su.wetDarkening >= 0.0h) { su.wetDarkening = mix(su.wetDarkening, half(g.wetDarkening), t); }
+    if (su.wetRoughness >= 0.0h) { su.wetRoughness = mix(su.wetRoughness, half(g.wetRoughness), t); }
+    su.puddleMax *= 1.0h - t;
+}
+// ---- end context ring ---------------------------------------------------------------------------
+
 } // namespace
 
 /// Buildings, ground, roads, curbs, sidewalks (opaque).
@@ -322,19 +349,31 @@ void worldStaticSurface(realitykit::surface_parameters params)
     float dist = length(wp - g.camera);
 
     if (flags & 4u) {
+        // Lot lawns (P2 yards, look-fix-v1 §1.1): extra = (1, tone t, 0, seed > 0). The base runs
+        // between the seasonal lawnA/lawnB endpoints (palette slots 18, 19) by the lot's tone, times
+        // its value step (paint shade); the seed offsets the patch field so neighbours differ.
+        float2 lot = float2(0.0);
+        if (extra.w > 0.0) {
+            half3 a = srgbToLinear(tex.read(uint2(18, 0)).rgb), b = srgbToLinear(tex.read(uint2(19, 0)).rgb);
+            su.base = mix(a, b, half(clamp(extra.y, 0.0, 1.0))) * half(paint.y);
+            lot = float2(extra.w * 173.0, extra.w * 291.0);
+        }
         // R3 lawn mottling: two low-frequency bands; fine band fades out by 50 m.
-        float broad = valueNoise(wp.xz / 2.6) - 0.5;
+        float broad = valueNoise(wp.xz / 2.6 + lot) - 0.5;
         float fine = (valueNoise(wp.xz / 0.45 + 17.0) - 0.5) * (1.0 - smoothstep(30.0, 50.0, dist));
-        float v = broad * 0.12 + fine * 0.07;
+        // On lot lawns the lot's own tone and value step carry the variation (P2 bakes per-lot patches
+        // into the shade), so the world-space bands run at a third and don't wash across lot lines.
+        float lotScale = extra.w > 0.0 ? 0.33 : 1.0;
+        float v = broad * 0.12 * lotScale + fine * 0.07;
         su.base *= half(1.0 + v);
         half luma = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
         su.base = mix(half3(luma), su.base, half(1.0 + broad * 0.08));
         // Art direction (Prompt 5): ordinary lawns vary in colour, drier warm patches and lusher
         // cool ones over ~10 m, so a clear day doesn't read as one flat green.
         if (!(g.debug > 4.5 && g.debug < 5.5)) {
-        float patchv = valueNoise(wp.xz / 11.0 + 3.3) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1) - 0.5) * 0.5;
+        float patchv = valueNoise(wp.xz / 11.0 + 3.3 + lot) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1 + lot) - 0.5) * 0.5;
         half3 dry = su.base * half3(1.16h, 1.06h, 0.72h), lush = su.base * half3(0.86h, 1.0h, 0.93h);
-        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75)));
+        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75) * lotScale));
         }
         su.roughness = 0.95h; su.specular = 0.15h;
     }
@@ -353,11 +392,13 @@ void worldStaticSurface(realitykit::surface_parameters params)
             su.base = mix(su.base, leaf * (1.0h - 0.25h * half(g.wetness)), half(clamp(cover, 0.0, 0.85)));
         }
     }
-    // §3.1 wet response: asphalt 28% darker, roughness to 0.42, puddles up to 8%; concrete walks
-    // 15%, 0.58, up to 4%.
-    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.28h; su.puddles = true; su.puddleMax = 0.08h; }
+    // Wet response beyond the bible's §3.1 ranges (owner: wet must read on a phone; at 18–30% pale
+    // concrete still read dry): asphalt 40%, walks 35%, lawn 15%, puddles up to 16%/14%, (owner and P3: rain must
+    // read at phone size; at W 0.65 the bible's 1–3% of walks didn't show):
+    // asphalt 30% darker, roughness to 0.42, puddles up to 8%; concrete walks 18%, 0.58, up to 4%.
+    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.40h; su.puddles = true; su.puddleMax = 0.16h; }
     if (flags & 8u) {
-        su.wetRoughness = 0.58h; su.wetDarkening = 0.15h; su.puddles = true; su.puddleMax = 0.04h;
+        su.wetRoughness = 0.5h; su.wetDarkening = 0.35h; su.puddles = true; su.puddleMax = 0.14h;
         // R7 sidewalk joints: transverse joints every 1.75 m along the path, ~1.2 cm wide,
         // darkening 14%; anti-aliased; gone by 60 m.
         float u = extra.z / 1.75;
@@ -376,6 +417,7 @@ void worldStaticSurface(realitykit::surface_parameters params)
     if (flags & 2u) {
         su.emissive = su.base * half(0.25 + 2.0 * g.litFraction);
     }
+    if (flags & 256u) { contextCoverageFade(tex, g, su, extra, paint.w, wp); }   // context ring
     finish(params, g, su, wp);
 }
 
@@ -487,6 +529,7 @@ void worldWaterSurface(realitykit::surface_parameters params)
     su.base *= half(0.95 + 0.08 * ripple);
     su.emissive = half3(0.0h); su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
     su.weathered = false;
+    if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring
     finish(params, g, su, wp);
 }
 
