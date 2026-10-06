@@ -436,6 +436,37 @@ public final class World {
 
     /// Mean display brightness the post-process auto exposure aims for (set by `apply`).
     public internal(set) var exposureTarget: Float = 0.54
+    /// Post-process saturation multiplier for the current light and weather (set by `apply`).
+    public internal(set) var gradeSaturation: Float = 1
+    /// The lighting bible's per-state grade (`Profiles/grade.json`).
+    static let gradeTable = try? StyleLibrary.grade()
+
+    /// Runtime multipliers on the resolved light and grade, for tuning the look on a device
+    /// (WorldLab `-tune`). Identity by default: the shipped look lives in the profiles.
+    public struct LookTuning: Sendable, Equatable {
+        /// Sun (key) light.
+        public var key: Float = 1
+        /// R8 fill, sky and ground together; `groundFill` scales the ground bounce on top.
+        public var fill: Float = 1
+        public var groundFill: Float = 1
+        /// Image-based (sky) light, in EV.
+        public var iblEV: Float = 0
+        /// Added to the auto-exposure target (display brightness, 0–1).
+        public var exposureTarget: Float = 0
+        /// Post-process saturation and contrast multipliers.
+        public var saturation: Float = 1
+        public var contrast: Float = 1
+        public init() {}
+    }
+
+    /// See `LookTuning`. Setting it re-applies the current environment.
+    public var lookTuning = LookTuning() {
+        didSet {
+            guard lookTuning != oldValue, let e = environment else { return }
+            environmentState.lastIBL = nil
+            apply(e)
+        }
+    }
 
     /// How far from the camera the sun casts shadows (m). 80 m by default; GPU attribution
     /// measures shorter ranges with `setShadowDistance(_:)`.

@@ -45,27 +45,27 @@ extension World {
         let dayWeight = Float(smoothstepD(-2, 8, env.light.sunElevationDeg))
         L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
         let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
-        // Auto exposure aims lower at night (experience-v1 09: mean luma ~65 vs ~135 by day), and by
-        // day leans with the weather the way the concepts do: fog and snow bright (155-164), overcast
-        // a little bright (148), rain a little and storms clearly darker (131, 107).
+        // Auto exposure and saturation follow the lighting bible's per-state grade (look-fix-v1
+        // §2.2, Profiles/grade.json): clear states by sun elevation, night by moon light, weather
+        // over them by intensity (snow by the larger of intensity and ground cover).
         let state = env.state.dominantState
-        let weight = Float(min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? Double(env.state.cloudCover01 ?? 0) : 0))))
-        let bias: Float = switch state {
-        case .fog: 0.07
-        case .snow: 0.08
-        case .cloudy: 0.04
-        case .smoke, .haze, .dust: 0.02
-        case .rain: -0.02
-        case .thunderstorm: -0.12
-        default: 0
+        var weight = min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? env.state.cloudCover01 ?? 0 : 0)))
+        if state == .snow { weight = max(weight, env.state.snowCover01 ?? 0) }
+        let moonState = env.sky.moon
+        let moonLight = pow(max(0, moonState.illuminatedFraction), 1.5) * max(0, sin(moonState.altitudeDeg * .pi / 180))
+            * pow(1 - (env.state.cloudCover01 ?? 0), 2)
+        let grade = Self.gradeTable?.resolve(sunElevation: env.light.sunElevationDeg, moonLight: min(1, moonLight * 2),
+                                             weather: state?.rawValue, weight: weight)
+        if let grade {
+            exposureTarget = Float(grade.luma / 255) + lookTuning.exposureTarget
+            gradeSaturation = Float(grade.saturation)
         }
-        exposureTarget = 0.28 + (0.26 + bias * weight) * Float(smoothstepD(-8, 4, env.light.sunElevationDeg))
         // Low clear sun (golden hour, early morning): at 6° the sun puts only ~10% of its light on
         // flat ground, so the sky fill washes its shadows out. A stronger key and less fill keep
         // the warm light and the long shadows readable (art direction: warm light that picks out
         // materials; P3 look loop: "no golden-hour key light"). The sun direction stays true.
         let lowSun = Float(1 - smoothstepD(4, 25, env.light.sunElevationDeg)) * Float(smoothstepD(0, 2, env.light.sunElevationDeg)) * (1 - hidden)
-        L.sunIntensity *= 1 + Self.lowSunKeyGain * lowSun
+        L.sunIntensity *= (1 + Self.lowSunKeyGain * lowSun) * lookTuning.key
         let lowSunFill = 1 - Self.lowSunFillCut * lowSun
         let tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
         let tw = Float(w.tintWeight)
@@ -98,8 +98,24 @@ extension World {
         g.fogColor = tinted(lin(L.fog))
         g.fogStart = Float(w.fogStartM)
         g.fogEnd = Float(w.fogEndM)
+        // Lighting bible atmosphere: the clear-air fade of the state (§2.3), and weather extinction
+        // (§3.2) only for weather that carries it, at its intensity.
+        if let air = grade?.air {
+            g.airColor = air.linear
+            g.airCap = Float(air.cap)
+            g.airStart = Float(air.start)
+            g.airD50 = Float(air.d50)
+        }
+        let extinction: Bool = switch state {
+        case .rain, .thunderstorm, .fog, .smoke, .haze, .dust, .snow: true
+        default: false
+        }
+        // Falling snow, not lying snow, takes the view away.
+        g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
+            * lookTuning.fill
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
+            * lookTuning.fill * lookTuning.groundFill
         g.litFraction = L.litWindows
         g.litWindow = Palette.parse(elevation < -6 ? "#DCA967" : "#E9BE7C")
 
@@ -435,6 +451,7 @@ extension World {
         environmentState.lastIBL = (elevation, L.exposure, cloud, Date())
         environmentState.iblTask?.cancel()
         let light = L
+        let iblEV = lookTuning.iblEV
         logEvent("ibl start")
         environmentState.iblTask = Task { @MainActor [weak self] in
             let pixels = await Task.detached(priority: .utility) { SkyImage.render(light, width: 512, height: 256, convention: .realityKit) }.value
@@ -442,7 +459,7 @@ extension World {
                   let env = try? await EnvironmentResource(equirectangular: image) else { return }
             self.logEvent("ibl set")
             self.skyEnvironment = env
-            self.iblEntity.components.set(ImageBasedLightComponent(source: .single(env), intensityExponent: -1.2 + log2(max(0.05, light.exposure))))
+            self.iblEntity.components.set(ImageBasedLightComponent(source: .single(env), intensityExponent: -1.2 + log2(max(0.05, light.exposure)) + iblEV))
         }
     }
 }

@@ -315,6 +315,7 @@ struct RealityKitScreen: View {
         camera.yawOffset = 0
         camera.pitchOffset = 0
         camera.zoom = 1
+        world.lookTuning = o.tune ?? World.LookTuning()
         // Character: presets walk Luna (the matched-test setup); other views have none unless asked.
         let wanted = demo.route.isEmpty ? "none" : (o.character ?? (o.preset != nil ? "luna" : "none"))
         if wanted != characterChoice {
@@ -526,6 +527,7 @@ struct RealityKitScreen: View {
 
             // Environment: the time and Demo weather drive the light, sky, season and surfaces.
             let e = try EnvironmentController(demo: demo, world: w)
+            if let t = options.tune { w.lookTuning = t }
             if let id = options.showcase, let p = e.presets.first(where: { $0.id == "showcase-\(id)" }) {
                 e.select(p)
                 if let camName = p.camera, let c = demo.showcase?.cameras[camName] {

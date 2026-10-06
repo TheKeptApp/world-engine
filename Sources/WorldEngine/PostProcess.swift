@@ -16,13 +16,17 @@ public final class WorldPostProcess: @unchecked Sendable {
         /// eased toward `exposureTarget` (0–1), within `exposureMin`…`exposureMax` (display-space
         /// gain), over about half a second. A soft curve keeps white at white. The same light then
         /// reads alike facing the sun or away from it (P3's look loop: backlit golden streets
-        /// rendered ~40 luma below their targets). The world sets the target by time of day.
+        /// rendered ~40 luma below their targets). The world sets the target per lighting state
+        /// (the lighting bible's grade, `World.gradeTable`); the range reaches its storm and night
+        /// targets (about 0.7× of an auto-exposed day).
         public var autoExposure = true
         public var exposureTarget: Float = 0.54
-        public var exposureMin: Float = 0.85
-        public var exposureMax: Float = 1.5
+        public var exposureMin: Float = 0.6
+        public var exposureMax: Float = 1.6
         public var exposureRate: Float = 0.06
         public init() {}
+        /// The shipped settings; per-frame values (saturation, contrast) scale these.
+        public static let `default` = Settings()
     }
 
     public var settings = Settings()
@@ -75,36 +79,56 @@ public final class WorldPostProcess: @unchecked Sendable {
         }
         dst.write(half4(acc, 1), gid);
     }
-    // Mean display brightness of the frame (16 × 16 samples), eased into mean[0].
-    kernel void meanLuminance(texture2d<half, access::sample> src [[texture(0)]], constant P& p [[buffer(0)]],
-                              device float* mean [[buffer(1)]], uint2 tid [[thread_position_in_threadgroup]],
+    // Auto exposure solved against the displayed result: the gain r (display-space ratio; linear
+    // gain r^2.2) at which the mean Rec. 709 luma of the sRGB-encoded output, after the soft curve,
+    // saturation and contrast exactly as `composite` applies them, meets the target. That is the
+    // look loop's and the lighting bible's whole-frame measure (Y8 / 255). 16 × 16 samples,
+    // bisection in log space within [minGain, maxGain], then eased into state[0].
+    float3 gradeOf(float3 x, float g, constant P& p) {
+        float3 c = g * x / (1.0 + (g - 1.0) * x);
+        float l = dot(c, float3(0.2126, 0.7152, 0.0722));
+        c = mix(float3(l), c, p.saturation);
+        c = (c - 0.5) * p.contrast + 0.5;
+        return clamp(c, 0.0, 1.0);
+    }
+    float encodeSRGB(float v) { return v <= 0.0031308 ? 12.92 * v : 1.055 * pow(v, 1.0 / 2.4) - 0.055; }
+    kernel void exposureSolve(texture2d<half, access::sample> src [[texture(0)]], constant P& p [[buffer(0)]],
+                              device float* state [[buffer(1)]], uint2 tid [[thread_position_in_threadgroup]],
                               uint index [[thread_index_in_threadgroup]]) {
         threadgroup float sums[256];
         constexpr sampler s(filter::linear, address::clamp_to_edge);
-        float3 c = float3(src.sample(s, (float2(tid) + 0.5) / 16.0).rgb);
-        sums[index] = pow(max(dot(c, float3(0.2126, 0.7152, 0.0722)), 0.0), 1.0 / 2.2);
-        threadgroup_barrier(mem_flags::mem_threadgroup);
-        for (uint stride = 128; stride > 0; stride >>= 1) {
-            if (index < stride) { sums[index] += sums[index + stride]; }
+        float3 x = max(float3(src.sample(s, (float2(tid) + 0.5) / 16.0).rgb), 0.0);
+        float lo = log(p.minGain), hi = log(p.maxGain);
+        for (int it = 0; it < 14; it++) {
+            float mid = 0.5 * (lo + hi);
+            float3 o = gradeOf(x, pow(exp(mid), 2.2), p);
+            sums[index] = 0.2126 * encodeSRGB(o.r) + 0.7152 * encodeSRGB(o.g) + 0.0722 * encodeSRGB(o.b);
             threadgroup_barrier(mem_flags::mem_threadgroup);
+            for (uint stride = 128; stride > 0; stride >>= 1) {
+                if (index < stride) { sums[index] += sums[index + stride]; }
+                threadgroup_barrier(mem_flags::mem_threadgroup);
+            }
+            float m = sums[0] / 256.0;
+            threadgroup_barrier(mem_flags::mem_threadgroup);
+            if (m < p.target) { lo = mid; } else { hi = mid; }
         }
         if (index == 0) {
-            float m = sums[0] / 256.0;
-            mean[0] = mean[0] <= 0.0 ? m : mix(mean[0], m, p.rate);
+            float r = exp(0.5 * (lo + hi));
+            state[0] = state[0] <= 0.0 ? r : exp(mix(log(state[0]), log(r), p.rate));
         }
     }
     kernel void composite(texture2d<half, access::read> src [[texture(0)]], texture2d<half, access::sample> bloom [[texture(1)]],
                           texture2d<half, access::write> dst [[texture(2)]], constant P& p [[buffer(0)]],
-                          device const float* mean [[buffer(1)]], uint2 gid [[thread_position_in_grid]]) {
+                          device const float* state [[buffer(1)]], uint2 gid [[thread_position_in_grid]]) {
         if (gid.x >= dst.get_width() || gid.y >= dst.get_height()) return;
         constexpr sampler s(filter::linear, address::clamp_to_edge);
         float2 uv = (float2(gid) + 0.5) / float2(dst.get_width(), dst.get_height());
         half4 c = src.read(gid);
         half3 col = c.rgb + bloom.sample(s, uv).rgb * half(p.strength);
-        if (p.autoExposure > 0.5 && mean[0] > 0.0) {
-            // Display-space gain toward the target, applied in linear light with a soft curve
+        if (p.autoExposure > 0.5 && state[0] > 0.0) {
+            // The solved gain (exposureSolve), applied in linear light with a soft curve
             // (g·x / (1 + (g − 1)·x)) so that white stays white.
-            float g = pow(clamp(p.target / mean[0], p.minGain, p.maxGain), 2.2);
+            float g = pow(state[0], 2.2);
             float3 x = float3(col);
             col = half3(g * x / (1.0 + (g - 1.0) * x));
         }
@@ -122,7 +146,7 @@ public final class WorldPostProcess: @unchecked Sendable {
 
     func prepare(_ device: MTLDevice) {
         guard pipelines.isEmpty, let lib = try? device.makeLibrary(source: Self.source, options: nil) else { return }
-        for name in ["prefilter", "blur", "meanLuminance", "composite", "copy"] {
+        for name in ["prefilter", "blur", "exposureSolve", "composite", "copy"] {
             if let f = lib.makeFunction(name: name), let p = try? device.makeComputePipelineState(function: f) { pipelines[name] = p }
         }
     }
@@ -149,7 +173,7 @@ public final class WorldPostProcess: @unchecked Sendable {
             for (i, t) in textures.enumerated() { enc.setTexture(t, index: i) }
             if let (ptr, len) = bytes { enc.setBytes(ptr, length: len, index: 0) }
             if let meanBuffer { enc.setBuffer(meanBuffer, offset: 0, index: 1) }
-            if name == "meanLuminance" {
+            if name == "exposureSolve" {
                 enc.dispatchThreadgroups(MTLSize(width: 1, height: 1, depth: 1), threadsPerThreadgroup: MTLSize(width: 16, height: 16, depth: 1))
             } else {
                 let tw = pipe.threadExecutionWidth, th = max(1, pipe.maxTotalThreadsPerThreadgroup / tw)
@@ -169,7 +193,7 @@ public final class WorldPostProcess: @unchecked Sendable {
         withUnsafeBytes(of: &dx) { dispatch("blur", [half[0], half[1]], bytes: ($0.baseAddress!, $0.count), grid: (hw, hh)) }
         withUnsafeBytes(of: &dy) { dispatch("blur", [half[1], half[0]], bytes: ($0.baseAddress!, $0.count), grid: (hw, hh)) }
         withUnsafeBytes(of: &p) { raw in
-            if settings.autoExposure { dispatch("meanLuminance", [source], bytes: (raw.baseAddress!, raw.count), grid: (16, 16)) }
+            if settings.autoExposure { dispatch("exposureSolve", [source], bytes: (raw.baseAddress!, raw.count), grid: (16, 16)) }
             dispatch("composite", [source, half[0], target], bytes: (raw.baseAddress!, raw.count), grid: (w, h))
         }
     }

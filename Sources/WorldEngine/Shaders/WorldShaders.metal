@@ -42,6 +42,7 @@ struct Globals {
     float3 sunDir; half3 sunDisk; half3 cloudColor;
     float3 moonDir; float moonRadius; float3 moonLight; float moonOpacity; half3 moonColor;
     half3 litterA; half3 litterB; float leafLitter; float2 canopyOrigin; float2 canopySize;
+    half3 airColor; float airCap; float airStart; float airD50; float fogWeight;
 };
 
 Globals readGlobals(texture2d<half> tex) {
@@ -73,6 +74,9 @@ Globals readGlobals(texture2d<half> tex) {
     g.litterA = t23.rgb; g.leafLitter = float(t23.a); g.litterB = t24.rgb;
     g.canopyOrigin = float2(t25.xy) + float2(t25.zw);
     g.canopySize = max(float2(t26.xy) + float2(t26.zw), float2(1.0));
+    half4 t27 = tex.read(uint2(27, 1)), t28 = tex.read(uint2(28, 1));
+    g.airColor = t27.rgb; g.airCap = float(t27.a);
+    g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b);
     return g;
 }
 
@@ -179,6 +183,19 @@ float opticalDistance(float dist, float h1, float h2) {
     return dist * f;
 }
 
+/// Lighting bible atmosphere (look-fix-v1): a clear-air fade capped at `airCap` that reaches half
+/// the cap at `airD50` (§2.3), and weather extinction with 90% of contrast gone at `fogEnd` (§3.2,
+/// T = exp(−k·(d − start)), k = ln 10 / (end − start)) at strength `fogWeight`. Transmissions
+/// multiply; the scattered colour is weighted by each part's contribution. xyz = colour, w = amount.
+float4 atmosphere(Globals g, float od) {
+    float air = g.airCap * (1.0 - exp(-0.693147 * max(0.0, od - g.airStart) / (g.airD50 - g.airStart)));
+    float k = 2.302585 / max(g.fogEnd - g.fogStart, 1.0);
+    float wx = g.fogWeight * (1.0 - exp(-k * max(0.0, od - g.fogStart)));
+    float amount = 1.0 - (1.0 - air) * (1.0 - wx);
+    float3 col = (air + wx) > 1e-4 ? (float3(g.airColor) * air + float3(g.fogColor) * wx) / (air + wx) : float3(g.fogColor);
+    return float4(col, amount);
+}
+
 struct Surface {
     half3 base; half3 emissive; half roughness; half specular; half ao; bool cuttable;
     /// Takes wetness and snow (not water).
@@ -257,12 +274,11 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
     half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
-    // Fog "starts at fogStart, ends at fogEnd" (v2 §3.3, weather v1 §5): a linear ramp. A
-    // smoothstep left the near half of the range almost clear (dense fog didn't read).
-    float fogT = saturate((opticalDistance(dist, g.camera.y, wp.y) - g.fogStart) / max(g.fogEnd - g.fogStart, 1.0));
-    half fog = half(fogT * 0.96);
+    // Atmosphere along optical depth (lighting bible: clear-air fade plus weather extinction).
+    float4 atm = atmosphere(g, opticalDistance(dist, g.camera.y, wp.y));
+    half fog = half(atm.w);
     s.set_base_color(su.base * contact * (1.0h - fog));
-    s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + g.fogColor * fog);
+    s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + half3(atm.xyz) * fog);
     s.set_roughness(su.roughness);
     s.set_specular(su.specular * (1.0h - fog));
     s.set_metallic(0.0h);
@@ -476,11 +492,14 @@ void worldSkySurface(realitykit::surface_parameters params)
     float3 wp = params.geometry().world_position();
     float3 d = normalize(wp - g.camera);
     float time = params.uniforms().time();
-    float3 top = float3(g.skyTop), horizon = float3(g.skyHorizon), fog = float3(g.fogColor);
+    float3 top = float3(g.skyTop), horizon = float3(g.skyHorizon);
     float3 c = mix(horizon, top, pow(clamp(d.y / 0.85, 0.0, 1.0), 0.5));
-    // Haze: the last few degrees meet the world's fog colour so distant geometry blends in.
-    c = mix(c, fog, (1.0 - smoothstep(0.0, 0.10, d.y)) * 0.7);
-    if (d.y < 0.0) { c = fog; }
+    // Haze: the last few degrees take the atmosphere's colour and amount at the far end of the
+    // world (4 km), so distant geometry blends into the sky.
+    float4 far = atmosphere(g, 4000.0);
+    float3 fog = far.xyz;
+    c = mix(c, fog, (1.0 - smoothstep(0.0, 0.10, d.y)) * max(far.w, 0.35));
+    if (d.y < 0.0) { c = mix(c, fog, max(far.w, 0.5)); }
     // Sun: 0.27° disk with a soft edge and glow, hidden by cloud.
     float cloud = cloudAt(g, d, time);
     float cosA = dot(d, normalize(g.sunDir));

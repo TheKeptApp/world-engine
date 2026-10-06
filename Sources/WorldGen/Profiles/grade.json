@@ -1,0 +1,25 @@
+{
+  "comment": "Per-state grade from the lighting bible (docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md §2.2). luma: the whole-frame mean display brightness (Y8, 0-255, the look loop's measure) the auto exposure aims for; saturation: the post-process saturation multiplier, tuned on the iPhone toward the bible's mean saturation (scripts/lighting_bible.py; the bible's S target follows in each entry for reference). air: the §2.3 clear-air fade (start m, d50 m where it reaches half the cap, cap, colour); rain, storm, fog, smoke, haze and dust set the cap to 0 because their weather extinction (§3.2, weather.json fog distances) takes over. Clear skies interpolate by sun elevation, night blends moonless to moonlit by moon light, weather blends over the clear state by intensity in daylight.",
+  "clear": [
+    {"state": "blue-hour", "elevation": -6.0, "luma": 88, "saturation": 0.9, "targetS": 86, "air": {"start": 200, "d50": 1200, "cap": 0.4, "color": "#717FA6"}},
+    {"state": "golden-hour", "elevation": 6.5, "luma": 130, "saturation": 1.04, "targetS": 94, "air": {"start": 200, "d50": 1400, "cap": 0.4, "color": "#AFACC9"}},
+    {"state": "morning", "elevation": 23.6, "luma": 135, "saturation": 0.95, "targetS": 88, "air": {"start": 250, "d50": 1600, "cap": 0.35, "color": "#A1BDD9"}},
+    {"state": "ordinary-1530", "elevation": 54.4, "luma": 140, "saturation": 0.97, "targetS": 90, "air": {"start": 300, "d50": 1800, "cap": 0.35, "color": "#9DB8D7"}},
+    {"state": "midday", "elevation": 71.7, "luma": 145, "saturation": 0.86, "targetS": 90, "air": {"start": 350, "d50": 2200, "cap": 0.3, "color": "#9ABBDC"}}
+  ],
+  "night": {
+    "elevation": -12.0,
+    "moonless": {"luma": 43, "saturation": 0.72, "targetS": 88, "air": {"start": 150, "d50": 900, "cap": 0.35, "color": "#222D48"}},
+    "moon": {"luma": 57, "saturation": 0.86, "targetS": 94, "air": {"start": 150, "d50": 1000, "cap": 0.35, "color": "#263555"}}
+  },
+  "weather": {
+    "cloudy": {"luma": 137, "saturation": 0.65, "targetS": 54, "air": {"start": 180, "d50": 1200, "cap": 0.45, "color": "#AAB8C8"}},
+    "rain": {"luma": 126, "saturation": 0.86, "targetS": 64, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}},
+    "thunderstorm": {"luma": 96, "saturation": 0.9, "targetS": 60, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}},
+    "fog": {"luma": 147, "saturation": 0.6, "targetS": 32, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}},
+    "snow": {"luma": 166, "saturation": 1.0, "targetS": 32, "air": {"start": 150, "d50": 900, "cap": 0.5, "color": "#B8C8DC"}},
+    "smoke": {"luma": 135, "saturation": 0.75, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}},
+    "haze": {"luma": 140, "saturation": 0.85, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}},
+    "dust": {"luma": 138, "saturation": 0.8, "air": {"start": 180, "d50": 1200, "cap": 0.0, "color": "#AAB8C8"}}
+  }
+}
