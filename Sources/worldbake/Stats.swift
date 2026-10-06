@@ -107,16 +107,18 @@ enum Stats {
     /// outside the inner (centered) box.
     static func ring(_ dir: URL, innerWidth: Double, innerHeight: Double) throws -> String {
         let manifest = try AreaLoader.loadManifest(dir)
-        let doc = try AreaLoader.loadDocument(dir, manifest: manifest)
+        // The detailed sources only: the context ring (layer "context") is not part of this box.
+        let detailed = manifest.sources.filter { $0.layers != [ContextRing.layer] }
+        let doc = try AreaLoader.loadDocument(dir, manifest: manifest, layers: Set(detailed.flatMap(\.layers)))
         let f = MapFeatureBuilder(frame: manifest.frame, bounds: manifest.localBounds).build(doc)
         let inner = Rect2D(centerWidth: innerWidth, height: innerHeight)
         let ring = f.buildings.filter { !$0.isPart && !inner.contains($0.footprint.centroid) }
         let vertices = ring.reduce(0) { $0 + $1.footprint.outer.count + $1.footprint.holes.reduce(0) { $0 + $1.count } }
         let roofTris = ring.reduce(0) { $0 + $1.footprint.outer.count - 2 + $1.footprint.holes.reduce(0) { $0 + $1.count + 2 } }
         let wallTris = vertices * 2
-        let raw = manifest.sources.reduce(0) { $0 + ($1.bytes ?? 0) }
+        let raw = detailed.reduce(0) { $0 + ($1.bytes ?? 0) }
         var compressed = 0
-        for s in manifest.sources {
+        for s in detailed {
             let data = try Data(contentsOf: dir.appendingPathComponent(s.path))
             compressed += try (data as NSData).compressed(using: .zlib).count
         }
