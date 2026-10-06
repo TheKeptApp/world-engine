@@ -4,6 +4,9 @@
 # it reports: a step that starts on the charger or in Low Power Mode stops the whole sequence.
 #   scripts/device_checks.sh [out-dir]
 set -uo pipefail
+# ALLOW_CHARGING=1: functional/overnight runs on the charger; results are labelled "charging" and
+# must not be used for heat or battery decisions.
+ALLOW_CHARGING="${ALLOW_CHARGING:-0}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/perf/m3-phase5a}"
 mkdir -p "$OUT/console"
@@ -26,7 +29,7 @@ run() { # $1 = name, $2 = seconds, rest = app args
     grep -q "failed to launch" "$log" && break
   done
   echo "   $cond"
-  if [[ "$cond" != *"lowPowerMode=false battery=unplugged"* ]]; then
+  if [[ "$cond" != *"lowPowerMode=false battery=unplugged"* && ! ( "$ALLOW_CHARGING" == 1 && "$cond" == *"lowPowerMode=false"* ) ]]; then
     kill "$pid" 2>/dev/null; wait "$pid" 2>/dev/null
     grep -m1 -A3 "ERROR" "$log"
     echo "STOPPED: the phone is charging, in Low Power Mode, locked, or did not report its state. Nothing after this step ran."

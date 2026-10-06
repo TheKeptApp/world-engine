@@ -145,12 +145,36 @@ float snowMask(Globals g, float3 wp, float3 n) {
     float dist = length(wp - g.camera);
     float fine = 1.0 - smoothstep(40.0, 90.0, dist);
     float mid = 1.0 - smoothstep(300.0, 700.0, dist);
-    // An 18 m octave keeps the cover patchy (not a grey average) from the air.
-    float m = 0.40 * valueNoise(wp.xz / 18.0 + 7.3) + 0.40 * mix(0.5, valueNoise(wp.xz / 3.5 + 31.7), mid)
+    float n18 = valueNoise(wp.xz / 18.0 + 7.3);
+    float m = 0.40 * n18 + 0.40 * mix(0.5, valueNoise(wp.xz / 3.5 + 31.7), mid)
             + 0.20 * mix(0.5, valueNoise(wp.xz / 0.8), fine);
+    // From the air (experience-v1 image 11: "broad irregular exposed and shaded snow patches"),
+    // 25–60 m patches on rotated domains (value noise on one grid reads as blocks) with wide,
+    // soft edges, so the ground mottles white and tan instead of reading as camouflage.
+    float far = smoothstep(250.0, 900.0, dist);
+    if (far > 0.0) {
+        float2 q = wp.xz;
+        float2 r1 = float2(0.8 * q.x - 0.6 * q.y, 0.6 * q.x + 0.8 * q.y);
+        float2 r2 = float2(0.28 * q.x + 0.96 * q.y, -0.96 * q.x + 0.28 * q.y);
+        float broad = 0.55 * valueNoise(r1 / 60.0 + 3.1) + 0.45 * valueNoise(r2 / 25.0 + 11.7);
+        m = mix(m, broad, far);
+    }
+    float edge = mix(0.035, 0.15, far);
     // Calibrated so the covered share of eligible area ≈ coverage (see RenderResources).
     float t = mix(0.18, 0.86, pow(clamp(g.snow, 0.0, 1.0), 0.85));
-    return up * (1.0 - smoothstep(t - 0.035, t + 0.035, m));
+    return up * (1.0 - smoothstep(t - edge, t + edge, m));
+}
+
+/// Fog distance along optical depth (experience-v1 aerial: "fog along optical depth: foreground
+/// clear, outer blocks subtly softened"): haze thins with height (scale height 1000 m), so a ray
+/// looking down from the aerial camera crosses less of it than a level ray of the same length.
+/// Street views are effectively unchanged (rays stay within a few metres of the ground).
+float opticalDistance(float dist, float h1, float h2) {
+    const float H = 1000.0;
+    float lo = max(min(h1, h2), 0.0), hi = max(max(h1, h2), 0.0);
+    float dh = hi - lo;
+    float f = dh < 1.0 ? exp(-lo / H) : H * (exp(-lo / H) - exp(-hi / H)) / dh;
+    return dist * f;
 }
 
 struct Surface {
@@ -231,7 +255,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
     half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
-    half fog = half(smoothstep(g.fogStart, g.fogEnd, dist) * 0.96);
+    half fog = half(smoothstep(g.fogStart, g.fogEnd, opticalDistance(dist, g.camera.y, wp.y)) * 0.96);
     s.set_base_color(su.base * contact * (1.0h - fog));
     s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + g.fogColor * fog);
     s.set_roughness(su.roughness);
@@ -487,6 +511,7 @@ void worldSkySurface(realitykit::surface_parameters params)
               + float3(g.sunDisk) * silver * 0.35;
     c = mix(c, cc, cloud);
     auto s = params.surface();
+    // Unlit material: RealityKit shows the emissive colour (the base colour is ignored).
     s.set_base_color(half3(0.0h));
     s.set_emissive_color(half3(c));
     s.set_opacity(1.0h);

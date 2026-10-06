@@ -5,7 +5,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/videos/m3}"; mkdir -p "$OUT"
-SIM="${SIM:-iPhone 17 Pro}"
+SIM="${SIM:-WorldEngine P0}"   # this session's own Simulator (other sessions use theirs)
 UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/')
 APP="$ROOT/.build/xcode/Build/Products/Debug-iphonesimulator/WorldLab.app"
 xcrun simctl boot "$UDID" 2>/dev/null || true

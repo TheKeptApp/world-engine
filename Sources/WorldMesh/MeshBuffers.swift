@@ -104,6 +104,35 @@ public struct MeshBuffers: Sendable, Equatable {
         indices.append(contentsOf: other.indices.map { $0 + base })
     }
 
+    /// Splits the triangles into two meshes by a test on each triangle's corners: those passing
+    /// go to the first mesh, the rest to the second. Vertices are copied as needed (shared ones
+    /// end up in both); triangle order and every vertex attribute are kept.
+    public func partitioned(_ isFirst: (SIMD3<Float>, SIMD3<Float>, SIMD3<Float>) -> Bool) -> (MeshBuffers, MeshBuffers) {
+        var out = (MeshBuffers(), MeshBuffers())
+        var maps = ([Int32](repeating: -1, count: positions.count), [Int32](repeating: -1, count: positions.count))
+        func take(_ i: Int, _ mesh: inout MeshBuffers, _ map: inout [Int32]) -> UInt32 {
+            if map[i] < 0 {
+                mesh.positions.append(positions[i])
+                mesh.normals.append(normals[i])
+                mesh.paints.append(paints[i])
+                mesh.extras.append(extras[i])
+                map[i] = Int32(mesh.positions.count - 1)
+            }
+            return UInt32(map[i])
+        }
+        var t = 0
+        while t + 2 < indices.count {
+            let a = Int(indices[t]), b = Int(indices[t + 1]), c = Int(indices[t + 2])
+            if isFirst(positions[a], positions[b], positions[c]) {
+                out.0.indices.append(contentsOf: [take(a, &out.0, &maps.0), take(b, &out.0, &maps.0), take(c, &out.0, &maps.0)])
+            } else {
+                out.1.indices.append(contentsOf: [take(a, &out.1, &maps.1), take(b, &out.1, &maps.1), take(c, &out.1, &maps.1)])
+            }
+            t += 3
+        }
+        return out
+    }
+
     /// Sets the paint of every vertex from `start` on.
     public mutating func repaint(from start: Int, _ p: Paint) {
         for i in start..<paints.count { paints[i] = p.packed }

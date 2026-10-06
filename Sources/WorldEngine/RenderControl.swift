@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 import Observation
 import RealityKit
@@ -57,6 +58,8 @@ public final class WorldRenderState {
     /// GPU time of the most recent frame (ms) from the kernel's per-process GPU accounting; nil
     /// where the system doesn't report it (the Simulator). Not observed (changes every frame).
     @ObservationIgnored public internal(set) var gpuFrameMs: Double?
+    /// The surface drawing into this state, set once its view is found. Weak: the `WorldView` owns it.
+    @ObservationIgnored weak var surface: RenderSurface?
 
     public init() {}
 
@@ -64,6 +67,32 @@ public final class WorldRenderState {
     public var summary: String {
         let size = "\(Int(drawableSize.width))x\(Int(drawableSize.height))"
         return String(format: "%.2f× %@ %@ %@", scale, size, isPaused ? "paused" : "\(framesPerSecond) fps\(isCalm ? " calm" : "")", heat.rawValue)
+    }
+
+    /// How `snapshot(source:)` captures the world.
+    public enum SnapshotSource: Sendable {
+        /// RealityKit's own capture of the view (`ARView.snapshot`, which Apple documents only as "Takes a
+        /// screenshot"). Whether the image includes the world's custom post-processing (the grade and bloom
+        /// of `WorldPostProcess`) is undocumented and not yet verified on a device: compare it with `.compositor`.
+        case realityKit
+        /// The view as the system composites it for the display (UIKit `drawHierarchy`), one image pixel per
+        /// drawable pixel: the frame the screen presents, post-processing included. Always used for the
+        /// experimental `RealityRenderer` host, which has no `ARView`.
+        case compositor
+    }
+
+    /// A still of the world as it is drawn right now, for visual checks on a device (no Simulator needed).
+    /// Call it from the main actor while the view is on screen.
+    ///
+    /// What it captures: the world's own view only (the 3D scene, sky and shadows, plus the post-processing
+    /// as far as `source` includes it), at the view's render resolution (see `drawableSize`). Anything
+    /// SwiftUI draws over the view is not in the image: no HUD, no controls, and not the "© OpenStreetMap
+    /// contributors" credit that `WorldView` overlays. A capture is a test artifact, not a view shown to people.
+    ///
+    /// Returns nil while the view is paused or not on screen yet, on macOS (package tests), and when the
+    /// capture fails or takes longer than 10 s.
+    public func snapshot(source: SnapshotSource = .realityKit) async -> CGImage? {
+        await surface?.snapshot(source: source)
     }
 }
 
@@ -118,6 +147,7 @@ final class RenderSurface {
         }
         guard let ar = found else { return }
         arView = ar
+        state.surface = self
         state.attached = true
         let native = Double(window.screen.scale)
         if let fixed = settings.fixedScale {
@@ -180,6 +210,7 @@ final class RenderSurface {
     /// The experimental RealityRenderer host is ready: scale and frame rate apply to it directly.
     func attachHost(_ h: RendererHostView) {
         host = h
+        state.surface = self
         state.attached = true
         let native = Double(h.window?.screen.scale ?? 3)
         if let fixed = settings.fixedScale {
@@ -312,6 +343,73 @@ final class RenderSurface {
         }
         return find(view.layer)?.drawableSize ?? .zero
     }
+
+    // MARK: Snapshots
+
+    /// See `WorldRenderState.snapshot(source:)`.
+    func snapshot(source: WorldRenderState.SnapshotSource) async -> CGImage? {
+        guard !state.isPaused else { return nil }
+        // The experimental host has no ARView: its Metal layer is only reachable through the compositor.
+        if let h = host { return Self.compositedImage(of: h) }
+        guard let ar = arView, ar.window != nil, !ar.bounds.isEmpty else { return nil }
+        switch source {
+        case .realityKit: return await Self.realityKitImage(of: ar)
+        case .compositor: return Self.compositedImage(of: ar)
+        }
+    }
+
+    /// `ARView.snapshot`: RealityKit's own capture. Its completion handler may run on any thread and is
+    /// not guaranteed to run at all (a view that stopped drawing), so it races a 10 s timeout.
+    private static func realityKitImage(of ar: ARView) async -> CGImage? {
+        await withCheckedContinuation { (continuation: CheckedContinuation<CGImage?, Never>) in
+            let once = SnapshotResume(continuation)
+            ar.snapshot(saveToHDR: false) { @Sendable image in
+                once.finish(image.flatMap { RenderSurface.pixels(of: $0) })
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) { once.finish(nil) }
+        }
+    }
+
+    /// RealityKit's image as plain pixels in display orientation.
+    private nonisolated static func pixels(of image: UIImage) -> CGImage? {
+        if image.imageOrientation == .up, let cg = image.cgImage { return cg }
+        let format = UIGraphicsImageRendererFormat.preferred()
+        format.scale = image.scale
+        format.opaque = true
+        format.preferredRange = .standard
+        return UIGraphicsImageRenderer(size: image.size, format: format).image { _ in image.draw(at: .zero) }.cgImage
+    }
+
+    /// What the system composites for `view` (UIKit `drawHierarchy`), one image pixel per drawable pixel.
+    private static func compositedImage(of view: UIView) -> CGImage? {
+        guard view.window != nil, !view.bounds.isEmpty else { return nil }
+        let format = UIGraphicsImageRendererFormat.preferred()
+        format.scale = view.contentScaleFactor
+        format.opaque = true
+        format.preferredRange = .standard
+        var drawn = false
+        let image = UIGraphicsImageRenderer(size: view.bounds.size, format: format).image { _ in
+            drawn = view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
+        }
+        return drawn ? image.cgImage : nil
+    }
+}
+
+/// Resumes a snapshot's continuation exactly once from any thread: RealityKit's completion handler
+/// and the timeout race, the first one wins.
+private final class SnapshotResume: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<CGImage?, Never>?
+
+    init(_ continuation: CheckedContinuation<CGImage?, Never>) { self.continuation = continuation }
+
+    func finish(_ image: CGImage?) {
+        lock.lock()
+        let pending = continuation
+        continuation = nil
+        lock.unlock()
+        pending?.resume(returning: image)
+    }
 }
 
 /// An invisible view placed behind the RealityView so the surface can find its ARView.
@@ -365,5 +463,7 @@ final class RenderSurface {
     func setVisible(_ v: Bool) {}
     func setHostPaused(_ p: Bool) {}
     func setPhase(active a: Bool, background b: Bool) {}
+    /// No view to capture here: `WorldRenderState.snapshot` returns nil on macOS.
+    func snapshot(source: WorldRenderState.SnapshotSource) async -> CGImage? { nil }
 }
 #endif

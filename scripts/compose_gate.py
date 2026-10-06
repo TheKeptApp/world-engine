@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """Crops the 16:9 letterboxed Simulator captures and pairs each with its target image.
 
-  scripts/compose_gate.py <raw-dir> <out-dir>
+  scripts/compose_gate.py <raw-dir> <out-dir> [--device]
 Writes <out-dir>/gate/<name>.png (the 16:9 frame) and <out-dir>/compare/<name>.png (target left,
 RealityKit right, same height, labelled), plus <out-dir>/gate-sheet.png.
+--device: the raw files are on-device snapshots (scripts/device_snapshots.sh,
+`snapshot-realitykit-<name>.png`, the world view only), so the "© OpenStreetMap contributors"
+credit that WorldView overlays on screen is drawn onto each frame, as the app shows it.
 """
 import glob, json, os, sys
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-raw, out = sys.argv[1], sys.argv[2]
+args = [a for a in sys.argv[1:] if not a.startswith("--")]
+device = "--device" in sys.argv
+raw, out = args[0], args[1]
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 exp = os.path.join(root, "docs/proposals/experience-v1")
 manifest = {f["id"]: f for f in json.load(open(os.path.join(exp, "showcase-presets.json")))["fixtures"]}
@@ -37,10 +42,35 @@ def target_for(name):
     return None, None
 
 
+def credit(im):
+    """The on-screen OSM credit: a light rounded label in the bottom-right corner."""
+    d = ImageDraw.Draw(im)
+    size = max(11, im.height // 30)
+    try:
+        font = ImageFont.truetype("/System/Library/Fonts/SFNS.ttf", size)
+    except OSError:
+        font = ImageFont.load_default()
+    text = "© OpenStreetMap contributors"
+    l, t, r, b = d.textbbox((0, 0), text, font=font)
+    pad = size // 2
+    x1, y1 = im.width - pad, im.height - pad
+    x0, y0 = x1 - (r - l) - 2 * pad, y1 - (b - t) - 2 * pad
+    d.rounded_rectangle((x0, y0, x1, y1), radius=pad, fill=(236, 238, 236))
+    d.text((x0 + pad - l, y0 + pad - t), text, fill=(30, 30, 30), font=font)
+    return im
+
+
+source = "iPhone, on-device snapshot" if device else "WorldLab Simulator, 16:9 crop"
 frames = []
 for path in sorted(glob.glob(os.path.join(raw, "*.png"))):
     name = os.path.splitext(os.path.basename(path))[0]
+    if device:
+        if not name.startswith("snapshot-realitykit-"):
+            continue
+        name = name[len("snapshot-realitykit-"):]
     frame = crop169(path)
+    if device:
+        frame = credit(frame)
     frame.save(os.path.join(out, "gate", f"{name}.png"))
     frames.append((name, frame))
     tpath, tlabel = target_for(name)
@@ -54,7 +84,7 @@ for path in sorted(glob.glob(os.path.join(raw, "*.png"))):
         pair.paste(rk, (t.width + 12, 34))
         d = ImageDraw.Draw(pair)
         d.text((8, 10), tlabel, fill=(230, 230, 230))
-        d.text((t.width + 20, 10), f"RealityKit (WorldLab Simulator, 16:9 crop): {name}", fill=(230, 230, 230))
+        d.text((t.width + 20, 10), f"RealityKit ({source}): {name}", fill=(230, 230, 230))
         pair.save(os.path.join(out, "compare", f"{name}.png"))
 
 cols = 3

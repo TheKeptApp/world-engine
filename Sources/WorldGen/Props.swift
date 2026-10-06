@@ -154,32 +154,22 @@ public struct PropLibrary: Sendable {
         m.paint = Paint(slot: palette.named("bark"))
         let trunkStart = m.positions.count
         let trunkR: Float = kind == .treeSpreading ? 0.022 : 0.018
-        addCylinder(&m, radius: trunkR, z0: 0, z1: shape.trunkTop + 0.08, sides: lod == 0 ? 7 : (lod == 1 ? 5 : 3), smooth: true, cap: false)
+        let trunkSides = lod == 0 ? 7 : (lod == 1 ? 5 : 3)
+        addCylinder(&m, radius: trunkR, z0: 0, z1: shape.trunkTop + 0.08, sides: trunkSides, smooth: true, cap: false)
         m.bakeAO(from: trunkStart) { p, _ in Float(0.85 - 0.3 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y))) }
         // Branches: hidden inside the leafy crown, they carry the bare winter silhouette (sky-seasons
-        // §5.3: foliage is removed lobe by lobe while branches remain). One limb toward each lobe,
-        // splitting into two twigs at the crown's outer surface. Bare branches sway at 0.3 (R10).
+        // §5.3: foliage is removed lobe by lobe while branches remain; visual v2: meaningful winter
+        // silhouettes). Every detail level draws from one skeleton, so the bare outline holds across
+        // LOD switches, and each level keeps it inside its own leafy crown so nothing pokes through.
+        // Bare branches sway at 0.3 (R10).
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
         let branchStart = m.positions.count
-        let fork = SIMD3<Float>(0, shape.trunkTop - 0.04, 0)
-        let limbs = lod == 2 ? Array(shape.lobes.prefix(3)) : shape.lobes
-        for (k, (c, r)) in limbs.enumerated() {
-            let out = c - shape.crown
-            let horizontal = SIMD3<Float>(out.x, 0, out.z)
-            let angle = Float(k) * 2.4
-            let flat: SIMD3<Float> = simd_length(horizontal) > 1e-4 ? simd_normalize(horizontal) : SIMD3<Float>(cos(angle), 0, sin(angle))
-            // Limbs end half-way into the lobe and twigs stay inside it (≤ 0.85 r from its centre),
-            // so nothing pokes through a leafy crown.
-            let end: SIMD3<Float> = c + flat * (r * 0.42) + SIMD3<Float>(0, r * 0.2, 0)
-            addBranch(&m, from: fork, to: end, radius: lod == 0 ? 0.011 : 0.013, sides: lod == 0 ? 5 : 3)
-            guard lod == 0 else { continue }
-            let side = simd_normalize(simd_cross(flat, SIMD3(0, 1, 0)))
-            for s: Float in [-1, 1] {
-                let spread: SIMD3<Float> = simd_normalize(flat * 0.6 + side * (s * 0.5) + SIMD3<Float>(0, 0.55, 0))
-                let tip: SIMD3<Float> = end + spread * (r * 0.36)
-                addBranch(&m, from: end, to: tip, radius: 0.005, sides: 3)
-            }
-        }
+        // Branch draws come from a generator split off a copy of `rng`, so the crown jitter below
+        // keeps its sequence (crowns unchanged).
+        var split = rng
+        var branchRng = StableRandom(seed: split.next())
+        let skeleton = bareSkeleton(shape, style: BranchStyle.of(kind), trunkRadius: trunkR, rng: &branchRng)
+        addBareBranches(&m, skeleton, lod: lod, trunkSides: trunkSides, within: crownEnvelope(shape, lod: lod))
         m.bakeAO(from: branchStart) { _, _ in 0.8 }
         // Crown: one color family per tree (the shader picks deciduous1…4 per instance); lobes
         // share a softened ellipsoid normal so the crown reads as one sculpted mass. Each lobe's
@@ -188,7 +178,7 @@ public struct PropLibrary: Sendable {
         m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
         if lod == 2 {
             let start = m.positions.count
-            addEllipsoid(&m, center: shape.crown, radii: shape.radii * 0.95, octahedron: true)
+            addFarCrown(&m, shape: shape, rng: &rng)
             for i in start..<m.positions.count { m.extras[i].y = 0.5 }
             bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: [])
             return m
@@ -225,6 +215,312 @@ public struct PropLibrary: Sendable {
         }
     }
 
+    // MARK: - Bare branches
+
+    typealias TreeShape = (trunkTop: Float, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)])
+
+    /// One piece of a deciduous tree's bare skeleton: a tapered polyline, base first (a last radius of 0
+    /// ends in a point).
+    struct Bough {
+        var points: [SIMD3<Float>]
+        var radii: [Float]
+        /// 0 = leader or limb, 1 = branch, 2 = twig.
+        var order: Int
+        /// The bough this one leaves, at fraction `at` of that bough's length.
+        var parent: Int? = nil
+        var at: Float = 0
+        /// The leader: the trunk carrying on, drawn with the trunk's sides and ring.
+        var stem = false
+        /// Closed end (limbs, which fork there).
+        var cap = false
+        /// Shapes the outline: kept at mid detail, and at far detail as one spike from its limb's base.
+        var far = false
+
+        /// Position and radius at fraction `t` of the length.
+        func along(_ t: Float) -> (p: SIMD3<Float>, r: Float) {
+            var rest = max(0, min(1, t)) * zip(points, points.dropFirst()).reduce(Float(0)) { $0 + simd_distance($1.0, $1.1) }
+            for i in 1..<points.count {
+                let length = simd_distance(points[i - 1], points[i])
+                if rest <= length || i == points.count - 1 {
+                    let f = length > 0 ? min(1, rest / length) : 0
+                    return (points[i - 1] + (points[i] - points[i - 1]) * f, radii[i - 1] + (radii[i] - radii[i - 1]) * f)
+                }
+                rest -= length
+            }
+            return (points[points.count - 1], radii[radii.count - 1])
+        }
+    }
+
+    /// Branching character of a crown archetype. Angles in radians; reaches are shares of the free run
+    /// to the crown's edge.
+    struct BranchStyle {
+        /// Leader: reach up the crown; branches leaving it, their angle from vertical and where along the
+        /// leader they leave.
+        var leaderReach: Float, topBranches: Int, topFan: Float, topAt: Float
+        /// Side limbs: how far up toward their lobe they leave the stem (0 = all at the fork), how far past
+        /// their lobe's centre they aim (× lobe radius), reach, base radius (× trunk) and bow (+ out first,
+        /// then curving up; − up first, then flaring out).
+        var stagger: Float, outward: Float, limbReach: Float, limb: Float, bow: Float
+        /// Branches: end-fork half-angle, tilt of the fork plane (one branch rises, one reaches out low),
+        /// upward pull, angle of the inner branch rising from the limb's bend, reach.
+        var fork: Float, tilt: Float, rise: Float, inner: Float, branchReach: Float
+        /// Twigs per inner and per end branch, their angle off the branch and upward pull.
+        var innerTwigs: Int, endTwigs: Int, spray: Float, twigRise: Float
+
+        static func of(_ kind: PropKind) -> BranchStyle {
+            switch kind {
+            case .treeOval:
+                // Upright: limbs leave a tall leader at staggered heights and climb steeply.
+                BranchStyle(leaderReach: 0.6, topBranches: 3, topFan: 0.42, topAt: 0.5,
+                            stagger: 0.35, outward: 0.3, limbReach: 0.55, limb: 0.6, bow: -0.04,
+                            fork: 0.42, tilt: 0.5, rise: 0.4, inner: 0.45, branchReach: 0.88,
+                            innerTwigs: 3, endTwigs: 4, spray: 0.55, twigRise: 0.35)
+            case .treeSpreading:
+                // Vase: limbs from one low fork rise, then flare wide; a short leader.
+                BranchStyle(leaderReach: 0.45, topBranches: 2, topFan: 0.75, topAt: 0.5,
+                            stagger: 0, outward: 0.4, limbReach: 0.58, limb: 0.66, bow: -0.05,
+                            fork: 0.5, tilt: 0.6, rise: 0.15, inner: 0.7, branchReach: 0.88,
+                            innerTwigs: 2, endTwigs: 3, spray: 0.6, twigRise: 0.2)
+            default:
+                // Rounded: limbs from about the fork go out, then curve up around a leader.
+                BranchStyle(leaderReach: 0.55, topBranches: 3, topFan: 0.6, topAt: 0.5,
+                            stagger: 0.1, outward: 0.35, limbReach: 0.52, limb: 0.64, bow: 0.06,
+                            fork: 0.45, tilt: 0.6, rise: 0.25, inner: 0.6, branchReach: 0.88,
+                            innerTwigs: 3, endTwigs: 4, spray: 0.6, twigRise: 0.25)
+            }
+        }
+    }
+
+    /// The bare skeleton of a crown, grown inside its lobes. The trunk carries on as a tapering leader
+    /// with branches into the top lobe; one limb leaves toward each side lobe, with an inner branch
+    /// rising from its bend and a fork of two at its end. Branches taper to a point near the crown's edge,
+    /// with twigs along their outer part. Lengths follow the free run to the crown's edge (0.85 of each
+    /// lobe's radius), so tips fill the leafy outline without crossing it.
+    static func bareSkeleton(_ shape: TreeShape, style: BranchStyle, trunkRadius: Float, rng: inout StableRandom) -> [Bough] {
+        let crown = crownEnvelope(shape, lod: 0)
+        let up = SIMD3<Float>(0, 1, 0)
+        func jitter(_ a: Float) -> Float { Float(rng.range(Double(-a), Double(a))) }
+        func unit(_ v: SIMD3<Float>, or fallback: SIMD3<Float>) -> SIMD3<Float> { simd_length(v) > 1e-5 ? simd_normalize(v) : fallback }
+        func grow(_ p: SIMD3<Float>, _ d: SIMD3<Float>, _ reach: Float) -> SIMD3<Float> { p + d * (crown.run(from: p, along: d) * reach) }
+        /// Unit vector `polar` off `axis`, turned `azimuth` around it (π/2 = its upper side).
+        func around(_ axis: SIMD3<Float>, _ polar: Float, _ azimuth: Float) -> SIMD3<Float> {
+            let s1 = simd_normalize(simd_cross(axis, abs(axis.y) > 0.95 ? SIMD3(1, 0, 0) : up)), s2 = simd_cross(s1, axis)
+            return simd_normalize(axis * cos(polar) + (s1 * cos(azimuth) + s2 * sin(azimuth)) * sin(polar))
+        }
+        var boughs: [Bough] = []
+        /// A branch leaving bough `parent` at fraction `at`, tapering to a point near the crown's edge,
+        /// with `twigs` twigs along its outer part (each thinner than the branch where it leaves).
+        func branch(_ parent: Int, at: Float, along d: SIMD3<Float>, radius: Float, twigs: Int, far: Bool) {
+            let a = boughs[parent].along(at).p
+            let b = grow(a, d, style.branchReach * (1 + jitter(0.06)))
+            guard simd_distance(a, b) > 0.02 else { return }
+            let index = boughs.count
+            boughs.append(Bough(points: [a, b], radii: [radius, 0], order: 1, parent: parent, at: at, far: far))
+            let phase = jitter(.pi)
+            for i in 0..<twigs {
+                let s = 0.28 + 0.4 * (Float(i) + 0.5) / Float(twigs) + jitter(0.04)
+                let (p, r) = boughs[index].along(s)
+                let e = simd_normalize(around(d, style.spray * (1 + jitter(0.25)), phase + Float(i) * 2.4) + up * style.twigRise)
+                let length = min(crown.run(from: p, along: e) * 0.95, 0.11)
+                guard length > 0.02 else { continue }
+                boughs.append(Bough(points: [p, p + e * length], radii: [r * 0.85, 0], order: 2, parent: index, at: s))
+            }
+        }
+        // Leader: the trunk carries on (its ring and radius) and tapers out up the crown.
+        let stemBase = SIMD3<Float>(0, shape.trunkTop + 0.065, 0)
+        let stemTop = grow(stemBase, up, style.leaderReach)
+        boughs.append(Bough(points: [stemBase, stemBase + (stemTop - stemBase) * 0.45, stemTop],
+                            radii: [trunkRadius * 0.97, trunkRadius * 0.62, 0], order: 0, stem: true))
+        let phase = jitter(.pi)
+        for j in 0..<style.topBranches {
+            let at = style.topAt + Float(j) * 0.06 + jitter(0.03)
+            let d = around(up, style.topFan + jitter(0.1), phase + Float(j) / Float(style.topBranches) * 2 * .pi + jitter(0.3))
+            branch(0, at: at, along: d, radius: boughs[0].along(at).r * 0.85, twigs: 3, far: true)
+        }
+        // Side limbs: one toward each side lobe's outer side.
+        let forkY = shape.trunkTop - 0.04
+        for (k, (c, r)) in shape.lobes.enumerated() where k > 0 {
+            let out = unit(SIMD3(c.x, 0, c.z), or: SIMD3(cos(Float(k) * 2.4), 0, sin(Float(k) * 2.4)))
+            let a = SIMD3<Float>(0, forkY + style.stagger * max(0, c.y - r * 0.6 - forkY), 0)
+            let d = rotate(simd_normalize(c + out * (style.outward * r) - a), around: up, by: jitter(0.12))
+            let end = grow(a, d, style.limbReach * (1 + jitter(0.06)))
+            let length = simd_distance(a, end)
+            let lift = unit(up - d * simd_dot(up, d), or: out)
+            let side = simd_normalize(simd_cross(d, lift))
+            let bend = (a + end) / 2 - lift * (style.bow * length) + side * (jitter(0.05) * length)
+            guard length > 0.02 else { continue }
+            let baseR = trunkRadius * style.limb
+            let limb = boughs.count
+            boughs.append(Bough(points: [a, bend, end], radii: [baseR, baseR * 0.75, baseR * 0.55], order: 0, cap: true))
+            branch(limb, at: 0.5, along: around(d, style.inner * (1 + jitter(0.15)), .pi / 2 + jitter(0.5)),
+                   radius: baseR * 0.6, twigs: style.innerTwigs, far: false)
+            // The end fork's plane tilts (alternating per limb), so one branch rises and one reaches out low.
+            let dEnd = simd_normalize(end - bend)
+            let tangent = rotate(unit(simd_cross(up, dEnd), or: side), around: dEnd,
+                                 by: (style.tilt + jitter(0.25)) * (k % 2 == 0 ? 1 : -1))
+            for s: Float in [-1, 1] {
+                let angle = style.fork * (1 + jitter(0.15))
+                branch(limb, at: 1, along: simd_normalize(dEnd * cos(angle) + tangent * (s * sin(angle)) + up * style.rise),
+                       radius: baseR * 0.5, twigs: style.endTwigs, far: true)
+            }
+        }
+        return boughs
+    }
+
+    /// `v` turned by `angle` around `axis` (Rodrigues).
+    static func rotate(_ v: SIMD3<Float>, around axis: SIMD3<Float>, by angle: Float) -> SIMD3<Float> {
+        let k = simd_normalize(axis)
+        return v * cos(angle) + simd_cross(k, v) * sin(angle) + k * simd_dot(k, v) * (1 - cos(angle))
+    }
+
+    /// The leafy volume of one detail level as squashed spheres, for keeping branches inside. A point is
+    /// inside within `margin` of a blob's radii, or under a blob (below its centre, within its
+    /// footprint), where the canopy hides it from the side.
+    struct CrownEnvelope {
+        var blobs: [(center: SIMD3<Float>, radii: SIMD3<Float>)]
+        var margin: Float = 0.85
+
+        func contains(_ p: SIMD3<Float>) -> Bool {
+            for b in blobs where simd_length((p - b.center) / b.radii) <= margin { return true }
+            for b in blobs where p.y <= b.center.y && simd_length(SIMD2(p.x - b.center.x, p.z - b.center.z)) <= b.radii.x * margin * 0.9 {
+                return true
+            }
+            return false
+        }
+
+        /// How far from `p` (inside) along unit `d` before leaving: steps of 1% of the tree's height, then bisection.
+        func run(from p: SIMD3<Float>, along d: SIMD3<Float>) -> Float {
+            var t: Float = 0
+            while t < 1.5 {
+                if !contains(p + d * (t + 0.01)) {
+                    var lo = t, hi = t + 0.01
+                    for _ in 0..<10 {
+                        let mid = (lo + hi) / 2
+                        if contains(p + d * mid) { lo = mid } else { hi = mid }
+                    }
+                    return lo
+                }
+                t += 0.01
+            }
+            return t
+        }
+
+        /// The farthest point from `a` (inside) toward `b` before leaving.
+        func clamp(_ a: SIMD3<Float>, toward b: SIMD3<Float>) -> SIMD3<Float> {
+            let length = simd_distance(a, b)
+            guard length > 1e-6 else { return b }
+            let d = (b - a) / length
+            return a + d * min(length, run(from: a, along: d))
+        }
+    }
+
+    /// The leafy volume each detail level draws (mirrors the crowns built in `deciduous`): all lobes
+    /// near, the first two at 1.25× mid, the far crown's ellipsoid pulled in to its flat faces far.
+    static func crownEnvelope(_ shape: TreeShape, lod: Int) -> CrownEnvelope {
+        func lobe(_ c: SIMD3<Float>, _ r: Float) -> (center: SIMD3<Float>, radii: SIMD3<Float>) { (c, SIMD3(r, r * 0.92, r)) }
+        switch lod {
+        case 0: return CrownEnvelope(blobs: shape.lobes.map { lobe($0.0, $0.1) })
+        case 1: return CrownEnvelope(blobs: shape.lobes.prefix(2).map { lobe($0.0, $0.1 * 1.25) })
+        default:
+            let far = farCrownEllipsoid(shape)
+            return CrownEnvelope(blobs: [(far.center, far.radii * 0.82)])
+        }
+    }
+
+    /// Draws the skeleton at one detail level, kept inside that level's crown. Near: everything (limbs
+    /// 4-sided, branches and twigs 3-sided, the leader with the trunk's sides). Mid: the leader, the limbs
+    /// and the branches that shape the outline, no twigs. Far: those branches only, each one spike from its
+    /// limb's base.
+    static func addBareBranches(_ m: inout MeshBuffers, _ skeleton: [Bough], lod: Int, trunkSides: Int, within crown: CrownEnvelope) {
+        let trunkRing = SIMD3<Float>(1, 0, 0)
+        switch lod {
+        case 0:
+            for b in skeleton {
+                addBranch(&m, b.points, radii: b.radii, sides: b.stem ? trunkSides : (b.order == 0 ? 4 : 3),
+                          cap: b.cap, ring: b.stem ? trunkRing : nil)
+            }
+        case 1:
+            var fitted: [Int: Bough] = [:]
+            for (i, b) in skeleton.enumerated() where b.order == 0 || (b.order == 1 && b.far) {
+                // The straight leader needs no middle ring at this distance. Branches start on their
+                // (possibly shortened) parent; anything cut down to a stub is left out with its branches.
+                var f = b.stem ? Bough(points: [b.points[0], b.points[b.points.count - 1]], radii: [b.radii[0], 0], order: 0, stem: true) : b
+                var points = [f.points[0]]
+                if let parent = b.parent {
+                    guard let p = fitted[parent] else { continue }
+                    points = [p.along(b.at).p]
+                }
+                for p in f.points.dropFirst() { points.append(crown.clamp(points[points.count - 1], toward: p)) }
+                guard zip(points, points.dropFirst()).reduce(Float(0), { $0 + simd_distance($1.0, $1.1) }) > 0.02 else { continue }
+                f.points = points
+                fitted[i] = f
+                addBranch(&m, points, radii: f.radii.map { $0 * (b.stem ? 1 : 1.15) }, sides: b.stem ? trunkSides : 3,
+                          ring: b.stem ? trunkRing : nil)
+            }
+        default:
+            for b in skeleton where b.far {
+                guard let parent = b.parent else { continue }
+                let base = skeleton[parent].points[0], tip = crown.clamp(base, toward: b.points[b.points.count - 1])
+                guard simd_distance(base, tip) > 0.02 else { continue }
+                addBranch(&m, [base, tip], radii: [min(skeleton[parent].radii[0], 0.016), 0], sides: 3)
+            }
+        }
+    }
+
+    // MARK: - Far crown
+
+    /// The far crown's ellipsoid: the lobes' bounding box (so it keeps the near outline), slightly inset.
+    static func farCrownEllipsoid(_ shape: TreeShape) -> (center: SIMD3<Float>, radii: SIMD3<Float>) {
+        var lo = SIMD3<Float>(repeating: .infinity), hi = -lo
+        for (c, r) in shape.lobes {
+            let extent = SIMD3<Float>(r, r * 0.92, r)
+            lo = simd_min(lo, c - extent)
+            hi = simd_max(hi, c + extent)
+        }
+        return ((lo + hi) / 2, (hi - lo) / 2 * 0.96)
+    }
+
+    /// Far crown: a cube sphere (48 triangles) on that ellipsoid with ±4% stable jitter, normals softened
+    /// toward the crown ellipsoid like the near lobes. Round from every side (no diamond outline) and about
+    /// as large on screen as the near crown.
+    static func addFarCrown(_ m: inout MeshBuffers, shape: TreeShape, rng: inout StableRandom) {
+        let (center, radii) = farCrownEllipsoid(shape)
+        let (verts, faces) = cubeSphere()
+        let base = UInt32(m.positions.count)
+        for v in verts {
+            let p = center + v * radii * Float(1 + rng.range(-0.04, 0.04))
+            let crownN = simd_normalize((p - shape.crown) / (shape.radii * shape.radii))
+            m.addVertex(p, normal: simd_normalize(simd_normalize(v / radii) * 0.5 + crownN * 0.5))
+        }
+        for f in faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
+    }
+
+    /// A cube sphere with each face split 2×2: 26 unit directions, 48 triangles, counter-clockwise outside.
+    static func cubeSphere() -> ([SIMD3<Float>], [SIMD3<UInt32>]) {
+        var verts: [SIMD3<Float>] = []
+        var index: [SIMD3<Int32>: UInt32] = [:]
+        var faces: [SIMD3<UInt32>] = []
+        for axis in 0..<3 {
+            for s: Int32 in [-1, 1] {
+                func corner(_ u: Int32, _ v: Int32) -> UInt32 {
+                    var p = SIMD3<Int32>(0, 0, 0)
+                    p[axis] = s
+                    p[(axis + 1) % 3] = u
+                    p[(axis + 2) % 3] = v
+                    if let i = index[p] { return i }
+                    verts.append(simd_normalize(SIMD3<Float>(Float(p.x), Float(p.y), Float(p.z))))
+                    index[p] = UInt32(verts.count - 1)
+                    return UInt32(verts.count - 1)
+                }
+                for u: Int32 in [-1, 0] { for v: Int32 in [-1, 0] {
+                    let a = corner(u, v), b = corner(u + 1, v), c = corner(u + 1, v + 1), d = corner(u, v + 1)
+                    faces += s > 0 ? [[a, b, c], [a, c, d]] : [[a, c, b], [a, d, c]]
+                } }
+            }
+        }
+        return (verts, faces)
+    }
+
     static func conifer(lod: Int, palette: Palette) -> MeshBuffers {
         var m = MeshBuffers()
         m.paint = Paint(slot: palette.named("bark"))
@@ -239,24 +535,66 @@ public struct PropLibrary: Sendable {
         return m
     }
 
-    static func addBranch(_ m: inout MeshBuffers, from a: SIMD3<Float>, to b: SIMD3<Float>, radius: Float, sides: Int) {
-        let axis = simd_normalize(b - a)
-        let helper: SIMD3<Float> = abs(axis.y) < 0.9 ? [0, 1, 0] : [1, 0, 0]
-        let u = simd_normalize(simd_cross(axis, helper)), v = simd_cross(axis, u)
-        let base = UInt32(m.positions.count)
-        for i in 0..<sides {
-            let t = Float(i) / Float(sides) * 2 * .pi
-            let n = u * cos(t) + v * sin(t)
-            m.extra = SIMD4(0.75, 0, 0, 0)
-            m.addVertex(a + n * radius, normal: n)
-            m.addVertex(b + n * radius * 0.6, normal: n)
+    /// A branch: a smooth tube along `path` with a radius per point. Rings turn to the averaged
+    /// direction at each joint and are carried along without twisting; a last radius of 0 ends in a
+    /// point, `cap` closes an open end, and `ring` sets where the first ring starts (the leader matches
+    /// the trunk's). Bark AO 0.75.
+    static func addBranch(_ m: inout MeshBuffers, _ path: [SIMD3<Float>], radii widths: [Float], sides: Int, cap: Bool = false,
+                          ring: SIMD3<Float>? = nil) {
+        guard !path.isEmpty, widths.count == path.count else { return }
+        // A joint shortened to nothing would leave a flat ring: drop points that coincide with the last kept one.
+        var keep = [0]
+        for i in path.indices.dropFirst() where simd_distance(path[i], path[keep[keep.count - 1]]) > 1e-4 { keep.append(i) }
+        let points = keep.map { path[$0] }, radii = keep.map { widths[$0] }
+        guard points.count >= 2 else { return }
+        var dirs: [SIMD3<Float>] = []
+        for i in 0..<points.count {
+            let d = points[min(points.count - 1, i + 1)] - points[max(0, i - 1)]
+            dirs.append(simd_length(d) > 1e-6 ? simd_normalize(d) : SIMD3(0, 1, 0))
+        }
+        let helper: SIMD3<Float> = abs(dirs[0].y) < 0.9 ? [0, 1, 0] : [1, 0, 0]
+        var u = ring.map { simd_normalize($0 - dirs[0] * simd_dot($0, dirs[0])) } ?? simd_normalize(simd_cross(dirs[0], helper))
+        m.extra = SIMD4(0.75, 0, 0, 0)
+        var rings: [[UInt32]] = []
+        for (i, p) in points.enumerated() {
+            if i > 0 { u = simd_normalize(u - dirs[i] * simd_dot(u, dirs[i])) }
+            let v = simd_cross(dirs[i], u)
+            var ids: [UInt32] = []
+            for s in 0..<sides {
+                if radii[i] > 0 {
+                    let t = Float(s) / Float(sides) * 2 * .pi
+                    let n = u * cos(t) + v * sin(t)
+                    ids.append(m.addVertex(p + n * radii[i], normal: n))
+                } else {
+                    // Pointed end: one vertex per side, so each side keeps its own normal.
+                    let t = (Float(s) + 0.5) / Float(sides) * 2 * .pi
+                    ids.append(m.addVertex(p, normal: u * cos(t) + v * sin(t)))
+                }
+            }
+            rings.append(ids)
+        }
+        for i in 1..<rings.count {
+            let a = rings[i - 1], b = rings[i]
+            for s in 0..<sides {
+                let s1 = (s + 1) % sides
+                if radii[i] > 0 {
+                    m.addTriangle(a[s], a[s1], b[s1])
+                    m.addTriangle(a[s], b[s1], b[s])
+                } else {
+                    m.addTriangle(a[s], a[s1], b[s])
+                }
+            }
+        }
+        if cap, let r = radii.last, r > 0 {
+            let d = dirs[dirs.count - 1], v = simd_cross(d, u)
+            let first = UInt32(m.positions.count)
+            for s in 0..<sides {
+                let t = Float(s) / Float(sides) * 2 * .pi
+                m.addVertex(points[points.count - 1] + (u * cos(t) + v * sin(t)) * r, normal: d)
+            }
+            for s in 1..<UInt32(sides - 1) { m.addTriangle(first, first + s, first + s + 1) }
         }
         m.extra = SIMD4(1, 0, 0, 0)
-        for i in 0..<UInt32(sides) {
-            let j = (i + 1) % UInt32(sides)
-            m.addTriangle(base + i * 2, base + j * 2, base + j * 2 + 1)
-            m.addTriangle(base + i * 2, base + j * 2 + 1, base + i * 2 + 1)
-        }
     }
 
     // MARK: - Builders

@@ -90,6 +90,14 @@ struct LaunchOptions {
     var weather: String?
     /// `-debughud`: keep the performance HUD under the experience UI.
     var debugHUD = false
+    /// `-snapshot SECONDS`: SECONDS after the world is on screen, save a PNG of the RealityKit view to the
+    /// app's Documents (`snapshot-realitykit-<name>.png`) and print `SNAPSHOT saved <file>`. For device
+    /// screenshots (scripts/device_snapshots.sh). The web renderer has its own `-snapshot` (WebScreen).
+    var snapshotSeconds: Double?
+    /// `-snapshotname NAME`: the name in the file (default: showcase NN, the preset, the mode, or walk/postcard).
+    var snapshotName: String?
+    /// `-snapshotsource realitykit|compositor`: how the snapshot is taken (default: RealityKit's own capture).
+    var snapshotSource: WorldRenderState.SnapshotSource = .realityKit
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -117,6 +125,9 @@ struct LaunchOptions {
         showcase = value("-showcase")
         weather = value("-weather")
         debugHUD = args.contains("-debughud")
+        snapshotSeconds = value("-snapshot").flatMap(Double.init)
+        snapshotName = value("-snapshotname")
+        if value("-snapshotsource") == "compositor" { snapshotSource = .compositor }
     }
 
     /// The moment for this run: `-date`, else v2 summer noon for the noon preset, else the v2

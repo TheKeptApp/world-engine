@@ -4,6 +4,7 @@
 #   scripts/gate_shots.sh [out-dir]          (default docs/screenshots/m3)
 # Env: SKIP_BUILD=1 reuses the last Simulator build; WAIT seconds per shot (default 30).
 set -euo pipefail
+export SIM="${SIM:-WorldEngine P0}"   # this session's own Simulator (other sessions use theirs)
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/screenshots/m3}"
 RAW="$OUT/raw"; mkdir -p "$RAW"

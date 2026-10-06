@@ -93,3 +93,42 @@ def summary(name, xs):
 
 summary("GPU busy", busy_ms)
 summary("GPU span", span_ms)
+# The GPU's performance state (clock) during each frame: thermal limits can hold it below the
+# state the trace template asks for, and busy time scales with the clock, so frames are also
+# summarised per state (the state at the middle of the frame's GPU span).
+try:
+    sx = subprocess.run(["xcrun", "xctrace", "export", "--input", trace, "--xpath",
+                         '/trace-toc/run[@number="1"]/data/table[@schema="gpu-performance-device-state-intervals"]'],
+                        capture_output=True, text=True, check=True).stdout
+    by_id.clear()
+    spans = []
+    for row in ET.fromstring(sx).iter("row"):
+        v = [value(c) for c in row]
+        try:
+            spans.append((int(v[0][0]), int(v[0][0]) + int(v[1][0]), int(v[3][0])))
+        except (TypeError, ValueError, IndexError):
+            pass
+    spans.sort()
+    starts = [a for a, _, _ in spans]
+    import bisect
+    names = {1: "min", 2: "medium", 3: "max"}
+    per_state = {}
+    for k, b in zip(keys, busy_ms):
+        mid = (min(s for s, _ in frames[k]) + max(e for _, e in frames[k])) // 2
+        i = bisect.bisect_right(starts, mid) - 1
+        state = names.get(spans[i][2], str(spans[i][2])) if i >= 0 and spans[i][1] >= mid - 50_000_000 else "unknown"
+        per_state.setdefault(state, []).append(b)
+    for state in ("max", "medium", "min", "unknown"):
+        if per_state.get(state):
+            summary(f"GPU busy [{state} clock]", per_state[state])
+except Exception as failure:  # older traces without the table
+    print("GPU state: unavailable", failure)
+
+# Frames overlap on the GPU (one frame's vertex work runs beside the previous frame's fragment
+# work), so per-frame busy can exceed the frame interval. The GPU's real load is the union of all
+# intervals over the wall time: utilisation, and busy time per frame with overlap counted once.
+all_iv = [iv for k in keys for iv in frames[k]]
+wall_ms = (max(e for _, e in all_iv) - min(s for s, _ in all_iv)) / 1e6
+union_ms = busy(all_iv) / 1e6
+print(f"GPU load: utilisation={union_ms / wall_ms * 100:.1f}% per-frame={union_ms / len(keys):.2f} ms "
+      f"fps={len(keys) / wall_ms * 1000:.1f} over {wall_ms / 1000:.1f} s")
