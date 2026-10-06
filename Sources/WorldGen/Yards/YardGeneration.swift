@@ -206,6 +206,7 @@ extension SceneGenerator {
             step[idx] = allowed[Int(r.next() % UInt64(allowed.count))]
         }
         var lotTrees: [Int: Int] = [:]
+        var lawnJobs: [LawnJob] = []
 
         for idx in eligible.sorted() {
             guard let c = count[idx], c >= 12, let l = lo[idx], let h = hi[idx], let s = byIndex[idx] else { continue }
@@ -243,20 +244,50 @@ extension SceneGenerator {
             let lot = GeneratedLot(building: s.building.ref, profileID: profileID, outline: rings, area: Double(c), lawnShade: shade, tone: tone, seed: lotSeed,
                                    entry: g.entry?.point, walk: walks[idx], driveways: driveways[idx] ?? [])
 
-            // Lawn.
-            var lawn = MeshBuffers()
-            lawn.paint = Paint(slot: n("lawn"), shade: shade, flags: .lawn)
-            lawn.extra = SIMD4(1, tone, 0, lotSeed)
-            for ring in rings {
-                let tri = Earcut.triangulate(Polygon2D(outer: ring))
-                for k in stride(from: 0, to: tri.indices.count - 2, by: 3) {
-                    let a = P(tri.vertices[tri.indices[k]], GroundLayer.yard), b = P(tri.vertices[tri.indices[k + 1]], GroundLayer.yard)
-                    let cc = P(tri.vertices[tri.indices[k + 2]], GroundLayer.yard)
-                    let i0 = lawn.addVertex(a, normal: sceneUp), i1 = lawn.addVertex(b, normal: sceneUp), i2 = lawn.addVertex(cc, normal: sceneUp)
-                    if simd_cross(b - a, cc - a).y >= 0 { lawn.addTriangle(i0, i1, i2) } else { lawn.addTriangle(i0, i2, i1) }
+            // Lawn: emitted after every tree and shrub is placed (contact pools), with in-lot patches,
+            // mowing bands on some front lawns and worn edges beside walks and drives (GroundDetail).
+            var field = LawnField(shade: shade, tone: tone, seed: lotSeed)
+            let detailed = inFocus(anchor)
+            if detailed {
+                var dr = s.building.ref.random("lawn-detail")
+                let span = SIMD2<Double>(Double(h.x - l.x + 1), Double(h.y - l.y + 1)) * raster.res
+                let base = raster.origin + LocalPoint(Double(l.x), Double(l.y)) * raster.res
+                let want = Int(dr.range(Double(rules.lawnPatches?.first ?? 3), Double((rules.lawnPatches?.last ?? 5) + 1)).rounded(.down))
+                var tries = 0
+                while field.patches.count < want, tries < want * 6 {
+                    tries += 1
+                    let p = base + LocalPoint(dr.unit() * span.x, dr.unit() * span.y)
+                    guard raster.ownerAt(p) == Int32(idx) else { continue }
+                    field.patches.append(.init(c: p, r: dr.range(1.5, 3.0), amp: dr.range(0.03, 0.06) * (dr.chance(0.5) ? 1 : -1)))
+                }
+                if let (fp, fdir, fn, _) = front, dr.chance(rules.mowShare ?? 0) {
+                    let across = fdir
+                    var lo2 = Double.infinity, hi2 = -Double.infinity
+                    for ring in rings { for q in ring where simd_dot(q - fp, fn) > 0.5 { lo2 = min(lo2, simd_dot(q, across)); hi2 = max(hi2, simd_dot(q, across)) } }
+                    if hi2 - lo2 >= 5 {
+                        let n = max(2, min(4, Int(((hi2 - lo2) / 3.2).rounded())))
+                        let w = max(2.5, min(4, (hi2 - lo2) / Double(n)))
+                        let start = (lo2 + hi2) / 2 - w * Double(n) / 2
+                        field.mow = .init(across: across, start: start, width: w, count: n, amp: 0.03, front: (fp, fn))
+                        stats["mowedLots", default: 0] += 1
+                    }
+                }
+                var access: [([LocalPoint], Double)] = []
+                if let w = walks[idx] { access.append((w, 0.55)) }
+                for d in driveways[idx] ?? [] { access.append((d, 1.5)) }
+                for (line, half) in access where dr.chance(rules.wornEdges ?? 0) {
+                    let a = line[0], b = line[line.count - 1]
+                    let len = simd_distance(a, b)
+                    guard len >= 4 else { continue }
+                    let u = (b - a) / len
+                    let part = dr.range(0.4, 0.7) * len
+                    let t0 = dr.range(0.5, max(0.6, len - part - 0.5))
+                    field.worn.append(.init(a: a, u: u, len: len, halfHard: half, side: dr.chance(0.5) ? 1 : -1,
+                                            width: dr.range(0.3, 0.7), t0: t0, t1: t0 + part))
+                    stats["wornEdges", default: 0] += 1
                 }
             }
-            addStatic(lawn, "gen:lot:\(s.building.ref)", at: anchor)
+            lawnJobs.append(LawnJob(rings: rings, field: field, detailed: detailed, anchor: anchor, feature: "gen:lot:\(s.building.ref)"))
             stats["lots", default: 0] += 1
             // Garden front (bed colour) and paved rear (concrete), traced like the lawn.
             for (on, paint, y, key) in [(garden, Paint(slot: n("yardBed"), shade: Float(fr.range(0.975, 1.025))), GroundLayer.yardBed, "garden"),
@@ -326,9 +357,10 @@ extension SceneGenerator {
                 }
             }
 
-            // Bushes keep clear of carriageways, walkways and walls.
-            func clear(_ p: LocalPoint) -> Bool {
-                !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: 0.4) && !raster.nearUse(p, .building, radius: 1.0)
+            // Bushes keep clear of carriageways, walls and public sidewalks/paths: 1.5 m, so one never
+            // stands right beside the walking path and fills a street-level view (P3 daily sheet).
+            func clear(_ p: LocalPoint, walkway: Double = 1.5) -> Bool {
+                !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: walkway) && !raster.nearUse(p, .building, radius: 1.0)
             }
             // Shrubs: a flowering pair at the walk, a few more near the lot edges in front. Where a shrub
             // stands picks its form (ShrubSite): upright beside the walk and at corners, cushions in beds,
@@ -398,7 +430,7 @@ extension SceneGenerator {
                     var line: [LocalPoint] = []
                     for k in 0..<n {
                         let p = c + axis * ((s0 + s1) / 2 + (Double(k) - Double(n - 1) / 2) * Self.hedgeSegmentSpacing)
-                        guard !raster.nearUse(p, .hard, radius: 1.2), clear(p) else { continue }
+                        guard !raster.nearUse(p, .hard, radius: 1.2), clear(p, walkway: 0.4) else { continue }
                         line.append(p)
                         // Half the segments are turned end for end so the lobed top does not repeat.
                         instances.append(PropInstance(kind: .bush, variant: Self.hedgeVariant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
@@ -417,7 +449,7 @@ extension SceneGenerator {
                         let k = raster.index(i, j)
                         guard owned(k), raster.use[k] == LotRaster.Use.open.rawValue, cellFront(k), gr.chance(0.3) else { continue }
                         let p = raster.center(i, j) + LocalPoint(gr.range(-0.3, 0.3), gr.range(-0.3, 0.3))
-                        guard !raster.nearUse(p, .walkway, radius: 0.5), !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .building, radius: 0.8),
+                        guard !raster.nearUse(p, .walkway, radius: 1.0), !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .building, radius: 0.8),
                               gardenShrubs.allSatisfy({ simd_distance($0, p) > 1.5 }) else { continue }
                         gardenShrubs.append(p)
                     } }
@@ -539,6 +571,48 @@ extension SceneGenerator {
         stats["streetTrees"] = streetTrees
         stats["canopyTrees"] = plantForCanopy(raster, eligible: eligible, lo: lo, hi: hi, count: count, byIndex: byIndex, library: library,
                                               lotTrees: &lotTrees, trees: &trees, instances: &instances, scene: &scene)
+        // Lot lawns and parkways, now that every tree, hedge and shrub is placed.
+        let pools = GroundPools(instances)
+        var lawnTris = 0
+        for job in lawnJobs {
+            var lawn: MeshBuffers
+            if job.detailed {
+                lawn = GroundDetail.lawnMesh(job.rings, field: job.field, pools: pools, slot: n("lawn"), y: GroundLayer.yard)
+            } else {
+                lawn = GroundDetail.plainLawn(job.rings, field: job.field, slot: n("lawn"), y: GroundLayer.yard)
+            }
+            lawnTris += lawn.triangleCount
+            addStatic(lawn, job.feature, at: job.anchor)
+        }
+        stats["lawnTriangles"] = lawnTris
+        if lod == 0, library.rules(for: profile.id).parkwayBand == true {
+            let park = GroundDetail.parkways(features.roads, raster: raster, roadLines: roadLines, pools: pools, slot: n("lawn"),
+                                             include: { self.focus.expanded(by: 30).contains($0) })
+            stats["parkwayTriangles"] = park.triangleCount
+            // One feature per chunk so chunk meshes keep their ranges local.
+            var byChunk: [SIMD2<Int>: MeshBuffers] = [:]
+            var t = 0
+            while t + 2 < park.indices.count {
+                let i0 = Int(park.indices[t])
+                let p = LocalPoint(Double(park.positions[i0].x), -Double(park.positions[i0].z))
+                var m = byChunk[chunkIndex(p)] ?? MeshBuffers()
+                let base = UInt32(m.positions.count)
+                for k in 0..<3 {
+                    let i = Int(park.indices[t + k])
+                    m.positions.append(park.positions[i]); m.normals.append(park.normals[i])
+                    m.paints.append(park.paints[i]); m.extras.append(park.extras[i])
+                }
+                m.indices.append(contentsOf: [base, base + 1, base + 2])
+                byChunk[chunkIndex(p)] = m
+                t += 3
+            }
+            for (key, m) in byChunk.sorted(by: { ($0.key.x, $0.key.y) < ($1.key.x, $1.key.y) }) {
+                guard chunks[key] != nil else { continue }
+                let start = chunks[key]!.staticMesh.vertexCount
+                chunks[key]!.staticMesh.append(m)
+                chunks[key]!.staticFeatures.append(FeatureRange(feature: "gen:parkway:\(key.x)_\(key.y)", start: start, count: m.vertexCount))
+            }
+        }
         scene.litterPatches = litterPatches(instances, raster: raster)
         stats["litterPatches"] = scene.litterPatches.count
         let t4 = Date()
