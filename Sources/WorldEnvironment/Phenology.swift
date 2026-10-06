@@ -81,14 +81,27 @@ public enum Phenology {
     public static let treeShiftDays = 7.0
     public static let timingSalt = "phenology-timing-v1"
 
-    /// Day of year in the observer's timezone (whole local days, 1 = Jan 1), with the profile's
-    /// season-year wrap applied.
+    /// Day of year in the observer's timezone (whole local days, 1 = Jan 1) on the profile's
+    /// season-year: days before the wrap day count from the previous year (+365), so the calendar
+    /// is cyclic and nothing resets on January 1.
     public static func dayOfYear(_ date: Date, timeZone: TimeZone, profile: PhenologyProfile) -> Double {
         var cal = Calendar(identifier: .gregorian)
         cal.timeZone = timeZone
         var d = Double(cal.ordinality(of: .day, in: .year, for: date) ?? 1)
-        if let wrap = profile.seasonYearWrapBelowDay, d < wrap { d += 365 }
+        if d < seasonYearStart(profile) { d += 365 }
         return d
+    }
+
+    /// First day of the profile's season-year: the explicit wrap (southern profiles), else the
+    /// middle of the quiet stretch between the last knot (taken modulo 365) and the first, where
+    /// every stage is flat. Seattle's grass dormancy ends on day 380 (Jan 15), so its season-year
+    /// starts on day 35, not January 1.
+    public static func seasonYearStart(_ p: PhenologyProfile) -> Double {
+        if let wrap = p.seasonYearWrapBelowDay { return wrap }
+        let knots = [p.leafStart, p.leafFull, p.summerMature, p.colorStart, p.colorPeak, p.dropStart, p.dropEnd,
+                     p.grassStart, p.grassFull, p.grassDormancyStart, p.grassDormancyEnd]
+        let first = knots.min()!, last = knots.max()! - 365
+        return max(1, ((last + first) / 2).rounded(.down))
     }
 
     /// Resolves the representative cohorts for a (shifted) day of year.

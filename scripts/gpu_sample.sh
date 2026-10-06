@@ -12,7 +12,10 @@ UDID=$(xcrun devicectl device info details --device "$CORE" 2>/dev/null | sed -n
 xcrun devicectl device process launch --device "$CORE" --terminate-existing com.lincolnlabs.worldlab -- "$@" >/dev/null 2>&1
 sleep "${SETTLE:-12}"
 rm -rf "$TRACES/$LABEL.trace"
-xcrun xctrace record --device "$UDID" --template "Metal System Trace" --attach WorldLab --time-limit 8s \
+# The GPU runs at its own clocks (template with performance state "Default"); Xcode's stock
+# Metal System Trace pins it to the minimum clock. TEMPLATE overrides.
+TEMPLATE="${TEMPLATE:-$("$ROOT/scripts/make_gpu_template.py")}"
+xcrun xctrace record --device "$UDID" --template "$TEMPLATE" --attach WorldLab --time-limit 8s \
   --output "$TRACES/$LABEL.trace" >/dev/null 2>&1
 echo "== $LABEL ($*)"
 python3 "$ROOT/scripts/gpu_frames.py" "$TRACES/$LABEL.trace"

@@ -11,13 +11,15 @@ struct ContentView: View {
     struct Session: Equatable {
         var renderer: String
         var testRun: Bool
+        /// Demo weather for a test run (gate: clear and rain).
+        var weather: String? = nil
     }
 
     var body: some View {
         Group {
             if let s = session ?? options.renderer.map({ Session(renderer: $0, testRun: false) }) ?? (options.preset != nil ? Session(renderer: "realitykit", testRun: false) : nil) {
                 if s.renderer == "realitykit" {
-                    RealityKitScreen(options: options, testRun: s.testRun)
+                    RealityKitScreen(options: options, testRun: s.testRun, testWeather: s.weather)
                 } else {
                     WebScreen(options: options, backend: s.renderer, testRun: s.testRun)
                 }
@@ -45,10 +47,11 @@ struct LauncherView: View {
                     .pickerStyle(.segmented)
                 }
                 Section {
-                    Button("Free walk") { start(.init(renderer: renderer, testRun: false)) }
-                    Button("Start 10-minute test run") { start(.init(renderer: renderer, testRun: true)) }
+                    Button("Explore the world") { start(.init(renderer: renderer, testRun: false)) }
+                    Button("10-minute test run, clear") { start(.init(renderer: renderer, testRun: true, weather: "clear")) }
+                    Button("10-minute test run, rain") { start(.init(renderer: renderer, testRun: true, weather: "rain")) }
                 } footer: {
-                    Text("Test run: walks the 985 m loop for 10 minutes at 50% screen brightness, logs frame times, heat, memory and battery to the app's Documents folder, then stops.")
+                    Text("Test run: Luna walks the 985 m loop for 10 minutes at golden hour in Demo weather, at 50% screen brightness; frame times, heat, memory, battery, Low Power Mode and charging are logged to the app's Documents folder, then it stops.")
                 }
             }
             .navigationTitle("WorldLab")
@@ -57,29 +60,53 @@ struct LauncherView: View {
 }
 
 /// The RealityKit renderer: loads the demo area, walks the character along its loop and follows
-/// it with the street camera. Launch arguments pick screenshot presets and test options.
+/// it with the street camera, or (no preset, no test) opens the no-character experience: a composed
+/// postcard with modes, a character switch, the weather strip and the time scrubber.
 struct RealityKitScreen: View {
     let options: LaunchOptions
     let testRun: Bool
+    var testWeather: String? = nil
+    private let started = Date()
     @State private var world: World?
     @State private var camera: WorldCamera?
+    @State private var env: EnvironmentController?
+    @State private var demo: DemoConfig?
     @State private var error: String?
     @State private var metrics = Metrics()
     @State private var post = WorldPostProcess()
     @State private var test: TestRun?
+    @State private var render = WorldRenderState()
+    @State private var hostPaused = false
+    @State private var mode = "postcard"
+    @State private var characterChoice = "none"
+    @State private var character: Entity?
+    @State private var motion: WorldMotion?
+    @State private var postcardIndex = 0
+    @State private var showControls = true
+    @State private var multisampling = true
+
+    /// The experience UI (strip, scrubber, mode bar) shows outside presets, tests and showcase shots.
+    private var experienceUI: Bool { options.preset == nil && !testRun && !options.metrics && options.showcase == nil && options.hud }
 
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color.black.ignoresSafeArea()
             if let world, let camera {
                 framed {
-                    WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil,
-                              post: options.diagnostics.contains("noPost") ? nil : post) { dt in
-                        metrics.frame(dt: dt, gpuMs: post.recentGPUms(1).last)
-                        test?.frame(dt: dt, gpuMs: post.recentGPUms(1).last)
+                    var view = WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil && options.showcase == nil,
+                                         post: options.diagnostics.contains("noPost") ? nil : post,
+                                         settings: options.renderSettings, renderState: render, isPaused: hostPaused) { dt in
+                        let postMs = post.recentGPUms(1).last
+                        metrics.frame(dt: dt, gpuMs: render.gpuFrameMs ?? postMs)
+                        test?.frame(dt: dt, gpuMs: render.gpuFrameMs, postMs: postMs)
                     }
+                    let _ = view.multisampling = multisampling
+                    view
                 }
-                if options.hud { HUD(metrics: metrics, world: world, test: test) }
+                if options.hud && (!experienceUI || options.debugHUD) { HUD(metrics: metrics, world: world, test: test, render: render) }
+                if experienceUI, let env {
+                    experienceOverlay(env: env, world: world, camera: camera)
+                }
             } else if let error {
                 Text(error).foregroundStyle(.white).padding()
             } else {
@@ -88,6 +115,166 @@ struct RealityKitScreen: View {
             }
         }
         .task { await load() }
+        .task {
+            guard ProcessInfo.processInfo.arguments.contains("-viewdiag") else { return }
+            try? await Task.sleep(for: .seconds(8))
+            ViewDiagnostics.dump(tag: "realitykit")
+        }
+        .task {
+            // Console trace for checks: frame rate and display state once a second. Keeps the
+            // screen awake for unattended device checks.
+            guard ProcessInfo.processInfo.arguments.contains("-rendertrace") else { return }
+            UIApplication.shared.isIdleTimerDisabled = true
+            UIDevice.current.isBatteryMonitoringEnabled = true
+            print("CONDITIONS \(TestRun.conditions())")
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                if Int(Date().timeIntervalSince(started)) % 10 == 0 { print("CONDITIONS \(TestRun.conditions())") }
+                print(String(format: "RENDER t=%.0f fps=%.1f gpu=%@ %@", Date().timeIntervalSince(started), metrics.liveFPS(),
+                             render.gpuFrameMs.map { String(format: "%.2f", $0) } ?? "-", render.summary))
+            }
+        }
+        .task {
+            // `-attribution`: one feature off at a time, 7 s each, for a GPU trace split by feature.
+            // Phase starts are printed with absolute times to align with the trace.
+            guard ProcessInfo.processInfo.arguments.contains("-attribution") else { return }
+            while world == nil { try? await Task.sleep(for: .milliseconds(200)) }
+            try? await Task.sleep(for: .seconds(14))
+            guard let world else { return }
+            let iso = ISO8601DateFormatter()
+            iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            @MainActor func phase(_ name: String, _ change: @MainActor () -> Void) async {
+                change()
+                print("ATTR \(name) \(iso.string(from: Date()))")
+                try? await Task.sleep(for: .seconds(7))
+            }
+            await phase("all") {}
+            await phase("noShadows") { world.set(.shadows, enabled: false) }
+            await phase("all2") { world.set(.shadows, enabled: true) }
+            await phase("noSky") { world.set(.sky, enabled: false) }
+            await phase("noPost") { world.set(.sky, enabled: true); post.settings.enabled = false }
+            await phase("noMSAA") { post.settings.enabled = true; multisampling = false }
+            await phase("noSurfaceDetail") { multisampling = true; world.set(.surfaceDetail, enabled: false) }
+            await phase("noFoliage") { world.set(.surfaceDetail, enabled: true); world.set(.foliage, enabled: false) }
+            await phase("noBuildings") { world.set(.foliage, enabled: true); world.set(.buildings, enabled: false) }
+            await phase("all3") { world.set(.buildings, enabled: true) }
+            print("ATTR end \(iso.string(from: Date()))")
+        }
+        .task {
+            // `-pausetest N`: the host pauses the view at N s and resumes it at 2N s.
+            guard let n = options.pauseTest else { return }
+            try? await Task.sleep(for: .seconds(n))
+            hostPaused = true
+            try? await Task.sleep(for: .seconds(n))
+            hostPaused = false
+        }
+    }
+
+    // MARK: Experience UI
+
+    @ViewBuilder
+    private func experienceOverlay(env: EnvironmentController, world: World, camera: WorldCamera) -> some View {
+        VStack(spacing: 8) {
+            if showControls { WeatherStrip(env: env).padding(.top, 4) }
+            Spacer()
+            if showControls {
+                HStack(spacing: 8) {
+                    Picker("Mode", selection: $mode) {
+                        Text("Postcard").tag("postcard")
+                        Text("Aerial").tag("aerial")
+                        Text("Explore").tag("explore")
+                        Text("Route").tag("route")
+                        if character != nil { Text("Follow").tag("follow") }
+                    }
+                    .pickerStyle(.segmented)
+                    Menu {
+                        Section("Weather (Demo)") {
+                            ForEach(env.presets) { p in
+                                Button(p.title) { select(preset: p, env: env, world: world, camera: camera) }
+                            }
+                        }
+                        Section("Character") {
+                            Picker("Character", selection: $characterChoice) {
+                                Text("None").tag("none")
+                                Text("Luna").tag("luna")
+                                Text("Capsule").tag("capsule")
+                            }
+                        }
+                        if mode == "postcard", world.postcards.count > 1 {
+                            Button("Next postcard") {
+                                postcardIndex = (postcardIndex + 1) % world.postcards.count
+                                camera.mode = .postcard(world.pose(of: world.postcards[postcardIndex]))
+                            }
+                        }
+                        Button(showControls ? "Clean view" : "Show controls") { showControls.toggle() }
+                    } label: {
+                        Image(systemName: "ellipsis.circle").font(.title2)
+                    }
+                    .accessibilityLabel("Weather, character and view options")
+                }
+                .padding(.horizontal, 10)
+                TimeScrubber(env: env).padding(.bottom, 34)
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            if !showControls {
+                Button { showControls = true } label: { Image(systemName: "slider.horizontal.3").padding(10) }
+                    .background(.ultraThinMaterial, in: Circle()).padding(.trailing, 12).padding(.top, 8)
+            }
+        }
+        .onChange(of: mode) { _, m in apply(mode: m, world: world, camera: camera, env: env) }
+        .onChange(of: characterChoice) { _, c in Task { await setCharacter(c, world: world, camera: camera) } }
+    }
+
+    private func select(preset p: EnvironmentController.Preset, env: EnvironmentController, world: World, camera: WorldCamera) {
+        env.select(p)
+        if let cam = p.camera, let pose = showcasePose(cam, world: world) {
+            mode = cam == "aerial" ? "aerial" : "postcard"
+            camera.mode = .postcard(pose)
+        }
+    }
+
+    private func apply(mode m: String, world: World, camera: WorldCamera, env: EnvironmentController) {
+        env.aerial = m == "aerial"
+        switch m {
+        case "aerial":
+            if camera.aerial == nil { camera.aerial = world.makeAerialRig() }
+            camera.mode = .aerial
+        case "explore":
+            camera.explore = world.makeExploreRig(from: currentPostcard(world: world))
+            camera.mode = .explore
+        case "route":
+            if let demo { camera.route = world.makeRouteRig(route: demo.routeCoordinates, loop: true) }
+            camera.mode = .route
+        case "follow":
+            if let character { camera.mode = .street(following: character) }
+        default:
+            camera.mode = .postcard(currentPostcard(world: world))
+        }
+        env.resolve()
+    }
+
+    private func currentPostcard(world: World) -> CameraPose {
+        if world.postcards.indices.contains(postcardIndex) { return world.pose(of: world.postcards[postcardIndex]) }
+        return CameraPose(eye: SIMD3(0, 1.65, 0), target: SIMD3(0, 1.4, -30), verticalFOVDegrees: 50)
+    }
+
+    private func showcasePose(_ name: String, world: World) -> CameraPose? {
+        guard let c = demo?.showcase?.cameras[name] else { return nil }
+        return world.pose(origin: GeoCoordinate(latitude: c.origin.lat, longitude: c.origin.lon), eye: c.position, target: c.target,
+                          fieldOfViewDegrees: c.fovDegrees)
+    }
+
+    /// Character slot: none, Luna or the capsule, walking the demo loop.
+    private func setCharacter(_ choice: String, world: World, camera: WorldCamera) async {
+        if let old = character { world.remove(old) }
+        character = nil
+        motion = nil
+        if case .street = camera.mode { mode = "postcard" }
+        guard choice != "none", let demo else { return }
+        let c = await makeCharacter(world: world, kind: choice)
+        motion = world.move(c, along: demo.routeCoordinates, speed: demo.walkSpeed, loop: true)
+        character = c
     }
 
     /// Optionally letterboxes the view to 16:9 for comparison with the v2 target images.
@@ -107,25 +294,62 @@ struct RealityKitScreen: View {
     private func load() async {
         do {
             let demo = try DemoConfig.load()
+            self.demo = demo
             let dir = Bundle.main.url(forResource: demo.area, withExtension: nil)!
             let w = try await World.load(areaDirectory: dir, options: WorldOptions(
                 focus: demo.focusBox, profileID: options.profile, date: options.date(demo), diagnostics: options.diagnostics))
-            let character = await makeCharacter(world: w)
-            let motion = w.move(character, along: demo.routeCoordinates, speed: demo.walkSpeed, loop: true)
-            w.contactEntity = character
-            let cam = WorldCamera(mode: .street(following: character))
-            Presets.apply(options.preset, demo: demo, world: w, camera: cam, motion: motion, character: character)
+            // Presets and test runs walk a character with the street camera (the matched-test
+            // setup); the experience opens on a composed postcard with no character.
+            let walking = options.preset != nil || testRun || options.metrics
+            let choice = options.character ?? (walking ? "luna" : "none")
+            var cam: WorldCamera
+            if choice != "none" {
+                let c = await makeCharacter(world: w, kind: choice)
+                let m = w.move(c, along: demo.routeCoordinates, speed: demo.walkSpeed, loop: true)
+                character = c
+                motion = m
+                characterChoice = choice
+                cam = WorldCamera(mode: .street(following: c))
+                Presets.apply(options.preset, demo: demo, world: w, camera: cam, motion: m, character: c)
+                if !walking { cam.mode = .postcard(w.postcards.first.map(w.pose(of:)) ?? CameraPose(eye: SIMD3(0, 1.65, 0), target: SIMD3(0, 1.4, -30), verticalFOVDegrees: 50)) }
+            } else {
+                cam = WorldCamera(mode: .postcard(w.postcards.first.map(w.pose(of:)) ?? CameraPose(eye: SIMD3(0, 1.65, 0), target: SIMD3(0, 1.4, -30), verticalFOVDegrees: 50)))
+            }
+            cam.transitionSeconds = 0
             if ProcessInfo.processInfo.arguments.contains("-cutdebug") { w.shaderGlobals.debug = 2 }
             if ProcessInfo.processInfo.arguments.contains("-aodebug") { w.shaderGlobals.debug = 3 }
+
+            // Environment: the time and Demo weather drive the light, sky, season and surfaces.
+            let e = try EnvironmentController(demo: demo, world: w)
+            if let id = options.showcase, let p = e.presets.first(where: { $0.id == "showcase-\(id)" }) {
+                e.select(p)
+                if let camName = p.camera, let c = demo.showcase?.cameras[camName] {
+                    cam.mode = .postcard(w.pose(origin: GeoCoordinate(latitude: c.origin.lat, longitude: c.origin.lon), eye: c.position,
+                                                target: c.target, fieldOfViewDegrees: c.fovDegrees))
+                    e.aerial = camName == "aerial"
+                    e.resolve()
+                }
+            } else {
+                if let id = testWeather ?? options.weather, let p = e.presets.first(where: { $0.id == id }) { e.select(p) }
+                if let t = options.dateOverride ?? (walking ? options.date(demo) : nil) { e.set(time: t) } else { e.goLive() }
+            }
+            if let m = options.mode { mode = m }
             metrics.start(world: w)
             if testRun || options.metrics {
                 test = TestRun(renderer: "realitykit", stats: w.stats)
+                let render = render
+                test?.note = "weather=\(e.preset.id) character=\(choice)"
+                test?.display = { String(format: "%.2f,%d", render.scale, render.framesPerSecond) }
                 test?.begin()
             }
             let st = w.stats
-            print("STATS profile=\(st.profileID) season=\(st.season) light=\(st.lightKeys) chunks=\(st.chunkCount) static=\(st.staticTriangles) props=\(st.propTriangles) trees=\(st.treeTriangles) instances=\(st.propInstances) draws=\(st.drawCalls) meshBytes=\(st.meshBytes) build=\(String(format: "%.2f", st.buildSeconds))s generated=\(st.generated)")
+            print("STATS profile=\(st.profileID) season=\(st.season) light=\(st.lightKeys) chunks=\(st.chunkCount) static=\(st.staticTriangles) props=\(st.propTriangles) trees=\(st.treeTriangles) instances=\(st.propInstances) draws=\(st.drawCalls) meshBytes=\(st.meshBytes) build=\(String(format: "%.2f", st.buildSeconds))s postcards=\(w.postcards.count) generated=\(st.generated)")
             world = w
             camera = cam
+            env = e
+            if let m = options.mode { apply(mode: m, world: w, camera: cam, env: e) }
+            try? await Task.sleep(for: .milliseconds(600))
+            cam.transitionSeconds = 1.2
         } catch {
             self.error = "Failed to build world: \(error)"
         }
@@ -218,6 +442,7 @@ struct HUD: View {
     let metrics: Metrics
     let world: World
     let test: TestRun?
+    let render: WorldRenderState
 
     var body: some View {
         let s = world.stats
@@ -225,6 +450,7 @@ struct HUD: View {
             Text(String(format: "%.0f fps  frame %.1f ms  gpu %.1f ms", metrics.fps, metrics.frameMs, metrics.gpuMs))
             Text("view \(s.viewTriangles / 1000)k tris  all \(s.triangles / 1000)k (trees \(s.treeTriangles / 1000)k)  draws \(s.drawCalls)")
             Text(String(format: "mem %.0f MB  mesh %.1f MB  %@", metrics.memoryMB, Double(s.meshBytes) / 1_048_576, metrics.thermal))
+            Text(render.summary)
             if let test { Text(test.statusLine) }
         }
         .font(.system(size: 11, weight: .medium, design: .monospaced))

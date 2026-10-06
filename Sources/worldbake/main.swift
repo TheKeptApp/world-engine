@@ -67,6 +67,7 @@ worldbake stats <dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
 worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S]
+worldbake compose <dir> --date ISO [--focus S,W,N,E]
 """
 
 func writeManifest(_ m: AreaManifest, to dir: URL) throws {
@@ -111,6 +112,24 @@ do {
 
     case "ring-stats":
         print(try Stats.ring(dir, innerWidth: try args.double("inner-width"), innerHeight: try args.double("inner-height")))
+
+    case "compose":
+        // Postcards composed from the area's map data (experience-v1 §4), printed best first.
+        let iso = ISO8601DateFormatter()
+        guard let date = iso.date(from: try args.require("date")) else { throw ToolError.usage("--date must be ISO 8601") }
+        var focus: GeoBoundingBox?
+        if let f = args.options["focus"] {
+            let v = f.split(separator: ",").compactMap { Double($0) }
+            guard v.count == 4 else { throw ToolError.usage("--focus S,W,N,E") }
+            focus = GeoBoundingBox(south: v[0], west: v[1], north: v[2], east: v[3])
+        }
+        let build = try WorldBuild.generate(areaDirectory: dir, recipe: WorldRecipe(date: date, focus: focus))
+        let start = Date()
+        let result = ExperienceDefaults.compose(build: build, date: date)
+        let enc = JSONEncoder()
+        enc.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        print(String(data: try enc.encode(result), encoding: .utf8)!)
+        print(String(format: "composed in %.2f s", Date().timeIntervalSince(start)))
 
     case "export":
         guard args.positional.count >= 3 else { throw ToolError.usage(usage) }

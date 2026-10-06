@@ -97,3 +97,34 @@ extension World {
         return (root, entries)
     }
 }
+
+/// GPU attribution switches (WorldLab `-attribution`): turn one feature off at runtime so a GPU
+/// trace can be split by feature. Not for apps.
+@MainActor
+extension World {
+    public enum Feature: String, CaseIterable, Sendable {
+        case shadows, sky, foliage, surfaceDetail, particles, buildings
+    }
+
+    public func set(_ feature: Feature, enabled on: Bool) {
+        switch feature {
+        case .shadows:
+            if on, let env = environment { apply(env) } else { sunEntity.components.remove(DirectionalLightComponent.Shadow.self) }
+        case .sky:
+            skyDome?.isEnabled = on
+            starField?.entity.isEnabled = on && (environment?.light.starStrength ?? 0) > 0.001
+        case .foliage:
+            for e in rootEntity.children where e.name.hasPrefix("LOD ") || e.name == "Clutter tufts" { e.isEnabled = on && featureWasEnabled(e) }
+            if on { lodCenter = nil }
+        case .surfaceDetail:
+            shaderGlobals.debug = on ? 0 : 5
+            resources.update(globals: shaderGlobals)
+        case .particles:
+            precipitation?.isEnabled = on && !environmentState.precipitation.isEmpty
+        case .buildings:
+            for e in rootEntity.children where e.name.hasPrefix("Chunk ") { e.isEnabled = on }
+        }
+    }
+
+    private func featureWasEnabled(_ e: Entity) -> Bool { true }
+}

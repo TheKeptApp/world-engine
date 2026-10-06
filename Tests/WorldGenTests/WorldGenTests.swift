@@ -335,11 +335,14 @@ struct LightTests {
         let golden = LightingModel.state(at: iso.date(from: "2026-10-15T23:44:01Z")!, location: Self.sloans, tables: tables)
         #expect(abs(golden.sunElevation - 6.0011) < 0.05)
         #expect(abs(golden.sunAzimuth - 253.2843) < 0.05)
-        #expect(golden.keyA == "golden" && golden.blend < 0.01)
+        // Keys blend chronologically (weather v1 §5): at the golden crossing the state is the golden
+        // key, reached as the end of noon→golden or the start of golden→dusk.
+        func at(_ s: LightingState, _ key: String) -> Bool { (s.keyA == key && s.blend < 0.01) || (s.keyB == key && s.blend > 0.99) }
+        #expect(at(golden, "golden"))
         #expect(abs(golden.exposure - 1.45) < 0.01)
         let noon = LightingModel.state(at: iso.date(from: "2026-07-15T19:07:00Z")!, location: Self.sloans, tables: tables)
         #expect(abs(noon.sunElevation - 71.6745) < 0.05)
-        #expect(noon.keyB == "noon" && noon.blend > 0.99)
+        #expect(at(noon, "noon"))
         #expect(abs(noon.sunIntensity - 1) < 0.01)
         // Night: no direct sun, windows lit.
         let night = LightingModel.state(at: iso.date(from: "2026-10-16T04:00:00Z")!, location: Self.sloans, tables: tables)

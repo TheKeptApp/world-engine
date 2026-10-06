@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "profileCount": 11,
+  "catalogEntryCount": 18,
+  "fixtureCount": 21,
+  "selectedImageCount": 10,
+  "scalarEvidenceCount": 5528,
+  "assertionCount": 25145,
+  "sourceReferenceCount": 17403,
+  "checks": [
+    "Strict known keys at every runtime profile object level",
+    "Ranges, probabilities, roof/crown weights, month coverage and family references",
+    "Every profile/catalog/addition leaf has exact value, classification, source ID and review date",
+    "Bundle and standalone files identical",
+    "Fixture IDs, scalar constraints, cameras, snow coverage and sun-vector normalization",
+    "Ten PNG hashes and image/fixture bindings",
+    "All JSON parses without non-finite numbers"
+  ],
+  "limitations": [
+    "Not a renderer or GPU benchmark",
+    "No independent ephemeris accuracy verification",
+    "No OSM geometry audit or municipal boundary validation",
+    "generic-temperate-v1 remains an external proposal dependency",
+    "Complex family dispatch and Miami leaf habit are future adoption gates"
+  ]
+}

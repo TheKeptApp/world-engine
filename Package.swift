@@ -20,9 +20,9 @@ let package = Package(
         // Pure Swift: procedural street-level detail (houses, sidewalks, props, vegetation), seeded by OSM ID.
         .target(name: "WorldGen", dependencies: ["WorldGeo", "WorldMap", "WorldMesh"], resources: [.copy("Profiles")]),
         // RealityKit + SwiftUI: the public engine surface.
-        .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"], resources: [.process("Shaders")]),
+        .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen", "WorldEnvironment"], resources: [.process("Shaders")]),
         // Pure Swift: time, weather, sky and season resolved into the environment.json contract.
-        .target(name: "WorldEnvironment", dependencies: ["WorldGeo", "WorldMap", "WorldGen"], resources: [.copy("Resources")]),
+        .target(name: "WorldEnvironment", dependencies: ["WorldGeo", "WorldMap", "WorldGen"], resources: [.copy("Catalog")]),
         // Shared world package (glTF + JSON) for renderers other than RealityKit (macOS tooling).
         .target(name: "WorldPackage", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
         // macOS command-line tool: fetch area data, print stats, draw debug maps, export packages.

@@ -2,6 +2,7 @@ import CoreGraphics
 import Foundation
 import Metal
 import RealityKit
+import WorldEnvironment
 import WorldGen
 import WorldGeo
 import WorldMap
@@ -61,6 +62,8 @@ public final class World {
     public let frame: LocalFrame
     public let manifest: AreaManifest
     public let lighting: LightingState
+    /// No-character experience defaults (composed postcards, aerial fit, motion bounds).
+    public let experience: ExperienceDefaults?
     public private(set) var stats = WorldStats()
     public var shaderGlobals = ShaderGlobals()
 
@@ -68,8 +71,15 @@ public final class World {
     let features: MapFeatures
     let resources: RenderResources
     let options: WorldOptions
-    let skyEnvironment: EnvironmentResource?
+    var skyEnvironment: EnvironmentResource?
     let iblEntity = Entity()
+    /// Runtime environment (time, weather, sky, season): see Environment.swift.
+    let sunEntity = Entity()
+    var skyDome: Entity?
+    var starField: (entity: Entity, data: LowLevelInstanceData)?
+    var precipitation: Entity?
+    var environment: EnvironmentDocument?
+    var environmentState = EnvironmentRuntime()
     var motions: [WorldMotion] = []
     /// The per-frame update subscription (owned here so it can't be released early).
     var frameSubscription: EventSubscription?
@@ -88,7 +98,7 @@ public final class World {
         var bounds: [BoundingBox?] = [nil, nil, nil]
     }
     private var lodGroups: [LODGroup] = []
-    private var lodCenter: SIMD2<Float>?
+    var lodCenter: SIMD2<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
     private var cullables: [(bounds: BoundingBox, triangles: Int)] = []
     private var tuftBounds: BoundingBox?
@@ -105,14 +115,17 @@ public final class World {
         let build = try await Task.detached(priority: .userInitiated) {
             try WorldBuild.generate(areaDirectory: areaDirectory, recipe: recipe)
         }.value
-        let generated = (build.manifest, build.scene, build.features, build.lighting)
-        let world = try World(manifest: generated.0, scene: generated.1, features: generated.2, lighting: generated.3, options: options)
+        let generated = (build.manifest, build.scene, build.features, build.lighting, build.experience)
+        let world = try World(manifest: generated.0, scene: generated.1, features: generated.2, lighting: generated.3,
+                              experience: generated.4, options: options)
         world.stats.buildSeconds = Date().timeIntervalSince(start)
         return world
     }
 
-    init(manifest: AreaManifest, scene: GeneratedScene, features: MapFeatures, lighting: LightingState, options: WorldOptions) throws {
+    init(manifest: AreaManifest, scene: GeneratedScene, features: MapFeatures, lighting: LightingState, experience: ExperienceDefaults?,
+         options: WorldOptions) throws {
         self.manifest = manifest
+        self.experience = experience
         self.scene = scene
         self.features = features
         self.lighting = lighting
@@ -134,6 +147,7 @@ public final class World {
 
         rootEntity.name = "World"
         buildLights()
+        buildCanopyMap()
         try buildChunks()
         try buildProps()
         buildOccluders()
@@ -172,6 +186,10 @@ public final class World {
 
     // MARK: - Entities from the host app
 
+    /// Host entities in the world right now (characters, props): zero, one or many. The engine
+    /// treats them as plain entities; the first is the default contact-shadow target.
+    public private(set) var characters: [Entity] = []
+
     /// Adds an app-provided entity at a lat/lon, standing on the ground (its origin = its feet).
     public func place(_ entity: Entity, at c: GeoCoordinate, heading: Float? = nil) {
         if entity.parent !== rootEntity { adopt(entity) }
@@ -182,6 +200,8 @@ public final class World {
     /// Adds a host entity to the world and lets its models receive the world's sky light.
     private func adopt(_ entity: Entity) {
         rootEntity.addChild(entity)
+        if !characters.contains(where: { $0 === entity }) { characters.append(entity) }
+        if contactEntity == nil { contactEntity = entity }
         func visit(_ e: Entity) {
             if e.components.has(ModelComponent.self) { receiveIBL(e) }
             for c in e.children { visit(c) }
@@ -189,9 +209,17 @@ public final class World {
         visit(entity)
     }
 
+    /// Walkable ground for free exploring (built on first use).
+    public lazy var walkMap = WalkMap(features: features, scene: scene)
+
+    /// Whether any entity is walking a route right now (calm mode stays off).
+    var hasActiveMotion: Bool { motions.contains { !$0.isPaused && $0.speed != 0 } }
+
     /// Removes an entity the app placed (and stops its motion).
     public func remove(_ entity: Entity) {
         motions.removeAll { $0.entity === entity }
+        characters.removeAll { $0 === entity }
+        if contactEntity === entity { contactEntity = characters.first }
         entity.removeFromParent()
     }
 
@@ -226,6 +254,8 @@ public final class World {
         } else {
             g.contactRel = nil
         }
+        let m = camera.transformMatrix(relativeTo: nil)
+        followCamera(camPos, forward: -SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z), dt: dt)
         resources.update(globals: g)
         viewClock += dt
         if viewClock >= 0.5 {
@@ -237,7 +267,6 @@ public final class World {
     // MARK: - Building
 
     private func buildLights() {
-        let sunEntity = Entity()
         sunEntity.name = "Sun"
         let c = WorldGen.Color.srgb(simd_normalize(lighting.sunColor + 1e-6) * min(1, simd_length(lighting.sunColor) > 0 ? 1 : 0))
         var light = DirectionalLightComponent(color: .init(red: CGFloat(c.x), green: CGFloat(c.y), blue: CGFloat(c.z), alpha: 1),

@@ -1,0 +1,762 @@
+{
+  "id": "kenilworth",
+  "version": 2,
+  "name": "Kenilworth regional proposal",
+  "seasons": {
+    "hemisphere": "north",
+    "spring": [
+      3,
+      4,
+      5
+    ],
+    "summer": [
+      6,
+      7,
+      8
+    ],
+    "autumn": [
+      9,
+      10,
+      11
+    ],
+    "winter": [
+      12,
+      1,
+      2
+    ]
+  },
+  "trees": {
+    "deciduousShare": 0.92,
+    "crownWeights": {
+      "broad": 0.4,
+      "oval": 0.2,
+      "spreading": 0.4
+    },
+    "heightMeters": [
+      12,
+      20
+    ],
+    "youngShare": 0.18,
+    "youngHeightMeters": [
+      3,
+      6
+    ]
+  },
+  "houseTypes": [
+    {
+      "id": "plainBlock",
+      "floors": [
+        3,
+        2,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0,
+        "hipped": 0,
+        "flat": 1
+      },
+      "pitch": [
+        0,
+        4
+      ],
+      "overhang": [
+        0.05,
+        0.15
+      ],
+      "porch": {
+        "likelihood": 0.1,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#A97C68",
+          "#DED6C2",
+          "#52676A",
+          "#59636B"
+        ],
+        [
+          "#AD9274",
+          "#E1D9C6",
+          "#745E50",
+          "#646363"
+        ]
+      ],
+      "parapet": [
+        0.25,
+        0.45
+      ]
+    },
+    {
+      "id": "tudor",
+      "floors": [
+        2,
+        1
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.9,
+        "hipped": 0.1,
+        "flat": 0
+      },
+      "pitch": [
+        40,
+        52
+      ],
+      "overhang": [
+        0.15,
+        0.35
+      ],
+      "porch": {
+        "likelihood": 0.25,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#A97C68",
+          "#DED6C2",
+          "#52676A",
+          "#59636B"
+        ],
+        [
+          "#AD9274",
+          "#E1D9C6",
+          "#745E50",
+          "#646363"
+        ]
+      ]
+    },
+    {
+      "id": "colonial",
+      "floors": [
+        2
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.75,
+        "hipped": 0.25,
+        "flat": 0
+      },
+      "pitch": [
+        28,
+        40
+      ],
+      "overhang": [
+        0.25,
+        0.45
+      ],
+      "porch": {
+        "likelihood": 0.4,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#A97C68",
+          "#DED6C2",
+          "#52676A",
+          "#59636B"
+        ],
+        [
+          "#AD9274",
+          "#E1D9C6",
+          "#745E50",
+          "#646363"
+        ]
+      ]
+    },
+    {
+      "id": "prairie",
+      "floors": [
+        2,
+        1
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.1,
+        "hipped": 0.9,
+        "flat": 0
+      },
+      "pitch": [
+        12,
+        22
+      ],
+      "overhang": [
+        0.65,
+        0.95
+      ],
+      "porch": {
+        "likelihood": 0.55,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#D2C4AA",
+          "#E6DDC8",
+          "#725F4E",
+          "#666568"
+        ]
+      ]
+    },
+    {
+      "id": "queenAnne",
+      "floors": [
+        2
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.85,
+        "hipped": 0.15,
+        "flat": 0
+      },
+      "pitch": [
+        38,
+        50
+      ],
+      "overhang": [
+        0.25,
+        0.5
+      ],
+      "porch": {
+        "likelihood": 0.7,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#97A39B",
+          "#E3DCCB",
+          "#6E5950",
+          "#616B71"
+        ],
+        [
+          "#B3AA96",
+          "#E5DDC9",
+          "#55716E",
+          "#62696B"
+        ]
+      ]
+    },
+    {
+      "id": "shingleStyle",
+      "floors": [
+        2,
+        1
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.75,
+        "hipped": 0.25,
+        "flat": 0
+      },
+      "pitch": [
+        35,
+        48
+      ],
+      "overhang": [
+        0.25,
+        0.5
+      ],
+      "porch": {
+        "likelihood": 0.55,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#97A39B",
+          "#E3DCCB",
+          "#6E5950",
+          "#616B71"
+        ],
+        [
+          "#B3AA96",
+          "#E5DDC9",
+          "#55716E",
+          "#62696B"
+        ]
+      ]
+    },
+    {
+      "id": "midCentury",
+      "floors": [
+        1,
+        2
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0.4,
+        "hipped": 0.6,
+        "flat": 0
+      },
+      "pitch": [
+        12,
+        24
+      ],
+      "overhang": [
+        0.4,
+        0.7
+      ],
+      "porch": {
+        "likelihood": 0.25,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#A97C68",
+          "#DED6C2",
+          "#52676A",
+          "#59636B"
+        ],
+        [
+          "#AD9274",
+          "#E1D9C6",
+          "#745E50",
+          "#646363"
+        ]
+      ]
+    },
+    {
+      "id": "modernInfill",
+      "floors": [
+        2,
+        1,
+        3
+      ],
+      "perFloor": [
+        2.8,
+        3.2
+      ],
+      "roof": {
+        "gabled": 0,
+        "hipped": 0,
+        "flat": 1
+      },
+      "pitch": [
+        0,
+        4
+      ],
+      "overhang": [
+        0.05,
+        0.2
+      ],
+      "porch": {
+        "likelihood": 0.25,
+        "depth": [
+          0.8,
+          1.3
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "canopy"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.3
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.2,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.35,
+        0.5,
+        0.65
+      ],
+      "colors": [
+        [
+          "#CECBBF",
+          "#E4E0D5",
+          "#667C79",
+          "#697175"
+        ]
+      ],
+      "parapet": [
+        0.25,
+        0.45
+      ]
+    }
+  ],
+  "typeRules": {
+    "oneFloorBroad": {
+      "tudor": 30,
+      "prairie": 14,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "oneFloor": {
+      "tudor": 30,
+      "prairie": 14,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "twoFloorSquare": {
+      "tudor": 30,
+      "colonial": 25,
+      "prairie": 14,
+      "queenAnne": 10,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "twoFloorNarrow": {
+      "tudor": 30,
+      "colonial": 25,
+      "prairie": 14,
+      "queenAnne": 10,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "twoFloor": {
+      "tudor": 30,
+      "colonial": 25,
+      "prairie": 14,
+      "queenAnne": 10,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "threeFloor": {
+      "modernInfill": 5
+    },
+    "unknown": {
+      "tudor": 30,
+      "colonial": 25,
+      "prairie": 14,
+      "queenAnne": 10,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "small": {
+      "tudor": 30,
+      "prairie": 14,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "large": {
+      "tudor": 30,
+      "colonial": 25,
+      "prairie": 14,
+      "queenAnne": 10,
+      "shingleStyle": 9,
+      "midCentury": 7,
+      "modernInfill": 5
+    },
+    "semidetached": {
+      "plainBlock": 100
+    }
+  },
+  "typeThresholds": {
+    "smallArea": 60,
+    "largeArea": 260,
+    "hugeArea": 420,
+    "broadAspect": 1.7,
+    "squareAspect": 1.5,
+    "squareRectangularity": 0.78,
+    "narrowAspect": 1.7
+  },
+  "garage": {
+    "wallHeight": [
+      2.5,
+      3.0
+    ],
+    "roof": {
+      "gabled": 0.6,
+      "hipped": 0.1,
+      "flat": 0.3
+    },
+    "pitch": [
+      15,
+      25
+    ],
+    "overhang": [
+      0.2,
+      0.35
+    ],
+    "doubleDoorMinWidthMeters": 6.0,
+    "colors": [
+      [
+        "#A97C68",
+        "#DED6C2",
+        "#52676A",
+        "#59636B"
+      ],
+      [
+        "#AD9274",
+        "#E1D9C6",
+        "#745E50",
+        "#646363"
+      ]
+    ]
+  },
+  "shed": {
+    "wallHeight": [
+      2.0,
+      2.4
+    ],
+    "pitch": [
+      8,
+      18
+    ],
+    "overhang": [
+      0.1,
+      0.2
+    ],
+    "colors": [
+      [
+        "#97A39B",
+        "#E3DCCB",
+        "#6E5950",
+        "#616B71"
+      ],
+      [
+        "#B3AA96",
+        "#E5DDC9",
+        "#55716E",
+        "#62696B"
+      ]
+    ]
+  },
+  "chimneyLikelihood": 0.5,
+  "foundationMeters": [
+    0.2,
+    0.5
+  ]
+}

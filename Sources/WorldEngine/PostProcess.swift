@@ -127,10 +127,15 @@ public final class WorldPostProcess: @unchecked Sendable {
 
 struct WorldPostEffect: PostProcessEffect {
     let post: WorldPostProcess
+    nonisolated(unsafe) static var loggedFormats = false
 
     mutating func prepare(for device: MTLDevice) { post.prepare(device) }
 
     mutating func postProcess(context: borrowing PostProcessEffectContext<any MTLCommandBuffer>) {
+        if !WorldPostEffect.loggedFormats {
+            WorldPostEffect.loggedFormats = true
+            print("POSTFORMAT source=\(context.sourceColorTexture.pixelFormat.rawValue) \(context.sourceColorTexture.width)x\(context.sourceColorTexture.height) target=\(context.targetColorTexture.pixelFormat.rawValue)")
+        }
         post.encode(context.commandBuffer, device: context.device, source: context.sourceColorTexture, target: context.targetColorTexture)
         let post = post
         context.commandBuffer.addCompletedHandler { cb in

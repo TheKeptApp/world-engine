@@ -17,11 +17,40 @@ struct DemoConfig: Decodable {
         var goldenUTC: String
         var noonUTC: String
     }
+    /// experience-v1 showcase: camera poses (local metres around an origin) and Demo weather states.
+    struct Showcase: Decodable {
+        struct Camera: Decodable {
+            var origin: Point
+            var position: [Double]
+            var target: [Double]
+            var fovDegrees: Double
+        }
+        struct State: Decodable {
+            var id: String
+            var name: String
+            var camera: String
+            var utc: String
+            var label: String
+            var intensity: Double
+            var cloud: Double
+            var rateMmPerHour: Double
+            var visibilityM: Double?
+            var wetness: Double
+            var sweMm: Double
+            var note: String?
+        }
+        var cameras: [String: Camera]
+        var states: [State]
+    }
     var area: String
     var focus: Box
     var walkSpeed: Double
     var route: [Point]
     var fixtures: Fixtures
+    var locationLabel: String?
+    var timeZone: String?
+    var phenology: String?
+    var showcase: Showcase?
 
     static func load() throws -> DemoConfig {
         let url = Bundle.main.url(forResource: "demo", withExtension: "json")!
@@ -47,6 +76,20 @@ struct LaunchOptions {
     var diagnostics: Set<String> = []
     /// `-date ISO8601`: the moment for this run (overrides the fixtures).
     var dateOverride: Date?
+    /// `-renderscale native|policy|<number>`, `-calm off`: display settings (default: the shared policy).
+    var renderSettings = WorldRenderSettings()
+    /// `-pausetest N`: pause at N s, resume at 2N s (checks that rendering stops).
+    var pauseTest: Double?
+    /// `-character none|luna|capsule` (default: none for the experience, Luna for presets/tests).
+    var character: String?
+    /// `-mode postcard|aerial|explore|route|follow`: start in this camera mode.
+    var mode: String?
+    /// `-showcase NN`: experience-v1 showcase state 01…11 at its camera (screenshots).
+    var showcase: String?
+    /// `-weather ID`: a Demo weather preset (clear, cloudy, rain, storm, fog, smoke, snow, aftersnow).
+    var weather: String?
+    /// `-debughud`: keep the performance HUD under the experience UI.
+    var debugHUD = false
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -61,6 +104,19 @@ struct LaunchOptions {
         renderer = value("-renderer")
         diagnostics = Set((value("-diag") ?? "").split(separator: ",").map(String.init))
         dateOverride = value("-date").flatMap { ISO8601DateFormatter().date(from: $0) }
+        switch value("-renderscale") {
+        case "native": renderSettings.scale = nil
+        case let v?: renderSettings.fixedScale = Double(v)
+        case nil: break
+        }
+        if value("-calm") == "off" { renderSettings.calm = nil }
+        if value("-host") == "renderer" { renderSettings.host = .realityRenderer }
+        pauseTest = value("-pausetest").flatMap(Double.init)
+        character = value("-character")
+        mode = value("-mode")
+        showcase = value("-showcase")
+        weather = value("-weather")
+        debugHUD = args.contains("-debughud")
     }
 
     /// The moment for this run: `-date`, else v2 summer noon for the noon preset, else the v2
@@ -71,10 +127,11 @@ struct LaunchOptions {
 }
 
 /// The walking character: DogWell's Luna (converted to USDZ, see scripts/convert-dog.sh) with her
-/// walk clip when bundled, else a 0.65 m capsule stand-in. Origin at the feet, facing +Z.
+/// walk clip when bundled, else (or for `kind: "capsule"`) a 0.65 m capsule stand-in. Origin at
+/// the feet, facing +Z.
 @MainActor
-func makeCharacter(world: World) async -> Entity {
-    if let url = Bundle.main.url(forResource: "luna_light", withExtension: "usdz", subdirectory: "dog"),
+func makeCharacter(world: World, kind: String = "luna") async -> Entity {
+    if kind != "capsule", let url = Bundle.main.url(forResource: "luna_light", withExtension: "usdz", subdirectory: "dog"),
        let dog = try? await Entity(contentsOf: url) {
         dog.name = "Luna"
         DogCoat.apply(to: dog, fill: world.shaderGlobals.fillSky)

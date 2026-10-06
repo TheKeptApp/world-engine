@@ -56,6 +56,13 @@ async function main() {
   // Light state: noon for the v2-04 preset, else the package default (golden hour), as WorldLab does.
   const stateName = params.get('state') || (presetName === 'v2-04' ? 'noon' : world.environment.defaultState);
   const state = world.environment.states[stateName];
+  // Decision 4 (Prompt 5): time of day, sky and season come from the package's environment.json.
+  const zone = world.environment.location?.timezone || 'UTC';
+  const when = new Date(state.date);
+  const local = new Intl.DateTimeFormat('en-US', { timeZone: zone, month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+    hour12: false, timeZoneName: 'short' }).format(when);
+  const seasons = ['spring', 'summer', 'autumn', 'winter'];
+  const timeLine = `${stateName} · ${local} · sun ${state.light.sunElevation.toFixed(1)}° az ${state.light.sunAzimuth.toFixed(1)}° · ${seasons[state.season] ?? state.season} · sky ${state.sky}`;
   world.setSeason(state.season);
   const lighting = new Lighting(scene);
   await lighting.apply(state, world.globals, `${worldBase}${state.sky}`);
@@ -116,6 +123,7 @@ async function main() {
     return { backend, out };
   };
   status('');
+  let firstFrame = true;
   renderer.setAnimationLoop(async (time) => {
     const dt = Math.min(clock.getDelta(), 0.1);
     const now = performance.now() / 1000;
@@ -139,12 +147,23 @@ async function main() {
     renderer.info.reset();
     if (post) post.render(); else renderer.render(scene, camera);
     reporter.frame(time, renderer.info.render);
+    if (firstFrame) {
+      // Load check marker (scripts/web_check.sh reads it from the DOM).
+      firstFrame = false;
+      const b = document.body.dataset;
+      b.ready = '1'; b.backend = backend; b.state = stateName; b.time = state.date; b.zone = zone;
+      b.sunElevation = state.light.sunElevation.toFixed(3); b.sunAzimuth = state.light.sunAzimuth.toFixed(3);
+      b.season = String(state.season); b.sky = state.sky; b.generator = world.manifest.generator?.version ?? '';
+      b.triangles = String(renderer.info.render.triangles);
+      // `check=1` (scripts/web_check.sh): stop after the first frame so headless Chrome can finish.
+      if (params.get('check') === '1') renderer.setAnimationLoop(null);
+    }
 
     hudTimer += dt;
     if (showHUD && hudTimer > 0.5) {
       hudTimer = 0;
       const r = reporter.recent();
-      hud.textContent = `${backend}${backend !== requested ? ` (asked ${requested})` : ''}  ${r.fps.toFixed(0)} fps  frame ${r.ms.toFixed(1)} ms\n`
+      hud.textContent = `${timeLine}\n${backend}${backend !== requested ? ` (asked ${requested})` : ''}  ${r.fps.toFixed(0)} fps  frame ${r.ms.toFixed(1)} ms\n`
         + `tris ${(renderer.info.render.triangles / 1000).toFixed(0)}k  draws ${renderer.info.render.drawCalls}  trees ${(world.treeTriangles / 1000).toFixed(0)}k\n`
         + `${window.worldlabStatus || ''}`;
     }
@@ -223,6 +242,7 @@ function setupGestures(canvas, rig, enabled) {
 }
 
 main().catch((e) => {
+  document.body.dataset.error = String(e?.message || e).slice(0, 300);
   console.error(e);
   status(`Failed: ${e.message}`);
   window.webkit?.messageHandlers?.worldlab?.postMessage({ type: 'error', message: String(e.message || e) });

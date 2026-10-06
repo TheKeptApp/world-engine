@@ -19,7 +19,19 @@ final class Metrics {
 
     func start(world: World?) { last = Date() }
 
+    /// Frames counted since the last refresh, as a rate (for the console trace; 0 when frames stop).
+    @ObservationIgnored private var traceCount = 0
+    @ObservationIgnored private var traceStart = Date()
+    func liveFPS() -> Double {
+        let now = Date()
+        let rate = Double(traceCount) / max(0.001, now.timeIntervalSince(traceStart))
+        traceCount = 0
+        traceStart = now
+        return rate
+    }
+
     func frame(dt: Double, gpuMs sample: Double?) {
+        traceCount += 1
         frames.append(dt * 1000)
         if let g = sample { gpu.append(g) }
         let now = Date()
@@ -78,6 +90,10 @@ final class TestRun {
     @ObservationIgnored private var secondFrames: [Double] = []
     @ObservationIgnored private var gpuAll: [Float] = []
     @ObservationIgnored private var secondGPU: [Double] = []
+    @ObservationIgnored private var postAll: [Float] = []
+    /// Display state for the per-second log ("scale,fps_cap"), set by the renderer screen.
+    @ObservationIgnored var display: (() -> String)?
+    @ObservationIgnored private var scaleLog: [(Double, String)] = []
     @ObservationIgnored private var thermal: [(Double, String)] = []
     @ObservationIgnored private var memoryPeak = 0.0
     @ObservationIgnored private var batteryStart: Float = -1
@@ -110,8 +126,8 @@ final class TestRun {
         UIDevice.current.isBatteryMonitoringEnabled = true
         startConditions = Self.conditions()
         write(secondsLog, "\(header) \(note) screen=\(Int(screen.width * scale))x\(Int(screen.height * scale)) \(startConditions)\n")
-        write(secondsLog, "seconds,fps,frame_ms_avg,frame_ms_max,pct_over_16_9,gpu_ms_avg,memory_mb,thermal,battery\n")
-        write(framesLog, "frame_ms,gpu_ms\n")
+        write(secondsLog, "seconds,fps,frame_ms_avg,frame_ms_max,pct_over_16_9,gpu_ms_avg,memory_mb,thermal,battery,scale,fps_cap\n")
+        write(framesLog, "frame_ms,gpu_ms,post_ms\n")
         UIApplication.shared.isIdleTimerDisabled = true
         UIDevice.current.isBatteryMonitoringEnabled = true
         batteryStart = UIDevice.current.batteryLevel
@@ -122,14 +138,17 @@ final class TestRun {
         thermal = [(0, Metrics.thermalName())]
     }
 
-    /// One presented frame (interval in seconds) and, when available, its GPU time in ms.
-    func frame(dt: Double, gpuMs: Double?) {
+    /// One presented frame (interval in seconds) and, when available, its full-frame GPU time and
+    /// the post-processing pass's GPU time in ms.
+    func frame(dt: Double, gpuMs: Double?, postMs: Double? = nil) {
         guard !finished else { return }
         let ms = dt * 1000
         frames.append(Float(ms))
         secondFrames.append(ms)
         if let g = gpuMs { gpuAll.append(Float(g)); secondGPU.append(g) }
-        write(framesLog, String(format: "%.3f,%@\n", ms, gpuMs.map { String(format: "%.3f", $0) } ?? ""))
+        if let p = postMs { postAll.append(Float(p)) }
+        write(framesLog, String(format: "%.3f,%@,%@\n", ms, gpuMs.map { String(format: "%.3f", $0) } ?? "",
+                                postMs.map { String(format: "%.3f", $0) } ?? ""))
         let now = Date()
         let t = now.timeIntervalSince(start)
         guard now.timeIntervalSince(lastSecond) >= 1 else { return }
@@ -141,8 +160,10 @@ final class TestRun {
         memoryPeak = max(memoryPeak, mem)
         let th = Metrics.thermalName()
         if thermal.last?.1 != th { thermal.append((t, th)) }
-        write(secondsLog, String(format: "%.0f,%.1f,%.2f,%.2f,%.2f,%.2f,%.0f,%@,%.2f\n", t, fps, avg, secondFrames.max() ?? 0, over, gpu, mem, th,
-                                 UIDevice.current.batteryLevel))
+        let shown = display?() ?? ","
+        if scaleLog.last?.1 != shown { scaleLog.append((t, shown)) }
+        write(secondsLog, String(format: "%.0f,%.1f,%.2f,%.2f,%.2f,%.2f,%.0f,%@,%.2f,%@\n", t, fps, avg, secondFrames.max() ?? 0, over, gpu, mem, th,
+                                 UIDevice.current.batteryLevel, shown))
         statusLine = String(format: "TEST %@ %.0f/%.0f s  %@", renderer, t, Self.duration, th)
         secondFrames.removeAll(keepingCapacity: true)
         secondGPU.removeAll(keepingCapacity: true)
@@ -166,6 +187,9 @@ final class TestRun {
         let low1 = 1000 / (worst.reduce(0) { $0 + Double($1) } / Double(worst.count))
         let over = Double(steady.filter { $0 > 16.9 }.count) / Double(max(1, steady.count)) * 100
         let gpuSorted = gpuAll.sorted()
+        // Worst 1% of GPU frame times (mean of the slowest 1%), like the fps 1% low.
+        let gpuWorst = gpuSorted.suffix(max(1, gpuSorted.count / 100))
+        let postSorted = postAll.sorted()
         let batteryEnd = UIDevice.current.batteryLevel
         let summary: [String: Any] = [
             "renderer": renderer,
@@ -178,6 +202,10 @@ final class TestRun {
             "gpuMsMean": gpuSorted.isEmpty ? NSNull() : gpuSorted.reduce(0, +) / Float(gpuSorted.count),
             "gpuMsP95": gpuSorted.isEmpty ? NSNull() : gpuSorted[min(gpuSorted.count - 1, Int(Double(gpuSorted.count) * 0.95))],
             "gpuMsMax": gpuSorted.last.map { $0 as Any } ?? NSNull(),
+            "gpuMsWorst1Pct": gpuSorted.isEmpty ? NSNull() : gpuWorst.reduce(0, +) / Float(gpuWorst.count),
+            "gpuSource": gpuSorted.isEmpty ? "none" : "kernel per-process GPU time (task_power_info_v2), full frame",
+            "postMsMean": postSorted.isEmpty ? NSNull() : postSorted.reduce(0, +) / Float(postSorted.count),
+            "display": scaleLog.map { ["t": $0.0, "scale,fps_cap": $0.1] },
             "thermal": thermal.map { ["t": $0.0, "state": $0.1] },
             "memoryPeakMB": memoryPeak,
             "batteryStart": batteryStart,

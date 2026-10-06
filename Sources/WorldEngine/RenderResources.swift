@@ -30,15 +30,56 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var contactHeading: Float = 0
     public var contactOpacity: Float = 0.18
     public var contactSoftness: Float = 0.12
-    /// Weather hooks (stubs in M1): wetness and snow coverage 0–1.
+    /// Surface weather: exposed wetness 0–1 and snow coverage of eligible surfaces 0–1
+    /// (weather v1 §4: coverage = 1 − exp(−S/6)).
     public var wetness: Float = 0
     public var snow: Float = 0
+    /// Wet response (weather.json): albedo darkening at full wetness and wet roughness.
+    public var wetDarkening: Float = 0.12
+    public var wetRoughness: Float = 0.5
+    /// R10 wind: transport direction (scene x, z, unit), strength min(U/12, 1), sway frequency Hz,
+    /// and a foliage factor (0.7 when wet or cold).
+    public var windDirection = SIMD2<Float>(0, 1)
+    public var windStrength: Float = 0.3
+    public var swayFrequency: Float = 0.12
+    public var foliageSwayFactor: Float = 1
+    /// Deciduous leaf fraction now and for trees running 7 days ahead / behind (per-tree offsets
+    /// interpolate between them, sky-seasons §5.3).
+    public var leafFraction = SIMD3<Float>(1, 1, 1)
+    /// Snow surface color (linear).
+    public var snowColor = SIMD3<Float>(0.80, 0.84, 0.87)
+    /// Sky dome: zenith and horizon (linear), sun direction, sun disk color (linear, 0 = none),
+    /// cloud cover 0–1 and cloud color (linear), moon direction, disk radius (radians), disk
+    /// opacity, and the Moon→Sun light direction, star strength.
+    public var skyTop = SIMD3<Float>(0.35, 0.5, 0.75)
+    public var skyHorizon = SIMD3<Float>(0.75, 0.75, 0.75)
+    public var sunDirection = SIMD3<Float>(0, 1, 0)
+    public var sunDisk = SIMD3<Float>(0, 0, 0)
+    public var cloudCover: Float = 0
+    /// Noise threshold that yields `cloudCover` of the dome (set with the cover).
+    public var cloudThreshold: Float = 1
+    public var cloudColor = SIMD3<Float>(0.8, 0.8, 0.8)
+    public var moonDirection = SIMD3<Float>(0, -1, 0)
+    public var moonRadius: Float = 0.0072
+    public var moonOpacity: Float = 0
+    public var moonLight = SIMD3<Float>(0, 1, 0)
+    public var moonColor = SIMD3<Float>(0.85, 0.85, 0.82)
+    public var starStrength: Float = 0
+    /// Fallen leaves under deciduous crowns (0–1, from leaf drop) and their colours (linear).
+    public var leafLitter: Float = 0
+    public var litterColorA = SIMD3<Float>(0.45, 0.25, 0.08)
+    public var litterColorB = SIMD3<Float>(0.55, 0.38, 0.12)
+    /// Canopy map placement: scene x, z of its minimum corner and its size (metres).
+    public var canopyOrigin = SIMD2<Float>(0, 0)
+    public var canopySize = SIMD2<Float>(1, 1)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
 @MainActor
 final class RenderResources {
     static let textureWidth = 256
+    /// Rows: 0 palette, 1 globals, 2 palette for trees ahead (+7 d), 3 behind (−7 d).
+    static let textureHeight = 4
 
     let device: MTLDevice
     let queue: MTLCommandQueue
@@ -47,10 +88,14 @@ final class RenderResources {
     let textureResource: TextureResource
     private var staging: MTLBuffer
     private var paletteRow: [SIMD4<Float16>]
+    /// Palette rows for trees running 7 days ahead and behind the season (rows 2 and 3).
+    private var paletteAhead: [SIMD4<Float16>] = []
+    private var paletteBehind: [SIMD4<Float16>] = []
     private var lastGlobals: ShaderGlobals?
     private var paletteDirty = true
 
-    let staticMaterial: CustomMaterial
+    /// Static surfaces (buildings, ground); its base-colour slot carries the canopy map.
+    var staticMaterial: CustomMaterial
     /// Same shader family as `staticMaterial`, but cut-away capable (lamps, benches).
     let propMaterial: CustomMaterial
     let foliageMaterial: CustomMaterial
@@ -65,9 +110,9 @@ final class RenderResources {
         library = try device.makeDefaultLibrary(bundle: .module)
 
         texture = try LowLevelTexture(descriptor: .init(
-            pixelFormat: .rgba16Float, width: Self.textureWidth, height: 2, textureUsage: [.shaderRead]))
+            pixelFormat: .rgba16Float, width: Self.textureWidth, height: Self.textureHeight, textureUsage: [.shaderRead]))
         textureResource = try TextureResource(from: texture)
-        staging = device.makeBuffer(length: Self.textureWidth * 2 * 8, options: .storageModeShared)!
+        staging = device.makeBuffer(length: Self.textureWidth * Self.textureHeight * 8, options: .storageModeShared)!
         paletteRow = []
 
         // RealityKit ignores shader opacity on opaque custom materials, so materials that must be
@@ -97,12 +142,18 @@ final class RenderResources {
         update(globals: ShaderGlobals())
     }
 
-    /// Replaces the palette row (season changes rewrite colors without touching meshes).
-    func setPalette(_ palette: Palette) {
-        paletteRow = (0..<Self.textureWidth).map { i in
-            let c = i < palette.colors.count ? palette.colors[i] : SIMD3<Float>(1, 0, 1)
-            return SIMD4(Float16(c.x), Float16(c.y), Float16(c.z), 1)
+    /// Replaces the palette row (season changes rewrite colors without touching meshes). Trees
+    /// ahead/behind get their own rows; without them they match the main row.
+    func setPalette(_ palette: Palette, ahead: Palette? = nil, behind: Palette? = nil) {
+        func row(_ p: Palette) -> [SIMD4<Float16>] {
+            (0..<Self.textureWidth).map { i in
+                let c = i < p.colors.count ? p.colors[i] : SIMD3<Float>(1, 0, 1)
+                return SIMD4(Float16(c.x), Float16(c.y), Float16(c.z), 1)
+            }
         }
+        paletteRow = row(palette)
+        paletteAhead = ahead.map(row) ?? paletteRow
+        paletteBehind = behind.map(row) ?? paletteRow
         paletteDirty = true
         lastGlobals = nil
     }
@@ -113,9 +164,11 @@ final class RenderResources {
         lastGlobals = g
         paletteDirty = false
         let w = Self.textureWidth
-        let p = staging.contents().bindMemory(to: SIMD4<Float16>.self, capacity: w * 2)
+        let p = staging.contents().bindMemory(to: SIMD4<Float16>.self, capacity: w * Self.textureHeight)
         for i in 0..<w { p[i] = paletteRow[i] }
         for i in 0..<w { p[w + i] = .zero }
+        for i in 0..<w { p[2 * w + i] = paletteAhead.isEmpty ? paletteRow[i] : paletteAhead[i] }
+        for i in 0..<w { p[3 * w + i] = paletteBehind.isEmpty ? paletteRow[i] : paletteBehind[i] }
         func h(_ v: Float) -> Float16 { Float16(v) }
         p[w + 0] = SIMD4(h(g.fogColor.x), h(g.fogColor.y), h(g.fogColor.z), h(g.fogStart))
         p[w + 1] = SIMD4(h(g.fogEnd), h(g.cutRadius), g.characterRel == nil ? 0 : 1, h(g.debug))
@@ -133,12 +186,29 @@ final class RenderResources {
         p[w + 9] = SIMD4(h(g.contactHalf.x), h(g.contactHalf.y), h(g.contactHeading), h(g.contactSoftness))
         let cr = g.contactRel ?? .zero
         p[w + 10] = SIMD4(h(cr.x), h(cr.y), h(cr.z), g.contactRel == nil ? 0 : h(g.contactOpacity))
-        p[w + 11] = SIMD4(h(g.wetness), h(g.snow), 0, 0)
+        p[w + 11] = SIMD4(h(g.wetness), h(g.snow), h(g.wetDarkening), h(g.wetRoughness))
+        p[w + 12] = SIMD4(h(g.windDirection.x), h(g.windDirection.y), h(g.windStrength), h(g.swayFrequency))
+        p[w + 13] = SIMD4(h(g.leafFraction.x), h(g.leafFraction.y), h(g.leafFraction.z), h(g.foliageSwayFactor))
+        p[w + 14] = SIMD4(h(g.snowColor.x), h(g.snowColor.y), h(g.snowColor.z), h(g.starStrength))
+        p[w + 15] = SIMD4(h(g.skyTop.x), h(g.skyTop.y), h(g.skyTop.z), h(g.cloudCover))
+        p[w + 16] = SIMD4(h(g.skyHorizon.x), h(g.skyHorizon.y), h(g.skyHorizon.z), h(g.cloudThreshold))
+        p[w + 17] = SIMD4(h(g.sunDirection.x), h(g.sunDirection.y), h(g.sunDirection.z), 0)
+        p[w + 18] = SIMD4(h(g.sunDisk.x), h(g.sunDisk.y), h(g.sunDisk.z), 0)
+        p[w + 19] = SIMD4(h(g.cloudColor.x), h(g.cloudColor.y), h(g.cloudColor.z), 0)
+        p[w + 20] = SIMD4(h(g.moonDirection.x), h(g.moonDirection.y), h(g.moonDirection.z), h(g.moonRadius * 100))
+        p[w + 21] = SIMD4(h(g.moonLight.x), h(g.moonLight.y), h(g.moonLight.z), h(g.moonOpacity))
+        p[w + 22] = SIMD4(h(g.moonColor.x), h(g.moonColor.y), h(g.moonColor.z), 0)
+        p[w + 23] = SIMD4(h(g.litterColorA.x), h(g.litterColorA.y), h(g.litterColorA.z), h(g.leafLitter))
+        p[w + 24] = SIMD4(h(g.litterColorB.x), h(g.litterColorB.y), h(g.litterColorB.z), 0)
+        // Canopy origin/size as coarse + fine halves (kilometres need more than half precision).
+        let co = g.canopyOrigin.rounded(.toNearestOrEven), cs = g.canopySize.rounded(.toNearestOrEven)
+        p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
+        p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
-        blit.copy(from: staging, sourceOffset: 0, sourceBytesPerRow: w * 8, sourceBytesPerImage: w * 2 * 8,
-                  sourceSize: MTLSize(width: w, height: 2, depth: 1),
+        blit.copy(from: staging, sourceOffset: 0, sourceBytesPerRow: w * 8, sourceBytesPerImage: w * Self.textureHeight * 8,
+                  sourceSize: MTLSize(width: w, height: Self.textureHeight, depth: 1),
                   to: target, destinationSlice: 0, destinationLevel: 0, destinationOrigin: MTLOrigin())
         blit.endEncoding()
         cb.commit()

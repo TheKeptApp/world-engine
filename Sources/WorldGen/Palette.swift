@@ -37,6 +37,21 @@ public struct Palette: Sendable {
     /// The slot for a named color ("lawn", "road", "windowDay"…). Unknown names map to slot 0.
     public func named(_ name: String) -> Int { named[name] ?? 0 }
 
+    /// This palette with every seasonal surface blended across the four seasons in linear light
+    /// (sky-seasons §5.3 continuous palettes). `weights(key)` returns (spring, summer, autumn,
+    /// winter) for a surface key, or nil to keep its current color.
+    public func blendingSeasons(_ weights: (String) -> SIMD4<Double>?) -> Palette {
+        guard let seasonal else { return self }
+        var p = self
+        for (slot, key) in SeasonalPalette.order.enumerated() {
+            guard let w = weights(key), let hexes = seasonal.surfaces[key], hexes.count == 4 else { continue }
+            var linear = SIMD3<Float>(repeating: 0)
+            for s in 0..<4 { linear += Color.linear(Self.parse(hexes[s])) * Float(w[s]) }
+            p.colors[slot] = Color.srgb(linear)
+        }
+        return p
+    }
+
     /// All named slots (for export).
     public var namedSlots: [String: Int] { named }
 

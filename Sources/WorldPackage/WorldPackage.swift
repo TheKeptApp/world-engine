@@ -235,12 +235,13 @@ public enum WorldPackage {
             "fogPolicy": ["street": "time-of-day key fogStart/fogEnd",
                           "aerial": "start = max(keyStart, \(FogPolicy.startPerHeight) × camera height), end = max(keyEnd, \(FogPolicy.endPerHeight) × camera height)"],
             "timeOfDay": try jsonObject(tables),
+            "experience": try build.experience.map { try jsonObject($0) } ?? NSNull(),
         ] as [String: Any])
 
         // Source profiles and shared tables, verbatim (provenance).
         let profileID = build.profile.id
         var profileFiles: [String] = []
-        for name in [profileID, "regions", "seasonal-palette", "base-palette", "time-of-day", "weather"] {
+        for name in [profileID, "regions", "seasonal-palette", "base-palette", "time-of-day", "weather", "display"] {
             files["profiles/\(name).json"] = try StyleLibrary.data(name)
             profileFiles.append("profiles/\(name).json")
         }

@@ -1,0 +1,80 @@
+{
+  "checkedOn": "2026-10-05",
+  "runtimeDecoderAndSolar": {
+    "catalogEntries": 18,
+    "maxSunAngleErrorDeg": 0.0026315077301291012,
+    "maxSunEventAltitudeResidualDeg": 0.003088224907371151,
+    "profileCount": 11,
+    "status": "passed",
+    "sunFixtures": 21,
+    "actualSourceHashes": {
+      "Sources/WorldGeo/GeoCoordinate.swift": "5dca97e7ae18b2f967d18172a03db0409079ac1ef049d9a3e306217f268a7887",
+      "Sources/WorldGeo/LocalFrame.swift": "042c2dbf93481eed54a33418fa12a9cdceef46b023457e5bbf80a6010b886217",
+      "Sources/WorldGeo/SolarPosition.swift": "099195813f430f817fe36aba36c585aac8c1308d31e53d016f32ccd40c07b713",
+      "Sources/WorldGen/StyleProfile.swift": "27a5150d7d0b2c5a8786bb91ddf1784e8c90a23f5e96efee1d337414ffe29427"
+    },
+    "method": "Unmodified runtime Codable and solar declarations interpreted in isolation, with import WorldGeo removed only to combine modules. No app build or production source change."
+  },
+  "semanticValidation": {
+    "status": "passed",
+    "profileCount": 11,
+    "catalogEntryCount": 18,
+    "fixtureCount": 21,
+    "selectedImageCount": 10,
+    "scalarEvidenceCount": 5528,
+    "assertionCount": 25145,
+    "sourceReferenceCount": 17403,
+    "checks": [
+      "Strict known keys at every runtime profile object level",
+      "Ranges, probabilities, roof/crown weights, month coverage and family references",
+      "Every profile/catalog/addition leaf has exact value, classification, source ID and review date",
+      "Bundle and standalone files identical",
+      "Fixture IDs, scalar constraints, cameras, snow coverage and sun-vector normalization",
+      "Ten PNG hashes and image/fixture bindings",
+      "All JSON parses without non-finite numbers"
+    ],
+    "limitations": [
+      "Not a renderer or GPU benchmark",
+      "No independent ephemeris accuracy verification",
+      "No OSM geometry audit or municipal boundary validation",
+      "generic-temperate-v1 remains an external proposal dependency",
+      "Complex family dispatch and Miami leaf habit are future adoption gates"
+    ]
+  },
+  "overallStatus": "passed",
+  "validationContract": "Existing regions-v1 StyleProfile v2 and RegionCatalog Codable; no zone-format extension. Proposal envelope, fixtures, evidence and image metadata validated by their documented semantic constraints, not claimed runtime schemas.",
+  "sourceFilesUnchangedSinceDecoderCheck": true,
+  "payloadHashes": {
+    "IMAGE-PROMPTS.md": "c63697da4f784a4e2d3992b09ba4fc0755625ea27237b791b4bef7f67d2cd8b1",
+    "WorldEngine-Regions-Chicagoland-Miami-Spec-v1.md": "24f157f287bfb41edb425bf45900cae7f296e2f3ade50b2cb61e3653ce0a076e",
+    "fixtures.json": "44afee4468db12a983700ed5b70ed8acdeff8ea18d5dff254363c755cdfa3ec5",
+    "generation-log.json": "9b3788ab59185f505b908c5084a8c04b718ca5915337896fe2bd017d57993351",
+    "image-manifest.json": "12a4e52747236450a63cc133c05cdbfa35cfd683f1b878c920eec7a08f2d2c6d",
+    "images/01-northshore-golden.png": "8f1d06a1945e42e978ea46facfc069752451d2a35d83dceaa9d27913dca4ecc8",
+    "images/02-northshore-rain.png": "d09aa80ba7ed693b3ce5978302d2208a1706b68f5e6abc9a146ee62fe2ee0522",
+    "images/03-northshore-fall.png": "de07b3782b4aa9d84fe025b9463614cb88858bf81c5dbc9abe6c525bee0a5cfe",
+    "images/04-northshore-snow.png": "b6415c851ca794312691780d7b27e16d7fff0b0ee46bf2174fad727f515f2103",
+    "images/05-chicago-three-flat.png": "bf7850e019f566c38d00d2427e42e51b83c37e033f6797863487160c71ce8523",
+    "images/06-chicago-alley-snow.png": "6ae91a4b2ac64379ad221c75e472dad79477c9a4c060616dfcfe4025915f2349",
+    "images/07-chicago-boulevard-fall.png": "23f38b6fae03b04d264c9a18903e91469dde47a79b4c94ef0e9a14876aab6b2e",
+    "images/08-downtown-aerial.png": "aa86d5effe8cc52b7a2b94fb088773a1de698d9e13f186640d43a250b90ec73b",
+    "images/09-coral-gables.png": "b9f3b3ee9c8214c4feb2df8040814fc2666820b7534ecf8d51180e48644b2659",
+    "images/10-miami-shores-storm.png": "3618a93ba9068f0159683ecc3d6623b349b358e2a82d654096b27b6d441c194a",
+    "profile-evidence.json": "a4c621c85b800914fbca626eb0c4372f8f58b533453da3abc224e06c7f7023d2",
+    "profiles/chicago-bungalow-belt.json": "ef7547342ed5866e0e88c7745b3ace6110f366b63959dee2333ff7c3e3c3112e",
+    "profiles/chicago-dense-north.json": "52ac7cec102538a762a0af85143e3940c4b5d7959e2d7f1131c12f0fdc323d33",
+    "profiles/chicago-downtown.json": "efcece9c8cf00dbbe187242d2b139e0e23c9d68ab095f7f8916cc2066740da09",
+    "profiles/chicago-greystone-twoflat.json": "7a8b8cb509a1bfeb5bc82dcbdf2b65e0d2a9e07f8d3842e5388123b18573c37b",
+    "profiles/chicago-south-historic.json": "4aaf85a6660ff76fb20ea73ed3a5cb842753b8ca283c310db93aa625a8af1441",
+    "profiles/coral-gables.json": "3ce8e05181a6c8d55c0ea547e79c96bf7a6164779e138184ca9e0b1d0cb46370",
+    "profiles/evanston.json": "624b4f416ca38a2e1e2166eaa411547003ca0035a714e85cb097ffb6ada14934",
+    "profiles/kenilworth.json": "1c90811b1fe24858c986b9b779ee28a84109b1ae57900429ca2d4793d3c28034",
+    "profiles/miami-shores.json": "3efe0755de96c5606ee3cb593568ffda264e4ebfa8cbacf44fe2d70da50e032c",
+    "profiles/wilmette.json": "9b849e3368b364a54b4a277af376aa365465a9b238f38239fb42177b23be7dd6",
+    "profiles/winnetka.json": "5f43b2b8cc361a3f459405613ba6ee8dadba642cfad4b888311c15549cccb711",
+    "region-catalog.json": "b6c2bb8b0e7c33f965310e360c27187e5d10ce0a4e2149504d30968b6496d931",
+    "regions-draft.json": "592dc93312184caa719563b6651938d883b06609bdf05e865eaa7dd88538fa80",
+    "semantic-validation.json": "5906f6bf966fba2a73b21ffadfb5d72022ff1d149066c7672efdde6115ad7c43",
+    "sources.json": "5dcc9d0bc159b02bea19498db160c6ced51afdb0f89b0ff3ffe1fc348f08e133"
+  }
+}
