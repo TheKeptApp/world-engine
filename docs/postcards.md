@@ -61,7 +61,7 @@ Composed postcard poses are scored in a 16:9 frame at 50° vertical FOV. Each po
 
 | Setting (`.max`) | What it does |
 |---|---|
-| `supersample` 2, `maxRenderPixels` 6 MP | The picture is rendered at 2× its size with 4× MSAA on top, then filtered down with a separable Lanczos-2 filter (negative lobes clamped). Grade, bloom and exposure run at the rendered size; the bloom is measured against the picture size so the glow keeps its on-screen width, and exposure is metered per picture. The factor drops for pictures over the pixel cap (none of the current sizes reach it: story at 2× is 2032 × 2440 ≈ 5.0 MP). |
+| `supersample` 2, `maxRenderPixels` 4 MP | The picture is rendered at up to 2× its size with 4× MSAA on top, then filtered down with a separable Lanczos-2 filter (negative lobes clamped). Grade, bloom and exposure run at the rendered size; the bloom is measured against the picture size so the glow keeps its on-screen width, and exposure is metered per picture. The cap comes from measured memory (below): square and portrait render at 2×, story at about 1.8×. |
 | `maxShadowDistance` 160 m | The copy's sun shadow reaches the farthest building or tree in frame (live range 80 m at least, 160 m at most, never past the fog's end) through a fitted orthographic box (`.fixed`): the view slice out to that distance (heights 0–40 m) plus 200 m toward the sun, the copy's sun turned about its own axis so the box lines up with the view. On the Mac the box out to 160 m kept edges as crisp as RealityKit's automatic fit at 80 m (`orthographicScale` is the box's full size: read as half, the tree shadow at the frame's edge went missing). The box side is reported (`info.shadowBox`). |
 | `nearDetail` | Every tree and bush in frame uses the near mesh with the opaque material (slot 1; the cut-away slot 0 stays empty: postcards have no cut-away); out-of-frame ones keep distance detail for the shadows they throw in. Every building cell in frame uses `BuildingLOD.near` where it has it, else its finest level. |
 | `tuftRange` 80 m | Edge tufts on every visible lawn edge out to 80 m (shrinking away over the last 20 m), instead of the live ≤ 200 within 25 m of the look-at point. |
@@ -81,16 +81,20 @@ The lighting state (`PostcardLightState.resolve`, also `World.postcardLightState
 
 Every image carries `timing` (`PostcardTiming`); WorldLab prints `POSTCARD timing <file> clone=… settle=… render=… post=… frame=… total=… ms png=… ms` and `POSTCARD info <file> render=WxH ss=… shadow=…m tufts=… near=… cells=… grade=…`. `clone` (camera state, world copy, quality work, renderer set-up) is charged to the first picture of an export; `settle` includes the rain or snow warm-up.
 
-Measured on the Mac (M1 Max, 24-core GPU, heavily loaded shared machine; first Mac run, before the shadow-box default, kernel caching, frame-based rain warm-up and single settle frame went in), classic style, three sizes in one export:
+Measured on the Mac (M1 Max, 24-core GPU, shared and loaded machine), classic style, three sizes in one export, after the set-up fix (tree bounds computed once per group, not per instance):
 
-| Quality | Picture | clone | settle | render | post | frame | total |
+| Quality | Picture (rendered) | clone | settle | render | post | frame | total |
 |---|---|---:|---:|---:|---:|---:|---:|
-| live | square 970 × 752 | 908 | 1182 (first frames ever: pipeline set-up) | 4.6 | 18.5 | 4.5 | 2118 ms |
-| live | portrait / story | 0 | 12–18 | 5 | 3 | 4–5 | 25–31 ms |
-| max | square 1940 × 1504 | 675 | 38 | 8.7 | 72 | 5.1 | 799 ms |
-| max | portrait 1940 × 2044 / story 1940 × 2444 | 0 | 27–73 | 10–11 | 12–13 | 4–7 | 55–103 ms |
+| live | square 970 × 752 | 90 | 52 | 5.6 | 65 | 4.8 | 218 ms |
+| live | portrait / story | 0 | 0 | 7–9 | 2–3 | 5 | 15–17 ms |
+| max | square (1940 × 1504) | 92 | 36 | 8.2 | 167 | 3.9 | 306 ms |
+| max | portrait (1940 × 2044) / story (1782 × 2245) | 0 | 0 | 11–13 | 5–6 | 4 | 20–23 ms |
 
-Whole quality export (3 sizes): 0.98 s on the Mac; Metal memory grew from 516 MB to 922 MB during it (the supersampled targets). `clone` dominated; its parts (`prepare`, `copy`, `quality`, `setUp`) are now reported separately (`POSTCARD clone` lines) so the phone run shows where it goes. Rain by night: the `RealityRenderer.update` warm-up took 788 ms and left no visible streaks; the warm-up now draws frames into a 64 × 64 target instead (unmeasured). iPhone figures: not measured (no device or Simulator used here); GPU steps are expected to take roughly 5× (A16) to 7× (A15) the Mac's GPU time.
+Whole export: live 0.27 s, quality 0.37 s. `clone` splits into prepare 0.1, copy ~33, quality ~48, set-up ~9–40 ms. The first picture's `post` includes compiling the export's post kernels (once per process). Rain or snow add a warm-up (~135 ms).
+
+Metal memory at each picture (process total, Mac; the live world is ~530 MB): 1× 539–555 MB, 1.5× 556–714 MB, 2× 704–730 MB. Uncapped 2× story (1940 × 2444) peaked at ~1000 MB, hence the 4 MP cap (story then renders at 1.84×, 727 MB). After an export the extra is released down to ~670 MB (RealityKit keeps some).
+
+iPhone figures: not measured here (no device or Simulator). GPU steps should take several times the Mac's GPU time; CPU steps (copy, quality) roughly 1.5–2×. Expected per capture on an iPhone 13: about 0.4–0.7 s, inside the 1.5 s target, to be confirmed with the `POSTCARD timing` lines.
 
 ## Attribution (burned into every image)
 
@@ -120,10 +124,11 @@ The main thread is never blocked on the GPU (waits run off the main actor).
 **Checked on the Mac.** RealityKit's `RealityRenderer` exists on macOS too, so `scripts/postcard_mac_check.sh` compiles the engine's shaders for the Mac (`swift build` copies the Metal source uncompiled), renders real postcards of the Sloan's Lake demo world in both quality modes and a rainy night, and runs every postcard test. It is a heavy job: run it through `scripts/heavy.sh`. Mac times are not iPhone times.
 
 **Limits.**
-- Not run on an iPhone yet, and WorldLab's iOS compile check is still to do (the package builds and its tests pass on the Mac).
+- Not run on an iPhone yet. WorldLab compiles for iOS; the package builds and its tests pass on the Mac.
 - Host characters are not drawn by default; `includeCharacters: true` clones them in their current pose (whether a mid-animation pose survives the clone is unverified).
 - When the export pose differs from the live camera, or a character's contact shadow is hidden, the world's shared state changes for the time it takes to copy it (one main-thread turn); whether the live view can pick that up for one frame depends on RealityKit internals and is unverified.
 - Exports happen in the foreground; the GPU is not available in the background.
+- Rain and snow streaks did not show in the Mac renders, even after the copy's emitter is restarted and the air simulated by drawn frames (wet surfaces, sky and fog do show). Whether RealityRenderer draws particle emitters on iOS is unverified.
 
 ## WorldLab
 

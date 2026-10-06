@@ -159,6 +159,14 @@ final class OffscreenSession {
         self.quality = quality
         baseInfo = info
         if let seconds = World.precipitationWarmUp(in: copy.root) {
+            // The cloned emitter starts over in the new scene; restart it explicitly so it spawns.
+            if let p = copy.root.children.first(where: { $0.name == "Precipitation" }),
+               var emitter = p.components[ParticleEmitterComponent.self] {
+                emitter.restart()
+                emitter.isEmitting = true
+                emitter.simulationState = .play
+                p.components.set(emitter)
+            }
             try await renderer.warmUp(seconds: seconds)
             timing.settle = lap()
         }

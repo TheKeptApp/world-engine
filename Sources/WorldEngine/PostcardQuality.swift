@@ -16,7 +16,9 @@ public struct PostcardQuality: Sendable, Equatable {
     /// The picture is rendered at this factor × its size (4× multisampling on top) and filtered
     /// down with a Lanczos-2 filter. 1 renders at the picture's size.
     public var supersample: Double
-    /// Cap on the rendered pixels (memory and time): a big picture gets a smaller factor.
+    /// Cap on the rendered pixels (memory and time): a big picture gets a smaller factor. 4 MP keeps
+    /// square and portrait at 2× and puts story at about 1.8× (Mac: 2× story raised Metal memory by
+    /// ~330 MB at its peak, 1.5× by ~180 MB; 4 GB iPhones are the concern).
     public var maxRenderPixels: Int
     /// Sun shadow range in metres: 0 keeps the live view's range (`World.shadowDistance`, 80 m);
     /// otherwise the shadow reaches the farthest building or tree in frame, up to this distance.
@@ -58,7 +60,7 @@ public struct PostcardQuality: Sendable, Equatable {
                                              ambientOcclusion: 0, groundBounce: 0, shadeLift: 0, finalGrade: false, settleFrames: 1)
 
     /// Quality mode (the owner's "maximum quality for a still").
-    public static let max = PostcardQuality(supersample: 2, maxRenderPixels: 6_000_000, maxShadowDistance: 160, nearDetail: true,
+    public static let max = PostcardQuality(supersample: 2, maxRenderPixels: 4_000_000, maxShadowDistance: 160, nearDetail: true,
                                             tuftRange: 80, ambientOcclusion: 0.15, groundBounce: 0.25, shadeLift: 0.08,
                                             finalGrade: true, settleFrames: 1)
 
@@ -184,9 +186,16 @@ extension World {
             guard slots.count >= 3, slots.allSatisfy({ $0 != nil }) else { continue }
             let last = slots.count - 1
             var buckets = [[simd_float4x4]](repeating: [], count: slots.count)
+            // The near mesh's local extent, once per group (`MeshBuffers.bounds` walks every vertex).
+            guard let local = g.levels[1].buffers.bounds else { continue }
+            let extent = simd_max(simd_abs(local.min), simd_abs(local.max))
             for inst in g.instances {
                 let t = inst.transform
-                if let b = Self.bounds(of: g.levels[1].buffers, [t]), inFrame(b) {
+                let scale = Swift.max(simd_length(SIMD3(t.columns.0.x, t.columns.0.y, t.columns.0.z)),
+                                      simd_length(SIMD3(t.columns.1.x, t.columns.1.y, t.columns.1.z)),
+                                      simd_length(SIMD3(t.columns.2.x, t.columns.2.y, t.columns.2.z)))
+                let c = SIMD3(t.columns.3.x, t.columns.3.y, t.columns.3.z), r = extent * scale
+                if case let b = BoundingBox(min: c - r, max: c + r), inFrame(b) {
                     reach(b)
                     if q.nearDetail { buckets[1].append(t); continue }
                 }
