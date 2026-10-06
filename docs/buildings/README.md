@@ -211,3 +211,13 @@ Before / after (`buildingviz`, same camera):
     spacing, fall litter patches.
 33. **Tone guard, not lift**: roofs ≥ #303942, walls ≥ Y8 80 (5A's `tone-targets.md`); no palette
     hex changed, because the profiles already comply and lifting would wash out after 5A's fill fix.
+34. **Carriageway width includes parked cars** (`RoadRules`, `Sources/WorldMap/Rules.swift`). A tagged
+    `width` wins untouched. Otherwise `lanes` × 3.3 m (at least 4.5 m of travel width on these
+    street classes, so `lanes=1` streets are not 3.3 m) plus 2.3 m per side with parking for residential,
+    tertiary, unclassified and secondary ways; untagged sides count as parked, `parking:*` /
+    `parking:lane:*` values `no`, `no_parking`, `no_stopping`, `separate`, `street_side`, `on_kerb`
+    etc. remove a side. Without `lanes` the class default applies (residential 6 → 8 m, parking on both
+    sides included; each no-parking side takes 2.3 m off, floor 4.5 m). Then untagged
+    roads are clamped so the curb stays 0.3 m clear of the near edge of a mapped `footway=sidewalk`
+    line running alongside (within 25° of parallel, 15 m; never below 3 m). Tagged widths are not
+    clamped. All constants are `RoadRules` fields. Lakeview: W Roscoe St 3.3 → 9.1 m.
