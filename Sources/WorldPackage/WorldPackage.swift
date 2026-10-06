@@ -94,7 +94,8 @@ public enum WorldPackage {
             if g.dormers > 0 { d["dormers"] = g.dormers }
             if let f = g.roofFallback { d["roofFallback"] = f }
             // Inferred facade elements (not in the mapped footprint), flagged for review.
-            if !g.inferredBays.isEmpty { d["inferredFacade"] = g.inferredBays.map { _ in "bay" } }
+            let inferred = g.inferredBays.map { _ in "bay" } + (g.chimneyBreast ? ["chimneyBreast"] : [])
+            if !inferred.isEmpty { d["inferredFacade"] = inferred }
             if let e = g.frontEdge { d["frontEdge"] = e }
             if let e = g.garageDoorEdge { d["garageDoorEdge"] = e; d["garageDoorFacesAlley"] = g.garageDoorFacesAlley }
             decisions[g.ref.description] = d
