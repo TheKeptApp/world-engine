@@ -4,7 +4,9 @@
 # (Documents/views/<id>.png) and copies them back. Views in another area than the first are skipped
 # (they need their own launch).
 #   scripts/device_views.sh [out-dir] [views.json] [view-id ...]
-# Env: SETTLE seconds per view (default 4), RENDERSCALE (default 2.5), AREA (another bundled area).
+# Env: SETTLE seconds per view (default 4), RENDERSCALE (default 2.5), AREA (another bundled area),
+#      GPU=1: per-view GPU frame time from Metal's frame log (scripts/gpu_hud.py; the HUD overlay
+#      may show in the frames, so use those frames for timing only).
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/.build/device-views/$(date +%Y%m%d-%H%M%S)}"; mkdir -p "$OUT"; OUT="$(cd "$OUT" && pwd)"
@@ -25,7 +27,8 @@ PY
 N=$(echo "$LIST" | base64 -d | python3 -c "import json,sys;print(len(json.load(sys.stdin)))")
 LOG="$OUT/views.log"
 echo "$N views → $OUT"
-xcrun devicectl device process launch --device "$CORE" --terminate-existing --console com.lincolnlabs.worldlab -- \
+HUD_ENV=(); [ "${GPU:-0}" = 1 ] && HUD_ENV=(-e '{"MTL_HUD_ENABLED":"1","MTL_HUD_LOG_ENABLED":"1","OS_ACTIVITY_DT_MODE":"1"}')
+xcrun devicectl device process launch --device "$CORE" --terminate-existing --console ${HUD_ENV[@]+"${HUD_ENV[@]}"} com.lincolnlabs.worldlab -- \
   -renderer realitykit -hud off -frame16x9 -rendertrace -renderscale "${RENDERSCALE:-2.5}" ${AREA:+-area "$AREA"} \
   -viewlist64 "$LIST" -viewsettle "${SETTLE:-4}" > "$LOG" 2>&1 &
 PID=$!
@@ -43,3 +46,4 @@ xcrun devicectl device copy from --device "$CORE" --domain-type appDataContainer
 find "$TMP" -name '*.png' -exec cp {} "$OUT/" \;
 rm -rf "$TMP"
 echo "$(ls "$OUT"/*.png 2>/dev/null | wc -l | tr -d ' ') frames in $OUT"
+[ "${GPU:-0}" = 1 ] && python3 "$ROOT/scripts/gpu_hud.py" "$LOG" | tee "$OUT/gpu.txt"
