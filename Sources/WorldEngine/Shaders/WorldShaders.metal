@@ -361,7 +361,10 @@ void worldStaticSurface(realitykit::surface_parameters params)
         // R3 lawn mottling: two low-frequency bands; fine band fades out by 50 m.
         float broad = valueNoise(wp.xz / 2.6 + lot) - 0.5;
         float fine = (valueNoise(wp.xz / 0.45 + 17.0) - 0.5) * (1.0 - smoothstep(30.0, 50.0, dist));
-        float v = broad * 0.12 + fine * 0.07;
+        // On lot lawns the lot's own tone and value step carry the variation (P2 bakes per-lot patches
+        // into the shade), so the world-space bands run at a third and don't wash across lot lines.
+        float lotScale = extra.w > 0.0 ? 0.33 : 1.0;
+        float v = broad * 0.12 * lotScale + fine * 0.07;
         su.base *= half(1.0 + v);
         half luma = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
         su.base = mix(half3(luma), su.base, half(1.0 + broad * 0.08));
@@ -370,7 +373,7 @@ void worldStaticSurface(realitykit::surface_parameters params)
         if (!(g.debug > 4.5 && g.debug < 5.5)) {
         float patchv = valueNoise(wp.xz / 11.0 + 3.3 + lot) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1 + lot) - 0.5) * 0.5;
         half3 dry = su.base * half3(1.16h, 1.06h, 0.72h), lush = su.base * half3(0.86h, 1.0h, 0.93h);
-        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75)));
+        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75) * lotScale));
         }
         su.roughness = 0.95h; su.specular = 0.15h;
     }
