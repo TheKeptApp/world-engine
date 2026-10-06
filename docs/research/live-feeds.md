@@ -164,6 +164,8 @@ CTA, Pace, RTD and the other pages loaded with an honest client. CTA, Pace and R
 
 ## 3. Aircraft feeds
 
+> Until live aircraft are permitted (adsb.lol), [ambient-planes.md](ambient-planes.md) specifies an illustrative, clearly "not live" option on real approach corridors into ORD and DEN; it uses no flight data.
+
 Aircraft data is receiver-based (ADS-B, MLAT) or vendor-based. The community feeds describe themselves as unfiltered, and their APIs expose flags for LADD and PIA aircraft, so such aircraft are present in them (§3.3): adsb.lol's home page [V: [adsb.lol](https://www.adsb.lol/)] and the JETNET release for ADS-B Exchange [V: [press release](https://www.jetnet.com/resources/press-releases/jetnet-acquires-ads-b-exchange)] say so; airplanes.live and the ADS-B Exchange support site say so too, but those pages are [U] (U8, U10 in §7.1).
 
 **Cost model.** Boxes are 30 km by 30 km: at Chicago's latitude 0.271 deg by 0.363 deg = 0.098 sq deg; at Denver's 0.095 sq deg [A]. A circle covering the box has radius about 21 km, which is 11.4 nm; the aircraft research used 12 nm [A]. A month is 30 days: 10 s = 259,200 polls, 15 s = 172,800, 30 s = 86,400, 60 s = 43,200 [A]. N is aircraft returned per poll. **Real counts near the three busy airports were not measured**; the tables use N = 15, 30 and 60.
