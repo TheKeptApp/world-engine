@@ -10,3 +10,6 @@ Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their s
 | 2026-10-06 06:39 | `651649b` | p3-lookloop | 17/17 | **78%** | 0 (AD 0) | 82% | 27.5 | 2.06 | showcase-10 63% | 460k | 16.67 | 9.6 | claude-sonnet-5-5 | 11 |
 | 2026-10-06 09:16 | `78e7541` | p3-lookloop | 32/32 | **77%** | 0 (5B 0) | 82% | 27.1 | 2.11 | wilmette-street-snow 58% | 95k | 16.75 | 35.0 | claude-opus-5-5 (gate) | 20 |
 | 2026-10-06 12:40 | `0125f38` | p3-lookloop | 32/32 | **76%** | 0 (5B 0) | 75% | 26.9 | 2.23 | showcase-11 52% | 95k | 16.72 | 16.0 | claude-opus-5-5 (gate) | 51 |
+| 2026-10-06 13:24 | `8727461` | p3-lookloop | 32/32 | **82%** | 0 (5B 0) | 83% | 28.8 | 2.46 | showcase-11 55% | 121k | 16.67 | 15.4 | claude-sonnet-5-5 | 6 |
+
+**Delta 13:24 (routine, P2 yards ad2ebfc) vs ccb5f77 gate (12:40):** parity 76 → 82 % (+6) · ordinary-day 75 → 83 % · ground mean 1.88 → 2.09 · art direction 2.23 → 2.46 · region buildings & ground 2.42 → 2.6 · aerials v2-06 23.8 → 23.8, showcase-10 21.3 → 22.5, showcase-11 18.8 → 20.0, wilmette 30.0 → 30.0, evanston 30.0 → 33.8, lakeview 28.8 → 31.3. No view down > 3 points (largest drop 0). Caution: Sonnet routine grader vs Opus gate grader; part of the rise may be grader leniency. Parity < 85 %, so no full gate yet.
