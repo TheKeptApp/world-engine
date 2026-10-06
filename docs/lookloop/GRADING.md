@@ -24,6 +24,20 @@ The look target is **rich stylized**: simplified geometry, material hints, varie
 
    Open the anchor nearest the view's season and mood alongside its own targets. Where a view's own target and an anchor disagree on colour or mood, follow the anchor; for layout, geography and time of day, follow the view's own target and data.
 
+## V. Vegetation reference (owner, 6 Oct 2026; docs/proposals/vegetation-v1/)
+
+Trees and shrubs are judged against the vegetation-v1 pack (style B, rich stylized). Read its README "Crown construction", "Four seasons and weather" and "Shrubs, hedges and beds" sections once per run; open the sheet for the view's region (`images/01-north-shore-chicago.png` for North Shore and Lakeview, `images/02-denver.png` for Sloan's Lake) and `images/04-crown-construction.png` when a tree is near the camera. The pack's numeric rules and exact JSON/SVG colours outrank its raster images; its fine leaf scalloping, bark grooves and grass texture are not requirements (section S).
+
+Apply it to these criteria:
+
+- **`silhouettes` (trees):** crowns read as unequal, merged masses around a branch skeleton with the family's sky-hole openness (oak, elm and honey locust visibly open; maple and linden mostly closed; spruce in staggered tiers). Score down for lollipops (one ball on a pole), stacked spheres, identical repeated crowns, uniform scallops or one flat green blob. At aerial scale, families should still differ by silhouette.
+- **`palette` (vegetation colour):** foliage matches the season and region in `vegetation-colours.json` (`trees[].seasons`, `shrubs[]`): differentiated autumn (russet oak, orange-red maple, yellow elm/linden/honey locust in Chicago; gold cottonwood/ash/aspen in Denver), bare deciduous crowns in winter with evergreens kept green, and golden-hour warmth from the light rather than baked into foliage (a green tree at golden hour must not read as autumn). Judge by eye against the pack's swatches; small hue/value spread is expected.
+- **`softnessAO` (trunk base and contact):** a restrained darkening (about 10–20 %) around each trunk base and under shrubs, no black ring, no floating trunk; gentle occlusion where crown masses meet, not dark outlines on every lobe. A cast crown shadow is separate from contact darkening.
+- **`adGroundRich` (shrubs, hedges, beds):** foundation shrubs as 3–5 merged lobes, hedges as one continuous envelope with an irregular crest (never a string of identical balls), beds as 2–3 islands with visible mulch or gravel.
+- **look-fix `LF-trees`:** fails on any of the silhouette faults above or a wrong-season crown.
+
+Snow on trees is a weather overlay on upward-facing boughs, never white foliage or an opaque snowball crown; score it under `palette` and `adRainReadable` when wet.
+
 ## Inputs
 
 For view `<id>` in run directory `<run>`:
@@ -47,7 +61,7 @@ For view `<id>` in run directory `<run>`:
      - 10 always for stills, because motion needs video.
    - Give one short reason per score that names what you saw.
 4. Score the three art-direction criteria (table B), 1–5, or `null` where marked not applicable.
-5. Apply the style target (section S) and the strictness rules (section C). They outrank any instinct to be kind.
+5. Apply the style target (section S), the vegetation reference (section V) and the strictness rules (section C). They outrank any instinct to be kind.
 6. List hard-gate flags (section D) that you can actually see. Do not guess.
 7. Compute the totals (section E).
 8. Run the look-fix-v1 checks (section H).
