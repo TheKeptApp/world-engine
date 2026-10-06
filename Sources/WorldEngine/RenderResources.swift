@@ -72,6 +72,14 @@ public struct ShaderGlobals: Sendable, Equatable {
     /// Canopy map placement: scene x, z of its minimum corner and its size (metres).
     public var canopyOrigin = SIMD2<Float>(0, 0)
     public var canopySize = SIMD2<Float>(1, 1)
+    /// Lighting bible §2.3 clear-air fade: colour (linear), cap (share at long range), start and
+    /// the distance where it reaches half the cap (m). Weather extinction (§3.2) uses
+    /// `fogStart`/`fogEnd` (90% of contrast gone at the end) at strength `fogWeight` (0 = none).
+    public var airColor = SIMD3<Float>(0.33, 0.48, 0.69)
+    public var airCap: Float = 0.35
+    public var airStart: Float = 300
+    public var airD50: Float = 1800
+    public var fogWeight: Float = 0
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -211,6 +219,8 @@ final class RenderResources {
         let co = g.canopyOrigin.rounded(.toNearestOrEven), cs = g.canopySize.rounded(.toNearestOrEven)
         p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
         p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
+        p[w + 27] = SIMD4(h(g.airColor.x), h(g.airColor.y), h(g.airColor.z), h(g.airCap))
+        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), 0)
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
