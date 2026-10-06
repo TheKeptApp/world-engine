@@ -7,6 +7,7 @@ Env: LOOKLOOP_GRADER_MODEL (default claude-opus-5-5), LOOKLOOP_JOBS (parallel re
      LOOKLOOP_GRADE_TIMEOUT seconds per view (default 600).
 """
 import concurrent.futures as cf, json, os, re, subprocess, sys, time
+from decimal import ROUND_HALF_UP, Decimal
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MODEL = os.environ.get("LOOKLOOP_GRADER_MODEL", "claude-opus-5-5")
@@ -38,12 +39,15 @@ def recompute(g, view):
     v2 = [g["scores"][k]["score"] for k in V2 if g["scores"].get(k, {}).get("score") is not None]
     ad = [g["artDirection"][k]["score"] for k in AD if g["artDirection"].get(k, {}).get("score") is not None]
     g["v2Total"], g["v2Max"] = sum(v2), 5 * len(v2)
-    g["v2Score50"] = round(50 * g["v2Total"] / g["v2Max"], 1) if v2 else None
-    g["adMean"] = round(sum(ad) / len(ad), 2) if ad else None
+    half_up = lambda x, n: float(Decimal(str(x)).quantize(Decimal(1).scaleb(-n), rounding=ROUND_HALF_UP))
+    g["v2Score50"] = half_up(50 * g["v2Total"] / g["v2Max"], 1) if v2 else None
+    g["adMean"] = half_up(sum(ad) / len(ad), 2) if ad else None
     geo = g["scores"].get("geography", {}).get("score")
     char = g["scores"].get("characterReadability", {}).get("score")
-    g["gatePass"] = bool(v2) and g["v2Score50"] >= 40 and min(v2 + ad) >= 3 and (geo or 0) >= 4 \
+    # v2 §8.3 gate on the v2 criteria only; the art-direction criteria have their own pass (GRADING.md §E).
+    g["gatePass"] = bool(v2) and g["v2Score50"] >= 40 and min(v2) >= 3 and (geo or 0) >= 4 \
         and (char is None or char >= 4) and not g.get("hardGateFlags")
+    g["adPass"] = bool(ad) and min(ad) >= 3
     return g
 
 

@@ -4,22 +4,31 @@ Deterministic look captures, side-by-side contact sheets, rubric grading and a d
 
 ## Run it (for every session)
 
-1. `Tools/lookloop/lookloop.sh run` captures all active views in a dedicated headless Simulator, measures them and draws the contact sheets. It also grades them when the `claude` CLI is logged in.
-2. If it stops with **GRADING NEEDS THE SESSION**, spawn one sub-agent per line of `<run>/reviewers.md`, all in parallel. Each sub-agent follows [GRADING.md](GRADING.md).
-3. Run `Tools/lookloop/lookloop.sh finish <run>`. It merges the grades, refreshes [latest/](latest/summary.md) and appends a row to [scoreboard.md](scoreboard.md). Commit `docs/lookloop/` with your merge.
+The look loop is the official visual gate. In any Claude session:
 
-Options:
-- `SKIP_BUILD=1` reuses the last WorldLab build.
-- `lookloop.sh run v2-01 showcase-03` captures only those views. It is good for a quick check, but don't publish partial runs over a full one: use `finish <run> --no-publish`.
+1. Type `/lookloop`, or `/lookloop gate` for a declared gate run. The skill is in `.claude/skills/lookloop/SKILL.md`.
+2. The skill runs `Tools/lookloop/lookloop.sh run [--gate]`, spawns the reviewer sub-agents listed in `<run>/reviewers.md`, then runs `lookloop.sh finish <run>`.
+3. Commit `docs/lookloop/` with the change you were judging. Then read `latest/regressions.md`.
+
+Run kinds:
+
+| Kind | What it captures | Reviewers |
+|---|---|---|
+| Routine | Only views whose inputs changed since `latest/`; the rest are reused with their grades | Sonnet |
+| `--gate` | Every view | Opus |
+| `--all` | Every view, without declaring a gate | Sonnet |
+
+Options: `lookloop.sh run v2-01 showcase-03` runs only those views. `lookloop.sh calibrate` grades the concept images themselves (see [calibration.md](calibration.md)).
 
 ## What it does
 
 | Step | Tool | Output |
 |---|---|---|
-| Capture | [capture.sh](../../Tools/lookloop/capture.sh) | `raw/<id>.png`, `logs/<id>.log`. WorldLab is launched once per view in the Simulator **LookLoop iPhone 17 Pro**, which is created on first use and is nobody else's device. Launch args come from [views.json](../../Tools/lookloop/views.json) plus `-renderer realitykit -hud off -frame16x9 -rendertrace`. The tool waits for WorldLab's `STATS` line (world built), then waits `SETTLE` seconds (default 8) and takes a screenshot. The status bar and appearance are fixed. |
+| Plan | [plan.py](../../Tools/lookloop/plan.py) | Fingerprints each view's inputs and reuses unchanged views. The inputs are the git trees of `Sources`, `Apps/WorldLab`, `Package.swift` and the view's area; uncommitted changes there; the dog asset; the view entry; the common args; `capture.sh`; `GRADING.md`; and the targets. Reused views carry their previous frame and grade |
+| Capture | [capture.sh](../../Tools/lookloop/capture.sh) | `raw/<id>.png`, `logs/<id>.log`. WorldLab is launched once per view in the Simulator **LookLoop iPhone 17 Pro**, which is created on first use and is nobody else's device. Launch args come from [views.json](../../Tools/lookloop/views.json) plus `-renderer realitykit -hud off -frame16x9 -rendertrace`. The tool waits for WorldLab's `STATS` line (world built), then waits `SETTLE` seconds (default 3) and takes a screenshot. Frames at 2 s and 8 s differ by less than 0.1/255. The status bar and appearance are fixed. |
 | Signals and sheets | [analyze.py](../../Tools/lookloop/analyze.py) | `frames/<id>.jpg` (16:9 frame at phone width 1206 px), `sheets/<id>.jpg` (target \| current \| previous plus luma histogram and numbers), `overview.jpg`, `signals.json` |
 | Grading | [grade.py](../../Tools/lookloop/grade.py), or session sub-agents | `grades/<id>.json` per [GRADING.md](GRADING.md): v2 §8.3 scores, art-direction scores, total, gate, top 3 fixes |
-| Finish | [finish.py](../../Tools/lookloop/finish.py) | `grades.json`, `summary.md`, publish to `docs/lookloop/latest/`, one row in `scoreboard.md` |
+| Finish | [finish.py](../../Tools/lookloop/finish.py) | `grades.json`, `summary.md` (with concept parity), and `regressions.md`. The regression guard flags any view down 2 or more on /50, or any criterion down 1 or more, against the previous published run, with cautions when the grader or GRADING.md changed. Then it publishes to `docs/lookloop/latest/` and appends one row to `scoreboard.md` |
 
 **Views**
 - v2 presets 01, 04 and 06.
@@ -57,17 +66,15 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 
 ## Timing
 
-The first full run (6 Oct 2026, 17 views) took **16.9 min** while the Mac was saturated by six booted Simulators (load average 400–660):
+| Run | Capture + analysis | Grading | Total |
+|---|---|---|---|
+| 6 Oct 01:02: first run, 17 views, 8 s settle, machine at load 400–660 | 13.9 min | 2.4 min (Opus) | 16.9 min |
+| 6 Oct 06:39: 17 views, 3 s settle, one kept-booted Simulator, install only on change | 6.8 min | about 1 min (17 Sonnet reviewers in parallel, slowest 41 s) | **about 8 min** of work. The row says 9.6 because I held the reviewers while calibration finished |
 
-| Step | Time |
-|---|---|
-| WorldLab build | 4 min, the first time in a fresh worktree only (pinned XcodeGen); `SKIP_BUILD=1` afterwards |
-| Capture | 13.4 min. Each world builds in about 11.5 s, but `simctl launch` stalled for 20–100 s per view under the load |
-| Analysis | 30 s |
-| Grading | 17 Opus reviewers in parallel, 2.4 min (slowest 80 s) |
-| Finish | a few seconds |
-
-On a quiet machine, capture is about 25 s per view (about 7 min for 17 views), so a full run comes to about 10 min. Captures run one at a time on purpose: one Simulator, one app.
+- **Per view:** about 2 s launch, 11.5–15 s world build (rose after P2's buildings), 3 s settle, 1 s screenshot.
+- **Build:** the WorldLab build is incremental, about 5 s when nothing changed.
+- **Routine runs** after a docs-only or unrelated merge capture nothing: the plan reuses every view.
+- **Biggest remaining cost:** one world build per view. A WorldLab hook that switches views without relaunching would cut a full run to about 3 minutes (see hooks).
 
 ## Decisions (logged; covered by the specs or the P3 prompt)
 
@@ -90,12 +97,25 @@ On a quiet machine, capture is about 25 s per view (about 7 min for 17 views), s
    - The capture, measurement and sheet steps are plain scripts, so they need no model.
 7. **Tooling is Python 3 plus Pillow**, both already on this Mac, with no new installs. The path is `Tools/lookloop/`: the existing `Tools/` folder, because the filesystem ignores case, so `tools/` would land in the same place.
 
+8. **Evanston South replaces Wilmette** in the placeholders, as the owner asked for "Evanston South and Lakeview".
+   - The cameras, focus boxes and profiles are P2's (`scripts/p2_gate_shots.sh`).
+   - The targets are the regions concepts whose fixture moment each view reuses: 01/03 fall, 02 rain, 04 snow, 05 three-flat, 06 alley.
+   - The aerials use street concepts as style references only.
+9. **Reuse over re-render.** A view is reused only when every input in its fingerprint is identical. Any engine, app, area, view, capture or GRADING.md change re-renders and re-grades it. Gate runs never reuse.
+10. **One Simulator.**
+    - `LookLoop iPhone 17 Pro` stays booted between views and runs, and capture never boots a second device.
+    - It is the only simulator this session boots. The others on this Mac belong to other sessions.
+11. **Concept parity** is reported next to the v2 score: the view's /50 as a percentage of its target concept's calibrated /50. See calibration.md for why both numbers are needed.
+12. **Device mode is not built yet.** It needs the `-capture` hook (below). The Simulator remains the gate.
+
 ## Hooks needed from other sessions
 
 | From | Hook | Why |
 |---|---|---|
-| WorldLab owner (5A) | `-area <id>` and `-camera lat,lon,heading,pitch,fov` (or a named regions camera) launch args, plus bundling of more than one area | Activates the Wilmette and Lakeview placeholders without the loop touching WorldLab |
-| WorldLab owner (5A) | Print `viewTriangles` and draw calls once the view has settled (for example a `VIEWSTATS` line about 2 s after `STATS`) | `STATS` gives whole-world triangles; v2's 400k ceiling is per view |
-| WorldLab / engine (5A) | GPU frame time from the default RealityView host in the `RENDER` line (today only the experimental `-host renderer` reports it) | Per-view GPU cost; Simulator frame time is vsync-capped |
-| WorldLab / engine (5A) | A fixed-clock option (for example `-freezetime`: wind phase, cloud drift and particles at t = fixed) | Rain and snow particles, wind sway and cloud drift differ slightly run to run. The other pixels are stable. See the noise check in the gate report |
-| P2 | Wilmette and Lakeview area data merged to main, with the regions fixture cameras' coordinates inside the area | Placeholder targets |
+| WorldLab owner (5A) | `-area <id>` plus `-camera lat,lon,heightM,headingDeg,pitchDeg,fovDeg` and `-overview lat,lon,dist,pitch,yaw,fov` launch args, matching BuildingLab's `-area`/`-look`/`-overview`, with the Evanston South and Lakeview areas bundled | Activates the eight Evanston/Lakeview views (P2 cameras already in views.json). The 2-hourly watch activates them when this lands |
+| WorldLab owner (5A) | A sequence mode, for example `-showcase 01,02,…` that steps through states in one launch and prints `READY <id>` when each has settled | Removes 16 of 17 world builds: a full run in about 3 min |
+| WorldLab owner (5A) | Print `viewTriangles` and draw calls once settled (`VIEWSTATS` line) | Whole-world triangles are now 460k; v2's 400k ceiling is per view |
+| WorldLab / engine (5A) | GPU frame time from the default RealityView host in the `RENDER` line | Simulator frame time is vsync-capped |
+| WorldLab owner (5A) | `-capture <path>`: write the rendered frame (16:9) to Documents once settled | Device mode. `devicectl` cannot take screenshots; with this, the loop can capture on the iPhone (when 5A is not using it) and pull frames with `devicectl device copy from` |
+| P2 | Wilmette or Evanston and Lakeview area data on main | Done: `evanston-south` and `lakeview-sheil-park` are on main |
+

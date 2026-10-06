@@ -2,7 +2,7 @@
 """Look-loop analysis: crops each capture to its 16:9 frame, measures it against its target
 concept image(s) and the previous run, and draws one contact sheet per view.
 
-  Tools/lookloop/analyze.py <run-dir> [--prev <dir of previous frames>]
+  Tools/lookloop/analyze.py <run-dir> [--prev <dir of previous frames> [--prev-label TEXT]] [--manifest <views json>]
 
 Reads  <run-dir>/raw/<id>.png, <run-dir>/logs/<id>.log, <run-dir>/capture.tsv, Tools/lookloop/views.json
 Writes <run-dir>/frames/<id>.jpg   the 16:9 frame (phone width, JPEG)
@@ -258,7 +258,8 @@ def main():
     run = sys.argv[1]
     prev_dir = sys.argv[sys.argv.index("--prev") + 1] if "--prev" in sys.argv else None
     prev_label = sys.argv[sys.argv.index("--prev-label") + 1] if "--prev-label" in sys.argv else "previous run"
-    views = {v["id"]: v for v in json.load(open(os.path.join(ROOT, "Tools/lookloop/views.json")))["views"]}
+    manifest = sys.argv[sys.argv.index("--manifest") + 1] if "--manifest" in sys.argv else os.path.join(ROOT, "Tools/lookloop/views.json")
+    views = {v["id"]: v for v in json.load(open(manifest))["views"]}
     load = {}
     if os.path.exists(os.path.join(run, "capture.tsv")):
         for ln in open(os.path.join(run, "capture.tsv")):
@@ -267,6 +268,8 @@ def main():
                 load[p[0]] = (p[1], p[2])
     for sub in ("frames", "sheets"):
         os.makedirs(os.path.join(run, sub), exist_ok=True)
+    rp = os.path.join(run, "reused.json")
+    reused = json.load(open(rp)) if os.path.exists(rp) else {}
     target_cache, out, frames = {}, {}, []
     for vid, v in views.items():
         raw = os.path.join(run, "raw", f"{vid}.png")
@@ -275,7 +278,11 @@ def main():
         frame = crop169(Image.open(raw))
         frame.save(os.path.join(run, "frames", f"{vid}.jpg"), quality=85, optimize=True)
         frames.append((vid, frame))
-        perf = parse_log(os.path.join(run, "logs", f"{vid}.log"))
+        if vid in reused:
+            # Unchanged since the last published run (plan.py): keep its frame's numbers.
+            perf = dict(reused[vid].get("perf", {}), reusedFrom=reused[vid].get("stamp"))
+        else:
+            perf = parse_log(os.path.join(run, "logs", f"{vid}.log"))
         if vid in load and load[vid][1] != "-":
             perf["loadSeconds"] = float(load[vid][1])
         targets = []
