@@ -468,9 +468,12 @@ public final class World {
         }
     }
 
-    /// How far from the camera the sun casts shadows (m). 80 m by default; GPU attribution
-    /// measures shorter ranges with `setShadowDistance(_:)`.
-    var shadowDistance: Float = 80
+    /// How far from the camera the sun casts shadows (m). 60 m: the lighting bible keeps 60–80 m of
+    /// local coverage (look-fix-v1 §2.3), and the owner's decision 2 shortens the range first when
+    /// the phone's GPU time is above 8 ms (street view ~9.1 ms at full clock). The shadow map's
+    /// texels then cover 25% less ground, which also sharpens the jagged wall-base shadows.
+    /// GPU attribution measures other ranges with `setShadowDistance(_:)`.
+    var shadowDistance: Float = 60
 
     /// Opaque materials for trees and bushes outside the cut-away zone (on by default; switched off
     /// only to measure what it saves, `World.Feature.opaqueDetail`).
