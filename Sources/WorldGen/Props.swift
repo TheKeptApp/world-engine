@@ -15,9 +15,11 @@ public enum PropKind: String, Sendable, CaseIterable, Codable {
 /// Reusable prop meshes in object space (scene axes, origin on the ground, +Y up).
 /// Organic props have shared vertices and smooth normals; built objects are flat-shaded.
 public struct PropLibrary: Sendable {
-    /// Shape variants per kind (instances pick one at generation time).
+    /// Shape variants per kind (instances pick one at generation time). Bushes and flowering bushes
+    /// share their numbering (look-fix-v1 §1.2): 0, 1 = the original rounded bushes; 2, 6, 7 = low
+    /// cushions; 3 = medium loose shrub; 4 = upright shrub; 5 = hedge segment (1 m along local +X).
     public static let variants: [PropKind: Int] = [
-        .treeBroad: 1, .treeOval: 1, .treeSpreading: 1, .conifer: 1, .lamp: 1, .bench: 1, .bush: 2, .flowerBush: 2, .tuft: 2,
+        .treeBroad: 1, .treeOval: 1, .treeSpreading: 1, .conifer: 1, .lamp: 1, .bench: 1, .bush: 8, .flowerBush: 8, .tuft: 2,
     ]
 
     /// Detail levels per kind: trees and bushes have near/mid/far meshes, chosen at render time.
@@ -93,6 +95,7 @@ public struct PropLibrary: Sendable {
             m.bakeAO(from: legs) { p, _ in p.y < 0.05 ? 0.75 : 1 }
             return m
         case .bush, .flowerBush:
+            if variant >= 2 { return shrub(kind, variant: variant, lod: lod, palette: palette) }
             var m = MeshBuffers()
             m.paint = Paint(slot: palette.named("bushes"), shade: kind == .flowerBush ? 1.08 : 1, sway: 0.2)
             let start = m.positions.count
@@ -143,6 +146,302 @@ public struct PropLibrary: Sendable {
             m.extra = SIMD4(1, 0, 0, 0)
             return m
         }
+    }
+
+    // MARK: - Shrub forms
+
+    /// A shrub silhouette (look-fix-v1 §1.2), real size in metres: a closed lathe around +Y whose rings
+    /// carry soft lobes, so they merge into one irregular mass (no separate spheres) with a flat-ish
+    /// bottom sunk 3 cm into the ground. Hedge segments use a rounded-rectangle section, 1 m long
+    /// along local +X with flat-ish ends, so segments yawed to the row and placed every 0.9–1 m read
+    /// as one hedge.
+    struct ShrubForm {
+        /// Height of the top pole and half widths (x, z) of the profile.
+        var height: Float, halfX: Float, halfZ: Float
+        /// Near profile rings, bottom → top: (height share, radius share). A negative height share is the
+        /// ground ring, at −sink.
+        var rings: [SIMD2<Float>]
+        /// Lobes: azimuth (rad), radial amplitude (share of the radius), angular width (rad), height share.
+        var lobes: [SIMD4<Float>]
+        /// Uneven top: azimuth (rad), height (m), angular width (rad); grows toward the top.
+        var tops: [SIMD3<Float>] = []
+        /// Lean: horizontal shift (x, z) per metre of height.
+        var lean = SIMD2<Float>(0, 0)
+        /// Rounded-rectangle section (hedge segments).
+        var boxy = false
+        /// Height shares of the mid level's upper ring and the far level's equator.
+        var midRing: Float = 0.58, farRing: Float = 0.42
+
+        static let sink: Float = 0.03
+        static let cushion: [SIMD2<Float>] = [[-1, 0.86], [0.32, 1.0], [0.66, 0.88], [0.9, 0.52]]
+
+        /// One detail level of the lathe: 2 × sides × rings triangles (near 72, mid 24, far 8).
+        struct Level {
+            /// Ring vertex azimuths (rad, in order around +Y from +X toward +Z) and profile rings.
+            var azimuths: [Float], rings: [SIMD2<Float>]
+            /// Explicit unit section points (one per azimuth) instead of the superellipse.
+            var section: [SIMD2<Float>]? = nil
+            /// Lobe and uneven-top scales, radial jitter, section squareness (superellipse exponent).
+            var lobes: Float, tops: Float, jitter: Float, square: Float
+            var sides: Int { azimuths.count }
+
+            init(sides: Int, phase: Float = 0, rings: [SIMD2<Float>], lobes: Float, tops: Float, jitter: Float, square: Float) {
+                self.init(azimuths: (0..<sides).map { phase + Float($0) / Float(sides) * 2 * .pi }, rings: rings,
+                          lobes: lobes, tops: tops, jitter: jitter, square: square)
+            }
+
+            init(azimuths: [Float], rings: [SIMD2<Float>], lobes: Float, tops: Float, jitter: Float, square: Float) {
+                (self.azimuths, self.rings, self.lobes, self.tops, self.jitter, self.square) = (azimuths, rings, lobes, tops, jitter, square)
+            }
+        }
+
+        /// Hedge section (unit half-length × half-width): square-ish ends that keep 82% of the width,
+        /// so segments in a row join without a waist; three points along each long side.
+        static let hedgeSection: [SIMD2<Float>] = [[1, 0], [0.97, 0.82], [0.72, 1], [0, 1.02], [-0.72, 1], [-0.97, 0.82],
+                                                   [-1, 0], [-0.97, -0.82], [-0.72, -1], [0, -1.02], [0.72, -1], [0.97, -0.82]]
+
+        func level(_ lod: Int) -> Level {
+            switch (lod, boxy) {
+            case (0, true):
+                var near = Level(azimuths: Self.hedgeSection.map { atan2($0.y, $0.x) }, rings: rings, lobes: 1, tops: 1, jitter: 0.015, square: 2)
+                near.section = Self.hedgeSection
+                return near
+            case (0, false): return Level(sides: 9, rings: rings, lobes: 1, tops: 1, jitter: 0.03, square: 2)
+            case (1, true): return Level(sides: 4, phase: .pi / 4, rings: [rings[0], [0.5, 1.0], [0.92, 0.94]], lobes: 0, tops: 0, jitter: 0, square: 12)
+            case (1, false): return Level(sides: 6, rings: [rings[0], [midRing, 0.97]], lobes: 0.7, tops: 1, jitter: 0.015, square: 2)
+            default: return Level(sides: 4, rings: [[farRing, 1.0]], lobes: 0, tops: 0.5, jitter: 0, square: 2)
+            }
+        }
+
+        /// Bush variants 2…7 (0 and 1 are the original rounded bushes).
+        static func of(_ variant: Int) -> ShrubForm {
+            switch variant {
+            case 3:
+                // Medium loose shrub: narrow base, wide irregular middle, top higher on one side, leaning ~7°.
+                ShrubForm(height: 0.85, halfX: 0.53, halfZ: 0.47, rings: [[-1, 0.72], [0.3, 0.95], [0.62, 1.0], [0.86, 0.66]],
+                          lobes: [[0.4, 0.16, 0.6, 0.6], [1.9, 0.12, 0.55, 0.45], [3.3, 0.15, 0.6, 0.7], [4.9, 0.11, 0.5, 0.5]],
+                          tops: [[0.7, 0.1, 0.9], [3.9, -0.07, 0.9]], lean: [0.12, 0.03], midRing: 0.62, farRing: 0.48)
+            case 4:
+                // Upright shrub: narrow and tall, an open crown of stacked lobes.
+                ShrubForm(height: 1.35, halfX: 0.34, halfZ: 0.31, rings: [[-1, 0.62], [0.3, 0.92], [0.6, 1.0], [0.88, 0.82]],
+                          lobes: [[0.5, 0.2, 0.7, 0.3], [2.7, 0.2, 0.7, 0.55], [4.6, 0.18, 0.7, 0.85], [1.6, 0.14, 0.5, 0.88]],
+                          tops: [[1.2, 0.08, 0.7], [4.2, -0.05, 0.8]], lean: [0.03, -0.02], midRing: 0.72, farRing: 0.55)
+            case 5:
+                // Hedge segment: 1 m along +X, 0.7 m wide, 0.95 m high; lobed top ±0.08 m on the long
+                // sides, ends left plain so neighbouring segments join.
+                ShrubForm(height: 0.95, halfX: 0.5, halfZ: 0.35, rings: [[-1, 0.94], [0.45, 1.0], [0.95, 0.95]],
+                          lobes: [[0.946, 0.05, 0.25, 0.6], [2.196, 0.04, 0.25, 0.5], [4.712, 0.05, 0.25, 0.55]],
+                          tops: [[0.946, 0.09, 0.2], [1.571, -0.08, 0.2], [2.196, 0.07, 0.2],
+                                 [4.087, -0.09, 0.2], [4.712, 0.08, 0.2], [5.337, -0.06, 0.2]], boxy: true)
+            case 6:
+                // Second cushion: wide and flat, two merged mounds with a shallow saddle.
+                ShrubForm(height: 0.36, halfX: 0.42, halfZ: 0.31, rings: cushion,
+                          lobes: [[0.0, 0.18, 0.6, 0.5], [3.14, 0.16, 0.6, 0.45], [1.7, 0.07, 0.5, 0.5]],
+                          tops: [[0.1, 0.035, 0.7], [3.1, 0.025, 0.7], [1.6, -0.03, 0.5], [4.7, -0.025, 0.5]])
+            case 7:
+                // Third cushion: compact, taller mound of four soft lobes.
+                ShrubForm(height: 0.52, halfX: 0.28, halfZ: 0.26, rings: cushion,
+                          lobes: [[0.3, 0.12, 0.6, 0.5], [1.9, 0.13, 0.6, 0.45], [3.5, 0.11, 0.6, 0.55], [5.0, 0.13, 0.6, 0.5]],
+                          tops: [[4.0, 0.04, 0.8]])
+            default:
+                // Low cushion: rounded and irregular, three merged lobes.
+                ShrubForm(height: 0.45, halfX: 0.35, halfZ: 0.31, rings: cushion,
+                          lobes: [[0.3, 0.16, 0.75, 0.5], [2.4, 0.16, 0.75, 0.45], [4.4, 0.13, 0.75, 0.55]],
+                          tops: [[0.3, 0.03, 0.8], [3.2, -0.02, 0.8]])
+            }
+        }
+    }
+
+    /// Bush and flowering-bush variants 2…7. The body depends only on variant and detail level (kind
+    /// is colour, variant is form); flowering bushes add small flower accents at near detail.
+    static func shrub(_ kind: PropKind, variant: Int, lod: Int, palette: Palette) -> MeshBuffers {
+        let form = ShrubForm.of(variant)
+        var m = MeshBuffers()
+        m.paint = Paint(slot: palette.named("bushes"), shade: kind == .flowerBush ? 1.08 : 1, sway: 0.2)
+        if lod >= 3 {
+            addShrubSkyline(&m, form)
+            return m
+        }
+        if lod == 2, form.boxy {
+            addHedgeTent(&m, form)
+            return m
+        }
+        var rng = StableRandom(UInt64(variant), UInt64(lod), salt: "shrub-form")
+        addShrubBody(&m, form, form.level(lod), rng: &rng)
+        if kind == .flowerBush, lod == 0 {
+            var fr = StableRandom(UInt64(variant), salt: "shrub-flowers")
+            addFlowerAccents(&m, count: 8, height: form.height, slot: palette.named(variant % 2 == 0 ? "flowers" : "flowersAlt"), rng: &fr)
+        }
+        return m
+    }
+
+    /// The lathe body: bottom centre, rings, top pole (leaning toward the high side of an uneven top).
+    /// Normals: smooth face averages softened toward the form's ellipsoid. AO darker underneath (like
+    /// bush variants 0 and 1) and slightly darker in the creases between lobes.
+    static func addShrubBody(_ m: inout MeshBuffers, _ f: ShrubForm, _ level: ShrubForm.Level, rng: inout StableRandom) {
+        let h = f.height, n = level.sides
+        func bump(_ a: Float, _ at: Float, _ width: Float) -> Float {
+            var d = (a - at).truncatingRemainder(dividingBy: 2 * .pi)
+            if d > .pi { d -= 2 * .pi } else if d < -.pi { d += 2 * .pi }
+            return exp(-(d / width) * (d / width))
+        }
+        func lobe(_ a: Float, _ t: Float) -> Float {
+            f.lobes.reduce(0) { s, l in s + l.y * bump(a, l.x, l.z) * exp(-((t - l.w) / 0.32) * ((t - l.w) / 0.32)) }
+        }
+        func top(_ a: Float) -> Float { f.tops.reduce(0) { $0 + $1.y * bump(a, $1.x, $1.z) } }
+        func section(_ a: Float) -> SIMD2<Float> {
+            let c = cos(a), s = sin(a)
+            guard f.boxy else { return [c, s] }
+            let k = pow(pow(abs(c), level.square) + pow(abs(s), level.square), -1 / level.square)
+            return [c * k, s * k]
+        }
+        func lean(_ p: SIMD3<Float>) -> SIMD3<Float> { p + SIMD3(f.lean.x, 0, f.lean.y) * max(p.y, 0) }
+        let maxLobe = max(f.lobes.map(\.y).max() ?? 0, 1e-3)
+
+        var points: [SIMD3<Float>] = [lean([0, -ShrubForm.sink - 0.01, 0])]
+        var crease: [Float] = [1]
+        for ring in level.rings {
+            let t = max(ring.x, 0)
+            for j in 0..<n {
+                let a = level.azimuths[j]
+                let l = lobe(a, ring.x < 0 ? 0.15 : t) * level.lobes
+                let r = ring.y * (1 + l) * Float(1 + rng.range(-Double(level.jitter), Double(level.jitter)))
+                let d = level.section?[j] ?? section(a)
+                let y = (ring.x < 0 ? -ShrubForm.sink : ring.x * h) + top(a) * level.tops * t * t
+                points.append(lean([d.x * r * f.halfX, y, d.y * r * f.halfZ]))
+                crease.append(level.lobes > 0 && ring.x >= 0 ? min(1, max(0, l / (maxLobe * level.lobes))) : 1)
+            }
+        }
+        var shift = SIMD2<Float>(0, 0)
+        if !f.boxy { for tp in f.tops { shift += SIMD2(cos(tp.x), sin(tp.x)) * (tp.y * 1.2 * level.tops) } }
+        points.append(lean([shift.x, h, shift.y]))
+        crease.append(1)
+
+        let rings = level.rings.count, pole = UInt32(1 + rings * n)
+        func v(_ i: Int, _ j: Int) -> UInt32 { UInt32(1 + i * n + j % n) }
+        var tris: [SIMD3<UInt32>] = []
+        for j in 0..<n { tris.append([v(0, j), v(0, j + 1), 0]) }
+        for i in 0..<(rings - 1) {
+            for j in 0..<n {
+                tris.append([v(i, j), v(i + 1, j), v(i + 1, j + 1)])
+                tris.append([v(i, j), v(i + 1, j + 1), v(i, j + 1)])
+            }
+        }
+        for j in 0..<n { tris.append([v(rings - 1, j), pole, v(rings - 1, j + 1)]) }
+
+        var normals = [SIMD3<Float>](repeating: .zero, count: points.count)
+        for t in tris {
+            let c = simd_cross(points[Int(t.y)] - points[Int(t.x)], points[Int(t.z)] - points[Int(t.x)])
+            for i in [t.x, t.y, t.z] { normals[Int(i)] += c }
+        }
+        let center = lean([0, 0.42 * h, 0]), radii = SIMD3<Float>(f.halfX, 0.62 * h, f.halfZ)
+        let base = UInt32(m.positions.count)
+        for (i, p) in points.enumerated() {
+            let shape = simd_normalize((p - center) / (radii * radii))
+            var normal = simd_normalize(simd_normalize(normals[i]) * 0.7 + shape * 0.3)
+            // Hedge segments shade as one row: normals barely turn toward the ends, so joins don't show.
+            if f.boxy { normal = simd_normalize(SIMD3(normal.x * 0.2, normal.y, normal.z)) }
+            m.addVertex(p, normal: normal)
+            let ao = Float(0.62 + 0.38 * smoothstep(0.0, Double(0.72 * h), Double(p.y))) * (0.92 + 0.08 * crease[i])
+            m.extras[Int(base) + i].x = min(m.extras[Int(base) + i].x, ao)
+        }
+        for t in tris { m.addTriangle(base + t.x, base + t.y, base + t.z) }
+    }
+
+    /// Far hedge segment: a tent over the full 1 m × width footprint with its ridge along +X at full
+    /// length (6 triangles, open underneath), so a row of segments reads as one continuous hedge.
+    static func addHedgeTent(_ m: inout MeshBuffers, _ f: ShrubForm) {
+        let h = f.height, w = f.halfZ, start = m.positions.count
+        let up = SIMD3<Float>(0, 1, 0)
+        let ridge = [m.addVertex([-0.5, h, 0], normal: up), m.addVertex([0.5, h, 0], normal: up)]
+        var base: [[UInt32]] = []
+        for s: Float in [-1, 1] {
+            let n = simd_normalize(SIMD3<Float>(0, w, s * (h + ShrubForm.sink)))
+            base.append([m.addVertex([-0.5, -ShrubForm.sink, s * w], normal: n), m.addVertex([0.5, -ShrubForm.sink, s * w], normal: n)])
+        }
+        // Long sides (−z, +z), then the two end triangles.
+        m.addTriangle(base[0][1], base[0][0], ridge[0]); m.addTriangle(base[0][1], ridge[0], ridge[1])
+        m.addTriangle(base[1][0], base[1][1], ridge[1]); m.addTriangle(base[1][0], ridge[1], ridge[0])
+        let ends: [(Float, UInt32, UInt32, UInt32)] = [(1, base[0][1], ridge[1], base[1][1]), (-1, base[1][0], ridge[0], base[0][0])]
+        for (s, a, b, c) in ends {
+            let n = SIMD3<Float>(s, 0, 0)
+            let ids = [a, b, c].map { m.addVertex(m.positions[Int($0)], normal: simd_normalize(n * 0.6 + up * 0.8)) }
+            m.addTriangle(ids[0], ids[1], ids[2])
+        }
+        m.bakeAO(from: start) { p, _ in Float(0.62 + 0.38 * smoothstep(0.0, Double(0.72 * h), Double(p.y))) }
+    }
+
+    /// Skyline detail (level 3, if renderers ask for it): open underneath, like the trees' skyline
+    /// spires. Round forms: a three-sided pyramid over the footprint (3 triangles), apex leaning with
+    /// the form; hedge segments: a two-sided tent along +X (4 triangles), full length so rows join.
+    static func addShrubSkyline(_ m: inout MeshBuffers, _ f: ShrubForm) {
+        let h = f.height, start = m.positions.count
+        if f.boxy {
+            let ridge = [m.addVertex([-0.47, 0.9 * h, 0], normal: [0, 1, 0]), m.addVertex([0.47, 0.9 * h, 0], normal: [0, 1, 0])]
+            for s: Float in [-1, 1] {
+                let n = simd_normalize(SIMD3<Float>(0, f.halfZ, s * 0.9 * h))
+                let a = m.addVertex([-0.5, 0.05, s * f.halfZ], normal: n), b = m.addVertex([0.5, 0.05, s * f.halfZ], normal: n)
+                if s > 0 { m.addTriangle(a, b, ridge[1]); m.addTriangle(a, ridge[1], ridge[0]) }
+                else { m.addTriangle(b, a, ridge[0]); m.addTriangle(b, ridge[0], ridge[1]) }
+            }
+        } else {
+            var shift = SIMD2<Float>(0, 0)
+            for tp in f.tops { shift += SIMD2(cos(tp.x), sin(tp.x)) * (tp.y * 1.2) }
+            shift += f.lean * h
+            let apex = m.addVertex([shift.x, h, shift.y], normal: [0, 1, 0])
+            let ring = (0..<3).map { i -> UInt32 in
+                let a = Float(i) / 3 * 2 * .pi
+                let p = SIMD3<Float>(cos(a) * f.halfX, 0.05, sin(a) * f.halfZ)
+                return m.addVertex(p, normal: simd_normalize(SIMD3(cos(a) / f.halfX, 1 / (h - 0.05), sin(a) / f.halfZ)))
+            }
+            for i in 0..<3 { m.addTriangle(apex, ring[(i + 1) % 3], ring[i]) }
+        }
+        m.bakeAO(from: start) { p, _ in Float(0.62 + 0.38 * smoothstep(0.0, Double(0.72 * h), Double(p.y))) }
+    }
+
+    /// Flower accents on the upper body: single triangles about 8 cm across, lifted 1.2 cm off faces in
+    /// the upper half and spread around the shrub (about 2% of a cushion's surface). They carry a leaf
+    /// threshold (extras.y = 0.9), so they show only while the season is in full leaf.
+    static func addFlowerAccents(_ m: inout MeshBuffers, count: Int, height: Float, slot: Int, rng: inout StableRandom) {
+        var spots: [(center: SIMD3<Float>, face: SIMD3<Float>, normal: SIMD3<Float>, azimuth: Float)] = []
+        for t in 0..<m.triangleCount {
+            let ids = (0..<3).map { Int(m.indices[t * 3 + $0]) }
+            let c = ids.reduce(SIMD3<Float>.zero) { $0 + m.positions[$1] } / 3
+            let face = simd_normalize(m.faceCross(t))
+            guard c.y > 0.45 * height, face.y > -0.1 else { continue }
+            let normal = simd_normalize(ids.reduce(SIMD3<Float>.zero) { $0 + m.normals[$1] })
+            spots.append((c, face, normal, atan2(c.z, c.x)))
+        }
+        guard !spots.isEmpty else { return }
+        let paint = m.paint, extra = m.extra
+        m.paint = Paint(slot: slot, shade: 1, sway: 0.2)
+        m.extra = SIMD4(1, 0.9, 0, 0)
+        var used = Set<Int>()
+        for k in 0..<count {
+            let want = -Float.pi + (Float(k) + Float(rng.range(0.2, 0.8))) / Float(count) * 2 * .pi
+            let wantY = Float(rng.range(0.55, 0.95)) * height
+            var best = -1, score = Float.infinity
+            for (i, s) in spots.enumerated() where !used.contains(i) {
+                var d = abs(s.azimuth - want)
+                if d > .pi { d = 2 * .pi - d }
+                let e = d + abs(s.center.y - wantY) / height
+                if e < score { score = e; best = i }
+            }
+            guard best >= 0 else { break }
+            used.insert(best)
+            let s = spots[best]
+            let u = simd_normalize(simd_cross(s.normal, abs(s.normal.y) < 0.9 ? SIMD3(0, 1, 0) : SIMD3(1, 0, 0)))
+            let w = simd_cross(s.normal, u)
+            let r = Float(rng.range(0.04, 0.055)), spin = Float(rng.range(0, 2 * .pi))
+            let c = s.center + s.face * 0.012
+            let ids = (0..<3).map { q -> UInt32 in
+                let a = spin + Float(q) * 2 * .pi / 3
+                return m.addVertex(c + (u * cos(a) + w * sin(a)) * r, normal: s.normal)
+            }
+            m.addTriangle(ids[0], ids[1], ids[2])
+        }
+        m.paint = paint
+        m.extra = extra
     }
 
     // MARK: - Trees
