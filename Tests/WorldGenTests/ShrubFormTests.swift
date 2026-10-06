@@ -78,7 +78,7 @@ struct ShrubFormTests {
 
     @Test func everyVariantAndLevelBuildsWithinCaps() throws {
         let palette = try Self.palette()
-        let caps = [80, 24, 8, 4] // near, mid, far, skyline
+        let caps = [80, 20, 8, 4] // near, mid (old bushes: 20), far, skyline
         #expect(PropLibrary.variants[.bush] == 8)
         #expect(PropLibrary.variants[.flowerBush] == 8)
         var line = "SHRUBTRIS"

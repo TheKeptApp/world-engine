@@ -181,7 +181,7 @@ public struct PropLibrary: Sendable {
         static let sink: Float = 0.03
         static let cushion: [SIMD2<Float>] = [[-1, 0.86], [0.32, 1.0], [0.66, 0.88], [0.9, 0.52]]
 
-        /// One detail level of the lathe: 2 × sides × rings triangles (near 72, mid 24, far 8).
+        /// One detail level of the lathe: 2 × sides × rings triangles (near 72, mid 20 (hedge 16), far 8).
         struct Level {
             /// Ring vertex azimuths (rad, in order around +Y from +X toward +Z) and profile rings.
             var azimuths: [Float], rings: [SIMD2<Float>]
@@ -213,8 +213,8 @@ public struct PropLibrary: Sendable {
                 near.section = Self.hedgeSection
                 return near
             case (0, false): return Level(sides: 9, rings: rings, lobes: 1, tops: 1, jitter: 0.03, square: 2)
-            case (1, true): return Level(sides: 4, phase: .pi / 4, rings: [rings[0], [0.5, 1.0], [0.92, 0.94]], lobes: 0, tops: 0, jitter: 0, square: 12)
-            case (1, false): return Level(sides: 6, rings: [rings[0], [midRing, 0.97]], lobes: 0.7, tops: 1, jitter: 0.015, square: 2)
+            case (1, true): return Level(sides: 4, phase: .pi / 4, rings: [rings[0], [0.9, 0.97]], lobes: 0, tops: 0, jitter: 0, square: 12)
+            case (1, false): return Level(sides: 5, rings: [rings[0], [midRing, 0.97]], lobes: 0.7, tops: 1, jitter: 0.015, square: 2)
             default: return Level(sides: 4, rings: [[farRing, 1.0]], lobes: 0, tops: 0.5, jitter: 0, square: 2)
             }
         }
