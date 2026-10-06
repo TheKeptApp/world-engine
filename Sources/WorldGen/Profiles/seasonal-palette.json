@@ -1,5 +1,5 @@
 {
-  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles.",
+  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y).",
   "seasons": ["spring", "summer", "autumn", "winter"],
   "surfaces": {
     "ground":      ["#AFA184", "#B3A080", "#AC9677", "#A5A092"],
@@ -20,6 +20,8 @@
     "bark":        ["#807465", "#7C7263", "#817362", "#807973"],
     "snow":        ["#E8EDF0", "#E8EDF0", "#E8EDF0", "#E8EDF0"],
     "backdrop":    ["#A9B4A0", "#A9B4A0", "#B3BBAA", "#BDC8D4"],
+    "lawnA":       ["#71944F", "#648146", "#858949", "#8D8A68"],
+    "lawnB":       ["#91AD69", "#8C9C59", "#ABA16A", "#ABA58A"],
     "residential": ["#8B9C7C", "#7E8D73", "#968A6D", "#8F8B81"],
     "commercial":  ["#888E82", "#868A80", "#8D8B80", "#8A8A84"],
     "wood":        ["#869E75", "#6F8767", "#9A8058", "#80796A"],

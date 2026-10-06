@@ -14,15 +14,31 @@ public struct GeneratedLot: Sendable {
     public var outline: [Ring]
     /// Open yard area in m² (house excluded).
     public var area: Double
-    /// Palette shade for this lot's lawn.
+    /// Palette shade for this lot's lawn (one of four value steps; neighbours differ by 1–2 steps).
     public var lawnShade: Float
-    /// Lawn care 0 (dry, patchy) … 1 (lush); renderers may bias lawn colour with it (vertex extra.y).
-    public var care: Float
+    /// Position 0…1 between the zone's lawn endpoint pair for the season (vertex extra.y).
+    public var tone: Float
+    /// Stable per-lot seed 0…1 for the renderer's analytic patch field (vertex extra.w).
+    public var seed: Float
     public var entry: LocalPoint?
     /// Front walk from the door to the sidewalk or street.
     public var walk: [LocalPoint]?
     public var driveways: [[LocalPoint]] = []
     public var origin = "inferred"
+    /// Yard rule version (bump when placement rules change so caches and comparisons know).
+    public var ruleVersion = 2
+}
+
+/// A fall leaf-litter patch near a deciduous tree (look-fix §1.3). Renderers show it only in the
+/// fall phenophase (season mask is theirs). Tone picks one of three leaf colours.
+public struct LitterPatch: Sendable, Equatable {
+    public var x: Double
+    public var y: Double
+    public var radius: Double
+    /// 0, 1, 2 → #AA753F, #BD914F, #8C7145.
+    public var tone: Int
+    /// The tree's instance source.
+    public var tree: String
 }
 
 /// Where fallen leaves collect beyond tree crowns (renderers decide whether and how).
@@ -96,7 +112,7 @@ extension SceneGenerator {
         let n = palette.named
         let byIndex = Dictionary(uniqueKeysWithValues: subjects.map { ($0.index, $0) })
         var trees = TreeGrid(cell: 8)
-        for t in features.points(of: .tree) { trees.insert(t.position) }
+        for inst in instances where inst.kind.isTree { trees.insert(LocalPoint(inst.x, inst.y), kind: inst.kind, variant: inst.variant) }
         var stats: [String: Int] = [:]
         func addStatic(_ m: MeshBuffers, _ feature: String, at p: LocalPoint) {
             let key = chunkIndex(p)
@@ -143,6 +159,35 @@ extension SceneGenerator {
             stats["driveways", default: 0] += 1
         }
 
+        // Lawn value steps: four per zone range (5 % apart); neighbouring lots differ by one or two
+        // steps where possible, never equal unless every level is taken (look-fix §1.1: 4–10 % value apart, no alternating stripes).
+        var neighbours: [Int: Set<Int>] = [:]
+        for j in 0..<raster.h { for i in 0..<raster.w {
+            let o = Int(raster.owner[raster.index(i, j)])
+            guard o >= 0, eligible.contains(o) else { continue }
+            // Lots one open cell apart still read as neighbours.
+            for (di, dj) in [(1, 0), (0, 1), (1, 1), (1, -1), (2, 0), (0, 2), (2, 1), (1, 2), (2, -1), (1, -2), (2, 2), (2, -2), (3, 0), (0, 3)]
+                where i + di < raster.w && j + dj < raster.h && j + dj >= 0 {
+                let q = Int(raster.owner[raster.index(i + di, j + dj)])
+                if q >= 0, q != o, eligible.contains(q) { neighbours[o, default: []].insert(q); neighbours[q, default: []].insert(o) }
+            }
+        } }
+        var step: [Int: Int] = [:]
+        for idx in eligible.sorted() {
+            guard let s = byIndex[idx] else { continue }
+            var r = s.building.ref.random("lawn-step")
+            let taken = (neighbours[idx] ?? []).compactMap { step[$0] }
+            var allowed = (0..<4).filter { k in taken.allSatisfy { abs($0 - k) == 1 || abs($0 - k) == 2 } }
+            if allowed.isEmpty { allowed = (0..<4).filter { !taken.contains($0) } }
+            if allowed.isEmpty {
+                // Every level is taken: the least-used one among the neighbours.
+                let counts = (0..<4).map { k in taken.filter { $0 == k }.count }
+                allowed = [counts.firstIndex(of: counts.min()!)!]
+            }
+            step[idx] = allowed[Int(r.next() % UInt64(allowed.count))]
+        }
+        var lotTrees: [Int: Int] = [:]
+
         for idx in eligible.sorted() {
             guard let c = count[idx], c >= 12, let l = lo[idx], let h = hi[idx], let s = byIndex[idx] else { continue }
             let g = s.generated
@@ -150,19 +195,39 @@ extension SceneGenerator {
             let rules = library.rules(for: profileID)
             let zoneProfile = zones?.profiles[profileID] ?? profile
             var r = s.building.ref.random("yard")
-            let shade = Float(r.range(rules.lawnShade))
-            let care = Float(r.range(0.25, 1.0))
-            let rings = raster.outlines(max(0, l.x - 1)...min(raster.w - 1, h.x + 1), max(0, l.y - 1)...min(raster.h - 1, h.y + 1),
-                                        tolerance: 0.8) { k in raster.owner[k] == Int32(idx) || raster.buildingOf[k] == Int32(idx) }
+            let k = Double(step[idx] ?? 1)
+            let range = rules.lawnShade.count >= 2 ? rules.lawnShade : [0.92, 1.07]
+            let shade = Float(range[0] + (range[1] - range[0]) * k / 3)
+            let tone = Float(min(1, max(0, (k + r.range(-0.3, 0.3)) / 3)))
+            let lotSeed = Float(r.unit())
+            let front = g.frontEdge.map { BuildingGenerator.edge(s.building.footprint.outer, $0) }
+            func isFrontYard(_ p: LocalPoint) -> Bool {
+                guard let (fp, _, fn, _) = front else { return false }
+                return simd_dot(p - fp, fn) > 0.5
+            }
+            // City lots (look-fix §1.2: Lakeview 0–20 % lawn): a planted front garden and/or a paved
+            // rear yard replace parts of the lawn.
+            var fr = s.building.ref.random("yard-front")
+            let garden = front != nil && fr.chance(rules.frontGarden ?? 0)
+            let paved = front != nil && fr.chance(rules.rearPaving ?? 0)
+            let ri = max(0, l.x - 1)...min(raster.w - 1, h.x + 1), rj = max(0, l.y - 1)...min(raster.h - 1, h.y + 1)
+            func cellFront(_ k: Int) -> Bool { isFrontYard(raster.center(k % raster.w, k / raster.w)) }
+            func owned(_ k: Int) -> Bool { raster.owner[k] == Int32(idx) }
+            let rings = raster.outlines(ri, rj, tolerance: 0.8) { k in
+                if raster.buildingOf[k] == Int32(idx) { return true }
+                guard owned(k) else { return false }
+                let f = cellFront(k)
+                return !(garden && f) && !(paved && !f)
+            }
             guard !rings.isEmpty else { continue }
             let anchor = s.building.footprint.centroid
-            let lot = GeneratedLot(building: s.building.ref, profileID: profileID, outline: rings, area: Double(c), lawnShade: shade, care: care,
+            let lot = GeneratedLot(building: s.building.ref, profileID: profileID, outline: rings, area: Double(c), lawnShade: shade, tone: tone, seed: lotSeed,
                                    entry: g.entry?.point, walk: walks[idx], driveways: driveways[idx] ?? [])
 
             // Lawn.
             var lawn = MeshBuffers()
             lawn.paint = Paint(slot: n("lawn"), shade: shade, flags: .lawn)
-            lawn.extra = SIMD4(1, care, 0, 0)
+            lawn.extra = SIMD4(1, tone, 0, lotSeed)
             for ring in rings {
                 let tri = Earcut.triangulate(Polygon2D(outer: ring))
                 for k in stride(from: 0, to: tri.indices.count - 2, by: 3) {
@@ -174,6 +239,22 @@ extension SceneGenerator {
             }
             addStatic(lawn, "gen:lot:\(s.building.ref)", at: anchor)
             stats["lots", default: 0] += 1
+            // Garden front (bed colour) and paved rear (concrete), traced like the lawn.
+            for (on, paint, y, key) in [(garden, Paint(slot: n("yardBed"), shade: Float(fr.range(0.975, 1.025))), GroundLayer.yardBed, "garden"),
+                                        (paved, Paint(slot: n("driveway"), shade: Float(fr.range(0.96, 1.02))), GroundLayer.driveway, "paving")] where on {
+                let wantFront = key == "garden"
+                var m = MeshBuffers()
+                m.paint = paint
+                for ring in raster.outlines(ri, rj, tolerance: 0.8, inside: { k in owned(k) && cellFront(k) == wantFront }) {
+                    let tri = Earcut.triangulate(Polygon2D(outer: ring))
+                    for t in stride(from: 0, to: tri.indices.count - 2, by: 3) {
+                        m.addFace([tri.vertices[tri.indices[t]], tri.vertices[tri.indices[t + 1]], tri.vertices[tri.indices[t + 2]]].map { P($0, y) },
+                                  facing: sceneUp)
+                    }
+                }
+                addStatic(m, "gen:\(key):\(s.building.ref)", at: anchor)
+                stats[key == "garden" ? "gardens" : "pavedYards", default: 0] += 1
+            }
 
             // Front walk.
             if let walk = walks[idx] {
@@ -186,25 +267,44 @@ extension SceneGenerator {
             }
 
             let near = inFocus(anchor)
-            let front = g.frontEdge.map { BuildingGenerator.edge(s.building.footprint.outer, $0) }
-            func isFrontYard(_ p: LocalPoint) -> Bool {
-                guard let (fp, _, fn, _) = front else { return false }
-                return simd_dot(p - fp, fn) > 0.5
-            }
 
-            // Foundation bed along the front wall (near only).
-            if near, let (fp, dir, fn, len) = front, len >= 4, r.chance(rules.beds) {
+            // Foundation beds: along the front wall (skipping the door), depth 0.6–1.2 m toward the
+            // zone's bed area, with short returns along the side walls when the front alone is short.
+            if near, let (fp, dir, fn, len) = front, len >= 4, r.chance(rules.beds), let fe = g.frontEdge {
                 var m = MeshBuffers()
-                m.paint = Paint(slot: n("yardBed"))
+                m.paint = Paint(slot: n("yardBed"), shade: Float(r.range(0.975, 1.025)))
                 let doorS = g.entry.map { simd_dot($0.point - fp, dir) } ?? -10
-                var spans: [(Double, Double)] = []
-                if doorS > 0 { spans = [(0.3, doorS - 0.9), (doorS + 0.9, len - 0.3)] } else { spans = [(0.3, len - 0.3)] }
-                for (a, b) in spans where b - a >= 1.0 {
-                    let q = [fp + dir * a, fp + dir * b, fp + dir * b + fn * 1.0, fp + dir * a + fn * 1.0]
-                    m.addFace(q.map { P($0, GroundLayer.yardBed) }, facing: sceneUp)
+                var spans: [(Double, Double)] = doorS > 0 ? [(0.3, doorS - 0.9), (doorS + 0.9, len - 0.3)] : [(0.3, len - 0.3)]
+                spans = spans.filter { $0.1 - $0.0 >= 1.0 }
+                let frontLen = spans.reduce(0) { $0 + $1.1 - $1.0 }
+                let target = rules.bedArea.map { r.range($0) } ?? frontLen
+                let depth = min(1.2, max(0.6, target / max(frontLen, 1)))
+                var area = 0.0
+                for (a, b) in spans {
+                    let q = [fp + dir * a, fp + dir * b, fp + dir * b + fn * depth, fp + dir * a + fn * depth]
+                    if q.allSatisfy({ raster.useAt($0) != .road && raster.useAt($0) != .walkway }) {
+                        m.addFace(q.map { P($0, GroundLayer.yardBed) }, facing: sceneUp)
+                        area += (b - a) * depth
+                    }
                 }
-                addStatic(m, "gen:bed:\(s.building.ref)", at: anchor)
-                stats["beds", default: 0] += 1
+                // Side returns at the front corners.
+                let ring = s.building.footprint.outer
+                for (e, fromStart) in [((fe + 1) % ring.count, true), ((fe + ring.count - 1) % ring.count, false)] where area < target - 1 {
+                    let (sp, sdir, sn, slen) = BuildingGenerator.edge(ring, e)
+                    guard abs(simd_dot(sdir, fn)) > 0.7, slen >= 2 else { continue }
+                    let run = min(3.0, slen - 0.5, (target - area) / depth)
+                    guard run >= 0.8 else { continue }
+                    let a = fromStart ? 0.2 : slen - 0.2 - run, b = a + run
+                    let q = [sp + sdir * a, sp + sdir * b, sp + sdir * b + sn * depth, sp + sdir * a + sn * depth]
+                    guard q.allSatisfy({ raster.useAt($0) == .open || raster.useAt($0) == .building }) else { continue }
+                    m.addFace(q.map { P($0, GroundLayer.yardBed) }, facing: sceneUp)
+                    area += run * depth
+                }
+                if !m.isEmpty {
+                    addStatic(m, "gen:bed:\(s.building.ref)", at: anchor)
+                    stats["beds", default: 0] += 1
+                    stats["bedSquareMeters", default: 0] += Int(area)
+                }
             }
 
             // Bushes keep clear of carriageways, walkways and walls.
@@ -223,13 +323,13 @@ extension SceneGenerator {
                 }
                 let extra = rules.shrubs.count >= 2 ? rules.shrubs[0] + Int(shr.next() % UInt64(max(1, rules.shrubs[1] - rules.shrubs[0] + 1))) : 1
                 var tries = 0
-                while placed.count < extra + 2, tries < 40 {
+                while placed.count < extra + 2, tries < 160 {
                     tries += 1
                     let i = l.x + Int(shr.next() % UInt64(h.x - l.x + 1)), j = l.y + Int(shr.next() % UInt64(h.y - l.y + 1))
                     let k = raster.index(i, j)
                     guard raster.owner[k] == Int32(idx), raster.use[k] == LotRaster.Use.open.rawValue else { continue }
                     let p = raster.center(i, j)
-                    guard isFrontYard(p), raster.isEdge(i, j, owner: Int32(idx)), !raster.nearUse(p, .hard, radius: 1.5),
+                    guard isFrontYard(p), raster.isEdge(i, j, owner: Int32(idx)) || raster.nearUse(p, .building, radius: 2.5), !raster.nearUse(p, .hard, radius: 1.5),
                           !raster.nearUse(p, .building, radius: 1.2), clear(p), placed.allSatisfy({ simd_distance($0, p) > 1.8 }) else { continue }
                     placed.append(p)
                 }
@@ -269,12 +369,52 @@ extension SceneGenerator {
                     if line.count >= 2 { scene.litterHints.append(LitterHint(kind: .hedge, line: line, weight: 0.8)) }
                 }
                 stats["hedgeBushes", default: 0] += hedgeCount
+
+                // A planted front garden: low shrubs spread through it.
+                if garden {
+                    var gr = s.building.ref.random("yard-garden")
+                    var gardenShrubs: [LocalPoint] = []
+                    for j in l.y...h.y { for i in l.x...h.x {
+                        let k = raster.index(i, j)
+                        guard owned(k), raster.use[k] == LotRaster.Use.open.rawValue, cellFront(k), gr.chance(0.3) else { continue }
+                        let p = raster.center(i, j) + LocalPoint(gr.range(-0.3, 0.3), gr.range(-0.3, 0.3))
+                        guard !raster.nearUse(p, .walkway, radius: 0.5), !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .building, radius: 0.8),
+                              gardenShrubs.allSatisfy({ simd_distance($0, p) > 1.5 }) else { continue }
+                        gardenShrubs.append(p)
+                    } }
+                    for (k, p) in gardenShrubs.enumerated() {
+                        var rr = s.building.ref.random("garden-shrub-\(k)")
+                        instances.append(PropInstance(kind: rr.chance(0.2) ? .flowerBush : .bush, variant: rr.chance(0.5) ? 0 : 1,
+                                                      source: "gen:shrub:\(s.building.ref):g\(k)", x: p.x, y: p.y, height: 0,
+                                                      yaw: rr.range(0, 6.28), scale: rr.range(0.6, 0.9)))
+                    }
+                    stats["shrubs", default: 0] += gardenShrubs.count
+                }
+
+                // Fences: low iron along the front lot line, wooden privacy on the alley side.
+                var fc = s.building.ref.random("yard-fence")
+                var fence = MeshBuffers()
+                if fc.chance(rules.frontFence ?? 0) {
+                    let runs = raster.edgeRuns(l, h, owner: Int32(idx)) { k in raster.use[k] == LotRaster.Use.walkway.rawValue }
+                    for run in runs { addFence(run.filter { !raster.nearUse($0, .hard, radius: 0.9) }, iron: true, palette: palette, into: &fence) }
+                    stats["frontFences", default: 0] += 1
+                }
+                if fc.chance(rules.rearFence ?? 0) {
+                    let runs = raster.edgeRuns(l, h, owner: Int32(idx)) { k in
+                        raster.use[k] == LotRaster.Use.road.rawValue
+                            && context.alleyIndex.nearest(to: raster.center(k % raster.w, k / raster.w), within: 3) != nil
+                    }
+                    for run in runs { addFence(run.filter { !raster.nearUse($0, .hard, radius: 0.9) && !raster.nearUse($0, .building, radius: 0.8) },
+                                               iron: false, palette: palette, into: &fence) }
+                    stats["rearFences", default: 0] += 1
+                }
+                addStatic(fence, "gen:fence:\(s.building.ref)", at: anchor)
             }
 
             // Specimen trees, back yard preferred, clear of walls, walks and other crowns.
             var tr = s.building.ref.random("yard-trees")
             let mean = rules.yardTreesPerHouse
-            let wanted = Int(mean) + (tr.chance(mean - Double(Int(mean))) ? 1 : 0)
+            let wanted = min(Int(mean) + (tr.chance(mean - Double(Int(mean))) ? 1 : 0), rules.maxYardTreesPerLot ?? 3)
             var planted = 0, tries = 0
             while planted < wanted, tries < 60 {
                 tries += 1
@@ -285,12 +425,14 @@ extension SceneGenerator {
                 if isFrontYard(p), tr.chance(0.55) { continue }
                 guard !raster.nearUse(p, .building, radius: 3.5), !raster.nearUse(p, .hard, radius: 1.5),
                       !raster.nearUse(p, .road, radius: 2), !trees.near(p, 7) else { continue }
-                trees.insert(p)
-                instances.append(treeInstance(zoneProfile, random: &tr, at: p, source: "gen:yardtree:\(s.building.ref):\(planted)"))
+                let inst = treeInstance(zoneProfile, random: &tr, at: p, source: "gen:yardtree:\(s.building.ref):\(planted)", trees: trees)
+                trees.insert(p, kind: inst.kind, variant: inst.variant)
+                instances.append(inst)
                 scene.clutter.blockedPoints.append(p)
                 planted += 1
             }
             stats["yardTrees", default: 0] += planted
+            lotTrees[idx] = planted
             scene.lots.append(lot)
         }
 
@@ -344,8 +486,9 @@ extension SceneGenerator {
                         guard let use = raster.useAt(p), use == .open, !raster.nearUse(p, .hard, radius: 1.8), !raster.nearUse(p, .building, radius: 3),
                               !raster.nearUse(p, .road, radius: 0.8),
                               !trees.near(p, 7) else { continue }
-                        trees.insert(p)
-                        instances.append(treeInstance(zone, random: &rr, at: p, source: "gen:streettree:\(road.ref):\(streetTrees)", street: true))
+                        let inst = treeInstance(zone, random: &rr, at: p, source: "gen:streettree:\(road.ref):\(streetTrees)", street: true, trees: trees)
+                        trees.insert(p, kind: inst.kind, variant: inst.variant)
+                        instances.append(inst)
                         scene.clutter.blockedPoints.append(p)
                         streetTrees += 1
                     }
@@ -355,7 +498,9 @@ extension SceneGenerator {
         }
         stats["streetTrees"] = streetTrees
         stats["canopyTrees"] = plantForCanopy(raster, eligible: eligible, lo: lo, hi: hi, count: count, byIndex: byIndex, library: library,
-                                              trees: &trees, instances: &instances, scene: &scene)
+                                              lotTrees: &lotTrees, trees: &trees, instances: &instances, scene: &scene)
+        scene.litterPatches = litterPatches(instances, raster: raster)
+        stats["litterPatches"] = scene.litterPatches.count
         let t4 = Date()
         stats["yardMsRaster"] = Int(t1.timeIntervalSince(t0) * 1000)
         stats["yardMsAssign"] = Int(t2.timeIntervalSince(t1) * 1000)
@@ -373,7 +518,7 @@ extension SceneGenerator {
     /// one tree per lot per round, so cover spreads instead of filling one lot.
     // swiftlint:disable:next function_parameter_count
     func plantForCanopy(_ raster: LotRaster, eligible: Set<Int>, lo: [Int: SIMD2<Int>], hi: [Int: SIMD2<Int>], count: [Int: Int],
-                        byIndex: [Int: YardSubject], library: YardLibrary, trees: inout TreeGrid, instances: inout [PropInstance],
+                        byIndex: [Int: YardSubject], library: YardLibrary, lotTrees: inout [Int: Int], trees: inout TreeGrid, instances: inout [PropInstance],
                         scene: inout GeneratedScene) -> Int {
         let rules = library.rules(for: profile.id)
         guard let measured = profile.trees.canopyShare, let fill = rules.canopyFill, fill > 0 else { return 0 }
@@ -404,6 +549,8 @@ extension SceneGenerator {
             var plantedThisRound = 0
             for idx in lots {
                 guard share < target, total < maxTrees, let l = lo[idx], let h = hi[idx], let s = byIndex[idx] else { break }
+                let cap = library.rules(for: s.generated.profileID ?? profile.id).maxYardTreesPerLot ?? 3
+                guard lotTrees[idx, default: 0] < cap else { continue }
                 var r = s.building.ref.random("canopy-\(round)")
                 let zoneProfile = zones?.profiles[s.generated.profileID ?? profile.id] ?? profile
                 for _ in 0..<24 {
@@ -413,8 +560,9 @@ extension SceneGenerator {
                     let p = raster.center(i, j)
                     guard !raster.nearUse(p, .building, radius: 4), !raster.nearUse(p, .hard, radius: 1.5), !raster.nearUse(p, .road, radius: 2.5),
                           !trees.near(p, 8) else { continue }
-                    let inst = treeInstance(zoneProfile, random: &r, at: p, source: "gen:canopytree:\(s.building.ref):\(round)")
-                    trees.insert(p)
+                    let inst = treeInstance(zoneProfile, random: &r, at: p, source: "gen:canopytree:\(s.building.ref):\(round)", trees: trees)
+                    trees.insert(p, kind: inst.kind, variant: inst.variant)
+                    lotTrees[idx, default: 0] += 1
                     instances.append(inst)
                     scene.clutter.blockedPoints.append(p)
                     addCrown(p, crownRadius(inst))
@@ -427,6 +575,47 @@ extension SceneGenerator {
             if plantedThisRound == 0 { break }
         }
         return added
+    }
+
+    /// A fence along ordered points (lot-edge cell centres), split where the run has gaps.
+    /// Iron: posts, two rails and bars (1.1 m). Wood privacy: posts and solid boards (1.75 m).
+    func addFence(_ pts: [LocalPoint], iron: Bool, palette: Palette, into m: inout MeshBuffers) {
+        guard pts.count >= 2 else { return }
+        let height = iron ? 1.1 : 1.75
+        m.paint = iron ? Paint(slot: palette.named("metal")) : Paint(slot: palette.named("fenceWood"))
+        var segments: [[LocalPoint]] = [[pts[0]]]
+        for p in pts.dropFirst() {
+            if simd_distance(segments[segments.count - 1].last!, p) > 1.6 { segments.append([p]) } else { segments[segments.count - 1].append(p) }
+        }
+        for seg in segments where seg.count >= 2 {
+            let a = seg.first!, b = seg.last!
+            let d = b - a
+            let len = simd_length(d)
+            guard len >= 1.5 else { continue }
+            let u = d / len
+            // Posts.
+            let postEvery = iron ? 2.0 : 2.4
+            let posts = max(1, Int((len / postEvery).rounded()))
+            for k in 0...posts {
+                let c = a + u * (len * Double(k) / Double(posts))
+                m.addBox(center: c, u: u, halfLength: iron ? 0.04 : 0.06, halfWidth: iron ? 0.04 : 0.06, z0: 0, z1: height + (iron ? 0.05 : 0.08))
+            }
+            if iron {
+                for z in [0.12, height - 0.08] { m.addBox(center: (a + b) / 2, u: u, halfLength: len / 2, halfWidth: 0.02, z0: z, z1: z + 0.04) }
+                let bars = Int(len / 0.16)
+                let nrm = LocalPoint(-u.y, u.x)
+                for k in 1..<max(2, bars) {
+                    let c = a + u * (len * Double(k) / Double(bars))
+                    for side in [-1.0, 1.0] {
+                        let o = nrm * (side * 0.008)
+                        m.addFace([P(c - u * 0.012 + o, 0.12), P(c + u * 0.012 + o, 0.12), P(c + u * 0.012 + o, height), P(c - u * 0.012 + o, height)],
+                                  facing: D(nrm * side))
+                    }
+                }
+            } else {
+                m.addBox(center: (a + b) / 2, u: u, halfLength: len / 2, halfWidth: 0.03, z0: 0.05, z1: height)
+            }
+        }
     }
 
     /// Walks from `start` along `dir` until a cell of a stopping use; nil if it hits a building,
@@ -449,7 +638,8 @@ extension SceneGenerator {
     }
 
     /// A tree from a profile's species and size rules (like mapped trees without tags).
-    func treeInstance(_ p: StyleProfile, random r: inout StableRandom, at pos: LocalPoint, source: String, street: Bool = false) -> PropInstance {
+    func treeInstance(_ p: StyleProfile, random r: inout StableRandom, at pos: LocalPoint, source: String, street: Bool = false,
+                      trees: TreeGrid? = nil) -> PropInstance {
         let isConifer = !street && !r.chance(p.trees.deciduousShare)
         let young = r.chance(street ? p.trees.youngShare * 1.5 : p.trees.youngShare)
         let height = young ? r.range(p.trees.youngHeightMeters) : r.range(p.trees.heightMeters)
@@ -461,23 +651,60 @@ extension SceneGenerator {
             let pick = r.pick(w.keys.sorted()) { w[$0] ?? 0 }
             kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : .treeBroad
         }
-        return PropInstance(kind: kind, variant: 0, source: source, x: pos.x, y: pos.y, height: 0, yaw: r.range(0, 6.28), scale: height)
+        // Look-fix §5: no repeated silhouette among the nearest three trees of the same form.
+        let count = PropLibrary.variants[kind] ?? 1
+        var variant = 0
+        if count > 1 {
+            let avoid = Set(trees?.nearestVariants(pos, kind: kind, count: 3) ?? [])
+            let options = (0..<count).filter { !avoid.contains($0) }
+            let pool = options.isEmpty ? Array(0..<count) : options
+            variant = pool[Int(r.next() % UInt64(pool.count))]
+        }
+        return PropInstance(kind: kind, variant: variant, source: source, x: pos.x, y: pos.y, height: 0, yaw: r.range(0, 6.28), scale: height)
+    }
+
+    /// Fall leaf-litter patches: 1–3 per deciduous tree within its crown, radius 0.4–1.2 m, on open
+    /// ground or paving, never on carriageways or in buildings (look-fix §1.3).
+    func litterPatches(_ instances: [PropInstance], raster: LotRaster) -> [LitterPatch] {
+        var out: [LitterPatch] = []
+        for inst in instances where inst.kind.isTree && inst.kind != .conifer {
+            var r = StableRandom(UInt64(bitPattern: Int64((inst.x * 100).rounded())), UInt64(bitPattern: Int64((inst.y * 100).rounded())), salt: "litter")
+            let crown = Double(PropLibrary.lobes(inst.kind).radii.x) * inst.scale
+            let n = 1 + Int(r.next() % 3)
+            for _ in 0..<n {
+                let a = r.range(0, 2 * .pi), d = r.range(0.2, 0.7) * crown
+                let c = LocalPoint(inst.x + cos(a) * d, inst.y + sin(a) * d)
+                let radius = r.range(0.4, 1.2), tone = Int(r.next() % 3)
+                guard let use = raster.useAt(c), use != .road, use != .building, use != .blocked,
+                      !raster.nearUse(c, .road, radius: radius) else { continue }
+                out.append(LitterPatch(x: c.x, y: c.y, radius: radius, tone: tone, tree: inst.source))
+            }
+        }
+        return out
     }
 }
 
-/// Points on a coarse grid for "is there a tree within d" checks.
+/// Trees on a coarse grid: "is there a tree within d", and the variants of the nearest ones.
 struct TreeGrid {
+    struct Item { var p: LocalPoint; var kind: PropKind?; var variant: Int }
     let cell: Double
-    var cells: [SIMD2<Int>: [LocalPoint]] = [:]
+    var cells: [SIMD2<Int>: [Item]] = [:]
     init(cell: Double) { self.cell = cell }
     func key(_ p: LocalPoint) -> SIMD2<Int> { SIMD2(Int((p.x / cell).rounded(.down)), Int((p.y / cell).rounded(.down))) }
-    mutating func insert(_ p: LocalPoint) { cells[key(p), default: []].append(p) }
+    mutating func insert(_ p: LocalPoint, kind: PropKind? = nil, variant: Int = 0) { cells[key(p), default: []].append(Item(p: p, kind: kind, variant: variant)) }
     func near(_ p: LocalPoint, _ d: Double) -> Bool {
         let k = key(p)
         for dx in -1...1 { for dy in -1...1 {
-            for q in cells[k &+ SIMD2(dx, dy)] ?? [] where simd_distance(p, q) < d { return true }
+            for q in cells[k &+ SIMD2(dx, dy)] ?? [] where simd_distance(p, q.p) < d { return true }
         } }
         return false
+    }
+    /// Variants of the nearest `count` trees of the same kind within two cells.
+    func nearestVariants(_ p: LocalPoint, kind: PropKind, count: Int) -> [Int] {
+        let k = key(p)
+        var items: [Item] = []
+        for dx in -2...2 { for dy in -2...2 { items += (cells[k &+ SIMD2(dx, dy)] ?? []).filter { $0.kind == kind } } }
+        return items.sorted { simd_distance($0.p, p) < simd_distance($1.p, p) }.prefix(count).map(\.variant)
     }
 }
 

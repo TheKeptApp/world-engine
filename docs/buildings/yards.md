@@ -56,3 +56,36 @@ profile is forced (`WorldRecipe.profileID == nil`); yards use each building's pr
 `gen:lot:`, `gen:walk:`, `gen:driveway:`, `gen:bed:`), instances with sources `gen:shrub:`, `gen:hedge:`,
 `gen:yardtree:`, `gen:streettree:`, stats (`lots`, `walks`, `driveways`, `beds`, `shrubs`,
 `hedgeBushes`, `yardTrees`, `streetTrees`, `yardMillis`).
+
+## Look-fix v1 (§1, §2) — round 3
+
+Densities and colours now follow `docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md` §1 (ceilings/priors per
+region, not quotas), in `Profiles/yards.json`:
+
+| Zone (profile) | Street-tree spacing | Yard trees / lot (cap) | Extra shrubs | Bed area | Lawn endpoints |
+|---|---:|---:|---|---|---|
+| North Shore (`evanston`, `wilmette`) | 15.5 m | mean 1.6 (≤3) | 5–9 + foundation | 12–26 m² | North Shore row |
+| Lakeview (`chicago-dense-north`) | 18.5 m, strips ≥0.8 m | mean 0.3 (≤1) | 1–3 | 2–6 m² | Lakeview row |
+| Denver (`front-range`), `default` | 17 m | mean 1.0 (≤2) | 3–6 + foundation | 8–18 m² | Denver row |
+
+- **Lawn**: four value steps per zone (`lawnShade`, 5 % apart); neighbouring lots (cells touching or one
+  cell apart) get steps one or two apart, never equal (4–10 % value difference, no stripes). Vertex
+  `extra.y` = the lot's tone t (0…1) between the season's endpoint pair, exported as the seasonal
+  palette keys `lawnA` / `lawnB` (overridden per area profile from `lawnEndpoints`); the renderer mixes
+  `base = mix(lawnA, lawnB, t)`. `extra.w` = a per-lot seed for the renderer's analytic patch field.
+  `GeneratedLot` carries `lawnShade`, `tone`, `seed`, `ruleVersion` = 2.
+- **Beds**: depth 0.6–1.2 m toward the zone's bed area along the front wall (door kept clear), plus
+  side returns at the front corners when the front alone is short; ±2.5 % value per bed.
+- **Shrubs**: placed on front-yard lot edges and foundation positions; new shrub forms (cushion, loose,
+  upright, hedge segment) arrive with the prop-variant work.
+- **Trees**: per-lot caps apply to yard and canopy-calibration trees; generated trees avoid repeating
+  the variant of the nearest three of the same form (no-op while tree kinds have one mesh variant; the
+  renderer varies crowns by per-tree stretch).
+- **Leaf litter** (`GeneratedScene.litterPatches`): 1–3 patches per deciduous tree inside its crown,
+  radius 0.4–1.2 m, three tones (#AA753F / #BD914F / #8C7145), never on carriageways or buildings; the
+  renderer's fall season weight shows them (zero in January).
+
+**Tones (§2, `docs/m3/tone-targets.md`)**: a guard in `house-families.json` `toneFloors` keeps
+generated roof base colours at or above #303942 (Y8 56) and walls at or above Y8 80, gains 1.0. Every
+current profile colour already meets both (roofs Y8 90–112, walls 128+), so **no hex changes**; the
+dark rendered roofs are the renderer's shade lift (0.17 vs 0.30–0.38), which 5A is fixing.

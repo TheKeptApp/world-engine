@@ -9,3 +9,4 @@ Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their s
 | 2026-10-06 01:02 | `04d66ad` | p3-lookloop | 17/17 | **74%** | 0 (AD 0) | 77% | 26.0 | 2.07 | showcase-11 52% | 401k | 16.69 | 16.9 | claude-opus-5-5 (gate) | – |
 | 2026-10-06 06:39 | `651649b` | p3-lookloop | 17/17 | **78%** | 0 (AD 0) | 82% | 27.5 | 2.06 | showcase-10 63% | 460k | 16.67 | 9.6 | claude-sonnet-5-5 | 11 |
 | 2026-10-06 09:16 | `78e7541` | p3-lookloop | 32/32 | **77%** | 0 (5B 0) | 82% | 27.1 | 2.11 | wilmette-street-snow 58% | 95k | 16.75 | 35.0 | claude-opus-5-5 (gate) | 20 |
+| 2026-10-06 12:40 | `0125f38` | p3-lookloop | 32/32 | **76%** | 0 (5B 0) | 75% | 26.9 | 2.23 | showcase-11 52% | 95k | 16.72 | 16.0 | claude-opus-5-5 (gate) | 51 |
