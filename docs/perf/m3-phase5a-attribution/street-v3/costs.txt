@@ -1,0 +1,57 @@
+GPU busy per frame by clock state (frames):
+  all1             min 15.36 ms (328)
+  noShadows        min 15.01 ms (348)
+  all2             min 15.40 ms (332)
+  noSky            min 15.34 ms (332)
+  all3             min 15.33 ms (330)
+  noPost           min 15.31 ms (332)
+  all4             min 15.35 ms (334)
+  noMSAA           max  8.51 ms (331)
+  all5             min 15.34 ms (331)
+  noSurfaceDetail  min 15.28 ms (332)
+  all6             min 15.27 ms (333)
+  noFoliage        min 15.07 ms (331)
+  all7             medium 13.24 ms (1)  min 15.28 ms (328)
+  noBuildings      min 15.17 ms (330)
+  all8             min 15.29 ms (329)  mixed 13.67 ms (2)
+  cutDetail        medium 14.55 ms (19)  min 15.47 ms (221)  mixed 15.15 ms (92)
+  all9             min 15.32 ms (329)
+  shadow50         min 15.35 ms (331)  mixed 13.49 ms (2)
+  all10            min 15.32 ms (331)
+  shadow30         min 15.37 ms (328)  mixed 13.59 ms (2)
+  all11            min 15.32 ms (331)
+
+Feature costs (neighbouring all phases minus the phase, same clock state):
+  noShadows        min: saves  0.37 ms of 15.38 ( 2.4%; 2 neighbour(s))
+  noSky            min: saves  0.02 ms of 15.36 ( 0.1%; 2 neighbour(s))
+  noPost           min: saves  0.03 ms of 15.34 ( 0.2%; 2 neighbour(s))
+  noMSAA           no common clock state with its neighbours
+  noSurfaceDetail  min: saves  0.02 ms of 15.30 ( 0.1%; 2 neighbour(s))
+  noFoliage        min: saves  0.20 ms of 15.27 ( 1.3%; 2 neighbour(s))
+  noBuildings      min: saves  0.12 ms of 15.29 ( 0.8%; 2 neighbour(s))
+  cutDetail        min: saves -0.16 ms of 15.31 (-1.1%; 2 neighbour(s))
+  shadow50         min: saves -0.03 ms of 15.32 (-0.2%; 2 neighbour(s))
+  shadow30         min: saves -0.05 ms of 15.32 (-0.3%; 2 neighbour(s))
+
+GPU time per pass, ms per frame (largest clock state of each phase):
+  all1 [min]: Fragment: Initial CB:Render Command 1 11.05; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.17; Vertex: Initial CB:Render Command 1 1.16; Vertex: Initial CB:Render Command 0 0.99; Fragment: Initial CB:Render Command 2 0.68; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.26
+  noShadows [min]: Fragment: Initial CB:Render Command 0 10.74; Vertex: Initial CB:Render Command 0 1.68; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.28; Fragment: Initial CB:Render Command 1 0.99; Compute: Deformation Command Buffer:DeformerEncoder 0.34
+  all2 [min]: Fragment: Initial CB:Render Command 1 11.01; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.21; Vertex: Initial CB:Render Command 1 1.17; Vertex: Initial CB:Render Command 0 1.02; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.26
+  noSky [min]: Fragment: Initial CB:Render Command 1 10.96; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.20; Vertex: Initial CB:Render Command 1 1.19; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.29; Fragment: Initial CB:Render Command 0 0.27
+  all3 [min]: Fragment: Initial CB:Render Command 1 10.95; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.19; Vertex: Initial CB:Render Command 1 1.19; Vertex: Initial CB:Render Command 0 1.06; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.29; Fragment: Initial CB:Render Command 0 0.27
+  noPost [min]: Fragment: Initial CB:Render Command 1 11.45; Vertex: Initial CB:Render Command 1 1.21; Vertex: Initial CB:Render Command 0 1.06; Fragment: Initial CB:Render Command 2 0.70; Compute: CustomPostCommandBufferSplit:Compute Command 0 0.61; Compute: Deformation Command Buffer:DeformerEncoder 0.30; Fragment: Initial CB:Render Command 0 0.27
+  all4 [min]: Fragment: Initial CB:Render Command 1 11.01; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.20; Vertex: Initial CB:Render Command 1 1.19; Vertex: Initial CB:Render Command 0 1.02; Fragment: Initial CB:Render Command 2 0.68; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.26
+  noMSAA [max]: Fragment: Initial CB:Render Command 1 5.22; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.07; Vertex: Initial CB:Render Command 0 0.87; Vertex: Initial CB:Render Command 1 0.70; Fragment: Initial CB:Render Command 2 0.43; Compute: Deformation Command Buffer:DeformerEncoder 0.23; Fragment: Initial CB:Render Command 0 0.16
+  all5 [min]: Fragment: Initial CB:Render Command 1 10.96; Vertex: Initial CB:Render Command 1 1.19; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.27
+  noSurfaceDetail [min]: Fragment: Initial CB:Render Command 1 10.72; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.22; Vertex: Initial CB:Render Command 1 1.21; Vertex: Initial CB:Render Command 0 1.03; Fragment: Initial CB:Render Command 2 0.83; Compute: Deformation Command Buffer:DeformerEncoder 0.30; Fragment: Initial CB:Render Command 0 0.27
+  all6 [min]: Fragment: Initial CB:Render Command 1 10.92; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.19; Vertex: Initial CB:Render Command 1 1.17; Vertex: Initial CB:Render Command 0 1.04; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.26
+  noFoliage [min]: Fragment: Initial CB:Render Command 1 10.64; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.45; Fragment: Initial CB:Render Command 2 1.44; Vertex: Initial CB:Render Command 0 0.62; Vertex: Initial CB:Render Command 1 0.59; Compute: Deformation Command Buffer:DeformerEncoder 0.36; Fragment: Initial CB:Render Command 0 0.24
+  all7 [min]: Fragment: Initial CB:Render Command 1 10.91; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 1 1.18; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.29; Fragment: Initial CB:Render Command 0 0.27
+  noBuildings [min]: Fragment: Initial CB:Render Command 1 11.60; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 1 0.82; Fragment: Initial CB:Render Command 2 0.70; Vertex: Initial CB:Render Command 0 0.62; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.22
+  all8 [min]: Fragment: Initial CB:Render Command 1 10.92; Vertex: Initial CB:Render Command 1 1.19; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.27
+  cutDetail [min]: Fragment: Initial CB:Render Command 1 11.50; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.19; Vertex: Initial CB:Render Command 1 0.97; Vertex: Initial CB:Render Command 0 0.94; Fragment: Initial CB:Render Command 2 0.67; Compute: Deformation Command Buffer:DeformerEncoder 0.26; Fragment: Initial CB:Render Command 0 0.22
+  all9 [min]: Fragment: Initial CB:Render Command 1 10.91; Vertex: Initial CB:Render Command 1 1.19; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.18; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.27
+  shadow50 [min]: Fragment: Initial CB:Render Command 1 11.12; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.20; Vertex: Initial CB:Render Command 1 1.20; Vertex: Initial CB:Render Command 0 0.90; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.24
+  all10 [min]: Fragment: Initial CB:Render Command 1 10.93; Vertex: Initial CB:Render Command 1 1.20; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.19; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.29; Fragment: Initial CB:Render Command 0 0.27
+  shadow30 [min]: Fragment: Initial CB:Render Command 1 11.13; Vertex: Initial CB:Render Command 1 1.20; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.20; Vertex: Initial CB:Render Command 0 0.90; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.22
+  all11 [min]: Fragment: Initial CB:Render Command 1 10.94; Vertex: Initial CB:Render Command 1 1.20; Compute: CustomPostCommandBufferSplit:Compute Command 0 1.19; Vertex: Initial CB:Render Command 0 1.05; Fragment: Initial CB:Render Command 2 0.69; Compute: Deformation Command Buffer:DeformerEncoder 0.28; Fragment: Initial CB:Render Command 0 0.27

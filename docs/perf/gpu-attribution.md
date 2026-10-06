@@ -27,6 +27,11 @@ GPU time per pass in an all-on phase at the "medium" clock (ms per frame): main 
 - **The old transparent set-up costs 2.97 ms more per frame than the new one: 15.37 vs 12.41 ms at the medium clock** (post pass 1.17 vs 1.18 ms, so the clocks match); main pass pixel shading 11.37 → 8.27 ms. That is 24% of the frame.
 - Every other pair in this run is void: the GPU ran at its minimum state and scaled its clock to the load, so busy time stayed at ≈ 15.3 ms whatever was switched off.
 
+### Run 3: after a 12-minute rest, all of tonight's changes, shadow ranges (`m3-phase5a-attribution/street-v3/`)
+
+- Heat mostly "fair". At the minimum GPU state the governor kept the GPU ≈ 92% busy at 60 fps whatever was switched off (busy ≈ 15.3 ms in every phase), so no pair is usable.
+- **The MSAA-off phase ran at the maximum clock** (the phone touched nominal heat): **8.51 ms per frame, 51% busy** (`noMSAA-maxclock-gpu.txt`): main pass pixels 5.22, post 1.07, shadow map geometry 0.87, main geometry 0.70, composite 0.43 ms. With MSAA (≈ 8% in run 1) the view should be ≈ 9–9.5 ms.
+
 ### Next
 The daytime session repeats both runs unplugged at nominal heat, where the maximum-clock request held in the gate session (`m3-phase5a-gate/maxclock-clear-gpu.txt`), plus shorter shadow ranges (50 m, 30 m) and the walking loop with tonight's changes.
 
