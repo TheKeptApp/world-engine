@@ -34,10 +34,10 @@
       "spreading": 0.4
     },
     "heightMeters": [
-      10,
-      18
+      12.1,
+      18.4
     ],
-    "youngShare": 0.18,
+    "youngShare": 0.11,
     "youngHeightMeters": [
       3,
       6
@@ -773,6 +773,28 @@
       "area": "Data/areas/evanston-south (1 km2)",
       "acquired": "2023-07-10",
       "check": "50 photo-interpreted points: 0.535 (95 % interval 0.39-0.68); mask vs points agree 86 %.",
+      "date": "2026-10-06"
+    },
+    "trees.heightMeters": {
+      "status": "measured",
+      "value": [12.1, 18.4],
+      "measuredValue": {"p25": 12.05, "p75": 18.39, "trees": 3362, "basis": "detected trees at least 7 m high"},
+      "previous": [10, 18],
+      "source": "USGS 3DEP lidar, EPT USGS_LPC_IL_4County_Cook_2017_LAS_2019 (project IL_4_County_QL1_LiDAR_2016_B16; public domain; credit: U.S. Geological Survey, 3D Elevation Program). Vegetation-class canopy height model at 1 m (height above class-2 ground), roof, wall and wire clutter removed, tree tops by height-adaptive local maxima, crowns by watershed. value = p25 and p75 of the detected trees at least 7 m high, i.e. the trees the generator draws from heightMeters after its youngShare draw. Tools/regionkit/lidar/trees.py, results in Tools/regionkit/lidar/results/trees.json; docs/research/lidar-roofs.md section Tree heights.",
+      "area": "Data/areas/evanston-south (1 km2)",
+      "acquired": "2017-04-16 to 2017-05-07 (leaf-off: tops of bare crowns, probably 0.5-1 m low; about 9 years of growth since the flight not included)",
+      "check": "3,763 trees (37.6 per ha), heights p10/p25/p50/p75/p90 = 6.8/10.6/14.6/18.0/20.7 m for all detected trees (p25-p75 of all trees would be 10.6-18.0). 12 validation crops: 10 single trees, 1 merged pair, 1 shrub-like mound, 0 non-trees. p25 10.1-11.4 and p75 17.7-18.3 m over 11 one-at-a-time detection settings (all trees).",
+      "date": "2026-10-06"
+    },
+    "trees.youngShare": {
+      "status": "measured",
+      "value": 0.11,
+      "measuredValue": 0.1066,
+      "previous": 0.18,
+      "source": "As trees.heightMeters. value = share of detected trees below 7 m (401 of 3,763; median 5.7 m).",
+      "area": "Data/areas/evanston-south (1 km2)",
+      "acquired": "2017-04-16 to 2017-05-07 (leaf-off)",
+      "check": "0.077-0.129 over the detection settings. Leaf-off lidar sees small sparse trees less well (probably biased low); shrubs of 3-7 m count as trees (biased high). youngHeightMeters [3, 6] is unchanged: the measured young trees have median 5.7 m, but trees under 4 m are poorly detected, so the data do not settle it.",
       "date": "2026-10-06"
     }
   }

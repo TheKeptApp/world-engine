@@ -1,0 +1,30 @@
+{
+  "comment": "Visual validation of the tree detection: counts only (no coordinates, no per-tree values). Each tile showed the vegetation canopy height model (tops, crown outline, building footprints) beside a 5 m side view of the lidar points coloured by class; the agent labelled the marked top as a single tree, merged crowns (two or more trees in one crown), ambiguous (shrub-like mass, or radius clearly off) or not a tree (wire, pole, roof or porch clutter, stray point). The final sample is stable (sha256 of seed/area/cell) with seed worldengine-trees-validation-1: 8 random kept trees per area plus 4 kept trees within 3 cells of a building-class cell, per area. The detection rules were set on earlier crops with other seeds (see rules.tunedOn), so this sample is out of sample for them.",
+  "sample": {
+    "seed": "worldengine-trees-validation-1",
+    "perArea": {"random": 8, "nearBuildings": 4}
+  },
+  "areas": {
+    "evanston": {
+      "random": {"n": 8, "singleTree": 7, "merged": 0, "ambiguous": 1, "notATree": 0},
+      "nearBuildings": {"n": 4, "singleTree": 3, "merged": 1, "ambiguous": 0, "notATree": 0},
+      "note": "The ambiguous top is a 7.8 m shrub-like mound whose radius (5 m) looks too large; the merged one is two neighbouring crowns in one region (radius 7.5 m for 13 m height). Tree-top height matched the highest vegetation points in the side view in all tiles that were trees."
+    },
+    "wilmette": {
+      "random": {"n": 8, "singleTree": 7, "merged": 0, "ambiguous": 1, "notATree": 0},
+      "nearBuildings": {"n": 4, "singleTree": 3, "merged": 0, "ambiguous": 1, "notATree": 0},
+      "note": "Ambiguous: a low broad mound (6 m) that may be a shrub, and a columnar conifer between two houses whose crown region (radius 4.8 m) spreads along the gap."
+    },
+    "chicago-dense-north": {
+      "random": {"n": 8, "singleTree": 6, "merged": 0, "ambiguous": 1, "notATree": 1},
+      "nearBuildings": {"n": 4, "singleTree": 0, "merged": 0, "ambiguous": 0, "notATree": 4},
+      "note": "In this area of tall courtyard buildings, back porches and alley wires, the vendor's vegetation class holds wall, porch-post, roof-edge and wire returns. All four extra tops sampled next to buildings were such clutter (a wire, porch posts, rooftop plant), and so was 1 of the 2 random tops that lay within 3 cells of a building-class cell (the other was a small tree): 5 of 6 near-building tops were not trees. Of the 6 random tops clear of buildings, 5 were single trees and 1 ambiguous, none clutter, so the proposal for this area uses the clear subset."
+    }
+  },
+  "rules": {
+    "tunedOn": "Evanston crops (9 removed tops, 9 thin-rejected tops, 9 earlier kept tops) and Lakeview crops (about 45 kept tops over four seeds) viewed while setting the roof-clutter, top-on-roof, thickness and crown-point rules. The final sample above was drawn afterwards.",
+    "roofClutterRule": {"viewed": 9, "wereBuildingStructure": 9, "note": "Evanston tops that existed only without the rule (first version of the rule: roof-height band): all roof edges, parapets or porch frames."},
+    "thinTopRule": {"viewed": 9, "correctRejections": 7, "realTreesRejected": 2, "note": "Evanston tops rejected for a top layer under 1.2 cells thick: wires, poles, porch frames (7); a 14.5 m tree with a narrow top and a narrow columnar conifer (2)."},
+    "fewPointsRule": {"viewed": 12, "correctRejections": 10, "realTreesRejected": 1, "ambiguous": 1, "note": "Evanston and Wilmette tops rejected for fewer than 60 vegetation points in the upper 3 m of the crown: stray points and wires (10), a sparse leaf-off 13 m tree (1), a 6 m shrub-like cluster (1)."}
+  }
+}

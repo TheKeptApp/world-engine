@@ -11,6 +11,9 @@ from `Tools/regionkit/lidar/results/comparison.json`, `handcheck.json` and `vint
 building IDs, per-building values, point clouds or images are in the repository, and distributions over fewer
 than 5 buildings are reported as counts.
 
+A follow-up measures **tree heights and crown radii** from the same lidar for three test areas and updates the
+profiles' `trees.heightMeters` and `trees.youngShare`: see [section 13](#13-tree-heights-follow-up-2026-10-06).
+
 ## Summary
 
 1. **Data and licence.** The public Entwine Point Tiles dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`
@@ -37,9 +40,9 @@ than 5 buildings are reported as counts.
      gables 26.5° against 20°.
    - Ridge direction is mostly right where both see a gable: within 20° for 79 % (n = 308).
 5. **The 2017 lidar and 2026 OSM mostly agree, but OSM misses structures.** 38 footprints have no lidar roof
-   (22 of them on a non-vegetated surface in NAIP 2023, so probably built after the flight). Lidar sees 420
-   building-class structures of at least 30 m² with no OSM footprint within 1.5 m (median 108 m², 7.8 ha in
-   all); 305 of them are still non-vegetated in 2023. Most look like unmapped garages and houses; this is not
+   (22 of them on a non-vegetated surface in NAIP 2023, so probably built after the flight, or the footprint sits
+   on pavement). Lidar sees 420 building-class structures of at least 30 m² with no OSM footprint within
+   1.5 m (median 108 m², 7.8 ha in all); 305 of them are still non-vegetated in 2023. Most look like unmapped garages and houses; this is not
    checked per building.
 6. **Recommendation.** Feed lidar to the generator **at profile level now**: roof-form mix by role, complex
    share and pitch per zone. Per-building hints would raise per-building correctness from about 48 % to about
@@ -196,7 +199,7 @@ For garages the correction lands at about zero; the hand-checked garages had no 
 | Garage hip | 19.7° (18.1–25.4), n = 46 | 20.6° (n = 10) |
 
 The `evanston` families' pitch ranges are steep for gables: Tudor 40–52°, Queen Anne 38–50°, Colonial
-28–40°. Garages use 15–27° in every profile.
+28–40°. Garages use 15–25° in the `evanston`, `wilmette` and `chicago-dense-north` profiles; only `default` and `front-range` use 15–27°.
 
 ## 6. Agreement with P2's assigned roofs
 
@@ -252,7 +255,7 @@ not checked here. Buildings built after July 2023 are invisible to both checks.
 **Profile level now (aggregates only).**
 - Houses in the `evanston` zone:
   - Raise the hip share: about 32 % of simple forms against P2's 25 %.
-  - Raise the share of complex assemblies (wings, crossing gables) towards 40–45 % of houses. P2 has 17 %.
+  - Raise the share of complex assemblies (wings, crossing gables) towards 40–45 % of houses. P2 has 17 %. *(2026-10-06: P2 commits 8c69ac8 and 56addf9 have since moved evanston-south to 47 % multi-mass roofs.)*
   - Lower the gable pitch: median 35°, IQR 28–42°, against P2's 43°.
   - Flat stays near 10 %.
 - Garages: hip about a third and flat under 10 % (P2: 7 % hip, 22 % flat); gable pitch around 20–33°.
@@ -338,3 +341,295 @@ dependencies and pyflakes) came to about 70 MB. That is an estimate from the whe
 See [`Tools/regionkit/lidar/README.md`](../../Tools/regionkit/lidar/README.md): `lidar.py all --work DIR`
 (about 118 MB), then `handcheck` and labels in the work directory for `score`, and `vintage --naip TIF` with the
 NAIP GeoTIFF that `Tools/regionkit/aerial/canopy_areas.py fetch` writes.
+
+## 13. Tree heights (follow-up, 2026-10-06)
+
+The generator calibrates generated yard and street trees toward each profile's measured `trees.canopyShare`
+(NAIP), but falls far short: evanston-south 0.16 achieved against 0.47, wilmette 0.18 against 0.55, lakeview 0.09
+against 0.18. A mesh tree's crown radius follows its height (radius = 0.29 × height × 1.15 for the broad crown),
+so the question is whether the profiles' `trees.heightMeters` ranges (evanston 10–18 m, wilmette 11–19, chicago
+8–15) match what lidar sees, and whether the crown-radius ratio does. Same dataset and tool family as the roof
+pilot: `Tools/regionkit/lidar/trees.py` (tree module `treeheights.py`, config `data/trees.json`), aggregates in
+`Tools/regionkit/lidar/results/trees.json`. Per-tree values stayed in the work directory (deleted).
+
+### 13.1 Summary
+
+1. **The profile heights are too low, and so are the crowns.** Detected trees in the three areas have median
+   heights of 14.6 m (Evanston), 14.7 m (Wilmette) and 12.6 m (Lakeview, 13.2 m clear of buildings). The generator,
+   with the old profile values, draws trees with a mean height 14, 9 and 24 % below the measured mean (Evanston,
+   Wilmette, Lakeview) and a mean squared height (what crown area follows) 26, 20 and 41 % low.
+2. **Crowns are also wider per metre of height than the meshes.** The crown radius of a detected tree is
+   **0.38 × height** in Evanston, **0.36** in Wilmette and **0.40** in Lakeview (least squares through the origin),
+   against **0.343** for the profiles' archetype mix (broad 0.334, oval 0.219, spreading 0.414; Lakeview's mix
+   0.327). The ratio falls with height: in Evanston and Wilmette about 0.43–0.45 for trees of 3–7 m, 0.41–0.42 for
+   7–12 m, 0.37–0.38 for 12–17 m and 0.35–0.36 for 17–22 m (Lakeview 0.42, 0.42, 0.39, 0.40). It depends on where
+   the crown edge is put (0.34–0.42 over the edge settings tried, 13.8), and the watershed gives each tree only its
+   own part of a touching canopy, so it is a lower bound for the free crown.
+3. **Per tree, a lidar crown covers 92–112 m² of plan area.** A mesh tree covers 39–74 m² with the old profile
+   heights (1.5–2.7 times less than the lidar's 105–112 m², the Lakeview figure for its clear subset) and 63–85 m² with
+   the new ones (1.3–1.7 times less). The new heights close roughly a third to a half of that difference (in
+   logarithms); the rest is the radius ratio. Neither explains the whole canopy gap (0.16 against 0.47 is a
+   factor of 2.9): how many trees there are, and how they overlap, matters too.
+4. **Trees per hectare, lidar: 38 (Evanston), 37 (Wilmette), 25 (Lakeview)** after the clutter rules of 13.3. The
+   detected crowns cover 0.43, 0.41 and 0.23 of the built fabric, against NAIP's leaf-on 0.47, 0.55 and 0.18
+   (13.7), so the detection finds roughly the canopy NAIP sees (Lakeview's true value was put at 0.20–0.25).
+5. **The vendor's "vegetation" class is not clean.** Roof edges, wall and porch-post returns, rooftop plant and
+   overhead wires are classed as vegetation (class 3/4/5 holds more than 98 % of the non-ground, non-building
+   points above 3 m outside footprints, so there is no better class to use). With all clutter rules switched off
+   the detection finds 7,754, 7,277 and 12,983 "trees" instead of 3,763, 3,684 and 2,517, with median heights of
+   10.4, 9.7 and 11.4 m instead of 14.6, 14.7 and 12.6 (13.8). In Lakeview (tall courtyard buildings, back
+   porches, alley wires) clutter still passes next to buildings: of 6 validation tops there, 5 were not trees.
+   Evanston and Wilmette had no non-trees in their validation samples.
+6. **Profile values applied** (13.8): `heightMeters` evanston 10–18 → **12.1–18.4**, wilmette 11–19 →
+   **11.8–19.4**, chicago-dense-north 8–15 → **11.3–16.0**; `youngShare` 0.18 → **0.11**, 0.18 → **0.12**,
+   0.22 → **0.07**. `youngHeightMeters` unchanged.
+
+### 13.2 Data and access
+
+| | Value |
+|---|---|
+| Dataset | Same EPT as section 1: `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, `usgs-lidar-public` bucket, anonymous HTTPS, public domain (credit: U.S. Geological Survey, 3D Elevation Program) |
+| Coverage | `ept.json` conforming bounds 41.434–42.158° N, −88.267 to −87.481° E. All three committed areas are inside, and each returned nodes with points. Wilmette: the point (42.0779, −87.7137) from the brief and the committed area (centre 42.0762, −87.7165, box 42.0717–42.0807 N, −87.7225 to −87.7105 E) are both inside |
+| Flight | 16 April – 7 May 2017: **leaf-off to early leaf-out** (section 1). Tree tops are captured, crowns are sparse (13.7) |
+| Read | Octree depth ≤ 10 for each area box plus 10 m: Evanston 280 nodes, Wilmette 301, Lakeview 295. 15.7 M, 16.5 M and 12.5 M points in the box plus margin: 15.1, 15.9 and 12.0 points per m² of all classes, of which vegetation 11.1, 11.5 and 7.7, ground 3.0, 3.4 and 2.5 |
+| Classes | Vegetation classes 3/4/5 are populated (high vegetation, class 5, holds most). Class 1 (unclassified) is negligible above 3 m outside footprints: 6,424 points in Evanston, 37 in Wilmette, 2,545 in Lakeview. Class 6 (building) outside OSM or Overture footprints (unmapped buildings, trees misclassed as buildings): 367 k, 50 k and 66 k points. Lakeview also has 34 k class-17 points (bridge deck in the LAS specification), not used |
+| Not read | Depth 11 (full resolution: 23–28 M more points per area, 36–40 points per m² cumulative) would not fit the budget (13.12) |
+
+### 13.3 Method
+
+Thresholds are in `data/trees.json`. They were set before any crop was viewed except where 13.6 says otherwise.
+
+1. **Points and ground.** All points of the area box plus 10 m, in local metres. Ground = median of class-2 points
+   per 2 m cell (nearest cell fills the gaps), the same `ground_model` as the roof pilot. Height above ground =
+   z − ground at the point.
+2. **Canopy height model (CHM).** 1 m raster of the maximum height above ground of the vegetation points (class
+   3/4/5) between 2 and 45 m. A second raster holds the building-class maximum.
+3. **Roof clutter** (`treeheights.remove_roof_clutter`, `tops_on_roofs`). The roof zone is the building-class cells
+   at least 2.5 m high, closed once, holes of up to 60 cells filled (a real courtyard is bigger and stays open), then
+   grown by one cell to take in the wall line. A vegetation cell in the zone is removed unless it rises more than
+   0.75 m above the roof beside it (the highest building cell within 2 cells, or the nearest one). Tops inside the
+   roof mask that stand less than 5 m above the roof are dropped. The vegetation cells removed equal 10.0, 9.2 and
+   23.1 % of the area (Evanston, Wilmette, Lakeview).
+4. **Tree tops.** Gaussian smoothing, σ = 1 m, then local maxima of at least 3 m with a height-adaptive disc
+   (radius = 1 m + 0.12 × height, between 1.5 and 5 m: 2.2 m for a 10 m tree, 3.4 m for a 20 m tree). Each plateau
+   gives one top. A tree's height is the highest raw CHM cell within one cell of its top (smoothing flattens
+   peaks). Only tops inside the area box count (the 10 m margin is for crowns, not trees).
+5. **Crowns.** Marker-controlled watershed of the inverted smoothed CHM from the tops. The crown is the part of
+   a basin at least max(2.5 m, 0.3 × the tree's height) high and connected to the top; its radius is that of the
+   circle with the same area. A crown is "free-standing" when at most 10 % of its boundary touches another tree's
+   basin.
+6. **Wires, poles and stray points.** A top is dropped when (a) its crown has fewer than 3 cells, (b) the top
+   layer of its crown (within 1.5 m of the smoothed peak) is under 1.2 cells thick (a wire or pole is one or two
+   cells wide), or (c) fewer than 60 vegetation points lie within 2 m of it in its top 3 m (a crown top has
+   dozens even leaf-off). Dropped in sequence, Evanston / Wilmette / Lakeview: 55 / 37 / 447 (a), 867 / 769 / 3,004
+   (b), 227 / 224 / 418 (c), and 8 / 11 / 39 tops on roofs, from 5,152 / 4,996 / 6,739 tops found.
+7. **Statistics.** Heights and crown radii as percentiles. "Young" is a detected height under 7 m. Radius against
+   height by least squares through the origin (the mesh assumption is a constant ratio), the median ratio, and a
+   free linear fit; for all trees, the free-standing ones and those at least 7 m.
+8. **Subset for Lakeview.** Where clutter still passes next to buildings, the statistics are also given for trees
+   with no building-class cell within 3 cells.
+
+### 13.4 Results per area
+
+Aggregates of `results/trees.json` (`stats`; `statsClearOfBuildings` for the last column). Heights are metres
+above ground.
+
+| | Evanston | Wilmette | Lakeview, all | Lakeview, clear of buildings |
+|---|---:|---:|---:|---:|
+| Trees detected | 3,763 | 3,684 | 2,517 | 1,851 |
+| per hectare (area box) | 37.6 | 36.8 | 25.2 | 18.5 |
+| Height p10 / p25 / p50 / p75 / p90 | 6.8 / 10.6 / 14.6 / 18.0 / 20.7 | 6.5 / 9.9 / 14.7 / 18.9 / 21.9 | 6.7 / 9.4 / 12.6 / 15.3 / 17.8 | 7.8 / 10.6 / 13.2 / 15.7 / 18.1 |
+| Share below 7 m ("young") | 0.107 | 0.124 | 0.118 | 0.072 |
+| Trees of 7 m or more: p25 / p75 | 12.1 / 18.4 | 11.8 / 19.4 | 10.7 / 15.6 | 11.3 / 16.0 |
+| Crown radius p10 / p25 / p50 / p75 / p90 | 2.9 / 3.9 / 5.2 / 6.8 / 8.7 | 2.7 / 3.7 / 5.1 / 6.8 / 8.3 | 2.6 / 3.6 / 4.8 / 6.2 / 7.8 | 3.2 / 4.0 / 5.1 / 6.7 / 8.0 |
+| Radius / height, through origin (median) | 0.381 (0.390) | 0.364 (0.377) | 0.400 (0.404) | 0.411 (0.416) |
+| Radius / height, free-standing crowns only (n; share of trees) | 0.417 (495; 13 %) | 0.393 (568; 15 %) | 0.419 (425; 17 %) | 0.438 (224; 12 %) |
+| Mean crown plan area per tree (m²) | 112 | 108 | 92 | 105 |
+
+Tallest detected trees: 29.3 m (Evanston), 31.8 m (Wilmette, 8 trees of 30 m or more), 26.8 m (Lakeview); plausible
+for old cottonwood, oak, maple and ash. Radius against height by height class (median radius / height, trees):
+Evanston 0.447 (401), 0.419 (834), 0.382 (1,308), 0.361 (1,042), 0.362 (178) for 3–7, 7–12, 12–17, 17–22 and 22 m or
+more; Wilmette 0.431, 0.405, 0.374, 0.348, 0.341; Lakeview 0.416, 0.415, 0.394, 0.398.
+
+**Against the mesh assumption.** The mesh radius per metre of height is 0.3335 for the broad crown
+(0.29 × 1.15), 0.2185 for oval and 0.414 for spreading. Weighted by each profile's `crownWeights` the mean is
+**0.343** (Evanston, Wilmette; root-mean-square 0.350) and **0.327** (chicago-dense-north; 0.336). Lidar
+(least squares through the origin, all trees) / mesh: 1.11, 1.06 and 1.22. Conifers (5–8 % of trees) and
+a narrow-crowned species mix are not separated in the lidar, so the comparison is for the whole population.
+
+### 13.5 Mean crown area, in numbers
+
+Generated crown plan area per tree = π × (mean squared radius ratio of the archetype mix: 0.1226; 0.1132 for
+Lakeview) × mean squared height of the draw (uniform over `heightMeters` for the old and new profiles; young trees
+uniform 3–6 m with probability `youngShare`).
+
+| | Evanston | Wilmette | Lakeview (clear subset) |
+|---|---:|---:|---:|
+| Measured mean height; mean height², lidar | 14.3 m; 228 | 14.5 m; 241 | 13.1 m; 187 |
+| Old profile: mean height; mean height² | 12.3 m; 169 | 13.1 m; 193 | 10.0 m; 111 |
+| New profile: mean height; mean height² | 14.1 m; 213 | 14.2 m; 220 | 13.0 m; 176 |
+| Crown plan area per tree, old profile / new profile / lidar (m²) | 65 / 82 / 112 | 74 / 85 / 108 | 39 / 63 / 105 |
+
+The new heights bring the generated mean height within 1–2 % of the lidar's (the old ones were 9–24 % low). The
+remaining crown-area gap (lidar 1.3–1.7 times the new mesh crowns) is the radius ratio, which this note only
+reports: it is generator code.
+
+### 13.6 Validation of the detection
+
+Method: crops (scratch only, deleted). Each tile shows a 44 m window of the vegetation CHM (colour = height) with
+tops, the focal crown outline and the building footprints, beside a side view of the lidar points of a 5 m strip
+coloured by class. The agent labelled the marked top. The final sample (`data/trees_validation.json`, 36 tiles)
+was drawn with a fixed seed after the rules were set: 8 random trees per area and 4 more within 3 cells of a
+building-class cell.
+
+| | Single tree | Merged crowns | Ambiguous | Not a tree |
+|---|---:|---:|---:|---:|
+| Evanston (12) | 10 | 1 | 1 | 0 |
+| Wilmette (12) | 10 | 0 | 2 | 0 |
+| Lakeview (12): 8 random | 6 | 0 | 1 | 1 |
+| Lakeview: 4 more next to buildings | 0 | 0 | 0 | 4 |
+
+- Of the 8 random tops in each area, 3 (Evanston), 1 (Wilmette) and 2 (Lakeview) lay within 3 cells of a
+  building-class cell. Lakeview, tops within 3 cells of a building: 1 tree, 5 not trees (of the 2 random ones, 1
+  each). Lakeview, tops clear of buildings: 5 single trees and 1 ambiguous, no non-trees (6 random tops).
+- In every tile that showed a tree, the marked height matched the highest vegetation points of the side view.
+- Ambiguous: shrub-like mounds of 6–8 m, and a columnar conifer whose crown outline spreads along the gap between
+  two houses. Merged: two neighbouring crowns in one region (radius 7.5 m for a 13 m tree).
+- Tuning crops (viewed while the rules were set, not counted above): 9 of 9 tops that only exist without the roof
+  rule were roof edges, parapets or porch frames; of 9 tops rejected as too thin, 7 were wires, poles or porch
+  frames and 2 were real trees (a 14.5 m tree with a narrow top, a columnar conifer); of 12 rejected for too few
+  points, 10 were stray points or wires, 1 a sparse leaf-off 13 m tree and 1 a 6 m shrub. So the rules cost a few
+  percent of real trees (sparse crowns, columnar conifers), which biases the young share down.
+- **No independent height reference exists here.** The three committed OSM extracts hold no `natural=tree` node
+  with a `height` tag (Evanston 0 trees, Wilmette 0, Lakeview 5 untagged), and no other height source was used. The
+  check is the side views, not ground truth.
+
+### 13.7 Leaf-off, and a check against the leaf-on NAIP canopy
+
+- **Tops.** In April–May 2017 deciduous crowns were bare or just leafing out. The vegetation point density is
+  7.7–11.5 points per m² in the box, so the highest twig of a bare crown is usually hit but not always. Published
+  leaf-off studies put the loss of height at about 0–1.5 m for broadleaf trees; this data set has no leaf-on
+  flight to measure it, so it is not corrected. The proposed heights are probably a little low (0.5–1 m is a fair
+  guess) for that reason, and for another: **the flight is nine years old**, so surviving trees are 1–2 m taller
+  now, while trees lost since (ash to emerald ash borer, storm and development losses) are missing from today's
+  canopy and not removed here.
+- **Cover.** Detected crown plan area (non-overlapping) against the NAIP 2023 leaf-on canopy of the built fabric
+  (`Tools/regionkit/aerial/results/canopy_areas.json`):
+
+  | | Lidar crowns (fabric) | Lidar cells ≥ 2.5 m after clutter (fabric) | NAIP canopy (fabric) |
+  |---|---:|---:|---:|
+  | Evanston | 0.433 | 0.469 | 0.473 |
+  | Wilmette | 0.410 | 0.445 | 0.551 |
+  | Lakeview | 0.232 | 0.287 | 0.178 (true value put at 0.20–0.25) |
+
+  Evanston matches, Wilmette's leaf-off canopy is 74 % of the leaf-on one (sparser maples and oaks, and the
+  roof-overhang crowns removed with the clutter), and Lakeview is above NAIP, where residual clutter near buildings
+  is the likely reason. Before the roof-clutter rules, the vegetation cells of 2.5 m or more covered 0.55, 0.52 and
+  0.51 of the whole areas against NAIP's 0.46, 0.54 and 0.18: 9 points more in Evanston and 33 in Lakeview, so
+  the clutter was a large share of the "canopy" there.
+- **Young trees.** Small trees have few returns when leafless, and the thickness and point rules reject sparse
+  tops, so the share below 7 m is probably biased low. Shrubs of 3–7 m count as trees, which biases it high. The
+  detection scale decides it more than the leaf state: the share is 0.077–0.129 (Evanston), 0.082–0.150 (Wilmette)
+  and 0.055–0.085 (Lakeview, clear subset) over the settings of 13.4.
+
+### 13.8 Profile values: proposed and applied
+
+`heightMeters` is the range the generator draws from for a tree that is not young (`SceneGenerator`,
+`YardGeneration`: young with probability `youngShare`, else uniform over `heightMeters`). The brief asked for the
+p25 and p75 of the detected trees; for the generator's draw model that range must describe the trees that are not
+young, or the trees under 7 m are counted twice and trees of 7–10 m are lost. The applied `heightMeters` is therefore
+p25 and p75 of the trees of **7 m or more**; the p25/p75 of all trees is given beside it, and swapping it in is a
+two-number edit.
+
+| Profile | `heightMeters` old → applied (p25–p75 of all trees) | `youngShare` old → applied | Basis |
+|---|---|---|---|
+| evanston | [10, 18] → **[12.1, 18.4]** ([10.6, 18.0]) | 0.18 → **0.11** | all 3,763 trees; no non-trees in the validation sample |
+| wilmette | [11, 19] → **[11.8, 19.4]** ([9.9, 18.9]) | 0.18 → **0.12** | all 3,684 trees; no non-trees in the validation sample |
+| chicago-dense-north | [8, 15] → **[11.3, 16.0]** ([10.6, 15.7]) | 0.22 → **0.07** | the 1,851 trees at least 3 m from a building-class cell |
+
+- Provenance entries (`trees.heightMeters`, `trees.youngShare`) are in each profile, marked measured, with the
+  previous value, the check and the sensitivity.
+- **Sensitivity** (one setting at a time: window slope 0.08/0.18 per m, smoothing σ 0.5/1.5 m, crown edge 0.2/0.45 of
+  the height, minimum height 4 m, the roof rule off, the thickness rule off, the point rule off or at 100; plus one
+  run with all clutter rules off, listed separately in 13.1): all-tree p25 and p75 vary by about 1.3 m at most in
+  Evanston (10.1–11.4 / 17.7–18.3), 1.8 m in Wilmette (9.1–10.9 / 18.3–19.2) and 0.9 m in Lakeview's clear subset
+  (10.0–10.9 / 15.5–16.1). The detection scale moves the tree count much more (Evanston 2,941–5,100) than the
+  height quantiles. The crown edge moves the radius ratio (0.34–0.42 for the 0.45 and 0.2 settings over the three
+  areas) and the tree count not at all.
+- **Lakeview** uses the clear subset because the sample showed clutter next to buildings. That subset leaves out yard
+  trees beside houses, which in the other two areas are 0.7–1.0 m shorter at p25 and add 0.03 to the young share, so
+  its p25 is probably 0.5–1 m high and the share 0.03 low. Even so the old values lie below everything the
+  detection produced (p25 of 8 m against 9.4–10.9; young share 0.22 against 0.055–0.15 over all settings and
+  subsets), so they are replaced.
+- **`youngHeightMeters` [3, 6] unchanged.** The measured trees below 7 m have a median of 5.7–6.0 m (p25–p75 5.0–6.4)
+  and almost none are under 4 m, but trees under 4 m are the ones leaf-off lidar and the rules miss most, so the data
+  do not say the range is wrong.
+- Nothing was withheld. The Lakeview values are the least certain (clutter next to buildings); keeping the old
+  ones there is possible, but no setting of the detection produced them.
+
+### 13.9 What this means for the canopy gap
+
+Reported only; the generator and renderer were not touched.
+
+- With the new heights the generated trees are the right height, but their crowns are 0.6–0.8 of the measured
+  crown area (13.5). A crown radius ratio near **0.38** (instead of 0.343) would bring Evanston and Wilmette to
+  0.90–0.97 of it (area goes with the square of the ratio), and would not overshoot the leaf-on NAIP cover:
+  lidar crown area at the 0.3 × height edge is already 0.91 (Evanston) and 0.74 (Wilmette) of NAIP.
+- The lidar canopy is made of about 38 trees per hectare (Evanston, Wilmette) and 25 (Lakeview; about 19 for the
+  clear subset alone) whose crowns touch. Whether the generator places that many is the first thing to compare
+  against the 0.16 / 0.18 / 0.09 achieved.
+- Per-tree heights keyed to OSM or Overture IDs are not proposed (same licensing and design questions as the roof
+  hints in section 8).
+
+### 13.10 Limits
+
+- One area per profile, one leaf-off flight, nine years old; one labeller (the agent), 36 validation tiles.
+- No leaf-on lidar and no ground truth for height (13.6, 13.7).
+- Depth ≤ 10 (11–15 vegetation points per m² in Evanston and Wilmette, 7.7 in Lakeview): thin crowns lose points.
+- The vendor class carries wall, wire and roof returns; the rules in 13.3 are tuned on crops of these three areas
+  and may not transfer to areas with other building types. Lakeview still has roughly a fifth to a quarter of its
+  tops that are not trees (26 % of its trees stand within 3 cells of a building, and 5 of the 6 sampled there were
+  clutter).
+- The areas include their parks (Evanston 5.6 % of the area, Wilmette 6.9 %, Lakeview 0.5 %); the statistics for
+  the built fabric alone (`statsFabric`) differ by about 0.2 m at most at every percentile.
+- A watershed crown is the tree's share of a touching canopy: overlap is invisible, the radius is a lower bound
+  for a crown standing alone, and two trees can merge (1 of 36 tiles) or one tree can split.
+- Tree height in a 1 m CHM cell is the highest return in that cell; a leaning or very narrow tree can be a few cells
+  off.
+
+### 13.11 Decisions
+
+1. **Vegetation classes 3/4/5**, because they are populated and class 1 is negligible; the "non-ground, non-building
+   above 2 m outside footprints" route of the brief would add only the clutter classes.
+2. **Depth ≤ 10 and a 10 m margin** for all three areas (about 100–131 MB each), the only choice that fits the
+   400 MB budget; no sub-box.
+3. **Roof, wall, wire and sparse-top rules** added after the first crops showed tops on roof edges (the first
+   version of the rule was a roof-height band; a second, the roof zone; then the thickness and point-count rules for
+   Lakeview's wires and porch posts). The values are in `data/trees.json`; their effect is in `sensitivity`.
+4. **`heightMeters` from the trees of 7 m or more**, not from all detected trees (13.8), with the all-trees values
+   reported beside it.
+5. **Lakeview from the clear-of-buildings subset** (13.8).
+6. **`youngHeightMeters` untouched** (13.8).
+7. **Overture footprints** (Wilmette) join OSM only for diagnostics (tops inside a footprint); they do not filter
+   the CHM.
+8. **Roof clutter by the lidar's own building class**, not by footprints, because OSM footprints are 1–3 m off the
+   lidar roofs (section 3) and miss unmapped buildings (section 7).
+
+### 13.12 Bytes downloaded (tree measurement)
+
+| What | Bytes |
+|---|---:|
+| EPT LAZ nodes: Evanston 280 + Wilmette 301 + Lakeview 295 (depth 0–10) | 117,612,558 + 131,479,560 + 99,876,912 = 348,969,030 |
+| EPT hierarchy files (three areas) | 593,765 |
+| `ept.json` (three times) | 7,770 |
+| **Total** | **349,570,565 (≈ 349.6 MB, 87 % of the 400 MB budget)** |
+
+Python wheels (numpy, scipy, shapely, pillow, rasterio, laspy with lazrs, scikit-image and small dependencies)
+came to roughly 80–100 MB (estimate: uv does not log bytes; the unpacked environment is 221 MB). They are tooling,
+not data; counted in the budget they would bring the total to about 430–450 MB. The unpacked environment, the
+points and the crops lived in the scratch directory and were deleted.
+
+### 13.13 How to re-run
+
+See the lidar tool README: `trees.py plan`, `fetch` (about 350 MB), `measure --sensitivity --write`, and `crops`
+for the visual check (scratch only). The tests (`tests/test_treeheights.py`) are offline.

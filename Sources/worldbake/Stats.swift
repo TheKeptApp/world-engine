@@ -114,15 +114,17 @@ enum Stats {
     /// outside the inner (centered) box.
     static func ring(_ dir: URL, innerWidth: Double, innerHeight: Double) throws -> String {
         let manifest = try AreaLoader.loadManifest(dir)
-        let doc = try AreaLoader.loadDocument(dir, manifest: manifest)
+        // The detailed sources only: the context ring (layer "context") is not part of this box.
+        let detailed = manifest.sources.filter { $0.layers != [ContextRing.layer] }
+        let doc = try AreaLoader.loadDocument(dir, manifest: manifest, layers: Set(detailed.flatMap(\.layers)))
         let f = MapFeatureBuilder(frame: manifest.frame, bounds: manifest.localBounds).build(doc)
         let inner = Rect2D(centerWidth: innerWidth, height: innerHeight)
         let ring = f.buildings.filter { !$0.isPart && !inner.contains($0.footprint.centroid) }
         let vertices = ring.reduce(0) { $0 + $1.footprint.outer.count + $1.footprint.holes.reduce(0) { $0 + $1.count } }
         let roofTris = ring.reduce(0) { $0 + $1.footprint.outer.count - 2 + $1.footprint.holes.reduce(0) { $0 + $1.count + 2 } }
         let wallTris = vertices * 2
-        // OSM files only: ring-stats builds from the OSM document (no Overture merge).
-        let osmSources = manifest.sources.filter { $0.format == "osm-overpass-json" }
+        // OSM files only, without the context ring: ring-stats builds from the OSM document (no Overture merge).
+        let osmSources = detailed.filter { $0.format == "osm-overpass-json" }
         let raw = osmSources.reduce(0) { $0 + ($1.bytes ?? 0) }
         var compressed = 0
         for s in osmSources {

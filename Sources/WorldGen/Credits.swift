@@ -17,6 +17,12 @@ public struct Credit: Codable, Sendable, Equatable, Identifiable {
         case skyData
         case imagery
         case weather
+        /// Live vehicle positions from a transit or aircraft feed, supplied by the host from the
+        /// relay response's `attribution[]` (data contract, `docs/research/live-feeds.md` §8.8).
+        case liveData
+        /// Illustrative, not-live content the host adds (e.g. ambient aircraft on real approach corridors,
+        /// `docs/research/ambient-planes.md`). Never presented as live.
+        case illustrative
         case code
     }
 
@@ -125,6 +131,34 @@ public struct WeatherCredit: Codable, Sendable, Equatable {
     }
 }
 
+/// One live feed's attribution as the relay sends it (`attribution[]` in the live-feed data contract,
+/// `docs/research/live-feeds.md` §8.8). The host passes the entries for feeds whose vehicles are on
+/// screen; `text` is shown verbatim and burned into exports.
+public struct LiveFeedCredit: Codable, Sendable, Equatable {
+    public var source: String
+    public var text: String
+    public var url: String?
+    public var licenseUrl: String?
+    /// Optional provider mark images, light and dark (same shape as the weather slot); only where a feed's
+    /// terms ask for or allow a logo. RTD's terms do not allow its marks, so the relay sends none.
+    public var markLightURL: String?
+    public var markDarkURL: String?
+    /// `false` for illustrative, not-live content (the ambient-planes snapshot's entry); it then becomes an
+    /// `illustrative` credit, never a "Live data" one. Absent means live (relay feeds).
+    public var live: Bool?
+
+    public init(source: String, text: String, url: String? = nil, licenseUrl: String? = nil,
+                markLightURL: String? = nil, markDarkURL: String? = nil, live: Bool? = nil) {
+        self.source = source
+        self.text = text
+        self.url = url
+        self.licenseUrl = licenseUrl
+        self.markLightURL = markLightURL
+        self.markDarkURL = markDarkURL
+        self.live = live
+    }
+}
+
 /// `Profiles/credits.json`: the static engine credits plus the licence table used to resolve
 /// licence URLs for manifest sources.
 public struct CreditsCatalog: Codable, Sendable, Equatable {
@@ -183,10 +217,12 @@ public struct CreditsCatalog: Codable, Sendable, Equatable {
     ///   and licence (OSM tiles vs the built-in OSM credit) only adds its format to that credit's
     ///   `sources`. New source credits follow the map-data credits.
     /// - The host-supplied weather entry is filled from `weather`, or dropped when it is nil.
+    /// - Each live feed in `liveFeeds` (one per `source`, first wins) adds a `liveData` credit after the
+    ///   map-data credits: app, web and image surfaces (never the package), burned into exports.
     /// - `surface` keeps only entries that apply there (nil keeps all).
     /// - Licence URLs missing from an entry are resolved from `licenses`.
     public func merged(sources: [AreaManifest.Source] = [], weather: WeatherCredit? = nil, naipDerivedValues: Bool = false,
-                       surface: Credit.Surface? = nil) -> [Credit] {
+                       liveFeeds: [LiveFeedCredit] = [], surface: Credit.Surface? = nil) -> [Credit] {
         var list: [Credit] = []
         for var c in credits {
             switch c.condition {
@@ -219,6 +255,15 @@ public struct CreditsCatalog: Codable, Sendable, Equatable {
                     // Unknown licences are credited on images too, to be safe.
                     burnIn: info?.attributionRequired ?? true, sources: [s.format]))
             }
+        }
+        var seenFeeds = Set<String>()
+        for f in liveFeeds where seenFeeds.insert(f.source).inserted {
+            let isLive = f.live ?? true
+            added.append(Credit(
+                id: isLive ? "live-\(f.source)" : "illustrative-\(f.source)", kind: isLive ? .liveData : .illustrative,
+                title: isLive ? "Live data (\(f.source))" : "Illustrative, not live (\(f.source))", text: f.text,
+                url: f.url, licenseURL: f.licenseUrl, condition: .always, surfaces: [.app, .web, .image],
+                burnIn: true, markLightURL: f.markLightURL, markDarkURL: f.markDarkURL))
         }
         let insertAt = (list.lastIndex(where: { $0.kind == .mapData }).map { $0 + 1 }) ?? 0
         list.insert(contentsOf: added, at: insertAt)

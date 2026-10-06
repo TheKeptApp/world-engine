@@ -36,8 +36,8 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         public var youngShare: Double
         public var youngHeightMeters: [Double]
         /// Optional, zone level: measured share (0–1) of the ground covered by tree crowns, from leaf-on
-        /// aerial imagery (e.g. a NAIP canopy mask over a sample cell). Absent in most profiles; the
-        /// generator does not read it yet, and behaviour without it is unchanged. Decoded with
+        /// aerial imagery (e.g. a NAIP canopy mask over a sample cell). The generator calibrates
+        /// generated yard trees toward it (`yards.json` `canopyFill`); absent → behaviour unchanged. Decoded with
         /// `decodeIfPresent` (synthesized `Codable` for an optional), so older JSON still decodes.
         public var canopyShare: Double?
     }
@@ -94,7 +94,7 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         public var squareRectangularity: Double
         public var narrowAspect: Double
         /// Optional size thresholds relative to the local houses, as quantiles (0–1) of the area's house
-        /// footprint areas. Intended generator rule (not implemented here): if a percentile is present and
+        /// footprint areas. Generator rule (`Thresholds.resolved(houseAreas:minCandidates:)` in HouseFamilies.swift): if a percentile is present and
         /// the area has at least 30 house candidates, that threshold = this percentile of the area's house
         /// footprint areas; otherwise use the absolute m² value above. Expected order when present:
         /// small < large < huge. Absent → behaviour unchanged (absolute values). Decoded with

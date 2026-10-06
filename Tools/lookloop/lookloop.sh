@@ -42,7 +42,9 @@ reviewer_prompts() { # $1 = run dir, $2 = model alias, $3 = manifest (repo-relat
   python3 - "$1" "${1#"$ROOT"/}" "$2" "$3" <<'PY'
 import json, os, sys
 run, rel, model, manifest = sys.argv[1:5]
-reused = set(json.load(open(os.path.join(run, "run.json"))).get("reused", []))
+meta = json.load(open(os.path.join(run, "run.json")))
+reused = set(meta.get("reused", []))
+inapp = "in-app" in meta.get("frameSource", "")
 ids = sorted(f[:-4] for f in os.listdir(os.path.join(run, "sheets")) if f.endswith(".jpg") and f[:-4] not in reused)
 lines = [f"# Reviewer prompts: {len(ids)} view(s), model `{model}`", "",
          f"Spawn one `{model}` sub-agent per line, all in parallel (general-purpose agent; it needs Read and Write). "
@@ -52,7 +54,9 @@ for i in ids:
         f"- `{i}`: Repo root is the current checkout; relative paths are relative to it. Modify no file except the grades JSON named "
         f"below. You are a strict visual reviewer for WorldEngine. Follow docs/lookloop/GRADING.md exactly to grade view `{i}` of "
         f"look-loop run `{rel}`. Read GRADING.md first, then the view entry in {manifest}, the `{i}` entry in {rel}/signals.json, "
-        f"the contact sheet {rel}/sheets/{i}.jpg, the full frame {rel}/frames/{i}.jpg and the target PNG(s) if any. Write only the "
+        f"the contact sheet {rel}/sheets/{i}.jpg, the full frame {rel}/frames/{i}.jpg and the target PNG(s) if any. "
+        + ("Frames in this run are WorldLab in-app captures (no UI): do not raise osm-credit-missing (the credit is checked on the UI screenshots). " if inapp else "")
+        + f"Write only the "
         f"JSON object of section G to {rel}/grades/{i}.json (set \"grader\" to your model id), then reply \"done\".")
 open(os.path.join(run, "reviewers.md"), "w").write("\n".join(lines) + "\n")
 print(len(ids))
@@ -78,6 +82,10 @@ case "$cmd" in
     python3 "$TOOLS/analyze.py" "$run" "${prev[@]+"${prev[@]}"}"
     echo "capture + analysis: $(minutes_since "$run") min"
     model=sonnet; [ "$kind" = gate ] && model=opus
+    if [ -s "$run/views.tsv" ] && ! ls "$run/raw/"*.png >/dev/null 2>&1; then
+      echo "No view was captured (see $rel/capture.tsv and $rel/logs): stopping without grading or publishing."
+      exit 2
+    fi
     if [ ! -s "$run/views.tsv" ]; then
       echo "Nothing that renders or grades any view changed since the last published run: no new row."
       exit 0
