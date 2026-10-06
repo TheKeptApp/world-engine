@@ -1,11 +1,12 @@
 # Map data coverage: where the world will look accurate and where it will look generic
 
-Workstream B, 2026-10-06 (revised the same day: relation geometry fixed, phase 5A tree meshes). 46 sample cells, each 1 km × 1 km around a named public place: 4 on the North Shore, 9 in Chicago, and 3 in each of 11 other US metros (urban core, inner suburb, outer suburb). For every cell: what OpenStreetMap (OSM) holds for buildings and trees, what Overture Maps adds, and what the generator therefore has to estimate. The last part estimates the triangles a dense Chicago cell would produce at the current generator settings.
+Workstream B, 2026-10-06 (revised the same day: relation geometry fixed, phase 5A tree meshes). 46 sample cells, each 1 km × 1 km around a named public place: 4 on the North Shore, 9 in Chicago, and 3 in each of 11 other US metros (urban core, inner suburb, outer suburb). For every cell: what OpenStreetMap (OSM) holds for buildings and trees, what Overture Maps adds, and what the generator therefore has to estimate. The last part counts the triangles a dense Chicago cell produces: measured from exported packages of the post-P2 generator (phase 5B, generator `b8f6c71`), with the earlier pre-P2 estimate kept as the baseline.
 
 Every measured number is produced by `Tools/regionkit/audit/` (one command re-runs it, see [Method](#method-and-how-to-re-run)) and stored in `Tools/regionkit/audit/results/`:
 - `cells.csv`, `osm_metrics.json`, `overture_metrics.json`: per cell;
 - `summary.json`: tiers and the overall figures;
-- `triangles.json`: calibration and triangle estimates;
+- `triangles.json`: calibration and triangle estimates (pre-P2 baseline);
+- `triangles_p2.json`: triangles measured from exported packages (post-P2);
 - `downloads.json`: bytes.
 
 Numbers taken from elsewhere cite their file. Estimates are labelled as estimates.
@@ -34,13 +35,15 @@ Numbers taken from elsewhere cite their file. Estimates are labelled as estimate
 6. **Mapped trees are rare.** North Shore 0.5 per km², Chicago neighbourhoods 78, suburbs about 20.
    - Sloan's Lake, for comparison, has 5,400 mapped trees, or 2,812 per km² (`triangles.json` calibration).
    - Overture has no trees.
-   - The generator places only mapped trees today, so most streets would be treeless.
+   - The generator placed only mapped trees, so most streets would have been treeless. P2's yards (`fd1680f`) now add parkway and yard trees by zone.
 7. **`building:part`: 4,916 parts, 97% with height or levels**, almost all downtown (Denver 1,967, Manhattan 1,185, Boston 671, Loop 156). The generator skips parts today.
-8. **Triangles (estimate).** A Python port of the generator's counting rules reproduces the recorded Sloan's Lake numbers within 0.25% at both recorded focus settings. For dense Chicago at current settings (phase 5A tree meshes):
-   - Full detail over a whole cell is **0.67–2.19 M static triangles**.
-   - A typical street view submits **0.17–0.50 M**.
-   - The worst views reach **0.48–1.44 M with full detail everywhere (0.26–0.80 M with a WorldLab-sized focus)**, against the 400 k ceiling.
-   - Window frames on tall blocks are 97% of the Loop's building triangles, and curbs cost 12 triangles per metre of street.
+8. **Triangles (measured after P2, generator `b8f6c71`).** `worldbake export` packages of the five dense cells (four audit cells plus P2's Lakeview), counted from their meshes and run through the audit's street-view culling:
+   - Full detail over a whole cell is **0.69–2.24 M static triangles** (`chicago-dense-north` 1.21–1.38 M in the residential cells).
+   - A typical street view submits **0.19–0.53 M** with full detail everywhere, **0.10–0.27 M** with a WorldLab-sized focus.
+   - The worst views reach **0.55–1.83 M** with full detail everywhere and **0.34–1.08 M** with the focus, against the 400 k ceiling.
+   - With the focus, the Loop and Lakeview break the ceiling at p90 (688 k, 482 k). Every `chicago-dense-north` cell breaks it in its worst view (464–605 k).
+   - P2's generated parkway and yard trees add 23–61 k to the average view. One Loop chunk alone casts 181 k shadow triangles, over the 150 k ceiling.
+   - The pre-P2 estimate (a Python port of the counting rules, within 0.25 % of the recorded Sloan's Lake numbers) held for what it modelled: before yards, the measured views matched it within a few per cent. Curbs still cost 12 triangles per metre of street.
 
 ## Main table
 
@@ -105,7 +108,7 @@ Anchor names follow OSM, with a short description where the OSM name alone is am
 - relations were re-fetched with their member geometry;
 - the counting rectangle is now exactly ±500 m in the local frame, as the region kit uses. Before that it came from the rounded lat/lon corners and differed by centimetres (up to 0.07 m in the cells checked); one Lincoln Park building has its centroid 8 mm outside the line.
 
-**Engine behaviours found while matching the engine (reported, not changed):**
+**Engine behaviours found while matching the engine (reported, not changed; P2 fixed both on main in `1085568`):**
 - A way tagged `building` that is also the outer of a building multipolygon is counted, and drawn, twice. This happens twice in these cells (downtown Atlanta, Decatur).
 - `MapFeatureBuilder` also assembles `type=building` relations that carry a `building` tag. Their outline and part members then become extra full-height building polygons. There are 9 such relations here: Lakeview 1, downtown Seattle 8. The audit does not count them; the triangle model mirrors the engine.
 
@@ -190,7 +193,7 @@ Caveat on the outer-suburb row: those anchors are civic centres, and in Frisco, 
 
 ## Biggest gaps, ranked, and what the generator should do
 
-**Update after P2 buildings (main `91ed01c`, merged 2026-10-06, after this analysis of `772ff24`).** P2 added an alley-garage rule to the generator (`BuildingGenerator.role(for:)`: `building=yes` of 14–75 m², at most 1.5 levels, a mapped alley edge within 9 m and no street front within 9 m becomes a garage), keeps large `building=yes` below the profile's `hugeArea` with ≤ 3 levels as houses, picks block families from tag evidence (`HouseFamilies.blockFamily`: tall, court, commercial, apartments, else the plain block), and adds roof assemblies (cross-gables, dormers, chimneys) and rear porches toward mapped alleys (`docs/buildings/README.md`). It also adopted `chicago-dense-north`, `evanston` and `wilmette` unchanged. That addresses gap 6 (garages) and the block-family part of the triangle and roof discussion; gaps 1–5 and 7–9 stand. Still open on main as well: a building way that is also a multipolygon outer is drawn twice, and tagged `type=building` relations become extra full-height buildings (see Decisions).
+**Update after P2 buildings (main `91ed01c`, merged 2026-10-06, after this analysis of `772ff24`).** P2 added an alley-garage rule to the generator (`BuildingGenerator.role(for:)`: `building=yes` of 14–75 m², at most 1.5 levels, a mapped alley edge within 9 m and no street front within 9 m becomes a garage), keeps large `building=yes` below the profile's `hugeArea` with ≤ 3 levels as houses, picks block families from tag evidence (`HouseFamilies.blockFamily`: tall, court, commercial, apartments, else the plain block), and adds roof assemblies (cross-gables, dormers, chimneys) and rear porches toward mapped alleys (`docs/buildings/README.md`). It also adopted `chicago-dense-north`, `evanston` and `wilmette` unchanged. That addresses gap 6 (garages) and the block-family part of the triangle and roof discussion; gaps 1–5 and 7–9 stand. The two map behaviours listed under the main table (a building way that is also a multipolygon outer drawn twice; tagged `type=building` relations becoming extra full-height buildings) were fixed by P2 on main in `1085568`. Since then P2's yards (`fd1680f`) also generate parkway and yard trees by zone, which addresses gap 4 (841–1,971 trees per dense cell; their triangle cost is in the measured counts below).
 
 Ranked by how much of the world they make generic. "Zone default" names the proposed zone profile that would supply the value (`docs/proposals/regions-chicagoland-miami/`, read-only proposal; outside those zones the bundled `default` / `front-range` profiles).
 
@@ -242,13 +245,139 @@ Ranked by how much of the world they make generic. "Zone default" names the prop
 
 8. **`building:part` towers: implement parts.** 4,916 parts, 97% with height or levels, mostly downtown (Denver 1,967 in one cell). The generator skips every part (`SceneGenerator`: `where !building.isPart`), so stepped towers render as their outline at the outline's height. The data is good where it exists; this is generator work (already planned before downtown Denver in `plan-m1.md`).
 
-9. **Facade detail on tall blocks: needs LOD before any of the above lands.** See the triangle estimate: window frames are 97% of the Loop's building triangles.
+9. **Facade detail on tall blocks: needs LOD before any of the above lands.** See the triangle counts: window frames are 97% of the Loop's building triangles (pre-P2 port), and one Loop chunk alone is 181 k triangles (measured).
 
-## Triangle estimate for a dense Chicago cell
+## Triangle counts for a dense Chicago cell
 
-**Baseline:** the model ports the generator at `772ff24` (phase 5A tree meshes included). P2 (`91ed01c`) changed building geometry (roof assemblies, details, per-LOD output) and tree props after this estimate, so treat the numbers as the pre-P2 baseline and re-run or measure against current main.
+Two parts:
+- **Measured after P2** (below): `worldbake export` packages of the current generator, counted from their meshes.
+- **Pre-P2 baseline** (further down): the earlier estimate from a Python port of the generator at `772ff24`, kept for comparison.
 
-**This is an estimate. Nothing was built or run.** The Mac was reserved for another session, so the estimate comes from a model.
+### Measured after P2 (generator `b8f6c71`)
+
+**Commit.** Measured on main `b8f6c71` (2026-10-06); main has since moved to `680d47b`, which adds only the Wilmette test area, with no generator change. The generator at `b8f6c71` includes:
+- P2's buildings (`91ed01c`);
+- P2's two `MapFeatureBuilder` fixes (`1085568`): a building way that is also a building-multipolygon outer is drawn once, and `type=building` relations no longer make extra buildings;
+- P1's profile update (`f69c2bf`: measured dense-north storey mix);
+- P2's facades (`a8cf90c`), yards with parkway and yard trees (`fd1680f`), and relative size thresholds (`057fc02`).
+
+The measurement is therefore **after** P2's two map fixes. The same runs were also made on `1085568` and `44eeaa3`. Whole cell, static triangles and street-view mean:
+
+| Run (whole cell) | `1085568` | `44eeaa3` (storey mix) | `b8f6c71` (facades, yards, trees) |
+|---|---|---|---|
+| Loop, `default` | 2,239,714; 508,623 | same | 2,240,042; 525,069 |
+| River North, `default` | 686,892; 168,876 | same | 690,952; 193,474 |
+| Lincoln Park, `chicago-dense-north` | 1,188,577; 288,923 | 1,204,170; 292,188 | 1,291,041; 373,283 |
+| Edgewater, `chicago-dense-north` | 1,104,595; 266,759 | 1,106,567; 267,172 | 1,209,903; 339,670 |
+| Lakeview, `chicago-dense-north` | 1,259,469; 308,560 | 1,270,225; 310,882 | 1,380,018; 408,913 |
+
+Most of the latest step is generated trees. Lakeview's whole cell went from 5 trees (mapped) to 1,967, and the street view gained 61 k tree triangles on average.
+
+**Nothing ran on a device.** These are the triangles RealityKit would be asked to draw under `World.estimateViewTriangles`' rules, measured from the exported meshes. They are not GPU timings.
+
+**Method** (`Tools/regionkit/audit/pkgtris.py`; runs in `pkgruns.json`; results in `results/triangles_p2.json`; one command, see the audit README).
+- **Areas:**
+  - the four dense cells: `worldbake init-area` (1000 m × 1000 m around the `cells.json` centre), then `worldbake fetch` (OSM base 2026-10-06T12:33:02Z and 12:34:03Z);
+  - Lakeview: a copy of the committed `Data/areas/lakeview-sheil-park` (OSM 06:22:21Z);
+  - Overture's extra footprints (`fetch --layers overture`) were not added; they are 0.2–0.9 % of buildings in these cells.
+- **Export:** `worldbake export --date 2026-10-22T20:00:00Z`, twice per cell:
+  - whole area (no focus), so every chunk gets full detail;
+  - a WorldLab-sized focus of 470 m × 599 m, centred. `world.json` confirms it selects the central 3 × 3 chunks.
+- **Profiles:**
+  - Loop and River North: `default`. That is the generator's own pick: Chicago's region boxes don't reach downtown, and the engine has no downtown profile.
+  - Lincoln Park, Edgewater and Lakeview: `chicago-dense-north`, as P2's BuildingLab uses it for Lakeview, and what `regions.json` picks for all three.
+  - The residential cells were also exported with `default`, for a like-for-like comparison with the pre-P2 baseline.
+- **Static triangles:**
+  - summed from the index accessors of every chunk's `lod0.glb` and `lod1.glb`; they equal the per-chunk `triangles` in `world.json`;
+  - split by feature kind with `_FEATURE` and `scene.json`;
+  - split into flat ground and raised geometry with `World.splitFlatGround`'s rule (every corner below 0.3 m = flat).
+- **Street view:** the pre-P2 audit's cameras and wedge test (25 positions at the chunk centres × 8 headings, portrait 9:19.5, 50° vertical field of view). Each item counts whole when its bounds meet the view, as in World.swift:
+  - each chunk is two entities, as in `World.buildChunks`: flat ground plus water, and raised geometry, each culled by its own mesh bounds;
+  - props come from `instances.json`, grouped as in `World.buildProps` (kind, variant and 400 m cell; LOD buckets at 45 and 160 m), with each prototype's measured triangles;
+  - lamps and benches are culled per group;
+  - plus 200 tufts × 17 and the 2-triangle boundary.
+  - The pre-P2 method culled whole chunks by their 200 m grid squares. It is reported alongside as "grid culling", so the two can be compared.
+- **Shadows:**
+  - the raised triangles of chunks whose raised-entity bounds meet an 80 m view wedge (the pre-P2 audit's approximation of RealityKit's 80 m shadow distance);
+  - and the heaviest single chunk's raised triangles: what one shadow-casting chunk entity submits;
+  - trees within 80 m add 6–15 k on average (`shadowTrees80Mean`).
+
+| Cell | Profile | Focus | lod0 static | lod1 static | … buildings / curbs (lod0) | Street view mean / p90 / max | … trees / bushes (view mean) | Same, grid culling | Heaviest chunk, raised | Shadow casters per view mean / max | Trees placed |
+|---|---|---|---:|---:|---|---|---|---|---:|---|---:|
+| Loop | default | whole cell | 2,240,042 | 41,775 | 2,035,150 / 173,844 | **525,069** / 1,045,584 / 1,832,038 | 23,524 / 6,654 | 511,923 / 1,020,637 / 1,506,361 | 180,925 | 90,442 / 332,630 | 902 |
+| Loop | default | WorldLab-sized | 1,024,595 | 41,551 | 951,729 / 50,052 | **270,516** / 688,414 / 1,084,666 | 23,356 / 2,768 | 261,319 / 672,786 / 858,572 | 180,925 | 45,226 / 332,630 | 900 |
+| River North | default | whole cell | 690,952 | 29,518 | 544,711 / 122,700 | **193,474** / 424,616 / 549,969 | 22,558 / 8,780 | 186,831 / 414,576 / 540,962 | 70,761 | 24,345 / 100,683 | 841 |
+| River North | default | WorldLab-sized | 283,067 | 28,739 | 235,181 / 32,952 | **96,253** / 262,599 / 337,426 | 22,611 / 3,491 | 95,473 / 259,973 / 331,153 | 70,761 | 10,412 / 71,385 | 843 |
+| Lincoln Park | chicago-dense-north | whole cell | 1,291,041 | 130,534 | 1,117,101 / 141,300 | **373,283** / 653,995 / 958,381 | 51,539 / 19,009 | 350,806 / 642,373 / 904,499 | 57,794 | 44,386 / 96,693 | 1,721 |
+| Lincoln Park | chicago-dense-north | WorldLab-sized | 455,227 | 130,149 | 395,260 / 33,888 | **168,521** / 340,928 / 469,134 | 51,592 / 5,511 | 162,186 / 331,952 / 455,448 | 54,364 | 15,596 / 71,011 | 1,722 |
+| Lincoln Park | default | whole cell | 1,025,710 | 130,882 | 852,069 / 141,300 | **312,121** / 548,867 / 801,408 | 45,878 / 18,412 | 289,149 / 526,034 / 742,690 | 45,477 | 32,683 / 67,552 | 1,635 |
+| Lincoln Park | default | WorldLab-sized | 380,611 | 130,495 | 320,825 / 33,888 | **146,655** / 290,272 / 397,654 | 45,954 / 5,501 | 139,811 / 276,571 / 382,487 | 37,737 | 12,459 / 55,789 | 1,638 |
+| Edgewater | chicago-dense-north | whole cell | 1,209,903 | 104,703 | 1,034,903 / 132,048 | **339,670** / 644,939 / 923,669 | 41,920 / 15,689 | 320,647 / 606,609 / 878,803 | 78,474 | 40,475 / 132,977 | 1,388 |
+| Edgewater | chicago-dense-north | WorldLab-sized | 455,531 | 103,041 | 385,571 / 39,924 | **162,544** / 382,675 / 464,080 | 42,548 / 5,714 | 154,532 / 354,423 / 457,798 | 47,643 | 15,134 / 47,643 | 1,414 |
+| Edgewater | default | whole cell | 1,013,574 | 104,737 | 838,856 / 132,048 | **293,776** / 550,354 / 794,369 | 37,368 / 14,794 | 273,568 / 515,920 / 749,084 | 76,961 | 32,312 / 130,928 | 1,353 |
+| Edgewater | default | WorldLab-sized | 376,904 | 103,075 | 307,164 / 39,924 | **140,314** / 317,204 / 395,442 | 37,894 / 5,240 | 131,669 / 295,232 / 385,424 | 37,120 | 11,824 / 37,120 | 1,372 |
+| Lakeview (Sheil Park) | chicago-dense-north | whole cell | 1,380,018 | 153,148 | 1,177,545 / 166,158 | **408,913** / 800,759 / 1,083,852 | 60,874 / 20,767 | 385,356 / 747,095 / 1,049,107 | 53,866 | 45,691 / 99,092 | 1,967 |
+| Lakeview (Sheil Park) | chicago-dense-north | WorldLab-sized | 577,114 | 153,050 | 498,819 / 47,658 | **211,705** / 482,085 / 604,826 | 60,994 / 7,877 | 203,282 / 454,453 / 591,215 | 51,911 | 19,510 / 51,911 | 1,971 |
+| Lakeview (Sheil Park) | default | whole cell | 1,078,142 | 152,143 | 876,068 / 166,158 | **338,412** / 649,305 / 878,685 | 54,430 / 20,101 | 314,459 / 612,044 / 846,947 | 38,435 | 32,823 / 65,022 | 1,889 |
+
+**Against the pre-P2 baseline** (same cells, `default` profile, whole cell):
+
+| Cell | Baseline static | Measured static | Baseline view mean / p90 / max | Measured, grid culling (same method) | Measured, entity culling (engine) |
+|---|---:|---:|---|---|---|
+| Loop | 2,188,944 | 2,240,042 (+2.3 %) | 496,198 / 973,985 / 1,439,850 | 511,923 / 1,020,637 / 1,506,361 | 525,069 / 1,045,584 / 1,832,038 |
+| River North | 667,908 | 690,952 (+3.4 %) | 173,499 / 363,811 / 481,699 | 186,831 / 414,576 / 540,962 | 193,474 / 424,616 / 549,969 |
+| Lincoln Park | 932,888 | 1,025,710 (+9.9 %) | 244,803 / 430,282 / 600,282 | 289,149 / 526,034 / 742,690 | 312,121 / 548,867 / 801,408 |
+| Edgewater | 981,255 | 1,013,574 (+3.3 %) | 247,994 / 450,828 / 641,205 | 273,568 / 515,920 / 749,084 | 293,776 / 550,354 / 794,369 |
+
+What changed:
+- **The model held up for what it modelled.** At `44eeaa3`, before yards and generated trees, the measured packages matched the pre-P2 port within a few per cent on statics and on grid-culled views (Loop mean 495,502 vs 496,198).
+- **Buildings:**
+  - P2's buildings add 2–9 % with `default` (building triangles: Loop +2.5 %, Edgewater +2.0 %, Lincoln Park +9.3 %).
+  - `chicago-dense-north` adds +26 % (Lincoln Park), +19 % (Edgewater) and +28 % (Lakeview) static against `default` in the same cell: more storeys and window rows, roof assemblies, porches, rear porches, bays.
+- **Yards and trees** (`fd1680f`):
+  - Trees: the generator now places parkway and yard trees: 841–1,971 per cell against 5–425 mapped before. They add **23–61 k triangles to the average street view**, against the 100 k the pre-P2 audit estimated for Sloan's Lake density.
+  - Yard ground: lawns, walks, driveways and beds add 16–25 k static triangles per residential cell.
+  - Bushes: more shrubs and hedges roughly double the bush triangles in view in the residential cells, to 15–21 k with the whole cell at full detail.
+- **Culling the two chunk entities by their mesh bounds** (what the engine does) adds 3–8 % to the means and up to 26 % to the worst views (Loop).
+  - Generated curb and sidewalk-edge runs belong to the chunk where they start, so a flat-ground entity's bounds can reach about 70 m into the next chunk (Lakeview).
+- **Tree prototypes are heavier than the pre-P2 audit assumed:**
+  - broad and oval 571 / 238 / 81 triangles near / mid / far, spreading 663 / 235 / 84;
+  - pre-P2: 422 / 194 / 32 and 524 / 200 / 32.
+  - The tuft prototypes have 18 and 24 triangles, but the engine's estimate still counts 17 per tuft.
+- **Lod1 buildings are unchanged** (Loop 22.5 k, as before), as P2 intended: far LOD ≈ the old simple detail. Lod1 totals rose only through the yard ground.
+
+**Against the ceilings** (v2 §8.1: 400 k main ceiling, about 290 k plan target, 150 k shadow ceiling):
+
+| | Whole cell at full detail (no focus) | WorldLab-sized focus |
+|---|---|---|
+| **400 k ceiling** | **Not met.** Loop mean 525 k and Lakeview mean 409 k (`chicago-dense-north`). The p90 is above 400 k in every cell (River North 425 k to Loop 1.05 M), and so is every worst view (550 k to 1.83 M). | **Met on average and at p90 except in the Loop** (p90 688 k) **and Lakeview** (p90 482 k). The worst views break it in every `chicago-dense-north` cell: Lakeview 605 k, Lincoln Park 469 k, Edgewater 464 k. Loop: 1.08 M. With `default`: 395–398 k, at the line; River North 337 k. |
+| **~290 k target (mean)** | Met only in River North (193 k); Edgewater `default` sits at the line (294 k). With `chicago-dense-north`: Lincoln Park 373 k, Edgewater 340 k, Lakeview 409 k. | Met on average everywhere: Loop 271 k, Lakeview 212 k, the others 96–169 k. At p90 Lincoln Park `default` is at the line (290 k); the others are above it (317–688 k), except River North (263 k). |
+| **150 k shadow ceiling** | **Not met in the Loop:** one chunk's raised geometry alone is 181 k, and an 80 m view wedge reaches 333 k at worst. Edgewater comes close: 133 k static casters at worst plus about 9 k of trees. Elsewhere 65–100 k plus 6–15 k of trees. | Same Loop chunk (181 k). Elsewhere at most 71 k plus trees. |
+
+**Distance LOD what-if** (not current behaviour; full-detail chunk within 150 m of the camera, lod1 beyond; props as now; measured lod0 and lod1, whole cell):
+
+| Cell | View mean / p90 / max |
+|---|---|
+| Loop | 277,398 / 473,225 / 654,027 |
+| River North | 119,313 / 226,985 / 332,168 |
+| Lincoln Park | `chicago-dense-north` 237,005 / 352,066 / 462,515; `default` 205,130 / 314,004 / 391,639 |
+| Edgewater | `chicago-dense-north` 212,086 / 326,697 / 428,166; `default` 186,917 / 287,938 / 396,182 |
+| Lakeview | `chicago-dense-north` 265,133 / 393,033 / 513,718; `default` 227,590 / 347,331 / 444,372 |
+
+- Chunk-level distance LOD alone no longer brings the dense-north cells inside 400 k in their worst views (428–514 k): the trees and the near chunk's houses remain.
+- P2's per-building LOD by distance is finer: near / mid / far / skyline, which the renderer doesn't switch yet (gate-5b gap 3). In P2's street cameras it brings dense Lakeview views to 46–54 k building triangles (`BuildingViewBudgetTests`, before yards).
+- That LOD plus a cheaper mid and far tree (or fewer near-LOD trees) is the route to the budget. Window grids on Loop towers still need a facade LOD.
+
+**Still true from the pre-P2 analysis:**
+- Curbs are 12 triangles per street metre: 122–174 k per dense cell, 8–18 % of whole-cell statics.
+- With no focus every chunk is full detail.
+- The package can't separate window frames from walls. The pre-P2 port put the Loop's window frames at 97 % of its building triangles, and the measured building total agrees with that port within 2.5 %.
+
+## Pre-P2 baseline: triangle estimate (generator `772ff24`)
+
+**This is the pre-P2 baseline.** The model ports the generator at `772ff24` (phase 5A tree meshes included). P2 (`91ed01c`) later changed building geometry (roof assemblies, details, per-LOD output) and tree props; the measured counts above supersede these numbers.
+
+**This was an estimate. Nothing was built or run.** The Mac was reserved for another session, so the estimate comes from a model.
 
 ### Method and check
 
@@ -296,7 +425,7 @@ Phase 5A adds one limb per crown lobe at every LOD (5 sides at lod 0, 3 otherwis
 
 Averages per building in Lincoln Park at full detail: house 302 (windows 172), block 715, garage 83. In the Loop a block averages **5,432, of which 5,285 is windows** (12.3 floors on average). Simple detail averages 41–57 per building in the four dense cells (lod1 building triangles ÷ OSM buildings).
 
-### Results (current settings: bundled `default` profile, since Chicago has no region in `regions.json`)
+### Results (pre-P2 settings: bundled `default` profile; Chicago had no region in `regions.json` then)
 
 World = the 1 km² cell (25 chunks of 200 m), with real OSM buildings, roads, areas, trees, lamps and benches for each cell. Two focus settings:
 - **whole cell**: the default when an app passes no focus, so every chunk gets full detail;
@@ -346,15 +475,12 @@ Assumptions that move the numbers:
 4. **`building:part` towers** (when implemented) multiply the window problem; same facade LOD.
 5. **Shadow casters:** use the simple (lod1) chunk mesh as the shadow caster, or smaller shadow chunks, so one Loop chunk can't exceed the shadow ceiling.
 
-### How to measure it properly later
+### How it was measured later
 
-When the Mac is free:
-1. `swift run worldbake init-area <tmp>/loop --id loop-cell --name "Loop cell" --lat 41.8839 --lon -87.6302 --width 1000 --height 1000`
-2. `swift run worldbake fetch <tmp>/loop`
-3. `swift run worldbake export <tmp>/loop <tmp>/loop-pkg --date <ISO>`, with and without `--focus`. It prints lod0/lod1 triangles: compare with the "static" column.
-4. On device, load that area in WorldLab for the per-frame view count (`World.estimateViewTriangles`) and frame times (`scripts/walk_test.sh`).
-
-Keep such area folders outside `Data/` unless the owner wants them committed.
+Steps 1–3 of the plan written here (`worldbake init-area`, `fetch`, `export` with and without a focus) are now
+`Tools/regionkit/audit/pkgtris.py run`; the results are the [measured section above](#measured-after-p2-generator-b8f6c71).
+Step 4, on device (WorldLab's per-frame view count and `scripts/walk_test.sh` frame times for these areas), is
+still to do. Area folders and packages stay outside `Data/`.
 
 ## Datasets, dates and licences
 
@@ -398,6 +524,21 @@ Downloaded:
   - Overture: 181.9 MB, plus about 9 MB of exploratory reads (estimate).
   - Tooling: the same ~33 MB.
 
+**Measured triangles (phase 5B).** From the repository root, with a built `worldbake`
+(`swift build -c release --product worldbake`) and a work folder outside the repository:
+
+```
+uv run --no-project --with numpy python3 Tools/regionkit/audit/pkgtris.py run --work <folder>
+```
+
+- For each cell without an area folder in `<folder>/areas/`: `worldbake init-area` and `worldbake fetch`, one
+  Overpass request per cell, 10 s apart. Lakeview is copied from `Data/areas/`.
+- Then the exports in `pkgruns.json` are measured. Each package is deleted after reading (about 70–180 MB each
+  while it exists).
+- This run: 4 Overpass requests through `worldbake fetch`, 21,251,878 bytes of `osm.json` (Loop 4.1 MB, River North
+  2.2 MB, Lincoln Park 3.0 MB, Edgewater 12.0 MB; sizes after decompression, so the transfer may have been smaller).
+- About 2 s per export and 2–5 s per measurement.
+
 ## Decisions for the owner
 
 1. **Outer-suburb anchors are civic campuses.** The Frisco, Sugar Land and Woodbury cells are mostly commercial or civic and hold 77–96 OSM buildings. I kept them (documented, conservative) rather than re-picking. If you want subdivision fabric instead, swap those three anchors in `cells.json` for neighbourhood parks and re-run.
@@ -410,4 +551,4 @@ Downloaded:
 3. **Floors from height** (gaps 2–3) should not land before facade LOD (gap 9), or downtown triangle counts multiply (Manhattan 0.80 M → 2.56 M in the model).
 4. **Tree density** has no field in the profile format; generated street trees would need one.
 5. **Microsoft ML heights** are estimates. Use them, or only USGS lidar heights (covering 54% of fills)? This is a quality choice to confirm.
-6. **Engine behaviours** found while matching the engine's counting (see the main table notes): duplicate drawing of a way that is also a multipolygon outer, and assembly of tagged `type=building` relations into extra building polygons. Both are worth a look before downtown work.
+6. **Engine behaviours** found while matching the engine's counting (see the main table notes): duplicate drawing of a way that is also a multipolygon outer, and assembly of tagged `type=building` relations into extra building polygons. Both fixed by P2 on main in `1085568`; the measured triangle counts include the fix.

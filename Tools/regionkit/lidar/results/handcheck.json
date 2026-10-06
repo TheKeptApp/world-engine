@@ -1,0 +1,143 @@
+{
+ "cantTell": 0,
+ "complexFlag": {
+  "handComplex_lidarComplex": 12,
+  "handComplex_lidarSimple": 0,
+  "handSimple_lidarComplex": 6,
+  "handSimple_lidarSimple": 12
+ },
+ "fourClass_handVsLidar": {
+  "agree": 24,
+  "agreement": 0.8,
+  "agreement95ci": [
+   0.6269,
+   0.905
+  ],
+  "kappa": 0.698,
+  "matrix": {
+   "complex": {
+    "complex": 12,
+    "flat": 0,
+    "gable": 0,
+    "hip": 0
+   },
+   "flat": {
+    "complex": 0,
+    "flat": 2,
+    "gable": 0,
+    "hip": 0
+   },
+   "gable": {
+    "complex": 4,
+    "flat": 0,
+    "gable": 3,
+    "hip": 0
+   },
+   "hip": {
+    "complex": 2,
+    "flat": 0,
+    "gable": 0,
+    "hip": 7
+   }
+  },
+  "n": 30,
+  "perClass": {
+   "complex": {
+    "n": 12,
+    "precision": 0.667,
+    "recall": 1.0,
+    "recall95ci": [
+     0.7575,
+     1.0
+    ]
+   },
+   "flat": {
+    "n": 2,
+    "precision": 1.0,
+    "recall": 1.0,
+    "recall95ci": [
+     0.3424,
+     1.0
+    ]
+   },
+   "gable": {
+    "n": 7,
+    "precision": 1.0,
+    "recall": 0.429,
+    "recall95ci": [
+     0.1582,
+     0.7495
+    ]
+   },
+   "hip": {
+    "n": 9,
+    "precision": 1.0,
+    "recall": 0.778,
+    "recall95ci": [
+     0.4526,
+     0.9368
+    ]
+   }
+  }
+ },
+ "generated": "2026-10-06",
+ "note": "Hand labels by the agent from point-cloud height images (hillshade, height colour, two side views), labelled before looking at the classifier output; same pixels as the classifier, so not ground truth.",
+ "sample": 30,
+ "simple_handVsLidar": {
+  "agree": 26,
+  "agreement": 0.8667,
+  "agreement95ci": [
+   0.7032,
+   0.9469
+  ],
+  "kappa": 0.7778,
+  "matrix": {
+   "flat": {
+    "flat": 4,
+    "gable": 0,
+    "hip": 0
+   },
+   "gable": {
+    "flat": 0,
+    "gable": 13,
+    "hip": 1
+   },
+   "hip": {
+    "flat": 0,
+    "gable": 3,
+    "hip": 9
+   }
+  },
+  "n": 30,
+  "perClass": {
+   "flat": {
+    "n": 4,
+    "precision": 1.0,
+    "recall": 1.0,
+    "recall95ci": [
+     0.5101,
+     1.0
+    ]
+   },
+   "gable": {
+    "n": 14,
+    "precision": 0.812,
+    "recall": 0.929,
+    "recall95ci": [
+     0.6853,
+     0.9873
+    ]
+   },
+   "hip": {
+    "n": 12,
+    "precision": 0.9,
+    "recall": 0.75,
+    "recall95ci": [
+     0.4677,
+     0.9111
+    ]
+   }
+  }
+ },
+ "tool": "regionkit-lidar 0.1"
+}

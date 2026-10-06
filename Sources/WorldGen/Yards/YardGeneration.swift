@@ -259,11 +259,11 @@ extension SceneGenerator {
                     var lastP: LocalPoint?
                     var line: [LocalPoint] = []
                     for p in row where !raster.nearUse(p, .hard, radius: 1.2) && clear(p) {
-                        if let q = lastP, simd_distance(q, p) < 1.05 { continue }
+                        if let q = lastP, simd_distance(q, p) < 0.85 { continue }
                         lastP = p
                         line.append(p)
                         instances.append(PropInstance(kind: .bush, variant: variant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
-                                                      x: p.x, y: p.y, height: 0, yaw: hr.range(0, 6.28), scale: hr.range(0.9, 1.05)))
+                                                      x: p.x, y: p.y, height: 0, yaw: hr.range(0, 6.28), scale: hr.range(1.0, 1.12)))
                         hedgeCount += 1
                     }
                     if line.count >= 2 { scene.litterHints.append(LitterHint(kind: .hedge, line: line, weight: 0.8)) }
