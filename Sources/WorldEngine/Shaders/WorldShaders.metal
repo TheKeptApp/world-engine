@@ -304,6 +304,27 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     }
 }
 
+// ---- Context ring coverage fade (look-fix-v1 §4; WorldGen/Context/ContextRing.swift) --------------
+// Context-ring vertices (flag 256) carry their coverage box in uv3 (scene x min, z min, x max, z max)
+// and the fade width in paint.w. Over the last `width` metres inside the box the surface becomes the
+// boundary plain under the world (backdrop slot, roughness 0.88, specular 0.3, AO 1), so the data
+// ends without a cut. Mirrored on the CPU by ContextRing.fadeWeight (tests, offline renders).
+constant uint kBackdropSlot = 17;   // SeasonalPalette.order index of "backdrop" (tested)
+
+void contextCoverageFade(texture2d<half> tex, Globals g, thread Surface &su, float4 box, float width, float3 wp) {
+    float d = min(min(wp.x - box.x, box.z - wp.x), min(wp.z - box.y, box.w - wp.z));
+    half t = half(1.0 - smoothstep(0.0, max(width, 1.0), d));
+    su.ao = 1.0h;
+    if (t <= 0.0h) { return; }
+    su.base = mix(su.base, srgbToLinear(tex.read(uint2(kBackdropSlot, 0)).rgb), t);
+    su.roughness = mix(su.roughness, 0.88h, t);
+    su.specular = mix(su.specular, 0.3h, t);
+    if (su.wetDarkening >= 0.0h) { su.wetDarkening = mix(su.wetDarkening, half(g.wetDarkening), t); }
+    if (su.wetRoughness >= 0.0h) { su.wetRoughness = mix(su.wetRoughness, half(g.wetRoughness), t); }
+    su.puddleMax *= 1.0h - t;
+}
+// ---- end context ring ---------------------------------------------------------------------------
+
 } // namespace
 
 /// Buildings, ground, roads, curbs, sidewalks (opaque).
@@ -376,6 +397,7 @@ void worldStaticSurface(realitykit::surface_parameters params)
     if (flags & 2u) {
         su.emissive = su.base * half(0.25 + 2.0 * g.litFraction);
     }
+    if (flags & 256u) { contextCoverageFade(tex, g, su, extra, paint.w, wp); }   // context ring
     finish(params, g, su, wp);
 }
 
@@ -487,6 +509,7 @@ void worldWaterSurface(realitykit::surface_parameters params)
     su.base *= half(0.95 + 0.08 * ripple);
     su.emissive = half3(0.0h); su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
     su.weathered = false;
+    if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring
     finish(params, g, su, wp);
 }
 
