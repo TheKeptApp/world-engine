@@ -7,6 +7,7 @@ import hashlib
 import math
 
 METHOD_VERSION = "canopy-blocks 1"
+METHOD_VERSION_CALIBRATED = "canopy-blocks 2"   # crown area is a calibrated effective mask-canopy area per tree (aerial.md 13.10)
 MIN_FACE_M2 = 500.0          # slivers below this are not written (under about 5,500 NAIP pixels at 0.3 m)
 SMALL_FACE_M2 = 10000.0      # confidence falls off below 1 ha
 EDGE_CUT_FACTOR = 0.85       # face closed by the area edge: the real block continues outside the window
@@ -67,3 +68,58 @@ def block_confidence(area_agreement, face_area_m2, fully_inside, park_water_pct)
         v *= PARK_WATER_FACTOR
     tier = "high" if v >= 0.75 else "medium" if v >= 0.6 else "low"
     return round(v, 2), tier
+
+
+# ---------------------------------------------------------------- calibration (docs/research/aerial.md 13.10)
+
+
+def wilson_interval(k, n, z=1.96):
+    """Wilson score interval (low, high) for k successes in n trials, as fractions. (None, None) for n = 0."""
+    if n <= 0:
+        return None, None
+    p = k / n
+    den = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / den
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / den
+    return centre - half, centre + half
+
+
+def ratio_of_sums(nums, dens):
+    """Ratio estimator sum(nums) / sum(dens), e.g. trees counted per hectare of mask canopy over plots."""
+    d = sum(dens)
+    return sum(nums) / d if d else None
+
+
+def _rng(seed):
+    import random
+    return random.Random(int(hashlib.sha256(str(seed).encode()).hexdigest()[:16], 16))
+
+
+def cluster_bootstrap(clusters, stat, n_boot=10000, seed="canopy-calibration", alpha=0.05):
+    """Percentile bootstrap of stat(list_of_clusters), resampling whole clusters (plots, or points) with
+    replacement. Deterministic for a given seed (SHA-256-seeded random.Random). Returns (stat of the data, low, high)."""
+    rng = _rng(seed)
+    n = len(clusters)
+    vals = []
+    for _ in range(n_boot):
+        v = stat([clusters[rng.randrange(n)] for _ in range(n)])
+        if v is not None:
+            vals.append(v)
+    vals.sort()
+    lo = vals[int((alpha / 2) * len(vals))]
+    hi = vals[min(len(vals) - 1, int((1 - alpha / 2) * len(vals)))]
+    return stat(list(clusters)), lo, hi
+
+
+def paired_difference_bootstrap(a, b, n_boot=10000, seed="canopy-points", alpha=0.05):
+    """Mean of (a_i - b_i) over paired 0/1 observations, with a percentile bootstrap interval over the points.
+    Used for label-tree minus mask-tree at the same points (negative = the mask over-calls canopy)."""
+    pairs = [(float(x), float(y)) for x, y in zip(a, b)]
+    return cluster_bootstrap(pairs, lambda s: sum(x - y for x, y in s) / len(s) if s else None, n_boot, seed, alpha)
+
+
+def effective_crown_area(canopy_m2, trees):
+    """Mask-canopy area per tree (m2): sum of canopy area / sum of tree counts over the plots. Leaf-on crowns
+    overlap and the mask also takes in some shade, so this is not a crown size: it is the factor that turns this
+    mask's canopy area into a tree count."""
+    return ratio_of_sums(canopy_m2, trees)

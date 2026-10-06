@@ -71,5 +71,49 @@ class Confidence(unittest.TestCase):
         self.assertEqual(bm.block_confidence(0.59, 10000, True, 0)[1], "low")
 
 
+class Calibration(unittest.TestCase):
+    def test_wilson(self):
+        lo, hi = bm.wilson_interval(50, 100)
+        self.assertAlmostEqual(lo, 0.4038, places=3)
+        self.assertAlmostEqual(hi, 0.5962, places=3)
+        self.assertEqual(bm.wilson_interval(0, 0), (None, None))
+        lo, hi = bm.wilson_interval(0, 20)
+        self.assertAlmostEqual(lo, 0.0, places=9)
+        self.assertGreater(hi, 0.1)
+
+    def test_ratio_and_effective_crown(self):
+        self.assertAlmostEqual(bm.ratio_of_sums([10, 20], [1, 2]), 10.0)
+        self.assertAlmostEqual(bm.effective_crown_area([1500, 1000, 500], [10, 10, 10]), 100.0)
+        self.assertIsNone(bm.ratio_of_sums([1], [0]))
+
+    def test_bootstrap_deterministic_and_brackets(self):
+        data = [(12, 1.0), (15, 1.1), (9, 0.9), (20, 1.5), (11, 1.0), (14, 1.2)]
+
+        def stat(s):
+            return bm.ratio_of_sums([x for x, _ in s], [y for _, y in s])
+        r1 = bm.cluster_bootstrap(data, stat, n_boot=500, seed="t")
+        self.assertEqual(r1, bm.cluster_bootstrap(data, stat, n_boot=500, seed="t"))
+        est, lo, hi = r1
+        self.assertLessEqual(lo, est)
+        self.assertGreaterEqual(hi, est)
+        self.assertNotEqual(r1, bm.cluster_bootstrap(data, stat, n_boot=500, seed="u"))
+
+    def test_constant_data_has_zero_width_interval(self):
+        data = [(10, 1.0)] * 8
+
+        def stat(s):
+            return bm.ratio_of_sums([x for x, _ in s], [y for _, y in s])
+        self.assertEqual(bm.cluster_bootstrap(data, stat, n_boot=200), (10.0, 10.0, 10.0))
+
+    def test_paired_difference(self):
+        label = [1, 1, 0, 0, 1, 0, 0, 0]
+        mask = [1, 1, 1, 1, 1, 0, 1, 0]
+        d, lo, hi = bm.paired_difference_bootstrap(label, mask, n_boot=500)
+        self.assertAlmostEqual(d, -3 / 8)
+        self.assertLessEqual(lo, d)
+        self.assertGreaterEqual(hi, d)
+        self.assertLessEqual(hi, 0.0)
+
+
 if __name__ == "__main__":
     unittest.main()

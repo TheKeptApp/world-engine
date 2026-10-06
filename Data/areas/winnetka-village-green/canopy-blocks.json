@@ -1,0 +1,116 @@
+{
+ "format": "worldengine-canopy-blocks 1",
+ "area": "winnetka-village-green",
+ "profile": "default",
+ "methodVersion": "canopy-blocks 2",
+ "naip": {
+  "items": [
+   {
+    "id": "il_m_4208759_nw_16_030_20230710_20240209",
+    "datetime": "2023-07-10T16:00:00Z"
+   }
+  ],
+  "acquired": "2023-07-10",
+  "gsdMeters": 0.3,
+  "credit": "NAIP imagery provided by USDA Farm Service Agency",
+  "licence": "public domain (USDA FSA NAIP); streets (c) OpenStreetMap contributors (ODbL 1.0)"
+ },
+ "canopyMethod": "NDVI > 0.20 and NIR texture > 8 DN over 1.5 m, opening 0.9 m, majority 0.9 m (data/params.json canopy)",
+ "blockSource": "faces of the committed osm.json street centrelines (half right-of-way each side), clipped to the area rectangle; faces under 500 m2 omitted (5)",
+ "crown": {
+  "meanAreaM2": 93,
+  "rangeM2": [
+   78,
+   110
+  ],
+  "source": "area-specific effective mask-canopy area per tree (aerial.md 13.10): 6 plots of 50 m counted by eye, scaled by the Wilmette lidar-mid / eye ratio (1.086); no lidar run at Winnetka"
+ },
+ "confidenceBasis": {
+  "pointAgreementPct": 93.2,
+  "pointsReadable": 44,
+  "overallPointAgreementPct": 85,
+  "maskMinusLabelCanopyPoints": 2.3,
+  "note": "heuristic factors in blockmath.block_confidence; not a measured per-block accuracy"
+ },
+ "osmTimestamp": "2026-10-06T19:13:04Z",
+ "blockCount": 53,
+ "calibration": {
+  "date": "2026-10-06",
+  "basis": "6 random 50 m plots, trees counted by eye on 0.3 m NAIP (122); eye-only effective crown 85.6 m2 (bootstrap 80.9-89.9), multiplied by Wilmette 121.3/111.7 so that it is on the same eye-and-lidar basis; range = Wilmette ratios (0.835, 1.18) around the estimate",
+  "plots": 6,
+  "treesCounted": {
+   "eye": 122
+  },
+  "effectiveCrownAreaM2": {
+   "estimate": 93.0,
+   "eyeOnly": 85.6,
+   "ci95Plots": [
+    87.9,
+    97.6
+   ]
+  },
+  "treesPerHaFabric": {
+   "estimate": 62.6,
+   "range": [
+    52.9,
+    74.6
+   ]
+  },
+  "note": "Wilmette calibration (121 m2) does not transfer: Winnetka eye-only 85.6 m2 lies outside Wilmette 101-123. Dense plots (merged crowns) are counted with an uncertainty of about 25 percent"
+ },
+ "blocks": [
+  {"id":"cb-06a61caf","lat":42.10081,"lon":-87.73143,"areaM2":3181,"landAreaM2":3151,"frontageM":165,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.65,"trees":22,"treesPerHa":69.8,"treesPerHaRange":[59.0,83.3],"gridSpacingM":12.0,"frontageSpacingM":7.5,"confidence":0.45,"confidenceTier":"low","bounds":3},
+  {"id":"cb-0cba4e54","lat":42.10079,"lon":-87.72578,"areaM2":2626,"landAreaM2":2585,"frontageM":174,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.742,"trees":21,"treesPerHa":79.7,"treesPerHaRange":[67.4,95.1],"gridSpacingM":11.2,"frontageSpacingM":8.5,"confidence":0.41,"confidenceTier":"low","bounds":3},
+  {"id":"cb-13460f0a","lat":42.10626,"lon":-87.72598,"areaM2":9394,"landAreaM2":9395,"frontageM":441,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.561,"trees":57,"treesPerHa":60.3,"treesPerHaRange":[51.0,71.9],"gridSpacingM":12.9,"frontageSpacingM":7.8,"confidence":0.9,"confidenceTier":"high","bounds":4},
+  {"id":"cb-142da00b","lat":42.10079,"lon":-87.72307,"areaM2":609,"landAreaM2":594,"frontageM":59,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.669,"trees":4,"treesPerHa":72.0,"treesPerHaRange":[60.9,85.8],"gridSpacingM":11.8,"frontageSpacingM":13.8,"confidence":0.4,"confidenceTier":"low","bounds":2},
+  {"id":"cb-15d979a2","lat":42.10883,"lon":-87.7289,"areaM2":21692,"landAreaM2":21684,"frontageM":547,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.683,"trees":159,"treesPerHa":73.5,"treesPerHaRange":[62.1,87.6],"gridSpacingM":11.7,"frontageSpacingM":3.4,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-192215dc","lat":42.10082,"lon":-87.73428,"areaM2":3932,"landAreaM2":3901,"frontageM":142,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.498,"trees":21,"treesPerHa":53.5,"treesPerHaRange":[45.3,63.8],"gridSpacingM":13.7,"frontageSpacingM":6.8,"confidence":0.5,"confidenceTier":"low","bounds":2},
+  {"id":"cb-1a1a6103","lat":42.10508,"lon":-87.72534,"areaM2":27334,"landAreaM2":27334,"frontageM":710,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.679,"trees":200,"treesPerHa":73.0,"treesPerHaRange":[61.7,87.1],"gridSpacingM":11.7,"frontageSpacingM":3.6,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-22d3a373","lat":42.10389,"lon":-87.72571,"areaM2":17978,"landAreaM2":17979,"frontageM":536,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.724,"trees":140,"treesPerHa":77.9,"treesPerHaRange":[65.8,92.8],"gridSpacingM":11.3,"frontageSpacingM":3.8,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-27ab1fd4","lat":42.10537,"lon":-87.72391,"areaM2":14267,"landAreaM2":14267,"frontageM":531,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.641,"trees":98,"treesPerHa":68.9,"treesPerHaRange":[58.3,82.2],"gridSpacingM":12.0,"frontageSpacingM":5.4,"confidence":0.79,"confidenceTier":"high","bounds":5},
+  {"id":"cb-28bbe8f0","lat":42.10509,"lon":-87.73274,"areaM2":21004,"landAreaM2":21004,"frontageM":610,"edgeCut":false,"parkOrWaterPct":11.7,"waterPct":0.0,"canopyShare":0.346,"trees":78,"treesPerHa":37.3,"treesPerHaRange":[31.5,44.4],"gridSpacingM":16.4,"frontageSpacingM":7.8,"confidence":0.75,"confidenceTier":"medium","bounds":14},
+  {"id":"cb-2fd6217f","lat":42.10526,"lon":-87.7309,"areaM2":28347,"landAreaM2":28346,"frontageM":707,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.358,"trees":109,"treesPerHa":38.5,"treesPerHaRange":[32.5,45.9],"gridSpacingM":16.1,"frontageSpacingM":6.5,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-322462bd","lat":42.1052,"lon":-87.72892,"areaM2":18892,"landAreaM2":18892,"frontageM":551,"edgeCut":false,"parkOrWaterPct":77.2,"waterPct":0.0,"canopyShare":0.542,"trees":110,"treesPerHa":58.2,"treesPerHaRange":[49.2,69.4],"gridSpacingM":13.1,"frontageSpacingM":5.0,"confidence":0.75,"confidenceTier":"medium","bounds":4},
+  {"id":"cb-32cffb7e","lat":42.10518,"lon":-87.72732,"areaM2":19660,"landAreaM2":19660,"frontageM":561,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.673,"trees":142,"treesPerHa":72.4,"treesPerHaRange":[61.2,86.3],"gridSpacingM":11.8,"frontageSpacingM":3.9,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-35c6cbf5","lat":42.10521,"lon":-87.73464,"areaM2":682,"landAreaM2":682,"frontageM":117,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.281,"trees":2,"treesPerHa":30.2,"treesPerHaRange":[25.5,36.0],"gridSpacingM":18.2,"frontageSpacingM":56.7,"confidence":0.4,"confidenceTier":"low","bounds":3},
+  {"id":"cb-37c47eb6","lat":42.10924,"lon":-87.73269,"areaM2":14933,"landAreaM2":14916,"frontageM":339,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.678,"trees":109,"treesPerHa":72.9,"treesPerHaRange":[61.6,86.9],"gridSpacingM":11.7,"frontageSpacingM":3.1,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-3dd634d3","lat":42.10909,"lon":-87.73428,"areaM2":14092,"landAreaM2":14083,"frontageM":283,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.642,"trees":97,"treesPerHa":69.0,"treesPerHaRange":[58.3,82.3],"gridSpacingM":12.0,"frontageSpacingM":2.9,"confidence":0.79,"confidenceTier":"high","bounds":4},
+  {"id":"cb-408a3e8f","lat":42.10641,"lon":-87.72893,"areaM2":16600,"landAreaM2":16600,"frontageM":516,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.75,"trees":134,"treesPerHa":80.6,"treesPerHaRange":[68.2,96.1],"gridSpacingM":11.1,"frontageSpacingM":3.9,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-42a4d3cc","lat":42.10157,"lon":-87.73282,"areaM2":17728,"landAreaM2":17728,"frontageM":533,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.697,"trees":133,"treesPerHa":74.9,"treesPerHaRange":[63.3,89.3],"gridSpacingM":11.6,"frontageSpacingM":4.0,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-4a4cdec8","lat":42.10521,"lon":-87.73428,"areaM2":13668,"landAreaM2":13666,"frontageM":467,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.071,"trees":10,"treesPerHa":7.7,"treesPerHaRange":[6.5,9.1],"gridSpacingM":36.1,"frontageSpacingM":44.6,"confidence":0.79,"confidenceTier":"high","bounds":7},
+  {"id":"cb-4b915818","lat":42.10161,"lon":-87.7287,"areaM2":10854,"landAreaM2":10854,"frontageM":436,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.669,"trees":78,"treesPerHa":71.9,"treesPerHaRange":[60.8,85.7],"gridSpacingM":11.8,"frontageSpacingM":5.6,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-695ad800","lat":42.1008,"lon":-87.7276,"areaM2":3869,"landAreaM2":3820,"frontageM":226,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.63,"trees":26,"treesPerHa":67.7,"treesPerHaRange":[57.2,80.7],"gridSpacingM":12.2,"frontageSpacingM":8.8,"confidence":0.49,"confidenceTier":"low","bounds":3},
+  {"id":"cb-6ce45a49","lat":42.10702,"lon":-87.73049,"areaM2":31740,"landAreaM2":31737,"frontageM":749,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.638,"trees":218,"treesPerHa":68.6,"treesPerHaRange":[58.0,81.8],"gridSpacingM":12.1,"frontageSpacingM":3.4,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-6cf98bae","lat":42.1015,"lon":-87.73103,"areaM2":21376,"landAreaM2":21376,"frontageM":610,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.596,"trees":137,"treesPerHa":64.1,"treesPerHaRange":[54.2,76.4],"gridSpacingM":12.5,"frontageSpacingM":4.4,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-6e5f797e","lat":42.10396,"lon":-87.73077,"areaM2":25568,"landAreaM2":25566,"frontageM":640,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.476,"trees":131,"treesPerHa":51.2,"treesPerHaRange":[43.3,61.1],"gridSpacingM":14.0,"frontageSpacingM":4.9,"confidence":0.93,"confidenceTier":"high","bounds":9},
+  {"id":"cb-74aa7153","lat":42.10266,"lon":-87.72387,"areaM2":23289,"landAreaM2":23277,"frontageM":483,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.703,"trees":176,"treesPerHa":75.6,"treesPerHaRange":[63.9,90.1],"gridSpacingM":11.5,"frontageSpacingM":2.7,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-7b72e245","lat":42.10745,"lon":-87.72744,"areaM2":13485,"landAreaM2":13486,"frontageM":493,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.743,"trees":108,"treesPerHa":79.9,"treesPerHaRange":[67.6,95.3],"gridSpacingM":11.2,"frontageSpacingM":4.6,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-7e5e3514","lat":42.104,"lon":-87.73426,"areaM2":14946,"landAreaM2":14945,"frontageM":354,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.442,"trees":71,"treesPerHa":47.5,"treesPerHaRange":[40.1,56.6],"gridSpacingM":14.5,"frontageSpacingM":5.0,"confidence":0.79,"confidenceTier":"high","bounds":4},
+  {"id":"cb-81123943","lat":42.10148,"lon":-87.72575,"areaM2":17934,"landAreaM2":17934,"frontageM":536,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.801,"trees":155,"treesPerHa":86.2,"treesPerHaRange":[72.9,102.7],"gridSpacingM":10.8,"frontageSpacingM":3.5,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-84b18354","lat":42.10079,"lon":-87.72417,"areaM2":2181,"landAreaM2":2140,"frontageM":168,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.636,"trees":15,"treesPerHa":68.4,"treesPerHaRange":[57.8,81.6],"gridSpacingM":12.1,"frontageSpacingM":11.4,"confidence":0.4,"confidenceTier":"low","bounds":3},
+  {"id":"cb-89eb026d","lat":42.10757,"lon":-87.72892,"areaM2":18158,"landAreaM2":18157,"frontageM":539,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.651,"trees":127,"treesPerHa":70.0,"treesPerHaRange":[59.2,83.4],"gridSpacingM":12.0,"frontageSpacingM":4.2,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-90ed2101","lat":42.10146,"lon":-87.72388,"areaM2":23402,"landAreaM2":23391,"frontageM":492,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.648,"trees":163,"treesPerHa":69.7,"treesPerHaRange":[58.9,83.1],"gridSpacingM":12.0,"frontageSpacingM":3.0,"confidence":0.79,"confidenceTier":"high","bounds":4},
+  {"id":"cb-97421dec","lat":42.10273,"lon":-87.72884,"areaM2":15044,"landAreaM2":15044,"frontageM":493,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.65,"trees":105,"treesPerHa":69.9,"treesPerHaRange":[59.1,83.3],"gridSpacingM":12.0,"frontageSpacingM":4.7,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-9b8d95eb","lat":42.1016,"lon":-87.73427,"areaM2":14113,"landAreaM2":14111,"frontageM":346,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.729,"trees":111,"treesPerHa":78.4,"treesPerHaRange":[66.3,93.4],"gridSpacingM":11.3,"frontageSpacingM":3.1,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-9f72dbfb","lat":42.1028,"lon":-87.73426,"areaM2":14416,"landAreaM2":14414,"frontageM":351,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.611,"trees":95,"treesPerHa":65.7,"treesPerHaRange":[55.5,78.3],"gridSpacingM":12.3,"frontageSpacingM":3.7,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-a09dbea2","lat":42.10271,"lon":-87.72736,"areaM2":17853,"landAreaM2":17854,"frontageM":534,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.679,"trees":130,"treesPerHa":73.0,"treesPerHaRange":[61.8,87.1],"gridSpacingM":11.7,"frontageSpacingM":4.1,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-a2fe8a4e","lat":42.10391,"lon":-87.72734,"areaM2":18013,"landAreaM2":18013,"frontageM":537,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.668,"trees":129,"treesPerHa":71.9,"treesPerHaRange":[60.8,85.7],"gridSpacingM":11.8,"frontageSpacingM":4.1,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-a804d983","lat":42.10391,"lon":-87.73281,"areaM2":16716,"landAreaM2":16717,"frontageM":547,"edgeCut":false,"parkOrWaterPct":8.1,"waterPct":0.0,"canopyShare":0.461,"trees":83,"treesPerHa":49.5,"treesPerHaRange":[41.9,59.1],"gridSpacingM":14.2,"frontageSpacingM":6.6,"confidence":0.93,"confidenceTier":"high","bounds":8},
+  {"id":"cb-b1f71133","lat":42.1063,"lon":-87.73451,"areaM2":8913,"landAreaM2":8911,"frontageM":288,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.038,"trees":4,"treesPerHa":4.1,"treesPerHaRange":[3.5,4.9],"gridSpacingM":49.2,"frontageSpacingM":78.4,"confidence":0.75,"confidenceTier":"medium","bounds":3},
+  {"id":"cb-b2cfa94a","lat":42.10384,"lon":-87.72394,"areaM2":21062,"landAreaM2":21056,"frontageM":510,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.634,"trees":144,"treesPerHa":68.2,"treesPerHaRange":[57.6,81.3],"gridSpacingM":12.1,"frontageSpacingM":3.6,"confidence":0.79,"confidenceTier":"high","bounds":4},
+  {"id":"cb-bb4f7be1","lat":42.10082,"lon":-87.73285,"areaM2":4631,"landAreaM2":4590,"frontageM":204,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.48,"trees":24,"treesPerHa":51.6,"treesPerHaRange":[43.7,61.6],"gridSpacingM":13.9,"frontageSpacingM":8.6,"confidence":0.54,"confidenceTier":"low","bounds":3},
+  {"id":"cb-c2ddda2d","lat":42.10803,"lon":-87.72506,"areaM2":149765,"landAreaM2":93350,"frontageM":800,"edgeCut":true,"parkOrWaterPct":37.6,"waterPct":37.6,"canopyShare":0.567,"trees":569,"treesPerHa":61.0,"treesPerHaRange":[51.6,72.7],"gridSpacingM":12.8,"frontageSpacingM":1.4,"confidence":0.63,"confidenceTier":"medium","bounds":3},
+  {"id":"cb-c440218c","lat":42.10265,"lon":-87.7315,"areaM2":10253,"landAreaM2":10253,"frontageM":444,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.274,"trees":30,"treesPerHa":29.4,"treesPerHaRange":[24.9,35.1],"gridSpacingM":18.4,"frontageSpacingM":14.7,"confidence":0.93,"confidenceTier":"high","bounds":5},
+  {"id":"cb-c6f0b7b9","lat":42.10716,"lon":-87.73195,"areaM2":31402,"landAreaM2":31404,"frontageM":783,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.431,"trees":145,"treesPerHa":46.3,"treesPerHaRange":[39.1,55.2],"gridSpacingM":14.7,"frontageSpacingM":5.4,"confidence":0.93,"confidenceTier":"high","bounds":5},
+  {"id":"cb-c7feb938","lat":42.10742,"lon":-87.73363,"areaM2":51996,"landAreaM2":51998,"frontageM":813,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.369,"trees":206,"treesPerHa":39.6,"treesPerHaRange":[33.5,47.3],"gridSpacingM":15.9,"frontageSpacingM":3.9,"confidence":0.79,"confidenceTier":"high","bounds":9},
+  {"id":"cb-cc228514","lat":42.10224,"lon":-87.73,"areaM2":28959,"landAreaM2":28938,"frontageM":833,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.637,"trees":198,"treesPerHa":68.5,"treesPerHaRange":[57.9,81.6],"gridSpacingM":12.1,"frontageSpacingM":4.2,"confidence":0.79,"confidenceTier":"high","bounds":7},
+  {"id":"cb-d4e95c55","lat":42.10394,"lon":-87.72888,"areaM2":16240,"landAreaM2":16240,"frontageM":511,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.696,"trees":122,"treesPerHa":74.8,"treesPerHaRange":[63.3,89.2],"gridSpacingM":11.6,"frontageSpacingM":4.2,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-d615be49","lat":42.1015,"lon":-87.72737,"areaM2":17778,"landAreaM2":17778,"frontageM":533,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.669,"trees":128,"treesPerHa":71.9,"treesPerHaRange":[60.8,85.8],"gridSpacingM":11.8,"frontageSpacingM":4.2,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-db7d5220","lat":42.10277,"lon":-87.73281,"areaM2":17687,"landAreaM2":17687,"frontageM":532,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.578,"trees":110,"treesPerHa":62.1,"treesPerHaRange":[52.5,74.1],"gridSpacingM":12.7,"frontageSpacingM":4.8,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-e1acdcd1","lat":42.10639,"lon":-87.72731,"areaM2":16477,"landAreaM2":16476,"frontageM":514,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.695,"trees":123,"treesPerHa":74.8,"treesPerHaRange":[63.2,89.1],"gridSpacingM":11.6,"frontageSpacingM":4.2,"confidence":0.93,"confidenceTier":"high","bounds":4},
+  {"id":"cb-e36a7bed","lat":42.10434,"lon":-87.72308,"areaM2":2516,"landAreaM2":2509,"frontageM":165,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.64,"trees":17,"treesPerHa":68.8,"treesPerHaRange":[58.2,82.1],"gridSpacingM":12.1,"frontageSpacingM":9.5,"confidence":0.4,"confidenceTier":"low","bounds":3},
+  {"id":"cb-e428d504","lat":42.10081,"lon":-87.73013,"areaM2":3444,"landAreaM2":3407,"frontageM":170,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.567,"trees":21,"treesPerHa":61.0,"treesPerHaRange":[51.6,72.7],"gridSpacingM":12.8,"frontageSpacingM":8.2,"confidence":0.46,"confidenceTier":"low","bounds":3},
+  {"id":"cb-f08816fb","lat":42.10891,"lon":-87.7308,"areaM2":29892,"landAreaM2":29876,"frontageM":543,"edgeCut":true,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.649,"trees":208,"treesPerHa":69.8,"treesPerHaRange":[59.0,83.2],"gridSpacingM":12.0,"frontageSpacingM":2.6,"confidence":0.79,"confidenceTier":"high","bounds":3},
+  {"id":"cb-f2ef569a","lat":42.10269,"lon":-87.72574,"areaM2":17928,"landAreaM2":17928,"frontageM":536,"edgeCut":false,"parkOrWaterPct":0.0,"waterPct":0.0,"canopyShare":0.728,"trees":140,"treesPerHa":78.3,"treesPerHaRange":[66.2,93.4],"gridSpacingM":11.3,"frontageSpacingM":3.8,"confidence":0.93,"confidenceTier":"high","bounds":4}
+ ]
+}
