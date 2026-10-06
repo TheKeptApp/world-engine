@@ -275,6 +275,9 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
         }
         // Snow covers patterns, leaves and wetness where it lies.
         half snow = half(snowMask(g, wp, n));
+        // Paving (walks, roads) holds a thinner, patchier dusting than lawn, so a snowed path still
+        // leads into the frame (look-fix §3.3 gives lawn 60–90% and no plowing; no tracks invented).
+        if (su.puddles) { snow *= half(0.45 + 0.4 * valueNoise(wp.xz / 1.7 + 61.0)); }
         su.base = mix(su.base, g.snowColor, snow);
         su.roughness = mix(su.roughness, 0.85h, snow);
         su.specular = mix(su.specular, 0.25h, snow);
