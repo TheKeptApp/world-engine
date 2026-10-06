@@ -86,6 +86,10 @@ them. Details and caveats: `docs/research/region-kit.md`.
 
 ## Tests
 
+`regionkit.sh osmclip Data/areas/<id>...` clips relations with 300 or more members in an area's `osm.json`
+to its context-ring box and `regionkit.sh areacheck` checks every area's `osm.json` against the size
+budget (see `docs/data/area-size-budget.md`).
+
 `regionkit.sh test` runs `tests/` (Python `unittest`, no network): Overpass JSON parsing and
 multipolygon assembly on synthetic fixtures; polygon area, centroid, clipping, rasterised union areas;
 minimum-area rectangle, aspect, rectangularity and footprint classes (ported Swift test cases);
