@@ -1,0 +1,574 @@
+{
+ "about": "Grader calibration (calibrate.py): each frame is a concept image graded blind with the metadata of its own preset or fixture. Generated; do not edit by hand.",
+ "views": [
+  {
+   "source": "docs/proposals/visual-v2/images/01-autumn-golden-hour.png",
+   "usedBy": "v2-01",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": true,
+   "wet": false,
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-01",
+   "group": "calibration",
+   "title": "Calibration frame 01: v2 street (W 23rd Ave)",
+   "targets": [],
+   "na": [
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/visual-v2/images/09-data-grounded-street.png",
+   "usedBy": "visual-v2 09 (same moment and camera as v2-01)",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": true,
+   "wet": false,
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-02",
+   "group": "calibration",
+   "title": "Calibration frame 02: v2 street (W 23rd Ave)",
+   "targets": [],
+   "na": [
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/visual-v2/images/03-rainy-dusk.png",
+   "usedBy": "visual-v2 03 rainy dusk",
+   "area": "sloans-lake",
+   "utc": "2026-10-16T00:35:00Z",
+   "local": "2026-10-15 18:35 MDT",
+   "weather": "rain, dusk (direct sun off)",
+   "season": "autumn",
+   "character": true,
+   "wet": true,
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": -3.6,
+    "azimuthDeg": 261.5,
+    "shadowBearingDeg": 81.5,
+    "source": "visual-v2 comparison-presets.json"
+   },
+   "id": "cal-03",
+   "group": "calibration",
+   "title": "Calibration frame 03: v2 street (W 23rd Ave)",
+   "targets": [],
+   "na": [
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/visual-v2/images/04-summer-noon.png",
+   "usedBy": "v2-04",
+   "area": "sloans-lake",
+   "utc": "2026-07-15T19:07:00Z",
+   "local": "2026-07-15 13:07 MDT",
+   "weather": "clear",
+   "season": "summer",
+   "character": true,
+   "wet": false,
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 71.7,
+    "azimuthDeg": 180.6,
+    "shadowBearingDeg": 0.6,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-04",
+   "group": "calibration",
+   "title": "Calibration frame 04: v2 street (W 23rd Ave)",
+   "targets": [],
+   "na": [
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/visual-v2/images/06-aerial-golden-hour.png",
+   "usedBy": "v2-06",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-05",
+   "group": "calibration",
+   "title": "Calibration frame 05: aerial",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/01-clear-golden-hour.png",
+   "usedBy": "showcase-01",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-06",
+   "group": "calibration",
+   "title": "Calibration frame 06: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/02-overcast.png",
+   "usedBy": "showcase-02",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "cloudy 1.0",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-07",
+   "group": "calibration",
+   "title": "Calibration frame 07: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/03-light-rain.png",
+   "usedBy": "showcase-03",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "rain 0.17, 0.5 mm/h, wetness 0.65",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-08",
+   "group": "calibration",
+   "title": "Calibration frame 08: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/04-thunderstorm.png",
+   "usedBy": "showcase-04",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "thunderstorm 1.0, 8 mm/h, wetness 0.9",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-09",
+   "group": "calibration",
+   "title": "Calibration frame 09: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/05-fog.png",
+   "usedBy": "showcase-05",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "fog 1.0 (25-220 m)",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-10",
+   "group": "calibration",
+   "title": "Calibration frame 10: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/06-wildfire-smoke.png",
+   "usedBy": "showcase-06",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "smoke 0.8, visibility 1200 m",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-11",
+   "group": "calibration",
+   "title": "Calibration frame 11: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/07-falling-snow.png",
+   "usedBy": "showcase-07",
+   "area": "sloans-lake",
+   "utc": "2026-01-02T19:04:21Z",
+   "local": "2026-01-02 12:04 MST",
+   "weather": "snow 1.0, 2 mm/h, SWE 6 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 27.4,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-12",
+   "group": "calibration",
+   "title": "Calibration frame 12: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/08-morning-after-snow.png",
+   "usedBy": "showcase-08",
+   "area": "sloans-lake",
+   "utc": "2026-01-03T15:15:00Z",
+   "local": "2026-01-03 08:15 MST",
+   "weather": "clear, wetness 0.45, SWE 3 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 7.7,
+    "azimuthDeg": 128.4,
+    "shadowBearingDeg": 308.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-13",
+   "group": "calibration",
+   "title": "Calibration frame 13: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/09-clear-night.png",
+   "usedBy": "showcase-09",
+   "area": "sloans-lake",
+   "utc": "2026-01-04T02:00:00Z",
+   "local": "2026-01-03 19:00 MST",
+   "weather": "clear night (Moon, stars)",
+   "season": "winter",
+   "character": false,
+   "wet": false,
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": -24.6,
+    "azimuthDeg": 260.1,
+    "shadowBearingDeg": 80.1,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given",
+    "note": "night: Moon alt 17.2, az 72.0 (upper left of the ESE frame), stars; experience-v1 night-sky-reference.json"
+   },
+   "id": "cal-14",
+   "group": "calibration",
+   "title": "Calibration frame 14: experience-v1 showcase street (lake trail)",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/10-aerial-rain.png",
+   "usedBy": "showcase-10",
+   "area": "sloans-lake",
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "rain 0.17, wetness 0.65",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-15",
+   "group": "calibration",
+   "title": "Calibration frame 15: aerial",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/experience-v1/images/11-aerial-snow-cover.png",
+   "usedBy": "showcase-11",
+   "area": "sloans-lake",
+   "utc": "2026-01-03T15:15:00Z",
+   "local": "2026-01-03 08:15 MST",
+   "weather": "clear, SWE 3 mm",
+   "season": "winter",
+   "character": false,
+   "wet": false,
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 7.7,
+    "azimuthDeg": 128.4,
+    "shadowBearingDeg": 308.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   },
+   "id": "cal-16",
+   "group": "calibration",
+   "title": "Calibration frame 16: aerial",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png",
+   "usedBy": "regions fixture 01-northshore-golden",
+   "area": "wilmette",
+   "utc": "2026-09-15T23:23:26Z",
+   "local": "2026-09-15T18:23:26-05:00",
+   "weather": "clear 1, cloud 0.12, wetness 0, SWE 0 mm",
+   "season": "",
+   "character": false,
+   "wet": false,
+   "camera": "regions northshore-postcard camera, eye 1.65 m, heading 90, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 268.3,
+    "shadowBearingDeg": 88.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-17",
+   "group": "calibration",
+   "title": "Calibration frame 17: regions northshore-postcard camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png",
+   "usedBy": "regions fixture 02-northshore-rain",
+   "area": "wilmette",
+   "utc": "2026-09-15T17:00:00Z",
+   "local": "2026-09-15T12:00:00-05:00",
+   "weather": "rain 0.5, cloud 0.95, wetness 0.7, SWE 0 mm",
+   "season": "",
+   "character": false,
+   "wet": true,
+   "camera": "regions northshore-postcard camera, eye 1.65 m, heading 90, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 49.4,
+    "azimuthDeg": 162.2,
+    "shadowBearingDeg": 342.2,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-18",
+   "group": "calibration",
+   "title": "Calibration frame 18: regions northshore-postcard camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png",
+   "usedBy": "regions fixture 03-northshore-fall",
+   "area": "wilmette",
+   "utc": "2026-10-22T20:00:00Z",
+   "local": "2026-10-22T15:00:00-05:00",
+   "weather": "clear 1, cloud 0.1, wetness 0, SWE 0 mm",
+   "season": "",
+   "character": false,
+   "wet": false,
+   "camera": "regions northshore-postcard camera, eye 1.65 m, heading 90, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 27.2,
+    "azimuthDeg": 220.6,
+    "shadowBearingDeg": 40.6,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-19",
+   "group": "calibration",
+   "title": "Calibration frame 19: regions northshore-postcard camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png",
+   "usedBy": "regions fixture 04-northshore-snow",
+   "area": "wilmette",
+   "utc": "2026-01-15T18:00:00Z",
+   "local": "2026-01-15T12:00:00-06:00",
+   "weather": "snow 0.65, cloud 1, wetness 0.25, SWE 6 mm",
+   "season": "",
+   "character": false,
+   "wet": true,
+   "camera": "regions northshore-postcard camera, eye 1.65 m, heading 90, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 26.9,
+    "azimuthDeg": 179.9,
+    "shadowBearingDeg": 359.9,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-20",
+   "group": "calibration",
+   "title": "Calibration frame 20: regions northshore-postcard camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png",
+   "usedBy": "regions fixture 05-chicago-three-flat",
+   "area": "chicago-dense-north",
+   "utc": "2026-09-15T23:23:12Z",
+   "local": "2026-09-15T18:23:12-05:00",
+   "weather": "clear 1, cloud 0.12, wetness 0, SWE 0 mm",
+   "season": "",
+   "character": false,
+   "wet": false,
+   "camera": "regions lakeview-postcard camera, eye 1.65 m, heading 90, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 268.3,
+    "shadowBearingDeg": 88.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-21",
+   "group": "calibration",
+   "title": "Calibration frame 21: regions lakeview-postcard camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "source": "docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png",
+   "usedBy": "regions fixture 06-chicago-alley-snow",
+   "area": "chicago-dense-north",
+   "utc": "2026-01-15T18:00:00Z",
+   "local": "2026-01-15T12:00:00-06:00",
+   "weather": "snow 0.25, cloud 1, wetness 0.3, SWE 6 mm",
+   "season": "",
+   "character": false,
+   "wet": true,
+   "camera": "regions chicago-alley camera, eye 1.65 m, heading 0, pitch down 3, vFOV 50",
+   "sun": {
+    "elevationDeg": 27.0,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 360.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "id": "cal-22",
+   "group": "calibration",
+   "title": "Calibration frame 22: regions chicago-alley camera",
+   "targets": [],
+   "na": [
+    6,
+    10
+   ]
+  }
+ ]
+}
