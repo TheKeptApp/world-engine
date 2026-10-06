@@ -1,0 +1,43 @@
+{
+  "comment": "Thresholds of the aerial roof study. Set before any hand labelling: roof and colour values a priori; canopy values by eye on the whole-cell overview (lawn vs crown statistics), before the random-point check. NIR texture is in raw 8-bit digital numbers of the NAIP scene it was set on (2023 Illinois); other scenes may need other values. Texture, opening and majority sizes are window radii (window = 2 * round(radius / pixel) + 1 pixels). Colour confidence = min(1, usable share / 0.8). minGroupN: privacy floor; a committed statistic over fewer buildings is reported as its count only.",
+  "minFootprintM2": 15,
+  "smallBuildingM2": 50,
+  "alignSearchMeters": 3.0,
+  "footprint": {
+    "erosionMeters": 0.9,
+    "vegNdvi": 0.2,
+    "deepShadowMaxRgb": 35,
+    "minUsableShare": 0.4,
+    "minUsableM2": 5.4,
+    "mostlyHiddenVegShare": 0.5,
+    "osmOverlapDrop": 0.3
+  },
+  "roof": {
+    "minUsableM2": 5.4,
+    "flatMaxStdL": 4.0,
+    "flatMaxR2": 0.10,
+    "complexMaxRectangularity": 0.80,
+    "planarMinR2": 0.12,
+    "hipMinGain": 0.03
+  },
+  "canopy": {
+    "vegNdvi": 0.2,
+    "textureRadiusMeters": 1.5,
+    "textureMinStd": 8.0,
+    "openingRadiusMeters": 0.9,
+    "majorityRadiusMeters": 0.9
+  },
+  "hints": {
+    "roofTypeMinConfidence": 0.7
+  },
+  "minGroupN": 5,
+  "sample": {
+    "n": 30,
+    "seed": "worldengine-aerial-sample-1",
+    "seedB": "worldengine-aerial-sample-2",
+    "minOsm": 5,
+    "points": 100,
+    "pointSeed": "worldengine-aerial-points-1"
+  },
+  "degradedResolutionMeters": 0.6
+}

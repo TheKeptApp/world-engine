@@ -10,6 +10,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 | [data-coverage.md](data-coverage.md) | 46 sample cells (North Shore, Chicago, 11 metros): what OSM and Overture hold, the ranked gaps and how the generator should handle each, the dense-Chicago triangle estimate |
 | [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, HYG stars, Fab), blockers, questions for a lawyer. Not legal advice |
 | [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
+| [aerial.md](aerial.md) | Feasibility of reading roofs and tree canopy from USDA NAIP aerial imagery (proof of concept on a 0.25 km² Wilmette cell): licence and small-area access, method, hand-checked accuracy, recommendation. Aggregates only |
 
 Tools: [`Tools/regionkit/`](../../Tools/regionkit/README.md) (region kit; drafts in `Tools/regionkit/drafts/`) and
 [`Tools/regionkit/audit/`](../../Tools/regionkit/audit/README.md) (coverage audit). Both are offline Python research
@@ -20,7 +21,7 @@ P2 buildings landed afterwards (`91ed01c`): alley garages, large houses vs block
 evidence, roof assemblies (cross-gables, dormers, chimneys), rear porches, and the `evanston`, `wilmette` and
 `chicago-dense-north` profiles adopted unchanged from ChatGPT's proposal. Notes below say where that changes a finding.
 
-## Findings that cut across the three documents
+## Findings that cut across the documents
 
 1. **OSM is good in Chicago and nearly empty on the North Shore.** Chicago's city import gives near-complete
    footprints and storey counts on about half the buildings; Overture adds only 0.2–0.9 % per cell. The four North Shore cells
@@ -56,7 +57,12 @@ evidence, roof assemblies (cross-gables, dormers, chimneys), rear porches, and t
    undocumented, and Metra's terms require a relay (unverified: metra.com blocks automated access). Community
    aircraft feeds are non-commercial except adsb.lol (ODbL, ask the operator); commercial aircraft feeds cost about
    $1.6k–18k a month for two metros. Upstream cost scales with active areas and poll interval, not users.
-8. **Licensing:** nothing blocks internal development. Before a public release: a credits screen with the ODbL
+8. **Aerial imagery (NAIP, public domain, 0.3 m, leaf-on):** tree canopy per block works (mask agrees with
+   photo-interpreted points 85 %, canopy 58 % in the Wilmette cell). Roof colour is usable only as a zone-level
+   lightness mix (60–65 % exact on hand-checked roofs; black/white untested; warm roofs underestimated). Roof type
+   was not shown to beat a constant guess, so no per-building roof hints from NAIP; USGS 3DEP lidar (public domain,
+   readable by area) is the better source for roof form.
+9. **Licensing:** nothing blocks internal development. Before a public release: a credits screen with the ODbL
    "offer", credit burned into exported images/widgets, and Apple Weather attribution. The world package is most
    likely an ODbL Derivative Database, not a Produced Work as `docs/plan-m1.md` §6 assumes.
 

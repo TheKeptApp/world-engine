@@ -1,0 +1,1561 @@
+{
+ "tool": "regionkit-aerial 0.1",
+ "generated": "2026-10-06",
+ "caveat": "Hand labels are visual judgments by the same AI agent from the same 0.3 m NAIP imagery (crops with the footprint outline, RGB and colour-infrared), made before looking at any estimate. They are uncertain and not ground truth; colour agreement in particular measures agreement on family boundaries for the same pixels, not true roof colour.",
+ "protocol": "Sample A (30) was labelled and scored with the a-priori rules. Colour rule set 2 (scene-relative) was then designed on sample A, so its sample-A score is optimistic; sample B (30 more, other seed, labelled blind before rule set 2 was applied to it) is the honest test of rule set 2. Roof-type and colour rule set 1 never changed after scoring, so A+B pooled is a fair test for them.",
+ "0.3m": {
+  "sampleA": {
+   "n": 30,
+   "osm": 5,
+   "mostlyHiddenByCanopyLabelled": 1,
+   "colourRules1Absolute": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 1,
+    "excludingCantTell": {
+     "correct": 17,
+     "n": 29,
+     "pct": 58.6
+    },
+    "whereBothAnswered": {
+     "correct": 17,
+     "n": 29,
+     "pct": 58.6
+    },
+    "includingCantTell": {
+     "correct": 17,
+     "n": 30,
+     "pct": 56.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 1,
+      "charcoal": 4
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 13
+     },
+     "white": {
+      "grey": 1
+     },
+     "brown": {
+      "charcoal": 5
+     },
+     "tan": {
+      "grey": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 21,
+     "n": 29,
+     "pct": 72.4,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 15,
+     "n": 29,
+     "pct": 51.7,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 17,
+    "n": 29,
+    "pct": 58.6
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 1,
+    "excludingCantTell": {
+     "correct": 24,
+     "n": 29,
+     "pct": 82.8
+    },
+    "whereBothAnswered": {
+     "correct": 24,
+     "n": 29,
+     "pct": 82.8
+    },
+    "includingCantTell": {
+     "correct": 24,
+     "n": 30,
+     "pct": 80.0
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 1,
+      "charcoal": 4
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 12,
+      "tan": 1
+     },
+     "white": {
+      "white": 1
+     },
+     "brown": {
+      "grey": 1,
+      "brown": 4
+     },
+     "tan": {
+      "tan": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 27,
+     "n": 29,
+     "pct": 93.1,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 15,
+     "n": 29,
+     "pct": 51.7,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 1,
+    "excludingCantTell": {
+     "correct": 17,
+     "n": 29,
+     "pct": 58.6
+    },
+    "whereBothAnswered": {
+     "correct": 17,
+     "n": 29,
+     "pct": 58.6
+    },
+    "includingCantTell": {
+     "correct": 17,
+     "n": 30,
+     "pct": 56.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "flat": {
+      "gable": 1
+     },
+     "gable": {
+      "flat": 1,
+      "gable": 5
+     },
+     "hip": {
+      "gable": 1,
+      "hip": 6,
+      "complex": 2
+     },
+     "complex": {
+      "gable": 1,
+      "hip": 6,
+      "complex": 6
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 16,
+      "correct": 8
+     },
+     "below": {
+      "n": 13,
+      "correct": 9
+     }
+    },
+    "smallUnder50m2": {
+     "n": 4,
+     "correct": 3
+    },
+    "mainAtLeast50m2": {
+     "n": 25,
+     "correct": 14
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 13,
+     "n": 29,
+     "pct": 44.8,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 1,
+      "gable": 6,
+      "hip": 9,
+      "complex": 13,
+      "cant_tell": 1
+     },
+     "shares": {
+      "flat": 0.033,
+      "gable": 0.2,
+      "hip": 0.3,
+      "complex": 0.433,
+      "cant_tell": 0.033
+     }
+    },
+    "predictedDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 1,
+      "gable": 8,
+      "hip": 12,
+      "complex": 8,
+      "unknown": 1
+     },
+     "shares": {
+      "flat": 0.033,
+      "gable": 0.267,
+      "hip": 0.4,
+      "complex": 0.267,
+      "unknown": 0.033
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 30,
+    "counts": {
+     "black": 0,
+     "charcoal": 5,
+     "grey": 15,
+     "white": 1,
+     "brown": 5,
+     "tan": 3,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 1
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.167,
+     "grey": 0.5,
+     "white": 0.033,
+     "brown": 0.167,
+     "tan": 0.1,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.033
+    }
+   },
+   "osmOnly": {
+    "n": 5,
+    "colourRules1": {
+     "correct": 2,
+     "labelled": 5
+    },
+    "colourRules2": {
+     "correct": 3,
+     "labelled": 5
+    },
+    "roofType": {
+     "correct": 1,
+     "labelled": 5
+    }
+   }
+  },
+  "sampleB": {
+   "n": 30,
+   "osm": 5,
+   "mostlyHiddenByCanopyLabelled": 2,
+   "colourRules1Absolute": {
+    "labelledCantTell": 4,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 16,
+     "n": 26,
+     "pct": 61.5
+    },
+    "whereBothAnswered": {
+     "correct": 16,
+     "n": 25,
+     "pct": 64.0
+    },
+    "includingCantTell": {
+     "correct": 16,
+     "n": 30,
+     "pct": 53.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 7
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 9,
+      "unknown": 1
+     },
+     "brown": {
+      "charcoal": 3,
+      "grey": 1
+     },
+     "tan": {
+      "grey": 1
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 20,
+     "n": 26,
+     "pct": 76.9,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 12,
+     "n": 26,
+     "pct": 46.2,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 16,
+    "n": 26,
+    "pct": 61.5
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 4,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 17,
+     "n": 26,
+     "pct": 65.4
+    },
+    "whereBothAnswered": {
+     "correct": 17,
+     "n": 25,
+     "pct": 68.0
+    },
+    "includingCantTell": {
+     "correct": 17,
+     "n": 30,
+     "pct": 56.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 7
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 7,
+      "white": 1,
+      "tan": 1,
+      "unknown": 1
+     },
+     "brown": {
+      "charcoal": 1,
+      "brown": 3
+     },
+     "tan": {
+      "grey": 1
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 22,
+     "n": 26,
+     "pct": 84.6,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 12,
+     "n": 26,
+     "pct": 46.2,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 8,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 8,
+     "n": 22,
+     "pct": 36.4
+    },
+    "whereBothAnswered": {
+     "correct": 8,
+     "n": 22,
+     "pct": 36.4
+    },
+    "includingCantTell": {
+     "correct": 8,
+     "n": 30,
+     "pct": 26.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "gable": {
+      "hip": 1,
+      "complex": 2
+     },
+     "hip": {
+      "gable": 3,
+      "hip": 4
+     },
+     "complex": {
+      "gable": 5,
+      "hip": 3,
+      "complex": 4
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 13,
+      "correct": 4
+     },
+     "below": {
+      "n": 9,
+      "correct": 4
+     }
+    },
+    "smallUnder50m2": {
+     "n": 3,
+     "correct": 2
+    },
+    "mainAtLeast50m2": {
+     "n": 19,
+     "correct": 6
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 12,
+     "n": 22,
+     "pct": 54.5,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 0,
+      "gable": 3,
+      "hip": 7,
+      "complex": 12,
+      "cant_tell": 8
+     },
+     "shares": {
+      "flat": 0.0,
+      "gable": 0.1,
+      "hip": 0.233,
+      "complex": 0.4,
+      "cant_tell": 0.267
+     }
+    },
+    "predictedDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 2,
+      "gable": 10,
+      "hip": 9,
+      "complex": 7,
+      "unknown": 2
+     },
+     "shares": {
+      "flat": 0.067,
+      "gable": 0.333,
+      "hip": 0.3,
+      "complex": 0.233,
+      "unknown": 0.067
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 30,
+    "counts": {
+     "black": 0,
+     "charcoal": 9,
+     "grey": 12,
+     "white": 0,
+     "brown": 4,
+     "tan": 1,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 4
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.3,
+     "grey": 0.4,
+     "white": 0.0,
+     "brown": 0.133,
+     "tan": 0.033,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.133
+    }
+   },
+   "osmOnly": {
+    "n": 5,
+    "colourRules1": {
+     "correct": 3,
+     "labelled": 5
+    },
+    "colourRules2": {
+     "correct": 4,
+     "labelled": 5
+    },
+    "roofType": {
+     "correct": 1,
+     "labelled": 5
+    }
+   }
+  },
+  "pooledAB": {
+   "n": 60,
+   "osm": 10,
+   "mostlyHiddenByCanopyLabelled": 3,
+   "colourRules1Absolute": {
+    "labelledCantTell": 5,
+    "estimateUnknown": 3,
+    "excludingCantTell": {
+     "correct": 33,
+     "n": 55,
+     "pct": 60.0
+    },
+    "whereBothAnswered": {
+     "correct": 33,
+     "n": 54,
+     "pct": 61.1
+    },
+    "includingCantTell": {
+     "correct": 33,
+     "n": 60,
+     "pct": 55.0
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 3,
+      "charcoal": 11
+     },
+     "grey": {
+      "charcoal": 4,
+      "grey": 22,
+      "unknown": 1
+     },
+     "white": {
+      "grey": 1
+     },
+     "brown": {
+      "charcoal": 8,
+      "grey": 1
+     },
+     "tan": {
+      "grey": 4
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 41,
+     "n": 55,
+     "pct": 74.5,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 27,
+     "n": 55,
+     "pct": 49.1,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 33,
+    "n": 55,
+    "pct": 60.0
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 5,
+    "estimateUnknown": 3,
+    "excludingCantTell": {
+     "correct": 41,
+     "n": 55,
+     "pct": 74.5
+    },
+    "whereBothAnswered": {
+     "correct": 41,
+     "n": 54,
+     "pct": 75.9
+    },
+    "includingCantTell": {
+     "correct": 41,
+     "n": 60,
+     "pct": 68.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 3,
+      "charcoal": 11
+     },
+     "grey": {
+      "charcoal": 4,
+      "grey": 19,
+      "white": 1,
+      "tan": 2,
+      "unknown": 1
+     },
+     "white": {
+      "white": 1
+     },
+     "brown": {
+      "charcoal": 1,
+      "grey": 1,
+      "brown": 7
+     },
+     "tan": {
+      "grey": 1,
+      "tan": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 49,
+     "n": 55,
+     "pct": 89.1,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 27,
+     "n": 55,
+     "pct": 49.1,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 9,
+    "estimateUnknown": 3,
+    "excludingCantTell": {
+     "correct": 25,
+     "n": 51,
+     "pct": 49.0
+    },
+    "whereBothAnswered": {
+     "correct": 25,
+     "n": 51,
+     "pct": 49.0
+    },
+    "includingCantTell": {
+     "correct": 25,
+     "n": 60,
+     "pct": 41.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "flat": {
+      "gable": 1
+     },
+     "gable": {
+      "flat": 1,
+      "gable": 5,
+      "hip": 1,
+      "complex": 2
+     },
+     "hip": {
+      "gable": 4,
+      "hip": 10,
+      "complex": 2
+     },
+     "complex": {
+      "gable": 6,
+      "hip": 9,
+      "complex": 10
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 29,
+      "correct": 12
+     },
+     "below": {
+      "n": 22,
+      "correct": 13
+     }
+    },
+    "smallUnder50m2": {
+     "n": 7,
+     "correct": 5
+    },
+    "mainAtLeast50m2": {
+     "n": 44,
+     "correct": 20
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 25,
+     "n": 51,
+     "pct": 49.0,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 60,
+     "counts": {
+      "flat": 1,
+      "gable": 9,
+      "hip": 16,
+      "complex": 25,
+      "cant_tell": 9
+     },
+     "shares": {
+      "flat": 0.017,
+      "gable": 0.15,
+      "hip": 0.267,
+      "complex": 0.417,
+      "cant_tell": 0.15
+     }
+    },
+    "predictedDistribution": {
+     "n": 60,
+     "counts": {
+      "flat": 3,
+      "gable": 18,
+      "hip": 21,
+      "complex": 15,
+      "unknown": 3
+     },
+     "shares": {
+      "flat": 0.05,
+      "gable": 0.3,
+      "hip": 0.35,
+      "complex": 0.25,
+      "unknown": 0.05
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 60,
+    "counts": {
+     "black": 0,
+     "charcoal": 14,
+     "grey": 27,
+     "white": 1,
+     "brown": 9,
+     "tan": 4,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 5
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.233,
+     "grey": 0.45,
+     "white": 0.017,
+     "brown": 0.15,
+     "tan": 0.067,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.083
+    }
+   },
+   "osmOnly": {
+    "n": 10,
+    "colourRules1": {
+     "correct": 5,
+     "labelled": 10
+    },
+    "colourRules2": {
+     "correct": 7,
+     "labelled": 10
+    },
+    "roofType": {
+     "correct": 2,
+     "labelled": 10
+    }
+   },
+   "note": "colourRules2SceneRelative pooled includes the design sample A (optimistic); use sampleB for rule set 2"
+  }
+ },
+ "0.6m_degraded": {
+  "sampleA": {
+   "n": 30,
+   "osm": 5,
+   "mostlyHiddenByCanopyLabelled": 1,
+   "colourRules1Absolute": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 18,
+     "n": 29,
+     "pct": 62.1
+    },
+    "whereBothAnswered": {
+     "correct": 18,
+     "n": 28,
+     "pct": 64.3
+    },
+    "includingCantTell": {
+     "correct": 18,
+     "n": 30,
+     "pct": 60.0
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "charcoal": 5
+     },
+     "grey": {
+      "charcoal": 1,
+      "grey": 13,
+      "unknown": 1
+     },
+     "white": {
+      "grey": 1
+     },
+     "brown": {
+      "charcoal": 4,
+      "grey": 1
+     },
+     "tan": {
+      "grey": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 20,
+     "n": 29,
+     "pct": 69.0,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 15,
+     "n": 29,
+     "pct": 51.7,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 18,
+    "n": 29,
+    "pct": 62.1
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 25,
+     "n": 29,
+     "pct": 86.2
+    },
+    "whereBothAnswered": {
+     "correct": 25,
+     "n": 28,
+     "pct": 89.3
+    },
+    "includingCantTell": {
+     "correct": 25,
+     "n": 30,
+     "pct": 83.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "charcoal": 5
+     },
+     "grey": {
+      "charcoal": 1,
+      "grey": 12,
+      "tan": 1,
+      "unknown": 1
+     },
+     "white": {
+      "white": 1
+     },
+     "brown": {
+      "grey": 1,
+      "brown": 4
+     },
+     "tan": {
+      "tan": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 26,
+     "n": 29,
+     "pct": 89.7,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 15,
+     "n": 29,
+     "pct": 51.7,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 1,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 13,
+     "n": 29,
+     "pct": 44.8
+    },
+    "whereBothAnswered": {
+     "correct": 13,
+     "n": 28,
+     "pct": 46.4
+    },
+    "includingCantTell": {
+     "correct": 13,
+     "n": 30,
+     "pct": 43.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "flat": {
+      "gable": 1
+     },
+     "gable": {
+      "gable": 4,
+      "complex": 1,
+      "unknown": 1
+     },
+     "hip": {
+      "gable": 2,
+      "hip": 4,
+      "complex": 3
+     },
+     "complex": {
+      "hip": 8,
+      "complex": 5
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 13,
+      "correct": 5
+     },
+     "below": {
+      "n": 15,
+      "correct": 8
+     }
+    },
+    "smallUnder50m2": {
+     "n": 4,
+     "correct": 2
+    },
+    "mainAtLeast50m2": {
+     "n": 25,
+     "correct": 11
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 13,
+     "n": 29,
+     "pct": 44.8,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 1,
+      "gable": 6,
+      "hip": 9,
+      "complex": 13,
+      "cant_tell": 1
+     },
+     "shares": {
+      "flat": 0.033,
+      "gable": 0.2,
+      "hip": 0.3,
+      "complex": 0.433,
+      "cant_tell": 0.033
+     }
+    },
+    "predictedDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 0,
+      "gable": 7,
+      "hip": 12,
+      "complex": 9,
+      "unknown": 2
+     },
+     "shares": {
+      "flat": 0.0,
+      "gable": 0.233,
+      "hip": 0.4,
+      "complex": 0.3,
+      "unknown": 0.067
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 30,
+    "counts": {
+     "black": 0,
+     "charcoal": 5,
+     "grey": 15,
+     "white": 1,
+     "brown": 5,
+     "tan": 3,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 1
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.167,
+     "grey": 0.5,
+     "white": 0.033,
+     "brown": 0.167,
+     "tan": 0.1,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.033
+    }
+   },
+   "osmOnly": {
+    "n": 5,
+    "colourRules1": {
+     "correct": 3,
+     "labelled": 5
+    },
+    "colourRules2": {
+     "correct": 4,
+     "labelled": 5
+    },
+    "roofType": {
+     "correct": 1,
+     "labelled": 5
+    }
+   }
+  },
+  "sampleB": {
+   "n": 30,
+   "osm": 5,
+   "mostlyHiddenByCanopyLabelled": 2,
+   "colourRules1Absolute": {
+    "labelledCantTell": 4,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 17,
+     "n": 26,
+     "pct": 65.4
+    },
+    "whereBothAnswered": {
+     "correct": 17,
+     "n": 25,
+     "pct": 68.0
+    },
+    "includingCantTell": {
+     "correct": 17,
+     "n": 30,
+     "pct": 56.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 7
+     },
+     "grey": {
+      "charcoal": 1,
+      "grey": 10,
+      "unknown": 1
+     },
+     "brown": {
+      "charcoal": 3,
+      "grey": 1
+     },
+     "tan": {
+      "grey": 1
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 20,
+     "n": 26,
+     "pct": 76.9,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 12,
+     "n": 26,
+     "pct": 46.2,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 17,
+    "n": 26,
+    "pct": 65.4
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 4,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 18,
+     "n": 26,
+     "pct": 69.2
+    },
+    "whereBothAnswered": {
+     "correct": 18,
+     "n": 25,
+     "pct": 72.0
+    },
+    "includingCantTell": {
+     "correct": 18,
+     "n": 30,
+     "pct": 60.0
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 7
+     },
+     "grey": {
+      "charcoal": 1,
+      "grey": 8,
+      "white": 1,
+      "tan": 1,
+      "unknown": 1
+     },
+     "brown": {
+      "charcoal": 1,
+      "brown": 3
+     },
+     "tan": {
+      "grey": 1
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 22,
+     "n": 26,
+     "pct": 84.6,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 12,
+     "n": 26,
+     "pct": 46.2,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 8,
+    "estimateUnknown": 2,
+    "excludingCantTell": {
+     "correct": 7,
+     "n": 22,
+     "pct": 31.8
+    },
+    "whereBothAnswered": {
+     "correct": 7,
+     "n": 22,
+     "pct": 31.8
+    },
+    "includingCantTell": {
+     "correct": 7,
+     "n": 30,
+     "pct": 23.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "gable": {
+      "hip": 1,
+      "complex": 2
+     },
+     "hip": {
+      "gable": 2,
+      "hip": 4,
+      "complex": 1
+     },
+     "complex": {
+      "gable": 5,
+      "hip": 4,
+      "complex": 3
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 12,
+      "correct": 4
+     },
+     "below": {
+      "n": 10,
+      "correct": 3
+     }
+    },
+    "smallUnder50m2": {
+     "n": 3,
+     "correct": 2
+    },
+    "mainAtLeast50m2": {
+     "n": 19,
+     "correct": 5
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 12,
+     "n": 22,
+     "pct": 54.5,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 0,
+      "gable": 3,
+      "hip": 7,
+      "complex": 12,
+      "cant_tell": 8
+     },
+     "shares": {
+      "flat": 0.0,
+      "gable": 0.1,
+      "hip": 0.233,
+      "complex": 0.4,
+      "cant_tell": 0.267
+     }
+    },
+    "predictedDistribution": {
+     "n": 30,
+     "counts": {
+      "flat": 1,
+      "gable": 12,
+      "hip": 9,
+      "complex": 6,
+      "unknown": 2
+     },
+     "shares": {
+      "flat": 0.033,
+      "gable": 0.4,
+      "hip": 0.3,
+      "complex": 0.2,
+      "unknown": 0.067
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 30,
+    "counts": {
+     "black": 0,
+     "charcoal": 9,
+     "grey": 12,
+     "white": 0,
+     "brown": 4,
+     "tan": 1,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 4
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.3,
+     "grey": 0.4,
+     "white": 0.0,
+     "brown": 0.133,
+     "tan": 0.033,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.133
+    }
+   },
+   "osmOnly": {
+    "n": 5,
+    "colourRules1": {
+     "correct": 3,
+     "labelled": 5
+    },
+    "colourRules2": {
+     "correct": 4,
+     "labelled": 5
+    },
+    "roofType": {
+     "correct": 0,
+     "labelled": 5
+    }
+   }
+  },
+  "pooledAB": {
+   "n": 60,
+   "osm": 10,
+   "mostlyHiddenByCanopyLabelled": 3,
+   "colourRules1Absolute": {
+    "labelledCantTell": 5,
+    "estimateUnknown": 4,
+    "excludingCantTell": {
+     "correct": 35,
+     "n": 55,
+     "pct": 63.6
+    },
+    "whereBothAnswered": {
+     "correct": 35,
+     "n": 53,
+     "pct": 66.0
+    },
+    "includingCantTell": {
+     "correct": 35,
+     "n": 60,
+     "pct": 58.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 12
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 23,
+      "unknown": 2
+     },
+     "white": {
+      "grey": 1
+     },
+     "brown": {
+      "charcoal": 7,
+      "grey": 2
+     },
+     "tan": {
+      "grey": 4
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 40,
+     "n": 55,
+     "pct": 72.7,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 27,
+     "n": 55,
+     "pct": 49.1,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "colourRules1WithoutDarkRule": {
+    "correct": 35,
+    "n": 55,
+    "pct": 63.6
+   },
+   "colourRules2SceneRelative": {
+    "labelledCantTell": 5,
+    "estimateUnknown": 4,
+    "excludingCantTell": {
+     "correct": 43,
+     "n": 55,
+     "pct": 78.2
+    },
+    "whereBothAnswered": {
+     "correct": 43,
+     "n": 53,
+     "pct": 81.1
+    },
+    "includingCantTell": {
+     "correct": 43,
+     "n": 60,
+     "pct": 71.7
+    },
+    "confusion_truthRows_predictedColumns": {
+     "charcoal": {
+      "black": 2,
+      "charcoal": 12
+     },
+     "grey": {
+      "charcoal": 2,
+      "grey": 20,
+      "white": 1,
+      "tan": 2,
+      "unknown": 2
+     },
+     "white": {
+      "white": 1
+     },
+     "brown": {
+      "charcoal": 1,
+      "grey": 1,
+      "brown": 7
+     },
+     "tan": {
+      "grey": 1,
+      "tan": 3
+     }
+    },
+    "withNeighbourFamilies": {
+     "correct": 48,
+     "n": 55,
+     "pct": 87.3,
+     "neighbours": "black/charcoal, charcoal/grey, grey/white, brown/tan, brown/red"
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "grey",
+     "correct": 27,
+     "n": 55,
+     "pct": 49.1,
+     "note": "trivial baseline from the label distribution itself"
+    }
+   },
+   "roofType": {
+    "labelledCantTell": 9,
+    "estimateUnknown": 4,
+    "excludingCantTell": {
+     "correct": 20,
+     "n": 51,
+     "pct": 39.2
+    },
+    "whereBothAnswered": {
+     "correct": 20,
+     "n": 50,
+     "pct": 40.0
+    },
+    "includingCantTell": {
+     "correct": 20,
+     "n": 60,
+     "pct": 33.3
+    },
+    "confusion_truthRows_predictedColumns": {
+     "flat": {
+      "gable": 1
+     },
+     "gable": {
+      "gable": 4,
+      "hip": 1,
+      "complex": 3,
+      "unknown": 1
+     },
+     "hip": {
+      "gable": 4,
+      "hip": 8,
+      "complex": 4
+     },
+     "complex": {
+      "gable": 5,
+      "hip": 12,
+      "complex": 8
+     }
+    },
+    "byConfidence": {
+     "threshold": 0.7,
+     "atOrAbove": {
+      "n": 25,
+      "correct": 9
+     },
+     "below": {
+      "n": 25,
+      "correct": 11
+     }
+    },
+    "smallUnder50m2": {
+     "n": 7,
+     "correct": 4
+    },
+    "mainAtLeast50m2": {
+     "n": 44,
+     "correct": 16
+    },
+    "majorityBaseline": {
+     "alwaysPredict": "complex",
+     "correct": 25,
+     "n": 51,
+     "pct": 49.0,
+     "note": "trivial baseline from the label distribution itself"
+    },
+    "labelDistribution": {
+     "n": 60,
+     "counts": {
+      "flat": 1,
+      "gable": 9,
+      "hip": 16,
+      "complex": 25,
+      "cant_tell": 9
+     },
+     "shares": {
+      "flat": 0.017,
+      "gable": 0.15,
+      "hip": 0.267,
+      "complex": 0.417,
+      "cant_tell": 0.15
+     }
+    },
+    "predictedDistribution": {
+     "n": 60,
+     "counts": {
+      "flat": 1,
+      "gable": 19,
+      "hip": 21,
+      "complex": 15,
+      "unknown": 4
+     },
+     "shares": {
+      "flat": 0.017,
+      "gable": 0.317,
+      "hip": 0.35,
+      "complex": 0.25,
+      "unknown": 0.067
+     }
+    }
+   },
+   "colourLabelDistribution": {
+    "n": 60,
+    "counts": {
+     "black": 0,
+     "charcoal": 14,
+     "grey": 27,
+     "white": 1,
+     "brown": 9,
+     "tan": 4,
+     "red": 0,
+     "green": 0,
+     "blue": 0,
+     "cant_tell": 5
+    },
+    "shares": {
+     "black": 0.0,
+     "charcoal": 0.233,
+     "grey": 0.45,
+     "white": 0.017,
+     "brown": 0.15,
+     "tan": 0.067,
+     "red": 0.0,
+     "green": 0.0,
+     "blue": 0.0,
+     "cant_tell": 0.083
+    }
+   },
+   "osmOnly": {
+    "n": 10,
+    "colourRules1": {
+     "correct": 6,
+     "labelled": 10
+    },
+    "colourRules2": {
+     "correct": 8,
+     "labelled": 10
+    },
+    "roofType": {
+     "correct": 1,
+     "labelled": 10
+    }
+   },
+   "note": "colourRules2SceneRelative pooled includes the design sample A (optimistic); use sampleB for rule set 2"
+  }
+ },
+ "canopyPointCheck": {
+  "points": 100,
+  "cantTell": 8,
+  "n": 92,
+  "agreementPct": 84.8,
+  "confusion": {
+   "treeLabel_maskTree": 44,
+   "treeLabel_maskNot": 6,
+   "notTreeLabel_maskTree": 8,
+   "notTreeLabel_maskNot": 34
+  },
+  "photoInterpretedCanopyPct": 54.3,
+  "ci95Pct": [
+   44.2,
+   64.5
+  ],
+  "maskCanopyAtPointsPct": 56.5,
+  "note": "Same-agent photo interpretation of 15 m patches with a crosshair (i-Tree Canopy style random points); normal-approximation 95 % interval."
+ }
+}

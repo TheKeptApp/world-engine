@@ -1,0 +1,25 @@
+{
+  "comment": "Study cell: a 500 m x 500 m square (UTM zone 16N, the NAIP tile's own CRS) centred on the public park anchor of the regionkit cell `wilmette-vattmann-park` (Tools/regionkit/regions/chicagoland.json: OSM leisure=park 'Vattman Park', centre from Overpass `out center`, rounded to 4 decimals). Places live only in data files.",
+  "id": "wilmette-vattmann-park",
+  "center": [42.0779, -87.7137],
+  "sizeMeters": 500,
+  "crs": "EPSG:26916",
+  "buildingMarginMeters": 30,
+  "streetMarginMeters": 200,
+  "naip": {
+    "stacSearch": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+    "collection": "naip",
+    "tokenEndpoint": "https://planetarycomputer.microsoft.com/api/sas/v1/token/naip",
+    "state": "il",
+    "choose": "most recent item covering the cell centre"
+  },
+  "overture": {
+    "stacRoot": "https://stac.overturemaps.org",
+    "release": "2026-09-23.1"
+  },
+  "overpass": {
+    "endpoints": ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter"],
+    "streetClasses": ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential",
+                      "living_street", "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link"]
+  }
+}

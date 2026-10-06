@@ -1,0 +1,51 @@
+{
+  "comment": "Roof colour families for aerial roof colours (CIE L*a*b*, D65, from uncalibrated NAIP sRGB). Classification rules only, applied in order by roofcore.colour_family: chroma below achromaticMaxChroma (or inside an achromaticHues sector below its chroma limit) -> achromatic band by L*; otherwise the first chromatic rule whose hue sector [from, to) (degrees, may wrap through 0), minChroma and L* limits match. renderHex are suggested roof-slot colours per family for a generator palette (ground-level material look, not the aerial appearance). Hand-written before any labelling (assumption), not fitted.",
+  "achromaticMaxChroma": 8.0,
+  "darkAchromatic": {"maxL": 30, "maxChroma": 12.0, "comment": "added after inspecting aggregate output, before any scoring: very dark NAIP roofs carry a blue cast (5 roofs at median L* 18, b* -8 were classed blue); version 1 without this rule is reported too"},
+  "achromaticHues": [
+    {"hue": [290, 345], "maxChroma": 14.0, "comment": "slight magenta casts on grey roofs"}
+  ],
+  "achromatic": [
+    {"family": "black", "maxL": 28},
+    {"family": "charcoal", "maxL": 45},
+    {"family": "grey", "maxL": 76},
+    {"family": "white", "maxL": 101}
+  ],
+  "chromatic": [
+    {"family": "red", "hue": [345, 50], "minChroma": 14.0},
+    {"family": "brown", "hue": [0, 100], "maxL": 52},
+    {"family": "tan", "hue": [0, 100], "minL": 52},
+    {"family": "green", "hue": [100, 200]},
+    {"family": "blue", "hue": [200, 345]}
+  ],
+  "sceneRelative": {
+    "comment": "Rule set 2 (designed on labelled sample A after its scoring, validated on the fresh sample B): grey-world white balance on roofs. neutral = median a*, b* of all estimated roofs in the scene; relative chroma and hue are measured from that neutral. NAIP roof chroma is very low (C* 2-7), so the absolute rules above call almost every warm roof grey or charcoal.",
+    "achromaticMaxRelChroma": 3.5,
+    "coolCast": {"hue": [180, 320], "maxRelChroma": 10.0},
+    "achromatic": [
+      {"family": "black", "maxL": 28},
+      {"family": "charcoal", "maxL": 45},
+      {"family": "grey", "maxL": 70},
+      {"family": "white", "maxL": 101}
+    ],
+    "chromatic": [
+      {"family": "red", "hue": [345, 45], "minChroma": 12.0},
+      {"family": "brown", "hue": [0, 120], "maxL": 50},
+      {"family": "tan", "hue": [0, 120], "minL": 50},
+      {"family": "green", "hue": [120, 180]},
+      {"family": "blue", "hue": [180, 345]}
+    ]
+  },
+  "order": ["black", "charcoal", "grey", "white", "brown", "tan", "red", "green", "blue"],
+  "renderHex": {
+    "black": "#2F3134",
+    "charcoal": "#4A4D52",
+    "grey": "#7D8084",
+    "white": "#D9D9D4",
+    "brown": "#6B5545",
+    "tan": "#A48E73",
+    "red": "#8E4A3E",
+    "green": "#5D7360",
+    "blue": "#55667A"
+  }
+}
