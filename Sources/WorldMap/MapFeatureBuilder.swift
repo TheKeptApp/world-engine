@@ -27,31 +27,74 @@ public struct MapFeatureBuilder: Sendable {
         out.report.wayCount = doc.ways.count
         out.report.relationCount = doc.relations.count
 
+        // Relations are looked at first, so ways that a relation already covers are not
+        // turned into a second building.
+        var assembled: [Int64: Result<[Polygon2D], MultipolygonAssembler.Failure>] = [:]
+        // Closed building ways that are outers of a multipolygon building: the relation's
+        // polygon (which carries the holes) is kept, the way is not emitted on its own.
+        // Value: the way's tags, which fill gaps in the relation's tags.
+        var coveredWays: [Int64: Tags] = [:]
+        // `type=building` outline ways whose own tags lack `building`: the relation's building tags apply.
+        var outlineTags: [Int64: Tags] = [:]
+
+        let relations = doc.relations.values.sorted(by: { $0.id < $1.id })
+        for rel in relations {
+            switch rel.tags["type"] {
+            case "multipolygon":
+                guard Self.buildingType(rel.tags) != nil || Self.areaKind(rel.tags) != nil else { continue }
+                let result = MultipolygonAssembler.assemble(rel, in: doc, frame: frame)
+                assembled[rel.id] = result
+                guard case .success = result, Self.buildingType(rel.tags) != nil else { continue }
+                for m in rel.members where m.kind == .way && m.role != "inner" {
+                    guard let way = doc.ways[m.ref], way.isClosed, Self.isBuildingWay(way.tags) else { continue }
+                    coveredWays[way.id] = way.tags
+                }
+            case "building":
+                guard Self.isBuildingWay(rel.tags) else { continue }
+                let inherited = rel.tags.filter { Self.isBuildingTagKey($0.key) }
+                for m in rel.members where m.kind == .way && m.role == "outline" {
+                    guard let way = doc.ways[m.ref], way.tags["building"] == nil, way.tags["building:part"] == nil else { continue }
+                    outlineTags[way.id] = way.tags.merging(inherited) { own, _ in own }
+                }
+            default:
+                continue
+            }
+        }
+
         // Ways (sorted by ID so output order is deterministic).
-        for way in doc.ways.values.sorted(by: { $0.id < $1.id }) where !way.tags.isEmpty {
+        for way in doc.ways.values.sorted(by: { $0.id < $1.id }) {
+            let tags = outlineTags[way.id] ?? way.tags
+            guard !tags.isEmpty, coveredWays[way.id] == nil else { continue }
             let ref = OSMRef(.way, way.id)
             guard let coords = doc.coordinates(of: way) else {
                 out.report.skipped.append(.init(ref: ref, reason: "missing nodes"))
                 continue
             }
             let pts = coords.map(frame.localPoint(of:))
-            if !classifyWay(ref: ref, tags: way.tags, points: pts, closed: way.isClosed, into: &out) {
+            if !classifyWay(ref: ref, tags: tags, points: pts, closed: way.isClosed, into: &out) {
                 out.report.unclassifiedCount += 1
             }
         }
 
-        // Multipolygon relations.
-        for rel in doc.relations.values.sorted(by: { $0.id < $1.id }) {
+        // Multipolygon relations. A `type=building` relation only groups an outline and parts, which
+        // are ordinary ways: it never makes a building from its members.
+        for rel in relations {
             guard rel.tags["type"] == "multipolygon" || rel.tags["type"] == "building" else { continue }
             let ref = OSMRef(.relation, rel.id)
             guard Self.buildingType(rel.tags) != nil || Self.areaKind(rel.tags) != nil else {
                 out.report.unclassifiedCount += 1
                 continue
             }
-            switch MultipolygonAssembler.assemble(rel, in: doc, frame: frame) {
+            guard rel.tags["type"] == "multipolygon", let result = assembled[rel.id] else { continue }
+            switch result {
             case .success(let polygons):
                 for poly in polygons {
-                    classifyPolygon(ref: ref, tags: rel.tags, polygon: poly, into: &out)
+                    var tags = rel.tags
+                    // A closed way that is this polygon's outer fills in tags the relation lacks.
+                    if let wayTags = coveredTags(matching: poly, covered: coveredWays, in: doc) {
+                        tags = wayTags.merging(rel.tags) { _, relation in relation }
+                    }
+                    classifyPolygon(ref: ref, tags: tags, polygon: poly, into: &out)
                 }
             case .failure(let error):
                 out.report.skipped.append(.init(ref: ref, reason: error.description))
@@ -137,6 +180,28 @@ public struct MapFeatureBuilder: Sendable {
     }
 
     // MARK: - Polygons
+
+    /// Tags of the covered way whose ring is exactly this polygon's outer ring, if any.
+    private func coveredTags(matching poly: Polygon2D, covered: [Int64: Tags], in doc: OSMDocument) -> Tags? {
+        for id in covered.keys.sorted() {
+            guard let way = doc.ways[id], way.nodeIDs.count - 1 == poly.outer.count,
+                  let coords = doc.coordinates(of: way) else { continue }
+            if coords.dropLast().map(frame.localPoint(of:)) == poly.outer { return covered[id] }
+        }
+        return nil
+    }
+
+    /// True if the tags carry a real `building=*` (not `no`). `building:part` alone does not count.
+    static func isBuildingWay(_ t: Tags) -> Bool {
+        if let b = t["building"], b != "no" { return true }
+        return false
+    }
+
+    /// Keys a `type=building` relation passes down to an outline way that has no building tag.
+    static func isBuildingTagKey(_ key: String) -> Bool {
+        key == "building" || key.hasPrefix("building:") || key.hasPrefix("roof:")
+            || key == "height" || key == "min_height"
+    }
 
     private func classifyPolygon(ref: OSMRef, tags: Tags, polygon: Polygon2D, into out: inout MapFeatures) {
         if let type = Self.buildingType(tags) {
