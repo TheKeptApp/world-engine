@@ -294,6 +294,7 @@ struct RealityKitScreen: View {
             await applyView(o, world: world, camera: camera, env: env, demo: demo)
             try? await Task.sleep(for: .seconds(options.viewSettle))
             print("VIEWREADY id=\(spec.id)"); fflush(nil)
+            if options.viewHold > 0 { try? await Task.sleep(for: .seconds(options.viewHold)) }
             let file = dir.appendingPathComponent("\(spec.id).png")
             try? FileManager.default.removeItem(at: file)
             guard let shot = await capturePNG() else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }

@@ -170,6 +170,9 @@ struct LaunchOptions {
     var viewList: [ViewSpec]?
     /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
     var viewSettle: Double = 4
+    /// `-viewhold SECONDS`: wait this long after `VIEWREADY` before capturing and moving on, so an
+    /// outside screenshot (simctl io, with the letterbox and the OSM credit) lands on the same view.
+    var viewHold: Double = 0
 
     init(_ args: [String] = ProcessInfo.processInfo.arguments) {
         func value(_ key: String) -> String? {
@@ -209,6 +212,7 @@ struct LaunchOptions {
             ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
         viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
         viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
+        viewHold = value("-viewhold").flatMap(Double.init) ?? 0
     }
 
     /// Parses `label=rain,intensity=0.5,cloud=0.8,rate=2,wetness=0.7,swe=6,visibility=1200,wind=4`.
