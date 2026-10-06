@@ -95,7 +95,9 @@ struct OvertureTests {
 
     @Test func osmBuildingsComeFirstAndUnchanged() throws {
         let with = try Self.load()
-        let without = try AreaLoader.loadFeatures(try Self.osmOnlyCopy())
+        let dir = try Self.osmOnlyCopy()
+        defer { try? FileManager.default.removeItem(at: dir) }
+        let without = try AreaLoader.loadFeatures(dir)
         #expect(Self.same(Array(with.buildings.prefix(without.buildings.count)), without.buildings))
         #expect(with.buildings.dropFirst(without.buildings.count).allSatisfy { $0.ref.kind == .overture })
         #expect(with.roads.count == without.roads.count && with.points.count == without.points.count)
@@ -195,6 +197,7 @@ struct OvertureTests {
 
     @Test func areaWithoutOvertureLoadsExactlyAsBefore() throws {
         let dir = try Self.osmOnlyCopy()
+        defer { try? FileManager.default.removeItem(at: dir) }
         let manifest = try AreaLoader.loadManifest(dir)
         let viaLoader = try AreaLoader.loadFeatures(dir)
         let doc = try OSMDocument(overpassJSON: Data(contentsOf: dir.appendingPathComponent("osm.json")))
