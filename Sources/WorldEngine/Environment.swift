@@ -27,6 +27,7 @@ extension World {
 
     public func apply(_ env: EnvironmentDocument) {
         environment = env
+        logEvent("apply")
         let L = env.light.timeOfDay
         let w = env.light.weather
         let tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
@@ -356,7 +357,15 @@ extension World {
         e.isLightingEnabled = false
         p.mainEmitter = e
         entity.components.set(p)
+        logEvent("precipitation \(kind) \(count)")
         environmentState.precipitation = kind
+    }
+
+    /// `diagnostics: ["events"]`: timestamped environment events (system uptime) for lining up
+    /// frame hitches on the device.
+    func logEvent(_ what: @autoclosure () -> String) {
+        guard options.diagnostics.contains("events") else { return }
+        print(String(format: "EVENT up=%.3f ", ProcessInfo.processInfo.systemUptime) + what())
     }
 
     static func preset(_ kind: String) -> ParticleEmitterComponent {
@@ -375,10 +384,12 @@ extension World {
         environmentState.lastIBL = (elevation, L.exposure, cloud, Date())
         environmentState.iblTask?.cancel()
         let light = L
+        logEvent("ibl start")
         environmentState.iblTask = Task { @MainActor [weak self] in
             let pixels = await Task.detached(priority: .utility) { SkyImage.render(light, width: 512, height: 256, convention: .realityKit) }.value
             guard !Task.isCancelled, let self, let image = World.cgImage(pixels, width: 512, height: 256),
                   let env = try? await EnvironmentResource(equirectangular: image) else { return }
+            self.logEvent("ibl set")
             self.skyEnvironment = env
             self.iblEntity.components.set(ImageBasedLightComponent(source: .single(env), intensityExponent: -1.2 + log2(max(0.05, light.exposure))))
         }

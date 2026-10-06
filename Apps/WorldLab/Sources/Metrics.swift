@@ -30,8 +30,15 @@ final class Metrics {
         return rate
     }
 
+    /// `-rendertrace`: print every frame longer than 100 ms with the system uptime, to line up
+    /// with the engine's `-diag events` log.
+    @ObservationIgnored var logHitches = false
+
     func frame(dt: Double, gpuMs sample: Double?) {
         traceCount += 1
+        if logHitches, dt > 0.1 {
+            print(String(format: "HITCH up=%.3f dt=%.0f ms", ProcessInfo.processInfo.systemUptime, dt * 1000))
+        }
         frames.append(dt * 1000)
         if let g = sample { gpu.append(g) }
         let now = Date()

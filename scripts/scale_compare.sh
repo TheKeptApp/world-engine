@@ -3,6 +3,7 @@
 # Simulator (same 1206×2622 screen), plus 2× enlarged crops of a detail-heavy region side by side.
 #   scripts/scale_compare.sh [out-dir]       (default docs/screenshots/m3/scale; needs a Simulator build)
 set -euo pipefail
+export SIM="${SIM:-WorldEngine P0}"   # this session's own Simulator (other sessions use theirs)
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/screenshots/m3/scale}"; mkdir -p "$OUT"
 for s in native 2.5 2.25 2.0; do

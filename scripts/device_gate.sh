@@ -4,6 +4,9 @@
 # GPU's own clocks (performance state "Default") during each, then the logs.
 #   scripts/device_gate.sh [out-dir]
 set -uo pipefail
+# ALLOW_CHARGING=1: functional/overnight runs on the charger; results are labelled "charging" and
+# must not be used for heat or battery decisions.
+ALLOW_CHARGING="${ALLOW_CHARGING:-0}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/docs/perf/m3-phase5a-gate}"
 mkdir -p "$OUT/console" "$OUT/traces"
@@ -25,7 +28,7 @@ run() { # $1 = name, rest = app args
     grep -q "failed to launch" "$log" && break
   done
   echo "   $cond"
-  if [[ "$cond" != *"lowPowerMode=false battery=unplugged"* ]]; then
+  if [[ "$cond" != *"lowPowerMode=false battery=unplugged"* && ! ( "$ALLOW_CHARGING" == 1 && "$cond" == *"lowPowerMode=false"* ) ]]; then
     kill "$pid" 2>/dev/null; wait "$pid" 2>/dev/null
     grep -m1 -A3 "ERROR" "$log"
     echo "STOPPED: charging, Low Power Mode, locked, or no report. Nothing after this step ran."; exit 2

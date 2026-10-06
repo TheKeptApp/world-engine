@@ -126,6 +126,7 @@ struct RealityKitScreen: View {
             guard ProcessInfo.processInfo.arguments.contains("-rendertrace") else { return }
             UIApplication.shared.isIdleTimerDisabled = true
             UIDevice.current.isBatteryMonitoringEnabled = true
+            metrics.logHitches = true
             print("CONDITIONS \(TestRun.conditions())")
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
@@ -135,9 +136,12 @@ struct RealityKitScreen: View {
             }
         }
         .task {
-            // `-attribution`: one feature off at a time, 7 s each, for a GPU trace split by feature.
+            // `-attribution`: one feature off at a time (7 s each by default), for a GPU trace split by feature.
             // Phase starts are printed with absolute times to align with the trace.
-            guard ProcessInfo.processInfo.arguments.contains("-attribution") else { return }
+            let args = ProcessInfo.processInfo.arguments
+            guard let ai = args.firstIndex(of: "-attribution") else { return }
+            // Phase length in seconds (`-attribution 40` leaves room for one 8 s trace per phase).
+            let seconds = ai + 1 < args.count ? Double(args[ai + 1]) ?? 7 : 7
             while world == nil { try? await Task.sleep(for: .milliseconds(200)) }
             try? await Task.sleep(for: .seconds(14))
             guard let world else { return }
@@ -146,18 +150,24 @@ struct RealityKitScreen: View {
             @MainActor func phase(_ name: String, _ change: @MainActor () -> Void) async {
                 change()
                 print("ATTR \(name) \(iso.string(from: Date()))")
-                try? await Task.sleep(for: .seconds(7))
+                try? await Task.sleep(for: .seconds(seconds))
             }
-            await phase("all") {}
+            // Every "off" phase sits between two "all" phases, so slow drift (heat, clocks) cancels.
+            await phase("all1") {}
             await phase("noShadows") { world.set(.shadows, enabled: false) }
             await phase("all2") { world.set(.shadows, enabled: true) }
             await phase("noSky") { world.set(.sky, enabled: false) }
-            await phase("noPost") { world.set(.sky, enabled: true); post.settings.enabled = false }
-            await phase("noMSAA") { post.settings.enabled = true; multisampling = false }
-            await phase("noSurfaceDetail") { multisampling = true; world.set(.surfaceDetail, enabled: false) }
-            await phase("noFoliage") { world.set(.surfaceDetail, enabled: true); world.set(.foliage, enabled: false) }
-            await phase("noBuildings") { world.set(.foliage, enabled: true); world.set(.buildings, enabled: false) }
-            await phase("all3") { world.set(.buildings, enabled: true) }
+            await phase("all3") { world.set(.sky, enabled: true) }
+            await phase("noPost") { post.settings.enabled = false }
+            await phase("all4") { post.settings.enabled = true }
+            await phase("noMSAA") { multisampling = false }
+            await phase("all5") { multisampling = true }
+            await phase("noSurfaceDetail") { world.set(.surfaceDetail, enabled: false) }
+            await phase("all6") { world.set(.surfaceDetail, enabled: true) }
+            await phase("noFoliage") { world.set(.foliage, enabled: false) }
+            await phase("all7") { world.set(.foliage, enabled: true) }
+            await phase("noBuildings") { world.set(.buildings, enabled: false) }
+            await phase("all8") { world.set(.buildings, enabled: true) }
             print("ATTR end \(iso.string(from: Date()))")
         }
         .task {
