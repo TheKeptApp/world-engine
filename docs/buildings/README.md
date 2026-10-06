@@ -11,7 +11,7 @@ Owner: session P2. Inputs: `docs/proposals/regions-chicagoland-miami/` (spec v1 
 | Sealed envelope | `Sources/WorldGen/RoofAssembly.swift` | Visible roof = upper envelope of all masses, computed by convex clipping (no interior faces, valleys and hip intersections exact). Walls rise exactly to the envelope along every footprint edge, which also produces gable-end triangles. Where one roof edge stands above a lower roof, a vertical face closes the step. Soffits are the undersides of the overhang fragments; fascia runs only along free edges. Footprints the rectangles can't cover (slants, chamfers) get one conservative mass cut to the footprint pushed out by the eave, flagged in `roofFallback`. |
 | Families | `Sources/WorldGen/HouseFamilies.swift`, `Profiles/house-families.json` | Per-family grammar keyed by the profile's type IDs: preferred frontage aspect, roof recipe (ridge direction, crossing gable, dormers, chimney placement), facade kit. Data, not code: no place names in Swift. |
 | Details | `Sources/WorldGen/BuildingDetails.swift` | Chimney (cuboid + cap), gable dormers, cornices and belt courses, Prairie bands, half-timber strips on street gables, attic windows, storefront band, entry pediment, stacked rear porches with stairs, skyline LOD mass. |
-| Facades | `Sources/WorldGen/BuildingFacades.swift` | Facade pass (gate gaps 1 and 5): family window sizes, symmetric Colonial fronts, entry kits (portico, Tudor vestibule, arched surround), masonry sills and lintels, mapped street bays dressed, shallow inferred street bays where the space in front is clear, long side-wall window rhythm. All switched on per family in `house-families.json`. |
+| Facades | `Sources/WorldGen/BuildingFacades.swift` | Facade pass (gate gaps 1 and 5): family window sizes, symmetric Colonial fronts, entry kits (portico, Tudor vestibule, arched surround), masonry sills and lintels, mapped street bays dressed, shallow inferred street bays where the space in front is clear, long side-wall window rhythm; side walls (gap 5): chimney breasts on open side walls, gangway window stacks, mapped side bays. All switched on per family in `house-families.json`. |
 | Generator | `Sources/WorldGen/BuildingGenerator.swift` | Role (with alley-garage and large-house evidence), family, colors, heights, roof plan, walls, roof, openings, details, per LOD. |
 
 ### Levels of detail
@@ -44,6 +44,7 @@ far 150–600 m, skyline beyond (`BuildingLOD.forDistance`). `DetailLevel.full` 
   most 1.6 m out (+0.12 m rake), with no columns at mid; inferred bays project ≤0.6 m, are 2.4–3.2 m
   wide, are sealed (rays from inside the bay hit something), exist at near and mid only, and vanish
   when a neighbor stands 1.5 m in front; mapped bays are dressed and never doubled.
+- `SideWallTests`: a long side wall facing open ground gets a breast (≤ 0.42 m out, ≤ 1.8 m wide, one chimney, no projection at mid); walls touching a neighbour get no breast and no windows; a 2 m gangway gets one window per floor in each of 1–2 stacks, at near and mid.
 - `BuildingAreaTests` also holds the facade-pass budget against the pre-pass averages per house
   (near ≤ +45 %, mid ≤ +25 %, far and skyline unchanged) and prints bay and entry-kit counts.
 
@@ -176,6 +177,38 @@ Before / after (`buildingviz`, same camera):
 | Tudor: vestibule with arched door, paired casements | ![](facades/tudor-gallery.jpg) |
 | Lakeview three-flats: box and three-sided bays, stone lintels and sills, larger windows | ![](facades/lakeview-three-flats.jpg) |
 
+## Side walls (gap 5)
+
+Three family switches in `house-families.json` (decision 34), all evidence-driven by the gap
+between the side wall and the next mapped building (median of three probes straight out from the
+wall at 20/50/80 % of its length):
+
+| Gap | Side wall gets |
+|---|---|
+| touching (< 0.9 m) | nothing new (party walls keep no openings) |
+| 0.9–3.1 m (gangway) | `gangwayWindows`: 1–2 stacks of smaller windows (0.65× width, ≤ 1.1 m tall, heads level with the other windows), one per story, instead of the long-wall rhythm |
+| ≥ 3 m clear, wall ≥ 12 m | `chimneyBreast`: the family's chimney (when it rolls one) as a 0.25–0.4 m deep, 1.2–1.8 m wide masonry breast rising through the eave, instead of on the roof |
+| any | `sideBays`: mapped side-wall protrusions dressed with windows on each face |
+
+Measured (`BuildingAreaTests` and a same-run before/after with the three switches off):
+
+| Area | Near tris/km² before → after | Mid | Far / skyline | Avg house near | Breasts | Gangway stacks | Side bays |
+|---|---|---|---|---|---:|---:|---:|
+| South Evanston | 335k → 327k (−2.5 %) | 119k → 118k | unchanged | 427 → 415 | 70 of 406 chimneys | 213 | 1 |
+| Lakeview (Sheil Park) | 1.176M → 1.107M (−5.9 %) | 368k → 356k | unchanged | 554 → 511 | 18 of 164 chimneys | 1,833 | 227 |
+
+Triangles go down: most deep-lot side walls in Lakeview face a 1–3 m gangway, and there one or two
+window stacks replace the long-wall rhythm (decision 21), which drew a window group every ~6.5 m.
+A breast costs about 10 triangles more than the roof chimney it replaces. Far and skyline are
+untouched; mid keeps the window stacks (flat quads) and the chimney stack, not the breast.
+
+Before / after (`buildingviz`, same camera, top before):
+
+| View | Sheet |
+|---|---|
+| South Evanston: chimney breasts on open side walls | ![](facades/sidewalls-evanston.jpg) |
+| Lakeview: gangway window stacks, side-wall chimney through the eave | ![](facades/sidewalls-lakeview.jpg) |
+
 ## Decisions: zones and yards (round 2)
 
 22. **Per-building zone profiles.** Without a forced profile, each building takes the `regions.json`
@@ -211,3 +244,18 @@ Before / after (`buildingviz`, same camera):
     spacing, fall litter patches.
 33. **Tone guard, not lift**: roofs ≥ #303942, walls ≥ Y8 80 (5A's `tone-targets.md`); no palette
     hex changed, because the profiles already comply and lifting would wash out after 5A's fill fix.
+34. **Side walls (gap 5)** ([section](#side-walls-gap-5)): *Chimney breasts* (`chimneyBreast`:
+    Tudor 0.3, Colonial/Queen Anne/frame cottage/Victorian row 0.5, Shingle 0.4, brick bungalow 0.6;
+    Prairie and mid-century keep their central broad chimney on the roof) reuse the roof chimney's
+    own roll, so a house never gets two; the breast goes on a side wall ≥ 12 m at the depth the
+    family's chimney placement implies (front 25–40 %, rear 60–75 %, else 40–60 %), only where 3 m
+    in front of it is clear of buildings, roads (+0.6 m) and sidewalks; the stack clears the roof
+    within 3 m inward by 0.7 m (Tudor 1.2 m). It is an inferred projection like the street bays and
+    is exported as `inferredFacade: chimneyBreast`. *Gangway stacks* (`gangwayWindows`, every family
+    with `sideRhythm`) replace the rhythm on side walls ≥ 8 m facing a 0.9–3.1 m gap: one stack at
+    40–60 % of the wall, or on walls ≥ 14 m (half of them) two at 25–35 % and 60–72 %; this makes
+    gangway walls sparser than decision 21 did (v2 §4.2 keeps side walls sparse; real Chicago
+    gangway walls carry stair and bath windows). *Side bays* (`sideBays`) dress only mapped
+    protrusions (the street-bay test applied to side walls): one window per story on each face
+    (two on faces ≥ 2 windows + 1.3 m), none when a neighbour stands within 0.6 m. Walls with a
+    0.4–0.9 m gap keep their previous behaviour.

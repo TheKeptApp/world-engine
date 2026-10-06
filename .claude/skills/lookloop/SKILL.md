@@ -39,7 +39,8 @@ The look loop is the official visual gate for every session. A view passes at co
 
 5. Report back, **concept parity first**:
    - the mean parity and gate passes against the milestones: ≥ 85 % at the end of 5A's wrap; by the end of 5B, ≥ 100 % plus every art-direction score ≥ 3 (the "5B" column);
-   - full Opus `--gate` only when a routine (Sonnet) loop reaches mean parity ≥ 90 % (Sonnet runs ~6 points above Opus; milestones are read from Opus gate rows);
+   - heavy lock: priority 5A > P2 > P3 > P1; hold it only for capture and release before grading;
+   - full Opus `--gate` only when a routine (Sonnet) loop reaches mean parity ≥ 92 % (85 % + offset; under §S Sonnet runs 7.0 points above Opus; milestones are read from Opus gate rows);
    - the new scoreboard row;
    - every line of `docs/lookloop/latest/regressions.md`, meaning any view down 2 or more on /50 or any criterion down 1 or more against the previous run;
    - the top fixes from `summary.md`.

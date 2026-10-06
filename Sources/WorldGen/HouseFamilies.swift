@@ -86,6 +86,18 @@ public struct HouseFamilyGrammar: Codable, Sendable, Equatable {
         public var sideRhythm: Bool?
         /// Side-wall window size relative to the front windows (default 0.85).
         public var sideWindowScale: Double?
+
+        // Side walls (gap 5 of the 5B gate). All optional: unset means the behavior above.
+
+        /// Chance that the family's chimney, when it gets one, stands on a long side wall (≥ 12 m)
+        /// facing open ground as a shallow masonry breast rising through the eave, instead of on
+        /// the roof (the same chimney, never a second one).
+        public var chimneyBreast: Double?
+        /// Side walls facing a 1–3 m gangway to the neighbour get one or two vertical stacks of
+        /// smaller windows, one per story (stairs, bath), instead of the side rhythm.
+        public var gangwayWindows: Bool?
+        /// Dress protrusions of the mapped footprint on side walls (windows on their faces).
+        public var sideBays: Bool?
     }
 
     /// An inferred street bay (a user-requested exception to "no unmapped volume": kept shallow,
