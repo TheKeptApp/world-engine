@@ -28,6 +28,58 @@ struct GLBTests {
     }
 }
 
+@Suite("Package licence notice (decision 6a)")
+struct DataNoticeTests {
+    static func source(_ format: String, _ license: String, _ attribution: String, sha: String?) -> AreaManifest.Source {
+        .init(format: format, path: "\(format).json", layers: ["buildings"], bounds: GeoBoundingBox(south: 0, west: 0, north: 0.01, east: 0.01),
+              dataTimestamp: "2026-10-06T00:00:00Z", fetchedAt: nil, bytes: nil, sha256: sha, license: license, attribution: attribution)
+    }
+
+    /// Generic over sources: OSM, an Overture source with its own attribution, a CC BY source and
+    /// an unknown licence all appear with licence, attribution and hash.
+    @Test func noticeNamesEverySource() throws {
+        var manifest = AreaManifest(id: "test-area", name: "Test area", center: GeoCoordinate(latitude: 0, longitude: 0),
+                                    widthMeters: 100, heightMeters: 100)
+        manifest.sources = [
+            Self.source("osm-overpass-json", "ODbL-1.0", "© OpenStreetMap contributors", sha: "aaa111"),
+            Self.source("overture-buildings-v1", "ODbL-1.0", "© OpenStreetMap contributors, Overture Maps Foundation", sha: "bbb222"),
+            Self.source("cc-by-extra", "CC-BY-4.0", "Esri Community Maps contributors", sha: nil),
+            Self.source("odd", "Custom-1", "Someone else", sha: nil),
+        ]
+        let catalog = try CreditsCatalog.bundled()
+        let credits = catalog.merged(sources: manifest.sources, surface: .package)
+        let notice = WorldPackage.dataNotice(manifest: manifest, credits: credits, catalog: catalog, generatorVersion: "test")
+        #expect(notice.contains("Derivative Database of OpenStreetMap"))
+        #expect(notice.contains("https://opendatacommons.org/licenses/odbl/1-0/"))
+        #expect(notice.contains("© OpenStreetMap contributors"))
+        for s in manifest.sources {
+            #expect(notice.contains("**\(s.attribution)**. Licence: \(s.license)"), "\(s.format)")
+            #expect(notice.contains("`\(s.format)`"))
+        }
+        #expect(notice.contains("aaa111") && notice.contains("bbb222"))
+        #expect(notice.contains("https://creativecommons.org/licenses/by/4.0/"))
+        #expect(notice.contains("Custom-1 (licence URL not on record)"))
+        #expect(notice.contains("## How to obtain the data") && notice.contains("## Separately licensed content"))
+        for f in WorldPackage.derivativeDatabaseFiles + WorldPackage.separatelyLicensedFiles { #expect(notice.contains("`\(f.pattern)`")) }
+        // Every distinct source credit is listed in the credits section too.
+        #expect(credits.contains { $0.text == "© OpenStreetMap contributors, Overture Maps Foundation" })
+        #expect(credits.contains { $0.text == "Esri Community Maps contributors" })
+        // Deterministic.
+        #expect(notice == WorldPackage.dataNotice(manifest: manifest, credits: credits, catalog: catalog, generatorVersion: "test"))
+    }
+
+    @Test func everyKnownPackagePathIsClassified() {
+        #expect(WorldPackage.licenseClass(of: "world.json") == "ODbL-1.0")
+        #expect(WorldPackage.licenseClass(of: "chunks/0_1/scene.json") == "ODbL-1.0")
+        #expect(WorldPackage.licenseClass(of: "chunks/0_1/lod0.glb") == "ODbL-1.0")
+        #expect(WorldPackage.licenseClass(of: "prototypes/tree-0-lod0.glb") == "separate")
+        #expect(WorldPackage.licenseClass(of: "profiles/default.json") == "separate")
+        #expect(WorldPackage.licenseClass(of: "sky-golden.png") == "separate")
+        #expect(WorldPackage.licenseClass(of: "LICENSE-DATA.md") == "notice")
+        #expect(WorldPackage.licenseClass(of: "something-new.bin") == nil)
+    }
+}
+
 @Suite("World package on real data")
 struct PackageTests {
     static let areaDir = URL(fileURLWithPath: #filePath)
@@ -129,6 +181,24 @@ struct PackageTests {
         // The manifest's hashes cover every other file.
         let hashes = world["files"] as! [String: Any]
         #expect(Set(hashes.keys) == Set(fa.keys).subtracting(["world.json"]))
+
+        // Licence notice (decision 6a): present, hashed, names every source; every file is classified.
+        let notice = String(decoding: try #require(fa[WorldPackage.dataNoticeFile]), as: UTF8.self)
+        #expect(hashes[WorldPackage.dataNoticeFile] != nil)
+        #expect(notice.contains("Derivative Database of OpenStreetMap") && notice.contains("https://opendatacommons.org/licenses/odbl/1-0/"))
+        for s in build.manifest.sources {
+            #expect(notice.contains(s.attribution) && notice.contains(s.license) && notice.contains(s.format))
+            if let h = s.sha256 { #expect(notice.contains(h)) }
+        }
+        #expect(fa.keys.filter { WorldPackage.licenseClass(of: $0) == nil }.sorted() == [], "unclassified package files")
+        let sources = world["sources"] as! [[String: Any]]
+        #expect(sources.count == build.manifest.sources.count)
+        #expect(sources.allSatisfy { ($0["licenseURL"] as? String)?.hasPrefix("https://") == true })
+        let dataLicense = world["dataLicense"] as! [String: Any]
+        #expect(dataLicense["license"] as? String == "ODbL-1.0" && dataLicense["notice"] as? String == WorldPackage.dataNoticeFile)
+        let credits = world["credits"] as! [[String: Any]]
+        #expect(credits.first?["id"] as? String == "openstreetmap")
+        #expect(build.manifest.sources.allSatisfy { s in credits.contains { ($0["text"] as? String) == s.attribution } })
         print("PACKAGE files=\(fa.count) bytes=\(fa.values.reduce(0) { $0 + $1.count }) worstVertex=\(worstError) worstInstance=\(worstInstance)")
     }
 }
