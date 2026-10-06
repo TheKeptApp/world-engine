@@ -46,12 +46,15 @@ case "$cmd" in
     stamp=$(date +%Y%m%d-%H%M%S)
     run="$ROOT/.build/lookloop/runs/$stamp"
     mkdir -p "$run"
+    # engineCommit: the last commit that changed what is rendered (engine, app, area data), so
+    # look-loop or docs commits on top do not hide which renderer version was graded.
     python3 - "$run" "$stamp" "$(git -C "$ROOT" rev-parse --short HEAD)" "$(git -C "$ROOT" branch --show-current)" \
-      "$(git -C "$ROOT" status --porcelain -- Sources Apps Data | wc -l | tr -d ' ')" <<'EOF'
+      "$(git -C "$ROOT" status --porcelain -- Sources Apps Data Package.swift | wc -l | tr -d ' ')" \
+      "$(git -C "$ROOT" log -1 --format=%h -- Sources Apps Data Package.swift)" <<'EOF'
 import json, sys, time
-run, stamp, commit, branch, dirty = sys.argv[1:6]
+run, stamp, commit, branch, dirty, engine = sys.argv[1:7]
 json.dump({"stamp": stamp, "started": time.strftime("%Y-%m-%d %H:%M"), "t0": time.time(), "commit": commit,
-           "branch": branch, "dirtyEngineFiles": int(dirty)}, open(f"{run}/run.json", "w"), indent=1)
+           "engineCommit": engine, "branch": branch, "dirtyEngineFiles": int(dirty)}, open(f"{run}/run.json", "w"), indent=1)
 EOF
     echo "look loop $stamp  ($(git -C "$ROOT" rev-parse --short HEAD) on $(git -C "$ROOT" branch --show-current))"
     "$TOOLS/capture.sh" "$run" "$@"

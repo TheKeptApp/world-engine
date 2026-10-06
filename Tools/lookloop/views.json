@@ -1,87 +1,752 @@
 {
-  "about": "Look-loop capture set. Each active view is one WorldLab launch in the Simulator with the args below (plus the common args). Targets are concept images in docs/proposals (read-only). Times are UTC; 'local' is the area's local time. 'na' lists v2 §8.3 criteria that cannot be scored from this still (6 = no character in frame, 10 = motion needs video). 'wet' turns on the rain-readability art-direction criterion. Placeholders stay inactive until the named hook lands.",
-  "commonArgs": ["-renderer", "realitykit", "-hud", "off", "-frame16x9", "-rendertrace"],
-  "frame": { "aspect": "16:9", "note": "letterboxed inside the iPhone 17 Pro portrait screen (1206 px wide), the v2/experience-v1 comparison frame" },
-  "views": [
-    { "id": "v2-01", "group": "v2", "title": "v2 01 autumn golden hour (W 23rd Ave street, Luna)", "args": ["-preset", "v2-01"],
-      "utc": "2026-10-15T23:44:01Z", "local": "2026-10-15 17:44 MDT", "weather": "clear", "season": "autumn", "character": true, "wet": false,
-      "targets": [{ "path": "docs/proposals/visual-v2/images/01-autumn-golden-hour.png", "label": "visual-v2 01" }], "na": [10] },
-    { "id": "v2-04", "group": "v2", "title": "v2 04 summer noon (W 23rd Ave street, Luna)", "args": ["-preset", "v2-04"],
-      "utc": "2026-07-15T19:07:00Z", "local": "2026-07-15 13:07 MDT", "weather": "clear", "season": "summer", "character": true, "wet": false,
-      "targets": [{ "path": "docs/proposals/visual-v2/images/04-summer-noon.png", "label": "visual-v2 04" }], "na": [10] },
-    { "id": "v2-06", "group": "v2", "title": "v2 06 aerial golden hour", "args": ["-preset", "v2-06"],
-      "utc": "2026-10-15T23:44:01Z", "local": "2026-10-15 17:44 MDT", "weather": "clear", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/visual-v2/images/06-aerial-golden-hour.png", "label": "visual-v2 06" }], "na": [6, 10] },
-
-    { "id": "showcase-01", "group": "showcase", "title": "showcase 01 clear golden hour", "args": ["-showcase", "01"],
-      "utc": "2026-10-15T23:44:01Z", "local": "2026-10-15 17:44 MDT", "weather": "clear", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png", "label": "experience-v1 01" }], "na": [6, 10] },
-    { "id": "showcase-02", "group": "showcase", "title": "showcase 02 overcast", "args": ["-showcase", "02"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "cloudy 1.0", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/02-overcast.png", "label": "experience-v1 02" }], "na": [6, 10] },
-    { "id": "showcase-03", "group": "showcase", "title": "showcase 03 light rain", "args": ["-showcase", "03"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "rain 0.17, 0.5 mm/h, wetness 0.65", "season": "autumn", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/03-light-rain.png", "label": "experience-v1 03" }], "na": [6, 10] },
-    { "id": "showcase-04", "group": "showcase", "title": "showcase 04 thunderstorm", "args": ["-showcase", "04"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "thunderstorm 1.0, 8 mm/h, wetness 0.9", "season": "autumn", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/04-thunderstorm.png", "label": "experience-v1 04" }], "na": [6, 10] },
-    { "id": "showcase-05", "group": "showcase", "title": "showcase 05 fog", "args": ["-showcase", "05"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "fog 1.0 (25-220 m)", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/05-fog.png", "label": "experience-v1 05" }], "na": [6, 10] },
-    { "id": "showcase-06", "group": "showcase", "title": "showcase 06 wildfire smoke", "args": ["-showcase", "06"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "smoke 0.8, visibility 1200 m", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/06-wildfire-smoke.png", "label": "experience-v1 06" }], "na": [6, 10] },
-    { "id": "showcase-07", "group": "showcase", "title": "showcase 07 falling snow", "args": ["-showcase", "07"],
-      "utc": "2026-01-02T19:04:21Z", "local": "2026-01-02 12:04 MST", "weather": "snow 1.0, 2 mm/h, SWE 6 mm", "season": "winter", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/07-falling-snow.png", "label": "experience-v1 07" }], "na": [6, 10] },
-    { "id": "showcase-08", "group": "showcase", "title": "showcase 08 morning after snow", "args": ["-showcase", "08"],
-      "utc": "2026-01-03T15:15:00Z", "local": "2026-01-03 08:15 MST", "weather": "clear, wetness 0.45, SWE 3 mm", "season": "winter", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/08-morning-after-snow.png", "label": "experience-v1 08" }], "na": [6, 10] },
-    { "id": "showcase-09", "group": "showcase", "title": "showcase 09 clear night", "args": ["-showcase", "09"],
-      "utc": "2026-01-04T02:00:00Z", "local": "2026-01-03 19:00 MST", "weather": "clear night (Moon, stars)", "season": "winter", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/09-clear-night.png", "label": "experience-v1 09" }], "na": [6, 10] },
-    { "id": "showcase-10", "group": "aerial", "title": "showcase 10 aerial rain", "args": ["-showcase", "10"],
-      "utc": "2026-10-15T18:45:54Z", "local": "2026-10-15 12:45 MDT", "weather": "rain 0.17, wetness 0.65", "season": "autumn", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/10-aerial-rain.png", "label": "experience-v1 10" }], "na": [6, 10] },
-    { "id": "showcase-11", "group": "aerial", "title": "showcase 11 aerial snow cover", "args": ["-showcase", "11"],
-      "utc": "2026-01-03T15:15:00Z", "local": "2026-01-03 08:15 MST", "weather": "clear, SWE 3 mm", "season": "winter", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/11-aerial-snow-cover.png", "label": "experience-v1 11" }], "na": [6, 10] },
-
-    { "id": "ordinary-trail", "group": "ordinary", "title": "Ordinary afternoon, lake trail (WorldLab showcase 12)", "args": ["-showcase", "12"],
-      "utc": "2026-10-15T21:30:00Z", "local": "2026-10-15 15:30 MDT", "weather": "clear, cloud 0.25", "season": "autumn", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png", "label": "experience-v1 01 (same camera, golden hour)" },
-                  { "path": "docs/proposals/visual-v2/images/04-summer-noon.png", "label": "visual-v2 04 (ordinary daylight look)" }], "na": [6, 10] },
-    { "id": "ordinary-street", "group": "ordinary", "title": "Ordinary afternoon, W 23rd Ave street (v2 camera, Luna)", "args": ["-preset", "v2-01", "-weather", "clear", "-date", "2026-10-15T21:30:00Z"],
-      "utc": "2026-10-15T21:30:00Z", "local": "2026-10-15 15:30 MDT", "weather": "clear, cloud 0.05", "season": "autumn", "character": true, "wet": false,
-      "targets": [{ "path": "docs/proposals/visual-v2/images/09-data-grounded-street.png", "label": "visual-v2 09 (same street)" },
-                  { "path": "docs/proposals/visual-v2/images/04-summer-noon.png", "label": "visual-v2 04 (same camera, noon)" }], "na": [10] },
-    { "id": "light-rain-street", "group": "ordinary", "title": "Light rain afternoon, W 23rd Ave street (v2 camera, Luna)", "args": ["-preset", "v2-01", "-weather", "rain", "-date", "2026-10-15T21:30:00Z"],
-      "utc": "2026-10-15T21:30:00Z", "local": "2026-10-15 15:30 MDT", "weather": "rain 0.5 mm/h, cloud 0.8, wetness 0.65", "season": "autumn", "character": true, "wet": true,
-      "targets": [{ "path": "docs/proposals/visual-v2/images/03-rainy-dusk.png", "label": "visual-v2 03 (same camera, rainy dusk)" },
-                  { "path": "docs/proposals/experience-v1/images/03-light-rain.png", "label": "experience-v1 03 (light rain)" }], "na": [10] },
-
-    { "id": "wilmette-golden", "group": "region", "title": "Wilmette golden hour (regions 01, northshore-postcard)", "active": false,
-      "activation": "needs P2's Wilmette area merged and a WorldLab way to open it at the northshore-postcard camera (see docs/lookloop/README.md, hooks)",
-      "utc": "2026-09-15T23:23:26Z", "local": "2026-09-15 18:23 CDT", "weather": "clear, cloud 0.12", "season": "summer", "character": false, "wet": false,
-      "camera": { "lat": 42.0747, "lon": -87.72, "eye": [0, 1.65, 0], "headingDeg": 90, "pitchDownDeg": 3, "fovDeg": 50 },
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png", "label": "regions 01" }], "na": [6, 10] },
-    { "id": "wilmette-rain", "group": "region", "title": "Wilmette rain (regions 02)", "active": false, "activation": "as wilmette-golden",
-      "utc": "2026-09-15T17:00:00Z", "local": "2026-09-15 12:00 CDT", "weather": "rain 0.5, 2.0 mm/h, wetness 0.7", "season": "summer", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png", "label": "regions 02" }], "na": [6, 10] },
-    { "id": "wilmette-fall", "group": "region", "title": "Wilmette peak fall (regions 03)", "active": false, "activation": "as wilmette-golden",
-      "utc": "2026-10-22T20:00:00Z", "local": "2026-10-22 15:00 CDT", "weather": "clear, cloud 0.1", "season": "peak fall", "character": false, "wet": false,
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png", "label": "regions 03" }], "na": [6, 10] },
-    { "id": "wilmette-snow", "group": "region", "title": "Wilmette snow (regions 04)", "active": false, "activation": "as wilmette-golden",
-      "utc": "2026-01-15T18:00:00Z", "local": "2026-01-15 12:00 CST", "weather": "snow 0.65, SWE 6 mm", "season": "winter", "character": false, "wet": true,
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png", "label": "regions 04" }], "na": [6, 10] },
-    { "id": "lakeview-three-flat", "group": "region", "title": "Lakeview three-flats (regions 05, lakeview-postcard)", "active": false,
-      "activation": "needs P2's Lakeview area merged and a WorldLab way to open it at the lakeview-postcard camera",
-      "utc": "2026-09-15T23:23:12Z", "local": "2026-09-15 18:23 CDT", "weather": "clear, cloud 0.12", "season": "summer", "character": false, "wet": false,
-      "camera": { "lat": 41.943, "lon": -87.653, "eye": [0, 1.65, 0], "headingDeg": 90, "pitchDownDeg": 3, "fovDeg": 50 },
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png", "label": "regions 05" }], "na": [6, 10] },
-    { "id": "lakeview-alley-snow", "group": "region", "title": "Lakeview alley, snow (regions 06, chicago-alley)", "active": false, "activation": "as lakeview-three-flat",
-      "utc": "2026-01-15T18:00:00Z", "local": "2026-01-15 12:00 CST", "weather": "snow 0.25, SWE 6 mm", "season": "winter", "character": false, "wet": true,
-      "camera": { "lat": 41.943, "lon": -87.653, "eye": [0, 1.65, 0], "headingDeg": 0, "pitchDownDeg": 3, "fovDeg": 50 },
-      "targets": [{ "path": "docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png", "label": "regions 06" }], "na": [6, 10] }
-  ]
+ "about": "Look-loop capture set. Each active view is one WorldLab launch in the Simulator with the args below (plus the common args). Targets are concept images in docs/proposals (read-only). Times are UTC; 'local' is the area's local time. 'na' lists v2 \u00a78.3 criteria that cannot be scored from this still (6 = no character in frame, 10 = motion needs video). 'wet' turns on the rain-readability art-direction criterion. Placeholders stay inactive until the named hook lands.",
+ "commonArgs": [
+  "-renderer",
+  "realitykit",
+  "-hud",
+  "off",
+  "-frame16x9",
+  "-rendertrace"
+ ],
+ "frame": {
+  "aspect": "16:9",
+  "note": "letterboxed inside the iPhone 17 Pro portrait screen (1206 px wide), the v2/experience-v1 comparison frame"
+ },
+ "views": [
+  {
+   "id": "v2-01",
+   "group": "v2",
+   "title": "v2 01 autumn golden hour (W 23rd Ave street, Luna)",
+   "args": [
+    "-preset",
+    "v2-01"
+   ],
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": true,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/visual-v2/images/01-autumn-golden-hour.png",
+     "label": "visual-v2 01"
+    }
+   ],
+   "na": [
+    10
+   ],
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "v2-04",
+   "group": "v2",
+   "title": "v2 04 summer noon (W 23rd Ave street, Luna)",
+   "args": [
+    "-preset",
+    "v2-04"
+   ],
+   "utc": "2026-07-15T19:07:00Z",
+   "local": "2026-07-15 13:07 MDT",
+   "weather": "clear",
+   "season": "summer",
+   "character": true,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+     "label": "visual-v2 04"
+    }
+   ],
+   "na": [
+    10
+   ],
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 71.7,
+    "azimuthDeg": 180.6,
+    "shadowBearingDeg": 0.6,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "v2-06",
+   "group": "v2",
+   "title": "v2 06 aerial golden hour",
+   "args": [
+    "-preset",
+    "v2-06"
+   ],
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/visual-v2/images/06-aerial-golden-hour.png",
+     "label": "visual-v2 06"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-01",
+   "group": "showcase",
+   "title": "showcase 01 clear golden hour",
+   "args": [
+    "-showcase",
+    "01"
+   ],
+   "utc": "2026-10-15T23:44:01Z",
+   "local": "2026-10-15 17:44 MDT",
+   "weather": "clear",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png",
+     "label": "experience-v1 01"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 253.3,
+    "shadowBearingDeg": 73.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-02",
+   "group": "showcase",
+   "title": "showcase 02 overcast",
+   "args": [
+    "-showcase",
+    "02"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "cloudy 1.0",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/02-overcast.png",
+     "label": "experience-v1 02"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-03",
+   "group": "showcase",
+   "title": "showcase 03 light rain",
+   "args": [
+    "-showcase",
+    "03"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "rain 0.17, 0.5 mm/h, wetness 0.65",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/03-light-rain.png",
+     "label": "experience-v1 03"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-04",
+   "group": "showcase",
+   "title": "showcase 04 thunderstorm",
+   "args": [
+    "-showcase",
+    "04"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "thunderstorm 1.0, 8 mm/h, wetness 0.9",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/04-thunderstorm.png",
+     "label": "experience-v1 04"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-05",
+   "group": "showcase",
+   "title": "showcase 05 fog",
+   "args": [
+    "-showcase",
+    "05"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "fog 1.0 (25-220 m)",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/05-fog.png",
+     "label": "experience-v1 05"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-06",
+   "group": "showcase",
+   "title": "showcase 06 wildfire smoke",
+   "args": [
+    "-showcase",
+    "06"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "smoke 0.8, visibility 1200 m",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/06-wildfire-smoke.png",
+     "label": "experience-v1 06"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-07",
+   "group": "showcase",
+   "title": "showcase 07 falling snow",
+   "args": [
+    "-showcase",
+    "07"
+   ],
+   "utc": "2026-01-02T19:04:21Z",
+   "local": "2026-01-02 12:04 MST",
+   "weather": "snow 1.0, 2 mm/h, SWE 6 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/07-falling-snow.png",
+     "label": "experience-v1 07"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 27.4,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-08",
+   "group": "showcase",
+   "title": "showcase 08 morning after snow",
+   "args": [
+    "-showcase",
+    "08"
+   ],
+   "utc": "2026-01-03T15:15:00Z",
+   "local": "2026-01-03 08:15 MST",
+   "weather": "clear, wetness 0.45, SWE 3 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/08-morning-after-snow.png",
+     "label": "experience-v1 08"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 7.7,
+    "azimuthDeg": 128.4,
+    "shadowBearingDeg": 308.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-09",
+   "group": "showcase",
+   "title": "showcase 09 clear night",
+   "args": [
+    "-showcase",
+    "09"
+   ],
+   "utc": "2026-01-04T02:00:00Z",
+   "local": "2026-01-03 19:00 MST",
+   "weather": "clear night (Moon, stars)",
+   "season": "winter",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/09-clear-night.png",
+     "label": "experience-v1 09"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": -24.6,
+    "azimuthDeg": 260.1,
+    "shadowBearingDeg": 80.1,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given",
+    "note": "night: Moon alt 17.2, az 72.0 (upper left of the ESE frame), stars; experience-v1 night-sky-reference.json"
+   }
+  },
+  {
+   "id": "showcase-10",
+   "group": "aerial",
+   "title": "showcase 10 aerial rain",
+   "args": [
+    "-showcase",
+    "10"
+   ],
+   "utc": "2026-10-15T18:45:54Z",
+   "local": "2026-10-15 12:45 MDT",
+   "weather": "rain 0.17, wetness 0.65",
+   "season": "autumn",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/10-aerial-rain.png",
+     "label": "experience-v1 10"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 41.5,
+    "azimuthDeg": 180.0,
+    "shadowBearingDeg": 0.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "showcase-11",
+   "group": "aerial",
+   "title": "showcase 11 aerial snow cover",
+   "args": [
+    "-showcase",
+    "11"
+   ],
+   "utc": "2026-01-03T15:15:00Z",
+   "local": "2026-01-03 08:15 MST",
+   "weather": "clear, SWE 3 mm",
+   "season": "winter",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/11-aerial-snow-cover.png",
+     "label": "experience-v1 11"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "aerial, heading 0 (north), pitch down 55, vFOV 50, no horizon",
+   "sun": {
+    "elevationDeg": 7.7,
+    "azimuthDeg": 128.4,
+    "shadowBearingDeg": 308.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "ordinary-trail",
+   "group": "ordinary",
+   "title": "Ordinary afternoon, lake trail (WorldLab showcase 12)",
+   "args": [
+    "-showcase",
+    "12"
+   ],
+   "utc": "2026-10-15T21:30:00Z",
+   "local": "2026-10-15 15:30 MDT",
+   "weather": "clear, cloud 0.25",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png",
+     "label": "experience-v1 01 (same camera, golden hour)"
+    },
+    {
+     "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+     "label": "visual-v2 04 (ordinary daylight look)"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 28.4,
+    "azimuthDeg": 227.5,
+    "shadowBearingDeg": 47.5,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "ordinary-street",
+   "group": "ordinary",
+   "title": "Ordinary afternoon, W 23rd Ave street (v2 camera, Luna)",
+   "args": [
+    "-preset",
+    "v2-01",
+    "-weather",
+    "clear",
+    "-date",
+    "2026-10-15T21:30:00Z"
+   ],
+   "utc": "2026-10-15T21:30:00Z",
+   "local": "2026-10-15 15:30 MDT",
+   "weather": "clear, cloud 0.05",
+   "season": "autumn",
+   "character": true,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/visual-v2/images/09-data-grounded-street.png",
+     "label": "visual-v2 09 (same street)"
+    },
+    {
+     "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+     "label": "visual-v2 04 (same camera, noon)"
+    }
+   ],
+   "na": [
+    10
+   ],
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 28.4,
+    "azimuthDeg": 227.5,
+    "shadowBearingDeg": 47.5,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "light-rain-street",
+   "group": "ordinary",
+   "title": "Light rain afternoon, W 23rd Ave street (v2 camera, Luna)",
+   "args": [
+    "-preset",
+    "v2-01",
+    "-weather",
+    "rain",
+    "-date",
+    "2026-10-15T21:30:00Z"
+   ],
+   "utc": "2026-10-15T21:30:00Z",
+   "local": "2026-10-15 15:30 MDT",
+   "weather": "rain 0.5 mm/h, cloud 0.8, wetness 0.65",
+   "season": "autumn",
+   "character": true,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/visual-v2/images/03-rainy-dusk.png",
+     "label": "visual-v2 03 (same camera, rainy dusk)"
+    },
+    {
+     "path": "docs/proposals/experience-v1/images/03-light-rain.png",
+     "label": "experience-v1 03 (light rain)"
+    }
+   ],
+   "na": [
+    10
+   ],
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 28.4,
+    "azimuthDeg": 227.5,
+    "shadowBearingDeg": 47.5,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
+   }
+  },
+  {
+   "id": "wilmette-golden",
+   "group": "region",
+   "title": "Wilmette golden hour (regions 01, northshore-postcard)",
+   "active": false,
+   "activation": "needs P2's Wilmette area merged and a WorldLab way to open it at the northshore-postcard camera (see docs/lookloop/README.md, hooks)",
+   "utc": "2026-09-15T23:23:26Z",
+   "local": "2026-09-15 18:23 CDT",
+   "weather": "clear, cloud 0.12",
+   "season": "summer",
+   "character": false,
+   "wet": false,
+   "camera": {
+    "lat": 42.0747,
+    "lon": -87.72,
+    "eye": [
+     0,
+     1.65,
+     0
+    ],
+    "headingDeg": 90,
+    "pitchDownDeg": 3,
+    "fovDeg": 50
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png",
+     "label": "regions 01"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-rain",
+   "group": "region",
+   "title": "Wilmette rain (regions 02)",
+   "active": false,
+   "activation": "as wilmette-golden",
+   "utc": "2026-09-15T17:00:00Z",
+   "local": "2026-09-15 12:00 CDT",
+   "weather": "rain 0.5, 2.0 mm/h, wetness 0.7",
+   "season": "summer",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png",
+     "label": "regions 02"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-fall",
+   "group": "region",
+   "title": "Wilmette peak fall (regions 03)",
+   "active": false,
+   "activation": "as wilmette-golden",
+   "utc": "2026-10-22T20:00:00Z",
+   "local": "2026-10-22 15:00 CDT",
+   "weather": "clear, cloud 0.1",
+   "season": "peak fall",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png",
+     "label": "regions 03"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "wilmette-snow",
+   "group": "region",
+   "title": "Wilmette snow (regions 04)",
+   "active": false,
+   "activation": "as wilmette-golden",
+   "utc": "2026-01-15T18:00:00Z",
+   "local": "2026-01-15 12:00 CST",
+   "weather": "snow 0.65, SWE 6 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png",
+     "label": "regions 04"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "lakeview-three-flat",
+   "group": "region",
+   "title": "Lakeview three-flats (regions 05, lakeview-postcard)",
+   "active": false,
+   "activation": "needs P2's Lakeview area merged and a WorldLab way to open it at the lakeview-postcard camera",
+   "utc": "2026-09-15T23:23:12Z",
+   "local": "2026-09-15 18:23 CDT",
+   "weather": "clear, cloud 0.12",
+   "season": "summer",
+   "character": false,
+   "wet": false,
+   "camera": {
+    "lat": 41.943,
+    "lon": -87.653,
+    "eye": [
+     0,
+     1.65,
+     0
+    ],
+    "headingDeg": 90,
+    "pitchDownDeg": 3,
+    "fovDeg": 50
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png",
+     "label": "regions 05"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  },
+  {
+   "id": "lakeview-alley-snow",
+   "group": "region",
+   "title": "Lakeview alley, snow (regions 06, chicago-alley)",
+   "active": false,
+   "activation": "as lakeview-three-flat",
+   "utc": "2026-01-15T18:00:00Z",
+   "local": "2026-01-15 12:00 CST",
+   "weather": "snow 0.25, SWE 6 mm",
+   "season": "winter",
+   "character": false,
+   "wet": true,
+   "camera": {
+    "lat": 41.943,
+    "lon": -87.653,
+    "eye": [
+     0,
+     1.65,
+     0
+    ],
+    "headingDeg": 0,
+    "pitchDownDeg": 3,
+    "fovDeg": 50
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png",
+     "label": "regions 06"
+    }
+   ],
+   "na": [
+    6,
+    10
+   ]
+  }
+ ]
 }

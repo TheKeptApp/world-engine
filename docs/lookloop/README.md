@@ -41,12 +41,33 @@ Activate a placeholder by giving it `args` and removing `"active": false` once W
 - triangles and draw calls from WorldLab's `STATS` line
 - median frame time and GPU time from `RENDER` lines
 
-Frame times and GPU times are **Simulator** figures. Use them to see change between runs, never as device performance.
+Frame times and GPU times are **Simulator** figures. Use them to see change between runs, never as device performance. Know their limits:
+
+- **Frame time** is the median after the world is built. In the Simulator it sits at the 60 Hz vsync (about 16.7 ms), so it only shows pacing problems.
+- **GPU time** is `n/a` with WorldLab's default host. The default host does not time the GPU; see hooks.
+- **Triangles** are whole-world totals from `STATS`, not what is in view; see hooks.
+- **Render size** is recorded too. WorldLab renders the 16:9 frame at 1005 × 565 (scale 2.5×) and the screen shows it at 1206 × 678.
+
+**Noise floor.** Two captures of the same view taken by different sessions and pipelines differ by about 1.5/255 mean per channel. The causes are rain particles, wind sway and JPEG compression. Treat a `pixel change` below about 3 against the previous run as "unchanged".
 
 **History.**
 - Every run stays in `.build/lookloop/runs/<stamp>/`, which is git-ignored. That holds the full-resolution PNGs and logs.
 - Only `docs/lookloop/latest/` (JPEG frames and sheets, about 5 MB) and `scoreboard.md` go into git.
 - "Previous" on the sheets is whatever `latest/` held before this run, so any checkout has a before/after.
+
+## Timing
+
+The first full run (6 Oct 2026, 17 views) took **16.9 min** while the Mac was saturated by six booted Simulators (load average 400–660):
+
+| Step | Time |
+|---|---|
+| WorldLab build | 4 min, the first time in a fresh worktree only (pinned XcodeGen); `SKIP_BUILD=1` afterwards |
+| Capture | 13.4 min. Each world builds in about 11.5 s, but `simctl launch` stalled for 20–100 s per view under the load |
+| Analysis | 30 s |
+| Grading | 17 Opus reviewers in parallel, 2.4 min (slowest 80 s) |
+| Finish | a few seconds |
+
+On a quiet machine, capture is about 25 s per view (about 7 min for 17 views), so a full run comes to about 10 min. Captures run one at a time on purpose: one Simulator, one app.
 
 ## Decisions (logged; covered by the specs or the P3 prompt)
 
@@ -75,5 +96,6 @@ Frame times and GPU times are **Simulator** figures. Use them to see change betw
 |---|---|---|
 | WorldLab owner (5A) | `-area <id>` and `-camera lat,lon,heading,pitch,fov` (or a named regions camera) launch args, plus bundling of more than one area | Activates the Wilmette and Lakeview placeholders without the loop touching WorldLab |
 | WorldLab owner (5A) | Print `viewTriangles` and draw calls once the view has settled (for example a `VIEWSTATS` line about 2 s after `STATS`) | `STATS` gives whole-world triangles; v2's 400k ceiling is per view |
+| WorldLab / engine (5A) | GPU frame time from the default RealityView host in the `RENDER` line (today only the experimental `-host renderer` reports it) | Per-view GPU cost; Simulator frame time is vsync-capped |
 | WorldLab / engine (5A) | A fixed-clock option (for example `-freezetime`: wind phase, cloud drift and particles at t = fixed) | Rain and snow particles, wind sway and cloud drift differ slightly run to run. The other pixels are stable. See the noise check in the gate report |
 | P2 | Wilmette and Lakeview area data merged to main, with the regions fixture cameras' coordinates inside the area | Placeholder targets |

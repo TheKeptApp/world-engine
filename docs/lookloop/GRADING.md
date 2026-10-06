@@ -14,7 +14,7 @@ For view `<id>` in run directory `<run>`:
 | `<run>/frames/<id>.jpg` | Current capture at full phone width (1206 px, 16:9). Use it to inspect detail |
 | target PNG(s) | Paths in the view entry. Open them when the sheet is too small to judge |
 | `Tools/lookloop/views.json` | The view entry: time, weather, season, character, `wet`, `na`, targets |
-| `<run>/signals.json` | Objective signals for `<id>`: histograms vs target and previous, triangles, Simulator frame time |
+| `<run>/signals.json` | Objective signals for `<id>`: histograms vs target and previous, triangles, Simulator frame time. The `perf` counters are whole-world totals: they never prove what is or isn't visible. Judge visibility from the pixels only |
 
 ## Steps
 
@@ -31,7 +31,7 @@ For view `<id>` in run directory `<run>`:
 6. List hard-gate flags (section D) that you can actually see. Do not guess.
 7. Compute the totals (section E).
 8. Write the top 3 fixes (section F).
-9. Write the result JSON (section G) to the output path you were given, and nothing else.
+9. Write the result JSON (section G) to `<run>/grades/<id>.json`. If no file path or Write tool is available, output only the JSON instead (the headless runner saves it).
 
 ## A. Visual-v2 §8.3 criteria
 
@@ -52,10 +52,11 @@ The anchors are verbatim from v2 §8.3.
 
 Notes:
 
-- **Geography (9).** Check the sun side against the view's time and camera heading:
-  - v2 street faces west. At golden hour the sun is ahead-left and shadows fall toward the camera and right.
+- **Geography (9).** Each view entry carries `camera` (heading, pitch, FOV) and `sun` (elevation, azimuth, shadow bearing). Check the lit side of trunks and walls and the direction of cast shadows against them, relative to the camera heading. Quick reads:
+  - v2 street faces west (270°). At golden hour the sun is ahead-left and shadows fall toward the camera and right.
   - The showcase street faces ESE (100°). The sun is behind or right, and no sunset disk or western mountains should appear.
   - Aerials face north with no horizon.
+  - If shadows are too soft or absent to judge the bearing (overcast, fog, rain, night), score geography on paths, shoreline and layout alone, and say so. Do not cap the score just because the sun is hidden.
 - **Houses (8).** On views where no house is visible (lake trail), score what is visible in the distance. If nothing is, score 3 and say so.
 - **Character (6).** Framing is 20–25 % of frame height. The concept images enlarge the dog to about 40 %. Do not reward copying that.
 
@@ -162,4 +163,4 @@ Do not propose engine code. Describe the visible change.
 
 `grade.sh` sends this prompt. A session spawning its own sub-agent should use the same text, with `<id>`, `<run>` and `<out>` filled in:
 
-> You are a strict visual reviewer for WorldEngine. Follow docs/lookloop/GRADING.md exactly to grade view `<id>` of look-loop run `<run>`. Read GRADING.md first, then the view entry in Tools/lookloop/views.json, the `<id>` entry in `<run>`/signals.json, the contact sheet `<run>`/sheets/`<id>`.jpg, the full frame `<run>`/frames/`<id>`.jpg and the target PNG(s). Output only the JSON object of section G, with no prose and no code fence.
+> You are a strict visual reviewer for WorldEngine. Follow docs/lookloop/GRADING.md exactly to grade view `<id>` of look-loop run `<run>`. Read GRADING.md first, then the view entry in Tools/lookloop/views.json, the `<id>` entry in `<run>`/signals.json, the contact sheet `<run>`/sheets/`<id>`.jpg, the full frame `<run>`/frames/`<id>`.jpg and the target PNG(s). Write only the JSON object of section G to `<run>`/grades/`<id>`.json (set "grader" to your model id) and reply "done". If you have no Write tool, output only the JSON object, with no prose and no code fence.

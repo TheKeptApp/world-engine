@@ -96,7 +96,7 @@ def main():
 
     when = meta.get("started", datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
     md = [f"# Look loop: latest run", "",
-          f"Run {when} · commit `{meta.get('commit', git('rev-parse', '--short', 'HEAD'))}` on `{meta.get('branch', git('branch', '--show-current'))}`"
+          f"Run {when} · engine `{meta.get('engineCommit', '-')}`{' + uncommitted changes' if meta.get('dirtyEngineFiles') else ''} · checkout `{meta.get('commit', git('rev-parse', '--short', 'HEAD'))}` on `{meta.get('branch', git('branch', '--show-current'))}`"
           f" · {len(captured)} views captured, {len(scored)} graded"
           + (f" ({', '.join(failed)} failed)" if failed else "")
           + (f" · run time {meta['minutes']} min" if meta.get("minutes") else "")
@@ -149,12 +149,12 @@ def main():
                 "# Look-loop scoreboard\n\nOne row per full run (`Tools/lookloop/lookloop.sh run`), newest last. /50 is the mean v2 §8.3 "
                 "score normalised over scorable criteria; AD is the art-direction mean (ground richness, rain readability, regional "
                 "signature). Simulator frame time and triangles are for change tracking only, not device performance.\n\n"
-                "| Date | Commit | Branch | Views | Mean /50 | Ordinary /50 | AD /5 | Gate passes | Worst view | Median tris | Median frame ms | Run min | Grader |\n"
+                "| Date | Engine | Branch | Views | Mean /50 | Ordinary /50 | AD /5 | Gate passes | Worst view | Median tris | Median frame ms | Run min | Grader |\n"
                 "|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
         tris = sorted(p.get("triangles") for _, _, p, _ in rows if p.get("triangles"))
         fms = sorted(p.get("frameMsMedian") for _, _, p, _ in rows if p.get("frameMsMedian"))
         open(board, "a").write(
-            f"| {when} | `{meta.get('commit', '-')}` | {meta.get('branch', '-')} | {len(scored)}/{len(captured)} | {fmt(mean50)} | "
+            f"| {when} | `{meta.get('engineCommit', meta.get('commit', '-'))}`{'+dirty' if meta.get('dirtyEngineFiles') else ''} | {meta.get('branch', '-')} | {len(scored)}/{len(captured)} | {fmt(mean50)} | "
             f"{round(sum(ordinary) / len(ordinary), 1) if ordinary else '–'} | {fmt(meanAD)} | {passes} | "
             f"{f'{worst['view']} {worst['v2Score50']}' if worst else '–'} | {f'{tris[len(tris) // 2] // 1000}k' if tris else '–'} | "
             f"{fms[len(fms) // 2] if fms else '–'} | {fmt(meta.get('minutes'))} | {scored[0]['grader'] if scored else '–'} |\n")

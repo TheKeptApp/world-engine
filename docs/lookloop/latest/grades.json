@@ -1,0 +1,3723 @@
+{
+ "run": {
+  "stamp": "20261006-010210",
+  "started": "2026-10-06 01:02",
+  "t0": 1791270131.062057,
+  "commit": "b794e52",
+  "branch": "p3-lookloop",
+  "dirtyEngineFiles": 0,
+  "minutes": 16.9,
+  "engineCommit": "04d66ad"
+ },
+ "views": {
+  "v2-01": {
+   "grade": {
+    "view": "v2-01",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Left house is a blank box wall with no visible roof, right side is flat-roof two-storey yellow blocks; only distant brick gables give a roof profile. Tree crowns are one faceted lollipop archetype repeated, varied only by colour."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent families (autumn crowns red/orange/olive, grey concrete, dusty pink sky), no candy noise or black holes (clip black 0.13%), but the lawn is one saturated mid-green that ignores golden-hour light and saturation is far below target (dSat -62)."
+     },
+     "light": {
+      "score": 2,
+      "reason": "Sun at 6 deg elevation on a clear evening, yet the ground and facades are flat and evenly lit with no long cast shadows, no warm key on lit faces and no cool shade; only the sky and a faint streak on the road read as evening. Warm sky over neutral daylight ground is contradictory."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Foundation shrubs sit down acceptably and the dog has a faint contact blob, but there is no eave, porch, crown or trunk-base occlusion and no shadows under lamp posts or trees; surfaces look unshaded rather than softly occluded."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Lawns are a near-flat green carpet covering most of the frame with sparse, repeated grass tufts; no low-frequency tone variation, worn edges or autumn leaf litter, and hard grass-to-concrete edges."
+     },
+     "characterReadability": {
+      "score": 3,
+      "reason": "Black dog reads clearly against the light sidewalk at about 19% of frame height with a faint contact shadow, but the coat is almost flat black with an odd grey saddle highlight on the back, and only one easy surface is tested."
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild atmospheric fade separates the receding street, trees and houses from the foreground; no fog wall or missing edge, but the west horizon is a plain pink haze with no low backdrop band."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Several kit families are visible (stucco box with porch steps, red brick gabled houses and a gabled garage in the distance, flat-roof apartment blocks), with stable openings, but the near house shows only a large blank side wall and the yellow blocks are uniform punched-window boxes."
+     },
+     "geography": {
+      "score": 3,
+      "reason": "Street, sidewalk, cross street and kerb layout read plausibly for a west-facing W 23rd Ave view, but on a clear evening there are no cast shadows to verify the 73 deg shadow bearing and no low mountain band appears on the west horizon, so the sun bearing and backdrop are unverified."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One lawn colour everywhere with sparse tufts; only three foundation shrubs by the near house, no planting beds, no fence shrubs and no leaf litter under the coloured crowns in autumn."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Autumn deciduous trees and some brick houses hint at Denver, but no bungalow/foursquare front is legible, no cottonwood/conifer mix reads at phone size, and the west-facing horizon lacks the low Front Range mountain band."
+     }
+    },
+    "v2Total": 23,
+    "v2Max": 45,
+    "v2Score50": 25.6,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "light",
+      "fix": "Give the low WSW sun a warm directional key with long cast shadows from trees, lamp posts, houses and the dog falling toward the camera and to the right, plus cooler shade on east and north faces.",
+      "why": "Clear golden-hour frame shows no cast shadows at all and evenly lit neutral lawns and walls under a pink sky.",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "geography",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add low-frequency lawn tone patches and shade tone, scattered autumn leaf litter under and downwind of the coloured crowns and along kerbs, and softer worn grass edges along the sidewalk.",
+      "why": "Most of the frame is a single flat green carpet with repeated tufts and no leaves despite full autumn colour overhead.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Frame the near south-side lot so a bungalow or foursquare front with pitched roof, porch and foundation plantings is visible instead of a blank side wall, and give the north-side blocks visible roof/cornice variation.",
+      "why": "The nearest building is a large windowed box wall with no roof and the right side is uniform flat-roof yellow blocks, so the street does not read as Denver residential.",
+      "expectedGain": [
+       "silhouettes",
+       "houseVariety",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clean but flat midday-looking suburban street under a pink sky: no golden-hour key light, no shadows, and a sterile single-green lawn. The single biggest gap is the missing low-sun directional light and long shadows, which also leaves the sun bearing unverifiable."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 118.2,
+     "lumaP5": 77,
+     "lumaP50": 108,
+     "lumaP95": 171,
+     "clipBlackPct": 0.13,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      115.3,
+      121.7,
+      91.9
+     ],
+     "saturationMean": 80.0,
+     "colorfulness": 37.5,
+     "edgeMean": 9.41,
+     "hueHist": [
+      0.215,
+      0.132,
+      0.167,
+      0.456,
+      0.001,
+      0.001,
+      0.017,
+      0.011,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "visual-v2 01",
+      "path": "docs/proposals/visual-v2/images/01-autumn-golden-hour.png",
+      "lumaMean": 128.4,
+      "lumaP5": 71,
+      "lumaP50": 126,
+      "lumaP95": 186,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       175.1,
+       119.6,
+       78.1
+      ],
+      "saturationMean": 142.4,
+      "colorfulness": 71.8,
+      "edgeMean": 12.95,
+      "hueHist": [
+       0.611,
+       0.349,
+       0.008,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.001,
+       0.002,
+       0.005,
+       0.005,
+       0.021
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.394,
+      "rgbHistIntersection": 0.393,
+      "hueHistIntersection": 0.356,
+      "dLumaMean": -10.2,
+      "dSaturation": -62.4,
+      "dColorfulness": -34.3,
+      "dEdge": -3.54,
+      "dRGB": [
+       -59.8,
+       2.1,
+       13.8
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.89s",
+     "fpsMedian": 59.9,
+     "frameMsMedian": 16.69,
+     "gpuMsMedian": null,
+     "renderSamples": 11,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 43.0
+    }
+   }
+  },
+  "v2-04": {
+   "grade": {
+    "view": "v2-04",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Near house is a roofless flat charcoal box filling the left third; tan blocks right are plain flat-roof slabs; trees are sphere-cluster lollipops with only two crown tones, distant gabled brick roofs are the only readable house profiles."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent families (cream walk, lime lawn, grey road, brick, tan), no clipping, but the lawn is one saturated lime sheet dominating the frame and the near facade reads near-charcoal (p5 luma 41 vs target 82)."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Neutral noon with one consistent high southern sun (house shadow on the north/right edge of the walk, short pools under far crowns), but near ground has no crown shadow at all so the frame reads flat rather than sunlit."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Dog has a soft contact shadow, foundation shrubs and steps sit on the ground and the house base has a darker band; no eave, crown or bevel softness, all edges hard."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Both lawns are a single flat colour with sparse oversized grass tufts; hard grass/walk edges, no leaf litter, wear or shade tone; close to the flat sterile carpet anchor."
+     },
+     "characterReadability": {
+      "score": 4,
+      "reason": "Black coat reads clearly against the cream walk, contact shadow intact, dog about 19% of frame height (just under the 20-25% band); coat detail is minimal at phone size."
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Street recedes with mild haze and tree rows thin out without a fog wall; distance is little separated from mid-ground and the westward street end shows no backdrop band."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Several kit families visible (dark sided house, red brick gabled houses, detached garage, tan multi-unit blocks), but the hero house has no porch, entry or roof and the tan blocks are repetitive window grids."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Camera heading 270, sun azimuth 181 at 72 deg: the house shadow falls on the right (north) side of the walk and crown shadows are short to the north, consistent; street/walk layout plausible but parcel details unverified."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn colour everywhere and hard grass/path edges; only three small shrubs at one foundation, no beds, no leaf litter, no worn or shaded lawn patches."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view (wet false)"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Red brick gabled houses are a faint Denver cue, but the camera faces west and no low Front Range mountain band appears at the street end; tree mix and boxy blocks read generic anywhere-town."
+     }
+    },
+    "v2Total": 27,
+    "v2Max": 45,
+    "v2Score50": 30.0,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "ground",
+      "fix": "Break the lawns into low-frequency tone patches (worn strip beside the walk, darker shade tone under crowns and along the house), soften grass/walk edges with edge clusters, and add foundation shrub rows and a planting bed along the hero house.",
+      "why": "Two thirds of the frame is a single lime carpet with a few large tufts, the main reason the view reads sterile.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Place street trees in the wide tree lawn between walk and road so their crowns frame the walk and cast dappled noon shadows across the sidewalk and grass near the camera.",
+      "why": "The foreground has no trees or crown shadows at all; the target's richness and noon read come from crown shade on lawn and walk.",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "silhouettes",
+       "groundRichness"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Give the near house a visible roof edge/eave, porch or entry and a lighter siding colour, and vary the tan multi-unit blocks with roof parapets or setbacks; show the low western mountain band through the street-end gap.",
+      "why": "The hero facade is a roofless charcoal slab and the westward street end shows no Front Range backdrop.",
+      "expectedGain": [
+       "silhouettes",
+       "houseVariety",
+       "adRegional",
+       "depthFog"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clean but flat toy street: a readable dog on a cream walk between two uniform lime lawns, a charcoal box house and generic distant blocks. The biggest gap is ground and foreground richness: no street trees, crown shade, shrubs or lawn variation near the camera."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 150.8,
+     "lumaP5": 41,
+     "lumaP50": 170,
+     "lumaP95": 235,
+     "clipBlackPct": 0.13,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      143.7,
+      157.1,
+      108.5
+     ],
+     "saturationMean": 86.9,
+     "colorfulness": 49.0,
+     "edgeMean": 11.02,
+     "hueHist": [
+      0.013,
+      0.159,
+      0.674,
+      0.05,
+      0.028,
+      0.015,
+      0.061,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "visual-v2 04",
+      "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+      "lumaMean": 156.7,
+      "lumaP5": 82,
+      "lumaP50": 159,
+      "lumaP95": 227,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       159.3,
+       158.8,
+       129.2
+      ],
+      "saturationMean": 89.6,
+      "colorfulness": 61.1,
+      "edgeMean": 15.61,
+      "hueHist": [
+       0.228,
+       0.056,
+       0.553,
+       0.013,
+       0.002,
+       0.003,
+       0.088,
+       0.044,
+       0.004,
+       0.006,
+       0.001,
+       0.002
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.331,
+      "rgbHistIntersection": 0.417,
+      "hueHistIntersection": 0.701,
+      "dLumaMean": -5.9,
+      "dSaturation": -2.7,
+      "dColorfulness": -12.1,
+      "dEdge": -4.59,
+      "dRGB": [
+       -15.6,
+       -1.7,
+       -20.7
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "1",
+     "build": "11.47s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
+     "gpuMsMedian": null,
+     "renderSamples": 12,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 43.8
+    }
+   }
+  },
+  "v2-06": {
+   "grade": {
+    "view": "v2-06",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "At phone size houses are uniform tiny boxes and trees are scattered orange dots; no readable crown archetypes or roof profiles, and the west-side buildings along the arterial are flat grey slabs."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "No candy noise or black holes, but an olive-beige haze veils the whole frame; grass is one murky green, water a dull grey-teal, and saturation sits far below target (dSat -69.6), so golden-hour autumn colour is lost."
+     },
+     "light": {
+      "score": 2,
+      "reason": "Sun is 6 deg up in the WSW yet the frame reads flat and neutral-hazy: no warm key, no long shadows from trees or houses, no glint on the west lake; golden hour is not identifiable."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "No visible contact shading at house bases, crowns or the shoreline; buildings and trees sit flat on the ground plane. Detail is small, but nothing soft or grounding reads at phone size."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Park lawns are a single flat green carpet with two faint lighter field rectangles; neighbourhood lawns are uniform, and beyond the tile an endless flat green plane dominates a third of the frame."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame (aerial)"
+     },
+     "depthFog": {
+      "score": 1,
+      "reason": "The world ends as a visible square tile floating in a featureless green void, and the top third is a heavy beige fog wall; this is the 'missing edge, heavy blur wall' anchor even though the centre stays sharp."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Block grid shows parcel-fitted houses with varied roof tones and one distinct red row, so a few families are implied, but at this scale masses and garage/alley relationships cannot be read."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake outline, NW peninsula, island, south park with fields and playground, east street grid and west arterial match the map and target layout; shadows are too small/absent to verify the 73 deg shadow bearing, so scored on layout. The tile edge is an honest data gap."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn green across parks and yards, no visible beds or foundation shrubs; scattered leaf-coloured dots only, and the surrounding void is a flat carpet."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view (wet false)"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Land-use pattern reads as Denver: Sloan's Lake shape, park ring, dense single-family grid east, arterial west; but autumn cottonwood canopy and golden Front Range light are too sparse and washed out to give it a signature."
+     }
+    },
+    "v2Total": 18,
+    "v2Max": 40,
+    "v2Score50": 22.5,
+    "adMean": 2.5,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "camera",
+      "fix": "Frame the aerial so the lake and surrounding neighbourhoods fill the frame edge to edge (as the target does), and fill any area outside the data tile with low-detail continuation blocks/tree canopy instead of a flat green plane; lighten the aerial haze so it only softens the far edge.",
+      "why": "The world is a small square diorama in the middle third, surrounded by a featureless green void and a beige fog wall at the top.",
+      "expectedGain": [
+       "depthFog",
+       "palette",
+       "groundRichness",
+       "adRegional"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "Give the golden-hour state a warm low WSW key with long ENE cast shadows from trees and houses, warm grass and roof highlights, a cool shadow fill, and a restrained sun glint on the west half of the lake.",
+      "why": "At 6 deg sun elevation the frame is neutral and shadowless; nothing reads as evening.",
+      "expectedGain": [
+       "light",
+       "palette",
+       "softnessAO",
+       "geography"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Increase autumn tree density and crown size along the shoreline path, park edges and street parkways, and add lawn tone patches, worn path edges and shade-darkened grass under crowns.",
+      "why": "Trees are sparse orange specks and park lawns are a single flat green; the target's full crowns and varied lawns are missing.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "silhouettes",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a small, hazy, flat-lit map tile floating in a green void: the lake geography is right, but golden-hour light, autumn richness and depth are missing. The biggest gap is framing/edge: the visible tile boundary, empty surroundings and heavy fog wall dominate the frame."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 142.7,
+     "lumaP5": 116,
+     "lumaP50": 141,
+     "lumaP95": 167,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      139.7,
+      146.0,
+      118.8
+     ],
+     "saturationMean": 64.4,
+     "colorfulness": 34.7,
+     "edgeMean": 9.17,
+     "hueHist": [
+      0.039,
+      0.278,
+      0.504,
+      0.008,
+      0.001,
+      0.003,
+      0.168,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "visual-v2 06",
+      "path": "docs/proposals/visual-v2/images/06-aerial-golden-hour.png",
+      "lumaMean": 133.2,
+      "lumaP5": 95,
+      "lumaP50": 129,
+      "lumaP95": 183,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       150.5,
+       131.7,
+       96.9
+      ],
+      "saturationMean": 134.0,
+      "colorfulness": 92.3,
+      "edgeMean": 20.63,
+      "hueHist": [
+       0.291,
+       0.444,
+       0.001,
+       0.001,
+       0.001,
+       0.009,
+       0.244,
+       0.0,
+       0.0,
+       0.0,
+       0.001,
+       0.008
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.6,
+      "rgbHistIntersection": 0.505,
+      "hueHistIntersection": 0.491,
+      "dLumaMean": 9.5,
+      "dSaturation": -69.6,
+      "dColorfulness": -57.6,
+      "dEdge": -11.46,
+      "dRGB": [
+       -10.8,
+       14.3,
+       21.9
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.57s",
+     "fpsMedian": 60.0,
+     "frameMsMedian": 16.67,
+     "gpuMsMedian": null,
+     "renderSamples": 10,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 32.7
+    }
+   }
+  },
+  "showcase-01": {
+   "grade": {
+    "view": "showcase-01",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Two readable families (clustered deciduous crowns, stacked-cone pines), but crowns are visibly faceted low-poly spheres, the pine is a crude three-cone toy, and the far band is a repeated row of identical tiny lollipops."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Crown yellows/oranges are coherent and nothing clips, but the sky is a flat grey-mauve, the lawn is a cool uniform mid-green that ignores autumn and golden hour, and the pine is a minty green outside the family (saturation 37 below target)."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One low sun gives long raking shadows and warm-lit crowns, but the sky has no golden gradient or blue overhead and shade areas are not cool, so it reads as hazy late afternoon rather than a distinct golden hour."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Cast shadows are soft, but crowns are flat-shaded facets with no crown self-occlusion, trunk bases show no contact darkening, and there are no bevel glints; well short of the target's soft volumes."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Roughly half the frame is one flat green carpet broken only by shadows and a few sparse tufts; almost no leaf litter under autumn crowns, no beds or edge clusters, hard path and shore edges."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Light haze separates the distant tree band and the lake reads continuous on the right, but the horizon is a flat repetitive band with little depth layering."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Only a few tiny beige blocks are visible behind the trees at left distance; too small to judge families, scored 3 per rule."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake on the right with shore path, camera ESE with no sun disk or mountains; long shadow streaks run from near-right toward the vanishing area, consistent with off-screen trees behind-right casting toward ~73 deg; trunk lit sides too small to verify fully."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "Single lawn colour everywhere apart from shadows, scattered tufts only, no foundation/shore shrubs, no planting beds, barely any leaf litter under the many autumn crowns."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Correctly no western mountains in an ESE frame and a conifer/deciduous mix, but trees are generic lollipops rather than cottonwoods and houses are unreadable, so it reads as an anywhere park."
+     }
+    },
+    "v2Total": 23,
+    "v2Max": 40,
+    "v2Score50": 28.8,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "ground",
+      "fix": "Add low-frequency lawn tone patches (warmer olive in sun, cooler in shade, worn edges along paths), leaf litter scattered under each autumn crown, and grass/shrub clusters along the shoreline and path edges.",
+      "why": "The foreground and right half are a single flat cool-green carpet with only shadow stripes, and autumn crowns drop no leaves.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "sky",
+      "fix": "Give the golden-hour sky a vertical gradient (blue overhead to warm peach at the horizon) with a few lit cloud wisps, and tint the lake with that sky colour.",
+      "why": "The sky is a uniform grey-mauve that drains the golden-hour read; the lake reflects nothing warm.",
+      "expectedGain": [
+       "light",
+       "palette",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Smooth crown shading (soft normals or more subdivisions) with darker crown undersides and contact darkening at trunk bases; vary the far tree band in size and spacing and reshape pines into less toy-like conifers.",
+      "why": "Crowns show hard polygon facets, the pine is three stacked cones, and the horizon is a row of identical tiny lollipops.",
+      "expectedGain": [
+       "silhouettes",
+       "softnessAO",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clean but sparse low-poly park with correct lake-right layout and long low-sun shadows, yet a flat grey sky and uniform cool lawn undercut the golden-hour mood. The biggest gap is ground richness: one flat green carpet with no beds, shrubs or leaf litter."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 139.1,
+     "lumaP5": 71,
+     "lumaP50": 157,
+     "lumaP95": 209,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      142.3,
+      141.4,
+      106.4
+     ],
+     "saturationMean": 81.5,
+     "colorfulness": 57.1,
+     "edgeMean": 12.85,
+     "hueHist": [
+      0.15,
+      0.427,
+      0.082,
+      0.317,
+      0.004,
+      0.019,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 01",
+      "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png",
+      "lumaMean": 138.9,
+      "lumaP5": 71,
+      "lumaP50": 142,
+      "lumaP95": 192,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       159.6,
+       135.8,
+       109.3
+      ],
+      "saturationMean": 118.7,
+      "colorfulness": 80.0,
+      "edgeMean": 8.28,
+      "hueHist": [
+       0.285,
+       0.56,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.03,
+       0.12,
+       0.001,
+       0.001,
+       0.001,
+       0.002
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.596,
+      "rgbHistIntersection": 0.461,
+      "hueHistIntersection": 0.577,
+      "dLumaMean": 0.2,
+      "dSaturation": -37.2,
+      "dColorfulness": -22.9,
+      "dEdge": 4.57,
+      "dRGB": [
+       -17.3,
+       5.6,
+       -2.9
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.63s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 71.4
+    }
+   }
+  },
+  "showcase-02": {
+   "grade": {
+    "view": "showcase-02",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Deciduous puffball crowns and stacked-cone conifers read as two clear archetypes, but the crowns are faceted low-poly blobs of near-identical shape, and the distant band is a row of repeated tiny lollipops."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Autumn crown families (ochre, orange, olive) are coherent with no black holes or clipping, but one flat, saturated, cool lawn green dominates half the frame and the teal conifers are heavy (saturation +25, luma -30 vs target), so it loses the target's restrained olive and grey balance."
+     },
+     "light": {
+      "score": 3,
+      "reason": "A neutral grey overcast noon reads and there is no orange cast, but at cloudy 1.0 there are still distinct darker shadow pools under the crowns, and the crowns show directional facet shading instead of soft diffuse sky light."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Trunks have basic contact shadows, but the crowns are hard flat-shaded facets with no underside or crown-base occlusion, and the path and lake edges are hard knife lines with no softening."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "The lawn is a single uniform green carpet with a few scattered tufts and almost no leaf litter, even in autumn under the crowns. There are no tone patches, worn edges or shoreline plants. The path edge is a hard cut."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 2,
+      "reason": "Distant trees and houses stay almost as saturated as the midground, so aerial depth is weak. The lake on the right is a flat blue band with a straight hard shoreline, and the horizon is a thin stripe of identical props without the target's hazy recession."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Houses are only tiny reddish shapes on the far left horizon and too small to judge families or openings, so 3 is a default."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "The camera faces ESE with the lake on the right as specified, and there are no sun disk or western mountains. The trail and shore paths and the bench sit plausibly. Shadow bearing cannot be verified under overcast. Shoreline shape is not checked against the map."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn colour everywhere, no shrubs, beds or shoreline plantings (the target has bank clumps), hardly any leaf litter under the autumn crowns, and hard grass/path edges."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "wet is false"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "The deciduous/conifer mix in a lakeside park fits Sloan's Lake and correctly shows no mountains facing ESE. The trees read as generic lollipops rather than cottonwoods, and the houses are too small to carry bungalow or foursquare cues."
+     }
+    },
+    "v2Total": 22,
+    "v2Max": 40,
+    "v2Score50": 27.5,
+    "adMean": 2.5,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "ground",
+      "fix": "Break up the lawn with low-frequency olive/yellow tone patches, darker shade tone under crowns, worn strips along the path, autumn leaf litter drifts under deciduous crowns, and grass/shrub clumps along the lake bank",
+      "why": "Half the frame is one flat saturated green carpet with a few tufts, and the shore has no plantings",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "fog",
+      "fix": "Strengthen grey-blue aerial perspective with distance so the far tree band and houses desaturate and lighten into the overcast sky, and soften the far lake/shore line into haze",
+      "why": "Distant props stay as saturated as the midground, so the horizon reads as a sharp stripe with no recession",
+      "expectedGain": [
+       "depthFog",
+       "palette"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "At full cloud cover, drop the directional key so the shadow pools under the crowns become faint soft occlusion. Light the crowns with a smooth sky-dome gradient and add underside occlusion instead of per-facet shading",
+      "why": "Overcast noon still shows defined tree shadows and faceted, directionally shaded crowns",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "silhouettes"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: this is the first run for this view.",
+    "summary": "At phone size the frame reads as a clean but sterile low-poly park: autumn crowns and a correct ESE lake-on-right layout over a flat, oversaturated lawn, with weak distance haze. The biggest gap is the ground, a single green carpet with no tone variation, leaf litter or shoreline plantings, followed by missing aerial depth."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 118.1,
+     "lumaP5": 31,
+     "lumaP50": 113,
+     "lumaP95": 173,
+     "clipBlackPct": 0.1,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      110.6,
+      122.6,
+      95.7
+     ],
+     "saturationMean": 99.0,
+     "colorfulness": 39.3,
+     "edgeMean": 11.42,
+     "hueHist": [
+      0.082,
+      0.335,
+      0.062,
+      0.346,
+      0.01,
+      0.087,
+      0.078,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 02",
+      "path": "docs/proposals/experience-v1/images/02-overcast.png",
+      "lumaMean": 148.0,
+      "lumaP5": 96,
+      "lumaP50": 156,
+      "lumaP95": 178,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       150.1,
+       148.7,
+       134.9
+      ],
+      "saturationMean": 73.5,
+      "colorfulness": 51.6,
+      "edgeMean": 6.5,
+      "hueHist": [
+       0.13,
+       0.563,
+       0.021,
+       0.0,
+       0.0,
+       0.001,
+       0.089,
+       0.196,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.47,
+      "rgbHistIntersection": 0.47,
+      "hueHistIntersection": 0.517,
+      "dLumaMean": -29.9,
+      "dSaturation": 25.5,
+      "dColorfulness": -12.3,
+      "dEdge": 4.92,
+      "dRGB": [
+       -39.5,
+       -26.1,
+       -39.2
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "14.97s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 115.7
+    }
+   }
+  },
+  "showcase-03": {
+   "grade": {
+    "view": "showcase-03",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Two readable tree families (faceted multi-lobe deciduous with forked trunks, stacked-cone conifers), but crowns are crude low-poly facets that repeat, and the far shoreline is one uniform row of identical small crowns."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Autumn crown mix of ochre, orange and olive is coherent and nothing clips (black 0.16%), but the lawn is one saturated summer green under an autumn rain sky and colourfulness is well below target (-18)."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Neutral grey noon read with no orange cast, but fairly crisp tree shadows and blue sky gaps sit oddly with light rain; facet shading gives a slightly hard, directional look rather than soft overcast."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Trunks and bench sit on soft contact shadows with no floating, but there is no subtle crown/base occlusion or bevel glint; hard facet edges dominate the softness."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Large flat sterile lawn carpet with only sparse tiny tufts; almost no leaf litter under autumn crowns, no edge clusters, no wet streaks on the path."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild haze separates the far tree band and the lake reads continuous to the right, but the distant tree row stays crisp and toy-like with little aerial falloff."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Only tiny brownish building masses are visible at the far left horizon; too small to judge variety, scored baseline per rule."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake on the right as specified, shore path and bench along it, no mountains or sun disk in an ESE frame; shadows fall left and slightly toward camera (diagonal band across the path, bands left of trunks), consistent with a south sun 80 degrees right of heading. Paths not verified against the map."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn colour everywhere, no shrubs, planting beds or shoreline plants, hard grass/path edges; only a few tufts and specks."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "Reads as a dry overcast day at phone size: the path is pale and matte with no sheen, grass is not darkened, no streaks; only one small sky-tinted puddle patch on the far path hints at wetness."
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Cottonwood-like deciduous mixed with conifers and correctly no western mountain band for an east-facing frame, but houses are not visible so the Sloan's Lake neighbourhood signature is missing."
+     }
+    },
+    "v2Total": 24,
+    "v2Max": 40,
+    "v2Score50": 30.0,
+    "adMean": 2.33,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "weather",
+      "fix": "Darken and add a soft sky-tinted sheen to the wet path and road, add shallow puddles in low spots reflecting the grey sky, darken and desaturate the lawn when wet, and close the blue gaps in the rain sky.",
+      "why": "The path is pale matte concrete and the lawn bright green, so light rain at wetness 0.65 is not readable at a glance.",
+      "expectedGain": [
+       "adRainReadable",
+       "groundRichness",
+       "light",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Break the lawn with low-frequency olive/autumn tone patches and shade tones under crowns, scatter leaf litter beneath deciduous trees, and add low shrub/grass clusters along the shoreline and path edges.",
+      "why": "The foreground and midground are one uniform green carpet with almost nothing on it.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Soften deciduous crowns into rounder lobes with gentle crown-base occlusion and vary crown shapes and sizes in the far shoreline band so it stops reading as one repeated sprite row.",
+      "why": "Faceted low-poly crowns and the identical distant tree row read crude and repetitive next to the soft target.",
+      "expectedGain": [
+       "silhouettes",
+       "softnessAO",
+       "depthFog"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clean but sterile park on a dry overcast day: lake, path and autumn trees are in the right places, but the lawn is a flat green carpet and nothing says rain. The biggest gap is wet-surface readability (path sheen, puddles, darker grass), followed by ground richness."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 115.6,
+     "lumaP5": 27,
+     "lumaP50": 116,
+     "lumaP95": 174,
+     "clipBlackPct": 0.16,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      108.3,
+      119.5,
+      99.0
+     ],
+     "saturationMean": 83.2,
+     "colorfulness": 33.9,
+     "edgeMean": 11.38,
+     "hueHist": [
+      0.121,
+      0.308,
+      0.056,
+      0.312,
+      0.02,
+      0.075,
+      0.108,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 03",
+      "path": "docs/proposals/experience-v1/images/03-light-rain.png",
+      "lumaMean": 129.8,
+      "lumaP5": 81,
+      "lumaP50": 135,
+      "lumaP95": 160,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       135.6,
+       129.2,
+       119.3
+      ],
+      "saturationMean": 81.0,
+      "colorfulness": 52.2,
+      "edgeMean": 6.84,
+      "hueHist": [
+       0.129,
+       0.589,
+       0.002,
+       0.0,
+       0.0,
+       0.0,
+       0.035,
+       0.235,
+       0.001,
+       0.001,
+       0.002,
+       0.006
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.567,
+      "rgbHistIntersection": 0.458,
+      "hueHistIntersection": 0.466,
+      "dLumaMean": -14.2,
+      "dSaturation": 2.2,
+      "dColorfulness": -18.3,
+      "dEdge": 4.54,
+      "dRGB": [
+       -27.3,
+       -9.7,
+       -20.3
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.61s",
+     "fpsMedian": 59.5,
+     "frameMsMedian": 16.81,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 103.0
+    }
+   }
+  },
+  "showcase-04": {
+   "grade": {
+    "view": "showcase-04",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Only two tree families (faceted ball-cluster deciduous, stacked-cone conifer) repeated down the trail; the distant band is identical flat diamond LOD cards that read as paper cutouts; no house profiles in frame."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent autumn crowns (ochre, rust, olive) against a grey sky with no black holes (clip black 0.24%), but the lawn is one saturated cool green and the conifers are a flat teal that does not belong to the storm palette."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Neutral, diffuse overcast with no contradictory shadows or double tint; it is consistent but flat and dim (luma mean 88 vs target 107), with no storm drama in sky or ground."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Trunks, bench and lamp posts meet the lawn with no contact darkening and there is no occlusion under crowns; the only soft shading is a dark blob on the path."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "The lawn is a near-uniform flat carpet with a few sparse tufts; the path shows a couple of wet patches, but there is no low-frequency tone variation, no edge clusters and no leaf litter in an autumn storm."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Atmospheric fade separates the near trees from the misty far band and the lake reads continuous on the right; the far band of diamond impostors and the flat grey horizon strip limit depth."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "No houses are discernible in frame, even in the distance (only a low wall at far left); scored 3 per the no-house rule."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Heading ESE with the lake on the right as the view specifies, no mountains or sun disk; storm light gives no usable shadows to verify bearing, so judged on path and shoreline layout, which look plausible."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 1,
+      "reason": "One flat lawn colour everywhere, no shrubs at the lake edge or anywhere else, no beds, no leaf litter under crowns, and hard straight grass/path edges."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "Faint darker patches and slight sheen on the near path and a few thin rain streaks, but no puddles reflecting sky, no darker wet grass and no rain on the lake; at phone size it reads as a grey overcast day, not a thunderstorm."
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Generic park: conifer/deciduous mix is loosely Front Range but there are no cottonwood forms, no bungalows or foursquares along the shore and nothing that says Sloan's Lake."
+     }
+    },
+    "v2Total": 22,
+    "v2Max": 40,
+    "v2Score50": 27.5,
+    "adMean": 1.67,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "weather",
+      "fix": "Make the storm read: wet-darken the lawn, add a stronger sky-reflecting sheen and shallow puddles in low spots on the path, rain rings/streak texture on the lake surface, and a heavier, darker layered cloud deck with denser fine rain streaks.",
+      "why": "The path has only a couple of faint dark patches, the grass is dry-looking green, the lake is a flat teal and the sky is an even grey; it reads as overcast, not thunderstorm.",
+      "expectedGain": [
+       "adRainReadable",
+       "groundRichness",
+       "light",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add low-frequency lawn tone patches and shade tones under crowns, scattered fallen leaves under deciduous trees and on the path, and shrub/grass clusters along the lake edge and path borders to break the hard edges.",
+      "why": "The whole foreground is a single flat green carpet with a few tiny tufts and razor-straight path edges.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Replace the flat diamond far-LOD cards with rounded crown silhouettes in a varied mix, add contact darkening at trunk bases, and introduce cottonwood-like broad crowns among the ball-cluster trees.",
+      "why": "The far band of identical diamond shapes dominates the horizon line and every near tree sits on the lawn with no contact shading.",
+      "expectedGain": [
+       "silhouettes",
+       "depthFog",
+       "softnessAO",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a dim, empty grey park on an overcast day with autumn lollipop trees; the thunderstorm is barely legible. The biggest gap is the ground: a flat, sterile lawn with no wet darkening, puddles, leaf litter or shrubs, where the target relies on a glossy wet path and a rich edge."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 88.4,
+     "lumaP5": 25,
+     "lumaP50": 87,
+     "lumaP95": 147,
+     "clipBlackPct": 0.24,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      78.7,
+      92.0,
+      80.4
+     ],
+     "saturationMean": 83.8,
+     "colorfulness": 27.8,
+     "edgeMean": 9.85,
+     "hueHist": [
+      0.121,
+      0.258,
+      0.046,
+      0.024,
+      0.276,
+      0.136,
+      0.138,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 04",
+      "path": "docs/proposals/experience-v1/images/04-thunderstorm.png",
+      "lumaMean": 106.8,
+      "lumaP5": 78,
+      "lumaP50": 107,
+      "lumaP95": 137,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       110.5,
+       106.7,
+       97.1
+      ],
+      "saturationMean": 74.4,
+      "colorfulness": 43.7,
+      "edgeMean": 7.16,
+      "hueHist": [
+       0.137,
+       0.548,
+       0.005,
+       0.0,
+       0.0,
+       0.0,
+       0.032,
+       0.266,
+       0.002,
+       0.001,
+       0.002,
+       0.006
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.567,
+      "rgbHistIntersection": 0.526,
+      "hueHistIntersection": 0.416,
+      "dLumaMean": -18.4,
+      "dSaturation": 9.4,
+      "dColorfulness": -15.9,
+      "dEdge": 2.69,
+      "dRGB": [
+       -31.8,
+       -14.7,
+       -16.7
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.41s",
+     "fpsMedian": 60.0,
+     "frameMsMedian": 16.67,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 62.7
+    }
+   }
+  },
+  "showcase-05": {
+   "grade": {
+    "view": "showcase-05",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Deciduous clumped faceted crowns and stacked-cone conifers read as two families, but the crowns are repetitive polygon blobs and the stacked cones look toy-like; no houses to judge roofs."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "Lawn is a saturated, dark uniform green that ignores the fog (saturation 89 vs target 62, luma mean 43 below target); dark teal pine and near-black trunks punch through where fog should mute everything to soft greys."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Neutral overcast, no orange cast, no contradictory shadows; but contrast stays high with dark faceted crown undersides and trunks, so it reads as a dull overcast noon rather than diffuse fog light."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Hard faceted crown shading, no visible contact shadow under the large foreground tree, bench and lamp posts sit on the lawn without grounding; only faint dark patches under a few distant trees."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "One flat green carpet edge to edge with a few sparse yellow tufts and leaf specks; plain path with joint lines, no worn edges, shade tone or shoreline planting."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 2,
+      "reason": "Fog 1.0 starting at 25 m reads as light haze: trees at 30-100 m stay crisp and saturated, only the far row fades; the lawn stays strong green right to the horizon and the lake is a hard dark band, so ground and objects fog inconsistently and there is no foggy depth like the target."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "No house is identifiable; only faint pale shapes at the far left horizon, too small to judge, so scored 3 per rule."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake is on the right of an ESE heading as specified, trail and side path plausible, no mountains or sun disk; shadows are too soft to verify the north-falling bearing, so judged on layout alone."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "Single flat lawn colour, no shrubs, beds or rocks along the shore, path/grass edge is hard; target has fall shrubs and rocks lining the water."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "wet is false"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Lake trail with broadleaf trees and conifers fits Sloan's Lake and correctly shows no western mountains on an east-facing view, but the park is otherwise generic with no house edge visible."
+     }
+    },
+    "v2Total": 21,
+    "v2Max": 40,
+    "v2Score50": 26.2,
+    "adMean": 2.5,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "fog",
+      "fix": "Make the fog actually dense at 25-220 m: wash mid-distance trees (30-100 m) toward a pale blue-grey, fade the lawn and lake to the same fog colour toward the horizon, and lift the whole frame toward the target's bright grey.",
+      "why": "Midground trees and the green lawn stay crisp and saturated to the horizon; luma mean 109 vs target 153, the view reads as overcast, not fog.",
+      "expectedGain": [
+       "depthFog",
+       "palette",
+       "light"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add shoreline planting (autumn shrubs, grasses, rocks) along the lake edge, lawn tone patches and worn path edges, and leaf litter under the deciduous crowns.",
+      "why": "The lawn is one flat green from foreground to horizon and the lake edge is a bare hard line.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Desaturate and lighten the lawn green toward an olive autumn tone, soften the faceted crown shading and add contact darkening at trunk bases, bench and lamp feet.",
+      "why": "Saturated green carpet, dark trunks and hard facet shading make the frame heavy and the objects look placed rather than grounded.",
+      "expectedGain": [
+       "palette",
+       "softnessAO",
+       "silhouettes"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: this is the first run for this view.",
+    "summary": "At phone size this reads as a clean but sterile overcast park, not a foggy lakeside morning: trees and lawn stay crisp and saturated well inside the fog range. The biggest gap is fog density and ground fogging, followed by the flat lawn with no shoreline planting."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 109.2,
+     "lumaP5": 32,
+     "lumaP50": 87,
+     "lumaP95": 179,
+     "clipBlackPct": 0.09,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      98.5,
+      114.0,
+      94.0
+     ],
+     "saturationMean": 89.1,
+     "colorfulness": 32.4,
+     "edgeMean": 9.85,
+     "hueHist": [
+      0.045,
+      0.261,
+      0.08,
+      0.41,
+      0.019,
+      0.097,
+      0.086,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 05",
+      "path": "docs/proposals/experience-v1/images/05-fog.png",
+      "lumaMean": 152.6,
+      "lumaP5": 98,
+      "lumaP50": 160,
+      "lumaP95": 194,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       154.6,
+       153.1,
+       143.4
+      ],
+      "saturationMean": 62.0,
+      "colorfulness": 43.3,
+      "edgeMean": 4.89,
+      "hueHist": [
+       0.133,
+       0.58,
+       0.003,
+       0.0,
+       0.0,
+       0.0,
+       0.157,
+       0.125,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.384,
+      "rgbHistIntersection": 0.385,
+      "hueHistIntersection": 0.395,
+      "dLumaMean": -43.4,
+      "dSaturation": 27.1,
+      "dColorfulness": -10.9,
+      "dEdge": 4.96,
+      "dRGB": [
+       -56.1,
+       -39.1,
+       -49.4
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "8.70s",
+     "fpsMedian": 59.6,
+     "frameMsMedian": 16.78,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 31.7
+    }
+   }
+  },
+  "showcase-06": {
+   "grade": {
+    "view": "showcase-06",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Lobed deciduous crowns and stacked-cone conifers are distinct archetypes, but the deciduous crowns repeat the same blob cluster and the distant band is uniform lollipops."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "Saturated lawn green and candy orange/yellow crowns with a blue-grey sky; nothing of the smoke's muted amber-grey cast (dSat +20, target hue mass almost all warm), so the weather state does not reach the palette at all."
+     },
+     "light": {
+      "score": 2,
+      "reason": "One coherent sun from the right, but it reads as a clear/overcast neutral noon with crisp cast shadows; smoke 0.8 should give a dimmed, warm, diffuse key and much softer shadows."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Trunks have dark contact pools and soft-ish cast shadows; no shrubs or bases to occlude, crowns show little self-occlusion, bench shadow barely visible."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Nearly uniform flat green carpet on both sides of the path with a handful of grass tufts and a few leaves under the left tree; no low-frequency variation, worn edges or rule-based leaf drop under the many autumn crowns."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 2,
+      "reason": "With 1200 m visibility the far trees, far shore and horizon tree band stay sharp and saturated; only a faint paling at the horizon, so there is almost no atmospheric separation and the smoke is effectively absent."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "No houses are readable in this lake-trail frame (only tiny shapes at the left horizon); scored 3 per rule."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake on the right with a parallel shore path and bench, camera faces ESE with no mountains or sun disk; tree shadows fall to the left (north) consistent with a south sun at 180 deg on the right."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 1,
+      "reason": "One flat lawn colour everywhere, no shrubs along the shore or path, no beds, hard grass/path edges; the target's shoreline shrub hedge and lawn tone patches are entirely missing."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Deciduous plus conifer mix in a lakeside park with no western mountains in an east-facing frame gives some Front Range cue, but it reads as a generic park and the regional wildfire-smoke signature is absent."
+     }
+    },
+    "v2Total": 21,
+    "v2Max": 40,
+    "v2Score50": 26.2,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "fog",
+      "fix": "Make the smoke state visible: warm amber-grey distance haze that swallows the far shore and horizon tree band by roughly 1 km, with mid-distance trees visibly desaturated and lifted toward the haze colour, and a flat beige-grey sky instead of blue-grey clouds.",
+      "why": "Far trees, far shore and horizon are crisp and saturated; the frame looks like a clear overcast day rather than smoke at 1200 m visibility.",
+      "expectedGain": [
+       "depthFog",
+       "palette",
+       "light",
+       "adRegional"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "Under heavy smoke dim and warm the sun key, raise ambient share, and soften cast shadows to faint diffuse pools; pull overall saturation of lawn and crowns down toward the target's muted olive/ochre.",
+      "why": "Hard tree shadows and saturated green/orange read as normal daylight; dSat +20 vs target.",
+      "expectedGain": [
+       "light",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add a shrub hedge along the shoreline edge and foundation clumps near benches, lawn tone patches and worn verge along the path, and leaf litter under the autumn crowns.",
+      "why": "Both lawns are a single flat green with hard path edges and almost no leaves beneath many orange/yellow trees.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "softnessAO"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clear, saturated autumn park beside the lake. The wildfire-smoke state that defines the view does not show: there is no haze, no muted warm light and no loss of distance. The ground is also a flat, sterile lawn."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 126.6,
+     "lumaP5": 31,
+     "lumaP50": 124,
+     "lumaP95": 185,
+     "clipBlackPct": 0.12,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      119.6,
+      131.1,
+      102.6
+     ],
+     "saturationMean": 95.9,
+     "colorfulness": 40.5,
+     "edgeMean": 11.86,
+     "hueHist": [
+      0.081,
+      0.333,
+      0.094,
+      0.322,
+      0.01,
+      0.086,
+      0.075,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 06",
+      "path": "docs/proposals/experience-v1/images/06-wildfire-smoke.png",
+      "lumaMean": 142.4,
+      "lumaP5": 91,
+      "lumaP50": 147,
+      "lumaP95": 172,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       156.0,
+       141.4,
+       112.9
+      ],
+      "saturationMean": 75.6,
+      "colorfulness": 35.9,
+      "edgeMean": 5.24,
+      "hueHist": [
+       0.238,
+       0.75,
+       0.001,
+       0.001,
+       0.001,
+       0.005,
+       0.005,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.499,
+      "rgbHistIntersection": 0.47,
+      "hueHistIntersection": 0.427,
+      "dLumaMean": -15.8,
+      "dSaturation": 20.3,
+      "dColorfulness": 4.6,
+      "dEdge": 6.62,
+      "dRGB": [
+       -36.4,
+       -10.3,
+       -10.3
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "12.63s",
+     "fpsMedian": 59.7,
+     "frameMsMedian": 16.75,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 14.6
+    }
+   }
+  },
+  "showcase-07": {
+   "grade": {
+    "view": "showcase-07",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Bare deciduous trees are identical stick Y-forks with 3-5 straight branches and no twig crown; conifers are stacked hard-edged cones; the distant tree band is one repeated cloned form, so no distinct archetypes."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent cool grey family with no clipping or black holes, but snow reads grey-cyan rather than clean white, the exposed grass is muddy olive smudges, and overall saturation/colourfulness sit well under the target (dSat -13.9, dColour -17.6)."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Overcast diffuse noon is plausible and free of orange tint, but the ground is nearly the same value as the sky with a slight green-cyan cast, so the scene lacks the soft cool-white snow lift of the target."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Trunks and cones meet the snow with no contact darkening or snow mounding; conifer tiers are hard flat-shaded bands; benches and tufts sit with no occlusion; foreground has blurry dark smears instead of soft contact."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Ground is a broad flat grey carpet with large olive blotches that read as stains, a scatter of tiny identical tufts, and a nearly invisible path; no snow-edge drifts, no shore planting, no rule-based patchy melt along edges."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Some atmospheric fade separates mid and far trees and the lake reads on the right, but the lake is a flat dark slab with a hard straight edge and the horizon is a uniform grey band with no backdrop layering."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Lake-trail view: no houses are readable, only a small brown box at far left that cannot be identified; scored 3 per the no-house rule."
+     },
+     "geography": {
+      "score": 3,
+      "reason": "Heading ESE with the lake on the right and no western mountains is correct; overcast hides shadow bearing so it is not judged; the route itself is barely legible under snow, so path placement cannot be verified at phone size."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "No shrubs, beds, reeds or shore planting; lawn variation is only big olive blotches and sprinkled tufts on a flat snow sheet."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "Falling snow is nearly invisible (only a couple of tiny flakes); snow cover is present but grey and uniform, without drifts on edges, snow on branches or cleared path, so the snowfall state does not read at a glance."
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "A cottonwood-plus-conifer mix is hinted, but the stick trees and cone stacks feel generic and no Front Range bungalows or neighbourhood edge is visible; reads as an anywhere park."
+     }
+    },
+    "v2Total": 21,
+    "v2Max": 40,
+    "v2Score50": 26.2,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "vegetation",
+      "fix": "Replace the stick Y-fork bare trees with branching crowns that fork 3-4 levels into fine twigs, vary size and lean per tree, and add a thin snow line on upper branches; soften conifer tiers into layered drooping boughs with snow loads.",
+      "why": "Every deciduous tree is the same few straight sticks and conifers are hard stacked cones, which dominate the frame.",
+      "expectedGain": [
+       "silhouettes",
+       "adRegional",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Make the snow cleaner cool white with soft blue shade tone, turn exposed grass into small irregular tan/straw patches concentrated near trunks and path edges, show the path as a clearly cleared or lightly dusted strip with snow banks at its edges, and add snow-capped dry grasses/shrubs along the shore.",
+      "why": "Ground is one grey sheet with large olive stains, the route is nearly invisible and the shoreline has no planting.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette",
+       "geography"
+      ]
+     },
+     {
+      "area": "weather",
+      "fix": "Make falling snow readable: a sparse field of soft, slightly larger near flakes plus fine distant flakes, with denser haze toward the horizon and contact mounding/darkened rings at trunk bases.",
+      "why": "Only one or two flakes are visible, so the frame reads as a static snowy day rather than snowfall.",
+      "expectedGain": [
+       "adRainReadable",
+       "depthFog",
+       "softnessAO"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a grey, sparse winter park with clipart trees, no visible snowfall and a barely legible path, far from the soft, rich target. The biggest gap is the ground and tree crowns: flat grey snow with olive stains and stick-figure trees carry almost the whole frame."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 155.7,
+     "lumaP5": 71,
+     "lumaP50": 163,
+     "lumaP95": 186,
+     "clipBlackPct": 0.04,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      145.2,
+      158.3,
+      161.1
+     ],
+     "saturationMean": 31.3,
+     "colorfulness": 13.6,
+     "edgeMean": 14.36,
+     "hueHist": [
+      0.004,
+      0.059,
+      0.026,
+      0.009,
+      0.008,
+      0.126,
+      0.767,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 07",
+      "path": "docs/proposals/experience-v1/images/07-falling-snow.png",
+      "lumaMean": 160.3,
+      "lumaP5": 95,
+      "lumaP50": 164,
+      "lumaP95": 206,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       157.8,
+       159.7,
+       173.6
+      ],
+      "saturationMean": 45.2,
+      "colorfulness": 31.2,
+      "edgeMean": 13.87,
+      "hueHist": [
+       0.273,
+       0.005,
+       0.001,
+       0.0,
+       0.0,
+       0.0,
+       0.001,
+       0.701,
+       0.009,
+       0.002,
+       0.002,
+       0.006
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.708,
+      "rgbHistIntersection": 0.55,
+      "hueHistIntersection": 0.011,
+      "dLumaMean": -4.6,
+      "dSaturation": -13.9,
+      "dColorfulness": -17.6,
+      "dEdge": 0.49,
+      "dRGB": [
+       -12.6,
+       -1.4,
+       -12.5
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "9.21s",
+     "fpsMedian": 59.9,
+     "frameMsMedian": 16.69,
+     "gpuMsMedian": null,
+     "renderSamples": 10,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 18.3
+    }
+   }
+  },
+  "showcase-08": {
+   "grade": {
+    "view": "showcase-08",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Bare deciduous trees are near-identical Y-fork stick trees planted in an orchard-like grid; conifers are stacked hard-edged cones; no distinct tree archetypes at phone size."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "No black holes and snow is not clipped, but a clear morning reads overcast: flat grey-lavender sky, murky olive-khaki lawn, grey lake nearly the same value as snow; saturation 28.6 vs target 77.5, so the warm/cool morning relationship is lost."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One coherent low sun ahead-right with glare on snow and lake and long soft tree shadows toward camera-left; but the warm key stays a local hotspot, the left half and sky are flat cool grey, and conifer tiers show smeared highlight blotches."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Soft cast shadows exist, but trunks and lamp posts meet the ground with no contact darkening, conifer tiers are hard ledges, and the bench barely grounds; no crown/base occlusion."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Patchy snow blobs are present, but large areas are a flat featureless smear (foreground right is one blank white-grey field), lawn is one olive tone, only sparse tiny dry tufts, no shrubs, beds, shore clusters or leaf litter."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Haze separates the distant brick house row and tree line from the foreground; lake on the right has a shoreline but reads as a grey slab with a glare band, and the horizon is a flat repeated band of identical trees."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Only distant houses visible: low brick and beige fronts with snowy gabled roofs in several kits along the horizon; too small to judge openings or access."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Sun disk sits about 28 deg right of centre and ~10 deg above frame centre, matching azimuth 128 / elevation 7.7 for heading 100; shadows fall toward camera-left (bearing 308); lake on the right; no western mountains. Path layout and shoreline cannot be verified against the map from this frame."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "Single olive lawn tone with snow blobs and a few dry tufts; no foundation or shore shrubs, no planting beds, no leaf litter; hard flat path edges."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "Wetness 0.45 melt is barely readable: the path is uniform dry grey with snow, no damp darkening or melt streaks, no puddles reflecting sky; the only sheen is sun glare on snow/lake."
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Correctly no mountains facing east and distant brick houses hint at Denver, but the grid of identical stick trees and cone conifers reads as a generic toy park; no cottonwood character or bungalow/foursquare read up close."
+     }
+    },
+    "v2Total": 21,
+    "v2Max": 40,
+    "v2Score50": 26.2,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "vegetation",
+      "fix": "Replace the uniform Y-fork stick trees with varied bare-crown archetypes (broad spreading cottonwood, finer-branched street trees) with fine twig crowns, break the grid spacing, and soften conifers into irregular layered crowns instead of stacked cones.",
+      "why": "Every bare tree in frame is the same three-prong stick in an orchard grid and conifers are hard cone stacks; this dominates the frame at phone size.",
+      "expectedGain": [
+       "silhouettes",
+       "adRegional",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "sky",
+      "fix": "Give the clear morning a blue sky gradient warming toward the sun, lift lawn to a warm dormant tan and tint the lake blue with soft sky reflection so snow, grass and water separate.",
+      "why": "Sky reads overcast grey, lawn is murky olive and lake is grey like the snow; saturation is a third of the target.",
+      "expectedGain": [
+       "palette",
+       "light",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add dry shrubs along the shore and path edges, darker damp melt bands at snow edges and on the path, small sky-reflecting puddles, lawn tone patches, and contact darkening at trunk bases.",
+      "why": "Foreground is a blank smear of snow and one lawn tone with tiny tufts; wetness 0.45 shows no damp or puddle cue; trunks have no contact shading.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "adRainReadable",
+       "softnessAO"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a grey, sparse toy park: the low sun and shadow direction are right, but the clear morning looks overcast and the identical grid-planted stick trees dominate. The biggest gap is vegetation and palette: varied tree crowns plus a blue clear-morning sky with warm dormant lawn and readable melt."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 156.7,
+     "lumaP5": 53,
+     "lumaP50": 167,
+     "lumaP95": 221,
+     "clipBlackPct": 0.04,
+     "clipWhitePct": 0.48,
+     "rgbMean": [
+      154.4,
+      157.2,
+      157.7
+     ],
+     "saturationMean": 28.6,
+     "colorfulness": 18.7,
+     "edgeMean": 14.46,
+     "hueHist": [
+      0.157,
+      0.124,
+      0.044,
+      0.017,
+      0.038,
+      0.193,
+      0.294,
+      0.118,
+      0.005,
+      0.003,
+      0.003,
+      0.004
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 08",
+      "path": "docs/proposals/experience-v1/images/08-morning-after-snow.png",
+      "lumaMean": 163.8,
+      "lumaP5": 101,
+      "lumaP50": 163,
+      "lumaP95": 218,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       170.0,
+       161.8,
+       166.0
+      ],
+      "saturationMean": 77.5,
+      "colorfulness": 65.8,
+      "edgeMean": 15.09,
+      "hueHist": [
+       0.376,
+       0.173,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.004,
+       0.402,
+       0.009,
+       0.007,
+       0.008,
+       0.02
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.695,
+      "rgbHistIntersection": 0.654,
+      "hueHistIntersection": 0.418,
+      "dLumaMean": -7.1,
+      "dSaturation": -48.9,
+      "dColorfulness": -47.1,
+      "dEdge": -0.63,
+      "dRGB": [
+       -15.6,
+       -4.6,
+       -8.3
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "11.54s",
+     "fpsMedian": 59.6,
+     "frameMsMedian": 16.78,
+     "gpuMsMedian": null,
+     "renderSamples": 10,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 17.1
+    }
+   }
+  },
+  "showcase-09": {
+   "grade": {
+    "view": "showcase-09",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Deciduous trees are near-identical bare Y-fork sticks with 3-5 straight limbs and no fine branching; conifers are identical stacked cones; distant houses are indistinct dark boxes."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "Coherent cool blue-grey night, but every trunk renders pure black (sampled RGB ~0-3) even in the foreground, and the frame is nearly monochrome (colourfulness 23.8 vs target 45.7) with no warm accents beyond a few tiny window dots."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Cool, readable night with one consistent ambient; but no moonlight key or soft moon shadows, and the lamp posts cast no warm pools, so the lighting is flat and uniform across lawn and path."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Trunks and bench legs meet the lawn with no contact darkening or shadow at all; no crown or base occlusion anywhere, objects read as pasted on."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Lawn is one flat dark olive carpet with a handful of tiny tufts; path is a flat blue-grey band with faint seams; no shore grasses, rocks, leaf litter or edge clusters."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Useful haze separates mid trees from the far tree line and lake edge stays continuous on the right; the distance is a repetitive wall of stick trees and the horizon band is low-contrast."
+     },
+     "houseVariety": {
+      "score": 2,
+      "reason": "Only distant houses visible: dim gable boxes with a few lit windows, too small and dark to show families, porches or variety at phone size."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Lake on the right of the ESE trail as specified; Moon is a small disk upper-left (consistent with az 72, alt 17 against heading 100), no sunset glow or western mountains; shadows absent at night so bearing judged on layout only."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "Single flat lawn tone everywhere, no foundation shrubs, beds or shoreline planting, only a few sparse tufts beside the path."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Lake trail with conifers and bare deciduous trees hints at Sloan's Lake, but the stick trees do not read as cottonwoods and the bungalow neighbourhood across the lake is invisible; reads as a generic park."
+     }
+    },
+    "v2Total": 20,
+    "v2Max": 40,
+    "v2Score50": 25.0,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [
+     "clipped-snow-or-black-holes"
+    ],
+    "topFixes": [
+     {
+      "area": "vegetation",
+      "fix": "Give bare deciduous trees a moonlit bark tone (lifted grey-brown, not black) and a fine twig crown with cottonwood-like spreading forks so they read as trees rather than black sticks.",
+      "why": "Every trunk is pure black and the crowns are 3-5 straight limbs, dominating the frame as black cut-outs.",
+      "expectedGain": [
+       "palette",
+       "silhouettes",
+       "adRegional"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "Add warm pools under the lamp posts and on the path, brighter warm window glow on the far houses with soft reflections on the lake, and a faint moonlight key with soft contact shadows under trees and benches.",
+      "why": "Scene is uniformly lit blue-grey; lamps and windows are tiny dots with no effect on surroundings, and objects have no contact shading.",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add dormant winter lawn tone patches, worn edges along the path, dry grass clumps and stones along the lake shore, and leaf litter under tree bases.",
+      "why": "Lawn is a flat featureless carpet and the shoreline is a hard edge with no planting.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "depthFog"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a dim, flat blue park with black stick trees; layout, lake side and Moon placement are right. The biggest gap is the pure-black, sparse tree silhouettes combined with flat lighting that lacks warm lamp/window pools and contact shading."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 63.9,
+     "lumaP5": 14,
+     "lumaP50": 61,
+     "lumaP95": 85,
+     "clipBlackPct": 2.24,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      47.9,
+      66.8,
+      84.0
+     ],
+     "saturationMean": 118.7,
+     "colorfulness": 23.8,
+     "edgeMean": 8.46,
+     "hueHist": [
+      0.001,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.009,
+      0.393,
+      0.597,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 09",
+      "path": "docs/proposals/experience-v1/images/09-clear-night.png",
+      "lumaMean": 68.1,
+      "lumaP5": 40,
+      "lumaP50": 56,
+      "lumaP95": 121,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       64.1,
+       67.8,
+       83.2
+      ],
+      "saturationMean": 126.2,
+      "colorfulness": 45.7,
+      "edgeMean": 5.44,
+      "hueHist": [
+       0.151,
+       0.087,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.001,
+       0.753,
+       0.003,
+       0.001,
+       0.001,
+       0.002
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.379,
+      "rgbHistIntersection": 0.37,
+      "hueHistIntersection": 0.599,
+      "dLumaMean": -4.2,
+      "dSaturation": -7.5,
+      "dColorfulness": -21.9,
+      "dEdge": 3.02,
+      "dRGB": [
+       -16.2,
+       -1.0,
+       0.8
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "10.86s",
+     "fpsMedian": 60.2,
+     "frameMsMedian": 16.61,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 12.3
+    }
+   }
+  },
+  "showcase-10": {
+   "grade": {
+    "view": "showcase-10",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "At this altitude houses are dark specks that merge into a grey grid texture; no tree crowns are visible at all (perf reports trees 0), only tiny orange flecks, so no archetypes read."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "Whole frame sits under an olive-green cast (RGB mean green-dominant, colourfulness 29.8 vs 48.8); flat teal water, no autumn crown colour, and one candy-red bar in the north-east grid."
+     },
+     "light": {
+      "score": 2,
+      "reason": "Flat overcast with no key, which suits rain, but a green-grey fog tint lies over everything as a second tint; the frame is brighter than the target (luma +21) rather than rain-dim."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "No visible contact or occlusion: blocks read as flat stamped texture, no crown or eave shading; too small to confirm detail, but nothing reads as soft depth."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Park lawns are one green with sparse orange specks and faint mowing patches plus one ball field; more than half the frame is an endless uniform green carpet beyond the world edge; no wet streaks."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame (aerial)"
+     },
+     "depthFog": {
+      "score": 1,
+      "reason": "Missing edge: the world is a hard rectangle floating in a flat green plane, and a heavy green-grey fog wall also washes the centre, so there is no sharp aerial centre."
+     },
+     "houseVariety": {
+      "score": 2,
+      "reason": "Houses are indistinct dark specks filling the grid uniformly; no families, garages or alleys can be read; the red elongated block is an outlier rather than variety."
+     },
+     "geography": {
+      "score": 3,
+      "reason": "Lake outline, island, north hook, east street grid and west arterial look plausible for heading north; rain hides shadows so bearing not judged; but the surroundings are an invented green field instead of city, and detail is too small to verify."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 1,
+      "reason": "One flat lawn colour across parks and the surrounding carpet; no shrubs, beds or crown-bound leaf litter visible, only uniform orange flecks."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "A few faint rain streaks, but roads and paths read pale and dry, water is flat teal with no rain texture, no puddles or sheen, and the frame is brighter than a rainy day."
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Land-use pattern (lake park, rectilinear residential grid, arterial on the west) is real, but with no cottonwoods/autumn crowns and unreadable houses it reads as a generic map tile, not Sloan's Lake."
+     }
+    },
+    "v2Total": 16,
+    "v2Max": 40,
+    "v2Score50": 20.0,
+    "adMean": 1.67,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "camera",
+      "fix": "Lower and tighten the aerial so the lake and its shore neighbourhoods fill the frame edge to edge (as in the target), or surround the loaded tile with low-detail city blocks instead of a bare green plane.",
+      "why": "The world is a small rectangle occupying under half the frame, floating in an endless flat green carpet with a visible hard edge.",
+      "expectedGain": [
+       "depthFog",
+       "groundRichness",
+       "geography",
+       "adGroundRich"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Show tree crowns in the aerial: autumn cottonwood/maple crowns along the shore, park paths and street lawns in orange, yellow and green, with conifers mixed in.",
+      "why": "No crowns are visible anywhere (trees 0); the park is bare lawn with orange specks, losing the target's main richness.",
+      "expectedGain": [
+       "silhouettes",
+       "palette",
+       "adRegional",
+       "adGroundRich",
+       "groundRichness"
+      ]
+     },
+     {
+      "area": "weather",
+      "fix": "Make rain read from above: darken asphalt and paths to wet slate, darken grass, shift water to a deeper grey-blue with fine rain texture, and replace the green fog tint with a neutral cool grey haze that leaves the centre sharp.",
+      "why": "Roads read pale and dry, water is flat teal, and an olive fog cast washes the whole frame brighter than a rainy noon.",
+      "expectedGain": [
+       "adRainReadable",
+       "palette",
+       "light",
+       "depthFog"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run of this view.",
+    "summary": "At phone size this reads as a small hazy map tile of the lake floating in an endless green field, with no visible trees, unreadable houses and little sign of rain. The biggest gap is framing and edge: the world fills under half the frame and the hard rectangle in a flat green carpet dominates the read."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 144.6,
+     "lumaP5": 120,
+     "lumaP50": 139,
+     "lumaP95": 180,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      127.3,
+      151.1,
+      131.5
+     ],
+     "saturationMean": 53.0,
+     "colorfulness": 29.8,
+     "edgeMean": 8.08,
+     "hueHist": [
+      0.001,
+      0.011,
+      0.13,
+      0.411,
+      0.113,
+      0.33,
+      0.004,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 10",
+      "path": "docs/proposals/experience-v1/images/10-aerial-rain.png",
+      "lumaMean": 123.3,
+      "lumaP5": 92,
+      "lumaP50": 122,
+      "lumaP95": 155,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       118.4,
+       125.1,
+       120.4
+      ],
+      "saturationMean": 77.0,
+      "colorfulness": 48.8,
+      "edgeMean": 15.9,
+      "hueHist": [
+       0.105,
+       0.237,
+       0.144,
+       0.008,
+       0.005,
+       0.003,
+       0.412,
+       0.077,
+       0.003,
+       0.001,
+       0.001,
+       0.005
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.601,
+      "rgbHistIntersection": 0.647,
+      "hueHistIntersection": 0.162,
+      "dLumaMean": 21.3,
+      "dSaturation": -24.0,
+      "dColorfulness": -19.0,
+      "dEdge": -7.82,
+      "dRGB": [
+       8.9,
+       26.0,
+       11.1
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "19.39s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 22.4
+    }
+   }
+  },
+  "showcase-11": {
+   "grade": {
+    "view": "showcase-11",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 1,
+      "reason": "No trees at all in frame (perf trees: 0); houses are tiny brown/white smudges that merge into the snow mask, so no roof or crown families read at phone size."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "No clipping or black holes and snow stays off-white, but the whole frame is one grey-olive/blue-grey wash (saturation 22 vs 73 in the target); roofs, park and lawns lose their colour families."
+     },
+     "light": {
+      "score": 2,
+      "reason": "08:15 winter sun at 7.7 deg should give warm raking light and long shadows; instead the frame is flat, evenly lit and hazy with no warm/cool split and no readable key direction. Nothing contradictory, just absent."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "No dirty seams, but no visible contact shadows or occlusion around houses, shore or blocks; buildings sit as flat specks with no grounding."
+     },
+     "groundRichness": {
+      "score": 1,
+      "reason": "Ground is a uniform high-contrast camouflage-blotch snow mask at one scale, laid identically over lots, roads, park and the empty plane beyond the world; noisy rather than patchy, and it ignores shade, paths and open lawns."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 2,
+      "reason": "Haze separates the top of the frame, but the populated area ends at a hard rectangle and continues as an empty snow-noise plane fading into a whitish wall; distance is flat with no backdrop city."
+     },
+     "houseVariety": {
+      "score": 2,
+      "reason": "A street grid of houses is visible to the north and east, but they are too small and snow-masked to tell kit families apart, and the west and south sides are almost empty."
+     },
+     "geography": {
+      "score": 3,
+      "reason": "Lake outline and street grid look OSM-derived and the camera faces north with no horizon, but no cast shadows are visible despite a clear low sun, so the 308 deg shadow bearing cannot be verified; populated area looks clipped to a rectangle."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 1,
+      "reason": "No shrubs, trees, beds or park features (ball fields, paths) readable; the only ground variation is the repetitive snow-noise mask plus two small green patches."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Land-use pattern of a lake beside a small-lot street grid is a cue, but no cottonwood/conifer mix, no park layout and empty surroundings make it read as a generic placeholder town."
+     }
+    },
+    "v2Total": 15,
+    "v2Max": 40,
+    "v2Score50": 18.8,
+    "adMean": 1.5,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "weather",
+      "fix": "Replace the uniform camouflage snow mask with low-frequency patchy snow driven by shade and surface: fuller on lawns and roofs, melted on roads, paths and sun-facing south edges, thin near tree trunks, and no snow pattern on the empty plane past the world edge.",
+      "why": "The same high-contrast blotch pattern covers every surface and the void around the city, dominating the frame and hiding houses and roads.",
+      "expectedGain": [
+       "groundRichness",
+       "palette",
+       "adGroundRich",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Show the park and street trees in the aerial (bare deciduous crowns and dark conifers along the shore and streets) with long NW cast shadows.",
+      "why": "Zero trees render in this view; the target's park reads mostly through its tree mix and their shadows.",
+      "expectedGain": [
+       "silhouettes",
+       "adRegional",
+       "adGroundRich",
+       "geography",
+       "light"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "Give the low 7.7 deg morning sun visible long shadows from houses and trees toward the upper left, a warm key on sun-facing roofs and walls, and reduce the flat white haze over the top third.",
+      "why": "The frame is evenly lit and grey with no shadows, so it has no morning mood and the sun bearing cannot be checked.",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "geography",
+       "depthFog"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a blue lake blob on a grey camouflage-noise field with tiny specks of houses, flat light and no trees. The biggest gap is the uniform snow-noise mask, which together with the missing trees and shadows wipes out all ground, vegetation and morning-light structure."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 149.7,
+     "lumaP5": 104,
+     "lumaP50": 156,
+     "lumaP95": 179,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      144.3,
+      151.2,
+      151.4
+     ],
+     "saturationMean": 22.1,
+     "colorfulness": 15.3,
+     "edgeMean": 21.59,
+     "hueHist": [
+      0.012,
+      0.056,
+      0.135,
+      0.051,
+      0.018,
+      0.029,
+      0.68,
+      0.019,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 11",
+      "path": "docs/proposals/experience-v1/images/11-aerial-snow-cover.png",
+      "lumaMean": 142.2,
+      "lumaP5": 89,
+      "lumaP50": 132,
+      "lumaP95": 219,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       135.6,
+       143.9,
+       144.7
+      ],
+      "saturationMean": 72.9,
+      "colorfulness": 51.4,
+      "edgeMean": 28.69,
+      "hueHist": [
+       0.105,
+       0.23,
+       0.038,
+       0.007,
+       0.005,
+       0.004,
+       0.556,
+       0.034,
+       0.007,
+       0.004,
+       0.004,
+       0.006
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.639,
+      "rgbHistIntersection": 0.566,
+      "hueHistIntersection": 0.697,
+      "dLumaMean": 7.5,
+      "dSaturation": -50.8,
+      "dColorfulness": -36.1,
+      "dEdge": -7.1,
+      "dRGB": [
+       8.7,
+       7.3,
+       6.7
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "10.73s",
+     "fpsMedian": 59.9,
+     "frameMsMedian": 16.69,
+     "gpuMsMedian": null,
+     "renderSamples": 10,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 22.8
+    }
+   }
+  },
+  "ordinary-trail": {
+   "grade": {
+    "view": "ordinary-trail",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Two readable tree families (faceted sphere-cluster deciduous, stacked-cone conifer) but crowns repeat the same lumpy-ball recipe across the frame and the stacked cones read as clip-art; distant houses are tiny undifferentiated boxes."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent autumn family (yellow/orange crowns, dark green conifers, mid green lawn), no black holes or clipping, but the lawn is one flat green and the sky is a dull grey that drains the clear-afternoon look; less restrained warmth than the targets (dSat -36 vs target 1)."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One coherent sun with consistent cast shadows and no double tint, but for a clear 15:30 afternoon (cloud 0.25) the sky reads overcast grey and the light is flat and neutral; crowns show little warm/cool modelling."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "No visible contact darkening at trunk bases or under crowns, faceted crowns have no internal occlusion or soft bevel, and the foreground shadow patches are hard-edged blobs on an otherwise unshaded lawn."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Lawn is a near-uniform flat green carpet with a few scattered blade tufts and faint leaf specks at left; no low-frequency tone variation, worn edges or leaf litter under the autumn crowns; path is a clean flat strip with hard edges."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Some atmospheric separation on the far tree line and lake, lake continues to the horizon on the right; distance is a flat repeated band of small trees and boxes with little layered depth."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Houses only appear as a tiny distant row of reddish boxes along the horizon; too small to judge families, scored 3 per the no-house rule, though they look uniform."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Heading ESE with lake on the right as specified, no sunset disk or mountains; sun is behind-right (az 227.5) and visible tree shadows fall roughly ahead-left, consistent with bearing 47.5, though not precisely verifiable at this size."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn colour everywhere, no shrubs or planting beds, hard grass/path edges, only sparse tufts and no leaf litter under the yellow crowns."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "not wet"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Autumn yellow cottonwood-like crowns mixed with conifers and correctly no western mountains in an ESE frame give some Front Range cues; houses are too small to read as bungalows/foursquares."
+     }
+    },
+    "v2Total": 23,
+    "v2Max": 40,
+    "v2Score50": 28.8,
+    "adMean": 2.5,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "ground",
+      "fix": "Add low-frequency lawn tone patches (shade-darkened under crowns, sun-bleached in open areas, worn strip beside the path), yellow leaf litter scattered under each deciduous crown, and soft grass-to-path edge clusters",
+      "why": "The whole lower half of the frame is a single flat green carpet with a clean hard-edged path",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "sky",
+      "fix": "Make a clear 0.25-cloud afternoon read as clear: blue sky gradient with a few scattered cumulus instead of a full grey deck, with matching warmer sun on crowns and cooler sky fill in shadows",
+      "why": "Sky is uniformly grey and overcast-looking while the weather is clear, flattening light and palette",
+      "expectedGain": [
+       "light",
+       "palette",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Add soft contact occlusion at trunk bases and under crowns, internal crown shading and smoother crown silhouettes, and vary crown shapes/sizes beyond the repeated sphere cluster and stacked cone",
+      "why": "Trees look like floating faceted ball clusters with no grounding darkness and identical construction",
+      "expectedGain": [
+       "softnessAO",
+       "silhouettes",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a clean but sterile low-poly park: a flat green lawn, repeated faceted trees and a grey sky that undercuts the clear autumn afternoon. The biggest gap is the flat, empty ground with no tone variation, litter, edges or shrubs."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 144.1,
+     "lumaP5": 69,
+     "lumaP50": 157,
+     "lumaP95": 215,
+     "clipBlackPct": 0.04,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      145.0,
+      147.3,
+      109.7
+     ],
+     "saturationMean": 82.5,
+     "colorfulness": 58.7,
+     "edgeMean": 13.49,
+     "hueHist": [
+      0.074,
+      0.405,
+      0.276,
+      0.11,
+      0.091,
+      0.036,
+      0.007,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "experience-v1 01 (same camera, golden hour)",
+      "path": "docs/proposals/experience-v1/images/01-clear-golden-hour.png",
+      "lumaMean": 138.9,
+      "lumaP5": 71,
+      "lumaP50": 142,
+      "lumaP95": 192,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       159.6,
+       135.8,
+       109.3
+      ],
+      "saturationMean": 118.7,
+      "colorfulness": 80.0,
+      "edgeMean": 8.28,
+      "hueHist": [
+       0.285,
+       0.56,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.03,
+       0.12,
+       0.001,
+       0.001,
+       0.001,
+       0.002
+      ]
+     },
+     {
+      "label": "visual-v2 04 (ordinary daylight look)",
+      "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+      "lumaMean": 156.7,
+      "lumaP5": 82,
+      "lumaP50": 159,
+      "lumaP95": 227,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       159.3,
+       158.8,
+       129.2
+      ],
+      "saturationMean": 89.6,
+      "colorfulness": 61.1,
+      "edgeMean": 15.61,
+      "hueHist": [
+       0.228,
+       0.056,
+       0.553,
+       0.013,
+       0.002,
+       0.003,
+       0.088,
+       0.044,
+       0.004,
+       0.006,
+       0.001,
+       0.002
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.584,
+      "rgbHistIntersection": 0.556,
+      "hueHistIntersection": 0.486,
+      "dLumaMean": 5.2,
+      "dSaturation": -36.2,
+      "dColorfulness": -21.3,
+      "dEdge": 5.21,
+      "dRGB": [
+       -14.6,
+       11.5,
+       0.4
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.551,
+      "rgbHistIntersection": 0.523,
+      "hueHistIntersection": 0.431,
+      "dLumaMean": -12.6,
+      "dSaturation": -7.1,
+      "dColorfulness": -2.4,
+      "dEdge": -2.12,
+      "dRGB": [
+       -14.3,
+       -11.5,
+       -19.5
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "10.87s",
+     "fpsMedian": 60.0,
+     "frameMsMedian": 16.67,
+     "gpuMsMedian": null,
+     "renderSamples": 9,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 19.7
+    }
+   }
+  },
+  "ordinary-street": {
+   "grade": {
+    "view": "ordinary-street",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Near house is a flat-walled box with no visible roof profile; distant apartments are flat-roofed cream boxes; trees are multi-blob lollipop crowns that vary in colour more than shape, no bungalow/foursquare roof families readable."
+     },
+     "palette": {
+      "score": 2,
+      "reason": "No candy noise and minimal black clipping, but the frame is murky: dark olive lawn, grey-brown house, grey washed sky; luma mean 87.6 vs 128-157 on targets, colourfulness 34.7 vs 61-71. Autumn crowns are the only colour."
+     },
+     "light": {
+      "score": 2,
+      "reason": "15:30 clear autumn afternoon reads as dim neutral-grey overcast: no warm key on lit surfaces, hazy grey sky, house shadow on the left lawn is present but the scene has no sunlit sparkle or warm/cool balance."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Dog has a soft contact blob, foundation shrubs sit on the ground, house shadow is soft; but no eave or crown occlusion and the dark plinth band at the wall base reads as a flat material stripe."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Large flat single-tone lawn carpet with sparse scattered grass tufts; plain sidewalk; no leaf litter under the autumn crowns, no worn edges or tone patches. Close to the sterile-carpet anchor."
+     },
+     "characterReadability": {
+      "score": 3,
+      "reason": "Black dog is recognizable on the grey sidewalk with contact shadow, legs and tail readable; coat detail is lost to near-black, and framing is about 18% of frame height, slightly under 20-25%."
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Distant trees and houses soften with useful haze and the street recedes cleanly; no backdrop or western horizon band, distance ends in a grey sky without layering."
+     },
+     "houseVariety": {
+      "score": 2,
+      "reason": "Featureless grey box with grid windows at left, repeated flat-roof apartment blocks at right, one small brick house and a garage in the distance; no porches, entries or roof variety readable."
+     },
+     "geography": {
+      "score": 3,
+      "reason": "Camera faces west with sun at az 227.5 (ahead-left, out of frame); east wall of left house shaded and house shadow falls toward camera/right, consistent with bearing 47.5. Street/sidewalk layout plausible, but no low western mountain band on a west-facing Denver frame and details unverified."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One lawn colour everywhere, only three foundation shrub blobs by the house, no beds, no fence shrubs, no leaf litter despite autumn trees."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view (wet false)"
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Reads as a generic anywhere-town: box houses and flat apartment blocks instead of Denver bungalows/foursquares, no cottonwoods or conifers, no Front Range band despite facing west."
+     }
+    },
+    "v2Total": 22,
+    "v2Max": 45,
+    "v2Score50": 24.4,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "light",
+      "fix": "Give the clear afternoon a warm direct sun key with brighter exposure and a clear blue sky gradient instead of the grey haze; lift lawn and sidewalk midtones so lit surfaces read sunny against cooler shade.",
+      "why": "Frame is dim and grey (luma mean 87.6, p50 70) and looks overcast though weather is clear, cloud 0.05.",
+      "expectedGain": [
+       "light",
+       "palette",
+       "characterReadability"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add lawn tone patches and shade tones, worn strip along the walk, foundation and fence shrubs on both sides, planting beds, and sparse fallen leaves under the autumn crowns and on the parkway strip.",
+      "why": "Foreground lawns on both sides of the walk are one flat olive carpet with a few tufts, filling half the frame.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Replace the near grey box with a pitched-roof bungalow/foursquare with porch, steps and eave, and break up distant flat apartment blocks with gabled single-family roofs; add the low western mountain band on the horizon.",
+      "why": "The near house is a featureless wall and the distant street is flat-roofed boxes, so the street reads generic rather than W 23rd Ave Denver.",
+      "expectedGain": [
+       "silhouettes",
+       "houseVariety",
+       "adRegional",
+       "geography"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run for this view.",
+    "summary": "At phone size this reads as a dim, grey, generic box-house street with a flat lawn carpet; layout and dog contact are fine but nothing feels like a sunny Denver autumn afternoon. The biggest gap is light and palette: the clear afternoon looks overcast and murky, which drags every other surface down."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 87.6,
+     "lumaP5": 39,
+     "lumaP50": 70,
+     "lumaP95": 175,
+     "clipBlackPct": 0.17,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      78.4,
+      92.3,
+      68.7
+     ],
+     "saturationMean": 87.6,
+     "colorfulness": 34.7,
+     "edgeMean": 10.01,
+     "hueHist": [
+      0.101,
+      0.109,
+      0.05,
+      0.6,
+      0.054,
+      0.025,
+      0.06,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
+     {
+      "label": "visual-v2 09 (same street)",
+      "path": "docs/proposals/visual-v2/images/09-data-grounded-street.png",
+      "lumaMean": 128.0,
+      "lumaP5": 74,
+      "lumaP50": 125,
+      "lumaP95": 181,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       167.5,
+       120.6,
+       85.4
+      ],
+      "saturationMean": 129.9,
+      "colorfulness": 71.3,
+      "edgeMean": 10.96,
+      "hueHist": [
+       0.43,
+       0.46,
+       0.015,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.007,
+       0.016,
+       0.019,
+       0.053
+      ]
+     },
+     {
+      "label": "visual-v2 04 (same camera, noon)",
+      "path": "docs/proposals/visual-v2/images/04-summer-noon.png",
+      "lumaMean": 156.7,
+      "lumaP5": 82,
+      "lumaP50": 159,
+      "lumaP95": 227,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       159.3,
+       158.8,
+       129.2
+      ],
+      "saturationMean": 89.6,
+      "colorfulness": 61.1,
+      "edgeMean": 15.61,
+      "hueHist": [
+       0.228,
+       0.056,
+       0.553,
+       0.013,
+       0.002,
+       0.003,
+       0.088,
+       0.044,
+       0.004,
+       0.006,
+       0.001,
+       0.002
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.327,
+      "rgbHistIntersection": 0.423,
+      "hueHistIntersection": 0.225,
+      "dLumaMean": -40.4,
+      "dSaturation": -42.3,
+      "dColorfulness": -36.6,
+      "dEdge": -0.95,
+      "dRGB": [
+       -89.1,
+       -28.3,
+       -16.7
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.31,
+      "rgbHistIntersection": 0.377,
+      "hueHistIntersection": 0.285,
+      "dLumaMean": -69.1,
+      "dSaturation": -2.0,
+      "dColorfulness": -26.4,
+      "dEdge": -5.6,
+      "dRGB": [
+       -80.9,
+       -66.5,
+       -60.5
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "10.50s",
+     "fpsMedian": 60.4,
+     "frameMsMedian": 16.56,
+     "gpuMsMedian": null,
+     "renderSamples": 8,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 12.0
+    }
+   }
+  },
+  "light-rain-street": {
+   "grade": {
+    "view": "light-rain-street",
+    "grader": "claude-opus-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 2,
+      "reason": "Left building is a plain grey box with no visible roof form; distant buildings are flat-topped two-storey blocks; tree crowns are repeated lollipop sphere clusters differing mainly in colour."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent families with no candy noise or clipped areas (black clip 0.17%), but the lawn is one heavy saturated green dominating the frame (hue bin 0.58) and does not desaturate for rain; autumn crowns are the only warm accent."
+     },
+     "light": {
+      "score": 3,
+      "reason": "Single soft key from ahead-left with consistent shadows and a neutral grey overcast sky; no double tint, but flat and without the cool rainy mood or any lamp warmth, and a fairly crisp sunlit wedge on the right lawn sits oddly with cloud 0.8 rain."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Foundation shrubs and dog sit on the ground with faint contact shading and a dark base band on the house; no eave, crown-base or bevel occlusion, seams are hard but not dirty."
+     },
+     "groundRichness": {
+      "score": 2,
+      "reason": "Flat uniform green carpet with sparse identical blade tufts; no leaf litter under autumn crowns, no lawn tone patches or worn edges, sidewalk is a clean flat grey with no wet streaks; only a few pale puddle blotches on the road."
+     },
+     "characterReadability": {
+      "score": 4,
+      "reason": "Black dog reads clearly against the grey sidewalk, centred on the path with legs and harness visible and a faint contact shadow; about 19% of frame height, just under the 20-25% band, and only over an easy surface."
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild atmospheric fade down the street gives useful separation and the horizon sits low; distance is somewhat flat and the backdrop is blocked by trees and blocks, no discontinuity seen."
+     },
+     "houseVariety": {
+      "score": 2,
+      "reason": "Hero building is a featureless grey box with scattered blue windows, no entry, porch or roof; distant yellow flat-roof blocks and small red houses give only rudimentary kit variety with no garage/alley relationships readable."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Camera faces west with sun ahead-left (az 227.5): the camera-facing east wall of the house is shadowed and the left lawn is shaded while the right lawn is lit, consistent with shadows falling toward camera-right; sidewalk/parkway/street layout plausible, parcel detail not verifiable at this size."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 2,
+      "reason": "One flat lawn colour everywhere; only a short row of foundation shrubs on the left, no beds, no leaf litter, hard grass/path edges."
+     },
+     "adRainReadable": {
+      "score": 2,
+      "reason": "Sidewalk shows no sheen or darkening, grass is not visibly wetter, rain streaks are barely visible near the top-right trees; only a few pale puddle patches on the road hint at rain, and partial sun shadows undercut it."
+     },
+     "adRegional": {
+      "score": 2,
+      "reason": "Reads as a generic anywhere-town: boxy flat-roof buildings instead of bungalows/foursquares, uniform lollipop crowns rather than cottonwood/conifer mix, and no low western mountain band visible in a west-facing view."
+     }
+    },
+    "v2Total": 26,
+    "v2Max": 45,
+    "v2Score50": 28.9,
+    "adMean": 2.0,
+    "gatePass": false,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "weather",
+      "fix": "Darken and add a soft sky-reflecting sheen to the sidewalk and road, place small puddles in low spots on the path and gutter, darken and desaturate wet grass, and soften the direct-sun wedge to overcast fill",
+      "why": "The sidewalk is dry flat grey and the lawn keeps a sunny saturated green, so rain is not readable at a glance",
+      "expectedGain": [
+       "adRainReadable",
+       "groundRichness",
+       "palette",
+       "light"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Add lawn tone patches and worn edges along the path, leaf litter under the autumn crowns and along the curb, and planting beds plus more foundation and fence shrubs",
+      "why": "Both lawns are one uniform green carpet with only sparse identical tufts",
+      "expectedGain": [
+       "adGroundRich",
+       "groundRichness",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Give the near house and street houses pitched roofs with eaves, porches/entry steps and Denver bungalow/foursquare massing in brick and muted siding instead of flat grey and yellow boxes",
+      "why": "The left building is a featureless grey box and the distant buildings are flat-roof blocks",
+      "expectedGain": [
+       "houseVariety",
+       "silhouettes",
+       "adRegional"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: no previous run for this view.",
+    "summary": "At phone size this reads as a clean but sterile overcast street with a readable dog, and almost nothing says light rain or autumn on the ground. The biggest gap is weather readability: dry-looking sidewalk, saturated uniform lawn and no leaf litter or wet sheen."
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 82.4,
+     "lumaP5": 35,
+     "lumaP50": 68,
+     "lumaP95": 149,
+     "clipBlackPct": 0.17,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      74.1,
+      86.3,
+      68.2
+     ],
+     "saturationMean": 76.0,
+     "colorfulness": 28.5,
+     "edgeMean": 9.5,
+     "hueHist": [
+      0.099,
+      0.097,
+      0.05,
+      0.583,
+      0.065,
+      0.011,
+      0.092,
+      0.002,
+      0.0,
+      0.0,
+      0.0,
+      0.001
+     ]
+    },
+    "targets": [
+     {
+      "label": "visual-v2 03 (same camera, rainy dusk)",
+      "path": "docs/proposals/visual-v2/images/03-rainy-dusk.png",
+      "lumaMean": 74.0,
+      "lumaP5": 38,
+      "lumaP50": 73,
+      "lumaP95": 113,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       100.3,
+       67.9,
+       56.1
+      ],
+      "saturationMean": 129.0,
+      "colorfulness": 53.2,
+      "edgeMean": 9.67,
+      "hueHist": [
+       0.644,
+       0.192,
+       0.012,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.053,
+       0.011,
+       0.006,
+       0.023,
+       0.059
+      ]
+     },
+     {
+      "label": "experience-v1 03 (light rain)",
+      "path": "docs/proposals/experience-v1/images/03-light-rain.png",
+      "lumaMean": 129.8,
+      "lumaP5": 81,
+      "lumaP50": 135,
+      "lumaP95": 160,
+      "clipBlackPct": 0.0,
+      "clipWhitePct": 0.0,
+      "rgbMean": [
+       135.6,
+       129.2,
+       119.3
+      ],
+      "saturationMean": 81.0,
+      "colorfulness": 52.2,
+      "edgeMean": 6.84,
+      "hueHist": [
+       0.129,
+       0.589,
+       0.002,
+       0.0,
+       0.0,
+       0.0,
+       0.035,
+       0.235,
+       0.001,
+       0.001,
+       0.002,
+       0.006
+      ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.539,
+      "rgbHistIntersection": 0.483,
+      "hueHistIntersection": 0.211,
+      "dLumaMean": 8.4,
+      "dSaturation": -53.0,
+      "dColorfulness": -24.7,
+      "dEdge": -0.17,
+      "dRGB": [
+       -26.2,
+       18.4,
+       12.1
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.335,
+      "rgbHistIntersection": 0.303,
+      "hueHistIntersection": 0.236,
+      "dLumaMean": -47.4,
+      "dSaturation": -5.0,
+      "dColorfulness": -23.7,
+      "dEdge": 2.66,
+      "dRGB": [
+       -61.5,
+       -42.9,
+       -51.1
+      ]
+     }
+    ],
+    "vsPrevious": null,
+    "perf": {
+     "static": 374575,
+     "props": 27390,
+     "trees": 0,
+     "instances": 6385,
+     "draws": 109,
+     "chunks": 48,
+     "meshBytes": 48080828,
+     "triangles": 401965,
+     "profile": "front-range",
+     "season": "2",
+     "build": "9.87s",
+     "fpsMedian": 60.2,
+     "frameMsMedian": 16.61,
+     "gpuMsMedian": null,
+     "renderSamples": 8,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 11.6
+    }
+   }
+  }
+ },
+ "aggregate": {
+  "meanV2Score50": 26.0,
+  "meanArtDirection": 2.07,
+  "gatePasses": 0,
+  "graded": 17,
+  "captured": 17,
+  "failedGrades": [],
+  "placeholders": [
+   "wilmette-golden",
+   "wilmette-rain",
+   "wilmette-fall",
+   "wilmette-snow",
+   "lakeview-three-flat",
+   "lakeview-alley-snow"
+  ],
+  "criterionMeans": {
+   "silhouettes": 2.29,
+   "palette": 2.53,
+   "light": 2.65,
+   "softnessAO": 2.29,
+   "groundRichness": 1.94,
+   "characterReadability": 3.5,
+   "depthFog": 2.53,
+   "houseVariety": 2.71,
+   "geography": 3.71,
+   "adGroundRich": 1.76,
+   "adRegional": 2.35,
+   "adRainReadable": 2.0
+  },
+  "fixAreasWeighted": [
+   [
+    "ground",
+    29
+   ],
+   [
+    "vegetation",
+    21
+   ],
+   [
+    "light",
+    14
+   ],
+   [
+    "weather",
+    14
+   ],
+   [
+    "fog",
+    8
+   ],
+   [
+    "camera",
+    6
+   ],
+   [
+    "sky",
+    6
+   ],
+   [
+    "buildings",
+    4
+   ]
+  ]
+ }
+}

@@ -143,22 +143,32 @@ def parse_log(path):
                 out[k] = int(kv[k])
         if all(k in out for k in ("static", "props", "trees")):
             out["triangles"] = out["static"] + out["props"] + out["trees"]
+        # Whole-world counters. Trees are GPU-instanced (in `instances`), so STATS `trees` counts only
+        # non-instanced tree triangles: 0 does not mean "no trees". Renamed so nobody reads it that way.
+        if "trees" in out:
+            out["treeTrianglesNonInstanced"] = out.pop("trees")
+        out["countersScope"] = "whole world (not in view)"
         for k in ("profile", "season", "build"):
             if k in kv:
                 out[k] = kv[k]
     fps, gpu = [], []
-    for f, g in re.findall(r"RENDER t=\d+ fps=([\d.]+) gpu=(\S+)", text):
+    # Only frames after the world is built (before STATS the view is empty, fps 0).
+    after = text[m.end():] if m else ""
+    for f, g in re.findall(r"RENDER t=\d+ fps=([\d.]+) gpu=(\S+)", after):
         fps.append(float(f))
         if g != "-":
             gpu.append(float(g))
     def med(x):
         x = sorted(x)
         return round(x[len(x) // 2], 2) if x else None
-    # The first second after load is a warm-up; keep the rest.
-    out["fpsMedian"] = med(fps[1:] or fps)
+    # The first two seconds after load are a warm-up; keep the rest.
+    out["fpsMedian"] = med(fps[2:] or fps)
     out["frameMsMedian"] = round(1000 / out["fpsMedian"], 2) if out.get("fpsMedian") else None
-    out["gpuMsMedian"] = med(gpu[1:] or gpu)
+    out["gpuMsMedian"] = med(gpu[2:] or gpu)
     out["renderSamples"] = len(fps)
+    sm = re.findall(r"RENDER t=\d+ fps=[\d.]+ gpu=\S+ ([\d.]+)× (\d+x\d+)", after)
+    if sm:
+        out["renderScale"], out["renderSize"] = float(sm[-1][0]), sm[-1][1]
     if "Failed to build world" in text:
         out["error"] = "Failed to build world"
     return out
