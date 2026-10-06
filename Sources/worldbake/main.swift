@@ -1,7 +1,9 @@
 // worldbake: offline data tool for WorldEngine areas (macOS).
 //
 //   worldbake init-area <dir> --id ID --name NAME --lat LAT --lon LON --width M --height M
-//   worldbake fetch <dir> [--layers all|buildings]
+//   worldbake fetch <dir> [--layers all|buildings|overture] [--release R]
+//                    (overture: Overture buildings via scripts/data/fetch_overture.py and uv; R = Overture
+//                    release, default the latest; see docs/research/overture-source.md)
 //   worldbake stats <dir>                               (Markdown to stdout)
 //   worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 //   worldbake ring-stats <dir> --inner-width M --inner-height M
@@ -62,7 +64,7 @@ enum ToolError: Error, CustomStringConvertible {
 
 let usage = """
 worldbake init-area <dir> --id ID --name NAME --lat LAT --lon LON --width M --height M
-worldbake fetch <dir> [--layers all|buildings]
+worldbake fetch <dir> [--layers all|buildings|overture] [--release R]
 worldbake stats <dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
@@ -95,11 +97,18 @@ do {
     case "fetch":
         var m = try AreaLoader.loadManifest(dir)
         let layer = args.options["layers"] ?? "all"
-        let source = try await Fetcher.fetch(manifest: m, layer: layer, into: dir)
+        let source = layer == "overture"
+            ? try OvertureFetcher.fetch(manifest: m, into: dir, release: args.options["release"])
+            : try await Fetcher.fetch(manifest: m, layer: layer, into: dir)
         m.sources.removeAll { $0.path == source.path }
         m.sources.append(source)
         try writeManifest(m, to: dir)
-        print("Wrote \(source.path): \(source.bytes ?? 0) bytes, OSM data \(source.dataTimestamp ?? "?")")
+        if layer == "overture" {
+            print("Wrote \(source.path): \(source.bytes ?? 0) bytes, Overture release \(source.dataTimestamp ?? "?"); NOTICE.md updated")
+            print("Attribution: \(source.attribution)")
+        } else {
+            print("Wrote \(source.path): \(source.bytes ?? 0) bytes, OSM data \(source.dataTimestamp ?? "?")")
+        }
 
     case "stats":
         print(try Stats.markdown(for: dir))

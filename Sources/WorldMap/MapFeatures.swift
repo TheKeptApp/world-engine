@@ -174,4 +174,6 @@ public struct LoadReport: Sendable {
     public var relationCount = 0
     /// Tagged ways/relations that matched no feature rule.
     public var unclassifiedCount = 0
+    /// Overture buildings merged as a second footprint source (see `OvertureBuildings`).
+    public var overture = OvertureMergeReport()
 }

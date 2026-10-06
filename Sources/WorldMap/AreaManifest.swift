@@ -8,7 +8,8 @@ import WorldGeo
 /// de-duplicate elements by OSM ID, so tile borders need no special handling.
 public struct AreaManifest: Codable, Sendable, Equatable {
     public struct Source: Codable, Sendable, Equatable {
-        /// Payload format. Today only "osm-overpass-json". Later: e.g. "osm-tile-v1".
+        /// Payload format: "osm-overpass-json", or "overture-buildings-v1" (a second building
+        /// footprint source, merged after OSM; see `OvertureBuildings`). Later: e.g. "osm-tile-v1".
         public var format: String
         /// File path relative to the manifest.
         public var path: String
@@ -73,11 +74,13 @@ public enum AreaLoader {
         return try JSONDecoder().decode(AreaManifest.self, from: data)
     }
 
-    /// Reads and merges every source whose layers intersect `layers` (nil = all).
+    /// Reads and merges every OSM source whose layers intersect `layers` (nil = all). Overture
+    /// sources are not OSM elements; `loadFeatures` merges them after building.
     public static func loadDocument(_ directory: URL, manifest: AreaManifest, layers: Set<String>? = nil) throws -> OSMDocument {
         var doc = OSMDocument()
         for s in manifest.sources {
             if let layers, Set(s.layers).isDisjoint(with: layers), !s.layers.contains("all") { continue }
+            if s.format == OvertureBuildings.format { continue }
             guard s.format == "osm-overpass-json" else { throw LoadError.unsupportedFormat(s.format) }
             let data = try Data(contentsOf: directory.appendingPathComponent(s.path))
             doc.merge(try OSMDocument(overpassJSON: data))
@@ -85,14 +88,17 @@ public enum AreaLoader {
         return doc
     }
 
-    /// Manifest → features, using the manifest's own frame and bounds.
+    /// Manifest → features, using the manifest's own frame and bounds. Overture building
+    /// sources, if any, then fill footprints OSM lacks.
     public static func loadFeatures(_ directory: URL, heightRules: HeightRules = .init(), roadRules: RoadRules = .init()) throws -> MapFeatures {
         let manifest = try loadManifest(directory)
         let doc = try loadDocument(directory, manifest: manifest, layers: ["all"])
         var builder = MapFeatureBuilder(frame: manifest.frame, bounds: manifest.localBounds)
         builder.heightRules = heightRules
         builder.roadRules = roadRules
-        return builder.build(doc)
+        var features = builder.build(doc)
+        try OvertureBuildings.merge(directory: directory, manifest: manifest, osm: doc, heightRules: heightRules, into: &features)
+        return features
     }
 
     public enum LoadError: Error {
