@@ -135,6 +135,17 @@ public enum OvertureBuildings {
         "dwelling_house": "house",
     ]
 
+    /// Footprints at least this large (m², house-sized) ignore a Microsoft ML height.
+    public static let mlHeightMinDropArea = 90.0
+    public static let microsoftDataset = "Microsoft ML Buildings"
+
+    /// The dataset that supplied a record's height: the source for `/properties/height`, else the
+    /// first non-OSM (geometry) source.
+    public static func heightDataset(_ r: Record) -> String? {
+        if let s = r.sources.first(where: { $0.property == "/properties/height" }) { return s.dataset }
+        return r.sources.first { $0.dataset != osmDataset }?.dataset
+    }
+
     /// OSM-style tags for a record. `HeightRules` reads `height`, `min_height` and
     /// `building:levels` exactly as it does for OSM buildings.
     public static func tags(for r: Record) -> Tags {
@@ -250,9 +261,13 @@ public enum OvertureBuildings {
                         out.report.skipped.append(.init(ref: ref, reason: "degenerate footprint"))
                         continue
                     }
+                    // Microsoft ML heights run ~2.9 m below the roof top on house-sized footprints (3DEP lidar,
+                    // docs/research/overture-source.md "Heights vs lidar"), so there the profile defaults apply.
+                    var bTags = tags
+                    if clean.area >= mlHeightMinDropArea, heightDataset(r) == microsoftDataset { bTags["height"] = nil }
                     out.buildings.append(Building(
-                        ref: ref, footprint: clean, tags: tags, type: type, isPart: false,
-                        height: heightRules.resolve(tags: tags, type: type, ref: ref)
+                        ref: ref, footprint: clean, tags: bTags, type: type, isPart: false,
+                        height: heightRules.resolve(tags: bTags, type: type, ref: ref)
                     ))
                     report.buildings += 1
                     added = true

@@ -63,6 +63,24 @@ UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --pytho
 
 Tests: `python -m unittest discover -s Tools/regionkit/lidar/tests -p "test_treeheights.py"` (offline).
 `data/trees_validation.json` holds the visual-check counts (no coordinates).
+## Heights: Overture building heights vs lidar
+
+`heights.py` compares the `height` of every Overture building record of a committed area (and which dataset
+supplied it) with the building height the same lidar gives: ground = median class-2 point in a 3-8 m ring,
+top = p95 of class-6 points in the footprint eroded by 0.5 m, eave = p15 of class-6 points 0.5-2 m inside the
+edge. Reuses `lidar.py` (EPT reader, ground model, global shift). About 131 MB of lidar for 1 km². Method,
+results and the data-side rule: [`docs/research/overture-source.md`](../../../docs/research/overture-source.md),
+section "Heights vs lidar". Thresholds (set before comparing): `data/heights.json`. Aggregates only:
+`results/heights-wilmette.json`.
+
+```sh
+UV_CACHE_DIR=/tmp/lidar-uv UV_PYTHON_DOWNLOADS=never uv run --no-project --python python3 \
+  --with numpy --with scipy --with shapely --with rasterio --with "laspy[lazrs]" \
+  python Tools/regionkit/lidar/heights.py all --work /tmp/heights-work
+```
+
+Subcommands: `plan` (EPT nodes and their sizes by HTTP HEAD, no body), `fetch`, `measure` (per record, work
+directory only), `compare` (aggregates), `all`. Tests: `tests/test_heights.py`.
 
 ## Files
 
