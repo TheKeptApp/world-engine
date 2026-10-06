@@ -88,6 +88,11 @@ struct RealityKitScreen: View {
             }
         }
         .task { await load() }
+        .task {
+            guard ProcessInfo.processInfo.arguments.contains("-viewdiag") else { return }
+            try? await Task.sleep(for: .seconds(8))
+            ViewDiagnostics.dump(tag: "realitykit")
+        }
     }
 
     /// Optionally letterboxes the view to 16:9 for comparison with the v2 target images.

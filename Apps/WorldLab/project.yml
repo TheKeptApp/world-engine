@@ -42,6 +42,11 @@ targets:
         type: folder
         optional: true
         buildPhase: resources
+    entitlements:
+      path: Generated/WorldLab.entitlements
+      properties:
+        # WeatherKit (explicit App ID com.lincolnlabs.worldlab; the wildcard App ID can't use it).
+        com.apple.developer.weatherkit: true
     info:
       path: Generated/Info.plist
       properties:
@@ -51,6 +56,8 @@ targets:
     dependencies:
       - package: WorldEngine
         product: WorldEngine
+      - package: WorldEngine
+        product: WorldEnvironment
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.lincolnlabs.worldlab

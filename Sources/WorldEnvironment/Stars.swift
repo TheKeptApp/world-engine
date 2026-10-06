@@ -26,9 +26,9 @@ public struct StarCatalog: Codable, Sendable {
         public var name: String, author: String, url: String, sha256: String, license: String, licenseURL: String
     }
 
-    /// The bundled 256-star HYG v4.1 subset (CC BY-SA 4.0; see Resources/STARS-NOTICE.md).
+    /// The bundled 256-star HYG v4.1 subset (CC BY-SA 4.0; see Catalog/STARS-NOTICE.md).
     public static func bundled() throws -> StarCatalog {
-        guard let url = Bundle.module.url(forResource: "stars-hyg-v41-bright256", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "stars-hyg-v41-bright256", withExtension: "json", subdirectory: "Catalog") else {
             throw CocoaError(.fileNoSuchFile)
         }
         return try JSONDecoder().decode(StarCatalog.self, from: Data(contentsOf: url))
