@@ -1,0 +1,34 @@
+# WorldEnvironment: time, weather, sky and seasons
+
+`Sources/WorldEnvironment/` resolves *when*, *where* and *what weather* into one versioned, renderer-neutral document, `environment.json` (`EnvironmentDocument`, schema `worldengine.environment/1`). It is pure Swift (Foundation + the WorldGeo/WorldGen data types), makes no network calls, and imports no renderer. RealityKit and three.js will both consume the same document; neither calls WeatherKit or computes accumulation itself.
+
+Specs implemented (read-only inputs): [weather v1](proposals/weather-v1/WorldEngine-Weather-Spec-v1.md), [sky and seasons v1](proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md), [visual v2 §3.3–3.4](proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md). No rendering of rain, snow or wet surfaces yet; the document carries the resolved state for that later step.
+
+## What it resolves
+
+| Area | Files | Contents |
+|---|---|---|
+| Inputs | `Normalize.swift`, `WeatherSample.swift`, `MetarAdapter.swift` | SI normalization through `Measurement` units with plausibility ranges (a 1,000× or 1,000,000× unit slip becomes unknown, not a flood); nil = unknown, 0 = known absence; METAR/ASOS rows (fixtures, non-Apple fallback) |
+| Conditions | `WeatherCondition.swift`, `WeatherClassifier.swift` | All 34 WeatherKit conditions → nine labels + intensity (IR, IS, IV, cloud, fixed), resolution order, precipitation override 0.10 in / 0.05 out mm/h, cloud 0.65/0.55 hysteresis for wind/hot/frigid codes, freezing rain never snow, phase conflicts kept, unknown → labeled fallback |
+| Surfaces | `Accumulation.swift` | Wetness and snow (SWE) appearance model, hourly in source time, double precision; unknown initial state stays null; gaps and missing temperature/phase invalidate; deterministic seeks (partial hours use the hour's midpoint sun) |
+| Air | `Wind.swift`, `Atmosphere.swift`, `Transitions.swift` | Wind FROM bearing → scene vector (north wind → +Z), sway amplitude/frequency, rain/snow drift, stable assumed bearing for variable wind; label presets (tint, direct multiplier, fog policy) with visibility caps; live transitions (90 s label hold, 12/20/10/8/12 s blends from the displayed value) and recap timelines (pure functions of source time, 120 s windows); particle budget (600 rain / 300 snow / 12 leaves, shared 600 cap) |
+| Sun | `SunEvents.swift` (+ `SolarPosition.Terms` in WorldGeo) | Timezone-aware civil days (23/25-hour DST days, leap days), sunrise/sunset (−0.8333°), civil/nautical twilight, upper transit, daily maximum, golden [−4°, +6°] and blue [−6°, −4°] intervals per branch, daylight seconds, polar statuses, `nextGoldenHour` |
+| Moon | `Moon.swift` | Meeus ch. 47 ephemeris (truncated ELP-2000/82) + nutation + ΔT, topocentric (WGS84 observer), phase angle, illuminated fraction, phase longitude, bright-limb angle (equatorial and from zenith), physical diameter, rise/set, disk gate and night fill B = k²(1 − C)²G |
+| Stars | `Stars.swift`, `Resources/stars-hyg-v41-bright256.json` | 256 brightest stars of HYG v4.1 (components within 2′ merged), proper motion, IAU-1976 precession, mean sidereal time, ≤ 128 visible, strength gate (night, cloud³, obscuration, moon; off in precipitation) |
+| Seasons | `Phenology.swift` | Calendar-demo profiles (Denver, Plano, Seattle, Sydney) for deciduous, evergreen and grass separately; flower pulse; southern season-year; stable per-tree ±7-day shifts from `StableRandom` |
+| Contract | `EnvironmentState.swift`, `EnvironmentResolver.swift` | The document: identity/model versions, coarse cell + observer, source time and mode, provenance, inputs, state (label, intensity, wind, wetness/snow with explicit `null`), light (sun, v2 time key, weather direct/tint/fog, fills, moon, stars), presentation (particles, transition timings, wet response), continuity, sky (sun day, moon, moon day, stars), phenology |
+| Provider | `WeatherProvider.swift` | `WeatherProvider` protocol (host-owned), `MockWeatherProvider`, 0.05° cell grid (centre only is ever sent), cell switching (500 m inside or 60 s), refresh (30 min, 15 min while precipitation changes, none while inactive), ≤ 240 h history windows, memory-only cache (fresh 30/15 min, stale ≤ 2 h, then discarded; no archive) |
+
+## Tests (`Tests/WorldEnvironmentTests/`, 39 tests, all passing)
+- **Weather fixtures (10/10):** label and intensity at the settled time; wind vector and sway amplitude; sun position; primary accumulation null (unknown initial state); both controlled reference runs (W=0/S=0 and W=1/S=100) over the 48–72 h histories for wetness, SWE, coverage and last-hour melt (worst error 5×10⁻⁷ vs tolerance 10⁻⁴); trace and inferred-phase hour counts; deterministic seeks.
+- **Sky and season fixtures (18/18):** every sun event and golden/blue interval (worst 0.5 s vs 120 s), daylight (0.8 s), day lengths; Moon direction (0.0023° vs 0.15°), illuminated fraction (0.00005 vs 0.01), phase identity, phase longitude, bright-limb angles (0.013° vs 1°), diameter, labels, rise/set (0.8 s vs 300 s) and event statuses; deciduous and grass states and palette weights.
+- **Rules and boundaries:** unit-slip rejection, all 34 codes, freezing rain ≠ snow, storm without rain has no particles, precipitation and cloud hysteresis, defaults flagged as assumed, phase conflicts, blowing snow adds no snowfall and no particles without ground snow, hail builds no snow, gaps/missing inputs stay null, 359°→1° wind blends as vectors, variable wind bearing stable and flagged, live hold and immediate precipitation, recap seeks repeat exactly, polar day/night, DST and leap days, next golden hour active/upcoming, star catalog license and constellation coverage, cell maths, cell switching, cache limits, history windows, document nulls and round trip, schema rejection, per-tree shifts.
+
+## Star catalog license
+HYG Database v4.1 (David Nash / Astronomy Nexus) is CC BY-SA 4.0, verified in the catalog's own repository (`LICENSE`). The derived 256-star file is CC BY-SA 4.0 with attribution, license link and change notice (`Resources/STARS-NOTICE.md`; extraction: `scripts/data/build_star_catalog.py`). Apps showing the stars must display: *Stars: HYG Database v4.1, David Nash / Astronomy Nexus, CC BY-SA 4.0 (modified).* (`StarCatalog.attribution`). The Southern Cross's faint fifth star (ε Cru, mag 3.59) falls below the 256 cut; Orion and the Big Dipper are complete.
+
+## Not done yet (by design)
+- No live WeatherKit calls; no WeatherKit-backed provider yet (needs the capability first, below).
+- No rendering of rain, snow, wet surfaces, Moon disk or stars (after the engine decision).
+- Lightning and audio stay off (spec: Stretch).
+- Thermal (GDD) phenology needs calibrated cohorts and temperature histories; calendar priors are labeled as such.

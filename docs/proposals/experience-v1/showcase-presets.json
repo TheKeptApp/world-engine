@@ -1,0 +1,481 @@
+{
+  "schema": "worldengine-experience-proposal-fixtures/1",
+  "status": "proposal_only",
+  "checkedOn": "2026-10-05",
+  "allDesignValues": "assumption; calculated values are not measurements",
+  "axes": "east +X, up +Y, north -Z; metres; heading clockwise from true north",
+  "cameraConvention": "perspective, roll0; downPitchDeg positive; latitude/longitude refer to ground origin",
+  "map": {
+    "path": "../../../Data/areas/sloans-lake/osm.json",
+    "sha256": "e243d5eeffaa62c1329e4b53eb3d200823c7c7106648c7aeade1e951e280f2e2",
+    "dataTimestampUTC": "2026-10-05T17:39:35Z",
+    "lakeRelation": 4049789,
+    "shorelineOuterWay": 25673621,
+    "islandWay": 93544950,
+    "streetTrailWay": 357015944,
+    "streetAnchorNode": 2395479422
+  },
+  "cameras": {
+    "street": {
+      "originLatLon": [
+        39.7528379,
+        -105.0467978
+      ],
+      "positionM": [
+        0,
+        1.65,
+        0
+      ],
+      "targetM": [
+        29.503743246398354,
+        0.0799213127116849,
+        5.202305966235185
+      ],
+      "headingDeg": 100,
+      "downPitchDeg": 3,
+      "rollDeg": 0,
+      "verticalFOVDeg": 50,
+      "aspectRatio": [
+        16,
+        9
+      ],
+      "nearM": 0.1,
+      "farM": 3000,
+      "character": null,
+      "tiltShift": false
+    },
+    "aerial": {
+      "originLatLon": [
+        39.7494,
+        -105.0445
+      ],
+      "positionM": [
+        0,
+        1474.47367972,
+        1032.43758543
+      ],
+      "targetM": [
+        0,
+        0,
+        0
+      ],
+      "headingDeg": 0,
+      "downPitchDeg": 55,
+      "rollDeg": 0,
+      "verticalFOVDeg": 50,
+      "aspectRatio": [
+        16,
+        9
+      ],
+      "nearM": 1,
+      "farM": 5000,
+      "slantDistanceM": 1800,
+      "character": null,
+      "tiltShift": false
+    }
+  },
+  "fixtures": [
+    {
+      "id": "01",
+      "name": "clear-golden-hour",
+      "image": "images/01-clear-golden-hour.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T23:44:01Z",
+      "timeLocal": "2026-10-15T17:44:01-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "golden",
+      "sunAtStreetObserver": {
+        "elevationDeg": 6.001796,
+        "azimuthDeg": 253.282417
+      },
+      "atmosphere": "clear",
+      "intensity": 1,
+      "cloudFraction": 0,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 350,
+        "fogEndM": 1100,
+        "directStrength": 0.78,
+        "tintSRGB": null,
+        "tintLinearMixWeight": 0
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "02",
+      "name": "overcast",
+      "image": "images/02-overcast.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "cloudy",
+      "intensity": 1,
+      "cloudFraction": 1,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 425,
+        "fogEndM": 1190,
+        "directStrength": 0.4,
+        "tintSRGB": "#BEC8D0",
+        "tintLinearMixWeight": 0.15
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "03",
+      "name": "light-rain",
+      "image": "images/03-light-rain.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "rain",
+      "intensity": 0.16909208367343836,
+      "cloudFraction": 0.8,
+      "precipitationLiquidEquivalentMMPerHour": 0.5,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.65,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 449.2723748979685,
+        "fogEndM": 1281.6355414285931,
+        "directStrength": 0.52,
+        "tintSRGB": "#8F9FAA",
+        "tintLinearMixWeight": 0.03720025840815644
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "04",
+      "name": "thunderstorm",
+      "image": "images/04-thunderstorm.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "thunderstorm",
+      "intensity": 1,
+      "cloudFraction": 1,
+      "precipitationLiquidEquivalentMMPerHour": 8,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.9,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 175,
+        "fogEndM": 630,
+        "directStrength": 0.12,
+        "tintSRGB": "#8F9FAA",
+        "tintLinearMixWeight": 0.22
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "05",
+      "name": "fog",
+      "image": "images/05-fog.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "fog",
+      "intensity": 1,
+      "cloudFraction": 0.8,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 25,
+        "fogEndM": 220,
+        "directStrength": 0.12,
+        "tintSRGB": "#C1CACD",
+        "tintLinearMixWeight": 0.3
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "06",
+      "name": "wildfire-smoke",
+      "image": "images/06-wildfire-smoke.png",
+      "camera": "street",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "smoke",
+      "intensity": 0.8,
+      "cloudFraction": 0.15,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 120,
+        "fogEndM": 896,
+        "directStrength": 0.52,
+        "tintSRGB": "#AAA59C",
+        "tintLinearMixWeight": 0.144
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation",
+      "visibilityM": 1200
+    },
+    {
+      "id": "07",
+      "name": "falling-snow",
+      "image": "images/07-falling-snow.png",
+      "camera": "street",
+      "timeUTC": "2026-01-02T19:04:21.270Z",
+      "timeLocal": "2026-01-02T12:04:21.270000-07:00",
+      "timezone": "America/Denver",
+      "sunReference": "januaryNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 27.38692,
+        "azimuthDeg": 179.999208
+      },
+      "atmosphere": "snow",
+      "intensity": 1,
+      "cloudFraction": 1,
+      "precipitationLiquidEquivalentMMPerHour": 2,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.15,
+        "snowWaterEquivalentMM": 6,
+        "eligibleSnowCoverage": 0.6321205588285577
+      },
+      "resolved": {
+        "fogStartM": 175,
+        "fogEndM": 630,
+        "directStrength": 0.3,
+        "tintSRGB": "#CDD6DF",
+        "tintLinearMixWeight": 0.2
+      },
+      "season": "bare_deciduous_winter_dormant_grass_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "08",
+      "name": "morning-after-snow",
+      "image": "images/08-morning-after-snow.png",
+      "camera": "street",
+      "timeUTC": "2026-01-03T15:15:00Z",
+      "timeLocal": "2026-01-03T08:15:00-07:00",
+      "timezone": "America/Denver",
+      "sunReference": "morning",
+      "sunAtStreetObserver": {
+        "elevationDeg": 7.697963,
+        "azimuthDeg": 128.359839
+      },
+      "atmosphere": "clear",
+      "intensity": 1,
+      "cloudFraction": 0,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.45,
+        "snowWaterEquivalentMM": 3,
+        "eligibleSnowCoverage": 0.3934693402873666
+      },
+      "resolved": {
+        "fogStartM": 336.12193196411596,
+        "fogEndM": 1053.2133809372028,
+        "directStrength": 0.5103048299102899,
+        "tintSRGB": null,
+        "tintLinearMixWeight": 0
+      },
+      "season": "bare_deciduous_winter_dormant_grass_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "09",
+      "name": "clear-night",
+      "image": "images/09-clear-night.png",
+      "camera": "street",
+      "timeUTC": "2026-01-04T02:00:00Z",
+      "timeLocal": "2026-01-03T19:00:00-07:00",
+      "timezone": "America/Denver",
+      "sunReference": "night",
+      "sunAtStreetObserver": {
+        "elevationDeg": -24.570145,
+        "azimuthDeg": 260.073917
+      },
+      "atmosphere": "clear",
+      "intensity": 1,
+      "cloudFraction": 0,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 140,
+        "fogEndM": 600,
+        "directStrength": 0,
+        "tintSRGB": null,
+        "tintLinearMixWeight": 0,
+        "nightFill": {
+          "skyBase": 0.28,
+          "moonAddition": 0.029497177995651408,
+          "ground": 0.09
+        },
+        "starStrength": 0.7050282200434859
+      },
+      "season": "bare_deciduous_winter_dormant_grass_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation",
+      "skyReference": "night-sky-reference.json"
+    },
+    {
+      "id": "10",
+      "name": "aerial-rain",
+      "image": "images/10-aerial-rain.png",
+      "camera": "aerial",
+      "timeUTC": "2026-10-15T18:45:54.440Z",
+      "timeLocal": "2026-10-15T12:45:54.440000-06:00",
+      "timezone": "America/Denver",
+      "sunReference": "octoberNoon",
+      "sunAtStreetObserver": {
+        "elevationDeg": 41.518224,
+        "azimuthDeg": 180.009361
+      },
+      "atmosphere": "rain",
+      "intensity": 0.16909208367343836,
+      "cloudFraction": 0.8,
+      "precipitationLiquidEquivalentMMPerHour": 0.5,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.65,
+        "snowWaterEquivalentMM": 0,
+        "eligibleSnowCoverage": 0.0
+      },
+      "resolved": {
+        "fogStartM": 808.6902748163433,
+        "fogEndM": 2288.634895408202,
+        "directStrength": 0.52,
+        "tintSRGB": "#8F9FAA",
+        "tintLinearMixWeight": 0.03720025840815644
+      },
+      "season": "autumn_color_blend_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    },
+    {
+      "id": "11",
+      "name": "aerial-snow-cover",
+      "image": "images/11-aerial-snow-cover.png",
+      "camera": "aerial",
+      "timeUTC": "2026-01-03T15:15:00Z",
+      "timeLocal": "2026-01-03T08:15:00-07:00",
+      "timezone": "America/Denver",
+      "sunReference": "morning",
+      "sunAtStreetObserver": {
+        "elevationDeg": 7.697963,
+        "azimuthDeg": 128.359839
+      },
+      "atmosphere": "clear",
+      "intensity": 1,
+      "cloudFraction": 0,
+      "precipitationLiquidEquivalentMMPerHour": 0,
+      "surfaceCheckpoint": {
+        "kind": "synthetic_override",
+        "wetness": 0.45,
+        "snowWaterEquivalentMM": 3,
+        "eligibleSnowCoverage": 0.3934693402873666
+      },
+      "resolved": {
+        "fogStartM": 900,
+        "fogEndM": 2500,
+        "directStrength": 0.5103048299102899,
+        "tintSRGB": null,
+        "tintLinearMixWeight": 0
+      },
+      "season": "bare_deciduous_winter_dormant_grass_assumed",
+      "evidence": "assumption_synthetic_scenario_not_weather_observation"
+    }
+  ],
+  "resolverNotes": [
+    "Fog uses weather-v1 section5 chronological solar anchors, then intensity, then visibility cap.",
+    "Tint hex is sRGB input; mix in linear light.",
+    "NOAA solar entries are for the street observer; aerial adapter recomputes at its own origin and same UTC.",
+    "No temporal continuity is asserted between scenarios; even the snow-morning checkpoint is an illustrative override, not a simulated historical storm.",
+    "Morning sky/cloud illustrations and other image details may drift from prescribed C=0; numeric values govern.",
+    "Night disk/star pixels failed precise placement after the one allowed edit; numerical reference governs.",
+    "No unknown data is implicitly zero in production; these explicit synthetic overrides intentionally contain zeros."
+  ],
+  "sources": [
+    {
+      "id": "W",
+      "path": "../weather-v1/WorldEngine-Weather-Spec-v1.md",
+      "checkedOn": "2026-10-05"
+    },
+    {
+      "id": "V2",
+      "path": "../visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "checkedOn": "2026-10-05"
+    },
+    {
+      "id": "SKY",
+      "path": "../sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md",
+      "checkedOn": "2026-10-05"
+    },
+    {
+      "id": "OSM",
+      "url": "https://www.openstreetmap.org/copyright",
+      "checkedOn": "2026-10-05"
+    }
+  ]
+}

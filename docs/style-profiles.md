@@ -12,7 +12,7 @@ Generated detail (house types, roofs, colors, porches, tree crowns…) and the l
 | `seasonal-palette.json` | v2 §3.2 surface colors × four seasons (ground, lawn, tufts, four deciduous and two conifer crown colors, bushes, road, sidewalk, curb, water, sand, bark, snow). |
 | `base-palette.json` | Season-independent colors: window states (day, shaded, lit at dusk/night), parking, pitch, playground, crossings, metal, lamp glow, bench, foundation, chimney, flowers, backdrop. |
 | `time-of-day.json` | v2 §3.3 keys (dawn, morning, noon, golden, dusk, night): sun color and normalized intensity, sky top/horizon, ambient sky/ground, fog color and distances, shadow tint, lit-window share, **exposure**; anchor elevations; R8 fill strengths. |
-| `weather.json` | v2 §3.4 weather states and the wet-surface response (hooks; not rendered yet). |
+| `weather.json` | Atmosphere presets for the nine weather labels (weather v1 §5, extending v2 §3.4) and the wet-surface response; loaded by `WorldEnvironment`. Wetness and snow are modeled, not per-label constants (`docs/environment.md`). |
 
 ## Profile fields (version 2)
 

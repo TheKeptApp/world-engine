@@ -15,6 +15,42 @@ public struct SolarPosition: Sendable, Equatable {
 
     public init(date: Date, at c: GeoCoordinate) {
         let rad = Double.pi / 180
+        let terms = SolarPosition.terms(at: date)
+        let hourAngle = SolarPosition.hourAngle(at: date, longitude: c.longitude, equationOfTime: terms.equationOfTime)
+        let decl = terms.declination
+        let lat = c.latitude * rad
+        let ha = hourAngle * rad
+        let cosZenith = min(1, max(-1, sin(lat) * sin(decl) + cos(lat) * cos(decl) * cos(ha)))
+        elevation = 90 - acos(cosZenith) / rad
+        let az = atan2(sin(ha), cos(ha) * sin(lat) - tan(decl) * cos(lat)) / rad + 180
+        azimuth = (az.truncatingRemainder(dividingBy: 360) + 360).truncatingRemainder(dividingBy: 360)
+    }
+
+    /// Unit vector toward the sun in scene axes (east = +X, up = +Y, north = −Z).
+    public var sceneDirection: SIMD3<Float> {
+        let a = azimuth * .pi / 180, e = elevation * .pi / 180
+        return SIMD3(Float(sin(a) * cos(e)), Float(sin(e)), Float(-cos(a) * cos(e)))
+    }
+
+    // MARK: - Intermediate terms (shared with sun-event finding in WorldEnvironment)
+
+    /// NOAA-style solar terms at an instant (UTC used as UT1 at this precision).
+    public struct Terms: Sendable, Equatable {
+        /// Solar declination, radians.
+        public var declination: Double
+        /// Equation of time, minutes (true solar minus mean solar time).
+        public var equationOfTime: Double
+        /// Apparent ecliptic longitude, degrees.
+        public var apparentLongitude: Double
+        /// True obliquity of the ecliptic, degrees.
+        public var obliquity: Double
+        /// Earth–Sun distance, astronomical units.
+        public var distanceAU: Double
+    }
+
+    /// The terms behind `init(date:at:)`; the arithmetic is exactly the position path's.
+    public static func terms(at date: Date) -> Terms {
+        let rad = Double.pi / 180
         let jd = date.timeIntervalSince1970 / 86_400 + 2_440_587.5
         let t = (jd - 2_451_545) / 36_525
 
@@ -35,23 +71,20 @@ public struct SolarPosition: Sendable, Equatable {
             + 4 * e * y * sin(m * rad) * cos(2 * l0 * rad)
             - 0.5 * y * y * sin(4 * l0 * rad) - 1.25 * e * e * sin(2 * m * rad))
 
+        let trueAnomaly = (m + center) * rad
+        let distance = 1.000001018 * (1 - e * e) / (1 + e * cos(trueAnomaly))
+        return Terms(declination: decl, equationOfTime: eqTime, apparentLongitude: lambda, obliquity: eps, distanceAU: distance)
+    }
+
+    /// Solar hour angle in degrees, −180…180 (0 at upper transit), for an east-positive longitude.
+    public static func hourAngle(at date: Date, longitude: Double, equationOfTime: Double) -> Double {
         let secondsUTC = date.timeIntervalSince1970.truncatingRemainder(dividingBy: 86_400)
-        let trueSolarMinutes = (secondsUTC / 60 + eqTime + 4 * c.longitude)
+        let trueSolarMinutes = (secondsUTC / 60 + equationOfTime + 4 * longitude)
             .truncatingRemainder(dividingBy: 1440)
         var hourAngle = trueSolarMinutes / 4 - 180
         if hourAngle < -180 { hourAngle += 360 }
-
-        let lat = c.latitude * rad
-        let ha = hourAngle * rad
-        let cosZenith = min(1, max(-1, sin(lat) * sin(decl) + cos(lat) * cos(decl) * cos(ha)))
-        elevation = 90 - acos(cosZenith) / rad
-        let az = atan2(sin(ha), cos(ha) * sin(lat) - tan(decl) * cos(lat)) / rad + 180
-        azimuth = (az.truncatingRemainder(dividingBy: 360) + 360).truncatingRemainder(dividingBy: 360)
-    }
-
-    /// Unit vector toward the sun in scene axes (east = +X, up = +Y, north = −Z).
-    public var sceneDirection: SIMD3<Float> {
-        let a = azimuth * .pi / 180, e = elevation * .pi / 180
-        return SIMD3(Float(sin(a) * cos(e)), Float(sin(e)), Float(-cos(a) * cos(e)))
+        if hourAngle < -180 { hourAngle += 360 }
+        if hourAngle >= 180 { hourAngle -= 360 }
+        return hourAngle
     }
 }
