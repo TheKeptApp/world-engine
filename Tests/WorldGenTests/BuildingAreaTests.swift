@@ -104,13 +104,14 @@ struct BuildingAreaTests {
         #expect(Double(total[.far, default: 0]) / km2 <= 200_000)
         #expect(Double(total[.skyline, default: 0]) / km2 <= 60_000)
         for (k, t) in byRole where k == "house" { #expect(t.maxNear <= 2500, "largest house \(t.maxNear) triangles") }
-        // Facade pass budget against the measurements before it (gate-5b.md): average house near
-        // at most +45 %, mid at most +25 %, far and skyline unchanged.
+        // Budget against the measurements before the facade pass (gate-5b.md): average house near
+        // at most +45 %, mid at most +25 %, far at most +20 % (more complex roofs, matched to the
+        // lidar pilot's ~45 % complex share), skyline unchanged.
         if let base = Self.houseBaseline[area], let t = byRole["house"], t.count > 0 {
             func avg(_ l: BuildingLOD) -> Double { Double(t.tris[l, default: 0]) / Double(t.count) }
             #expect(avg(.near) <= base[0] * 1.45, "near \(avg(.near)) vs \(base[0])")
             #expect(avg(.mid) <= base[1] * 1.25, "mid \(avg(.mid)) vs \(base[1])")
-            #expect(avg(.far) < base[2] + 1 && avg(.skyline) < base[3] + 1, "far \(avg(.far)) skyline \(avg(.skyline))")
+            #expect(avg(.far) <= base[2] * 1.2 && avg(.skyline) < base[3] + 1, "far \(avg(.far)) skyline \(avg(.skyline))")
         }
         #expect(bad.isEmpty, "\(area): \(bad.count) problems, first: \(bad.first ?? "")")
     }
