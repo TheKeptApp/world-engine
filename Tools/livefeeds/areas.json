@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "note": "Allowlist of places the relay serves (docs/research/live-feeds.md 4.3 and 4.12). Data, not code. A request whose tile rectangle does not touch one of these boxes gets an empty answer and never wakes the poller.",
+  "areas": [
+    {
+      "id": "denver",
+      "name": "Denver metro (RTD service area)",
+      "bbox": [39.40, -105.60, 40.30, -104.55],
+      "timezone": "America/Denver",
+      "serviceDayStartHour": 3,
+      "feeds": ["rtd"]
+    }
+  ]
+}
