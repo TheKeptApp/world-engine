@@ -293,10 +293,7 @@ public struct BuildingGenerator: Sendable {
             let floors = osmLevels ?? type?.floors.first ?? max(1, Int((b.height.top / 3.1).rounded()))
             g.floors = floors
             let perFloor = rng.range(type?.perFloor ?? [3.0, 3.2])
-            // TEMPORARY (until P1's Overture height rule lands): Overture heights under 6 m on
-            // houses look like eave heights / ML underestimates; let the family defaults apply.
-            let lowOvertureHouse = role == .house && b.ref.kind == .overture && b.height.top < 6
-            if b.height.source == .heightTag, !lowOvertureHouse {
+            if b.height.source == .heightTag {
                 H = max(F + 2.6, b.height.top - rise)
                 // A measured height without levels (e.g. Overture/Microsoft footprints) sets the
                 // storey count, so windows fit the real wall instead of the family's default floors.

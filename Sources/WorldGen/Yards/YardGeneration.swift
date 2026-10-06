@@ -159,8 +159,8 @@ extension SceneGenerator {
             stats["driveways", default: 0] += 1
         }
 
-        // Lawn value steps: four per zone range; neighbouring lots differ by one or two steps
-        // (look-fix §1.1: 4–10 % value apart, no alternating stripes).
+        // Lawn value steps: four per zone range (5 % apart); neighbouring lots differ by one or two
+        // steps where possible, never equal unless every level is taken (look-fix §1.1: 4–10 % value apart, no alternating stripes).
         var neighbours: [Int: Set<Int>] = [:]
         for j in 0..<raster.h { for i in 0..<raster.w {
             let o = Int(raster.owner[raster.index(i, j)])
@@ -179,7 +179,11 @@ extension SceneGenerator {
             let taken = (neighbours[idx] ?? []).compactMap { step[$0] }
             var allowed = (0..<4).filter { k in taken.allSatisfy { abs($0 - k) == 1 || abs($0 - k) == 2 } }
             if allowed.isEmpty { allowed = (0..<4).filter { !taken.contains($0) } }
-            if allowed.isEmpty { allowed = Array(0..<4) }
+            if allowed.isEmpty {
+                // Every level is taken: the least-used one among the neighbours.
+                let counts = (0..<4).map { k in taken.filter { $0 == k }.count }
+                allowed = [counts.firstIndex(of: counts.min()!)!]
+            }
             step[idx] = allowed[Int(r.next() % UInt64(allowed.count))]
         }
         var lotTrees: [Int: Int] = [:]
