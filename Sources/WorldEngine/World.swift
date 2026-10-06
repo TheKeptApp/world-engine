@@ -91,15 +91,15 @@ public final class World {
     private var tuftEntity: (entity: Entity, data: LowLevelInstanceData, center: LocalPoint)?
     private var tuftMesh: MeshResource?
     /// LOD props (trees, bushes) per kind/variant/cell, with one entity per slot: 0 = near detail
-    /// inside the cut-away zone (cuttable), 1 = the rest of the near detail, 2 = mid, 3 = far
-    /// (1–3 opaque; see `RenderResources.foliageOpaqueMaterial`).
+    /// inside the cut-away zone (cuttable), 1 = the rest of the near detail, 2 = mid, 3 = far,
+    /// 4 = skyline (1–4 opaque; see `RenderResources.foliageOpaqueMaterial`).
     struct LODGroup {
         var kind: PropKind
         var variant: Int
         var instances: [PropInstance]
         var levels: [(entity: Entity, data: LowLevelInstanceData, triangles: Int, buffers: WorldMesh.MeshBuffers)]
-        var counts = [0, 0, 0, 0]
-        var bounds: [BoundingBox?] = [nil, nil, nil, nil]
+        var counts = [0, 0, 0, 0, 0]
+        var bounds: [BoundingBox?] = [nil, nil, nil, nil, nil]
     }
     /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
     struct BuildingCellState {
@@ -116,7 +116,7 @@ public final class World {
     /// blocker always falls inside.
     static let cutZoneMeters: Float = 20
     private(set) var lodGroups: [LODGroup] = []
-    var lodCenter: SIMD2<Float>?
+    var lodCenter: SIMD3<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
     private var cullables: [(bounds: BoundingBox, triangles: Int, draws: Int)] = []
     private var tuftBounds: BoundingBox?
@@ -317,11 +317,12 @@ public final class World {
     private func buildChunks() throws {
         // Soft world boundary: a plain ground under and around the area (v2 §3.3), fogged with
         // distance like everything else.
-        // The plain beyond the data reads as a neutral distant land (the base palette's backdrop
-        // colour), not as lawn: from the aerial a bright green field dominated the frame
-        // (P3's look loop: colour match to the concepts). A real context ring replaces it later.
+        // The plain beyond the data reads as a neutral distant land, not as lawn (from the aerial a
+        // bright green field dominated the frame): the lighting bible's coverage backdrop, #A9B4A0
+        // in summer and #BDC8D4 in winter (look-fix-v1 §4; a seasonal palette slot). A real
+        // context ring (P1) replaces it where data exists.
         var boundary = scene.boundaryGround
-        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop"), shade: 0.7))
+        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop")))
         if let ground = try MeshUpload.resource([boundary]) {
             let e = Entity()
             e.name = "Boundary ground"
@@ -438,7 +439,8 @@ public final class World {
     public internal(set) var exposureTarget: Float = 0.54
     /// Post-process saturation multiplier for the current light and weather (set by `apply`).
     public internal(set) var gradeSaturation: Float = 1
-    /// The lighting bible's per-state grade (`Profiles/grade.json`).
+    /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
+    static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()
 
     /// Runtime multipliers on the resolved light and grade, for tuning the look on a device
@@ -468,9 +470,12 @@ public final class World {
         }
     }
 
-    /// How far from the camera the sun casts shadows (m). 80 m by default; GPU attribution
-    /// measures shorter ranges with `setShadowDistance(_:)`.
-    var shadowDistance: Float = 80
+    /// How far from the camera the sun casts shadows (m). 60 m: the lighting bible keeps 60–80 m of
+    /// local coverage (look-fix-v1 §2.3), and the owner's decision 2 shortens the range first when
+    /// the phone's GPU time is above 8 ms (street view ~9.1 ms at full clock). The shadow map's
+    /// texels then cover 25% less ground, which also sharpens the jagged wall-base shadows.
+    /// GPU attribution measures other ranges with `setShadowDistance(_:)`.
+    var shadowDistance: Float = 60
 
     /// Opaque materials for trees and bushes outside the cut-away zone (on by default; switched off
     /// only to measure what it saves, `World.Feature.opaqueDetail`).
@@ -509,10 +514,11 @@ public final class World {
                 stats.meshBytes += list.count * 64
                 continue
             }
-            // Trees, bushes: one entity per slot (cut-away zone, near, mid, far), refilled as the
-            // camera moves.
+            // Trees, bushes: one entity per slot (cut-away zone, near, mid, far, skyline), refilled
+            // as the camera moves.
             var group = LODGroup(kind: kind, variant: variant, instances: list, levels: [])
-            for slot in 0..<4 {
+            let slots = PropLibrary.lodCount(kind) + 1
+            for slot in 0..<slots {
                 guard let (mesh, buffers) = try cached(kind, variant, lod: max(0, slot - 1)) else { continue }
                 let data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: list.count)
                 let e = Entity()
@@ -523,9 +529,9 @@ public final class World {
                 rootEntity.addChild(e)
                 group.levels.append((e, data, buffers.triangleCount, buffers))
             }
-            guard group.levels.count == 4 else { continue }
+            guard group.levels.count == slots else { continue }
             lodGroups.append(group)
-            stats.meshBytes += list.count * 64 * 4
+            stats.meshBytes += list.count * 64 * slots
         }
         if let (mesh, _) = try cached(.tuft, 0) { tuftMesh = mesh }
         staticPropTriangles = staticPropBase
@@ -554,7 +560,10 @@ public final class World {
         guard let b = buffers.bounds, !transforms.isEmpty else { return nil }
         var lo = SIMD3<Float>(repeating: .infinity), hi = -lo
         for t in transforms {
-            let s = simd_length(SIMD3(t.columns.0.x, t.columns.0.y, t.columns.0.z))
+            // Largest axis scale: trees carry a per-tree crown stretch on x and z.
+            let s = max(simd_length(SIMD3(t.columns.0.x, t.columns.0.y, t.columns.0.z)),
+                        simd_length(SIMD3(t.columns.1.x, t.columns.1.y, t.columns.1.z)),
+                        simd_length(SIMD3(t.columns.2.x, t.columns.2.y, t.columns.2.z)))
             let c = SIMD3(t.columns.3.x, t.columns.3.y, t.columns.3.z)
             let r = simd_max(simd_abs(b.min), simd_abs(b.max)) * s
             lo = simd_min(lo, c - r); hi = simd_max(hi, c + r)
@@ -562,21 +571,25 @@ public final class World {
         return BoundingBox(min: lo, max: hi)
     }
 
-    /// Re-buckets trees and bushes into near/mid/far detail when the camera has moved more than 8 m.
+    /// Re-buckets trees and bushes into near/mid/far/skyline detail when the camera has moved more
+    /// than 8 m. Distance is from the eye (3D), so from the aerial camera every tree is far away.
     private func updateLODs(camera: SIMD3<Float>) {
-        let c = SIMD2(camera.x, camera.z)
-        if let last = lodCenter, simd_distance(last, c) < Float(PropLibrary.lodRebucketMeters) { return }
-        lodCenter = c
-        updateBuildingLODs(camera: c)
-        let cut = Self.cutZoneMeters, near = Float(PropLibrary.lodDistances[0]), mid = Float(PropLibrary.lodDistances[1])
+        if let last = lodCenter, simd_distance(last, camera) < Float(PropLibrary.lodRebucketMeters) { return }
+        lodCenter = camera
+        updateBuildingLODs(camera: SIMD2(camera.x, camera.z))
+        let cut = Self.cutZoneMeters
+        let edges = PropLibrary.lodDistances.map(Float.init)  // near→mid, mid→far, far→skyline
         var trees = 0, others = 0
         for gi in lodGroups.indices {
-            var buckets: [[simd_float4x4]] = [[], [], [], []]
+            let slots = lodGroups[gi].levels.count
+            var buckets = [[simd_float4x4]](repeating: [], count: slots)
             for inst in lodGroups[gi].instances {
-                let d = simd_distance(SIMD2(Float(inst.x), Float(-inst.y)), c)
-                buckets[d < cut ? 0 : (d < near ? 1 : (d < mid ? 2 : 3))].append(inst.transform)
+                let d = simd_distance(SIMD3(Float(inst.x), Float(inst.height), Float(-inst.y)), camera)
+                var slot = d < cut ? 0 : 1
+                if slot == 1 { for e in edges where d >= e { slot += 1 } }
+                buckets[min(slot, slots - 1)].append(inst.transform)
             }
-            for lod in 0..<4 {
+            for lod in 0..<slots {
                 let (entity, data, tris, buffers) = lodGroups[gi].levels[lod]
                 let ts = buckets[lod]
                 data.instanceCount = ts.count

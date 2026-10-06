@@ -22,7 +22,7 @@ extension World {
     /// Sky dome radius (inside the 5 km far plane, outside the world).
     static let skyRadius: Float = 4500
     /// Extra exposure at full sun cover (×(1 + gain)), and extra sky fill (see `apply`).
-    static let weatherExposureGain: Float = 1.1
+    static let weatherExposureGain: Float = 0.3
     static let weatherSkyFillGain: Float = 1.2
     /// Low clear sun: key ×(1 + gain) and fill ×(1 − cut) at ≤ 4° elevation, fading out by 25°.
     static let lowSunKeyGain: Float = 0.8
@@ -41,31 +41,43 @@ extension World {
         // diffuse sky also becomes the main light source, so sky fill grows as the sun is hidden.
         // Daytime only: night keeps its own key.
         var L = env.light.timeOfDay
-        let hidden = Float(max(0, 1 - env.light.directStrength))
-        let dayWeight = Float(smoothstepD(-2, 8, env.light.sunElevationDeg))
-        L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
-        let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
-        // Auto exposure and saturation follow the lighting bible's per-state grade (look-fix-v1
-        // §2.2, Profiles/grade.json): clear states by sun elevation, night by moon light, weather
-        // over them by intensity (snow by the larger of intensity and ground cover).
+        // The lighting bible's per-state grade (look-fix-v1 §2.2-2.4; Profiles/lighting-bible.json
+        // with our tuning in grade.json): clear states by sun elevation, night by moon light, weather
+        // over them by its weight. A label's bible state applies in full from `weatherFullAt` (the
+        // bible's light rain is 0.7 mm/h, intensity 0.22); snow by the larger of intensity and cover.
         let state = env.state.dominantState
-        var weight = min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? env.state.cloudCover01 ?? 0 : 0)))
-        if state == .snow { weight = max(weight, env.state.snowCover01 ?? 0) }
+        var raw = min(1, max(0, env.state.intensity01 ?? (state == .cloudy ? env.state.cloudCover01 ?? 0 : 0)))
+        if state == .snow { raw = max(raw, env.state.snowCover01 ?? 0) }
+        let weight = min(1, raw / max(1e-3, Self.gradeTable?.fullAt[state?.rawValue ?? ""] ?? 1))
         let moonState = env.sky.moon
         let moonLight = pow(max(0, moonState.illuminatedFraction), 1.5) * max(0, sin(moonState.altitudeDeg * .pi / 180))
             * pow(1 - (env.state.cloudCover01 ?? 0), 2)
-        let grade = Self.gradeTable?.resolve(sunElevation: env.light.sunElevationDeg, moonLight: min(1, moonLight * 2),
+        let elevationDeg = env.light.sunElevationDeg
+        let clearGrade = Self.gradeTable?.resolve(sunElevation: elevationDeg, moonLight: min(1, moonLight * 2), weather: nil, weight: 0)
+        let grade = Self.gradeTable?.resolve(sunElevation: elevationDeg, moonLight: min(1, moonLight * 2),
                                              weather: state?.rawValue, weight: weight)
         if let grade {
             exposureTarget = Float(grade.luma / 255) + lookTuning.exposureTarget
             gradeSaturation = Float(grade.saturation)
         }
+        // Weather key:fill (grade.json weather `direct`): the renderer takes away more of the direct
+        // sun under cloud, rain and fog than the weather model does, and the sky fill grows as the
+        // sun is hidden. Exposure compensation is small now: the solved auto exposure meets each
+        // state's brightness, so a large boost here only fought it (storms rendered too bright).
+        let directCut = Self.weatherDirectCut(state, weight: weight)
+        let directEff = env.light.directStrength * directCut
+        let hidden = Float(max(0, 1 - directEff))
+        let dayWeight = Float(smoothstepD(-2, 8, elevationDeg))
+        L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
+        let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
         // Low clear sun (golden hour, early morning): at 6° the sun puts only ~10% of its light on
         // flat ground, so the sky fill washes its shadows out. A stronger key and less fill keep
         // the warm light and the long shadows readable (art direction: warm light that picks out
         // materials; P3 look loop: "no golden-hour key light"). The sun direction stays true.
         let lowSun = Float(1 - smoothstepD(4, 25, env.light.sunElevationDeg)) * Float(smoothstepD(0, 2, env.light.sunElevationDeg)) * (1 - hidden)
-        L.sunIntensity *= (1 + Self.lowSunKeyGain * lowSun) * lookTuning.key
+        // The clear state's key (grade.json `direct` on clear states: the bible's lift at 15:30 needs a
+        // weaker key with more fill, measured on the phone).
+        L.sunIntensity *= (1 + Self.lowSunKeyGain * lowSun) * lookTuning.key * Float(clearGrade?.direct ?? 1)
         let lowSunFill = 1 - Self.lowSunFillCut * lowSun
         let tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
         let tw = Float(w.tintWeight)
@@ -74,7 +86,7 @@ extension World {
         let elevation = env.light.sunElevationDeg
 
         // Sun: time-of-day colour and intensity × direct strength (weather, cloud, 0–2° fade-in).
-        let direct = Float(env.light.directStrength)
+        let direct = Float(directEff)
         var light = sunEntity.components[DirectionalLightComponent.self] ?? DirectionalLightComponent()
         let sc = WorldGen.Color.srgb(simd_normalize(L.sunColor + 1e-6))
         light.color = .init(red: CGFloat(sc.x), green: CGFloat(sc.y), blue: CGFloat(sc.z), alpha: 1)
@@ -98,6 +110,16 @@ extension World {
         g.fogColor = tinted(lin(L.fog))
         g.fogStart = Float(w.fogStartM)
         g.fogEnd = Float(w.fogEndM)
+        // Lighting bible §3.2 presets where it has them (fog and smoke light → dense by intensity,
+        // light rain, storm rain): their scattering colour and distances; a reported visibility
+        // still caps the end (bounded calibration, §3.2).
+        if let label = state, let e = Self.lightingBible?.extinction(label: label.rawValue, intensity: raw) {
+            var end = e.end
+            if let v = env.state.visibilityM { end = min(end, max(60, v)) }
+            g.fogColor = e.color
+            g.fogStart = Float(min(e.start, end * 0.5))
+            g.fogEnd = Float(end)
+        }
         // Lighting bible atmosphere: the clear-air fade of the state (§2.3), and weather extinction
         // (§3.2) only for weather that carries it, at its intensity.
         if let air = grade?.air {
@@ -112,12 +134,16 @@ extension World {
         }
         // Falling snow, not lying snow, takes the view away.
         g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
+        // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
+        let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
-            * lookTuning.fill
+            * lookTuning.fill * gradeFill
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
-            * lookTuning.fill * lookTuning.groundFill
+            * lookTuning.fill * lookTuning.groundFill * gradeFill * gradeGround
         g.litFraction = L.litWindows
-        g.litWindow = Palette.parse(elevation < -6 ? "#DCA967" : "#E9BE7C")
+        // Lit windows (lighting bible §2.4): the core colour at night, the surround tone in twilight.
+        let night = Self.lightingBible?.night
+        g.litWindow = Palette.parse(elevation < -6 ? night?.windowCore ?? "#FFD19A" : night?.windowSurround ?? "#E8A968")
 
         // Surfaces: wetness and snow come from the accumulation model (decision 5), never the label.
         g.wetness = Float(env.state.wetness01 ?? 0)
@@ -140,7 +166,10 @@ extension World {
         let label = env.state.dominantState
         let intensity = Float(env.state.intensity01 ?? 0)
         let wetSky: Float = (label == .rain || label == .thunderstorm) ? 0.25 + 0.35 * min(1, intensity * 2) : 0
-        let cloudColor = tinted(simd_mix(lin(L.skyHorizon), lin(L.ambientSky), SIMD3(repeating: 0.25))) * (1.04 - 0.3 * cloud) * (1 - wetSky)
+        // Fair-weather clouds near white with cool bases (bible §6.1); the deck greys as cover closes.
+        let deck = simd_mix(lin(L.skyHorizon), lin(L.ambientSky), SIMD3(repeating: 0.25))
+        let fair = simd_mix(SIMD3<Float>(repeating: 0.92), deck, SIMD3(repeating: 0.25))
+        let cloudColor = tinted(simd_mix(fair, deck, SIMD3(repeating: min(1, cloud * 1.4)))) * (1.04 - 0.3 * cloud) * (1 - wetSky)
         // Fog, haze, smoke and dust veil the sky itself, not just the distance: dense fog closes to
         // a uniform pale grey (experience-v1 05: "uniform pale gray horizon", no sun disk), smoke
         // to a flat beige-grey (06). The veil leans toward the obscurant's own colour.
@@ -196,28 +225,35 @@ extension World {
         updateImageBasedLight(L, elevation: elevation, cloud: cloud)
     }
 
-    public static let phenologyProfiles: [PhenologyProfile] = [.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo]
+    public static let phenologyProfiles: [PhenologyProfile] = [.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo, .chicagoland]
 
-    /// The sky shader's cloud noise is roughly normal (mean 0.5, sd 0.10); the threshold is its
-    /// (1 − cover) quantile so the covered share of the dome follows the cover.
+    /// Direct-sun multiplier of the bible's weather grade (1 when clear), at the weather's weight.
+    static func weatherDirectCut(_ state: DominantState?, weight: Double) -> Double {
+        guard let state, let cut = gradeTable?.weather[state.rawValue]?.direct else { return 1 }
+        return 1 + (cut - 1) * weight
+    }
+
+    /// The sky shader's cloud noise (0.55·n1 + 0.30·n2 + 0.15·n3 of value noise) has mean 0.5 and
+    /// sd 0.139; its threshold for a cover is the noise's measured (1 − cover) quantile. A street
+    /// camera sees the dome near the horizon, where perspective crowds the clouds, so low covers
+    /// are thinned for the view (lighting bible §6.1: 0–0.15 cover shows 0–3 forms, a broad clear
+    /// gradient; 0.15–0.4 separated clouds with 40%+ clear gaps); from 0.6 the cover is as given.
     static func cloudThreshold(cover: Float) -> Float {
-        let c = min(0.999, max(0.001, Double(cover)))
-        // Acklam-style rational approximation of the inverse normal CDF at p = 1 − c.
-        let p = 1 - c
-        func inv(_ p: Double) -> Double {
-            let a = [-39.6968302866538, 220.946098424521, -275.928510446969, 138.357751867269, -30.6647980661472, 2.50662827745924]
-            let b = [-54.4760987982241, 161.585836858041, -155.698979859887, 66.8013118877197, -13.2806815528857]
-            let cc = [-0.00778489400243029, -0.322396458041136, -2.40075827716184, -2.54973253934373, 4.37466414146497, 2.93816398269878]
-            let d = [0.00778469570904146, 0.32246712907004, 2.445134137143, 3.75440866190742]
-            if p < 0.02425 {
-                let q = (-2 * log(p)).squareRoot()
-                return (((((cc[0] * q + cc[1]) * q + cc[2]) * q + cc[3]) * q + cc[4]) * q + cc[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
-            }
-            if p > 1 - 0.02425 { return -inv(1 - p) }
-            let q = p - 0.5, r = q * q
-            return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+        let c = min(0.999, max(0.001, cover))
+        let shown = c * (0.45 + 0.55 * smoothstepF(0.15, 0.6, c))
+        // (cover, threshold) measured from 200,000 samples of the shader's noise.
+        let table: [(Float, Float)] = [(0.0, 0.86), (0.02, 0.7747), (0.05, 0.7277), (0.10, 0.6824), (0.15, 0.6500),
+                                       (0.20, 0.6228), (0.30, 0.5777), (0.40, 0.5373), (0.50, 0.4991), (0.60, 0.4609),
+                                       (0.70, 0.4215), (0.80, 0.3765), (0.90, 0.3176), (0.95, 0.2726), (1.0, 0.15)]
+        for (a, b) in zip(table, table.dropFirst()) where shown >= a.0 && shown <= b.0 {
+            return a.1 + (b.1 - a.1) * (shown - a.0) / (b.0 - a.0)
         }
-        return Float(0.5 + 0.10 * inv(p))
+        return table.last!.1
+    }
+
+    static func smoothstepF(_ a: Float, _ b: Float, _ x: Float) -> Float {
+        let t = min(1, max(0, (x - a) / (b - a)))
+        return t * t * (3 - 2 * t)
     }
 
     /// Canopy map for leaf litter: a top-down 8-bit coverage of deciduous crowns over the area

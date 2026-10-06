@@ -178,7 +178,7 @@ extension World {
         // Trees and bushes: in frame at the near mesh (slot 1, opaque); the rest by distance, as
         // live, for the shadows they throw into the frame. Slot 0 (the follow camera's cut-away
         // zone) stays empty: postcards have no cut-away.
-        let near = Float(PropLibrary.lodDistances[0]), mid = Float(PropLibrary.lodDistances[1])
+        let edges = PropLibrary.lodDistances.map(Float.init)
         for g in lodGroups {
             let slots = g.levels.map { copies[ObjectIdentifier($0.entity)] }
             guard slots.count >= 3, slots.allSatisfy({ $0 != nil }) else { continue }
@@ -190,8 +190,11 @@ extension World {
                     reach(b)
                     if q.nearDetail { buckets[1].append(t); continue }
                 }
-                let d = simd_distance(SIMD2(Float(inst.x), Float(-inst.y)), camera)
-                buckets[d < near ? 1 : (d < mid ? 2 : last)].append(t)
+                // As live (`World.updateLODs`): eye distance, cut-away slot 0 left empty.
+                let d = simd_distance(SIMD3(Float(inst.x), Float(inst.height), Float(-inst.y)), eye)
+                var slot = 1
+                for e in edges where d >= e { slot += 1 }
+                buckets[min(slot, last)].append(t)
             }
             guard q.nearDetail else { continue }
             info.nearInstances += buckets[1].count

@@ -23,6 +23,10 @@ public struct Paint: Hashable, Sendable {
         public static let variant2 = Flags(rawValue: 64)
         /// Near-camera clutter that shrinks away with distance (tufts).
         public static let distanceFade = Flags(rawValue: 128)
+        /// Context-ring ground (look-fix-v1 §4 coverage fade): the colour blends into the seasonal
+        /// backdrop over the last `sway` metres inside a coverage box carried in `extra` (scene
+        /// x min, z min, x max, z max), so the data ends without a cut. AO is 1 on these vertices.
+        public static let coverageFade = Flags(rawValue: 256)
     }
 
     public var slot: Int

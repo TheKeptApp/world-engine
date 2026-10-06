@@ -303,6 +303,7 @@ struct RealityKitScreen: View {
             await applyView(o, world: world, camera: camera, env: env, demo: demo)
             try? await Task.sleep(for: .seconds(options.viewSettle))
             print("VIEWREADY id=\(spec.id)"); fflush(nil)
+            if options.viewHold > 0 { try? await Task.sleep(for: .seconds(options.viewHold)) }
             let file = dir.appendingPathComponent("\(spec.id).png")
             try? FileManager.default.removeItem(at: file)
             // `-capturequality`: the postcard quality-mode render of this view instead (PostcardExport.swift).
