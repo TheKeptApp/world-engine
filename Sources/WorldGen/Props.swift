@@ -36,7 +36,7 @@ public struct PropLibrary: Sendable {
     }
 
     /// Crown lobes (center, radius) in unit-height tree space for each archetype.
-    static func lobes(_ kind: PropKind) -> (trunkTop: Float, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
+    public static func lobes(_ kind: PropKind) -> (trunkTop: Float, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
         switch kind {
         case .treeOval:
             // Upright oval: narrow, tall crown of stacked lobes.
@@ -168,13 +168,15 @@ public struct PropLibrary: Sendable {
             let horizontal = SIMD3<Float>(out.x, 0, out.z)
             let angle = Float(k) * 2.4
             let flat: SIMD3<Float> = simd_length(horizontal) > 1e-4 ? simd_normalize(horizontal) : SIMD3<Float>(cos(angle), 0, sin(angle))
-            let end: SIMD3<Float> = c + flat * (r * 0.55) + SIMD3<Float>(0, r * 0.25, 0)
+            // Limbs end half-way into the lobe and twigs stay inside it (≤ 0.85 r from its centre),
+            // so nothing pokes through a leafy crown.
+            let end: SIMD3<Float> = c + flat * (r * 0.42) + SIMD3<Float>(0, r * 0.2, 0)
             addBranch(&m, from: fork, to: end, radius: lod == 0 ? 0.011 : 0.013, sides: lod == 0 ? 5 : 3)
             guard lod == 0 else { continue }
             let side = simd_normalize(simd_cross(flat, SIMD3(0, 1, 0)))
             for s: Float in [-1, 1] {
-                let spread: SIMD3<Float> = flat * 0.6 + side * (s * 0.5) + SIMD3<Float>(0, 0.55, 0)
-                let tip: SIMD3<Float> = end + spread * (r * 0.85)
+                let spread: SIMD3<Float> = simd_normalize(flat * 0.6 + side * (s * 0.5) + SIMD3<Float>(0, 0.55, 0))
+                let tip: SIMD3<Float> = end + spread * (r * 0.36)
                 addBranch(&m, from: end, to: tip, radius: 0.005, sides: 3)
             }
         }

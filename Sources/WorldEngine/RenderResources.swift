@@ -56,6 +56,8 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var sunDirection = SIMD3<Float>(0, 1, 0)
     public var sunDisk = SIMD3<Float>(0, 0, 0)
     public var cloudCover: Float = 0
+    /// Noise threshold that yields `cloudCover` of the dome (set with the cover).
+    public var cloudThreshold: Float = 1
     public var cloudColor = SIMD3<Float>(0.8, 0.8, 0.8)
     public var moonDirection = SIMD3<Float>(0, -1, 0)
     public var moonRadius: Float = 0.0072
@@ -63,6 +65,13 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var moonLight = SIMD3<Float>(0, 1, 0)
     public var moonColor = SIMD3<Float>(0.85, 0.85, 0.82)
     public var starStrength: Float = 0
+    /// Fallen leaves under deciduous crowns (0–1, from leaf drop) and their colours (linear).
+    public var leafLitter: Float = 0
+    public var litterColorA = SIMD3<Float>(0.45, 0.25, 0.08)
+    public var litterColorB = SIMD3<Float>(0.55, 0.38, 0.12)
+    /// Canopy map placement: scene x, z of its minimum corner and its size (metres).
+    public var canopyOrigin = SIMD2<Float>(0, 0)
+    public var canopySize = SIMD2<Float>(1, 1)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -85,7 +94,8 @@ final class RenderResources {
     private var lastGlobals: ShaderGlobals?
     private var paletteDirty = true
 
-    let staticMaterial: CustomMaterial
+    /// Static surfaces (buildings, ground); its base-colour slot carries the canopy map.
+    var staticMaterial: CustomMaterial
     /// Same shader family as `staticMaterial`, but cut-away capable (lamps, benches).
     let propMaterial: CustomMaterial
     let foliageMaterial: CustomMaterial
@@ -181,13 +191,19 @@ final class RenderResources {
         p[w + 13] = SIMD4(h(g.leafFraction.x), h(g.leafFraction.y), h(g.leafFraction.z), h(g.foliageSwayFactor))
         p[w + 14] = SIMD4(h(g.snowColor.x), h(g.snowColor.y), h(g.snowColor.z), h(g.starStrength))
         p[w + 15] = SIMD4(h(g.skyTop.x), h(g.skyTop.y), h(g.skyTop.z), h(g.cloudCover))
-        p[w + 16] = SIMD4(h(g.skyHorizon.x), h(g.skyHorizon.y), h(g.skyHorizon.z), 0)
+        p[w + 16] = SIMD4(h(g.skyHorizon.x), h(g.skyHorizon.y), h(g.skyHorizon.z), h(g.cloudThreshold))
         p[w + 17] = SIMD4(h(g.sunDirection.x), h(g.sunDirection.y), h(g.sunDirection.z), 0)
         p[w + 18] = SIMD4(h(g.sunDisk.x), h(g.sunDisk.y), h(g.sunDisk.z), 0)
         p[w + 19] = SIMD4(h(g.cloudColor.x), h(g.cloudColor.y), h(g.cloudColor.z), 0)
         p[w + 20] = SIMD4(h(g.moonDirection.x), h(g.moonDirection.y), h(g.moonDirection.z), h(g.moonRadius * 100))
         p[w + 21] = SIMD4(h(g.moonLight.x), h(g.moonLight.y), h(g.moonLight.z), h(g.moonOpacity))
         p[w + 22] = SIMD4(h(g.moonColor.x), h(g.moonColor.y), h(g.moonColor.z), 0)
+        p[w + 23] = SIMD4(h(g.litterColorA.x), h(g.litterColorA.y), h(g.litterColorA.z), h(g.leafLitter))
+        p[w + 24] = SIMD4(h(g.litterColorB.x), h(g.litterColorB.y), h(g.litterColorB.z), 0)
+        // Canopy origin/size as coarse + fine halves (kilometres need more than half precision).
+        let co = g.canopyOrigin.rounded(.toNearestOrEven), cs = g.canopySize.rounded(.toNearestOrEven)
+        p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
+        p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

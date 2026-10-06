@@ -33,6 +33,8 @@ public struct ExperienceDefaults: Codable, Sendable, Equatable {
         public var routeMaxDownPitchDegrees = 20.0
         /// Look-ahead = clamp(2 + 2v, 4, 18) metres along the path.
         public var routeLookAhead = [2.0, 2.0, 4.0, 18.0]
+
+        public init() {}
     }
 
     public var version = 1

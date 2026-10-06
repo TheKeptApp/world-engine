@@ -1,10 +1,10 @@
 {
- "comment": "WorldLab demo data (not engine code): the focus box that gets full street detail, the stand-in's walking loop (stitched from OSM sidewalk/crossing/trail ways along Raleigh Street and Sloan's Lake Trail), and camera presets for screenshots. Focus extends east to cover the v2 comparison fixture on West 23rd Avenue (39.7511195, \u2212105.0389).",
+ "comment": "WorldLab demo data (not engine code): the focus box that gets full street detail, the stand-in's walking loop (stitched from OSM sidewalk/crossing/trail ways along Raleigh Street and Sloan's Lake Trail), and camera presets for screenshots. Focus covers the v2 comparison fixture on West 23rd Avenue (39.7511195, −105.0389) and the experience-v1 showcase camera on the lake's north shore (39.7528379, −105.0467978).",
  "area": "sloans-lake",
  "focus": {
   "south": 39.747058,
-  "west": -105.04345,
-  "north": 39.752462,
+  "west": -105.0495,
+  "north": 39.7545,
   "east": -105.037966
  },
  "walkSpeed": 0.87,
@@ -191,7 +191,7 @@
   }
  ],
  "fixtures": {
-  "comment": "v2 spec \u00a76.2 comparison presets (proposal data, copied here as WorldLab demo data).",
+  "comment": "v2 spec §6.2 comparison presets (proposal data, copied here as WorldLab demo data).",
   "streetAnchor": {
    "lat": 39.7511195,
    "lon": -105.0389
@@ -218,5 +218,199 @@
   "fovDegrees": 50,
   "goldenUTC": "2026-10-15T23:44:01Z",
   "noonUTC": "2026-07-15T19:07:00Z"
+ },
+ "locationLabel": "Sloan's Lake, Denver",
+ "timeZone": "America/Denver",
+ "phenology": "denver-calendar-demo-v1",
+ "showcase": {
+  "comment": "experience-v1 showcase (docs/proposals/experience-v1/showcase-presets.json, proposal data copied here as WorldLab demo data): camera poses in local metres around each origin (east +X, up +Y, north −Z) and synthetic Demo weather states.",
+  "cameras": {
+   "street": {
+    "origin": {
+     "lat": 39.7528379,
+     "lon": -105.0467978
+    },
+    "position": [
+     0,
+     1.65,
+     0
+    ],
+    "target": [
+     29.503743246398354,
+     0.0799213127116849,
+     5.202305966235185
+    ],
+    "fovDegrees": 50,
+    "near": 0.1,
+    "far": 3000
+   },
+   "aerial": {
+    "origin": {
+     "lat": 39.7494,
+     "lon": -105.0445
+    },
+    "position": [
+     0,
+     1474.47367972,
+     1032.43758543
+    ],
+    "target": [
+     0,
+     0,
+     0
+    ],
+    "fovDegrees": 50,
+    "near": 1,
+    "far": 5000
+   }
+  },
+  "states": [
+   {
+    "id": "01",
+    "name": "clear-golden-hour",
+    "camera": "street",
+    "utc": "2026-10-15T23:44:01Z",
+    "label": "clear",
+    "intensity": 1,
+    "cloud": 0,
+    "rateMmPerHour": 0,
+    "wetness": 0,
+    "sweMm": 0
+   },
+   {
+    "id": "02",
+    "name": "overcast",
+    "camera": "street",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "cloudy",
+    "intensity": 1,
+    "cloud": 1,
+    "rateMmPerHour": 0,
+    "wetness": 0,
+    "sweMm": 0
+   },
+   {
+    "id": "03",
+    "name": "light-rain",
+    "camera": "street",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "rain",
+    "intensity": 0.16909208367343836,
+    "cloud": 0.8,
+    "rateMmPerHour": 0.5,
+    "wetness": 0.65,
+    "sweMm": 0
+   },
+   {
+    "id": "04",
+    "name": "thunderstorm",
+    "camera": "street",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "thunderstorm",
+    "intensity": 1,
+    "cloud": 1,
+    "rateMmPerHour": 8,
+    "wetness": 0.9,
+    "sweMm": 0
+   },
+   {
+    "id": "05",
+    "name": "fog",
+    "camera": "street",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "fog",
+    "intensity": 1,
+    "cloud": 0.8,
+    "rateMmPerHour": 0,
+    "wetness": 0,
+    "sweMm": 0
+   },
+   {
+    "id": "06",
+    "name": "wildfire-smoke",
+    "camera": "street",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "smoke",
+    "intensity": 0.8,
+    "cloud": 0.15,
+    "rateMmPerHour": 0,
+    "visibilityM": 1200,
+    "wetness": 0,
+    "sweMm": 0
+   },
+   {
+    "id": "07",
+    "name": "falling-snow",
+    "camera": "street",
+    "utc": "2026-01-02T19:04:21.270Z",
+    "label": "snow",
+    "intensity": 1,
+    "cloud": 1,
+    "rateMmPerHour": 2,
+    "wetness": 0.15,
+    "sweMm": 6
+   },
+   {
+    "id": "08",
+    "name": "morning-after-snow",
+    "camera": "street",
+    "utc": "2026-01-03T15:15:00Z",
+    "label": "clear",
+    "intensity": 1,
+    "cloud": 0,
+    "rateMmPerHour": 0,
+    "wetness": 0.45,
+    "sweMm": 3
+   },
+   {
+    "id": "09",
+    "name": "clear-night",
+    "camera": "street",
+    "utc": "2026-01-04T02:00:00Z",
+    "label": "clear",
+    "intensity": 1,
+    "cloud": 0,
+    "rateMmPerHour": 0,
+    "wetness": 0,
+    "sweMm": 0
+   },
+   {
+    "id": "10",
+    "name": "aerial-rain",
+    "camera": "aerial",
+    "utc": "2026-10-15T18:45:54.440Z",
+    "label": "rain",
+    "intensity": 0.16909208367343836,
+    "cloud": 0.8,
+    "rateMmPerHour": 0.5,
+    "wetness": 0.65,
+    "sweMm": 0
+   },
+   {
+    "id": "11",
+    "name": "aerial-snow-cover",
+    "camera": "aerial",
+    "utc": "2026-01-03T15:15:00Z",
+    "label": "clear",
+    "intensity": 1,
+    "cloud": 0,
+    "rateMmPerHour": 0,
+    "wetness": 0.45,
+    "sweMm": 3
+   },
+   {
+    "id": "12",
+    "name": "ordinary-afternoon",
+    "camera": "street",
+    "utc": "2026-10-15T21:30:00Z",
+    "label": "clear",
+    "intensity": 1,
+    "cloud": 0.25,
+    "rateMmPerHour": 0,
+    "wetness": 0,
+    "sweMm": 0,
+    "note": "WorldLab addition (art direction, Prompt 5): a clear, ordinary afternoon with fair-weather cloud, scored as hard as fall and snow"
+   }
+  ]
  }
 }

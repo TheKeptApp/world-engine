@@ -147,6 +147,7 @@ public final class World {
 
         rootEntity.name = "World"
         buildLights()
+        buildCanopyMap()
         try buildChunks()
         try buildProps()
         buildOccluders()
@@ -253,7 +254,8 @@ public final class World {
         } else {
             g.contactRel = nil
         }
-        followCamera(camPos, dt: dt)
+        let m = camera.transformMatrix(relativeTo: nil)
+        followCamera(camPos, forward: -SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z), dt: dt)
         resources.update(globals: g)
         viewClock += dt
         if viewClock >= 0.5 {

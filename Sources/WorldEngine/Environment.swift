@@ -87,6 +87,7 @@ extension World {
         g.skyHorizon = horizon
         g.skyTop = simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud))
         g.cloudCover = cloud
+        g.cloudThreshold = Self.cloudThreshold(cover: cloud)
         g.cloudColor = cloudColor
         g.sunDirection = dir
         g.sunDisk = elevation > -1.5 ? lin(sc) * 1.2 * Float(smoothstepD(-1.5, 1.0, elevation)) : .zero
@@ -111,6 +112,16 @@ extension World {
             }
             resources.setPalette(palette(phen), ahead: palette(ahead), behind: palette(behind))
             g.leafFraction = SIMD3(Float(phen.deciduous.leafFraction), Float(ahead.deciduous.leafFraction), Float(behind.deciduous.leafFraction))
+            // Leaf litter: a little as colour turns, most once leaves drop, cleared/decayed about
+            // a month after the drop ends (until then it stays, wet or dry; snow covers it).
+            let dec = phen.deciduous
+            let fade = 1 - smoothstepD(profile.dropEnd + 20, profile.dropEnd + 55, phen.dayOfYear)
+            g.leafLitter = Float(max(dec.drop, 0.25 * dec.color * dec.greenUp) * fade)
+            if let s = environmentState.seasonal {
+                func fallen(_ key: String) -> SIMD3<Float> { lin(Palette.parse(s.surfaces[key]?[2] ?? "#A0703C")) * 0.72 }
+                g.litterColorA = fallen("deciduous1")
+                g.litterColorB = fallen("deciduous3")
+            }
         }
         shaderGlobals = g
         resources.update(globals: g)
@@ -121,7 +132,76 @@ extension World {
         updateImageBasedLight(L, elevation: elevation, cloud: cloud)
     }
 
-    static let phenologyProfiles: [PhenologyProfile] = [.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo]
+    public static let phenologyProfiles: [PhenologyProfile] = [.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo]
+
+    /// The sky shader's cloud noise is roughly normal (mean 0.5, sd 0.10); the threshold is its
+    /// (1 − cover) quantile so the covered share of the dome follows the cover.
+    static func cloudThreshold(cover: Float) -> Float {
+        let c = min(0.999, max(0.001, Double(cover)))
+        // Acklam-style rational approximation of the inverse normal CDF at p = 1 − c.
+        let p = 1 - c
+        func inv(_ p: Double) -> Double {
+            let a = [-39.6968302866538, 220.946098424521, -275.928510446969, 138.357751867269, -30.6647980661472, 2.50662827745924]
+            let b = [-54.4760987982241, 161.585836858041, -155.698979859887, 66.8013118877197, -13.2806815528857]
+            let cc = [-0.00778489400243029, -0.322396458041136, -2.40075827716184, -2.54973253934373, 4.37466414146497, 2.93816398269878]
+            let d = [0.00778469570904146, 0.32246712907004, 2.445134137143, 3.75440866190742]
+            if p < 0.02425 {
+                let q = (-2 * log(p)).squareRoot()
+                return (((((cc[0] * q + cc[1]) * q + cc[2]) * q + cc[3]) * q + cc[4]) * q + cc[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+            }
+            if p > 1 - 0.02425 { return -inv(1 - p) }
+            let q = p - 0.5, r = q * q
+            return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+        }
+        return Float(0.5 + 0.10 * inv(p))
+    }
+
+    /// Canopy map for leaf litter: a top-down 8-bit coverage of deciduous crowns over the area
+    /// (~2 m per texel), sampled by the ground shader. Built once from the placed trees.
+    func buildCanopyMap() {
+        let b = features.bounds
+        let size = b.max - b.min
+        let n = 1024
+        var px = [UInt8](repeating: 0, count: n * n)
+        let mpp = max(size.x, size.y) / Double(n)
+        for t in scene.instances where t.kind.isTree && t.kind != .conifer {
+            let shape = PropLibrary.lobes(t.kind)
+            let r = Double((shape.radii.x + shape.radii.z) / 2) * t.scale * 1.25
+            let cx = (t.x - b.min.x) / mpp, cy = (b.max.y - t.y) / mpp   // row 0 = north edge (scene −z)
+            let rp = r / mpp
+            let x0 = max(0, Int(cx - rp)), x1 = min(n - 1, Int(cx + rp)), y0 = max(0, Int(cy - rp)), y1 = min(n - 1, Int(cy + rp))
+            guard x0 <= x1, y0 <= y1 else { continue }
+            for y in y0...y1 {
+                let dy: Double = Double(y) + 0.5 - cy
+                for x in x0...x1 {
+                    let dx: Double = Double(x) + 0.5 - cx
+                    let d: Double = (dx * dx + dy * dy).squareRoot() / rp
+                    guard d < 1 else { continue }
+                    let i = y * n + x
+                    let add: Double = 255 * (1 - d * d)
+                    px[i] = UInt8(min(255.0, Double(px[i]) + add))
+                }
+            }
+        }
+        guard let provider = CGDataProvider(data: Data(px) as CFData),
+              let image = CGImage(width: n, height: n, bitsPerComponent: 8, bitsPerPixel: 8, bytesPerRow: n,
+                                  space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue),
+                                  provider: provider, decode: nil, shouldInterpolate: true, intent: .defaultIntent),
+              let texture = try? TextureResource(image: image, options: .init(semantic: .raw)) else { return }
+        resources.staticMaterial.baseColor.texture = .init(texture)
+        // Scene axes: x = east, z = −north; the map's v runs north → south.
+        shaderGlobals.canopyOrigin = SIMD2(Float(b.min.x), Float(-b.max.y))
+        shaderGlobals.canopySize = SIMD2(Float(mpp * Double(n)), Float(mpp * Double(n)))
+    }
+
+    /// A resolver for this world's place: the area centre as observer, the bundled time-of-day
+    /// tables and star catalogue, and a phenology profile (calendar prior) by ID.
+    public func environmentResolver(timeZone: TimeZone, phenologyProfileID: String?) throws -> EnvironmentResolver {
+        let c = manifest.center
+        let observer = SkyObserver(latitude: c.latitude, longitude: c.longitude, timeZoneID: timeZone.identifier)
+        return EnvironmentResolver(observer: observer, tables: try StyleLibrary.lighting(), stars: try? StarCatalog.bundled(),
+                                   phenologyProfile: Self.phenologyProfiles.first { $0.id == phenologyProfileID })
+    }
 
     // MARK: - Sky dome and stars
 
@@ -171,7 +251,8 @@ extension World {
                 let d = simd_normalize(SIMD3<Float>(Float(s.direction.x), Float(s.direction.y), Float(s.direction.z)))
                 // Quad faces −d (toward the centre): rotate +Z onto −d.
                 let rot = simd_quatf(from: SIMD3(0, 0, 1), to: -d)
-                let size = Float(4 + 8 * s.brightness)
+                // 0.13°–0.36° quads; the soft core reads as a 2–6 px point on a phone.
+                let size = Float(10 + 18 * s.brightness)
                 var m = simd_float4x4(rot) * simd_float4x4(diagonal: SIMD4(size, size, size, 1))
                 m.columns.3 = SIMD4(d * Self.starDistance, 1)
                 out[i] = m
@@ -186,10 +267,12 @@ extension World {
 
     /// Keeps the dome, stars and precipitation centred on the camera (they live at infinity / in
     /// a camera-local box).
-    func followCamera(_ camera: SIMD3<Float>, dt: Double) {
+    func followCamera(_ camera: SIMD3<Float>, forward: SIMD3<Float>, dt: Double) {
         skyDome?.position = camera
         starField?.entity.position = camera
-        precipitation?.position = camera + SIMD3(0, 6, 0)
+        // Precipitation box centred ~9 m ahead (most particles inside the view), 4 m up.
+        let flat = simd_length(SIMD2(forward.x, forward.z)) > 1e-3 ? simd_normalize(SIMD3(forward.x, 0, forward.z)) : SIMD3<Float>(0, 0, -1)
+        precipitation?.position = camera + flat * 9 + SIMD3(0, 4, 0)
     }
 
     // MARK: - Precipitation
@@ -198,7 +281,9 @@ extension World {
     /// the particle budget (rain ≤ 600, snow ≤ 300), rain 12 m/s, snow 1.2 m/s, drift with the wind.
     private func updatePrecipitation(_ budget: ParticleBudget, wind: SIMD3<Double>) {
         let kind = budget.rain >= budget.snow ? (budget.rain > 0 ? "rain" : "") : "snow"
-        let count = kind == "rain" ? budget.rain : budget.snow
+        // Art direction (Prompt 5): rain must read, so light rain keeps a floor of 240 streaks
+        // (snow 120 flakes) within the 600/300 caps.
+        let count = kind == "rain" ? max(budget.rain, 240) : max(budget.snow, 120)
         guard !kind.isEmpty, count > 0 else {
             precipitation?.isEnabled = false
             environmentState.precipitation = ""
@@ -212,35 +297,50 @@ extension World {
             return e
         }()
         entity.isEnabled = true
-        var p = entity.components[ParticleEmitterComponent.self] ?? ParticleEmitterComponent()
+        // Start from RealityKit's own presets (a known-good emitter), then set the box, counts,
+        // speeds and look from the weather budget.
+        var p = environmentState.precipitation == kind ? (entity.components[ParticleEmitterComponent.self] ?? Self.preset(kind)) : Self.preset(kind)
         p.emitterShape = .box
         p.birthLocation = .volume
-        p.emitterShapeSize = SIMD3(30, 20, 30)
+        p.emitterShapeSize = SIMD3(24, 16, 22)
         p.fieldSimulationSpace = .global
         p.isEmitting = true
+        p.simulationState = .play
         let drift = SIMD3<Float>(Float(wind.x), 0, Float(wind.z))
         var e = p.mainEmitter
         if kind == "rain" {
             let fall: Float = 12
             let side = simd_length(drift) > 0 ? simd_normalize(drift) * min(2, 0.2 * simd_length(drift)) : .zero
+            p.birthDirection = .world
             p.emissionDirection = simd_normalize(SIMD3(side.x, -fall, side.z))
             p.speed = fall
+            p.speedVariation = 1
             e.lifeSpan = 1.6
-            e.size = 0.012
-            e.stretchFactor = 6
+            e.lifeSpanVariation = 0.2
+            e.size = 0.03
+            e.stretchFactor = 14
             e.billboardMode = .billboardYAligned
-            e.color = .constant(.single(.init(red: 0.78, green: 0.82, blue: 0.86, alpha: 0.32)))
+            e.acceleration = .zero
+            // Mid grey-blue: lighter than dark trees, a touch darker than a bright overcast sky.
+            e.color = .constant(.single(.init(red: 0.72, green: 0.76, blue: 0.82, alpha: 0.55)))
         } else {
             let fall: Float = 1.2
             let side = simd_length(drift) > 0 ? simd_normalize(drift) * min(3, 0.35 * simd_length(drift)) : .zero
+            p.birthDirection = .world
             p.emissionDirection = simd_normalize(SIMD3(side.x, -fall, side.z))
             p.speed = simd_length(SIMD3(side.x, fall, side.z))
             e.lifeSpan = 12
             e.size = 0.035
             e.stretchFactor = 0
             e.billboardMode = .billboard
+            e.acceleration = .zero
             e.noiseStrength = 0.15
             e.color = .constant(.single(.init(red: 0.95, green: 0.96, blue: 0.98, alpha: 0.85)))
+        }
+        if options.diagnostics.contains("particleDebug") {
+            e.size = 0.15
+            e.stretchFactor = 0
+            e.color = .constant(.single(.init(red: 1, green: 0, blue: 0, alpha: 1)))
         }
         e.birthRate = Float(count) / Float(e.lifeSpan)
         e.blendMode = .alpha
@@ -249,6 +349,10 @@ extension World {
         p.mainEmitter = e
         entity.components.set(p)
         environmentState.precipitation = kind
+    }
+
+    static func preset(_ kind: String) -> ParticleEmitterComponent {
+        kind == "rain" ? .Presets.rain : .Presets.snow
     }
 
     // MARK: - Image-based light
