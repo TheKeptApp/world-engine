@@ -117,7 +117,8 @@ extension World {
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
             * lookTuning.fill * lookTuning.groundFill
         g.litFraction = L.litWindows
-        g.litWindow = Palette.parse(elevation < -6 ? "#DCA967" : "#E9BE7C")
+        // Lit windows (lighting bible §2.4): #FFD19A core at night, the #E8A968 surround tone in twilight.
+        g.litWindow = Palette.parse(elevation < -6 ? "#FFD19A" : "#E8A968")
 
         // Surfaces: wetness and snow come from the accumulation model (decision 5), never the label.
         g.wetness = Float(env.state.wetness01 ?? 0)
