@@ -1,0 +1,10 @@
+{
+  "schema": "worldengine.satellites-config/1",
+  "note": "Which element groups the satellite layer asks CelesTrak for, and per-satellite overrides. Data, not code. stdMag is the brightness at 1000 km range and 90 degrees phase angle used for magnitude estimates; it is an assumption (basis 'inferred'), not a measurement, and satellites without one get magnitude null.",
+  "groups": ["stations", "visual"],
+  "minRefreshSeconds": 7200,
+  "refreshSeconds": 21600,
+  "satellites": [
+    {"noradId": 25544, "name": "ISS", "stdMag": -1.8, "stdMagNote": "commonly quoted standard magnitude for the ISS; assumption"}
+  ]
+}
