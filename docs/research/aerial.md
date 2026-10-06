@@ -76,7 +76,7 @@ recomputes from the committed results and the hand labels.
      - Sloan's Lake, Denver **25 %**;
      - the new Wilmette test area (1 km² around Vattmann Park) **55 %**.
    - Recommended `trees.canopyShare`: `evanston` **0.47**, `chicago-dense-north` **0.18**, `front-range` **0.25**,
-     `wilmette` **0.55** (now 0.58, from the 0.25 km² study cell).
+     `wilmette` **0.55** (the profile had 0.58, from the 0.25 km² study cell; it now carries 0.55).
    - A 50-point photo check per area agrees 74–91 %. On balance the mask reads a few points lower than the
      labelled points.
 
@@ -605,7 +605,7 @@ Added 2026-10-06 for the profiles' new optional `trees.canopyShare` field (`docs
 **Areas and imagery.**
 - **Areas:** each committed area's own rectangle (manifest centre and size), laid out in the NAIP item's UTM grid.
 - **Streets, parks and water:** from the committed `osm.json`, so no Overpass request was made.
-  - Parks are public open space polygons of at least 1,000 m²: `leisure` park, pitch, playground, garden and similar; `landuse` recreation ground or cemetery; `natural=wood`.
+  - Parks are public open space polygons of at least 1,000 m²: `leisure` park, pitch, playground, garden and similar; `landuse` recreation ground, cemetery, forest or village green; `natural=wood`.
   - `landuse=grass` is not a park: Sloan's Lake maps 1,551 lawn and parkway polygons, and their street trees belong to the residential fabric.
 - **Imagery:**
 
@@ -659,8 +659,8 @@ Added 2026-10-06 for the profiles' new optional `trees.canopyShare` field (`docs
 | Profile | Value | Reasoning |
 |---|---:|---|
 | `evanston` | **0.47** | Fabric 47.3 % (whole area 46.2 %; complete blocks 50 %). The parks (Crown, Grey, Larimer: 5.6 % of the area) are less wooded (27 %), so they lower the whole-area value slightly rather than inflate it. Point check 53.5 % (39–68 %). |
-| `chicago-dense-north` | **0.18** | Fabric = whole area = 17.8 %; residential blocks 18.3 %. **The park does not inflate it:** Sheil Park is a 1,739 m² polygon in OSM, parks are 0.5 % of the area, and their canopy (19.8 %) matches the fabric. The point check reads higher (31.9 %, interval 20–46 %); with 5 of 15 tree points missed, the true value may be 0.20–0.25. The coordinator may round up, but the measured mask is 0.18. |
+| `chicago-dense-north` | **0.18** | Fabric = whole area = 17.8 %; residential blocks 18.3 %. **The park does not inflate it:** Sheil Park is a polygon of about 1,609 m² in OSM (way 203672734; the 1,739–1,740 m² polygon is Margaret Donahue Park), the parks of at least 1,000 m² total about 4,550 m² (0.46 % of the area, shown as 0.5 %), and their canopy (19.8 %) matches the fabric. The point check reads higher (31.9 %, interval 20–46 %); with 5 of 15 tree points missed, the true value may be 0.20–0.25. The coordinator may round up, but the measured mask is 0.18. |
 | `front-range` | **0.25** | Fabric 24.8 %, residential blocks 24.7 %, land 23.5 %. The whole-area 14.9 % is deflated by Sloan Lake (37 % of the area) and must not be used. Caveat: one inner-city neighbourhood with mature trees stands for a profile that covers Colorado Springs to Fort Collins, and newer suburbs will be far lower. The Illinois texture threshold was not re-tuned for this scene (point check 91 %, mask slightly low). |
-| `wilmette` (now 0.58) | **0.55** | The committed 1 km² test area (P2, same park anchor) gives fabric 55.1 % (whole area 53.7 %, residential blocks 56.9 %). The current 0.58 is the whole-cell mask of the 0.25 km² study cell (section 4), a smaller and more wooded window. Use 0.55 for the same definition as the other profiles, or keep 0.58; the difference is within the method error. |
+| `wilmette` (was 0.58; the profile now has 0.55) | **0.55** | The committed 1 km² test area (P2, same park anchor) gives fabric 55.1 % (whole area 53.7 %, residential blocks 56.9 %). The earlier 0.58 is the whole-cell mask of the 0.25 km² study cell (section 4), a smaller and more wooded window. Use 0.55 for the same definition as the other profiles (the profile now does); keeping 0.58 would have been within the method error too. |
 
 **Bytes:** NAIP COG ranges 287,689,177 + STAC searches 135,028 + SAS tokens 1,602 = **287.8 MB** (`results/canopy_areas.json` `bytesDownloaded`; Wilmette 56.3 MB of it). No Overpass or Overture requests.

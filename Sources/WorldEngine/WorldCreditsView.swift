@@ -16,8 +16,9 @@ public struct WorldCreditsView: View {
     }
 
     /// The standard credits for a world, merged with the host's weather attribution.
-    public init(world: World, weather: WeatherAttributionInfo? = nil, naipDerivedValues: Bool = false) {
-        self.credits = WorldCredits.list(for: world, weather: weather, naipDerivedValues: naipDerivedValues)
+    public init(world: World, weather: WeatherAttributionInfo? = nil, naipDerivedValues: Bool = false,
+                liveFeeds: [WorldLiveFeedCredit] = []) {
+        self.credits = WorldCredits.list(for: world, weather: weather, naipDerivedValues: naipDerivedValues, liveFeeds: liveFeeds)
     }
 
     public var body: some View {
@@ -42,6 +43,8 @@ public struct WorldCreditsView: View {
     static let sections: [CreditSection] = [
         .init(title: "Map data", kinds: [.mapData, .sourceData, .dataOffer]),
         .init(title: "Weather", kinds: [.weather]),
+        .init(title: "Live data", kinds: [.liveData]),
+        .init(title: "Illustrative (not live)", kinds: [.illustrative]),
         .init(title: "Sky", kinds: [.skyData]),
         .init(title: "Imagery", kinds: [.imagery]),
         .init(title: "Open-source software", kinds: [.code]),
@@ -106,8 +109,9 @@ public struct WorldCreditsButton: View {
     }
 
     /// The standard credits for a world, merged with the host's weather attribution.
-    public init(world: World, weather: WeatherAttributionInfo? = nil, naipDerivedValues: Bool = false) {
-        self.credits = WorldCredits.list(for: world, weather: weather, naipDerivedValues: naipDerivedValues)
+    public init(world: World, weather: WeatherAttributionInfo? = nil, naipDerivedValues: Bool = false,
+                liveFeeds: [WorldLiveFeedCredit] = []) {
+        self.credits = WorldCredits.list(for: world, weather: weather, naipDerivedValues: naipDerivedValues, liveFeeds: liveFeeds)
     }
 
     public var body: some View {

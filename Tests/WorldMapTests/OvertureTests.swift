@@ -126,6 +126,17 @@ struct OvertureTests {
         #expect(g.height == HeightRules().resolve(tags: g.tags, type: "yes", ref: g.ref))
     }
 
+    /// Microsoft ML heights are dropped on house-sized footprints (lidar check, overture-source.md).
+    @Test func microsoftHeightSourceIsDetected() {
+        let ms = OvertureBuildings.Record(id: "a", polygons: [], height: 5.7,
+                                          sources: [.init(dataset: OvertureBuildings.microsoftDataset)])
+        let lidar = OvertureBuildings.Record(id: "b", polygons: [], height: 8.3, sources: [
+            .init(dataset: OvertureBuildings.microsoftDataset), .init(dataset: "USGS Lidar", property: "/properties/height")])
+        #expect(OvertureBuildings.heightDataset(ms) == OvertureBuildings.microsoftDataset)
+        #expect(OvertureBuildings.heightDataset(lidar) == "USGS Lidar")
+        #expect(OvertureBuildings.mlHeightMinDropArea == 90)
+    }
+
     @Test func customHeightRulesApply() throws {
         var rules = HeightRules()
         rules.metersPerLevel = 4

@@ -1,4 +1,5 @@
 [out:json][timeout:180];
+relation["type"="multipolygon"]["natural"="water"](39.7169677,-105.0888173,39.7818152,-105.0001412)(if: count_members() >= 300)->.bigwater;
 (
   way["highway"~"^(motorway|trunk|primary|secondary|tertiary)(_link)?$"](39.7169677,-105.0888173,39.7818152,-105.0001412);
   way["highway"~"^(unclassified|residential|living_street)$"](39.7169677,-105.0888173,39.7818152,-105.0001412);
@@ -20,5 +21,9 @@
   way["building"](39.7394918,-105.0596661,39.7593062,-105.0293296);
   relation["building"]["type"="multipolygon"](39.7394918,-105.0596661,39.7593062,-105.0293296)(if: count_members() < 300);
 );
+(._;>;);
+out body qt;
+.bigwater out body qt;
+way(r.bigwater)(39.7169677,-105.0888173,39.7818152,-105.0001412);
 (._;>;);
 out body qt;

@@ -64,7 +64,7 @@ Per nautical mile (1 NM = 1,852 m) that is 97.06 m (318.4 ft) of height. Check v
 
 A 3° glide path is the standard ILS slope and 50 ft a nominal threshold crossing height [T: search-engine summary; the FAA AIM page returned 403 to the fetch tool, so confirm in a browser [U]]. At 150 kt ground speed the descent rate is about 800 ft per minute [A].
 
-**Length.** Default **12 NM (22.2 km)**, configurable 10 to 15 NM per airport. At 12 NM the aircraft is at about 3,900 ft above the threshold. Support: ORD's voluntary nighttime procedure asks arrivals to be no lower than 4,000 ft MSL when turning onto final [V: [Fly Quiet manual](https://www.flychicago.com/SiteCollectionDocuments/Community/ArchivedPDFs/Noise/OHare/FQ/ORD_FQ_Manual_2026_ADA.pdf), read 2026-10-06]. On a 3° path that is about 10 NM out if the field is about 670 ft MSL (field elevation not verified here [C]), so a 10 to 15 NM final matches how these arrivals are flown [A].
+**Length.** Default **12 NM (22.2 km)**, configurable 10 to 15 NM per airport. At 12 NM the aircraft is at about 3,900 ft above the threshold. Support: the Fly Quiet manual has an advisory descent item asking arrivals to be no lower than 4,000 ft MSL when turning onto final; it states no hours and is not a nighttime procedure [V: [Fly Quiet manual](https://www.flychicago.com/SiteCollectionDocuments/Community/ArchivedPDFs/Noise/OHare/FQ/ORD_FQ_Manual_2026_ADA.pdf), read 2026-10-06]. On a 3° path that is about 10 NM out if the field is about 670 ft MSL (field elevation not verified here [C]), so a 10 to 15 NM final matches how these arrivals are flown [A].
 
 **Straight-in only (chosen), no downwind/base pattern.** Justification:
 
@@ -127,7 +127,7 @@ A runway's two ends share one OSM way, so each way appears twice. Lengths agree 
 
 **General picture.** Aircraft land and take off into the wind, so large airports run in a small number of "flows" that follow the wind and change only occasionally.
 
-- **ORD.** Eight runways, used at different times mainly according to the prevailing wind [V: Fly Quiet manual above]. The two main flows are **west flow** (arrivals come from the east and land westward on the 27/28 runways; departures leave to the west) and **east flow** (the reverse, on 09/10). A search-engine summary of an older O'Hare noise FAQ puts west flow at about 70 percent of the time and east flow at about 30 percent [T: page not opened here]. The two diagonal runways (04/22, true headings about 40 and 220 degrees, §2.3) point north-east and south-west and are **not used in v1**. The Fly Quiet programme asks for specific preferential runways between 22:00 and 07:00 local, in no particular order: 10L-28R, 9R-27L, 4L-22R, 4R-22L; it is voluntary and advisory [V: same manual]. Not modelled beyond the quiet hours in §4.
+- **ORD.** Eight runways, used at different times "depending primarily upon the prevailing airfield conditions, and air traffic conditions" [V: Fly Quiet manual above]; the flows below follow the wind in practice [A]. The two main flows are **west flow** (arrivals come from the east and land westward on the 27/28 runways; departures leave to the west) and **east flow** (the reverse, on 09/10). A search-engine summary of an older O'Hare noise FAQ puts west flow at about 70 percent of the time and east flow at about 30 percent [T: page not opened here]. The two diagonal runways (04/22, true headings about 40 and 220 degrees, §2.3) point north-east and south-west and are **not used in v1**. The Fly Quiet programme has a voluntary, advisory list of preferential runways, reported in an earlier pass as 10L-28R, 9R-27L, 4L-22R and 4R-22L: **unverified [U]**, because the list could not be extracted from the PDF (confirm in a normal browser). The manual's 22:00 to 07:00 hours apply to reverse thrust only, not to runway choice [V: same manual]. Not modelled; the model's own quiet hours are an assumption (§4.5).
 - **DEN.** Four parallel north-south runways and two east-west runways. The **south flow** (arrivals from the north, landing southward) is the most common, the **north flow** next, and the east-west "crosswind" runways are used a small share of the time; a search-engine summary of Denver airport noise material gives about 68, 30 and 2 percent [T: the airport's own document, `cdn.flydenver.com/app/uploads/2023/09/20162330/210_noise-1.pdf`, returned 403 to the fetch tool, so this is unverified [U]]. The same summaries say arrivals land on the two runways on one side and departures use the two on the other, and that runways 25 and 26 are noise-sensitive and avoided when possible [T]. East-west runways are **not used in v1**.
 - **Everything about real runway assignment is [T] or [A].** I could not open the FAA's own DEN community-engagement boards or capacity profile (both 403 to the fetch tool; §10). The default arrival and departure runway sets below are **chosen for visual spread, not copied from operations**, and the option never claims they match what the airport is doing.
 
@@ -140,7 +140,7 @@ A runway's two ends share one OSM way, so each way appears twice. Lengths agree 
 | DEN | south (default) | 180.5 | 16L, 16R | 17L, 17R |
 | DEN | north | 0.5 | 35L, 35R | 34L, 34R |
 
-Arrival and departure sets are disjoint, so arrivals and departures never share a runway. The ORD arrival runways (27L and 28R in west flow; 09R and 10L in east flow) happen to be the two pairs `9R-27L` and `10L-28R` on the Fly Quiet nighttime list [V]; that is a coincidence of the visual-spread choice, not a claim about operations.
+Arrival and departure sets are disjoint, so arrivals and departures never share a runway. The ORD arrival runways (27L and 28R in west flow; 09R and 10L in east flow) happen to be the two pairs `9R-27L` and `10L-28R` on the Fly Quiet preferential-runway list as reported in an earlier pass (**unverified [U]**, §3); that is a coincidence of the visual-spread choice, not a claim about operations.
 
 **Choosing the flow from wind.** If the weather provider supplies wind for the instant being shown, the option picks the flow with the better headwind. The engine already carries the needed fields: `WeatherSample.windFromDegrees` (direction the wind blows *from*, treated as degrees true as METAR reports it) and `windSpeedMps` (`Sources/WorldEnvironment/WeatherSample.swift`, `MetarAdapter`). Whether every provider reports true rather than magnetic direction is [C]; convert if not.
 
@@ -261,7 +261,7 @@ Ambient aircraft use **the same vehicle record as live feeds**: the contract in 
 {
   "schema": 1,
   "live": false,                    // never presented as live (§1)
-  "generatedAt": 1790000000,        // world time the records are evaluated for (Unix seconds)
+  "generatedAt": 1791281250,        // world time the records are evaluated for (Unix seconds): 2026-10-06 10:07:30Z, i.e. 05:07:30 local, the start of slot 123 of dayNumber 20732 (matches the id below)
   "feedTimestamp": null,            // no feed
   "state": "fresh", "stale": false,
   "vehicles": [
@@ -274,7 +274,7 @@ Ambient aircraft use **the same vehicle record as live feeds**: the contract in 
       "heading": 270.0,                // degrees clockwise from true north, the runway's landing heading
       "speedMps": 77.2,                // ground speed (150 kt)
       "stopStatus": null,
-      "timestamp": 1790000000,
+      "timestamp": 1791281250,         // same instant as generatedAt
       "ageSeconds": 0,
       "source": "ambient",             // not a feed key, so no feed credit is claimed (contract §8.4)
       "altitudeM": 352.7,              // additive: metres above the threshold elevation of the runway in use (3.5 NM out: 15 + 0.052408 * 6,444 m)
@@ -283,11 +283,13 @@ Ambient aircraft use **the same vehicle record as live feeds**: the contract in 
   ],
   "attribution": [
     { "source": "ambient", "text": "Illustrative air traffic, not live. Runway geometry © OpenStreetMap contributors.",
-      "url": "https://www.openstreetmap.org/copyright" }
+      "url": "https://www.openstreetmap.org/copyright",
+      "live": false }                  // the host passes this entry to the credits slot as illustrative (live-feeds §8.8)
   ]
 }
 ```
 
+- **Omitted top-level fields.** `pollIntervalSeconds` and `area` (contract §8.3) are left out of the on-device snapshot: nothing is polled and there is no tile area.
 - **`altitudeM` is height above the threshold elevation**, so the generator needs no elevation data; the host adds its own ground height if the world has terrain (not covered by the plan [C]).
 - **Generated on device, no server.** Because the traffic is a pure function of `(area data, world time, flow)`, every device computes the same records itself: no relay, no key, no network, nothing to cache. It is *not* served through the relay, so it also needs no relay `feeds` entry; if a host wants one for uniformity, use `{ "status": "fresh", "attribution": "Illustrative air traffic, not live" }`.
 - **Where it lives** (an optional engine module, a small separate package, or host code) is an owner decision not covered by the plan, so nothing is built yet. The engine stays generic: it receives plain vehicle values and never knows about airports.
@@ -353,7 +355,7 @@ Three different `faa.gov` documents each returned 403; I stopped after the third
 
 **Read and relied on [V].**
 - Overpass API, `overpass-api.de/api/interpreter` (two queries, §2.1); the OSM data base timestamps above [O].
-- Fly Chicago, O'Hare Fly Quiet manual (page updated February 2026): https://www.flychicago.com/SiteCollectionDocuments/Community/ArchivedPDFs/Noise/OHare/FQ/ORD_FQ_Manual_2026_ADA.pdf. Used for: eight runways used mainly by wind; nighttime preferential runways and 22:00 to 07:00 hours; minimum altitude when turning on final.
+- Fly Chicago, O'Hare Fly Quiet manual (page updated February 2026): https://www.flychicago.com/SiteCollectionDocuments/Community/ArchivedPDFs/Noise/OHare/FQ/ORD_FQ_Manual_2026_ADA.pdf. Used for: the eight runways and that they are used depending on airfield and air traffic conditions; the advisory 4,000 ft MSL descent item (no hours stated); the 22:00 to 07:00 hours, which apply to reverse thrust only. Its preferential-runway list could not be extracted from the PDF and is unverified.
 
 **Third-party or search-summary [T], pages not opened.** ORD west flow about 70 percent and east flow about 30 percent (an older O'Hare noise FAQ, as summarised by a search engine); DEN south, north and crosswind about 68, 30 and 2 percent, east-west runways 25 and 26 noise-sensitive, arrivals on one side and departures on the other (Denver airport noise material, as summarised); ILS glide slope 3° and nominal TCH 50 ft; radar separation 3 NM and wake-turbulence minima up to 6 NM on final (FAA Order JO 7110.65 §5-5-4, as summarised; not used to size the model beyond the 3.4 NM spacing check).
 
