@@ -1,0 +1,53 @@
+# XcodeGen spec for BuildingLab: a minimal app used only for simulator screenshots of building
+# generation (scripts/building_shots.sh generates BuildingLab.xcodeproj, git-ignored). Never edit the .xcodeproj.
+name: BuildingLab
+options:
+  bundleIdPrefix: com.lincolnlabs
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+packages:
+  WorldEngine:
+    path: ../..
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+targets:
+  BuildingLab:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+      # Area data, bundled as folders named after the area.
+      - path: ../../Data/areas/sloans-lake
+        type: folder
+        buildPhase: resources
+      - path: ../../Data/areas/evanston-south
+        type: folder
+        optional: true
+        buildPhase: resources
+      - path: ../../Data/areas/lakeview-sheil-park
+        type: folder
+        optional: true
+        buildPhase: resources
+    info:
+      path: Generated/Info.plist
+    dependencies:
+      - package: WorldEngine
+        product: WorldEngine
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lincolnlabs.buildinglab
+        PRODUCT_NAME: BuildingLab
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: BuildingLab
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
