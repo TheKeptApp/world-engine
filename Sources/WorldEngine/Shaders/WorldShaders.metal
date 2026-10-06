@@ -166,11 +166,13 @@ float snowMask(Globals g, float3 wp, float3 n) {
 }
 
 /// Fog distance along optical depth (experience-v1 aerial: "fog along optical depth: foreground
-/// clear, outer blocks subtly softened"): haze thins with height (scale height 1000 m), so a ray
+/// clear, outer blocks subtly softened"): haze thins with height (scale height 1500 m), so a ray
 /// looking down from the aerial camera crosses less of it than a level ray of the same length.
+/// At the spec's aerial pose the near edge stays ~10% hazed, the centre ~25%, the far edge ~70%
+/// (1000 m left the aerial too crisp and dark against the concepts, P3's look loop).
 /// Street views are effectively unchanged (rays stay within a few metres of the ground).
 float opticalDistance(float dist, float h1, float h2) {
-    const float H = 1000.0;
+    const float H = 1500.0;
     float lo = max(min(h1, h2), 0.0), hi = max(max(h1, h2), 0.0);
     float dh = hi - lo;
     float f = dh < 1.0 ? exp(-lo / H) : H * (exp(-lo / H) - exp(-hi / H)) / dh;
@@ -255,7 +257,10 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
     half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
-    half fog = half(smoothstep(g.fogStart, g.fogEnd, opticalDistance(dist, g.camera.y, wp.y)) * 0.96);
+    // Fog "starts at fogStart, ends at fogEnd" (v2 §3.3, weather v1 §5): a linear ramp. A
+    // smoothstep left the near half of the range almost clear (dense fog didn't read).
+    float fogT = saturate((opticalDistance(dist, g.camera.y, wp.y) - g.fogStart) / max(g.fogEnd - g.fogStart, 1.0));
+    half fog = half(fogT * 0.96);
     s.set_base_color(su.base * contact * (1.0h - fog));
     s.set_emissive_color((fill + su.emissive) * (1.0h - fog) + g.fogColor * fog);
     s.set_roughness(su.roughness);
@@ -481,6 +486,9 @@ void worldSkySurface(realitykit::surface_parameters params)
     float cosA = dot(d, normalize(g.sunDir));
     float disk = smoothstep(cos(0.30 * M_PI_F / 180.0), cos(0.24 * M_PI_F / 180.0), cosA);
     float glow = pow(max(0.0, cosA), 60.0) * 0.35 + pow(max(0.0, cosA), 8.0) * 0.08;
+    // Sunset glow: a low sun warms a wide patch of sky around it (v2 01, experience-v1 01).
+    float low = 1.0 - smoothstep(2.0, 20.0, asin(clamp(normalize(g.sunDir).y, -1.0, 1.0)) * 180.0 / M_PI_F);
+    glow += low * (pow(max(0.0, cosA), 4.0) * 0.22 + pow(max(0.0, cosA), 16.0) * 0.25);
     c += float3(g.sunDisk) * (disk * 2.5 + glow) * (1.0 - cloud * 0.9);
     // Moon: analytic disk, normals facing the observer, lit by the Moon→Sun vector.
     if (g.moonOpacity > 0.001) {

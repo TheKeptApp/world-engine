@@ -21,6 +21,12 @@ struct EnvironmentRuntime {
 extension World {
     /// Sky dome radius (inside the 5 km far plane, outside the world).
     static let skyRadius: Float = 4500
+    /// Extra exposure at full sun cover (×(1 + gain)), and extra sky fill (see `apply`).
+    static let weatherExposureGain: Float = 1.1
+    static let weatherSkyFillGain: Float = 1.2
+    /// Low clear sun: key ×(1 + gain) and fill ×(1 − cut) at ≤ 4° elevation, fading out by 25°.
+    static let lowSunKeyGain: Float = 0.8
+    static let lowSunFillCut: Float = 0.35
     static let starDistance: Float = 4400
     /// Moon display scale: 1.5× the physical diameter (sky-seasons §3.2 postcard option).
     public static let moonDisplayScale = 1.5
@@ -28,8 +34,24 @@ extension World {
     public func apply(_ env: EnvironmentDocument) {
         environment = env
         logEvent("apply")
-        let L = env.light.timeOfDay
         let w = env.light.weather
+        // Exposure compensation, like a camera's auto exposure: weather that hides the sun (cloud,
+        // rain, fog, smoke) otherwise leaves the frame dark and dull, but the targets are as bright
+        // as clear days (experience-v1 02 overcast, 05 fog: mean luma ~150 vs ~141 golden). The
+        // diffuse sky also becomes the main light source, so sky fill grows as the sun is hidden.
+        // Daytime only: night keeps its own key.
+        var L = env.light.timeOfDay
+        let hidden = Float(max(0, 1 - env.light.directStrength))
+        let dayWeight = Float(smoothstepD(-2, 8, env.light.sunElevationDeg))
+        L.exposure *= 1 + dayWeight * Self.weatherExposureGain * pow(hidden, 1.2)
+        let skyFillGain = 1 + dayWeight * Self.weatherSkyFillGain * hidden
+        // Low clear sun (golden hour, early morning): at 6° the sun puts only ~10% of its light on
+        // flat ground, so the sky fill washes its shadows out. A stronger key and less fill keep
+        // the warm light and the long shadows readable (art direction: warm light that picks out
+        // materials; P3 look loop: "no golden-hour key light"). The sun direction stays true.
+        let lowSun = Float(1 - smoothstepD(4, 25, env.light.sunElevationDeg)) * Float(smoothstepD(0, 2, env.light.sunElevationDeg)) * (1 - hidden)
+        L.sunIntensity *= 1 + Self.lowSunKeyGain * lowSun
+        let lowSunFill = 1 - Self.lowSunFillCut * lowSun
         let tint = SIMD3<Float>(Float(w.tintLinear.x), Float(w.tintLinear.y), Float(w.tintLinear.z))
         let tw = Float(w.tintWeight)
         func tinted(_ c: SIMD3<Float>) -> SIMD3<Float> { c + (tint - c) * tw }
@@ -61,8 +83,8 @@ extension World {
         g.fogColor = tinted(lin(L.fog))
         g.fogStart = Float(w.fogStartM)
         g.fogEnd = Float(w.fogEndM)
-        g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure
-        g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure
+        g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
+        g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
         g.litFraction = L.litWindows
         g.litWindow = Palette.parse(elevation < -6 ? "#DCA967" : "#E9BE7C")
 
@@ -88,25 +110,27 @@ extension World {
         let intensity = Float(env.state.intensity01 ?? 0)
         let wetSky: Float = (label == .rain || label == .thunderstorm) ? 0.25 + 0.35 * min(1, intensity * 2) : 0
         let cloudColor = tinted(simd_mix(lin(L.skyHorizon), lin(L.ambientSky), SIMD3(repeating: 0.25))) * (1.04 - 0.3 * cloud) * (1 - wetSky)
-        // Haze, smoke and dust veil the sky itself in the haze colour, not just the distance.
-        let veil: Float = (label?.isObscuration ?? false) && label != .fog ? 0.55 * intensity : 0
-        // The veil leans toward the obscurant's own colour (smoke beige-grey, dust tan, haze warm).
-        let veilColor = simd_mix(g.fogColor, tint, SIMD3(repeating: 0.6))
+        // Fog, haze, smoke and dust veil the sky itself, not just the distance: dense fog closes to
+        // a uniform pale grey (experience-v1 05: "uniform pale gray horizon", no sun disk), smoke
+        // to a flat beige-grey (06). The veil leans toward the obscurant's own colour.
+        let obscured = label?.isObscuration ?? false
+        let veil: Float = obscured ? (label == .fog ? 0.95 : 0.75) * intensity : 0
+        let veilColor = label == .fog ? g.fogColor : simd_mix(g.fogColor, tint, SIMD3(repeating: 0.6))
         g.skyHorizon = simd_mix(horizon, veilColor, SIMD3(repeating: veil))
-        g.skyTop = simd_mix(simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud)), veilColor, SIMD3(repeating: veil * 0.8))
-        if veil > 0 { g.fogColor = simd_mix(g.fogColor, veilColor, SIMD3(repeating: veil * 0.6)) }
+        g.skyTop = simd_mix(simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud)), veilColor, SIMD3(repeating: veil * 0.9))
+        if veil > 0, label != .fog { g.fogColor = simd_mix(g.fogColor, veilColor, SIMD3(repeating: veil * 0.6)) }
         g.cloudCover = cloud
         g.cloudThreshold = Self.cloudThreshold(cover: cloud)
-        g.cloudColor = cloudColor
+        g.cloudColor = simd_mix(cloudColor, veilColor, SIMD3(repeating: veil))
         g.sunDirection = dir
-        g.sunDisk = elevation > -1.5 ? lin(sc) * 1.2 * Float(smoothstepD(-1.5, 1.0, elevation)) : .zero
+        g.sunDisk = elevation > -1.5 ? lin(sc) * 1.2 * Float(smoothstepD(-1.5, 1.0, elevation)) * (1 - veil) : .zero
         let moon = env.sky.moon
         g.moonDirection = SIMD3<Float>(Float(moon.direction.x), Float(moon.direction.y), Float(moon.direction.z))
         g.moonRadius = Float(moon.angularDiameterDeg * Self.moonDisplayScale / 2 * .pi / 180)
-        g.moonOpacity = Float(env.light.moonDiskOpacity)
+        g.moonOpacity = Float(env.light.moonDiskOpacity) * (1 - veil)
         g.moonLight = SIMD3<Float>(Float(moon.sunDirectionFromMoon.x), Float(moon.sunDirectionFromMoon.y), Float(moon.sunDirectionFromMoon.z))
         g.moonColor = SIMD3<Float>(0.86, 0.86, 0.82) * (0.55 + 0.45 * (1 - daylight))
-        g.starStrength = Float(env.light.starStrength)
+        g.starStrength = Float(env.light.starStrength) * (1 - veil)
 
         // Season: continuous palettes and leaf fractions now and for trees ±7 days.
         if let phen = env.phenology, let profile = Self.phenologyProfiles.first(where: { $0.id == phen.profileID }) {

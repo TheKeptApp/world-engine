@@ -305,7 +305,12 @@ public final class World {
     private func buildChunks() throws {
         // Soft world boundary: a plain ground under and around the area (v2 §3.3), fogged with
         // distance like everything else.
-        if let ground = try MeshUpload.resource([scene.boundaryGround]) {
+        // The plain beyond the data reads as a neutral distant land (the base palette's backdrop
+        // colour), not as lawn: from the aerial a bright green field dominated the frame
+        // (P3's look loop: colour match to the concepts). A real context ring replaces it later.
+        var boundary = scene.boundaryGround
+        boundary.repaint(from: 0, Paint(slot: scene.palette.named("backdrop"), shade: 0.97))
+        if let ground = try MeshUpload.resource([boundary]) {
             let e = Entity()
             e.name = "Boundary ground"
             e.components.set(ModelComponent(mesh: ground, materials: [resources.staticMaterial]))
