@@ -197,6 +197,8 @@ public struct SeasonalPalette: Codable, Sendable {
         "ground", "lawn", "tufts", "deciduous1", "deciduous2", "deciduous3", "deciduous4",
         "conifer1", "conifer2", "bushes", "road", "sidewalk", "curb", "water", "sand", "bark", "snow",
         "backdrop",
+        // Lot lawn endpoint pair (look-fix §1.1); scenes override them per area profile.
+        "lawnA", "lawnB",
     ]
 }
 

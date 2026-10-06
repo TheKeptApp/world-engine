@@ -1,5 +1,5 @@
 {
-  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles.",
+  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y).",
   "seasons": ["spring", "summer", "autumn", "winter"],
   "surfaces": {
     "ground":      ["#AFA184", "#B3A080", "#AC9677", "#A5A092"],
@@ -19,6 +19,8 @@
     "sand":        ["#C3B18B", "#C9B58F", "#C5AA80", "#B6AF9A"],
     "bark":        ["#807465", "#7C7263", "#817362", "#807973"],
     "snow":        ["#E8EDF0", "#E8EDF0", "#E8EDF0", "#E8EDF0"],
-    "backdrop":    ["#A9B4A0", "#A9B4A0", "#B3BBAA", "#BDC8D4"]
+    "backdrop":    ["#A9B4A0", "#A9B4A0", "#B3BBAA", "#BDC8D4"],
+    "lawnA":       ["#71944F", "#648146", "#858949", "#8D8A68"],
+    "lawnB":       ["#91AD69", "#8C9C59", "#ABA16A", "#ABA58A"]
   }
 }

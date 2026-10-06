@@ -27,6 +27,22 @@ public struct YardRules: Codable, Sendable, Equatable {
     public var canopyFill: Double?
     /// Ceiling on mapped + generated trees per km² (render budget), applied to canopy planting.
     public var maxTreesPerKm2: Double?
+    /// Regional lawn endpoint pairs per season (sRGB hex, look-fix §1.1): spring, summer, fall,
+    /// winter → [low, high]. Lots carry their position between the pair (vertex extra.y); the
+    /// renderer mixes the endpoints in linear light.
+    public var lawnEndpoints: [String: [String]]?
+    /// Foundation bed area per lot, m² (look-fix §1.2), reached with depth 0.6–1.2 m and side returns.
+    public var bedArea: [Double]?
+    /// Most generated trees (yard + canopy) per lot.
+    public var maxYardTreesPerLot: Int?
+    /// Likelihood that the front yard is a planted garden (bed + shrubs) instead of lawn (city zones).
+    public var frontGarden: Double?
+    /// Likelihood that the rear yard is paved (patio, parking pad) instead of lawn.
+    public var rearPaving: Double?
+    /// Likelihood of a low iron fence along the front lot line, and of a wooden privacy fence on the
+    /// alley side (both inferred dressing, gaps at walks, drives and garages).
+    public var frontFence: Double?
+    public var rearFence: Double?
 }
 
 public struct YardLibrary: Codable, Sendable, Equatable {
@@ -39,7 +55,8 @@ public struct YardLibrary: Codable, Sendable, Equatable {
 
     static let fallback = YardRules(maxLotDepth: 30, streetTreeSpacing: 20, minParkway: 1.2, yardTreesPerHouse: 0.8, frontHedge: 0.1,
                                     sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85,
-                                    canopyFill: nil, maxTreesPerKm2: nil)
+                                    canopyFill: nil, maxTreesPerKm2: nil, lawnEndpoints: nil, bedArea: nil, maxYardTreesPerLot: nil,
+                                    frontGarden: nil, rearPaving: nil, frontFence: nil, rearFence: nil)
 
     /// The bundled library (fallback rules if the file is missing).
     public static let bundled: YardLibrary = {

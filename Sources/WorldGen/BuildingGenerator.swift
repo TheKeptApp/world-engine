@@ -98,6 +98,9 @@ public struct BuildingGenerator: Sendable {
 
     /// Combined optional roof detail per near building (regions spec §4 table).
     public static let optionalRoofCap = 200
+    /// Small `building=yes` outbuildings standing behind a principal building on the same block
+    /// side (computed per area by the scene): detached garages even without an alley.
+    public var detachedGarages: Set<OSMRef> = []
     /// Size thresholds resolved for this area (percentiles of local house footprints); nil = the profile's.
     public var areaThresholds: StyleProfile.Thresholds?
     var thresholds: StyleProfile.Thresholds { areaThresholds ?? profile.typeThresholds }
@@ -165,6 +168,7 @@ public struct BuildingGenerator: Sendable {
            context.alleyEdge(of: b.footprint.outer, radius: 9) != nil, context.frontEdge(of: b.footprint.outer, radius: 9) == nil {
             return .garage
         }
+        if base == .house, detachedGarages.contains(b.ref) { return .garage }
         // Absolute huge-house area here: relative thresholds are percentiles of houses already under
         // the static 250 m² rule, so they can't decide whether a larger building is a house.
         if base == .block, area < profile.typeThresholds.hugeArea, b.levels.map({ $0 <= 3 }) ?? true { return .house }
@@ -214,6 +218,10 @@ public struct BuildingGenerator: Sendable {
         var cr = b.ref.random("palette")
         g.colorSet = Int(cr.next() % UInt64(max(1, tuples.count)))
         var tuple = tuples[g.colorSet]
+        if let floors = families.toneFloors {
+            tuple[0] = HouseFamilyLibrary.lifted(tuple[0], gain: floors.wallGain, floor: floors.wall)
+            tuple[3] = HouseFamilyLibrary.lifted(tuple[3], gain: floors.roofGain, floor: floors.roof)
+        }
         if let wall = b.tags["building:colour"].flatMap(Self.hexColor) { tuple[0] = wall }
         if let roof = b.tags["roof:colour"].flatMap(Self.hexColor) { tuple[3] = roof }
         g.colors = tuple
@@ -287,6 +295,9 @@ public struct BuildingGenerator: Sendable {
             let perFloor = rng.range(type?.perFloor ?? [3.0, 3.2])
             if b.height.source == .heightTag {
                 H = max(F + 2.6, b.height.top - rise)
+                // A measured height without levels (e.g. Overture/Microsoft footprints) sets the
+                // storey count, so windows fit the real wall instead of the family's default floors.
+                if osmLevels == nil { g.floors = max(1, Int(((H - F) / perFloor).rounded())) }
             } else {
                 H = F + Double(floors) * perFloor
             }
