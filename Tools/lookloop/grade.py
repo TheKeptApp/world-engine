@@ -67,6 +67,12 @@ def recompute(g, view, concept=None):
     g["gateBasis"] = "parity" if g["parity"] is not None else "40/50 (no calibrated concept)"
     g["gatePass"] = g["v2Floors"] and (g["parity"] >= 100 if g["parity"] is not None else g["longTerm40"])
     g["adPass"] = bool(ad) and min(ad) >= 3
+    # End-of-5B gate (owner, 6 Oct 2026): today's gate plus every art-direction score >= 3 (look-fix §8).
+    g["gate5B"] = g["gatePass"] and g["adPass"]
+    # look-fix-v1 checks (GRADING.md §H): reported beside the gate, never part of it.
+    lf = g.get("lookFixChecks") or {}
+    g["lookFixFailed"] = sorted(k for k, v in lf.items() if isinstance(v, dict) and v.get("pass") is False)
+    g["lookFixChecked"] = sum(1 for v in lf.values() if isinstance(v, dict) and v.get("pass") is not None)
     return g
 
 

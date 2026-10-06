@@ -49,17 +49,17 @@ for area, views in groups.items():
               *common, *(["-area", area] if area != "sloans-lake" else []),
               "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
     env = dict(os.environ, SIMCTL_CHILD_NSUnbufferedIO="YES")
-    for attempt in range(3):
+    for attempt in range(6):  # refusals come and go with host load: back off for up to ~2 min
         try:
             if subprocess.run(launch, env=env, capture_output=True, timeout=60).returncode == 0:
                 break
         except subprocess.TimeoutExpired:
             pass
-        time.sleep(5)
+        time.sleep(5 * (attempt + 1))
     else:
         for vid, _ in views:
             record(vid, "failed")
-        print(f"  {area}: FAILED (launch refused 3 times)")
+        print(f"  {area}: FAILED (launch refused 6 times over ~2 min)")
         continue
     t0, pos, stats, pending, t_stats = time.time(), 0, None, "", None
     seen, chunk, deadline = set(), [], time.time() + load_timeout

@@ -38,7 +38,7 @@ The look loop is the official visual gate for every session. A view passes at co
    - appends a dated row to `docs/lookloop/scoreboard.md`.
 
 5. Report back, **concept parity first**:
-   - the mean parity and gate passes against the milestones (≥ 85 % at the end of 5A's wrap, ≥ 100 % by the end of 5B);
+   - the mean parity and gate passes against the milestones: ≥ 85 % at the end of 5A's wrap; by the end of 5B, ≥ 100 % plus every art-direction score ≥ 3 (the "5B" column);
    - the new scoreboard row;
    - every line of `docs/lookloop/latest/regressions.md`, meaning any view down 2 or more on /50 or any criterion down 1 or more against the previous run;
    - the top fixes from `summary.md`.

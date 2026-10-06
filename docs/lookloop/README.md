@@ -4,7 +4,11 @@
 - its **concept parity** is **≥ 100 %**: its v2 /50 divided by the calibrated /50 of its target concept;
 - **v2's per-criterion floors** are met: no §8.3 score below 3, geography ≥ 4, character ≥ 4, no hard-gate flags.
 
-Milestones for the mean parity: **≥ 85 % at the end of 5A's wrap**, **≥ 100 % by the end of 5B**. v2's 40/50 stays the long-term goal. Every summary and scoreboard row shows parity first.
+Milestones for the mean parity: **≥ 85 % at the end of 5A's wrap**, **≥ 100 % by the end of 5B**.
+
+**End-of-5B gate:** each view also needs **every art-direction score ≥ 3**. This is look-fix-v1 §8, and it is tracked separately until then.
+
+**look-fix-v1 checks** (GRADING.md §H) are reported beside the gate. Checks that a still cannot show (rain with particles hidden, stars during camera movement, all 12 lighting frames) are marked "not checkable". v2's 40/50 stays the long-term goal. Every summary and scoreboard row shows parity first.
 
 Deterministic look captures, side-by-side contact sheets, rubric grading and a dated scoreboard, so any session can check the look quickly and honestly.
 

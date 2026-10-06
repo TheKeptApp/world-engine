@@ -115,15 +115,15 @@ while IFS=$'\t' read -r id args; do
   # Right after an install SpringBoard can refuse the launch while it registers the app: retry, then
   # record the view as failed rather than aborting the run.
   launched=0
-  for attempt in 1 2 3; do
+  for attempt in 1 2 3 4 5 6; do
     # shellcheck disable=SC2086
     if SIMCTL_CHILD_NSUnbufferedIO=YES limit 60 xcrun simctl launch --terminate-running-process --stdout="$log" --stderr="$log" \
       "$UDID" "$BUNDLE" $COMMON $args >/dev/null 2>"$RUN/logs/$id.launch-error"; then launched=1; break; fi
-    sleep 5
+    sleep $((attempt * 5))
   done
   if [ "$launched" != 1 ]; then
     printf '%s\tfailed\t-\n' "$id" >> "$RUN/capture.tsv"
-    echo "  $id  FAILED (launch refused 3 times, see $RUN/logs/$id.launch-error)"
+    echo "  $id  FAILED (launch refused 6 times over ~2 min, see $RUN/logs/$id.launch-error)"
     continue
   fi
   ok=0

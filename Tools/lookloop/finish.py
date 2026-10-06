@@ -20,7 +20,7 @@ V2 = ["silhouettes", "palette", "light", "softnessAO", "groundRichness", "charac
       "depthFog", "houseVariety", "geography", "motion"]
 AD = ["adGroundRich", "adRainReadable", "adRegional"]
 # Owner decision (6 Oct 2026): gate on concept parity; milestones for the mean parity.
-MILESTONES = [("end of 5A wrap", 85), ("end of 5B", 100)]
+MILESTONES = [("end of 5A wrap", 85), ("end of 5B", 100)]  # mean parity; the 5B gate also needs every view's AD >= 3
 SHORT = {"silhouettes": "sil", "palette": "pal", "light": "lit", "softnessAO": "AO", "groundRichness": "grd",
          "characterReadability": "chr", "depthFog": "fog", "houseVariety": "hse", "geography": "geo", "motion": "mot",
          "adGroundRich": "AD grd", "adRainReadable": "AD rain", "adRegional": "AD reg"}
@@ -110,12 +110,17 @@ def main():
     bg = [g[sect][k]["score"] for vid, g, _, _ in rows if g and views[vid]["group"] == "region"
           for sect, k in bg_keys if g[sect].get(k, {}).get("score") is not None]
     region_bg = round(sum(bg) / len(bg), 2) if bg else None
+    lf_fail = collections.Counter(k for g in scored for k in g.get("lookFixFailed", []))
+    lf_checked = sum(g.get("lookFixChecked", 0) for g in scored)
+    lf_unc = sum(1 for g in scored for v in (g.get("lookFixChecks") or {}).values()
+                 if isinstance(v, dict) and v.get("pass") is None and str(v.get("reason", "")).lower().startswith("not checkable"))
     milestones = " · ".join(f"{name} ≥{t}%: {'**met**' if mean_parity is not None and mean_parity >= t else 'not yet'}" for name, t in MILESTONES)
     mean50 = round(sum(g["v2Score50"] for g in scored) / len(scored), 1) if scored else None
     meanAD = [g["adMean"] for g in scored if g.get("adMean") is not None]
     meanAD = round(sum(meanAD) / len(meanAD), 2) if meanAD else None
     passes = sum(1 for g in scored if g["gatePass"])
     adpasses = sum(1 for g in scored if g.get("adPass"))
+    gate5b = sum(1 for g in scored if g.get("gate5B"))
     worst = min(scored, key=lambda g: (g.get("parity") if g.get("parity") is not None else 999, g["v2Score50"])) if scored else None
     ordinary = [g["v2Score50"] for g in scored if views[g["view"]]["group"] == "ordinary"]
     fixes = collections.Counter()
@@ -128,7 +133,7 @@ def main():
 
     out = {
         "run": meta, "views": {vid: {"grade": g, "signals": signals[vid]} for vid, g, _, _ in rows},
-        "aggregate": {"meanConceptParity": mean_parity, "regionBuildingsGround": region_bg, "ordinaryParity": ordinary_parity, "milestones": milestones,
+        "aggregate": {"meanConceptParity": mean_parity, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
                       "meanV2Score50": mean50, "conceptParity": parity, "meanArtDirection": meanAD, "gatePasses": passes, "graded": len(scored),
                       "captured": len(captured), "failedGrades": failed, "placeholders": placeholders,
                       "criterionMeans": {k: round(sum(v) / len(v), 2) for k, v in crit.items()},
@@ -172,11 +177,15 @@ def main():
           + f" · graders {', '.join(f'`{x}`' for x in sorted({g.get('grader', '?') for g in scored}))}"
           + (" · **gate run**" if meta.get("gate") else ""), "",
           f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'} ([regressions.md](regressions.md)).", "",
-          f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}", "",
+          f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}  ·  end-of-5B gate {gate5b}/{len(scored)}", "",
           f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
           + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
+          (f"look-fix-v1 checks (GRADING.md §H, beside the gate): {sum(lf_fail.values())} failed of {lf_checked} judged"
+           + (" — " + ", ".join(f"{k} {n}" for k, n in lf_fail.most_common()) if lf_fail else "") + f"; {lf_unc} not checkable from a still." if lf_checked else
+           "look-fix-v1 checks: not reported by these grades."), "",
           f"Gate per view: parity ≥ 100 % of its calibrated target concept **and** v2's per-criterion floors (no §8.3 score < 3, "
-          f"geography ≥ 4, character ≥ 4 when scored, no hard-gate flags). Long-term goal: v2 mean {fmt(mean50)}/50 against 40 · "
+          f"geography ≥ 4, character ≥ 4 when scored, no hard-gate flags). End-of-5B gate adds every art-direction score ≥ 3 "
+          f"(look-fix §8; {adpasses}/{len(scored)} meet it now). Long-term goal: v2 mean {fmt(mean50)}/50 against 40 · "
           f"art direction {fmt(meanAD)}/5, {adpasses}/{len(scored)} at the art-direction bar.", "",
           "Parity = view /50 ÷ concept /50 (docs/lookloop/calibration-scores.json). Frame time and triangles are Simulator figures "
           "from WorldLab's console: use them for change between runs, not as device performance.", "",
@@ -186,6 +195,7 @@ def main():
         sc = lambda k, sect="scores": fmt(g[sect].get(k, {}).get("score")) if g else "?"
         tri = perf.get("triangles")
         gate = ("pass" if g["gatePass"] else ("fail (floors)" if not g.get("v2Floors") else "fail")) if g else "?"
+        gate += (" · 5B ✓" if g.get("gate5B") else " · 5B ✗") if g else ""
         md.append(f"| {vid}{' (reused)' if vid in reused else ''} | {f'**{parity[vid]}%**' if vid in parity else '–'} | {gate} | "
                   f"{fmt(g['v2Score50']) if g else '?'} | {fmt(g.get('adMean')) if g else '?'} | " + " | ".join(sc(k) for k in V2[:9]) + " | "
                   + " | ".join(sc(k, "artDirection") for k in AD)
@@ -210,6 +220,13 @@ def main():
     md += ["", "Overview of all frames: [overview.jpg](overview.jpg). Raw grades and signals: [grades.json](grades.json)."]
     open(os.path.join(run, "summary.md"), "w").write("\n".join(md) + "\n")
 
+    if publish and meta.get("fingerprints"):
+        # Fingerprints as of grading time: GRADING.md may change between plan and finish.
+        from plan import fingerprints
+        m = json.load(open(os.path.join(ROOT, "Tools/lookloop/views.json")))
+        active = [v for v in m["views"] if v["id"] in meta["fingerprints"]]
+        meta["fingerprints"].update(fingerprints(active, m["commonArgs"]))
+        json.dump(meta, open(os.path.join(run, "run.json"), "w"), indent=1)
     if publish:
         if os.path.isdir(LATEST):
             shutil.rmtree(LATEST)
@@ -231,7 +248,7 @@ def main():
         fms = sorted(p.get("frameMsMedian") for _, _, p, _ in rows if p.get("frameMsMedian"))
         open(board, "a").write(
             f"| {when} | `{meta.get('engineCommit', meta.get('commit', '-'))}`{'+dirty' if meta.get('dirtyEngineFiles') else ''} | {meta.get('branch', '-')} | {len(scored)}/{len(captured)}{f' ({len(reused & set(captured))} reused)' if reused & set(captured) else ''} | "
-            f"**{fmt(mean_parity)}%** | {passes} (AD {adpasses}) | {fmt(ordinary_parity)}% | {fmt(mean50)} | {fmt(meanAD)} | "
+            f"**{fmt(mean_parity)}%** | {passes} (5B {gate5b}) | {fmt(ordinary_parity)}% | {fmt(mean50)} | {fmt(meanAD)} | "
             f"{f'{worst['view']} {worst.get('parity')}%' if worst else '–'} | {f'{tris[len(tris) // 2] // 1000}k' if tris else '–'} | "
             f"{fms[len(fms) // 2] if fms else '–'} | {fmt(meta.get('minutes'))} | {', '.join(sorted({g.get('grader', '?') for vid, g in grades.items() if vid not in reused})) or 'all reused'}{' (gate)' if meta.get('gate') else ''} | {len(flags)} |\n")
         print(f"published {LATEST} and appended a scoreboard row")
