@@ -3,6 +3,7 @@
 # no device) and saves one PNG plus a console log per view.
 #   Tools/lookloop/capture.sh <run-dir> [view-id ...]
 # Uses <run-dir>/views.tsv when plan.py wrote it; otherwise every active view (or the ids given).
+# Batched by default: one launch per area with WorldLab's -viewlist (batch.py); LOOKLOOP_BATCH=0 for one launch per view.
 # Env: SKIP_BUILD=1 skips the (incremental) WorldLab build; SETTLE seconds after the world is built
 #      (default 3; frames at 2 s and 8 s differ by <0.1/255); LOAD_TIMEOUT seconds to wait for the world (default 120); LOOKLOOP_SIM device name.
 set -euo pipefail
@@ -89,6 +90,22 @@ if [ "$(cat "$STAMP" 2>/dev/null)" != "$NOW" ] || ! xcrun simctl get_app_contain
 fi
 
 COMMON=$(python3 -c "import json;print(' '.join(json.load(open('$VIEWS'))['commonArgs']))")
+
+# Batched: one launch per area through WorldLab's -viewlist (batch.py). Falls back to one launch per
+# view when this build has no view-list hook (exit 4) or LOOKLOOP_BATCH=0.
+if [ "${LOOKLOOP_BATCH:-1}" != 0 ]; then
+  set +e
+  SETTLE="$SETTLE" LOAD_TIMEOUT="$LOAD_TIMEOUT" python3 "$ROOT/Tools/lookloop/batch.py" "$RUN" "$UDID" "$BUNDLE" \
+    "$(python3 -c "import json;print(json.dumps(json.load(open('$VIEWS'))['commonArgs']))")"
+  rc=$?
+  set -e
+  if [ "$rc" = 0 ]; then
+    limit 20 xcrun simctl terminate "$UDID" "$BUNDLE" >/dev/null 2>&1 || true
+    exit 0
+  fi
+  [ "$rc" = 4 ] && echo "capture: this WorldLab has no view-list hook; one launch per view" || { echo "capture: batch capture failed ($rc)"; exit "$rc"; }
+  rm -f "$RUN/capture.tsv"
+fi
 now() { python3 -c 'import time;print(time.time())'; }
 while IFS=$'\t' read -r id args; do
   log="$RUN/logs/$id.log"

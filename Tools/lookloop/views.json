@@ -596,7 +596,7 @@
    "group": "region",
    "title": "Wilmette, Highland Ave looking east, golden hour (regions 01)",
    "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "activation": "Ready: activate (remove \"active\": false) once origin/main's Apps/WorldLab/Resources/demo.json lists wilmette-vattmann-park (5A commit e1ebdf8 on phase5b).",
    "area": "wilmette-vattmann-park",
    "profile": "wilmette",
    "focus": null,
@@ -611,7 +611,7 @@
    "weatherPreset": "clear",
    "utc": "2026-09-15T23:23:26Z",
    "local": "2026-09-15 18:23 CDT",
-   "weather": "clear, cloud 0.12",
+   "weather": "label=clear, cloud=0.12",
    "season": "late summer",
    "character": false,
    "wet": false,
@@ -631,6 +631,16 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-15T23:23:26Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
    ]
   },
   {
@@ -638,7 +648,7 @@
    "group": "region",
    "title": "Wilmette, Highland Ave, rain midday (regions 02)",
    "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "activation": "Ready: activate (remove \"active\": false) once origin/main's Apps/WorldLab/Resources/demo.json lists wilmette-vattmann-park (5A commit e1ebdf8 on phase5b).",
    "area": "wilmette-vattmann-park",
    "profile": "wilmette",
    "focus": null,
@@ -653,7 +663,7 @@
    "weatherPreset": "rain",
    "utc": "2026-09-15T17:00:00Z",
    "local": "2026-09-15 12:00 CDT",
-   "weather": "rain (WorldLab light-rain preset)",
+   "weather": "label=rain, intensity=0.5, cloud=0.95, rate=2, wetness=0.7, visibility=9000",
    "season": "late summer",
    "character": false,
    "wet": true,
@@ -673,6 +683,16 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-15T17:00:00Z",
+    "-weatherspec",
+    "label=rain,intensity=0.5,cloud=0.95,rate=2,wetness=0.7,visibility=9000"
    ]
   },
   {
@@ -680,7 +700,7 @@
    "group": "region",
    "title": "Wilmette, Highland Ave, peak fall afternoon (regions 03)",
    "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "activation": "Ready: activate (remove \"active\": false) once origin/main's Apps/WorldLab/Resources/demo.json lists wilmette-vattmann-park (5A commit e1ebdf8 on phase5b).",
    "area": "wilmette-vattmann-park",
    "profile": "wilmette",
    "focus": null,
@@ -695,7 +715,7 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear, cloud 0.1",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
@@ -715,6 +735,16 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
    ]
   },
   {
@@ -722,7 +752,7 @@
    "group": "region",
    "title": "Wilmette, Highland Ave, snow midday (regions 04)",
    "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "activation": "Ready: activate (remove \"active\": false) once origin/main's Apps/WorldLab/Resources/demo.json lists wilmette-vattmann-park (5A commit e1ebdf8 on phase5b).",
    "area": "wilmette-vattmann-park",
    "profile": "wilmette",
    "focus": null,
@@ -737,7 +767,7 @@
    "weatherPreset": "snow",
    "utc": "2026-01-15T18:00:00Z",
    "local": "2026-01-15 12:00 CST",
-   "weather": "falling snow, SWE 6 mm (WorldLab snow preset)",
+   "weather": "label=snow, intensity=0.65, cloud=1, rate=0.845, wetness=0.25, swe=6, visibility=1800",
    "season": "winter",
    "character": false,
    "wet": true,
@@ -757,6 +787,16 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-01-15T18:00:00Z",
+    "-weatherspec",
+    "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
    ]
   },
   {
@@ -764,7 +804,7 @@
    "group": "region",
    "title": "Wilmette, low oblique over the Vattmann Park blocks",
    "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
+   "activation": "Ready: activate (remove \"active\": false) once origin/main's Apps/WorldLab/Resources/demo.json lists wilmette-vattmann-park (5A commit e1ebdf8 on phase5b).",
    "area": "wilmette-vattmann-park",
    "profile": "wilmette",
    "focus": null,
@@ -779,11 +819,11 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
-   "camera": "low oblique, distance 110 m, pitch 32, yaw 200, vFOV 45 (P2 camera)",
+   "camera": "wilmette-vattmann-park named camera 'wilmette-aerial': 110 m orbit over Vattmann Park, heading 20, 32\u00b0 down, vFOV 45 (5A)",
    "sun": {
     "elevationDeg": 27.2,
     "azimuthDeg": 220.6,
@@ -799,14 +839,61 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "wilmette-aerial",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
+   ]
+  },
+  {
+   "id": "evanston-postcard",
+   "group": "region",
+   "title": "Evanston South, Greenleaf St looking east, golden hour (regions 01 composition)",
+   "area": "evanston-south",
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-15T23:23:26Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "utc": "2026-09-15T23:23:26Z",
+   "local": "2026-09-15 18:23 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "evanston-south named camera 'northshore-postcard': Greenleaf Street looking east (regions northshore-postcard composition)",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 268.3,
+    "shadowBearingDeg": 88.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png",
+     "label": "regions 01 North Shore golden (same composition)"
+    }
+   ],
+   "na": [
+    6,
+    10
    ]
   },
   {
    "id": "evanston-street",
    "group": "region",
    "title": "Evanston South, Wesley Ave looking south, peak fall afternoon",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "evanston-south",
    "profile": "evanston",
    "focus": "42.0350,-87.6940,42.0410,-87.6885",
@@ -821,11 +908,11 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear, cloud 0.1",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
-   "camera": "street eye 1.65 m, heading 180, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "evanston-south named camera 'wesley-street': Wesley Avenue, east sidewalk, looking south (P2 evanston-street)",
    "sun": {
     "elevationDeg": 27.2,
     "azimuthDeg": 220.6,
@@ -845,14 +932,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "wesley-street",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
    ]
   },
   {
    "id": "evanston-street-rain",
    "group": "region",
    "title": "Evanston South, Wesley Ave, light rain midday",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "evanston-south",
    "profile": "evanston",
    "focus": "42.0350,-87.6940,42.0410,-87.6885",
@@ -867,11 +962,11 @@
    "weatherPreset": "rain",
    "utc": "2026-09-15T17:00:00Z",
    "local": "2026-09-15 12:00 CDT",
-   "weather": "rain (WorldLab light-rain preset)",
+   "weather": "label=rain, intensity=0.5, cloud=0.95, rate=2, wetness=0.7, visibility=9000",
    "season": "late summer",
    "character": false,
    "wet": true,
-   "camera": "street eye 1.65 m, heading 180, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "evanston-south named camera 'wesley-street': Wesley Avenue, east sidewalk, looking south (P2 evanston-street)",
    "sun": {
     "elevationDeg": 49.5,
     "azimuthDeg": 162.2,
@@ -887,14 +982,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "wesley-street",
+    "-date",
+    "2026-09-15T17:00:00Z",
+    "-weatherspec",
+    "label=rain,intensity=0.5,cloud=0.95,rate=2,wetness=0.7,visibility=9000"
    ]
   },
   {
    "id": "evanston-street-winter",
    "group": "region",
    "title": "Evanston South, Wesley Ave, snow midday",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "evanston-south",
    "profile": "evanston",
    "focus": "42.0350,-87.6940,42.0410,-87.6885",
@@ -909,11 +1012,11 @@
    "weatherPreset": "snow",
    "utc": "2026-01-15T18:00:00Z",
    "local": "2026-01-15 12:00 CST",
-   "weather": "falling snow, SWE 6 mm (WorldLab snow preset)",
+   "weather": "label=snow, intensity=0.65, cloud=1, rate=0.845, wetness=0.25, swe=6, visibility=1800",
    "season": "winter",
    "character": false,
    "wet": true,
-   "camera": "street eye 1.65 m, heading 180, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "evanston-south named camera 'wesley-street': Wesley Avenue, east sidewalk, looking south (P2 evanston-street)",
    "sun": {
     "elevationDeg": 26.9,
     "azimuthDeg": 179.9,
@@ -929,14 +1032,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "wesley-street",
+    "-date",
+    "2026-01-15T18:00:00Z",
+    "-weatherspec",
+    "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
    ]
   },
   {
    "id": "evanston-aerial",
    "group": "region",
    "title": "Evanston South, low oblique over the Wesley Ave block",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "evanston-south",
    "profile": "evanston",
    "focus": "42.0350,-87.6940,42.0410,-87.6885",
@@ -951,11 +1062,11 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
-   "camera": "low oblique, distance 95 m, pitch 32, yaw 200, vFOV 45 (P2 gate camera)",
+   "camera": "evanston-south named camera 'evanston-aerial': low oblique over the Wesley block (P2 evanston-aerial)",
    "sun": {
     "elevationDeg": 27.2,
     "azimuthDeg": 220.6,
@@ -971,14 +1082,61 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "evanston-aerial",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
+   ]
+  },
+  {
+   "id": "lakeview-postcard",
+   "group": "region",
+   "title": "Lakeview, W Roscoe St looking east, golden hour (regions 05 composition)",
+   "area": "lakeview-sheil-park",
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "lakeview-postcard",
+    "-date",
+    "2026-09-15T23:23:12Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "utc": "2026-09-15T23:23:12Z",
+   "local": "2026-09-15 18:23 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'lakeview-postcard': West Roscoe Street, south sidewalk, looking east (regions lakeview-postcard composition)",
+   "sun": {
+    "elevationDeg": 6.0,
+    "azimuthDeg": 268.3,
+    "shadowBearingDeg": 88.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png",
+     "label": "regions 05 Lakeview three-flats (same composition)"
+    }
+   ],
+   "na": [
+    6,
+    10
    ]
   },
   {
    "id": "lakeview-street",
    "group": "region",
    "title": "Lakeview, W Roscoe St looking west, golden hour",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "lakeview-sheil-park",
    "profile": "chicago-dense-north",
    "focus": "41.9415,-87.6690,41.9480,-87.6585",
@@ -993,11 +1151,11 @@
    "weatherPreset": "clear",
    "utc": "2026-09-15T23:23:12Z",
    "local": "2026-09-15 18:23 CDT",
-   "weather": "clear, cloud 0.12",
+   "weather": "label=clear, cloud=0.12",
    "season": "late summer",
    "character": false,
    "wet": false,
-   "camera": "street eye 1.65 m, heading 270, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "lakeview-sheil-park named camera 'roscoe-street': West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
    "sun": {
     "elevationDeg": 6.0,
     "azimuthDeg": 268.3,
@@ -1013,14 +1171,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "roscoe-street",
+    "-date",
+    "2026-09-15T23:23:12Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
    ]
   },
   {
    "id": "lakeview-alley",
    "group": "region",
    "title": "Lakeview, alley behind the block looking north, peak fall afternoon",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "lakeview-sheil-park",
    "profile": "chicago-dense-north",
    "focus": "41.9415,-87.6690,41.9480,-87.6585",
@@ -1035,11 +1201,11 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear, cloud 0.1",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
-   "camera": "street eye 1.65 m, heading 0, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "lakeview-sheil-park named camera 'chicago-alley': alley behind the Roscoe block, looking north (P2 lakeview-alley; regions chicago-alley composition)",
    "sun": {
     "elevationDeg": 27.2,
     "azimuthDeg": 220.7,
@@ -1055,14 +1221,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "chicago-alley",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
    ]
   },
   {
    "id": "lakeview-alley-winter",
    "group": "region",
    "title": "Lakeview alley, snow midday",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "lakeview-sheil-park",
    "profile": "chicago-dense-north",
    "focus": "41.9415,-87.6690,41.9480,-87.6585",
@@ -1077,15 +1251,15 @@
    "weatherPreset": "snow",
    "utc": "2026-01-15T18:00:00Z",
    "local": "2026-01-15 12:00 CST",
-   "weather": "falling snow, SWE 6 mm (WorldLab snow preset)",
+   "weather": "label=snow, intensity=0.25, cloud=1, rate=0.125, wetness=0.3, swe=6, visibility=8000",
    "season": "winter",
    "character": false,
    "wet": true,
-   "camera": "street eye 1.65 m, heading 0, pitch -3, vFOV 50 (P2 gate camera)",
+   "camera": "lakeview-sheil-park named camera 'chicago-alley': alley behind the Roscoe block, looking north (P2 lakeview-alley; regions chicago-alley composition)",
    "sun": {
     "elevationDeg": 27.0,
     "azimuthDeg": 180.0,
-    "shadowBearingDeg": 0.0,
+    "shadowBearingDeg": 360.0,
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
    },
    "targets": [
@@ -1097,14 +1271,22 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "chicago-alley",
+    "-date",
+    "2026-01-15T18:00:00Z",
+    "-weatherspec",
+    "label=snow,intensity=0.25,cloud=1,rate=0.125,wetness=0.3,swe=6,visibility=8000"
    ]
   },
   {
    "id": "lakeview-aerial",
    "group": "region",
    "title": "Lakeview, low oblique over the Roscoe St block",
-   "active": false,
-   "activation": "Activates when WorldLab on main can open another area at a given camera (5A hook: -area plus -camera/-look). Camera, area, profile and focus are P2's, from scripts/p2_gate_shots.sh; fill 'args' with the hook's exact syntax, then remove \"active\": false.",
    "area": "lakeview-sheil-park",
    "profile": "chicago-dense-north",
    "focus": "41.9415,-87.6690,41.9480,-87.6585",
@@ -1119,11 +1301,11 @@
    "weatherPreset": "clear",
    "utc": "2026-10-22T20:00:00Z",
    "local": "2026-10-22 15:00 CDT",
-   "weather": "clear",
+   "weather": "label=clear, cloud=0.1",
    "season": "peak fall",
    "character": false,
    "wet": false,
-   "camera": "low oblique, distance 110 m, pitch 32, yaw 330, vFOV 45 (P2 gate camera)",
+   "camera": "lakeview-sheil-park named camera 'lakeview-aerial': low oblique over the block (P2 lakeview-aerial)",
    "sun": {
     "elevationDeg": 27.2,
     "azimuthDeg": 220.7,
@@ -1139,6 +1321,16 @@
    "na": [
     6,
     10
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "lakeview-aerial",
+    "-date",
+    "2026-10-22T20:00:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.1"
    ]
   }
  ]
