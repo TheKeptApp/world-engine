@@ -10,6 +10,8 @@ public struct WorldView: View {
     var post: WorldPostProcess?
     /// Host override: stop rendering (e.g. while the app covers the world with its own UI).
     var isPaused: Bool
+    /// 4× multisampling (RealityKit's default); off only for GPU attribution.
+    public var multisampling = true
     var onFrame: (@MainActor (Double) -> Void)?
 
     @State private var dragStart: (yaw: Float, pitch: Float)?
@@ -48,7 +50,7 @@ public struct WorldView: View {
             } else if surface.settings.host == .realityRenderer, let host = rendererHost {
                 host
             } else {
-                WorldRealityView(world: world, camera: camera, post: post, surface: surface, onFrame: onFrame)
+                WorldRealityView(world: world, camera: camera, post: post, surface: surface, multisampling: multisampling, onFrame: onFrame)
             }
         }
         .onGeometryChange(for: CGSize.self) { $0.size } action: { size in
@@ -166,6 +168,7 @@ private struct WorldRealityView: View {
     let camera: WorldCamera
     let post: WorldPostProcess?
     let surface: RenderSurface
+    let multisampling: Bool
     let onFrame: (@MainActor (Double) -> Void)?
 
     /// Post-processing can only be installed once the view is on screen (RealityKit traps
@@ -205,6 +208,8 @@ private struct WorldRealityView: View {
                 }
             }
         } update: { content in
+            let aa: AntialiasingMode = multisampling ? .multisample4X : .none
+            if content.renderingEffects.antialiasing != aa { content.renderingEffects.antialiasing = aa }
             if onScreen, let post, !installed.post {
                 installed.post = true
                 content.renderingEffects.customPostProcessing = .effect(WorldPostEffect(post: post))

@@ -98,7 +98,7 @@ public final class World {
         var bounds: [BoundingBox?] = [nil, nil, nil]
     }
     private var lodGroups: [LODGroup] = []
-    private var lodCenter: SIMD2<Float>?
+    var lodCenter: SIMD2<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
     private var cullables: [(bounds: BoundingBox, triangles: Int)] = []
     private var tuftBounds: BoundingBox?

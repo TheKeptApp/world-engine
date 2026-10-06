@@ -83,6 +83,7 @@ struct RealityKitScreen: View {
     @State private var motion: WorldMotion?
     @State private var postcardIndex = 0
     @State private var showControls = true
+    @State private var multisampling = true
 
     /// The experience UI (strip, scrubber, mode bar) shows outside presets, tests and showcase shots.
     private var experienceUI: Bool { options.preset == nil && !testRun && !options.metrics && options.showcase == nil && options.hud }
@@ -92,13 +93,15 @@ struct RealityKitScreen: View {
             Color.black.ignoresSafeArea()
             if let world, let camera {
                 framed {
-                    WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil && options.showcase == nil,
-                              post: options.diagnostics.contains("noPost") ? nil : post,
-                              settings: options.renderSettings, renderState: render, isPaused: hostPaused) { dt in
+                    var view = WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil && options.showcase == nil,
+                                         post: options.diagnostics.contains("noPost") ? nil : post,
+                                         settings: options.renderSettings, renderState: render, isPaused: hostPaused) { dt in
                         let postMs = post.recentGPUms(1).last
                         metrics.frame(dt: dt, gpuMs: render.gpuFrameMs ?? postMs)
                         test?.frame(dt: dt, gpuMs: render.gpuFrameMs, postMs: postMs)
                     }
+                    let _ = view.multisampling = multisampling
+                    view
                 }
                 if options.hud && (!experienceUI || options.debugHUD) { HUD(metrics: metrics, world: world, test: test, render: render) }
                 if experienceUI, let env {
@@ -130,6 +133,32 @@ struct RealityKitScreen: View {
                 print(String(format: "RENDER t=%.0f fps=%.1f gpu=%@ %@", Date().timeIntervalSince(started), metrics.liveFPS(),
                              render.gpuFrameMs.map { String(format: "%.2f", $0) } ?? "-", render.summary))
             }
+        }
+        .task {
+            // `-attribution`: one feature off at a time, 7 s each, for a GPU trace split by feature.
+            // Phase starts are printed with absolute times to align with the trace.
+            guard ProcessInfo.processInfo.arguments.contains("-attribution") else { return }
+            while world == nil { try? await Task.sleep(for: .milliseconds(200)) }
+            try? await Task.sleep(for: .seconds(14))
+            guard let world else { return }
+            let iso = ISO8601DateFormatter()
+            iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            @MainActor func phase(_ name: String, _ change: @MainActor () -> Void) async {
+                change()
+                print("ATTR \(name) \(iso.string(from: Date()))")
+                try? await Task.sleep(for: .seconds(7))
+            }
+            await phase("all") {}
+            await phase("noShadows") { world.set(.shadows, enabled: false) }
+            await phase("all2") { world.set(.shadows, enabled: true) }
+            await phase("noSky") { world.set(.sky, enabled: false) }
+            await phase("noPost") { world.set(.sky, enabled: true); post.settings.enabled = false }
+            await phase("noMSAA") { post.settings.enabled = true; multisampling = false }
+            await phase("noSurfaceDetail") { multisampling = true; world.set(.surfaceDetail, enabled: false) }
+            await phase("noFoliage") { world.set(.surfaceDetail, enabled: true); world.set(.foliage, enabled: false) }
+            await phase("noBuildings") { world.set(.foliage, enabled: true); world.set(.buildings, enabled: false) }
+            await phase("all3") { world.set(.buildings, enabled: true) }
+            print("ATTR end \(iso.string(from: Date()))")
         }
         .task {
             // `-pausetest N`: the host pauses the view at N s and resumes it at 2N s.

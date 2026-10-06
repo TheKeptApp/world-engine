@@ -150,7 +150,8 @@ public final class WorldCamera {
             // Look target: a few metres ahead on the ground, for clutter and fog.
             let f = simd_normalize(e.pose.target - e.pose.eye)
             lookTarget = SIMD3<Float>(e.pose.eye + SIMD3(f.x, 0, f.z) * 6) * SIMD3(1, 0, 1)
-            return nil
+            // First-person cut-away: foliage within ~2.5 m ahead of the eye dithers away.
+            return SIMD3<Float>(e.pose.eye + f * 2.5)
         case .route:
             guard var r = route else { return nil }
             r.step(dt: Double(dt))
@@ -158,7 +159,7 @@ public final class WorldCamera {
             apply(r.pose, to: camera)
             let f = simd_normalize(r.pose.target - r.pose.eye)
             lookTarget = SIMD3<Float>(r.pose.eye + SIMD3(f.x, 0, f.z) * 6) * SIMD3(1, 0, 1)
-            return nil
+            return SIMD3<Float>(r.pose.eye + f * 2.5)
         case let .fixed(position, target, fov):
             setFOV(camera, fov)
             camera.look(at: target, from: position, relativeTo: nil)

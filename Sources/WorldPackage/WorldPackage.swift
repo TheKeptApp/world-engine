@@ -241,7 +241,7 @@ public enum WorldPackage {
         // Source profiles and shared tables, verbatim (provenance).
         let profileID = build.profile.id
         var profileFiles: [String] = []
-        for name in [profileID, "regions", "seasonal-palette", "base-palette", "time-of-day", "weather"] {
+        for name in [profileID, "regions", "seasonal-palette", "base-palette", "time-of-day", "weather", "display"] {
             files["profiles/\(name).json"] = try StyleLibrary.data(name)
             profileFiles.append("profiles/\(name).json")
         }

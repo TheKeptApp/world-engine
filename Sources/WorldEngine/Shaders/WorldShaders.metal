@@ -182,7 +182,8 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     if (g.debug > 2.5 && g.debug < 3.5) { // AO view
         s.set_base_color(half3(0.0h)); s.set_emissive_color(half3(su.ao)); s.set_opacity(1.0h); return;
     }
-    if (su.weathered) {
+    // Debug 5 (GPU attribution): skip the weather/ground extras.
+    if (su.weathered && !(g.debug > 4.5 && g.debug < 5.5)) {
         // Wet (art direction, Prompt 5: rain must read): darker streets, a sheen that reflects
         // the sky, puddles on flat paving; walls get half.
         float exposure = mix(0.5, 1.0, smoothstep(0.3, 0.8, n.y));
@@ -213,8 +214,10 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float3 r = reflect(-v, n);
             float3 sky = mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5));
             // Puddles keep a floor of 0.18 so near ones read as water, not shadow.
-            float amount = float(puddle) * max(fresnel * 0.95, 0.18) + fresnel * float(wet) * 0.3 * (1.0 - float(puddle));
-            if (su.puddles || n.y > 0.6) { su.emissive += half3(sky * amount); }
+            float amount = float(puddle) * max(fresnel * 0.95, 0.18) + (fresnel * 0.55 + 0.05) * float(wet) * (1.0 - float(puddle));
+            // Grass and other rough ground glint far less than paving.
+            if (su.puddles) { su.emissive += half3(sky * amount); }
+            else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }
         }
         // Snow covers patterns, leaves and wetness where it lies.
         half snow = half(snowMask(g, wp, n));
@@ -269,12 +272,14 @@ void worldStaticSurface(realitykit::surface_parameters params)
         su.base = mix(half3(luma), su.base, half(1.0 + broad * 0.08));
         // Art direction (Prompt 5): ordinary lawns vary in colour, drier warm patches and lusher
         // cool ones over ~10 m, so a clear day doesn't read as one flat green.
-        float patchv = valueNoise(wp.xz / 11.0 + 3.3) - 0.5;
-        half3 dry = su.base * half3(1.12h, 1.05h, 0.78h), lush = su.base * half3(0.88h, 1.0h, 0.94h);
-        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 1.4, 0.0, 0.6)));
+        if (!(g.debug > 4.5 && g.debug < 5.5)) {
+        float patchv = valueNoise(wp.xz / 11.0 + 3.3) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1) - 0.5) * 0.5;
+        half3 dry = su.base * half3(1.16h, 1.06h, 0.72h), lush = su.base * half3(0.86h, 1.0h, 0.93h);
+        su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75)));
+        }
         su.roughness = 0.95h; su.specular = 0.15h;
     }
-    if ((flags & 4u) || (flags & 8u)) {
+    if (((flags & 4u) || (flags & 8u)) && !(g.debug > 4.5 && g.debug < 5.5)) {
         // Fallen leaves under real crowns (canopy map from tree positions) through leaf drop:
         // speckles near the camera, a tint further away; darker when wet; snow covers them.
         float2 cuv = (wp.xz - g.canopyOrigin) / g.canopySize;
@@ -475,7 +480,11 @@ void worldSkySurface(realitykit::surface_parameters params)
     // bases low in the sky, so fair-weather cloud gives a clear day some interest.
     float3 sunD = normalize(g.sunDir);
     float silver = pow(max(0.0, dot(d, sunD)), 5.0) * 0.6 + pow(max(0.0, dot(d, sunD)), 40.0) * 0.6;
-    float3 cc = float3(g.cloudColor) * (0.88 + 0.22 * smoothstep(0.0, 0.5, d.y)) + float3(g.sunDisk) * silver * 0.35;
+    // Billows: lighter tops and darker bases from a second noise sample, so a deck has texture.
+    float2 q2 = d.xz / max(d.y + 0.18, 0.18) * 3.1 + g.windDir * time * 0.006;
+    float billow = valueNoise(q2) * 0.6 + valueNoise(q2 * 2.7 + 3.3) * 0.4;
+    float3 cc = float3(g.cloudColor) * (0.78 + 0.34 * billow) * (0.88 + 0.22 * smoothstep(0.0, 0.5, d.y))
+              + float3(g.sunDisk) * silver * 0.35;
     c = mix(c, cc, cloud);
     auto s = params.surface();
     s.set_base_color(half3(0.0h));

@@ -83,9 +83,17 @@ extension World {
         let cloud = Float(env.state.cloudCover01 ?? 0)
         let daylight = Float(smoothstepD(-6, 6, elevation))
         let horizon = tinted(lin(L.skyHorizon))
-        let cloudColor = tinted(simd_mix(lin(L.skyHorizon), lin(L.ambientSky), SIMD3(repeating: 0.25))) * (1.04 - 0.3 * cloud)
-        g.skyHorizon = horizon
-        g.skyTop = simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud))
+        let label = env.state.dominantState
+        let intensity = Float(env.state.intensity01 ?? 0)
+        let wetSky: Float = (label == .rain || label == .thunderstorm) ? 0.25 + 0.35 * min(1, intensity * 2) : 0
+        let cloudColor = tinted(simd_mix(lin(L.skyHorizon), lin(L.ambientSky), SIMD3(repeating: 0.25))) * (1.04 - 0.3 * cloud) * (1 - wetSky)
+        // Haze, smoke and dust veil the sky itself in the haze colour, not just the distance.
+        let veil: Float = (label?.isObscuration ?? false) && label != .fog ? 0.55 * intensity : 0
+        // The veil leans toward the obscurant's own colour (smoke beige-grey, dust tan, haze warm).
+        let veilColor = simd_mix(g.fogColor, tint, SIMD3(repeating: 0.6))
+        g.skyHorizon = simd_mix(horizon, veilColor, SIMD3(repeating: veil))
+        g.skyTop = simd_mix(simd_mix(tinted(lin(L.skyTop)), cloudColor, SIMD3(repeating: 0.5 * cloud)), veilColor, SIMD3(repeating: veil * 0.8))
+        if veil > 0 { g.fogColor = simd_mix(g.fogColor, veilColor, SIMD3(repeating: veil * 0.6)) }
         g.cloudCover = cloud
         g.cloudThreshold = Self.cloudThreshold(cover: cloud)
         g.cloudColor = cloudColor
@@ -317,9 +325,9 @@ extension World {
             p.speedVariation = 1
             e.lifeSpan = 1.6
             e.lifeSpanVariation = 0.2
-            e.size = 0.03
-            e.stretchFactor = 14
-            e.billboardMode = .billboardYAligned
+            e.size = 0.012
+            e.stretchFactor = 4
+            e.billboardMode = .billboard
             e.acceleration = .zero
             // Mid grey-blue: lighter than dark trees, a touch darker than a bright overcast sky.
             e.color = .constant(.single(.init(red: 0.72, green: 0.76, blue: 0.82, alpha: 0.55)))
