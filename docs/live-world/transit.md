@@ -10,7 +10,7 @@ endpoint. Vocabulary (`basis`, `state`, `attribution`): [README.md](README.md).
 | Feed | Status |
 |---|---|
 | RTD GTFS-RT (Denver, rail and bus) | Relayed (prototype since 2026-10-06), now with shape smoothing. Code and offline tests only in this pass: the cloud session's network policy denies `open-data.rtd-denver.com` and `www.rtd-denver.com`, so the shape download has not run against the real static feed yet. |
-| CTA Train Tracker, Bus Tracker | **Not started, waiting for the API keys.** R adds them as environment secrets (cloud environment settings), never in chat or in the repo. Planned names: `CTA_TRAIN_TRACKER_KEY`, `CTA_BUS_TRACKER_KEY`; the relay reads them from the environment and the feeds stay off when they are missing. Required credit in the contract: **"Data provided by Chicago Transit Authority"**. CTA's purpose clause still needs a written answer before shipping (`live-feeds.md` §1 blocker 2). |
+| CTA Train Tracker, Bus Tracker | **Not started, waiting for the API keys.** R adds them as environment secrets (cloud environment settings), never in chat or in the repo. Planned names: `CTA_TRAIN_API_KEY` (set in the environment; visible from the next session) and `CTA_BUS_API_KEY` (to come); the relay reads them from the environment and the feeds stay off when they are missing. Required credit in the contract: **"Data provided by Chicago Transit Authority"**. CTA's purpose clause still needs a written answer before shipping (`live-feeds.md` §1 blocker 2). |
 
 ## 2. What changed in the vehicle record
 
