@@ -23,6 +23,10 @@ shot lakeview-street "${LV[@]}" -look 41.943402,-87.66075,1.65,270,-3,50
 shot lakeview-alley "${LV[@]}" -look 41.944063,-87.666977,1.65,0,-3,50
 # Lakeview: low oblique over the block.
 shot lakeview-aerial "${LV[@]}" -overview 41.9440,-87.6640,110,32,330,45
+# Wilmette (OSM + Overture footprints): Highland Ave, north sidewalk, looking east (regions fixture 01 camera).
+WL=(-area wilmette-vattmann-park -profile wilmette -date $DATE -focus 42.0720,-87.7225,42.0790,-87.7130 -frame16x9)
+shot wilmette-street "${WL[@]}" -look 42.074933,-87.719996,1.65,90,-3,50
+shot wilmette-aerial "${WL[@]}" -overview 42.0755,-87.7180,110,32,200,45
 # Winter date (concepts 04 and 06 show snow; BuildingLab sets no weather, so these show winter light only).
 WINTER=2026-01-15T18:00:00Z
 shot evanston-street-winter "${EV[@]/$DATE/$WINTER}" -look 42.0382,-87.69135,1.65,180,-3,50

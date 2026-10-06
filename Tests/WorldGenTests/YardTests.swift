@@ -15,7 +15,8 @@ struct YardTests {
                                 recipe: WorldRecipe(profileID: profile, date: ISO8601DateFormatter().date(from: "2026-10-22T20:00:00Z")!, focus: focus))
     }
 
-    static let cases: [(String, String)] = [("evanston-south", "evanston"), ("lakeview-sheil-park", "chicago-dense-north")]
+    static let cases: [(String, String)] = [("evanston-south", "evanston"), ("lakeview-sheil-park", "chicago-dense-north"),
+                                            ("wilmette-vattmann-park", "wilmette")]
 
     @Test(arguments: cases)
     func lotsStayOffStreetsAndTreesOffRoadsAndBuildings(_ area: String, _ profile: String) throws {
