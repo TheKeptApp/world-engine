@@ -19,7 +19,7 @@ It is app-agnostic. Host apps add their own characters as plain RealityKit entit
 | `Sources/WorldMesh` | Earcut triangulation, footprint extrusion, road ribbons |
 | `Sources/WorldGen` | Street-level generation (houses, roofs, sidewalks, curbs, lamps, trees, clutter) + regional style profiles (data) |
 | `Sources/WorldEngine` | RealityKit/SwiftUI engine (public API), Metal shaders |
-| `Sources/worldbake` | Data tool: `init-area`, `fetch`, `stats`, `datamap`, `ring-stats` |
+| `Sources/worldbake` | Data tool: `init-area`, `fetch` (OSM; `--layers overture` adds Overture buildings, see [docs/research/overture-source.md](docs/research/overture-source.md)), `stats`, `datamap`, `ring-stats`, `export` |
 | `Data/areas/` | Committed area extracts (ODbL) |
 | `Apps/WorldLab` | Demo app (`project.yml` is the source of truth) |
 
@@ -33,6 +33,7 @@ scripts/device.sh build              # Release build + install on the connected 
 scripts/device_snapshots.sh          # on-device screenshots (showcase 01-12, v2 presets) pulled to docs/screenshots/m3/device
 scripts/walk_test.sh baseline        # 10-minute device walk: fps, memory, heat + GPU samples
 swift run worldbake stats Data/areas/sloans-lake
+swift run worldbake fetch Data/areas/<area> --layers overture   # Overture buildings where OSM has none (needs uv)
 ```
 
 ## Data attribution
@@ -43,3 +44,5 @@ Any app built on WorldEngine must keep this attribution visible on the map.
 It must also show the engine's credits (`WorldCreditsView`, or `WorldCreditsButton` beside the world)
 and pass every exported image through `WorldCredits.burnIn(...)`. World packages carry their licence
 notice in `LICENSE-DATA.md`. See `docs/data-licensing.md`.
+Areas with Overture buildings (`overture-buildings.json`) also credit "© OpenStreetMap contributors,
+Overture Maps Foundation" and the source datasets listed in the area's manifest and `NOTICE.md`.

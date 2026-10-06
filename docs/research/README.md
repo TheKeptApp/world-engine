@@ -10,6 +10,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 | [data-coverage.md](data-coverage.md) | 46 sample cells (North Shore, Chicago, 11 metros): what OSM and Overture hold, the ranked gaps and how the generator should handle each, the dense-Chicago triangle estimate |
 | [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, star catalog, Fab), blockers, questions for a lawyer. Not legal advice |
 | [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
+| [overture-source.md](overture-source.md) | Overture buildings as a second footprint source (owner decision 2026-10-06): `worldbake fetch --layers overture`, the `overture-buildings-v1` file, merge rules (OSM wins), identity (`overture/<id>`), credits and the ODbL note |
 | [aerial.md](aerial.md) | Feasibility of reading roofs and tree canopy from USDA NAIP aerial imagery (proof of concept on a 0.25 km² Wilmette cell): licence and small-area access, method, hand-checked accuracy, recommendation. Aggregates only |
 | [outreach-drafts.md](outreach-drafts.md) | Draft emails (not sent) to Metra, CTA, Pace and the adsb.lol operator with the questions the live-feed terms leave open, for the owner to review and send |
 
