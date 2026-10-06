@@ -305,7 +305,15 @@ struct RealityKitScreen: View {
             print("VIEWREADY id=\(spec.id)"); fflush(nil)
             let file = dir.appendingPathComponent("\(spec.id).png")
             try? FileManager.default.removeItem(at: file)
-            guard let shot = await capturePNG() else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
+            // `-capturequality`: the postcard quality-mode render of this view instead (PostcardExport.swift).
+            let shot: (data: Data, size: String, source: String)?
+            if spec.args.contains("-capturequality") {
+                shot = await PostcardExports.qualityCapture(world: world, camera: camera, size: render.drawableSize,
+                                                            post: options.diagnostics.contains("noPost") ? nil : post.settings)
+            } else {
+                shot = await capturePNG().map { (data: $0.data, size: $0.size, source: "\($0.source)") }
+            }
+            guard let shot else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
             do { try shot.data.write(to: file, options: .atomic) } catch {
                 print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
             }

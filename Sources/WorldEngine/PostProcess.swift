@@ -127,11 +127,21 @@ public final class WorldPostProcess: @unchecked Sendable {
         }
     }
 
-    func encode(_ cb: MTLCommandBuffer, device: MTLDevice, source: MTLTexture, target: MTLTexture) {
+    /// Forgets the eased exposure, so the next frame meters itself (offscreen stills).
+    func resetExposureHistory() {
+        meanBuffer?.contents().storeBytes(of: Float(0), as: Float.self)
+    }
+
+    /// - Parameter bloomSize: the picture size the bloom radius is measured against (default: the
+    ///   source's). A supersampled offscreen render passes its output size, so the glow keeps the
+    ///   width it has on screen.
+    func encode(_ cb: MTLCommandBuffer, device: MTLDevice, source: MTLTexture, target: MTLTexture,
+                bloomSize: (width: Int, height: Int)? = nil) {
         let w = source.width, h = source.height
-        if size != (w, h) || half.isEmpty {
-            size = (w, h)
-            let d = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba16Float, width: max(1, w / 2), height: max(1, h / 2), mipmapped: false)
+        let bw = bloomSize?.width ?? w, bh = bloomSize?.height ?? h
+        if size != (bw, bh) || half.isEmpty {
+            size = (bw, bh)
+            let d = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba16Float, width: max(1, bw / 2), height: max(1, bh / 2), mipmapped: false)
             d.usage = [.shaderRead, .shaderWrite]
             d.storageMode = .private
             half = (0..<2).compactMap { _ in device.makeTexture(descriptor: d) }

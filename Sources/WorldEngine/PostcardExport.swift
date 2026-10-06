@@ -18,6 +18,9 @@ public typealias PostcardWeather = WorldGen.PostcardWeather
 public typealias PostcardLayout = WorldGen.PostcardLayout
 public typealias PostcardFrame = WorldGen.PostcardFrame
 public typealias PostcardReframe = WorldGen.PostcardReframe
+public typealias PostcardLightState = WorldGen.PostcardLightState
+public typealias PostcardGrade = WorldGen.PostcardGrade
+public typealias PostcardGradeTable = WorldGen.PostcardGradeTable
 
 /// What to export: every size in `sizes` for every style in `styles`.
 public struct PostcardRequest: Sendable {
@@ -31,8 +34,11 @@ public struct PostcardRequest: Sendable {
     public var appearance: PostcardAppearance?
     /// The aspect the pose was composed for (16:9 for composed postcards).
     public var composedAspect: Double
-    /// Grade and bloom, as on screen (pass the live `WorldPostProcess`'s settings); nil for none.
+    /// Grade, bloom and exposure as on screen: pass the live `WorldPostProcess`'s settings, copied
+    /// at capture time. nil renders without them.
     public var post: WorldPostProcess.Settings?
+    /// `.max` (default) renders the still at maximum quality; `.live` with the live view's settings.
+    public var quality: PostcardQuality
     /// Draw the host's characters too, cloned in their current pose. Off by default: postcards are
     /// the no-character view (experience-v1), and the contact shadow is then left out as well.
     public var includeCharacters: Bool
@@ -40,7 +46,7 @@ public struct PostcardRequest: Sendable {
     public init(text: PostcardText, weather: PostcardWeather, sizes: [PostcardSize] = PostcardSize.allCases,
                 styles: [PostcardStyle] = [.classic], appearance: PostcardAppearance? = nil,
                 composedAspect: Double = PostcardReframe.composedAspect, post: WorldPostProcess.Settings? = WorldPostProcess.Settings(),
-                includeCharacters: Bool = false) {
+                quality: PostcardQuality = .max, includeCharacters: Bool = false) {
         self.text = text
         self.weather = weather
         self.sizes = sizes
@@ -48,6 +54,7 @@ public struct PostcardRequest: Sendable {
         self.appearance = appearance
         self.composedAspect = composedAspect
         self.post = post
+        self.quality = quality
         self.includeCharacters = includeCharacters
     }
 }
@@ -61,6 +68,8 @@ public struct PostcardImage: Sendable {
     public let layout: PostcardLayout
     /// The finished image (`size.pixelWidth` × `size.pixelHeight`, sRGB, credits burned in).
     public let image: CGImage
+    public let info: PostcardRenderInfo
+    public let timing: PostcardTiming
 
     /// `postcard-<style>-<size>.png`.
     public var fileName: String { PostcardFrame.fileName(style: style, size: size) }
@@ -93,6 +102,82 @@ enum PostcardJobs {
     static var running = false
 }
 
+/// One offscreen copy of the world and its renderer, for every picture taken from one eye.
+@MainActor
+final class OffscreenSession {
+    let renderer: OffscreenWorldRenderer
+    let quality: PostcardQuality
+    let grade: (PostcardGrade, threshold: Double, softness: Double)?
+    let baseInfo: PostcardRenderInfo
+    /// Copy and set-up time, charged to the first picture.
+    private var pendingClone: Double
+    /// Rain or snow warm-up, charged to the first picture's settle time.
+    private var pendingSettle = 0.0
+
+    /// `widestVerticalFOV` and `widestHorizontalFOV` cover all the pictures to come: quality
+    /// detail is decided for that frustum.
+    init(world: World, eye: SIMD3<Double>, target: SIMD3<Double>, widestVerticalFOV: Double, widestHorizontalFOV: Double,
+         quality: PostcardQuality, post: WorldPostProcess.Settings?, includeCharacters: Bool) async throws {
+        let started = Date()
+        let e = SIMD3<Float>(eye), t = SIMD3<Float>(target)
+        // Camera state for this eye (a no-op when the live view already shows it), then a copy of
+        // the world as it is now. Nothing the live view does afterwards reaches the copy.
+        world.prepareOffscreenView(eye: e, target: t, keepContact: includeCharacters)
+        let copy: (root: Entity, copies: [ObjectIdentifier: Entity])
+        do {
+            copy = try world.offscreenCopy(includeCharacters: includeCharacters, quality: quality)
+        } catch {
+            throw PostcardExportError.renderFailed("world copy: \(error)")
+        }
+        var info = PostcardRenderInfo()
+        let vHalf = widestVerticalFOV / 2 * .pi / 180, hHalf = widestHorizontalFOV / 2 * .pi / 180
+        let planes = World.postcardFrustum(eye: e, target: t, verticalFOV: widestVerticalFOV, aspect: tan(hHalf) / tan(vHalf))
+        world.applyQuality(quality, root: copy.root, copies: copy.copies, eye: e, planes: planes, info: &info)
+        if quality.finalGrade {
+            let state = world.postcardLightState
+            info.gradeState = state
+            if let table = try? PostcardGradeTable.bundled() {
+                grade = (table.grade(for: state), table.shadeThreshold, table.shadeSoftness)
+            } else {
+                grade = nil
+            }
+        } else {
+            grade = nil
+        }
+        renderer = try OffscreenWorldRenderer(root: copy.root, environment: world.skyEnvironment,
+                                              background: WorldGen.Color.srgb(world.shaderGlobals.fogColor), post: post)
+        self.quality = quality
+        baseInfo = info
+        pendingClone = Date().timeIntervalSince(started) * 1000
+        if let seconds = World.precipitationWarmUp(in: copy.root) {
+            let warm = Date()
+            try await renderer.simulate(seconds: seconds)
+            pendingSettle = Date().timeIntervalSince(warm) * 1000
+        }
+    }
+
+    /// One picture of `width` × `height` from `pose` (supersampled per the quality).
+    func picture(pose: CameraPose, width: Int, height: Int) async throws -> (image: CGImage, info: PostcardRenderInfo, timing: PostcardTiming) {
+        var timing = PostcardTiming()
+        timing.clone = pendingClone
+        timing.settle = pendingSettle
+        pendingClone = 0
+        pendingSettle = 0
+        let size = quality.renderSize(width: width, height: height)
+        var info = baseInfo
+        info.renderWidth = size.width
+        info.renderHeight = size.height
+        info.supersample = Double(size.width) / Double(max(1, width))
+        let image = try await renderer.render(pose: pose, width: width, height: height, renderWidth: size.width, renderHeight: size.height,
+                                              settleFrames: quality.settleFrames, grade: grade, timing: &timing)
+        return (image, info, timing)
+    }
+
+    func close() {
+        renderer.close()
+    }
+}
+
 @MainActor
 extension World {
     /// Night (white type on a dark plate) once the sun is below −6° (civil dusk), else day.
@@ -105,6 +190,7 @@ extension World {
     /// picture size (never upscaled from the screen, never cropped from another size), with the
     /// world's grade and bloom, framed with `request.text`, and with "© OpenStreetMap contributors"
     /// (plus the provider mark, legal URL and modified-data notice for live weather) burned in.
+    /// `request.quality` decides how hard each picture works (`.max` by default).
     ///
     /// The live view keeps running: the world is copied for the offscreen renderer, never moved.
     /// Results come back style by style, sizes in request order. One export runs at a time.
@@ -116,38 +202,57 @@ extension World {
 
         let appearance = request.appearance ?? postcardAppearance
         let credits = PostcardFrame.imageCredits(sources: manifest.sources, weather: request.weather)
-        // Camera-dependent state for this pose (a no-op when the live view shows it), then a copy
-        // of the world as it is now. The copy never changes afterwards.
-        prepareOffscreenView(eye: SIMD3<Float>(pose.eye), target: SIMD3<Float>(pose.target), keepContact: request.includeCharacters)
-        let copy: Entity
-        do {
-            copy = try offscreenCopy(includeCharacters: request.includeCharacters)
-        } catch {
-            throw PostcardExportError.renderFailed("world copy: \(error)")
-        }
-        let renderer = try OffscreenWorldRenderer(root: copy, environment: skyEnvironment,
-                                                  background: WorldGen.Color.srgb(shaderGlobals.fogColor), post: request.post)
-        defer { renderer.close() }
-        if let seconds = Self.precipitationWarmUp(in: copy) { try await renderer.simulate(seconds: seconds) }
-
-        var images: [PostcardImage] = []
+        var jobs: [(style: PostcardStyle, size: PostcardSize, layout: PostcardLayout, pose: CameraPose)] = []
         for style in request.styles {
             for size in request.sizes {
                 let layout = PostcardFrame.layout(size: size, style: style, appearance: appearance, text: request.text,
                                                   weather: request.weather, credits: credits)
-                let width = Int(layout.picture.width), height = Int(layout.picture.height)
-                let framed = pose.reframed(forAspect: Double(width) / Double(height), composedAspect: request.composedAspect)
-                let picture = try await renderer.render(pose: framed, width: width, height: height)
-                let image: CGImage
-                do {
-                    image = try PostcardFrame.compose(picture: picture, layout: layout, weather: request.weather)
-                } catch {
-                    throw PostcardExportError.renderFailed("frame: \(error)")
-                }
-                images.append(PostcardImage(size: size, style: style, pose: framed, layout: layout, image: image))
+                jobs.append((style, size, layout, pose.reframed(forAspect: layout.pictureAspect, composedAspect: request.composedAspect)))
             }
         }
+        let vFOV = jobs.map(\.pose.verticalFOVDegrees).max() ?? pose.verticalFOVDegrees
+        let hFOV = jobs.map { PostcardReframe.horizontalFOV(verticalFOV: $0.pose.verticalFOVDegrees, aspect: $0.layout.pictureAspect) }.max() ?? vFOV
+        let session = try await OffscreenSession(world: self, eye: pose.eye, target: pose.target, widestVerticalFOV: vFOV,
+                                                 widestHorizontalFOV: hFOV, quality: request.quality, post: request.post,
+                                                 includeCharacters: request.includeCharacters)
+        defer { session.close() }
+
+        var images: [PostcardImage] = []
+        for job in jobs {
+            let r = job.layout.picture
+            var shot = try await session.picture(pose: job.pose, width: Int(r.width), height: Int(r.height))
+            let started = Date()
+            let image: CGImage
+            do {
+                image = try PostcardFrame.compose(picture: shot.image, layout: job.layout, weather: request.weather)
+            } catch {
+                throw PostcardExportError.renderFailed("frame: \(error)")
+            }
+            shot.timing.frame = Date().timeIntervalSince(started) * 1000
+            images.append(PostcardImage(size: job.size, style: job.style, pose: job.pose, layout: job.layout, image: image,
+                                        info: shot.info, timing: shot.timing))
+        }
         return images
+    }
+
+    /// The bare picture of `pose` at `width` × `height`, without a frame or burned-in credits: a
+    /// test artifact like `WorldRenderState.snapshot` (P3's look loop compares quality mode with the
+    /// live view). With `composedAspect` the pose is reframed for the picture first. Anything shown
+    /// to people goes through `exportPostcards`.
+    public func renderStill(pose: CameraPose, width: Int, height: Int, quality: PostcardQuality, post: WorldPostProcess.Settings?,
+                            composedAspect: Double? = nil, includeCharacters: Bool = false) async throws
+        -> (image: CGImage, info: PostcardRenderInfo, timing: PostcardTiming) {
+        guard !PostcardJobs.running else { throw PostcardExportError.busy }
+        PostcardJobs.running = true
+        defer { PostcardJobs.running = false }
+        let aspect = Double(width) / Double(max(1, height))
+        let framed = composedAspect.map { pose.reframed(forAspect: aspect, composedAspect: $0) } ?? pose
+        let session = try await OffscreenSession(
+            world: self, eye: framed.eye, target: framed.target, widestVerticalFOV: framed.verticalFOVDegrees,
+            widestHorizontalFOV: PostcardReframe.horizontalFOV(verticalFOV: framed.verticalFOVDegrees, aspect: aspect),
+            quality: quality, post: post, includeCharacters: includeCharacters)
+        defer { session.close() }
+        return try await session.picture(pose: framed, width: width, height: height)
     }
 
     /// Seconds of simulation that fill the air with rain or snow (emitters start empty in the

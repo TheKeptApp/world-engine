@@ -40,5 +40,8 @@ let package = Package(
         .testTarget(name: "WorldGenTests", dependencies: ["WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
         .testTarget(name: "WorldEnvironmentTests", dependencies: ["WorldEnvironment", "WorldGeo", "WorldGen"]),
         .testTarget(name: "WorldPackageTests", dependencies: ["WorldPackage", "WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
+        // Postcard export on the Mac: GPU kernels always; the offscreen world render only when
+        // scripts/postcard_mac_check.sh has compiled the engine's shaders for macOS.
+        .testTarget(name: "WorldEngineTests", dependencies: ["WorldEngine", "WorldEnvironment", "WorldGen", "WorldGeo", "WorldMap"]),
     ]
 )

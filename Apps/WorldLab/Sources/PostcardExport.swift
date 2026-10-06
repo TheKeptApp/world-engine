@@ -76,34 +76,64 @@ enum PostcardExports {
     }
 
     /// Exports all three sizes in `style` and writes them to Documents (replacing earlier exports
-    /// of the same style). Returns the files, square first.
-    static func save(_ source: Source, style: PostcardStyle) async throws -> [URL] {
+    /// of the same style). Prints `POSTCARD timing` and `POSTCARD info` lines per image. Returns the
+    /// files, square first.
+    static func save(_ source: Source, style: PostcardStyle, quality: PostcardQuality = .max) async throws -> [URL] {
+        let started = Date()
         let request = PostcardRequest(text: text(source.env), weather: await weather(for: source.env), sizes: PostcardSize.allCases,
-                                      styles: [style], post: source.post)
+                                      styles: [style], post: source.post, quality: quality)
         let postcards = try await source.world.exportPostcards(pose: source.pose, request: request)
         let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         var files: [URL] = []
         for postcard in postcards {
             let file = folder.appendingPathComponent(postcard.fileName)
+            let encoding = Date()
             try postcard.pngData().write(to: file, options: .atomic)
+            report(postcard, png: Date().timeIntervalSince(encoding) * 1000)
             files.append(file)
         }
+        report(String(format: "POSTCARD export style=%@ quality=%@ images=%ld total=%.1f ms", style.rawValue,
+                      quality == .live ? "live" : "max", postcards.count, Date().timeIntervalSince(started) * 1000))
         return files
     }
 
-    // MARK: `-exportpostcard STYLE`
+    /// `POSTCARD timing <file> clone=… settle=… render=… post=… frame=… total=… ms png=… ms` and
+    /// `POSTCARD info <file> render=WxH ss=… shadow=…m tufts=… near=… cells=… grade=…`.
+    static func report(_ p: PostcardImage, png: Double) {
+        let i = p.info
+        report("POSTCARD timing \(p.fileName) \(p.timing.line) " + String(format: "png=%.1f ms", png))
+        report("POSTCARD info \(p.fileName) render=\(i.renderWidth)x\(i.renderHeight) " + String(format: "ss=%.2f shadow=%.0fm", i.supersample, i.shadowDistance)
+               + " tufts=\(i.tufts) near=\(i.nearInstances) cells=\(i.nearBuildingCells) grade=\(i.gradeState?.rawValue ?? "none")")
+    }
 
-    /// `-exportpostcard STYLE` (bold, classic or minimal): once the world has loaded and settled,
-    /// export the current postcard pose in all three sizes and print `POSTCARD saved <file>` for
-    /// each file in Documents, or `POSTCARD failed <why>`. For scripts.
+    static func report(_ line: String) {
+        print(line)
+        fflush(nil)
+    }
+
+    // MARK: `-exportpostcard STYLE [-postcardquality live|max]`
+
+    /// `-exportpostcard STYLE` (bold, classic or minimal), with `-postcardquality live|max`
+    /// (default max): once the world has loaded and settled, export the current postcard pose in
+    /// all three sizes and print `POSTCARD saved <file>` for each file in Documents (after the
+    /// timing and info lines), or `POSTCARD failed <why>`. For scripts.
     static func runLaunchArgument(source: () -> Source?, failed: () -> Bool) async {
         let args = ProcessInfo.processInfo.arguments
         guard let i = args.firstIndex(of: "-exportpostcard") else { return }
-        func report(_ line: String) { print(line); fflush(nil) }
         let name = i + 1 < args.count ? args[i + 1].lowercased() : ""
         guard let style = PostcardStyle(rawValue: name) else {
             report("POSTCARD failed: unknown style '\(name)' (bold, classic or minimal)")
             return
+        }
+        var quality = PostcardQuality.max
+        if let q = args.firstIndex(of: "-postcardquality"), q + 1 < args.count {
+            switch args[q + 1].lowercased() {
+            case "live": quality = .live
+            case "max": quality = .max
+            default:
+                report("POSTCARD failed: unknown quality '\(args[q + 1])' (live or max)")
+                return
+            }
         }
         UIApplication.shared.isIdleTimerDisabled = true // a locked screen stops the GPU
         while source() == nil {
@@ -114,12 +144,33 @@ enum PostcardExports {
         try? await Task.sleep(for: .seconds(4))
         guard let s = source() else { report("POSTCARD failed: the world went away"); return }
         do {
-            let started = Date()
-            let files = try await save(s, style: style)
+            let files = try await save(s, style: style, quality: quality)
             for file in files { report("POSTCARD saved \(file.lastPathComponent)") }
-            report("POSTCARD done style=\(style.rawValue) files=\(files.count) seconds=" + String(format: "%.2f", Date().timeIntervalSince(started)))
         } catch {
             report("POSTCARD failed: \(error)")
+        }
+    }
+
+    // MARK: `-viewlist` views with `-capturequality`
+
+    /// The quality-mode offscreen render of the camera's current view at `size` (the live
+    /// capture's size), as PNG, so P3's look loop can compare it with the live capture. A test
+    /// artifact like the live snapshot: no frame, no burned-in credit.
+    static func qualityCapture(world: World, camera: WorldCamera, size: CGSize,
+                               post: WorldPostProcess.Settings?) async -> (data: Data, size: String, source: String)? {
+        guard let pose = camera.currentPose, size.width >= 1, size.height >= 1 else {
+            report("VIEWSHOT quality capture: no camera pose or view size yet")
+            return nil
+        }
+        let w = Int(size.width.rounded()), h = Int(size.height.rounded())
+        do {
+            let still = try await world.renderStill(pose: pose, width: w, height: h, quality: .max, post: post)
+            report("POSTCARD timing view-\(w)x\(h) \(still.timing.line)")
+            guard let png = UIImage(cgImage: still.image).pngData() else { return nil }
+            return (png, "\(w)x\(h)", "quality")
+        } catch {
+            report("VIEWSHOT quality capture failed: \(error)")
+            return nil
         }
     }
 }

@@ -42,28 +42,39 @@ extension World {
     /// A render-only copy of the world as it is now: every entity under the root cloned except the
     /// camera-collision hulls and, unless asked for, the host's characters. Light receivers point
     /// at the copy's own image-based light, instanced detail gets its own instance data, and the
-    /// world materials read a frozen copy of the palette/globals texture.
-    func offscreenCopy(includeCharacters: Bool) throws -> Entity {
+    /// world materials read a frozen copy of the palette/globals texture (with `quality`'s fill and
+    /// occlusion settings; the live texture never has them). Returns the copy and, for each copied
+    /// child of the root, live entity → copy.
+    func offscreenCopy(includeCharacters: Bool, quality: PostcardQuality = .live) throws -> (root: Entity, copies: [ObjectIdentifier: Entity]) {
         let root = Entity()
         root.name = "World (offscreen copy)"
         var ibl: Entity?
+        var copies: [ObjectIdentifier: Entity] = [:]
+        var hostEntities: Set<ObjectIdentifier> = []
         for child in rootEntity.children {
             if child.name == "Occluders" { continue }
-            if !includeCharacters, characters.contains(where: { $0 === child }) { continue }
+            let isCharacter = characters.contains { $0 === child }
+            if isCharacter && !includeCharacters { continue }
             let copy = child.clone(recursive: true)
             if child === iblEntity { ibl = copy }
+            if isCharacter { hostEntities.insert(ObjectIdentifier(copy)) }
+            copies[ObjectIdentifier(child)] = copy
             root.addChild(copy)
         }
-        let frozen = try resources.frozenTexture()
-        let live = resources.textureResource
-        func visit(_ e: Entity) {
-            if let ibl, e.components.has(ImageBasedLightReceiverComponent.self) {
+        let frozen = try resources.frozenTexture(fillSkyScale: Float(1 + quality.shadeLift),
+                                                 fillGroundScale: Float(1 + quality.groundBounce),
+                                                 ambientOcclusion: Float(quality.ambientOcclusion))
+        func visit(_ e: Entity, host: Bool) {
+            let host = host || hostEntities.contains(ObjectIdentifier(e))
+            if !host, let ibl, e.components.has(ImageBasedLightReceiverComponent.self) {
                 e.components.set(ImageBasedLightReceiverComponent(imageBasedLight: ibl))
             }
-            if var model = e.components[ModelComponent.self] {
+            if !host, var model = e.components[ModelComponent.self] {
                 var changed = false
                 model.materials = model.materials.map { (m: any Material) -> any Material in
-                    guard var c = m as? CustomMaterial, c.custom.texture?.resource === live else { return m }
+                    // The world's materials all read the palette/globals texture (256 × 4).
+                    guard var c = m as? CustomMaterial, let t = c.custom.texture?.resource,
+                          t.width == RenderResources.textureWidth, t.height == RenderResources.textureHeight else { return m }
                     c.custom.texture = .init(frozen)
                     changed = true
                     return c
@@ -83,16 +94,17 @@ extension World {
                     }
                 }
             }
-            for c in e.children { visit(c) }
+            for c in e.children { visit(c, host: host) }
         }
-        visit(root)
-        return root
+        visit(root, host: false)
+        return (root, copies)
     }
 }
 
 /// Draws an offscreen copy of a world with RealityKit's `RealityRenderer`: 4× multisampling and
-/// tone mapping as on screen, then `WorldPostProcess` (grade and bloom), read back as an sRGB
-/// image of exactly the requested size.
+/// tone mapping as on screen, optionally supersampled, then `WorldPostProcess` (grade and bloom)
+/// at the rendered size, a Lanczos-2 downsample to the picture's size, the optional final grade,
+/// and an sRGB read-back of exactly the requested size.
 @MainActor
 final class OffscreenWorldRenderer {
     private let device: MTLDevice
@@ -102,7 +114,7 @@ final class OffscreenWorldRenderer {
     private let renderer: RealityRenderer
     private let camera = Entity()
     private let post = WorldPostProcess()
-    private let encodePipeline: MTLComputePipelineState
+    private let finisher: PostcardFinisher
 
     /// - Parameters:
     ///   - root: the world copy (`World.offscreenCopy`); this renderer owns it from now on.
@@ -115,17 +127,7 @@ final class OffscreenWorldRenderer {
         self.device = device
         self.queue = queue
         self.event = event
-        do {
-            let library = try device.makeLibrary(source: Self.encodeSource, options: nil)
-            guard let function = library.makeFunction(name: "worldPostcardEncodeSRGB") else {
-                throw PostcardExportError.renderFailed("sRGB encode kernel missing")
-            }
-            encodePipeline = try device.makeComputePipelineState(function: function)
-        } catch let e as PostcardExportError {
-            throw e
-        } catch {
-            throw PostcardExportError.renderFailed("sRGB encode kernel: \(error)")
-        }
+        finisher = try PostcardFinisher(device: device)
         do {
             renderer = try RealityRenderer()
         } catch {
@@ -171,21 +173,26 @@ final class OffscreenWorldRenderer {
         }
     }
 
-    /// One picture of `width` × `height` pixels from `pose`. The first `frames - 1` frames only
-    /// settle the renderer (shadow maps, the new output size, resources it prepares on first use).
-    func render(pose: CameraPose, width: Int, height: Int, frames: Int = 3) async throws -> CGImage {
+    /// One picture of `width` × `height` pixels from `pose`, rendered at `renderWidth` ×
+    /// `renderHeight` (supersampled when larger). `settleFrames` frames come first so the renderer
+    /// settles (shadow maps, the new output size, resources it prepares on first use). The grade
+    /// (when given) runs after the downsample. Adds settle, render and post times to `timing`.
+    func render(pose: CameraPose, width: Int, height: Int, renderWidth: Int, renderHeight: Int, settleFrames: Int,
+                grade: (PostcardGrade, threshold: Double, softness: Double)?, timing: inout PostcardTiming) async throws -> CGImage {
         camera.components.set(PerspectiveCameraComponent(near: 0.1, far: 5000, fieldOfViewInDegrees: Float(pose.verticalFOVDegrees),
                                                          fieldOfViewOrientation: .vertical))
         let eye = SIMD3<Float>(pose.eye), target = SIMD3<Float>(pose.target)
         camera.look(at: simd_distance(eye, target) > 1e-3 ? target : eye + SIMD3(0, 0, -1), from: eye, relativeTo: nil)
-        let color = try texture(.bgra8Unorm_srgb, width, height, [.renderTarget, .shaderRead])
+        let color = try texture(.bgra8Unorm_srgb, renderWidth, renderHeight, [.renderTarget, .shaderRead])
         let output: RealityRenderer.CameraOutput
         do {
             output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: color))
         } catch {
             throw PostcardExportError.renderFailed("camera output: \(error)")
         }
-        for _ in 0..<max(1, frames) {
+        let frames = max(0, settleFrames) + 1
+        for f in 0..<frames {
+            let started = Date()
             signalled += 1
             let value = signalled
             do {
@@ -194,8 +201,13 @@ final class OffscreenWorldRenderer {
                 throw PostcardExportError.renderFailed("RealityRenderer: \(error)")
             }
             try await waitForGPU(value)
+            let ms = Date().timeIntervalSince(started) * 1000
+            if f == frames - 1 { timing.render += ms } else { timing.settle += ms }
         }
-        return try await finish(color, width: width, height: height)
+        let started = Date()
+        let image = try await finish(color, width: width, height: height, grade: grade)
+        timing.post += Date().timeIntervalSince(started) * 1000
+        return image
     }
 
     // MARK: - GPU
@@ -210,30 +222,142 @@ final class OffscreenWorldRenderer {
         event.wait(untilSignaledValue: value, timeoutMS: timeoutMS)
     }
 
-    /// Grade and bloom into a float texture, sRGB-encode into 8 bits, read back.
-    private func finish(_ color: MTLTexture, width w: Int, height h: Int) async throws -> CGImage {
-        let graded = try texture(.rgba16Float, w, h, [.shaderRead, .shaderWrite])
+    /// Grade and bloom at the rendered size (bloom measured against the picture size), Lanczos-2
+    /// down to the picture size, final grade and sRGB encode, read-back.
+    private func finish(_ color: MTLTexture, width w: Int, height h: Int,
+                        grade: (PostcardGrade, threshold: Double, softness: Double)?) async throws -> CGImage {
+        let rw = color.width, rh = color.height
+        let graded = try texture(.rgba16Float, rw, rh, [.shaderRead, .shaderWrite])
         let encoded = try texture(.rgba8Unorm, w, h, [.shaderRead, .shaderWrite])
         let bytesPerRow = w * 4
         guard let buffer = device.makeBuffer(length: bytesPerRow * h, options: .storageModeShared),
               let cb = queue.makeCommandBuffer() else { throw PostcardExportError.renderFailed("read-back buffer") }
-        post.encode(cb, device: device, source: color, target: graded)
-        guard let compute = cb.makeComputeCommandEncoder() else { throw PostcardExportError.renderFailed("encoder") }
-        compute.setComputePipelineState(encodePipeline)
-        compute.setTexture(graded, index: 0)
-        compute.setTexture(encoded, index: 1)
-        let tw = encodePipeline.threadExecutionWidth, th = max(1, encodePipeline.maxTotalThreadsPerThreadgroup / tw)
-        compute.dispatchThreads(MTLSize(width: w, height: h, depth: 1), threadsPerThreadgroup: MTLSize(width: tw, height: th, depth: 1))
-        compute.endEncoding()
+        post.resetExposureHistory()
+        post.encode(cb, device: device, source: color, target: graded, bloomSize: (w, h))
+        var picture = graded
+        if rw != w || rh != h {
+            let across = try texture(.rgba16Float, w, rh, [.shaderRead, .shaderWrite])
+            let down = try texture(.rgba16Float, w, h, [.shaderRead, .shaderWrite])
+            try finisher.downsample(cb, from: graded, to: across, horizontal: true)
+            try finisher.downsample(cb, from: across, to: down, horizontal: false)
+            picture = down
+        }
+        try finisher.encode(cb, from: picture, to: encoded, grade: grade)
         guard let blit = cb.makeBlitCommandEncoder() else { throw PostcardExportError.renderFailed("blit") }
         blit.copy(from: encoded, sourceSlice: 0, sourceLevel: 0, sourceOrigin: MTLOrigin(), sourceSize: MTLSize(width: w, height: h, depth: 1),
                   to: buffer, destinationOffset: 0, destinationBytesPerRow: bytesPerRow, destinationBytesPerImage: bytesPerRow * h)
         blit.endEncoding()
+        try await PostcardFinisher.run(cb)
+        return try PostcardFinisher.image(buffer, width: w, height: h)
+    }
+
+    private func texture(_ format: MTLPixelFormat, _ w: Int, _ h: Int, _ usage: MTLTextureUsage) throws -> MTLTexture {
+        try PostcardFinisher.texture(device, format, w, h, usage)
+    }
+}
+
+/// The GPU steps after the renderer: Lanczos-2 downsampling and the final grade with sRGB
+/// encoding (separate from `WorldPostProcess` so the live view's post-processing is untouched).
+@MainActor
+final class PostcardFinisher {
+    let device: MTLDevice
+    private let downsampleX: MTLComputePipelineState
+    private let downsampleY: MTLComputePipelineState
+    private let encodePipeline: MTLComputePipelineState
+
+    init(device: MTLDevice) throws {
+        self.device = device
+        do {
+            let library = try device.makeLibrary(source: Self.source, options: nil)
+            func pipeline(_ name: String) throws -> MTLComputePipelineState {
+                guard let f = library.makeFunction(name: name) else { throw PostcardExportError.renderFailed("kernel \(name) missing") }
+                return try device.makeComputePipelineState(function: f)
+            }
+            downsampleX = try pipeline("worldPostcardDownsampleX")
+            downsampleY = try pipeline("worldPostcardDownsampleY")
+            encodePipeline = try pipeline("worldPostcardEncode")
+        } catch let e as PostcardExportError {
+            throw e
+        } catch {
+            throw PostcardExportError.renderFailed("postcard kernels: \(error)")
+        }
+    }
+
+    /// One separable Lanczos-2 pass (the scale is the source/target size ratio along the axis).
+    func downsample(_ cb: MTLCommandBuffer, from source: MTLTexture, to target: MTLTexture, horizontal: Bool) throws {
+        var scale = Float(horizontal ? Double(source.width) / Double(target.width) : Double(source.height) / Double(target.height))
+        try dispatch(cb, horizontal ? downsampleX : downsampleY, [source, target], bytes: &scale, length: MemoryLayout<Float>.size,
+                     width: target.width, height: target.height)
+    }
+
+    /// Linear → 8-bit sRGB, with the final grade applied in display values when `grade` is given
+    /// and not identity.
+    func encode(_ cb: MTLCommandBuffer, from source: MTLTexture, to target: MTLTexture,
+                grade: (PostcardGrade, threshold: Double, softness: Double)?) throws {
+        var p = GradeParameters(grade)
+        try dispatch(cb, encodePipeline, [source, target], bytes: &p, length: MemoryLayout<GradeParameters>.stride, width: target.width,
+                     height: target.height)
+    }
+
+    private func dispatch<T>(_ cb: MTLCommandBuffer, _ pipe: MTLComputePipelineState, _ textures: [MTLTexture], bytes: inout T, length: Int,
+                             width: Int, height: Int) throws {
+        guard let enc = cb.makeComputeCommandEncoder() else { throw PostcardExportError.renderFailed("encoder") }
+        enc.setComputePipelineState(pipe)
+        for (i, t) in textures.enumerated() { enc.setTexture(t, index: i) }
+        withUnsafeBytes(of: &bytes) { enc.setBytes($0.baseAddress!, length: length, index: 0) }
+        let tw = pipe.threadExecutionWidth, th = max(1, pipe.maxTotalThreadsPerThreadgroup / tw)
+        enc.dispatchThreads(MTLSize(width: width, height: height, depth: 1), threadsPerThreadgroup: MTLSize(width: tw, height: th, depth: 1))
+        enc.endEncoding()
+    }
+
+    /// The kernel's parameter block (16-byte rows, as Metal lays out float4).
+    struct GradeParameters {
+        var lift = SIMD4<Float>(0, 0, 0, 0)
+        var gamma = SIMD4<Float>(1, 1, 1, 0)
+        var gain = SIMD4<Float>(1, 1, 1, 0)
+        /// Shade tint scaled to luma 1.
+        var tint = SIMD4<Float>(1, 1, 1, 0)
+        /// saturation, tint strength, shade threshold, shade softness.
+        var shape = SIMD4<Float>(1, 0, 0.35, 0.2)
+        /// x = 1 when the grade is on.
+        var flags = SIMD4<Float>(0, 0, 0, 0)
+
+        init(_ grade: (PostcardGrade, threshold: Double, softness: Double)?) {
+            guard let grade, !grade.0.isIdentity else { return }
+            let (g, threshold, softness) = grade
+            lift = SIMD4(SIMD3<Float>(g.liftRGB), 0)
+            gamma = SIMD4(SIMD3<Float>(g.gammaRGB), 0)
+            gain = SIMD4(SIMD3<Float>(g.gainRGB), 0)
+            let t = g.shadeTintRGB
+            let ty = max(0.2126 * t.x + 0.7152 * t.y + 0.0722 * t.z, 1e-4)
+            tint = SIMD4(SIMD3<Float>(t / ty), 0)
+            shape = SIMD4(Float(g.saturation), Float(g.shadeTintStrength), Float(threshold), Float(softness))
+            flags = SIMD4(1, 0, 0, 0)
+        }
+    }
+
+    // MARK: Helpers shared with the renderer
+
+    static func texture(_ device: MTLDevice, _ format: MTLPixelFormat, _ w: Int, _ h: Int, _ usage: MTLTextureUsage) throws -> MTLTexture {
+        let d = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: format, width: max(1, w), height: max(1, h), mipmapped: false)
+        d.usage = usage
+        d.storageMode = .private
+        guard w > 0, h > 0, let t = device.makeTexture(descriptor: d) else { throw PostcardExportError.renderFailed("texture \(w)x\(h)") }
+        return t
+    }
+
+    /// Commits and waits for completion without blocking the main thread.
+    static func run(_ cb: MTLCommandBuffer) async throws {
         await withCheckedContinuation { (done: CheckedContinuation<Void, Never>) in
             cb.addCompletedHandler { _ in done.resume() }
             cb.commit()
         }
         if cb.status == .error { throw PostcardExportError.renderFailed("GPU: \(cb.error.map { "\($0)" } ?? "unknown error")") }
+    }
+
+    /// An sRGB image from tightly packed RGBA8 bytes.
+    static func image(_ buffer: MTLBuffer, width w: Int, height h: Int) throws -> CGImage {
+        let bytesPerRow = w * 4
         let data = Data(bytes: buffer.contents(), count: bytesPerRow * h)
         guard let provider = CGDataProvider(data: data as CFData),
               let image = CGImage(width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: bytesPerRow,
@@ -245,27 +369,77 @@ final class OffscreenWorldRenderer {
         return image
     }
 
-    private func texture(_ format: MTLPixelFormat, _ w: Int, _ h: Int, _ usage: MTLTextureUsage) throws -> MTLTexture {
-        let d = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: format, width: w, height: h, mipmapped: false)
-        d.usage = usage
-        d.storageMode = .private
-        guard w > 0, h > 0, let t = device.makeTexture(descriptor: d) else {
-            throw PostcardExportError.renderFailed("texture \(w)x\(h)")
-        }
-        return t
-    }
-
-    /// Linear (graded) → 8-bit sRGB: the encoding the screen applies to the view's sRGB drawable.
-    static let encodeSource = """
+    /// Lanczos-2 (a = 2) downsampling, separable; and linear → sRGB with the final grade in
+    /// display values (lift/gamma/gain, saturation, shade-tint push; `PostcardGrade.apply` is the
+    /// reference). Kernels clamp negative lobes to zero.
+    static let source = """
     #include <metal_stdlib>
     using namespace metal;
-    kernel void worldPostcardEncodeSRGB(texture2d<float, access::read> src [[texture(0)]],
-                                        texture2d<float, access::write> dst [[texture(1)]],
-                                        uint2 gid [[thread_position_in_grid]]) {
+
+    static float lanczos2(float t) {
+        t = fabs(t);
+        if (t < 1e-4) return 1.0;
+        if (t >= 2.0) return 0.0;
+        float a = M_PI_F * t;
+        return 2.0 * sin(a) * sin(0.5 * a) / (a * a);
+    }
+
+    kernel void worldPostcardDownsampleX(texture2d<float, access::read> src [[texture(0)]],
+                                         texture2d<float, access::write> dst [[texture(1)]],
+                                         constant float& scale [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
+        if (gid.x >= dst.get_width() || gid.y >= dst.get_height()) return;
+        float center = (float(gid.x) + 0.5) * scale;
+        int lo = int(floor(center - 2.0 * scale)), hi = int(ceil(center + 2.0 * scale));
+        int last = int(src.get_width()) - 1;
+        float4 acc = 0.0;
+        float sum = 0.0;
+        for (int x = lo; x <= hi; x++) {
+            float w = lanczos2((float(x) + 0.5 - center) / scale);
+            acc += src.read(uint2(clamp(x, 0, last), gid.y)) * w;
+            sum += w;
+        }
+        dst.write(max(acc / sum, 0.0), gid);
+    }
+
+    kernel void worldPostcardDownsampleY(texture2d<float, access::read> src [[texture(0)]],
+                                         texture2d<float, access::write> dst [[texture(1)]],
+                                         constant float& scale [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
+        if (gid.x >= dst.get_width() || gid.y >= dst.get_height()) return;
+        float center = (float(gid.y) + 0.5) * scale;
+        int lo = int(floor(center - 2.0 * scale)), hi = int(ceil(center + 2.0 * scale));
+        int last = int(src.get_height()) - 1;
+        float4 acc = 0.0;
+        float sum = 0.0;
+        for (int y = lo; y <= hi; y++) {
+            float w = lanczos2((float(y) + 0.5 - center) / scale);
+            acc += src.read(uint2(gid.x, clamp(y, 0, last))) * w;
+            sum += w;
+        }
+        dst.write(max(acc / sum, 0.0), gid);
+    }
+
+    struct Grade { float4 lift; float4 gamma; float4 gain; float4 tint; float4 shape; float4 flags; };
+
+    kernel void worldPostcardEncode(texture2d<float, access::read> src [[texture(0)]],
+                                    texture2d<float, access::write> dst [[texture(1)]],
+                                    constant Grade& g [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
         if (gid.x >= dst.get_width() || gid.y >= dst.get_height()) return;
         float3 c = clamp(src.read(gid).rgb, 0.0, 1.0);
-        float3 s = select(1.055 * pow(c, float3(1.0 / 2.4)) - 0.055, c * 12.92, c <= 0.0031308);
-        dst.write(float4(s, 1.0), gid);
+        float3 x = select(1.055 * pow(c, float3(1.0 / 2.4)) - 0.055, c * 12.92, c <= 0.0031308);
+        if (g.flags.x > 0.5) {
+            x = clamp(g.gain.rgb * (x + g.lift.rgb * (1.0 - x)), 0.0, 1.0);
+            x = pow(x, 1.0 / g.gamma.rgb);
+            const float3 w = float3(0.2126, 0.7152, 0.0722);
+            float y = dot(x, w);
+            x = float3(y) + (x - float3(y)) * g.shape.x;
+            if (g.shape.y > 0.0) {
+                float yx = dot(x, w);
+                float shade = 1.0 - smoothstep(g.shape.z - g.shape.w, g.shape.z, yx);
+                x += (g.tint.rgb * yx - x) * (g.shape.y * shade);
+            }
+            x = clamp(x, 0.0, 1.0);
+        }
+        dst.write(float4(x, 1.0), gid);
     }
     """
 }
