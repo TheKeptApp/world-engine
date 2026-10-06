@@ -15,3 +15,7 @@ https://www.openstreetmap.org/copyright
 ## Canopy blocks
 
 `canopy-blocks.json` holds per-block canopy shares and tree-spacing estimates derived from USDA NAIP aerial imagery (public domain; requested credit: "NAIP imagery provided by USDA Farm Service Agency") and the street centrelines in `osm.json` (© OpenStreetMap contributors, ODbL 1.0). Aggregates per street-bounded block only; no imagery. The NAIP item, date and method are in the file header; format in `docs/research/aerial.md` 13.9.
+
+## Lidar roof hints
+
+`lidar-roofs.json` and `roof-mix-blocks.json` are derived from USGS 3D Elevation Program lidar (dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, flown 2017-04-16 to 2017-05-07; US Government Public Domain; credit "USGS 3D Elevation Program") and from this folder's `osm.json` footprints and street centrelines (© OpenStreetMap contributors, ODbL 1.0). Per-footprint values are keyed by OSM ref; blocks with fewer than 5 classified buildings carry no shares. Method: `docs/research/lidar-roofs.md` section 14.
