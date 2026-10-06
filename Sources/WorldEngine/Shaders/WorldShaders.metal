@@ -287,7 +287,10 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
     // R8 fill: hemispheric sky/ground, occluded by baked AO (floor 0.65). Emissive, so no extra
     // shadow-casting light.
     half hemi = half(n.y * 0.5 + 0.5);
-    half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact;
+    // Contact shading (look-fix §2.3: AO may take another 10–20% of ambient within 0.15–0.4 m of a
+    // contact): upright surfaces darken softly toward the ground (wall bases, trunks, posts).
+    half baseAO = abs(n.y) < 0.5 ? half(1.0 - 0.2 * (1.0 - smoothstep(0.05, 0.4, wp.y))) : 1.0h;
+    half3 fill = su.base * mix(g.fillGround, g.fillSky, hemi) * max(0.65h, su.ao) * contact * baseAO;
     // Postcard quality mode only (never on screen): the baked contact AO takes a further share of
     // the fill (lighting bible §2.3: another 10–20% within a contact; open surfaces have AO 1).
     if (g.postcardQuality) { fill *= 1.0h - half(g.postcardAO) * (1.0h - su.ao); }
