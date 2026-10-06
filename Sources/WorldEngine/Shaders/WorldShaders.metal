@@ -343,8 +343,17 @@ void worldStaticSurface(realitykit::surface_parameters params)
     float dist = length(wp - g.camera);
 
     if (flags & 4u) {
+        // Lot lawns (P2 yards, look-fix-v1 §1.1): extra = (1, tone t, 0, seed > 0). The base runs
+        // between the seasonal lawnA/lawnB endpoints (palette slots 18, 19) by the lot's tone, times
+        // its value step (paint shade); the seed offsets the patch field so neighbours differ.
+        float2 lot = float2(0.0);
+        if (extra.w > 0.0) {
+            half3 a = srgbToLinear(tex.read(uint2(18, 0)).rgb), b = srgbToLinear(tex.read(uint2(19, 0)).rgb);
+            su.base = mix(a, b, half(clamp(extra.y, 0.0, 1.0))) * half(paint.y);
+            lot = float2(extra.w * 173.0, extra.w * 291.0);
+        }
         // R3 lawn mottling: two low-frequency bands; fine band fades out by 50 m.
-        float broad = valueNoise(wp.xz / 2.6) - 0.5;
+        float broad = valueNoise(wp.xz / 2.6 + lot) - 0.5;
         float fine = (valueNoise(wp.xz / 0.45 + 17.0) - 0.5) * (1.0 - smoothstep(30.0, 50.0, dist));
         float v = broad * 0.12 + fine * 0.07;
         su.base *= half(1.0 + v);
@@ -353,7 +362,7 @@ void worldStaticSurface(realitykit::surface_parameters params)
         // Art direction (Prompt 5): ordinary lawns vary in colour, drier warm patches and lusher
         // cool ones over ~10 m, so a clear day doesn't read as one flat green.
         if (!(g.debug > 4.5 && g.debug < 5.5)) {
-        float patchv = valueNoise(wp.xz / 11.0 + 3.3) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1) - 0.5) * 0.5;
+        float patchv = valueNoise(wp.xz / 11.0 + 3.3 + lot) - 0.5 + (valueNoise(wp.xz / 4.0 + 8.1 + lot) - 0.5) * 0.5;
         half3 dry = su.base * half3(1.16h, 1.06h, 0.72h), lush = su.base * half3(0.86h, 1.0h, 0.93h);
         su.base = mix(su.base, patchv > 0.0 ? dry : lush, half(clamp(abs(patchv) * 2.0, 0.0, 0.75)));
         }
