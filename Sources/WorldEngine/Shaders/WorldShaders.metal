@@ -250,7 +250,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             // about half that at W = 0.65). Threshold t gives that coverage for this noise
             // (measured: 2% at 0.182, 4% at 0.219, 8% at 0.265).
             float p = valueNoise(wp.xz / 2.0 + 13.1) * 0.7 + valueNoise(wp.xz / 0.7 + 5.7) * 0.3;
-            float cover = float(su.puddleMax) * pow(pw, 0.8);
+            float cover = float(su.puddleMax) * pow(pw, 0.45);
             float t = 0.157 + 1.33 * cover;
             puddle = half((1.0 - smoothstep(t - 0.02, t + 0.005, p)) * smoothstep(0.0, 0.01, cover));
             su.base = mix(su.base, su.base * 0.5h, puddle);
@@ -268,7 +268,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             // §3.1: sky-only reflection in puddles, clamped to 0.35 (a floor of 0.12 keeps near ones
             // reading as water, not shadow); outside them a broad restrained sheen (≤ 0.15).
             float amount = float(puddle) * clamp(max(fresnel, 0.12), 0.0, 0.35)
-                + min(fresnel * 0.35 + 0.05, 0.2) * float(wet) * (1.0 - float(puddle));
+                + min(fresnel * 0.45 + 0.08, 0.28) * float(wet) * (1.0 - float(puddle));
             // Grass and other rough ground glint far less than paving.
             if (su.puddles) { su.emissive += half3(sky * amount); }
             else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }
@@ -392,11 +392,12 @@ void worldStaticSurface(realitykit::surface_parameters params)
             su.base = mix(su.base, leaf * (1.0h - 0.25h * half(g.wetness)), half(clamp(cover, 0.0, 0.85)));
         }
     }
-    // §3.1 wet response at the dark end of the bible's ranges (owner: wet paths must read):
+    // §3.1 wet response at the dark end of the bible's ranges, puddles above them (owner and P3: rain must
+    // read at phone size; at W 0.65 the bible's 1–3% of walks didn't show):
     // asphalt 30% darker, roughness to 0.42, puddles up to 8%; concrete walks 18%, 0.58, up to 4%.
-    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.30h; su.puddles = true; su.puddleMax = 0.08h; }
+    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.30h; su.puddles = true; su.puddleMax = 0.12h; }
     if (flags & 8u) {
-        su.wetRoughness = 0.58h; su.wetDarkening = 0.18h; su.puddles = true; su.puddleMax = 0.04h;
+        su.wetRoughness = 0.58h; su.wetDarkening = 0.18h; su.puddles = true; su.puddleMax = 0.08h;
         // R7 sidewalk joints: transverse joints every 1.75 m along the path, ~1.2 cm wide,
         // darkening 14%; anti-aliased; gone by 60 m.
         float u = extra.z / 1.75;
