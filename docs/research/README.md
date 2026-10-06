@@ -8,7 +8,7 @@ format. All OSM-derived numbers: © OpenStreetMap contributors (ODbL 1.0).
 |---|---|
 | [region-kit.md](region-kit.md) | The region kit (`Tools/regionkit/`): what it measures, how to run it, accuracy against the hand-made profiles (Denver, Plano, ChatGPT's 11 Chicagoland/Miami profiles), the zone drafts, zones in the schema, what open data can't supply |
 | [data-coverage.md](data-coverage.md) | 46 sample cells (North Shore, Chicago, 11 metros): what OSM and Overture hold, the ranked gaps and how the generator should handle each, the dense-Chicago triangle estimate |
-| [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, HYG stars, Fab), blockers, questions for a lawyer. Not legal advice |
+| [licensing.md](licensing.md) | Licensing and attribution checklist (OSM/ODbL, Overture, WeatherKit, star catalog, Fab), blockers, questions for a lawyer. Not legal advice |
 | [live-feeds.md](live-feeds.md) | Live transit (Metra, CTA, Pace, RTD) and aircraft feeds: endpoints, limits, terms, attribution, cost; a small relay design (phones never hold keys) and monthly cost at 1k / 10k users. Research only, no app code |
 | [aerial.md](aerial.md) | Feasibility of reading roofs and tree canopy from USDA NAIP aerial imagery (proof of concept on a 0.25 km² Wilmette cell): licence and small-area access, method, hand-checked accuracy, recommendation. Aggregates only |
 | [outreach-drafts.md](outreach-drafts.md) | Draft emails (not sent) to Metra, CTA, Pace and the adsb.lol operator with the questions the live-feed terms leave open, for the owner to review and send |

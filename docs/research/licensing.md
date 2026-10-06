@@ -307,7 +307,9 @@ Apple's documentation pages are JavaScript-rendered. They were read through Appl
 
 ---
 
-## 5. HYG star catalog (CC BY-SA 4.0)
+## 5. Star catalog: HYG (CC BY-SA 4.0), replaced by the Yale Bright Star Catalogue
+
+**Update 2026-10-06 (owner decision 6d):** the star file is now derived from the Yale Bright Star Catalogue, 5th rev. ed., as distributed by NASA HEASARC (public domain in practice; see rows H1-H3 and `Sources/WorldEnvironment/Catalog/STARS-NOTICE.md`). The HYG analysis below is kept for the record; its CC BY-SA obligations no longer apply.
 
 - **Licence verified.** The live repository is now [codeberg.org/astronexus/hyg](https://codeberg.org/astronexus/hyg). The GitHub repo's README now points there and holds the archive our notice cites ([GitHub](https://github.com/astronexus/HYG-Database)).
   - Codeberg README: "Versions since v4.0 are licensed as above (CC-BY-SA 4.0)." Earlier versions used CC BY-SA 2.5.
@@ -353,7 +355,7 @@ Everything below is paraphrased.
   - each licensee buys its own licence. We could integrate assets the licensee itself bought, as their contractor (§5(a)); confirm with counsel (Q18).
 - **Incompatible licences.** We may not "combine, Distribute, or otherwise use" the content with code or content under a licence that would directly or indirectly require any of the content to be governed by other terms. Named examples: GPL, LGPL (except dynamic linking) and **CC BY-SA** (§6(a)). Under that test the open question is mere aggregation: a CC BY-SA file in the same app does not obviously place the Fab assets under CC BY-SA, but the named example makes the reading uncertain.
   - The ODbL is not named. However, ODbL §4.4(d) forbids adding incompatible Contents to an ODbL derivative database, which is another reason to keep Fab content out of packages.
-  - Whether shipping Fab meshes in the **same app** as the CC BY-SA star file counts as an act to "combine" them needs counsel (Q13). If counsel is unsure, replace HYG with a public-domain catalog (owner decision D4).
+  - Whether shipping Fab meshes in the **same app** as the CC BY-SA star file counts as an act to "combine" them needs counsel (Q13). If counsel is unsure, replace HYG with a public-domain catalog (owner decision D4). (Moot for the stars since 2026-10-06: the star file is now public domain.)
 - **Other restrictions:** no reverse engineering or deriving data from the content (§6(b)(i)); keep its proprietary notices (§6(b)(vi)); don't use "NoAI" content for generative AI (§6(b)(vii), §16(l)). Code plugins are licensed per seat (§2(e)).
 - **Tiers** (§2(a)):
   - The Personal tier (and Personal – Reference Only) applies only if, at purchase, you **together with any controlling entity and entities under common control** made **no more than US$100,000 gross revenue** from commercial activity **in the digital content industry** over the **last 12 months**.
@@ -382,7 +384,7 @@ Everything below is paraphrased.
 1. **Package characterization drives everything (High; both scenarios).** If the package is a Derivative Database (likely), every channel that hands it over must ship it under ODbL with no extra restrictions: app bundle, web, white-label. Every product showing it needs the §4.6 offer. Not a launch blocker for our own apps once O8–O10 and O13 are done. It **is** a business-model constraint for white-label: no exclusive or proprietary data licences. (§2.3–2.5; Q1, Q2, Q3, Q15)
 2. **Fab assets cannot travel (High; white-label and web).** Standalone and third-party-incorporation bans (§5(a), §6(b)(iii)), anti-extraction duty (§4(c)), and possible conflicts with CC BY-SA and ODbL content (§6(a)). Resolve before buying. (F2, F4, F5; Q13, Q14, Q18)
 3. **WeatherKit is per-developer and non-archivable (High for white-label, Medium for own apps).** No key sharing or sublicensing (§2.6, §2.8, Att. 8 §1.2). Temporary caching only (Att. 8 §1.6). No derived databases (§1.5). Licensees need their own access. Saved recaps, postcards and packages must not become a weather archive. (W5, W7; Q9, Q16)
-4. **Attribution on exported surfaces is missing (Medium; own apps).** OSM, Apple Weather and HYG credits are not burned into images, video or widgets. Apple publishes no rule for non-interactive outputs. (O4–O6, W3, H2; Q4, Q8)
+4. **Attribution on exported surfaces is missing (Medium; own apps).** OSM and Apple Weather credits (and the star courtesy credit) are not burned into images, video or widgets. Apple publishes no rule for non-interactive outputs. (O4–O6, W3, H2; Q4, Q8)
 5. **Web specifics (Medium).** Unlinked OSM credit (O2); package download is Conveying; Fab extraction; the DPLA §2.8 "Apple-branded products" wording against REST on other platforms. (Q11, Q14)
 6. **User overrides in shared renders (Medium, when built).** May trigger a §4.6 offer of user data. Keep overrides out of public outputs until counsel answers. (O11; Q6)
 7. **CC BY-SA in App Store and white-label terms (Low).** §3(b)(3); credit UI missing. (H2, H3; Q12)
@@ -406,8 +408,8 @@ Everything below is paraphrased.
 9. Att. 8 §1.6: does keeping a rendered postcard (pixels that reflect weather), or a resolved weather label in a saved recap, count as caching or storing Apple Weather Data? What retention, if any, is permitted for derived labels used to replay a past moment?
 10. Att. 8 §2.2: does a live weather visualization or strip count as "real-time weather guidance" requiring the EULA notice? Att. 8 §1.2: in a paid or subscription app, does showing live temperature count as charging for data "in its original form"?
 11. DPLA §2.8 says Apple Services are for use on Apple-branded products, but Apple documents the WeatherKit REST API for websites and Android. May our web version show WeatherKit data to visitors on non-Apple devices?
-12. HYG: does distributing the CC BY-SA derived star file inside an App Store app (Apple's standard EULA, FairPlay) conflict with CC BY-SA §3(b)(3)? Is a 256-star factual subset protected at all (US copyright; EU sui generis rights for a non-EU maker)?
-13. Fab §6(a): does shipping Fab meshes in the same app as the CC BY-SA star file, or rendering Fab props from an ODbL-licensed package, fall within the bar on attempts to "combine" Fab content with such licences? Should we replace HYG with a public-domain catalog before buying?
+12. HYG: does distributing the CC BY-SA derived star file inside an App Store app (Apple's standard EULA, FairPlay) conflict with CC BY-SA §3(b)(3)? Is a 256-star factual subset protected at all (US copyright; EU sui generis rights for a non-EU maker)? **Resolved 2026-10-06:** HYG was replaced by a public-domain catalogue; this no longer applies.
+13. Fab §6(a): does shipping Fab meshes in the same app as the CC BY-SA star file, or rendering Fab props from an ODbL-licensed package, fall within the bar on attempts to "combine" Fab content with such licences? Should we replace HYG with a public-domain catalog before buying? (The CC BY-SA part is resolved: the star file is now public domain. The ODbL-package part stands.)
 14. Fab §4(c) on the web: if Fab-derived meshes are delivered to browsers, what satisfies the duty to "restrict end users from extracting" the content (terms, packing, encryption)? Is web use advisable at all?
 
 **White-label / licensing**
@@ -441,7 +443,7 @@ Everything below is paraphrased.
 - **D1 – Package split.** Accept that the package's data files are ODbL and offered publicly? Split the package into an ODbL *data* part and a separately licensed *presentation* part (meshes, materials, palettes, profiles)? This would change `docs/package-format.md` and the exporter: a design decision to approve before code.
 - **D2 – Attribution visibility.** Keep the OSM credit always visible (the CLAUDE.md rule, stricter than OSMF), or allow a collapse after 5 s or a games-style credit in a "clean view"?
 - **D3 – Credits screen ownership.** Should the engine provide a generic credits/licence-notices component (like `WorldAttributionView`, fed with host-supplied weather attribution), or leave the screen to hosts? This is a design decision not covered by the plan.
-- **D4 – Star catalog.** Keep HYG (CC BY-SA) or switch to a public-domain catalog to remove the Fab §6(a) and CC §3(b)(3) questions?
+- **D4 – Star catalog.** Keep HYG (CC BY-SA) or switch to a public-domain catalog to remove the Fab §6(a) and CC §3(b)(3) questions? **Decided 2026-10-06:** switch to the Yale Bright Star Catalogue (done).
 - **D5 – Fab policy.** Buy Fab assets only for our own native apps, never in packages or white-label deliverables, possibly never on the web? Choose the tier (Personal vs Professional) per §2(a).
 - **D6 – Weather for licensees.** White-label licensees bring their own weather provider and WeatherKit access; we never share keys or Apple-derived feeds.
 - **D7 – Quick fixes.** Approve these small fixes: link the web credit (O2); add a licence notice file and ODbL URI to the package exporter (O8); burn credits into exported images (O4).
