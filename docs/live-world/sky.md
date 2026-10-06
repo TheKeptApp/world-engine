@@ -217,7 +217,7 @@ a few sky-quality-meter readings.
   to V 6.5; stars without a BSC5 B-V carry `ci: null` and are drawn white (no colour guessed from spectral type).
   Not baked yet: its input (HEASARC `bsc5p`) is denied by the cloud network policy (2026-10-06); run it on the Mac,
   or here once heasarc.gsfc.nasa.gov is allowed. Where the 9,000-star file lives (engine catalogue or a sky-only
-  data file) is an owner decision; it is about 1.5 MB as JSON.
+  data file) is an owner decision; it is about 2.5 MB as JSON (gzip far less).
 - Planet positions are good to arcseconds except Jupiter (about 1.5 arcmin) and Saturn (about 5 arcmin), which is the
   stated accuracy of the Standish table 1 fit. Both are far below what a phone screen shows; a VSOP87 series would fix it.
 - Elements are valid 1800-2050 only (`state: "unavailable"` outside).

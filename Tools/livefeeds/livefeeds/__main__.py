@@ -17,8 +17,8 @@ import os
 import sys
 import time
 
-from . import rtd, tiles
-from .relay import Config, Relay, MIN_POLL_INTERVAL, load_areas
+from . import cta, rtd, tiles
+from .relay import SOURCES, Config, Relay, MIN_POLL_INTERVAL, load_areas
 from .server import etag_for, make_server, vehicles_payload
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,10 +53,23 @@ def densest_window(snapshot, side: int = 3):
     return best
 
 
-def cmd_once(args) -> int:
+def _relay(args) -> Relay:
+    """One relay per feed (rtd or cta), serving the areas that list that feed. A non-RTD feed keeps its cache
+    (snapshot, daily salt) in its own subdirectory, so two relays can share one cache root."""
     cfg = _config(args)
-    relay = Relay(cfg, load_areas(args.areas), log=_log,
-                  shapes_fetch=lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent))
+    feed = getattr(args, "feed", "rtd")
+    if feed != "rtd":
+        cfg.cache_dir = os.path.join(cfg.cache_dir, feed)
+    areas = [a for a in load_areas(args.areas) if feed in a.feeds]
+    if not areas:
+        raise SystemExit("no area in %s lists the feed %r" % (args.areas, feed))
+    shapes = (lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent)) if feed == "rtd" else None
+    return Relay(cfg, areas, log=_log, shapes_fetch=shapes, source=SOURCES[feed])
+
+
+def cmd_once(args) -> int:
+    relay = _relay(args)
+    cfg = relay.cfg
     outcome = relay.poll_once()
     now = relay.clock()
     snap, state, reason = relay.view(now)
@@ -65,7 +78,7 @@ def cmd_once(args) -> int:
     if snap is None:
         print("no data: %s" % relay.last_error)
         return 1
-    print("feed: %s" % cfg.feed_url)
+    print("feed: %s" % (cfg.feed_url if relay.source.name == "rtd" else cta.POSITIONS_URL))
     print("payload: %d bytes on the wire (this run, all requests: %d); routes table: %d routes, "
           "%d bytes downloaded for it" % (snap.wire_bytes, st["bytes"], len(relay._routes or ()), st["routesBytes"]))
     ts = datetime.datetime.fromtimestamp(snap.feed_timestamp, datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
@@ -79,19 +92,18 @@ def cmd_once(args) -> int:
         raw = json.dumps(payload, separators=(",", ":")).encode()
         print("densest 3x3 tile window %s: %d vehicles, JSON %d bytes raw, %d bytes gzip"
               % (rect.key(), len(payload["vehicles"]), len(raw), len(gzip.compress(raw, 6, mtime=0))))
-    print("attribution: %s" % rtd.ATTRIBUTION["text"])
+    print("attribution: %s" % relay.source.attribution["text"])
     return 0
 
 
 def cmd_serve(args) -> int:
-    cfg = _config(args)
-    areas = load_areas(args.areas)
-    relay = Relay(cfg, areas, log=_log, shapes_fetch=lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent))
+    relay = _relay(args)
+    cfg = relay.cfg
     server = make_server(relay, args.host, args.port)
     host, port = server.server_address[:2]
     _log("livefeeds %s serving http://%s:%d/v1/vehicles?bbox=S,W,N,E  (poll every %ds, idle pause %ds, cache %s)"
          % ("0.1", host, port, cfg.poll_interval, cfg.idle_seconds, cfg.cache_dir))
-    _log("attribution: " + rtd.ATTRIBUTION["text"])
+    _log("attribution: " + relay.source.attribution["text"])
     relay.start()
     try:
         server.serve_forever(poll_interval=0.5)
@@ -174,8 +186,10 @@ def main(argv=None) -> int:
     def common(sp):
         sp.add_argument("--cache-dir", help="cache directory (default $LIVEFEEDS_CACHE or Tools/livefeeds/.cache)")
         sp.add_argument("--areas", default=os.path.join(HERE, "areas.json"), help="areas allowlist (data)")
+        sp.add_argument("--feed", choices=sorted(SOURCES), default="rtd",
+                        help="upstream feed: rtd (Denver, no key) or cta (Chicago 'L' trains, needs CTA_TRAIN_API_KEY)")
 
-    s = sub.add_parser("serve", help="poll RTD and serve /v1/vehicles")
+    s = sub.add_parser("serve", help="poll one feed (RTD or CTA) and serve /v1/vehicles")
     common(s)
     s.add_argument("--host", default="127.0.0.1")
     s.add_argument("--port", type=int, default=8765, help="0 picks a free port")

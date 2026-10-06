@@ -54,7 +54,7 @@ def vehicles_payload(relay: Relay, rect: tiles.Rect, now: float, covered: bool, 
         "area": {"z": rect.z, "x0": rect.x0, "y0": rect.y0, "x1": rect.x1, "y1": rect.y1,
                  "bbox": [round(s, 6), round(w, 6), round(n, 6), round(e, 6)], "covered": covered},
         "vehicles": vehicles,
-        "attribution": [rtd.ATTRIBUTION],
+        "attribution": [relay.source.attribution],
     }
 
 
@@ -125,7 +125,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _error(self, status: int, code: str, message: str, send_body: bool = True) -> None:
         self._send(status, {"schema": SCHEMA, "error": {"code": code, "message": message},
-                            "attribution": [rtd.ATTRIBUTION]}, send_body)
+                            "attribution": [self.relay.source.attribution]}, send_body)
 
     # -- verbs -------------------------------------------------------------------------------
     def do_GET(self):  # noqa: N802
@@ -155,7 +155,7 @@ class Handler(BaseHTTPRequestHandler):
         if parts.path == "/v1/status":
             now = self.relay.clock()
             return self._send(200, {"schema": SCHEMA, "status": self.relay.status(now),
-                                    "attribution": [rtd.ATTRIBUTION]}, send_body)
+                                    "attribution": [self.relay.source.attribution]}, send_body)
         self._error(404, "not-found", "unknown path; try /v1/vehicles?bbox=S,W,N,E", send_body)
 
     def _vehicles(self, query: dict, send_body: bool) -> None:
@@ -195,7 +195,7 @@ class Handler(BaseHTTPRequestHandler):
             (found.append(sh.to_json()) if sh is not None else missing.append(sid))
         # Shapes change at most weekly: long cache.
         self._send(200, {"schema": SCHEMA, "shapes": found, "missing": missing, "basis": "observed",
-                         "attribution": [rtd.ATTRIBUTION]}, send_body, "public, max-age=86400")
+                         "attribution": [self.relay.source.attribution]}, send_body, "public, max-age=86400")
 
 
 class RelayServer(ThreadingHTTPServer):

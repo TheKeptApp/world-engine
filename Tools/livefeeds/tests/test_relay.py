@@ -310,10 +310,14 @@ class ActivityAndStatusTests(unittest.TestCase):
 class AreasTests(unittest.TestCase):
     def test_areas_json_is_valid_data(self):
         areas = load_areas(AREAS_JSON)
-        self.assertEqual([a.id for a in areas], ["denver"])
-        s, w, n, e = areas[0].bbox
-        self.assertTrue(s < n and w < e)
+        self.assertEqual([a.id for a in areas], ["denver", "chicago"])
+        for a in areas:
+            s, w, n, e = a.bbox
+            self.assertTrue(s < n and w < e)
         self.assertEqual(areas[0].timezone, "America/Denver")
+        self.assertEqual(areas[0].feeds, ("rtd",))
+        self.assertEqual(areas[1].timezone, "America/Chicago")
+        self.assertEqual(areas[1].feeds, ("cta",))
 
 
 if __name__ == "__main__":
