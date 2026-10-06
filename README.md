@@ -9,6 +9,7 @@ It is app-agnostic. Host apps add their own characters as plain RealityKit entit
 - **Status:** first visual milestone (street of houses + lake path, street camera) built; iOS 26.0 minimum. See [docs/plan-m1.md](docs/plan-m1.md) and
   [docs/VISUAL_DIRECTION.md](docs/VISUAL_DIRECTION.md).
 - **Demo app:** WorldLab (`Apps/WorldLab`, generated with XcodeGen).
+- **Postcards:** `World.exportPostcards` renders framed 1080-px postcards (square, portrait, story; bold, classic, minimal) offscreen with the credits burned in; see [docs/postcards.md](docs/postcards.md).
 
 ## Layout
 

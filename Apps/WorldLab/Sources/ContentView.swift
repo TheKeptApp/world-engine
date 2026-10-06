@@ -85,6 +85,7 @@ struct RealityKitScreen: View {
     @State private var postcardIndex = 0
     @State private var showControls = true
     @State private var multisampling = true
+    @State private var postcardSheet = false
 
     /// The experience UI (strip, scrubber, mode bar) shows outside presets, tests and showcase shots.
     private var experienceUI: Bool { options.preset == nil && !testRun && !options.metrics && options.showcase == nil && options.hud }
@@ -197,6 +198,14 @@ struct RealityKitScreen: View {
             guard let seconds = options.snapshotSeconds else { return }
             await saveSnapshot(after: seconds)
         }
+        .task { await PostcardExports.runLaunchArgument(source: { postcardSource }, failed: { error != nil }) }
+    }
+
+    /// The world, the current postcard pose, the environment and the on-screen grade (PostcardExport.swift).
+    private var postcardSource: PostcardExports.Source? {
+        guard let world, let camera, let env else { return nil }
+        return .init(world: world, pose: PostcardExports.pose(camera: camera, fallback: currentPostcard(world: world)), env: env,
+                     post: options.diagnostics.contains("noPost") ? nil : post.settings)
     }
 
     // MARK: Snapshot (`-snapshot SECONDS`)
@@ -310,6 +319,7 @@ struct RealityKitScreen: View {
                             }
                         }
                         Button(showControls ? "Clean view" : "Show controls") { showControls.toggle() }
+                        Button("Export postcard") { postcardSheet = true }
                     } label: {
                         Image(systemName: "ellipsis.circle").font(.title2)
                     }
@@ -325,6 +335,7 @@ struct RealityKitScreen: View {
                     .background(.ultraThinMaterial, in: Circle()).padding(.trailing, 12).padding(.top, 8)
             }
         }
+        .sheet(isPresented: $postcardSheet) { PostcardExportSheet(source: postcardSource) }
         .onChange(of: mode) { _, m in apply(mode: m, world: world, camera: camera, env: env) }
         .onChange(of: characterChoice) { _, c in Task { await setCharacter(c, world: world, camera: camera) } }
     }

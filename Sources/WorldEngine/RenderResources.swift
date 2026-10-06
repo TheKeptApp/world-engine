@@ -220,6 +220,23 @@ final class RenderResources {
         blit.endEncoding()
         cb.commit()
     }
+
+    /// A copy of the palette and globals as last uploaded, for an offscreen copy of the world
+    /// (postcard exports): the live texture changes with every frame of the live view, this one
+    /// never does. The bytes are copied on the CPU first, so a later upload can't race the copy.
+    func frozenTexture() throws -> TextureResource {
+        let w = Self.textureWidth, h = Self.textureHeight
+        let copy = try LowLevelTexture(descriptor: .init(pixelFormat: .rgba16Float, width: w, height: h, textureUsage: [.shaderRead]))
+        guard let bytes = device.makeBuffer(bytes: staging.contents(), length: w * h * 8, options: .storageModeShared),
+              let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { throw WorldError.metalUnavailable }
+        let target = copy.replace(using: cb)
+        blit.copy(from: bytes, sourceOffset: 0, sourceBytesPerRow: w * 8, sourceBytesPerImage: w * h * 8,
+                  sourceSize: MTLSize(width: w, height: h, depth: 1),
+                  to: target, destinationSlice: 0, destinationLevel: 0, destinationOrigin: MTLOrigin())
+        blit.endEncoding()
+        cb.commit()
+        return try TextureResource(from: copy)
+    }
 }
 
 public enum WorldError: Error {
