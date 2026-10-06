@@ -85,6 +85,7 @@ final class TestRun {
     @ObservationIgnored private var secondsLog: FileHandle?
     @ObservationIgnored private var framesLog: FileHandle?
     @ObservationIgnored private var base = ""
+    @ObservationIgnored private var startConditions = ""
     @ObservationIgnored private let header: String
 
     init(renderer: String, stats: WorldStats?) {
@@ -106,7 +107,9 @@ final class TestRun {
         secondsLog = FileHandle(forWritingAtPath: base + "-seconds.csv")
         framesLog = FileHandle(forWritingAtPath: base + "-frames.csv")
         let screen = UIScreen.main.bounds.size, scale = UIScreen.main.scale
-        write(secondsLog, "\(header) \(note) screen=\(Int(screen.width * scale))x\(Int(screen.height * scale))\n")
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        startConditions = Self.conditions()
+        write(secondsLog, "\(header) \(note) screen=\(Int(screen.width * scale))x\(Int(screen.height * scale)) \(startConditions)\n")
         write(secondsLog, "seconds,fps,frame_ms_avg,frame_ms_max,pct_over_16_9,gpu_ms_avg,memory_mb,thermal,battery\n")
         write(framesLog, "frame_ms,gpu_ms\n")
         UIApplication.shared.isIdleTimerDisabled = true
@@ -182,6 +185,8 @@ final class TestRun {
             "batteryUsedPercent": batteryStart >= 0 ? Double(batteryStart - batteryEnd) * 100 : -1,
             "header": header,
             "note": note,
+            "conditionsAtStart": startConditions,
+            "conditionsAtEnd": Self.conditions(),
         ]
         if let data = try? JSONSerialization.data(withJSONObject: summary, options: [.prettyPrinted, .sortedKeys]) {
             try? data.write(to: URL(fileURLWithPath: base + "-summary.json"))
@@ -191,6 +196,17 @@ final class TestRun {
         UIScreen.main.brightness = savedBrightness
         UIApplication.shared.isIdleTimerDisabled = false
         statusLine = String(format: "DONE %@: %.1f fps avg, 1%% low %.1f", renderer, avgFps, low1)
+    }
+
+    /// Device conditions that change performance: Low Power Mode, charging state, battery level.
+    static func conditions() -> String {
+        let state = switch UIDevice.current.batteryState {
+        case .unplugged: "unplugged"
+        case .charging: "charging"
+        case .full: "full(plugged)"
+        default: "unknown"
+        }
+        return "lowPowerMode=\(ProcessInfo.processInfo.isLowPowerModeEnabled) battery=\(state) level=\(UIDevice.current.batteryLevel)"
     }
 
     private func write(_ h: FileHandle?, _ s: String) {
