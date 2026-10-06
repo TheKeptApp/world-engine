@@ -18,7 +18,7 @@ https://www.openstreetmap.org/copyright
 
 ## Lidar roof hints
 
-`lidar-roofs.json` and `roof-mix-blocks.json` are derived from USGS 3D Elevation Program lidar (dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, flown 2017-04-16 to 2017-05-07; US Government Public Domain; credit "USGS 3D Elevation Program") and from this folder's `osm.json` footprints and street centrelines (© OpenStreetMap contributors, ODbL 1.0). Per-footprint values are keyed by OSM ref; blocks with fewer than 5 classified buildings carry no shares. Method: `docs/research/lidar-roofs.md` section 14.
+`lidar-roofs.json` and `roof-mix-blocks.json` are derived from USGS 3D Elevation Program lidar (dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, flown 2017-04-16 to 2017-05-07; US Government Public Domain; credit "USGS 3D Elevation Program") and from this folder's `osm.json` footprints and street centrelines (© OpenStreetMap contributors, ODbL 1.0). Footprints are this folder's OSM buildings plus the Overture buildings the engine adds (`overture-buildings.json`, © OpenStreetMap contributors, Overture Maps Foundation; Contains Microsoft Global ML Building Footprints (ODbL); USGS 3D Elevation Program). Per-footprint values are keyed by the engine's ref (`way/<id>`, `relation/<id>`, `overture/<id>`); blocks with fewer than 5 classified buildings carry no shares. Method: `docs/research/lidar-roofs.md` sections 14 and 15 (method version 2.0; the mansard rule is UNVALIDATED).
 
 ## Overture buildings
 
