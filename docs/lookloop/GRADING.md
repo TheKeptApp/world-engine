@@ -98,13 +98,18 @@ These come from the owner and are scored like §8.3.
 3. **Targets are qualitative.** Numbers, map data and sun position outrank the concept art.
    - Do not penalize the capture for differing from listed target errors: the enlarged dog, oversized sun disk, invented houses, mountains in an east-facing frame, mis-placed Moon in 09.
    - Do penalize it for missing what the target does right: richness, softness, palette restraint, weather readability.
-4. **Phone size.** The final read is at phone size, so judge the frame as a whole first. Use the full-size frame to confirm a defect, not to hunt for sub-pixel issues.
-5. **Broken captures.**
+4. **look-fix-v1 references** are labelled "appearance reference; not calibrated".
+   - They show intent for ground, light, weather, aerial edges and sky.
+   - Per the pack's VALIDATION.md, the numbers and true astronomy govern over these images.
+   - They never set parity. Parity uses only the first (calibrated) target.
+   - Do not reward copying their invented details or sun and moon positions.
+5. **Phone size.** The final read is at phone size, so judge the frame as a whole first. Use the full-size frame to confirm a defect, not to hunt for sub-pixel issues.
+6. **Broken captures.**
    - If the frame is black, shows UI or error text, or is clearly not the requested view, set every applicable score to 1.
    - Add hard-gate flag `capture-failed` and explain.
-6. **Previous run.** Note in `vsPrevious` whether the view got better, worse or is unchanged, and how.
+7. **Previous run.** Note in `vsPrevious` whether the view got better, worse or is unchanged, and how.
    - The previous run never changes the scores. Scores are absolute against the anchors.
-7. **One decimal of honesty.** If you cannot tell (for example a detail is too small), say so in the reason. Do not inflate.
+8. **One decimal of honesty.** If you cannot tell (for example a detail is too small), say so in the reason. Do not inflate.
 
 ## D. Hard-gate flags
 

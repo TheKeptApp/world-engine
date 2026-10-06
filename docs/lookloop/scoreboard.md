@@ -8,3 +8,4 @@ One row per run (`/lookloop`, or `Tools/lookloop/lookloop.sh run`), newest last.
 | 2026-10-06 06:39 | `651649b` | p3-lookloop | 17/17 | **78%** | 0 (AD 0) | 82% | 27.5 | 2.06 | showcase-10 63% | 460k | 16.67 | 9.6 | claude-sonnet-5-5 | 11 |
 
 Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their stored grades (the 01:02 row was graded before the GRADING.md tuning, see calibration.md).
+| 2026-10-06 09:06 | `78e7541` | p3-lookloop | 0/0 | **–%** | 0 (5B 0) | –% | – | – | – | – | – | 8.8 | all reused (gate) | 0 |

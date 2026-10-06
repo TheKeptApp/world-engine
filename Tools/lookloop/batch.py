@@ -9,7 +9,9 @@ RENDER/VIEW lines while that view was up, and its VIEWSHOT line) and appends to 
 without capturing anything when the build has no view-list hook (no VIEWREADY), so the caller can fall
 back to one launch per view. Env: SETTLE (view settle seconds), LOAD_TIMEOUT.
 """
-import base64, json, os, subprocess, sys, time
+import base64, functools, json, os, subprocess, sys, time
+
+print = functools.partial(print, flush=True)  # progress lines reach the run log as they happen
 
 run, udid, bundle, common = sys.argv[1], sys.argv[2], sys.argv[3], json.loads(sys.argv[4])
 settle = os.environ.get("SETTLE", "3")
@@ -44,7 +46,9 @@ for area, views in groups.items():
             a = a[:i] + a[i + 2:]
         specs.append({"id": vid, "args": a})
     log = os.path.join(run, "logs", f"_launch-{area}.log")
-    open(log, "w").close()
+    # Never pre-create the log (com.apple.provenance on files this session makes gets the launch refused).
+    if os.path.exists(log):
+        os.remove(log)
     launch = ["xcrun", "simctl", "launch", "--terminate-running-process", f"--stdout={log}", f"--stderr={log}", udid, bundle,
               *common, *(["-area", area] if area != "sloans-lake" else []),
               "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
@@ -64,7 +68,7 @@ for area, views in groups.items():
     t0, pos, stats, pending, t_stats = time.time(), 0, None, "", None
     seen, chunk, deadline = set(), [], time.time() + load_timeout
     while True:
-        text = open(log, errors="replace").read()
+        text = open(log, errors="replace").read() if os.path.exists(log) else ""
         new, pos = text[pos:], len(text)
         for ln in (pending + new).split("\n")[:-1]:
             chunk.append(ln)

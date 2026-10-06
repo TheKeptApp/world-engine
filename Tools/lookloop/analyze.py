@@ -210,7 +210,8 @@ def label_panel(im, text, color):
 
 
 def sheet(view, frame, targets, prev, sig, perf):
-    panels = [label_panel(fit(t, PANEL_H), "TARGET  " + lab, COLORS["target"]) for lab, t in targets]
+    # At most three target panels (the calibrated concept first); further references are listed by name.
+    panels = [label_panel(fit(t, PANEL_H), "TARGET  " + lab, COLORS["target"]) for lab, t in targets[:3]]
     panels.append(label_panel(fit(frame, PANEL_H), "CURRENT  " + view["id"], COLORS["current"]))
     if prev is not None:
         panels.append(label_panel(fit(prev[1], PANEL_H), "PREVIOUS  " + prev[0], COLORS["previous"]))
@@ -232,7 +233,7 @@ def sheet(view, frame, targets, prev, sig, perf):
         x += p.width + gap
     y = head_h + panels[0].height + 10
     series = [("current", sig["current"]["_lumaHist"])]
-    for i, (_, t) in enumerate(targets):
+    for i, (_, t) in enumerate(targets[:1]):  # histogram against the calibrated concept only
         series.append((f"target:{i}", sig["targets"][i]["_lumaHist"]))
     if prev is not None:
         series.append(("previous", sig["previous"]["_lumaHist"]))
@@ -242,7 +243,7 @@ def sheet(view, frame, targets, prev, sig, perf):
         f"luma mean {c['lumaMean']}  p5/p50/p95 {c['lumaP5']}/{c['lumaP50']}/{c['lumaP95']}  clip black {c['clipBlackPct']}%  white {c['clipWhitePct']}%",
         f"saturation {c['saturationMean']}  colourfulness {c['colorfulness']}  edge (detail) {c['edgeMean']}  RGB {c['rgbMean']}",
     ]
-    for i, cmp in enumerate(sig["vsTargets"]):
+    for i, cmp in enumerate(sig["vsTargets"][:3]):
         lines.append(f"vs target {i + 1}: luma hist {cmp['lumaHistIntersection']}  RGB hist {cmp['rgbHistIntersection']}  hue {cmp['hueHistIntersection']}"
                      f"  dLuma {cmp['dLumaMean']:+}  dSat {cmp['dSaturation']:+}  dColour {cmp['dColorfulness']:+}  dEdge {cmp['dEdge']:+}")
     if sig.get("vsPrevious"):

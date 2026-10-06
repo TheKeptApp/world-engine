@@ -109,7 +109,9 @@ fi
 now() { python3 -c 'import time;print(time.time())'; }
 while IFS=$'\t' read -r id args; do
   log="$RUN/logs/$id.log"
-  : > "$log"
+  # Never pre-create the log: a file this session creates carries com.apple.provenance, and the
+  # Simulator's launchd then refuses the whole launch ("Operation not permitted"). simctl creates it.
+  rm -f "$log"
   t0=$(now)
   # NSUnbufferedIO (as Xcode sets it) makes print() reach the log at once, so STATS/RENDER lines arrive live.
   # Right after an install SpringBoard can refuse the launch while it registers the app: retry, then
