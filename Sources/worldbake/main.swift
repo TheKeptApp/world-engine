@@ -5,23 +5,30 @@
 //   worldbake stats <dir>                               (Markdown to stdout)
 //   worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 //   worldbake ring-stats <dir> --inner-width M --inner-height M
+//   worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID]
+//                    [--season N] [--version STRING]      (shared world package, see WorldPackage)
 //
 // No command contains place-specific values: the area directory's manifest is the only input.
 
 import Foundation
+import WorldGen
 import WorldGeo
 import WorldMap
+import WorldPackage
 
 struct Args {
     var positional: [String] = []
     var options: [String: String] = [:]
+    /// Repeatable `--state NAME=ISO` (light states to export).
+    var states: [String] = []
 
     init(_ argv: [String]) {
         var i = 0
         while i < argv.count {
             let a = argv[i]
             if a.hasPrefix("--"), i + 1 < argv.count {
-                options[String(a.dropFirst(2))] = argv[i + 1]
+                let key = String(a.dropFirst(2))
+                if key == "state" { states.append(argv[i + 1]) } else { options[key] = argv[i + 1] }
                 i += 2
             } else {
                 positional.append(a)
@@ -59,6 +66,7 @@ worldbake fetch <dir> [--layers all|buildings]
 worldbake stats <dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
+worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S]
 """
 
 func writeManifest(_ m: AreaManifest, to dir: URL) throws {
@@ -103,6 +111,32 @@ do {
 
     case "ring-stats":
         print(try Stats.ring(dir, innerWidth: try args.double("inner-width"), innerHeight: try args.double("inner-height")))
+
+    case "export":
+        guard args.positional.count >= 3 else { throw ToolError.usage(usage) }
+        let iso = ISO8601DateFormatter()
+        guard let date = iso.date(from: try args.require("date")) else { throw ToolError.usage("--date must be ISO 8601") }
+        var focus: GeoBoundingBox?
+        if let f = args.options["focus"] {
+            let v = f.split(separator: ",").compactMap { Double($0) }
+            guard v.count == 4 else { throw ToolError.usage("--focus S,W,N,E") }
+            focus = GeoBoundingBox(south: v[0], west: v[1], north: v[2], east: v[3])
+        }
+        var states: [(name: String, date: Date)] = []
+        for s in args.states {
+            let parts = s.split(separator: "=", maxSplits: 1).map(String.init)
+            guard parts.count == 2, let d = iso.date(from: parts[1]) else { throw ToolError.usage("--state NAME=ISO") }
+            states.append((parts[0], d))
+        }
+        if states.isEmpty { states = [("default", date)] }
+        let recipe = WorldRecipe(profileID: args.options["profile"], date: date, season: args.options["season"].flatMap(Int.init), focus: focus)
+        let out = URL(fileURLWithPath: args.positional[2], isDirectory: true)
+        let start = Date()
+        let s = try WorldPackage.export(areaDirectory: dir, to: out, options: .init(recipe: recipe, lightStates: states,
+                                                                                    generatorVersion: args.options["version"] ?? "dev"))
+        print(String(format: "Wrote %@: %d files, %.1f MB, %d chunks, %d/%d triangles (lod0/lod1), %d instances, %d tuft candidates, %.1f s",
+                     out.path, s.files, Double(s.bytes) / 1_048_576, s.chunks, s.triangles[0], s.triangles[1], s.instances, s.tufts,
+                     Date().timeIntervalSince(start)))
 
     default:
         throw ToolError.usage(usage)

@@ -1,0 +1,3679 @@
+{
+  "draftFormat": "WorldEngine regional proposal bundle v1; envelope is NOT StyleProfile",
+  "reviewedAt": "2026-10-05",
+  "status": "proposal only; no activation",
+  "compatibility": {
+    "profileSchema": "StyleProfile Codable version 2",
+    "extract": "profiles entries are individually compatible profile objects; regionCatalog is a separate RegionCatalog object",
+    "externalProfileDependencies": [
+      "front-range"
+    ],
+    "legacyTreeWarning": "deciduousShare currently acts as non-conifer share; values here preserve approximate silhouette. Real leaf habit requires proposedAdditions."
+  },
+  "claimPolicy": {
+    "verified": "Only claims explicitly attributed to sourceRefs and existing file behavior",
+    "assumption": "Every new numeric value, regional prior, threshold, palette and bounds is design tuning, not measured frequencies",
+    "userSupplied": "Plano approx 1157 buildings, 74 mapped trees, sparse tags/sidewalks; not independently verified from extract"
+  },
+  "sources": [
+    {
+      "id": "LOCAL-SCHEMA",
+      "path": "Sources/WorldGen/StyleProfile.swift",
+      "supports": "Current Codable schema, not older guide",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "LOCAL-GENERATOR",
+      "path": "Sources/WorldGen/BuildingGenerator.swift",
+      "supports": "Eligibility, role classification and garage access behavior",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "LOCAL-TREES",
+      "path": "Sources/WorldGen/SceneGenerator.swift",
+      "supports": "Current leaf_type/conifer classification",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "LOCAL-V2",
+      "path": "docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "supports": "Binding visual grammar and budgets",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "LOCAL-OSM",
+      "path": "docs/data/sloans-lake-street-data.md",
+      "supports": "Denver inventory only; no Plano extract found",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "TX-NEIGHBORHOOD",
+      "url": "https://www.homes.com/local-guide/plano-tx/russell-creek-cross-creek-neighborhood/",
+      "supports": "Secondary nearby-area account: brick, ranch/traditional, rear garages; NOT a survey of Russell Creek Park blocks",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "TX-PARK",
+      "url": "https://content.civicplus.com/api/assets/d5718a52-3f89-47c2-bcf9-0c0ff33c7ecd?q=307e4d73-1917-23a0-9f2d-3acce03bf19e&version=0",
+      "supports": "City Russell Creek Park location map",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "TX-FOREST",
+      "url": "https://www.planotomorrow.org/DocumentCenter/View/851",
+      "supports": "City urban forest: elm, sugarberry, live oak and maintained turf",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "TX-TREES",
+      "url": "https://content.civicplus.com/api/assets/d3c00b34-7fcc-4726-9bdf-b3901645f1de",
+      "supports": "Plano recommended tree list; suitability is not prevalence",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "TX-GRASS",
+      "url": "https://agrilifeextension.tamu.edu/wp-content/uploads/2023/08/ESC-042-bermudagrass-lawn-management-calendar.pdf",
+      "supports": "Warm-season lawn winter dormancy",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "PNW-FORM",
+      "url": "https://www.portland.gov/sites/default/files/2020-01/urb_form_complete_web_1009.pdf",
+      "supports": "Portland residential forms, green front setbacks; indexed source excerpt",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "PNW-TREES",
+      "url": "https://www.portland.gov/trees/get-involved/documents/citywide-street-tree-inventory-report-2017/download",
+      "supports": "Leaf form and leaf cycle are separate tree classifications",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "PNW-GRASS",
+      "url": "https://extension.oregonstate.edu/catalog/em-9125-conserving-water-your-yard-garden",
+      "supports": "Unwatered western Oregon lawn can brown in summer",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "AZ-FORM",
+      "url": "https://www.phoenix.gov/pddsite/Documents/HP/pdd_hp_pdf_00211.pdf",
+      "supports": "2005 local survey supports low-gabled ranch/vernacular and some stucco/parapet; not a metro frequency census",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "AZ-GARAGE",
+      "url": "https://www.phoenix.gov/pddsite/Documents/HP/Avenida%20Rio%20Salado%20Historic%20Structures%20%26%20Districts%20including%20inventory%20forms%20%282010%29.pdf",
+      "supports": "Historic Phoenix ranch carports and later enclosure",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "AZ-YARD",
+      "url": "https://apps.mesaaz.gov/xeriscape/",
+      "supports": "Mesa grass-to-xeriscape incentive; not measured yard prevalence",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "AZ-TREES",
+      "url": "https://www.mesaaz.gov/Environment-Sustainability/Living-Green/All-About-Trees/Mesa-Neighborhood-Shade-Tree-Program",
+      "supports": "Palo verde, mesquite, desert willow, broadleaf evergreen and seasonal behavior",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "NE-FORM",
+      "url": "https://www.mass.gov/info-details/re14r25-architecture",
+      "supports": "Cape/Colonial/ranch form vocabulary, not frequency",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "NE-GARAGE",
+      "url": "https://www.loc.gov/item/md1761/",
+      "supports": "Documented postwar suburban ranch with attached garage; example not prevalence",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "NE-TREES",
+      "url": "https://extension.psu.edu/native-plants-of-pa-red-maple-acer-rubrum",
+      "supports": "Deciduous red maple seasonal behavior",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "SE-FORM",
+      "url": "https://dlg.usg.edu/record/dlg_ggpd_s-ga-bt700-pe5-bm1-b2010-bl6-belec-p-btext",
+      "supports": "Georgia ranch survey: brick veneer, picture windows, mixed materials",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "SE-GARAGE",
+      "url": "https://dekalbhistory.org/blog-posts/the-ranch-house-in-dekalb-county-belvedere-park/",
+      "supports": "Local ranch features include attached garage/carport; some neighborhoods lack most sidewalks",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "SE-TREES",
+      "url": "https://extension.uga.edu/publications/detail.html?number=B987&title=native-plants-for-georgia-part-i-trees-shrubs-and-woody-vines",
+      "supports": "Broadleaf evergreen and pine distinction",
+      "checkedAt": "2026-10-05"
+    },
+    {
+      "id": "SE-GRASS",
+      "url": "https://extension.uga.edu/publications/detail.cfm?number=B978",
+      "supports": "Warm-season turf winter dormancy",
+      "checkedAt": "2026-10-05"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "north-texas-dfw",
+      "version": 2,
+      "name": "North Texas / DFW suburban draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.95,
+        "crownWeights": {
+          "broad": 0.45,
+          "oval": 0.2,
+          "spreading": 0.35
+        },
+        "heightMeters": [
+          7,
+          13
+        ],
+        "youngShare": 0.22,
+        "youngHeightMeters": [
+          3.5,
+          6
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "brickRanch",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.35,
+            "hipped": 0.65,
+            "flat": 0
+          },
+          "pitch": [
+            18,
+            28
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.25,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              3.1,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": [
+              1.6,
+              2.2
+            ]
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#AE7962",
+              "#E4D8C0",
+              "#596E68",
+              "#666460"
+            ],
+            [
+              "#C2AA87",
+              "#E9DFC9",
+              "#735C4E",
+              "#69696D"
+            ]
+          ],
+          "minAspect": 1.45,
+          "broadFrontage": true
+        },
+        {
+          "id": "traditionalTwo",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.65,
+            "hipped": 0.35,
+            "flat": 0
+          },
+          "pitch": [
+            27,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.35,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#B99474",
+              "#E9DFC9",
+              "#4D6668",
+              "#60646A"
+            ],
+            [
+              "#A87763",
+              "#DFD0B8",
+              "#73594D",
+              "#65615E"
+            ]
+          ]
+        },
+        {
+          "id": "suburbanHip",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.2,
+            "hipped": 0.8,
+            "flat": 0
+          },
+          "pitch": [
+            22,
+            34
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.25,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#B6A080",
+              "#E5DAC4",
+              "#657569",
+              "#62656A"
+            ],
+            [
+              "#C0A68C",
+              "#E4D9C5",
+              "#78604D",
+              "#6C655F"
+            ]
+          ]
+        },
+        {
+          "id": "compactGable",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            25,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.35,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#B08C72",
+              "#E5D7BE",
+              "#526E70",
+              "#64656B"
+            ],
+            [
+              "#C8B797",
+              "#E9DFC8",
+              "#7B6150",
+              "#62656A"
+            ]
+          ]
+        },
+        {
+          "id": "plainFallback",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "porch": {
+            "likelihood": 0.15,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C9C7BA",
+              "#E1DED3",
+              "#698080",
+              "#606A72"
+            ]
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "brickRanch": 75,
+          "suburbanHip": 25
+        },
+        "oneFloor": {
+          "suburbanHip": 1,
+          "compactGable": 1
+        },
+        "twoFloorSquare": {
+          "traditionalTwo": 1,
+          "suburbanHip": 1,
+          "compactGable": 1
+        },
+        "twoFloorNarrow": {
+          "traditionalTwo": 1,
+          "suburbanHip": 1,
+          "compactGable": 1,
+          "plainFallback": 1
+        },
+        "twoFloor": {
+          "traditionalTwo": 1,
+          "suburbanHip": 1,
+          "compactGable": 1
+        },
+        "threeFloor": {
+          "plainFallback": 100
+        },
+        "unknown": {
+          "brickRanch": 35,
+          "traditionalTwo": 35,
+          "suburbanHip": 25,
+          "compactGable": 5
+        },
+        "small": {
+          "suburbanHip": 85,
+          "plainFallback": 15
+        },
+        "large": {
+          "brickRanch": 35,
+          "traditionalTwo": 35,
+          "suburbanHip": 20,
+          "compactGable": 10
+        },
+        "semidetached": {
+          "plainFallback": 100
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 260,
+        "hugeArea": 420,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          14,
+          25
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#AE7962",
+            "#E4D8C0",
+            "#596E68",
+            "#666460"
+          ],
+          [
+            "#C2AA87",
+            "#E9DFC9",
+            "#735C4E",
+            "#69696D"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.18,
+      "foundationMeters": [
+        0.15,
+        0.35
+      ]
+    },
+    {
+      "id": "pacific-northwest",
+      "version": 2,
+      "name": "Pacific Northwest west-side lowland suburban draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.7,
+        "crownWeights": {
+          "broad": 0.4,
+          "oval": 0.35,
+          "spreading": 0.25
+        },
+        "heightMeters": [
+          9,
+          17
+        ],
+        "youngShare": 0.2,
+        "youngHeightMeters": [
+          4,
+          7
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "craftsman",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            24,
+            36
+          ],
+          "overhang": [
+            0.5,
+            0.75
+          ],
+          "porch": {
+            "likelihood": 0.8,
+            "depth": [
+              1.4,
+              2.1
+            ],
+            "frontage": [
+              0.5,
+              0.85
+            ],
+            "style": "covered"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#869780",
+              "#E1DCCB",
+              "#987348",
+              "#606972"
+            ],
+            [
+              "#A69E89",
+              "#E6DDC9",
+              "#527378",
+              "#59636B"
+            ]
+          ]
+        },
+        {
+          "id": "lowRanch",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.65,
+            "hipped": 0.35,
+            "flat": 0
+          },
+          "pitch": [
+            14,
+            25
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              3.1,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": [
+              1.6,
+              2.2
+            ]
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#A8ACA0",
+              "#E0DECE",
+              "#70604F",
+              "#5E6666"
+            ],
+            [
+              "#A89883",
+              "#E4DCC9",
+              "#4F7070",
+              "#626A71"
+            ]
+          ],
+          "minAspect": 1.45,
+          "broadFrontage": true
+        },
+        {
+          "id": "gabledTwo",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.85,
+            "hipped": 0.15,
+            "flat": 0
+          },
+          "pitch": [
+            27,
+            40
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.6,
+            "depth": [
+              1.4,
+              2.1
+            ],
+            "frontage": [
+              0.5,
+              0.85
+            ],
+            "style": "covered"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#81979C",
+              "#E4DFD0",
+              "#A07B50",
+              "#59636D"
+            ],
+            [
+              "#B3B1A1",
+              "#E8E2D1",
+              "#5E7670",
+              "#61666B"
+            ]
+          ]
+        },
+        {
+          "id": "contemporary",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "porch": {
+            "likelihood": 0.25,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C1BCAF",
+              "#E3DFD4",
+              "#84705B",
+              "#58636A"
+            ],
+            [
+              "#A6A79C",
+              "#DDDCD0",
+              "#5A7775",
+              "#55626A"
+            ]
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "lowRanch": 75,
+          "craftsman": 25
+        },
+        "oneFloor": {
+          "craftsman": 1
+        },
+        "twoFloorSquare": {
+          "craftsman": 1,
+          "gabledTwo": 1
+        },
+        "twoFloorNarrow": {
+          "craftsman": 1,
+          "gabledTwo": 1,
+          "contemporary": 1
+        },
+        "twoFloor": {
+          "craftsman": 1,
+          "gabledTwo": 1
+        },
+        "threeFloor": {
+          "contemporary": 100
+        },
+        "unknown": {
+          "craftsman": 30,
+          "lowRanch": 30,
+          "gabledTwo": 25,
+          "contemporary": 15
+        },
+        "small": {
+          "craftsman": 85,
+          "contemporary": 15
+        },
+        "large": {
+          "craftsman": 35,
+          "lowRanch": 35,
+          "gabledTwo": 20,
+          "contemporary": 10
+        },
+        "semidetached": {
+          "contemporary": 100
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          14,
+          25
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#869780",
+            "#E1DCCB",
+            "#987348",
+            "#606972"
+          ],
+          [
+            "#A69E89",
+            "#E6DDC9",
+            "#527378",
+            "#59636B"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.4,
+      "foundationMeters": [
+        0.3,
+        0.65
+      ]
+    },
+    {
+      "id": "desert-southwest",
+      "version": 2,
+      "name": "Phoenix / Mesa low-desert suburban draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.98,
+        "crownWeights": {
+          "broad": 0.15,
+          "oval": 0.2,
+          "spreading": 0.65
+        },
+        "heightMeters": [
+          5,
+          10
+        ],
+        "youngShare": 0.3,
+        "youngHeightMeters": [
+          2.5,
+          5
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "desertRanch",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.5,
+            "hipped": 0.5,
+            "flat": 0
+          },
+          "pitch": [
+            12,
+            24
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              3.1,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": [
+              1.6,
+              2.2
+            ]
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#CDB995",
+              "#E7DCC6",
+              "#78624D",
+              "#AA8165"
+            ],
+            [
+              "#C5AD94",
+              "#E1D3BC",
+              "#5F7974",
+              "#817C72"
+            ]
+          ],
+          "minAspect": 1.45,
+          "broadFrontage": true
+        },
+        {
+          "id": "stuccoHip",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.35,
+            "hipped": 0.65,
+            "flat": 0
+          },
+          "pitch": [
+            18,
+            28
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#CDB18F",
+              "#E9D9BD",
+              "#72604E",
+              "#B08767"
+            ],
+            [
+              "#D0BEA1",
+              "#EADFCB",
+              "#5A7472",
+              "#887F71"
+            ]
+          ]
+        },
+        {
+          "id": "stuccoTwo",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.45,
+            "hipped": 0.55,
+            "flat": 0
+          },
+          "pitch": [
+            18,
+            30
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C7AB8A",
+              "#E6D6BA",
+              "#657872",
+              "#A17F65"
+            ],
+            [
+              "#CFBCA2",
+              "#E8DDCB",
+              "#81634E",
+              "#817B71"
+            ]
+          ]
+        },
+        {
+          "id": "desertModern",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "porch": {
+            "likelihood": 0.2,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C9B998",
+              "#E5DCC8",
+              "#62807A",
+              "#8B877B"
+            ],
+            [
+              "#C1AC96",
+              "#E7DBCA",
+              "#7C6354",
+              "#777C78"
+            ]
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "desertRanch": 75,
+          "stuccoHip": 25
+        },
+        "oneFloor": {
+          "stuccoHip": 1
+        },
+        "twoFloorSquare": {
+          "stuccoHip": 1,
+          "stuccoTwo": 1
+        },
+        "twoFloorNarrow": {
+          "stuccoHip": 1,
+          "stuccoTwo": 1,
+          "desertModern": 1
+        },
+        "twoFloor": {
+          "stuccoHip": 1,
+          "stuccoTwo": 1
+        },
+        "threeFloor": {
+          "desertModern": 100
+        },
+        "unknown": {
+          "desertRanch": 30,
+          "stuccoHip": 40,
+          "stuccoTwo": 20,
+          "desertModern": 10
+        },
+        "small": {
+          "stuccoHip": 85,
+          "desertModern": 15
+        },
+        "large": {
+          "desertRanch": 35,
+          "stuccoHip": 35,
+          "stuccoTwo": 20,
+          "desertModern": 10
+        },
+        "semidetached": {
+          "desertModern": 100
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          14,
+          25
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#CDB995",
+            "#E7DCC6",
+            "#78624D",
+            "#AA8165"
+          ],
+          [
+            "#C5AD94",
+            "#E1D3BC",
+            "#5F7974",
+            "#817C72"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.05,
+      "foundationMeters": [
+        0.1,
+        0.25
+      ]
+    },
+    {
+      "id": "northeast-suburbs",
+      "version": 2,
+      "name": "Northeast temperate suburban draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.85,
+        "crownWeights": {
+          "broad": 0.5,
+          "oval": 0.3,
+          "spreading": 0.2
+        },
+        "heightMeters": [
+          9,
+          17
+        ],
+        "youngShare": 0.18,
+        "youngHeightMeters": [
+          4,
+          7
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "capeLike",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            35,
+            45
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#ADB0A3",
+              "#E7E1CF",
+              "#617886",
+              "#636B72"
+            ],
+            [
+              "#C1B8A3",
+              "#E8DFCE",
+              "#77624D",
+              "#67686A"
+            ]
+          ]
+        },
+        {
+          "id": "colonialLike",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.9,
+            "hipped": 0.1,
+            "flat": 0
+          },
+          "pitch": [
+            28,
+            40
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.4,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C9C4AF",
+              "#E8E2D1",
+              "#586F7C",
+              "#626972"
+            ],
+            [
+              "#A4B1B0",
+              "#E8E3D4",
+              "#7B5D51",
+              "#606872"
+            ]
+          ]
+        },
+        {
+          "id": "broadRanch",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.65,
+            "hipped": 0.35,
+            "flat": 0
+          },
+          "pitch": [
+            15,
+            26
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.25,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              3.1,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": [
+              1.6,
+              2.2
+            ]
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#A48F7A",
+              "#E2D9C4",
+              "#58746F",
+              "#666B69"
+            ],
+            [
+              "#AAB19D",
+              "#E5DFCD",
+              "#846C55",
+              "#616A6C"
+            ]
+          ],
+          "minAspect": 1.45,
+          "broadFrontage": true
+        },
+        {
+          "id": "compactGable",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            27,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.4,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#91A4AB",
+              "#E6E2D4",
+              "#6D7868",
+              "#626B75"
+            ],
+            [
+              "#B8AA98",
+              "#E6DECC",
+              "#647B80",
+              "#666971"
+            ]
+          ]
+        },
+        {
+          "id": "plainFallback",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "porch": {
+            "likelihood": 0.15,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C9C7BA",
+              "#E1DED3",
+              "#698080",
+              "#606A72"
+            ]
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "broadRanch": 75,
+          "capeLike": 25
+        },
+        "oneFloor": {
+          "capeLike": 1,
+          "compactGable": 1
+        },
+        "twoFloorSquare": {
+          "colonialLike": 1,
+          "compactGable": 1
+        },
+        "twoFloorNarrow": {
+          "colonialLike": 1,
+          "compactGable": 1,
+          "plainFallback": 1
+        },
+        "twoFloor": {
+          "colonialLike": 1,
+          "compactGable": 1
+        },
+        "threeFloor": {
+          "plainFallback": 100
+        },
+        "unknown": {
+          "capeLike": 25,
+          "colonialLike": 35,
+          "broadRanch": 30,
+          "compactGable": 10
+        },
+        "small": {
+          "capeLike": 85,
+          "plainFallback": 15
+        },
+        "large": {
+          "capeLike": 35,
+          "colonialLike": 35,
+          "broadRanch": 20,
+          "compactGable": 10
+        },
+        "semidetached": {
+          "plainFallback": 100
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          14,
+          25
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#ADB0A3",
+            "#E7E1CF",
+            "#617886",
+            "#636B72"
+          ],
+          [
+            "#C1B8A3",
+            "#E8DFCE",
+            "#77624D",
+            "#67686A"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.55,
+      "foundationMeters": [
+        0.4,
+        0.7
+      ]
+    },
+    {
+      "id": "southeast-suburbs",
+      "version": 2,
+      "name": "Southeast inland Piedmont suburban draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.8,
+        "crownWeights": {
+          "broad": 0.45,
+          "oval": 0.25,
+          "spreading": 0.3
+        },
+        "heightMeters": [
+          9,
+          16
+        ],
+        "youngShare": 0.2,
+        "youngHeightMeters": [
+          4,
+          7
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "brickRanch",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.55,
+            "hipped": 0.45,
+            "flat": 0
+          },
+          "pitch": [
+            15,
+            25
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.45,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              3.1,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": [
+              1.6,
+              2.2
+            ]
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#A8715E",
+              "#E8DCC6",
+              "#5A726D",
+              "#606766"
+            ],
+            [
+              "#B09276",
+              "#E8DDC6",
+              "#7D6250",
+              "#63696E"
+            ]
+          ],
+          "minAspect": 1.45,
+          "broadFrontage": true
+        },
+        {
+          "id": "porchTraditional",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.85,
+            "hipped": 0.15,
+            "flat": 0
+          },
+          "pitch": [
+            26,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.75,
+            "depth": [
+              1.4,
+              2.1
+            ],
+            "frontage": [
+              0.5,
+              0.85
+            ],
+            "style": "covered"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C8C1A7",
+              "#EBE3D0",
+              "#536E6C",
+              "#5D676C"
+            ],
+            [
+              "#ACB49E",
+              "#E8E1CB",
+              "#7B6050",
+              "#60696D"
+            ]
+          ]
+        },
+        {
+          "id": "porchCottage",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            25,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.7,
+            "depth": [
+              1.4,
+              2.1
+            ],
+            "frontage": [
+              0.5,
+              0.85
+            ],
+            "style": "covered"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#94A28B",
+              "#E8DFCA",
+              "#637D81",
+              "#606A6D"
+            ],
+            [
+              "#B3A28A",
+              "#E9DCC5",
+              "#506F70",
+              "#696B68"
+            ]
+          ]
+        },
+        {
+          "id": "suburbanTwo",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0.65,
+            "hipped": 0.35,
+            "flat": 0
+          },
+          "pitch": [
+            25,
+            38
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.4,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#B19A7C",
+              "#E7DDC5",
+              "#576E70",
+              "#62676B"
+            ],
+            [
+              "#B5B5A2",
+              "#EBE2CC",
+              "#886951",
+              "#626970"
+            ]
+          ]
+        },
+        {
+          "id": "plainFallback",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "porch": {
+            "likelihood": 0.15,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#C9C7BA",
+              "#E1DED3",
+              "#698080",
+              "#606A72"
+            ]
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "brickRanch": 75,
+          "porchCottage": 25
+        },
+        "oneFloor": {
+          "porchCottage": 1
+        },
+        "twoFloorSquare": {
+          "porchTraditional": 1,
+          "porchCottage": 1,
+          "suburbanTwo": 1
+        },
+        "twoFloorNarrow": {
+          "porchTraditional": 1,
+          "porchCottage": 1,
+          "suburbanTwo": 1,
+          "plainFallback": 1
+        },
+        "twoFloor": {
+          "porchTraditional": 1,
+          "porchCottage": 1,
+          "suburbanTwo": 1
+        },
+        "threeFloor": {
+          "plainFallback": 100
+        },
+        "unknown": {
+          "brickRanch": 35,
+          "porchTraditional": 30,
+          "porchCottage": 20,
+          "suburbanTwo": 15
+        },
+        "small": {
+          "porchCottage": 85,
+          "plainFallback": 15
+        },
+        "large": {
+          "brickRanch": 35,
+          "porchTraditional": 35,
+          "porchCottage": 20,
+          "suburbanTwo": 10
+        },
+        "semidetached": {
+          "plainFallback": 100
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          14,
+          25
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#A8715E",
+            "#E8DCC6",
+            "#5A726D",
+            "#606766"
+          ],
+          [
+            "#B09276",
+            "#E8DDC6",
+            "#7D6250",
+            "#63696E"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.3,
+      "foundationMeters": [
+        0.25,
+        0.6
+      ]
+    },
+    {
+      "id": "generic-temperate-v1",
+      "version": 2,
+      "name": "Generic temperate conservative regional fallback draft",
+      "seasons": {
+        "hemisphere": "north",
+        "spring": [
+          3,
+          4,
+          5
+        ],
+        "summer": [
+          6,
+          7,
+          8
+        ],
+        "autumn": [
+          9,
+          10,
+          11
+        ],
+        "winter": [
+          12,
+          1,
+          2
+        ]
+      },
+      "trees": {
+        "deciduousShare": 0.8,
+        "crownWeights": {
+          "broad": 0.4,
+          "oval": 0.35,
+          "spreading": 0.25
+        },
+        "heightMeters": [
+          8,
+          14
+        ],
+        "youngShare": 0.2,
+        "youngHeightMeters": [
+          4,
+          7
+        ]
+      },
+      "houseTypes": [
+        {
+          "id": "compactGabled",
+          "floors": [
+            1,
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "roof": {
+            "gabled": 1.0,
+            "hipped": 0,
+            "flat": 0
+          },
+          "pitch": [
+            20,
+            35
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.8,
+              1.3
+            ],
+            "frontage": [
+              0.2,
+              0.35
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.3
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.2,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.35,
+            0.5,
+            0.65
+          ],
+          "colors": [
+            [
+              "#B5A58E",
+              "#E1D8C6",
+              "#5A7373",
+              "#666B70"
+            ]
+          ]
+        },
+        {
+          "id": "broadLow",
+          "floors": [
+            1
+          ],
+          "perFloor": [
+            2.8,
+            3.2
+          ],
+          "minAspect": 1.6,
+          "broadFrontage": true,
+          "roof": {
+            "gabled": 0.5,
+            "hipped": 0.5,
+            "flat": 0
+          },
+          "pitch": [
+            12,
+            25
+          ],
+          "overhang": [
+            0.3,
+            0.6
+          ],
+          "porch": {
+            "likelihood": 0.25,
+            "depth": [
+              0.8,
+              1.2
+            ],
+            "frontage": [
+              0.2,
+              0.3
+            ],
+            "style": "stoop"
+          },
+          "windows": {
+            "bay": [
+              3.2,
+              3.8
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.1,
+              1.4
+            ],
+            "broad": [
+              1.6,
+              2.0
+            ]
+          },
+          "door": [
+            0.33
+          ],
+          "colors": [
+            [
+              "#9AA28E",
+              "#DDD9C8",
+              "#82634E",
+              "#686D68"
+            ]
+          ]
+        },
+        {
+          "id": "twoStoryHipped",
+          "floors": [
+            2
+          ],
+          "perFloor": [
+            2.9,
+            3.2
+          ],
+          "maxAspect": 1.5,
+          "roof": {
+            "gabled": 0,
+            "hipped": 1.0,
+            "flat": 0
+          },
+          "pitch": [
+            22,
+            35
+          ],
+          "overhang": [
+            0.3,
+            0.5
+          ],
+          "porch": {
+            "likelihood": 0.35,
+            "depth": [
+              1.2,
+              1.8
+            ],
+            "frontage": [
+              0.3,
+              0.6
+            ],
+            "style": "covered"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.4
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.3,
+              1.5
+            ],
+            "broad": null
+          },
+          "door": [
+            0.5
+          ],
+          "colors": [
+            [
+              "#C1B298",
+              "#E4DCCB",
+              "#637479",
+              "#666973"
+            ]
+          ]
+        },
+        {
+          "id": "flatRoof",
+          "floors": [
+            1,
+            2,
+            3
+          ],
+          "perFloor": [
+            3.0,
+            3.2
+          ],
+          "roof": {
+            "gabled": 0,
+            "hipped": 0,
+            "flat": 1.0
+          },
+          "pitch": [
+            0,
+            5
+          ],
+          "overhang": [
+            0.05,
+            0.15
+          ],
+          "parapet": [
+            0.25,
+            0.4
+          ],
+          "porch": {
+            "likelihood": 0.3,
+            "depth": [
+              0.6,
+              1.0
+            ],
+            "frontage": [
+              0.15,
+              0.25
+            ],
+            "style": "canopy"
+          },
+          "windows": {
+            "bay": [
+              2.8,
+              3.2
+            ],
+            "width": [
+              0.9,
+              1.2
+            ],
+            "height": [
+              1.3,
+              1.7
+            ],
+            "broad": null
+          },
+          "door": [
+            0.2,
+            0.8
+          ],
+          "colors": [
+            [
+              "#C9C7BA",
+              "#E1DED3",
+              "#698080",
+              "#606A72"
+            ]
+          ]
+        }
+      ],
+      "typeRules": {
+        "oneFloorBroad": {
+          "broadLow": 75,
+          "compactGabled": 25
+        },
+        "oneFloor": {
+          "compactGabled": 70,
+          "broadLow": 20,
+          "flatRoof": 10
+        },
+        "twoFloorSquare": {
+          "twoStoryHipped": 60,
+          "compactGabled": 25,
+          "flatRoof": 15
+        },
+        "twoFloorNarrow": {
+          "compactGabled": 50,
+          "flatRoof": 50
+        },
+        "twoFloor": {
+          "compactGabled": 45,
+          "twoStoryHipped": 35,
+          "flatRoof": 20
+        },
+        "threeFloor": {
+          "flatRoof": 100
+        },
+        "unknown": {
+          "compactGabled": 50,
+          "broadLow": 25,
+          "twoStoryHipped": 15,
+          "flatRoof": 10
+        },
+        "small": {
+          "compactGabled": 100
+        },
+        "large": {
+          "broadLow": 60,
+          "twoStoryHipped": 40
+        },
+        "semidetached": {
+          "flatRoof": 50,
+          "compactGabled": 50
+        }
+      },
+      "typeThresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "garage": {
+        "wallHeight": [
+          2.5,
+          3.0
+        ],
+        "roof": {
+          "gabled": 0.6,
+          "hipped": 0.1,
+          "flat": 0.3
+        },
+        "pitch": [
+          15,
+          27
+        ],
+        "overhang": [
+          0.2,
+          0.35
+        ],
+        "doubleDoorMinWidthMeters": 6.0,
+        "colors": [
+          [
+            "#A69A84",
+            "#DCCFB6",
+            "#C7C1AF",
+            "#65676C"
+          ],
+          [
+            "#8D9685",
+            "#DED5C1",
+            "#B9B6A9",
+            "#636A70"
+          ]
+        ]
+      },
+      "shed": {
+        "wallHeight": [
+          2.0,
+          2.4
+        ],
+        "pitch": [
+          8,
+          18
+        ],
+        "overhang": [
+          0.1,
+          0.2
+        ],
+        "colors": [
+          [
+            "#8B967E",
+            "#D5CCB8",
+            "#6C7D70",
+            "#676C6A"
+          ],
+          [
+            "#AB8E73",
+            "#DBCBB0",
+            "#7C6859",
+            "#686568"
+          ]
+        ]
+      },
+      "chimneyLikelihood": 0.2,
+      "foundationMeters": [
+        0.3,
+        0.55
+      ]
+    }
+  ],
+  "regionCatalog": {
+    "defaultProfile": "generic-temperate-v1",
+    "regions": [
+      {
+        "id": "front-range-urban-corridor",
+        "profile": "front-range",
+        "comment": "Colorado Front Range cities, Colorado Springs to Fort Collins, foothills to the eastern suburbs.",
+        "bounds": {
+          "south": 38.7,
+          "west": -105.3,
+          "north": 40.7,
+          "east": -104.55
+        }
+      },
+      {
+        "id": "plano-test-vicinity",
+        "profile": "north-texas-dfw",
+        "bounds": {
+          "south": 33.02,
+          "west": -96.85,
+          "north": 33.12,
+          "east": -96.65
+        }
+      },
+      {
+        "id": "dfw-lowland-suburbs",
+        "profile": "north-texas-dfw",
+        "bounds": {
+          "south": 32.55,
+          "west": -97.55,
+          "north": 33.25,
+          "east": -96.45
+        }
+      },
+      {
+        "id": "seattle-tacoma-lowlands",
+        "profile": "pacific-northwest",
+        "bounds": {
+          "south": 47.15,
+          "west": -122.65,
+          "north": 48.05,
+          "east": -122.05
+        }
+      },
+      {
+        "id": "portland-lowlands",
+        "profile": "pacific-northwest",
+        "bounds": {
+          "south": 45.25,
+          "west": -123.05,
+          "north": 45.8,
+          "east": -122.3
+        }
+      },
+      {
+        "id": "phoenix-mesa-valley",
+        "profile": "desert-southwest",
+        "bounds": {
+          "south": 33.2,
+          "west": -112.45,
+          "north": 33.75,
+          "east": -111.55
+        }
+      },
+      {
+        "id": "boston-suburbs",
+        "profile": "northeast-suburbs",
+        "bounds": {
+          "south": 42.05,
+          "west": -71.65,
+          "north": 42.7,
+          "east": -70.85
+        }
+      },
+      {
+        "id": "philadelphia-suburbs",
+        "profile": "northeast-suburbs",
+        "bounds": {
+          "south": 39.75,
+          "west": -75.75,
+          "north": 40.45,
+          "east": -74.75
+        }
+      },
+      {
+        "id": "atlanta-piedmont",
+        "profile": "southeast-suburbs",
+        "bounds": {
+          "south": 33.4,
+          "west": -84.8,
+          "north": 34.2,
+          "east": -83.85
+        }
+      },
+      {
+        "id": "charlotte-piedmont",
+        "profile": "southeast-suburbs",
+        "bounds": {
+          "south": 34.9,
+          "west": -81.2,
+          "north": 35.6,
+          "east": -80.45
+        }
+      },
+      {
+        "id": "raleigh-piedmont",
+        "profile": "southeast-suburbs",
+        "bounds": {
+          "south": 35.55,
+          "west": -79.15,
+          "north": 36.15,
+          "east": -78.3
+        }
+      }
+    ]
+  },
+  "proposedAdditions": {
+    "status": "NOT CURRENT SCHEMA; not consumed by existing decoder; requires separately approved future implementation",
+    "profiles": {
+      "north-texas-dfw": {
+        "evidenceStatus": "assumption: all numeric priors, dimensions, palettes, densities and regional coverage; cited sources support qualitative patterns only",
+        "sourceRefs": [
+          "TX-NEIGHBORHOOD",
+          "TX-FOREST",
+          "TX-TREES",
+          "TX-GRASS"
+        ],
+        "materialFamilyByType": {
+          "brickRanch": [
+            "brick",
+            "brick"
+          ],
+          "traditionalTwo": [
+            "brick",
+            "brick"
+          ],
+          "suburbanHip": [
+            "brick",
+            "brick"
+          ],
+          "compactGable": [
+            "brick",
+            "brick"
+          ],
+          "plainFallback": [
+            "brick"
+          ]
+        },
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.72,
+          "broadleafEvergreenOrSemiEvergreen": 0.23,
+          "coniferEvergreen": 0.05
+        },
+        "evergreenBroadleafWinterRetention01": 0.9,
+        "groundCoverWeights": {
+          "lawn": 0.8,
+          "plantedBed": 0.15,
+          "gravel": 0.05
+        },
+        "lawnSeasonColors": [
+          "#98AC77",
+          "#91A26C",
+          "#A6A071",
+          "#B5A581"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 18,
+        "yardTreesPerEligibleResidentialCell": 1.2,
+        "garageAccessPreference": "mappedDrivewayThenAlleyThenClearStreetFace",
+        "garageAssumedWithoutAccessEvidence": false,
+        "privacyFenceHeightMeters": [
+          1.5,
+          1.8
+        ],
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8.5,
+          10.5
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          1.2,
+          2.5
+        ],
+        "sidewalkUnknownPolicy": "residentialBlockEvidenceRequired",
+        "attachedGarageFacadeOnly": true,
+        "addUnmappedBuildingVolume": false,
+        "garageRegionalConvention": "rear/alley access preferred only where a connected rear alley or drive exists; otherwise mapped front/side access; unknown stays blank",
+        "fenceFamily": "woodPrivacy"
+      },
+      "pacific-northwest": {
+        "evidenceStatus": "assumption: all numeric priors, dimensions, palettes, densities and regional coverage; cited sources support qualitative patterns only",
+        "sourceRefs": [
+          "PNW-FORM",
+          "PNW-TREES",
+          "PNW-GRASS"
+        ],
+        "materialFamilyByType": {
+          "craftsman": [
+            "siding",
+            "siding"
+          ],
+          "lowRanch": [
+            "siding",
+            "siding"
+          ],
+          "gabledTwo": [
+            "siding",
+            "siding"
+          ],
+          "contemporary": [
+            "siding",
+            "siding"
+          ]
+        },
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.64,
+          "broadleafEvergreenOrSemiEvergreen": 0.06,
+          "coniferEvergreen": 0.3
+        },
+        "evergreenBroadleafWinterRetention01": 0.9,
+        "groundCoverWeights": {
+          "lawn": 0.6,
+          "plantedBed": 0.3,
+          "gravel": 0.1
+        },
+        "lawnSeasonColors": [
+          "#87A473",
+          "#96A47B",
+          "#929B73",
+          "#7F946F"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 16,
+        "yardTreesPerEligibleResidentialCell": 1.4,
+        "garageAccessPreference": "mappedDrivewayThenAlleyThenClearStreetFace",
+        "garageAssumedWithoutAccessEvidence": false,
+        "privacyFenceHeightMeters": [
+          1.5,
+          1.8
+        ],
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8,
+          10
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          1.2,
+          2.5
+        ],
+        "sidewalkUnknownPolicy": "corroborationRequired",
+        "attachedGarageFacadeOnly": true,
+        "addUnmappedBuildingVolume": false,
+        "garageRegionalConvention": "front/side attached on ranch/new suburban forms; detached side-drive/rear where access supports it",
+        "fenceFamily": "woodPrivacy",
+        "summerDryLawnBlend01": 0.35
+      },
+      "desert-southwest": {
+        "evidenceStatus": "assumption: all numeric priors, dimensions, palettes, densities and regional coverage; cited sources support qualitative patterns only",
+        "sourceRefs": [
+          "AZ-FORM",
+          "AZ-GARAGE",
+          "AZ-YARD",
+          "AZ-TREES"
+        ],
+        "materialFamilyByType": {
+          "desertRanch": [
+            "stucco",
+            "stucco"
+          ],
+          "stuccoHip": [
+            "stucco",
+            "stucco"
+          ],
+          "stuccoTwo": [
+            "stucco",
+            "stucco"
+          ],
+          "desertModern": [
+            "stucco",
+            "stucco"
+          ]
+        },
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.48,
+          "broadleafEvergreenOrSemiEvergreen": 0.5,
+          "coniferEvergreen": 0.02
+        },
+        "evergreenBroadleafWinterRetention01": 0.7,
+        "groundCoverWeights": {
+          "lawn": 0.15,
+          "plantedBed": 0.15,
+          "gravel": 0.7
+        },
+        "lawnSeasonColors": [
+          "#9EA777",
+          "#A6A077",
+          "#ABA17F",
+          "#B5A888"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 24,
+        "yardTreesPerEligibleResidentialCell": 0.9,
+        "garageAccessPreference": "mappedDrivewayThenAlleyThenClearStreetFace",
+        "garageAssumedWithoutAccessEvidence": false,
+        "privacyFenceHeightMeters": [
+          1.5,
+          1.8
+        ],
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8,
+          10
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          0,
+          1.8
+        ],
+        "sidewalkUnknownPolicy": "subdivisionEvidenceRequired",
+        "attachedGarageFacadeOnly": true,
+        "addUnmappedBuildingVolume": false,
+        "garageRegionalConvention": "front/side attached where access supports it; older carports only with evidence",
+        "fenceFamily": "masonryColorPrivacy"
+      },
+      "northeast-suburbs": {
+        "evidenceStatus": "assumption: all numeric priors, dimensions, palettes, densities and regional coverage; cited sources support qualitative patterns only",
+        "sourceRefs": [
+          "NE-FORM",
+          "NE-GARAGE",
+          "NE-TREES"
+        ],
+        "materialFamilyByType": {
+          "capeLike": [
+            "siding",
+            "siding"
+          ],
+          "colonialLike": [
+            "siding",
+            "siding"
+          ],
+          "broadRanch": [
+            "brick",
+            "siding"
+          ],
+          "compactGable": [
+            "siding",
+            "siding"
+          ],
+          "plainFallback": [
+            "siding"
+          ]
+        },
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.83,
+          "broadleafEvergreenOrSemiEvergreen": 0.02,
+          "coniferEvergreen": 0.15
+        },
+        "evergreenBroadleafWinterRetention01": 0.9,
+        "groundCoverWeights": {
+          "lawn": 0.75,
+          "plantedBed": 0.2,
+          "gravel": 0.05
+        },
+        "lawnSeasonColors": [
+          "#91AA77",
+          "#8FA271",
+          "#A1A074",
+          "#ABA58C"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 18,
+        "yardTreesPerEligibleResidentialCell": 1.5,
+        "garageAccessPreference": "mappedDrivewayThenAlleyThenClearStreetFace",
+        "garageAssumedWithoutAccessEvidence": false,
+        "privacyFenceHeightMeters": [
+          1.5,
+          1.8
+        ],
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8,
+          10
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          1.2,
+          2.5
+        ],
+        "sidewalkUnknownPolicy": "connectedMappedRunOrPositiveTag",
+        "attachedGarageFacadeOnly": true,
+        "addUnmappedBuildingVolume": false,
+        "garageRegionalConvention": "mixed attached front/side and detached side-drive; no assumed alley",
+        "fenceFamily": "shortWoodOrHedge"
+      },
+      "southeast-suburbs": {
+        "evidenceStatus": "assumption: all numeric priors, dimensions, palettes, densities and regional coverage; cited sources support qualitative patterns only",
+        "sourceRefs": [
+          "SE-FORM",
+          "SE-GARAGE",
+          "SE-TREES",
+          "SE-GRASS"
+        ],
+        "materialFamilyByType": {
+          "brickRanch": [
+            "brick",
+            "brick"
+          ],
+          "porchTraditional": [
+            "siding",
+            "siding"
+          ],
+          "porchCottage": [
+            "siding",
+            "siding"
+          ],
+          "suburbanTwo": [
+            "siding",
+            "siding"
+          ],
+          "plainFallback": [
+            "siding"
+          ]
+        },
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.65,
+          "broadleafEvergreenOrSemiEvergreen": 0.15,
+          "coniferEvergreen": 0.2
+        },
+        "evergreenBroadleafWinterRetention01": 0.9,
+        "groundCoverWeights": {
+          "lawn": 0.75,
+          "plantedBed": 0.2,
+          "gravel": 0.05
+        },
+        "lawnSeasonColors": [
+          "#91AA71",
+          "#88A068",
+          "#A4A273",
+          "#B3A47E"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 20,
+        "yardTreesPerEligibleResidentialCell": 1.6,
+        "garageAccessPreference": "mappedDrivewayThenAlleyThenClearStreetFace",
+        "garageAssumedWithoutAccessEvidence": false,
+        "privacyFenceHeightMeters": [
+          1.5,
+          1.8
+        ],
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8,
+          10
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          1.2,
+          2.5
+        ],
+        "sidewalkUnknownPolicy": "connectedMappedRunOrPositiveTag",
+        "attachedGarageFacadeOnly": true,
+        "addUnmappedBuildingVolume": false,
+        "garageRegionalConvention": "front/side attached garage or evidenced carport; no assumed alley",
+        "fenceFamily": "woodPrivacy"
+      },
+      "generic-temperate-v1": {
+        "evidenceStatus": "assumption: conservative refinement of v2 default",
+        "sourceRefs": [
+          "LOCAL-V2"
+        ],
+        "leafHabitWeights": {
+          "broadleafDeciduous": 0.78,
+          "broadleafEvergreenOrSemiEvergreen": 0.02,
+          "coniferEvergreen": 0.2
+        },
+        "groundCoverWeights": {
+          "lawn": 0.65,
+          "plantedBed": 0.25,
+          "gravel": 0.1
+        },
+        "lawnSeasonColors": [
+          "#94A67A",
+          "#95A078",
+          "#A3A080",
+          "#AAA68E"
+        ],
+        "dryLawnColor": "#B5A27D",
+        "gravelColor": "#C1AE91",
+        "streetTreeSpacingMeters": 24,
+        "yardTreesPerEligibleResidentialCell": 0.5,
+        "garageRegionalConvention": "no inferred door without credible access",
+        "garageAssumedWithoutAccessEvidence": false,
+        "fenceFamily": "shortSegmentOnly",
+        "boundaryEvidenceRequired": true,
+        "streetWidthMeters": [
+          8,
+          10
+        ],
+        "sidewalkWidthMeters": [
+          1.5,
+          1.8
+        ],
+        "plantingStripMeters": [
+          1.2,
+          2.5
+        ],
+        "sidewalkUnknownPolicy": "positiveEvidenceOnly",
+        "addUnmappedBuildingVolume": false,
+        "materialFamilyByType": {
+          "compactGabled": [
+            "neutralWall"
+          ],
+          "broadLow": [
+            "neutralWall"
+          ],
+          "twoStoryHipped": [
+            "neutralWall"
+          ],
+          "flatRoof": [
+            "neutralWall"
+          ]
+        }
+      }
+    },
+    "selection": {
+      "boundsStatus": "assumption; coarse metro review extents, not geographic or architectural boundaries",
+      "selectionAnchor": "stable feature representative point; do not select from moving camera",
+      "borderBlendMeters": 1000,
+      "borderBlend": "continuous palette/density only; categorical per stable feature, never morph buildings",
+      "geometryRegions": "future polygons and optional elevation/land-use applicability"
+    },
+    "dressing": {
+      "provenanceFields": [
+        "origin=inferred",
+        "parentOSMRefs",
+        "profileId",
+        "profileVersion",
+        "ruleId",
+        "confidence",
+        "sourceDatasetTimestamp",
+        "seedKey"
+      ],
+      "seed": "OSMRef.random with independent semantic salt; synthetic candidate anchored to parent OSMRef + canonical side + candidate slot",
+      "candidateSpacingJitter01": 0.15,
+      "mappedDataMovesAllowed": false,
+      "boundaryGenerationAllowed": false,
+      "navigationUseAllowed": false,
+      "residentialCandidateDensity": "per profile; count includes mapped equivalents",
+      "commercialStreetDensityMultiplier": 0.5,
+      "industrialStreetDensityMultiplier": 0.25,
+      "unknownLandUseDensityMultiplier": 0,
+      "parkOpenInteriorTreesPerHectare": 0,
+      "parkEdgeMaxTreesPerHectare": 15,
+      "woodlandInferredTreesPerHectare": 60,
+      "maxYardTreesPerCell": 3,
+      "maxWithoutParcelEvidence": 1,
+      "clearanceMeters": {
+        "trunkToBuilding": 3,
+        "trunkToPathEdge": 1,
+        "trunkToCurb": 0.75,
+        "treeToTreeMinimum": 4,
+        "driveAndCrossingBuffer": 2,
+        "intersectionCornerExclusion": 8
+      },
+      "sidewalkGapMaxMeters": 30,
+      "sidewalkMappedSuppressionCorridorMeters": 3,
+      "privacyFenceRequiresMappedBoundary": true
+    },
+    "performance": {
+      "mainTriangleCeiling": 400000,
+      "shadowTriangleCeiling": 150000,
+      "mainDrawCeiling": 100,
+      "richnessTriangleReserveWithinMain": 35000,
+      "gpuMsCeiling": 10,
+      "gpuSafetyMarginMs": 2.1,
+      "newMaterialFamiliesAddPasses": false,
+      "nearTreeTriangleTarget": [
+        300,
+        600
+      ],
+      "midTreeTriangleTarget": [
+        100,
+        200
+      ],
+      "farTreeTriangleTarget": [
+        24,
+        60
+      ]
+    }
+  }
+}

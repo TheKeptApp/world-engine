@@ -33,6 +33,8 @@ public final class WorldCamera {
         case street(following: Entity)
         /// Orbit view looking at a ground point.
         case overview(center: SIMD3<Float>, distance: Float, pitchDegrees: Float, yawDegrees: Float, fieldOfViewDegrees: Float)
+        /// Exact camera position and look-at point (reproducible comparison presets).
+        case fixed(position: SIMD3<Float>, target: SIMD3<Float>, fieldOfViewDegrees: Float)
     }
 
     public var mode: Mode
@@ -50,7 +52,7 @@ public final class WorldCamera {
     @ObservationIgnored var lastInteraction = Date.distantPast
     @ObservationIgnored var smoothedYaw: Float?
     @ObservationIgnored var smoothedDistance: Float?
-    @ObservationIgnored var characterHeight: Float?
+    @ObservationIgnored var characterBounds: BoundingBox?
     /// Where the camera looks (for clutter and cut-away).
     @ObservationIgnored public private(set) var lookTarget: SIMD3<Float> = .zero
 
@@ -63,6 +65,11 @@ public final class WorldCamera {
     /// Places `camera` for this frame. Returns the follow target (for the cut-away), if any.
     func update(camera: Entity, scene: RealityKit.Scene?, dt: Float) -> SIMD3<Float>? {
         switch mode {
+        case let .fixed(position, target, fov):
+            setFOV(camera, fov)
+            camera.look(at: target, from: position, relativeTo: nil)
+            lookTarget = target
+            return nil
         case let .overview(center, distance, pitch, yaw, fov):
             setFOV(camera, fov)
             let p = pitch * .pi / 180, y = yaw * .pi / 180
@@ -74,11 +81,12 @@ public final class WorldCamera {
         case let .street(entity):
             let s = street
             setFOV(camera, s.fieldOfViewDegrees)
-            if characterHeight == nil {
+            if characterBounds == nil {
                 let b = entity.visualBounds(relativeTo: entity)
-                characterHeight = max(0.2, b.extents.y)
+                characterBounds = b.isEmpty ? BoundingBox(min: [-0.1, 0, -0.1], max: [0.1, 0.65, 0.1]) : b
             }
-            let h = characterHeight!
+            let bounds = characterBounds!
+            let h = max(0.2, bounds.extents.y)
             let target = entity.position(relativeTo: nil) + SIMD3(0, h * s.targetHeightFactor, 0)
             lookTarget = target
 
@@ -100,12 +108,12 @@ public final class WorldCamera {
                 smoothedYaw = targetYaw
             }
             let pitch = max(s.minPitchDegrees, min(s.maxPitchDegrees, s.pitchDegrees + pitchOffset)) * .pi / 180
-            // Distance so the character fills `screenFraction` of the screen height.
-            let fov = s.fieldOfViewDegrees * .pi / 180
-            let base = h / (2 * tan(fov / 2) * s.screenFraction)
-            let wanted = base * max(s.minZoom, min(s.maxZoom, zoom))
             let yaw = smoothedYaw!
             let dir = SIMD3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch))
+            // Distance so the character's projected bounds fill `screenFraction` of the screen height.
+            let base = Self.fittedDistance(bounds: bounds, orientation: entity.orientation(relativeTo: nil), viewDirection: -dir,
+                                           fieldOfViewDegrees: s.fieldOfViewDegrees, fraction: s.screenFraction)
+            let wanted = base * max(s.minZoom, min(s.maxZoom, zoom))
 
             // Occlusion: sphere-cast toward the desired spot; pull in if a building is in the way.
             var allowed = wanted
@@ -125,6 +133,23 @@ public final class WorldCamera {
             camera.look(at: target, from: eye, relativeTo: nil)
             return entity.position(relativeTo: nil) + SIMD3(0, h * 0.5, 0)
         }
+    }
+
+    /// Camera distance at which a character's bounds (local box, rotated into the world) span
+    /// `fraction` of the screen height, looking along `viewDirection` (v2: projected bounds, not
+    /// the upright height alone; a long dog seen from above projects taller than it stands).
+    public static func fittedDistance(bounds: BoundingBox, orientation: simd_quatf, viewDirection: SIMD3<Float>,
+                                      fieldOfViewDegrees: Float, fraction: Float) -> Float {
+        let f = simd_normalize(viewDirection)
+        let right = simd_normalize(simd_cross(f, [0, 1, 0]))
+        let up = simd_cross(right, f)
+        var lo = Float.infinity, hi = -Float.infinity
+        for i in 0..<8 {
+            let c = SIMD3(i & 1 == 0 ? bounds.min.x : bounds.max.x, i & 2 == 0 ? bounds.min.y : bounds.max.y, i & 4 == 0 ? bounds.min.z : bounds.max.z)
+            let v = simd_dot(orientation.act(c), up)
+            lo = min(lo, v); hi = max(hi, v)
+        }
+        return max(0.1, hi - lo) / (2 * tan(fieldOfViewDegrees * .pi / 360) * fraction)
     }
 
     private func setFOV(_ camera: Entity, _ fov: Float) {

@@ -1,0 +1,23 @@
+# Minimal reproduction: RealityView custom post-processing traps on iOS 26.4.
+# Generate: Tools/.build/release/xcodegen generate --spec Apps/PostProcessRepro/project.yml
+name: PostProcessRepro
+options:
+  bundleIdPrefix: com.lincolnlabs
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+targets:
+  PostProcessRepro:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lincolnlabs.postprocessrepro
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""

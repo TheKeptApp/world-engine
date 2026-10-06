@@ -1,8 +1,10 @@
 #!/bin/bash
-# Builds WorldLab (Release) for the connected iPhone, installs it, and optionally runs the
-# timed walk test and pulls the metrics CSV back.
-#   scripts/device.sh build            # build + install
-#   scripts/device.sh walk [seconds]   # launch the walk loop with metrics logging, wait, pull CSV
+# Builds WorldLab (Release) for the connected iPhone, installs it, launches it, and pulls the
+# 10-minute test logs back.
+#   scripts/device.sh build                    # build + install
+#   scripts/device.sh launch [app args…]       # e.g. launch -renderer webgpu -preset v2-01
+#   scripts/device.sh pull [dest-dir]          # copy Documents/*-frames.csv, -seconds.csv, -summary.json
+#   scripts/device.sh walk [seconds]           # legacy: metrics walk, then pull
 # The signing team ID is read from .local/team_id (git-ignored), never from the repo.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -21,6 +23,20 @@ build)
     -destination "generic/platform=iOS" -derivedDataPath "$DERIVED" -allowProvisioningUpdates \
     DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic -quiet build
   xcrun devicectl device install app --device "$DEVICE" "$APP" | tail -2
+  ;;
+launch)
+  shift
+  xcrun devicectl device process launch --device "$DEVICE" --terminate-existing com.lincolnlabs.worldlab -- "$@" | tail -1
+  ;;
+pull)
+  DEST="${2:-$OUT/m2-matched}"
+  mkdir -p "$DEST"
+  TMP=$(mktemp -d)
+  xcrun devicectl device copy from --device "$DEVICE" --domain-type appDataContainer \
+    --domain-identifier com.lincolnlabs.worldlab --source Documents --destination "$TMP" >/dev/null
+  find "$TMP" -type f \( -name '*-frames.csv' -o -name '*-seconds.csv' -o -name '*-summary.json' -o -name 'snapshot-*.png' \) -exec cp {} "$DEST/" \;
+  rm -rf "$TMP"
+  ls -1 "$DEST"
   ;;
 walk)
   SECONDS_TO_RUN="${2:-630}"

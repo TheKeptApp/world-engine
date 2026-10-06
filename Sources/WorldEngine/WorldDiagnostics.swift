@@ -8,11 +8,10 @@ import WorldMesh
 /// Tools for screenshots and reports. Not needed by apps.
 @MainActor
 extension World {
-    /// Positions (scene space) of generated or mapped trees within `radius` of `point`.
+    /// Positions (scene space) of trees within `radius` of `point`.
     public func treePositions(near point: SIMD3<Float>, radius: Float) -> [SIMD3<Float>] {
-        scene.props.filter { [.deciduousTree, .conifer, .lowTree].contains($0.kind) }
-            .flatMap(\.transforms)
-            .map { SIMD3($0.columns.3.x, $0.columns.3.y, $0.columns.3.z) }
+        scene.instances.filter(\.kind.isTree)
+            .map { LocalFrame.scenePosition(LocalPoint($0.x, $0.y), y: 0) }
             .filter { simd_distance(SIMD2($0.x, $0.z), SIMD2(point.x, point.z)) <= radius }
     }
 
@@ -22,6 +21,7 @@ extension World {
         public var osmRef: String
         public var footprintClass: String
         public var roofShape: String
+        public var houseType: String
         public var area: Double
         public var rectangularity: Double
     }
@@ -54,9 +54,7 @@ extension World {
         var entries: [LineupEntry] = []
         var palette = scene.palette
         for (k, (label, b)) in picks.enumerated() {
-            // Re-center the footprint (same shape, same seed → same house) in its lineup slot.
             let c = b.footprint.centroid
-            // Orientation decisions use the house's real street context, so generate in place first.
             let g = generator.generate(b, palette: &palette, detail: .full)
             var mesh = g.mesh
             let shift = SIMD3<Float>(Float(-c.x), 0, Float(c.y))
@@ -72,18 +70,18 @@ extension World {
             }
             let a = FootprintAnalysis(b.footprint)
             entries.append(LineupEntry(label: label, osmRef: b.ref.description, footprintClass: a.kind.rawValue,
-                                       roofShape: g.roofShape.rawValue, area: b.footprint.area, rectangularity: a.rectangularity))
-            let text = MeshResource.generateText("\(k + 1). \(label)\n\(a.kind.rawValue), \(g.roofShape.rawValue) roof\n\(Int(b.footprint.area)) m², fill \(Int(a.rectangularity * 100))%",
+                                       roofShape: g.roofShape.rawValue, houseType: g.houseType ?? "-", area: b.footprint.area,
+                                       rectangularity: a.rectangularity))
+            let text = MeshResource.generateText("\(k + 1). \(label)\n\(g.houseType ?? "-"), \(g.roofShape.rawValue) roof\n\(Int(b.footprint.area)) m², fill \(Int(a.rectangularity * 100))%",
                                                  extrusionDepth: 0.02, font: .systemFont(ofSize: 1.6, weight: .semibold), alignment: .center)
-            let label = ModelEntity(mesh: text, materials: [UnlitMaterial(color: .black)])
+            let labelEntity = ModelEntity(mesh: text, materials: [UnlitMaterial(color: .black)])
             let w = text.bounds.extents.x
-            label.position = slot + SIMD3(-w / 2, 0.05, 17)
-            label.orientation = simd_quatf(angle: -.pi / 2, axis: [1, 0, 0])
-            root.addChild(label)
+            labelEntity.position = slot + SIMD3(-w / 2, 0.05, 17)
+            labelEntity.orientation = simd_quatf(angle: -.pi / 2, axis: [1, 0, 0])
+            root.addChild(labelEntity)
         }
-        // A lawn to stand on.
         var ground = WorldMesh.MeshBuffers()
-        ground.paint = Paint(slot: scene.palette.named("lawn"))
+        ground.paint = Paint(slot: scene.palette.named("lawn"), flags: .lawn)
         let half: Float = 400
         let o = origin
         ground.addVertex(o + [-half, 0, -half], normal: [0, 1, 0]); ground.addVertex(o + [half, 0, -half], normal: [0, 1, 0])

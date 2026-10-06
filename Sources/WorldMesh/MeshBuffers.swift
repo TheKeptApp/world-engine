@@ -11,6 +11,18 @@ public struct Paint: Hashable, Sendable {
         public static let glass = Flags(rawValue: 1)
         /// Self-lit (lamp heads).
         public static let emissive = Flags(rawValue: 2)
+        /// Lawn/grass surface (low-frequency mottling).
+        public static let lawn = Flags(rawValue: 4)
+        /// Sidewalk surface (procedural joints along `extra.z`).
+        public static let sidewalk = Flags(rawValue: 8)
+        /// Road surface (wetness response).
+        public static let road = Flags(rawValue: 16)
+        /// Per-instance color variant among 4 consecutive slots (deciduous crowns).
+        public static let variant4 = Flags(rawValue: 32)
+        /// Per-instance color variant among 2 consecutive slots (conifers).
+        public static let variant2 = Flags(rawValue: 64)
+        /// Near-camera clutter that shrinks away with distance (tufts).
+        public static let distanceFade = Flags(rawValue: 128)
     }
 
     public var slot: Int
@@ -35,9 +47,15 @@ public struct MeshBuffers: Sendable, Equatable {
     public var normals: [SIMD3<Float>] = []
     /// Packed `Paint` per vertex (see `Paint.packed`).
     public var paints: [SIMD4<Float>] = []
+    /// Per-vertex extra channel: x = baked ambient occlusion (1 open … 0 closed),
+    /// y = stable seed 0…1 (e.g. lit-window choice), z = meters along a path (sidewalk joints),
+    /// w = meters across a path.
+    public var extras: [SIMD4<Float>] = []
     public var indices: [UInt32] = []
     /// Paint applied to vertices added from now on.
     public var paint = Paint(slot: 0)
+    /// Extra channel applied to vertices added from now on (AO defaults to 1).
+    public var extra = SIMD4<Float>(1, 0, 0, 0)
 
     public init() {}
 
@@ -62,6 +80,7 @@ public struct MeshBuffers: Sendable, Equatable {
         positions.append(p)
         normals.append(n)
         paints.append(paint.packed)
+        extras.append(extra)
         return UInt32(positions.count - 1)
     }
 
@@ -81,6 +100,7 @@ public struct MeshBuffers: Sendable, Equatable {
         }
         for n in other.normals { normals.append(simd_normalize(normalMatrix * n)) }
         paints.append(contentsOf: other.paints)
+        extras.append(contentsOf: other.extras)
         indices.append(contentsOf: other.indices.map { $0 + base })
     }
 
@@ -89,9 +109,14 @@ public struct MeshBuffers: Sendable, Equatable {
         for i in start..<paints.count { paints[i] = p.packed }
     }
 
+    /// Sets the AO of every vertex from `start` on with a function of its position.
+    public mutating func bakeAO(from start: Int, _ f: (SIMD3<Float>, SIMD3<Float>) -> Float) {
+        for i in start..<positions.count { extras[i].x = min(extras[i].x, f(positions[i], normals[i])) }
+    }
+
     /// Bytes used by this mesh's vertex and index data in the engine's GPU layout
-    /// (position 12 + normal 12 + paint 16 bytes per vertex, 4 bytes per index).
-    public var gpuBytes: Int { positions.count * 40 + indices.count * 4 }
+    /// (position 12 + normal 12 + paint 16 + extra 16 bytes per vertex, 4 bytes per index).
+    public var gpuBytes: Int { positions.count * 56 + indices.count * 4 }
 
     public mutating func addTriangle(_ a: UInt32, _ b: UInt32, _ c: UInt32) {
         indices.append(contentsOf: [a, b, c])

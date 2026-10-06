@@ -1,0 +1,17 @@
+{
+  "name": "worldengine-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "WorldEngine three.js renderer: loads the shared world package (see Sources/WorldPackage) with WebGPU or WebGL2.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node serve.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
+  }
+}

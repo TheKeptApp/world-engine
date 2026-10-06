@@ -26,6 +26,28 @@ targets:
       - path: ../../Data/areas/sloans-lake
         type: folder
         buildPhase: resources
+      # Generated, git-ignored, optional (scripts/generate.sh makes them):
+      #   dog/      DogWell's dog for RealityKit (.usdz) and three.js (.glb), scripts/convert-dog.sh
+      #   package/  the shared world package, scripts/export-package.sh
+      #   dist/     the three.js renderer, web/build.mjs
+      - path: ../../Generated/dog
+        type: folder
+        optional: true
+        buildPhase: resources
+      - path: ../../Generated/package
+        type: folder
+        optional: true
+        buildPhase: resources
+      - path: ../../web/dist
+        type: folder
+        optional: true
+        buildPhase: resources
+    info:
+      path: Generated/Info.plist
+      properties:
+        # The three.js renderer is served over loopback http (secure context for WebGPU).
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
     dependencies:
       - package: WorldEngine
         product: WorldEngine

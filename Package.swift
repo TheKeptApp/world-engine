@@ -19,8 +19,10 @@ let package = Package(
         .target(name: "WorldGen", dependencies: ["WorldGeo", "WorldMap", "WorldMesh"], resources: [.copy("Profiles")]),
         // RealityKit + SwiftUI: the public engine surface.
         .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"], resources: [.process("Shaders")]),
-        // macOS command-line tool: fetch area data, print stats, draw debug maps.
-        .executableTarget(name: "worldbake", dependencies: ["WorldGeo", "WorldMap"]),
+        // Shared world package (glTF + JSON) for renderers other than RealityKit (macOS tooling).
+        .target(name: "WorldPackage", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
+        // macOS command-line tool: fetch area data, print stats, draw debug maps, export packages.
+        .executableTarget(name: "worldbake", dependencies: ["WorldGeo", "WorldMap", "WorldGen", "WorldPackage"]),
 
         .testTarget(name: "WorldGeoTests", dependencies: ["WorldGeo"]),
         .testTarget(
@@ -30,5 +32,6 @@ let package = Package(
         ),
         .testTarget(name: "WorldMeshTests", dependencies: ["WorldMesh", "WorldGeo"]),
         .testTarget(name: "WorldGenTests", dependencies: ["WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
+        .testTarget(name: "WorldPackageTests", dependencies: ["WorldPackage", "WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
     ]
 )
