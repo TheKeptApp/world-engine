@@ -86,6 +86,12 @@ public struct GeneratedBuilding: Sendable {
     public var inferredBays: [[LocalPoint]] = []
     /// Mapped footprint protrusions dressed as bays.
     public var mappedBays = 0
+    /// The chimney stands on a side wall as a shallow masonry breast (inferred, 0.25–0.4 m proud).
+    public var chimneyBreast = false
+    /// Gangway window stacks (one window per story each) on side walls facing a 1–3 m gap.
+    public var gangwayStacks = 0
+    /// Mapped footprint protrusions on side walls dressed with windows.
+    public var sideBays = 0
 }
 
 public struct BuildingGenerator: Sendable {
@@ -403,12 +409,18 @@ public struct BuildingGenerator: Sendable {
             optional += frags.reduce(0) { $0 + max(0, $1.polygon.count - 2) * ($1.overhang ? 2 : 1) } + 8
         }
 
-        let ctx = BuildContext(b: b, ring: ring, type: type, grammar: grammar, F: F, H: H, parapet: parapet, pitch: pitch,
+        var ctx = BuildContext(b: b, ring: ring, type: type, grammar: grammar, F: F, H: H, parapet: parapet, pitch: pitch,
                                overhang: overhang, wall: wallPaint, sideWall: sideWall, trim: trim, door: doorPaint, roof: roofPaint,
                                foundation: foundation, glass: glass, mainRect: mainRect, lod: lod, envelope: envelope, plan: plan,
                                streetFacing: streetFacing, floors: max(1, g.floors),
                                mappedBays: facade.mappedBays == true && (role == .house || role == .block)
                                    ? mappedBays(ring, front: g.frontEdge, streetFacing: streetFacing) : [])
+        if lod <= .mid {
+            if facade.sideBays == true, role == .house || role == .block {
+                ctx.sideBays = sideBayEdges(ring, front: g.frontEdge, streetFacing: streetFacing)
+            }
+            if role == .house { ctx.breast = planChimneyBreast(ctx, front: g.frontEdge) }
+        }
         if lod <= .mid {
             addOpenings(ctx, &g, palette: &palette, into: &m)
             addFacadeDetails(ctx, &g, into: &m)
@@ -619,6 +631,8 @@ public struct BuildingGenerator: Sendable {
         guard role == .house || role == .block || (role == .garage && rng.chance(0.4)) else { return }
         let bayFaces = Set(c.mappedBays.flatMap { $0 })
         g.mappedBays = c.mappedBays.count
+        g.sideBays = c.sideBays.count
+        let sideBayFaces = Set(c.sideBays.flatMap { $0 })
         let lintel: Paint? = facade.lintels == true && near ? c.trim : nil
         for e in 0..<ring.count {
             let (p, dir, n, len) = Self.edge(ring, e)
@@ -649,6 +663,43 @@ public struct BuildingGenerator: Sendable {
                 }
                 continue
             }
+            // Mapped side-wall bays: windows on each face unless a neighbour touches the bay.
+            if sideBayFaces.contains(e), !bayFaces.contains(e) {
+                guard let bayFace = c.sideBays.first(where: { $0.contains(e) }), sideGap(c, edge: bayFace[1], reach: 1) > 0.6 else { continue }
+                let narrow = len < 2.2
+                let w = narrow ? min(winW * 0.85, len - 0.3) : min(winW, len - 0.4)
+                guard w > 0.42 else { continue }
+                let n2 = !narrow && len >= 2 * w + 1.3
+                let centers = n2 ? [len / 2 - (w / 2 + 0.3), len / 2 + (w / 2 + 0.3)] : [len / 2]
+                for (story, z0, z1) in rows(winH) where !(storefront && story == 0) {
+                    for (k, sc) in centers.enumerated() {
+                        lit(story, 80 + k)
+                        addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: z0, z1: z1,
+                                  glass: c.glass, trim: c.trim, frames: near, into: &m)
+                        m.extra = SIMD4(1, 0, 0, 0)
+                    }
+                }
+                continue
+            }
+            // Gangway walls (1–3 m to the neighbour): one or two stacks of smaller windows, one per
+            // story (stairs, bath), heads level with the other windows (family data).
+            if facade.gangwayWindows == true, role == .house || role == .block, len >= 8, isSideWall(c, e, front: g.frontEdge) {
+                let gap = sideGap(c, edge: e)
+                if gap >= Self.gangwayGap.lowerBound, gap <= Self.gangwayGap.upperBound {
+                    let w = min(max(0.5, winW * 0.65), 0.75), h = min(max(0.8, winH * 0.6), 1.1)
+                    let centers = gangwayStackCenters(c, edge: e, width: w)
+                    for (story, z0, z1) in rows(winH) {
+                        for (k, sc) in centers.enumerated() {
+                            lit(story, 60 + k)
+                            addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: max(z0, z1 - h), z1: z1,
+                                      glass: c.glass, trim: c.trim, frames: near, into: &m)
+                            m.extra = SIMD4(1, 0, 0, 0)
+                        }
+                    }
+                    g.gangwayStacks += centers.count
+                    continue
+                }
+            }
             // Long side walls: grouped rhythm with blank stretches (family data).
             if facade.sideRhythm == true, !street, len >= 12, role == .house || role == .block {
                 let scale = facade.sideWindowScale ?? 0.85
@@ -658,6 +709,7 @@ public struct BuildingGenerator: Sendable {
                     for (gi, grp) in groups.enumerated() {
                         for k in 0..<grp.count {
                             let sc = grp.center - grp.width / 2 + w / 2 + Double(k) * (w + 0.4)
+                            if breastCovers(c, edge: e, s: sc, width: w) { continue }
                             lit(story, gi * 4 + k)
                             addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: z0, z1: z1,
                                       glass: c.glass, trim: c.trim, frames: near, into: &m)
@@ -709,6 +761,7 @@ public struct BuildingGenerator: Sendable {
                     let sc = 0.45 + step * (Double(k) + 0.5)
                     if story == 0, let span = doorSpan, span.edge == e, sc + w / 2 > span.s0, sc - w / 2 < span.s1 { continue }
                     let ww = min(w, step - 0.35)
+                    if breastCovers(c, edge: e, s: sc, width: ww) { continue }
                     if let fb = facadeBay, fb.edge == e, story < fb.stories, sc + ww / 2 > fb.s0 - 0.1, sc - ww / 2 < fb.s1 + 0.1 { continue }
                     lit(story, k)
                     addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: ww, z0: z0, z1: z1,
@@ -873,6 +926,10 @@ struct BuildContext {
     var floors = 1
     /// Mapped street bays: [side, front, side] edge indices (facade `mappedBays`).
     var mappedBays: [[Int]] = []
+    /// Mapped side-wall protrusions: [side, face, side] edge indices (facade `sideBays`).
+    var sideBays: [[Int]] = []
+    /// The chimney as a side-wall breast (facade `chimneyBreast`), planned before the openings.
+    var breast: SideBreast?
 }
 
 @inline(__always)
