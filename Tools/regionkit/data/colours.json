@@ -1,0 +1,33 @@
+{
+  "comment": "OSM colour value normalisation for building:colour / roof:colour. `names` extends the engine's own named colours (BuildingGenerator.hexColor, tried first) with common OSM/CSS names; keys are lower-case with spaces, '_' and '-' removed or as spaces. `families` are classification anchors only (nearest by CIEDE2000), not render colours. Hand-written lookup data (assumption), not measured.",
+  "names": {
+    "white": "#F2F0EA", "offwhite": "#ECE6D8", "ivory": "#F3EEDC", "cream": "#EBE1C4", "creme": "#EBE1C4",
+    "beige": "#D2C3A6", "tan": "#C4A886", "sand": "#C8B48C", "wheat": "#E6D2A8", "khaki": "#C3B091", "buff": "#D6BE8C",
+    "yellow": "#DCC87E", "lightyellow": "#EFE6B0", "gold": "#CFA94A", "ochre": "#C38E3C", "orange": "#D7894A",
+    "red": "#A4564A", "darkred": "#7E3A33", "maroon": "#6E2E2A", "brick": "#A4564A", "brickred": "#9C4F42",
+    "terracotta": "#B86A4B", "salmon": "#D9907A", "pink": "#DDB0AA", "rose": "#C98C87",
+    "brown": "#7A5E4A", "lightbrown": "#A0826A", "darkbrown": "#55402F", "saddlebrown": "#7F4E2A", "sienna": "#9A5634",
+    "chocolate": "#6E4630", "copper": "#B0714A", "bronze": "#8A6A42",
+    "grey": "#9A9A97", "gray": "#9A9A97", "silver": "#BDBDB8", "lightgrey": "#C6C5C0", "lightgray": "#C6C5C0",
+    "darkgrey": "#5E6064", "darkgray": "#5E6064", "slate": "#6B7178", "charcoal": "#3E4246", "anthracite": "#3B3E42",
+    "black": "#3A3D42",
+    "green": "#728F66", "darkgreen": "#3F5A40", "lightgreen": "#A3BC95", "olive": "#7C7A4A", "sage": "#9AA58A",
+    "blue": "#7088A3", "lightblue": "#A9BFD2", "darkblue": "#34465F", "navy": "#2E3B56", "teal": "#4E7F7E",
+    "purple": "#6E5A7E"
+  },
+  "families": {
+    "white": "#F2F0EA",
+    "cream": "#E6DCC0",
+    "beige": "#D2C3A6",
+    "tan": "#C4A886",
+    "yellow": "#DCC87E",
+    "orange": "#D08A4A",
+    "red": "#A4564A",
+    "brown": "#7A5E4A",
+    "grey": "#9A9A97",
+    "darkgrey": "#5E6064",
+    "black": "#2E3034",
+    "green": "#728F66",
+    "blue": "#7088A3"
+  }
+}

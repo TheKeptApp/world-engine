@@ -1,0 +1,90 @@
+{
+  "region": "miami",
+  "name": "Miami residential (lowest priority)",
+  "comment": "1000 m x 1000 m cells around named public anchors; centres written by `regionkit.sh anchors`.",
+  "anchorSearch": {
+    "bbox": [25.7, -80.32, 25.9, -80.15]
+  },
+  "catalogCheck": "docs/proposals/regions-chicagoland-miami/region-catalog.json",
+  "zones": [
+    {
+      "template": "desert-southwest",
+      "templateReason": "Nearest warm-climate vocabulary: stucco walls, low hipped/gabled ranches, a flat-roof modern family and a terracotta roof colour slot. Not a desert, so its tree priors (and gravel yards in the proposal) are wrong for Miami and must be reviewed.",
+      "id": "coral-gables",
+      "name": "Coral Gables",
+      "reference": "coral-gables",
+      "missingFamilies": [
+        "palms: no tree archetype (the generator draws conifer or a broadleaf crown); evergreen broadleaf leaf habit is not expressible (deciduousShare is a non-conifer share)",
+        "barrel-tile roof identity (only colour; no tile eave/ridge geometry)",
+        "low-rise condo / balcony bands (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "coral-gables-venetian-pool",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Venetian Pool",
+            "near": [25.7462, -80.2737]
+          },
+          "center": [25.7458, -80.2732],
+          "anchorResolved": {
+            "osm": "way/297000205",
+            "matchedTags": {
+              "historic": "heritage",
+              "leisure": "swimming_pool",
+              "name": "Venetian Pool",
+              "tourism": "attraction"
+            },
+            "osmTimestamp": "2026-10-06T03:40:33Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "template": "desert-southwest",
+      "templateReason": "Nearest warm-climate vocabulary: stucco walls, low hipped/gabled ranches, a flat-roof modern family and a terracotta roof colour slot. Not a desert, so its tree priors (and gravel yards in the proposal) are wrong for Miami and must be reviewed.",
+      "id": "miami-shores",
+      "name": "Miami Shores",
+      "reference": "miami-shores",
+      "missingFamilies": [
+        "palms: no tree archetype (the generator draws conifer or a broadleaf crown); evergreen broadleaf leaf habit is not expressible (deciduousShare is a non-conifer share)",
+        "barrel-tile roof identity (only colour; no tile eave/ridge geometry)",
+        "low-rise condo / balcony bands (role block always takes the first flat-roof type)"
+      ],
+      "cells": [
+        {
+          "id": "miami-shores-village-hall",
+          "radiusMeters": 500,
+          "anchor": {
+            "names": ["Miami Shores Village Hall", "Miami Shores Community Center", "Miami Shores Recreation Center"],
+            "near": [25.8646, -80.1925]
+          },
+          "center": [25.8676, -80.1938],
+          "anchorResolved": {
+            "osm": "node/367826075",
+            "matchedTags": {
+              "amenity": "townhall",
+              "name": "Miami Shores Village Hall"
+            },
+            "osmTimestamp": "2026-10-06T03:40:33Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    },
+    {
+      "template": "desert-southwest",
+      "templateReason": "Nearest warm-climate vocabulary: stucco walls, low hipped/gabled ranches, a flat-roof modern family and a terracotta roof colour slot. Not a desert, so its tree priors (and gravel yards in the proposal) are wrong for Miami and must be reviewed.",
+      "id": "residential",
+      "name": "Miami residential pooled (Coral Gables, Miami Shores)",
+      "missingFamilies": [
+        "palms: no tree archetype (the generator draws conifer or a broadleaf crown); evergreen broadleaf leaf habit is not expressible (deciduousShare is a non-conifer share)",
+        "barrel-tile roof identity (only colour; no tile eave/ridge geometry)",
+        "low-rise condo / balcony bands (role block always takes the first flat-roof type)"
+      ],
+      "poolZones": ["coral-gables", "miami-shores"],
+      "cells": []
+    }
+  ]
+}

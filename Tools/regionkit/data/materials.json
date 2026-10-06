@@ -1,0 +1,43 @@
+{
+  "comment": "Material -> colour family for the colour calibration. `hex` is a muted representative colour used only as the direction to shift a tuple slot toward (the result is then clamped into the template's own lightness/chroma band, VISUAL_DIRECTION: muted, calm). null hex = the material says nothing about colour (painted siding, glass). Hand-written lookup data (assumption), not measured; review before relying on it.",
+  "wall": {
+    "brick":            { "family": "red",   "hex": "#A9735F" },
+    "stone":            { "family": "beige", "hex": "#BDB4A0" },
+    "limestone":        { "family": "beige", "hex": "#C2B9A3" },
+    "sandstone":        { "family": "tan",   "hex": "#C2A983" },
+    "granite":          { "family": "grey",  "hex": "#A3A19B" },
+    "marble":           { "family": "white", "hex": "#DCD8CE" },
+    "concrete":         { "family": "grey",  "hex": "#B3B0A7" },
+    "cement_block":     { "family": "grey",  "hex": "#B3B0A7" },
+    "plaster":          { "family": "cream", "hex": "#D2C6AC" },
+    "stucco":           { "family": "cream", "hex": "#D2C6AC" },
+    "render":           { "family": "cream", "hex": "#D2C6AC" },
+    "metal":            { "family": "grey",  "hex": "#9EA2A3" },
+    "steel":            { "family": "grey",  "hex": "#9EA2A3" },
+    "aluminium":        { "family": "grey",  "hex": "#A9ACAD" },
+    "wood":             { "family": null,    "hex": null },
+    "timber_framing":   { "family": null,    "hex": null },
+    "vinyl":            { "family": null,    "hex": null },
+    "plastic":          { "family": null,    "hex": null },
+    "glass":            { "family": null,    "hex": null },
+    "mirror":           { "family": null,    "hex": null }
+  },
+  "roof": {
+    "roof_tiles":       { "family": "red",      "hex": "#A9725A" },
+    "tile":             { "family": "red",      "hex": "#A9725A" },
+    "clay":             { "family": "red",      "hex": "#A9725A" },
+    "asphalt_shingle":  { "family": "darkgrey", "hex": "#5F6266" },
+    "asphalt":          { "family": "darkgrey", "hex": "#5F6266" },
+    "tar_paper":        { "family": "darkgrey", "hex": "#636466" },
+    "slate":            { "family": "darkgrey", "hex": "#5A5E66" },
+    "metal":            { "family": "grey",     "hex": "#8D9295" },
+    "copper":           { "family": "green",    "hex": "#7E9A8A" },
+    "concrete":         { "family": "grey",     "hex": "#9C9A94" },
+    "gravel":           { "family": "grey",     "hex": "#8E8A82" },
+    "wood":             { "family": "brown",    "hex": "#7A6A58" },
+    "grass":            { "family": "green",    "hex": "#7D8B6A" },
+    "plants":           { "family": "green",    "hex": "#7D8B6A" },
+    "glass":            { "family": null,       "hex": null },
+    "solar_panels":     { "family": null,       "hex": null }
+  }
+}

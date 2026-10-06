@@ -1,0 +1,4817 @@
+{
+  "generatedBy": "Tools/regionkit 0.1",
+  "generatedAt": "2026-10-05",
+  "attribution": "OSM-derived statistics: (c) OpenStreetMap contributors, Open Database License 1.0 (https://www.openstreetmap.org/copyright). Climate normals: NOAA NCEI U.S. Climate Normals 1991-2020, Palecki et al. (2021), doi:10.25921/wck8-er13.",
+  "region": "chicagoland",
+  "zone": {
+    "id": "downtown",
+    "name": "Chicago downtown (Loop, River North) - lower priority, towers come later",
+    "poolZones": null,
+    "reference": "chicago-downtown"
+  },
+  "template": "default",
+  "templateSource": "Sources/WorldGen/Profiles/default.json",
+  "templateReason": "Generic profile: only its flatRoof family is relevant (blocks take the first flat-roof type). No profile has towers.",
+  "missingFamilies": [
+    "Tower role dispatch and massing (setbacks, podiums, crowns): chicagoSchoolMass / artDecoMass / modernGlassMass exist as IDs but blocks always take the first flat-roof type",
+    "elevated rail (the L) structure, bascule bridges, multi-level streets (not buildings; no generator object)"
+  ],
+  "shrinkageK": 30,
+  "osmTimestamps": {
+    "loop-daley-plaza": "2026-10-06T04:13:00Z",
+    "river-north-montgomery-ward-park": "2026-10-06T04:14:15Z"
+  },
+  "cells": [
+    {
+      "id": "loop-daley-plaza",
+      "source": "overpass",
+      "bbox": [41.879398, -87.636224, 41.888402, -87.624176],
+      "center": [41.8839, -87.6302],
+      "radiusMeters": 500,
+      "extra": false,
+      "anchor": {
+        "names": ["Daley Plaza", "Richard J. Daley Plaza", "Richard J. Daley Center"],
+        "near": [41.884, -87.6303]
+      },
+      "anchorResolved": {
+        "osm": "relation/1969327",
+        "matchedTags": {
+          "highway": "pedestrian",
+          "name": "Daley Plaza"
+        },
+        "osmTimestamp": "2026-10-06T04:27:36Z",
+        "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+      },
+      "areaKm2": 1.0,
+      "fetch": {
+        "source": "overpass",
+        "endpoint": "https://overpass-api.de/api/interpreter",
+        "bytes": 4125414,
+        "fetchedAt": "2026-10-06T04:15:21Z",
+        "timestamp_osm_base": "2026-10-06T04:13:00Z",
+        "cacheKey": "ovp-8dc0f3fa114ac9f5f010f80e227ca199437c319b",
+        "query": "[out:json][timeout:180];\n(\n  way[\"building\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"building\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176);\n  way[\"building:part\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"building:part\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176);\n  way[\"highway\"](41.878498,-87.637429,41.889302,-87.622971);\n  way[\"barrier\"~\"^(fence|wall|hedge|retaining_wall)$\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"barrier\"=\"hedge\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176);\n  node[\"natural\"=\"tree\"](41.879398,-87.636224,41.888402,-87.624176);\n  way[\"natural\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"natural\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()<300);\n  way[\"landuse\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"landuse\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()<300);\n  way[\"leisure\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"leisure\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()<300);\n  way[\"amenity\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"amenity\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()<300);\n  way[\"water\"](41.879398,-87.636224,41.888402,-87.624176);\n  relation[\"water\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()<300);\n  node[\"shop\"](41.879398,-87.636224,41.888402,-87.624176);\n  node[\"office\"](41.879398,-87.636224,41.888402,-87.624176);\n  node[\"amenity\"](41.879398,-87.636224,41.888402,-87.624176);\n  node[\"craft\"](41.879398,-87.636224,41.888402,-87.624176);\n);\n(._;>;);\nout body qt;\n(\n  relation[\"natural\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()>=300);\n  relation[\"landuse\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()>=300);\n  relation[\"leisure\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()>=300);\n  relation[\"water\"][\"type\"=\"multipolygon\"](41.879398,-87.636224,41.888402,-87.624176)(if:count_members()>=300);\n);\nout tags;"
+      },
+      "signature": {
+        "buildingsPerKm2": 437.0,
+        "housesPerKm2": 36.0,
+        "houseShare": 0.082,
+        "blockShare": 0.831,
+        "medianLevels": 15.0,
+        "share3PlusLevels": 0.921,
+        "levelsTagged": 0.551,
+        "houseFootprintP50": 30.8,
+        "probableGarageShare": 0.111,
+        "grossCoverage": 0.513,
+        "alleyKmPerKm2": 4.89
+      },
+      "summary": {
+        "cellCount": 1,
+        "areaKm2": 1.0,
+        "buildings": {
+          "outlines": 437,
+          "buildingParts": 156,
+          "perKm2": 437.0,
+          "housesPerKm2": 36.0,
+          "byRole": {
+            "block": {
+              "n": 363,
+              "share": 0.831
+            },
+            "house": {
+              "n": 36,
+              "share": 0.082
+            },
+            "shed": {
+              "n": 35,
+              "share": 0.08
+            },
+            "garage": {
+              "n": 3,
+              "share": 0.007
+            }
+          },
+          "byBuildingValue": {
+            "office": {
+              "n": 135,
+              "share": 0.309
+            },
+            "roof": {
+              "n": 101,
+              "share": 0.231
+            },
+            "yes": {
+              "n": 71,
+              "share": 0.162
+            },
+            "hotel": {
+              "n": 27,
+              "share": 0.062
+            },
+            "commercial": {
+              "n": 23,
+              "share": 0.053
+            },
+            "apartments": {
+              "n": 22,
+              "share": 0.05
+            },
+            "service": {
+              "n": 17,
+              "share": 0.039
+            },
+            "parking": {
+              "n": 10,
+              "share": 0.023
+            },
+            "retail": {
+              "n": 10,
+              "share": 0.023
+            },
+            "public": {
+              "n": 5,
+              "share": 0.011
+            },
+            "garage": {
+              "n": 3,
+              "share": 0.007
+            },
+            "church": {
+              "n": 2,
+              "share": 0.005
+            },
+            "college": {
+              "n": 1,
+              "share": 0.002
+            },
+            "construction": {
+              "n": 1,
+              "share": 0.002
+            },
+            "dormitory": {
+              "n": 1,
+              "share": 0.002
+            },
+            "kiosk": {
+              "n": 1,
+              "share": 0.002
+            },
+            "power_substation": {
+              "n": 1,
+              "share": 0.002
+            },
+            "residential": {
+              "n": 1,
+              "share": 0.002
+            },
+            "synagogue": {
+              "n": 1,
+              "share": 0.002
+            },
+            "temple": {
+              "n": 1,
+              "share": 0.002
+            },
+            "theatre": {
+              "n": 1,
+              "share": 0.002
+            },
+            "train_station": {
+              "n": 1,
+              "share": 0.002
+            },
+            "transportation": {
+              "n": 1,
+              "share": 0.002
+            }
+          },
+          "partsByRole": {
+            "block": {
+              "n": 116,
+              "share": 0.744
+            },
+            "house": {
+              "n": 40,
+              "share": 0.256
+            }
+          },
+          "footprintClassByRole": {
+            "block": {
+              "rectangle": {
+                "n": 298,
+                "share": 0.821
+              },
+              "orthogonal": {
+                "n": 46,
+                "share": 0.127
+              },
+              "irregular": {
+                "n": 16,
+                "share": 0.044
+              },
+              "nearRectangle": {
+                "n": 3,
+                "share": 0.008
+              }
+            },
+            "garage": {
+              "irregular": {
+                "n": 1,
+                "share": 0.333
+              },
+              "orthogonal": {
+                "n": 1,
+                "share": 0.333
+              },
+              "rectangle": {
+                "n": 1,
+                "share": 0.333
+              }
+            },
+            "house": {
+              "rectangle": {
+                "n": 30,
+                "share": 0.833
+              },
+              "nearRectangle": {
+                "n": 3,
+                "share": 0.083
+              },
+              "orthogonal": {
+                "n": 3,
+                "share": 0.083
+              }
+            },
+            "shed": {
+              "tiny": {
+                "n": 34,
+                "share": 0.971
+              },
+              "rectangle": {
+                "n": 1,
+                "share": 0.029
+              }
+            }
+          },
+          "skippedFeatures": 0
+        },
+        "levels": {
+          "all": {
+            "n": 437,
+            "withLevels": 241,
+            "share": 0.551,
+            "levels": {
+              "5+": {
+                "n": 203,
+                "share": 0.842
+              },
+              "1": {
+                "n": 10,
+                "share": 0.041
+              },
+              "4": {
+                "n": 10,
+                "share": 0.041
+              },
+              "2": {
+                "n": 9,
+                "share": 0.037
+              },
+              "3": {
+                "n": 9,
+                "share": 0.037
+              }
+            },
+            "median": 15.0
+          },
+          "byRole": {
+            "block": {
+              "n": 363,
+              "withLevels": 225,
+              "share": 0.62,
+              "levels": {
+                "5+": {
+                  "n": 195,
+                  "share": 0.867
+                },
+                "4": {
+                  "n": 9,
+                  "share": 0.04
+                },
+                "1": {
+                  "n": 7,
+                  "share": 0.031
+                },
+                "2": {
+                  "n": 7,
+                  "share": 0.031
+                },
+                "3": {
+                  "n": 7,
+                  "share": 0.031
+                }
+              },
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 72,
+                "mean": 137.32,
+                "p10": 86.0,
+                "p25": 100.12,
+                "p50": 137.5,
+                "p75": 161.72,
+                "p90": 197.95
+              },
+              "roofLevels": {
+                "2.0": {
+                  "n": 1,
+                  "share": 1.0
+                }
+              }
+            },
+            "garage": {
+              "n": 3,
+              "withLevels": 3,
+              "share": 1.0,
+              "levels": {
+                "5+": {
+                  "n": 3,
+                  "share": 1.0
+                }
+              },
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 0
+              },
+              "roofLevels": {}
+            },
+            "house": {
+              "n": 36,
+              "withLevels": 13,
+              "share": 0.361,
+              "levels": {
+                "5+": {
+                  "n": 5,
+                  "share": 0.385
+                },
+                "1": {
+                  "n": 3,
+                  "share": 0.231
+                },
+                "2": {
+                  "n": 2,
+                  "share": 0.154
+                },
+                "3": {
+                  "n": 2,
+                  "share": 0.154
+                },
+                "4": {
+                  "n": 1,
+                  "share": 0.077
+                }
+              },
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 1,
+                "mean": 153.0,
+                "p10": 153.0,
+                "p25": 153.0,
+                "p50": 153.0,
+                "p75": 153.0,
+                "p90": 153.0
+              },
+              "roofLevels": {}
+            },
+            "shed": {
+              "n": 35,
+              "withLevels": 0,
+              "share": 0.0,
+              "levels": {},
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 0
+              },
+              "roofLevels": {}
+            }
+          }
+        },
+        "metresPerLevel": {
+          "houses": {
+            "total": {
+              "n": 0
+            },
+            "wall": {
+              "n": 0
+            }
+          },
+          "allBuildings": {
+            "total": {
+              "n": 68,
+              "mean": 4.09,
+              "p10": 3.25,
+              "p25": 3.67,
+              "p50": 4.09,
+              "p75": 4.35,
+              "p90": 4.69
+            },
+            "wall": {
+              "n": 3,
+              "mean": 4.72,
+              "p10": 3.74,
+              "p25": 4.0,
+              "p50": 4.43,
+              "p75": 5.3,
+              "p90": 5.82
+            }
+          },
+          "definition": "total = height / (building:levels + roof:levels); wall = (height - roof:height) / building:levels, or height / building:levels when roof:shape=flat. Only buildings with both height and levels."
+        },
+        "roofShape": {
+          "houses": {
+            "n": 0,
+            "share": 0.0,
+            "raw": {},
+            "mapped": {}
+          },
+          "garages": {
+            "n": 0,
+            "share": 0.0,
+            "raw": {},
+            "mapped": {}
+          },
+          "all": {
+            "n": 6,
+            "share": 0.014,
+            "raw": {
+              "flat": {
+                "n": 5,
+                "share": 0.833
+              },
+              "gabled": {
+                "n": 1,
+                "share": 0.167
+              }
+            },
+            "mapped": {
+              "flat": {
+                "n": 5,
+                "share": 0.833
+              },
+              "gabled": {
+                "n": 1,
+                "share": 0.167
+              }
+            }
+          }
+        },
+        "roofAngleDeg": {
+          "houses": {
+            "n": 0
+          },
+          "all": {
+            "n": 0
+          }
+        },
+        "materialsAndColours": {
+          "roofMaterial": {
+            "houses": {},
+            "all": {
+              "concrete": {
+                "n": 2,
+                "share": 0.667
+              },
+              "tar_paper": {
+                "n": 1,
+                "share": 0.333
+              }
+            }
+          },
+          "buildingMaterial": {
+            "houses": {},
+            "all": {
+              "brick": {
+                "n": 5,
+                "share": 0.192
+              },
+              "glass": {
+                "n": 5,
+                "share": 0.192
+              },
+              "cement_block": {
+                "n": 3,
+                "share": 0.115
+              },
+              "concrete": {
+                "n": 3,
+                "share": 0.115
+              },
+              "marble": {
+                "n": 2,
+                "share": 0.077
+              },
+              "metal": {
+                "n": 2,
+                "share": 0.077
+              },
+              "stone": {
+                "n": 2,
+                "share": 0.077
+              },
+              "granite": {
+                "n": 1,
+                "share": 0.038
+              },
+              "limestone": {
+                "n": 1,
+                "share": 0.038
+              },
+              "metal_plates": {
+                "n": 1,
+                "share": 0.038
+              },
+              "plastered": {
+                "n": 1,
+                "share": 0.038
+              }
+            }
+          },
+          "roofColour": {
+            "houses": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            },
+            "all": {
+              "n": 4,
+              "raw": {
+                "lightgray": {
+                  "n": 2,
+                  "share": 0.5
+                },
+                "#6b7b5b": {
+                  "n": 1,
+                  "share": 0.25
+                },
+                "grey": {
+                  "n": 1,
+                  "share": 0.25
+                }
+              },
+              "families": {
+                "beige": {
+                  "n": 2,
+                  "share": 0.5
+                },
+                "green": {
+                  "n": 1,
+                  "share": 0.25
+                },
+                "grey": {
+                  "n": 1,
+                  "share": 0.25
+                }
+              },
+              "unparsed": 0
+            }
+          },
+          "buildingColour": {
+            "houses": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            },
+            "all": {
+              "n": 18,
+              "raw": {
+                "tan": {
+                  "n": 6,
+                  "share": 0.333
+                },
+                "lightgrey": {
+                  "n": 3,
+                  "share": 0.167
+                },
+                "#fef0c9": {
+                  "n": 2,
+                  "share": 0.111
+                },
+                "brown": {
+                  "n": 2,
+                  "share": 0.111
+                },
+                "#493e3b": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "#7db9c4": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "#b1beac": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "lightbrown": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "white": {
+                  "n": 1,
+                  "share": 0.056
+                }
+              },
+              "families": {
+                "tan": {
+                  "n": 7,
+                  "share": 0.389
+                },
+                "beige": {
+                  "n": 4,
+                  "share": 0.222
+                },
+                "brown": {
+                  "n": 2,
+                  "share": 0.111
+                },
+                "cream": {
+                  "n": 2,
+                  "share": 0.111
+                },
+                "black": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "grey": {
+                  "n": 1,
+                  "share": 0.056
+                },
+                "white": {
+                  "n": 1,
+                  "share": 0.056
+                }
+              },
+              "unparsed": 0
+            }
+          }
+        },
+        "footprints": {
+          "block": {
+            "areaM2": {
+              "n": 363,
+              "mean": 1294.0,
+              "p10": 29.3,
+              "p25": 155.1,
+              "p50": 818.6,
+              "p75": 1836.3,
+              "p90": 3008.9
+            },
+            "aspect": {
+              "n": 363,
+              "mean": 2.63,
+              "p10": 1.09,
+              "p25": 1.28,
+              "p50": 1.84,
+              "p75": 2.7,
+              "p90": 4.39
+            },
+            "rectangularity": {
+              "n": 363,
+              "mean": 0.941,
+              "p10": 0.817,
+              "p25": 0.941,
+              "p50": 0.986,
+              "p75": 0.995,
+              "p90": 0.999
+            },
+            "obbShortSideM": {
+              "n": 363,
+              "mean": 24.3,
+              "p10": 3.7,
+              "p25": 7.0,
+              "p50": 21.6,
+              "p75": 39.0,
+              "p90": 49.8
+            },
+            "obbLongSideM": {
+              "n": 363,
+              "mean": 43.5,
+              "p10": 7.5,
+              "p25": 25.8,
+              "p50": 44.9,
+              "p75": 55.6,
+              "p90": 70.7
+            }
+          },
+          "garage": {
+            "areaM2": {
+              "n": 3,
+              "mean": 2472.7,
+              "p10": 2144.2,
+              "p25": 2146.6,
+              "p50": 2150.6,
+              "p75": 2637.7,
+              "p90": 2930.0
+            },
+            "aspect": {
+              "n": 3,
+              "mean": 1.22,
+              "p10": 1.14,
+              "p25": 1.16,
+              "p50": 1.2,
+              "p75": 1.27,
+              "p90": 1.31
+            },
+            "rectangularity": {
+              "n": 3,
+              "mean": 0.918,
+              "p10": 0.836,
+              "p25": 0.882,
+              "p50": 0.958,
+              "p75": 0.975,
+              "p90": 0.985
+            },
+            "obbShortSideM": {
+              "n": 3,
+              "mean": 46.9,
+              "p10": 42.4,
+              "p25": 44.7,
+              "p50": 48.6,
+              "p75": 49.9,
+              "p90": 50.7
+            },
+            "obbLongSideM": {
+              "n": 3,
+              "mean": 57.0,
+              "p10": 54.8,
+              "p25": 54.8,
+              "p50": 54.9,
+              "p75": 58.2,
+              "p90": 60.2
+            }
+          },
+          "house": {
+            "areaM2": {
+              "n": 36,
+              "mean": 70.1,
+              "p10": 15.8,
+              "p25": 16.9,
+              "p50": 23.3,
+              "p75": 101.9,
+              "p90": 154.1
+            },
+            "aspect": {
+              "n": 36,
+              "mean": 3.14,
+              "p10": 1.2,
+              "p25": 1.91,
+              "p50": 3.29,
+              "p75": 3.69,
+              "p90": 4.01
+            },
+            "rectangularity": {
+              "n": 36,
+              "mean": 0.961,
+              "p10": 0.865,
+              "p25": 0.985,
+              "p50": 0.997,
+              "p75": 0.999,
+              "p90": 0.999
+            },
+            "obbShortSideM": {
+              "n": 36,
+              "mean": 4.9,
+              "p10": 2.0,
+              "p25": 2.2,
+              "p50": 3.3,
+              "p75": 6.3,
+              "p90": 7.9
+            },
+            "obbLongSideM": {
+              "n": 36,
+              "mean": 12.5,
+              "p10": 6.2,
+              "p25": 7.3,
+              "p50": 8.1,
+              "p75": 15.7,
+              "p90": 25.7
+            }
+          },
+          "shed": {
+            "areaM2": {
+              "n": 35,
+              "mean": 8.7,
+              "p10": 3.7,
+              "p25": 4.3,
+              "p50": 5.7,
+              "p75": 9.9,
+              "p90": 11.2
+            },
+            "aspect": {
+              "n": 35,
+              "mean": 1.71,
+              "p10": 1.07,
+              "p25": 1.13,
+              "p50": 1.38,
+              "p75": 2.62,
+              "p90": 2.8
+            },
+            "rectangularity": {
+              "n": 35,
+              "mean": 0.985,
+              "p10": 0.978,
+              "p25": 0.989,
+              "p50": 0.995,
+              "p75": 0.998,
+              "p90": 0.999
+            },
+            "obbShortSideM": {
+              "n": 35,
+              "mean": 2.2,
+              "p10": 1.5,
+              "p25": 1.7,
+              "p50": 2.0,
+              "p75": 2.3,
+              "p90": 2.8
+            },
+            "obbLongSideM": {
+              "n": 35,
+              "mean": 3.5,
+              "p10": 2.3,
+              "p25": 2.3,
+              "p50": 3.3,
+              "p75": 4.0,
+              "p90": 5.4
+            }
+          }
+        },
+        "situationsTemplateThresholds": {
+          "thresholds": {
+            "smallArea": 60,
+            "largeArea": 220,
+            "hugeArea": 350,
+            "broadAspect": 1.7,
+            "squareAspect": 1.5,
+            "squareRectangularity": 0.78,
+            "narrowAspect": 1.7
+          },
+          "counts": {
+            "small": {
+              "n": 21,
+              "share": 0.583
+            },
+            "threeFloor": {
+              "n": 8,
+              "share": 0.222
+            },
+            "oneFloorBroad": {
+              "n": 2,
+              "share": 0.056
+            },
+            "twoFloorNarrow": {
+              "n": 2,
+              "share": 0.056
+            },
+            "unknown": {
+              "n": 2,
+              "share": 0.056
+            },
+            "oneFloor": {
+              "n": 1,
+              "share": 0.028
+            }
+          }
+        },
+        "probableGarages": {
+          "definition": "generator houses with building=yes, footprint < 60 m2 and within 8 m of a service/unnamed road (the engine renders them as houses)",
+          "n": 4,
+          "shareOfHouses": 0.111,
+          "smallBuildingYesHouses": 24,
+          "shareOfSmallYesNearService": 0.167,
+          "withLevels": 2
+        },
+        "principalHouses": {
+          "definition": "generator houses minus probable garages",
+          "n": 32,
+          "levels": {
+            "5+": {
+              "n": 5,
+              "share": 0.455
+            },
+            "1": {
+              "n": 3,
+              "share": 0.273
+            },
+            "2": {
+              "n": 2,
+              "share": 0.182
+            },
+            "4": {
+              "n": 1,
+              "share": 0.091
+            }
+          },
+          "withLevels": 11,
+          "footprintM2": {
+            "n": 32,
+            "mean": 76.5,
+            "p10": 15.9,
+            "p25": 17.4,
+            "p50": 30.8,
+            "p75": 107.9,
+            "p90": 170.3
+          },
+          "aspect": {
+            "n": 32,
+            "mean": 3.33,
+            "p10": 1.18,
+            "p25": 2.38,
+            "p50": 3.37,
+            "p75": 3.71,
+            "p90": 4.03
+          },
+          "obbShortSideM": {
+            "n": 32,
+            "mean": 5.0,
+            "p10": 2.0,
+            "p25": 2.2,
+            "p50": 3.0,
+            "p75": 6.3,
+            "p90": 7.9
+          },
+          "obbLongSideM": {
+            "n": 32,
+            "mean": 13.4,
+            "p10": 6.4,
+            "p25": 7.8,
+            "p50": 8.2,
+            "p75": 16.7,
+            "p90": 26.0
+          },
+          "facadeToCurbM": {
+            "n": 32,
+            "mean": 6.75,
+            "p10": 1.09,
+            "p25": 2.72,
+            "p50": 4.86,
+            "p75": 7.18,
+            "p90": 12.92
+          },
+          "longSideFacesStreetShare": 0.839,
+          "within30mOfAlleyShare": 0.25
+        },
+        "useMix": {
+          "definition": "Share of non-outbuilding outlines. residential/commercial/mixed from building=* (data/use_classes.json); a residential-type building with shop/office/craft/commercial-amenity tags or a commercial POI node inside it counts as mixed; building=yes etc. falls back to tags/POIs, then landuse=residential / commercial|retail at its centroid.",
+          "byCount": {
+            "commercial": {
+              "n": 195,
+              "share": 0.607
+            },
+            "other": {
+              "n": 40,
+              "share": 0.125
+            },
+            "commercial (landuse)": {
+              "n": 25,
+              "share": 0.078
+            },
+            "commercial (tags/POI)": {
+              "n": 19,
+              "share": 0.059
+            },
+            "mixed": {
+              "n": 18,
+              "share": 0.056
+            },
+            "unknown": {
+              "n": 15,
+              "share": 0.047
+            },
+            "residential": {
+              "n": 6,
+              "share": 0.019
+            },
+            "residential (landuse)": {
+              "n": 3,
+              "share": 0.009
+            }
+          },
+          "grouped": {
+            "commercial": {
+              "n": 239,
+              "share": 0.745
+            },
+            "other": {
+              "n": 40,
+              "share": 0.125
+            },
+            "mixed": {
+              "n": 18,
+              "share": 0.056
+            },
+            "unknown": {
+              "n": 15,
+              "share": 0.047
+            },
+            "residential": {
+              "n": 9,
+              "share": 0.028
+            }
+          },
+          "byFootprintArea": {
+            "commercial": 0.74,
+            "other": 0.121,
+            "mixed": 0.066,
+            "commercial (tags/POI)": 0.031,
+            "residential": 0.016,
+            "unknown": 0.014,
+            "commercial (landuse)": 0.009,
+            "residential (landuse)": 0.002
+          },
+          "outbuildings": 116,
+          "n": 321
+        },
+        "setback": {
+          "definition": "Footprint boundary to the nearest street centreline (residential, living_street, unclassified, tertiary, secondary, primary; within 60 m) minus half the carriageway (width tag, else lanes x 3.3 m, else the engine's RoadRules default per class: residential/unclassified 6 m, living_street 5, tertiary 8, secondary 10, primary 12). Negative = footprint overlaps the assumed carriageway (mapping/width error).",
+          "housesMeasured": 36,
+          "housesTotal": 36,
+          "coverage": 1.0,
+          "facadeToCurbM": {
+            "n": 36,
+            "mean": 7.51,
+            "p10": 1.14,
+            "p25": 2.43,
+            "p50": 4.86,
+            "p75": 7.43,
+            "p90": 13.98
+          },
+          "centrelineM": {
+            "n": 36,
+            "mean": 12.96,
+            "p10": 6.55,
+            "p25": 8.91,
+            "p50": 11.22,
+            "p75": 12.92,
+            "p90": 19.34
+          },
+          "negative": 2,
+          "widthSource": {
+            "lanes": {
+              "n": 35,
+              "share": 0.972
+            },
+            "default": {
+              "n": 1,
+              "share": 0.028
+            }
+          },
+          "nearestClass": {
+            "secondary": {
+              "n": 36,
+              "share": 1.0
+            }
+          }
+        },
+        "frontage": {
+          "definition": "Front edge = StreetContext.frontEdge (nearest NAMED vehicle street within 60 m, edges >= 2.5 m); long side faces street = BuildingGenerator broadFront (|dot(front edge, long axis)| > 0.85).",
+          "housesWithFrontEdge": 35,
+          "longSideFacesStreet": 27,
+          "share": 0.771,
+          "shareAmongAspectAtLeastBroadAspect": 0.852
+        },
+        "coverage": {
+          "definition": "OSM has no parcels. net = house footprint area (centroid inside landuse=residential) / landuse=residential area in the cell; gross = all outline footprint area / (cell area - water area).",
+          "residentialLanduseKm2": 0.0514,
+          "residentialLanduseShare": 0.051,
+          "net": 0.012,
+          "gross": 0.513,
+          "waterShare": 0.064
+        },
+        "alleys": {
+          "alleyKmPerKm2": 4.89,
+          "alleyKm": 4.89,
+          "driveways": {
+            "kmPerKm2": 1.524
+          },
+          "housesWithin30mOfAlley": {
+            "n": 11,
+            "share": 0.306
+          },
+          "garagesAdjacentToAlley": {
+            "definition": "garage footprint within 8 m of a service=alley centreline",
+            "n": 2,
+            "share": 0.667
+          },
+          "garagesEngineAlleyEdge": {
+            "definition": "StreetContext.alleyEdge finds an edge facing a service/unnamed road within 30 m (what the generator uses for the garage door)",
+            "n": 0,
+            "share": 0.0
+          }
+        },
+        "streets": {
+          "kmPerKm2ByHighway": {
+            "corridor": 0.088,
+            "cycleway": 2.926,
+            "elevator": 0.461,
+            "footway": 43.636,
+            "pedestrian": 0.13,
+            "residential": 0.211,
+            "secondary": 17.997,
+            "secondary_link": 0.518,
+            "service": 9.657,
+            "steps": 2.056,
+            "tertiary": 0.953,
+            "trunk": 2.178,
+            "unclassified": 0.456
+          },
+          "serviceKmPerKm2": {
+            "(none)": 2.879,
+            "alley": 4.89,
+            "driveway": 1.524,
+            "parking_aisle": 0.364
+          },
+          "sidewalkKmPerKm2": 27.002
+        },
+        "barriers": {
+          "fence": {
+            "km": 2.219,
+            "kmPerKm2": 2.219,
+            "mPer100Houses": 6162.7
+          },
+          "wall": {
+            "km": 0.258,
+            "kmPerKm2": 0.258,
+            "mPer100Houses": 715.6
+          },
+          "hedge": {
+            "km": 0.0,
+            "kmPerKm2": 0.0,
+            "mPer100Houses": 0.0
+          },
+          "retaining_wall": {
+            "km": 4.004,
+            "kmPerKm2": 4.004,
+            "mPer100Houses": 11122.9
+          },
+          "tree_row": {
+            "km": 0.0,
+            "kmPerKm2": 0.0,
+            "mPer100Houses": 0.0
+          },
+          "hedgeAreas": 0
+        },
+        "trees": {
+          "count": 425,
+          "perKm2": 425.0,
+          "leafTypeTagged": {
+            "broadleaved": {
+              "n": 175,
+              "share": 1.0
+            }
+          },
+          "leafCycleTagged": {},
+          "leafTypeTagOrGenus": {
+            "broadleaved": {
+              "n": 175,
+              "share": 1.0
+            }
+          },
+          "leafCycleTagOrGenus": {},
+          "habitSource": {
+            "none": {
+              "n": 250,
+              "share": 0.588
+            },
+            "tag": {
+              "n": 175,
+              "share": 0.412
+            }
+          },
+          "palmShareOfTreesWithGenus": null,
+          "topGenus": {},
+          "topSpecies": {},
+          "topTaxon": {},
+          "heightM": {
+            "n": 0
+          },
+          "tagCoverage": {
+            "height": 0.0,
+            "genus/species/taxon": 0.0,
+            "leaf_type": 0.412,
+            "leaf_cycle": 0.0,
+            "diameter_crown": 0.0,
+            "circumference": 0.0
+          },
+          "treeRowKmPerKm2": 0.0,
+          "woodShare": 0.0,
+          "parkShare": 0.018
+        },
+        "tagMissing": {
+          "buildings": {
+            "building:levels": 0.446,
+            "height": 0.833,
+            "roof:shape": 0.986,
+            "roof:levels": 0.998,
+            "roof:height": 1.0,
+            "roof:angle": 1.0,
+            "roof:material": 0.993,
+            "roof:colour": 0.991,
+            "building:material": 0.941,
+            "building:colour": 0.959,
+            "start_date": 0.968
+          },
+          "houses": {
+            "building:levels": 0.639,
+            "height": 0.972,
+            "roof:shape": 1.0,
+            "roof:levels": 1.0,
+            "roof:height": 1.0,
+            "roof:angle": 1.0,
+            "roof:material": 1.0,
+            "roof:colour": 1.0,
+            "building:material": 1.0,
+            "building:colour": 1.0,
+            "start_date": 1.0
+          },
+          "nBuildings": 437,
+          "nHouses": 36
+        },
+        "startDate": {
+          "n": 14,
+          "decades": {
+            "1890s": {
+              "n": 3,
+              "share": 0.214
+            },
+            "1920s": {
+              "n": 3,
+              "share": 0.214
+            },
+            "1980s": {
+              "n": 3,
+              "share": 0.214
+            },
+            "1960s": {
+              "n": 2,
+              "share": 0.143
+            },
+            "1900s": {
+              "n": 1,
+              "share": 0.071
+            },
+            "1910s": {
+              "n": 1,
+              "share": 0.071
+            },
+            "2000s": {
+              "n": 1,
+              "share": 0.071
+            }
+          }
+        },
+        "flags": []
+      }
+    },
+    {
+      "id": "river-north-montgomery-ward-park",
+      "source": "overpass",
+      "bbox": [41.889298, -87.648525, 41.898302, -87.636475],
+      "center": [41.8938, -87.6425],
+      "radiusMeters": 500,
+      "extra": false,
+      "anchor": {
+        "name": "Montgomery Ward Park",
+        "near": [41.8945, -87.64]
+      },
+      "anchorResolved": {
+        "osm": "way/153561199",
+        "matchedTags": {
+          "leisure": "park",
+          "name": "Montgomery Ward Park"
+        },
+        "osmTimestamp": "2026-10-06T04:27:36Z",
+        "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+      },
+      "areaKm2": 1.0,
+      "fetch": {
+        "source": "overpass",
+        "endpoint": "https://overpass-api.de/api/interpreter",
+        "bytes": 2292264,
+        "fetchedAt": "2026-10-06T04:15:37Z",
+        "timestamp_osm_base": "2026-10-06T04:14:15Z",
+        "cacheKey": "ovp-f3c75147cdf1aa51f6fda8ded73a410c8123171c",
+        "query": "[out:json][timeout:180];\n(\n  way[\"building\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"building\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475);\n  way[\"building:part\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"building:part\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475);\n  way[\"highway\"](41.888398,-87.649730,41.899202,-87.635270);\n  way[\"barrier\"~\"^(fence|wall|hedge|retaining_wall)$\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"barrier\"=\"hedge\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475);\n  node[\"natural\"=\"tree\"](41.889298,-87.648525,41.898302,-87.636475);\n  way[\"natural\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"natural\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()<300);\n  way[\"landuse\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"landuse\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()<300);\n  way[\"leisure\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"leisure\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()<300);\n  way[\"amenity\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"amenity\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()<300);\n  way[\"water\"](41.889298,-87.648525,41.898302,-87.636475);\n  relation[\"water\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()<300);\n  node[\"shop\"](41.889298,-87.648525,41.898302,-87.636475);\n  node[\"office\"](41.889298,-87.648525,41.898302,-87.636475);\n  node[\"amenity\"](41.889298,-87.648525,41.898302,-87.636475);\n  node[\"craft\"](41.889298,-87.648525,41.898302,-87.636475);\n);\n(._;>;);\nout body qt;\n(\n  relation[\"natural\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()>=300);\n  relation[\"landuse\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()>=300);\n  relation[\"leisure\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()>=300);\n  relation[\"water\"][\"type\"=\"multipolygon\"](41.889298,-87.648525,41.898302,-87.636475)(if:count_members()>=300);\n);\nout tags;"
+      },
+      "signature": {
+        "buildingsPerKm2": 396.0,
+        "housesPerKm2": 198.0,
+        "houseShare": 0.5,
+        "blockShare": 0.482,
+        "medianLevels": 4.0,
+        "share3PlusLevels": 0.746,
+        "levelsTagged": 0.338,
+        "houseFootprintP50": 106.9,
+        "probableGarageShare": 0.035,
+        "grossCoverage": 0.361,
+        "alleyKmPerKm2": 3.987
+      },
+      "summary": {
+        "cellCount": 1,
+        "areaKm2": 1.0,
+        "buildings": {
+          "outlines": 396,
+          "buildingParts": 15,
+          "perKm2": 396.0,
+          "housesPerKm2": 198.0,
+          "byRole": {
+            "house": {
+              "n": 198,
+              "share": 0.5
+            },
+            "block": {
+              "n": 191,
+              "share": 0.482
+            },
+            "shed": {
+              "n": 7,
+              "share": 0.018
+            }
+          },
+          "byBuildingValue": {
+            "yes": {
+              "n": 233,
+              "share": 0.588
+            },
+            "apartments": {
+              "n": 52,
+              "share": 0.131
+            },
+            "house": {
+              "n": 34,
+              "share": 0.086
+            },
+            "terrace": {
+              "n": 23,
+              "share": 0.058
+            },
+            "commercial": {
+              "n": 8,
+              "share": 0.02
+            },
+            "industrial": {
+              "n": 8,
+              "share": 0.02
+            },
+            "office": {
+              "n": 8,
+              "share": 0.02
+            },
+            "retail": {
+              "n": 5,
+              "share": 0.013
+            },
+            "public": {
+              "n": 4,
+              "share": 0.01
+            },
+            "service": {
+              "n": 4,
+              "share": 0.01
+            },
+            "construction": {
+              "n": 3,
+              "share": 0.008
+            },
+            "roof": {
+              "n": 3,
+              "share": 0.008
+            },
+            "train_station": {
+              "n": 3,
+              "share": 0.008
+            },
+            "container": {
+              "n": 2,
+              "share": 0.005
+            },
+            "residential": {
+              "n": 2,
+              "share": 0.005
+            },
+            "foundation": {
+              "n": 1,
+              "share": 0.003
+            },
+            "parking": {
+              "n": 1,
+              "share": 0.003
+            },
+            "shed": {
+              "n": 1,
+              "share": 0.003
+            },
+            "warehouse": {
+              "n": 1,
+              "share": 0.003
+            }
+          },
+          "partsByRole": {
+            "block": {
+              "n": 15,
+              "share": 1.0
+            }
+          },
+          "footprintClassByRole": {
+            "block": {
+              "rectangle": {
+                "n": 134,
+                "share": 0.702
+              },
+              "irregular": {
+                "n": 36,
+                "share": 0.188
+              },
+              "orthogonal": {
+                "n": 21,
+                "share": 0.11
+              }
+            },
+            "house": {
+              "rectangle": {
+                "n": 159,
+                "share": 0.803
+              },
+              "orthogonal": {
+                "n": 21,
+                "share": 0.106
+              },
+              "irregular": {
+                "n": 14,
+                "share": 0.071
+              },
+              "nearRectangle": {
+                "n": 4,
+                "share": 0.02
+              }
+            },
+            "shed": {
+              "tiny": {
+                "n": 6,
+                "share": 0.857
+              },
+              "rectangle": {
+                "n": 1,
+                "share": 0.143
+              }
+            }
+          },
+          "skippedFeatures": 0
+        },
+        "levels": {
+          "all": {
+            "n": 396,
+            "withLevels": 134,
+            "share": 0.338,
+            "levels": {
+              "5+": {
+                "n": 61,
+                "share": 0.455
+              },
+              "4": {
+                "n": 21,
+                "share": 0.157
+              },
+              "2": {
+                "n": 20,
+                "share": 0.149
+              },
+              "3": {
+                "n": 18,
+                "share": 0.134
+              },
+              "1": {
+                "n": 14,
+                "share": 0.104
+              }
+            },
+            "median": 4.0
+          },
+          "byRole": {
+            "block": {
+              "n": 191,
+              "withLevels": 110,
+              "share": 0.576,
+              "levels": {
+                "5+": {
+                  "n": 59,
+                  "share": 0.536
+                },
+                "4": {
+                  "n": 19,
+                  "share": 0.173
+                },
+                "3": {
+                  "n": 14,
+                  "share": 0.127
+                },
+                "1": {
+                  "n": 12,
+                  "share": 0.109
+                },
+                "2": {
+                  "n": 6,
+                  "share": 0.055
+                }
+              },
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 11,
+                "mean": 88.38,
+                "p10": 64.6,
+                "p25": 69.0,
+                "p50": 83.0,
+                "p75": 100.0,
+                "p90": 123.0
+              },
+              "roofLevels": {
+                "0.0": {
+                  "n": 9,
+                  "share": 1.0
+                }
+              }
+            },
+            "house": {
+              "n": 198,
+              "withLevels": 24,
+              "share": 0.121,
+              "levels": {
+                "2": {
+                  "n": 14,
+                  "share": 0.583
+                },
+                "3": {
+                  "n": 4,
+                  "share": 0.167
+                },
+                "1": {
+                  "n": 2,
+                  "share": 0.083
+                },
+                "4": {
+                  "n": 2,
+                  "share": 0.083
+                },
+                "5+": {
+                  "n": 2,
+                  "share": 0.083
+                }
+              },
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 0
+              },
+              "roofLevels": {
+                "0.0": {
+                  "n": 2,
+                  "share": 1.0
+                }
+              }
+            },
+            "shed": {
+              "n": 7,
+              "withLevels": 0,
+              "share": 0.0,
+              "levels": {},
+              "fractionalLevels": 0,
+              "heightM": {
+                "n": 0
+              },
+              "roofLevels": {}
+            }
+          }
+        },
+        "metresPerLevel": {
+          "houses": {
+            "total": {
+              "n": 0
+            },
+            "wall": {
+              "n": 0
+            }
+          },
+          "allBuildings": {
+            "total": {
+              "n": 11,
+              "mean": 3.65,
+              "p10": 3.26,
+              "p25": 3.38,
+              "p50": 3.59,
+              "p75": 3.8,
+              "p90": 4.0
+            },
+            "wall": {
+              "n": 0
+            }
+          },
+          "definition": "total = height / (building:levels + roof:levels); wall = (height - roof:height) / building:levels, or height / building:levels when roof:shape=flat. Only buildings with both height and levels."
+        },
+        "roofShape": {
+          "houses": {
+            "n": 1,
+            "share": 0.005,
+            "raw": {
+              "flat": {
+                "n": 1,
+                "share": 1.0
+              }
+            },
+            "mapped": {
+              "flat": {
+                "n": 1,
+                "share": 1.0
+              }
+            }
+          },
+          "garages": {
+            "n": 0,
+            "share": null,
+            "raw": {},
+            "mapped": {}
+          },
+          "all": {
+            "n": 2,
+            "share": 0.005,
+            "raw": {
+              "flat": {
+                "n": 2,
+                "share": 1.0
+              }
+            },
+            "mapped": {
+              "flat": {
+                "n": 2,
+                "share": 1.0
+              }
+            }
+          }
+        },
+        "roofAngleDeg": {
+          "houses": {
+            "n": 0
+          },
+          "all": {
+            "n": 0
+          }
+        },
+        "materialsAndColours": {
+          "roofMaterial": {
+            "houses": {
+              "tar_paper": {
+                "n": 1,
+                "share": 1.0
+              }
+            },
+            "all": {
+              "tar_paper": {
+                "n": 2,
+                "share": 1.0
+              }
+            }
+          },
+          "buildingMaterial": {
+            "houses": {
+              "brick": {
+                "n": 1,
+                "share": 1.0
+              }
+            },
+            "all": {
+              "brick": {
+                "n": 5,
+                "share": 0.714
+              },
+              "concrete": {
+                "n": 1,
+                "share": 0.143
+              },
+              "glass": {
+                "n": 1,
+                "share": 0.143
+              }
+            }
+          },
+          "roofColour": {
+            "houses": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            },
+            "all": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            }
+          },
+          "buildingColour": {
+            "houses": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            },
+            "all": {
+              "n": 0,
+              "raw": {},
+              "families": {},
+              "unparsed": 0
+            }
+          }
+        },
+        "footprints": {
+          "block": {
+            "areaM2": {
+              "n": 191,
+              "mean": 1561.5,
+              "p10": 256.7,
+              "p25": 356.9,
+              "p50": 751.1,
+              "p75": 1693.1,
+              "p90": 2791.8
+            },
+            "aspect": {
+              "n": 191,
+              "mean": 1.98,
+              "p10": 1.04,
+              "p25": 1.35,
+              "p50": 1.68,
+              "p75": 2.33,
+              "p90": 3.14
+            },
+            "rectangularity": {
+              "n": 191,
+              "mean": 0.911,
+              "p10": 0.684,
+              "p25": 0.86,
+              "p50": 0.98,
+              "p75": 0.995,
+              "p90": 1.0
+            },
+            "obbShortSideM": {
+              "n": 191,
+              "mean": 26.7,
+              "p10": 9.7,
+              "p25": 14.4,
+              "p50": 23.6,
+              "p75": 32.1,
+              "p90": 46.2
+            },
+            "obbLongSideM": {
+              "n": 191,
+              "mean": 49.1,
+              "p10": 20.7,
+              "p25": 28.0,
+              "p50": 39.2,
+              "p75": 55.8,
+              "p90": 80.4
+            }
+          },
+          "house": {
+            "areaM2": {
+              "n": 198,
+              "mean": 171.0,
+              "p10": 65.3,
+              "p25": 72.9,
+              "p50": 102.6,
+              "p75": 183.7,
+              "p90": 240.2
+            },
+            "aspect": {
+              "n": 198,
+              "mean": 2.35,
+              "p10": 1.18,
+              "p25": 1.58,
+              "p50": 1.96,
+              "p75": 2.93,
+              "p90": 3.57
+            },
+            "rectangularity": {
+              "n": 198,
+              "mean": 0.924,
+              "p10": 0.846,
+              "p25": 0.918,
+              "p50": 0.947,
+              "p75": 0.983,
+              "p90": 0.998
+            },
+            "obbShortSideM": {
+              "n": 198,
+              "mean": 8.4,
+              "p10": 5.6,
+              "p25": 6.8,
+              "p50": 7.7,
+              "p75": 8.6,
+              "p90": 10.1
+            },
+            "obbLongSideM": {
+              "n": 198,
+              "mean": 19.5,
+              "p10": 9.5,
+              "p25": 12.1,
+              "p50": 14.5,
+              "p75": 22.7,
+              "p90": 28.6
+            }
+          },
+          "shed": {
+            "areaM2": {
+              "n": 7,
+              "mean": 11.5,
+              "p10": 5.6,
+              "p25": 6.9,
+              "p50": 9.9,
+              "p75": 10.8,
+              "p90": 18.5
+            },
+            "aspect": {
+              "n": 7,
+              "mean": 2.79,
+              "p10": 1.26,
+              "p25": 1.99,
+              "p50": 3.1,
+              "p75": 3.67,
+              "p90": 3.81
+            },
+            "rectangularity": {
+              "n": 7,
+              "mean": 0.997,
+              "p10": 0.995,
+              "p25": 0.996,
+              "p50": 0.999,
+              "p75": 0.999,
+              "p90": 0.999
+            },
+            "obbShortSideM": {
+              "n": 7,
+              "mean": 2.2,
+              "p10": 1.4,
+              "p25": 1.5,
+              "p50": 1.7,
+              "p75": 2.1,
+              "p90": 3.5
+            },
+            "obbLongSideM": {
+              "n": 7,
+              "mean": 5.1,
+              "p10": 3.7,
+              "p25": 4.0,
+              "p50": 5.9,
+              "p75": 6.3,
+              "p90": 6.3
+            }
+          }
+        },
+        "situationsTemplateThresholds": {
+          "thresholds": {
+            "smallArea": 60,
+            "largeArea": 220,
+            "hugeArea": 350,
+            "broadAspect": 1.7,
+            "squareAspect": 1.5,
+            "squareRectangularity": 0.78,
+            "narrowAspect": 1.7
+          },
+          "counts": {
+            "unknown": {
+              "n": 135,
+              "share": 0.682
+            },
+            "large": {
+              "n": 23,
+              "share": 0.116
+            },
+            "small": {
+              "n": 16,
+              "share": 0.081
+            },
+            "twoFloorNarrow": {
+              "n": 12,
+              "share": 0.061
+            },
+            "threeFloor": {
+              "n": 8,
+              "share": 0.04
+            },
+            "oneFloor": {
+              "n": 2,
+              "share": 0.01
+            },
+            "twoFloor": {
+              "n": 2,
+              "share": 0.01
+            }
+          }
+        },
+        "probableGarages": {
+          "definition": "generator houses with building=yes, footprint < 60 m2 and within 8 m of a service/unnamed road (the engine renders them as houses)",
+          "n": 7,
+          "shareOfHouses": 0.035,
+          "smallBuildingYesHouses": 15,
+          "shareOfSmallYesNearService": 0.467,
+          "withLevels": 0
+        },
+        "principalHouses": {
+          "definition": "generator houses minus probable garages",
+          "n": 191,
+          "levels": {
+            "2": {
+              "n": 14,
+              "share": 0.583
+            },
+            "3": {
+              "n": 4,
+              "share": 0.167
+            },
+            "1": {
+              "n": 2,
+              "share": 0.083
+            },
+            "4": {
+              "n": 2,
+              "share": 0.083
+            },
+            "5+": {
+              "n": 2,
+              "share": 0.083
+            }
+          },
+          "withLevels": 24,
+          "footprintM2": {
+            "n": 191,
+            "mean": 176.0,
+            "p10": 66.2,
+            "p25": 76.2,
+            "p50": 106.9,
+            "p75": 186.9,
+            "p90": 241.0
+          },
+          "aspect": {
+            "n": 191,
+            "mean": 2.36,
+            "p10": 1.2,
+            "p25": 1.59,
+            "p50": 1.96,
+            "p75": 2.93,
+            "p90": 3.5
+          },
+          "obbShortSideM": {
+            "n": 191,
+            "mean": 8.5,
+            "p10": 5.8,
+            "p25": 7.0,
+            "p50": 7.8,
+            "p75": 8.6,
+            "p90": 10.5
+          },
+          "obbLongSideM": {
+            "n": 191,
+            "mean": 19.9,
+            "p10": 9.7,
+            "p25": 12.3,
+            "p50": 14.5,
+            "p75": 23.1,
+            "p90": 29.6
+          },
+          "facadeToCurbM": {
+            "n": 191,
+            "mean": 7.69,
+            "p10": 3.36,
+            "p25": 4.69,
+            "p50": 6.13,
+            "p75": 8.13,
+            "p90": 11.86
+          },
+          "longSideFacesStreetShare": 0.506,
+          "within30mOfAlleyShare": 0.45
+        },
+        "useMix": {
+          "definition": "Share of non-outbuilding outlines. residential/commercial/mixed from building=* (data/use_classes.json); a residential-type building with shop/office/craft/commercial-amenity tags or a commercial POI node inside it counts as mixed; building=yes etc. falls back to tags/POIs, then landuse=residential / commercial|retail at its centroid.",
+          "byCount": {
+            "residential (landuse)": {
+              "n": 138,
+              "share": 0.358
+            },
+            "residential": {
+              "n": 96,
+              "share": 0.249
+            },
+            "commercial (landuse)": {
+              "n": 54,
+              "share": 0.14
+            },
+            "commercial (tags/POI)": {
+              "n": 25,
+              "share": 0.065
+            },
+            "commercial": {
+              "n": 21,
+              "share": 0.054
+            },
+            "other": {
+              "n": 21,
+              "share": 0.054
+            },
+            "unknown": {
+              "n": 16,
+              "share": 0.041
+            },
+            "mixed": {
+              "n": 15,
+              "share": 0.039
+            }
+          },
+          "grouped": {
+            "residential": {
+              "n": 234,
+              "share": 0.606
+            },
+            "commercial": {
+              "n": 100,
+              "share": 0.259
+            },
+            "other": {
+              "n": 21,
+              "share": 0.054
+            },
+            "unknown": {
+              "n": 16,
+              "share": 0.041
+            },
+            "mixed": {
+              "n": 15,
+              "share": 0.039
+            }
+          },
+          "byFootprintArea": {
+            "residential": 0.242,
+            "other": 0.235,
+            "commercial": 0.184,
+            "residential (landuse)": 0.094,
+            "commercial (landuse)": 0.09,
+            "commercial (tags/POI)": 0.066,
+            "mixed": 0.063,
+            "unknown": 0.026
+          },
+          "outbuildings": 10,
+          "n": 386
+        },
+        "setback": {
+          "definition": "Footprint boundary to the nearest street centreline (residential, living_street, unclassified, tertiary, secondary, primary; within 60 m) minus half the carriageway (width tag, else lanes x 3.3 m, else the engine's RoadRules default per class: residential/unclassified 6 m, living_street 5, tertiary 8, secondary 10, primary 12). Negative = footprint overlaps the assumed carriageway (mapping/width error).",
+          "housesMeasured": 197,
+          "housesTotal": 198,
+          "coverage": 0.995,
+          "facadeToCurbM": {
+            "n": 197,
+            "mean": 8.54,
+            "p10": 3.43,
+            "p25": 4.72,
+            "p50": 6.19,
+            "p75": 8.28,
+            "p90": 12.18
+          },
+          "centrelineM": {
+            "n": 197,
+            "mean": 11.87,
+            "p10": 6.43,
+            "p25": 7.83,
+            "p50": 9.38,
+            "p75": 11.69,
+            "p90": 15.23
+          },
+          "negative": 0,
+          "widthSource": {
+            "default": {
+              "n": 186,
+              "share": 0.944
+            },
+            "lanes": {
+              "n": 11,
+              "share": 0.056
+            }
+          },
+          "nearestClass": {
+            "residential": {
+              "n": 158,
+              "share": 0.802
+            },
+            "secondary": {
+              "n": 27,
+              "share": 0.137
+            },
+            "tertiary": {
+              "n": 12,
+              "share": 0.061
+            }
+          }
+        },
+        "frontage": {
+          "definition": "Front edge = StreetContext.frontEdge (nearest NAMED vehicle street within 60 m, edges >= 2.5 m); long side faces street = BuildingGenerator broadFront (|dot(front edge, long axis)| > 0.85).",
+          "housesWithFrontEdge": 178,
+          "longSideFacesStreet": 88,
+          "share": 0.494,
+          "shareAmongAspectAtLeastBroadAspect": 0.385
+        },
+        "coverage": {
+          "definition": "OSM has no parcels. net = house footprint area (centroid inside landuse=residential) / landuse=residential area in the cell; gross = all outline footprint area / (cell area - water area).",
+          "residentialLanduseKm2": 0.2452,
+          "residentialLanduseShare": 0.245,
+          "net": 0.123,
+          "gross": 0.361,
+          "waterShare": 0.08
+        },
+        "alleys": {
+          "alleyKmPerKm2": 3.987,
+          "alleyKm": 3.987,
+          "driveways": {
+            "kmPerKm2": 0.864
+          },
+          "housesWithin30mOfAlley": {
+            "n": 88,
+            "share": 0.444
+          },
+          "garagesAdjacentToAlley": {
+            "definition": "garage footprint within 8 m of a service=alley centreline",
+            "n": 0,
+            "share": null
+          },
+          "garagesEngineAlleyEdge": {
+            "definition": "StreetContext.alleyEdge finds an edge facing a service/unnamed road within 30 m (what the generator uses for the garage door)",
+            "n": 0,
+            "share": null
+          }
+        },
+        "streets": {
+          "kmPerKm2ByHighway": {
+            "construction": 2.62,
+            "cycleway": 0.807,
+            "footway": 25.969,
+            "motorway": 0.037,
+            "motorway_link": 2.138,
+            "path": 0.035,
+            "residential": 5.705,
+            "secondary": 4.551,
+            "secondary_link": 0.087,
+            "service": 9.914,
+            "steps": 0.141,
+            "tertiary": 2.534,
+            "track": 1.265
+          },
+          "serviceKmPerKm2": {
+            "(none)": 2.477,
+            "alley": 3.987,
+            "drive-through": 0.152,
+            "driveway": 0.864,
+            "emergency_access": 0.026,
+            "parking_aisle": 2.407
+          },
+          "sidewalkKmPerKm2": 21.588
+        },
+        "barriers": {
+          "fence": {
+            "km": 2.483,
+            "kmPerKm2": 2.483,
+            "mPer100Houses": 1253.9
+          },
+          "wall": {
+            "km": 1.159,
+            "kmPerKm2": 1.159,
+            "mPer100Houses": 585.1
+          },
+          "hedge": {
+            "km": 0.0,
+            "kmPerKm2": 0.0,
+            "mPer100Houses": 0.0
+          },
+          "retaining_wall": {
+            "km": 3.576,
+            "kmPerKm2": 3.576,
+            "mPer100Houses": 1805.8
+          },
+          "tree_row": {
+            "km": 0.0,
+            "kmPerKm2": 0.0,
+            "mPer100Houses": 0.0
+          },
+          "hedgeAreas": 0
+        },
+        "trees": {
+          "count": 56,
+          "perKm2": 56.0,
+          "leafTypeTagged": {},
+          "leafCycleTagged": {},
+          "leafTypeTagOrGenus": {},
+          "leafCycleTagOrGenus": {},
+          "habitSource": {
+            "none": {
+              "n": 56,
+              "share": 1.0
+            }
+          },
+          "palmShareOfTreesWithGenus": null,
+          "topGenus": {},
+          "topSpecies": {},
+          "topTaxon": {},
+          "heightM": {
+            "n": 0
+          },
+          "tagCoverage": {
+            "height": 0.0,
+            "genus/species/taxon": 0.0,
+            "leaf_type": 0.0,
+            "leaf_cycle": 0.0,
+            "diameter_crown": 0.0,
+            "circumference": 0.0
+          },
+          "treeRowKmPerKm2": 0.0,
+          "woodShare": 0.001,
+          "parkShare": 0.025
+        },
+        "tagMissing": {
+          "buildings": {
+            "building:levels": 0.662,
+            "height": 0.972,
+            "roof:shape": 0.995,
+            "roof:levels": 0.972,
+            "roof:height": 1.0,
+            "roof:angle": 1.0,
+            "roof:material": 0.995,
+            "roof:colour": 1.0,
+            "building:material": 0.982,
+            "building:colour": 1.0,
+            "start_date": 0.992
+          },
+          "houses": {
+            "building:levels": 0.879,
+            "height": 1.0,
+            "roof:shape": 0.995,
+            "roof:levels": 0.99,
+            "roof:height": 1.0,
+            "roof:angle": 1.0,
+            "roof:material": 0.995,
+            "roof:colour": 1.0,
+            "building:material": 0.995,
+            "building:colour": 1.0,
+            "start_date": 0.995
+          },
+          "nBuildings": 396,
+          "nHouses": 198
+        },
+        "startDate": {
+          "n": 3,
+          "decades": {
+            "1870s": {
+              "n": 1,
+              "share": 0.333
+            },
+            "2010s": {
+              "n": 1,
+              "share": 0.333
+            },
+            "2020s": {
+              "n": 1,
+              "share": 0.333
+            }
+          }
+        },
+        "flags": []
+      }
+    }
+  ],
+  "zoneSummary": {
+    "cellCount": 2,
+    "areaKm2": 2.0,
+    "buildings": {
+      "outlines": 833,
+      "buildingParts": 171,
+      "perKm2": 416.5,
+      "housesPerKm2": 117.0,
+      "byRole": {
+        "block": {
+          "n": 554,
+          "share": 0.665
+        },
+        "house": {
+          "n": 234,
+          "share": 0.281
+        },
+        "shed": {
+          "n": 42,
+          "share": 0.05
+        },
+        "garage": {
+          "n": 3,
+          "share": 0.004
+        }
+      },
+      "byBuildingValue": {
+        "yes": {
+          "n": 304,
+          "share": 0.365
+        },
+        "office": {
+          "n": 143,
+          "share": 0.172
+        },
+        "roof": {
+          "n": 104,
+          "share": 0.125
+        },
+        "apartments": {
+          "n": 74,
+          "share": 0.089
+        },
+        "house": {
+          "n": 34,
+          "share": 0.041
+        },
+        "commercial": {
+          "n": 31,
+          "share": 0.037
+        },
+        "hotel": {
+          "n": 27,
+          "share": 0.032
+        },
+        "terrace": {
+          "n": 23,
+          "share": 0.028
+        },
+        "service": {
+          "n": 21,
+          "share": 0.025
+        },
+        "retail": {
+          "n": 15,
+          "share": 0.018
+        },
+        "parking": {
+          "n": 11,
+          "share": 0.013
+        },
+        "public": {
+          "n": 9,
+          "share": 0.011
+        },
+        "industrial": {
+          "n": 8,
+          "share": 0.01
+        },
+        "construction": {
+          "n": 4,
+          "share": 0.005
+        },
+        "train_station": {
+          "n": 4,
+          "share": 0.005
+        },
+        "garage": {
+          "n": 3,
+          "share": 0.004
+        },
+        "residential": {
+          "n": 3,
+          "share": 0.004
+        },
+        "church": {
+          "n": 2,
+          "share": 0.002
+        },
+        "container": {
+          "n": 2,
+          "share": 0.002
+        },
+        "college": {
+          "n": 1,
+          "share": 0.001
+        },
+        "dormitory": {
+          "n": 1,
+          "share": 0.001
+        },
+        "foundation": {
+          "n": 1,
+          "share": 0.001
+        },
+        "kiosk": {
+          "n": 1,
+          "share": 0.001
+        },
+        "power_substation": {
+          "n": 1,
+          "share": 0.001
+        },
+        "shed": {
+          "n": 1,
+          "share": 0.001
+        }
+      },
+      "partsByRole": {
+        "block": {
+          "n": 131,
+          "share": 0.766
+        },
+        "house": {
+          "n": 40,
+          "share": 0.234
+        }
+      },
+      "footprintClassByRole": {
+        "block": {
+          "rectangle": {
+            "n": 432,
+            "share": 0.78
+          },
+          "orthogonal": {
+            "n": 67,
+            "share": 0.121
+          },
+          "irregular": {
+            "n": 52,
+            "share": 0.094
+          },
+          "nearRectangle": {
+            "n": 3,
+            "share": 0.005
+          }
+        },
+        "garage": {
+          "irregular": {
+            "n": 1,
+            "share": 0.333
+          },
+          "orthogonal": {
+            "n": 1,
+            "share": 0.333
+          },
+          "rectangle": {
+            "n": 1,
+            "share": 0.333
+          }
+        },
+        "house": {
+          "rectangle": {
+            "n": 189,
+            "share": 0.808
+          },
+          "orthogonal": {
+            "n": 24,
+            "share": 0.103
+          },
+          "irregular": {
+            "n": 14,
+            "share": 0.06
+          },
+          "nearRectangle": {
+            "n": 7,
+            "share": 0.03
+          }
+        },
+        "shed": {
+          "tiny": {
+            "n": 40,
+            "share": 0.952
+          },
+          "rectangle": {
+            "n": 2,
+            "share": 0.048
+          }
+        }
+      },
+      "skippedFeatures": 0
+    },
+    "levels": {
+      "all": {
+        "n": 833,
+        "withLevels": 375,
+        "share": 0.45,
+        "levels": {
+          "5+": {
+            "n": 264,
+            "share": 0.704
+          },
+          "4": {
+            "n": 31,
+            "share": 0.083
+          },
+          "2": {
+            "n": 29,
+            "share": 0.077
+          },
+          "3": {
+            "n": 27,
+            "share": 0.072
+          },
+          "1": {
+            "n": 24,
+            "share": 0.064
+          }
+        },
+        "median": 8.0
+      },
+      "byRole": {
+        "block": {
+          "n": 554,
+          "withLevels": 335,
+          "share": 0.605,
+          "levels": {
+            "5+": {
+              "n": 254,
+              "share": 0.758
+            },
+            "4": {
+              "n": 28,
+              "share": 0.084
+            },
+            "3": {
+              "n": 21,
+              "share": 0.063
+            },
+            "1": {
+              "n": 19,
+              "share": 0.057
+            },
+            "2": {
+              "n": 13,
+              "share": 0.039
+            }
+          },
+          "fractionalLevels": 0,
+          "heightM": {
+            "n": 83,
+            "mean": 130.84,
+            "p10": 73.2,
+            "p25": 93.2,
+            "p50": 125.0,
+            "p75": 158.5,
+            "p90": 196.4
+          },
+          "roofLevels": {
+            "0.0": {
+              "n": 9,
+              "share": 0.9
+            },
+            "2.0": {
+              "n": 1,
+              "share": 0.1
+            }
+          }
+        },
+        "garage": {
+          "n": 3,
+          "withLevels": 3,
+          "share": 1.0,
+          "levels": {
+            "5+": {
+              "n": 3,
+              "share": 1.0
+            }
+          },
+          "fractionalLevels": 0,
+          "heightM": {
+            "n": 0
+          },
+          "roofLevels": {}
+        },
+        "house": {
+          "n": 234,
+          "withLevels": 37,
+          "share": 0.158,
+          "levels": {
+            "2": {
+              "n": 16,
+              "share": 0.432
+            },
+            "5+": {
+              "n": 7,
+              "share": 0.189
+            },
+            "3": {
+              "n": 6,
+              "share": 0.162
+            },
+            "1": {
+              "n": 5,
+              "share": 0.135
+            },
+            "4": {
+              "n": 3,
+              "share": 0.081
+            }
+          },
+          "fractionalLevels": 0,
+          "heightM": {
+            "n": 1,
+            "mean": 153.0,
+            "p10": 153.0,
+            "p25": 153.0,
+            "p50": 153.0,
+            "p75": 153.0,
+            "p90": 153.0
+          },
+          "roofLevels": {
+            "0.0": {
+              "n": 2,
+              "share": 1.0
+            }
+          }
+        },
+        "shed": {
+          "n": 42,
+          "withLevels": 0,
+          "share": 0.0,
+          "levels": {},
+          "fractionalLevels": 0,
+          "heightM": {
+            "n": 0
+          },
+          "roofLevels": {}
+        }
+      }
+    },
+    "metresPerLevel": {
+      "houses": {
+        "total": {
+          "n": 0
+        },
+        "wall": {
+          "n": 0
+        }
+      },
+      "allBuildings": {
+        "total": {
+          "n": 79,
+          "mean": 4.02,
+          "p10": 3.26,
+          "p25": 3.58,
+          "p50": 4.0,
+          "p75": 4.24,
+          "p90": 4.65
+        },
+        "wall": {
+          "n": 3,
+          "mean": 4.72,
+          "p10": 3.74,
+          "p25": 4.0,
+          "p50": 4.43,
+          "p75": 5.3,
+          "p90": 5.82
+        }
+      },
+      "definition": "total = height / (building:levels + roof:levels); wall = (height - roof:height) / building:levels, or height / building:levels when roof:shape=flat. Only buildings with both height and levels."
+    },
+    "roofShape": {
+      "houses": {
+        "n": 1,
+        "share": 0.004,
+        "raw": {
+          "flat": {
+            "n": 1,
+            "share": 1.0
+          }
+        },
+        "mapped": {
+          "flat": {
+            "n": 1,
+            "share": 1.0
+          }
+        }
+      },
+      "garages": {
+        "n": 0,
+        "share": 0.0,
+        "raw": {},
+        "mapped": {}
+      },
+      "all": {
+        "n": 8,
+        "share": 0.01,
+        "raw": {
+          "flat": {
+            "n": 7,
+            "share": 0.875
+          },
+          "gabled": {
+            "n": 1,
+            "share": 0.125
+          }
+        },
+        "mapped": {
+          "flat": {
+            "n": 7,
+            "share": 0.875
+          },
+          "gabled": {
+            "n": 1,
+            "share": 0.125
+          }
+        }
+      }
+    },
+    "roofAngleDeg": {
+      "houses": {
+        "n": 0
+      },
+      "all": {
+        "n": 0
+      }
+    },
+    "materialsAndColours": {
+      "roofMaterial": {
+        "houses": {
+          "tar_paper": {
+            "n": 1,
+            "share": 1.0
+          }
+        },
+        "all": {
+          "tar_paper": {
+            "n": 3,
+            "share": 0.6
+          },
+          "concrete": {
+            "n": 2,
+            "share": 0.4
+          }
+        }
+      },
+      "buildingMaterial": {
+        "houses": {
+          "brick": {
+            "n": 1,
+            "share": 1.0
+          }
+        },
+        "all": {
+          "brick": {
+            "n": 10,
+            "share": 0.303
+          },
+          "glass": {
+            "n": 6,
+            "share": 0.182
+          },
+          "concrete": {
+            "n": 4,
+            "share": 0.121
+          },
+          "cement_block": {
+            "n": 3,
+            "share": 0.091
+          },
+          "marble": {
+            "n": 2,
+            "share": 0.061
+          },
+          "metal": {
+            "n": 2,
+            "share": 0.061
+          },
+          "stone": {
+            "n": 2,
+            "share": 0.061
+          },
+          "granite": {
+            "n": 1,
+            "share": 0.03
+          },
+          "limestone": {
+            "n": 1,
+            "share": 0.03
+          },
+          "metal_plates": {
+            "n": 1,
+            "share": 0.03
+          },
+          "plastered": {
+            "n": 1,
+            "share": 0.03
+          }
+        }
+      },
+      "roofColour": {
+        "houses": {
+          "n": 0,
+          "raw": {},
+          "families": {},
+          "unparsed": 0
+        },
+        "all": {
+          "n": 4,
+          "raw": {
+            "lightgray": {
+              "n": 2,
+              "share": 0.5
+            },
+            "#6b7b5b": {
+              "n": 1,
+              "share": 0.25
+            },
+            "grey": {
+              "n": 1,
+              "share": 0.25
+            }
+          },
+          "families": {
+            "beige": {
+              "n": 2,
+              "share": 0.5
+            },
+            "green": {
+              "n": 1,
+              "share": 0.25
+            },
+            "grey": {
+              "n": 1,
+              "share": 0.25
+            }
+          },
+          "unparsed": 0
+        }
+      },
+      "buildingColour": {
+        "houses": {
+          "n": 0,
+          "raw": {},
+          "families": {},
+          "unparsed": 0
+        },
+        "all": {
+          "n": 18,
+          "raw": {
+            "tan": {
+              "n": 6,
+              "share": 0.333
+            },
+            "lightgrey": {
+              "n": 3,
+              "share": 0.167
+            },
+            "#fef0c9": {
+              "n": 2,
+              "share": 0.111
+            },
+            "brown": {
+              "n": 2,
+              "share": 0.111
+            },
+            "#493e3b": {
+              "n": 1,
+              "share": 0.056
+            },
+            "#7db9c4": {
+              "n": 1,
+              "share": 0.056
+            },
+            "#b1beac": {
+              "n": 1,
+              "share": 0.056
+            },
+            "lightbrown": {
+              "n": 1,
+              "share": 0.056
+            },
+            "white": {
+              "n": 1,
+              "share": 0.056
+            }
+          },
+          "families": {
+            "tan": {
+              "n": 7,
+              "share": 0.389
+            },
+            "beige": {
+              "n": 4,
+              "share": 0.222
+            },
+            "brown": {
+              "n": 2,
+              "share": 0.111
+            },
+            "cream": {
+              "n": 2,
+              "share": 0.111
+            },
+            "black": {
+              "n": 1,
+              "share": 0.056
+            },
+            "grey": {
+              "n": 1,
+              "share": 0.056
+            },
+            "white": {
+              "n": 1,
+              "share": 0.056
+            }
+          },
+          "unparsed": 0
+        }
+      }
+    },
+    "footprints": {
+      "block": {
+        "areaM2": {
+          "n": 554,
+          "mean": 1386.2,
+          "p10": 47.4,
+          "p25": 295.3,
+          "p50": 803.6,
+          "p75": 1768.7,
+          "p90": 2894.0
+        },
+        "aspect": {
+          "n": 554,
+          "mean": 2.41,
+          "p10": 1.09,
+          "p25": 1.31,
+          "p50": 1.79,
+          "p75": 2.55,
+          "p90": 4.04
+        },
+        "rectangularity": {
+          "n": 554,
+          "mean": 0.931,
+          "p10": 0.79,
+          "p25": 0.92,
+          "p50": 0.985,
+          "p75": 0.995,
+          "p90": 0.999
+        },
+        "obbShortSideM": {
+          "n": 554,
+          "mean": 25.1,
+          "p10": 4.6,
+          "p25": 11.9,
+          "p50": 22.2,
+          "p75": 36.0,
+          "p90": 49.2
+        },
+        "obbLongSideM": {
+          "n": 554,
+          "mean": 45.4,
+          "p10": 12.0,
+          "p25": 26.6,
+          "p50": 42.4,
+          "p75": 55.6,
+          "p90": 77.5
+        }
+      },
+      "garage": {
+        "areaM2": {
+          "n": 3,
+          "mean": 2472.7,
+          "p10": 2144.2,
+          "p25": 2146.6,
+          "p50": 2150.6,
+          "p75": 2637.7,
+          "p90": 2930.0
+        },
+        "aspect": {
+          "n": 3,
+          "mean": 1.22,
+          "p10": 1.14,
+          "p25": 1.16,
+          "p50": 1.2,
+          "p75": 1.27,
+          "p90": 1.31
+        },
+        "rectangularity": {
+          "n": 3,
+          "mean": 0.918,
+          "p10": 0.836,
+          "p25": 0.882,
+          "p50": 0.958,
+          "p75": 0.975,
+          "p90": 0.985
+        },
+        "obbShortSideM": {
+          "n": 3,
+          "mean": 46.9,
+          "p10": 42.4,
+          "p25": 44.7,
+          "p50": 48.6,
+          "p75": 49.9,
+          "p90": 50.7
+        },
+        "obbLongSideM": {
+          "n": 3,
+          "mean": 57.0,
+          "p10": 54.8,
+          "p25": 54.8,
+          "p50": 54.9,
+          "p75": 58.2,
+          "p90": 60.2
+        }
+      },
+      "house": {
+        "areaM2": {
+          "n": 234,
+          "mean": 155.5,
+          "p10": 24.2,
+          "p25": 67.8,
+          "p50": 99.3,
+          "p75": 176.5,
+          "p90": 238.5
+        },
+        "aspect": {
+          "n": 234,
+          "mean": 2.47,
+          "p10": 1.18,
+          "p25": 1.59,
+          "p50": 2.08,
+          "p75": 3.15,
+          "p90": 3.74
+        },
+        "rectangularity": {
+          "n": 234,
+          "mean": 0.93,
+          "p10": 0.85,
+          "p25": 0.919,
+          "p50": 0.956,
+          "p75": 0.991,
+          "p90": 0.999
+        },
+        "obbShortSideM": {
+          "n": 234,
+          "mean": 7.8,
+          "p10": 3.5,
+          "p25": 6.3,
+          "p50": 7.4,
+          "p75": 8.5,
+          "p90": 9.6
+        },
+        "obbLongSideM": {
+          "n": 234,
+          "mean": 18.4,
+          "p10": 8.0,
+          "p25": 10.4,
+          "p50": 14.3,
+          "p75": 22.0,
+          "p90": 28.1
+        }
+      },
+      "shed": {
+        "areaM2": {
+          "n": 42,
+          "mean": 9.2,
+          "p10": 3.8,
+          "p25": 4.7,
+          "p50": 5.8,
+          "p75": 10.1,
+          "p90": 11.4
+        },
+        "aspect": {
+          "n": 42,
+          "mean": 1.89,
+          "p10": 1.07,
+          "p25": 1.15,
+          "p50": 1.43,
+          "p75": 2.71,
+          "p90": 2.99
+        },
+        "rectangularity": {
+          "n": 42,
+          "mean": 0.987,
+          "p10": 0.979,
+          "p25": 0.991,
+          "p50": 0.996,
+          "p75": 0.999,
+          "p90": 0.999
+        },
+        "obbShortSideM": {
+          "n": 42,
+          "mean": 2.2,
+          "p10": 1.5,
+          "p25": 1.7,
+          "p50": 1.9,
+          "p75": 2.3,
+          "p90": 2.9
+        },
+        "obbLongSideM": {
+          "n": 42,
+          "mean": 3.8,
+          "p10": 2.3,
+          "p25": 2.5,
+          "p50": 3.5,
+          "p75": 4.6,
+          "p90": 5.8
+        }
+      }
+    },
+    "situationsTemplateThresholds": {
+      "thresholds": {
+        "smallArea": 60,
+        "largeArea": 220,
+        "hugeArea": 350,
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "counts": {
+        "unknown": {
+          "n": 137,
+          "share": 0.585
+        },
+        "small": {
+          "n": 37,
+          "share": 0.158
+        },
+        "large": {
+          "n": 23,
+          "share": 0.098
+        },
+        "threeFloor": {
+          "n": 16,
+          "share": 0.068
+        },
+        "twoFloorNarrow": {
+          "n": 14,
+          "share": 0.06
+        },
+        "oneFloor": {
+          "n": 3,
+          "share": 0.013
+        },
+        "oneFloorBroad": {
+          "n": 2,
+          "share": 0.009
+        },
+        "twoFloor": {
+          "n": 2,
+          "share": 0.009
+        }
+      }
+    },
+    "probableGarages": {
+      "definition": "generator houses with building=yes, footprint < 60 m2 and within 8 m of a service/unnamed road (the engine renders them as houses)",
+      "n": 11,
+      "shareOfHouses": 0.047,
+      "smallBuildingYesHouses": 39,
+      "shareOfSmallYesNearService": 0.282,
+      "withLevels": 2
+    },
+    "principalHouses": {
+      "definition": "generator houses minus probable garages",
+      "n": 223,
+      "levels": {
+        "2": {
+          "n": 16,
+          "share": 0.457
+        },
+        "5+": {
+          "n": 7,
+          "share": 0.2
+        },
+        "1": {
+          "n": 5,
+          "share": 0.143
+        },
+        "3": {
+          "n": 4,
+          "share": 0.114
+        },
+        "4": {
+          "n": 3,
+          "share": 0.086
+        }
+      },
+      "withLevels": 35,
+      "footprintM2": {
+        "n": 223,
+        "mean": 161.8,
+        "p10": 33.4,
+        "p25": 68.5,
+        "p50": 100.8,
+        "p75": 179.3,
+        "p90": 239.7
+      },
+      "aspect": {
+        "n": 223,
+        "mean": 2.5,
+        "p10": 1.2,
+        "p25": 1.63,
+        "p50": 2.1,
+        "p75": 3.16,
+        "p90": 3.75
+      },
+      "obbShortSideM": {
+        "n": 223,
+        "mean": 8.0,
+        "p10": 4.7,
+        "p25": 6.5,
+        "p50": 7.6,
+        "p75": 8.5,
+        "p90": 9.9
+      },
+      "obbLongSideM": {
+        "n": 223,
+        "mean": 19.0,
+        "p10": 8.4,
+        "p25": 11.3,
+        "p50": 14.4,
+        "p75": 22.4,
+        "p90": 29.3
+      },
+      "facadeToCurbM": {
+        "n": 223,
+        "mean": 7.55,
+        "p10": 2.36,
+        "p25": 4.5,
+        "p50": 6.1,
+        "p75": 8.04,
+        "p90": 11.91
+      },
+      "longSideFacesStreetShare": 0.557,
+      "within30mOfAlleyShare": 0.422
+    },
+    "useMix": {
+      "definition": "Share of non-outbuilding outlines. residential/commercial/mixed from building=* (data/use_classes.json); a residential-type building with shop/office/craft/commercial-amenity tags or a commercial POI node inside it counts as mixed; building=yes etc. falls back to tags/POIs, then landuse=residential / commercial|retail at its centroid.",
+      "byCount": {
+        "commercial": {
+          "n": 216,
+          "share": 0.306
+        },
+        "residential (landuse)": {
+          "n": 141,
+          "share": 0.199
+        },
+        "residential": {
+          "n": 102,
+          "share": 0.144
+        },
+        "commercial (landuse)": {
+          "n": 79,
+          "share": 0.112
+        },
+        "other": {
+          "n": 61,
+          "share": 0.086
+        },
+        "commercial (tags/POI)": {
+          "n": 44,
+          "share": 0.062
+        },
+        "mixed": {
+          "n": 33,
+          "share": 0.047
+        },
+        "unknown": {
+          "n": 31,
+          "share": 0.044
+        }
+      },
+      "grouped": {
+        "commercial": {
+          "n": 339,
+          "share": 0.479
+        },
+        "residential": {
+          "n": 243,
+          "share": 0.344
+        },
+        "other": {
+          "n": 61,
+          "share": 0.086
+        },
+        "mixed": {
+          "n": 33,
+          "share": 0.047
+        },
+        "unknown": {
+          "n": 31,
+          "share": 0.044
+        }
+      },
+      "byFootprintArea": {
+        "commercial": 0.509,
+        "other": 0.168,
+        "residential": 0.11,
+        "mixed": 0.065,
+        "commercial (tags/POI)": 0.046,
+        "commercial (landuse)": 0.043,
+        "residential (landuse)": 0.041,
+        "unknown": 0.019
+      },
+      "outbuildings": 126,
+      "n": 707
+    },
+    "setback": {
+      "definition": "Footprint boundary to the nearest street centreline (residential, living_street, unclassified, tertiary, secondary, primary; within 60 m) minus half the carriageway (width tag, else lanes x 3.3 m, else the engine's RoadRules default per class: residential/unclassified 6 m, living_street 5, tertiary 8, secondary 10, primary 12). Negative = footprint overlaps the assumed carriageway (mapping/width error).",
+      "housesMeasured": 233,
+      "housesTotal": 234,
+      "coverage": 0.996,
+      "facadeToCurbM": {
+        "n": 233,
+        "mean": 8.38,
+        "p10": 2.31,
+        "p25": 4.51,
+        "p50": 6.13,
+        "p75": 8.22,
+        "p90": 12.89
+      },
+      "centrelineM": {
+        "n": 233,
+        "mean": 12.04,
+        "p10": 6.38,
+        "p25": 7.88,
+        "p50": 9.44,
+        "p75": 12.03,
+        "p90": 17.31
+      },
+      "negative": 2,
+      "widthSource": {
+        "default": {
+          "n": 187,
+          "share": 0.803
+        },
+        "lanes": {
+          "n": 46,
+          "share": 0.197
+        }
+      },
+      "nearestClass": {
+        "residential": {
+          "n": 158,
+          "share": 0.678
+        },
+        "secondary": {
+          "n": 63,
+          "share": 0.27
+        },
+        "tertiary": {
+          "n": 12,
+          "share": 0.052
+        }
+      }
+    },
+    "frontage": {
+      "definition": "Front edge = StreetContext.frontEdge (nearest NAMED vehicle street within 60 m, edges >= 2.5 m); long side faces street = BuildingGenerator broadFront (|dot(front edge, long axis)| > 0.85).",
+      "housesWithFrontEdge": 213,
+      "longSideFacesStreet": 115,
+      "share": 0.54,
+      "shareAmongAspectAtLeastBroadAspect": 0.472
+    },
+    "coverage": {
+      "definition": "OSM has no parcels. net = house footprint area (centroid inside landuse=residential) / landuse=residential area in the cell; gross = all outline footprint area / (cell area - water area).",
+      "residentialLanduseKm2": 0.2966,
+      "residentialLanduseShare": 0.148,
+      "net": 0.104,
+      "gross": 0.438,
+      "waterShare": 0.072
+    },
+    "alleys": {
+      "alleyKmPerKm2": 4.438,
+      "alleyKm": 8.877,
+      "driveways": {
+        "kmPerKm2": 1.194
+      },
+      "housesWithin30mOfAlley": {
+        "n": 99,
+        "share": 0.423
+      },
+      "garagesAdjacentToAlley": {
+        "definition": "garage footprint within 8 m of a service=alley centreline",
+        "n": 2,
+        "share": 0.667
+      },
+      "garagesEngineAlleyEdge": {
+        "definition": "StreetContext.alleyEdge finds an edge facing a service/unnamed road within 30 m (what the generator uses for the garage door)",
+        "n": 0,
+        "share": 0.0
+      }
+    },
+    "streets": {
+      "kmPerKm2ByHighway": {
+        "construction": 1.31,
+        "corridor": 0.044,
+        "cycleway": 1.867,
+        "elevator": 0.231,
+        "footway": 34.803,
+        "motorway": 0.018,
+        "motorway_link": 1.069,
+        "path": 0.017,
+        "pedestrian": 0.065,
+        "residential": 2.958,
+        "secondary": 11.274,
+        "secondary_link": 0.303,
+        "service": 9.785,
+        "steps": 1.099,
+        "tertiary": 1.743,
+        "track": 0.632,
+        "trunk": 1.089,
+        "unclassified": 0.228
+      },
+      "serviceKmPerKm2": {
+        "(none)": 2.678,
+        "alley": 4.438,
+        "drive-through": 0.076,
+        "driveway": 1.194,
+        "emergency_access": 0.013,
+        "parking_aisle": 1.385
+      },
+      "sidewalkKmPerKm2": 24.295
+    },
+    "barriers": {
+      "fence": {
+        "km": 4.701,
+        "kmPerKm2": 2.351,
+        "mPer100Houses": 2009.1
+      },
+      "wall": {
+        "km": 1.416,
+        "kmPerKm2": 0.708,
+        "mPer100Houses": 605.2
+      },
+      "hedge": {
+        "km": 0.0,
+        "kmPerKm2": 0.0,
+        "mPer100Houses": 0.0
+      },
+      "retaining_wall": {
+        "km": 7.58,
+        "kmPerKm2": 3.79,
+        "mPer100Houses": 3239.2
+      },
+      "tree_row": {
+        "km": 0.0,
+        "kmPerKm2": 0.0,
+        "mPer100Houses": 0.0
+      },
+      "hedgeAreas": 0
+    },
+    "trees": {
+      "count": 481,
+      "perKm2": 240.5,
+      "leafTypeTagged": {
+        "broadleaved": {
+          "n": 175,
+          "share": 1.0
+        }
+      },
+      "leafCycleTagged": {},
+      "leafTypeTagOrGenus": {
+        "broadleaved": {
+          "n": 175,
+          "share": 1.0
+        }
+      },
+      "leafCycleTagOrGenus": {},
+      "habitSource": {
+        "none": {
+          "n": 306,
+          "share": 0.636
+        },
+        "tag": {
+          "n": 175,
+          "share": 0.364
+        }
+      },
+      "palmShareOfTreesWithGenus": null,
+      "topGenus": {},
+      "topSpecies": {},
+      "topTaxon": {},
+      "heightM": {
+        "n": 0
+      },
+      "tagCoverage": {
+        "height": 0.0,
+        "genus/species/taxon": 0.0,
+        "leaf_type": 0.364,
+        "leaf_cycle": 0.0,
+        "diameter_crown": 0.0,
+        "circumference": 0.0
+      },
+      "treeRowKmPerKm2": 0.0,
+      "woodShare": 0.001,
+      "parkShare": 0.022
+    },
+    "tagMissing": {
+      "buildings": {
+        "building:levels": 0.549,
+        "height": 0.899,
+        "roof:shape": 0.99,
+        "roof:levels": 0.986,
+        "roof:height": 1.0,
+        "roof:angle": 1.0,
+        "roof:material": 0.994,
+        "roof:colour": 0.995,
+        "building:material": 0.96,
+        "building:colour": 0.978,
+        "start_date": 0.98
+      },
+      "houses": {
+        "building:levels": 0.842,
+        "height": 0.996,
+        "roof:shape": 0.996,
+        "roof:levels": 0.991,
+        "roof:height": 1.0,
+        "roof:angle": 1.0,
+        "roof:material": 0.996,
+        "roof:colour": 1.0,
+        "building:material": 0.996,
+        "building:colour": 1.0,
+        "start_date": 0.996
+      },
+      "nBuildings": 833,
+      "nHouses": 234
+    },
+    "startDate": {
+      "n": 17,
+      "decades": {
+        "1890s": {
+          "n": 3,
+          "share": 0.176
+        },
+        "1920s": {
+          "n": 3,
+          "share": 0.176
+        },
+        "1980s": {
+          "n": 3,
+          "share": 0.176
+        },
+        "1960s": {
+          "n": 2,
+          "share": 0.118
+        },
+        "1870s": {
+          "n": 1,
+          "share": 0.059
+        },
+        "1900s": {
+          "n": 1,
+          "share": 0.059
+        },
+        "1910s": {
+          "n": 1,
+          "share": 0.059
+        },
+        "2000s": {
+          "n": 1,
+          "share": 0.059
+        },
+        "2010s": {
+          "n": 1,
+          "share": 0.059
+        },
+        "2020s": {
+          "n": 1,
+          "share": 0.059
+        }
+      }
+    },
+    "flags": []
+  },
+  "familySignature": {
+    "text": "Principal houses (generator houses minus probable garages): 14% 1-storey, 46% 2-storey, 40% 3+ (of 35 houses with levels, 16% of houses); footprints p25-p75 68.5-179.3 m2 (median 100.8); aspect p25-p75 1.63-3.16; rectangle short side p25-p75 6.5-8.5 m, long side 11.3-22.4 m; long side faces the street on 56% of houses (narrow end to the street on 44%); roof:shape on 1 houses: flat 100%; 11 generator 'houses' (5%) look like detached garages (building=yes < 60 m2 next to a service road) and are excluded here; facade-to-curb median 6.1 m (IQR 4.5-8.04).",
+    "numbers": {
+      "levelShares": {
+        "2": {
+          "n": 16,
+          "share": 0.457
+        },
+        "5+": {
+          "n": 7,
+          "share": 0.2
+        },
+        "1": {
+          "n": 5,
+          "share": 0.143
+        },
+        "3": {
+          "n": 4,
+          "share": 0.114
+        },
+        "4": {
+          "n": 3,
+          "share": 0.086
+        }
+      },
+      "footprintM2": {
+        "n": 223,
+        "mean": 161.8,
+        "p10": 33.4,
+        "p25": 68.5,
+        "p50": 100.8,
+        "p75": 179.3,
+        "p90": 239.7
+      },
+      "aspect": {
+        "n": 223,
+        "mean": 2.5,
+        "p10": 1.2,
+        "p25": 1.63,
+        "p50": 2.1,
+        "p75": 3.16,
+        "p90": 3.75
+      },
+      "shortSideM": {
+        "n": 223,
+        "mean": 8.0,
+        "p10": 4.7,
+        "p25": 6.5,
+        "p50": 7.6,
+        "p75": 8.5,
+        "p90": 9.9
+      },
+      "longSideM": {
+        "n": 223,
+        "mean": 19.0,
+        "p10": 8.4,
+        "p25": 11.3,
+        "p50": 14.4,
+        "p75": 22.4,
+        "p90": 29.3
+      },
+      "longSideFacesStreet": 0.557
+    }
+  },
+  "climate": {
+    "available": true,
+    "source": "NOAA NCEI U.S. Climate Normals 1991-2020, monthly (doi:10.25921/wck8-er13)",
+    "stationTempPrecip": {
+      "id": "USW00014819",
+      "name": "CHICAGO MIDWAY AP, IL US",
+      "lat": 41.7861,
+      "lon": -87.7522,
+      "elevationM": 186.5,
+      "distanceKm": 14.9
+    },
+    "tempC": [-3.33, -1.28, 4.22, 10.33, 16.39, 22.0, 24.61, 23.61, 19.72, 12.72, 5.56, -0.39],
+    "precipMm": [37.6, 37.1, 47.8, 90.7, 103.9, 101.9, 90.2, 101.3, 70.4, 88.4, 59.7, 45.5],
+    "completeness": {
+      "tavg": "RRRRRRRRRRRR",
+      "prcp": "RRRRRRRRRRRR",
+      "snow": "SSSSSSSSSSSS"
+    },
+    "candidatesTried": [
+      {
+        "id": "USC00111550",
+        "distanceKm": 4.3,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0014",
+        "distanceKm": 10.5,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0074",
+        "distanceKm": 12.2,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0214",
+        "distanceKm": 12.7,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0232",
+        "distanceKm": 13.1,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0145",
+        "distanceKm": 13.2,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0094",
+        "distanceKm": 13.6,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0282",
+        "distanceKm": 14.3,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "USW00014819",
+        "distanceKm": 14.9,
+        "tempPrcp": true,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0285",
+        "distanceKm": 16.6,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "US1ILCK0107",
+        "distanceKm": 20.3,
+        "tempPrcp": false,
+        "snow": false
+      },
+      {
+        "id": "USC00111577",
+        "distanceKm": 20.5,
+        "tempPrcp": true,
+        "snow": true
+      }
+    ],
+    "stationSnow": {
+      "id": "USC00111577",
+      "name": "CHICAGO MIDWAY AP 3SW, IL US",
+      "lat": 41.7372,
+      "lon": -87.7775,
+      "elevationM": 189.0,
+      "distanceKm": 20.5
+    },
+    "snowMm": [318.0, 257.0, 145.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 38.0, 201.0],
+    "koppen": {
+      "class": "Dfa",
+      "detail": {
+        "MAT": 11.18,
+        "MAP": 874.5,
+        "Thot": 24.61,
+        "Tcold": -3.33,
+        "Pthreshold": 36.4,
+        "summerHalf": "AMJJAS",
+        "Pdry": 37.1,
+        "Psdry": 70.4,
+        "Pswet": 103.9,
+        "Pwdry": 37.1,
+        "Pwwet": 88.4,
+        "monthsAtLeast10C": 7,
+        "cdThresholdC": 0.0,
+        "sCondition": false,
+        "wCondition": false
+      }
+    },
+    "koppenMinus3": {
+      "class": "Dfa",
+      "detail": {
+        "MAT": 11.18,
+        "MAP": 874.5,
+        "Thot": 24.61,
+        "Tcold": -3.33,
+        "Pthreshold": 36.4,
+        "summerHalf": "AMJJAS",
+        "Pdry": 37.1,
+        "Psdry": 70.4,
+        "Pswet": 103.9,
+        "Pwdry": 37.1,
+        "Pwwet": 88.4,
+        "monthsAtLeast10C": 7,
+        "cdThresholdC": -3.0,
+        "sCondition": false,
+        "wCondition": false
+      }
+    }
+  },
+  "provenance": {
+    "id": {
+      "status": "default",
+      "value": "chicagoland-downtown-draft",
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "region-zone-draft"
+    },
+    "seasons": {
+      "status": "default",
+      "value": {
+        "hemisphere": "north",
+        "spring": [3, 4, 5],
+        "summer": [6, 7, 8],
+        "autumn": [9, 10, 11],
+        "winter": [12, 1, 2]
+      },
+      "n": 0,
+      "source": "latitude + Koppen (NOAA normals)",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "meteorological seasons from latitude 41.889"
+    },
+    "trees.deciduousShare": {
+      "status": "calibrated",
+      "value": 0.971,
+      "n": 175,
+      "source": "leaf_type tag, else genus/species via data/genus_leaf.json",
+      "templateValue": 0.8,
+      "measuredValue": 1.0,
+      "note": "generator treats this as NON-CONIFER share (SceneGenerator: !chance(deciduousShare) -> conifer); true leaf cycle is reported separately"
+    },
+    "trees.heightMeters": {
+      "status": "template",
+      "value": [8, 14],
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 30 tagged heights"
+    },
+    "trees.youngShare": {
+      "status": "template",
+      "value": 0.2,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 30 tagged heights"
+    },
+    "trees.crownWeights": {
+      "status": "template",
+      "value": {
+        "broad": 0.4,
+        "oval": 0.35,
+        "spreading": 0.25
+      },
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data on crown form; review visually"
+    },
+    "trees.youngHeightMeters": {
+      "status": "template",
+      "value": [4, 7],
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": ""
+    },
+    "typeThresholds.smallArea/largeArea/hugeArea": {
+      "status": "calibrated",
+      "value": {
+        "smallArea": 21.1,
+        "largeArea": 220.7,
+        "hugeArea": 1293.6
+      },
+      "n": 223,
+      "source": "percentile transfer: ECDF of front-range 60/220/350 m2 in Sloan's Lake house footprints, applied to this zone's principal houses (probable garages excluded)",
+      "templateValue": null,
+      "measuredValue": {
+        "smallArea": {
+          "denverPercentile": 0.021,
+          "zoneQuantile": 15.9,
+          "template": 60,
+          "value": 21.1
+        },
+        "largeArea": {
+          "denverPercentile": 0.865,
+          "zoneQuantile": 220.8,
+          "template": 220,
+          "value": 220.7
+        },
+        "hugeArea": {
+          "denverPercentile": 0.99,
+          "zoneQuantile": 1420.5,
+          "template": 350,
+          "value": 1293.6
+        }
+      },
+      "note": "reference distribution is Denver's; in the Denver check these fields are excluded from the score"
+    },
+    "typeThresholds.aspect/rectangularity": {
+      "status": "template",
+      "value": {
+        "broadAspect": 1.7,
+        "squareAspect": 1.5,
+        "squareRectangularity": 0.78,
+        "narrowAspect": 1.7
+      },
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": ""
+    },
+    "typeRules.unknown/small/large": {
+      "status": "calibrated",
+      "value": {
+        "unknown": {
+          "compactGabled": 0.0,
+          "broadLow": 0.0,
+          "twoStoryHipped": 100.0,
+          "flatRoof": 0.0
+        },
+        "small": {
+          "compactGabled": 100.0
+        },
+        "large": {
+          "broadLow": 0.0,
+          "twoStoryHipped": 100.0
+        }
+      },
+      "n": 35,
+      "source": "building:levels on houses, grouped by each family's default (first) floor count",
+      "templateValue": null,
+      "measuredValue": {
+        "unknown": {
+          "housesInAreaClass": 178,
+          "nWithLevels": 26,
+          "measuredFloorShareTagged": {
+            "1": 0.154,
+            "2": 0.462,
+            "3+": 0.385
+          },
+          "templateGroupShare": {
+            "1": 0.85,
+            "2": 0.15,
+            "3+": 0
+          },
+          "target": {
+            "1": 0.736,
+            "2": 0.208,
+            "3+": 0.056
+          },
+          "achievedAfterEligibility": {
+            "1": 0.876,
+            "2": 0.124,
+            "3+": null
+          },
+          "byAreaBin": {
+            "<40": {
+              "untagged": 9,
+              "tagged": 0,
+              "target": {
+                "1": 0.85,
+                "2": 0.15,
+                "3+": 0
+              }
+            },
+            "40-60": {
+              "untagged": 4,
+              "tagged": 1,
+              "target": {
+                "1": 0.855,
+                "2": 0.145,
+                "3+": 0.0
+              }
+            },
+            "60-90": {
+              "untagged": 62,
+              "tagged": 6,
+              "target": {
+                "1": 0.736,
+                "2": 0.236,
+                "3+": 0.028
+              }
+            },
+            "90-130": {
+              "untagged": 40,
+              "tagged": 9,
+              "target": {
+                "1": 0.679,
+                "2": 0.192,
+                "3+": 0.128
+              }
+            },
+            "130-180": {
+              "untagged": 15,
+              "tagged": 7,
+              "target": {
+                "1": 0.689,
+                "2": 0.203,
+                "3+": 0.108
+              }
+            },
+            "180-250": {
+              "untagged": 22,
+              "tagged": 3,
+              "target": {
+                "1": 0.803,
+                "2": 0.197,
+                "3+": 0.0
+              }
+            }
+          },
+          "unrepresentableShare": 0.056,
+          "from": {
+            "compactGabled": 50,
+            "broadLow": 25,
+            "twoStoryHipped": 15,
+            "flatRoof": 10
+          },
+          "to": {
+            "compactGabled": 0.0,
+            "broadLow": 0.0,
+            "twoStoryHipped": 100.0,
+            "flatRoof": 0.0
+          }
+        },
+        "small": {
+          "housesInAreaClass": 15,
+          "nWithLevels": 0,
+          "measuredFloorShareTagged": {
+            "1": null,
+            "2": null,
+            "3+": null
+          },
+          "templateGroupShare": {
+            "1": 1.0,
+            "2": 0,
+            "3+": 0
+          },
+          "target": {
+            "1": 1.0,
+            "2": 0.0,
+            "3+": 0.0
+          },
+          "achievedAfterEligibility": {
+            "1": 1.0,
+            "2": null,
+            "3+": null
+          },
+          "byAreaBin": {
+            "<40": {
+              "untagged": 15,
+              "tagged": 0,
+              "target": {
+                "1": 1.0,
+                "2": 0,
+                "3+": 0
+              }
+            }
+          },
+          "unrepresentableShare": 0.0,
+          "from": {
+            "compactGabled": 100
+          },
+          "to": {
+            "compactGabled": 100.0
+          }
+        },
+        "large": {
+          "housesInAreaClass": 30,
+          "nWithLevels": 9,
+          "measuredFloorShareTagged": {
+            "1": 0.111,
+            "2": 0.444,
+            "3+": 0.444
+          },
+          "templateGroupShare": {
+            "1": 0.6,
+            "2": 0.4,
+            "3+": 0
+          },
+          "target": {
+            "1": 0.564,
+            "2": 0.404,
+            "3+": 0.033
+          },
+          "achievedAfterEligibility": {
+            "1": 0.648,
+            "2": 0.352,
+            "3+": null
+          },
+          "byAreaBin": {
+            "180-250": {
+              "untagged": 10,
+              "tagged": 2,
+              "target": {
+                "1": 0.594,
+                "2": 0.406,
+                "3+": 0.0
+              }
+            },
+            "250-400": {
+              "untagged": 5,
+              "tagged": 2,
+              "target": {
+                "1": 0.562,
+                "2": 0.438,
+                "3+": 0.0
+              }
+            },
+            ">=400": {
+              "untagged": 6,
+              "tagged": 5,
+              "target": {
+                "1": 0.514,
+                "2": 0.371,
+                "3+": 0.114
+              }
+            }
+          },
+          "unrepresentableShare": 0.033,
+          "from": {
+            "broadLow": 60,
+            "twoStoryHipped": 40
+          },
+          "to": {
+            "broadLow": 0.0,
+            "twoStoryHipped": 100.0
+          }
+        }
+      },
+      "note": "principal houses only (probable garages excluded); target = floor mix of tagged houses post-stratified by footprint-area bin (tagging depends on size), per-bin shrinkage n_b/(n_b+k); family weights scaled per default-floor group until the expected default floors AFTER eligibility filtering match; groups without a family stay unrepresented; other tagging biases remain"
+    },
+    "typeRules.(levels situations)": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "oneFloor*/twoFloor*/threeFloor/semidetached weights kept"
+    },
+    "houseTypes[].perFloor": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 20 houses with height and levels (and roof:height or a flat roof)"
+    },
+    "houseTypes[].roof": {
+      "status": "template",
+      "value": null,
+      "n": 1,
+      "source": "",
+      "templateValue": {
+        "gabled": 0.151,
+        "hipped": 0.251,
+        "flat": 0.598
+      },
+      "measuredValue": null,
+      "note": "needs >= 30 houses with roof:shape"
+    },
+    "houseTypes[].pitch": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 20 houses with roof:angle"
+    },
+    "houseTypes[].colors[wall]": {
+      "status": "template",
+      "value": null,
+      "n": 1,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 30 houses with building:colour or a coloured building:material"
+    },
+    "houseTypes[].colors[roof]": {
+      "status": "template",
+      "value": null,
+      "n": 1,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 30 houses with roof:colour or a coloured roof:material"
+    },
+    "houseTypes[].porch": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].windows": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].door": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].overhang": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].parapet": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].floors": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].minAspect/maxAspect/minRectangularity/broadFrontage": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "houseTypes[].colors[trim/door]": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data; review visually"
+    },
+    "garage.roof": {
+      "status": "template",
+      "value": {
+        "gabled": 0.6,
+        "hipped": 0.1,
+        "flat": 0.3
+      },
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "needs >= 20 garages with roof:shape"
+    },
+    "garage.wallHeight/pitch/overhang/colors/doubleDoorMinWidthMeters": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data"
+    },
+    "shed": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data"
+    },
+    "chimneyLikelihood": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data"
+    },
+    "foundationMeters": {
+      "status": "template",
+      "value": null,
+      "n": 0,
+      "source": "",
+      "templateValue": null,
+      "measuredValue": null,
+      "note": "no open data"
+    }
+  },
+  "notExpressibleInSchema": {
+    "comment": "Measured values the StyleProfile v2 schema cannot hold (for review / future fields). Not used by the engine.",
+    "leafCycleTagOrGenus": {},
+    "leafTypeTagOrGenus": {
+      "broadleaved": {
+        "n": 175,
+        "share": 1.0
+      }
+    },
+    "palmShareOfTreesWithGenus": null,
+    "treesPerKm2": 240.5,
+    "treeRowKmPerKm2": 0.0,
+    "woodShare": 0.001,
+    "facadeToCurbM": {
+      "n": 233,
+      "mean": 8.38,
+      "p10": 2.31,
+      "p25": 4.51,
+      "p50": 6.13,
+      "p75": 8.22,
+      "p90": 12.89
+    },
+    "longSideFacesStreetShare": 0.54,
+    "principalHousesFacadeToCurbM": {
+      "n": 223,
+      "mean": 7.55,
+      "p10": 2.36,
+      "p25": 4.5,
+      "p50": 6.1,
+      "p75": 8.04,
+      "p90": 11.91
+    },
+    "probableGarageShareOfHouses": 0.047,
+    "alleyKmPerKm2": 4.438,
+    "housesWithin30mOfAlleyShare": 0.423,
+    "garagesAdjacentToAlleyShare": 0.667,
+    "fenceMPer100Houses": 2009.1,
+    "hedgeMPer100Houses": 0.0,
+    "wallMPer100Houses": 605.2,
+    "coverage": {
+      "net": 0.104,
+      "gross": 0.438
+    },
+    "buildingsPerKm2": 416.5,
+    "housesPerKm2": 117.0,
+    "sidewalkKmPerKm2": 24.295,
+    "useMixGrouped": {
+      "commercial": {
+        "n": 339,
+        "share": 0.479
+      },
+      "residential": {
+        "n": 243,
+        "share": 0.344
+      },
+      "other": {
+        "n": 61,
+        "share": 0.086
+      },
+      "mixed": {
+        "n": 33,
+        "share": 0.047
+      },
+      "unknown": {
+        "n": 31,
+        "share": 0.044
+      }
+    },
+    "koppen": "Dfa"
+  },
+  "accuracy": {
+    "reference": "chicago-downtown",
+    "referenceSource": "docs/proposals/regions-chicagoland-miami/profiles/chicago-downtown.json",
+    "comparison": {
+      "rows": [
+        {
+          "field": "house roof mix G/H/F (expected on zone houses)",
+          "draft": "0.15/0.25/0.60",
+          "reference": "0.00/0.00/1.00",
+          "metric": "TVD 0.404",
+          "tolerance": 0.1,
+          "n": 1,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "default floors 1/2/3+ (houses without levels; size-stratified test on tagged houses)",
+          "draft": "0.86/0.14/0.00",
+          "reference": "0.00/0.00/1.00",
+          "metric": "TVD 1.000",
+          "tolerance": 0.15,
+          "n": 35,
+          "verdict": "differ",
+          "note": "truth 0.19/0.53/0.28 (bins covering 87% of untagged houses); TVD to truth: draft 0.664, reference 0.720"
+        },
+        {
+          "field": "perFloor m (usage-weighted midpoint)",
+          "draft": 3.08,
+          "reference": 3.0,
+          "metric": "|d| 0.08",
+          "tolerance": 0.15,
+          "n": 0,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "pitch deg (usage-weighted midpoint, pitched families)",
+          "draft": 26.4,
+          "reference": null,
+          "metric": "-",
+          "tolerance": 4.0,
+          "n": 0,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "typeThresholds.smallArea m2",
+          "draft": 21.1,
+          "reference": 60,
+          "metric": "rel 0.65",
+          "tolerance": 0.15,
+          "n": 223,
+          "verdict": "differ",
+          "note": ""
+        },
+        {
+          "field": "typeThresholds.largeArea m2",
+          "draft": 220.7,
+          "reference": 220,
+          "metric": "rel 0.00",
+          "tolerance": 0.15,
+          "n": 223,
+          "verdict": "agree",
+          "note": ""
+        },
+        {
+          "field": "typeThresholds.hugeArea m2",
+          "draft": 1293.6,
+          "reference": 350,
+          "metric": "rel 2.70",
+          "tolerance": 0.15,
+          "n": 223,
+          "verdict": "differ",
+          "note": ""
+        },
+        {
+          "field": "trees.deciduousShare (non-conifer share)",
+          "draft": 0.971,
+          "reference": 0.96,
+          "metric": "|d| 0.011",
+          "tolerance": 0.05,
+          "n": 175,
+          "verdict": "agree",
+          "note": ""
+        },
+        {
+          "field": "trees.heightMeters (midpoint)",
+          "draft": [8, 14],
+          "reference": [8, 15],
+          "metric": "|d| 0.5",
+          "tolerance": 2.0,
+          "n": 0,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "trees.youngShare",
+          "draft": 0.2,
+          "reference": 0.22,
+          "metric": "|d| 0.020",
+          "tolerance": 0.05,
+          "n": 0,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "garage.roof G/H/F",
+          "draft": "0.60/0.10/0.30",
+          "reference": "0.60/0.10/0.30",
+          "metric": "TVD 0.000",
+          "tolerance": 0.15,
+          "n": 0,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "wall colour (usage-weighted mean)",
+          "draft": "#C2BCAA",
+          "reference": "#AB876E",
+          "metric": "dE00 18.8",
+          "tolerance": 10.0,
+          "n": 1,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "roof colour (usage-weighted mean)",
+          "draft": "#636A71",
+          "reference": "#5F6367",
+          "metric": "dE00 3.1",
+          "tolerance": 10.0,
+          "n": 1,
+          "verdict": "not measurable",
+          "note": ""
+        },
+        {
+          "field": "trees.crownWeights",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "trees.youngHeightMeters",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "typeThresholds aspect/rectangularity",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "porch/windows/door/overhang/parapet",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "chimneyLikelihood",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "foundationMeters",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "garage wallHeight/pitch/colours, shed",
+          "draft": "-",
+          "reference": "-",
+          "metric": "-",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not measurable",
+          "note": "template only"
+        },
+        {
+          "field": "seasons (hemisphere + months)",
+          "draft": "north",
+          "reference": "north",
+          "metric": "equal",
+          "tolerance": "-",
+          "n": 0,
+          "verdict": "not scored",
+          "note": "rule-based from latitude, not data"
+        }
+      ],
+      "agree": 2,
+      "differ": 3,
+      "measurable": 5,
+      "score": 0.4
+    },
+    "directTests": {
+      "rows": [
+        {
+          "field": "house roof mix G/H/F vs roof:shape",
+          "reference": "0.00/0.00/1.00",
+          "measured": "0.00/0.00/1.00",
+          "n": 1,
+          "gate": 30,
+          "metric": "TVD 0.000",
+          "tolerance": 0.1,
+          "verdict": "can't test",
+          "note": "tagged houses may not be representative"
+        },
+        {
+          "field": "default floors 1/2/3+ vs building:levels (size-stratified, levels hidden from the profile)",
+          "reference": "0.00/0.00/1.00",
+          "measured": "0.19/0.53/0.28",
+          "n": 35,
+          "gate": 30,
+          "metric": "TVD 0.720",
+          "tolerance": 0.15,
+          "verdict": "contradicts",
+          "note": "tagged principal houses evaluated as if untagged, per footprint-area bin weighted like the untagged houses (bins cover 87%)"
+        },
+        {
+          "field": "trees.deciduousShare vs broadleaved share",
+          "reference": 0.96,
+          "measured": 1.0,
+          "n": 175,
+          "gate": 30,
+          "metric": "|d| 0.040",
+          "tolerance": 0.05,
+          "verdict": "supports",
+          "note": ""
+        },
+        {
+          "field": "trees.heightMeters vs tagged heights p25-p75",
+          "reference": [8, 15],
+          "measured": "-",
+          "n": 0,
+          "gate": 30,
+          "metric": "-",
+          "tolerance": 2.0,
+          "verdict": "can't test",
+          "note": ""
+        },
+        {
+          "field": "typeThresholds.smallArea vs footprint quantile at Denver's percentile",
+          "reference": 60,
+          "measured": 15.9,
+          "n": 223,
+          "gate": 30,
+          "metric": "rel 0.74",
+          "tolerance": 0.15,
+          "verdict": "contradicts",
+          "note": "share of zone houses below the reference value: 0.130 (front-range 60 is the 0.021 quantile in Denver)"
+        },
+        {
+          "field": "typeThresholds.largeArea vs footprint quantile at Denver's percentile",
+          "reference": 220,
+          "measured": 220.8,
+          "n": 223,
+          "gate": 30,
+          "metric": "rel 0.00",
+          "tolerance": 0.15,
+          "verdict": "supports",
+          "note": "share of zone houses below the reference value: 0.857 (front-range 220 is the 0.865 quantile in Denver)"
+        },
+        {
+          "field": "typeThresholds.hugeArea vs footprint quantile at Denver's percentile",
+          "reference": 350,
+          "measured": 1420.5,
+          "n": 223,
+          "gate": 30,
+          "metric": "rel 3.06",
+          "tolerance": 0.15,
+          "verdict": "contradicts",
+          "note": "share of zone houses below the reference value: 0.919 (front-range 350 is the 0.990 quantile in Denver)"
+        },
+        {
+          "field": "garage.roof vs garage roof:shape",
+          "reference": "0.60/0.10/0.30",
+          "measured": "-",
+          "n": 0,
+          "gate": 20,
+          "metric": "-",
+          "tolerance": 0.15,
+          "verdict": "can't test",
+          "note": ""
+        },
+        {
+          "field": "perFloor vs measured wall height per level (median)",
+          "reference": 3.0,
+          "measured": "-",
+          "n": 0,
+          "gate": 20,
+          "metric": "-",
+          "tolerance": 0.15,
+          "verdict": "can't test",
+          "note": ""
+        },
+        {
+          "field": "pitch vs roof:angle (median)",
+          "reference": null,
+          "measured": "-",
+          "n": 0,
+          "gate": 20,
+          "metric": "-",
+          "tolerance": 4.0,
+          "verdict": "can't test",
+          "note": ""
+        },
+        {
+          "field": "wall colour vs measured colour/material (mean)",
+          "reference": "#AB876E",
+          "measured": "#A9735F",
+          "n": 1,
+          "gate": 30,
+          "metric": "dE00 8.3",
+          "tolerance": 10.0,
+          "verdict": "can't test",
+          "note": "top families: red 1"
+        },
+        {
+          "field": "roof colour vs measured colour/material (mean)",
+          "reference": "#5F6367",
+          "measured": "#636466",
+          "n": 1,
+          "gate": 30,
+          "metric": "dE00 1.8",
+          "tolerance": 10.0,
+          "verdict": "can't test",
+          "note": "top families: darkgrey 1"
+        }
+      ],
+      "supports": 2,
+      "contradicts": 3,
+      "cantTest": 7
+    }
+  },
+  "catalogCheck": {
+    "catalog": "docs/proposals/regions-chicagoland-miami/region-catalog.json",
+    "cells": {
+      "loop-daley-plaza": {
+        "center": [41.8839, -87.6302],
+        "firstMatchBox": "downtown-river-review",
+        "profileAtCenter": "chicago-downtown",
+        "expectedProfile": "chicago-downtown",
+        "centerMatchesExpected": true,
+        "overlappingBoxes": [
+          {
+            "order": 0,
+            "id": "downtown-river-review",
+            "profile": "chicago-downtown",
+            "cellAreaShare": 1.0
+          }
+        ],
+        "cellAreaByResolvedProfile": {
+          "chicago-downtown": 1.0
+        },
+        "note": "the engine picks ONE profile per baked area at the manifest centre (WorldBuild.swift line 39); cellAreaByResolvedProfile shows what per-feature selection would give instead"
+      },
+      "river-north-montgomery-ward-park": {
+        "center": [41.8938, -87.6425],
+        "firstMatchBox": "downtown-river-review",
+        "profileAtCenter": "chicago-downtown",
+        "expectedProfile": "chicago-downtown",
+        "centerMatchesExpected": true,
+        "overlappingBoxes": [
+          {
+            "order": 0,
+            "id": "downtown-river-review",
+            "profile": "chicago-downtown",
+            "cellAreaShare": 0.606
+          }
+        ],
+        "cellAreaByResolvedProfile": {
+          "chicago-downtown": 0.611,
+          "generic-temperate-v1": 0.389
+        },
+        "note": "the engine picks ONE profile per baked area at the manifest centre (WorldBuild.swift line 39); cellAreaByResolvedProfile shows what per-feature selection would give instead"
+      }
+    },
+    "boxSignatures": {
+      "downtown-river-review": {
+        "profile": "chicago-downtown",
+        "sampledKm2": 1.606,
+        "buildings": 719,
+        "buildingsPerKm2": 447.8,
+        "houseShare": 0.266,
+        "blockShare": 0.682,
+        "houseFootprintP50": 85.7,
+        "share3PlusLevels": 0.892,
+        "levelsTagged": 324
+      }
+    }
+  },
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": []
+  },
+  "definitions": {
+    "cell": "A sample box (S,W,N,E). Overpass cells are centre +- radiusMeters (square), centre = anchor's `out center` rounded to 4 decimals.",
+    "building": "OSM outline with building=* (not 'no'), kept if its outer-ring centroid lies in the cell, cleaned with the engine's Polygon2D.cleaned(minArea: 1). building:part-only features are counted separately and excluded.",
+    "role": "BuildingGenerator.role(of:): garage/garages/carport -> garage; shed/hut/kiosk/toilets or < 12 m2 -> shed; house/detached/semidetached_house/bungalow/residential/terrace/cabin or building=yes < 250 m2 -> house; else block.",
+    "situation": "BuildingGenerator.situation with the stated thresholds; broadFront from StreetContext.frontEdge (named streets within 60 m).",
+    "levels": "building:levels parsed like TagParsing.number, rounded half away from zero; 0 counts as untagged.",
+    "metresPerLevel": "wall = (height - roof:height)/levels, or height/levels when roof:shape=flat; total = height/(levels + roof:levels).",
+    "roofMapping": "gabled/saltbox/gambrel/mansard -> gabled; hipped/pyramidal/half-hipped/side_hipped -> hipped; flat -> flat; skillion -> slab; anything else is ignored by the generator.",
+    "footprint": "area = shoelace (outer minus holes); aspect = long/short side of the minimum-area rectangle; rectangularity = area / rectangle area (FootprintAnalysis).",
+    "percentiles": "linear interpolation between closest ranks (type 7).",
+    "setback": "footprint to nearest residential/living_street/unclassified/tertiary/secondary/primary centreline (<= 60 m) minus half the carriageway (width, else lanes x 3.3 m, else RoadRules default).",
+    "coverage": "net = house footprint area inside landuse=residential / that landuse area; gross = all outline area / (cell - water). Proxies: OSM has no parcels.",
+    "alleys": "highway=service + service=alley length clipped to the cell; houses within 30 m; garages within 8 m (strict) and the engine's alleyEdge rule (30 m, service/unnamed roads).",
+    "barriers": "barrier=fence/wall/hedge/retaining_wall and natural=tree_row lengths clipped to the cell (closed hedge areas count their perimeter).",
+    "trees": "natural=tree nodes in the cell; leaf type/cycle from tags, else genus/species/taxon via data/genus_leaf.json.",
+    "useMix": "see measurements.zoneSummary.useMix.definition",
+    "shrinkage": "value = (n*measured + k*template)/(n + k)"
+  }
+}

@@ -1,0 +1,453 @@
+# Licensing and attribution checklist
+
+> **Not legal advice.** This is an engineering checklist plus the questions to take to a lawyer. All sources were checked on **2026-10-05**. Licence texts and guidelines change, so re-check them before any release. Where a source was ambiguous or could not be found, this document says so and turns it into a lawyer question instead of guessing.
+>
+> **How quotes are used:** short verbatim quotes (under 15 words, in quotation marks) come only from openly licensed or public licence texts: ODbL, openstreetmap.org/copyright, OSMF wiki pages, Creative Commons, CDLA-Permissive-2.0, Overture docs and the HYG README. Apple's and Epic's agreements are **paraphrased**, with exact section numbers, so a checker can compare each claim against the clause. The only quoted words from them are defined terms and phrases of a few words. Other quoted strings are repo text (file paths given) or attribution text we display.
+
+**Summary of blockers.** Nothing blocks internal development today. The repo already shows OSM credit on screen, ships an ODbL notice next to the raw extract, and licenses the derived star file correctly. Before any **public release of our own apps**, three things are mandatory and missing:
+1. A credits/licences screen that includes the ODbL "offer" of the data behind the world (ODbL §4.6).
+2. Attribution burned into every exported image, video and widget. The on-screen overlay does not appear in offscreen renders.
+3. Apple Weather attribution UI as soon as any WeatherKit data is shown.
+
+There are two **conditional blockers**:
+- **White-label or licensing to third parties.** The world package's data part must be treated as ODbL. That means share-alike, no extra restrictions, and recipients may redistribute it for free. We can sell the engine, the assets we own and services, but not exclusive rights to the world data. WeatherKit access also cannot be shared: each licensee needs its own Apple Developer Program membership and WeatherKit access, or another weather provider.
+- **Fab assets.** The Standard License forbids standalone redistribution and forbids letting third parties build the assets into their own products. So Fab assets can never go into a world package, the public ODbL data download, or a white-label deliverable. Fab EULA §6(a) also says we may not "combine, Distribute, or otherwise use" Fab content with code or content under a licence that would directly or indirectly require all or part of the Fab content to be "governed under any terms other than those of this Agreement". It names CC BY-SA as an example. Under that test, CC BY-SA data merely sitting next to Fab assets in one app would not obviously pull the Fab assets under CC BY-SA, but the named example makes this an open question. A lawyer should read the clause against the CC BY-SA star file we bundle **before any Fab purchase**.
+
+---
+
+## 1. Checklist
+
+Status values: **Done** (in repo), **Partly**, **To do**, **Needs lawyer**, **N/A yet** (the source isn't used yet).
+
+| # | Obligation | Applies to | How we comply | Status | Source |
+|---|---|---|---|---|---|
+| **O1** | Credit "OpenStreetMap" visibly whenever the world is on screen, linked to openstreetmap.org/copyright. The historical form "© OpenStreetMap contributors" is accepted. | App screen | `WorldView` overlays `WorldAttributionView` (`Sources/WorldEngine/WorldAttributionView.swift`): fixed-contrast plate, `Link` to /copyright. Apps that draw the world in their own view must add it (doc comment; README "Data attribution"; CLAUDE.md rule). | Done (engine); each host must keep it | [ODbL §4.3](https://opendatacommons.org/licenses/odbl/1-0/); [OSMF Attribution Guideline: Attribution text, Interactive maps](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Attribution_text) |
+| **O2** | Same credit in the web renderer, as a link to /copyright | Web | `web/index.html` shows `#attr` "© OpenStreetMap contributors", but as a plain `<div>`, not a link | Partly (make it a link) | [Attribution Guideline: Attribution text](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Attribution_text) |
+| **O3** | Collapsing is allowed only by dismissal, on map interaction or after 5 s, and licence info must stay findable. Attribution should not require interaction to see. | App screen, web | The repo rule (CLAUDE.md) is stricter: never collapse | Done (policy); relaxing it is an owner decision | [Attribution Guideline: Interactive maps](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Interactive_maps); [safe-harbour requirements](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Requirements_to_fit_within_OSMF.E2.80.99s_safe_harbour) |
+| **O4** | Static images: credit on the image. Where it can't be a hyperlink, print the URL openstreetmap.org/copyright. | Shared image / postcard | Offscreen renders don't include the SwiftUI overlay, so burn "© OpenStreetMap contributors · openstreetmap.org/copyright" into every exported image. Phase 5A's `PostcardComposer` only chooses poses; no image export exists yet, so this applies when export is built. Also put the link in the share text or share page. | To do | [Attribution Guideline: Static images](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Static_images), [Books…](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Books,_magazines,_and_printed_maps); [Legal FAQ §1.8.1–1.8.2](https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ). The printed-URL rule is in §1.8.2, and FAQ §1.8 assumes the OSM data is unmodified. |
+| **O5** | Video: credit in a corner while the world is shown, plus credit and URL in the end credits or description | Shared video | Burn in a corner credit; add the URL to the share description | To do | [Attribution Guideline: TV, film, or video productions](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#TV,_film,_or_video_productions) |
+| **O6** | Widgets: legible credit. A thumbnail/icon exemption exists, but whether it covers home-screen widgets is unclear. | Widget | Proposed: show "© OpenStreetMap" in the widget; tapping opens the app, where the licence info is | To do; smallest sizes need a lawyer | [Attribution Guideline: Static images](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Static_images) |
+| **O7** | When the raw extract is conveyed (repo, app bundle): licence URI in or next to the data and in its docs; keep the existing notices intact | Raw-data distribution, repo | `Data/areas/<area>/NOTICE.md` (credit, ODbL URI, `out body`); `manifest.json` (`license`, `attribution`); `osm.json` is unmodified, so the Overpass `osm3s.copyright` header stays | Done | [ODbL §4.2(b)–(d)](https://opendatacommons.org/licenses/odbl/1-0/); [Attribution Guideline: Databases](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Databases) |
+| **O8** | World package: ODbL notice and licence URI inside the package and in its docs | Package distribution, web, white-label | `world.json` has `license: "ODbL-1.0"` and an attribution per source, but no URI and no notice file. Add a notice/URI file that says which files are ODbL (exporter + `docs/package-format.md`). | Partly | [ODbL §4.2(b), (d)](https://opendatacommons.org/licenses/odbl/1-0/) |
+| **O9** | Offer recipients of the Produced Work (app screen, postcards, web) a machine-readable copy of the Derivative Database, or of the alterations / method, free over the internet | App screen, shared images, web | Link from the credits screen and share page to a free public download of the package's data part. If our transformations count as trivial, a pointer to the unmodified extract / openstreetmap.org is enough (§2.4 below). | To do; which case applies needs a lawyer | [ODbL §4.4(c), §4.6](https://opendatacommons.org/licenses/odbl/1-0/); [Legal FAQ §1.7.1](https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ); [Trivial Transformations](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Trivial_Transformations_-_Guideline) |
+| **O10** | Conveyed derivative data goes out only under ODbL, with no extra terms or technical measures that restrict it (unless a parallel unrestricted copy is offered) | App bundle, web, package distribution, white-label | The public download from O9 doubles as the parallel unrestricted copy. Licence and contract templates must not restrict the package data. | To do; needs lawyer | [ODbL §4.4(a), §4.7, §4.8](https://opendatacommons.org/licenses/odbl/1-0/) |
+| **O11** | Keep non-OSM user or app data (building overrides) separate; never publish it merged with OSM data | App, shared images, package | Policy in `docs/plan-m1.md` §3.2 / §6: overrides are stored by the host, separately | Done (policy; feature not built). Sharing renders that include overrides needs a lawyer. | [Collective Database guideline](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Collective_Database_Guideline_Guideline); [Horizontal Layers](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Horizontal_Map_Layers_-_Guideline) |
+| **O12** | Adding external observation data to OSM features (e.g. Overture heights) is not a trivial transformation, so share-alike covers the additions | Package, all public surfaces | Decide before merging any non-OSM source by OSM ID. Keep per-feature provenance (`scene.json` `roofShapeFrom`/`floorsFrom` already does). | To do (decision gate). `docs/research/data-coverage.md` already recommends Overture buildings as a second footprint source for the North Shore, so this gate is near. | [Trivial Transformations](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Trivial_Transformations_-_Guideline); [ODbL §4.4](https://opendatacommons.org/licenses/odbl/1-0/) |
+| **O13** | One findable place listing every source and licence (OSM/ODbL + the O9 offer, stars, weather provider, code notices) | App, web | There is no credits or about screen in `Apps/WorldLab` or the engine | To do (engine-provided or host-owned: owner decision) | [Attribution Guideline: Interactive maps](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Interactive_maps), [Computer games and simulations](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Computer_games_and_simulations) |
+| **V1** | Overture buildings, base, divisions and transportation themes are ODbL. Buildings also include CC BY 4.0 and other ODbL sources. | All surfaces, package | If adopted: same handling as O7–O12. Credit "© OpenStreetMap contributors, Overture Maps Foundation" plus per-source credits (e.g. Esri Community Maps contributors, Google Open Buildings) in the credits screen and package notice. `docs/research/data-coverage.md` recommends Overture buildings as a second footprint source for the North Shore (Microsoft ML footprints, ODbL). Esri Community Maps extras (CC BY 4.0) appear in 7 of its audit cells, so per-source credit would apply wherever those are used. | N/A yet (recommended in data-coverage.md) | [Overture Attribution and Licensing #buildings](https://docs.overturemaps.org/attribution/#buildings); [Buildings guide](https://docs.overturemaps.org/guides/buildings/#sources-and-licensing) |
+| **V2** | Overture places: CDLA Permissive 2.0, Apache 2.0 (Foursquare) and CC0 (AllThePlaces). Contains no OSM data, but joining it to OSM may form an ODbL derivative database. | Package, all surfaces | If adopted: ship the CDLA text with shared data and keep the Apache NOTICE for Foursquare rows | N/A yet | [Overture #places](https://docs.overturemaps.org/attribution/#places); [Places guide](https://docs.overturemaps.org/guides/places/#sources-and-licensing); [CDLA-Permissive-2.0 §2.1](https://cdla.dev/permissive-2-0/) |
+| **W1** | When showing Apple weather data (e.g. condition text, temperature): clearly show the Apple Weather mark and the legal link to the other data sources | App screen, web, widget | Host shows the mark (`WeatherAttribution.combinedMarkLightURL`/`DarkURL`, or REST `/attribution/{language}`) and links `legalPageURL` (`legalAttributionText` for apps that can't show the legal page in a Safari view). The engine carries `WeatherAttributionInfo` (`Sources/WorldEnvironment/WeatherProvider.swift`). | To do (struct exists; WorldLab's `ExperienceOverlay` reserves the attribution slot for live data in 5B, no mark or link yet) | [WeatherKit: Attribution requirements](https://developer.apple.com/weatherkit/#attribution-requirements); [WeatherAttribution](https://developer.apple.com/documentation/weatherkit/weatherattribution); [App Review 5.2.5 ("Apple Products"; last sentence)](https://developer.apple.com/app-store/review/guidelines/#5.2.5); [DPLA Att. 8 §1.4](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) |
+| **W2** | Value-added output (our rain, snow and fog states derived from the data): credit the source to Apple Weather, with a notice that Apple's data was modified | App, shared images, widget, web | `WeatherAttributionInfo.modifiedNotice` ("Weather visualization modified from … data.") must be displayed beside the world | Partly | [WeatherKit: Value-added services or products](https://developer.apple.com/weatherkit/#attribution-requirements); [DPLA Att. 8 §1.2](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) |
+| **W3** | Non-interactive outputs (postcards, video, widgets): Apple publishes no specific rule | Shared image, video, widget | Proposed: burn in the mark and modified notice; legal link on the share page and in the app | Needs lawyer / Apple confirmation | No Apple source found |
+| **W4** | Weather alerts: embed a link to Apple's alert page, name the issuing agency in full, never modify the text | App, web | The engine shows no alerts. Keep it that way, or implement all three. | Done (not shown) | [WeatherKit: Weather alerts](https://developer.apple.com/weatherkit/#attribution-requirements) (all three rules); [DPLA Att. 8 §1.4](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) (no modification only) |
+| **W5** | No bulk downloads, no secondary or derived weather database; cache or store only temporarily and on a limited basis, for performance | App, package, shared images, white-label | `TemporaryWeatherCache`: memory only, fresh 30 min (15 while changing), stale ≤ 2 h, `purge`. Still to do: never write Apple data into exported packages' `environment.json`, saved recaps or postcard metadata; honour `expirationDate` / `expireTime`. | Partly | [DPLA Att. 8 §1.5, §1.6](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/); [WeatherMetadata](https://developer.apple.com/documentation/weatherkit/weathermetadata); [REST Metadata](https://developer.apple.com/documentation/weatherkitrestapi/metadata) |
+| **W6** | No fees for weather data in its original form, and no fees solely for access to Apple Services; our end-user terms must not permit reverse engineering of the WeatherKit APIs or data; not for emergency or life-saving use; an EULA notice if the app gives real-time weather guidance | App, web | Keep weather a value-added visualization; add an anti-reverse-engineering clause covering WeatherKit data to the app EULA; add the §2.2 notice if counsel says it applies | To do; needs lawyer | [DPLA §2.8, Att. 8 §1.2, §1.3, §2.2](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) |
+| **W7** | Use the service only for our own apps and websites; don't share keys or sublicense the API or data; third parties need their own access | White-label | The engine never calls WeatherKit and holds no keys (the WorldLab demo app has a one-shot `WeatherKitProbe` on its own explicit App ID since the phase 5A merge) (provider-neutral `WeatherProvider`; `docs/plan-m1.md`: "The engine doesn't call WeatherKit"). Each licensee brings its own membership and WeatherKit access, or another provider. | Done in engine design; contracts to do | [DPLA §1.2 "Application", §2.6, §2.8, §2.9, Att. 8 §1.2](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) |
+| **W8** | Web version through the REST API: same attribution rules. REST supplies logos (`/attribution/{language}`) and `Metadata.attributionURL`. | Web | Signing key server-side; show logos (partial URLs, appended to https://weatherkit.apple.com) and the legal link. The §2.8 wording ("Apple-branded products") needs clearing; see §4.5 for both sides. | Needs lawyer | [WeatherKit REST API](https://developer.apple.com/documentation/weatherkitrestapi/); [REST Attribution](https://developer.apple.com/documentation/weatherkitrestapi/attribution); [DPLA §2.8](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) |
+| **H1** | Derived star file shared under CC BY-SA 4.0 with creator credit, licence URI, link to the source and a note of changes | App bundle, package, web | `Sources/WorldEnvironment/Catalog/STARS-NOTICE.md`; the JSON header (`source`, `license`, `licenseURL`, `changes`); reproducible with `scripts/data/build_star_catalog.py` | Done | [CC BY-SA 4.0 §3(a), §3(b), §4(b)](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en#s3); [HYG README](https://codeberg.org/astronexus/hyg) |
+| **H2** | Credit wherever the stars are shown or the data is redistributed | App screen, web, shared images showing stars | `StarCatalog.attribution` exists and travels as `sky.starAttribution` in the environment document, but nothing displays it. Add it to the credits screen; add the licence URI when `environment.json` is distributed. | Partly | [CC BY-SA 4.0 §3(a)(1)–(2)](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en#s3a) |
+| **H3** | No additional terms or technical measures that restrict the adapted data | App bundle (App Store), white-label | State in the credits that the star file is CC BY-SA and carve it out of any restrictive terms; the file is already in the repo | Needs lawyer | [CC BY-SA 4.0 §3(b)(3)](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en#s3b) |
+| **F1** | Fab Standard License: any engine or tool is allowed; available file formats depend on the listing | App | Buy only listings that offer non-Unreal formats (FBX / glTF / USD) | N/A yet | [Fab EULA (summary; §2(d), §3(a))](https://www.fab.com/eula) |
+| **F2** | Distribute assets only inside a Project as an included dependency, in object code, and restrict end users from extracting them | App, web | Add an anti-extraction clause to the app EULA and compile assets into the app. On the web, don't serve loose files without counsel's view. | To do (on purchase); web needs lawyer | [Fab EULA §4(a), §4(c)](https://www.fab.com/eula) |
+| **F3** | Rendered images and videos made with assets may be distributed freely | Shared image, video | Nothing extra needed | OK | [Fab EULA §4 "Distributing Linear Media Projects" (4(b))](https://www.fab.com/eula) |
+| **F4** | No standalone distribution; no letting third parties build the assets into their products; no editing tools or templates that export them | Package distribution, white-label | The exporter must never put Fab assets into a world package or the ODbL download. White-label licensees buy their own licences. | To do (policy before purchase) | [Fab EULA §5(a), §6 "General Restrictions" (ii)–(iii)](https://www.fab.com/eula) |
+| **F5** | Don't combine assets with GPL, LGPL or CC BY-SA content | App (bundles the CC BY-SA star file), package (ODbL) | Get counsel's reading before buying, or replace HYG with a public-domain catalog | Needs lawyer | [Fab EULA §6(a)](https://www.fab.com/eula) |
+| **F6** | Personal tier only if we plus affiliates made ≤ US$100,000 gross revenue in the digital content industry in the last 12 months, counting advances and funds raised | Purchase | Decide the tier at purchase; record the EULA version (Oct 1, 2024) with each purchase | Owner decision | [Fab EULA §2(a), §7(a)](https://www.fab.com/eula); [Epic: Licenses and Pricing in Fab](https://dev.epicgames.com/documentation/en-us/fab/licenses-and-pricing-in-fab) |
+| **X1** | Keep licence notices for bundled code: the Earcut port (ISC) and three.js 0.180.0 (MIT, per `web/package-lock.json`) | App, web | The ISC notice is in the header of `Sources/WorldMesh/Earcut.swift`. Still needed: an acknowledgements list in the app and the three.js notice with `web/dist`. | Partly (not researched beyond the repo) | Licence text in the source file / package metadata |
+
+---
+
+## 2. OpenStreetMap (ODbL 1.0)
+
+### 2.1 Key clauses
+
+- **Definitions** ([ODbL §1](https://opendatacommons.org/licenses/odbl/1-0/)):
+  - A *Produced Work* is a work such as an image, audiovisual material, text or sounds that results from using the whole or a Substantial part of the Contents.
+  - A *Derivative Database* is any adaptation or modification of the database, including extracting or re-utilising a Substantial part in a new database.
+  - *Convey* means enabling someone to make or receive copies. The text adds: "Conveying does not include interaction with a user through a computer network", where no copy is transferred.
+  - *Publicly* means to anyone outside your control.
+- **Code is out of scope:** the licence does not apply to "computer programs used in the making or operation of the Database" ([§2.3(a)](https://opendatacommons.org/licenses/odbl/1-0/)). Rights in individual Contents are not covered either, other than Database Rights or in contract ([§2.4](https://opendatacommons.org/licenses/odbl/1-0/)). So WorldGen, the renderers and our own art stay ours.
+- **Notices:**
+  - To Publicly Convey the database, or a derivative of it, you need ODbL terms, the licence text or URI in the data and its docs, intact notices, and a directory-level notice where a file can't hold one ([§4.2](https://opendatacommons.org/licenses/odbl/1-0/)).
+  - Public use of a Produced Work needs a notice that the content came from the database and is under ODbL ([§4.3](https://opendatacommons.org/licenses/odbl/1-0/)).
+- **Share-alike:**
+  - A publicly used derivative database must be licensed under ODbL, a later similar version of it, or a compatible licence ([§4.4(a)](https://opendatacommons.org/licenses/odbl/1-0/)).
+  - Publicly using a Produced Work makes its derivative database publicly used ([§4.4(c)](https://opendatacommons.org/licenses/odbl/1-0/)).
+  - Making a Produced Work "does not create a Derivative Database for purposes of Section 4.4" ([§4.5(b)](https://opendatacommons.org/licenses/odbl/1-0/)).
+  - Internal use is not public ([§4.5(c)](https://opendatacommons.org/licenses/odbl/1-0/)).
+- **Offer:** whoever publicly uses a derivative database, or a Produced Work from one, must "offer to recipients of the Derivative Database or Produced Work a copy", in machine-readable form, of either (a) the entire derivative database or (b) the alterations or the method, free of charge over the internet ([§4.6](https://opendatacommons.org/licenses/odbl/1-0/)).
+- **No restrictions:** no added terms or technical measures restricting ODbL rights, unless an unrestricted copy is also made available ([§4.7](https://opendatacommons.org/licenses/odbl/1-0/)). "You may not impose any further restrictions" ([§4.8](https://opendatacommons.org/licenses/odbl/1-0/)).
+- **Charging** is allowed, but because the result stays ODbL, "other people may then redistribute this without payment" ([Legal FAQ §1.9](https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ)). OSMF cannot grant an alternative licence ([FAQ §1.11](https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ)).
+- **Two duties on [openstreetmap.org/copyright](https://www.openstreetmap.org/copyright)** ("How to credit OpenStreetMap"): credit OpenStreetMap, and "Make clear that the data is available under the Open Database License." When distributing in data form, "please name and link directly to the license(s)".
+
+### 2.2 What the repo does today
+
+- Raw OSM is fetched with `out body`, with no usernames or IDs (`Data/areas/sloans-lake/osm.overpassql`).
+- It is committed unmodified with `NOTICE.md` and `manifest.json`.
+- The extract is clearly **Substantial**: 3,706 ways (1,427 of them buildings) plus 6,230 tagged nodes. Some of those nodes sit within ways, so the conclusion rests on the ways alone. The [Substantial guideline](https://osmfoundation.org/wiki/License/Community_Guidelines/Substantial_-_Guideline) treats an extraction as insubstantial, provided it is one-off and not repeated, in three cases:
+  - fewer than 100 features;
+  - more than 100 features if the extraction is non-systematic and based on your own qualitative criteria;
+  - the features of an area of up to 1,000 inhabitants.
+
+  A full extract of a city neighbourhood fits none of them.
+- The demo app `WorldLab` bundles that folder and the generated package (`Apps/WorldLab/project.yml`). It is a development app, not a public release.
+- `WorldView` always overlays the credit. The web renderer shows unlinked credit text.
+- `docs/plan-m1.md` §6 currently says "generated detail is a Produced Work, so attribution only". This document recommends revisiting that for the **package** (§2.3).
+
+### 2.3 Is the world package a Produced Work or a Derivative Database?
+
+The package (`docs/package-format.md`) contains:
+- GLB chunk meshes, with a per-vertex `_FEATURE` index into `scene.json`
+- `scene.json` feature tables: OSM identities (`way/123`), 16 kept OSM source tags, kinds, and generated choices with their provenance (`osm` vs `profile`)
+- `instances.json`, `collision.json` and prototypes
+- `world.json`, with an exact WGS84 ENU frame (vertices within 1 cm), source licence and hashes
+- palettes, materials, environment and the source profiles
+
+**Arguments that it is a Produced Work:**
+- The meshes are a rendering-ready 3D visual work. The definition is open-ended ("such as an image…"), and OSMF says vector images such as SVG are usually Produced Works ([Produced Work guideline](https://osmfoundation.org/wiki/License/Community_Guidelines/Produced_Work_-_Guideline), board-endorsed 2014-06-06).
+- The package exists to be drawn, not to supply map data. The guideline's test is intent: is the result "intended for the extraction of the original data, then it is a database"?
+- Baking geometry is algorithmic. Trivial Transformations lists reformatting for "Faster access for a game." and algorithmic generalisation as trivial ([guideline](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Trivial_Transformations_-_Guideline)).
+
+**Arguments that it is (or contains) a Derivative Database:**
+- `scene.json`, `instances.json` and `collision.json` are literally systematic, individually accessible tables keyed by OSM ID and carrying OSM tags. That is the ODbL definition of a database, and it re-utilises a Substantial part of the Contents in a new database ([§4.4(b)](https://opendatacommons.org/licenses/odbl/1-0/)).
+- With the exact frame in `world.json`, footprints, paths and positions convert back to latitude/longitude. In its machine-learning section, OSMF says a Produced Work that is "used to extract, copy, or recreate substantial parts of the OpenStreetMap data" is considered a Derivative Database ([Attribution Guideline: Machine learning models](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines#Machine_learning_models)). Applying that to a package that merely *could* be used this way is our extrapolation, not OSMF's statement.
+- The package is a machine interface that other programs (the three.js renderer, future renderers) read data out of.
+
+**Working conclusion (conservative):**
+- Treat the package as a **Derivative Database**: at least `scene.json`, `instances.json`, `collision.json` and `world.json`, and the GLBs while they are paired with them.
+- Treat everything **rendered** from it (frames on screen, postcards, video, widgets) as **Produced Works from a Derivative Database**.
+- Treat the bundled `osm.json` as the Database itself (an unmodified Substantial extract).
+- Stripping IDs and tags would not clearly change the answer, because the geometry stays exact. So don't rely on stripping. Confirm with counsel (Q1).
+
+**Ambiguity to flag:** the Community Guidelines index, a page introduced as listing guidelines endorsed by the OSMF board, lists Trivial Transformations under its "Other guidelines:" subheading ([index](https://osmfoundation.org/wiki/Licence/Community_Guidelines)). But the guideline page itself says "This is at the proposal stage in our process" and shows no endorsement date. Don't build a compliance position on it alone (Q2).
+
+### 2.4 Share-alike obligations: our own apps
+
+1. **On-screen world (Produced Work).** Attribution (O1) plus the §4.6 offer (O9). Two ways to satisfy the offer:
+   - (a) If counsel agrees our pipeline is a trivial transformation, point users to the unmodified data.
+     - The FAQ says "you can simply refer users back to openstreetmap.org as the data source", but only on the condition "If you haven't made changes to the OSM data" ([§1.7.1](https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ)).
+     - The Trivial Transformations guideline's examples cover the same case: users must be told clearly where to get the equivalent OSM data, either from you or from OSM or a mirror ([guideline, Examples](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Trivial_Transformations_-_Guideline)).
+     - Better still, link a copy of the exact extract we used, since its timestamp and hash are already recorded in `manifest.json`.
+   - (b) Otherwise, offer the derivative database itself: the package's data files, under ODbL, as a free download. Offering the database (§4.6(a)) rather than the method (§4.6(b)) means the generator code never has to be published.
+2. **Package or extract inside the app bundle.** Users receive a copy, so this is "Convey" and §4.2 / §4.4 apply to the data files. Those files must be ODbL-licensed and carry the notice (O7, O8).
+   - Whether App Store packaging or the sandbox counts as a §4.7 "technological measure" is unclear (Q1). A free public download of the same data would probably satisfy §4.7(b) parallel distribution, provided it is at least as accessible to recipients, in practice, as the copy in the app (§4.7(b)(iii)).
+3. **Web version.** The browser downloads package files, so a copy is transferred. That is Conveying, not mere "interaction … through a computer network". Same duties as item 2, plus the linked credit (O2).
+4. **Shared postcards and video.** Produced Works in other people's hands. Burned-in credit (O4, O5) and the same offer link on the share page.
+5. **What becomes ODbL.** If item 1(b) applies, the generated per-building choices in `scene.json` (house type, colours and so on) become ODbL data that anyone may reuse. Code (§2.3(a)) and independent Contents such as our prototype meshes, palettes and shaders (§2.4) are not covered. Splitting the package into an ODbL **data** part and a separately licensed **presentation** part would make this explicit (owner decision D1).
+
+### 2.5 Share-alike obligations: white-label or licensing
+
+- Giving packages to third parties is Publicly Conveying a Derivative Database. The data parts must be under ODbL; we may charge, but we may not add restrictions (§4.4, §4.7, §4.8). Recipients may redistribute them freely (FAQ §1.9).
+- What we can sell under our own terms:
+  - the engine and generator code (§2.3(a))
+  - our own art and presentation files as independent Contents (§2.4). They must stay compatible: §4.4(d) forbids adding Contents incompatible with ODbL to the derivative database. Hence F4/F5.
+  - hosting, updates, support and custom work
+- Each licensee becomes a publisher of Produced Works. Contracts should flow down attribution (O1, O4–O6) and the §4.6 offer. Under §4.8 we are not responsible for enforcing third parties' compliance, but we must not grant terms that conflict with ODbL.
+- Exclusive rights to a city's world data cannot be granted. A lawyer must draft this (Q15).
+
+### 2.6 Attribution by surface
+
+All from the [OSMF Attribution Guideline](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines), adopted 2021-06-25:
+
+- **Text.** "Attribution must be to “OpenStreetMap”." It must also make clear that the data is under ODbL (mandatory). Linking the text "OpenStreetMap" to /copyright is one accepted way to do that. "“© OpenStreetMap contributors” or “© OpenStreetMap” are acceptable". It must be legible, considering font, size, colour, contrast, positioning and how long it is shown; WCAG is recommended.
+- **Interactive map / app screen.** A corner, adjacent to the map, or a start-up splash or pop-up.
+  - Collapsing is allowed on dismissal, on interaction, or "automatically after five seconds".
+  - After collapsing, the user "must still be able to find the licence information", e.g. via an (i) button or About.
+  - The safe harbour also says attribution "should not require individuals to interact with the map".
+  - Our "always visible" rule exceeds this.
+- **3D world as a game or simulation.** The guideline's games section says "attribution can be provided either by a splash screen on application startup", in-view, in credits or in menus, with details somewhere suitable. This could justify a "clean view" without the overlay, but CLAUDE.md requires it to stay visible. Owner decision D2.
+- **Shared images and postcards.** Same as interactive maps; one credit per document. Where a hyperlink isn't possible, the print rule applies: "The URL to openstreetmap.org/copyright must be printed out." Exemptions exist for images under 100 features or 10,000 m², and "Small thumbnails/icons do not require attribution." Don't rely on the area exemption for postcards.
+- **Widgets.** No explicit rule. The thumbnail exemption may or may not cover them (Q4). Proposed safe default (our idea, not from OSMF): "© OpenStreetMap" visible in the widget, with tap-through to the licence info.
+- **Video.** Corner credit while the world is the main content, plus end credits or description with the URL.
+- **Web.** Same as interactive maps; the credit must be a link (O2).
+- **Data (packages, extracts).** Attribution and the ODbL text or link inside the data, or in a README / notice file.
+
+### 2.7 Data we add
+
+- **Regional profiles and seeds.** Style tables that don't reference OSM features are plausibly an independent database in a Collective Database. One of the Collective guideline's alternative conditions is that the OSM and non-OSM datasets do "not reference each other" ([guideline](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Collective_Database_Guideline_Guideline), endorsed 2016-06-17). The others cover replacing or adding a geometry, data type or property under all-OSM or no-OSM rules. The per-building **choices** in `scene.json` reference OSM IDs, and for roof shape and floors they mix OSM and profile values. The guideline's safe harbour requires a property to use "either all OSM data or no OSM data for that property", so those choices fall outside it. They are part of the derivative database, which is acceptable if we offer them (§2.4 item 5).
+- **Building overrides (planned).** Host or user data keyed by OSM ID that replaces a property for some buildings only. Same mixing problem. Horizontal Layers says that if OSM and non-OSM data are used together "for a given Feature Type", then "the share-alike condition would apply regardless" of layering ([Horizontal Layers](https://osmfoundation.org/wiki/Licence/Community_Guidelines/Horizontal_Map_Layers_-_Guideline)).
+  - Private on-device use is not public use.
+  - **Publicly shared** renders that include overrides could oblige us to offer the override data to recipients, which is a privacy concern (Q6).
+- **Overture or other sources merged by OSM ID.** External observation data, so not trivial ("Without reading any other observation data (important!)"). The combined database must be offered under ODbL (O12). `docs/research/data-coverage.md` recommends exactly this kind of merge (Overture buildings as a second footprint source for the North Shore); see V1.
+
+---
+
+## 3. Overture Maps
+
+Source: [Attribution and Licensing](https://docs.overturemaps.org/attribution/) (docs v2.0.0). The page footer says "Last updated on May 15, 2026", but many per-source entries carry later "Accessed: 2026-09-…" dates, so the source list is newer than the footer suggests.
+
+Cross-reference: `docs/research/data-coverage.md` recommends Overture buildings as a second footprint source for the North Shore. Its audit finds Esri Community Maps extras (CC BY 4.0) in 7 cells, so per-source CC BY credit applies wherever those are used (V1).
+
+| Theme | Licence (as stated by Overture) | Attribution listed |
+|---|---|---|
+| Addresses | Varies by source; all permissive, some with special terms | Per-country/source list on the page |
+| Base | ODbL | © OpenStreetMap contributors; Daylight; ESA WorldCover (CC BY 4.0); ETOPO1 (PDDL); GLOBathy (CC0, "assumed") |
+| **Buildings** | **ODbL** | © OpenStreetMap contributors; Esri Community Maps contributors (CC BY 4.0); Microsoft Global ML Building Footprints (ODbL); Google Open Buildings (CC BY 4.0); USGS 3DEP; Shi et al. East Asia buildings (CC BY 4.0); IGN Spain BTN 2024 (CC BY 4.0) |
+| Divisions | ODbL | © OpenStreetMap contributors; geoBoundaries, Esri, LINZ (CC BY 4.0) |
+| **Places** | No single "License for theme" line on the attribution page. The guide says CDLA Permissive 2.0 and Apache 2.0. | Meta, Microsoft, PinMeTo, Krick, RenderSEO, DAC, BrightQuery (CDLA-Permissive-2.0); Foursquare (Apache 2.0, NOTICE.txt); AllThePlaces (CC0) |
+| Transportation | ODbL | © OpenStreetMap contributors; TomTom |
+
+- **Buildings inherit ODbL share-alike.** The buildings guide says "the buildings theme is published under the ODbL license" because it includes OpenStreetMap ([guide](https://docs.overturemaps.org/guides/buildings/#sources-and-licensing)). Using it brings the full §2 duties, plus the CC BY 4.0 source credits.
+- **Places carry no share-alike.** The guide says "It contains no OpenStreetMap data" ([guide](https://docs.overturemaps.org/guides/places/)). Its source table lists CDLA-Permissive-2.0, Apache-2.0 (Foursquare) and CC0-1.0 (AllThePlaces). It warns that joining places to OSM "may need to carry the Open Database License (ODbL)" ([Sources and licensing](https://docs.overturemaps.org/guides/places/#sources-and-licensing)).
+  - CDLA-Permissive-2.0 requires that a recipient sharing the data "makes available the text of this agreement with the shared Data" (§2.1).
+  - It puts no restrictions on *Results* (§3.1) ([cdla.dev](https://cdla.dev/permissive-2-0/)).
+- **Attribution text.**
+  - For its OSM-based Explore tool, Overture uses "© OpenStreetMap contributors, Overture Maps Foundation."
+  - A citation "Overture Maps Foundation, overturemaps.org" is described as optional for publications.
+  - Overture publishes no single mandatory string for apps. Suggested: that Explore line, plus the per-source credits in the credits screen and package notice (Q20).
+
+---
+
+## 4. Apple WeatherKit
+
+Sources:
+- [WeatherKit page: Attribution requirements](https://developer.apple.com/weatherkit/#attribution-requirements)
+- [Apple Developer Program License Agreement](https://developer.apple.com/support/terms/apple-developer-program-license-agreement/) (DPLA; agreement and Schedule 1 last updated **2026-08-18**). WeatherKit sits in **§3.3.8(B)** and **Attachment 8**; call quotas are in **Attachment 9**.
+- [App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) (last updated 2026-06-08)
+
+Apple's documentation pages are JavaScript-rendered. They were read through Apple's documentation JSON, which carries the same text. Everything below is paraphrased.
+
+### 4.1 Attribution
+
+- **Original data shown.** Any app, web app or website that displays Apple weather data (other than alerts or value-added products) must clearly display the Apple Weather trademark (Apple logo + "Weather") and the legal link to other data sources (WeatherKit page).
+  - App Review 5.2.5 is titled "Apple Products". Only its last sentence concerns weather: apps that display Apple Weather data should follow the attribution requirements in the WeatherKit documentation.
+  - DPLA Att. 8 §1.4 requires display to comply with all attribution requirements.
+- **Value-added services or products.** Data derived from Apple weather data and transformed so that nobody can recover the original data. Credit the source to Apple Weather, with a notice that Apple's data was modified (WeatherKit page; the same concept is a defined term in DPLA Att. 8 §1.2, "Value-Added Services or Products").
+  - Our nine-label weather states rendered as rain, snow or fog are plausibly value-added.
+  - A weather strip showing temperature or condition text is original data and needs the full mark plus legal link.
+- **Assets.**
+  - `WeatherAttribution` provides `combinedMarkLightURL` and `combinedMarkDarkURL` (combined Apple Weather mark), `squareMarkURL`, `legalPageURL` (legal attribution page) and `serviceName`.
+  - `legalAttributionText` is for apps that cannot show the legal page in a Safari view ([doc](https://developer.apple.com/documentation/weatherkit/weatherattribution)).
+  - REST: `GET /attribution/{language}` returns logo URLs at @1x–@3x (light, dark and square) plus `serviceName`. The URLs are partial: append each to https://weatherkit.apple.com to get the image ([doc](https://developer.apple.com/documentation/weatherkitrestapi/attribution)). `Metadata.attributionURL` is the legal attribution URL ([doc](https://developer.apple.com/documentation/weatherkitrestapi/metadata)).
+  - The data-source page lists the agencies behind the data ([data sources](https://developer.apple.com/weatherkit/data-source-attribution/)).
+- **Alerts.** The WeatherKit page requires all three: an embedded link to Apple's alert details page, the full name of the issuing agency, and no modification. DPLA Att. 8 §1.4 covers only the no-modification rule.
+- **By surface:**
+  - App screen: mark + legal link next to weather info. The proposal placement is in `docs/proposals/weather-v1` §10 and `experience-v1` §5.
+  - Shared images and video: Apple says nothing specific. Proposed: burned-in mark + modified notice, with the legal link on the share page (W3, Q8).
+  - Widgets: same gap. Proposed (unsourced): the legal link lives behind the widget's tap target.
+  - Web: same rules. The WeatherKit page names apps, web apps and websites.
+
+### 4.2 Storage and caching
+
+- **DPLA Att. 8 §1.5:** no use that enables bulk downloads or feeds, or that extracts or scrapes the data. Apple weather data may not be used or offered as part of any secondary or derived database.
+- **DPLA Att. 8 §1.6:** unless the Documentation expressly permits otherwise, no caching, pre-fetching or storing except temporarily and on a limited basis, solely to improve WeatherKit performance in the app.
+  - No document was found that permits more.
+  - The data carries an expiry (`WeatherMetadata.expirationDate`; REST `Metadata.expireTime`, "no longer valid"). That is a ceiling to respect, not a permission.
+- **Repo:**
+  - `TemporaryWeatherCache` is memory only: 30 min fresh (15 while changing), up to 2 h stale only on fetch failure, then discarded.
+  - Exported packages currently carry synthetic "clear" weather, not Apple data.
+  - Keep it that way: don't persist Apple-derived states in `environment.json`, recaps or postcard metadata without counsel (Q9). `docs/proposals/weather-v1` §9 already reached the same reading.
+
+### 4.3 Fees, purpose, EULA
+
+- **Att. 8 §1.2:**
+  - No charging end users for Apple weather data in its original form; charging for value-added products, including apps, is allowed.
+  - No sublicensing of the API or the original data.
+  - Our end-user licence terms must not permit end users or other third parties to reverse engineer the WeatherKit APIs or the weather data, for any purpose.
+- **DPLA §2.8:** no fees to end users solely for access to or use of Apple Services through our apps or Corresponding Products.
+- **Att. 8 §1.3:** apps using WeatherKit may not be designed or marketed for emergency or life-saving purposes.
+- **Att. 8 §2.2:** apps that use WeatherKit for real-time weather guidance must include a set risk notice in their EULA. Whether a live weather visualization counts as guidance is unclear (Q10).
+- **Att. 8 §3.2:** Apple may limit, suspend or revoke access for violations.
+
+### 4.4 Third parties and white-label
+
+- **DPLA §2.8 (use of Apple Services):**
+  - Access only through Apple's mechanisms.
+  - No sharing of access mechanisms (keys) with third parties, except Service Providers under §2.9.
+  - Use only as needed for *your* Covered Products (your Applications etc.) or Corresponding Products (your website, web application, or other version of your software application; §1.2 definitions).
+  - No building a substitute service from the Apple Services.
+- **DPLA §2.6:** no selling, redistributing or sublicensing any Services, or enabling others to.
+- **"Application"** (§1.2) means software distributed under *your own* trademark or brand.
+- **Conclusion.** A licensee's branded app is not our Application. It needs **its own** Apple Developer Program membership and WeatherKit access.
+  - We may not proxy our quota or keys to licensees.
+  - Feeding licensees an Apple-derived environment feed is at least doubtful, given §1.2 (value-added products are for "Your end users"), §1.5 (no secondary/derived database) and §2.8. See Q16.
+  - Acting as a licensee's **Service Provider** using *their* keys may be possible under §2.9 with a written agreement.
+- **Engine design already fits.** The engine never calls WeatherKit and takes a host `WeatherProvider`.
+- **App Review 4.2.6:** apps built from a commercialised template must be submitted by the content provider itself, or delivered as one aggregated "picker" app. **App Review 5.2.1** adds that apps should be submitted by the person or entity that owns or has licensed the relevant IP. Both matter for any white-label app programme (Q17).
+- **Call quotas** (WeatherKit page; DPLA Att. 9): 500,000 calls/month included per membership; paid tiers start at 1 million calls for US$49.99/month.
+
+### 4.5 Web version (REST)
+
+- The REST API is Apple's route for web apps and other platforms such as Android ([REST API overview](https://developer.apple.com/documentation/weatherkitrestapi/)). Attribution rules are the same.
+- **Ambiguity (Q11):** DPLA §2.8 says Apple Services are to be accessed only for use on Apple-branded products. That seems to conflict with Apple's own statement that REST serves other platforms. Points on the other side:
+  - A Corresponding Product includes "other version[s]" of our software application, not only websites (§1.2).
+  - §2.8 allows use "as permitted by Apple in writing, including in the Documentation", and the WeatherKit REST documentation explicitly targets web apps and Android.
+  - Attachment 8 expressly applies to WeatherKit use in "Your Application or Corresponding Product".
+
+  On balance, web use looks intended, but the literal wording should be cleared.
+
+---
+
+## 5. HYG star catalog (CC BY-SA 4.0)
+
+- **Licence verified.** The live repository is now [codeberg.org/astronexus/hyg](https://codeberg.org/astronexus/hyg). The GitHub repo's README now points there and holds the archive our notice cites ([GitHub](https://github.com/astronexus/HYG-Database)).
+  - Codeberg README: "Versions since v4.0 are licensed as above (CC-BY-SA 4.0)." Earlier versions used CC BY-SA 2.5.
+  - The `LICENSE` file is CC BY-SA 4.0 in both repositories.
+  - Current version is v4.4; we use v4.1, which is covered.
+  - Optional: also cite the Codeberg URL in `STARS-NOTICE.md`.
+- **Does share-alike cover the derived JSON?** Likely yes.
+  - We selected, merged and transformed the data. Under CC BY-SA 4.0 §4(b), putting a substantial portion of a database's contents into a database in which *we* hold sui generis database rights makes that database *Adapted Material* for share-alike purposes. It bites only if HYG's licensed rights include sui generis rights and we hold such rights in our file.
+  - Copyright in factual star positions is thin, and whether any right applies to a 256-star subset is a jurisdiction question (Q12).
+  - We already license the file CC BY-SA 4.0, which is the safe answer either way.
+- **Rendered sky images.** A rendering of positions isn't a database, and isn't obviously an adaptation under copyright law. CC's FAQ ties "adaptation" to applicable copyright law ([FAQ](https://creativecommons.org/faq/#when-is-my-use-considered-an-adaptation)). Likely not Adapted Material. Credit is cheap, so credit anyway.
+- **The app itself.** A collection. Including CC material in a collection "does not change the license applicable to the original material" ([FAQ](https://creativecommons.org/faq/#if-i-create-a-collection-that-includes-a-work-offered-under-a-cc-license-which-licenses-may-i-choose-for-the-collection)), so share-alike does not extend to our code or assets.
+- **Attribution required** (CC BY-SA 4.0 §3(a)(1)): creator, any copyright notice, a licence notice and URI, a link to the source, and a note of our modifications. Also, if supplied with the material: a notice referring to the warranty disclaimer, and any indication of previous modifications, which must be retained.
+  - Done in `STARS-NOTICE.md` and the JSON header. The repo's credit string is "Stars: HYG Database v4.1, David Nash / Astronomy Nexus, CC BY-SA 4.0 (modified)."
+  - §3(a)(2) allows any reasonable manner for the medium. A credits screen is reasonable for the app. Not shown anywhere yet (H2).
+- **Restriction rule.** §3(b)(3): "You may not offer or impose any additional or different terms" or technical measures on Adapted Material. Keep the star file outside restrictive app or white-label terms (H3, Q12).
+- **Conflict with Fab.** Fab EULA §6(a) names CC BY-SA as a licence that Fab content may not be combined with (§6, F5, Q13).
+
+---
+
+## 6. Fab Standard License
+
+Source: [Fab EULA](https://www.fab.com/eula), last updated **2024-10-01**.
+- Scripted fetches get a bot check (HTTP 403). The page was read in a normal browser session; no challenge was completed.
+- The paragraph labels "4(b)" and "6(b)" are inferred from position; the page renders those two paragraphs without letters.
+- Supporting page: [Epic: Licenses and Pricing in Fab](https://dev.epicgames.com/documentation/en-us/fab/licenses-and-pricing-in-fab).
+
+Everything below is paraphrased.
+
+- **Any engine.** The page's (non-binding) summary says the assets may be used with any compatible tool, not only Unreal Engine.
+  - The binding grant (§3(a)) is a non-exclusive, non-transferable licence to *privately* use, reproduce, display, perform and modify the content, with no engine limit. Sharing the content, or Projects made with it, is governed separately by §4 and §5.
+  - Source assets come in Unreal format and possibly others listed per product (§2(d)). Check each listing for FBX / glTF / USD.
+- **Embedded in apps.** A Project that includes the content as a dependency may be distributed to end users (§4(c)), but:
+  - only in object code;
+  - end users may use the content only as part of the Project;
+  - we must restrict them from extracting it.
+  - Distributors and publishers may be used. "Distribute" includes making a Project's functionality available on a network (§4(a)).
+  - Implications: an anti-extraction clause in our EULA. For the **web**, plain GLB downloads make extraction trivial, so counsel's view is needed (Q14).
+- **Rendered output.** Rendered video and images made with the content may be distributed freely (§4(b), "Distributing Linear Media Projects"). Postcards and video are fine.
+- **Standalone.** No distributing the content on a standalone basis, except to collaborators building the Project with us, who must delete it afterwards (§5(a)). No selling, renting or transferring it standalone; a Project must add value beyond the content (§6(b)(ii)).
+- **Third parties.** No allowing any third party to incorporate the content into their own products, and no world/level-editing tools or templates that let works be exported (§6(b)(iii)). So:
+  - no Fab content in world packages, the ODbL data download or white-label deliverables;
+  - each licensee buys its own licence. We could integrate assets the licensee itself bought, as their contractor (§5(a)); confirm with counsel (Q18).
+- **Incompatible licences.** We may not "combine, Distribute, or otherwise use" the content with code or content under a licence that would directly or indirectly require any of the content to be governed by other terms. Named examples: GPL, LGPL (except dynamic linking) and **CC BY-SA** (§6(a)). Under that test the open question is mere aggregation: a CC BY-SA file in the same app does not obviously place the Fab assets under CC BY-SA, but the named example makes the reading uncertain.
+  - The ODbL is not named. However, ODbL §4.4(d) forbids adding incompatible Contents to an ODbL derivative database, which is another reason to keep Fab content out of packages.
+  - Whether shipping Fab meshes in the **same app** as the CC BY-SA star file counts as an act to "combine" them needs counsel (Q13). If counsel is unsure, replace HYG with a public-domain catalog (owner decision D4).
+- **Other restrictions:** no reverse engineering or deriving data from the content (§6(b)(i)); keep its proprietary notices (§6(b)(vi)); don't use "NoAI" content for generative AI (§6(b)(vii), §16(l)). Code plugins are licensed per seat (§2(e)).
+- **Tiers** (§2(a)):
+  - The Personal tier (and Personal – Reference Only) applies only if, at purchase, you **together with any controlling entity and entities under common control** made **no more than US$100,000 gross revenue** from commercial activity **in the digital content industry** over the **last 12 months**.
+  - Revenue **includes advances received and other funds raised**.
+  - Otherwise, Professional.
+  - Buying an ineligible tier means paying Epic the difference on request.
+  - The summary says both tiers grant the same rights, and no upgrade is needed if the threshold is crossed after purchase.
+  - Epic's doc phrases the threshold more loosely ("gross revenue from commercial activity"); the EULA wording above is the binding one.
+- **Version lock.** Content stays under the terms in force when it was acquired (§7(a)). Keep a record of the EULA date with each purchase.
+- **Credit.** Not required by the Standard License (summary). Fab assets offered under CC BY instead follow that licence's attribution rule.
+
+---
+
+## 7. Other notices found in passing
+
+- **Earcut port:** ISC licence text kept in `Sources/WorldMesh/Earcut.swift`. The licence requires the notice in all copies, so add it to an in-app acknowledgements list.
+- **three.js 0.180.0:** MIT per `web/package-lock.json`. Ship its licence notice with `web/dist` and the app acknowledgements.
+- **esbuild:** dev-only, not distributed.
+- **Public Overpass servers** remain a developer tool only (`docs/plan-m1.md`). This is a usage-policy matter, not licensing.
+- **Copernicus DEM and other plan sources** (`docs/plan-m1.md` §6, §10) were not researched here.
+
+---
+
+## 8. Blockers and risks, ranked
+
+1. **Package characterization drives everything (High; both scenarios).** If the package is a Derivative Database (likely), every channel that hands it over must ship it under ODbL with no extra restrictions: app bundle, web, white-label. Every product showing it needs the §4.6 offer. Not a launch blocker for our own apps once O8–O10 and O13 are done. It **is** a business-model constraint for white-label: no exclusive or proprietary data licences. (§2.3–2.5; Q1, Q2, Q3, Q15)
+2. **Fab assets cannot travel (High; white-label and web).** Standalone and third-party-incorporation bans (§5(a), §6(b)(iii)), anti-extraction duty (§4(c)), and possible conflicts with CC BY-SA and ODbL content (§6(a)). Resolve before buying. (F2, F4, F5; Q13, Q14, Q18)
+3. **WeatherKit is per-developer and non-archivable (High for white-label, Medium for own apps).** No key sharing or sublicensing (§2.6, §2.8, Att. 8 §1.2). Temporary caching only (Att. 8 §1.6). No derived databases (§1.5). Licensees need their own access. Saved recaps, postcards and packages must not become a weather archive. (W5, W7; Q9, Q16)
+4. **Attribution on exported surfaces is missing (Medium; own apps).** OSM, Apple Weather and HYG credits are not burned into images, video or widgets. Apple publishes no rule for non-interactive outputs. (O4–O6, W3, H2; Q4, Q8)
+5. **Web specifics (Medium).** Unlinked OSM credit (O2); package download is Conveying; Fab extraction; the DPLA §2.8 "Apple-branded products" wording against REST on other platforms. (Q11, Q14)
+6. **User overrides in shared renders (Medium, when built).** May trigger a §4.6 offer of user data. Keep overrides out of public outputs until counsel answers. (O11; Q6)
+7. **CC BY-SA in App Store and white-label terms (Low).** §3(b)(3); credit UI missing. (H2, H3; Q12)
+8. **Overture adoption (Low, future).** Buildings bring ODbL plus CC BY 4.0 credits; merging heights makes the combination a derivative database. (V1, O12; Q20)
+9. **Code notices (Low).** Acknowledgements list missing. (X1)
+
+---
+
+## 9. Questions for a lawyer
+
+**Own apps**
+
+1. Is the world package (GLB meshes with a per-vertex feature index, plus `scene.json`, `instances.json` and `collision.json` keyed by OSM IDs and tags, plus an exact WGS84 frame) a Derivative Database or a Produced Work under ODbL? If a Derivative Database, does shipping it inside an iOS app bundle "Publicly Convey" it? Is App Store packaging or the sandbox a §4.7 technological measure that requires a parallel unrestricted copy?
+2. Our generator adds regional style profiles and seeded choices, which are not observation data. Is that a "trivial transformation", given the OSMF page is marked "proposal stage" while the index lists it as endorsed? If so, can the §4.6 offer be satisfied by pointing to the unmodified extract?
+3. Can the §4.6 offer be a link in an About/credits screen to a free download of only the package's data files, excluding meshes, materials and assets? Must every shared postcard or video carry the offer, or is a share page enough?
+4. Does the OSMF thumbnail exemption cover home-screen widgets? If not, what is the minimum legible credit for the smallest widget size?
+5. For an always-visible overlay in a 3D world that behaves like a game or simulation, may a clean view hide the credit under the games/simulations safe harbour (splash or credits), despite our stricter internal rule?
+6. If users' per-building overrides (colours, roof shapes) appear in postcards they share publicly, is the result a Produced Work from a Derivative Database that obliges us to offer the override data to recipients? How should this be designed so private user data is never subject to an offer?
+7. WeatherKit: are rendered weather states (nine labels plus intensity driving rain, snow and fog visuals) "Value-Added Services or Products" (DPLA Att. 8 §1.2)? If the same screen also shows temperature or condition text, does the full mark plus legal link apply to that screen only?
+8. WeatherKit attribution on non-interactive outputs (shared images, video, widgets): is a burned-in Apple Weather mark plus modified-data notice, with the legal link on the share page or in the app, sufficient? Should we ask Apple Developer Support in writing?
+9. Att. 8 §1.6: does keeping a rendered postcard (pixels that reflect weather), or a resolved weather label in a saved recap, count as caching or storing Apple Weather Data? What retention, if any, is permitted for derived labels used to replay a past moment?
+10. Att. 8 §2.2: does a live weather visualization or strip count as "real-time weather guidance" requiring the EULA notice? Att. 8 §1.2: in a paid or subscription app, does showing live temperature count as charging for data "in its original form"?
+11. DPLA §2.8 says Apple Services are for use on Apple-branded products, but Apple documents the WeatherKit REST API for websites and Android. May our web version show WeatherKit data to visitors on non-Apple devices?
+12. HYG: does distributing the CC BY-SA derived star file inside an App Store app (Apple's standard EULA, FairPlay) conflict with CC BY-SA §3(b)(3)? Is a 256-star factual subset protected at all (US copyright; EU sui generis rights for a non-EU maker)?
+13. Fab §6(a): does shipping Fab meshes in the same app as the CC BY-SA star file, or rendering Fab props from an ODbL-licensed package, fall within the bar on attempts to "combine" Fab content with such licences? Should we replace HYG with a public-domain catalog before buying?
+14. Fab §4(c) on the web: if Fab-derived meshes are delivered to browsers, what satisfies the duty to "restrict end users from extracting" the content (terms, packing, encryption)? Is web use advisable at all?
+
+**White-label / licensing**
+
+15. Given ODbL §4.4, §4.7 and §4.8, what may a licence to third parties restrict? Which parts can stay proprietary: code (§2.3(a)), our prototype meshes, palettes and shaders as independent Contents (§2.4), regional profiles as a Collective Database? Please draft flow-down clauses for attribution and the §4.6 offer.
+16. WeatherKit: confirm each licensee needs its own Apple Developer Program membership and WeatherKit access. Can we operate a weather proxy as the licensee's §2.9 Service Provider using *their* keys? Can we sell licensees a hosted, Apple-derived environment feed, or is that a "secondary or derived database" (Att. 8 §1.5) or a sublicence (§1.2, §2.6)?
+17. App Review 4.2.6: if licensees ship branded apps on our engine, must each be submitted from the licensee's own developer account? Does an SDK licence count as a "template or app generation service"?
+18. Fab: confirm white-label deliverables must exclude Fab content (§6(b)(iii)). Can we integrate assets a licensee bought under *their* licence, as their contractor or collaborator (§5(a))?
+19. Fab tier: does our entity (with any controlling or affiliated entities, counting funds raised) qualify for Personal under §2(a)? This may be an accountant's question.
+20. Overture: if we merge Overture building heights into OSM features by ID, is the combination ODbL (yes, per Overture)? Exactly which attribution strings and placements satisfy the CC BY 4.0 sources (Esri, Google Open Buildings and others) on screen, in exports and in packages?
+
+---
+
+## 10. Decisions for the owner
+
+- **D1 – Package split.** Accept that the package's data files are ODbL and offered publicly? Split the package into an ODbL *data* part and a separately licensed *presentation* part (meshes, materials, palettes, profiles)? This would change `docs/package-format.md` and the exporter: a design decision to approve before code.
+- **D2 – Attribution visibility.** Keep the OSM credit always visible (the CLAUDE.md rule, stricter than OSMF), or allow a collapse after 5 s or a games-style credit in a "clean view"?
+- **D3 – Credits screen ownership.** Should the engine provide a generic credits/licence-notices component (like `WorldAttributionView`, fed with host-supplied weather attribution), or leave the screen to hosts? This is a design decision not covered by the plan.
+- **D4 – Star catalog.** Keep HYG (CC BY-SA) or switch to a public-domain catalog to remove the Fab §6(a) and CC §3(b)(3) questions?
+- **D5 – Fab policy.** Buy Fab assets only for our own native apps, never in packages or white-label deliverables, possibly never on the web? Choose the tier (Personal vs Professional) per §2(a).
+- **D6 – Weather for licensees.** White-label licensees bring their own weather provider and WeatherKit access; we never share keys or Apple-derived feeds.
+- **D7 – Quick fixes.** Approve these small fixes: link the web credit (O2); add a licence notice file and ODbL URI to the package exporter (O8); burn credits into exported images (O4).
+
+---
+
+## 11. Sources (all accessed 2026-10-05)
+
+**OpenStreetMap / ODbL**
+- Open Data Commons, *Open Database License 1.0*: https://opendatacommons.org/licenses/odbl/1-0/
+- OpenStreetMap, *Copyright and License*: https://www.openstreetmap.org/copyright
+- OSMF, *Licence and Legal FAQ* (§1.3–1.12, §5–7): https://osmfoundation.org/wiki/Licence/Licence_and_Legal_FAQ
+- OSMF, *Community Guidelines* index: https://osmfoundation.org/wiki/Licence/Community_Guidelines
+- OSMF, *Produced Work – Guideline* (endorsed 2014-06-06): https://osmfoundation.org/wiki/License/Community_Guidelines/Produced_Work_-_Guideline
+- OSMF, *Substantial – Guideline* (endorsed 2014-06-06): https://osmfoundation.org/wiki/License/Community_Guidelines/Substantial_-_Guideline
+- OSMF, *Collective Database Guideline* (endorsed 2016-06-17): https://osmfoundation.org/wiki/Licence/Community_Guidelines/Collective_Database_Guideline_Guideline
+- OSMF, *Horizontal Map Layers – Guideline* (endorsed 2014-06-06): https://osmfoundation.org/wiki/License/Community_Guidelines/Horizontal_Map_Layers_-_Guideline
+- OSMF, *Trivial Transformations – Guideline* (page marked "proposal stage"): https://osmfoundation.org/wiki/License/Community_Guidelines/Trivial_Transformations_-_Guideline
+- OSMF, *Regional Cuts – Guideline*: https://osmfoundation.org/wiki/Licence/Community_Guidelines/Regional_Cuts_-_Guideline
+- OSMF, *Attribution Guideline* (adopted 2021-06-25): https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
+- OSMF wiki text is CC BY-SA 2.0 (per the page footers).
+
+**Overture Maps**
+- *Attribution and Licensing* (docs v2.0.0; footer "Last updated on May 15, 2026", per-source "Accessed" dates up to 2026-09): https://docs.overturemaps.org/attribution/
+- *Buildings guide*: https://docs.overturemaps.org/guides/buildings/
+- *Places guide*: https://docs.overturemaps.org/guides/places/
+- *Community Data License Agreement – Permissive 2.0*: https://cdla.dev/permissive-2-0/
+
+**Apple WeatherKit**
+- *WeatherKit* (attribution requirements, pricing): https://developer.apple.com/weatherkit/
+- *WeatherKit data sources*: https://developer.apple.com/weatherkit/data-source-attribution/
+- *WeatherAttribution*: https://developer.apple.com/documentation/weatherkit/weatherattribution
+- *WeatherMetadata*: https://developer.apple.com/documentation/weatherkit/weathermetadata
+- *WeatherKit REST API*: https://developer.apple.com/documentation/weatherkitrestapi/
+- REST *Attribution*: https://developer.apple.com/documentation/weatherkitrestapi/attribution
+- REST *GET /attribution/{language}*: https://developer.apple.com/documentation/weatherkitrestapi/get-attribution-_language_
+- REST *Metadata*: https://developer.apple.com/documentation/weatherkitrestapi/metadata
+- The documentation pages above were read via Apple's documentation JSON.
+- *Apple Developer Program License Agreement* (last updated 2026-08-18; §1.2, §2.6, §2.8, §2.9, §3.3.8(B), Attachments 8 and 9): https://developer.apple.com/support/terms/apple-developer-program-license-agreement/
+- *App Store Review Guidelines* (last updated 2026-06-08; 4.2.6, 5.2.1, 5.2.5): https://developer.apple.com/app-store/review/guidelines/
+
+**HYG / Creative Commons**
+- HYG on Codeberg (live): https://codeberg.org/astronexus/hyg (README, LICENSE)
+- HYG on GitHub (archive; README points to Codeberg): https://github.com/astronexus/HYG-Database
+- *CC BY-SA 4.0 legal code*: https://creativecommons.org/licenses/by-sa/4.0/legalcode.en
+- *Creative Commons FAQ*: https://creativecommons.org/faq/
+
+**Fab**
+- *Fab EULA* (last updated 2024-10-01; bot check on scripted fetches, read in a normal browser): https://www.fab.com/eula
+- Epic Developer Community, *Licenses and Pricing in Fab*: https://dev.epicgames.com/documentation/en-us/fab/licenses-and-pricing-in-fab
+- Not accessible: Fab support article https://support.fab.com/s/article/license-and-pricing (needs JavaScript; certificate error on fetch). Not needed, since the EULA is the binding text.
+
+**Repo files referenced:** `CLAUDE.md`, `README.md`, `Sources/WorldEngine/WorldAttributionView.swift`, `Sources/WorldEngine/WorldView.swift`, `Data/areas/sloans-lake/{NOTICE.md,manifest.json,osm.overpassql,osm.json}`, `docs/package-format.md`, `Sources/WorldPackage/WorldPackage.swift`, `web/index.html`, `web/package-lock.json`, `Sources/WorldEnvironment/{WeatherProvider.swift,Stars.swift,EnvironmentState.swift}`, `Sources/WorldEnvironment/Catalog/{STARS-NOTICE.md,stars-hyg-v41-bright256.json}`, `scripts/data/build_star_catalog.py`, `Sources/WorldMesh/Earcut.swift`, `Apps/WorldLab/project.yml`, `docs/plan-m1.md`. Also the read-only proposals `docs/proposals/{experience-v1,weather-v1}`.

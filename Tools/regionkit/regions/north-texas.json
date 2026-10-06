@@ -1,0 +1,83 @@
+{
+  "region": "north-texas",
+  "name": "North Texas, Plano (accuracy check)",
+  "comment": "Accuracy check (b): three 1000 m x 1000 m cells spread west / central / east across Plano, each centred on a small neighbourhood park (2-4 ha, not a nature preserve; two tagged operator=Plano Parks and Recreation) chosen from `regionkit.sh find --bbox 33.00,-96.84,33.10,-96.63 --tag leisure=park`. Drafted with the GENERIC `default` template and compared with regions-draft.json `north-texas-dfw` (itself an assumption-only prior).",
+  "anchorSearch": {
+    "bbox": [33.0, -96.84, 33.1, -96.63]
+  },
+  "zones": [
+    {
+      "id": "plano",
+      "name": "Plano suburban residential (west, central, east)",
+      "template": "default",
+      "templateReason": "Accuracy check: the generic default is used so the draft cannot simply copy the reference.",
+      "reference": "north-texas-dfw",
+      "missingFamilies": [],
+      "cells": [
+        {
+          "id": "plano-west-parkwood-green-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Parkwood Green Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [33.034, -96.8262]
+          },
+          "center": [33.034, -96.8262],
+          "anchorResolved": {
+            "osm": "way/429910615",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Parkwood Green Park"
+            },
+            "osmTimestamp": "2026-10-06T03:48:46Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "plano-central-buckhorn-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Buckhorn Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [33.046, -96.7603]
+          },
+          "center": [33.046, -96.7603],
+          "anchorResolved": {
+            "osm": "way/288927122",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Buckhorn Park"
+            },
+            "osmTimestamp": "2026-10-06T03:48:46Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        },
+        {
+          "id": "plano-east-clearview-park",
+          "radiusMeters": 500,
+          "anchor": {
+            "name": "Clearview Park",
+            "match": {
+              "leisure": "park"
+            },
+            "near": [33.0508, -96.7041]
+          },
+          "center": [33.0508, -96.7041],
+          "anchorResolved": {
+            "osm": "way/518592663",
+            "matchedTags": {
+              "leisure": "park",
+              "name": "Clearview Park"
+            },
+            "osmTimestamp": "2026-10-06T03:48:46Z",
+            "rule": "Overpass `out center`, rounded to 4 decimals; cell = centre +- radiusMeters"
+          }
+        }
+      ]
+    }
+  ]
+}
