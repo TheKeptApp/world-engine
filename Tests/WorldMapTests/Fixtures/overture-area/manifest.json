@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "id": "overture-fixture",
+  "name": "Overture fixture",
+  "center": {
+    "latitude": 40.0,
+    "longitude": -105.0
+  },
+  "widthMeters": 200,
+  "heightMeters": 200,
+  "sources": [
+    {
+      "format": "osm-overpass-json",
+      "path": "osm.json",
+      "layers": [
+        "all"
+      ],
+      "bounds": {
+        "south": 39.9991,
+        "west": -105.0012,
+        "north": 40.0009,
+        "east": -104.9988
+      },
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors"
+    },
+    {
+      "format": "overture-buildings-v1",
+      "path": "overture-buildings.json",
+      "layers": [
+        "buildings"
+      ],
+      "bounds": {
+        "south": 39.9991,
+        "west": -105.0012,
+        "north": 40.0009,
+        "east": -104.9988
+      },
+      "dataTimestamp": "2099-01-01.0",
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors, Overture Maps Foundation; Esri Community Maps contributors (CC BY 4.0); Google Open Buildings (CC BY 4.0); Microsoft Global ML Building Footprints (ODbL); USGS 3D Elevation Program"
+    }
+  ]
+}
