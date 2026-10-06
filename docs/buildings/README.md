@@ -175,3 +175,17 @@ Before / after (`buildingviz`, same camera):
 | Colonial fronts: portico, 5-bay symmetric windows | ![](facades/colonial-gallery.jpg) |
 | Tudor: vestibule with arched door, paired casements | ![](facades/tudor-gallery.jpg) |
 | Lakeview three-flats: box and three-sided bays, stone lintels and sills, larger windows | ![](facades/lakeview-three-flats.jpg) |
+
+## Decisions: zones and yards (round 2)
+
+22. **Per-building zone profiles.** Without a forced profile, each building takes the `regions.json`
+    zone profile at its centroid (`ZoneProfiles`, one generator per profile); the area profile still
+    drives season and mapped trees. A forced `WorldRecipe.profileID` remains the test override.
+23. **Yards are inferred lots** ([yards.md](yards.md)): nearest-building yard cells that never cross
+    roads, walkways or blocked land; dressing only, marked `origin: inferred`.
+24. **Driveways only from mapped garages**; walks only from the door to the first sidewalk/street.
+25. **Hedges along inferred lot lines** at owner request (spec allows boundaries only on evidence):
+    profile-driven likelihood, low, one row per shared line.
+26. **Parkway trees by zone spacing** in the curb–sidewalk strip; mapped trees count first.
+27. **Yard ground 2 cm over the base lawn** (5A: no z-fighting at 2.5x); new palette names `yardBed`,
+    `driveway`.
