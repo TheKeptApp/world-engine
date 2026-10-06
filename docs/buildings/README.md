@@ -259,3 +259,13 @@ Before / after (`buildingviz`, same camera, top before):
     protrusions (the street-bay test applied to side walls): one window per story on each face
     (two on faces ≥ 2 windows + 1.3 m), none when a neighbour stands within 0.6 m. Walls with a
     0.4–0.9 m gap keep their previous behaviour.
+35. **Carriageway width includes parked cars** (`RoadRules`, `Sources/WorldMap/Rules.swift`). A tagged
+    `width` wins untouched. Otherwise `lanes` × 3.3 m (at least 4.5 m of travel width on these
+    street classes, so `lanes=1` streets are not 3.3 m) plus 2.3 m per side with parking for residential,
+    tertiary, unclassified and secondary ways; untagged sides count as parked, `parking:*` /
+    `parking:lane:*` values `no`, `no_parking`, `no_stopping`, `separate`, `street_side`, `on_kerb`
+    etc. remove a side. Without `lanes` the class default applies (residential 6 → 8 m, parking on both
+    sides included; each no-parking side takes 2.3 m off, floor 4.5 m). Then untagged
+    roads are clamped so the curb stays 0.3 m clear of the near edge of a mapped `footway=sidewalk`
+    line running alongside (within 25° of parallel, 15 m; never below 3 m). Tagged widths are not
+    clamped. All constants are `RoadRules` fields. Lakeview: W Roscoe St 3.3 → 9.1 m.

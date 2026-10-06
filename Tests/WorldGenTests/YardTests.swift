@@ -76,6 +76,58 @@ struct YardTests {
         print("YARDS \(area) lots=\(b.scene.lots.count) walks=\(s["walks"] ?? 0) driveways=\(s["driveways"] ?? 0) beds=\(s["beds"] ?? 0) shrubs=\(s["shrubs"] ?? 0) hedgeSegments=\(s["hedgeSegments"] ?? 0) yardTrees=\(s["yardTrees"] ?? 0) streetTrees=\(s["streetTrees"] ?? 0) litterHints=\(b.scene.litterHints.count)")
     }
 
+    /// Lakeview's single-lane two-way streets (W Roscoe St: `lanes=1`, parked both sides) get a full
+    /// carriageway, and nothing generated grows in it: no generated tree within the carriageway
+    /// half-width of any vehicular centreline, and no lot covering the carriageway.
+    @Test func lakeviewCarriagewaysStayClear() throws {
+        guard BuildingAreaTests.has("lakeview-sheil-park") else { return }
+        let b = try Self.build("lakeview-sheil-park", "chicago-dense-north")
+        let f = b.features
+        let roscoe = f.roads.filter { ($0.tags["name"] ?? "").contains("Roscoe") && $0.kind == .residential }
+        #expect(!roscoe.isEmpty)
+        for r in roscoe { #expect(r.width >= 8, "Roscoe \(r.ref) carriageway \(r.width) m") }
+
+        let vehicular = f.roads.filter { $0.kind.isVehicular && !$0.isTunnel && !$0.isBridge }
+        let roads = SegmentIndex(vehicular.map(\.centerline))
+        var treesInRoad: [String] = []
+        for inst in b.scene.instances where inst.source.hasPrefix("gen:") && inst.kind.isTree {
+            let p = LocalPoint(inst.x, inst.y)
+            if let hit = roads.nearest(to: p, within: 30), hit.distance < vehicular[hit.line].width / 2 {
+                treesInRoad.append("\(inst.source) \(String(format: "%.1f", hit.distance)) m off \(vehicular[hit.line].ref)")
+            }
+        }
+        #expect(treesInRoad.isEmpty, "\(treesInRoad.count) generated trees in carriageways, first \(treesInRoad.prefix(3))")
+
+        // Lots: sample across each street carriageway (1 m raster tolerance at the curb). Alleys
+        // (service, 4 m) are left to the centreline check in lotsStayOffStreets…: their outlines
+        // may touch the 1 m band beside the alley centreline.
+        let lotPolys = b.scene.lots.flatMap { $0.outline.map { Polygon2D(outer: $0) } }
+        let index = PolygonIndex(lotPolys)
+        var lotHits = 0, roscoeLotHits = 0
+        for r in vehicular where r.kind != .service && r.kind != .track {
+            let reach = r.width / 2 - 1
+            guard reach > 0 else { continue }
+            for (p, q) in zip(r.centerline, r.centerline.dropFirst()) {
+                let len = simd_distance(p, q)
+                guard len > 0.5 else { continue }
+                let u = (q - p) / len, n = LocalPoint(-u.y, u.x)
+                var t = 0.0
+                while t < len {
+                    for o in stride(from: -reach, through: reach, by: max(0.5, reach / 3)) {
+                        let x = p + u * t + n * o
+                        if index.contains(x), lotPolys.contains(where: { $0.bounds.contains(x) && $0.contains(x) }) {
+                            lotHits += 1
+                            if roscoe.contains(where: { $0.ref == r.ref }) { roscoeLotHits += 1 }
+                        }
+                    }
+                    t += 2
+                }
+            }
+        }
+        #expect(roscoeLotHits == 0, "\(roscoeLotHits) Roscoe carriageway samples inside lots")
+        #expect(lotHits == 0, "\(lotHits) carriageway samples inside lots")
+    }
+
     @Test func sameAreaSameYards() throws {
         guard BuildingAreaTests.has("lakeview-sheil-park") else { return }
         let a = try Self.build("lakeview-sheil-park", "chicago-dense-north"), b = try Self.build("lakeview-sheil-park", "chicago-dense-north")
