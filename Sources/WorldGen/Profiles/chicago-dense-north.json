@@ -34,10 +34,10 @@
       "spreading": 0.35
     },
     "heightMeters": [
-      8,
-      15
+      11.3,
+      16.0
     ],
-    "youngShare": 0.22,
+    "youngShare": 0.07,
     "youngHeightMeters": [
       3,
       6
@@ -1089,6 +1089,28 @@
       "area": "Data/areas/lakeview-sheil-park (1 km2)",
       "acquired": "2023-07-10",
       "check": "50 photo-interpreted points: 0.319 (0.20-0.46); mask vs points agree 87 %; true value may be 0.20-0.25.",
+      "date": "2026-10-06"
+    },
+    "trees.heightMeters": {
+      "status": "measured",
+      "value": [11.3, 16.0],
+      "measuredValue": {"p25": 11.26, "p75": 16.03, "trees": 1718, "basis": "detected trees at least 7 m high and at least 3 m from any building-class lidar cell"},
+      "previous": [8, 15],
+      "source": "USGS 3DEP lidar, EPT USGS_LPC_IL_4County_Cook_2017_LAS_2019 (project IL_4_County_QL1_LiDAR_2016_B16; public domain; credit: U.S. Geological Survey, 3D Elevation Program). Vegetation-class canopy height model at 1 m (height above class-2 ground), roof, wall and wire clutter removed, tree tops by height-adaptive local maxima, crowns by watershed. value = p25 and p75 of the detected trees at least 7 m high (the trees the generator draws from heightMeters after its youngShare draw) and at least 3 m from any building-class cell. Tools/regionkit/lidar/trees.py, results in Tools/regionkit/lidar/results/trees.json; docs/research/lidar-roofs.md section Tree heights.",
+      "area": "Data/areas/lakeview-sheil-park (1 km2)",
+      "acquired": "2017-04-16 to 2017-05-07 (leaf-off: tops of bare crowns, probably 0.5-1 m low; about 9 years of growth since the flight not included)",
+      "check": "Why a subset: in this area of tall courtyard buildings, back porches and alley wires the vendor's vegetation class holds wall, porch-post, roof-edge and wire returns, and 5 of 6 validation tops within 3 m of a building were such clutter; of 6 random tops clear of buildings, 5 were single trees and 1 ambiguous. 2,517 trees survive the clutter rules (25 per ha), 1,851 of them clear of buildings. Heights of the clear subset p10/p25/p50/p75/p90 = 7.8/10.6/13.2/15.7/18.1 m (all surviving trees: 6.7/9.4/12.6/15.3/17.8 m). The clear subset leaves out yard trees close to houses, which in the other two areas run 0.5-1 m shorter at p25. p25 10.0-10.9 and p75 15.5-16.1 m over 11 detection settings (clear subset, all trees).",
+      "date": "2026-10-06"
+    },
+    "trees.youngShare": {
+      "status": "measured",
+      "value": 0.07,
+      "measuredValue": 0.0719,
+      "previous": 0.22,
+      "source": "As trees.heightMeters (clear-of-buildings subset). value = share of those trees below 7 m (133 of 1,851; median 6.0 m).",
+      "area": "Data/areas/lakeview-sheil-park (1 km2)",
+      "acquired": "2017-04-16 to 2017-05-07 (leaf-off)",
+      "check": "0.055-0.085 over the detection settings; 0.118 for all surviving trees, which still hold some near-building clutter of 6-10 m. In the other two areas the clear subset gives 0.03 less than all trees (small trees stand near houses), so 0.07 is probably a little low. Leaf-off lidar also sees small sparse trees less well. youngHeightMeters [3, 6] is unchanged.",
       "date": "2026-10-06"
     }
   }
