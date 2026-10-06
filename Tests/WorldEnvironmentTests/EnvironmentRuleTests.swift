@@ -369,6 +369,24 @@ struct EnvironmentDocumentTests {
         let early = Phenology.resolve(dayOfYear: 290, profile: .denverDemo, treeShiftDays: -7)
         #expect(late.autumnColorFraction < early.leafDropProgress + 1 && late.drop <= early.drop)
     }
+
+    /// Decision 5: the calendar wraps; nothing resets on January 1 (Seattle's grass dormancy runs
+    /// to day 380 = Jan 15 and used to snap back to its floor on New Year's Day).
+    @Test(arguments: [PhenologyProfile.denverDemo, .planoDemo, .seattleDemo, .sydneyDemo])
+    func newYearIsContinuous(profile: PhenologyProfile) {
+        let tz = TimeZone(identifier: "America/Denver")!
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = tz
+        let dec31 = cal.date(from: DateComponents(year: 2026, month: 12, day: 31, hour: 12))!
+        let jan1 = cal.date(from: DateComponents(year: 2027, month: 1, day: 1, hour: 12))!
+        let a = Phenology.resolve(at: dec31, timeZone: tz, profile: profile)
+        let b = Phenology.resolve(at: jan1, timeZone: tz, profile: profile)
+        #expect(abs(b.dayOfYear - a.dayOfYear - 1) < 1e-9, "Jan 1 follows Dec 31 on the season-year")
+        for (x, y) in [(a.deciduous.paletteWeights, b.deciduous.paletteWeights), (a.grass.paletteWeights, b.grass.paletteWeights)] {
+            #expect(abs(x.spring - y.spring) < 0.05 && abs(x.summer - y.summer) < 0.05 && abs(x.autumn - y.autumn) < 0.05 && abs(x.winter - y.winter) < 0.05)
+        }
+        #expect(abs(a.grass.greenFraction - b.grass.greenFraction) < 0.05)
+    }
 }
 
 @Suite("Weather data")

@@ -118,8 +118,14 @@ struct SkyFixtureTests {
         #expect(p.deciduous.state == d["state"] as? String, "\(id) state")
         #expect(abs(p.deciduous.leafFraction - n(d["leafFraction"])) <= tol)
         #expect(abs(p.deciduous.flowerFraction - n(d["flowerFraction"])) <= tol)
-        #expect(abs(p.deciduous.autumnColorFraction - n(d["autumnColorFraction"])) <= tol)
-        #expect(abs(p.deciduous.leafDropProgress - n(d["leafDropProgress"])) <= tol)
+        // Decision 5 (Prompt 5) wraps the calendar: before the season-year start, colour and drop
+        // carry on from December (1, 1) instead of the fixture's New Year reset (0, 0). What the
+        // trees show (state, leaf fraction, palette weights) is unchanged.
+        let rawDay = p.dayOfYear > 365 ? p.dayOfYear - 365 : p.dayOfYear
+        let wrapped = profile.seasonYearWrapBelowDay == nil && rawDay < Phenology.seasonYearStart(profile) && p.dayOfYear > 365
+        let colour = wrapped ? 1.0 : n(d["autumnColorFraction"]), drop = wrapped ? 1.0 : n(d["leafDropProgress"])
+        #expect(abs(p.deciduous.autumnColorFraction - colour) <= tol)
+        #expect(abs(p.deciduous.leafDropProgress - drop) <= tol)
         let w = d["paletteWeights"] as! [String: Any]
         #expect(abs(p.deciduous.paletteWeights.spring - n(w["spring"])) <= tol && abs(p.deciduous.paletteWeights.summer - n(w["summer"])) <= tol
                 && abs(p.deciduous.paletteWeights.autumn - n(w["autumn"])) <= tol && abs(p.deciduous.paletteWeights.winter - n(w["winter"])) <= tol,
