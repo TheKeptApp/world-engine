@@ -51,6 +51,7 @@ extension SceneGenerator {
     func generateYards(_ subjects: [YardSubject], context: StreetContext, generatedWalkways: [[LocalPoint]], palette: inout Palette,
                        chunks: inout [SIMD2<Int>: GeneratedChunk], instances: inout [PropInstance], scene: inout GeneratedScene) {
         let library = YardLibrary.bundled
+        let t0 = Date()
         var raster = LotRaster(bounds: features.bounds, resolution: 1)
         for a in features.areas where Self.yardBlockedAreas.contains(a.kind) { raster.fill(a.polygon, .blocked) }
         for r in features.roads { raster.fill(line: r.centerline, width: r.width, .road) }
@@ -77,7 +78,9 @@ extension SceneGenerator {
                 }
             }
         }
+        let t1 = Date()
         raster.assignYards(maxDistance: maxDistance)
+        let t2 = Date()
 
         // Per-owner cell extents.
         var lo = [Int: SIMD2<Int>](), hi = [Int: SIMD2<Int>](), count = [Int: Int]()
@@ -204,6 +207,10 @@ extension SceneGenerator {
                 stats["beds", default: 0] += 1
             }
 
+            // Bushes keep clear of carriageways, walkways and walls.
+            func clear(_ p: LocalPoint) -> Bool {
+                !raster.nearUse(p, .road, radius: 1.2) && !raster.nearUse(p, .walkway, radius: 0.4) && !raster.nearUse(p, .building, radius: 1.0)
+            }
             // Shrubs: a flowering pair at the walk, a few more near the lot edges in front.
             if near {
                 var placed: [LocalPoint] = []
@@ -211,7 +218,7 @@ extension SceneGenerator {
                 if walks[idx] != nil, let (_, dir, _, _) = front, let entry = g.entry {
                     for sx in [-1.0, 1.0] {
                         let p = entry.point + entry.normal * 1.7 + dir * (sx * 1.05)
-                        if raster.useAt(p) == .open { placed.append(p) }
+                        if raster.useAt(p) == .open, clear(p) { placed.append(p) }
                     }
                 }
                 let extra = rules.shrubs.count >= 2 ? rules.shrubs[0] + Int(shr.next() % UInt64(max(1, rules.shrubs[1] - rules.shrubs[0] + 1))) : 1
@@ -223,7 +230,7 @@ extension SceneGenerator {
                     guard raster.owner[k] == Int32(idx), raster.use[k] == LotRaster.Use.open.rawValue else { continue }
                     let p = raster.center(i, j)
                     guard isFrontYard(p), raster.isEdge(i, j, owner: Int32(idx)), !raster.nearUse(p, .hard, radius: 1.5),
-                          !raster.nearUse(p, .building, radius: 1.2), placed.allSatisfy({ simd_distance($0, p) > 1.8 }) else { continue }
+                          !raster.nearUse(p, .building, radius: 1.2), clear(p), placed.allSatisfy({ simd_distance($0, p) > 1.8 }) else { continue }
                     placed.append(p)
                 }
                 for (k, p) in placed.enumerated() {
@@ -251,12 +258,12 @@ extension SceneGenerator {
                 for row in rows where row.count >= 3 {
                     var lastP: LocalPoint?
                     var line: [LocalPoint] = []
-                    for p in row where !raster.nearUse(p, .hard, radius: 1.2) {
-                        if let q = lastP, simd_distance(q, p) < 0.85 { continue }
+                    for p in row where !raster.nearUse(p, .hard, radius: 1.2) && clear(p) {
+                        if let q = lastP, simd_distance(q, p) < 1.05 { continue }
                         lastP = p
                         line.append(p)
                         instances.append(PropInstance(kind: .bush, variant: variant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
-                                                      x: p.x, y: p.y, height: 0, yaw: hr.range(0, 6.28), scale: hr.range(0.78, 0.92)))
+                                                      x: p.x, y: p.y, height: 0, yaw: hr.range(0, 6.28), scale: hr.range(0.9, 1.05)))
                         hedgeCount += 1
                     }
                     if line.count >= 2 { scene.litterHints.append(LitterHint(kind: .hedge, line: line, weight: 0.8)) }
@@ -287,6 +294,7 @@ extension SceneGenerator {
             scene.lots.append(lot)
         }
 
+        let t3 = Date()
         // Parkway trees: between curb and sidewalk, by the zone's spacing, clear of crossings,
         // drives, walks and mapped trees (mapped trees count first).
         let roadLines = SegmentIndex(features.roads.filter { $0.kind.isVehicular && $0.kind != .service && $0.kind != .track }.map(\.centerline))
@@ -334,6 +342,7 @@ extension SceneGenerator {
                         }
                         let p = c + nrm * (side * offset) + u * rr.range(-0.8, 0.8)
                         guard let use = raster.useAt(p), use == .open, !raster.nearUse(p, .hard, radius: 1.8), !raster.nearUse(p, .building, radius: 3),
+                              !raster.nearUse(p, .road, radius: 0.8),
                               !trees.near(p, 7) else { continue }
                         trees.insert(p)
                         instances.append(treeInstance(zone, random: &rr, at: p, source: "gen:streettree:\(road.ref):\(streetTrees)", street: true))
@@ -345,6 +354,11 @@ extension SceneGenerator {
             }
         }
         stats["streetTrees"] = streetTrees
+        let t4 = Date()
+        stats["yardMsRaster"] = Int(t1.timeIntervalSince(t0) * 1000)
+        stats["yardMsAssign"] = Int(t2.timeIntervalSince(t1) * 1000)
+        stats["yardMsLots"] = Int(t3.timeIntervalSince(t2) * 1000)
+        stats["yardMsStreet"] = Int(t4.timeIntervalSince(t3) * 1000)
         // Curbs collect leaves too.
         for road in features.roads where road.kind == .residential || road.kind == .tertiary || road.kind == .unclassified {
             scene.litterHints.append(LitterHint(kind: .curb, line: road.centerline, weight: Float(road.width / 2)))

@@ -59,13 +59,38 @@ struct LotRaster {
         return i0 <= i1 && j0 <= j1 ? (i0...i1, j0...j1) : nil
     }
 
+    /// Marks cells whose centers lie inside the polygon (scanline, even-odd over all rings).
     mutating func fill(_ polygon: Polygon2D, _ u: Use, building: Int32 = -1) {
         guard let (ri, rj) = range(polygon.bounds) else { return }
-        for j in rj { for i in ri where polygon.contains(center(i, j)) {
-            let k = index(i, j)
-            use[k] = u.rawValue
-            buildingOf[k] = building
-        } }
+        let rings = [polygon.outer] + polygon.holes
+        var xs: [Double] = []
+        for j in rj {
+            let y = origin.y + (Double(j) + 0.5) * res
+            xs.removeAll(keepingCapacity: true)
+            for ring in rings {
+                var a = ring[ring.count - 1]
+                for b in ring {
+                    if (a.y > y) != (b.y > y) { xs.append(a.x + (y - a.y) / (b.y - a.y) * (b.x - a.x)) }
+                    a = b
+                }
+            }
+            guard xs.count >= 2 else { continue }
+            xs.sort()
+            var k = 0
+            while k + 1 < xs.count {
+                // Cell centers x0 < x < x1.
+                let i0 = max(ri.lowerBound, Int(((xs[k] - origin.x) / res - 0.5).rounded(.up)))
+                let i1 = min(ri.upperBound, Int(((xs[k + 1] - origin.x) / res - 0.5).rounded(.down)))
+                if i0 <= i1 {
+                    for i in i0...i1 {
+                        let c = index(i, j)
+                        use[c] = u.rawValue
+                        buildingOf[c] = building
+                    }
+                }
+                k += 2
+            }
+        }
     }
 
     /// Marks cells within `width / 2` of a polyline, without overwriting buildings.

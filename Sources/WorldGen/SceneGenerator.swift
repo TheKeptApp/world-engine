@@ -306,8 +306,10 @@ public struct SceneGenerator: Sendable {
         }
 
         // Yards (inferred lots), parkway trees, litter hints.
+        let yardStart = Date()
         generateYards(yardSubjects, context: context, generatedWalkways: generatedWalkways, palette: &palette, chunks: &chunks,
                       instances: &instances, scene: &scene)
+        scene.stats["yardMillis"] = Int(Date().timeIntervalSince(yardStart) * 1000)
 
         // Soft world boundary: 12 km ground under everything, 2 cm below the chunk ground.
         var boundary = MeshBuffers()
