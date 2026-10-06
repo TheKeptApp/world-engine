@@ -14,6 +14,11 @@ public struct WorldView: View {
 
     @State private var dragStart: (yaw: Float, pitch: Float)?
     @State private var zoomStart: Float?
+    @State private var lastDrag: CGSize = .zero
+    @State private var lastMagnification: CGFloat = 1
+    @State private var lastRotation: Angle = .zero
+    @State private var viewHeight: CGFloat = 800
+    @State private var padOffset: CGSize = .zero
     @State private var surface: RenderSurface
     @Environment(\.scenePhase) private var scenePhase
 
@@ -48,13 +53,19 @@ public struct WorldView: View {
         }
         .onGeometryChange(for: CGSize.self) { $0.size } action: { size in
             world.viewAspect = Float(size.width / max(1, size.height))
+            viewHeight = size.height
         }
+        .onAppear { if camera.walkBlocker == nil { let w = world; camera.walkBlocker = { w.walkMap.blocker(at: $0) } } }
         .onChange(of: scenePhase, initial: true) { _, phase in surface.setPhase(active: phase == .active, background: phase == .background) }
         .onChange(of: isPaused, initial: true) { _, paused in surface.setHostPaused(paused) }
         .onAppear { surface.setVisible(true) }
         .onDisappear { surface.setVisible(false) }
         .gesture(gesturesEnabled ? drag : nil)
         .simultaneousGesture(gesturesEnabled ? pinch : nil)
+        .simultaneousGesture(gesturesEnabled ? rotate : nil)
+        .overlay(alignment: .bottomLeading) {
+            if gesturesEnabled, case .explore = camera.mode { thumbPad.padding(.leading, 24).padding(.bottom, 120) }
+        }
         .overlay(alignment: .bottomTrailing) {
             WorldAttributionView().padding(8)
         }
@@ -69,27 +80,83 @@ public struct WorldView: View {
         #endif
     }
 
+    /// One-finger drag: orbit (follow), pan (aerial), look (explore).
     private var drag: some Gesture {
         DragGesture(minimumDistance: 4)
             .onChanged { v in
-                if dragStart == nil { dragStart = (camera.yawOffset, camera.pitchOffset) }
-                camera.yawOffset = dragStart!.yaw - Float(v.translation.width) * 0.008
-                camera.pitchOffset = dragStart!.pitch + Float(v.translation.height) * 0.12
+                let delta = CGSize(width: v.translation.width - lastDrag.width, height: v.translation.height - lastDrag.height)
+                lastDrag = v.translation
+                switch camera.mode {
+                case .aerial:
+                    camera.aerial?.pan(by: SIMD2(Double(delta.width), Double(delta.height)), viewportHeight: Double(viewHeight))
+                case .explore:
+                    // Grab the view like a panorama: drag right turns left, drag down looks up.
+                    camera.explore?.look(headingBy: -Double(delta.width) * 0.2, pitchBy: -Double(delta.height) * 0.2)
+                case .street:
+                    if dragStart == nil { dragStart = (camera.yawOffset, camera.pitchOffset) }
+                    camera.yawOffset = dragStart!.yaw - Float(v.translation.width) * 0.008
+                    camera.pitchOffset = dragStart!.pitch + Float(v.translation.height) * 0.12
+                default:
+                    break
+                }
                 camera.userDidInteract()
                 surface.wake()
             }
-            .onEnded { _ in dragStart = nil; camera.userDidInteract() }
+            .onEnded { _ in dragStart = nil; lastDrag = .zero; camera.userDidInteract() }
     }
 
+    /// Pinch: zoom (follow), distance (aerial).
     private var pinch: some Gesture {
         MagnifyGesture()
             .onChanged { v in
-                if zoomStart == nil { zoomStart = camera.zoom }
-                camera.zoom = max(camera.street.minZoom, min(camera.street.maxZoom, zoomStart! / Float(v.magnification)))
+                switch camera.mode {
+                case .aerial:
+                    camera.aerial?.zoom(by: Double(v.magnification / lastMagnification))
+                    lastMagnification = v.magnification
+                case .street:
+                    if zoomStart == nil { zoomStart = camera.zoom }
+                    camera.zoom = max(camera.street.minZoom, min(camera.street.maxZoom, zoomStart! / Float(v.magnification)))
+                default:
+                    break
+                }
                 camera.userDidInteract()
                 surface.wake()
             }
-            .onEnded { _ in zoomStart = nil }
+            .onEnded { _ in zoomStart = nil; lastMagnification = 1 }
+    }
+
+    /// Two-finger rotation: heading (aerial).
+    private var rotate: some Gesture {
+        RotateGesture()
+            .onChanged { v in
+                guard case .aerial = camera.mode else { return }
+                camera.aerial?.rotate(byDegrees: (v.rotation - lastRotation).degrees)
+                lastRotation = v.rotation
+                camera.userDidInteract()
+                surface.wake()
+            }
+            .onEnded { _ in lastRotation = .zero }
+    }
+
+    /// Free-exploring thumb pad: drag the knob to walk (up = forward).
+    private var thumbPad: some View {
+        ZStack {
+            Circle().fill(.black.opacity(0.25)).frame(width: 120, height: 120)
+            Circle().fill(.white.opacity(0.7)).frame(width: 46, height: 46).offset(padOffset)
+        }
+        .contentShape(Circle())
+        .gesture(DragGesture(minimumDistance: 0)
+            .onChanged { v in
+                var o = v.translation
+                let r = sqrt(o.width * o.width + o.height * o.height)
+                if r > 45 { o = CGSize(width: o.width / r * 45, height: o.height / r * 45) }
+                padOffset = o
+                camera.moveInput = SIMD2(Double(o.width / 45), Double(-o.height / 45))
+                camera.userDidInteract()
+                surface.wake()
+            }
+            .onEnded { _ in padOffset = .zero; camera.moveInput = .zero })
+        .accessibilityLabel("Move")
     }
 }
 

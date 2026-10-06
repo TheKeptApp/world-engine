@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import RealityKit
+import WorldGen
 import WorldGeo
 
 /// Tunables for the street (third-person follow) camera.
@@ -24,20 +25,60 @@ public struct StreetCameraSettings: Sendable {
     public init() {}
 }
 
-/// Drives the RealityKit camera: street follow mode or a fixed overview.
+/// Drives the RealityKit camera. No-character modes (experience-v1 §3): postcard, aerial diorama,
+/// free exploring and route flythrough, from the renderer-neutral rigs in WorldGen; plus character
+/// follow, overview and fixed comparison poses. Changing mode eases from the current view.
 @MainActor
 @Observable
 public final class WorldCamera {
     public enum Mode {
-        /// Third-person follow behind and above an entity.
+        /// Third-person follow behind and above an entity (optional; needs a character).
         case street(following: Entity)
         /// Orbit view looking at a ground point.
         case overview(center: SIMD3<Float>, distance: Float, pitchDegrees: Float, yawDegrees: Float, fieldOfViewDegrees: Float)
         /// Exact camera position and look-at point (reproducible comparison presets).
         case fixed(position: SIMD3<Float>, target: SIMD3<Float>, fieldOfViewDegrees: Float)
+        /// A saved geographic pose; static (weather and light may change).
+        case postcard(CameraPose)
+        /// Aerial diorama (`aerial` rig).
+        case aerial
+        /// Free street exploring (`explore` rig, driven by `moveInput` / `turnInput` and drags).
+        case explore
+        /// Route flythrough (`route` rig).
+        case route
+
+        public var name: String {
+            switch self {
+            case .street: "follow"
+            case .overview: "overview"
+            case .fixed: "fixed"
+            case .postcard: "postcard"
+            case .aerial: "aerial"
+            case .explore: "explore"
+            case .route: "route"
+            }
+        }
     }
 
-    public var mode: Mode
+    public var mode: Mode {
+        didSet {
+            transitionFrom = lastPose
+            transitionTime = 0
+        }
+    }
+    public var aerial: AerialRig?
+    public var explore: ExploreRig?
+    public var route: RouteRig?
+    /// Free-exploring input: thumb pad (x right, y forward, −1…1) and turn (−1…1).
+    @ObservationIgnored public var moveInput = SIMD2<Double>(0, 0)
+    @ObservationIgnored public var turnInput = 0.0
+    /// Why exploring may not go somewhere (building, water, edge of data); set by the world.
+    @ObservationIgnored public var walkBlocker: ((LocalPoint) -> String?)?
+    /// Seconds to ease between modes (0 = cut; Reduce Motion).
+    public var transitionSeconds = 1.2
+    @ObservationIgnored private var transitionFrom: CameraPose?
+    @ObservationIgnored private var transitionTime = 0.0
+    @ObservationIgnored private var lastPose: CameraPose?
     public var street = StreetCameraSettings()
     /// User orbit offsets (from drag) and zoom (from pinch).
     public var yawOffset: Float = 0
@@ -67,7 +108,57 @@ public final class WorldCamera {
 
     /// Places `camera` for this frame. Returns the follow target (for the cut-away), if any.
     func update(camera: Entity, scene: RealityKit.Scene?, dt: Float) -> SIMD3<Float>? {
+        let cut = place(camera: camera, scene: scene, dt: dt)
+        // Ease from the pose the previous mode left off.
+        let m = camera.transformMatrix(relativeTo: nil)
+        let eye = SIMD3<Double>(Double(m.columns.3.x), Double(m.columns.3.y), Double(m.columns.3.z))
+        let forward = -SIMD3<Double>(Double(m.columns.2.x), Double(m.columns.2.y), Double(m.columns.2.z))
+        let fov = Double(camera.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50)
+        var pose = CameraPose(eye: eye, target: eye + forward * 10, verticalFOVDegrees: fov)
+        if let from = transitionFrom, transitionSeconds > 0, transitionTime < transitionSeconds {
+            transitionTime += Double(dt)
+            pose = CameraPose.blend(from, pose, min(1, transitionTime / transitionSeconds))
+            apply(pose, to: camera)
+        } else {
+            transitionFrom = nil
+        }
+        lastPose = pose
+        return transitionFrom == nil ? cut : nil
+    }
+
+    private func apply(_ p: CameraPose, to camera: Entity) {
+        setFOV(camera, Float(p.verticalFOVDegrees))
+        camera.look(at: SIMD3<Float>(p.target), from: SIMD3<Float>(p.eye), relativeTo: nil)
+        lookTarget = SIMD3<Float>(p.target)
+    }
+
+    private func place(camera: Entity, scene: RealityKit.Scene?, dt: Float) -> SIMD3<Float>? {
         switch mode {
+        case let .postcard(pose):
+            apply(pose, to: camera)
+            return nil
+        case .aerial:
+            guard let a = aerial else { return nil }
+            apply(a.pose, to: camera)
+            return nil
+        case .explore:
+            guard var e = explore else { return nil }
+            let blocker = walkBlocker
+            e.step(dt: Double(dt), move: moveInput, turn: turnInput) { blocker?($0) }
+            explore = e
+            apply(e.pose, to: camera)
+            // Look target: a few metres ahead on the ground, for clutter and fog.
+            let f = simd_normalize(e.pose.target - e.pose.eye)
+            lookTarget = SIMD3<Float>(e.pose.eye + SIMD3(f.x, 0, f.z) * 6) * SIMD3(1, 0, 1)
+            return nil
+        case .route:
+            guard var r = route else { return nil }
+            r.step(dt: Double(dt))
+            route = r
+            apply(r.pose, to: camera)
+            let f = simd_normalize(r.pose.target - r.pose.eye)
+            lookTarget = SIMD3<Float>(r.pose.eye + SIMD3(f.x, 0, f.z) * 6) * SIMD3(1, 0, 1)
+            return nil
         case let .fixed(position, target, fov):
             setFOV(camera, fov)
             camera.look(at: target, from: position, relativeTo: nil)

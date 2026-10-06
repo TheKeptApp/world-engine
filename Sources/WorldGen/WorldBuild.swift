@@ -32,6 +32,8 @@ public struct WorldBuild: Sendable {
     public var lighting: LightingState
     public var focus: Rect2D
     public var scene: GeneratedScene
+    /// No-character experience defaults: composed postcards, aerial fit, motion bounds.
+    public var experience: ExperienceDefaults?
 
     public static func generate(areaDirectory: URL, recipe: WorldRecipe) throws -> WorldBuild {
         let manifest = try AreaLoader.loadManifest(areaDirectory)
@@ -41,8 +43,10 @@ public struct WorldBuild: Sendable {
         let lighting = LightingModel.state(at: recipe.date, location: manifest.center, tables: try StyleLibrary.lighting())
         let focus = Self.focusRect(recipe.focus, frame: manifest.frame) ?? features.bounds
         let scene = try generator(features: features, profile: profile, season: season, focus: focus).generate()
-        return WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
-                          focus: focus, scene: scene)
+        var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
+                               focus: focus, scene: scene)
+        build.experience = ExperienceDefaults.compose(build: build, date: recipe.date)
+        return build
     }
 
     /// The generator configured for this build (also used for the reduced-detail LOD1 pass).
