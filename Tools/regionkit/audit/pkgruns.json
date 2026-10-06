@@ -1,0 +1,25 @@
+{
+  "comment": "Runs for pkgtris.py (measured triangles from exported packages). Cells come from cells.json (1000 m x 1000 m around the stored centre, fetched with worldbake init-area + fetch); lakeview-sheil-park is a copy of the committed P2 test area. Profiles: null = the generator's own pick (regions.json: Chicago has no region, so `default`; there is no downtown profile in the engine); chicago-dense-north for the residential cells, as P2's BuildingLab and BuildingAreaTests use it for Lakeview; `default` runs of the residential cells repeat the pre-P2 baseline's profile for a like-for-like comparison. Focus `worldlab`: 470 m x 599 m centred, which selects the central 3 x 3 chunks, as the pre-P2 audit's WorldLab-sized focus (0.5 m short of the chunk lines at +-300 m).",
+  "date": "2026-10-22T20:00:00Z",
+  "sizeMeters": 1000,
+  "focusBoxes": {
+    "worldlab": {"halfEastMeters": 235, "halfNorthMeters": 299.5}
+  },
+  "areas": {
+    "loop-daley-plaza": {"cell": "loop-daley-plaza"},
+    "river-north-montgomery-ward-park": {"cell": "river-north-montgomery-ward-park"},
+    "lincoln-park-oz-park": {"cell": "lincoln-park-oz-park"},
+    "edgewater-broadway-armory-park": {"cell": "edgewater-broadway-armory-park"},
+    "lakeview-sheil-park": {"copyFrom": "Data/areas/lakeview-sheil-park"}
+  },
+  "runs": [
+    {"area": "loop-daley-plaza", "profile": null, "focus": ["whole", "worldlab"]},
+    {"area": "river-north-montgomery-ward-park", "profile": null, "focus": ["whole", "worldlab"]},
+    {"area": "lincoln-park-oz-park", "profile": "chicago-dense-north", "focus": ["whole", "worldlab"]},
+    {"area": "lincoln-park-oz-park", "profile": "default", "focus": ["whole", "worldlab"]},
+    {"area": "edgewater-broadway-armory-park", "profile": "chicago-dense-north", "focus": ["whole", "worldlab"]},
+    {"area": "edgewater-broadway-armory-park", "profile": "default", "focus": ["whole", "worldlab"]},
+    {"area": "lakeview-sheil-park", "profile": "chicago-dense-north", "focus": ["whole", "worldlab"]},
+    {"area": "lakeview-sheil-park", "profile": "default", "focus": ["whole"]}
+  ]
+}

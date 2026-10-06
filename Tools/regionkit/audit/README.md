@@ -22,12 +22,28 @@ Optional: `--zone-profiles DIR` adds a comparison with proposed zone profiles (a
 | `tris` | Triangle-count model (`trimodel.py`, a port of the generator's counting rules), checked against the recorded Sloan's Lake numbers, then applied to every cell (buildings only) and to the `--dense` cells as full worlds (ground, curbs, props, view and shadow estimates). Local only, except one extra Overpass query per dense cell for roads/areas/trees/lamps. | Overpass (dense cells) |
 | `report` | `results/cells.csv`, `main_table.md`, `detail_table.md`, `summary.json` (`bytes` writes `downloads.json`). | none |
 
+## Measured triangles (phase 5B): `pkgtris.py`
+
+The `tris` step above is the pre-P2 estimate (a port of the generator's counting rules). After P2 the counts are
+measured instead: `pkgtris.py run --work DIR` (DIR outside the repository; needs numpy and a built `worldbake`,
+`swift build -c release --product worldbake`) does `worldbake init-area` + `fetch` for each cell in `pkgruns.json`
+that has no area folder yet (one Overpass request per cell, 10 s apart), copies committed test areas, exports every
+run (`worldbake export`, whole area and a WorldLab-sized focus), reads the package (GLB index accessors per chunk
+and LOD, `_FEATURE` kinds, flat vs raised triangles, `instances.json` + prototype triangles) and runs the audit's
+street-view culling (`audit.wedge_hits_rect`, 25 cameras × 8 headings) on those measured counts. Packages are
+deleted after reading. `--commit SHA` records the generator commit (default: the checkout's HEAD; pass main's
+commit when the checkout carries local tool-only commits). `pkgtris.py measure PACKAGE` prints one package's numbers. Output:
+`results/triangles_p2.json` (per run: lod0/lod1 totals, by kind and role, raised/flat, heaviest chunk, view and
+shadow statistics with entity-bounds and grid culling, the 150 m distance-LOD what-if, generator commit).
+Findings: `docs/research/data-coverage.md`, "Triangle counts for a dense Chicago cell".
+
 ## Files
 
 - `cells.json`: the cell list (data). Anchor rule, names, tag filters, `why` for each choice, resolved centres.
 - `audit.py`: the steps above. Standard library only, except `duckdb` for `overture`.
+- `pkgtris.py`, `pkgruns.json`: measured triangles from exported packages (runs, profiles and focus boxes as data).
 - `trimodel.py`: triangle counting (ports `StableRandom`, `FootprintAnalysis`, the building, roof, opening, curb, sidewalk and lamp rules; tree meshes as of phase 5A, with the earlier costs kept as `TREE_TRIS_PRE_5A`).
-- `results/`: aggregate numbers only (no geometry, no raw data): `osm_metrics.json`, `overture_metrics.json`, `triangles.json` (calibration incl. the phase 5A gate-run check, every cell's building triangles, the dense worlds), `summary.json` (tiers and the overall figures quoted in the report), `downloads.json` (bytes per kind), `cells.csv`, `main_table.md`, `detail_table.md`.
+- `results/`: aggregate numbers only (no geometry, no raw data): `osm_metrics.json`, `overture_metrics.json`, `triangles.json` (pre-P2 estimate: calibration incl. the phase 5A gate-run check, every cell's building triangles, the dense worlds), `triangles_p2.json` (measured after P2), `summary.json` (tiers and the overall figures quoted in the report), `downloads.json` (bytes per kind), `cells.csv`, `main_table.md`, `detail_table.md`.
 
 ## Etiquette and privacy
 

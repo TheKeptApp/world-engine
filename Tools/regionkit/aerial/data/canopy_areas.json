@@ -1,0 +1,21 @@
+{
+  "comment": "Canopy share per committed test area (data, not code), for the profiles' trees.canopyShare. Each area is the area manifest's rectangle (centre, width, height) laid out in the NAIP item's UTM grid; streets and parks come from the committed osm.json (no new Overpass request). NAIP = newest acquisition of the state at the area; when one quarter-quad does not cover the whole area, the newest year's items are mosaicked (first item wins where they overlap). Canopy method and thresholds: data/params.json `canopy` (unchanged from the Wilmette study).",
+  "stacSearch": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+  "collection": "naip",
+  "tokenEndpoint": "https://planetarycomputer.microsoft.com/api/sas/v1/token/naip",
+  "streetClasses": ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential",
+                    "living_street", "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link"],
+  "parkTags": {"leisure": ["park", "pitch", "playground", "golf_course", "garden", "nature_reserve", "dog_park", "recreation_ground", "track"],
+               "landuse": ["recreation_ground", "cemetery", "forest", "village_green"],
+               "natural": ["wood"]},
+  "parkMinAreaM2": 1000,
+  "parkComment": "Parks are public open space removed for the residential-fabric share. landuse=grass (1,551 small lawn and parkway polygons at Sloan's Lake), meadow and scrub are not parks: they sit inside residential blocks and their street trees belong to the fabric. Park polygons under parkMinAreaM2 are ignored.",
+  "waterTags": {"natural": ["water"], "landuse": ["reservoir", "basin"], "leisure": ["swimming_pool"], "water": []},
+  "blockMinAreaM2": 10000,
+  "areas": [
+    {"id": "evanston-south", "area": "Data/areas/evanston-south", "profile": "evanston", "state": "il", "crs": "EPSG:26916"},
+    {"id": "lakeview-sheil-park", "area": "Data/areas/lakeview-sheil-park", "profile": "chicago-dense-north", "state": "il", "crs": "EPSG:26916"},
+    {"id": "sloans-lake", "area": "Data/areas/sloans-lake", "profile": "front-range", "state": "co", "crs": "EPSG:26913"},
+    {"id": "wilmette-vattmann-park", "area": "Data/areas/wilmette-vattmann-park", "profile": "wilmette", "state": "il", "crs": "EPSG:26916"}
+  ]
+}
