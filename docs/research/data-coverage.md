@@ -190,6 +190,8 @@ Caveat on the outer-suburb row: those anchors are civic centres, and in Frisco, 
 
 ## Biggest gaps, ranked, and what the generator should do
 
+**Update after P2 buildings (main `91ed01c`, merged 2026-10-06, after this analysis of `772ff24`).** P2 added an alley-garage rule to the generator (`BuildingGenerator.role(for:)`: `building=yes` of 14–75 m², at most 1.5 levels, a mapped alley edge within 9 m and no street front within 9 m becomes a garage), keeps large `building=yes` below the profile's `hugeArea` with ≤ 3 levels as houses, picks block families from tag evidence (`HouseFamilies.blockFamily`: tall, court, commercial, apartments, else the plain block), and adds roof assemblies (cross-gables, dormers, chimneys) and rear porches toward mapped alleys (`docs/buildings/README.md`). It also adopted `chicago-dense-north`, `evanston` and `wilmette` unchanged. That addresses gap 6 (garages) and the block-family part of the triangle and roof discussion; gaps 1–5 and 7–9 stand. Still open on main as well: a building way that is also a multipolygon outer is drawn twice, and tagged `type=building` relations become extra full-height buildings (see Decisions).
+
 Ranked by how much of the world they make generic. "Zone default" names the proposed zone profile that would supply the value (`docs/proposals/regions-chicagoland-miami/`, read-only proposal; outside those zones the bundled `default` / `front-range` profiles).
 
 1. **Whole neighbourhoods without footprints (North Shore, Montclair, parts of Englewood and Glendale). Fill from Overture.**
@@ -243,6 +245,8 @@ Ranked by how much of the world they make generic. "Zone default" names the prop
 9. **Facade detail on tall blocks: needs LOD before any of the above lands.** See the triangle estimate: window frames are 97% of the Loop's building triangles.
 
 ## Triangle estimate for a dense Chicago cell
+
+**Baseline:** the model ports the generator at `772ff24` (phase 5A tree meshes included). P2 (`91ed01c`) changed building geometry (roof assemblies, details, per-LOD output) and tree props after this estimate, so treat the numbers as the pre-P2 baseline and re-run or measure against current main.
 
 **This is an estimate. Nothing was built or run.** The Mac was reserved for another session, so the estimate comes from a model.
 
