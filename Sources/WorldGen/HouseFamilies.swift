@@ -222,3 +222,23 @@ extension BuildingGenerator {
         return (chosen, key)
     }
 }
+
+extension StyleProfile.Thresholds {
+    /// Area thresholds relative to the local houses (P1 / owner decision): with percentile fields
+    /// and at least `minCandidates` house footprints, small/large/huge are those percentiles of the
+    /// local areas; otherwise the absolute values stay.
+    public func resolved(houseAreas: [Double], minCandidates: Int = 30) -> StyleProfile.Thresholds {
+        guard houseAreas.count >= minCandidates else { return self }
+        let sorted = houseAreas.sorted()
+        func pct(_ q: Double) -> Double {
+            let x = max(0, min(1, q)) * Double(sorted.count - 1)
+            let lo = Int(x.rounded(.down)), hi = min(sorted.count - 1, lo + 1)
+            return sorted[lo] + (sorted[hi] - sorted[lo]) * (x - Double(lo))
+        }
+        var t = self
+        if let q = smallAreaPercentile { t.smallArea = pct(q) }
+        if let q = largeAreaPercentile { t.largeArea = pct(q) }
+        if let q = hugeAreaPercentile { t.hugeArea = max(pct(q), t.largeArea) }
+        return t
+    }
+}

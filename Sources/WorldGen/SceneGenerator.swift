@@ -125,15 +125,26 @@ public struct SceneGenerator: Sendable {
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
         let streetscape = Streetscape(context: context, buildings: buildingIndex)
-        var generator = BuildingGenerator(profile: profile, context: context)
-        generator.obstacles = buildingIndex
+        // House candidates per zone profile, for thresholds relative to the local houses.
+        var houseAreas: [String: [Double]] = [:]
+        for b in features.buildings where !b.isPart && BuildingGenerator.role(of: b) == .house {
+            let id = zones?.profile(at: b.footprint.centroid)?.id ?? profile.id
+            houseAreas[id, default: []].append(b.footprint.area)
+        }
+        func makeGenerator(_ p: StyleProfile) -> BuildingGenerator {
+            var g = BuildingGenerator(profile: p, context: context)
+            g.obstacles = buildingIndex
+            let t = p.typeThresholds.resolved(houseAreas: houseAreas[p.id] ?? [])
+            if t != p.typeThresholds { g.areaThresholds = t }
+            return g
+        }
+        let generator = makeGenerator(profile)
         // One generator per zone profile, made on first use.
         var zoneGenerators: [String: BuildingGenerator] = [profile.id: generator]
         func generatorFor(_ p: LocalPoint) -> BuildingGenerator {
             guard let zones, let zp = zones.profile(at: p) else { return generator }
             if let g = zoneGenerators[zp.id] { return g }
-            var g = BuildingGenerator(profile: zp, context: context)
-            g.obstacles = buildingIndex
+            let g = makeGenerator(zp)
             zoneGenerators[zp.id] = g
             return g
         }

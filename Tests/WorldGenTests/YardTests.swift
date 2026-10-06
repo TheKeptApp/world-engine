@@ -128,3 +128,18 @@ struct YardTests {
         #expect(trees + shrubs + yardGround <= 200_000, "\(name)")
     }
 }
+
+@Suite("Relative size thresholds")
+struct RelativeThresholdTests {
+    @Test func percentilesNeedThirtyHouses() throws {
+        let t = try StyleLibrary.profile(id: "evanston").typeThresholds
+        let few = (0..<29).map { Double(50 + $0 * 5) }
+        #expect(t.resolved(houseAreas: few) == t)
+        let many = (0..<200).map { Double(40 + $0) } // 40…239 m²
+        let r = t.resolved(houseAreas: many)
+        if let q = t.smallAreaPercentile { #expect(abs(r.smallArea - (40 + q * 199)) < 1e-6) }
+        if let q = t.largeAreaPercentile { #expect(abs(r.largeArea - (40 + q * 199)) < 1e-6) }
+        #expect(r.hugeArea >= r.largeArea)
+        #expect(r.broadAspect == t.broadAspect)
+    }
+}
