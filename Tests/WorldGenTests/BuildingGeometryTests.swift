@@ -412,3 +412,94 @@ struct FacadeKitTests {
         #expect(dressed > 0)
     }
 }
+
+/// Side walls (gate gap 5): chimney breasts only on long side walls facing open ground, nothing on
+/// walls that touch a neighbour, and gangway walls get one window per story in each stack.
+@Suite("Side walls")
+struct SideWallTests {
+    static let ring = FacadeKitTests.rect(0, 0, 8, 18)
+    /// Glass vertices on the side wall at x = `x` (windows sit 0.03 m out from the wall).
+    static func glass(_ m: MeshBuffers, x: Double) -> [SIMD3<Float>] {
+        zip(m.positions, m.paints).compactMap { p, paint in
+            (Int(paint.z) & 1) != 0 && abs(Double(p.x) - x) < 0.1 && -Double(p.z) > 0.3 && -Double(p.z) < 17.7 ? p : nil
+        }
+    }
+
+    @Test func longSideWallFacingOpenGroundGetsABreast() throws {
+        let gen = try FacadeKitTests.generator("chicago-dense-north")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        let fp = Polygon2D(outer: Self.ring)
+        let chimney = Float(palette.named("chimney"))
+        /// Chimney-coloured vertices standing clear of the side walls below `zMax`.
+        func breastPoints(_ m: MeshBuffers, below zMax: Double) -> [LocalPoint] {
+            zip(m.positions, m.paints).compactMap { p, paint in
+                let lp = LocalPoint(Double(p.x), Double(-p.z))
+                guard paint.x == chimney, Double(p.y) < zMax, lp.y > 0.5, lp.y < 17.5, !fp.contains(lp) else { return nil }
+                return GeometryCheck.distanceToBoundary(fp, lp) > 0.16 ? lp : nil
+            }
+        }
+        var breasts = 0
+        for id in Int64(1)...Int64(300) {
+            let b = testBuilding(11000 + id, Self.ring)
+            let g = gen.generate(b, palette: &palette, lod: .near)
+            guard g.chimneyBreast else { continue }
+            breasts += 1
+            #expect(g.hasChimney)
+            // The breast: beside a side wall, 0.25–0.4 m proud, at most 1.8 m wide.
+            let side = breastPoints(g.mesh, below: g.eaveHeight - 0.4)
+            #expect(!side.isEmpty, "#\(id) breast missing")
+            for q in side { #expect(GeometryCheck.distanceToBoundary(fp, q) <= 0.42, "#\(id): \(q) too far out") }
+            if let lo = side.map(\.y).min(), let hi = side.map(\.y).max() { #expect(hi - lo <= 1.8 + 1e-6, "#\(id) breast \(hi - lo) m wide") }
+            // One chimney: everything above the roof stands at that side wall.
+            for p in g.mesh.positions where Double(p.y) > g.topHeight + 0.05 {
+                let x = Double(p.x)
+                #expect(min(abs(x), abs(x - 8)) < 0.7, "#\(id) second chimney at x = \(x)")
+            }
+            // Mid keeps the stack, not the projection.
+            let mid = gen.generate(b, palette: &palette, lod: .mid)
+            #expect(mid.chimneyBreast)
+            #expect(breastPoints(mid.mesh, below: mid.eaveHeight - 0.5).isEmpty, "#\(id) mid")
+        }
+        #expect(breasts >= 5, "only \(breasts) breasts")
+    }
+
+    @Test func sideWallTouchingANeighbourGetsNothing() throws {
+        let gen = try FacadeKitTests.generator("chicago-dense-north", obstacles: [Polygon2D(outer: FacadeKitTests.rect(-6, 0, 0, 18)),
+                                                                                  Polygon2D(outer: FacadeKitTests.rect(8, 0, 14, 18))])
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        for id in Int64(1)...Int64(300) {
+            for lod in [BuildingLOD.near, .mid] {
+                let g = gen.generate(testBuilding(11000 + id, Self.ring), palette: &palette, lod: lod)
+                #expect(!g.chimneyBreast, "#\(id) breast on a party wall")
+                #expect(g.gangwayStacks == 0)
+                #expect(Self.glass(g.mesh, x: 0).isEmpty && Self.glass(g.mesh, x: 8).isEmpty, "#\(id) \(lod) windows on a party wall")
+            }
+        }
+    }
+
+    @Test func twoMetreGangwayGetsOneWindowPerFloor() throws {
+        let gen = try FacadeKitTests.generator("chicago-dense-north", obstacles: [Polygon2D(outer: FacadeKitTests.rect(-8, 0, -2, 18)),
+                                                                                  Polygon2D(outer: FacadeKitTests.rect(10, 0, 16, 18))])
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        var stacked = 0
+        for id in Int64(1)...Int64(120) {
+            for lod in [BuildingLOD.near, .mid] {
+                let g = gen.generate(testBuilding(11000 + id, Self.ring), palette: &palette, lod: lod)
+                #expect(!g.chimneyBreast, "#\(id) breast in a 2 m gangway")
+                guard g.gangwayStacks > 0 else { continue }
+                stacked += 1
+                #expect(g.gangwayStacks >= 2 && g.gangwayStacks <= 4, "#\(id) \(g.gangwayStacks) stacks")
+                for x in [0.0, 8.0] {
+                    // Each window is one glass quad (4 vertices): stacks × floors quads, two sill/head rows per floor.
+                    let v = Self.glass(g.mesh, x: x)
+                    let windows = v.count / 4
+                    let stacks = windows / max(1, g.floors)
+                    let rows = Set(v.map { Int((Double($0.y) * 20).rounded()) })
+                    #expect(stacks >= 1 && stacks <= 2 && windows == stacks * g.floors, "#\(id) \(lod) x=\(x): \(windows) windows, \(g.floors) floors")
+                    #expect(rows.count == 2 * g.floors, "#\(id) \(lod) x=\(x): \(rows.count) rows")
+                }
+            }
+        }
+        #expect(stacked >= 20, "only \(stacked) gangway walls dressed")
+    }
+}

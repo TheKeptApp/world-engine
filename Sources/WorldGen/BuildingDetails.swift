@@ -22,12 +22,20 @@ extension BuildingGenerator {
         var r = c.b.ref.random("chimney")
         if r.chance(rr?.chimney ?? profile.chimneyLikelihood) {
             var piece = MeshBuffers()
-            if addChimney(c, main: main, plan: plan, env: env, placement: rr?.chimneyPlacement ?? "end",
-                          tall: rr?.chimneyTall == true, broad: rr?.chimneyBroad == true, rng: &r, palette: &palette, into: &piece),
-               used + piece.triangleCount <= budget {
+            // The same chimney, either as a side-wall breast (planned with the openings) or on the roof.
+            let placed: Bool
+            if let br = c.breast {
+                addChimneyBreast(c, br, env: env, palette: &palette, into: &piece)
+                placed = true
+            } else {
+                placed = addChimney(c, main: main, plan: plan, env: env, placement: rr?.chimneyPlacement ?? "end",
+                                    tall: rr?.chimneyTall == true, broad: rr?.chimneyBroad == true, rng: &r, palette: &palette, into: &piece)
+            }
+            if placed, used + piece.triangleCount <= budget {
                 m.append(piece)
                 used += piece.triangleCount
                 g.hasChimney = true
+                g.chimneyBreast = c.breast != nil
             }
         }
 
@@ -81,6 +89,43 @@ extension BuildingGenerator {
             m.addBox(center: center, u: main.axis, halfLength: hl + 0.07, halfWidth: hw + 0.07, z0: top, z1: top + 0.12, bottom: true)
         }
         return true
+    }
+
+    /// Side-wall chimney: near, a shallow masonry breast from the ground to just under the eave
+    /// (0.25–0.4 m proud, 1.2–1.8 m wide); near and mid, the stack from there through the eave to
+    /// clear the roof within 3 m inward, with a cap near only.
+    func addChimneyBreast(_ c: BuildContext, _ br: SideBreast, env: RoofEnvelope, palette: inout Palette, into m: inout MeshBuffers) {
+        let (p, dir, n, _) = Self.edge(c.ring, br.edge)
+        let hs = br.broad ? 0.55 : 0.36
+        var roofTop = c.H
+        for t in [0.3, 1.5, 3.0] {
+            for ds in [-hs, hs] {
+                if let h = env.height(at: p + dir * (br.s + ds) - n * t) { roofTop = max(roofTop, h) }
+            }
+        }
+        let lift = br.tall ? 1.2 : 0.7
+        let top = max(c.H + 1.2, min(roofTop + lift, env.topHeight + lift))
+        let shoulder = c.H - 0.45
+        let near = c.lod == .near
+        let start = m.positions.count
+        let paint = Paint(slot: palette.named("chimney"))
+        m.paint = paint
+        let foot = p + dir * br.s
+        if near {
+            // Breast: back face just inside the wall, flat weathering under the soffit.
+            m.addBox(center: foot + n * ((br.depth - 0.02) / 2), u: dir, halfLength: br.width / 2, halfWidth: (br.depth + 0.02) / 2,
+                     z0: 0, z1: shoulder)
+        }
+        // Stack: reaches 0.3 m back over the wall so it stands on the roof above the eave.
+        let back = 0.3
+        let stackCenter = foot + n * ((br.depth - back) / 2)
+        let stackHalf = (br.depth + back) / 2
+        m.addBox(center: stackCenter, u: dir, halfLength: hs, halfWidth: stackHalf, z0: shoulder, z1: top, bottom: !near)
+        if near {
+            m.paint = Paint(slot: palette.named("chimney"), shade: 0.82)
+            m.addBox(center: stackCenter, u: dir, halfLength: hs + 0.07, halfWidth: stackHalf + 0.07, z0: top, z1: top + 0.12, bottom: true)
+        }
+        m.bakeAO(from: start) { pos, _ in Float(0.72 + 0.28 * smoothstep(0, 0.9, Double(pos.y))) }
     }
 
     /// A gable dormer on the main roof's street-facing slope: front wall with one window, two cheek
