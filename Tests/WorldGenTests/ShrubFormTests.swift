@@ -189,4 +189,21 @@ struct ShrubFormTests {
         let spread = (sideTop.max() ?? 0) - (sideTop.min() ?? 0)
         #expect(spread > 0.08 && spread < 0.2, "top spread \(spread)")
     }
+
+    /// Yard form selection: bed shrubs are cushions, walk and corner shrubs upright, lot-edge shrubs a
+    /// seeded mix of loose shrubs and cushions; the same seed always gives the same form.
+    @Test func yardSitesPickForms() {
+        var edgeForms = Set<Int>()
+        for k in 0..<200 {
+            var r = StableRandom(UInt64(k), 7, salt: "shrub-site-test")
+            #expect(SceneGenerator.cushionVariants.contains(SceneGenerator.shrubVariant(.bed, &r)))
+            #expect(SceneGenerator.shrubVariant(.entry, &r) == SceneGenerator.uprightVariant)
+            #expect(SceneGenerator.shrubVariant(.corner, &r) == SceneGenerator.uprightVariant)
+            var a = StableRandom(UInt64(k), 9, salt: "shrub-site-test"), b = a
+            let v = SceneGenerator.shrubVariant(.lotEdge, &a)
+            #expect(v == SceneGenerator.shrubVariant(.lotEdge, &b))
+            edgeForms.insert(v)
+        }
+        #expect(edgeForms == [2, 3, 6, 7])
+    }
 }

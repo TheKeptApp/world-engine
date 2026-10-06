@@ -183,7 +183,7 @@ if let build = sceneBuild {
         addMesh(propMeshes[key]!, transform: inst.transform, cull: true)
     }
     let st = build.scene.stats
-    print("scene: profile \(build.profile.id) lots \(st["lots"] ?? 0) walks \(st["walks"] ?? 0) driveways \(st["driveways"] ?? 0) beds \(st["beds"] ?? 0) shrubs \(st["shrubs"] ?? 0) hedgeBushes \(st["hedgeBushes"] ?? 0) yardTrees \(st["yardTrees"] ?? 0) streetTrees \(st["streetTrees"] ?? 0) yardMillis \(st["yardMillis"] ?? 0) [raster \(st["yardMsRaster"] ?? 0) assign \(st["yardMsAssign"] ?? 0) lots \(st["yardMsLots"] ?? 0) street \(st["yardMsStreet"] ?? 0)] instances \(build.scene.instances.count)")
+    print("scene: profile \(build.profile.id) lots \(st["lots"] ?? 0) walks \(st["walks"] ?? 0) driveways \(st["driveways"] ?? 0) beds \(st["beds"] ?? 0) shrubs \(st["shrubs"] ?? 0) hedgeSegments \(st["hedgeSegments"] ?? 0) yardTrees \(st["yardTrees"] ?? 0) streetTrees \(st["streetTrees"] ?? 0) yardMillis \(st["yardMillis"] ?? 0) [raster \(st["yardMsRaster"] ?? 0) assign \(st["yardMsAssign"] ?? 0) lots \(st["yardMsLots"] ?? 0) street \(st["yardMsStreet"] ?? 0)] instances \(build.scene.instances.count)")
 }
 
 // Roads (flat ribbons).
