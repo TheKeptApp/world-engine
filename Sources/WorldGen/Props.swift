@@ -490,10 +490,15 @@ public struct PropLibrary: Sendable {
         if lod == 2 { return farTree(shape, skeleton: skeleton, trunkRadius: trunkR, palette: palette, kind: kind) }
 
         var m = MeshBuffers()
-        // Trunk: thin, bark-colored; AO darker where it enters the crown.
+        // Trunk: thin, bark-colored; AO darker at the ground and where it enters the crown.
         m.paint = Paint(slot: palette.named("bark"))
         let trunkSides = lod == 0 ? 7 : 5
-        addCylinder(&m, radius: trunkR, z0: 0, z1: shape.trunkTop + 0.08, sides: trunkSides, smooth: true, cap: false)
+        // Near: rings where trunk AO changes (the ground contact and the fork); mid keeps one segment
+        // (its triangle budget), the AO then shading along it from contact to fork.
+        let rings: [Float] = lod == 0 ? [0, trunkBaseAOHeight, shape.trunkTop - 0.12, shape.trunkTop + 0.08] : [0, shape.trunkTop + 0.08]
+        for (z0, z1) in zip(rings, rings.dropFirst()) {
+            addCylinder(&m, radius: trunkR, z0: z0, z1: z1, sides: trunkSides, smooth: true, cap: false)
+        }
         m.bakeAO(from: 0) { p, _ in trunkAO(p, shape) }
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
         let branchStart = m.positions.count
@@ -681,10 +686,20 @@ public struct PropLibrary: Sendable {
     /// in the distant band, about 28 px at 400 m on a portrait phone).
     static let skylineTrunk = true
 
-    /// Trunk AO: 0.85, darker where the trunk enters the crown.
+    /// Trunk AO: ground contact `trunkBaseAO` at the base rising to 1 by `trunkBaseAOHeight`
+    /// (vegetation-v1: a restrained 10–20% ambient reduction within about 0.15–0.4 m of the trunk base, no
+    /// black ring; the renderer adds its own darkening near the ground), and darker where the trunk
+    /// enters the crown (×0.55 at the fork).
     static func trunkAO(_ p: SIMD3<Float>, _ shape: TreeShape) -> Float {
-        Float(0.85 - 0.3 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y)))
+        let base = Double(trunkBaseAO) + (1 - Double(trunkBaseAO)) * smoothstep(0, Double(trunkBaseAOHeight), Double(p.y))
+        return Float(base * (1 - 0.45 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y))))
     }
+
+    /// Trunk AO at the ground (a 16% reduction).
+    static let trunkBaseAO: Float = 0.84
+    /// Height (share of the unit-height tree) over which trunk AO rises to 1: 0.025 ≈ 0.38 m on a 15 m
+    /// tree (Evanston median), 0.1–0.15 m on young 4–6 m trees.
+    static let trunkBaseAOHeight: Float = 0.025
 
     /// The mid crown's lobes: the top lobe and the first side lobe, 1.25× larger.
     static func midLobes(_ shape: TreeShape) -> [(SIMD3<Float>, Float)] {
@@ -818,16 +833,22 @@ public struct PropLibrary: Sendable {
         return (units, oriented(faces, units))
     }
 
-    /// Crown AO: lower and interior parts darker, lobe overlaps darker (R1).
+    /// Crown AO: lower and interior parts darker, lobe overlaps darker (R1), and each lobe's underside
+    /// (faces turned down) at most `crownUndersideAO`, so lobes read as sitting over shade
+    /// (vegetation-v1: gentle vertex AO in intersections and under the crown, no dark outlines).
     static func bakeCrownAO(_ m: inout MeshBuffers, from start: Int, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
         for i in start..<m.positions.count {
             let p = m.positions[i]
             let rel = (p.y - crown.y) / radii.y
             var ao = 0.66 + 0.34 * Float(smoothstep(-1.0, 0.7, Double(rel)))
+            ao = min(ao, 1 - (1 - crownUndersideAO) * Float(smoothstep(0.2, 0.8, Double(-m.normals[i].y))))
             for (c, r) in lobes where simd_distance(p, c) < r * 0.98 { ao *= 0.86 }
             m.extras[i].x = min(m.extras[i].x, ao)
         }
     }
+
+    /// AO on crown lobes' lower faces (normals turned down by more than about 50°).
+    static let crownUndersideAO: Float = 0.75
 
     // MARK: - Bare branches
 
@@ -1247,7 +1268,7 @@ public struct PropLibrary: Sendable {
         }
         m.paint = Paint(slot: palette.named("bark"))
         addCylinder(&m, radius: 0.018, z0: 0, z1: 0.22, sides: lod == 0 ? 6 : 3, smooth: true, cap: false)
-        m.bakeAO(from: 0) { p, _ in p.y > 0.15 ? 0.6 : 0.85 }
+        m.bakeAO(from: 0) { p, _ in p.y > 0.15 ? 0.6 : trunkBaseAO }
         m.paint = Paint(slot: palette.named("conifer1"), flags: .variant2, sway: 0.5)
         let start = m.positions.count
         if lod == 0 {
