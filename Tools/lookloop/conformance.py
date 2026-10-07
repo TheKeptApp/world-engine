@@ -7,6 +7,11 @@ scalars within +-5 % relative, or +-0.02 absolute when |mock| < 0.4.
 Exit 1 if any non-excepted mapped row fails. Mappings of house-contrast-v1 sharedLighting (the daytime
 master, R 2026-10-07) compare against this checkout's engine files (main); an optional "phase5b" field
 in the mapping (e.g. phase5b paintover-grade.json values) is printed in the note column, never scored.
+Rows the engine reads by key from the bundled mock-values.json (the DaytimeMaster keys in
+Sources/WorldGen/MockValues.swift, found by reading that source) pass by construction once that code is in
+this checkout; until then they compare against the mapped static file. Rows with a "calibration" field are
+realised by a measured engine calibration (look.json daytimeMaster) rather than a stored value: once that
+block exists they report "calibrated" with the note, counted apart from pass and fail.
 
 Usage: python3 Tools/lookloop/conformance.py
 """
@@ -92,13 +97,44 @@ def engine_final(m, cache):
     return raw, t != "none"
 
 
+MASTER_SRC = ROOT / "Sources/WorldGen/MockValues.swift"
+LOOK = ROOT / "Sources/WorldGen/Profiles/look.json"
+BUNDLED = ROOT / "Sources/WorldGen/Profiles/mock-values.json"
+
+
+def read_by_key():
+    """Regexes for the full mock keys the engine reads by key (DaytimeMaster prefix + h("…")/n("…") paths)."""
+    if not (MASTER_SRC.exists() and BUNDLED.exists()):
+        return []
+    src = MASTER_SRC.read_text()
+    pre = re.search(r'static let prefix = "([^"]+)"', src)
+    if not pre:
+        return []
+    pats = []
+    for path in re.findall(r'\b[hn]\("([^"]+)"\)', src):
+        rx = re.escape(path).replace(re.escape("\\(i)"), r"\d+")
+        pats.append(re.compile("^" + re.escape(pre.group(1)) + rx + "$"))
+    return pats
+
+
 def run(values=None, mapping=None, exceptions=None):
     values = values or json.loads(VALUES.read_text())["entries"]
     mapping = mapping or json.loads(MAPPING.read_text())
     exceptions = exceptions if exceptions is not None else parse_exceptions(EXCEPTIONS.read_text())
     rows, cache = [], {}
+    keyed = read_by_key()
+    look = json.loads(LOOK.read_text()) if LOOK.exists() else {}
     for m in mapping["mappings"]:
         mock = values[m["mock"]]["value"]
+        if any(p.match(m["mock"]) for p in keyed):
+            rows.append({"key": m["mock"], "mock": mock, "engine": "by key", "delta": "0", "status": "pass (read by key)",
+                         "size": 0, "note": "engine reads this key from Sources/WorldGen/Profiles/mock-values.json"})
+            continue
+        cal = m.get("calibration")
+        if cal and cal["block"] in look:
+            rows.append({"key": m["mock"], "mock": mock, "engine": "calibrated", "delta": "-", "status": "calibrated",
+                         "size": 0, "note": cal["note"]})
+            continue
         eng, raw = engine_final(m, cache)
         if m["kind"] == "colour":
             d = delta_e76(mock, eng)
@@ -126,8 +162,9 @@ def main():
     fails = [r for r in rows if r["status"].startswith("FAIL")]
     passes = [r for r in rows if r["status"].startswith("pass")]
     unmapped = len(json.loads(MAPPING.read_text())["unmapped"])
-    print(f"\n{len(rows)} mapped: {len(passes)} pass, {len(fails)} fail, "
-          f"{len(rows) - len(passes) - len(fails)} excepted; {unmapped} unmapped keys")
+    cals = [r for r in rows if r["status"] == "calibrated"]
+    print(f"\n{len(rows)} mapped: {len(passes)} pass, {len(fails)} fail, {len(cals)} calibrated, "
+          f"{len(rows) - len(passes) - len(fails) - len(cals)} excepted; {unmapped} unmapped keys")
     master = [r for r in rows if "/sharedLighting." in r["key"]]
     print(f"daytime master (house-contrast-v1 sharedLighting): {len(master)} mapped, "
           f"{sum(r['status'].startswith('pass') for r in master)} pass, {sum(r['status'].startswith('FAIL') for r in master)} fail")
