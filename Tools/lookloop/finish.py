@@ -55,6 +55,26 @@ def regressions(prev, grades, reused, views):
     return flags, compared
 
 
+FRAME_TOL, FRAME_FRAC = 12, 0.005
+
+
+def frame_unchanged(run, prev_stamp, vid):
+    """True when this run's frame is the same render as the previous run's: under 0.5 % of pixels differ by more than 12
+    levels (measured 7 Oct 2026: unchanged views sit at 0.0-0.05 %, changed ones at 1 % and up). None if a raw frame is
+    missing (frames are kept for the last few runs only). A view whose frame did not change cannot have regressed: its
+    score move is grader variance."""
+    a = os.path.join(os.path.dirname(run), prev_stamp or "-", "raw", f"{vid}.png")
+    b = os.path.join(run, "raw", f"{vid}.png")
+    if not (os.path.exists(a) and os.path.exists(b)):
+        return None
+    from PIL import Image, ImageChops, ImageStat
+    A, B = Image.open(a).convert("RGB"), Image.open(b).convert("RGB")
+    if A.size != B.size:
+        return None
+    d = ImageChops.difference(A, B).convert("L").point(lambda v: 255 if v > FRAME_TOL else 0)
+    return ImageStat.Stat(d).mean[0] / 255 < FRAME_FRAC
+
+
 def main():
     run = os.path.abspath(sys.argv[1])
     publish = "--no-publish" not in sys.argv
@@ -147,6 +167,9 @@ def main():
 
     flags, compared = regressions(prev, grades, reused, views)
     prev_run = prev.get("run", {})
+    unchanged = {v for v in {f[0] for f in flags} if frame_unchanged(run, prev_run.get("stamp"), v)}
+    variance = [f for f in flags if f[0] in unchanged]
+    flags = [f for f in flags if f[0] not in unchanged]
     graders_now = sorted({g.get("grader", "?") for vid, g in grades.items() if vid not in reused})
     graders_then = sorted({(e.get("grade") or {}).get("grader", "?") for e in prev.get("views", {}).values() if e.get("grade")})
     reg = ["# Look loop: regressions", "",
@@ -167,8 +190,16 @@ def main():
         reg += [f"**{len(flags)} regression flag(s) in {len({f[0] for f in flags})} view(s).**", "",
                 "| View | What | Before | Now | Reviewer's reason now |", "|---|---|---|---|---|"]
         reg += [f"| [{v}](sheets/{v}.jpg) | {k} | {a} | {b} | {r.replace('|', '/')[:220]} |" for v, k, a, b, r in flags]
+    if variance:
+        vv = sorted({f[0] for f in variance})
+        reg += ["", f"**Not counted: {len(variance)} flag(s) in {len(vv)} view(s) whose frame did not change since the previous run** "
+                f"(under {FRAME_FRAC:.1%} of pixels differ by more than {FRAME_TOL} levels), so the move is grader variance, not a regression: "
+                f"{', '.join(vv)}.", "",
+                "| View | What | Before | Now | Reviewer's reason now |", "|---|---|---|---|---|"]
+        reg += [f"| [{v}](sheets/{v}.jpg) | {k} | {a} | {b} | {r.replace('|', '/')[:220]} |" for v, k, a, b, r in variance]
     open(os.path.join(run, "regressions.md"), "w").write("\n".join(reg) + "\n")
     out["aggregate"]["regressionFlags"] = len(flags)
+    out["aggregate"]["regressionFlagsOnUnchangedFrames"] = len(variance)
     json.dump(out, open(os.path.join(run, "grades.json"), "w"), indent=1)
 
     when = meta.get("started", datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
@@ -180,12 +211,15 @@ def main():
           + (f" · run time {meta['minutes']} min" if meta.get("minutes") else "")
           + f" · graders {', '.join(f'`{x}`' for x in sorted({g.get('grader', '?') for g in scored}))}"
           + (" · **gate run**" if meta.get("gate") else ""), "",
-          f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'} ([regressions.md](regressions.md)).", "",
+          f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'}"
+          + (f" (+{len(variance)} on views whose frame did not change: grader variance)" if variance else "") + " ([regressions.md](regressions.md)).", "",
           f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}  ·  end-of-5B gate {gate5b}/{len(scored)}", "",
           f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
           + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
           ("Approved-mock closeness (GRADING.md §M, 1–5): " + ", ".join(f"{vid} {g['mockGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("mockGap"), dict)) + "."
            if any(g and isinstance(g.get("mockGap"), dict) for _, g, _, _ in rows) else "Approved-mock closeness: no view with an approved mock was graded."), "",
+          ("House-archetype closeness (house-archetypes-v1 block paint-overs, 1–5): " + ", ".join(f"{vid} {g['archetypeGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("archetypeGap"), dict)) + "."
+           if any(g and isinstance(g.get("archetypeGap"), dict) for _, g, _, _ in rows) else "House-archetype closeness: not graded in this run."), "",
           (f"Paint-over parity {fmt(mean_po)}% (paintover-v1, beside the gate; view /50 ÷ its own paint-over's calibrated /50): "
            + ", ".join(f"{v} {p}%" for v, p in sorted(po_parity.items())) + "." if po_parity else
            "Paint-over parity: not available (paint-overs not calibrated yet)."), "",

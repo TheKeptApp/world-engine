@@ -1,0 +1,31 @@
+{
+  "comment": "R-approved corrections applied by compile_mocks.py on top of the approved packs' values JSON. Owner rule (R, 2026-10-07): where an approved mock's images and its values JSON disagree, the images win; P3 samples the images and records the correction here. Original pack values are kept for history.",
+  "corrections": [
+    {
+      "id": "hc-v1-sky-from-heroes",
+      "pack": "house-contrast-v1",
+      "approved": "R, 2026-10-07 (images win over pack JSON)",
+      "reason": "The pack's sky gradient (#73A5CC zenith, #A2C4DC at 30°, #DBDCD1 horizon) is paler and greyer than its own four hero paint-overs; built exactly, the engine sky read pale grey-blue (5A finding, 7 Oct).",
+      "method": "Sampled the four approved mid-afternoon heroes (images/lakeview-hero.png, denver-hero.png, wilmette-hero.png, postcard-hero.png; 1672x941). Row elevation from the paint-overs' source camera (vFOV 50°, pitch down 3°). Sky pixels: b > r+40, b > g+10, b > 170, r+g+b > 420 (excludes blue windows). Bands: top 17-22° (frame top), mid 8-14°, horizon = the lowest 5 % of rows with visible sky (median 6.4°; below that houses and trees hide the sky). Clouds: near-white pixels above 3° (lit r+g+b > 705, shade otherwise). Per-image channel median, then the median across the four images (cloud lit from 2 images with enough lit pixels; mid from 3, Denver shows no sky at 8-14°). Every 3rd column, every 2nd row. No zenith is visible in any hero: the top-band colour is held from 20° to 90°.",
+      "perImage": {
+        "lakeview": {"top": "#67A5E1", "mid": "#91C3ED", "horizon": "#ABD4F2", "cloudLit": "#E8EFF8", "cloudShade": "#D6E3F5"},
+        "denver": {"top": "#86BBE6", "mid": null, "horizon": "#A3CAE8", "cloudLit": null, "cloudShade": "#DAE1EB"},
+        "wilmette": {"top": "#78B2E3", "mid": "#9AC4E2", "horizon": "#A6C9E0", "cloudLit": null, "cloudShade": "#DAE1EC"},
+        "postcard": {"top": "#61ACF1", "mid": "#88C6F5", "horizon": "#A8D6F5", "cloudLit": "#FCF2DF", "cloudShade": "#D8E6F5"}
+      },
+      "replacePrefix": "sharedLighting.sky.gradient",
+      "set": {
+        "sharedLighting.sky.gradient[0].elevationDeg": 90,
+        "sharedLighting.sky.gradient[0].hex": "#6FAFE4",
+        "sharedLighting.sky.gradient[1].elevationDeg": 20,
+        "sharedLighting.sky.gradient[1].hex": "#6FAFE4",
+        "sharedLighting.sky.gradient[2].elevationDeg": 11,
+        "sharedLighting.sky.gradient[2].hex": "#91C4ED",
+        "sharedLighting.sky.gradient[3].elevationDeg": 0,
+        "sharedLighting.sky.gradient[3].hex": "#A7CFED",
+        "sharedLighting.sky.cloudLitHex": "#F2F0EB",
+        "sharedLighting.sky.cloudShadeHex": "#D9E2F0"
+      }
+    }
+  ]
+}
