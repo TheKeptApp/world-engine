@@ -38,6 +38,18 @@ Apply it to these criteria:
 
 Snow on trees is a weather overlay on upward-facing boughs, never white foliage or an opaque snowball crown; score it under `palette` and `adRainReadable` when wet.
 
+## M. Approved mocks are the target (owner, 7 Oct 2026)
+
+Packs R approved in ChatGPT are the exact visual direction (`docs/proposals/INDEX.md`, status "R approved – binding target"). Where a view has a matching approved mock (same feature area and, as far as possible, the same region, season, weather and time of day), it is listed in the view's targets with a label starting "approved mock". Grade the frame as usual, then compare it with that mock and add to the JSON:
+
+```json
+"mockGap": {"mock": "docs/proposals/<pack>/images/<file>", "closeness": 1-5, "gaps": ["what still separates the frame from the mock, most important first (max 3)"]}
+```
+
+`closeness` is how near the frame is to the mock in what the mock is about (5 = indistinguishable at phone size in that feature, 1 = the feature is missing). Geometry, camera and object inventory still come from the capture; judge the mock's look (colour, light, materials, weather, vegetation, density), not its exact layout. A view without a matching approved mock omits `mockGap`. The report lists the gap per view next to concept parity.
+
+**Merge gate (owner, 7 Oct 2026):** every visual merge is scored on closeness to its mock on the views it targets. P3 flags any merge that does not raise mean `closeness` on those views, or that arrives without the pre-merge phone-size side-by-side (render vs mock, values used, remaining gaps) that CLAUDE.md requires.
+
 ## P. Paint-over targets (owner, 6 Oct 2026; docs/proposals/paintover-v1/)
 
 Six views have a ChatGPT paint-over of their own camera: `ordinary-street`, `evanston-street`, `showcase-03`, `showcase-06`, `v2-06` and `lakeview-street`. The paint-over is listed as the view's last target. It is the closest thing to an exact appearance target: it starts from the same capture, so compare like for like (crown shading, ground families, contact pockets, wet sheen, sky, haze) and name in the fixes what still separates the frame from it. The pack's README and `paintover-values.json` give the authored values per view.

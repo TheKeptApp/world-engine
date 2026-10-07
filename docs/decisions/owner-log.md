@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **Approved GPT mocks are the exact visual direction; lanes build to match them.** Any drop-folder pack R approved in ChatGPT (it carries a `STATUS.md` saying "R approved") is final direction, with no further review step. Applied: registry status "R approved – binding target" / "pending R approval"; `docs/proposals/INDEX.md`; GRADING.md §M (score each view against its matching mock); P3 sweeps the drop folder at the start of every session.
+- **PROPOSED — snow states need weather history** (snowfall over the last 1–3 days, melt): a future P1 data task. Applied: `docs/roadmap.md` (PROPOSED).
 - **Score each merge on the core set with Sonnet; full set only for gate checks.** Core set: 13 views (all six paint-over views, the three regions, rain, smoke, fall, two aerials). Applied: `Tools/lookloop/views.json` (`core`), `lookloop.sh run --core`, GRADING.md §N.
 - **Grader-noise rule PROPOSED** (awaiting R): a view counts as changed only beyond 8 points (or 5 points twice in a row) with matching reviewer reasons; the mean beyond 2 points (full set) or 2.5 (core set). Measured from 63 untouched view pairs (single-grade noise about 2.9 points). Applied: GRADING.md §N (PROPOSED).
 - **landmarks-research-v1 filed** (research, unverified); public artworks reference only, no team or university logos. Applied: registry, licensing §17 (LM1–LM3, Q47).

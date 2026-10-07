@@ -1,0 +1,588 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-10-07",
+  "status": "proposal_only",
+  "style": "B",
+  "claimPolicy": "All artistictargets, area choices, costranks, shares/radii/coefficient/exposurevalues are authoredassumptions, not measured pixels/illuminance or devices. Sources mark researched programfacts. Inputimages are repository substitutes because requestedattachments notpresent.",
+  "units": {
+    "colour": "sRGBhex, decode tolinear formixing",
+    "radius": "m ground-plane support/radialhalfmax as specified",
+    "exposure": "EV relative to calibratedday E0; gain2^EV applied after state lighting, not finalPNGbrightness",
+    "density": "extinction/m",
+    "share": "fraction eligible generatedwindowapertures"
+  },
+  "states": [
+    {
+      "id": "blue-hour",
+      "time": {
+        "kind": "relative_to_local_sunset",
+        "offsetMinutes": 20,
+        "solarElevationDeg": null,
+        "note": "Resolveactualsunmodel/timezone; offsetdoesnotguarantee a fixedtwilightcategory. Thisimage is authoredbluehourtarget."
+      },
+      "skyGradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#314D79"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#657FA3"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#A5A8B1"
+        }
+      ],
+      "exposureRelativeEV": 0.2,
+      "skyFillNoonRelative": 0.3,
+      "groundFillNoonRelative": 0.1,
+      "directSun": 0,
+      "windowsLitShare": 0.24,
+      "streetlightOnFactor": 1,
+      "starsMaxIllustrated": 1,
+      "haze": {
+        "hex": "#8294AE",
+        "sigmaPerM": 0.0015
+      },
+      "groundFog": null
+    },
+    {
+      "id": "night",
+      "time": {
+        "kind": "solar_elevation",
+        "maxElevationDeg": -12,
+        "note": "Fullnightfixture; mooncontribution onlyifcomputedabovehorizon. No moon insertedintheseimages."
+      },
+      "skyGradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#15243C"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#243854"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#344255"
+        }
+      ],
+      "exposureRelativeEV": 0.35,
+      "skyFillNoonRelative": 0.24,
+      "groundFillNoonRelative": 0.08,
+      "directSun": 0,
+      "windowsLitShare": 0.3,
+      "streetlightOnFactor": 1,
+      "starsMaxIllustrated": 6,
+      "haze": {
+        "hex": "#475568",
+        "sigmaPerM": 0.002
+      },
+      "groundFog": null
+    },
+    {
+      "id": "morning-fog",
+      "time": {
+        "kind": "rising_solar_example",
+        "elevationExampleDeg": 5,
+        "note": "Authoreddemo; actualmodelgoverns sun/shadows. Sourcecameras retained, sun-facing side inart illustrative, not ephemerisverified."
+      },
+      "skyGradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#AABED0"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#D1D5D3"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#E7DCC8"
+        }
+      ],
+      "exposureRelativeEV": 0.1,
+      "skyFillNoonRelative": 0.32,
+      "groundFillNoonRelative": 0.1,
+      "directSunRelativeClear": 0.45,
+      "windowsLitShare": 0.05,
+      "streetlightOnFactor": 0.15,
+      "starsMaxIllustrated": 0,
+      "haze": {
+        "hex": "#C3CED4",
+        "sigmaPerM": 0.0015
+      },
+      "groundFog": {
+        "hex": "#D0D7D6",
+        "warmScatterHex": "#E8DCC3",
+        "sigmaPerM": 0.035,
+        "layerTopM": 2.5,
+        "upperTaperM": 1,
+        "clearNearM": 5,
+        "patchCoverage01": 0.55,
+        "patchHorizontalScaleM": [
+          30,
+          80
+        ],
+        "patchEdgeFadeM": [
+          8,
+          12
+        ],
+        "patchCountMax": 4,
+        "shadowStrengthReductionPercent": 50,
+        "liftDemoSeconds": 120,
+        "liftEnd": {
+          "sigmaPerM": 0.007,
+          "layerTopM": 0.6,
+          "patchCoverage01": 0.15
+        },
+        "liftRule": "Onlydemoauto-lifts. Live requires refreshedweather/layerdata; sunlight alone not sufficient. Dampnessdecays independently."
+      }
+    }
+  ],
+  "streetlights": {
+    "types": [
+      {
+        "id": "led-warm",
+        "colourHex": "#F0DDC0",
+        "approxCctK": 3000,
+        "poolHalfMaxRadiusM": 4.5,
+        "poolSupportRadiusM": 9,
+        "coreEmissiveNoonRelative": 1.5,
+        "groundAdditiveNoonRelativeMax": 0.22
+      },
+      {
+        "id": "sodium-legacy",
+        "colourHex": "#F3B96F",
+        "approxCctK": 2000,
+        "poolHalfMaxRadiusM": 5,
+        "poolSupportRadiusM": 10,
+        "coreEmissiveNoonRelative": 1.3,
+        "groundAdditiveNoonRelativeMax": 0.2
+      },
+      {
+        "id": "led-neutral",
+        "colourHex": "#D8E4EB",
+        "approxCctK": 4000,
+        "poolHalfMaxRadiusM": 4.5,
+        "poolSupportRadiusM": 9,
+        "coreEmissiveNoonRelative": 1.5,
+        "groundAdditiveNoonRelativeMax": 0.22
+      }
+    ],
+    "cctNote": "Illustrativeidentity only, hexes artistic swatches not colorimetricCCTconversion; sodium not chosenfromwarmcolouralone.",
+    "poolFormula": "Add maxRadiance*exp(-ln2*(r/rHalf)^2)*smoothTaper(r,0.8*rSupport,rSupport)*normalEligibility*occlusionEligibility; clampcombinedNoonRelative.30. Fixtureorientation may stretchroadellipse1.5x, supportdimensionsscaledexplicitly.",
+    "maxActivePoolFields": 6,
+    "maxPerRegion": 2,
+    "maxActualUnshadowedLocalLights": 2,
+    "pointLightBudgetSharedWithCars": true,
+    "halo": {
+      "halfRadiusCssPx": 5,
+      "supportRadiusCssPx": 14,
+      "maxBlend": 0.08,
+      "totalScreenCoveragePercentMax": 2,
+      "depthOcclusionRequired": true
+    },
+    "inventory": "Useactualfixturedata/sceneobjects. Demo-addedfixtures inart are conceptproposals, not verifiedlocations. Never infer roadlight everytree or newprivateporchfixture."
+  },
+  "areaProfiles": [
+    {
+      "id": "lakeview",
+      "streetlightType": "led-warm",
+      "selectionStatus": "researched cityprogram, picturedfixtureunsurveyed",
+      "skyglow": {
+        "downtownWorldAzimuthDeg": 155,
+        "bearingStatus": "authoredapproximateChicagoLoopdirection; calculatefromactualcamera/downtowncoordinates",
+        "halfWidthDeg": 35,
+        "heightSupportDeg": 15,
+        "colourHex": "#C2BDAF",
+        "maxLinearBlend": 0.1
+      },
+      "cityStarMultiplier": 0.1,
+      "windowWarmShare": 0.85
+    },
+    {
+      "id": "sloans-lake",
+      "streetlightType": "led-warm",
+      "selectionStatus": "authoredparkdemo; actualinventoryunknown",
+      "legacySodiumAlternative": {
+        "enabledByDefault": false,
+        "type": "sodium-legacy",
+        "note": "Explicitlegacyoverride onlywithfixtureevidence; illustratedwarmparkpools donotprove sodium."
+      },
+      "skyglow": {
+        "downtownWorldAzimuthDeg": 105,
+        "bearingStatus": "authoredapproximateDenverdowntowndirection; resolveactualcamera/coordinates",
+        "halfWidthDeg": 40,
+        "heightSupportDeg": 15,
+        "colourHex": "#C5B7A2",
+        "maxLinearBlend": 0.08
+      },
+      "cityStarMultiplier": 0.25,
+      "windowWarmShare": 0.85,
+      "headlightsAllowedInThisView": false
+    },
+    {
+      "id": "wilmette",
+      "streetlightType": "led-warm",
+      "selectionStatus": "authored3000Kdemo consistentwithdark-skyguidance; inventoryunknown",
+      "skyglow": {
+        "downtownWorldAzimuthDeg": 160,
+        "bearingStatus": "authoredapproximateChicagodirection; calculateactualbearing",
+        "halfWidthDeg": 45,
+        "heightSupportDeg": 12,
+        "colourHex": "#B5B4B1",
+        "maxLinearBlend": 0.04
+      },
+      "cityStarMultiplier": 0.45,
+      "windowWarmShare": 0.9
+    }
+  ],
+  "windows": {
+    "nightShareAllowed": [
+      0.2,
+      0.4
+    ],
+    "defaultNightShare": 0.3,
+    "warmHex": "#F3D0A0",
+    "coolHex": "#C9DDEB",
+    "warmEmissiveNoonRelative": 1.1,
+    "coolEmissiveNoonRelative": 0.85,
+    "selection": "Seedstableworld/building/apertureids. RankeligibleexistingapertureswithdeterministicstablePRNG; selectround(p*N)inloadedstabletile. Groupfloors/households forplausiblevariation; no per-frame random. Persistselection acrosscameras/time states; statefactor changesintensity/thresholdbyfixedseed.",
+    "geometry": "Emissiveexistingwindowfaces, preserveframes/openings. No newwindowcuts, roomprops, people, silhouettedplants or lightbehindopaque wall.",
+    "scope": "Shares referwindowapertures, notbuildings. Extendsweather-v1stable20\u201330%policytoauthored20\u201340%windowrange peruserrequest; do notsilentlyconflate.",
+    "bloomWeightMax": 0.035,
+    "noPerWindowPointLights": true
+  },
+  "headlights": {
+    "maxDemoCarsPerStreetView": 1,
+    "placement": "Explicitlane pose onroadpolygon; roadmask clipsforwardpool; neveronpath,lawn,lake. No carsinventedforlakepath.",
+    "pairSeparationM": 1.3,
+    "colourHex": "#E5E7DE",
+    "poolLengthM": 14,
+    "poolHalfWidthM": 2,
+    "maxAdditiveNoonRelative": 0.18,
+    "haloMaxBlend": 0.03,
+    "castsNewShadows": false,
+    "fieldBudget": "Combinedpairuses1localfieldgroup within6 poolfields and2perregion. Do not addlights over shared2actual-lightcap.",
+    "traffic": "Demo caris appearance cue, not live observedtraffic. Routing/speed/collision solver outsidepack."
+  },
+  "stars": {
+    "catalogRequired": true,
+    "siderealTimeRequired": true,
+    "visibleCap": 128,
+    "formula": "weather-v1strength*area.cityStarMultiplier*(1-skyglowDirectionalWeight/maxSkyglowWeight)*nightFactor; clamp0..1; evaluatehorizongate. Treatzero maxskyglow asnoextraangularattenuation.",
+    "dayAndMorningOff": true,
+    "blueHourUseActualSolarGate": true,
+    "noTwinkle": true,
+    "noRandomConstellations": true,
+    "moon": "Omitunlessvalidatedposition/phase/altitudegate supplied."
+  },
+  "fog": {
+    "formula": "tau=integral(sigmaHaze+sigmaGround*wHeight*wPatch)ds; Cout=exp(-tau)*Clit+(1-exp(-tau))*CfogEffective. One fog application. Effectivefogcolour opticaldepthweightedbetweenhaze/ground; no duplicatefogpass.",
+    "height": "w=1 belowH-taper, linearfalloff to0 atH, zeroabovelayer; terrain/lakereference elevation supplied.",
+    "patch": "Stablebroadworld-spacepatches only. Max4 precomputedcenters/scales, edges8\u201312m. No particles/cloudcards/fastnoise. Cliptoactualpark/water eligibility; datarequired. Roadfog mayextendnearby but cannotchangegeometry.",
+    "evaluation": "Flat uniformheightlayer permitsclosed-formintegral. Patchmode mayusebounded4-samplequadrature overraysegmentinside2.5m layer; unmeasuredmaterialcost. No arbitraryscreenoverlays, no volumetricraymarch solver.",
+    "baselineFallback": "Ifpatch/layerdata unsupported usehomogeneoussigma flagassumption; cannotclaimpatchparity. Haze stillmatches water/land/backdrop.",
+    "nearClearBand": "Authored5m forgroundfog; hazeremainsdepthcorrect.",
+    "noSmoke": true,
+    "chimneySmoke": "Onlyifactualchimney/sourceactivityexists, optionalseparateeffectdisabledhere. Morningfognever implieschimneysmoke.",
+    "transitionSeconds": 20,
+    "showLiftOnlyWithEvidence": true
+  },
+  "surfaces": {
+    "nightDry": true,
+    "morningDemoWetness": 0.2,
+    "concreteDarkeningPercent": 4,
+    "asphaltDarkeningPercent": 5,
+    "lawnDarkeningPercent": 3,
+    "dewGrazingBlendMax": 0.025,
+    "noAutoPuddles": true,
+    "noMirrorRoad": true
+  },
+  "performance": {
+    "status": "unmeasuredproposedconstraints",
+    "fps": 60,
+    "phoneClass": "iPhone13",
+    "minimumiOS": 26,
+    "totalGpuMs": 10,
+    "contentMs": 7.9,
+    "marginMs": 2.1,
+    "baseWorldMs": 4.25,
+    "wetLocalMs": 0.35,
+    "bloomMs": 0.35,
+    "fogInBaseWorld": true,
+    "starsInSkyDraw": true,
+    "windowsInstanceEmissive": true,
+    "noShadowedLampMaps": true,
+    "noExtraFullScreenPass": true,
+    "maxActualLocalLights": 2,
+    "activePoolAndHeadlightFieldsTotal": 6,
+    "test": "10min physicalphone fixeddrawable resolution night/fog/lift, max+p95GPU/thermal/roadmask/occlusion checks; artnotdevicepass."
+  },
+  "priorities": [
+    {
+      "rank": 1,
+      "feature": "Readable cool ambient fill",
+      "necessity": "must",
+      "cost": "low",
+      "alive": "Unlit walls, path and crown interiors retain material identity.",
+      "dead": "Black shapes punctuated by white dots.",
+      "build": "Time-key fill and bounded exposure in existing lighting/grade."
+    },
+    {
+      "rank": 2,
+      "feature": "Localized streetlight pools with dark gaps",
+      "necessity": "must",
+      "cost": "medium",
+      "alive": "Ground pools align with fixture locations and respect curbs/building occlusion.",
+      "dead": "Lamp heads glow but illuminate nothing, or whole street uniformly orange.",
+      "build": "Bounded surface fields, normals/eligibility masks and two nearest real unshadowed lights."
+    },
+    {
+      "rank": 3,
+      "feature": "Stable sparse lit windows",
+      "necessity": "must",
+      "cost": "low",
+      "alive": "20\u201340% eligible apertures seeded, mostly warm, varied by building.",
+      "dead": "Every window dark or every facade fully glowing.",
+      "build": "Seeded aperture emissive flags and colors; no roomgeometry/perwindowlight."
+    },
+    {
+      "rank": 4,
+      "feature": "Grounding and crown volume at night",
+      "necessity": "must",
+      "cost": "low",
+      "alive": "Trunks, eaves and shrubs have short contact shading; crown interiors retain form.",
+      "dead": "Trees float or become flat black balls.",
+      "build": "Reuse existing ambient-only AO; do not multiply emissive/directlight."
+    },
+    {
+      "rank": 5,
+      "feature": "Directional skyglow and geographic depth",
+      "necessity": "must",
+      "cost": "medium",
+      "alive": "Horizon glow points toward supplied downtown bearing, distant city fades coherently.",
+      "dead": "Uniform black sky or orange dome with arbitrary invented skyline.",
+      "build": "Data-defined azimuth lobe in sky plus one material fogterm."
+    },
+    {
+      "rank": 6,
+      "feature": "Headlights restricted to roads",
+      "necessity": "conditional must when cars exist",
+      "cost": "medium",
+      "alive": "Small moving paired emitters and clipped forward footprint on valid roadlanes.",
+      "dead": "Lights on lawns, sidewalk, lake or through walls.",
+      "build": "Vehicle pose + roadpolygon/lane eligibility + existing localfield budget. Traffic routing separately highcost."
+    },
+    {
+      "rank": 7,
+      "feature": "Small restrained emitter bloom",
+      "necessity": "polish",
+      "cost": "low",
+      "alive": "Soft halo helps small lamps read at390px.",
+      "dead": "Huge floating orbs and blownout white windows.",
+      "build": "Existing bloom, depth test/occlusion, cappedcoverage; no extrafullscreenpass."
+    },
+    {
+      "rank": 8,
+      "feature": "Sparse city-dimmed real stars",
+      "necessity": "polish",
+      "cost": "low",
+      "alive": "Only strongest catalogstars survive darkestsky sectors.",
+      "dead": "Ruralstarblanket overdensecity or random constellationpositions.",
+      "build": "Existingrealcatalog/siderealtransform with scalar citylight multiplier."
+    },
+    {
+      "rank": 9,
+      "feature": "Patchy shallow ground fog and gradual lift",
+      "necessity": "must for fog state",
+      "cost": "medium",
+      "alive": "Trunk bases fade while crowns emerge, clear gaps and coherentwater/land attenuation.",
+      "dead": "Smoke plume, whitecloudcards or uniformgrayfilter.",
+      "build": "Sharedheight/patch extinction inmaterial. Local weatherextent data integration may be highcost."
+    },
+    {
+      "rank": 10,
+      "feature": "Dynamic shadowed lights, volumetric shafts, detailed interiors",
+      "necessity": "defer",
+      "cost": "high",
+      "alive": "Not required for thistarget.",
+      "dead": "Extraeffects cannot repair missing fill/pools/windows.",
+      "build": "Outside baseline; no allocation or acceptance dependency."
+    }
+  ],
+  "sources": [
+    {
+      "id": "chicago-led",
+      "status": "verified_program",
+      "url": "https://integratedlightingcampaign.energy.gov/node/284",
+      "checked": "2026-10-07",
+      "claim": "Chicago replaced more than280,000 high-pressure sodium fixtures with LED over four years. This does not identify every lamp in the picturedblock."
+    },
+    {
+      "id": "chicago-cct",
+      "status": "researched_program_spec",
+      "url": "https://chicagoinfrastructure.org/press/",
+      "checked": "2026-10-07",
+      "claim": "Project announcement specifies LED maximum3000K; local picturedfixture type remains assumed."
+    },
+    {
+      "id": "wilmette-dark-skies",
+      "status": "verified_guidance_not_inventory",
+      "url": "https://www.wilmette.gov/802/Dark-Skies",
+      "checked": "2026-10-07",
+      "claim": "Village guidance cites3000K-or-lower recommendation; not a survey of picturedstreet."
+    },
+    {
+      "id": "denver-lights",
+      "status": "verified_management_context",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Transportation-and-Infrastructure/Programs-Services/Transportation-Services",
+      "checked": "2026-10-07",
+      "claim": "Different agencies/utilities/private owners may manage streetlights by location; no lamp type assertedforSloan'sLake."
+    },
+    {
+      "id": "fog-physical",
+      "status": "verified_principle_prior_checked",
+      "url": "https://www.pbr-book.org/4ed/Volume_Scattering/Transmittance",
+      "checked": "2026-10-06",
+      "claim": "Ray opticaldepth integrates extinction; transmittance exponential. Numerical demo coefficients authored."
+    },
+    {
+      "id": "fog-lifting",
+      "status": "verified_principle_prior_checked",
+      "url": "https://www.weather.gov/safety/fog-radiation",
+      "checked": "2026-10-06",
+      "claim": "Radiationfog formsnear cooledsurface and commonly dissipates withsunlight; not a fixedclock clearingrule."
+    }
+  ],
+  "frames": [
+    {
+      "id": "lakeview-blue-hour",
+      "area": "lakeview",
+      "state": "blue-hour",
+      "path": "images/lakeview-blue-hour.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/lakeview-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        941
+      ],
+      "comparison": "images/lakeview-blue-hour-comparison.svg"
+    },
+    {
+      "id": "lakeview-night",
+      "area": "lakeview",
+      "state": "night",
+      "path": "images/lakeview-night.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/lakeview-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        940
+      ],
+      "comparison": "images/lakeview-night-comparison.svg"
+    },
+    {
+      "id": "lakeview-morning-fog",
+      "area": "lakeview",
+      "state": "morning-fog",
+      "path": "images/lakeview-morning-fog.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/lakeview-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        941
+      ],
+      "comparison": "images/lakeview-morning-fog-comparison.svg"
+    },
+    {
+      "id": "sloans-lake-blue-hour",
+      "area": "sloans-lake",
+      "state": "blue-hour",
+      "path": "images/sloans-lake-blue-hour.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/showcase-01.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        941
+      ],
+      "comparison": "images/sloans-lake-blue-hour-comparison.svg"
+    },
+    {
+      "id": "sloans-lake-night",
+      "area": "sloans-lake",
+      "state": "night",
+      "path": "images/sloans-lake-night.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/showcase-01.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1673,
+        940
+      ],
+      "comparison": "images/sloans-lake-night-comparison.svg"
+    },
+    {
+      "id": "sloans-lake-morning-fog",
+      "area": "sloans-lake",
+      "state": "morning-fog",
+      "path": "images/sloans-lake-morning-fog.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/showcase-01.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1673,
+        940
+      ],
+      "comparison": "images/sloans-lake-morning-fog-comparison.svg"
+    },
+    {
+      "id": "wilmette-blue-hour",
+      "area": "wilmette",
+      "state": "blue-hour",
+      "path": "images/wilmette-blue-hour.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/wilmette-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        941
+      ],
+      "comparison": "images/wilmette-blue-hour-comparison.svg"
+    },
+    {
+      "id": "wilmette-night",
+      "area": "wilmette",
+      "state": "night",
+      "path": "images/wilmette-night.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/wilmette-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        940
+      ],
+      "comparison": "images/wilmette-night-comparison.svg"
+    },
+    {
+      "id": "wilmette-morning-fog",
+      "area": "wilmette",
+      "state": "morning-fog",
+      "path": "images/wilmette-morning-fog.png",
+      "source": "/Users/robwoodbury/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/wilmette-street.png",
+      "sourceStatus": "repositorysubstitute; noattachedframesavailable",
+      "geometryStatus": "AI approximateview preservation; originalauthoritative",
+      "pixelDimensions": [
+        1672,
+        941
+      ],
+      "comparison": "images/wilmette-morning-fog-comparison.svg"
+    }
+  ]
+}
