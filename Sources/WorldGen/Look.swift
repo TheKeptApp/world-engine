@@ -1,7 +1,7 @@
 import Foundation
 
 /// Renderer-neutral look values beyond the lighting bible and the rain pack (`Profiles/look.json`):
-/// water and sky. Both renderers read them; see docs/look-spec-changes.md.
+/// water, sky and wet paving. Both renderers read them; see docs/look-spec-changes.md.
 public struct LookSpec: Codable, Sendable {
     public struct Water: Codable, Sendable {
         /// How much of the water's colour is the reflected sky, clear and overcast (blended by cover).
@@ -20,8 +20,16 @@ public struct LookSpec: Codable, Sendable {
         public var cloudEdgeClear: Double
         public var cloudEdgeOvercast: Double
     }
+    /// Departure from the rain pack (owner, 7 Oct): its ≤12% paving darkening read dry on the phone, so
+    /// the pack's concrete and asphalt darkening is scaled by `darkenScale` (capped at `darkenMax`).
+    public struct WetPaving: Codable, Sendable {
+        public var darkenScale: Double
+        public var darkenMax: Double
+        public var surfaces: [String]
+    }
     public var water: Water
     public var sky: Sky
+    public var wetPaving: WetPaving
 }
 
 extension StyleLibrary {
