@@ -20,6 +20,8 @@ struct ViewDrawBudgetTests {
     /// A look-loop camera: a pose in scene space, from WorldLab's presets and named cameras.
     struct View {
         var id: String
+        /// A follow-camera view: the cut-away target is the pose's target.
+        var follow = false
         var pose: @MainActor (World) -> CameraPose
     }
 
@@ -51,6 +53,12 @@ struct ViewDrawBudgetTests {
                  // v2-01 / v2-04 / ordinary-street / light-rain-street: the West 23rd Ave fixture
                  // (camera 2.6 m east and 1.25 m up of the anchor, looking at 0.48 m over it).
                  View(id: "v2-01-street") { w in
+                     let a = w.position(of: GeoCoordinate(latitude: 39.7511195, longitude: -105.0389))
+                     let anchor = SIMD3<Double>(Double(a.x), Double(a.y), Double(a.z))
+                     return CameraPose(eye: anchor + [2.6, 1.25, 0], target: anchor + [0, 0.48, 0], verticalFOVDegrees: 50)
+                 },
+                 // The same with the follow camera's cut-away on (walking the character there).
+                 View(id: "v2-01-follow", follow: true) { w in
                      let a = w.position(of: GeoCoordinate(latitude: 39.7511195, longitude: -105.0389))
                      let anchor = SIMD3<Double>(Double(a.x), Double(a.y), Double(a.z))
                      return CameraPose(eye: anchor + [2.6, 1.25, 0], target: anchor + [0, 0.48, 0], verticalFOVDegrees: 50)
@@ -108,10 +116,42 @@ struct ViewDrawBudgetTests {
             camera.look(at: SIMD3<Float>(pose.target), from: SIMD3<Float>(pose.eye), relativeTo: nil)
             world.lodCenter = nil
             let focus = SIMD3<Float>(Float(pose.target.x), 0, Float(pose.target.z))
-            world.update(deltaTime: 0.5, camera: camera, focusPoint: focus, cutAwayTarget: nil)
+            world.update(deltaTime: 0.5, camera: camera, focusPoint: focus, cutAwayTarget: view.follow ? SIMD3<Float>(pose.target) : nil)
             let s = world.stats
             print("DRAWS \(area.id) \(view.id) draws=\(s.viewDrawCalls) triangles=\(s.viewTriangles) "
                   + "drawsplit[\(s.viewDraws.summary)] trisplit[\(s.viewTriangleSplit.summary)] all=\(s.drawCalls)")
+            if ProcessInfo.processInfo.environment["DRAWS_DETAIL"] != nil {
+                let fov = Float(pose.verticalFOVDegrees) * .pi / 180
+                let planes = World.frustumPlanes(view: camera.transformMatrix(relativeTo: nil).inverse, fovY: fov, aspect: world.viewAspect, near: 0.1, far: 5000)
+                // Foliage draws/triangles per slot and tree-or-not, building draws/triangles per LOD
+                // (cells; tiles as "tile-<lod>").
+                var split: [String: (n: Int, t: Int)] = [:]
+                for batch in world.lodBatches where batch.count > 0 {
+                    if let b = batch.bounds, World.intersects(b, planes) {
+                        let k = "s\(batch.slot)\(batch.kind.isTree ? "tree" : "bush")"
+                        split[k, default: (0, 0)].n += 1
+                        split[k, default: (0, 0)].t += batch.count * batch.triangles
+                    }
+                }
+                for c in world.cullables where c.category == \ViewCost.chunks && World.intersects(c.bounds, planes) {
+                    let k = c.name.hasSuffix("ground") ? "c-flat" : c.name.contains("water") ? "c-water" : "c-raised"
+                    split[k, default: (0, 0)].n += 1
+                    split[k, default: (0, 0)].t += c.triangles
+                }
+                for cell in world.buildingCells {
+                    if let b = cell.bounds, let a = cell.active, World.intersects(b, planes) {
+                        split["b-\(cell.levels[a].lod)", default: (0, 0)].n += 1
+                        split["b-\(cell.levels[a].lod)", default: (0, 0)].t += cell.levels[a].triangles
+                    }
+                }
+                for tile in world.buildingTiles {
+                    if let a = tile.active, World.intersects(tile.levels[a].bounds, planes) {
+                        split["b-tile-\(tile.levels[a].lod)", default: (0, 0)].n += 1
+                        split["b-tile-\(tile.levels[a].lod)", default: (0, 0)].t += tile.levels[a].triangles
+                    }
+                }
+                print("DETAIL \(view.id) " + split.keys.sorted().map { "\($0)=\(split[$0]!.n)/\(split[$0]!.t)" }.joined(separator: " "))
+            }
             #expect(s.viewDrawCalls <= 100, "\(view.id): \(s.viewDrawCalls) draw calls in view")
             #expect(s.viewTriangles < 400_000, "\(view.id): \(s.viewTriangles) triangles in view")
         }

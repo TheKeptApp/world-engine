@@ -84,12 +84,16 @@ public struct ContextSettings: Sendable, Equatable {
 
     public var detail: [Detail] = [
         Detail(areaTolerance: 3, roadTolerance: 1.5, minArea: 3000, minorRoads: true, alleys: true, minorReach: 1500, tertiaryAndLinks: true, railYards: true),      // near
-        Detail(areaTolerance: 6, roadTolerance: 5, minArea: 8000, minorRoads: true, alleys: false, minorReach: 1000, tertiaryAndLinks: true, railYards: false),     // aerial
+        Detail(areaTolerance: 6, roadTolerance: 5, minArea: 8000, minorRoads: true, alleys: false, minorReach: 400, tertiaryAndLinks: true, railYards: false),      // aerial
         Detail(areaTolerance: 6, roadTolerance: 4, minArea: 6000, minorRoads: false, alleys: false, minorReach: 0, tertiaryAndLinks: true, railYards: false),   // street
         Detail(areaTolerance: 10, roadTolerance: 8, minArea: 20000, minorRoads: false, alleys: false, minorReach: 0, tertiaryAndLinks: false, railYards: false), // far
     ]
     /// Low buildings smaller than this (m², garages and sheds) are left out of roof slabs.
     public var minSlabFootprint = 40.0
+    /// At the aerial level, low buildings get roof slabs only this close to the area box; beyond it
+    /// the land-use colour shows (from the air a field of grey roof quads flattened the ring). The
+    /// near level keeps them across the transition ring.
+    public var aerialSlabWidth = 100.0
     /// Water (one mesh for the ring, no levels).
     public var waterTolerance = 3.0
     public var minWaterArea = 200.0
@@ -501,7 +505,7 @@ public enum ContextRing {
             } else {
                 put(slab, ci, .near, "slab")
             }
-            put(slab, ci, .aerial, "slab")
+            if dc <= s.aerialSlabWidth { put(slab, ci, .aerial, "slab") }
         }
 
         scene.cells = cells.filter { c in c.meshes.contains { !$0.isEmpty } }
