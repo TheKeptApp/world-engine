@@ -91,5 +91,15 @@
     "farPorchShade": 0.35,
     "tierFrameHeightPx": 565,
     "tierFovDegrees": 50
+  },
+  "nightWindows": {
+    "comment": "Generator (P2), night-fog-v1 (binding): style profile → night-fog-v1 areaProfiles[].id whose windowWarmShare sets each window's warm (1) or cool (0) flag in glass vertex extra.z (seeded per window); 5A's shader reads it with windows.warmHex/coolHex. Unmapped profiles use the first listed area.",
+    "areas": {
+      "chicago-dense-north": "lakeview",
+      "front-range": "sloans-lake",
+      "default": "sloans-lake",
+      "wilmette": "wilmette",
+      "evanston": "wilmette"
+    }
   }
 }

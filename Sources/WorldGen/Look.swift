@@ -104,6 +104,20 @@ public struct LookSpec: Codable, Sendable {
     public var shadows: Shadows
     public var wetPaving: WetPaving
     public var houseContrast: HouseContrast?
+    public struct NightWindows: Codable, Sendable {
+        /// Style profile → night-fog-v1 area profile id.
+        public var areas: [String: String]
+    }
+    public var nightWindows: NightWindows?
+
+    /// night-fog-v1 windowWarmShare for a style profile (by key from the shared mock values), nil when unknown.
+    public static func windowWarmShare(profile: String) -> Double? {
+        guard let area = bundled?.nightWindows?.areas[profile] ?? bundled?.nightWindows?.areas["default"], let m = MockValues.bundled else { return nil }
+        for i in 0..<8 where m.string("night-fog-v1/areaProfiles[\(i)].id") == area {
+            return m.number("night-fog-v1/areaProfiles[\(i)].windowWarmShare")
+        }
+        return nil
+    }
     /// House archetype choice and tier tuning (house-archetypes-v1 mapping values the pack does not give).
     public var archetypes: ArchetypeTuning?
 

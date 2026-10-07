@@ -590,6 +590,7 @@ public struct BuildingGenerator: Sendable {
         var doorSpan: (edge: Int, s0: Double, s1: Double)?
         // Household seed for stable lit-window grouping (v2 §10/05).
         var household = b.ref.random("household")
+        let warmShare = LookSpec.windowWarmShare(profile: g.profileID ?? profile.id) ?? 1
         let householdSeed = Float(household.unit())
         let storefront = facade.storefront == true
         var doorAtS: Double?
@@ -806,7 +807,10 @@ public struct BuildingGenerator: Sendable {
             let reliefHere = relief && street && stoneHere == nil
             func lit(_ story: Int, _ k: Int) {
                 var wr = StableRandom(UInt64(e), UInt64(story * 31 + k), salt: "lit")
-                m.extra = SIMD4(1, min(0.999, householdSeed * 0.6 + Float(wr.unit()) * 0.4), 0, 0)
+                // night-fog-v1: warm (1) or cool (0) light behind this window, by the area's windowWarmShare.
+                var wc = b.ref.random("window-warm-\(e)-\(story)-\(k)")
+                let warm: Float = wc.unit() < warmShare ? 1 : 0
+                m.extra = SIMD4(1, min(0.999, householdSeed * 0.6 + Float(wr.unit()) * 0.4), warm, 0)
             }
             func rows(_ height: Double) -> [(Int, Double, Double)] {
                 (0..<stories).compactMap { story in
