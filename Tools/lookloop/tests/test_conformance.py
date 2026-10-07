@@ -71,6 +71,38 @@ def test_check_deterministic():
     assert r.returncode == 0, r.stdout
 
 
+def test_archetype_rows():
+    values = {
+        "house-archetypes-v1/archetypes.a.colourVariations[0].wallHex": {"value": "#A57450"},
+        "house-archetypes-v1/archetypes.a.colourVariations[0].trimHex": {"value": "#DECBAB"},
+        "house-archetypes-v1/archetypes.a.colourVariations[0].roofHex": {"value": "#5B5A52"},
+        "house-archetypes-v1/archetypes.a.roof.allowedPitchDegreeRangesProposal[0][0]": {"value": 0},
+        "house-archetypes-v1/archetypes.a.roof.allowedPitchDegreeRangesProposal[0][1]": {"value": 90},
+    }
+    rows = cf.archetype_rows(values, {"archetypes": {"map": {"a": ["front-range/modern"]}}})
+    assert any(r["key"].endswith("pitch") and r["status"] == "pass" for r in rows)
+    assert all(r["status"] in ("pass", "FAIL") for r in rows)
+
+
+def test_daytime_overrides():
+    import tempfile
+    src = r'''static let prefix = "p/s."
+        set("road", seasons: [0, 1, 2], m.string(prefix + "ground.asphalt.hex"))
+        for key in ["lawn", "lawnA"] { set(key, seasons: [1], m.string(prefix + "ground.lawn.hex")) }
+        let greens = (0..<3).compactMap { m.string(prefix + "postcard.trees.crownGreensHex[\($0)]") }
+        set(key, seasons: [0, 1], green)'''
+    with tempfile.TemporaryDirectory() as d:
+        f = Path(d) / "M.swift"
+        f.write_text(src)
+        old, cf.DAYTIME_SRC = cf.DAYTIME_SRC, f
+        try:
+            ov, crown = cf.daytime_overrides()
+        finally:
+            cf.DAYTIME_SRC = old
+    assert ov[("road", 2)] == "p/s.ground.asphalt.hex" and ov[("lawnA", 1)] == "p/s.ground.lawn.hex"
+    assert ("lawn", 0) not in ov and crown == [0, 1]
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

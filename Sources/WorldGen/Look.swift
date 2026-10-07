@@ -32,6 +32,8 @@ public struct LookSpec: Codable, Sendable {
     /// Tools/lookloop/compile_mocks.py); look.json holds only the family mapping and the band geometry.
     public struct HouseContrast: Codable, Sendable, Equatable {
         public struct HouseType: Sendable, Equatable {
+            public var wall: String
+            public var brick: Bool
             public var trim: String
             public var roof: String
             public var soffit: String
@@ -45,15 +47,23 @@ public struct LookSpec: Codable, Sendable {
         public var eaveBandHeight: Double
         /// Family ID → house-contrast-v1 type; "flat" = chicago_two_flat below three storeys, chicago_three_flat from three.
         public var families: [String: String]
+        /// Chicago brick families whose walls take the pack's brick wall swatches (seeded per building).
+        public var brickWallFamilies: [String]?
 
         /// The type's values from the shared mock values, nil when any is missing.
         public func values(_ type: String) -> HouseType? {
             let m = MockValues.bundled
             func hex(_ surface: String) -> String? { m?.string("house-contrast-v1/houseTypes.\(type).surfaces.\(surface).hex") }
-            guard let trim = hex("trim"), let roof = hex("roof"), let soffit = hex("soffit"), let porch = hex("porch_shadow"),
+            guard let wall = hex("wall"), let trim = hex("trim"), let roof = hex("roof"), let soffit = hex("soffit"), let porch = hex("porch_shadow"),
                   let glass = hex("window_glass_day"),
                   let eave = m?.number("house-contrast-v1/houseTypes.\(type).surfaces.eave_shadow.relativeBrightness") else { return nil }
-            return HouseType(trim: trim, roof: roof, soffit: soffit, porchShadow: porch, glass: glass, eaveShadow: eave)
+            let brick = m?.string("house-contrast-v1/houseTypes.\(type).wallMaterial") == "brick"
+            return HouseType(wall: wall, brick: brick, trim: trim, roof: roof, soffit: soffit, porchShadow: porch, glass: glass, eaveShadow: eave)
+        }
+
+        /// The pack's brick wall swatches (types whose wall material is brick), in a stable order.
+        public var brickWalls: [String] {
+            ["chicago_three_flat", "chicago_two_flat", "chicago_bungalow", "workers_cottage"].compactMap { values($0) }.filter(\.brick).map(\.wall)
         }
 
         public func type(family: String?, floors: Int) -> HouseType? {
