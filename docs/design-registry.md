@@ -4,13 +4,17 @@ The single list of every WorldEngine design pack, its status and which lanes use
 
 Status: **reference** (read for direction, not tracked), **in use** (lanes build or grade against it), **superseded** (kept for history), **pending** (announced, not yet in the repo). Lanes: 5A (light, weather, sky, post), P2 (buildings, yards, ground, vegetation placement), P3 (look loop and grading), L1, NJ.
 
-Last checked: 2026-10-06 (P3).
+Last checked: 2026-10-06 19:25 (P3).
+
+**Images are local-only from 2026-10-06:** new pack images (PNG, JPG, ZIP, SVG over 1 MB) live in R's local checkout and are gitignored; each pack's README, JSON and prompts are committed. Images committed before then remain in git history.
+
+**iCloud backup:** P3 copies every pack's images (PNG, JPG, ZIP, SVG) to `iCloud Drive/WorldEngine-Design-Backup/proposals/` with `Tools/lookloop/backup_design_images.sh` (copy only, never deletes), on every watch and whenever a pack lands. First copy 2026-10-06: 150 files, 329 MB. Look-loop frames are not backed up (regenerable).
 
 ## Packs in this repo
 
 | Pack | Folder | Date | Covers | Status | Lanes | Open notes and gaps |
 |---|---|---|---|---|---|---|
-| visual-v2 | `docs/proposals/visual-v2/` | 2026-10-05 | The visual spec: nine target images, richness parameters, Baseline/Target/Stretch ladder, camera and light fixtures, 10 ms budget, ten-criterion rubric (§8.3) | in use | 5A, P2, P3 | Source of truth for the rubric (GRADING.md §A) and budgets. Its concept images enlarge the dog and oversize the sun disk; graded as faults. |
+| visual-v2 | `docs/proposals/visual-v2/` | 2026-10-05 | The visual spec: nine target images, richness parameters, Baseline/Target/Stretch ladder, camera and light fixtures, 10 ms budget, ten-criterion rubric (§8.3) | in use | 5A, P2, P3 | Source of truth for the rubric (GRADING.md §A) and budgets. Its concept images enlarge the dog and oversize the sun disk; graded as faults. The two duplicate review ZIPs were removed from the current files on 2026-10-06 (the pack README still links one; history keeps both). |
 | visual-v1 | `docs/proposals/visual-v1/` | 2026-10-05 | First spec and five concept images; original-resolution drafts | superseded | — | Historical baseline, superseded by visual-v2. |
 | experience-v1 | `docs/proposals/experience-v1/` | 2026-10-05 | Eleven weather and time-of-day concepts (golden hour, overcast, rain, storm, fog, smoke, snow, night, aerial rain and snow) | in use | 5A, P3 | Calibrated parity targets for the showcase views. |
 | regions-chicagoland-miami | `docs/proposals/regions-chicagoland-miami/` | 2026-10-05 | North Shore (golden, rain, fall, snow) and Chicago (three-flat, alley snow) concepts; regional cues | in use | P2, P3 | Concepts 03, 04 and 06 are the style anchors (see decisions). Miami concepts not yet used by any view. |
@@ -22,8 +26,9 @@ Last checked: 2026-10-06 (P3).
 | postcards-widgets-v1 | `docs/proposals/postcards-widgets-v1/` | 2026-10 | Scene studies, framed postcards, frame variations, widget boards, one-page spec | reference | — | Design proposal, not deployed UI. Widget attribution fit and provider review still required. Lane not assigned. |
 | look-fix-v1 | `docs/proposals/look-fix-v1/` | 2026-10-06 | Ground, lawn, shrubs, light, weather, aerial edges and sky fixes; 21 reference images; "pass if" checks | in use | 5A, P2, P3 | **R override:** lawn contrast exceeds §1.1 (P2 ground pass 2: in-lot patches ±10–15 %, pools −25 % under trees, −18 % under shrubs and hedges, mowing bands). "Pass if" checks are GRADING.md §H. Images are uncalibrated appearance references. |
 | vegetation-v1 | `docs/proposals/vegetation-v1/` | 2026-10-06 | Style-B tree and shrub reference: crown construction, four seasons for Chicago, Denver and Miami, shrubs, hedges and beds, exact colours (`vegetation-colours.json`), phone-distance and triangle budgets | in use | P2, P3 | **Gap:** Chicago needs a willow (later). P3: tree and shrub grading reference (GRADING.md §V, from the run after ec7a62a). |
-| ground-v1 | `docs/proposals/ground-v1/` | — | — | pending | — | Announced; not yet in the repo. |
-| live-world-v1 | `docs/proposals/live-world-v1/` | — | — | pending | — | Announced; not yet in the repo. |
+| rain-v1 | `docs/proposals/rain-v1/` | 2026-10-06 | Rain look: wetness states, puddle stain vs water, rain at phone distance (3 images so far) | pending | — | Arriving in the main checkout (18:17–18:19, no README yet). Images local-only; backed up to iCloud. |
+| ground-v1 | `docs/proposals/ground-v1/` | 2026-10-06 | Style-B ground construction: lawn tone, pavement rhythm, worn edges, soft contact shade, restrained weather response; colours in `ground-colours.json`; reference images | **landed** (reference) | P2, 5A | Landed 2026-10-06 (committed unedited, 17 MB). **Gap:** Chicago red-brick and cobblestone streets missing (later). Not yet a P3 grading reference. |
+| live-world-v1 | `docs/proposals/live-world-v1/` | 2026-10-06 | Style-B live objects: rail vehicles (CTA, Metra-inspired, RTD-inspired), elevated rail and portals, planes and other live layers; styling in `live-style.json` | **landed** (reference) | 5A (render), L1 (contracts) | Landed 2026-10-06 (committed unedited, 15 MB). Not yet a P3 grading reference. |
 
 ## External packs (other projects, listed by path only)
 
@@ -31,11 +36,13 @@ Listed at the owner's request, by path only; P3 does not read or use them. Paths
 
 | Pack | Project | Path | Note |
 |---|---|---|---|
-| controls-research-v1 | neighborhood-jobs (NJ) | to confirm | Drag & coast chosen. |
+| controls-research-v1 | neighborhood-jobs (NJ) | to confirm | Drag & coast chosen. NJ paused for cloud credit (`docs/handoff/nj-f1-paused-for-credit.md` in that repo); resumes when the v2 export lands. |
 | places-v1 | DogWell | to confirm | |
 | cast-options-v1 | Stretchy | to confirm | |
 
 ## Decisions tied to packs
+
+The full list of owner decisions is `docs/decisions/owner-log.md`; this table keeps only the ones tied to a pack.
 
 | Date | Decision | Where recorded | Packs affected |
 |---|---|---|---|
@@ -48,3 +55,7 @@ Listed at the owner's request, by path only; P3 does not read or use them. Paths
 ## Change log
 
 - 2026-10-06: registry created; seeded with every folder in `docs/proposals/`, the two pending packs and three external packs.
+- 2026-10-06 18:00: ground-v1 appeared in the main checkout (uncommitted); row filled in, still pending. No other pack folders changed.
+- 2026-10-06 18:40: ground-v1 and live-world-v1 landed (committed unedited); statuses, contents, users and gaps set per owner. NJ paused note added.
+- 2026-10-06 19:10: image files made local-only (gitignored); visual-v2 review ZIPs removed from the current files.
+- 2026-10-06 19:25: iCloud image backup started (150 files, 329 MB); rain-v1 arriving (3 images, pending).

@@ -40,3 +40,37 @@ web/dist/
 docs/screenshots/*/raw/
 # Device runs set aside (charging / Low Power Mode)
 docs/perf/*/discarded/
+
+# Design-pack images stay in the local checkout, not in git (owner, 2026-10-06).
+# README.md, *.json and prompt files in docs/proposals are still committed. Already-committed images stay in history.
+docs/proposals/**/*.png
+docs/proposals/**/*.jpg
+docs/proposals/**/*.jpeg
+docs/proposals/**/*.zip
+# SVGs over 1 MB (gitignore cannot match by size; list them, add new ones as packs land)
+docs/proposals/postcards-widgets-v1/images/frame-bold-portrait.svg
+docs/proposals/postcards-widgets-v1/images/frame-bold-square.svg
+docs/proposals/postcards-widgets-v1/images/frame-bold-story.svg
+docs/proposals/postcards-widgets-v1/images/frame-classic-portrait.svg
+docs/proposals/postcards-widgets-v1/images/frame-classic-square.svg
+docs/proposals/postcards-widgets-v1/images/frame-classic-story.svg
+docs/proposals/postcards-widgets-v1/images/frame-minimal-portrait.svg
+docs/proposals/postcards-widgets-v1/images/frame-minimal-square.svg
+docs/proposals/postcards-widgets-v1/images/frame-minimal-story.svg
+docs/proposals/postcards-widgets-v1/images/postcard-01.svg
+docs/proposals/postcards-widgets-v1/images/postcard-02.svg
+docs/proposals/postcards-widgets-v1/images/postcard-03.svg
+docs/proposals/postcards-widgets-v1/images/postcard-04.svg
+docs/proposals/postcards-widgets-v1/images/postcard-05.svg
+docs/proposals/postcards-widgets-v1/images/postcard-06.svg
+docs/proposals/postcards-widgets-v1/images/widgets-clear.svg
+docs/proposals/postcards-widgets-v1/images/widgets-rain.svg
+
+# Look loop: frames, contact sheets and the overview stay local; scoreboard, summary, regressions, grades and the daily sheet are committed.
+docs/lookloop/latest/frames/
+docs/lookloop/latest/sheets/
+docs/lookloop/latest/*.jpg
+docs/lookloop/daily/baseline-*/
+
+# Device logs stay local (owner, 2026-10-06)
+*.devicelog

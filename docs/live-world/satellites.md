@@ -218,8 +218,10 @@ worst |dt| rise 0.3 s, culmination 0.2 s, set 0.3 s; worst |d maxAlt| 0.018 deg
 sunlit flag disagreements: 0 of 4187 samples (cylindrical shadow vs Skyfield's)
 ```
 
-**Against published ISS pass times: not done yet.** NASA Spot the Station, Heavens-Above and CelesTrak are denied
-by this cloud session's network policy, so neither a current element set nor a published pass list could be read.
+**Against published ISS pass times: not done yet.** Re-tried 2026-10-06: CelesTrak is now reachable (current elements
+fetch fine), but every published pass list is still denied by the network policy: spotthestation.nasa.gov now
+redirects to www.nasa.gov/spot-the-station (denied; its old XML feeds answer 404), and heavens-above.com, n2yo.com,
+in-the-sky.org, calsky.com and timeanddate.com are denied too.
 To close it: with network access, fetch the ISS elements from CelesTrak and, the same hour, the pass list for the
 three cities from Spot the Station (or Heavens-Above); run `livefeeds.sh sats --ids 25544 --visible-only` for each
 city and compare start, maximum and end times. Expected agreement: within a minute (publishers round to the

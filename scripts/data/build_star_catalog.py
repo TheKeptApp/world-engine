@@ -3,6 +3,13 @@
 
     python3 scripts/data/build_star_catalog.py <out.json>                      # downloads both inputs
     python3 scripts/data/build_star_catalog.py <out.json> --bsc5 FILE --iau FILE   # offline, local copies
+    python3 scripts/data/build_star_catalog.py <out.json> --count all              # every star to V 6.5 (live sky)
+
+--count N keeps the N brightest (default 256, the engine file); --count all keeps every merged star down to
+--mag-limit (default 6.5, about 9,000 points). Rule for stars without B-V (added with --count all, where some
+faint BSC5 rows have none): --missing-bv fail (default; the 256 have none missing) stops the build,
+--missing-bv null keeps the star with ci null, which the loaders draw white (the engine's and the sky layer's
+existing rule), and lists the HR numbers in the header. No colour is guessed from spectral type.
 
 Inputs (official sources, downloaded when no local file is given; nothing raw is stored in the repo):
   * NASA HEASARC table `bsc5p` (Hoffleit & Warren 1991, CDS V/50), as the .tdat file
@@ -59,7 +66,6 @@ BSC5_URL = "https://heasarc.gsfc.nasa.gov/FTP/heasarc/dbase/tdat_files/heasarc_b
 IAU_URL = "https://www.pas.rochester.edu/~emamajek/WGSN/IAU-CSN.txt"
 MAG_LIMIT = 6.5           # candidates for merging; the 256th star is far brighter than this
 MERGE_ARCMIN = 2.0
-COUNT = 256
 PARALLAX_MIN = 0.001      # arcsec; below this (or missing) the star carries no motion
 # HR numbers excluded beyond the rows without a magnitude: BSC5 lists them at a peak magnitude that the star
 # holds only briefly, so a fixed point of that brightness would be a phantom for most of the time.
@@ -72,7 +78,13 @@ ap = argparse.ArgumentParser()
 ap.add_argument('out')
 ap.add_argument('--bsc5', help='local heasarc_bsc5p.tdat or .tdat.gz (default: download from HEASARC)')
 ap.add_argument('--iau', help='local IAU-CSN.txt (default: download from the IAU WGSN page)')
+ap.add_argument('--count', default='256', help="number of brightest stars to keep, or 'all' (default 256)")
+ap.add_argument('--mag-limit', type=float, default=6.5, help='faintest candidate V magnitude (default 6.5)')
+ap.add_argument('--missing-bv', choices=['fail', 'null'], default='fail',
+                help='a kept star without B-V: fail the build (default) or keep it with ci null (drawn white)')
 args = ap.parse_args()
+MAG_LIMIT = args.mag_limit
+COUNT = None if args.count == 'all' else int(args.count)
 
 def fetch(url):
     # curl (default User-Agent, system certificate store): python.org builds of Python often lack the macOS CA bundle.
@@ -223,8 +235,10 @@ for root, members in groups.items():
 shared_v.sort()
 
 merged.sort(key=lambda s: (s['mag'], s['id']))
-top = merged[:COUNT]
-assert all(s['ci'] is not None for s in top), "a kept star lacks B-V; decide the fallback explicitly"
+top = [s for s in merged if s['mag'] <= MAG_LIMIT] if COUNT is None else merged[:COUNT]
+no_bv = sorted(s['id'] for s in top if s['ci'] is None)
+if no_bv and args.missing_bv == 'fail':
+    raise SystemExit(f"{len(no_bv)} kept stars lack B-V (e.g. HR {no_bv[:5]}); pass --missing-bv null to keep them white")
 still = [s for s in top if s['vel'] is None]
 worst = max(still, key=lambda s: s['pm']) if still else None
 
@@ -263,7 +277,10 @@ out = {
         "(BSC5 parallaxes are pre-Hipparcos and rough for distant stars, so distPc only scales the motion and is not a quotable distance); "
         + (f"the other {len(still)} stars carry null and stay at their J2000 position (largest neglected proper motion {worst['pm']:.3f} arcsec/year, HR {worst['id']})." if worst else "none are affected."),
         "Proper names: IAU Catalog of Star Names, joined on HR (or HD) number.",
-        "Kept the 256 brightest after sorting by magnitude, then HR number; added component HR lists.",
+        (f"Kept the {len(top)} brightest after sorting by magnitude, then HR number" if COUNT is not None else
+         f"Kept every merged star to V {MAG_LIMIT} ({len(top)}), sorted by magnitude, then HR number") + "; added component HR lists.",
+        (f"{len(no_bv)} kept stars have no BSC5 B-V and carry ci null (drawn white): HR " + ", ".join(map(str, no_bv)) + "."
+         if no_bv else "Every kept star has a BSC5 B-V."),
     ],
     "generator": "scripts/data/build_star_catalog.py",
     "stars": [dict(id=s['id'], components=s['components'], hip=None, hr=str(s['id']), hd=s['hd'], name=s['name'], bayer=s['bayer'],

@@ -211,9 +211,12 @@ a few sky-quality-meter readings.
 
 ## 4. Known limits
 
-- The engine's star file has the 256 brightest stars (to magnitude 3.4). Under a dark sky the eye reaches about 6.5,
-  so the sky is sparse until a fuller BSC5 extract (about 9,100 stars) is baked in the same schema; the
-  generator `scripts/data/build_star_catalog.py` needs a count option and a rule for stars without B-V.
+- The engine's star file has the 256 brightest stars (to magnitude 3.4). The naked-eye catalogue (baked 2026-10-07)
+  is separate and sky-only: `Tools/livefeeds/data/sky/stars-bsc5-v65.json` (build source, 8,306 merged BSC5 stars to
+  V 6.5, 213 with `ci: null`, drawn white; from `build_star_catalog.py OUT --count all --missing-bv null`) packed by
+  `scripts/data/pack_star_catalog.py` into `Sources/LiveSky/Resources/stars-v65.bin` (286 KB, shipped once with the
+  app), loaded with `StarCatalog.nakedEye()` / `StarCatalog.load(binary:)`. The Python sky layer still defaults to
+  the 256-star file; pass the v65 JSON to use the full set.
 - Planet positions are good to arcseconds except Jupiter (about 1.5 arcmin) and Saturn (about 5 arcmin), which is the
   stated accuracy of the Standish table 1 fit. Both are far below what a phone screen shows; a VSOP87 series would fix it.
 - Elements are valid 1800-2050 only (`state: "unavailable"` outside).

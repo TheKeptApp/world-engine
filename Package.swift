@@ -9,6 +9,8 @@ let package = Package(
         .library(name: "WorldEngine", targets: ["WorldEngine"]),
         // Renderer-neutral environment resolver (weather, sky, seasons).
         .library(name: "WorldEnvironment", targets: ["WorldEnvironment"]),
+        // On-device sky and satellite-pass maths (offline; the user's location never leaves the phone).
+        .library(name: "LiveSky", targets: ["LiveSky"]),
     ],
     targets: [
         // Pure Swift: geographic coordinates, local frames, 2D polygons, clipping, seeds.
@@ -23,6 +25,9 @@ let package = Package(
         .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen", "WorldEnvironment"], resources: [.process("Shaders")]),
         // Pure Swift: time, weather, sky and season resolved into the environment.json contract.
         .target(name: "WorldEnvironment", dependencies: ["WorldGeo", "WorldMap", "WorldGen"], resources: [.copy("Catalog")]),
+        // Pure Swift, no dependencies, no simd: sidereal time, Sun/Moon/planets, stars, limiting magnitude,
+        // SGP4 and satellite passes. Port of Tools/livefeeds (the reference); validated by shared test vectors.
+        .target(name: "LiveSky", resources: [.copy("Resources")]),
         // Shared world package (glTF + JSON) for renderers other than RealityKit (macOS tooling).
         .target(name: "WorldPackage", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
         // macOS command-line tool: fetch area data, print stats, draw debug maps, export packages.
@@ -39,6 +44,7 @@ let package = Package(
         .testTarget(name: "WorldMeshTests", dependencies: ["WorldMesh", "WorldGeo"]),
         .testTarget(name: "WorldGenTests", dependencies: ["WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
         .testTarget(name: "WorldEnvironmentTests", dependencies: ["WorldEnvironment", "WorldGeo", "WorldGen"]),
+        .testTarget(name: "LiveSkyTests", dependencies: ["LiveSky"], resources: [.copy("Fixtures")]),
         .testTarget(name: "WorldPackageTests", dependencies: ["WorldPackage", "WorldGen", "WorldMap", "WorldMesh", "WorldGeo"]),
         // Postcard export on the Mac: GPU kernels always; the offscreen world render only when
         // scripts/postcard_mac_check.sh has compiled the engine's shaders for macOS.
