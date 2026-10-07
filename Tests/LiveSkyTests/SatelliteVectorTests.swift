@@ -100,7 +100,10 @@ struct SatelliteVectorTests {
         Self.checkElements(parsed[0], try #require(expected["OMM"] as? [String: Any]), "OMM")
         let data = try JSONSerialization.data(withJSONObject: omm)
         let fromData = try SatelliteElements.parseOMM(jsonData: data)
-        #expect(fromData == parsed, "OMM via Data")
+        // Field by field with the vector tolerances: a JSON round trip may move a Double by one ulp
+        // (eccentricity 0.0006703000000000001 vs 0.0006703), so exact struct equality is too strict.
+        try #require(fromData.count == 1, "OMM via Data")
+        Self.checkElements(fromData[0], try #require(expected["OMM"] as? [String: Any]), "OMM via Data")
     }
 
     @Test func tleTextAndChecksum() throws {
