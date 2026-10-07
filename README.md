@@ -37,6 +37,13 @@ swift run worldbake stats Data/areas/sloans-lake
 swift run worldbake fetch Data/areas/<area> --layers overture   # Overture buildings where OSM has none (needs uv)
 ```
 
+## Contributing notes: what goes in git
+
+- No logs or images over 1 MB are committed without a reason stated in the commit message. Device logs, traces and capture dumps stay local.
+- Design-pack images (`docs/proposals/**/*.png`, `*.jpg`, `*.zip`, and SVGs over 1 MB) are not committed; they stay in the local checkout on R's Mac, where Mac agents read them. Each pack's README, JSON and prompt files are committed. Already-committed images stay in history.
+- Look-loop frames and contact sheets stay local; only the scoreboard, summary, regressions, grades and the daily before/after sheet are committed.
+- Any single commit over 20 MB is flagged before pushing (`Tools/lookloop/commit_size.sh`).
+
 ## Data attribution
 
 Map data © OpenStreetMap contributors, available under the

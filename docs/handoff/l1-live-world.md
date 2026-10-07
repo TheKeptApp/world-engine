@@ -26,6 +26,8 @@ Sources and licences: `docs/research/licensing.md` section 14, rows LW1-LW12.
    resets connections, treat it as its own rate limiting: back off and retry politely. Never use a mirror without
    checking its terms. `CTA_BUS_API_KEY` also takes effect in the next session.
 
+- 2026-10-06: no logs or images over 1 MB committed without a stated reason; device logs stay local. Design-pack images (including `docs/proposals/live-world-v1/images/`) are local-only from now on. See README "Contributing notes".
+
 ## LiveSky (Swift port) state
 
 `Sources/LiveSky/` (Sky/: Vec3, Astro, MoonTables, Bodies, Stars, SkyGlow; Satellites/: SatelliteMath, SatelliteElements,

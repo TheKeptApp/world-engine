@@ -4,7 +4,11 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
-- **Repo size guard:** flag any single commit over 20 MB before pushing; propose Git LFS for proposal PNGs (report first, no history rewrite). Applied: `Tools/lookloop/commit_size.sh`, `docs/repo-size.md`.
+- **Every lane:** no logs or images over 1 MB committed without a stated reason; device logs stay local. Applied: README "Contributing notes"; `.gitignore`; L1 handoff; messaged 5A, P2, P1.
+- **Look loop commits** only the scoreboard, summary, regressions, grades and the daily before/after sheet; frames and contact sheets stay local. Applied: `.gitignore`; look-loop docs.
+- **Duplicate review ZIPs removed** from visual-v2 (ordinary commit; history keeps them). Applied: `docs/proposals/visual-v2/`.
+- **No Git LFS.** Design-pack images (PNG, JPG, ZIP, SVG over 1 MB) are not committed from now on and stay in R's local checkout; README, JSON and prompts stay committed; no history rewrite. Applied: `.gitignore`; `docs/repo-size.md`.
+- **Repo size guard:** flag any single commit over 20 MB before pushing. Applied: `Tools/lookloop/commit_size.sh`, `docs/repo-size.md`.
 - **Neighborhood paused** for cloud credit; resumes when the v2 export lands. Applied: neighborhood-jobs repo (`docs/handoff/nj-f1-paused-for-credit.md` there); registry external row.
 - **Lock priority** 5A (P0) > P2 > P3 > P1; FoodZen paused. Applied: `~/.agent-heavy-lock` turn-taking; `docs/lookloop/README.md`.
 - **Gate trigger:** a routine Sonnet loop at ≥ 92 % parity (85 % + measured 7-point offset) triggers the full Opus gate; milestones are read only from Opus gate runs. Applied: `docs/lookloop/README.md`, `scoreboard.md`, `/lookloop` skill.
