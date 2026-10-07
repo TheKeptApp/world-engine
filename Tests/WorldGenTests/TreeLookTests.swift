@@ -48,11 +48,11 @@ struct PropTreeLookTests {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
         let size = 160
-        let above = Self.outline(TreeSilhouetteTests.mask(m, crown, fromAbove: true, size: size), size: size).radii
+        let above = Self.outline(TreeSilhouetteTests.mask(m, crown, fromAbove: true, size: size, atlas: PropLibrary.leafAtlas), size: size).radii
         let plan = (above.max()! - above.min()!) / above.max()!
         var side: [Float] = []
         for k in 0..<4 {
-            let mask = TreeSilhouetteTests.mask(m, crown, yaw: Float(k) * .pi / 4, size: size)
+            let mask = TreeSilhouetteTests.mask(m, crown, yaw: Float(k) * .pi / 4, size: size, atlas: PropLibrary.leafAtlas)
             var lo = SIMD2<Int>(size, size), hi = SIMD2<Int>(0, 0)
             for y in 0..<size { for x in 0..<size where mask[y * size + x] { lo = simd_min(lo, SIMD2(x, y)); hi = simd_max(hi, SIMD2(x, y)) } }
             let half = SIMD2<Float>(Float(hi.x - lo.x), Float(hi.y - lo.y)) / 2
@@ -102,7 +102,7 @@ struct PropTreeLookTests {
     func crownHasSkyHoles(_ kind: PropKind, _ target: Float) throws {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
-        let shares = (0..<4).map { Self.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160), size: 160) }
+        let shares = (0..<4).map { Self.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160, atlas: PropLibrary.leafAtlas), size: 160) }
         let mean = shares.reduce(0, +) / 4
         print("SKYHOLES \(kind.rawValue) \(shares.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", mean)) target \(target)")
         #expect(mean >= 0.6 * target, "\(kind): sky holes \(mean) of the outline, target \(target)")

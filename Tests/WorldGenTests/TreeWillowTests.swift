@@ -18,20 +18,23 @@ struct TreeWillowTests {
         for (n, cap) in zip(counts, [PropLibrary.nearTriangleBudget, 250, 80, PropLibrary.skylineTriangleBudget]) { #expect(n <= cap, "\(counts)") }
     }
 
-    /// Curtains hang below the dome: separate crown pieces (6–10 near, 2–4 mid) reaching well under
-    /// the upper lobes, with sky between them (15–22% target; at least 60% of 18% here).
+    /// Strand cards hang below the dome (6–10 near, 2–4 mid) reaching well under the upper lobes, with
+    /// sky between them (15–22% target; at least 60% of 18% here, alpha-tested).
     @Test func curtainsHangWithGaps() throws {
         let shape = PropLibrary.lobes(.treeWeeping)
         let domeBottom = shape.lobes.map { $0.0.y - $0.1 * 0.92 }.min()!
         for (lod, range) in [(0, 6...10), (1, 2...4)] {
             let m = try TreeSilhouetteTests.mesh(.treeWeeping, lod: lod)
             let crown = TreeSilhouetteTests.triangles(m, .crown)
-            let hanging = TreeSilhouetteTests.pieces(m, crown).filter { $0.lo.y < domeBottom - 0.1 }
-            #expect(range.contains(hanging.count), "lod \(lod): \(hanging.count) curtains")
+            // Strand cards (atlas row 3) hanging below the dome.
+            let strands = TreeSilhouetteTests.pieces(m, crown).filter { p in
+                m.uvs[Int(m.indices[p.triangles[0] * 3])].y >= 0.75 && p.lo.y < domeBottom - 0.1
+            }
+            #expect(range.contains(strands.count), "lod \(lod): \(strands.count) strand cards")
         }
         let m = try TreeSilhouetteTests.mesh(.treeWeeping, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
-        let shares = (0..<4).map { PropTreeLookTests.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160), size: 160) }
+        let shares = (0..<4).map { PropTreeLookTests.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160, atlas: PropLibrary.leafAtlas), size: 160) }
         let mean = shares.reduce(0, +) / 4
         print("SKYHOLES treeWeeping \(shares.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", mean)) target 0.18")
         #expect(mean >= 0.6 * 0.18, "sky holes \(mean)")

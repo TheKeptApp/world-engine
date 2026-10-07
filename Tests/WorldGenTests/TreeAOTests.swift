@@ -31,7 +31,7 @@ struct TreeAOTests {
         for lod in 0..<3 {
             let m = try TreeSilhouetteTests.mesh(kind, lod: lod)
             let under = (0..<m.vertexCount).filter { TreeSilhouetteTests.part(m, vertex: $0) == .crown && m.normals[$0].y < -0.8 }
-            #expect(lod == 2 || !under.isEmpty, "\(kind) lod \(lod): no underside")
+            #expect(lod != 0 || !under.isEmpty, "\(kind) lod \(lod): no underside")
             #expect(under.allSatisfy { m.extras[$0].x <= 0.76 }, "\(kind) lod \(lod): underside AO up to \(under.map { m.extras[$0].x }.max() ?? 0)")
         }
     }

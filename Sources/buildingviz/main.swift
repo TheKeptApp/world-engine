@@ -12,7 +12,7 @@ let usage = """
 buildingviz --area DIR --profile ID --out out.png
   [--center LAT,LON | --local X,Y] [--radius 60] [--lod near|mid|far|skyline]
   [--yaw 210] [--pitch 35] [--dist 90] [--fov 40] [--width 1600] [--height 900]
-  [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1]
+  [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1] [--leaf-cards (tree crowns as alpha-tested leaf cards)]
 buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...] [--ids 6]
   [--local X,Y] (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50;
   --local aims at one cell: footprints start at x = 25 × column, y = −48 × row)
@@ -34,7 +34,7 @@ do {
         let a = args[i]
         guard a.hasPrefix("--") else { fail("unexpected argument \(a)\n\(usage)") }
         let key = String(a.dropFirst(2))
-        if ["gallery", "help", "scene", "zones", "mix"].contains(key) { flags.insert(key); i += 1; continue }
+        if ["gallery", "help", "scene", "zones", "mix", "leaf-cards"].contains(key) { flags.insert(key); i += 1; continue }
         guard i + 1 < args.count else { fail("missing value for \(a)") }
         opts[key] = args[i + 1]
         i += 2
@@ -199,15 +199,25 @@ if let build = sceneBuild {
             if flags & 32 != 0 { slot += Int(hash12(origin * 0.173) * 3.999) }
             if flags & 64 != 0 { slot += Int(hash12(origin * 0.211) * 1.999) }
             slot = min(max(0, slot), pal.colors.count - 1)
+            var uv: (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>)? = nil, normal: SIMD3<Float>? = nil
+            if flags & 512 != 0, m.uvs.count == m.positions.count {
+                uv = (m.uvs[i0], m.uvs[i1], m.uvs[i2])
+                if let t = transform {
+                    let n = t * SIMD4(m.normals[i0], 0)
+                    normal = simd_normalize(SIMD3(n.x, n.y, n.z))
+                } else { normal = m.normals[i0] }
+            }
             let ao = (m.extras[i0].x + m.extras[i1].x + m.extras[i2].x) / 3
-            scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull))
+            scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull && uv == nil,
+                                    uv: uv, normal: normal))
         }
     }
+    scene.atlas = PropLibrary.leafAtlas
     for chunk in build.scene.chunks { addMesh(chunk.staticMesh, cull: true); addMesh(chunk.waterMesh, cull: true) }
     var propMeshes: [String: MeshBuffers] = [:]
     for inst in build.scene.instances where simd_length(LocalPoint(inst.x, inst.y) - centerLocal) < Double(reach) {
         let key = "\(inst.kind.rawValue)-\(inst.variant)"
-        if propMeshes[key] == nil { propMeshes[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: 0, palette: pal) }
+        if propMeshes[key] == nil { propMeshes[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: 0, palette: pal, leafCards: flags.contains("leaf-cards") || PropLibrary.leafCards) }
         addMesh(propMeshes[key]!, transform: inst.transform, cull: true)
     }
     let st = build.scene.stats

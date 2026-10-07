@@ -27,6 +27,10 @@ public struct Paint: Hashable, Sendable {
         /// backdrop over the last `sway` metres inside a coverage box carried in `extra` (scene
         /// x min, z min, x max, z max), so the data ends without a cut. AO is 1 on these vertices.
         public static let coverageFade = Flags(rawValue: 256)
+        /// Leaf card (tree crowns): an alpha-tested quad textured from the leaf atlas
+        /// (`PropLibrary.leafAtlas`) through `MeshBuffers.uvs`; opaque, clipped at alpha 0.5.
+        /// extra.x = AO, extra.y = leaf-drop threshold, extra.z = 0, extra.w = per-card random value.
+        public static let leafCard = Flags(rawValue: 512)
     }
 
     public var slot: Int
@@ -56,6 +60,9 @@ public struct MeshBuffers: Sendable, Equatable {
     /// w = meters across a path.
     public var extras: [SIMD4<Float>] = []
     public var indices: [UInt32] = []
+    /// Texture coordinates (uv0), empty for meshes without them; once any vertex has one, every
+    /// vertex does (earlier ones get (0, 0)). Only leaf cards use them so far.
+    public var uvs: [SIMD2<Float>] = []
     /// Paint applied to vertices added from now on.
     public var paint = Paint(slot: 0)
     /// Extra channel applied to vertices added from now on (AO defaults to 1).
@@ -85,6 +92,19 @@ public struct MeshBuffers: Sendable, Equatable {
         normals.append(n)
         paints.append(paint.packed)
         extras.append(extra)
+        if !uvs.isEmpty { uvs.append(.zero) }
+        return UInt32(positions.count - 1)
+    }
+
+    /// Adds a vertex with texture coordinates and returns its index.
+    @discardableResult
+    public mutating func addVertex(_ p: SIMD3<Float>, normal n: SIMD3<Float>, uv: SIMD2<Float>) -> UInt32 {
+        if uvs.count < positions.count { uvs.append(contentsOf: repeatElement(.zero, count: positions.count - uvs.count)) }
+        positions.append(p)
+        normals.append(n)
+        paints.append(paint.packed)
+        extras.append(extra)
+        uvs.append(uv)
         return UInt32(positions.count - 1)
     }
 
@@ -105,6 +125,10 @@ public struct MeshBuffers: Sendable, Equatable {
         for n in other.normals { normals.append(simd_normalize(normalMatrix * n)) }
         paints.append(contentsOf: other.paints)
         extras.append(contentsOf: other.extras)
+        if !uvs.isEmpty || !other.uvs.isEmpty {
+            if uvs.count < Int(base) { uvs.append(contentsOf: repeatElement(.zero, count: Int(base) - uvs.count)) }
+            uvs.append(contentsOf: other.uvs.isEmpty ? Array(repeating: .zero, count: other.positions.count) : other.uvs)
+        }
         indices.append(contentsOf: other.indices.map { $0 + base })
     }
 
@@ -120,6 +144,7 @@ public struct MeshBuffers: Sendable, Equatable {
                 mesh.normals.append(normals[i])
                 mesh.paints.append(paints[i])
                 mesh.extras.append(extras[i])
+                if !uvs.isEmpty { mesh.uvs.append(uvs[i]) }
                 map[i] = Int32(mesh.positions.count - 1)
             }
             return UInt32(map[i])

@@ -108,7 +108,7 @@ struct TreeColourTests {
             for lod in 0..<4 {
                 let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: p)
                 let crown = (0..<m.vertexCount).filter { TreeSilhouetteTests.part(m, vertex: $0) == .crown }
-                #expect(!crown.isEmpty && crown.allSatisfy { Int(m.paints[$0].x) == expected.slot && Int(m.paints[$0].z) == Int(expected.flags.rawValue) },
+                #expect(!crown.isEmpty && crown.allSatisfy { Int(m.paints[$0].x) == expected.slot && Int(m.paints[$0].z) & ~512 == Int(expected.flags.rawValue) },
                         "\(kind) lod \(lod): crown paint is not its form's family")
             }
         }

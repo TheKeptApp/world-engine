@@ -88,13 +88,19 @@ public struct PropLibrary: Sendable {
 
     /// Mesh for a prop variant. Trees and lamps are unit height (scale by instance); benches,
     /// bushes and tufts are real size.
-    public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette) -> MeshBuffers {
+    /// Whether tree crowns are built from leaf cards (`Paint.Flags.leafCard`) at near and mid detail.
+    /// Off by default until the renderer's card material lands (without it cards would draw as solid
+    /// quads): then every level is the solid crown. On with the environment variable
+    /// `WORLDENGINE_LEAF_CARDS=1`, or per call (`mesh(…, leafCards: true)`, buildingviz `--leaf-cards`).
+    public static let leafCards: Bool = ProcessInfo.processInfo.environment["WORLDENGINE_LEAF_CARDS"] == "1"
+
+    public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette, leafCards: Bool = PropLibrary.leafCards) -> MeshBuffers {
         var rng = StableRandom(kind.rawValue.hashValueStable, UInt64(variant), salt: "prop")
         switch kind {
         case .treeBroad, .treeOval, .treeSpreading, .treeWeeping:
-            return deciduous(kind, lod: lod, palette: palette, rng: &rng)
+            return deciduous(kind, lod: lod, palette: palette, rng: &rng, cards: leafCards)
         case .conifer:
-            return conifer(lod: lod, palette: palette, rng: &rng)
+            return conifer(lod: lod, palette: palette, rng: &rng, cards: leafCards)
         case .lamp:
             var m = MeshBuffers()
             m.paint = Paint(slot: palette.named("metal"))
@@ -484,7 +490,9 @@ public struct PropLibrary: Sendable {
     /// with the same trunk and three winter spikes (`farSmallLobe` follows this value).
     public static let treeTriangleBudget = (mid: 200, far: 52)
 
-    static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
+    /// A deciduous tree. With `cards`, near and mid crowns are leaf cards; otherwise the solid lobe
+    /// crown (also the far level's reference outline).
+    static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom, cards: Bool = false) -> MeshBuffers {
         let shape = lobes(kind)
         // Trunk radius (unit height): stout enough that a crown doesn't read as a lollipop on a pole
         // (vegetation-v1: thick oak fork, stout trunks); about a tenth of the crown's width across.
@@ -525,6 +533,10 @@ public struct PropLibrary: Sendable {
         // geodesic spheres (the largest ones finer while the near budget allows); mid detail keeps
         // the top lobe and the first side lobe at 1.25×, its side lobe a 48-triangle cube sphere.
         let leaves = crownPaint(kind, palette: palette)
+        if cards {
+            addLeafCrown(&m, kind: kind, shape: shape, lod: lod, leaves: leaves, rng: &rng)
+            return m
+        }
         m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let lobes = lod == 0 ? shape.lobes : midLobes(shape)
         let curtains = kind == .treeWeeping ? willowCurtains(lod: lod) : []
@@ -550,6 +562,104 @@ public struct PropLibrary: Sendable {
         // Overlap AO against the modelled lobe radii (mid lobes are drawn 1.25× larger).
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: Array(shape.lobes.prefix(lobes.count)))
         return m
+    }
+
+    // MARK: - Leaf cards
+
+    /// The leaf-card atlas (R8 coverage, 4 × 4 cells), generated once.
+    public static let leafAtlas = LeafAtlas.generate()
+
+    /// Leaf cards per tree at near and mid detail (vegetation-v1 crown construction; overdraw kept
+    /// low: near 40–60, mid 12–20). Willows add hanging strand cards.
+    public static let leafCardCounts = (near: 56, mid: 20)
+    static let willowStrandCards = (near: 10, mid: 4)
+
+    /// Atlas row for a crown form: lindens and willows small-leaf, the rest broadleaf clusters.
+    static func leafFamily(_ kind: PropKind) -> LeafAtlas.Family {
+        kind == .treeOval || kind == .treeWeeping ? .smallLeaf : kind == .conifer ? .needles : .broadleaf
+    }
+
+    /// One leaf card: a quad (two triangles; the card material draws both faces) facing `facing`,
+    /// `half` its half size, turned `roll` in its plane; textured with an atlas cell; normals bent out
+    /// from the crown centre (`bent`) so the card shades with the crown's volume from either side.
+    static func addCard(_ m: inout MeshBuffers, center: SIMD3<Float>, facing: SIMD3<Float>, half: SIMD2<Float>, roll: Float,
+                        cell: (min: SIMD2<Float>, max: SIMD2<Float>), bent: SIMD3<Float>) {
+        let helper: SIMD3<Float> = abs(facing.y) > 0.9 ? [1, 0, 0] : [0, 1, 0]
+        let a0 = simd_normalize(simd_cross(helper, facing)), b0 = simd_cross(facing, a0)
+        let a = a0 * cos(roll) + b0 * sin(roll), b = simd_cross(facing, a)
+        // Corners counter-clockwise seen from the front; v grows downward in the atlas, so the top
+        // edge (+b) takes the cell's min v.
+        let corners: [(SIMD3<Float>, SIMD2<Float>)] = [
+            (center - a * half.x - b * half.y, SIMD2(cell.min.x, cell.max.y)),
+            (center + a * half.x - b * half.y, SIMD2(cell.max.x, cell.max.y)),
+            (center + a * half.x + b * half.y, SIMD2(cell.max.x, cell.min.y)),
+            (center - a * half.x + b * half.y, SIMD2(cell.min.x, cell.min.y)),
+        ]
+        let front = corners.map { m.addVertex($0.0, normal: bent, uv: $0.1) }
+        m.addTriangle(front[0], front[1], front[2])
+        m.addTriangle(front[0], front[2], front[3])
+    }
+
+    /// A crown of leaf cards over the archetype's lobes (near: all lobes, `leafCardCounts.near` cards of
+    /// 0.8–1.1 × the lobe radius (half size); mid: `leafCardCounts.mid` larger cards): cards per lobe in proportion to
+    /// its surface, mostly in the lobe's outer shell and facing out from the crown, so lobes read as
+    /// clustered masses with sky gaps between them and branches showing through. Per card: the lobe's
+    /// leaf threshold (extra.y), AO darker inside the crown (extra.x), a random value (extra.w), a
+    /// little shade jitter. Willows add hanging strand cards around the rim.
+    static func addLeafCrown(_ m: inout MeshBuffers, kind: PropKind, shape: TreeShape, lod: Int, leaves: (slot: Int, flags: Paint.Flags),
+                             rng: inout StableRandom) {
+        let start = m.positions.count
+        let total = lod == 0 ? leafCardCounts.near : leafCardCounts.mid
+        let area = shape.lobes.reduce(Float(0)) { $0 + $1.1 * $1.1 }
+        let family = leafFamily(kind)
+        var placed = 0
+        for (k, (c, r)) in shape.lobes.enumerated() {
+            let n = k == shape.lobes.count - 1 ? total - placed : max(1, Int((Float(total) * r * r / area).rounded()))
+            placed += n
+            let threshold = lobeThreshold(k, of: shape.lobes.count)
+            for _ in 0..<max(0, n) {
+                // A direction on the lobe, biased away from the crown centre and up.
+                var u = SIMD3<Float>(Float(rng.range(-1, 1)), Float(rng.range(-0.8, 1)), Float(rng.range(-1, 1)))
+                let away = c - shape.crown
+                if simd_length(away) > 1e-3 { u += simd_normalize(away) * 0.6 }
+                u = simd_length(u) > 1e-4 ? simd_normalize(u) : SIMD3(0, 1, 0)
+                let depth = Float(rng.range(0.5, 0.95))
+                let p = c + SIMD3(u.x, u.y * 0.92, u.z) * (r * depth)
+                let out = simd_normalize((p - shape.crown) / (shape.radii * shape.radii))
+                // Facing out from the crown with a broad random tilt, so cards near the outline still
+                // show some face (edge-on cards at the rim read as a thin, see-through crown).
+                let tilt = SIMD3<Float>(Float(rng.range(-0.5, 0.5)), Float(rng.range(-0.3, 0.5)), Float(rng.range(-0.5, 0.5)))
+                let facing = simd_normalize(u * 0.5 + out * 0.4 + tilt)
+                let size = r * Float(lod == 0 ? rng.range(0.8, 1.1) : rng.range(1.05, 1.4))
+                m.paint = Paint(slot: leaves.slot, shade: Float(rng.range(0.94, 1.05)), flags: leaves.flags.union(.leafCard), sway: 1)
+                m.extra = SIMD4(0.72 + 0.28 * Float(smoothstep(0.5, 0.95, Double(depth))), threshold, 0, Float(rng.unit()))
+                addCard(&m, center: p, facing: facing, half: SIMD2(repeating: size), roll: Float(rng.range(0, 2 * .pi)),
+                        cell: LeafAtlas.cell(family, variant: Int(rng.next() % 4)), bent: out)
+            }
+        }
+        if kind == .treeWeeping { addStrandCards(&m, lod: lod, leaves: leaves, rng: &rng) }
+        m.extra = SIMD4(1, 0, 0, 0)
+        bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: [])
+    }
+
+    /// Willow strand cards (vegetation-v1 addendum: 6–10 tapered hanging groups, 2–4 at medium
+    /// distance): vertical cards hanging from the dome's rim, facing out, uneven lengths and gaps;
+    /// leaf threshold 0.95 (they thin first in autumn).
+    static func addStrandCards(_ m: inout MeshBuffers, lod: Int, leaves: (slot: Int, flags: Paint.Flags), rng: inout StableRandom) {
+        let count = lod == 0 ? willowStrandCards.near : willowStrandCards.mid
+        let phase = Float(rng.range(0, 2 * .pi))
+        for k in 0..<count {
+            let a = phase + Float(k) / Float(count) * 2 * .pi + Float(rng.range(-0.2, 0.2))
+            let out = SIMD3<Float>(cos(a), 0, sin(a))
+            let length = Float(rng.range(0.3, 0.42)), width = Float(rng.range(0.09, 0.12)) * (lod == 0 ? 1 : 1.4)
+            let top = Float(rng.range(0.74, 0.79)), reach = Float(rng.range(0.28, 0.34))
+            let center = out * (reach + 0.03) + SIMD3(0, top - length / 2, 0)
+            let facing = simd_normalize(out + SIMD3(0, 0.1, 0))
+            m.paint = Paint(slot: leaves.slot, shade: Float(rng.range(0.94, 1.05)), flags: leaves.flags.union(.leafCard), sway: 1)
+            m.extra = SIMD4(0.9, 0.95, 0, Float(rng.unit()))
+            addCard(&m, center: center, facing: facing, half: SIMD2(width, length / 2), roll: 0,
+                    cell: LeafAtlas.cell(.strands, variant: Int(rng.next() % 4)), bent: simd_normalize(out + SIMD3(0, -0.2, 0)))
+        }
     }
 
     /// One hanging willow curtain: a tapered, slightly flattened cone hanging from the crown's rim.
@@ -1347,7 +1457,7 @@ public struct PropLibrary: Sendable {
         return (verts, faces)
     }
 
-    static func conifer(lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
+    static func conifer(lod: Int, palette: Palette, rng: inout StableRandom, cards: Bool = false) -> MeshBuffers {
         var m = MeshBuffers()
         if lod == 3 {
             // Skyline: the far cone alone, no trunk and open underneath (5 triangles).
@@ -1377,6 +1487,7 @@ public struct PropLibrary: Sendable {
                 : [(0.14, 0.58, 0.26), (0.38, 0.8, 0.2), (0.6, 1.0, 0.13)]
             for (z0, z1, r) in tiers { addCone(&m, radius: r, z0: z0, z1: z1, sides: lod == 1 ? 7 : 5) }
         }
+        if cards && lod < 2 { addNeedleCards(&m, lod: lod, palette: palette, rng: &rng) }
         m.bakeAO(from: start) { p, n in n.y < -0.5 ? 0.6 : Float(0.7 + 0.3 * smoothstep(0.1, 0.9, Double(p.y))) }
         return m
     }
@@ -1490,6 +1601,30 @@ public struct PropLibrary: Sendable {
             return m.addVertex(SIMD3(cos(a) * r, y0, sin(a) * r), normal: simd_normalize(SIMD3(cos(a), slope, sin(a))))
         }
         for i in 0..<sides { m.addTriangle(apex, ring[(i + 1) % sides], ring[i]) }
+    }
+
+    /// Needle-spray cards on a spruce (vegetation-v1: irregular drooping tiers): near 32, mid 10, in
+    /// rings down the spire, each card hanging out and a little down from the axis at the tiers'
+    /// edge, so the outline breaks into needle sprays over the solid tiers. Evergreen: leaf
+    /// threshold 0 (never dropped), sway 0.5 like the tiers.
+    static func addNeedleCards(_ m: inout MeshBuffers, lod: Int, palette: Palette, rng: inout StableRandom) {
+        let count = lod == 0 ? 32 : 10
+        let slot = palette.named("conifer1")
+        for k in 0..<count {
+            let t = (Float(k) + 0.5) / Float(count)
+            let y = 0.16 + 0.74 * t + Float(rng.range(-0.02, 0.02))
+            let radius = 0.26 * (1 - 0.82 * t) * Float(rng.range(0.85, 1.05))
+            let a = Float(k) * 2.4 + Float(rng.range(-0.3, 0.3))
+            let out = SIMD3<Float>(cos(a), 0, sin(a))
+            let center = out * (radius * 0.95) + SIMD3(0, y, 0)
+            let facing = simd_normalize(out + SIMD3(0, 0.35, 0) + SIMD3(Float(rng.range(-0.3, 0.3)), 0, Float(rng.range(-0.3, 0.3))))
+            let half = max(0.04, radius * Float(lod == 0 ? rng.range(0.7, 0.9) : rng.range(0.9, 1.1)))
+            m.paint = Paint(slot: slot, shade: Float(rng.range(0.94, 1.05)), flags: [.variant2, .leafCard], sway: 0.5)
+            m.extra = SIMD4(Float(0.7 + 0.3 * smoothstep(0.1, 0.9, Double(y))), 0, 0, Float(rng.unit()))
+            addCard(&m, center: center, facing: facing, half: SIMD2(half, half * 0.8), roll: .pi + Float(rng.range(-0.4, 0.4)),
+                    cell: LeafAtlas.cell(.needles, variant: Int(rng.next() % 4)), bent: simd_normalize(out + SIMD3(0, 0.3, 0)))
+        }
+        m.extra = SIMD4(1, 0, 0, 0)
     }
 
     /// A conifer tier: a cone whose rim alternates `tips` outer branch tips (full radius ±8%, drooping
