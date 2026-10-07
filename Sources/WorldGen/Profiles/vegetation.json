@@ -1,5 +1,5 @@
 {
-  "comment": "Tree species families and their regions (look-fix-v1 §5, vegetation-v1). Colours are vegetation-v1 vegetation-colours.json neutralCrownAlbedo per season (spring, summer, peak-fall as autumn, winter); a bare winter crown (null) takes the family's branch body colour, so leaf drop blends toward bare wood, never grey foliage. form = the crown archetype the family is drawn with (broad, oval, spreading, conifer). A region fills the scene palette's crown slots (deciduous1-9, conifer1-2) and bark from its families; crownColors gives each crown form the consecutive slots its trees pick from per instance (count 1, 2 or 4; a repeated family weights it). seasonal-palette.json keeps the chicago region as its defaults (tested). genusForms: OSM genus (or the first word of species/taxon) -> crown form for mapped trees; species entries override their genus. Real tags win over profile crown weights. Weeping willow (vegetation-v1 addendum) is form weeping, slot deciduous9, picked by Salix tags or the profile prior (trees.weeping); denver reuses it for tagged Salix. Not covered: Miami (no region profile yet), elm and honey locust drawn with the oak's spreading form.",
+  "comment": "Tree species families and their regions (look-fix-v1 §5, vegetation-v1). Colours are vegetation-v1 vegetation-colours.json neutralCrownAlbedo per season (spring, summer, peak-fall as autumn, winter); a bare winter crown (null) takes the family's branch body colour, so leaf drop blends toward bare wood, never grey foliage. form = the crown archetype the family is drawn with (broad, oval, spreading, conifer). A region fills the scene palette's crown slots (deciduous1-9, conifer1-2) and bark from its families; crownColors gives each crown form the consecutive slots its trees pick from per instance (count 1, 2 or 4; a repeated family weights it). seasonal-palette.json keeps the chicago region as its defaults (tested). genusForms: OSM genus (or the first word of species/taxon) -> crown form for mapped trees; species entries override their genus. Real tags win over profile crown weights. Weeping willow (vegetation-v1 addendum) is form weeping, slot deciduous9, picked by Salix tags or the profile prior (trees.weeping); denver reuses it for tagged Salix. Not covered: Miami (no region profile yet), elm and honey locust drawn with the oak's spreading form. Denver (owner decision 2026-10-07, after the Sloan's Lake lemon-yellow regression): maple (orange) and oak (russet) mixed in as shared urban street species (~29 % of deciduous crowns at front-range's crown weights), honey locust and linden as later-turning greens, elm mostly still green; a slot entry 'species@lag' takes that species' autumn colour lag x of the way back to its summer green (linear light). Aspen stays available for tagged trees. The pack's Denver list is being revised to match.",
   "species": {
     "chicago-oak": {
       "form": "spreading",
@@ -168,14 +168,14 @@
         "front-range"
       ],
       "slots": {
-        "deciduous1": "denver-ash",
+        "deciduous1": "chicago-maple",
         "deciduous2": "denver-crabapple",
-        "deciduous3": "denver-aspen",
-        "deciduous4": "denver-ash",
+        "deciduous3": "denver-ash",
+        "deciduous4": "chicago-linden@0.55",
         "deciduous5": "denver-cottonwood",
-        "deciduous6": "denver-cottonwood",
-        "deciduous7": "denver-cottonwood",
-        "deciduous8": "denver-cottonwood",
+        "deciduous6": "chicago-oak",
+        "deciduous7": "chicago-honey-locust@0.5",
+        "deciduous8": "chicago-elm@0.7",
         "conifer1": "denver-blue-spruce",
         "conifer2": "denver-blue-spruce",
         "deciduous9": "chicago-weeping-willow"
@@ -192,7 +192,7 @@
         },
         "spreading": {
           "first": "deciduous5",
-          "count": 1
+          "count": 4
         },
         "weeping": {
           "first": "deciduous9",

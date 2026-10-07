@@ -990,11 +990,12 @@ public struct PropLibrary: Sendable {
         return Float(base * (1 - 0.45 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y))))
     }
 
-    /// Trunk AO at the ground (a 16% reduction).
-    static let trunkBaseAO: Float = 0.84
-    /// Height (share of the unit-height tree) over which trunk AO rises to 1: 0.025 ≈ 0.38 m on a 15 m
-    /// tree (Evanston median), 0.1–0.15 m on young 4–6 m trees.
-    static let trunkBaseAOHeight: Float = 0.025
+    /// Trunk AO at the ground: 0.65, the renderer's ambient floor (owner 2026-10-07: the 16 % of
+    /// vegetation-v1 did not read at phone size, "floating trunks").
+    static let trunkBaseAO: Float = 0.65
+    /// Height (share of the unit-height tree) over which trunk AO rises to 1: 0.06 ≈ 0.9 m on a 15 m
+    /// tree (Evanston median), 0.25–0.35 m on young 4–6 m trees.
+    static let trunkBaseAOHeight: Float = 0.06
 
     /// The mid crown's lobes: the top lobe and the first side lobe, 1.25× larger.
     static func midLobes(_ shape: TreeShape) -> [(SIMD3<Float>, Float)] {
