@@ -178,4 +178,20 @@ struct ArchetypeTests {
             #expect(d.near > 100 && d.far > d.near * 3, "\(id) \(d)")
         }
     }
+
+    /// Miami archetypes are data only (no Miami profile or test area): every Miami archetype has a house type whose
+    /// mirrored values equal the by-key resolution.
+    @Test func miamiArchetypeTypesAreDataOnly() throws {
+        struct File: Decodable { var archetypeHouseTypes: [StyleProfile.HouseType] }
+        let types = try JSONDecoder().decode(File.self, from: StyleLibrary.data("archetypes-miami")).archetypeHouseTypes
+        let ids = HouseArchetype.bundled.keys.filter { $0.hasPrefix("miami-") }
+        #expect(ids.count == 5)
+        for id in ids { #expect(types.contains { $0.archetype == id }, "\(id)") }
+        for t in types {
+            let a = try #require(HouseArchetype.named(t.archetype))
+            #expect(t == t.resolvingArchetype(a), "\(t.id): mirror differs from the by-key values")
+            #expect(t.floors.contains(a.fullFloors), "\(t.id) floors")
+        }
+        #expect(!(try StyleLibrary.regions().regions.contains { $0.profile.contains("miami") }))
+    }
 }
