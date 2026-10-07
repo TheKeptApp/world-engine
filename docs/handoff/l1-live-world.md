@@ -49,20 +49,15 @@ Linux; every other target needs Apple frameworks.
 1. Confirm the new hosts; install Swift (setup script) and run `swift test --filter LiveSkyTests`; fix whatever the
    first compile finds (LiveSky was written without a compiler).
 2. ~~Star catalogue to 6.5~~ done 2026-10-07 (docs/live-world/sky.md section 4: 8,306 stars, 286 KB binary, `StarCatalog.nakedEye()`).
-3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways: all
-   still blocked (table below).
+3. ~~Black Marble grids~~ baked 2026-10-07. ISS passes against Spot the Station / Heavens-Above and MDW runways (FAA NASR,
+   licensing LW13) still blocked (table below).
 4. Relay endpoint serving cached elements to phones (OMM JSON). ~~CTA Bus Tracker adapter~~ done 2026-10-07 (transit.md).
 
-## Black Marble: ready to bake once LAADS terms are accepted
+## Black Marble: baked 2026-10-07
 
-Owner, one time, in a browser: 1. open https://ladsweb.modaps.eosdis.nasa.gov and click **Login** (top right), then
-**Earthdata Login**; sign in with the account the token belongs to. 2. If a page asks you to authorise "LAADS DAAC" or
-accept a licence/terms, click **Authorize** / **Accept**. 3. Done (no new token needed).
-
-Then the next session: files are VNP46A4 collection 5200, year 2025 (`/archive/allData/5200/VNP46A4/2025/001/`),
-tiles h09v04 Chicago (176 MB), h07v05 Denver (110 MB), h09v06 Miami (82 MB), fetched with
-`curl -H "Authorization: Bearer $EARTHDATA_TOKEN"` (no `-L` to other hosts). Read the HDF5 with h5py + numpy in a scratch
-venv (PyPI is reachable; no GDAL in the container), cut the area plus 50 km, write XYZ, then `livefeeds.sh sky-radiance`.
+Chicago, Denver and Miami 2025 grids in `Tools/livefeeds/data/radiance/` (docs/live-world/sky.md section 3, bake steps,
+successor products after Suomi NPP ends 2026-11-02: NOAA-20 VJ146A4). Open: calibrate `CALIBRATION` (a ratio of 140 in
+downtown Chicago is too high) against sky-quality-meter readings, and wire the grids into areas/serving.
 
 ## Blocked (and why)
 
@@ -71,10 +66,10 @@ transitchicago.com, download.swift.org, Docker Hub. **Still blocked:**
 
 | Host | Needed for | Symptom |
 |---|---|---|
-| `overpass-api.de` | Midway (MDW) runways | 6 tries over about 15 minutes, all reset during the TLS handshake (`ws_closed_mid_exchange` at the agent proxy), even on `/api/status`. That is the egress path, not Overpass rate limiting (which answers HTTP 429). Stopped retrying. |
+| FAA: `nfdc.faa.gov` (NASR 28-day subscription CSVs), or `services6.arcgis.com` (FAA ArcGIS runways layer) | Midway (MDW) runways: owner chose FAA public-domain data over Overpass (2026-10-07) | proxy 403 (policy) on nfdc, www.faa.gov, aeronav.faa.gov, services6.arcgis.com, adds-faa.opendata.arcgis.com |
+| `overpass-api.de` | No longer needed for MDW | 6 tries over about 15 minutes, all reset during the TLS handshake (`ws_closed_mid_exchange` at the agent proxy), even on `/api/status`. That is the egress path, not Overpass rate limiting (which answers HTTP 429). Stopped retrying. |
 | `iss-sts.hqmce.nasa.gov` | Spot the Station pass list: www.nasa.gov/spot-the-station now embeds its finder from this host in an iframe | proxy 403 (policy) |
 | `heavens-above.com` | Second published ISS pass source | connection reset |
-| LAADS licence acceptance (owner, one time) | Black Marble download | `EARTHDATA_TOKEN` is set and valid (Earthdata user token, expires 2026-12). LAADS takes it but answers every file, VNP46A4 and an unrelated MODIS file alike, with a 303 to `/profiles/licenses/...`: the Earthdata account has not accepted LAADS's terms yet. Owner steps below. |
 
 Now reachable: `celestrak.org` (terms read, LW7), `ssd.jpl.nasa.gov`, `ladsweb.modaps.eosdis.nasa.gov` (data needs an
 Earthdata token), `lapi.transitchicago.com` (CTA adapter built), `www.rtd-denver.com`, `open-data.rtd-denver.com`.
