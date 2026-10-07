@@ -1,0 +1,816 @@
+{
+  "schema": "worldengine.nyc-hero.values.v1",
+  "version": "1.0.0",
+  "date": "2026-10-07",
+  "status": "Authored representative dimensions and visual targets; not surveyed or engine-verified",
+  "units": {
+    "length": "metre",
+    "angle": "degree, clockwise from true north",
+    "color": "sRGB hex appearance target, not measured albedo"
+  },
+  "scalePolicy": "These numbers are the modeling authority. Generated raster views convey true-scale intent but do not certify dimension accuracy, consistent geometry or exact camera angle. No metric 3D meshes are included.",
+  "archetypes": [
+    {
+      "id": "brooklyn-brownstone",
+      "name": "Brooklyn brownstone",
+      "storeys": 3,
+      "storeyRange": [
+        3,
+        4
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 6.1,
+      "footprintDepthM": 12.2,
+      "floorHeightsM": [
+        3.5,
+        3,
+        3
+      ],
+      "paletteHex": {
+        "wall": "#8D6752",
+        "trim": "#B3997D",
+        "cornice": "#333630",
+        "roof": "#666A65",
+        "glass": "#405766",
+        "metal": "#363F39"
+      },
+      "features": [
+        "attached party walls",
+        "raised stoop and areaway",
+        "tall parlor sash",
+        "bracketed cornice"
+      ],
+      "raisedBasement": {
+        "count": 1,
+        "floorHeightM": 2.6,
+        "floorElevationM": -0.9
+      },
+      "parlorFloorElevationM": 1.7,
+      "visibleLevels": 4,
+      "corniceHeightM": 0.7,
+      "overallHeightM": 11.9,
+      "lotWidthRangeM": [
+        5.5,
+        7.62
+      ],
+      "stoop": {
+        "riseM": 1.7,
+        "steps": 10,
+        "riserM": 0.17,
+        "treadM": 0.27
+      },
+      "privateFrontSetbackM": 3.1
+    },
+    {
+      "id": "uws-prewar",
+      "name": "Upper West Side prewar co-op",
+      "storeys": 12,
+      "storeyRange": [
+        8,
+        15
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 38,
+      "footprintDepthM": 24,
+      "floorHeightsM": [
+        4.5,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05,
+        3.05
+      ],
+      "paletteHex": {
+        "wall": "#B39A76",
+        "trim": "#D0C2A8",
+        "cornice": "#756D5C",
+        "roof": "#666962",
+        "glass": "#4C6067",
+        "metal": "#46504C"
+      },
+      "features": [
+        "stone base",
+        "deep cornice",
+        "recessed lobby",
+        "rear light court",
+        "generic rooftop water tank"
+      ],
+      "overallHeightM": 38.8,
+      "corniceHeightM": 0.75,
+      "lotWidthRangeM": [
+        25,
+        60
+      ],
+      "waterTank": {
+        "radiusM": 2,
+        "bodyHeightM": 3.5
+      }
+    },
+    {
+      "id": "tenement-fire-escape",
+      "name": "Manhattan tenement walk-up",
+      "storeys": 6,
+      "storeyRange": [
+        4,
+        6
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 7.62,
+      "footprintDepthM": 18,
+      "floorHeightsM": [
+        3.8,
+        2.9,
+        2.9,
+        2.9,
+        2.9,
+        2.9
+      ],
+      "paletteHex": {
+        "wall": "#A56F50",
+        "trim": "#C5B99F",
+        "cornice": "#3E433D",
+        "roof": "#66655E",
+        "glass": "#455A65",
+        "metal": "#303A37"
+      },
+      "features": [
+        "narrow attached lot",
+        "real exterior stair flights and landings",
+        "blank storefront base",
+        "strong cornice"
+      ],
+      "overallHeightM": 18.95,
+      "corniceHeightM": 0.65,
+      "lotWidthRangeM": [
+        6.1,
+        7.62
+      ],
+      "fireEscape": {
+        "landingClearWidthM": 1,
+        "projectionM": 1.1,
+        "endLadder": "folding drop ladder; illustrative"
+      }
+    },
+    {
+      "id": "queens-rowhouse",
+      "name": "Queens attached brick rowhouse",
+      "storeys": 2,
+      "storeyRange": [
+        2,
+        3
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 6.1,
+      "footprintDepthM": 11,
+      "floorHeightsM": [
+        3,
+        3
+      ],
+      "paletteHex": {
+        "wall": "#A15F43",
+        "trim": "#BDB49D",
+        "cornice": "#655F51",
+        "roof": "#666962",
+        "glass": "#45606D",
+        "metal": "#424B43"
+      },
+      "features": [
+        "attached party walls",
+        "low parapet",
+        "modest raised entry",
+        "restrained brick ornament"
+      ],
+      "basement": {
+        "count": 1,
+        "floorHeightM": 2.4,
+        "floorElevationM": -1.6
+      },
+      "entryElevationM": 0.8,
+      "overallHeightM": 7.3,
+      "parapetHeightM": 0.5,
+      "lotWidthRangeM": [
+        5.5,
+        7.62
+      ]
+    },
+    {
+      "id": "bronx-deco",
+      "name": "Bronx Art Deco apartment",
+      "storeys": 7,
+      "storeyRange": [
+        5,
+        10
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 34,
+      "footprintDepthM": 22,
+      "floorHeightsM": [
+        3.8,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "paletteHex": {
+        "wall": "#B99A65",
+        "trim": "#D5C4A1",
+        "cornice": "#927647",
+        "roof": "#696B64",
+        "glass": "#48616B",
+        "metal": "#474D41"
+      },
+      "features": [
+        "geometric brick fins",
+        "stepped parapet",
+        "rounded corner bays",
+        "horizontal banding"
+      ],
+      "overallHeightM": 22.8,
+      "parapetHeightM": 1,
+      "lotWidthRangeM": [
+        25,
+        45
+      ]
+    },
+    {
+      "id": "glass-podium",
+      "name": "Glass tower with podium",
+      "storeys": 40,
+      "storeyRange": [
+        25,
+        60
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 50,
+      "footprintDepthM": 35,
+      "floorHeightsM": [
+        4.5,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4,
+        3.4
+      ],
+      "paletteHex": {
+        "wall": "#91A7AE",
+        "trim": "#B8BEB6",
+        "cornice": "#657477",
+        "roof": "#687A7B",
+        "glass": "#6C8D9B",
+        "metal": "#647476"
+      },
+      "features": [
+        "four-storey streetwall podium",
+        "set-back slender tower",
+        "regular glazing modules",
+        "neutral masonry base"
+      ],
+      "overallHeightM": 138.1,
+      "parapetHeightM": 1,
+      "podiumStoreys": 4,
+      "towerFootprintM": [
+        24,
+        24
+      ],
+      "towerSetbackM": 13,
+      "lotWidthRangeM": [
+        35,
+        65
+      ]
+    },
+    {
+      "id": "soho-cast-iron",
+      "name": "Cast-iron SoHo loft",
+      "storeys": 5,
+      "storeyRange": [
+        5,
+        7
+      ],
+      "storeyCounting": "Full above-grade floors; raised basement counted separately when present",
+      "lotWidthM": 15.24,
+      "footprintDepthM": 20,
+      "floorHeightsM": [
+        4.5,
+        3.8,
+        3.8,
+        3.8,
+        3.8
+      ],
+      "paletteHex": {
+        "wall": "#D3CAB7",
+        "trim": "#E2D7C3",
+        "cornice": "#817B6C",
+        "roof": "#686B65",
+        "glass": "#4C626A",
+        "metal": "#626C63"
+      },
+      "features": [
+        "slender cast-iron columns",
+        "wide loft glazing",
+        "deep entablatures",
+        "Belgian-block street",
+        "sparse trees"
+      ],
+      "overallHeightM": 20.5,
+      "corniceHeightM": 0.8,
+      "lotWidthRangeM": [
+        7.62,
+        22.86
+      ]
+    }
+  ],
+  "streets": {
+    "sideStreet": {
+      "rightOfWayM": 18.288,
+      "carriagewayM": 10.668,
+      "sidewalkEachM": 3.81
+    },
+    "avenue": {
+      "rightOfWayM": 30.48,
+      "carriagewayM": 18.288,
+      "sidewalkEachM": 6.096
+    },
+    "majorCrossStreet": {
+      "rightOfWayM": 30.48,
+      "carriagewayM": 18.288,
+      "sidewalkEachM": 6.096
+    },
+    "financialDistrictLane": {
+      "rightOfWayM": 16,
+      "carriagewayM": 9,
+      "sidewalkEachM": 3.5
+    },
+    "bikeLane": {
+      "clearWidthM": 1.8288,
+      "bufferM": 0.9144,
+      "allocation": "Within carriageway, never added to right-of-way"
+    },
+    "streetTrees": {
+      "spacingM": 9,
+      "spacingRangeM": [
+        7,
+        12
+      ],
+      "pitM": [
+        1.524,
+        3.048
+      ],
+      "matureCrownRadiusM": [
+        2.5,
+        4
+      ],
+      "clearTrunkHeightM": 2.5,
+      "placement": "Sidewalk pits outside unobstructed walking zone; no suburban lawn strips"
+    },
+    "definitions": {
+      "rightOfWay": "Public street allocation, sidewalk edge to sidewalk edge; excludes private stoops and setbacks",
+      "buildingLineSeparation": "Right-of-way plus private front setbacks on both sides; varies by block"
+    }
+  },
+  "districts": [
+    {
+      "id": "08-park-slope",
+      "name": "Park Slope",
+      "artDirection": "Park Slope. Continuous brownstone and brick rows, raised stoops, private areaways and a mature canopy rooted in sidewalk pits. Narrow residential streets and rear gardens preserve the Brooklyn block rhythm.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "09-upper-west-side",
+      "name": "Upper West Side",
+      "artDirection": "Upper West Side. Prewar apartment streetwalls interspersed with older narrow buildings, cornices, light courts and rooftop water tanks. Broad avenues meet quieter side streets; a generic subway entrance anchors the corner.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "10-east-village",
+      "name": "East Village",
+      "artDirection": "East Village. Fine-grained walk-up lots, exterior fire escapes, brick and stone trim, blank shopfronts and visible roof utilities. Lower streetwalls and irregular building heights keep the district distinct from Midtown.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "11-soho",
+      "name": "SoHo",
+      "artDirection": "SoHo. Repeated loft bays, cast-iron columns, pale facades and dark broad glazing along Belgian-block streets. Large windows and strong horizontal cornices define the five-to-seven-floor streetwall.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "12-midtown-canyon",
+      "name": "Midtown canyon",
+      "artDirection": "Midtown canyon. Tall masonry and glass buildings form continuous avenue walls with older stepped masses and podiums. Cross streets open the canyon; steam vents, sidewalk sheds and generic subway stairs ground the scale.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "13-astoria",
+      "name": "Astoria",
+      "artDirection": "Astoria. Lower brick residential and mixed-use blocks flank a real-scale steel elevated subway corridor. Braced column bents, twin tracks and station stairs belong to this outer-borough context.",
+      "status": "Representative district composition; not surveyed inventory"
+    },
+    {
+      "id": "14-financial-district",
+      "name": "Financial District",
+      "artDirection": "Financial District. Irregular narrow streets and angled corners weave between older stone office buildings and taller generic towers. Compressed views, sparse trees and harbor glimpses replace the regular residential grid.",
+      "status": "Representative district composition; not surveyed inventory"
+    }
+  ],
+  "infrastructure": {
+    "subwayEntrance": {
+      "clearStairWidthM": 1.8,
+      "guardHeightM": 1.1,
+      "appearance": "Generic green rails, below-grade stairs; no logo, route symbol or lettering"
+    },
+    "elevatedSubway": {
+      "location": "Outer-borough Astoria corridor; never inserted into Midtown/SoHo/Park Slope scenes",
+      "undersideClearanceM": 5.5,
+      "bentSpacingM": 20,
+      "deckWidthM": 13,
+      "stationDeckWidthM": 20,
+      "structure": "Twin-track steel viaduct on braced column bents; illustrative, not engineering design"
+    },
+    "sidewalkShed": {
+      "clearHeadroomM": 2.4384,
+      "roofHeightM": 2.8,
+      "clearPathWidthM": 1.8,
+      "appearance": "Slim steel posts and flat protective roof; no contractor signage"
+    },
+    "hydrant": {
+      "heightM": 0.8
+    },
+    "steamVent": {
+      "heightM": 1.4,
+      "diameterM": 0.45,
+      "appearance": "Plain orange-and-white temporary vent cylinder, soft steam"
+    },
+    "surfacePaletteHex": {
+      "asphalt": "#646863",
+      "concrete": "#BCB6A5",
+      "BelgianBlock": "#8C897C",
+      "rail": "#344F45",
+      "treeFoliage": "#657440"
+    }
+  },
+  "bridges": [
+    {
+      "id": "stone-suspension",
+      "typology": "Brooklyn-style stone-tower suspension",
+      "mainSpanM": 450,
+      "towerHeightAboveWaterM": 80,
+      "deckElevationAboveWaterM": 30,
+      "deckWidthM": 30,
+      "features": [
+        "paired pointed stone portals",
+        "curved main cables and suspenders",
+        "diagonal stays",
+        "elevated pedestrian promenade"
+      ]
+    },
+    {
+      "id": "steel-suspension",
+      "typology": "Manhattan-style steel suspension",
+      "mainSpanM": 440,
+      "towerHeightAboveWaterM": 100,
+      "deckElevationAboveWaterM": 35,
+      "deckWidthM": 36,
+      "features": [
+        "steel portal towers",
+        "lattice bracing",
+        "curved main cables",
+        "layered transit and road deck"
+      ]
+    },
+    {
+      "id": "cantilever",
+      "typology": "Queensboro-style cantilever",
+      "mainSpanM": 350,
+      "towerHeightAboveWaterM": 100,
+      "deckElevationAboveWaterM": 35,
+      "deckWidthM": 30,
+      "features": [
+        "rigid lattice truss cantilever arms",
+        "island pier foundation",
+        "no suspension main cables"
+      ]
+    }
+  ],
+  "waterfronts": {
+    "eastRiverEsplanade": {
+      "walkWidthM": 8,
+      "guardHeightM": 1.1,
+      "illustrativeRiverWidthM": 600
+    },
+    "hudsonPier": {
+      "lengthM": 150,
+      "widthM": 35,
+      "promenadeWidthM": 8,
+      "illustrativeRiverWidthM": 1000,
+      "structure": "Rectangular pile-supported pier; no sculptural public art"
+    }
+  },
+  "lighting": [
+    {
+      "id": "midday-shadow",
+      "sunElevationDeg": 49,
+      "sunAzimuthTrueDeg": 180,
+      "canyonBuildingHeightM": [
+        90,
+        140
+      ],
+      "streetWidthM": 30.48,
+      "intent": "Dark avenue ground, bright intersection/cross-street openings; condition depends on geometry and orientation"
+    },
+    {
+      "id": "manhattanhenge",
+      "sunElevationDeg": 0.5,
+      "sunAzimuthTrueDeg": 299,
+      "avenueBearingTrueDeg": 29,
+      "crossStreetBearingsTrueDeg": [
+        119,
+        299
+      ],
+      "sunDiskDiameterDeg": 0.53,
+      "intent": "Low warm sun down a west-facing cross street, realistic small disk"
+    },
+    {
+      "id": "winter-low-sun",
+      "sunElevationDeg": 15,
+      "sunAzimuthTrueDeg": 155,
+      "intent": "Long oblique shadows, bare deciduous trees; illustrative winter light, no exact date/time claimed"
+    },
+    {
+      "id": "rainy-night",
+      "directSun": 0,
+      "wetRoadRoughness": [
+        0.2,
+        0.35
+      ],
+      "intent": "Warm neutral lamps, broken puddle reflections, no neon or mirror-coated facades"
+    },
+    {
+      "id": "snow-stoops",
+      "directSun": 0,
+      "intent": "Overcast soft fill, snow on horizontal stoops/roofs/cornices, cleared walking paths, bare branches"
+    }
+  ],
+  "approvedReferenceSharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "materials": {
+    "policy": "Simplified matte masonry, stone and foliage. Glass and wet paving retain restrained physical reflections. Avoid toy bevels and plastic saturation.",
+    "dryMasonryRoughness": 0.9,
+    "glassRoughness": 0.18,
+    "foliageRoughness": 0.85
+  },
+  "detailTiers": {
+    "far": [
+      "block rhythm",
+      "roof and tower silhouettes",
+      "material families"
+    ],
+    "mid": [
+      "window bays",
+      "stoops",
+      "cornices",
+      "fire-escape flights",
+      "bridge structural system"
+    ],
+    "near": [
+      "stair treads",
+      "railings",
+      "cast-iron column profiles",
+      "tree pits",
+      "brick-scale suggestion"
+    ]
+  },
+  "exclusions": [
+    "logos",
+    "signage",
+    "real murals",
+    "public art",
+    "people or characters",
+    "dogs or animals",
+    "app content",
+    "literal landmark tower reproductions"
+  ],
+  "landmarkStudy": false
+}

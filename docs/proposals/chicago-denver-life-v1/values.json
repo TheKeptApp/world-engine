@@ -1,0 +1,2797 @@
+{
+  "schema": "worldengine.chicago-denver-life.v1",
+  "date": "2026-10-07",
+  "status": "concept_authored_fallback_not_engine_verified",
+  "style": "rich-style-b",
+  "countUnits": {
+    "face": "100m of one eligible block face, not both sides of every block",
+    "people": "expected instantaneous people present, not arrivals/hour; fractional expectations are stochastic means",
+    "assets": "expected active/visible instances; vehicles are snapshot presence not hourly vehicle flow",
+    "linearFeatures": "100m qualified path/river edge for lake/runners/boat examples; platform/dock/garage counts are site-bound and do not length-scale",
+    "hours": "local 06:00,12:00,18:00,23:00; interpolate within schedule, not UTC",
+    "illustratedPanelCount": 41,
+    "activityRecordCount": 39
+  },
+  "referenceManifest": [
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/bible-values.json",
+      "sha256": "31b51e3a552280dae30da33119622e270d5240c0e3ab4ad08c6f6aeb31028a2e"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/house-archetypes-v1/archetypes-values.json",
+      "sha256": "4bc79d481cf06ac70b040b16d0ba105cb99351d7afce1a598518d25e90258648"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/landmarks-values.json",
+      "sha256": "961948d6e418a33962d7eeecfd53ce03dced0b8305617bbb65fd1299fdb6a926"
+    }
+  ],
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "people": {
+    "heightRangeM": [
+      1.55,
+      1.95
+    ],
+    "walkingSpeedRangeMps": [
+      0.8,
+      1.7
+    ],
+    "runningSpeedRangeMps": [
+      2,
+      3.8
+    ],
+    "faceDetail": "soft anonymous; no identity detail at any tier",
+    "clothingHex": [
+      "#657680",
+      "#B6ACA0",
+      "#6D765A",
+      "#956D59",
+      "#444F59"
+    ],
+    "noTeamMarks": true
+  },
+  "vehicles": {
+    "rightHandTraffic": true,
+    "driverSide": "left",
+    "busBoarding": "curb/right",
+    "brandDetails": false,
+    "plateText": false,
+    "genericPaletteHex": [
+      "#657680",
+      "#C8C3B7",
+      "#5A6268"
+    ],
+    "transportAnchor": "Japan regional kit vehicles/rail/stations per Style B Bible; adapt to US dimensions"
+  },
+  "propsPalette": {
+    "blueCartHex": "#3B6B92",
+    "blackCartHex": "#33383D",
+    "awningHex": [
+      "#B8AC92",
+      "#7B8D84",
+      "#7A8792"
+    ],
+    "snowHex": "#E4E9EB",
+    "snowShadowHex": "#C3CDD6"
+  },
+  "countRule": "For each eligible mapped site: baseline expected count x season x active game-day people multiplier. Event-only assets instead use event table while its explicit event gate is active; do not add baseline again. Mapped static assets use supplied count, never stochastic spawn. Seed persistent site IDs; clamp to space and shared city budget.",
+  "gameDay": {
+    "windowHoursRelativeStart": [
+      -2,
+      1
+    ],
+    "postEventWindowHoursRelativeEnd": [
+      0,
+      1.5
+    ],
+    "requires": "validated venue/event start/end; never a fixed 6pm game or inference from jersey colours",
+    "avoidDoubleCounting": "event people replace site baseline before applying multiplier; shared pedestrian pool handles people across food/bar/queue/crowd roles"
+  },
+  "placement": {
+    "poleRule": "Mapped only in engine. Alley pole art is illustration, not observed location.",
+    "clearPedestrianCorridorM": 1.8,
+    "accessibility": "preserve actual mapped curb ramps, doors, crossings and emergency access; 1.8m is authored minimum target, not claimed local code",
+    "transit": "existing route/track/service and platform masks; no L in every Lakeview street and no light rail on Sloan lake path",
+    "snow": "history-based piles after clearing, no piles across ramps; spring leaf-out independent",
+    "hydrant": "explicit event/demo only; heat does not automatically open hydrants",
+    "chairs": "cultural reference/demo only; does not assert official legal reservation or endorse availability",
+    "publicArt": "never recreate real murals/sculptures"
+  },
+  "boards": [
+    [
+      "01-chicago-food",
+      "Chicago \u00b7 neighbourhood food",
+      3,
+      3,
+      [
+        "Hot dog walk-up stand, plain small awning and one vendor serving two people.",
+        "Italian beef counter visible through a plain walk-up window, no menu lettering.",
+        "Corner tavern with plain awning, sidewalk tables, people in neutral clothing.",
+        "Pizza counter with blank fascia, seated customers.",
+        "Paleta pushcart with small shade umbrella and frozen treats.",
+        "Tamale vendor beside a compact insulated cooler and plain folding table.",
+        "Ice cream truck parked legally with blank panels and walk-up window.",
+        "Chicago Lakeview corner context, brick two-flats and modest shops, no giant skyline.",
+        "Close real-scale generic food containers and hands without faces in detail."
+      ]
+    ],
+    [
+      "02-chicago-alleys",
+      "Chicago \u00b7 alley life",
+      2,
+      2,
+      [
+        "Blue and black wheeled refuse carts behind rear garages, normal human scale.",
+        "Unbranded full-size rear-loading garbage truck collecting in an alley, workers generic no insignia.",
+        "Rear garage entrances behind brick two-flats, alley utility poles and overhead cables.",
+        "Same rear lane with blue and black bins at garage edges, clear truck travel path; no invented poles on front streets."
+      ]
+    ],
+    [
+      "03-chicago-transit",
+      "Chicago \u00b7 transit",
+      2,
+      2,
+      [
+        "Elevated L station platform waiting crowd and visible steel stairs, blank signs.",
+        "Real-proportioned silver generic L train passing on elevated structure above Lakeview street.",
+        "Full-size generic city bus, neutral plain livery without badges or agency symbols, passengers waiting at curb.",
+        "Generic small passenger water taxi on Chicago River beside downtown riverwalk, real-scale boat and passengers, no text."
+      ]
+    ],
+    [
+      "04-chicago-game-day",
+      "Chicago \u00b7 ballpark day",
+      1,
+      3,
+      [
+        "Pedestrian crowds walking toward unmarked Lakeview brick ballpark exterior, clothes neutral mixed colours, no jersey marks.",
+        "Rooftop bleacher structures visible from neighbourhood street outside ballpark, structural realism.",
+        "Corner bars and tavern patios spilling onto sidewalk inside designated space, clear walking corridor, no marks/signs."
+      ]
+    ],
+    [
+      "05-chicago-seasons",
+      "Chicago \u00b7 seasonal life",
+      3,
+      3,
+      [
+        "Summer street festival tents on explicitly closed street, small crowds.",
+        "Opened fire hydrant cooling a hot-day street, restrained water spray and generic residents, no animals.",
+        "Lakefront shared path runners and cyclists in separate plausible directions.",
+        "Beach volleyball game near Lake Michigan, real adult proportions, no text on shirts.",
+        "Harbour sailboats at moorings, plausible real-scale masts.",
+        "Winter lawn chairs saving a shoveled curbside parking space, snowbanks; chairs are props not official reserved signs.",
+        "Generic salt spreader truck travelling snowy roadway.",
+        "Plowed snow piles at corners away from clear crossings and curb ramps.",
+        "Unbranded full-size snowplow with blade after snowfall, no insignia."
+      ]
+    ],
+    [
+      "06-chicago-porches",
+      "Chicago \u00b7 porch evenings",
+      1,
+      2,
+      [
+        "Chicago brick two-flat evening stoop life, seated and standing adult neighbours, soft anonymous faces, warm sparse window light and cool readable fill.",
+        "Chicago bungalow porch evening, real-scale adults chatting, small porch chairs, coherent cool dusk and restrained local warm light."
+      ]
+    ],
+    [
+      "07-denver-food",
+      "Denver \u00b7 neighbourhood food",
+      1,
+      3,
+      [
+        "Generic food trucks beside Sloan's Lake neighbourhood main street, real adult customers and blank panels.",
+        "Unbranded brewery patio with plain canopy, real-scale picnic tables and neutral dressed adults, no words or logos.",
+        "Farmers market tents in a designated neighbourhood market site near Sloan's Lake, produce crates and adult shoppers."
+      ]
+    ],
+    [
+      "08-denver-mobility",
+      "Denver \u00b7 getting around",
+      2,
+      2,
+      [
+        "Denver-area light rail on actual dedicated track corridor, unbranded generic train with overhead catenary, not on Sloan lake path.",
+        "Bike commuters on Denver neighbourhood bike lane, real-proportioned people and bicycles.",
+        "Generic scooters ridden in permitted street/bike lane, no company colours or logos, not on lake path.",
+        "Parked generic full-size cars with plausible roof ski racks and rear bike racks outside Denver houses, blank badges; no Chicago skyline."
+      ]
+    ],
+    [
+      "09-denver-moments",
+      "Denver \u00b7 stadium, snow & lake",
+      1,
+      3,
+      [
+        "Game-day crowd approaching unmarked Empower Field horseshoe stadium with undulating silver rim and brick supports, no horse sculpture, logos, team insignia or branded colours.",
+        "Generic Denver snowplow after spring snowfall, partly green trees retain leaves under snow caps, clear crossings, west Front Range backdrop with NO downtown behind mountains.",
+        "Sloan's Lake path runners, modest urban lake, Denver residential edges, mountain view west, no Chicago skyline or giant Great Lake horizon."
+      ]
+    ]
+  ],
+  "items": [
+    {
+      "id": "chicago-hotdog",
+      "name": "Hot dog walk-up stand",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 4,
+        "width": 3,
+        "height": 2.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.6,
+        "18:00": 0.6,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 4,
+        "18:00": 6,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_food_frontage",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 0,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-beef",
+      "name": "Italian beef counter",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 5,
+        "width": 4,
+        "height": 3,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.4,
+        "18:00": 0.4,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 5,
+        "18:00": 6,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_food_frontage",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 0,
+        "column": 1,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-tavern",
+      "name": "Corner tavern",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 8,
+        "width": 7,
+        "height": 3.5,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.3,
+        "18:00": 0.5,
+        "23:00": 0.5
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 2,
+        "18:00": 8,
+        "23:00": 6
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_tavern_frontage",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 0,
+        "column": 2,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-pizza",
+      "name": "Pizza place",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 3,
+      "sizeM": {
+        "length": 6,
+        "width": 5,
+        "height": 3.2,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.4,
+        "18:00": 0.5,
+        "23:00": 0.2
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 4,
+        "18:00": 7,
+        "23:00": 2
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_food_frontage",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 1,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-paleta",
+      "name": "Paleta cart",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 4,
+      "sizeM": {
+        "length": 1.3,
+        "width": 0.8,
+        "height": 1.5,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0.8,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.2,
+        "18:00": 0.3,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 2,
+        "18:00": 3,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "park",
+        "lakefront"
+      ],
+      "placementGate": "vendor_site_schedule",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 1,
+        "column": 1,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-tamale",
+      "name": "Tamale vendor",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 5,
+      "sizeM": {
+        "length": 1.2,
+        "width": 0.8,
+        "height": 0.9,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0.9,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.1,
+        "12:00": 0.2,
+        "18:00": 0.2,
+        "23:00": 0.1
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 1,
+        "12:00": 2,
+        "18:00": 2,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "vendor_site_schedule",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 1,
+        "column": 2,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-icecream",
+      "name": "Ice-cream truck",
+      "city": "Chicago",
+      "board": "01-chicago-food",
+      "panelIndex": 6,
+      "sizeM": {
+        "length": 6,
+        "width": 2.2,
+        "height": 2.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 3,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.15,
+        "18:00": 0.25,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 3,
+        "18:00": 4,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street",
+        "park"
+      ],
+      "placementGate": "vehicle_vendor_route_and_legal_curb",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/01-chicago-food.png",
+        "row": 2,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-carts",
+      "name": "Blue & black wheeled carts",
+      "city": "Chicago",
+      "board": "02-chicago-alleys",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 0.75,
+        "width": 0.65,
+        "height": 1.1,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 8,
+        "12:00": 8,
+        "18:00": 8,
+        "23:00": 8
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "alley"
+      ],
+      "placementGate": "mapped_refuse_service_and_rear_parcels",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/02-chicago-alleys.png",
+        "row": 0,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-garbage",
+      "name": "Garbage truck",
+      "city": "Chicago",
+      "board": "02-chicago-alleys",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 10,
+        "width": 2.55,
+        "height": 3.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 1.4,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.05,
+        "12:00": 0.12,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0.1,
+        "12:00": 0.24,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "alley"
+      ],
+      "placementGate": "collection_schedule_and_clearance",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/02-chicago-alleys.png",
+        "row": 0,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-garages",
+      "name": "Rear garages",
+      "city": "Chicago",
+      "board": "02-chicago-alleys",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 6,
+        "width": 6,
+        "height": 2.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": null,
+        "12:00": null,
+        "18:00": null,
+        "23:00": null
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 1,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "alley"
+      ],
+      "placementGate": "mapped_garage_footprints",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": false,
+      "scope": "Lakeview-first",
+      "mappedCountExample": 6,
+      "fallbackSpawnForbidden": true,
+      "spawnSurface": "existing mapped building footprint",
+      "image": {
+        "file": "images/02-chicago-alleys.png",
+        "row": 1,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-poles",
+      "name": "Alley power poles",
+      "city": "Chicago",
+      "board": "02-chicago-alleys",
+      "panelIndex": 3,
+      "sizeM": {
+        "length": 0.35,
+        "width": 0.35,
+        "height": 10,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": null,
+        "12:00": null,
+        "18:00": null,
+        "23:00": null
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "alley"
+      ],
+      "placementGate": "MAPPED_ONLY_no_fallback_spawn",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": false,
+      "scope": "Lakeview-first",
+      "mappedCountExample": 3,
+      "fallbackSpawnForbidden": true,
+      "spawnSurface": "existing mapped utility pole position",
+      "image": {
+        "file": "images/02-chicago-alleys.png",
+        "row": 1,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-platform",
+      "name": "Elevated platform crowd & stairs",
+      "city": "Chicago",
+      "board": "03-chicago-transit",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 65,
+        "width": 4,
+        "height": 6,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 1,
+        "12:00": 1,
+        "18:00": 1,
+        "23:00": 1
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 8,
+        "12:00": 14,
+        "18:00": 24,
+        "23:00": 4
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1.3,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_station_platform_stair_geometry_and_service",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": false,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped platform / stairs",
+      "image": {
+        "file": "images/03-chicago-transit.png",
+        "row": 0,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-eltrain",
+      "name": "Train over street",
+      "city": "Chicago",
+      "board": "03-chicago-transit",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 14.6,
+        "width": 2.85,
+        "height": 3.8,
+        "status": "authored_class_envelope_not_surveyed",
+        "envelopeOf": "one rail car"
+      },
+      "speedMps": {
+        "assetCruise": 9,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.12,
+        "12:00": 0.1,
+        "18:00": 0.18,
+        "23:00": 0.06
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_elevated_track_and_active_service",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped elevated rail",
+      "image": {
+        "file": "images/03-chicago-transit.png",
+        "row": 0,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      },
+      "consistCarsRange": [
+        2,
+        8
+      ]
+    },
+    {
+      "id": "chicago-bus",
+      "name": "Generic city bus",
+      "city": "Chicago",
+      "board": "03-chicago-transit",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 12.2,
+        "width": 2.55,
+        "height": 3.2,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 5,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.2,
+        "12:00": 0.3,
+        "18:00": 0.4,
+        "23:00": 0.1
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 3,
+        "12:00": 5,
+        "18:00": 8,
+        "23:00": 2
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1.3,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_bus_route_stops_and_service",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/03-chicago-transit.png",
+        "row": 1,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-watertaxi",
+      "name": "River water taxi",
+      "city": "Chicago",
+      "board": "03-chicago-transit",
+      "panelIndex": 3,
+      "sizeM": {
+        "length": 16,
+        "width": 4.5,
+        "height": 4,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 3,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.15,
+        "18:00": 0.2,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 6,
+        "18:00": 10,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "park"
+      ],
+      "placementGate": "CHICAGO_RIVER_only_mapped_navigable_channel_and_dock",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "city-wide conditional",
+      "spawnSurface": "mapped navigable river / dock",
+      "image": {
+        "file": "images/03-chicago-transit.png",
+        "row": 1,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-ballcrowd",
+      "name": "Ballpark walking crowds",
+      "city": "Chicago",
+      "board": "04-chicago-game-day",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 0.55,
+        "width": 0.45,
+        "height": 1.75,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 1.25,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 3,
+        "18:00": 6,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 4,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "ballpark_event_window_and_walkable_routes",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "eventExpectedPeoplePerFace": {
+        "06:00": 0,
+        "12:00": 12,
+        "18:00": 20,
+        "23:00": 4
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/04-chicago-game-day.png",
+        "row": 0,
+        "column": 0,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "chicago-bleachers",
+      "name": "Rooftop bleachers",
+      "city": "Chicago",
+      "board": "04-chicago-game-day",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 15,
+        "width": 10,
+        "height": 5,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 1,
+        "12:00": 1,
+        "18:00": 1,
+        "23:00": 1
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 1,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_or_explicit_authored_rooftop_feature_not_every_roof",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": false,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/04-chicago-game-day.png",
+        "row": 0,
+        "column": 1,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "chicago-bars",
+      "name": "Ballpark sidewalk bar activity",
+      "city": "Chicago",
+      "board": "04-chicago-game-day",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 8,
+        "width": 3,
+        "height": 2.5,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.2,
+        "18:00": 0.5,
+        "23:00": 0.4
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 3,
+        "18:00": 8,
+        "23:00": 5
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_patio_permit_area_event_window",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/04-chicago-game-day.png",
+        "row": 0,
+        "column": 2,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "chicago-festival",
+      "name": "Festival tents",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 3,
+        "width": 3,
+        "height": 2.7,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "explicit_closed_street_festival_event",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 4,
+        "18:00": 3,
+        "23:00": 0
+      },
+      "eventExpectedPeoplePerFace": {
+        "06:00": 0,
+        "12:00": 24,
+        "18:00": 18,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 0,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-hydrant",
+      "name": "Opened hydrant",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 0.55,
+        "width": 0.55,
+        "height": 0.9,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street"
+      ],
+      "placementGate": "explicit_authored_or_verified_open_hydrant_event_not_heat_alone",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 1,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "eventExpectedPeoplePerFace": {
+        "06:00": 0,
+        "12:00": 5,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 0,
+        "column": 1,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-chpath",
+      "name": "Lakefront runners & cyclists",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 0.55,
+        "width": 0.45,
+        "height": 1.75,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 2.8,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored",
+        "runner": 2.8,
+        "cyclist": 4.5
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 6,
+        "12:00": 8,
+        "18:00": 14,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "lakefront"
+      ],
+      "placementGate": "mapped_shared_path_and_weather",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 0,
+        "column": 2,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-volleyball",
+      "name": "Beach volleyball",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 3,
+      "sizeM": {
+        "length": 18,
+        "width": 9,
+        "height": 2.43,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.5,
+        "18:00": 0.7,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 6,
+        "18:00": 8,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "lakefront"
+      ],
+      "placementGate": "mapped_beach_court_and_season",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 1,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-sailboats",
+      "name": "Harbour sailboats",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 4,
+      "sizeM": {
+        "length": 9,
+        "width": 3,
+        "height": 13,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored",
+        "underwayOnlyWithNavigationRoute": 2.2
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 3,
+        "12:00": 3,
+        "18:00": 3,
+        "23:00": 3
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 2,
+        "18:00": 3,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.5,
+        "summer": 1,
+        "autumn": 0.3
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "lakefront"
+      ],
+      "placementGate": "mapped_harbour_moorings_boats_no_random_open_water",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": false,
+      "scope": "city-wide conditional",
+      "spawnSurface": "mapped harbour mooring / water",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 1,
+        "column": 1,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-chairs",
+      "name": "Parking-space lawn chairs",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 5,
+      "sizeM": {
+        "length": 0.65,
+        "width": 0.65,
+        "height": 0.95,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 0.3,
+        "summer": 0,
+        "autumn": 0.2
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street"
+      ],
+      "placementGate": "explicit_shovelled_space_demo_or_recent_local_evidence",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 2,
+        "12:00": 2,
+        "18:00": 2,
+        "23:00": 2
+      },
+      "spawnSurface": "shoveled legal curb parking pose",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 1,
+        "column": 2,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-salt",
+      "name": "Salt truck",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 6,
+      "sizeM": {
+        "length": 8.5,
+        "width": 2.5,
+        "height": 3.4,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 4,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 0.3,
+        "summer": 0,
+        "autumn": 0.2
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "active_snow_ice_service_route",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 0.15,
+        "18:00": 0.1,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 2,
+        "column": 0,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-piles",
+      "name": "Corner snow piles",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 7,
+      "sizeM": {
+        "length": 3,
+        "width": 1.5,
+        "height": 0.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 0.3,
+        "summer": 0,
+        "autumn": 0.2
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street"
+      ],
+      "placementGate": "plowing_history_and_snow_reservoir_clip_crossings",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 2,
+        "12:00": 2,
+        "18:00": 2,
+        "23:00": 2
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 2,
+        "column": 1,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-chplow",
+      "name": "Chicago snowplow",
+      "city": "Chicago",
+      "board": "05-chicago-seasons",
+      "panelIndex": 8,
+      "sizeM": {
+        "length": 8,
+        "width": 3.2,
+        "height": 3.3,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 3.5,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 0.3,
+        "summer": 0,
+        "autumn": 0.2
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "active_plow_route_and_snow",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 0.15,
+        "18:00": 0.1,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/05-chicago-seasons.png",
+        "row": 2,
+        "column": 2,
+        "rows": 3,
+        "columns": 3,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "chicago-twoflat",
+      "name": "Two-flat porch life",
+      "city": "Chicago",
+      "board": "06-chicago-porches",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 4,
+        "width": 2,
+        "height": 2.4,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 1,
+        "18:00": 5,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.1,
+        "spring": 0.6,
+        "summer": 1.1,
+        "autumn": 0.7
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street"
+      ],
+      "placementGate": "existing_porches_stoops_and_resident_activity",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/06-chicago-porches.png",
+        "row": 0,
+        "column": 0,
+        "rows": 1,
+        "columns": 2,
+        "panelAspectRatio": 1.0
+      }
+    },
+    {
+      "id": "chicago-bungalow",
+      "name": "Bungalow porch life",
+      "city": "Chicago",
+      "board": "06-chicago-porches",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 4,
+        "width": 2,
+        "height": 2.4,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 1,
+        "18:00": 4,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.1,
+        "spring": 0.6,
+        "summer": 1.1,
+        "autumn": 0.7
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street"
+      ],
+      "placementGate": "existing_porches_stoops_and_resident_activity",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Lakeview-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/06-chicago-porches.png",
+        "row": 0,
+        "column": 1,
+        "rows": 1,
+        "columns": 2,
+        "panelAspectRatio": 1.0
+      }
+    },
+    {
+      "id": "denver-foodtrucks",
+      "name": "Denver food trucks",
+      "city": "Denver",
+      "board": "07-denver-food",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 7,
+        "width": 2.4,
+        "height": 3.2,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.3,
+        "18:00": 0.4,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 5,
+        "18:00": 7,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "park"
+      ],
+      "placementGate": "legal_vendor_site_and_schedule",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/07-denver-food.png",
+        "row": 0,
+        "column": 0,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "denver-brewery",
+      "name": "Brewery patio",
+      "city": "Denver",
+      "board": "07-denver-food",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 12,
+        "width": 6,
+        "height": 2.8,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0.2,
+        "18:00": 0.4,
+        "23:00": 0.2
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 4,
+        "18:00": 10,
+        "23:00": 4
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 2,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_licensed_frontage_patio",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/07-denver-food.png",
+        "row": 0,
+        "column": 1,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "denver-market",
+      "name": "Farmers market",
+      "city": "Denver",
+      "board": "07-denver-food",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 3,
+        "width": 3,
+        "height": 2.7,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 0,
+        "spring": 0.6,
+        "summer": 1,
+        "autumn": 0.6
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "park",
+        "main street"
+      ],
+      "placementGate": "verified_or_demo_market_schedule_not_daily",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 4,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "eventExpectedPeoplePerFace": {
+        "06:00": 0,
+        "12:00": 24,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/07-denver-food.png",
+        "row": 0,
+        "column": 2,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "denver-lightrail",
+      "name": "Denver light rail",
+      "city": "Denver",
+      "board": "08-denver-mobility",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 25,
+        "width": 2.65,
+        "height": 3.8,
+        "status": "authored_class_envelope_not_surveyed",
+        "envelopeOf": "one articulated light-rail vehicle"
+      },
+      "speedMps": {
+        "assetCruise": 8,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.1,
+        "12:00": 0.1,
+        "18:00": 0.15,
+        "23:00": 0.04
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 5,
+        "12:00": 7,
+        "18:00": 12,
+        "23:00": 2
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1.3,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "mapped_dedicated_track_and_active_service_not_Sloans_path",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "city-wide conditional",
+      "spawnSurface": "mapped dedicated rail",
+      "image": {
+        "file": "images/08-denver-mobility.png",
+        "row": 0,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      },
+      "consistVehiclesRange": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "denver-bikecommute",
+      "name": "Bike commuters",
+      "city": "Denver",
+      "board": "08-denver-mobility",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 1.8,
+        "width": 0.65,
+        "height": 1.2,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 4.5,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored",
+        "runner": 2.8,
+        "cyclist": 4.5
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 3,
+        "12:00": 2,
+        "18:00": 5,
+        "23:00": 0.5
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 3,
+        "12:00": 2,
+        "18:00": 5,
+        "23:00": 0.5
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "mapped_legal_bike_route",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/08-denver-mobility.png",
+        "row": 0,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "denver-scooters",
+      "name": "Scooters",
+      "city": "Denver",
+      "board": "08-denver-mobility",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 1.2,
+        "width": 0.5,
+        "height": 1.2,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 3.5,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0.5,
+        "12:00": 1,
+        "18:00": 2,
+        "23:00": 0.5
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0.5,
+        "12:00": 1,
+        "18:00": 2,
+        "23:00": 0.5
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "permitted_lane_and_vehicle_pose_not_lake_path",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/08-denver-mobility.png",
+        "row": 1,
+        "column": 0,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "denver-rackcars",
+      "name": "Cars with ski / bike racks",
+      "city": "Denver",
+      "board": "08-denver-mobility",
+      "panelIndex": 3,
+      "sizeM": {
+        "length": 4.7,
+        "width": 1.9,
+        "height": 1.6,
+        "status": "authored_class_envelope_not_surveyed",
+        "excludesAttachments": true
+      },
+      "speedMps": {
+        "assetCruise": 0,
+        "pedestrianWalk": 1.25,
+        "mode": "stationary",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 1,
+        "12:00": 1,
+        "18:00": 2,
+        "23:00": 1
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 1,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1.2,
+        "spring": 1.1,
+        "summer": 1.4,
+        "autumn": 1.1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "side street",
+        "main street"
+      ],
+      "placementGate": "legal_parked_vehicle_pose_no_brands",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "attachmentsM": {
+        "roofSkiRack": [
+          1.7,
+          1.1,
+          0.25
+        ],
+        "rearBikeRack": [
+          0.8,
+          1.4,
+          1.2
+        ],
+        "vehicleAttachmentClearanceRequired": true
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "attachmentSeasonMix": {
+        "winter": {
+          "ski": 0.8,
+          "bike": 0.2
+        },
+        "spring": {
+          "ski": 0.3,
+          "bike": 0.7
+        },
+        "summer": {
+          "ski": 0,
+          "bike": 1
+        },
+        "autumn": {
+          "ski": 0.2,
+          "bike": 0.8
+        }
+      },
+      "image": {
+        "file": "images/08-denver-mobility.png",
+        "row": 1,
+        "column": 1,
+        "rows": 2,
+        "columns": 2,
+        "panelAspectRatio": 1.5
+      }
+    },
+    {
+      "id": "denver-dencrowd",
+      "name": "Denver stadium crowds",
+      "city": "Denver",
+      "board": "09-denver-moments",
+      "panelIndex": 0,
+      "sizeM": {
+        "length": 0.55,
+        "width": 0.45,
+        "height": 1.75,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 1.25,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 2,
+        "18:00": 5,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 4,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street"
+      ],
+      "placementGate": "stadium_event_and_walkable_route_not_Sloans_area",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "city-wide conditional",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "eventExpectedPeoplePerFace": {
+        "06:00": 0,
+        "12:00": 12,
+        "18:00": 20,
+        "23:00": 4
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/09-denver-moments.png",
+        "row": 0,
+        "column": 0,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "denver-denplow",
+      "name": "Spring snowplow",
+      "city": "Denver",
+      "board": "09-denver-moments",
+      "panelIndex": 1,
+      "sizeM": {
+        "length": 8,
+        "width": 3.2,
+        "height": 3.3,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 3.5,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "seasonMultiplier": {
+        "winter": 1,
+        "spring": 1,
+        "summer": 0,
+        "autumn": 0.2
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "main street",
+        "side street"
+      ],
+      "placementGate": "active_spring_snow_route_and_history",
+      "defaultActivation": "off_until_event_evidence_or_labelled_demo",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "eventExpectedAssetsPerFace": {
+        "06:00": 0,
+        "12:00": 0.15,
+        "18:00": 0.1,
+        "23:00": 0
+      },
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/09-denver-moments.png",
+        "row": 0,
+        "column": 1,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    },
+    {
+      "id": "denver-denrun",
+      "name": "Sloan lake-path runners",
+      "city": "Denver",
+      "board": "09-denver-moments",
+      "panelIndex": 2,
+      "sizeM": {
+        "length": 0.55,
+        "width": 0.45,
+        "height": 1.75,
+        "status": "authored_class_envelope_not_surveyed"
+      },
+      "speedMps": {
+        "assetCruise": 2.8,
+        "pedestrianWalk": 1.25,
+        "mode": "moving_when_route_supplied",
+        "status": "authored"
+      },
+      "expectedAssetsPerEligibleFace": {
+        "06:00": 0,
+        "12:00": 0,
+        "18:00": 0,
+        "23:00": 0
+      },
+      "expectedPeoplePresentPerEligibleFace": {
+        "06:00": 5,
+        "12:00": 7,
+        "18:00": 12,
+        "23:00": 1
+      },
+      "seasonMultiplier": {
+        "winter": 0.7,
+        "spring": 0.9,
+        "summer": 1.15,
+        "autumn": 1
+      },
+      "gameDayPeopleMultiplier": 1,
+      "gameDayAssetMultiplier": 1,
+      "appearsIn": [
+        "lakefront"
+      ],
+      "placementGate": "mapped_Sloans_shared_path_and_weather",
+      "defaultActivation": "eligible_mapped_site_only",
+      "status": "authored_fallback_unverified",
+      "scaleCountsWithFaceLength": true,
+      "scope": "Sloans-Lake-first",
+      "spawnSurface": "mapped eligible frontage / lane / walking surface; apply placementGate",
+      "image": {
+        "file": "images/09-denver-moments.png",
+        "row": 0,
+        "column": 2,
+        "rows": 1,
+        "columns": 3,
+        "panelAspectRatio": 0.6666666666666667
+      }
+    }
+  ],
+  "performance": {
+    "unchangedTierThresholdsPx": [
+      48,
+      16,
+      5
+    ],
+    "noMeasuredPerformance": true,
+    "densityPolicy": "Apply whole-scene shared budgets; never sum every independent row onto one face",
+    "degrade": "reduce background actor density and small props before changing real proportions"
+  },
+  "forbidden": [
+    "detailed faces",
+    "logos",
+    "team marks",
+    "brands",
+    "readable signage",
+    "agency insignia",
+    "real murals",
+    "public art",
+    "dogs",
+    "animals on leads",
+    "app/host content"
+  ],
+  "sources": [
+    {
+      "title": "CTA system map",
+      "url": "https://www.transitchicago.com/maps/system/",
+      "checked": "2026-10-07",
+      "supports": "Mapped transit context; not measured crowds or pictured geometry"
+    },
+    {
+      "title": "RTD schedules",
+      "url": "https://app.rtd-denver.com/schedules",
+      "checked": "2026-10-07",
+      "supports": "Current service lookup must govern actual rail activity; no service inferred from artwork"
+    },
+    {
+      "title": "CTA Wilson station project",
+      "url": "https://www.transitchicago.com/wilson",
+      "checked": "2026-10-07",
+      "supports": "Elevated station/platform context; not proof the composite is a specific station"
+    },
+    {
+      "title": "Chicago heat booklet",
+      "url": "https://webapps1.chicago.gov/ChicagoAlertWeb/resources/pdf/Heatbooklet.pdf",
+      "checked": "2026-10-07",
+      "supports": "Opened hydrant is not a default heat-response automation; illustration only"
+    },
+    {
+      "title": "User brief",
+      "url": null,
+      "supports": "Food, carts, garage, porch, festival, chair and game-day requested cultural subjects; local occurrence and counts remain unverified"
+    }
+  ],
+  "cameraPolicy": {
+    "nearHeightM": 1.65,
+    "defaultVerticalFovDeg": 55,
+    "status": "authored comparison fixture; image panels not surveyed camera transforms"
+  }
+}
