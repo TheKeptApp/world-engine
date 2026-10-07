@@ -46,6 +46,18 @@ Limits, from the pack: the capture's camera, roads, footprints, shoreline and ob
 
 Scoring does not change: grade the frame against GRADING.md as usual. `finish` also reports **paint-over parity** = the view's /50 ÷ the paint-over's own blind /50 (calibrated by Opus, `calibrate.py --paintover`), beside the gate and never part of it. Concept parity stays the gate. Paint-over parity uses the same Opus calibration as concept parity, so Sonnet routine runs read it high (calibration.md); use it for change between runs.
 
+## N. Grader noise and what counts as a real change — PROPOSED (owner decides; measured 7 Oct 2026)
+
+**Measured, no new grading:** routine Sonnet grades of views a merge could not reach, across three consecutive-run pairs (house details 1/3 on non-North-Shore views, house details 2/3 on non-Lakeview views, 5A wet paving and overcast clouds on dry clear views): 63 view pairs. The change in a view's parity between two runs had a standard deviation of 4.2 points (about 2.9 points of noise in a single grade); 90 % of changes were within 6 points and 95 % within 8; 20 of 63 moved by more than 3 points; the largest were 15 and 12 (showcase-10, the noisiest view: −15 then +12). The mean shift across the untouched views of one pair ranged from −1.2 to +1.7 points; the full-set mean parity moved within 80.3–82.1 % over seven runs in which most merges had no measurable effect.
+
+**Proposed rule:**
+1. A single view counts as a real change only if it moves **more than 8 parity points**, or more than 5 points in the same direction in **two consecutive runs**, **and** the reviewer's reasons change in a way the merge could cause.
+2. The mean counts as real only if it moves **more than 2 points on the full set** (29 views) or **more than 2.5 points on the core set** (13 views; mean noise ≈ 4.2/√13 ≈ 1.2).
+3. A change concentrated in the views the merge targets (for example a region's views) counts at **more than 4 points** on that group's mean, again with matching reviewer reasons (the Sloan's Lake lemon-yellow regression and its fix both met this).
+4. The current "> 3 points" regression flag stays as a list to re-check, not as a finding: about a third of untouched views cross it by chance.
+
+**Core set (owner, 7 Oct 2026):** each merge is scored with Sonnet on the 13 views marked `core` in `Tools/lookloop/views.json` (`lookloop.sh run --core`): ordinary-street, evanston-street, evanston-street-rain, wilmette-street, wilmette-street-fall, wilmette-aerial, lakeview-street, lakeview-postcard, showcase-01, showcase-03, showcase-06, v2-01, v2-06 (all six paint-over views, the three regions, rain, smoke, fall and two aerials). The full set runs only for gate checks. Core runs are compared with core views of the previous run, never with full-set means.
+
 ## Inputs
 
 For view `<id>` in run directory `<run>`:
