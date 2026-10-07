@@ -23,7 +23,10 @@ struct ContextRingTests {
     @Test func newSeasonalKeysAreAppendedAndBackdropKeepsItsShaderSlot() throws {
         let order = SeasonalPalette.order
         #expect(order.firstIndex(of: "backdrop") == 17)   // WorldShaders.metal kBackdropSlot
-        #expect(Array(order.suffix(4)) == ["residential", "commercial", "wood", "farmland"])
+        // The context-ring masses follow the lawn pair; later keys (more crown slots) come after them.
+        let ring = try #require(order.firstIndex(of: "residential"))
+        #expect(ring == order.firstIndex(of: "lawnB")! + 1)
+        #expect(Array(order[ring..<(ring + 4)]) == ["residential", "commercial", "wood", "farmland"])
         let seasonal = try StyleLibrary.seasonalPalette()
         for key in order { #expect(seasonal.surfaces[key]?.count == 4, "\(key)") }
     }

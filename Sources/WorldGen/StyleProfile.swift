@@ -190,9 +190,18 @@ public struct SeasonalPalette: Codable, Sendable {
     public var seasons: [String]
     /// Surface key → four hex colors (spring, summer, autumn, winter).
     public var surfaces: [String: [String]]
+    /// Deciduous crown colour family per crown form ("broad", "oval", "spreading"; the profile
+    /// `crownWeights` keys): trees of that form pick per instance among `count` consecutive slots from
+    /// `first` (count 1, 2 or 4). Absent → every crown picks among deciduous1…4.
+    public var crownColors: [String: CrownColors]?
+
+    public struct CrownColors: Codable, Sendable, Equatable {
+        public var first: String
+        public var count: Int
+    }
 
     /// Surface keys in a fixed order. Variant families stay contiguous so shaders can offset
-    /// from the first slot (deciduous1…4, conifer1…2).
+    /// from the first slot (deciduous1…4, deciduous5…8, conifer1…2).
     public static let order = [
         "ground", "lawn", "tufts", "deciduous1", "deciduous2", "deciduous3", "deciduous4",
         "conifer1", "conifer2", "bushes", "road", "sidewalk", "curb", "water", "sand", "bark", "snow",
@@ -201,6 +210,8 @@ public struct SeasonalPalette: Codable, Sendable {
         "lawnA", "lawnB",
         // Context-ring land-use masses (look-fix-v1 §4), appended so earlier slots keep their indices.
         "residential", "commercial", "wood", "farmland",
+        // More crown colour slots (vegetation-v1 species families; regions fill them, vegetation.json).
+        "deciduous5", "deciduous6", "deciduous7", "deciduous8",
     ]
 }
 

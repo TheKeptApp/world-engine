@@ -190,7 +190,8 @@ public struct SceneGenerator: Sendable {
     }
 
     public func generate() -> GeneratedScene {
-        var palette = startPalette ?? Palette(seasonal: Self.withLawnEndpoints(seasonal, profileID: profile.id), season: season, base: baseColors)
+        let dressed = VegetationLibrary.bundled.applying(to: Self.withLawnEndpoints(seasonal, profileID: profile.id), profileID: profile.id)
+        var palette = startPalette ?? Palette(seasonal: dressed, season: season, base: baseColors)
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
         let streetscape = Streetscape(context: context, buildings: buildingIndex)
@@ -383,14 +384,17 @@ public struct SceneGenerator: Sendable {
                                           height: 0, yaw: atan2(d.x, -d.y), scale: 1))
         }
 
-        // Trees: species from OSM tags, else the profile's deciduous share; crown archetype from
-        // the profile's weights; size from OSM height, else the profile's ranges. Seeded by node ID.
+        // Trees: species from OSM tags, else the profile's deciduous share; crown archetype from the
+        // tagged genus/species (vegetation.json genusForms), else the profile's weights; size from OSM
+        // height, else the profile's ranges. Seeded by node ID.
         var conifers = 0, deciduous = 0
         let crownWeights = profile.trees.crownWeights
         for tree in features.points(of: .tree) {
             var r = tree.ref.random("tree")
             let leaf = tree.tags["leaf_type"]
-            let isConifer = leaf == "needleleaved" ? true : leaf == "broadleaved" ? false : !r.chance(profile.trees.deciduousShare)
+            let tagged = VegetationLibrary.bundled.form(tags: tree.tags)
+            let leafConifer = leaf == "needleleaved" ? true : leaf == "broadleaved" ? false : !r.chance(profile.trees.deciduousShare)
+            let isConifer = tagged.map { $0 == "conifer" } ?? leafConifer
             let young = r.chance(profile.trees.youngShare)
             let height = tree.tags["height"].flatMap(TagParsing.length)
                 ?? (young ? r.range(profile.trees.youngHeightMeters) : r.range(profile.trees.heightMeters))
@@ -400,7 +404,8 @@ public struct SceneGenerator: Sendable {
                 conifers += 1
             } else {
                 deciduous += 1
-                let pick = r.pick(crownWeights.keys.sorted()) { crownWeights[$0] ?? 0 }
+                let drawn = r.pick(crownWeights.keys.sorted()) { crownWeights[$0] ?? 0 }
+                let pick = tagged ?? drawn
                 kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : .treeBroad
             }
             instances.append(PropInstance(kind: kind, variant: 0, source: tree.ref.description, x: tree.position.x, y: tree.position.y,

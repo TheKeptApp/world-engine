@@ -52,6 +52,9 @@ public struct Palette: Sendable {
         return p
     }
 
+    /// Deciduous crown colour families per crown form (`SeasonalPalette.crownColors`), if any.
+    public var crownColors: [String: SeasonalPalette.CrownColors] { seasonal?.crownColors ?? [:] }
+
     /// All named slots (for export).
     public var namedSlots: [String: Int] { named }
 
