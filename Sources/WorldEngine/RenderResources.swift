@@ -80,6 +80,17 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var airStart: Float = 300
     public var airD50: Float = 1800
     public var fogWeight: Float = 0
+    /// Haze present from the camera outward (smoke's near field), 0–1.
+    public var fogFloor: Float = 0
+    /// Rain-pack wet ground, packed for texels 30–33 (see WorldShaders.metal `wetA`…`wetE`).
+    public var wetA = SIMD4<Float>(0, 1, 0, 0)
+    public var wetB = SIMD4<Float>(0, 1, 0, 0.18)
+    public var wetC = SIMD4<Float>(0, 1, 0, 0.12)
+    public var wetD = SIMD4<Float>(0, 1, 0, 0.55)
+    /// look.json water: sky reflection (clear, overcast), overcast saturation, rain ripples (texel 34).
+    public var water = SIMD4<Float>(0.3, 0.8, 0.35, 0.25)
+    /// Rain pack roof row (darken, roughness, sheen) and whether it is raining (texel 35).
+    public var wetE = SIMD4<Float>(0, 1, 0, 0)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -220,7 +231,13 @@ final class RenderResources {
         p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
         p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
         p[w + 27] = SIMD4(h(g.airColor.x), h(g.airColor.y), h(g.airColor.z), h(g.airCap))
-        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), 0)
+        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), h(g.fogFloor))
+        p[w + 30] = SIMD4(h(g.wetA.x), h(g.wetA.y), h(g.wetA.z), h(g.wetA.w))
+        p[w + 31] = SIMD4(h(g.wetB.x), h(g.wetB.y), h(g.wetB.z), h(g.wetB.w))
+        p[w + 32] = SIMD4(h(g.wetC.x), h(g.wetC.y), h(g.wetC.z), h(g.wetC.w))
+        p[w + 33] = SIMD4(h(g.wetD.x), h(g.wetD.y), h(g.wetD.z), h(g.wetD.w))
+        p[w + 34] = SIMD4(h(g.water.x), h(g.water.y), h(g.water.z), h(g.water.w))
+        p[w + 35] = SIMD4(h(g.wetE.x), h(g.wetE.y), h(g.wetE.z), h(g.wetE.w))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

@@ -17,7 +17,7 @@ import os
 import sys
 import time
 
-from . import cta, ctabus, rtd, tiles
+from . import cta, ctabus, ctagtfs, rtd, tiles
 from .relay import SOURCES, Config, Relay, MIN_POLL_INTERVAL, load_areas
 from .server import etag_for, make_server, vehicles_payload
 
@@ -58,12 +58,20 @@ def _relay(args) -> Relay:
     (snapshot, daily salt) in its own subdirectory, so two relays can share one cache root."""
     cfg = _config(args)
     feed = getattr(args, "feed", "rtd")
+    if feed not in SOURCES:
+        raise SystemExit("unknown feed %r (LIVEFEEDS_FEED): use one of %s" % (feed, ", ".join(sorted(SOURCES))))
     if feed != "rtd":
         cfg.cache_dir = os.path.join(cfg.cache_dir, feed)
     areas = [a for a in load_areas(args.areas) if feed in a.feeds]
     if not areas:
         raise SystemExit("no area in %s lists the feed %r" % (args.areas, feed))
-    shapes = (lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent)) if feed == "rtd" else None
+    if feed == "rtd":
+        shapes = lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent)
+    else:
+        def shapes():
+            table, stops, n = ctagtfs.fetch(user_agent=cfg.user_agent)
+            table.stops = stops
+            return table, n
     return Relay(cfg, areas, log=_log, shapes_fetch=shapes, source=SOURCES[feed])
 
 
@@ -190,13 +198,25 @@ def main(argv=None) -> int:
                         help="upstream feed: rtd (Denver, no key) cta (Chicago 'L' trains, needs CTA_TRAIN_API_KEY) or "
                              "ctabus (Chicago buses, needs CTA_BUS_API_KEY)")
 
+    # Every serve option also reads an environment variable (containers: docs/live-world/deploy.md); a flag wins.
+    env = os.environ.get
+
+    def env_num(name, kind):
+        v = env(name)
+        return kind(v) if v not in (None, "") else None
+
     s = sub.add_parser("serve", help="poll one feed (RTD, CTA trains or CTA buses) and serve /v1/vehicles")
     common(s)
-    s.add_argument("--host", default="127.0.0.1")
-    s.add_argument("--port", type=int, default=8765, help="0 picks a free port")
-    s.add_argument("--interval", type=float, help="upstream poll seconds, at least %d (default 30)" % MIN_POLL_INTERVAL)
-    s.add_argument("--client-poll", type=int, help="pollIntervalSeconds hint for phones (default 15)")
-    s.add_argument("--idle-seconds", type=float, help="pause polling after this long without a request; 0 = never (default 120)")
+    s.set_defaults(feed=env("LIVEFEEDS_FEED") or "rtd")
+    s.add_argument("--host", default=env("LIVEFEEDS_HOST") or "127.0.0.1", help="$LIVEFEEDS_HOST")
+    s.add_argument("--port", type=int, default=env_num("PORT", int) or 8765,
+                   help="$PORT (as Cloud Run sets it); 0 picks a free port")
+    s.add_argument("--interval", type=float, default=env_num("LIVEFEEDS_INTERVAL", float),
+                   help="$LIVEFEEDS_INTERVAL: upstream poll seconds, at least %d (default 30)" % MIN_POLL_INTERVAL)
+    s.add_argument("--client-poll", type=int, default=env_num("LIVEFEEDS_CLIENT_POLL", int),
+                   help="$LIVEFEEDS_CLIENT_POLL: pollIntervalSeconds hint for phones (default 15)")
+    s.add_argument("--idle-seconds", type=float, default=env_num("LIVEFEEDS_IDLE_SECONDS", float),
+                   help="$LIVEFEEDS_IDLE_SECONDS: pause polling after this long without a request; 0 = never (default 120)")
     s.set_defaults(func=cmd_serve)
 
     o = sub.add_parser("once", help="fetch once and print a summary")

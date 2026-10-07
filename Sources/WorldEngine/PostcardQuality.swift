@@ -181,13 +181,12 @@ extension World {
         // live, for the shadows they throw into the frame. Slot 0 (the follow camera's cut-away
         // zone) stays empty: postcards have no cut-away.
         let edges = PropLibrary.lodDistances.map(Float.init)
+        var buckets = [[simd_float4x4]](repeating: [], count: lodBatches.count)
         for g in lodGroups {
-            let slots = g.levels.map { copies[ObjectIdentifier($0.entity)] }
-            guard slots.count >= 3, slots.allSatisfy({ $0 != nil }) else { continue }
-            let last = slots.count - 1
-            var buckets = [[simd_float4x4]](repeating: [], count: slots.count)
+            guard g.batches.count >= 3, g.batches.allSatisfy({ copies[ObjectIdentifier(lodBatches[$0].entity)] != nil }) else { continue }
+            let last = g.batches.count - 1
             // The near mesh's local extent, once per group (`MeshBuffers.bounds` walks every vertex).
-            guard let local = g.levels[1].buffers.bounds else { continue }
+            guard let local = lodBatches[g.batches[1]].buffers.bounds else { continue }
             let extent = simd_max(simd_abs(local.min), simd_abs(local.max))
             for inst in g.instances {
                 let t = inst.transform
@@ -197,20 +196,38 @@ extension World {
                 let c = SIMD3(t.columns.3.x, t.columns.3.y, t.columns.3.z), r = extent * scale
                 if case let b = BoundingBox(min: c - r, max: c + r), inFrame(b) {
                     reach(b)
-                    if q.nearDetail { buckets[1].append(t); continue }
+                    if q.nearDetail { buckets[g.batches[1]].append(t); continue }
                 }
                 // As live (`World.updateLODs`): eye distance, cut-away slot 0 left empty.
                 let d = simd_distance(SIMD3(Float(inst.x), Float(inst.height), Float(-inst.y)), eye)
                 var slot = 1
                 for e in edges where d >= e { slot += 1 }
-                buckets[min(slot, last)].append(t)
+                slot = Swift.min(slot, last)
+                buckets[g.batches[slot]].append(t * g.fits[slot])
             }
-            guard q.nearDetail else { continue }
-            info.nearInstances += buckets[1].count
-            for slot in slots.indices { Self.setInstances(slots[slot]!, buckets[slot], buffers: g.levels[slot].buffers) }
+        }
+        if q.nearDetail {
+            for (b, batch) in lodBatches.enumerated() {
+                guard let copy = copies[ObjectIdentifier(batch.entity)] else { continue }
+                if batch.slot == 1 { info.nearInstances += buckets[b].count }
+                Self.setInstances(copy, buckets[b], buffers: batch.buffers)
+            }
         }
 
-        // Building cells: the finest level the cell has (near where it has one) when in frame.
+        // Building cells: the finest level the cell has (near where it has one) when in frame. A
+        // merged far tile (`BuildingTileState`) hands its cells back first, at their own levels.
+        if q.nearDetail {
+            let p = LocalPoint(Double(eye.x), Double(-eye.z))
+            for tile in buildingTiles where tile.active != nil {
+                for level in tile.levels { copies[ObjectIdentifier(level.entity)]?.isEnabled = false }
+                for i in tile.cells {
+                    let levels = buildingCells[i].levels
+                    let want = BuildingLOD.forDistance(Self.distance(p, to: buildingCells[i].rect))
+                    let pick = levels.firstIndex { $0.lod >= want } ?? (levels.count - 1)
+                    for (j, level) in levels.enumerated() { copies[ObjectIdentifier(level.entity)]?.isEnabled = j == pick }
+                }
+            }
+        }
         for cell in buildingCells {
             guard let b = cell.bounds else { continue }
             let visible = inFrame(b)

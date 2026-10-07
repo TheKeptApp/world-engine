@@ -1,0 +1,12 @@
+# Look spec changes (porting checklist for the three.js renderer)
+
+Every look value is renderer-neutral data that RealityKit reads; this log lists what changed, where and why, so the web renderer can follow. Spec files: `Sources/WorldGen/Profiles/lighting-bible.json` (generated from docs/proposals/look-fix-v1), `grade.json`, `look.json`, `time-of-day.json`, `seasonal-palette.json`, `weather.json`.
+
+| Date | Spec file | Change | Why |
+|---|---|---|---|
+| 2026-10-06 | look.json (new) | Wet ground: asphalt darkens 50% / walks 45% when soaked, light rain shows 65% of that; lawn 6%; paving gloss floor 0.22; puddles from wetness 0.2, up to 16% asphalt / 14% walks; puddle base 0.8 of the wet ground, sky reflection 0.35–0.7; ripple rings 0.45 while raining | Owner's phone check: rain read dry, puddles read as dark holes |
+| 2026-10-06 | look.json (new) | Rain streaks: 600 drops, 2.2 cm wide, 10× long, #C7D0DB at 0.7 | No rainfall visible at phone size |
+| 2026-10-06 | grade.json, lighting-bible.json, time-of-day.json, seasonal-palette.json | Lighting bible as data, per-state grade, weather direct cut, sky colours, context-ring and backdrop colours (see git log of these files) | Look-fix pass, earlier today |
+| 2026-10-06 | look.json | Wet paving darkens 60% when soaked (light rain ~39%) | Owner's screenshot: the path still read dry |
+| 2026-10-06 | look.json (water, new) | Water reflects the sky: 30% clear to 80% overcast, saturation down to 0.35 under full cover, rain ripple rings 0.25. Not yet: the darker band near the shore (the water mesh carries no distance-to-shore) | Owner: the lake read pool-blue under a storm sky |
+| 2026-10-06 | rain-bible.json (generated, new), look.json | Wet ground, puddles and rain streaks now come from the rain pack (docs/proposals/rain-v1/rain-values.json via scripts/rainfix_data.py): states damp/light/steady/soaked interpolated by wetness, per surface (concrete, asphalt, brick, lawn, roof) darkening 2–12%, roughness and sky sheen k = sheen·(1−|N·V|)³; puddles ≤7% of flat paving, sky mix 0.12→0.55 by (1−|N·V|)⁵, roughness 0.18; streak count by state, opacity 0.26/0.34/0.40 (night 0.28), 20 cm, tinted by the fog. Replaces look.json's hand-tuned wet and rain values (owner: the pack's bounded darkening governs) | rain-v1 landed |

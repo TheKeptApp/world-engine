@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-06",
+  "useCase": "stylized-concept",
+  "assets": [
+    {
+      "file": "images/addendum-01-chicago-brick-stone-weather.png",
+      "prompt": "Use case: stylized-concept. Generate a NEW WorldEngine Style B ground reference sheet, matching supplied reference rendering and cream editorial layout, simplified shapes with real lighting, no photographic textures. Title \"CHICAGO \u2014 BRICK & STONE WEATHER\". A clear 3-row by 4-column matrix. Row labels \"RED BRICK\", \"STONE SETTS\", \"ROUNDED COBBLE\"; column labels \"DRY\", \"WET\", \"SNOW\", \"FALL LEAVES\". Each cell is a handsome miniature street-level view of the SAME paving strip, with Chicago garage/alley or curb context softly secondary. Brick is small rectangular aged muted red clay running bond; setts rectangular irregular cool grey stone blocks; cobble rounded irregular grey-brown stones distinctly different from setts. Correct small real-world paving scale, avoid huge slabs. Wet: darker saturated substrate, restrained soft highlights, tiny localized puddle only in low spots, not mirror chrome. Snow: blanket occludes pattern, some compressed wheel paths and bank edges. Fall: scattered muted ochre/russet leaves collect along joints and curb, paving remains visible. Readable grouped tonal variation, softened thin joints, rich stylized game environment, consistent scale and camera. No logos or ads. Footer \"Concept reference \u2022 \u00a9 OpenStreetMap contributors\". Wide landscape high-quality sheet.",
+      "referenceImages": [
+        "/Users/robwoodbury/Desktop/world-engine/docs/proposals/ground-v1/images/04-region-chicago.png"
+      ],
+      "method": "built-in image-generation",
+      "editPasses": 0,
+      "editPrompt": null
+    },
+    {
+      "file": "images/addendum-02-brick-stone-phone-aerial.png",
+      "prompt": "Use case: stylized-concept. Generate a NEW WorldEngine Style B reference sheet matching supplied reference rendering, cream editorial layout, rich simplified 3D shapes, real daylight and color, no photo textures. Title \"BRICK & STONE \u2014 PHONE DISTANCE\". Three rows \"RED BRICK STREET\", \"STONE SETT ALLEY\", \"ROUNDED COBBLE ALLEY\". Four columns \"5 m\", \"20 m\", \"40 m\", \"AERIAL\". First three columns street-level eye height looking along a Chicago residential street or narrow garage alley paved in that row material. Last column oblique overhead diorama of the corresponding street/alley. SAME paving real scale: brick ~20x10 cm small muted reddish rectangles, setts ~20x15 cm cool grey rectangular stones, cobbles irregular rounded 10\u201318 cm grey-brown stones. Fine joints readable close and naturally filtered away in distance; at 40 m surface reads broad quiet tonal patches, no oversized black grid or glitter. Distinct lanes and curb/garage threshold edges, no cars needed. Stable camera framing per row. Bottom small comparison labelled \"TOO STRONG\" exaggerated black grid vs \"TARGET\" quiet joints and broad tonal variation. Labels brief and accurate. Footer \"Concept reference \u2022 \u00a9 OpenStreetMap contributors\". Landscape polished art direction sheet.",
+      "referenceImages": [
+        "/Users/robwoodbury/Desktop/world-engine/docs/proposals/ground-v1/images/04-region-chicago.png"
+      ],
+      "method": "built-in image-generation",
+      "editPasses": 1,
+      "editPrompt": "Edit only this sheet. Preserve title, cream layout, all rows, materials, aerial panels, bottom comparison and footer. Correct column headers: above FIRST image column write '5 m', above SECOND write '20 m' replacing existing '5 m'; THIRD remains '40 m', FOURTH 'AERIAL'. Put row names separately just above row or left, no overlap with headers. In second and third street-level columns only, soften joint contrast and filter fine paving detail progressively, particularly third 40 m panels: quiet broad tonal patches, barely visible fine joints into distance; maintain real-world paving dimensions, no giant pavers. All other composition/style invariants unchanged."
+    }
+  ],
+  "authority": "Raster illustrations; JSON and exact SVG charts govern."
+}

@@ -138,6 +138,7 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
     dropped: Counter = Counter()
     seen = set()
     out: List[dict] = []
+    keys: Dict[str, str] = {}
     for v in raw:
         route = str(v.get("rt") or "").strip()
         vid = str(v.get("vid") or "").strip()
@@ -160,8 +161,11 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
             continue
         seen.add(vid)
         hdg = _num(v.get("hdg"))
+        rec_id = salt.vehicle_id(SOURCE, vid, now)
+        pid = str(v.get("pid") or "").strip()
+        keys[rec_id] = ("pid:%s|route:%s" % (pid, route)) if pid else ("route:" + route)   # shape lookup key (ctagtfs), memory only
         out.append({
-            "id": salt.vehicle_id(SOURCE, vid, now),
+            "id": rec_id,
             "kind": "bus",
             "route": route,
             "routeName": names.get(route) or route,
@@ -174,4 +178,4 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
             "source": SOURCE,
         })
     out.sort(key=lambda x: x["id"])
-    return Normalised(out, feed_ts, dict(dropped))
+    return Normalised(out, feed_ts, dict(dropped), trips=keys)

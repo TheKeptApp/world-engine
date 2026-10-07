@@ -49,10 +49,11 @@ class Tracker:
         seen: Dict[str, _Seen] = {}
         for v in vehicles:
             v["motion"] = None
-            shape = shapes.for_trip(trips.get(v["id"])) if shapes else None
+            prev = self._seen.get(v["id"])
+            shape = shapes.resolve(trips.get(v["id"]), v["lat"], v["lon"],
+                                   prev.shape_id if prev is not None else None) if shapes else None
             if shape is None:
                 continue
-            prev = self._seen.get(v["id"])
             near = prev.dist if prev is not None and prev.shape_id == shape.id else None
             dist, off = shape.project(v["lat"], v["lon"], near)
             if off > MAX_OFFSET_M:

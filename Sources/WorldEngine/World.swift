@@ -47,6 +47,9 @@ public struct WorldStats: Sendable {
     public var viewTriangles = 0
     /// Draw calls for the current view (same test), refreshed twice a second.
     public var viewDrawCalls = 0
+    /// `viewDrawCalls` and `viewTriangles` by category (same test, same refresh).
+    public var viewDraws = ViewCost()
+    public var viewTriangleSplit = ViewCost()
     /// GPU bytes of world vertex/index data plus instance transforms.
     public var meshBytes = 0
     public var chunkCount = 0
@@ -62,6 +65,24 @@ public struct WorldStats: Sendable {
     public var contextCells = 0
     public var contextParseSeconds = 0.0
     public var contextGenerateSeconds = 0.0
+}
+
+/// A per-category split of what the current view draws (draw calls or triangles): chunk ground and
+/// raised static geometry (with water), building cells, trees and bushes, single-detail props,
+/// the context ring, and the rest (boundary ground, tufts, sky dome, stars, precipitation).
+public struct ViewCost: Sendable, Equatable {
+    public var chunks = 0
+    public var buildings = 0
+    public var foliage = 0
+    public var props = 0
+    public var context = 0
+    public var other = 0
+    public init() {}
+    public var total: Int { chunks + buildings + foliage + props + context + other }
+    /// "chunks=… buildings=… foliage=… props=… context=… other=…" for log lines.
+    public var summary: String {
+        "chunks=\(chunks) buildings=\(buildings) foliage=\(foliage) props=\(props) context=\(context) other=\(other)"
+    }
 }
 
 /// A built world: entities plus the engine-side state that animates it.
@@ -100,17 +121,35 @@ public final class World {
     var context = ContextRuntime()
     private var tuftEntity: (entity: Entity, data: LowLevelInstanceData, center: LocalPoint)?
     private var tuftMesh: MeshResource?
-    /// LOD props (trees, bushes) per kind/variant/cell, with one entity per slot: 0 = near detail
-    /// inside the cut-away zone (cuttable), 1 = the rest of the near detail, 2 = mid, 3 = far,
-    /// 4 = skyline (1–4 opaque; see `RenderResources.foliageOpaqueMaterial`).
+    /// LOD props (trees, bushes) per kind/variant over the whole world, drawn by slot: 0 = near
+    /// detail inside the cut-away zone (cuttable; used only while the view has a cut-away target,
+    /// otherwise those instances join slot 1), 1 = the rest of the near detail, 2 = mid, 3 = far,
+    /// 4 = skyline (1–4 opaque; see `RenderResources.foliageOpaqueMaterial`). Each slot draws into
+    /// an instanced `LODBatch`; at far and skyline, variants of a non-tree kind whose meshes have
+    /// the same triangle count share one batch (`fits` scales the shared mesh to the variant's
+    /// bounds, keeping the instance origin, so per-instance colour and season hashes are unchanged).
     struct LODGroup {
         var kind: PropKind
         var variant: Int
         var instances: [PropInstance]
-        var levels: [(entity: Entity, data: LowLevelInstanceData, triangles: Int, buffers: WorldMesh.MeshBuffers)]
-        var counts = [0, 0, 0, 0, 0]
-        var bounds: [BoundingBox?] = [nil, nil, nil, nil, nil]
+        /// Per instance: a bounding sphere (scene centre, radius) of its largest mesh.
+        var spheres: [SIMD4<Float>] = []
+        /// Batch index per slot, and the transform from the batch's mesh to this variant's.
+        var batches: [Int]
+        var fits: [simd_float4x4]
     }
+    /// One instanced entity: a kind's mesh at one slot (one variant, or several sharing it).
+    struct LODBatch {
+        var kind: PropKind
+        var slot: Int
+        var entity: Entity
+        var data: LowLevelInstanceData
+        var triangles: Int
+        var buffers: WorldMesh.MeshBuffers
+        var count = 0
+        var bounds: BoundingBox?
+    }
+    private(set) var lodBatches: [LODBatch] = []
     /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
     struct BuildingCellState {
         var rect: Rect2D
@@ -119,16 +158,45 @@ public final class World {
         var active: Int?
     }
     private(set) var buildingCells: [BuildingCellState] = []
+    /// Neighbouring building cells (`buildingTileSizes` × as many) merged at the mid, far and
+    /// skyline LODs: when every cell of a tile picks the same level by its own distance, one tile
+    /// entity at that level replaces its cells' entities (the same triangles, fewer draw calls);
+    /// also when some want a coarser level, if drawing them at the finest one adds at most
+    /// `buildingTileAllowance` triangles. Larger tiles are tried first.
+    struct BuildingTileState {
+        var cells: [Int]
+        var levels: [(lod: BuildingLOD, entity: Entity, triangles: Int, bounds: BoundingBox)]
+        var active: Int?
+    }
+    private(set) var buildingTiles: [BuildingTileState] = []
+    /// Tile sides in cells (100 m cells → 400 m and 200 m tiles), largest first.
+    static let buildingTileSizes = [4, 2]
+    /// Triangles a tile may add by drawing some cells finer than they want.
+    static let buildingTileAllowance = 2000
     /// Triangles of the enabled building LODs.
     private var buildingTriangles = 0
     /// Trees and bushes this close to the camera keep the cut-away (transparent) material. The
     /// character is at most ~8 m from the follow camera and detail is re-bucketed every 8 m, so a
     /// blocker always falls inside.
     static let cutZoneMeters: Float = 20
+    /// Whether the view has a cut-away target (slot 0 is used only then).
+    private(set) var cutAwayActive = false
     private(set) var lodGroups: [LODGroup] = []
     var lodCenter: SIMD3<Float>?
+    /// Forward direction and vertical field of view (degrees) at the last re-bucket, and the aspect.
+    private var lodView: SIMD4<Float>?
+    private var lodAspect: Float = 0
+    /// Leave trees and bushes outside the (widened) view out of the instance data (on by default;
+    /// off while an offscreen copy is made for another camera).
+    var foliageViewCulling = true
+    /// Re-bucket after turning this far; the culled view is this much wider on every side.
+    static let cullTurnDegrees: Float = 20
+    static let cullMarginDegrees: Float = 30
+    /// Shadows of trees and bushes, for culling (set by `apply`): x, z = horizontal direction away
+    /// from the sun (scene), y = shadow length per metre of height; nil without sun shadows.
+    var shadowCast: SIMD3<Float>?
     /// Fixed geometry for the view-triangle estimate: chunk and static-prop bounds.
-    private var cullables: [(bounds: BoundingBox, triangles: Int, draws: Int)] = []
+    private(set) var cullables: [(bounds: BoundingBox, triangles: Int, draws: Int, category: WritableKeyPath<ViewCost, Int>, name: String)] = []
     private var tuftBounds: BoundingBox?
     private var viewClock = 0.0
     private var staticPropTriangles = 0
@@ -270,7 +338,12 @@ public final class World {
     func update(deltaTime dt: Double, camera: Entity, focusPoint: SIMD3<Float>?, cutAwayTarget: SIMD3<Float>?) {
         for m in motions { m.advance(dt) }
         let camPos = camera.position(relativeTo: nil)
-        updateLODs(camera: camPos)
+        // Without a cut-away target nothing is cut, so the cut-away zone joins the opaque near slot.
+        if (cutAwayTarget != nil) != cutAwayActive {
+            cutAwayActive = cutAwayTarget != nil
+            lodCenter = nil
+        }
+        updateLODs(camera: camera)
         if let p = focusPoint { updateClutter(around: LocalPoint(Double(p.x), Double(-p.z)), camera: camPos) }
         var g = shaderGlobals
         g.camera = camPos
@@ -292,7 +365,9 @@ public final class World {
         viewClock += dt
         if viewClock >= 0.5 {
             viewClock = 0
-            (stats.viewTriangles, stats.viewDrawCalls) = estimateView(camera: camera)
+            (stats.viewTriangleSplit, stats.viewDraws) = estimateView(camera: camera)
+            stats.viewTriangles = stats.viewTriangleSplit.total
+            stats.viewDrawCalls = stats.viewDraws.total
         }
     }
 
@@ -310,6 +385,9 @@ public final class World {
             shadow.shadowProjection = .automatic(maximumDistance: shadowDistance)
             shadow.depthBias = 1.5
             sunEntity.components.set(shadow)
+            let sun = SIMD2(lighting.sunDirection.x, lighting.sunDirection.z)
+            let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
+            shadowCast = SIMD3(away.x, away.y, Float(1 / tan(max(Double(lighting.sunElevation), 3) * .pi / 180)))
         }
         let dir = lighting.sunDirection
         sunEntity.look(at: .zero, from: dir.y > 0.02 ? dir * 100 : [dir.x * 100, 2, dir.z * 100], relativeTo: nil)
@@ -344,36 +422,66 @@ public final class World {
             rootEntity.addChild(e)
             stats.staticTriangles += scene.boundaryGround.triangleCount
             baseDrawCalls += 1
+            if let b = boundary.bounds {
+                cullables.append((BoundingBox(min: b.min, max: b.max), boundary.triangleCount, 1, \.other, e.name))
+            }
         }
+        // Chunks are merged into square tiles, flat ground and raised geometry separately: the
+        // largest tile (`chunkTileSize`, in chunks, halving) whose merged mesh stays within
+        // `chunkTileTriangles`, so sparse ground costs few draw calls and dense ground still
+        // culls; all water is one entity.
+        var flatBy: [SIMD2<Int>: WorldMesh.MeshBuffers] = [:], raisedBy: [SIMD2<Int>: WorldMesh.MeshBuffers] = [:]
+        var water = WorldMesh.MeshBuffers()
         for chunk in scene.chunks {
             // Flat ground (lawns, streets, paths, curbs, water) can't shadow anything, so it stays
             // out of the sun's shadow map; buildings and other raised geometry cast.
-            let (flat, raised) = Self.splitFlatGround(chunk.staticMesh)
-            for (suffix, staticPart, casts) in [("ground", flat, false), ("", raised, true)] {
-                var parts: [WorldMesh.MeshBuffers] = [], materials: [any Material] = []
-                if !staticPart.isEmpty { parts.append(staticPart); materials.append(resources.staticMaterial) }
-                if !casts, !chunk.waterMesh.isEmpty { parts.append(chunk.waterMesh); materials.append(resources.waterMaterial) }
-                guard let mesh = try MeshUpload.resource(parts) else { continue }
-                let e = Entity()
-                e.name = suffix.isEmpty ? "Chunk \(chunk.id)" : "Chunk \(chunk.id) \(suffix)"
-                e.components.set(ModelComponent(mesh: mesh, materials: materials))
-                if !casts { e.components.set(DynamicLightShadowComponent(castsShadow: false)) }
-                receiveIBL(e)
-                rootEntity.addChild(e)
-                stats.staticTriangles += parts.reduce(0) { $0 + $1.triangleCount }
-                if let b = parts.compactMap(\.bounds).reduce(nil, { (acc: BoundingBox?, x) in acc.map { $0.union(BoundingBox(min: x.min, max: x.max)) } ?? BoundingBox(min: x.min, max: x.max) }) {
-                    cullables.append((b, parts.reduce(0) { $0 + $1.triangleCount }, parts.count))
-                }
-                baseDrawCalls += parts.count
-                stats.meshBytes += parts.reduce(0) { $0 + $1.gpuBytes }
-            }
+            (flatBy[chunk.index], raisedBy[chunk.index]) = Self.splitFlatGround(chunk.staticMesh)
+            water.append(chunk.waterMesh)
         }
+        func add(_ part: WorldMesh.MeshBuffers, name: String, material: CustomMaterial, casts: Bool) throws {
+            guard let mesh = try MeshUpload.resource([part]), let b = part.bounds else { return }
+            let e = Entity()
+            e.name = name
+            e.components.set(ModelComponent(mesh: mesh, materials: [material]))
+            if !casts { e.components.set(DynamicLightShadowComponent(castsShadow: false)) }
+            receiveIBL(e)
+            rootEntity.addChild(e)
+            stats.staticTriangles += part.triangleCount
+            cullables.append((BoundingBox(min: b.min, max: b.max), part.triangleCount, 1, \.chunks, name))
+            baseDrawCalls += 1
+            stats.meshBytes += part.gpuBytes
+        }
+        for (parts, suffix, casts) in [(flatBy, " ground", false), (raisedBy, "", true)] {
+            func tile(_ key: SIMD2<Int>, size: Int) throws {
+                var merged = WorldMesh.MeshBuffers()
+                for dx in 0..<size { for dy in 0..<size { if let m = parts[key &* size &+ SIMD2(dx, dy)] { merged.append(m) } } }
+                guard !merged.isEmpty else { return }
+                if merged.triangleCount > Self.chunkTileTriangles, size > 1 {
+                    for dx in 0..<2 { for dy in 0..<2 { try tile(key &* 2 &+ SIMD2(dx, dy), size: size / 2) } }
+                    return
+                }
+                try add(merged, name: "Chunk tile \(size) \(key.x)_\(key.y)\(suffix)", material: resources.staticMaterial, casts: casts)
+            }
+            let top = Self.chunkTileSize
+            let keys = Set(parts.keys.map { SIMD2(Self.floorDiv($0.x, top), Self.floorDiv($0.y, top)) })
+            for key in keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) { try tile(key, size: top) }
+        }
+        try add(water, name: "Chunk water", material: resources.waterMaterial, casts: false)
     }
 
+    /// Largest chunk tile side in chunks (`SceneGenerator.chunkSize` 200 m → 800 m), halved while a
+    /// tile's mesh has more than `chunkTileTriangles` triangles.
+    static let chunkTileSize = 4
+    static let chunkTileTriangles = 40_000
+
+    static func floorDiv(_ a: Int, _ b: Int) -> Int { Int((Double(a) / Double(b)).rounded(.down)) }
+
     /// Building cells: one entity per distance LOD (near, mid, far, skyline), all disabled until
-    /// `updateLODs` picks one per cell by camera distance.
+    /// `updateLODs` picks one per cell by camera distance; then tiles of cells at the mid, far and
+    /// skyline LODs (`BuildingTileState`).
     private func buildBuildingCells() throws {
-        for cell in scene.buildingCells {
+        var sources: [Int] = []
+        for (source, cell) in scene.buildingCells.enumerated() {
             var state = BuildingCellState(rect: cell.rect, bounds: nil, levels: [], active: nil)
             for lod in BuildingLOD.allCases {
                 guard let m = cell.meshes[lod], !m.isEmpty, let mesh = try MeshUpload.resource([m]) else { continue }
@@ -390,33 +498,102 @@ public final class World {
                 }
                 stats.meshBytes += m.gpuBytes
             }
-            if !state.levels.isEmpty { buildingCells.append(state) }
+            guard !state.levels.isEmpty else { continue }
+            buildingCells.append(state)
+            sources.append(source)
+        }
+        for size in Self.buildingTileSizes {
+            var tileCells: [SIMD2<Int>: [Int]] = [:]
+            for (i, source) in sources.enumerated() {
+                let index = scene.buildingCells[source].index
+                tileCells[SIMD2(Self.floorDiv(index.x, size), Self.floorDiv(index.y, size)), default: []].append(i)
+            }
+            for key in tileCells.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) {
+                let members = tileCells[key]!
+                // A tile of one cell gains nothing.
+                guard members.count > 1 else { continue }
+                var tile = BuildingTileState(cells: members, levels: [], active: nil)
+                for lod in [BuildingLOD.mid, .far, .skyline] {
+                    // Each cell's level for a camera wanting `lod` (as `updateBuildingLODs` picks it).
+                    var merged = WorldMesh.MeshBuffers()
+                    for i in members {
+                        let levels = buildingCells[i].levels
+                        let pick = levels.firstIndex { $0.lod >= lod } ?? (levels.count - 1)
+                        if let m = scene.buildingCells[sources[i]].meshes[levels[pick].lod] { merged.append(m) }
+                    }
+                    guard let b = merged.bounds, let mesh = try MeshUpload.resource([merged]) else { continue }
+                    let e = Entity()
+                    e.name = "Buildings tile \(size) \(key.x)_\(key.y) \(lod)"
+                    e.isEnabled = false
+                    e.components.set(ModelComponent(mesh: mesh, materials: [resources.staticMaterial]))
+                    receiveIBL(e)
+                    rootEntity.addChild(e)
+                    tile.levels.append((lod, e, merged.triangleCount, BoundingBox(min: b.min, max: b.max)))
+                    stats.meshBytes += merged.gpuBytes
+                }
+                if !tile.levels.isEmpty { buildingTiles.append(tile) }
+            }
         }
     }
 
-    /// Diagnostics: hide or show every building cell (its current LOD comes back).
+    /// Diagnostics: hide or show every building cell and tile (the current LODs come back).
     func setBuildingsVisible(_ on: Bool) {
         for cell in buildingCells {
             for (j, l) in cell.levels.enumerated() { l.entity.isEnabled = on && j == cell.active }
         }
+        for tile in buildingTiles {
+            for (j, l) in tile.levels.enumerated() { l.entity.isEnabled = on && j == tile.active }
+        }
+    }
+
+    /// Distance (m) from a camera point to a rectangle's nearest point (0 inside).
+    static func distance(_ p: LocalPoint, to r: Rect2D) -> Double {
+        simd_distance(p, LocalPoint(min(max(p.x, r.min.x), r.max.x), min(max(p.y, r.min.y), r.max.y)))
     }
 
     /// Enables one LOD per building cell: `BuildingLOD.forDistance` of the camera's distance to the
     /// cell, or the nearest coarser level the cell has (context cells have far and skyline only).
+    /// Where every cell of a tile wants the same mid, far or skyline level, the tile's merged entity
+    /// draws them instead (the same meshes; larger tiles first).
     private func updateBuildingLODs(camera c: SIMD2<Float>) {
         var tris = 0
         let p = LocalPoint(Double(c.x), Double(-c.y))
+        let want = buildingCells.map { BuildingLOD.forDistance(Self.distance(p, to: $0.rect)) }
+        var tiled = [Bool](repeating: false, count: buildingCells.count)
+        for t in buildingTiles.indices {
+            let tile = buildingTiles[t]
+            // The finest level any cell wants; cells wanting a coarser one are drawn at it too when
+            // that adds at most `buildingTileAllowance` triangles.
+            let w = tile.cells.map { want[$0] }.min()!
+            var pick: Int?
+            if !tile.cells.contains(where: { tiled[$0] }), let k = tile.levels.firstIndex(where: { $0.lod == w }) {
+                if tile.cells.allSatisfy({ want[$0] == w }) {
+                    pick = k
+                } else {
+                    let own = tile.cells.reduce(0) { sum, i in
+                        let levels = buildingCells[i].levels
+                        return sum + levels[levels.firstIndex { $0.lod >= want[i] } ?? (levels.count - 1)].triangles
+                    }
+                    if tile.levels[k].triangles <= own + Self.buildingTileAllowance { pick = k }
+                }
+            }
+            if tile.active != pick {
+                for (j, l) in tile.levels.enumerated() { l.entity.isEnabled = j == pick }
+                buildingTiles[t].active = pick
+            }
+            if let pick {
+                for i in tile.cells { tiled[i] = true }
+                tris += tile.levels[pick].triangles
+            }
+        }
         for i in buildingCells.indices {
-            let r = buildingCells[i].rect
-            let q = LocalPoint(min(max(p.x, r.min.x), r.max.x), min(max(p.y, r.min.y), r.max.y))
-            let want = BuildingLOD.forDistance(simd_distance(p, q))
             let levels = buildingCells[i].levels
-            let pick = levels.firstIndex { $0.lod >= want } ?? (levels.count - 1)
+            let pick: Int? = tiled[i] ? nil : (levels.firstIndex { $0.lod >= want[i] } ?? (levels.count - 1))
             if buildingCells[i].active != pick {
                 for (j, l) in levels.enumerated() { l.entity.isEnabled = j == pick }
                 buildingCells[i].active = pick
             }
-            tris += levels[pick].triangles
+            if let pick { tris += levels[pick].triangles }
         }
         buildingTriangles = tris
     }
@@ -454,6 +631,10 @@ public final class World {
     /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
     static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()
+    /// Renderer-neutral look values beyond the bible (`Profiles/look.json`).
+    static let lookSpec = try? StyleLibrary.look()
+    /// The rain pack (generated from docs/proposals/rain-v1).
+    static let rainBible = try? StyleLibrary.rainBible()
 
     /// Runtime multipliers on the resolved light and grade, for tuning the look on a device
     /// (WorldLab `-tune`). Identity by default: the shipped look lives in the profiles.
@@ -496,57 +677,97 @@ public final class World {
     var opaqueDetail = true {
         didSet {
             guard opaqueDetail != oldValue else { return }
-            for g in lodGroups {
-                for (slot, level) in g.levels.enumerated() {
-                    level.entity.components[ModelComponent.self]?.materials = [material(for: g.kind, cuttable: slot == 0)]
-                }
+            for b in lodBatches {
+                b.entity.components[ModelComponent.self]?.materials = [material(for: b.kind, cuttable: b.slot == 0)]
             }
         }
     }
 
     private func buildProps() throws {
         if options.diagnostics.contains("noProps") { recount(); return }
-        // Props are instanced per kind/variant per 400 m cell so off-screen cells are culled.
+        // Lamps and benches (one detail level, fixed): merged into one static mesh, or one per
+        // `propTileMeters` tile when there are many (their shader reads no per-instance value, so
+        // a merged copy draws the same); trees and bushes: instanced per kind/variant (below).
+        var fixed: [SIMD2<Int>: WorldMesh.MeshBuffers] = [:]
         var groups: [String: [PropInstance]] = [:]
         for inst in scene.instances {
-            let c = PropLibrary.cell(x: inst.x, y: inst.y)
-            groups["\(inst.kind.rawValue)/\(inst.variant)/\(c.x),\(c.y)", default: []].append(inst)
+            stats.propInstances += 1
+            if PropLibrary.lodCount(inst.kind) == 1, !inst.kind.isFoliage {
+                guard let (_, buffers) = try cached(inst.kind, inst.variant) else { continue }
+                let k = SIMD2(Int((inst.x / Self.propTileMeters).rounded(.down)), Int((inst.y / Self.propTileMeters).rounded(.down)))
+                fixed[k, default: WorldMesh.MeshBuffers()].append(buffers, transform: inst.transform)
+            } else {
+                groups["\(inst.kind.rawValue)/\(inst.variant)", default: []].append(inst)
+            }
         }
+        // A small set is one entity; a large one stays split by tile, so it still culls.
+        if fixed.values.reduce(0, { $0 + $1.triangleCount }) <= Self.chunkTileTriangles {
+            var all = WorldMesh.MeshBuffers()
+            for key in fixed.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) { all.append(fixed[key]!) }
+            fixed = all.isEmpty ? [:] : [SIMD2(0, 0): all]
+        }
+        for key in fixed.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) {
+            let m = fixed[key]!
+            guard let b = m.bounds, let mesh = try MeshUpload.resource([m]) else { continue }
+            let e = Entity()
+            e.name = "Props \(key.x)_\(key.y)"
+            e.components.set(ModelComponent(mesh: mesh, materials: [material(for: .lamp)]))
+            receiveIBL(e)
+            rootEntity.addChild(e)
+            staticPropBase += m.triangleCount
+            cullables.append((BoundingBox(min: b.min, max: b.max), m.triangleCount, 1, \.props, e.name))
+            baseDrawCalls += 1
+            stats.meshBytes += m.gpuBytes
+        }
+        // Trees, bushes: one batch per kind/variant and slot (cut-away zone, near, mid, far,
+        // skyline), refilled as the camera moves; at far and skyline, variants of a non-tree kind
+        // with equally many triangles share the first one's batch, scaled to their own bounds.
+        var shared: [String: Int] = [:]
         for key in groups.keys.sorted() {
             let list = groups[key]!
             let kind = list[0].kind, variant = list[0].variant
-            stats.propInstances += list.count
-            if PropLibrary.lodCount(kind) == 1 {
-                // Lamps, benches: one detail level.
-                guard let (mesh, buffers) = try cached(kind, variant) else { continue }
-                let e = try instancedEntity(mesh: mesh, buffers: buffers, transforms: list.map(\.transform), material: material(for: kind))
-                e.name = "Props \(key)"
-                rootEntity.addChild(e)
-                staticPropBase += buffers.triangleCount * list.count
-                if let b = Self.bounds(of: buffers, list.map(\.transform)) { cullables.append((b, buffers.triangleCount * list.count, 1)) }
-                baseDrawCalls += 1
-                stats.meshBytes += list.count * 64
-                continue
-            }
-            // Trees, bushes: one entity per slot (cut-away zone, near, mid, far, skyline), refilled
-            // as the camera moves.
-            var group = LODGroup(kind: kind, variant: variant, instances: list, levels: [])
+            var group = LODGroup(kind: kind, variant: variant, instances: list, batches: [], fits: [])
             let slots = PropLibrary.lodCount(kind) + 1
             for slot in 0..<slots {
-                guard let (mesh, buffers) = try cached(kind, variant, lod: max(0, slot - 1)) else { continue }
-                let data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: list.count)
+                guard let (mesh, buffers) = try cached(kind, variant, lod: max(0, slot - 1)) else { break }
+                let shareKey = !kind.isTree && slot >= 3 ? "\(kind.rawValue)/\(slot)/\(buffers.triangleCount)" : nil
+                if let shareKey, let b = shared[shareKey] {
+                    group.batches.append(b)
+                    group.fits.append(Self.fit(lodBatches[b].buffers, to: buffers))
+                    continue
+                }
+                let data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: 1)
                 let e = Entity()
-                e.name = "LOD \(key) \(slot)"
+                e.name = shareKey.map { "LOD \(kind.rawValue) shared \(slot) \($0.split(separator: "/").last!)" } ?? "LOD \(key) \(slot)"
                 e.isEnabled = false
                 e.components.set(ModelComponent(mesh: mesh, materials: [material(for: kind, cuttable: slot == 0)]))
                 receiveIBL(e)
                 rootEntity.addChild(e)
-                group.levels.append((e, data, buffers.triangleCount, buffers))
+                if let shareKey { shared[shareKey] = lodBatches.count }
+                group.batches.append(lodBatches.count)
+                group.fits.append(matrix_identity_float4x4)
+                lodBatches.append(LODBatch(kind: kind, slot: slot, entity: e, data: data, triangles: buffers.triangleCount, buffers: buffers))
             }
-            guard group.levels.count == slots else { continue }
+            guard group.batches.count == slots else { continue }
+            if let b = lodBatches[group.batches[1]].buffers.bounds {
+                let extent = simd_max(simd_abs(b.min), simd_abs(b.max))
+                group.spheres = list.map { inst in
+                    let t = inst.transform
+                    let s = max(simd_length(SIMD3(t.columns.0.x, t.columns.0.y, t.columns.0.z)),
+                                simd_length(SIMD3(t.columns.1.x, t.columns.1.y, t.columns.1.z)),
+                                simd_length(SIMD3(t.columns.2.x, t.columns.2.y, t.columns.2.z)))
+                    return SIMD4(t.columns.3.x, t.columns.3.y, t.columns.3.z, simd_length(extent) * s)
+                }
+            } else {
+                group.spheres = list.map { SIMD4($0.transform.columns.3.x, $0.transform.columns.3.y, $0.transform.columns.3.z, 50) }
+            }
             lodGroups.append(group)
             stats.meshBytes += list.count * 64 * slots
         }
+        // Instance capacity: every instance that can draw into the batch.
+        var capacity = [Int](repeating: 0, count: lodBatches.count)
+        for g in lodGroups { for b in Set(g.batches) { capacity[b] += g.instances.count } }
+        for b in lodBatches.indices { lodBatches[b].data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: max(1, capacity[b])) }
         if let (mesh, _) = try cached(.tuft, 0) { tuftMesh = mesh }
         staticPropTriangles = staticPropBase
         recount()
@@ -556,19 +777,23 @@ public final class World {
         stats.propTriangles = staticPropTriangles
         stats.triangles = stats.staticTriangles + buildingTriangles + staticPropTriangles + stats.treeTriangles + stats.clutterInstances * 17
         // Draw calls: chunks + static props (counted at build) + building cells + enabled LOD entities + tufts.
-        stats.drawCalls = baseDrawCalls + buildingCells.count + lodGroups.reduce(0) { $0 + $1.counts.filter { $0 > 0 }.count }
+        stats.drawCalls = baseDrawCalls + buildingCells.filter { $0.active != nil }.count + buildingTiles.filter { $0.active != nil }.count
+            + lodBatches.filter { $0.count > 0 }.count
             + (stats.clutterInstances > 0 ? 1 : 0) + contextDrawCalls
         stats.triangles += stats.contextTriangles
     }
 
-    private func instancedEntity(mesh: MeshResource, buffers: WorldMesh.MeshBuffers, transforms: [simd_float4x4], material: CustomMaterial) throws -> Entity {
-        let data = try LowLevelInstanceData(instanceCount: transforms.count)
-        data.withMutableTransforms { dst in for (i, t) in transforms.enumerated() { dst[i] = t } }
-        let e = Entity()
-        e.components.set(ModelComponent(mesh: mesh, materials: [material]))
-        e.components.set(try MeshInstancesComponent(mesh: mesh, instances: data, bounds: Self.bounds(of: buffers, transforms)))
-        receiveIBL(e)
-        return e
+    /// Side of the tiles lamps and benches are merged into (m) when they are more than
+    /// `chunkTileTriangles` in all.
+    static let propTileMeters = 800.0
+
+    /// Scale (about the origin, so the instance origin stays put) taking `shared`'s bounds to
+    /// `own`'s: width and depth by extent, height by top.
+    static func fit(_ shared: WorldMesh.MeshBuffers, to own: WorldMesh.MeshBuffers) -> simd_float4x4 {
+        guard let a = shared.bounds, let b = own.bounds else { return matrix_identity_float4x4 }
+        func ratio(_ x: Float, _ y: Float) -> Float { y > 1e-4 ? x / y : 1 }
+        let ea = a.max - a.min, eb = b.max - b.min
+        return simd_float4x4(diagonal: SIMD4(ratio(eb.x, ea.x), ratio(b.max.y, a.max.y), ratio(eb.z, ea.z), 1))
     }
 
     static func bounds(of buffers: WorldMesh.MeshBuffers, _ transforms: [simd_float4x4]) -> BoundingBox? {
@@ -587,42 +812,78 @@ public final class World {
     }
 
     /// Re-buckets trees and bushes into near/mid/far/skyline detail when the camera has moved more
-    /// than 8 m. Distance is from the eye (3D), so from the aerial camera every tree is far away.
-    private func updateLODs(camera: SIMD3<Float>) {
-        if let last = lodCenter, simd_distance(last, camera) < Float(PropLibrary.lodRebucketMeters) { return }
+    /// than 8 m, or (with `foliageViewCulling`) turned more than `cullTurnDegrees` or widened its
+    /// view. Distance is from the eye (3D), so from the aerial camera every tree is far away.
+    /// Instances (beyond the cut-away zone) that neither meet the view widened by
+    /// `cullMarginDegrees` on every side nor throw a shadow into it are left out: they can't be
+    /// seen before the next re-bucket.
+    private func updateLODs(camera cameraEntity: Entity) {
+        let camera = cameraEntity.position(relativeTo: nil)
+        let m = cameraEntity.transformMatrix(relativeTo: nil)
+        let forward = simd_normalize(-SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z))
+        let fov = cameraEntity.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50
+        let view = SIMD4(forward, fov)
+        if let last = lodCenter, simd_distance(last, camera) < Float(PropLibrary.lodRebucketMeters) {
+            guard foliageViewCulling, let v = lodView else { return }
+            let turned = acos(min(1, max(-1, simd_dot(SIMD3(v.x, v.y, v.z), forward)))) * 180 / .pi
+            guard turned > Self.cullTurnDegrees || fov > v.w + 0.5 || abs(viewAspect - lodAspect) > 0.01 else { return }
+        }
         lodCenter = camera
+        lodView = view
+        lodAspect = viewAspect
         updateBuildingLODs(camera: SIMD2(camera.x, camera.z))
         updateContextLODs(camera: camera)
         let cut = Self.cutZoneMeters
         let edges = PropLibrary.lodDistances.map(Float.init)  // near→mid, mid→far, far→skyline
+        // The view widened by the margin (normalised planes for a sphere test).
+        let margin = Self.cullMarginDegrees * .pi / 180
+        let vHalf = fov * .pi / 360, hHalf = atan(tan(vHalf) * viewAspect)
+        let vWide = min(vHalf + margin, 85 * .pi / 180), hWide = min(hHalf + margin, 85 * .pi / 180)
+        let planes = Self.frustumPlanes(view: m.inverse, fovY: 2 * vWide, aspect: tan(hWide) / tan(vWide), near: 0.1, far: 20000)
+            .map { $0 / simd_length(SIMD3($0.x, $0.y, $0.z)) }
+        let cast = shadowCast
+        /// Whether an instance (bounding sphere) or its shadow can meet the widened view.
+        func visible(_ c: SIMD4<Float>) -> Bool {
+            func meets(_ p: SIMD3<Float>, _ r: Float) -> Bool {
+                !planes.contains { simd_dot(SIMD3($0.x, $0.y, $0.z), p) + $0.w < -r }
+            }
+            let p = SIMD3(c.x, c.y, c.z)
+            if meets(p, c.w) { return true }
+            guard let cast else { return false }
+            // The shadow: from the instance along the ground away from the sun, as long as a crown of
+            // the sphere's diameter casts at this sun (capped), bounded by one sphere.
+            let length = min(2 * c.w * cast.z, 300)
+            return meets(SIMD3(p.x + cast.x * length / 2, 0, p.z + cast.y * length / 2), c.w + length / 2)
+        }
         var trees = 0, others = 0
-        for gi in lodGroups.indices {
-            let slots = lodGroups[gi].levels.count
-            var buckets = [[simd_float4x4]](repeating: [], count: slots)
-            for inst in lodGroups[gi].instances {
+        var buckets = [[simd_float4x4]](repeating: [], count: lodBatches.count)
+        for g in lodGroups {
+            let slots = g.batches.count
+            for (k, inst) in g.instances.enumerated() {
                 let d = simd_distance(SIMD3(Float(inst.x), Float(inst.height), Float(-inst.y)), camera)
-                var slot = d < cut ? 0 : 1
+                if foliageViewCulling, d >= cut, !visible(g.spheres[k]) { continue }
+                var slot = cutAwayActive && d < cut ? 0 : 1
                 if slot == 1 { for e in edges where d >= e { slot += 1 } }
-                buckets[min(slot, slots - 1)].append(inst.transform)
+                slot = min(slot, slots - 1)
+                buckets[g.batches[slot]].append(slot >= 3 ? inst.transform * g.fits[slot] : inst.transform)
             }
-            for lod in 0..<slots {
-                let (entity, data, tris, buffers) = lodGroups[gi].levels[lod]
-                let ts = buckets[lod]
-                data.instanceCount = ts.count
-                lodGroups[gi].counts[lod] = ts.count
-                lodGroups[gi].bounds[lod] = Self.bounds(of: buffers, ts)
-                if ts.isEmpty {
-                    entity.isEnabled = false
-                } else {
-                    data.replaceMutableTransforms { dst in for (i, t) in ts.enumerated() { dst[i] = t } }
-                    entity.isEnabled = true
-                    if let mesh = entity.components[ModelComponent.self]?.mesh,
-                       let comp = try? MeshInstancesComponent(mesh: mesh, instances: data, bounds: lodGroups[gi].bounds[lod]) {
-                        entity.components.set(comp)
-                    }
+        }
+        for b in lodBatches.indices {
+            let batch = lodBatches[b], ts = buckets[b]
+            batch.data.instanceCount = ts.count
+            lodBatches[b].count = ts.count
+            lodBatches[b].bounds = Self.bounds(of: batch.buffers, ts)
+            if ts.isEmpty {
+                batch.entity.isEnabled = false
+            } else {
+                batch.data.replaceMutableTransforms { dst in for (i, t) in ts.enumerated() { dst[i] = t } }
+                batch.entity.isEnabled = true
+                if let mesh = batch.entity.components[ModelComponent.self]?.mesh,
+                   let comp = try? MeshInstancesComponent(mesh: mesh, instances: batch.data, bounds: lodBatches[b].bounds) {
+                    batch.entity.components.set(comp)
                 }
-                if lodGroups[gi].kind.isTree { trees += ts.count * tris } else { others += ts.count * tris }
             }
+            if batch.kind.isTree { trees += ts.count * batch.triangles } else { others += ts.count * batch.triangles }
         }
         stats.treeTriangles = trees
         staticPropTriangles = staticPropBase + others
@@ -630,23 +891,31 @@ public final class World {
     }
 
     /// Triangles and draw calls in entities whose bounds meet the camera frustum (what the GPU is
-    /// asked to draw; the sky dome, stars, rain and characters are not counted).
-    private func estimateView(camera: Entity) -> (triangles: Int, drawCalls: Int) {
+    /// asked to draw), by category. The sky dome, stars and precipitation count as one draw each
+    /// when enabled (their triangles are left out); host characters are not counted.
+    func estimateView(camera: Entity) -> (triangles: ViewCost, draws: ViewCost) {
         let fov = (camera.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50) * .pi / 180
         let planes = Self.frustumPlanes(view: camera.transformMatrix(relativeTo: nil).inverse, fovY: fov, aspect: viewAspect, near: 0.1, far: 5000)
-        var total = 0, draws = 0
-        for c in cullables where Self.intersects(c.bounds, planes) { total += c.triangles; draws += c.draws }
+        var tris = ViewCost(), draws = ViewCost()
+        for c in cullables where Self.intersects(c.bounds, planes) { tris[keyPath: c.category] += c.triangles; draws[keyPath: c.category] += c.draws }
         for cell in buildingCells {
-            if let b = cell.bounds, let a = cell.active, Self.intersects(b, planes) { total += cell.levels[a].triangles; draws += 1 }
+            if let b = cell.bounds, let a = cell.active, Self.intersects(b, planes) { tris.buildings += cell.levels[a].triangles; draws.buildings += 1 }
         }
-        for g in lodGroups {
-            for lod in g.levels.indices where g.counts[lod] > 0 {
-                if let b = g.bounds[lod], Self.intersects(b, planes) { total += g.counts[lod] * g.levels[lod].triangles; draws += 1 }
+        for tile in buildingTiles {
+            if let a = tile.active, Self.intersects(tile.levels[a].bounds, planes) { tris.buildings += tile.levels[a].triangles; draws.buildings += 1 }
+        }
+        for batch in lodBatches where batch.count > 0 {
+            if let b = batch.bounds, Self.intersects(b, planes) {
+                let t = batch.count * batch.triangles
+                if batch.kind.isFoliage { tris.foliage += t; draws.foliage += 1 } else { tris.props += t; draws.props += 1 }
             }
         }
-        if let b = tuftBounds, Self.intersects(b, planes) { total += stats.clutterInstances * 17; draws += 1 }
+        if let b = tuftBounds, stats.clutterInstances > 0, Self.intersects(b, planes) { tris.other += stats.clutterInstances * 17; draws.other += 1 }
+        for e in [skyDome, starField?.entity, precipitation] { if let e, e.isEnabled { draws.other += 1 } }
         let ring = contextView(planes)
-        return (total + ring.triangles, draws + ring.drawCalls)
+        tris.context = ring.triangles
+        draws.context = ring.drawCalls
+        return (tris, draws)
     }
 
     /// Width / height of the view, for the triangle estimate (set by WorldView).

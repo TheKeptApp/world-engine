@@ -3,6 +3,8 @@
     GET /v1/vehicles?bbox=S,W,N,E            vehicles in the zoom-14 tiles covering the box (max 4 x 4)
     GET /v1/vehicles?tiles=14/x0/y0/x1/y1    the canonical form of the same request (shares cache entries)
     GET /v1/shapes?ids=A,B                   route shapes named by vehicles' motion.shapeId (max 50)
+    GET /v1/stops?bbox=S,W,N,E               stops and stations in the box (CTA static GTFS; max 500, 4 x 4 tiles)
+    GET /healthz                             liveness: 200 while the process serves (no upstream call)
     GET /v1/status                           relay health: states, counts, ages, counters (no client data)
 
 Every JSON response carries `schema` and the `attribution` block. Nothing about clients is logged
@@ -152,6 +154,12 @@ class Handler(BaseHTTPRequestHandler):
             return self._vehicles(parse_qs(parts.query), send_body)
         if parts.path == "/v1/shapes":
             return self._shapes(parse_qs(parts.query), send_body)
+        if parts.path == "/healthz":
+            # Liveness only: never wakes the poller and never calls upstream. Upstream health is in /v1/status.
+            return self._send(200, {"schema": SCHEMA, "ok": True, "attribution": [self.relay.source.attribution]},
+                              send_body, "no-store")
+        if parts.path == "/v1/stops":
+            return self._stops(parse_qs(parts.query), send_body)
         if parts.path == "/v1/status":
             now = self.relay.clock()
             return self._send(200, {"schema": SCHEMA, "status": self.relay.status(now),
@@ -184,6 +192,23 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(304, None, send_body, cache, extra)
         self._send(200, payload, send_body, cache, extra)
 
+
+    def _stops(self, query: dict, send_body: bool) -> None:
+        bbox = query.get("bbox")
+        if bbox is None or len(bbox) != 1:
+            return self._error(400, "bad-request", "give bbox=S,W,N,E", send_body)
+        try:
+            rect = tiles.parse_bbox(bbox[0])
+        except ValueError as e:
+            return self._error(400, "bad-request", str(e), send_body)
+        table = self.relay.stops
+        if table is None:
+            return self._error(404, "not-found", "this feed publishes no stops", send_body)
+        s, w, n, e = rect.bbox()
+        found, truncated = table.within(s, w, n, e)
+        # Stops change at most weekly: long cache.
+        self._send(200, {"schema": SCHEMA, "stops": found, "truncated": truncated, "basis": "observed",
+                         "attribution": [self.relay.source.attribution]}, send_body, "public, max-age=86400")
 
     def _shapes(self, query: dict, send_body: bool) -> None:
         ids = [i for i in ",".join(query.get("ids", [])).split(",") if i]

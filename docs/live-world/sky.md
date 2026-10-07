@@ -203,11 +203,22 @@ GDAL XYZ text exported from a NASA Black Marble annual composite (VNP46A4, 15 ar
 first (`gdalinfo` on the .h5 lists the exact subdataset name; confirm it and the scale factor against the Black Marble
 user guide, which this session could not read).
 
-**Not baked yet.** The cloud session that built this layer cannot reach NASA LAADS or the Black Marble site
-(network policy), so no grid is in the repo and every place reports `lightPollution.state: "unavailable"` and a
-dark-site sky. Next step: download VNP46A4 10-degree tiles h09v04 (Chicago), h07v05 (Denver) and h09v06 (Miami) with an
-Earthdata login, bake one grid per area into `Tools/livefeeds/data/radiance/` and calibrate `CALIBRATION` against
-a few sky-quality-meter readings.
+**Baked 2026-10-07** (2025 composite, `NearNadir_Composite_Snow_Free`, VNP46A4 version 002):
+`Tools/livefeeds/data/radiance/chicago-2025.json` (161 x 196 cells), `denver-2025.json` (216 x 267, tiles h07v05 +
+h07v04, it crosses 40 N), `miami-2025.json` (162 x 162, tiles h09v06 + h10v06, it crosses 80 W); 530 KB together.
+Each covers the area box (`areas.json`; Miami 25.55-26.00 N, 80.45-80.10 W) plus 50 km, as 2 x 2 means of the native
+15" cells (30", about 0.9 km). Bake: `scripts/data/black_marble_xyz.py OUT.xyz TILE.h5 [TILE.h5] --bbox S,W,N,E`
+(h5py + numpy in a scratch venv), then `livefeeds.sh sky-radiance OUT.xyz GRID.json --year 2025 --product VNP46A4
+--source-file NAMES` (use absolute paths: the script changes directory). Download from LAADS
+`/archive/allData/5200/VNP46A4/<year>/001/` with `Authorization: Bearer $EARTHDATA_TOKEN`.
+
+Kernel-weighted radiance (sanity check, 2026-01-15): central Chicago 139.5, rural Illinois (41.30, -88.40) 2.7,
+central Denver 80.2, the mountains (39.10, -106.0) 0.01, central Miami 84.2 nW/cm^2/sr. The ordering is right, but
+with `CALIBRATION` 1.0 the downtown artificial/natural ratio of 140 is several times higher than sky-quality-meter
+experience (roughly 20-50 in big-city centres), so the calibration step is still open and stays `confidence: "low"`.
+
+Suomi NPP stops delivering on 2026-11-02. Future composites: NOAA-20 **VJ146A4** (same 15" annual product and HDF5
+layout, on LAADS collection 5200, years 2022-2025 present); NOAA-21 so far has only VJ246A1/VJ246A2 (daily).
 
 ## 4. Known limits
 

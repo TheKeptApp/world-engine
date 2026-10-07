@@ -110,8 +110,14 @@ extension World {
                 sunEntity.components.set(shadow)
                 appliedShadowRange = range
             }
+            // Where shadows fall (`World.updateLODs` keeps out-of-view trees whose shadow reaches the
+            // view): horizontal direction away from the sun, shadow length per metre of height.
+            let sun = SIMD2<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.z))
+            let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
+            shadowCast = SIMD3(away.x, away.y, Float(1 / tan(max(elevation, 3) * .pi / 180)))
         } else {
             sunEntity.components.remove(DirectionalLightComponent.Shadow.self)
+            shadowCast = nil
         }
         let dir = SIMD3<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.y), Float(env.light.sunDirection.z))
         sunEntity.look(at: .zero, from: dir.y > 0.02 ? dir * 100 : [dir.x * 100, 2, dir.z * 100], relativeTo: nil)
@@ -145,6 +151,26 @@ extension World {
         }
         // Falling snow, not lying snow, takes the view away.
         g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
+        // Smoke fills the near field: up to 30% haze from the camera at full weight (owner's phone check).
+        g.fogFloor = state == .smoke ? 0.3 * Float(weight) : 0
+        // Wet ground from the rain pack (rain-bible.json, generated from docs/proposals/rain-v1): its
+        // states interpolated at the current wetness, per surface; rain intensity drives lake ripples.
+        if let rb = Self.rainBible {
+            let at = rb.at(wetness: env.state.wetness01 ?? 0)
+            func row(_ n: String, _ extra: Double) -> SIMD4<Float> {
+                let v = at.surfaces[n] ?? .init(darken: 0, roughness: 1, sheen: 0)
+                return SIMD4(Float(v.darken), Float(v.roughness), Float(v.sheen), Float(extra))
+            }
+            let raining = state == .rain || state == .thunderstorm ? Float(min(1, max(0.3, env.state.intensity01 ?? 0.5))) : 0
+            g.wetA = row("concrete", min(at.puddleCoverage, rb.puddles.maxCoverage))
+            g.wetB = row("asphalt", rb.puddles.roughness)
+            g.wetC = row("brick", rb.puddles.skyMixNormal)
+            g.wetD = row("lawn", rb.puddles.skyMixGrazing)
+            g.wetE = row("roof", Double(raining))
+        }
+        if let water = Self.lookSpec?.water {
+            g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
+        }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
@@ -411,9 +437,15 @@ extension World {
     /// the particle budget (rain ≤ 600, snow ≤ 300), rain 12 m/s, snow 1.2 m/s, drift with the wind.
     private func updatePrecipitation(_ budget: ParticleBudget, wind: SIMD3<Double>) {
         let kind = budget.rain >= budget.snow ? (budget.rain > 0 ? "rain" : "") : "snow"
-        // Art direction (Prompt 5): rain must read, so light rain keeps a floor of 240 streaks
-        // (snow 120 flakes) within the 600/300 caps.
-        let count = kind == "rain" ? max(budget.rain, 240) : max(budget.snow, 120)
+        // Rain streak count from the rain pack's state at this wetness (street views: precipitation is
+        // off above 60 m, so aerial counts never apply); snow keeps a floor of 120 flakes.
+        let packCount: Int = {
+            guard let rb = Self.rainBible else { return 240 }
+            let w = environment?.state.wetness01 ?? 0.5
+            let st = rb.states.filter { $0.id != "drying" }.min { abs($0.wetness - w) < abs($1.wetness - w) }
+            return st?.rainCountStreet ?? 240
+        }()
+        let count = kind == "rain" ? min(max(budget.rain, packCount), Self.rainBible?.rain.maxRainStreaks ?? 600) : max(budget.snow, 120)
         guard !kind.isEmpty, count > 0 else {
             precipitation?.isEnabled = false
             environmentState.precipitation = ""
@@ -447,12 +479,20 @@ extension World {
             p.speedVariation = 1
             e.lifeSpan = 1.6
             e.lifeSpanVariation = 0.2
-            e.size = 0.012
-            e.stretchFactor = 4
+            // Rain pack streaks: thin, 7–24 cm long, opacity by intensity, tinted by the sky and fog.
+            let rp = Self.rainBible?.rain
+            let length = Float(rp?.streakLengthM.last ?? 0.2)
+            e.size = 0.008
+            e.stretchFactor = length / 0.008
             e.billboardMode = .billboard
             e.acceleration = .zero
             // Mid grey-blue: lighter than dark trees, a touch darker than a bright overcast sky.
-            e.color = .constant(.single(.init(red: 0.72, green: 0.76, blue: 0.82, alpha: 0.55)))
+            let i = environment?.state.intensity01 ?? 0.3
+            let night = (environment?.light.sunElevationDeg ?? 10) < -6
+            let alpha = night ? rp?.nightOpacity ?? 0.28 : i < 0.4 ? rp?.opacityLight ?? 0.26 : i < 0.8 ? rp?.opacitySteady ?? 0.34 : rp?.opacityHeavy ?? 0.4
+            let fogC = WorldGen.Color.srgb(shaderGlobals.fogColor)
+            e.color = .constant(.single(.init(red: CGFloat(min(1, fogC.x * 1.1)), green: CGFloat(min(1, fogC.y * 1.1)), blue: CGFloat(min(1, fogC.z * 1.15)),
+                                              alpha: CGFloat(alpha))))
         } else {
             let fall: Float = 1.2
             let side = simd_length(drift) > 0 ? simd_normalize(drift) * min(3, 0.35 * simd_length(drift)) : .zero
