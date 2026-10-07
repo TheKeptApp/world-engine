@@ -15,6 +15,14 @@ struct ContextRuntime {
         var active: Int?
     }
     var cells: [Cell] = []
+    /// Cells on the same side of the area box (one of 8 sectors), merged per level: when every
+    /// cell of a sector picks the same level, the sector's entity draws them in one call.
+    struct Group {
+        var cells: [Int]
+        var levels: [(entity: Entity, triangles: Int, bounds: BoundingBox)?]
+        var active: Int?
+    }
+    var groups: [Group] = []
     var water: (entity: Entity, triangles: Int, bounds: BoundingBox)?
     var settings = ContextSettings()
     var task: Task<Void, Never>?
@@ -76,6 +84,31 @@ extension World {
             await Task.yield()
         }
         for c in cells { for l in c.levels { if let l { rootEntity.addChild(l.entity) } } }
+        // Sectors around the area box (3 × 3 minus the box): merged meshes per level.
+        var sectors: [SIMD2<Int>: [Int]] = [:]
+        for (i, c) in ring.cells.enumerated() {
+            let m = (c.rect.min + c.rect.max) / 2
+            let sx = m.x < ring.core.min.x ? 0 : m.x > ring.core.max.x ? 2 : 1
+            let sy = m.y < ring.core.min.y ? 0 : m.y > ring.core.max.y ? 2 : 1
+            sectors[SIMD2(sx, sy), default: []].append(i)
+        }
+        var groups: [ContextRuntime.Group] = []
+        for key in sectors.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) {
+            let members = sectors[key]!
+            guard members.count > 1 else { continue }
+            var g = ContextRuntime.Group(cells: members, levels: [], active: nil)
+            for lod in ContextLOD.allCases {
+                var merged = WorldMesh.MeshBuffers()
+                for i in members { merged.append(ring.cells[i].mesh(lod)) }
+                let made = entity(merged, name: "Context sector \(key.x)_\(key.y) \(lod)", material: resources.staticMaterial)
+                made?.0.isEnabled = false
+                if let made { rootEntity.addChild(made.0) }
+                g.levels.append(made.map { (entity: $0.0, triangles: $0.1, bounds: $0.2) })
+                await Task.yield()
+            }
+            groups.append(g)
+        }
+        context.groups = groups
         if let w = entity(ring.water, name: "Context water", material: resources.waterMaterial) {
             rootEntity.addChild(w.0)
             context.water = (w.0, w.1, w.2)
@@ -92,14 +125,38 @@ extension World {
                          + ",water=\(ring.water.triangleCount)"))
     }
 
-    /// Picks each cell's level for a camera position (scene space).
+    /// Picks each cell's level for a camera position (scene space). A sector whose cells all want
+    /// the same level draws them as its merged entity; so does one whose cells want one level or
+    /// `far`, at that level, when that adds at most `contextGroupAllowance` triangles.
     func updateContextLODs(camera: SIMD3<Float>) {
         guard !context.cells.isEmpty else { return }
         let eye = SIMD3<Double>(Double(camera.x), Double(-camera.z), Double(camera.y))
         var tris = context.water?.triangles ?? 0
+        let wants = context.cells.map { ContextLOD.pick(eye: eye, cell: $0.rect, settings: context.settings).rawValue }
+        var picks: [Int?] = context.cells.indices.map { context.cells[$0].levels[wants[$0]] == nil ? nil : wants[$0] }
+        let far = ContextLOD.far.rawValue
+        for gi in context.groups.indices {
+            let g = context.groups[gi]
+            let levels = Set(g.cells.map { wants[$0] })
+            var pick: Int? = nil
+            if levels.count == 1 {
+                pick = levels.first
+            } else if levels.count == 2, levels.contains(far), let l = levels.first(where: { $0 != far }), let merged = g.levels[l] {
+                let own = g.cells.reduce(0) { sum, i in sum + (picks[i].flatMap { context.cells[i].levels[$0]?.triangles } ?? 0) }
+                if merged.triangles <= own + Self.contextGroupAllowance { pick = l }
+            }
+            if let p = pick, g.levels[p] == nil { pick = nil }
+            if g.active != pick {
+                for (k, l) in g.levels.enumerated() { l?.entity.isEnabled = k == pick }
+                context.groups[gi].active = pick
+            }
+            if let p = pick, let l = g.levels[p] {
+                tris += l.triangles
+                for i in g.cells { picks[i] = nil }
+            }
+        }
         for i in context.cells.indices {
-            let want = ContextLOD.pick(eye: eye, cell: context.cells[i].rect, settings: context.settings).rawValue
-            let pick: Int? = context.cells[i].levels[want] == nil ? nil : want
+            let pick = picks[i]
             if context.cells[i].active != pick {
                 for (k, l) in context.cells[i].levels.enumerated() { l?.entity.isEnabled = k == pick }
                 context.cells[i].active = pick
@@ -109,9 +166,12 @@ extension World {
         stats.contextTriangles = tris
     }
 
+    /// Triangles a context sector may add by drawing far cells at its nearer level.
+    static let contextGroupAllowance = 3000
+
     /// Draw calls of the ring with every enabled entity counted.
     var contextDrawCalls: Int {
-        context.cells.filter { $0.active != nil }.count + (context.water == nil ? 0 : 1)
+        context.cells.filter { $0.active != nil }.count + context.groups.filter { $0.active != nil }.count + (context.water == nil ? 0 : 1)
     }
 
     /// The ring's share of `estimateView`: enabled entities whose bounds meet the frustum.
@@ -119,6 +179,11 @@ extension World {
         var t = 0, d = 0
         for c in context.cells {
             guard let a = c.active, let l = c.levels[a], Self.intersects(l.bounds, planes) else { continue }
+            t += l.triangles
+            d += 1
+        }
+        for g in context.groups {
+            guard let a = g.active, let l = g.levels[a], Self.intersects(l.bounds, planes) else { continue }
             t += l.triangles
             d += 1
         }
