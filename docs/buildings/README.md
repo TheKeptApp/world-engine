@@ -269,3 +269,54 @@ Before / after (`buildingviz`, same camera, top before):
     roads are clamped so the curb stays 0.3 m clear of the near edge of a mapped `footway=sidewalk`
     line running alongside (within 25° of parallel, 15 m; never below 3 m). Tagged widths are not
     clamped. All constants are `RoadRules` fields. Lakeview: W Roscoe St 3.3 → 9.1 m.
+36. **Trees built to vegetation-v1** ([Trees](#trees)): crown shapes, species colours per region,
+    trunk-base contact, weeping willow, and leaf-card crowns behind a switch; numbers and gaps there.
+
+## Trees
+
+Inputs: `docs/proposals/vegetation-v1/` (crown construction, `vegetation-colours.json`, willow
+addendum), look-fix-v1 §5, style target "rich stylized", owner decision for leaf cards. Code:
+`Sources/WorldGen/Props.swift` (meshes), `Sources/WorldGen/LeafAtlas.swift` (procedural card atlas),
+`Sources/WorldGen/Vegetation.swift` + `Profiles/vegetation.json` (species, regions, genus tags),
+`Profiles/seasonal-palette.json` (chicago defaults), profile `trees.weeping` (willow prior). Tests:
+`TreeLookTests`, `TreeColourTests`, `TreeAOTests`, `TreeWillowTests`, `LeafAtlasTests` (+ card switch),
+`TreeSilhouetteTests`.
+
+Commits (stack on main): crowns (b8ee81a, merged), colours/regions (d1bc7a7), trunk AO (ac9d639),
+willow (17610fc), leaf cards behind `PropLibrary.leafCards`, default off (c48b8d6).
+
+| Kind (family) | Solid crowns near / mid / far / skyline (old main → now) | Leaf cards near / mid (cards) | Sky holes, solid (pack) |
+|---|---|---|---|
+| treeBroad (maple) | 571 / 188 / 52 / 12 → 848 / 182 / 52 / 12 | 400 / 94 (56 / 20) | 8.6 % (6 %) |
+| treeOval (linden) | 571 / 188 / 52 / 12 → 865 / 188 / 52 / 12 | 397 / 100 (56 / 20) | 6.3 % (5 %) |
+| treeSpreading (oak, elm, honey locust) | 663 / 179 / 52 / 12 → 857 / 191 / 52 / 12 | 409 / 103 (56 / 20) | 9.9 % (10 %) |
+| conifer (spruce) | 66 / 42 / 14 / 5 → 152 / 42 / 14 / 5 | 216 / 62 (32 / 10 needle cards) | – |
+| treeWeeping (willow, new) | – → 887 / 203 / 64 / 12 | 369 / 111 (+10 / 4 strands) | 22.9 % (15–22 %) |
+
+Cards are single quads (2 triangles; the card material draws both faces). Alpha-tested side-view
+sky holes with cards: broad 23 %, oval 19 %, spreading 27 %, willow 35 % (above the pack's solid
+targets; the near crowns are 56 cards, the card budget 40–60). Generated tree triangles in view
+(YardTests VIEWYARDS; old main → solid now → cards): lakeview-street 34019 → 32402 → 24630,
+lakeview-alley 27408 → 24742 → 20530, lakeview-block-center 26448 → 24282 → 20714,
+evanston-street 40375 → 41955 → 34807, wilmette-street 43963 → 46052 → 39040. Tree draw groups
+(kind × LOD × 400 m cell) in view: 38–64, unchanged by cards (one mesh per kind and LOD; the willow
+adds groups only where willows stand).
+
+Colours (autumn, Evanston): maple #CE763C, linden #C6B24E, spreading family oak #A55835 ×2 / elm
+#BCAE4D / honey locust #D2B95C, spruce #4D6C53, willow #B3AD5C; Denver (front-range): ash/crabapple,
+aspen/ash, cottonwood #C8AC46, blue spruce. Bark #796B57 (pack branch neutral; hue ~35°, saturation
+0.28): trunk albedo is grey-brown in every season and region (tested), so orange trunks in golden
+light are lighting (5A). Trunk AO 0.84 at the ground rising to 1 by 0.025 of the height (~0.4 m);
+crown undersides ≤ 0.75. Leaf atlas: 1024² R8, FNV-1a 77c85192822aab84, mean coverage 0.31.
+
+Evidence: phone-size (1005×565) buildingviz renders, solid and `--leaf-cards`, of lakeview-street,
+sloans-lake and evanston (`--date 2026-10-22T20:00:00Z`; flat-shaded CPU renderer); not committed
+here (see the P2 report).
+
+Known gaps (logged, not built): elm (vase) and honey locust (umbrella) use the oak's spreading form;
+one bark colour per scene (aspen's pale trunk not drawn); trees in a multi-slot colour family pick
+their slot by position, so a tagged elm may show an oak colour; Miami families (no region profile
+yet); generated yard and parkway trees never become willows (the prior covers mapped trees);
+willow winter twig bundles; 3 skeletons × 2 envelopes per family (one mesh per kind; yaw and
+per-tree stretch vary them); solid mid trees 182–203 triangles vs the pack's 80–180 at 50–150 m;
+card crowns have more sky holes than the pack's solid-crown targets.
