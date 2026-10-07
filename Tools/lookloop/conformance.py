@@ -152,6 +152,46 @@ def run(values=None, mapping=None, exceptions=None):
     return rows
 
 
+def archetype_rows(values=None, mapping=None):
+    """house-archetypes-v1: profile house colours and pitches within each archetype's listed variants."""
+    values = values or json.loads(VALUES.read_text())["entries"]
+    mapping = mapping or json.loads(MAPPING.read_text())
+    arch = mapping.get("archetypes", {}).get("map", {})
+    rows = []
+    for aid, targets in sorted(arch.items()):
+        pre = f"house-archetypes-v1/archetypes.{aid}."
+        variants, i = [], 0
+        while f"{pre}colourVariations[{i}].wallHex" in values:
+            variants.append([values.get(f"{pre}colourVariations[{i}].{k}", {}).get("value") for k in ("wallHex", "trimHex", "roofHex")])
+            i += 1
+        ranges, j = [], 0
+        while f"{pre}roof.allowedPitchDegreeRangesProposal[{j}][0]" in values:
+            ranges.append((values[f"{pre}roof.allowedPitchDegreeRangesProposal[{j}][0]"]["value"],
+                           values[f"{pre}roof.allowedPitchDegreeRangesProposal[{j}][1]"]["value"]))
+            j += 1
+        for t in targets:
+            prof, tid = t.split("/")
+            ht = next(h for h in json.loads((ROOT / f"Sources/WorldGen/Profiles/{prof}.json").read_text())["houseTypes"] if h["id"] == tid)
+            # The house contrast pass (P2, 4263b3f) replaces trim and roof at runtime for mapped families with
+            # house-contrast-v1 houseTypes read by key; walls stay profile colours ('flat' = two- or three-flat).
+            fam = (json.loads(LOOK.read_text()).get("houseContrast", {}).get("families", {}) if LOOK.exists() else {}).get(tid)
+            fams = ["chicago_two_flat", "chicago_three_flat"] if fam == "flat" else [fam] if fam else []
+            for n, c in enumerate(ht["colors"]):
+                for slot, idx, vi in (("wall", 0, 0), ("trim", 1, 1), ("roof", 3, 2)):
+                    runtime = [values[f"house-contrast-v1/houseTypes.{f}.surfaces.{slot}.hex"]["value"] for f in fams
+                               if slot != "wall" and f"house-contrast-v1/houseTypes.{f}.surfaces.{slot}.hex" in values]
+                    for eng in runtime or [c[idx]]:
+                        best = min((delta_e76(v[vi], eng), v[vi]) for v in variants if v[vi])
+                        rows.append({"key": f"{aid} -> {t} colors[{n}] {slot}" + (" (runtime)" if runtime else ""), "mock": best[1],
+                                     "engine": eng, "delta": f"dE {best[0]:.1f}", "status": "pass" if best[0] <= DE_MAX else "FAIL",
+                                     "size": best[0] / DE_MAX})
+            lo, hi = ht["pitch"]
+            ok = any(a <= lo and hi <= b for a, b in ranges)
+            rows.append({"key": f"{aid} -> {t} pitch", "mock": " / ".join(f"{a:g}-{b:g}" for a, b in ranges), "engine": f"{lo:g}-{hi:g}",
+                         "delta": "inside" if ok else "outside", "status": "pass" if ok else "FAIL", "size": 0 if ok else 1})
+    return rows
+
+
 def main():
     rows = run()
     w = max(len(r["key"]) for r in rows)
@@ -171,6 +211,15 @@ def main():
     print("biggest deltas (in tolerance units):")
     for r in sorted(rows, key=lambda r: -r["size"])[:5]:
         print(f"  {r['key']}: mock {r['mock']} engine {r['engine']} ({r['delta']}, {r['size']:.1f}x tol)")
+    arows = archetype_rows()
+    if arows:
+        print("\nhouse-archetypes-v1 (profile house types within the archetype variants; dE <= 5, pitch range inside):")
+        for r in arows:
+            print(f"  {r['key']:<58} archetype {str(r['mock']):>12}  engine {r['engine']:>9}  {r['delta']:>8}  {r['status']}")
+        af = [r for r in arows if r["status"] == "FAIL"]
+        un = json.loads(MAPPING.read_text())["archetypes"].get("unmapped", [])
+        print(f"archetypes: {len(arows)} checks, {len(arows) - len(af)} pass, {len(af)} fail; unmapped archetypes: {', '.join(un)}")
+        fails += af
     return 1 if fails else 0
 
 

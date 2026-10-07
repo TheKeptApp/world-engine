@@ -71,6 +71,19 @@ def test_check_deterministic():
     assert r.returncode == 0, r.stdout
 
 
+def test_archetype_rows():
+    values = {
+        "house-archetypes-v1/archetypes.a.colourVariations[0].wallHex": {"value": "#A57450"},
+        "house-archetypes-v1/archetypes.a.colourVariations[0].trimHex": {"value": "#DECBAB"},
+        "house-archetypes-v1/archetypes.a.colourVariations[0].roofHex": {"value": "#5B5A52"},
+        "house-archetypes-v1/archetypes.a.roof.allowedPitchDegreeRangesProposal[0][0]": {"value": 0},
+        "house-archetypes-v1/archetypes.a.roof.allowedPitchDegreeRangesProposal[0][1]": {"value": 90},
+    }
+    rows = cf.archetype_rows(values, {"archetypes": {"map": {"a": ["front-range/modern"]}}})
+    assert any(r["key"].endswith("pitch") and r["status"] == "pass" for r in rows)
+    assert all(r["status"] in ("pass", "FAIL") for r in rows)
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

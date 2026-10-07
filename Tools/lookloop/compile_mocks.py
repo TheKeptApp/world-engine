@@ -11,6 +11,11 @@ where an approved pack's clear-daytime value differs from the master is kept but
 the master; pairs where the other values belong to night / blue-hour / fog / golden / overcast states
 are marked "different state". Conflicts without the master stay pending (R decides).
 
+house-archetypes-v1 (R approved 2026-10-07) is compiled per type: archetypes keyed "archetypes.<id>.…", street
+contexts and scenes keyed by metro, plus approvedHouseValues; its copied sharedLighting and meta blocks are not
+compiled (house-contrast-v1 stays the daytime master). Each archetype entry carries "label": the pack's nearest
+"status" text (its "proposal" labels). Differences between the archetypes' inherited house values and
+house-contrast-v1 houseTypes are listed as conflicts for R.
 R-approved corrections in Tools/lookloop/mock-corrections.json are applied last (owner rule, R 2026-10-07:
 images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
 "original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
@@ -100,6 +105,54 @@ def flatten(obj, path=""):
         yield path, obj
 
 
+ARCH_PACK = "house-archetypes-v1"
+ARCH_KEEP = ("archetypes", "streetContexts", "streetScenes", "approvedHouseValues")
+
+
+def arch_view(data):
+    """The archetypes pack with lists keyed by id / metro and lighting and meta blocks dropped."""
+    return {"archetypes": {a["id"]: a for a in data.get("archetypes", [])},
+            "streetContexts": data.get("streetContexts", {}),
+            "streetScenes": {s["metro"]: s for s in data.get("streetScenes", [])},
+            "approvedHouseValues": data.get("approvedHouseValues", {})}
+
+
+def flatten_labelled(obj, path="", label=None):
+    """flatten() that also yields the nearest enclosing "status" text (the pack's proposal label)."""
+    if isinstance(obj, dict):
+        label = obj["status"] if isinstance(obj.get("status"), str) else label
+        for k in sorted(obj):
+            if k in SKIP_KEYS:
+                continue
+            yield from flatten_labelled(obj[k], f"{path}.{k}" if path else k, label)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            yield from flatten_labelled(v, f"{path}[{i}]", label)
+    elif keep_leaf(obj):
+        yield path, obj, label
+
+
+def archetype_conflicts(entries):
+    """Archetype inherited / approved house values that differ from house-contrast-v1 houseTypes (R decides)."""
+    out = []
+    for k, e in sorted(entries.items()):
+        m = re.match(rf"^{ARCH_PACK}/(?:archetypes\.[^.]+\.inheritedHouseValues|approvedHouseValues\.([^.]+))\.(.+)$", k)
+        if not m:
+            continue
+        if m.group(1):
+            typ, rest = m.group(1), m.group(2)
+        else:
+            aid = k.split(".")[1]
+            typ = entries.get(f"{ARCH_PACK}/archetypes.{aid}.inheritedHouseValuesKey", {}).get("value")
+            rest = k.split(".inheritedHouseValues.", 1)[1]
+        other = entries.get(f"{MASTER_PACK}/houseTypes.{typ}.{rest}")
+        if other and other["value"] != e["value"]:
+            out.append({"parameter": f"house type {typ}: {rest}", "definitions": [
+                {"key": f'{other["pack"]}/{other["key"]}', "pack": other["pack"], "value": other["value"], "source": other["source"], "state": "day"},
+                {"key": k, "pack": ARCH_PACK, "value": e["value"], "source": e["source"], "state": "day"}]})
+    return out
+
+
 def leaf_name(path):
     parts = [p for p in re.split(r"[.\[\]]", path) if p and not p.isdigit()]
     return parts[-1] if parts else path
@@ -163,8 +216,11 @@ def build(root=ROOT):
         data = json.loads((root / rel).read_text())
         if isinstance(data.get("date"), str):
             dates.append(data["date"])
-        for path, value in flatten(data):
+        rows = (flatten_labelled(arch_view(data)) if pack == ARCH_PACK else ((p, v, None) for p, v in flatten(data)))
+        for path, value, label in rows:
             entry = {"value": value, "pack": pack, "key": path, "source": rel}
+            if label:
+                entry["label"] = label
             if pack == MASTER_PACK and path.startswith(MASTER_PREFIX):
                 entry["role"] = "daytime-master"
             entries[f"{pack}/{path}"] = entry
@@ -192,7 +248,7 @@ def build(root=ROOT):
         "generated": max(dates) if dates else "unknown",
         "generator": "Tools/lookloop/compile_mocks.py",
         "approvedPacks": [p for p, _ in packs],
-        "conflicts": find_conflicts(entries),
+        "conflicts": find_conflicts({k: e for k, e in entries.items() if e["pack"] != ARCH_PACK}) + archetype_conflicts(entries),
         "entries": entries,
     }
 
