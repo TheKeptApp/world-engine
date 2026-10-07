@@ -203,6 +203,13 @@ def main():
     json.dump(out, open(os.path.join(run, "grades.json"), "w"), indent=1)
 
     when = meta.get("started", datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    cal_aspects = {}
+    for _, g, _, _ in rows:
+        if g and isinstance(g.get("calGap"), dict):
+            for k, v in (g["calGap"].get("aspects") or {}).items():
+                if isinstance(v, (int, float)):
+                    cal_aspects.setdefault(k, []).append(v)
+    cal_means = ", ".join(f"{k} {sum(v) / len(v):.1f}" for k, v in cal_aspects.items())
     md = [f"# Look loop: latest run", "",
           f"Run {when} · engine `{meta.get('engineCommit', '-')}`{' + uncommitted changes' if meta.get('dirtyEngineFiles') else ''} · checkout `{meta.get('commit', git('rev-parse', '--short', 'HEAD'))}` on `{meta.get('branch', git('branch', '--show-current'))}`"
           f" · {len(captured)} views ({len(captured) - len(reused & set(captured))} rendered, {len(reused & set(captured))} unchanged and reused), {len(scored)} graded"
@@ -223,6 +230,7 @@ def main():
           ("Infrastructure closeness (infrastructure-kit-v1 road sheets: markings, crosswalks, curbs, paving look, 1–5): " + ", ".join(f"{vid} {g['infraGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("infraGap"), dict)) + "."
            if any(g and isinstance(g.get("infraGap"), dict) for _, g, _, _ in rows) else "Infrastructure closeness: not graded in this run."), "",
           ("Calibration closeness (style-b-calibration-v2 frames, look only, 1–5): " + ", ".join(f"{vid} {g['calGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("calGap"), dict)) + "."
+           + (f" Aspect means: {cal_means}." if cal_means else "")
            if any(g and isinstance(g.get("calGap"), dict) for _, g, _, _ in rows) else "Calibration closeness: not graded in this run."), "",
           (f"Paint-over parity {fmt(mean_po)}% (paintover-v1, beside the gate; view /50 ÷ its own paint-over's calibrated /50): "
            + ", ".join(f"{v} {p}%" for v, p in sorted(po_parity.items())) + "." if po_parity else
