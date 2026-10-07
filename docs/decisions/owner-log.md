@@ -4,6 +4,7 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
+- **First four drop-folder packs filed:** fog-v1 and night-v1 (5A), house-details-v1 (P2), live-aircraft-research (research; 5 rows spot-checked). Applied: registry, `docs/data-sources/live-aircraft-checks.md`, licensing Q39–Q43, iCloud backup.
 - **ChatGPT drop folder:** ChatGPT saves to `~/Desktop/worldengine-gpt-drop/<pack>/` (outside the repo); each P3 watch copies text into the repo and commits it, copies images to the local `docs/proposals/<pack>/` (gitignored) and iCloud, and logs the pack; nothing in the drop folder is ever deleted. Stops untracked pack files blocking merges in the owner's checkout. Applied: `Tools/lookloop/ingest_drop.py`, `/lookloop` skill, registry; untracked duplicates removed from `~/Desktop/world-engine` after checking them against main.
 - **ChatGPT research is always spot-checked before use:** 4 of the 8 transit rows checked needed corrections, and 2 could not be confirmed. Applied: registry research section, `docs/data-sources/metro-transit.csv`, `/lookloop` skill.
 - **Transit-feed research filed:** ChatGPT's 32-agency table committed unedited; at least 8 rows spot-checked against official pages; results in `docs/data-sources/metro-transit.csv` (no Data-Sources workbook exists); licence questions added for a lawyer, not decided; key values never recorded. Applied: `docs/research-gpt/`, `docs/data-sources/metro-transit.csv`, `docs/research/licensing.md` Q33–Q38, registry research section.

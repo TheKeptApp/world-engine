@@ -1,0 +1,685 @@
+{
+  "schema": "worldengine.house-details-colours.v1",
+  "date": "2026-10-06",
+  "status": "authored_proposal_not_sampled_or_engine_verified",
+  "style": "B rich stylized",
+  "colour_space": "sRGB IEC 61966-2-1; neutral base colours, not shaded pixels",
+  "range_semantics": "Two permissible endpoints within ONE material palette. Decode to linear RGB before interpolation. Choose one deterministic lot value, not random per face or frame. Null means absent in the default exemplar, not architecturally impossible. Palette endpoints do not imply use of every material on every house.",
+  "lighting_policy": "Rich colour comes from selected local albedos plus warm sun, cool sky fill and atmospheric depth. Do not bake shadow/highlight colours into base material or globally saturate stone.",
+  "families": [
+    {
+      "id": "tudor",
+      "name": "Tudor Revival",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#963E26",
+            "#C26837"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AF9770",
+            "#D5BA8B"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#E5BE78",
+            "#F4DCAD"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#573326",
+            "#88502D"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#344858",
+            "#596477"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "colonial",
+      "name": "Colonial Revival",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#A13B2B",
+            "#CF6540"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#287DAD",
+            "#58AAC5"
+          ],
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AB987A",
+            "#DBC6A2"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#E9C98D",
+            "#F4DEBA"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#EFD8A2",
+            "#FFF0CB"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#34495F",
+            "#5C6B80"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "prairie",
+      "name": "Prairie",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B77737",
+            "#DAA54E"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AA9365",
+            "#D7BD7E"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#DEB665",
+            "#F3D89B"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#673E27",
+            "#A36C34"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#384E53",
+            "#647C77"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "queen_anne",
+      "name": "Queen Anne",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#A1442F",
+            "#CC7546"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#137F8F",
+            "#38B5BE"
+          ],
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AD9573",
+            "#DCC3A0"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#DCB97D",
+            "#EFDAAE"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#EEC56D",
+            "#FFE3A7"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#37485D",
+            "#5E6C86"
+          ],
+          "usage": "primary or secondary material"
+        }
+      },
+      "accent_sets": [
+        {
+          "body": [
+            "#137F8F",
+            "#38B5BE"
+          ],
+          "trim": [
+            "#EEC56D",
+            "#FFE3A7"
+          ],
+          "accent": [
+            "#993934",
+            "#BE5545"
+          ]
+        },
+        {
+          "body": [
+            "#305FA4",
+            "#648DC5"
+          ],
+          "trim": [
+            "#EED099",
+            "#FFE9BE"
+          ],
+          "accent": [
+            "#92613A",
+            "#C28C4D"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bungalow",
+      "name": "Chicago bungalow",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AD4C26",
+            "#D5833A"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B79B70",
+            "#DEC49B"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#DDBD7A",
+            "#F0D6A3"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#EBCE91",
+            "#FFE9B9"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#3C5266",
+            "#687B89"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "two_flat",
+      "name": "Chicago two-flat",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#A84329",
+            "#CE7140"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B19773",
+            "#DCC19B"
+          ],
+          "usage": "sills, lintels and entry; not mandatory full stone facade"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#C9A668",
+            "#E6C48D"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#DCC18B",
+            "#F6DFB0"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#35495A",
+            "#566B7C"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "greystone",
+      "name": "Chicago greystone",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#9F462E",
+            "#BF6D48"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#A8A78B",
+            "#D0CFB5"
+          ],
+          "usage": "limestone front; side/rear brick stays distinct"
+        },
+        "stucco": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#C3BD9E",
+            "#E1DBBD"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#374C5B",
+            "#596E7A"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "courtyard_building",
+      "name": "Chicago courtyard building",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#A94327",
+            "#D17C3C"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": false,
+          "range_srgb_hex": null,
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B9A076",
+            "#E3C9A0"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#D5B277",
+            "#EACB98"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#D8BC82",
+            "#F7DEAE"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#354A5C",
+            "#607384"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "denver_bungalow",
+      "name": "Denver bungalow",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B44C28",
+            "#DB8341"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#26898C",
+            "#53B6A5"
+          ],
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B39B75",
+            "#DFC399"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#DBB578",
+            "#F0D29B"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#E8C883",
+            "#FFE5AF"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#3A5362",
+            "#697F89"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "denver_ranch",
+      "name": "Denver ranch",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B86A35",
+            "#DEA058"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#178C9B",
+            "#47BAC0"
+          ],
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B09A75",
+            "#D8BF96"
+          ],
+          "usage": "optional small entry accent, not default whole wall"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#D6B472",
+            "#F0D69D"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#E6CA8E",
+            "#F9E4B8"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#3A5363",
+            "#6C8290"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    },
+    {
+      "id": "denver_victorian",
+      "name": "Denver Victorian",
+      "materials": {
+        "brick": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#AD3F29",
+            "#D57343"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "siding": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#176C99",
+            "#419FBE"
+          ],
+          "usage": "optional variant"
+        },
+        "stone": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#B29975",
+            "#DEC09A"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "stucco": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#D7B076",
+            "#EACA9A"
+          ],
+          "usage": "optional variant"
+        },
+        "trim": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#EDC774",
+            "#FFE6AE"
+          ],
+          "usage": "primary or secondary material"
+        },
+        "roof": {
+          "enabled": true,
+          "range_srgb_hex": [
+            "#3C4962",
+            "#6C728D"
+          ],
+          "usage": "primary or secondary material"
+        }
+      }
+    }
+  ],
+  "shared": {
+    "glass": [
+      "#245C7A",
+      "#4C91B4"
+    ],
+    "door_wood": [
+      "#854329",
+      "#BA7038"
+    ],
+    "door_painted": [
+      "#135D7B",
+      "#2595A1"
+    ],
+    "shutters": [
+      "#205D54",
+      "#3B8970"
+    ],
+    "foundation": [
+      "#928979",
+      "#B9AF98"
+    ],
+    "planting": [
+      "#397545",
+      "#7AAB43"
+    ],
+    "roughness": {
+      "brick": [
+        0.8,
+        0.95
+      ],
+      "siding": [
+        0.65,
+        0.85
+      ],
+      "stone": [
+        0.75,
+        0.9
+      ],
+      "stucco": [
+        0.85,
+        0.95
+      ],
+      "trim": [
+        0.55,
+        0.75
+      ],
+      "roof": [
+        0.75,
+        0.9
+      ],
+      "glass": [
+        0.2,
+        0.4
+      ]
+    },
+    "metallic": 0,
+    "lot_variation": "Choose palette once per building; broad face variation <=3% linear luminance. No individual brick, mortar, siding plank, roof shingle or grass texture.",
+    "accent_area_fraction_max": 0.12
+  },
+  "lighting_reference": {
+    "warm_sun_srgb": "#FFE8C6",
+    "cool_fill_srgb": "#99AFE0",
+    "deep_shade_appearance_srgb": "#6E7FAC",
+    "shadow_to_lit_linear_luminance_ratio": [
+      0.3,
+      0.38
+    ],
+    "long_shadow_fixture_solar_elevation_degrees": 25,
+    "shadow_length_per_height": 2.1445,
+    "note": "Illustrative long-shadow fixture only; runtime sun and shadow bearing follow true world time. Deep eave shade remains coloured and readable. Use look-fix ordinary rig for ordinary daytime; long shadows are not mandatory at noon. Clear-air haze starts around 300 m, not at 10 m."
+  }
+}
