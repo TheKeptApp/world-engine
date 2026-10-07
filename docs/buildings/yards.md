@@ -105,8 +105,11 @@ dark rendered roofs are the renderer's shade lift (0.17 vs 0.30–0.38), which 5
 
 - **Chicago red-brick and cobblestone streets** (owner, 2026-10-06; ground-v1 pack): some Chicago
   alleys and side streets are brick or cobble. Needs a mapped `surface=paving_stones|sett|unhewn_cobblestone|bricks`
-  road surface treatment; not built.
-- **Chicago willow family** (owner, 2026-10-06; vegetation-v1): a weeping-willow crown family for
-  Chicago-area water edges and parks; not built.
+  road surface treatment. Now specified in ground-v1 (ground-colours.json and
+  ADDENDUM-Brick-Streets-and-Stone-Paving.md); queued after trees, Lakeview alleys first. Use the
+  addendum's documented 5 / 20 / 40 m columns, not the distance labels on its image sheet (owner: some
+  are wrong).
+- **Chicago willow family** (owner, 2026-10-06; vegetation-v1 addendum): weeping-willow crown family,
+  in progress with the tree work.
 - Ground passes stopped after pass 3 (worn edges): lawn micro-detail doesn't read at phone size.
   Remaining ground work uses `docs/proposals/ground-v1` for large value/colour/contrast changes only.
