@@ -130,6 +130,39 @@ struct HouseDetailTests {
         #expect(softened > 20)
     }
 
+    /// City families: stone stoops with solid cheek walls beside the steps, and a chamfered cornice
+    /// cap (one 45° face) at near only.
+    @Test func cityStoopsHaveCheekWallsAndChamferedCornices() throws {
+        let gen = try Self.generator("chicago-dense-north")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        var cheeks = 0, cornices = 0
+        for id in Int64(1)...Int64(120) {
+            let b = testBuilding(36_000 + id, Self.rect(0, 0, 7.5, 18))
+            let g = gen.generate(b, palette: &palette, lod: .near)
+            guard let d = gen.families.grammar(g.family).details, let entry = g.entry else { continue }
+            let n = entry.normal, dir = LocalPoint(-n.y, n.x)
+            if d.stoop?.cheeks == true, g.porchOutline.isEmpty, g.floorHeight > 0.5 {
+                // Something stands beside the stair run (cheek walls), above knee height.
+                let beside = g.mesh.positions.contains { p in
+                    let lp = LocalPoint(Double(p.x), Double(-p.z)) - entry.point
+                    let s = abs(simd_dot(lp, dir)), t = simd_dot(lp, n)
+                    return t > 1.3 && t < 1.9 && s > 0.5 && s < 1.3 && Double(p.y) > 0.35
+                }
+                #expect(beside, "#\(id) \(g.family ?? "-"): no cheek walls")
+                cheeks += 1
+            }
+            if d.copingBevel == true, g.roofShape == .flat, gen.families.grammar(g.family).facade?.cornice == true {
+                func bevels(_ m: MeshBuffers) -> Int {
+                    m.normals.filter { abs($0.y - 0.7071) < 0.02 && simd_dot(SIMD2($0.x, -$0.z), SIMD2(Float(n.x), Float(n.y))) > 0.69 }.count
+                }
+                #expect(bevels(g.mesh) >= 4, "#\(id) \(g.family ?? "-"): no cornice chamfer")
+                #expect(bevels(gen.generate(b, palette: &palette, lod: .mid).mesh) == 0, "#\(id) mid cornice chamfer")
+                cornices += 1
+            }
+        }
+        #expect(cheeks >= 10 && cornices >= 10, "cheeks \(cheeks) cornices \(cornices)")
+    }
+
     /// Trim colours stay within three linear-light steps of the family range (few palette slots).
     @Test func trimColoursAreThreeStepsPerFamily() throws {
         let gen = try Self.generator("evanston")

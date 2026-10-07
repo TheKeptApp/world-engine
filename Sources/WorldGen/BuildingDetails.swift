@@ -211,8 +211,13 @@ extension BuildingGenerator {
             for e in c.streetFacing.union(bayFaces).sorted() {
                 let (p, dir, n, len) = Self.edge(ring, e)
                 guard len >= 1.5 || (bayFaces.contains(e) && len >= 0.3) else { continue }
-                m.addBox(center: p + dir * (len / 2) + n * 0.16, u: dir, halfLength: len / 2 + 0.16, halfWidth: 0.16,
-                         z0: top - 0.5, z1: top + 0.06, bottom: true)
+                if near, c.grammar.details?.copingBevel == true {
+                    addChamferedCornice(origin: p, dir: dir, n: n, s0: -0.16, s1: len + 0.16, z0: top - 0.5, z1: top + 0.06,
+                                        depth: 0.32, chamfer: 0.06, into: &m)
+                } else {
+                    m.addBox(center: p + dir * (len / 2) + n * 0.16, u: dir, halfLength: len / 2 + 0.16, halfWidth: 0.16,
+                             z0: top - 0.5, z1: top + 0.06, bottom: true)
+                }
                 if near, stories >= 2 {
                     // A quieter belt course over the ground floor.
                     m.addBox(center: p + dir * (len / 2) + n * 0.06, u: dir, halfLength: len / 2, halfWidth: 0.06,
