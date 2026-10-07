@@ -310,6 +310,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/lighting-09-fog.png",
      "label": "look-fix-v1 lighting-09-fog (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png",
+     "label": "approved mock night-fog-v1 sloans-lake-morning-fog (R approved 2026-10-07; same camera; mock is morning ground fog, view is midday fog: judge the fog look, not the time of day)"
     }
    ],
    "na": [
@@ -323,7 +327,8 @@
     "shadowBearingDeg": 0.0,
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
-   "area": "sloans-lake"
+   "area": "sloans-lake",
+   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png"
   },
   {
    "id": "showcase-06",
@@ -460,6 +465,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/sky-02-moon-water.png",
      "label": "look-fix-v1 sky-02-moon-water (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/night-fog-v1/images/sloans-lake-night.png",
+     "label": "approved mock night-fog-v1 sloans-lake-night (R approved 2026-10-07; same lake-trail camera, full night)"
     }
    ],
    "na": [
@@ -474,7 +483,8 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given",
     "note": "night: Moon alt 17.2, az 72.0 (upper left of the ESE frame), stars; experience-v1 night-sky-reference.json"
    },
-   "area": "sloans-lake"
+   "area": "sloans-lake",
+   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-night.png"
   },
   {
    "id": "showcase-10",
