@@ -145,6 +145,8 @@ extension World {
         }
         // Falling snow, not lying snow, takes the view away.
         g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
+        // Smoke fills the near field: up to 30% haze from the camera at full weight (owner's phone check).
+        g.fogFloor = state == .smoke ? 0.3 * Float(weight) : 0
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill

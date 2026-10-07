@@ -42,7 +42,7 @@ struct Globals {
     float3 sunDir; half3 sunDisk; half3 cloudColor;
     float3 moonDir; float moonRadius; float3 moonLight; float moonOpacity; half3 moonColor;
     half3 litterA; half3 litterB; float leafLitter; float2 canopyOrigin; float2 canopySize;
-    half3 airColor; float airCap; float airStart; float airD50; float fogWeight;
+    half3 airColor; float airCap; float airStart; float airD50; float fogWeight; float fogFloor;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -77,7 +77,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.canopySize = max(float2(t26.xy) + float2(t26.zw), float2(1.0));
     half4 t27 = tex.read(uint2(27, 1)), t28 = tex.read(uint2(28, 1));
     g.airColor = t27.rgb; g.airCap = float(t27.a);
-    g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b);
+    g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b); g.fogFloor = float(t28.a);
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -193,7 +193,8 @@ float opticalDistance(float dist, float h1, float h2) {
 float4 atmosphere(Globals g, float od) {
     float air = g.airCap * (1.0 - exp(-0.693147 * max(0.0, od - g.airStart) / (g.airD50 - g.airStart)));
     float k = 2.302585 / max(g.fogEnd - g.fogStart, 1.0);
-    float wx = g.fogWeight * (1.0 - exp(-k * max(0.0, od - g.fogStart)));
+    // fogFloor: a haze already present at the camera (smoke fills the near field, not only distance).
+    float wx = max(g.fogWeight * (1.0 - exp(-k * max(0.0, od - g.fogStart))), g.fogFloor * smoothstep(0.0, 8.0, od));
     float amount = 1.0 - (1.0 - air) * (1.0 - wx);
     float3 col = (air + wx) > 1e-4 ? (float3(g.airColor) * air + float3(g.fogColor) * wx) / (air + wx) : float3(g.fogColor);
     return float4(col, amount);
@@ -237,13 +238,13 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
         half wet = half(g.wetness * exposure);
         // Diffuse reduction at full W: asphalt and walks set their own (below); grass 8% (§3.1
         // 6–10%); other ground, stone and walls the weather profile's value.
-        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.15h : half(g.wetDarkening));
+        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.06h : half(g.wetDarkening));
         su.base *= 1.0h - darken * wet;
         half wr = su.wetRoughness >= 0.0h ? su.wetRoughness : half(g.wetRoughness);
         su.roughness = mix(su.roughness, min(su.roughness, wr), wet);
         su.specular = mix(su.specular, max(su.specular, 0.6h), wet);
         half puddle = 0.0h;
-        float pw = max(0.0, (g.wetness - 0.35) / 0.65);
+        float pw = max(0.0, (g.wetness - 0.2) / 0.8);
         if (su.puddles && n.y > 0.95 && pw > 0.0) {
             // §3.1 puddles: irregular 0.2–1.5 m masks (stable in world space) that appear above
             // W = 0.35 and cover `puddleMax` of flat paving when soaked (asphalt 6–10%, walks 3–5%;
@@ -268,7 +269,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             // §3.1: sky-only reflection in puddles, clamped to 0.35 (a floor of 0.12 keeps near ones
             // reading as water, not shadow); outside them a broad restrained sheen (≤ 0.15).
             float amount = float(puddle) * clamp(max(fresnel, 0.12), 0.0, 0.35)
-                + min(fresnel * 0.6 + 0.12, 0.38) * float(wet) * (1.0 - float(puddle));
+                + min(fresnel * 0.6 + (su.puddles ? 0.2 : 0.12), 0.4) * float(wet) * (1.0 - float(puddle));
             // Grass and other rough ground glint far less than paving.
             if (su.puddles) { su.emissive += half3(sky * amount); }
             else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }

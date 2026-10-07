@@ -80,6 +80,8 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var airStart: Float = 300
     public var airD50: Float = 1800
     public var fogWeight: Float = 0
+    /// Haze present from the camera outward (smoke's near field), 0–1.
+    public var fogFloor: Float = 0
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -220,7 +222,7 @@ final class RenderResources {
         p[w + 25] = SIMD4(h(co.x), h(co.y), h(g.canopyOrigin.x - co.x), h(g.canopyOrigin.y - co.y))
         p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
         p[w + 27] = SIMD4(h(g.airColor.x), h(g.airColor.y), h(g.airColor.z), h(g.airCap))
-        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), 0)
+        p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), h(g.fogFloor))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
