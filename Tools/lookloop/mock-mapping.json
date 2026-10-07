@@ -690,6 +690,16 @@
       },
       "transform": "raw, transform not modelled",
       "note": "daytime master; summer curb base albedo vs dry neutral base swatch; lighting not modelled"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.barkHex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.bark[1]"
+      },
+      "transform": "none",
+      "note": "daytime master; tree bark colour (MockDaytime writes it in every season)"
     }
   ],
   "unmapped": [
