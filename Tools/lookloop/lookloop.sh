@@ -1,7 +1,7 @@
 #!/bin/bash
 # Look loop: plan -> capture -> signals and contact sheets -> rubric grading -> regression guard -> scoreboard.
 # Sessions normally run it through the /lookloop skill (.claude/skills/lookloop/SKILL.md).
-#   Tools/lookloop/lookloop.sh run [--gate] [--all] [view-id ...]
+#   Tools/lookloop/lookloop.sh run [--gate] [--all] [--core] [view-id ...]
 #       Routine run: captures only views whose inputs changed since docs/lookloop/latest (others are
 #       reused with their grades); reviewers are Sonnet. --gate: every view, Opus reviewers (declared gate).
 #       --all: every view without declaring a gate.
@@ -68,7 +68,13 @@ case "$cmd" in
   run)
     kind=routine; plan_args=()
     for a in "$@"; do
-      case "$a" in --gate) kind=gate; plan_args+=(--all) ;; --all) plan_args+=(--all) ;; *) plan_args+=("$a") ;; esac
+      case "$a" in
+        --gate) kind=gate; plan_args+=(--all) ;;
+        --all) plan_args+=(--all) ;;
+        # --core: the per-merge core set (owner, 7 Oct 2026); the full set is for gate checks.
+        --core) while read -r id; do plan_args+=("$id"); done < <(python3 -c "import json;[print(v['id']) for v in json.load(open('$TOOLS/views.json'))['views'] if v.get('core')]") ;;
+        *) plan_args+=("$a") ;;
+      esac
     done
     run=$(new_run "$kind")
     rel="${run#"$ROOT"/}"
