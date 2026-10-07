@@ -477,11 +477,11 @@ public struct BuildingGenerator: Sendable {
             // vertices on the eave line, and darkening those would shade the whole gable (buildingviz showed
             // near-black cottage gables).
             var inBand = [Bool](repeating: false, count: roofStart)
-            var t = 0
-            while t + 2 < m.indices.count {
-                let tri = [Int(m.indices[t]), Int(m.indices[t + 1]), Int(m.indices[t + 2])]
+            var ti = 0
+            while ti + 2 < m.indices.count {
+                let tri = [Int(m.indices[ti]), Int(m.indices[ti + 1]), Int(m.indices[ti + 2])]
                 if tri.allSatisfy({ $0 < roofStart && Double(m.positions[$0].y) < top + 0.05 }) { for v in tri { inBand[v] = true } }
-                t += 3
+                ti += 3
             }
             for i in 0..<roofStart where abs(m.normals[i].y) < 0.3 && inBand[i] {
                 let y = Double(m.positions[i].y)
