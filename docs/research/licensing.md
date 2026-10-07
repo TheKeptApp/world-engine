@@ -479,6 +479,10 @@ Everything below is paraphrased.
 51. Takedown and DMCA: what notice-and-takedown process (DMCA agent registration, counter-notice, repeat-infringer policy) do we need for shared and embedded user builds, and does it differ for overlays versus promoted base-map facts?
 52. Logos and trademarks in user builds: may users place team, university, sponsor or business logos and colours in a private or shared build; what must we filter or remove; and what does an official partner build (licensed logos and colours) need contractually?
 
+**Landmark marketing use** (added 2026-10-07; landmarks-style-b-v2, R's instruction: the trademark check goes on the lawyer list before marketing)
+
+53. Before any marketing use of the 65 wave-2 landmarks (landmarks-style-b-v2: New York, Los Angeles, San Francisco, Seattle, Boston, Washington, Philadelphia, Atlanta, Dallas-Fort Worth, Houston, Austin, Nashville, Phoenix): which of these buildings and structures carry registered trademarks, trade dress or architectural-works claims (17 USC 120 limits copyright in buildings visible from public places, not trademark), and what do stores, ads, videos, app icons and the creator kit need to avoid or license? Sheets have no logos, signage or figurative art; the Statue of Liberty is reference only.
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?
@@ -745,6 +749,7 @@ Sources: owner decisions of 2026-10-06/07 (`docs/roadmap.md`, `docs/decisions/ow
 | **LM1** | Public artworks are reference only: Cloud Gate ("the Bean"), the Chicago Picasso and any other sculpture or artwork are not built into the engine or any product without written permission from the rights holder | Landmark pack, any city | Excluded from models; may appear only in internal reference images; the pack's "user exception" note for the Bean is overridden | Decided (rule) | owner decision 2026-10-07; landmarks-v1 README |
 | **LM2** | No team, university or sponsor logos or names on models (stadiums, campuses, arenas) | Landmark pack | Buildings modelled without logos, wordmarks, sponsor names or readable signage; names appear only as identifiers in data, never on geometry | Decided (rule) | owner decision 2026-10-06; landmarks-v1 legal guardrails |
 | **LM3** | Building designs may carry architectural-work or trademark protection (distinctive towers and stadiums) | Hero and tuned landmark models | Building exteriors visible from public places are generally modelled; any trademark claim on a building's appearance goes to a lawyer before a product ships (Q47) | Needs lawyer | landmarks-research-v1 trademark triage |
+| **LM4** | Marketing use of wave-2 landmark sheets and models (landmarks-style-b-v2: 65 landmarks, 13 skylines) | Marketing, app store, icons, creator kit | No marketing use until the lawyer clears the building list (Q53); sheets carry no logos, signage or figurative art; the Statue of Liberty is reference only | Needs lawyer | owner decision 2026-10-07; landmarks-style-b-v2 STATUS.md |
 
 ## 18. Weather data sources (added 2026-10-07; owner decisions, research unverified)
 
