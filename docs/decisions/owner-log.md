@@ -2,6 +2,11 @@
 
 The single list of R's decisions, newest first, one line each: date, decision, where it is applied. Maintained by P3; every owner decision passed to P3 is added here and mentioned in P3's next report. Pack-specific decisions are also cross-listed in `docs/design-registry.md`.
 
+## 2026-10-07
+
+- **Cloud Gate ("the Bean") is reference only:** do not build it into the engine or any product without written permission (copyrighted public artwork). The same applies to any other artwork in landmarks-v1. This overrides the pack's "user exception" note. Applied: `docs/design-registry.md` (landmarks-v1 row and decisions), `docs/roadmap.md`.
+- **landmarks-v1 filed** as a reference, built after the look gate (Phase 3 landmark pack); users P2 and 5A. ChatGPT's recommendations noted: silhouettes first, the lakefront landmarks built together, Lower Wacker's road levels, shared materials, verify measured geometry before building. Applied: registry; drop-folder ingest (images and zip local + iCloud only).
+
 ## 2026-10-06
 
 - **Home + landmarks first:** people look for their own house, then famous places. On-device-only house personalization (colour, roof, door, car, yard; never uploaded or shown to others) ships with the first flagship app. A Chicago + Denver landmark pack (about 10 each) moves into Phase 3, alongside the live world, right after the look gate. Every new city: landmarks first, then general coverage; landmarks picked from map tags plus a Wikipedia/Wikidata popularity ranking; tiers are hero models (agent-built, owned), tuned generators and type generators (stadiums, campuses, airports, hospitals, malls). Applied: `docs/roadmap.md` (new).

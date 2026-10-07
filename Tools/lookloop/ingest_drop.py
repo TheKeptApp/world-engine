@@ -3,6 +3,7 @@
 
   Tools/lookloop/ingest_drop.py            show what is new or changed in ~/Desktop/worldengine-gpt-drop/
   Tools/lookloop/ingest_drop.py --apply    copy it in
+  Tools/lookloop/ingest_drop.py [--apply] PACK...   only these packs
 
 ChatGPT saves each pack to ~/Desktop/worldengine-gpt-drop/<pack>/, outside the repo. A pack with images is a
 design pack and goes to docs/proposals/<pack>/; a pack without images is research and goes to
@@ -42,13 +43,13 @@ def same(a, b):
         return False
 
 
-def plan():
+def plan(only=()):
     mp = os.path.join(HERE, "drop-map.json")
     overrides = json.load(open(mp)) if os.path.exists(mp) else {}
     out = []
     for pack in sorted(os.listdir(DROP)) if os.path.isdir(DROP) else []:
         src = os.path.join(DROP, pack)
-        if not os.path.isdir(src) or pack.startswith("."):
+        if not os.path.isdir(src) or pack.startswith(".") or (only and pack not in only):
             continue
         files = [os.path.join(d, f) for d, _, fs in os.walk(src) for f in fs if not f.startswith(".")]
         has_images = any(kind(f) == "image" for f in files)
@@ -68,7 +69,7 @@ def plan():
 
 def main():
     apply = "--apply" in sys.argv
-    rows = plan()
+    rows = plan(tuple(a for a in sys.argv[1:] if not a.startswith("--")))
     for pack, k, f, d, state in rows:
         if state == "same":
             continue

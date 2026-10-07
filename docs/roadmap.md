@@ -14,6 +14,7 @@ The current phase (5A light, weather and sky; P2 buildings, yards and vegetation
 
 - **Live world** (L1): live sky, transit and ambient planes, as already planned (`docs/live-world/`).
 - **Landmark pack, Chicago + Denver**, about 10 each, alongside the live world. Examples: Willis Tower, Wrigley Field, Soldier Field, Northwestern campus; Colorado State Capitol, Coors Field, Red Rocks.
+- **Design reference:** `docs/proposals/landmarks-v1/` (28 sheets, 18 Chicago + 10 Denver).
 - **How landmarks are picked:** candidates from map tags, ranked by Wikipedia/Wikidata popularity.
 - **Three tiers:**
   1. Hero models: agent-built and owned.
@@ -33,7 +34,7 @@ Landmarks first, then general coverage.
 ## Legal lines for models
 
 - Buildings may be modelled.
-- Public artworks and sculptures (for example Cloud Gate, the Chicago Picasso) are excluded unless permission is obtained.
+- Public artworks and sculptures (for example Cloud Gate, the Chicago Picasso) are excluded unless permission is obtained. Cloud Gate appears in landmarks-v1 as a reference only (owner, 2026-10-07): written permission first.
 - No team, university or sponsor logos or names on models.
 
 ## Build model
