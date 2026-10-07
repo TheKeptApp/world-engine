@@ -12,6 +12,10 @@ Sources/WorldGen/MockValues.swift, found by reading that source) pass by constru
 this checkout; until then they compare against the mapped static file. Rows with a "calibration" field are
 realised by a measured engine calibration (look.json daytimeMaster) rather than a stored value: once that
 block exists they report "calibrated" with the note, counted apart from pass and fail.
+Palette colours that MockDaytime.swift writes over the seasonal palette at scene build time (asphalt, concrete, curb,
+lawn, bark, and the deciduous crown greens) are parsed from that source: the runtime value is the mock value exactly, so
+those rows report "pass (override: MockDaytime)" instead of comparing the base seasonal-palette.json swatch
+(Tests/WorldGenTests/MockDaytimeTests.swift asserts the same values on built palettes).
 
 Usage: python3 Tools/lookloop/conformance.py
 """
@@ -117,15 +121,69 @@ def read_by_key():
     return pats
 
 
+DAYTIME_SRC = ROOT / "Sources/WorldGen/MockDaytime.swift"
+PALETTE = ROOT / "Sources/WorldGen/Profiles/seasonal-palette.json"
+
+
+def daytime_overrides():
+    """({(palette surface, season index): full mock key}, crown seasons or None): what MockDaytime.swift writes over the
+    seasonal palette at scene build time, parsed from the source so a changed rule shows up here. ({}, None) if absent."""
+    if not DAYTIME_SRC.exists():
+        return {}, None
+    src = DAYTIME_SRC.read_text()
+    pre = re.search(r'static let prefix = "([^"]+)"', src)
+    if not pre:
+        return {}, None
+    out = {}
+
+    def add(keys, seasons, path):
+        for k in keys:
+            for n in re.findall(r"\d+", seasons):
+                out[(k, int(n))] = pre.group(1) + path
+    for k, seasons, path in re.findall(r'set\("(\w+)", seasons: \[([\d, ]+)\], m\.string\(prefix \+ "([^"]+)"\)\)', src):
+        add([k], seasons, path)
+    for ks, seasons, path in re.findall(r'for key in \[([^\]]+)\] \{ set\(key, seasons: \[([\d, ]+)\], m\.string\(prefix \+ "([^"]+)"\)\) \}', src):
+        add(re.findall(r'"(\w+)"', ks), seasons, path)
+    crown = re.search(r'set\(key, seasons: \[([\d, ]+)\], green\)', src)
+    return out, ([int(n) for n in re.findall(r"\d+", crown.group(1))] if crown and "crownGreensHex" in src else None)
+
+
+def daytime_crown_rows(values, crown_seasons):
+    """The three crown greens: each deciduous palette slot (four-colour row) takes ranked[min(2, i*3/count)] by summer
+    lightness, so a green is realised when at least one slot gets it (mirrors MockDaytime.applying)."""
+    if not crown_seasons or not PALETTE.exists():
+        return []
+    surf = json.loads(PALETTE.read_text())["surfaces"]
+    n = sum(1 for k, v in surf.items() if k.startswith("deciduous") and len(v) == 4)
+    pre = "house-contrast-v1/sharedLighting.postcard.trees.crownGreensHex"
+    uses = [sum(1 for i in range(n) if min(2, i * 3 // max(1, n)) == j) for j in range(3)]
+    rows = []
+    for j in range(3):
+        key = f"{pre}[{j}]"
+        if key not in values:
+            continue
+        ok = uses[j] > 0
+        rows.append({"key": key, "mock": values[key]["value"], "engine": f"{uses[j]}/{n} slots", "delta": "exact" if ok else "unused",
+                     "status": "pass (override: MockDaytime)" if ok else "FAIL", "size": 0 if ok else 1,
+                     "note": f"deciduous slots, seasons {crown_seasons}, by summer lightness; autumn and winter unchanged"})
+    return rows
+
+
 def run(values=None, mapping=None, exceptions=None):
     values = values or json.loads(VALUES.read_text())["entries"]
     mapping = mapping or json.loads(MAPPING.read_text())
     exceptions = exceptions if exceptions is not None else parse_exceptions(EXCEPTIONS.read_text())
     rows, cache = [], {}
     keyed = read_by_key()
+    overrides, crown_seasons = daytime_overrides()
     look = json.loads(LOOK.read_text()) if LOOK.exists() else {}
     for m in mapping["mappings"]:
         mock = values[m["mock"]]["value"]
+        pm = re.match(r"surfaces\.(\w+)\[(\d)\]$", m["engine"]["path"]) if m["engine"]["file"].endswith("seasonal-palette.json") else None
+        if pm and overrides.get((pm.group(1), int(pm.group(2)))) == m["mock"]:
+            rows.append({"key": m["mock"], "mock": mock, "engine": "= mock", "delta": "exact", "status": "pass (override: MockDaytime)",
+                         "size": 0, "note": "MockDaytime.swift writes this value over the seasonal palette at scene build"})
+            continue
         if any(p.match(m["mock"]) for p in keyed):
             rows.append({"key": m["mock"], "mock": mock, "engine": "by key", "delta": "0", "status": "pass (read by key)",
                          "size": 0, "note": "engine reads this key from Sources/WorldGen/Profiles/mock-values.json"})
@@ -149,7 +207,7 @@ def run(values=None, mapping=None, exceptions=None):
         engs = eng if isinstance(eng, str) else f"{eng:.4g}"
         rows.append({"key": m["mock"], "mock": mock, "engine": engs, "delta": delta, "status": status, "size": size,
                      "note": ("phase5b: " + m["phase5b"]) if m.get("phase5b") else ""})
-    return rows
+    return rows + daytime_crown_rows(values, crown_seasons)
 
 
 def archetype_rows(values=None, mapping=None):

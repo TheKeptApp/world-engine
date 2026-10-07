@@ -269,7 +269,8 @@ public struct BuildingGenerator: Sendable {
         let panelHex = tuple[1]
         // House contrast (house-contrast-v1) type: trim, roof, glass, soffit, porch-underside and eave-band values.
         // Storeys aren't final yet here: mapped levels, else the family's first floor count.
-        let contrastType = details != nil ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
+        let contrastType = role == .house || role == .block
+            ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
         // Archetype types keep their palette variant's trim and roof (house-archetypes-v1 per type; for the Chicago
         // types they equal the house-contrast-v1 swatches).
         if archetype == nil, let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
