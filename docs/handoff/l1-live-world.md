@@ -61,8 +61,10 @@ Linux; every other target needs Apple frameworks.
 
 - **CTA static GTFS: done.** Shapes and stops (`livefeeds/ctagtfs.py`); trains and buses snapped with inferred
   speed, `/v1/stops` (transit.md, CTA static GTFS row). Live: trains 73/74, buses 751/768 by pattern.
-- **NWS alerts: blocked.** `api.weather.gov` is denied by the network policy (proxy 403 on CONNECT). Nothing built;
-  allow the host to continue. Plan when allowed: `/alerts/active?area=IL,CO,FL` filtered to each area's box
+- **NWS alerts: done by P1 on the Mac (2026-10-07)**, following the plan below: `livefeeds/alerts/nws.py`,
+  `python3 -m livefeeds alerts`, contract `worldengine.live.alerts/1` (docs/live-world/alerts.md), licensing LW14.
+  Contact address from `NWS_CONTACT` or the git-ignored `.local/livefeeds.json`. Original note: `api.weather.gov` is
+  denied by the cloud network policy (proxy 403 on CONNECT). Plan when allowed: `/alerts/active?area=IL,CO,FL` filtered to each area's box
   (polygon, else affected-zone geometry, cached), conditional requests with `If-Modified-Since`, polled no faster than
   the response's `Cache-Control`/`Expires` (NWS asks for a User-Agent with contact details: needs a real contact
   address from R, via an environment variable, not in the repo); text passed through verbatim (headline, description,

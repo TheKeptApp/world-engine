@@ -187,6 +187,26 @@ def cmd_planes(args) -> int:
     return 0
 
 
+def cmd_alerts(args) -> int:
+    import time as _time
+    from .alerts import nws
+    areas = [a for a in nws.load_areas() if not args.areas or a["id"] in args.areas.split(",")]
+    states = sorted({s for a in areas for s in a["states"]})
+    allow = not args.offline
+    try:
+        address = nws.contact() if allow else None
+    except nws.ConfigError as e:
+        sys.stderr.write("error: %s\n" % e)
+        return 2
+    store = nws.AlertStore(args.cache, states, address)
+    features, fetched, error = store.active(allow_fetch=allow)
+    t = _parse_time(args.time) if args.time else _time.time()
+    doc = nws.snapshot(areas, features, t, fetched, error, lambda z: store.zone(z, allow_fetch=allow))
+    print(json.dumps(doc, ensure_ascii=False, indent=1 if args.pretty else None,
+                     separators=None if args.pretty else (",", ":")))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="livefeeds", description="RTD Denver live-vehicle relay prototype")
     sub = p.add_subparsers(dest="command", required=True)
@@ -266,6 +286,15 @@ def main(argv=None) -> int:
     a.add_argument("--wind-mps", type=float, help="wind speed, m/s")
     a.add_argument("--pretty", action="store_true")
     a.set_defaults(func=cmd_planes)
+
+    w = sub.add_parser("alerts", help="print official NWS alerts in force (worldengine.live.alerts/1)")
+    w.add_argument("--areas", help="area ids from data/alerts-areas.json (comma-separated; default all)")
+    w.add_argument("--cache", default=os.path.join(os.path.expanduser("~"), ".cache", "worldengine-livefeeds", "nws"),
+                   help="cache directory (outside the repository)")
+    w.add_argument("--time", help="ISO 8601 instant (default now)")
+    w.add_argument("--offline", action="store_true", help="use the cache only; never fetch")
+    w.add_argument("--pretty", action="store_true")
+    w.set_defaults(func=cmd_alerts)
 
     args = p.parse_args(argv)
     try:

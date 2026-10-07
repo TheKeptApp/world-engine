@@ -10,6 +10,7 @@ one documented JSON contract that phase 5A renders later. No renderer, engine or
 | 2. Satellites (positions, passes, visibility) | `worldengine.live.satellites/1` | [satellites.md](satellites.md) | `Tools/livefeeds/livefeeds/sats/` |
 | 3. Transit (live vehicles smoothed along route shapes) | relay schema 1 (`live-feeds.md` §8) plus `motion` and `/v1/shapes` | [transit.md](transit.md) | `Tools/livefeeds/livefeeds/transit/`, relay |
 | 4. Planes (simulated ambient traffic; live ADS-B evaluated) | `live-feeds.md` §8 schema 1, `live: false`, `basis: "simulated"` | [planes.md](planes.md) | `Tools/livefeeds/livefeeds/planes/` |
+| 5. Weather alerts (official NWS alerts in force) | `worldengine.live.alerts/1`, `live: true`, `basis: "observed"`, `official: true` | [alerts.md](alerts.md) | `Tools/livefeeds/livefeeds/alerts/` |
 
 ## Shared vocabulary (every contract)
 
