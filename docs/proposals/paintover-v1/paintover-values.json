@@ -1,0 +1,1015 @@
+{
+  "schema": "worldengine.paintover.proposal.v1",
+  "date": "2026-10-06",
+  "status": "appearance_targets_only",
+  "authority": "Source PNGs govern geometry. Values below are authored targets, not parameters measured from AI pixels or existing engine.",
+  "inputSize": {
+    "width": 1005,
+    "height": 565
+  },
+  "imageScalePolicy": "Generated raster may be higher resolution; comparisons fit the full source aspect without crop. Preserve normalized geometry; no resizing/retouch via bitmap code.",
+  "gradeOrder": [
+    "lighting/fill/material response",
+    "exposure gain once in linear RGB",
+    "luminance-pivot contrast",
+    "luminance-preserving saturation mix",
+    "bounded warmth diagonal gain",
+    "existing tone mapper"
+  ],
+  "definitions": {
+    "exposureEV": "Relative to frozen current engine reference E0; gain=2^EV. Not absolute camera EV or measured lux.",
+    "contrast": "linear luminance contrast around .18 reference pivot, slope; clamp only at final tone mapper",
+    "saturation": "linear gray-to-color mixing factor, 1 unchanged; percent=(factor-1)*100",
+    "warmth": "authored diagonal RGB grade, red=1+warmthPercent/200, green=1, blue=1-warmthPercent/200; illustrative, not Kelvin or mired",
+    "shadowStrength": "1-shadowToLitLinearLuminanceRatio on neutral patch; achieved through direct/fill balance, not black overlay",
+    "shadowLength": "Runtime L=height/tan(real solar elevation) and bearing=(solarAzimuth+180)%360. No real elevation/time/observer can be recovered uniquely from PNG.",
+    "crownColors": "Shaded appearance swatches under fixture, not three albedo stripes painted onto lobes; use continuous normal/light occlusion and coherent neutral palette. Percentages report exact linear-luminance change relative to mid."
+  },
+  "common": {
+    "geometry": "No relocations/additions/removals. Crown/trunk improvements bounded to existing silhouette and base clearance.",
+    "contact": {
+      "trunksAmbientDarkeningPercent": 15,
+      "shrubsAmbientDarkeningPercent": 15,
+      "eavesAmbientDarkeningPercent": 12,
+      "buildingBaseAmbientDarkeningPercent": 12,
+      "dogAmbientDarkeningPercent": 12,
+      "widthM": [
+        0.15,
+        0.4
+      ],
+      "ambientVisibilityFloor": 0.65,
+      "combineRule": "min(existingAOvisibility,newVisibility), not multiply; direct sunlight unaffected"
+    },
+    "trees": {
+      "primaryExistingLobesPolicy": "Preserve existing crown envelope and major group placement; subdivide smooth shading within lobes, no added tree positions.",
+      "interiorAmbientReductionPercent": 25,
+      "perLobeVariationPercent": 3,
+      "branchThicknessRelativeToTrunk": [
+        0.18,
+        0.35
+      ],
+      "rootFlareMaxRadiusRatio": 1.15,
+      "rootFlareHeightM": 0.12,
+      "rootFlareRule": "Only when visible/source clearance permits; do not widen into walk/road.",
+      "noBarkOrLeafTextures": true
+    },
+    "ground": {
+      "broadLawnVariationPercent": 5,
+      "combinedVariationClampPercent": 6,
+      "dryConcreteRoughness": 0.82,
+      "wetConcreteRoughness": 0.53
+    },
+    "water": {
+      "policy": "Use current sky and solar source; no shoreline shifts, painted source stripe, planar/SSR mirror.",
+      "rain": "#718C9A",
+      "smoke": "#858F90",
+      "golden": "#477884",
+      "roughnessRain": 0.28,
+      "roughnessSmoke": 0.4,
+      "roughnessGolden": 0.28,
+      "sourceHighlightWaterAreaPercentMax": 4
+    },
+    "edges": {
+      "MSAATargetSamples": 4,
+      "shadowFilterDrawablePx": [
+        1,
+        2
+      ],
+      "blurGeometry": false,
+      "noGlobalOutline": true
+    },
+    "aerial": {
+      "contextTransitionWidthM": [
+        150,
+        300
+      ],
+      "contextColorDifferenceMaxPercent": 8,
+      "coreHazeMaxPercent": 25,
+      "contextDetailFade": "smoothstep from current detailed edge inward/outward only where same source data exists; blend material detail amplitude to coarse, never opacity erase buildings/roads/water",
+      "skyVisible": false,
+      "newContextGeometryAllowed": false
+    },
+    "performance": {
+      "existingGpuCeilingMs": 10,
+      "plannedContentMs": 7.9,
+      "reserveMs": 2.1,
+      "opaqueTrees": true,
+      "noProductionBenchmark": true
+    }
+  },
+  "frames": [
+    {
+      "id": "ordinary-street",
+      "label": "Ordinary street · clear afternoon",
+      "original": "images/ordinary-street-original.png",
+      "paintover": "images/ordinary-street-paintover.png",
+      "comparison": "images/ordinary-street-comparison.svg",
+      "annotated": "images/ordinary-street-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.35,
+        "linearExposureGain": 1.2745606273192622,
+        "contrastSlope": 1.06,
+        "contrastChangePercent": 6,
+        "saturationFactor": 1.08,
+        "saturationChangePercent": 8,
+        "warmthPercent": 4,
+        "warmthLinearRGB": [
+          1.02,
+          1,
+          0.98
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.62,
+        "strengthPercent": 38,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": 45,
+        "illustrativeLengthPerHeight": 1.0000000000000002,
+        "exampleStatus": "authored math example, not capture solar measurement",
+        "directSunRelativeClear": 1
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 0,
+        "linearMultiplier": 1,
+        "sheenStrength": 0
+      },
+      "water": {
+        "visible": false,
+        "bodyHex": null,
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": [
+          "#8DADC9",
+          "#C7D3DC"
+        ]
+      },
+      "crown": {
+        "lightHex": "#9EAC74",
+        "midHex": "#738B53",
+        "darkHex": "#405844",
+        "lightYChangePercent": 67.3,
+        "darkYChangePercent": -62.67,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Daylight and fill",
+          "anchorNormalized": [
+            0.17,
+            0.2
+          ],
+          "change": "Lift neutral facade/path and dog fill; retain ordinary afternoon instead of a sunset grade.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Crown volume",
+          "anchorNormalized": [
+            0.8,
+            0.12
+          ],
+          "change": "Smooth existing puff clusters; lobe gradients and dark interior joins replace flat ball shading.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Ground families",
+          "anchorNormalized": [
+            0.2,
+            0.74
+          ],
+          "change": "Differentiate lawn, concrete and asphalt with quiet broad variation, keeping every boundary.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Contact grounding",
+          "anchorNormalized": [
+            0.42,
+            0.36
+          ],
+          "change": "Short ambient pockets beneath shrub row, trunk bases and wall base; no painted crown shadow.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Cast shadows",
+          "anchorNormalized": [
+            0.81,
+            0.35
+          ],
+          "change": "Retain captured direction; soften light/shade transitions and keep shadow fill readable.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Trunks and roots",
+          "anchorNormalized": [
+            0.57,
+            0.26
+          ],
+          "change": "Thick existing scaffold branches into canopy; root flare confined to original base clearance.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "Dog legibility",
+          "anchorNormalized": [
+            0.5,
+            0.52
+          ],
+          "change": "Preserve dog silhouette/pose/position; readable dark coat through fill and contact.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Sky and edges",
+          "anchorNormalized": [
+            0.65,
+            0.045
+          ],
+          "change": "Neutral blue cloud gradient and antialiased edges; no halo or new source disk.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [
+        "water not visible; none introduced"
+      ],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    },
+    {
+      "id": "evanston-street",
+      "label": "Evanston · fall afternoon",
+      "original": "images/evanston-street-original.png",
+      "paintover": "images/evanston-street-paintover.png",
+      "comparison": "images/evanston-street-comparison.svg",
+      "annotated": "images/evanston-street-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.25,
+        "linearExposureGain": 1.189207115002721,
+        "contrastSlope": 1.07,
+        "contrastChangePercent": 7,
+        "saturationFactor": 1.07,
+        "saturationChangePercent": 7,
+        "warmthPercent": 6,
+        "warmthLinearRGB": [
+          1.03,
+          1,
+          0.97
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.6,
+        "strengthPercent": 40,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": 30,
+        "illustrativeLengthPerHeight": 1.7320508075688774,
+        "exampleStatus": "authored math example, not capture solar measurement",
+        "directSunRelativeClear": 1
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 0,
+        "linearMultiplier": 1,
+        "sheenStrength": 0
+      },
+      "water": {
+        "visible": false,
+        "bodyHex": null,
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": [
+          "#9BB5CD",
+          "#CDD7DF"
+        ]
+      },
+      "crown": {
+        "lightHex": "#D7AD61",
+        "midHex": "#B58245",
+        "darkHex": "#765338",
+        "lightYChangePercent": 72.386,
+        "darkYChangePercent": -60.625,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Fall crown light and depth",
+          "anchorNormalized": [
+            0.29,
+            0.065
+          ],
+          "change": "Round existing orange/ochre puffs with soft interior darkening and graded sun-facing lobes.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Facade/roof hierarchy",
+          "anchorNormalized": [
+            0.16,
+            0.31
+          ],
+          "change": "Cream neutral walls, plain restrained slate roof; retain every existing opening.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Warm/cool lighting",
+          "anchorNormalized": [
+            0.86,
+            0.45
+          ],
+          "change": "Warm fall daylight and cool filled shade, without a universal sepia overlay.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Ground and leaf restraint",
+          "anchorNormalized": [
+            0.34,
+            0.8
+          ],
+          "change": "Quiet lawn patches and existing leaf scatter only; preserve walkway intersection.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Trunk shading/root flare",
+          "anchorNormalized": [
+            0.68,
+            0.53
+          ],
+          "change": "Keep enormous obstructing trunk; add smooth volume and modest base flare, not bark grain.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Contact under plants/eaves",
+          "anchorNormalized": [
+            0.41,
+            0.51
+          ],
+          "change": "Small fill-only darkening at existing shrub/house/tree contacts.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "Shadow softness",
+          "anchorNormalized": [
+            0.18,
+            0.68
+          ],
+          "change": "Follow source cast-shadow bearings, lift rather than erase the shaded lawn.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Sky/edge finish",
+          "anchorNormalized": [
+            0.89,
+            0.07
+          ],
+          "change": "Soft sky/cloud gradient, clean silhouette antialiasing without changing geometry.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [
+        "water not visible; none introduced"
+      ],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    },
+    {
+      "id": "showcase-03",
+      "label": "Sloan’s Lake · rain",
+      "original": "images/showcase-03-original.png",
+      "paintover": "images/showcase-03-paintover.png",
+      "comparison": "images/showcase-03-comparison.svg",
+      "annotated": "images/showcase-03-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.15,
+        "linearExposureGain": 1.109569472067845,
+        "contrastSlope": 0.94,
+        "contrastChangePercent": -6,
+        "saturationFactor": 0.96,
+        "saturationChangePercent": -4,
+        "warmthPercent": -3,
+        "warmthLinearRGB": [
+          0.985,
+          1,
+          1.015
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.86,
+        "strengthPercent": 14,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": null,
+        "illustrativeLengthPerHeight": null,
+        "exampleStatus": "diffuse-weather no readable hard-shadow length target",
+        "directSunRelativeClear": 0.18
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 10,
+        "linearMultiplier": 0.9,
+        "sheenStrength": 0.2
+      },
+      "water": {
+        "visible": true,
+        "bodyHex": "#718C9A",
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": [
+          "#617B91",
+          "#9AAEBB"
+        ]
+      },
+      "crown": {
+        "lightHex": "#9AA36D",
+        "midHex": "#727E55",
+        "darkHex": "#445546",
+        "lightYChangePercent": 78.379,
+        "darkYChangePercent": -57.358,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Wet concrete sheen",
+          "anchorNormalized": [
+            0.32,
+            0.74
+          ],
+          "change": "Darken exposed path 10% linear substrate; add bounded broad sky sheen instead of simply grey paint.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Shallow water marks",
+          "anchorNormalized": [
+            0.36,
+            0.82
+          ],
+          "change": "Keep original puddle locations/envelopes; brighter reflected sky, flush edge, no crater lip.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Rain and overcast sky",
+          "anchorNormalized": [
+            0.7,
+            0.15
+          ],
+          "change": "Sparse camera-local streaks and coherent cloud/fog tone; no bright sun gap.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Tree/crown volume",
+          "anchorNormalized": [
+            0.5,
+            0.27
+          ],
+          "change": "Soft diffuse lobe gradients and dark interior joins; retain round trees and triangular conifers.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Contact grounding",
+          "anchorNormalized": [
+            0.16,
+            0.58
+          ],
+          "change": "Local ambient pockets at trunks and bench feet, not hard sunny silhouettes.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Lake appearance",
+          "anchorNormalized": [
+            0.92,
+            0.49
+          ],
+          "change": "Muted blue-grey and restrained broad reflection within exact existing shoreline.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "Lawn hierarchy",
+          "anchorNormalized": [
+            0.72,
+            0.81
+          ],
+          "change": "Diffuse wet green, broad patches, no specular grass carpet.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Soft depth/edges",
+          "anchorNormalized": [
+            0.9,
+            0.37
+          ],
+          "change": "One distance haze term; clean near geometry, soft far tree contrasts.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    },
+    {
+      "id": "showcase-06",
+      "label": "Sloan’s Lake · smoke haze",
+      "original": "images/showcase-06-original.png",
+      "paintover": "images/showcase-06-paintover.png",
+      "comparison": "images/showcase-06-comparison.svg",
+      "annotated": "images/showcase-06-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.1,
+        "linearExposureGain": 1.0717734625362931,
+        "contrastSlope": 0.94,
+        "contrastChangePercent": -6,
+        "saturationFactor": 1.02,
+        "saturationChangePercent": 2,
+        "warmthPercent": 2,
+        "warmthLinearRGB": [
+          1.01,
+          1,
+          0.99
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.84,
+        "strengthPercent": 16,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": null,
+        "illustrativeLengthPerHeight": null,
+        "exampleStatus": "diffuse-weather no readable hard-shadow length target",
+        "directSunRelativeClear": 0.35
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 0,
+        "linearMultiplier": 1,
+        "sheenStrength": 0
+      },
+      "water": {
+        "visible": true,
+        "bodyHex": "#858F90",
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": [
+          "#B2A79B",
+          "#C1B4A3"
+        ]
+      },
+      "crown": {
+        "lightHex": "#B0AA76",
+        "midHex": "#888958",
+        "darkHex": "#5C6650",
+        "lightYChangePercent": 64.865,
+        "darkYChangePercent": -48.144,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Depth-dependent smoke",
+          "anchorNormalized": [
+            0.88,
+            0.37
+          ],
+          "change": "Replace uniform orange grade with warm-neutral extinction that increases with distance.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Near material identity",
+          "anchorNormalized": [
+            0.24,
+            0.77
+          ],
+          "change": "Keep path pale cream, lawn muted green and trunks warm brown despite haze.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Crown/trunk shading",
+          "anchorNormalized": [
+            0.49,
+            0.3
+          ],
+          "change": "Rounded diffuse lobes and readable branch interiors; preserve all tree locations/forms.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Sky coupling",
+          "anchorNormalized": [
+            0.83,
+            0.12
+          ],
+          "change": "Taupe-grey sky agrees with smoke-scattered light, no clear sun or rain.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Contact grounding",
+          "anchorNormalized": [
+            0.16,
+            0.58
+          ],
+          "change": "Soft local contact stays visible even when distant contrasts fade.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Lake color",
+          "anchorNormalized": [
+            0.91,
+            0.49
+          ],
+          "change": "Hazed blue-grey, same lake strip, no saturated clear-weather blue.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "Weak cast shadows",
+          "anchorNormalized": [
+            0.67,
+            0.77
+          ],
+          "change": "Reduce direct-light contrast coherently with smoke; no sunset-length invented shadow.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Edges",
+          "anchorNormalized": [
+            0.62,
+            0.47
+          ],
+          "change": "Near edges clean, distant silhouettes softly attenuated; no full-frame blur.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    },
+    {
+      "id": "v2-06",
+      "label": "Sloan’s Lake · golden aerial",
+      "original": "images/v2-06-original.png",
+      "paintover": "images/v2-06-paintover.png",
+      "comparison": "images/v2-06-comparison.svg",
+      "annotated": "images/v2-06-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.15,
+        "linearExposureGain": 1.109569472067845,
+        "contrastSlope": 1.05,
+        "contrastChangePercent": 5,
+        "saturationFactor": 1.04,
+        "saturationChangePercent": 4,
+        "warmthPercent": 8,
+        "warmthLinearRGB": [
+          1.04,
+          1,
+          0.96
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.56,
+        "strengthPercent": 44,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": 8,
+        "illustrativeLengthPerHeight": 7.115369722384209,
+        "exampleStatus": "authored math example, not capture solar measurement",
+        "directSunRelativeClear": 1
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 0,
+        "linearMultiplier": 1,
+        "sheenStrength": 0
+      },
+      "water": {
+        "visible": true,
+        "bodyHex": "#477884",
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": null
+      },
+      "crown": {
+        "lightHex": "#B0B17A",
+        "midHex": "#788758",
+        "darkHex": "#435F4F",
+        "lightYChangePercent": 91.048,
+        "darkYChangePercent": -54.861,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Core/context edge harmony",
+          "anchorNormalized": [
+            0.78,
+            0.29
+          ],
+          "change": "Match existing outer parcels/blocks in palette and fill; fade detail contrast smoothly without new geometry.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Lake color and sheen",
+          "anchorNormalized": [
+            0.4,
+            0.57
+          ],
+          "change": "Muted teal-blue lake with a small source-aligned warm highlight; exact shore/island preserved.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Golden light, cool fill",
+          "anchorNormalized": [
+            0.84,
+            0.84
+          ],
+          "change": "Warm facing planes and cool shadow planes replace uniformly bright yellow outlines.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Neighborhood material hierarchy",
+          "anchorNormalized": [
+            0.66,
+            0.43
+          ],
+          "change": "Quiet roof/wall/road families let existing dense buildings read as masses rather than confetti.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Park tree grouping",
+          "anchorNormalized": [
+            0.41,
+            0.84
+          ],
+          "change": "Round and shade only existing projected crowns; no outside-context tree additions.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Contact/depth",
+          "anchorNormalized": [
+            0.24,
+            0.39
+          ],
+          "change": "Small existing-building/tree contact shadow; no black outline around the detailed tile.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "LOD transition",
+          "anchorNormalized": [
+            0.57,
+            0.25
+          ],
+          "change": "150–300 m material/detail transition only where coverage allows; preserve all intersections.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Silhouette antialiasing",
+          "anchorNormalized": [
+            0.8,
+            0.53
+          ],
+          "change": "Stable filtered tiny roofs/crowns; no horizon or geographic blur.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    },
+    {
+      "id": "lakeview-street",
+      "label": "Lakeview · golden hour",
+      "original": "images/lakeview-street-original.png",
+      "paintover": "images/lakeview-street-paintover.png",
+      "comparison": "images/lakeview-street-comparison.svg",
+      "annotated": "images/lakeview-street-callouts.svg",
+      "grade": {
+        "relativeExposureEV": 0.2,
+        "linearExposureGain": 1.148698354997035,
+        "contrastSlope": 1.06,
+        "contrastChangePercent": 6,
+        "saturationFactor": 1.06,
+        "saturationChangePercent": 6,
+        "warmthPercent": 8,
+        "warmthLinearRGB": [
+          1.04,
+          1,
+          0.96
+        ]
+      },
+      "shadow": {
+        "shadowToLitLinearY": 0.56,
+        "strengthPercent": 44,
+        "direction": "preserve source / runtime true solar direction",
+        "lengthMeters": null,
+        "illustrativeSolarElevationDeg": 8,
+        "illustrativeLengthPerHeight": 7.115369722384209,
+        "exampleStatus": "authored math example, not capture solar measurement",
+        "directSunRelativeClear": 1
+      },
+      "path": {
+        "wetSubstrateDarkeningPercent": 0,
+        "linearMultiplier": 1,
+        "sheenStrength": 0
+      },
+      "water": {
+        "visible": false,
+        "bodyHex": null,
+        "geometryUnchanged": true
+      },
+      "sky": {
+        "appearanceHex": [
+          "#B8B5CC",
+          "#E7C6A4"
+        ]
+      },
+      "crown": {
+        "lightHex": "#A8B16E",
+        "midHex": "#71824B",
+        "darkHex": "#36533F",
+        "lightYChangePercent": 104.638,
+        "darkYChangePercent": -63.322,
+        "colorPolicy": "Existing source seasonal hue families preserved; this exemplar is not the color of every tree."
+      },
+      "callouts": [
+        {
+          "number": 1,
+          "contributionRank": 1,
+          "title": "Golden light/cool shade",
+          "anchorNormalized": [
+            0.15,
+            0.19
+          ],
+          "change": "Warm cream-facing walls and filled lavender-blue shade; keep source shadow bearings.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 2,
+          "contributionRank": 2,
+          "title": "Crown lighting and lobes",
+          "anchorNormalized": [
+            0.83,
+            0.09
+          ],
+          "change": "Round green puffs, rich interior shade, modest warm-facing highlights without luminous outline.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 3,
+          "contributionRank": 3,
+          "title": "Facade shading/contacts",
+          "anchorNormalized": [
+            0.39,
+            0.34
+          ],
+          "change": "Existing brick-color plane, window/trim hierarchy and soft eave/base pockets; no courses or added fence.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 4,
+          "contributionRank": 4,
+          "title": "Ground palette",
+          "anchorNormalized": [
+            0.18,
+            0.83
+          ],
+          "change": "Natural green lawn, cream-grey concrete and quiet road; existing footprint borders unchanged.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 5,
+          "contributionRank": 5,
+          "title": "Trunks/roots",
+          "anchorNormalized": [
+            0.61,
+            0.48
+          ],
+          "change": "Keep blocking foreground trunk exactly; smooth form shading and modest root flare.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 6,
+          "contributionRank": 6,
+          "title": "Long cast shadow finish",
+          "anchorNormalized": [
+            0.81,
+            0.69
+          ],
+          "change": "Preserve source lengths/direction; soften boundaries, maintain cool light in shade.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 7,
+          "contributionRank": 7,
+          "title": "Shrub contacts",
+          "anchorNormalized": [
+            0.44,
+            0.52
+          ],
+          "change": "Local fill occlusion below existing shrub row, no new hedge objects.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        },
+        {
+          "number": 8,
+          "contributionRank": 8,
+          "title": "Sky/edge finish",
+          "anchorNormalized": [
+            0.68,
+            0.06
+          ],
+          "change": "Restrained warm/cool sky and clean silhouettes; no visible invented sun disk.",
+          "rankStatus": "author visual judgment; no isolated-feature measurement"
+        }
+      ],
+      "notApplicable": [
+        "water not visible; none introduced"
+      ],
+      "notes": "Generated appearance edit, not engine implementation or exact shader regression pass."
+    }
+  ],
+  "references": [
+    {
+      "path": "../look-fix-v1/LOOK-FIX-SPEC.md",
+      "checked": "2026-10-06"
+    },
+    {
+      "path": "../vegetation-v1/README.md",
+      "checked": "2026-10-06"
+    },
+    {
+      "path": "../ground-v1/README.md",
+      "checked": "2026-10-06"
+    },
+    {
+      "path": "../rain-v1/README.md",
+      "checked": "2026-10-06"
+    },
+    {
+      "path": "../visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "checked": "2026-10-06"
+    }
+  ]
+}

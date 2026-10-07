@@ -159,7 +159,10 @@ extension World {
             let at = rb.at(wetness: env.state.wetness01 ?? 0)
             func row(_ n: String, _ extra: Double) -> SIMD4<Float> {
                 let v = at.surfaces[n] ?? .init(darken: 0, roughness: 1, sheen: 0)
-                return SIMD4(Float(v.darken), Float(v.roughness), Float(v.sheen), Float(extra))
+                // look.json wetPaving: the owner's stronger paving darkening on top of the pack's row.
+                var darken = v.darken
+                if let p = Self.lookSpec?.wetPaving, p.surfaces.contains(n) { darken = min(p.darkenMax, darken * p.darkenScale) }
+                return SIMD4(Float(darken), Float(v.roughness), Float(v.sheen), Float(extra))
             }
             let raining = state == .rain || state == .thunderstorm ? Float(min(1, max(0.3, env.state.intensity01 ?? 0.5))) : 0
             g.wetA = row("concrete", min(at.puddleCoverage, rb.puddles.maxCoverage))
@@ -170,6 +173,10 @@ extension World {
         }
         if let water = Self.lookSpec?.water {
             g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
+            g.waterB.x = Float(water.overcastReflectGain)
+        }
+        if let sky = Self.lookSpec?.sky {
+            g.waterB.y = Float(sky.cloudEdgeClear); g.waterB.z = Float(sky.cloudEdgeOvercast)
         }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)

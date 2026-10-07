@@ -1,0 +1,429 @@
+{
+  "schema": "worldengine.night-style.proposal.v1",
+  "date": "2026-10-06",
+  "style": "B \u2014 rich stylized",
+  "status": "Proposal only; all numeric appearance values are authored assumptions unless identified as repository constraints.",
+  "rendererNeutral": true,
+  "units": {
+    "hex": "sRGB light chromaticity or display sky target as identified; decode to linear for math.",
+    "lightIntensity": "Erel: diffuse irradiance relative to calibrated neutral noon key E0=1; not a renderer slider, lux, lumen, candela or watt.",
+    "emission": "Lrel: emitted radiance relative to a unit-albedo Lambertian surface under E0; separate from Erel.",
+    "colorNormalization": "For lighting/emission use linear(hex)/Y(linear(hex)) \u00d7 Erel or Lrel. Preserve HDR channels; normalize light color before applying scalar.",
+    "sky": "Hex sky stops are output sRGB display targets, exposure-compensated through each adapter; never grade a target hex twice.",
+    "screen": "Halo radii in CSS logical pixels at 390 px phone width; convert with actual drawableWidth/CSSWidth. World geometry stays metres.",
+    "time": "Local civil time with IANA zone; sun and Moon angles from engine models, not local clock presets."
+  },
+  "compatibility": {
+    "anchorsReadOnly": [
+      "look-fix-v1",
+      "paintover-v1",
+      "rain-v1",
+      "live-world-v1"
+    ],
+    "moon": "If adopted, this pack replaces live-world-v1's optional <=0.08 noon moon ambient scalar with the bounded values here; never add both or weather moon fill.",
+    "wetness": "Reuse rain-v1 per-surface darkening (max 12%); never stack ground/weather/rain reductions.",
+    "stars": "Reuse live-world catalogue, projection, magnitude, 2000-point ceiling and 4000-triangle ceiling. Chicago and Denver profiles are appearance presets, not measured sky surveys.",
+    "actualLights": "Global cap 2 real nearby unshadowed local lights, shared by streetlights/porches/vehicles. Emissive windows are not real lights.",
+    "scope": "Only appearance. No observed household activity implied; recap solar/weather data do not establish historic lamps/window states."
+  },
+  "transition": {
+    "solarKeys": [
+      {
+        "sunElevationDeg": -4,
+        "label": "blue-hour",
+        "ambientErelChicago": 0.025,
+        "ambientErelDenver": 0.02,
+        "exposureEV": 0.8
+      },
+      {
+        "sunElevationDeg": -8,
+        "label": "first-stars",
+        "ambientErelChicago": 0.01,
+        "ambientErelDenver": 0.007,
+        "exposureEV": 1.5
+      },
+      {
+        "sunElevationDeg": -18,
+        "label": "night",
+        "ambientErelChicago": 0.006,
+        "ambientErelDenver": 0.0035,
+        "exposureEV": 2
+      }
+    ],
+    "interpolation": "Clamp endpoints; smoothstep between adjacent solar elevations; all RGB interpolation in linear space. Blue-hour label is artistic, twilight boundaries are not new ephemeris.",
+    "nightGate": "1-smoothstep(-18,-6,sunElevationDeg)",
+    "lampGate": "1-smoothstep(-3,1,sunElevationDeg)",
+    "indoorNightProminence": "1-smoothstep(-2,4,sunElevationDeg)",
+    "liveSmoothingSeconds": 12,
+    "exposureAdaptSeconds": 4,
+    "recap": "Evaluate directly from replay time/solar angle; omit wall-clock temporal filters after scrubbing. Smooth analytic schedules, preserve deterministic seeds.",
+    "directionalShadowOwner": "Sun when sun elevation > -3 degrees; Moon only once sun <= -6 and valid moon above horizon; fade through gap and reuse same shadow map, never render both."
+  },
+  "sky": {
+    "profiles": {
+      "chicago": {
+        "nightLimitingMagnitude": 3,
+        "milkyWayContrastPercent": 0,
+        "cityGlowStrength": 1,
+        "cityGlowAzimuthDeg": null,
+        "glowHalfWidthDeg": 65,
+        "glowElevationWidthDeg": 8,
+        "stops": [
+          {
+            "sunElevationDeg": -4,
+            "zenith": "#294878",
+            "horizon": "#85879F"
+          },
+          {
+            "sunElevationDeg": -8,
+            "zenith": "#233A63",
+            "horizon": "#6B637C"
+          },
+          {
+            "sunElevationDeg": -18,
+            "zenith": "#182D4C",
+            "horizon": "#5A5260"
+          }
+        ]
+      },
+      "denverDarkerSuburb": {
+        "nightLimitingMagnitude": 4.5,
+        "milkyWayContrastPercent": 2,
+        "cityGlowStrength": 0.35,
+        "cityGlowAzimuthDeg": null,
+        "glowHalfWidthDeg": 45,
+        "glowElevationWidthDeg": 6,
+        "stops": [
+          {
+            "sunElevationDeg": -4,
+            "zenith": "#25436E",
+            "horizon": "#6D7C99"
+          },
+          {
+            "sunElevationDeg": -8,
+            "zenith": "#1B3051",
+            "horizon": "#444F69"
+          },
+          {
+            "sunElevationDeg": -18,
+            "zenith": "#0F2038",
+            "horizon": "#303746"
+          }
+        ]
+      }
+    },
+    "gradient": "For sky elevation a: w=exp(-max(0,a)/12deg); linearRGB=lerp(zenith,horizon,w). City glow separately uses same sky evaluation.",
+    "cityGlow": "Direction from data, not always west. wGlow=strength*exp(-0.5*(wrappedAzimuthDelta/halfWidth)^2)*exp(-max(0,elevation)/glowElevationWidth); mix toward profile horizon only once. If direction unknown use a weak isotropic .25-strength horizon term and label fallback.",
+    "clouds": "Cloud masks occlude stars/Moon. Overcast uses muted cloudy sky; city cloud undersides may brighten near urban glow as authored bounded variation, not extra global exposure.",
+    "stars": {
+      "flux": "10^(-0.4*mV)",
+      "energy": "min(2,flux^0.55)*visibility*cloudTransmittance*nightGate",
+      "visibility": "1-smoothstep(mLimit-.5,mLimit+.5,mV+extinction)",
+      "fullMoonMagnitudeLossMax": 2,
+      "loss": "2*I^0.7*sqrt(max(0,sin(moonElevation)))",
+      "pointCoreDiameterDrawablePx": 1.2,
+      "maxPoints": 2000,
+      "maxTriangles": 4000,
+      "moonlessSuburbIsNotDarkMountain": true
+    }
+  },
+  "windows": {
+    "schedule": [
+      {
+        "localHour": 0,
+        "houseWithLitRoomShare": 0.14,
+        "conditionalRoomLitShare": 0.16,
+        "porchOnShare": 0.48
+      },
+      {
+        "localHour": 6,
+        "houseWithLitRoomShare": 0.12,
+        "conditionalRoomLitShare": 0.18,
+        "porchOnShare": 0.3
+      },
+      {
+        "localHour": 12,
+        "houseWithLitRoomShare": 0.18,
+        "conditionalRoomLitShare": 0.2,
+        "porchOnShare": 0.12
+      },
+      {
+        "localHour": 18,
+        "houseWithLitRoomShare": 0.68,
+        "conditionalRoomLitShare": 0.4,
+        "porchOnShare": 0.55
+      },
+      {
+        "localHour": 20,
+        "houseWithLitRoomShare": 0.75,
+        "conditionalRoomLitShare": 0.45,
+        "porchOnShare": 0.62
+      },
+      {
+        "localHour": 23,
+        "houseWithLitRoomShare": 0.24,
+        "conditionalRoomLitShare": 0.2,
+        "porchOnShare": 0.55
+      },
+      {
+        "localHour": 24,
+        "houseWithLitRoomShare": 0.14,
+        "conditionalRoomLitShare": 0.16,
+        "porchOnShare": 0.48
+      }
+    ],
+    "shareMeaning": "Probability of house having >=1 lit room and conditional lit-room probability; not all facade windows. Group openings per room; at least one supported room selected for a lit house. Small scenes need not equal exact percentages.",
+    "status": "Clearly simulated decorative lighting, not occupancy data.",
+    "stableSelection": "Stable object/room salts. Fixed threshold ranks produce nested evening-to-late selections; no frame/time-step random sampling. Within +/-0.01 threshold use smoothstep fade. Interpolate local schedule over clock intervals; integrate with indoorNightProminence.",
+    "colors": [
+      {
+        "hex": "#E7BA79",
+        "weight": 0.3,
+        "Lrel": 0.055
+      },
+      {
+        "hex": "#F0CF9C",
+        "weight": 0.5,
+        "Lrel": 0.075
+      },
+      {
+        "hex": "#F1DFC2",
+        "weight": 0.2,
+        "Lrel": 0.09
+      }
+    ],
+    "nominalCCTKelvinRange": [
+      2400,
+      3000
+    ],
+    "CCTNote": "Artistic labels; hex is not a calibrated Planckian spectrum.",
+    "curtains": [
+      {
+        "type": "open",
+        "share": 0.25,
+        "transmission": 0.9
+      },
+      {
+        "type": "sheer",
+        "share": 0.45,
+        "transmission": 0.55
+      },
+      {
+        "type": "closed",
+        "share": 0.3,
+        "transmission": 0.15
+      }
+    ],
+    "curtainPattern": "Broad 2\u20134 fold bands, max +/-8% emission, same window plane/material. Closed lit curtains remain faintly warm; closed does not mean room off.",
+    "offWindowHex": "#283547",
+    "geometry": "Use existing facade openings; no new room meshes or silhouette-changing windows. No occupants. Cull unresolved emissive windows rather than inflate size.",
+    "lateEmissionMultiplier": 0.85,
+    "porch": {
+      "hex": "#E7C38B",
+      "sourceLrel": 0.6,
+      "poolPeakErel": 0.003,
+      "poolSemiAxesMetres": [
+        1.4,
+        0.9
+      ],
+      "rangeMetres": 3,
+      "nearSourceHaloRadiusCSSPx": 2.5
+    },
+    "windowSpill": {
+      "method": "Local fa\u00e7ade/entry shading mask only for supported opening; never force light through walls.",
+      "peakErel": 0.0008,
+      "rangeMetres": 1.5
+    }
+  },
+  "streetlights": {
+    "types": {
+      "olderSodium": {
+        "hex": "#E7BA79",
+        "sourceLrel": 0.8,
+        "poolPeakErel": 0.006,
+        "nominalCCTKelvin": 2100
+      },
+      "warmWhiteLED": {
+        "hex": "#EFDFC4",
+        "sourceLrel": 0.9,
+        "poolPeakErel": 0.008,
+        "nominalCCTKelvin": 3000
+      }
+    },
+    "typeSelection": "Supplied lamp type wins. Unknown lamp uses warm-white generic profile with inferred flag; neither city is forced to all-sodium or all-LED.",
+    "poleHeightFallbackMetres": 8,
+    "heightStatus": "Demo assumption, actual mapped geometry wins.",
+    "poleSpacingDemoMetres": 32,
+    "spacingStatus": "Layout study only; do not generate/move mapped lamps.",
+    "poolSemiAxesMetres": [
+      5,
+      2.8
+    ],
+    "poolAxis": "major axis along road at supplied ground footprint",
+    "poolFormula": "r2=(u/5)^2+(v/2.8)^2; K=max(0,1-r2)^2; add owningLampErel*K to exposed eligible ground shading once.",
+    "overlapErelCeiling": 0.012,
+    "edgeTreatment": "Soft falloff; no decal edge or universal road light. Use same field across sidewalk/road normals/materials.",
+    "treeUnderlight": {
+      "nearRangeMetres": 7,
+      "extraDiffuseErelCeiling": 0.0018,
+      "method": "2 nearby actual lights supply normal-facing lower crown/trunk shading; distant analytic approximations only on eligible preselected exposed faces.",
+      "avoid": "No whole-tree emission, sky-facing crown rim or foliage color replacement."
+    },
+    "halo": {
+      "cleanAirRadiusCSSPxNear5m": 4,
+      "cleanAirRadiusCSSPx20m": 2,
+      "cleanAirRadiusCSSPx40m": 1,
+      "rainRadiusMultiplier": 1.5,
+      "radiusCSSPxMax": 6,
+      "peakCompositeWeight": 0.1,
+      "kernel": "Energy-normalized existing bloom; interpolate radius by projected source size and range; hidden/off lights have zero halo.",
+      "sourceCore": "True projected luminaire shape; unresolved active lamp may use energy-preserving point without enlarging its physical housing.",
+      "volumetricBeams": false
+    },
+    "placement": "Use known poles first; generic inferred demo lights carry provenance. Analytic pools clipped to exposed road/sidewalk receiver and parcel/occlusion visibility, not through buildings.",
+    "caps": {
+      "actualLocalLightsGlobal": 2,
+      "analyticPoolsNear": 12,
+      "analyticPoolCandidatesPerReceiver": 2,
+      "analyticPoolsAerial": 24,
+      "nearEvaluationRangeMetres": 45
+    },
+    "receiverOwnership": "Each receiver contribution uses either the 2 actual local lights or analytic proxy for that owner, never both. Share/source-clamp energy before final receiver shading."
+  },
+  "moon": {
+    "phaseConvention": "0=new,.25=first quarter,.5=full,.75=last quarter",
+    "illuminatedFraction": "I=(1-cos(2*pi*p))/2; actual elongation preferred",
+    "color": "#D5DDE7",
+    "diskLit": "#E5DFCA",
+    "diskAngularDiameterDegFallback": 0.5,
+    "directErelPeak": 0.0015,
+    "ambientIncrementErelMax": 0.001,
+    "energyFormula": "q=I^1.3*max(0,sin(moonElevation))*cloudDirectTransmittance; direct=.0015*q; ambientIncrement=.001*q.",
+    "energyClaim": "Stylized calibrated night readability; not physical moon/noon ratio or a lux claim.",
+    "shadow": {
+      "maxFinalLinearLuminanceReductionPercent": 18,
+      "minElevationDeg": 10,
+      "direction": "Opposite actual Moon azimuth on ground; length=height*cot(moonElevation).",
+      "softnessAngularDeg": 0.5,
+      "maxGroundShadowLengthMetres": 30,
+      "fadeBelowElevationDeg": [
+        5,
+        10
+      ],
+      "policy": "Single existing directional shadow map replaces Sun ownership. Clamp/fade distant/very long shadows, not fake a high moon. Moonless/below-horizon/overcast: no lunar shadow."
+    },
+    "moonless": "No moon direct or moon ambient increment; baseline sky/artificial fill remains, no invented moon disk.",
+    "cloudy": "Occlude actual disk and attenuate lunar lighting consistently; no starfield over overcast rain."
+  },
+  "weather": {
+    "rain": {
+      "substrateDarkeningOwner": "rain-v1",
+      "hardGroundDarkeningMaxPercent": 12,
+      "reflectionFieldsGlobal": 6,
+      "reflectionCandidatesPerRegion": 2,
+      "sharedWithWindows": true,
+      "fieldLengthMetres": [
+        1.2,
+        4
+      ],
+      "fieldWidthMetres": [
+        0.1,
+        0.35
+      ],
+      "maxNightMixWeight": 0.24,
+      "breaksPerField": 3,
+      "fadeDistanceMetres": [
+        25,
+        45
+      ],
+      "aerialLengthScale": 0.4,
+      "aerialMixScale": 0.65,
+      "formula": "rain-v1 field * wetness * (1-snowCover) * clamp(owningSourceLrel/referenceSourceLrel,0,1) * receiverEligibility; coefficient<=.24. Reference lamp Lrel=.8; window Lrel=.075. Disabled/unsupported source => zero.",
+      "windowReflection": "At most 2 of the 6 shared fields; eligible within 6 m of actual lit opening, dim .4\u00d7 lamp-field coefficient. Skip unsupported geometry/reflection direction.",
+      "puddleRoughness": 0.18,
+      "SSROrPlanarPass": false,
+      "visibleLampHalosOnly": true
+    },
+    "snow": {
+      "freshAlbedo": "#E4E9EB",
+      "shadowDisplayReference": "#C3CDD6",
+      "compactedAlbedo": "#ADB9C4",
+      "bankAlbedo": "#DDE2E3",
+      "dirtyBankAlbedo": "#91958D",
+      "roughness": 0.88,
+      "extraEmission": 0,
+      "ambientBounceScaleMax": 1.25,
+      "exposureOffsetEV": -0.3,
+      "reflectionSuppression": "Wet field multiplied by exposed non-snow fraction. Clear wet strips may reflect, snow does not.",
+      "coverage": "History-driven independent snow channel; plowed/trodden needs supplied history or explicit demo flag.",
+      "sky": "Bright blue-white material under cool sky, local warm lamp pools; no bright exposure/ambient and snow-emission stacking."
+    }
+  },
+  "performance": {
+    "repositoryConstraints": {
+      "fps": 60,
+      "GPUCeilingMs": 10,
+      "sceneTriangleCeiling": 400000,
+      "shadowTriangleCeiling": 150000,
+      "drawCeiling": 100,
+      "contentMs": 7.9,
+      "reservedMs": 2.1
+    },
+    "bucketsMs": {
+      "baseOpaque": 4.25,
+      "shadows": 1.45,
+      "ambientCrownContact": 0.15,
+      "surfacePattern": 0.25,
+      "nearGeometry": 0.35,
+      "wetLocalLight": 0.35,
+      "weatherParticles": 0.2,
+      "postTotal": 0.9,
+      "reserve": 2.1
+    },
+    "allocation": "Every effect replaces/reuses existing allocation; no new allowance. Pools and wet fields are integrated into existing ground/material variant, no pass per lamp.",
+    "wetLocalSharedSuballocationsMs": {
+      "wetAndPuddles": 0.22,
+      "lampsPoolsAndReflectionFields": 0.1,
+      "optionalRipples": 0.03
+    },
+    "postSuballocationsMs": {
+      "gradeComposite": 0.15,
+      "bloom": 0.35,
+      "aerialBlur": 0.4
+    },
+    "additionalNightShadowMaps": 0,
+    "additionalPerWindowLights": 0,
+    "additionalNightGeometryTriangles": 0,
+    "additionalPerLampDrawCalls": 0,
+    "haloPolicy": "Shared bloom; absent bloom => emissive core only, not additive sprites per lamp.",
+    "skySharesLiveBaseBudget": true,
+    "particlesShareRainSnowBudget": true,
+    "degradeOrder": [
+      "disable ripples and inferred window reflection fields",
+      "reduce analytic pool/streak count and remove unresolved halos",
+      "disable aerial blur before grade readability",
+      "reduce rain/snow particle count per rain-v1",
+      "reduce distant tree detail/sky points within existing LOD"
+    ],
+    "validation": "Actual iPhone 13-class iOS26+; fixed drawable size; 10-minute street and aerial sequences at dusk/night, wet/snow; report worst GPU, p95, thermal and frame stalls. Artwork/desktop browser is not a budget pass.",
+    "verifiedOnDevice": false
+  },
+  "sources": [
+    {
+      "status": "verified",
+      "claim": "Civil/nautical/astronomical twilight boundaries at solar center -6/-12/-18 degrees.",
+      "url": "https://aa.usno.navy.mil/faq/RST_defs",
+      "checked": "2026-10-06"
+    },
+    {
+      "status": "repository constraint",
+      "claim": "v2 \u00a78.1 budgets and rain/live layer caps read on disk.",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "checked": "2026-10-06"
+    },
+    {
+      "status": "assumption",
+      "claim": "All house/room/porch shares, lamp spectra labels, regional glow, intensity, halo, shadow-strength and performance subtargets are authored appearance proposals."
+    }
+  ]
+}

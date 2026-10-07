@@ -49,6 +49,7 @@ The look loop is the official visual gate for every session. A view passes at co
 
 ## Rules
 
+- **ChatGPT drop folder (owner, 6 Oct 2026):** ChatGPT saves to `~/Desktop/worldengine-gpt-drop/<pack>/`, outside the repo. On every watch tick run `Tools/lookloop/ingest_drop.py`; when it lists new files, run it with `--apply`, then commit the text files, run `Tools/lookloop/backup_design_images.sh` and log the pack in `docs/design-registry.md` (design packs under Packs, research under Research). Never delete or change anything in the drop folder; a CONFLICT line (same path, different content) is reported to the owner, never overwritten. ChatGPT research is spot-checked against official sources before use.
 - Never edit `docs/proposals/` or the grades by hand. If a grade looks wrong, re-run that reviewer and say so.
 - Reviewers never change scores to match expectations. If calibration looks off, follow `docs/lookloop/calibration.md`.
 - If capture fails (the Simulator is stuck, or there is no `STATS` line), report it with the log path. Never substitute old frames silently; the plan reuses only frames whose inputs are byte-for-byte unchanged.

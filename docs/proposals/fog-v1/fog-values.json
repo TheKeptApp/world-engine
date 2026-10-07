@@ -1,0 +1,594 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-10-06",
+  "style": "B",
+  "status": "proposal_only",
+  "claimPolicy": "All appearance values, density labels, layer heights, glow caps and budget targets are authored assumptions. Only sources explicitly marked verified_principle establish researched facts. Images are AI concept references, not measured renderer or geography fixtures.",
+  "units": {
+    "distance": "m",
+    "extinction": "1/m",
+    "colour": "sRGB hex decode to linear before mixing",
+    "strength": "linear radiance blend weight unless specified",
+    "screen": "CSS pixels at phone390x844; convert to drawable pixels by actual scale",
+    "darkening": "percent linear base RGB relative to dry; not final shaded pixel"
+  },
+  "densityModel": {
+    "model": "exponential contrast fade",
+    "nearClearM": 5,
+    "contrastThreshold": 0.05,
+    "formula": "sigma=ln(20)/(V-5); tau=sigma*max(0,d-5); T=exp(-tau); Cout=T*Csurface+(1-T)*Cfog",
+    "VMeaning": "Distance at which an ideal high-contrast object retains5% of its original contrast in this authored homogeneous model. Not a meteorological definition, fog end, guaranteed human seeing distance, or device depth precision.",
+    "ordering": "Surface lighting/contact/wetness -> one fog application in linear light -> shared exposure/grade/tone map. Apply no independent distance saturation/contrast fade or blur.",
+    "liveVisibility": "When valid weather visibility exists, use it as V. For V<=5m set nearClearM=min(5,0.1V) and sigma=ln(20)/max(0.01,V-nearClearM); valid visibility must be positive. Preserve raw observation separately; do not clamp densefog to60m. Reporting-limited high values remain lower bounds. Missing visibility plus explicitfog may use authoredmoderate220m fallback flaggedassumed; morning alone never selectsfog.",
+    "infiniteRay": "Sky uses path through supplied layer to exit, not infinite distance blindly; cap optical depth at12 before exponent.",
+    "weatherCompatibility": "Proposes replacing the weather-v1 stylized25/220 street and100/600 aerial fog start/end pair with one extinction policy. Do not multiply or apply both. Changes near-clear band to5m from legacy10m floor. Legacy adapter may keep existing fallback but cannot claim exact exponential parity.",
+    "modeConsistency": "Same environmental sigma/colour/layer across modes. Aerial rays above/shallowly through layer differ by physical path length, never arbitrary camera-specific larger visibility.",
+    "transition": {
+      "fogSeconds": 20,
+      "lightSeconds": 12,
+      "method": "smoothstep from frozen displayed endpoints; blend optical depth/sigma and linear colours once; retarget from current state"
+    },
+    "layers": {
+      "tier": "bounded analytic optional extension",
+      "baseReference": "supplied ground/lake surface elevation; all demo heights assumptions",
+      "profile": "w(h)=1 for0<=h<=H-taper; linear decrease to0 across upper taper;0 aboveH. Belowground ignored. tau=sigma*integral w(h(s))ds over ray from nearClearM onward; T=exp(-tau). Linear height along ray allows exact piecewise polynomial integration, no raymarch. Scene horizontal domain supplied; clip layer to domain, not camera.",
+      "domain": "Baseline broad horizontal layer for flat testregion. Maximumone layer/domain; use existing loaded extent with boundaries beyondview, no hard visible box. Local lake-only density requires supplied domain and smooth boundary extinction; if unavailable use uniformlayer and flag it. Do not infer local densefog from OSMwater alone.",
+      "skyAndWater": "Use same integrated extinction for terrain/water/buildings/sky-to-layerexit. Aerial roofs/crowns abovetop are not whitened by opaque fog sheet. Water can receive stronger apparentveil through long shallow rays, not independent whiteoverlay.",
+      "terrainLimitation": "A single horizontal analytic layer is appropriate only to flat supplied testregions. Hilly terrain needs validated regional layers or uniformdistance fallback; no per-fragment terrain-following density solve required.",
+      "noFogCards": true,
+      "no3DNoise": true,
+      "noRaymarch": true
+    }
+  },
+  "densities": [
+    {
+      "id": "light_mist",
+      "visibilityDistanceM": 1000,
+      "layerTopM": 8,
+      "layerTaperM": 3,
+      "fogDirectMultiplier": 0.65,
+      "status": "authored_assumption",
+      "nearClearM": 5,
+      "extinctionPerM": 0.003010786204576875,
+      "curveExponent": 1,
+      "contrastAtVisibility": 0.05,
+      "samples": [
+        {
+          "distanceM": 5,
+          "transmittance": 1
+        },
+        {
+          "distanceM": 10,
+          "transmittance": 0.9850588129411048
+        },
+        {
+          "distanceM": 20,
+          "transmittance": 0.9558428205787863
+        },
+        {
+          "distanceM": 40,
+          "transmittance": 0.8999846987779444
+        },
+        {
+          "distanceM": 60,
+          "transmittance": 0.8473908477378833
+        },
+        {
+          "distanceM": 100,
+          "transmittance": 0.7512440679264806
+        },
+        {
+          "distanceM": 220,
+          "transmittance": 0.5234472415475986
+        },
+        {
+          "distanceM": 1000,
+          "transmittance": 0.05000000000000001
+        }
+      ]
+    },
+    {
+      "id": "moderate",
+      "visibilityDistanceM": 220,
+      "layerTopM": 20,
+      "layerTaperM": 4,
+      "fogDirectMultiplier": 0.35,
+      "status": "authored_assumption",
+      "nearClearM": 5,
+      "extinctionPerM": 0.01393363848164647,
+      "curveExponent": 1,
+      "contrastAtVisibility": 0.05,
+      "samples": [
+        {
+          "distanceM": 5,
+          "transmittance": 1
+        },
+        {
+          "distanceM": 10,
+          "transmittance": 0.9327032465861321
+        },
+        {
+          "distanceM": 20,
+          "transmittance": 0.8113915217135995
+        },
+        {
+          "distanceM": 40,
+          "transmittance": 0.6140509665572883
+        },
+        {
+          "distanceM": 60,
+          "transmittance": 0.46470609987841605
+        },
+        {
+          "distanceM": 100,
+          "transmittance": 0.2661498838540167
+        },
+        {
+          "distanceM": 220,
+          "transmittance": 0.05000000000000001
+        },
+        {
+          "distanceM": 1000,
+          "transmittance": 9.526957023756493e-07
+        }
+      ]
+    },
+    {
+      "id": "dense",
+      "visibilityDistanceM": 60,
+      "layerTopM": 12,
+      "layerTaperM": 4,
+      "fogDirectMultiplier": 0.12,
+      "status": "authored_assumption",
+      "nearClearM": 5,
+      "extinctionPerM": 0.05446785951916347,
+      "curveExponent": 1,
+      "contrastAtVisibility": 0.05,
+      "samples": [
+        {
+          "distanceM": 5,
+          "transmittance": 1
+        },
+        {
+          "distanceM": 10,
+          "transmittance": 0.7615958096191474
+        },
+        {
+          "distanceM": 20,
+          "transmittance": 0.4417470292389771
+        },
+        {
+          "distanceM": 40,
+          "transmittance": 0.14861813974730292
+        },
+        {
+          "distanceM": 60,
+          "transmittance": 0.05000000000000001
+        },
+        {
+          "distanceM": 100,
+          "transmittance": 0.005659347623246937
+        },
+        {
+          "distanceM": 220,
+          "transmittance": 8.206452715549275e-06
+        },
+        {
+          "distanceM": 1000,
+          "transmittance": 2.9052574524656202e-24
+        }
+      ]
+    }
+  ],
+  "lighting": [
+    {
+      "id": "pre_sunrise",
+      "solarElevationExampleDeg": -4,
+      "fogHex": "#AEBECD",
+      "sunFogHex": "#D8C8B8",
+      "skyHex": "#A7BACD",
+      "waterHex": "#778C9B",
+      "sunGlowStrength": 0,
+      "shaftStrength": 0,
+      "directSunAllowed": false,
+      "lampGate": 1,
+      "exposureRelativeEV": 0.1
+    },
+    {
+      "id": "low_sun",
+      "solarElevationExampleDeg": 4,
+      "fogHex": "#C8D1D1",
+      "sunFogHex": "#EBD8B8",
+      "skyHex": "#B8CBD8",
+      "waterHex": "#839B9E",
+      "sunGlowStrength": 0.12,
+      "sunGlowHalfAngleDeg": 12,
+      "sunGlowSupportAngleDeg": 25,
+      "shaftStrength": 0.045,
+      "directSunAllowed": true,
+      "lampGate": 0.8,
+      "exposureRelativeEV": 0.1
+    },
+    {
+      "id": "overcast",
+      "solarElevationExampleDeg": 6,
+      "fogHex": "#C1CACD",
+      "sunFogHex": "#C1CACD",
+      "skyHex": "#B6C4CE",
+      "waterHex": "#7B919E",
+      "sunGlowStrength": 0,
+      "shaftStrength": 0,
+      "directSunAllowed": true,
+      "lampGate": 0.7,
+      "exposureRelativeEV": 0.15
+    },
+    {
+      "id": "late_morning",
+      "solarElevationExampleDeg": 25,
+      "fogHex": "#CBD7DC",
+      "sunFogHex": "#E7DFCE",
+      "skyHex": "#B2CDDE",
+      "waterHex": "#638D9E",
+      "sunGlowStrength": 0.025,
+      "sunGlowHalfAngleDeg": 12,
+      "sunGlowSupportAngleDeg": 25,
+      "shaftStrength": 0,
+      "directSunAllowed": true,
+      "lampGate": 0,
+      "exposureRelativeEV": 0
+    }
+  ],
+  "lightRules": {
+    "solarExamples": "Authored look examples, not capture event times. Runtime actual solar elevation/azimuth governs sun, shadows, glow and shafts.",
+    "direct": "Actual existing time-key sunstrength * min(1-0.6*cloudCover,fogDirectMultiplier); apply smoothstep(0,2,e) gate. Do not cloud*fog multiply. Proposedmoderate.35 lowfog replaces legacyfullfog.12 where thispreset selected; dense retains.12.",
+    "sunGlow": "Only e>0 and source-compatible cloud evidence: weight=strength*(1-Tsky)*exp(-ln(2)*(angle/12deg)^2) with smooth taper20\u201325deg. Mix Cfog toward sunFogHex, capstrength. No artificial disk or warm wash opposite sun.",
+    "shafts": {
+      "tier": "optional stretch only",
+      "maxCount": 2,
+      "maxLengthM": 25,
+      "screenCoveragePercentMax": 3,
+      "maximumEffectiveBlend": 0.045,
+      "streetOnly": true,
+      "gate": "e2\u201310deg, rising branch, sun visible/cloudCover<.55, supportedfog, camera within35deg of sun. None atnight/overcast. Derive through actual canopy gaps, occlude behind real trunks/roofdepth; disable if depth-correct placement unavailable.",
+      "implementation": "No volumetric raymarch or separate god-ray blurpass. Atmost2 soft analytic bands within existing depth-tested material/grade solution, else omit. Fixedworldsun alignment, no camera-facing movingcones.",
+      "budgetWithinExistingBloomMs": 0.05
+    },
+    "shadows": {
+      "lightMistShadowToLitY": 0.7,
+      "moderateShadowToLitY": 0.84,
+      "denseShadowToLitY": 0.92,
+      "nearContactAmbientDarkeningPercent": 12,
+      "length": "height*cot(actuale); reduceddirect makes shadow faint not shorter",
+      "softFilterDrawablePx": [
+        2,
+        4
+      ],
+      "noNewShadowLight": true
+    },
+    "lamps": {
+      "colourHex": "#F4CD92",
+      "maxHaloSourcesStreet": 6,
+      "maxHaloSourcesAerial": 0,
+      "maxLocalUnshadowedLights": 2,
+      "haloRadiusCssPx": [
+        6,
+        18
+      ],
+      "haloSupportRadiusCssPxMax": 28,
+      "haloMaxBlend": 0.18,
+      "haloFormula": "weight=haloMaxBlend*lampGate*4*Tlamp*(1-Tlamp)*exp(-ln(2)*(radius/rHalf)^2), taper to0 at28CSSpx. Lamphead surfacefog appliedonce; noextraT multiplication of head. Occlude halo center by scene depth; neverglow throughwall.",
+      "lampSchedule": "Use supplied lampstate; demo gate by e ramps1 ate<=-2 to0 ate>=12. Schedule is authoredfallback, fog does not force lamp on atnoon.",
+      "lampCoreGainRelativeExisting": 1.15,
+      "wetStreakCountMax": 2,
+      "wetStreakLengthM": [
+        1,
+        4
+      ],
+      "wetStreakStrengthMax": 0.06,
+      "noPointLightsForFarLamps": true
+    }
+  },
+  "surfaces": {
+    "status": "authored damp demo override; live surfacehistory authoritative",
+    "wetnessDemo01": 0.2,
+    "noAutomaticPuddles": true,
+    "noRainParticles": true,
+    "dewIndependentOfWetnessReservoir": true,
+    "dewDemo01": 0.5,
+    "dewGrazingMaxStrength": 0.025,
+    "dewFadeViewNormalDot": [
+      0.25,
+      0.6
+    ],
+    "dewSparseSparkle": false,
+    "dewPolicy": "Broadsmooth grazing sheenonly; exposedupwardlawn, independent dew evidence/demo; no fog-to-dew causalassignment. Dawn alone not proof. Snow masks suppress sheen.",
+    "values": [
+      {
+        "surface": "concrete",
+        "darkeningPercent": 4,
+        "roughness": 0.76,
+        "sheenStrength": 0.05,
+        "linearMultiplier": 0.96
+      },
+      {
+        "surface": "asphalt",
+        "darkeningPercent": 5,
+        "roughness": 0.78,
+        "sheenStrength": 0.06,
+        "linearMultiplier": 0.95
+      },
+      {
+        "surface": "brick",
+        "darkeningPercent": 4,
+        "roughness": 0.78,
+        "sheenStrength": 0.04,
+        "linearMultiplier": 0.96
+      },
+      {
+        "surface": "lawn",
+        "darkeningPercent": 3,
+        "roughness": 0.92,
+        "sheenStrength": 0.01,
+        "linearMultiplier": 0.97
+      },
+      {
+        "surface": "roof",
+        "darkeningPercent": 2,
+        "roughness": 0.82,
+        "sheenStrength": 0.03,
+        "linearMultiplier": 0.98
+      }
+    ],
+    "precedence": "Use rain-v1 damp row asone materialpolicy, neverstack on previousdarkening. Dew additive highlight cap.025, base lawnsheen.01 retained separately; combined capped.03."
+  },
+  "places": {
+    "sloansLake": {
+      "status": "concept based on existing engine paint-over geometry; not surveyed new camera",
+      "preferredDemo": "shallow radiation/advection-type lowlayer, mechanism unknown withoutweather",
+      "localLayerTopM": 8,
+      "localLayerTaperM": 3,
+      "waterAlwaysLiquidInDemo": true,
+      "oppositeBank": "Fade by actualdistance; no silhouettefabrication or moving shoreline."
+    },
+    "street": {
+      "nearFocusM": [
+        5,
+        40
+      ],
+      "layerTopM": 20,
+      "layerTaperM": 4,
+      "trees": "Smoothroundedpuffs, thickbranchingtrunks/rootflare; nearshadevolume retained. No bark/leaftextures."
+    },
+    "chicagoLakefront": {
+      "status": "generic new publiclakefront concept, not surveyedsite",
+      "mechanism": "Lake/advection fog is not lake-effect snow; steamfog only whencoldair/warmwater evidence exists",
+      "layerTopM": 12,
+      "layerTaperM": 4,
+      "openHorizon": true,
+      "noMountains": true,
+      "wind": "Onlyadvectsuppliedlayer if supportedweather; no fogparticles."
+    }
+  },
+  "lifting": {
+    "status": "authored demonstration; live lifting requires updatedevidence",
+    "durationDemoSeconds": 90,
+    "from": {
+      "state": "moderate",
+      "sigmaPerM": 0.01393363848164647,
+      "layerTopM": 8
+    },
+    "to": {
+      "state": "light_mist",
+      "sigmaPerM": 0.003010786204576875,
+      "layerTopM": 3
+    },
+    "method": "smoothstep sigma down, taper/top down and linearfogcolour towardlatemorning. Higher sun and shorter true shadows evolve fromactualtime, neveraccelerate solarposition withfogduration.",
+    "noFixedClockClearing": true,
+    "noDryGroundInstantly": true
+  },
+  "performance": {
+    "status": "unmeasured targets",
+    "gpuTotalMs": 10,
+    "plannedContentMs": 7.9,
+    "reserveMs": 2.1,
+    "existingBaseWorldMs": 4.25,
+    "existingWetLocalMs": 0.35,
+    "existingBloomMs": 0.35,
+    "fogIncludedInBaseWorld": true,
+    "extraFogPasses": 0,
+    "baselineFogParticles": 0,
+    "fog3DTextures": 0,
+    "analyticLayerMaxCount": 1,
+    "optionalShaftMs": 0.05,
+    "haloCompositeWithinExistingBloomMs": 0.08,
+    "combinedShaftHaloTargetMs": 0.13,
+    "doNotAddToExistingBuckets": true,
+    "shadowGeometryUnchanged": true,
+    "disableOrder": [
+      "shafts",
+      "extra halos beyond2",
+      "dewaddition",
+      "local layer enrichment; retain basicdistancefog"
+    ],
+    "mobileTest": "PhysicaliPhone13class iOS26+, 60fps10min dawn/moderate/dense/lift street&aerial; logmaxandp95GPU andthermal. Same world/weathergeometry. No passclaimedfromconcept."
+  },
+  "frames": [
+    {
+      "id": "01-street-light-mist",
+      "label": "Street \u00b7 light mist",
+      "path": "images/01-street-light-mist.png",
+      "density": "light_mist",
+      "lighting": "low_sun",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        940,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 693.702
+      },
+      "phoneSheet": "images/01-street-light-mist-phone.svg"
+    },
+    {
+      "id": "02-street-moderate-fog",
+      "label": "Street \u00b7 moderate fog",
+      "path": "images/02-street-moderate-fog.png",
+      "density": "moderate",
+      "lighting": "overcast",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/02-street-moderate-fog-phone.svg"
+    },
+    {
+      "id": "03-street-dense-fog",
+      "label": "Street \u00b7 dense dawn fog",
+      "path": "images/03-street-dense-fog.png",
+      "density": "dense",
+      "lighting": "pre_sunrise",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/03-street-dense-fog-phone.svg"
+    },
+    {
+      "id": "04-sloans-low-sun",
+      "label": "Sloan\u2019s Lake \u00b7 sun through fog",
+      "path": "images/04-sloans-low-sun.png",
+      "density": "moderate",
+      "lighting": "low_sun",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/04-sloans-low-sun-phone.svg"
+    },
+    {
+      "id": "05-sloans-aerial-fog",
+      "label": "Sloan\u2019s Lake aerial \u00b7 low fog",
+      "path": "images/05-sloans-aerial-fog.png",
+      "density": "moderate",
+      "lighting": "low_sun",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/05-sloans-aerial-fog-phone.svg"
+    },
+    {
+      "id": "06-sloans-aerial-lifting",
+      "label": "Sloan\u2019s Lake aerial \u00b7 lifting late morning",
+      "path": "images/06-sloans-aerial-lifting.png",
+      "density": "light_mist",
+      "lighting": "late_morning",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/06-sloans-aerial-lifting-phone.svg"
+    },
+    {
+      "id": "07-chicago-lakefront",
+      "label": "Chicago lakefront \u00b7 cool lake fog",
+      "path": "images/07-chicago-lakefront.png",
+      "density": "dense",
+      "lighting": "overcast",
+      "status": "AIconcept; numericvalues authoritative, imagepixels uncalibrated",
+      "pixelDimensions": [
+        941,
+        1672
+      ],
+      "phonePresentation": {
+        "widthCssPx": 390,
+        "heightCssPx": 692.965
+      },
+      "phoneSheet": "images/07-chicago-lakefront-phone.svg"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pbrt",
+      "status": "verified_principle",
+      "checked": "2026-10-06",
+      "url": "https://www.pbr-book.org/4ed/Volume_Scattering/Transmittance",
+      "scope": "Extinction integrates along the ray; homogeneous transmittance is exponential. The stylized near-clear offset and contrast anchor are authored, not physical measurements."
+    },
+    {
+      "id": "nws-radiation",
+      "status": "verified_principle",
+      "checked": "2026-10-06",
+      "url": "https://www.weather.gov/safety/fog-radiation",
+      "scope": "Radiation fog develops near the cooling surface, can be patchy, favors sheltered and water-adjacent places, and commonly dissipates under sunlight. No fixed lifting time is established."
+    },
+    {
+      "id": "nws-water",
+      "status": "verified_principle",
+      "checked": "2026-10-06",
+      "url": "https://www.weather.gov/safety/fog-water",
+      "scope": "Warm moist air over cooler water can produce lake/advection fog, including the Great Lakes; it can move onto land. This does not verify a particular Chicago or Denver event."
+    },
+    {
+      "id": "repository-0",
+      "status": "repository_reference",
+      "checked": "2026-10-06",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md",
+      "scope": "Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results."
+    },
+    {
+      "id": "repository-1",
+      "status": "repository_reference",
+      "checked": "2026-10-06",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/rain-v1/README.md",
+      "scope": "Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results."
+    },
+    {
+      "id": "repository-2",
+      "status": "repository_reference",
+      "checked": "2026-10-06",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/paintover-v1/README.md",
+      "scope": "Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results."
+    },
+    {
+      "id": "repository-3",
+      "status": "repository_reference",
+      "checked": "2026-10-06",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md",
+      "scope": "Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results."
+    },
+    {
+      "id": "repository-4",
+      "status": "repository_reference",
+      "checked": "2026-10-06",
+      "path": "/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "scope": "Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results."
+    }
+  ]
+}

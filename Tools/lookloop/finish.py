@@ -11,7 +11,7 @@ import collections, datetime, json, os, shutil, subprocess, sys, time
 
 sys.dont_write_bytecode = True  # no __pycache__ next to the tools (nothing to commit by accident)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from grade import concept_score, recompute  # noqa: E402  (same totals whether reviewers ran headless or in a session)
+from grade import concept_score, paintover_score, recompute  # noqa: E402  (same totals whether reviewers ran headless or in a session)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DOCS = os.path.join(ROOT, "docs/lookloop")
@@ -76,7 +76,7 @@ def main():
                 g = json.load(open(p))
                 if "error" in g or "scores" not in g or "artDirection" not in g:
                     raise ValueError(g.get("error", "not GRADING.md section G"))
-                grades[vid] = recompute(g, views[vid], concept_score(views[vid], concept))
+                grades[vid] = recompute(g, views[vid], concept_score(views[vid], concept), paintover_score(views[vid], concept))
                 json.dump(g, open(p, "w"), indent=1)
             except (ValueError, KeyError, TypeError) as e:
                 print(f"  {vid}: grade rejected ({e})")
@@ -105,6 +105,8 @@ def main():
     # Concept parity: the view's /50 as a share of its target concept's calibrated /50 (calibration.md).
     parity = {vid: g["parity"] for vid, g, _, _ in rows if g and g.get("parity") is not None}
     mean_parity = round(sum(parity.values()) / len(parity)) if parity else None
+    po_parity = {vid: g["paintoverParity"] for vid, g, _, _ in rows if g and g.get("paintoverParity") is not None}
+    mean_po = round(sum(po_parity.values()) / len(po_parity)) if po_parity else None
     ord_par = [parity[v] for v in parity if views[v]["group"] == "ordinary"]
     ordinary_parity = round(sum(ord_par) / len(ord_par)) if ord_par else None
     # P2's gate (owner): buildings and ground criteria average >= 3.5 on the region views.
@@ -135,7 +137,7 @@ def main():
 
     out = {
         "run": meta, "views": {vid: {"grade": g, "signals": signals[vid]} for vid, g, _, _ in rows},
-        "aggregate": {"meanConceptParity": mean_parity, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
+        "aggregate": {"meanConceptParity": mean_parity, "paintoverParity": po_parity, "meanPaintoverParity": mean_po, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
                       "meanV2Score50": mean50, "conceptParity": parity, "meanArtDirection": meanAD, "gatePasses": passes, "graded": len(scored),
                       "captured": len(captured), "failedGrades": failed, "placeholders": placeholders,
                       "criterionMeans": {k: round(sum(v) / len(v), 2) for k, v in crit.items()},
@@ -182,6 +184,9 @@ def main():
           f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}  ·  end-of-5B gate {gate5b}/{len(scored)}", "",
           f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
           + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
+          (f"Paint-over parity {fmt(mean_po)}% (paintover-v1, beside the gate; view /50 ÷ its own paint-over's calibrated /50): "
+           + ", ".join(f"{v} {p}%" for v, p in sorted(po_parity.items())) + "." if po_parity else
+           "Paint-over parity: not available (paint-overs not calibrated yet)."), "",
           (f"look-fix-v1 checks (GRADING.md §H, beside the gate): {sum(lf_fail.values())} failed of {lf_checked} judged"
            + (" — " + ", ".join(f"{k} {n}" for k, n in lf_fail.most_common()) if lf_fail else "") + f"; {lf_unc} not checkable from a still." if lf_checked else
            "look-fix-v1 checks: not reported by these grades."), "",

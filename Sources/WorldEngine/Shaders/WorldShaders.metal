@@ -46,7 +46,7 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -85,6 +85,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.wetA = float4(tex.read(uint2(30, 1))); g.wetB = float4(tex.read(uint2(31, 1)));
     g.wetC = float4(tex.read(uint2(32, 1))); g.wetD = float4(tex.read(uint2(33, 1)));
     g.water = float4(tex.read(uint2(34, 1))); g.wetE = float4(tex.read(uint2(35, 1)));
+    g.waterB = float4(tex.read(uint2(36, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -524,9 +525,11 @@ void worldWaterSurface(realitykit::surface_parameters params)
     half3 sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5)));
     float cover = clamp(g.cloudCover, 0.0, 1.0);
     half k = half(mix(g.water.x, g.water.y, cover));
-    su.base = mix(su.base, sky * 0.9h, k);
+    // Under cloud the reflected sky dims to look.json overcastReflectGain: a storm lake is dark slate.
+    su.base = mix(su.base, sky * half(mix(0.9, g.waterB.x, cover)), k);
     half lum = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
     su.base = mix(half3(lum), su.base, half(mix(1.0, g.water.z, cover)));
+    su.emissive = half3(0.0h);
     // Rain rings on open water while it rains (look.json water.rainRipples).
     if (g.wetE.w > 0.01) {
         float2 cell = floor(wp.xz / 0.8), f = fract(wp.xz / 0.8) - 0.5;
@@ -534,7 +537,7 @@ void worldWaterSurface(realitykit::surface_parameters params)
         float ring = abs(length(f - (float2(hash12(cell + 5.0), hash12(cell + 9.0)) - 0.5) * 0.5) - tt * 0.4);
         su.emissive += sky * half((1.0 - smoothstep(0.0, 0.04, ring)) * (1.0 - tt) * g.water.w * g.wetE.w);
     }
-    su.emissive = half3(0.0h); su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
+    su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
     su.weathered = false;
     if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring
     finish(params, g, su, wp);
@@ -551,8 +554,10 @@ float cloudAt(Globals g, float3 d, float time) {
     float c = clamp(g.cloudCover, 0.0, 1.0);
     // Overcast closes to a full deck; partial cover keeps soft edges. The threshold is the noise
     // quantile for the cover (computed on the CPU), so 25% cover shows about a quarter cloud.
+    // Edges soften as the deck closes (look.json sky), so a gap in overcast never reads as a cut-out.
     float t = g.cloudThreshold;
-    float cover = smoothstep(t - 0.05, t + 0.05, n) * smoothstep(0.0, 0.12, d.y);
+    float e = mix(g.waterB.y, g.waterB.z, smoothstep(0.5, 1.0, c));
+    float cover = smoothstep(t - e, t + e, n) * smoothstep(0.0, 0.12, d.y);
     return max(cover, smoothstep(0.85, 1.0, c) * smoothstep(0.0, 0.08, d.y));
 }
 
@@ -612,7 +617,7 @@ void worldSkySurface(realitykit::surface_parameters params)
     float2 q2 = d.xz / max(d.y + 0.18, 0.18) * 3.1 + g.windDir * time * 0.006;
     float billow = valueNoise(q2) * 0.6 + valueNoise(q2 * 2.7 + 3.3) * 0.4;
     float3 cc = float3(g.cloudColor) * (0.78 + 0.34 * billow) * (0.88 + 0.22 * smoothstep(0.0, 0.5, d.y))
-              + float3(g.sunDisk) * silver * 0.35;
+              + float3(g.sunDisk) * silver * 0.35 * (1.0 - smoothstep(0.5, 1.0, clamp(g.cloudCover, 0.0, 1.0)));
     c = mix(c, cc, cloud);
     auto s = params.surface();
     // Unlit material: RealityKit shows the emissive colour (the base colour is ignored).
