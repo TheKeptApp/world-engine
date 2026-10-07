@@ -59,6 +59,14 @@ extension World {
         if let grade {
             exposureTarget = Float(grade.luma / 255) + lookTuning.exposureTarget
             gradeSaturation = Float(grade.saturation)
+            gradeLook = grade.look
+        }
+        // Daytime master exposure: the heroes' brightness as the auto-exposure target, and the master's
+        // EV realised by it (applied once), not as a second gain on top.
+        let masterExposure = Float(smoothstepD(15, 30, env.light.sunElevationDeg)) * (state == nil || state == .clear ? 1 : Float(1 - weight))
+        if Self.daytimeMaster != nil, let y8 = Self.lookSpec?.daytimeMaster.exposureTargetY8, masterExposure > 0 {
+            exposureTarget += (Float(y8 / 255) + lookTuning.exposureTarget - exposureTarget) * masterExposure
+            gradeLook.exposureEV *= Double(1 - masterExposure)
         }
         // Weather key:fill (grade.json weather `direct`): the renderer takes away more of the direct
         // sun under cloud, rain and fog than the weather model does, and the sky fill grows as the
@@ -87,6 +95,26 @@ extension World {
             tint = WorldGen.Color.linear(Palette.parse("#D9A06A"))
             tw = 0.4 * Float(weight)
             L.sunColor = simd_mix(L.sunColor, WorldGen.Color.linear(Palette.parse("#FF9A4D")) * simd_length(L.sunColor) / 1.2, SIMD3(repeating: 0.6 * Float(weight)))
+        }
+        // Daytime lighting master (house-contrast-v1 sharedLighting via mock-values.json; owner, 7 Oct):
+        // a clear day from 15° of sun (in full at 30°) takes the master's sky, sun colour and sky-fill
+        // colour; sun and fill keep the time key's brightness (only their hue is the master's), and
+        // look.json daytimeMaster calibrates key and fill to the master's shadow depth.
+        let clearness = state == nil || state == .clear ? 1.0 : 1 - weight
+        let m = Float(smoothstepD(15, 30, elevationDeg) * clearness)
+        let master = m > 0 ? Self.daytimeMaster : nil
+        if let master {
+            func srgbHex(_ h: String) -> SIMD3<Float> { Palette.parse(h) }
+            func luma(_ c: SIMD3<Float>) -> Float { simd_dot(c, SIMD3<Float>(0.2126, 0.7152, 0.0722)) }
+            let mm = SIMD3<Float>(repeating: m)
+            L.skyTop = simd_mix(L.skyTop, srgbHex(master.sky.stops.last!.hex), mm)
+            L.skyHorizon = simd_mix(L.skyHorizon, srgbHex(master.sky.stops.first!.hex), mm)
+            let sunHue = WorldGen.Color.linear(srgbHex(master.sunColorHex))
+            L.sunColor = simd_mix(L.sunColor, sunHue * simd_length(L.sunColor) / max(simd_length(sunHue), 1e-4), mm)
+            let fillHue = srgbHex(master.skyFillHex)
+            L.ambientSky = simd_mix(L.ambientSky, fillHue * luma(L.ambientSky) / max(luma(fillHue), 1e-4), mm)
+            let cal = Self.lookSpec?.daytimeMaster
+            L.sunIntensity *= 1 + (Float(cal?.key ?? 1) - 1) * m
         }
         func tinted(_ c: SIMD3<Float>) -> SIMD3<Float> { c + (tint - c) * tw }
         func lin(_ c: SIMD3<Float>) -> SIMD3<Float> { WorldGen.Color.linear(c) }
@@ -183,7 +211,8 @@ extension World {
             g.waterB.y = Float(sky.cloudEdgeClear); g.waterB.z = Float(sky.cloudEdgeOvercast)
         }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
-        let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
+        let gradeFill = Float(grade?.fill ?? 1) * (1 + (Float(Self.lookSpec?.daytimeMaster.fill ?? 1) - 1) * (master == nil ? 0 : m))
+        let gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
             * lookTuning.fill * gradeFill
         g.fillGround = lin(L.ambientGround) * Float(env.light.fillGround) * Self.fillScale * L.exposure * lowSunFill
@@ -192,7 +221,8 @@ extension World {
         // bible's lift, the full #99AFE0 tint dominated foliage shading and cast crowns teal
         // (owner, gate on ccb5f77: "remove the cyan/teal cast"; autumn colours muddied).
         let fillLuma = simd_dot(g.fillSky, SIMD3<Float>(0.2126, 0.7152, 0.0722))
-        g.fillSky = simd_mix(SIMD3(repeating: fillLuma), g.fillSky, SIMD3(repeating: 0.5))
+        // Under the daytime master the fill is the master's own colour (#AEBCCA), in full.
+        g.fillSky = simd_mix(SIMD3(repeating: fillLuma), g.fillSky, SIMD3(repeating: 0.5 + 0.5 * (master == nil ? 0 : m)))
         g.litFraction = L.litWindows
         // Lit windows (lighting bible §2.4): the core colour at night, the surround tone in twilight.
         let night = Self.lightingBible?.night
@@ -237,6 +267,17 @@ extension World {
         g.cloudCover = cloud
         g.cloudThreshold = Self.cloudThreshold(cover: cloud)
         g.cloudColor = simd_mix(cloudColor, veilColor, SIMD3(repeating: veil))
+        // Daytime master: its 3-stop gradient (horizon, mid, zenith by elevation) with a faint warm
+        // horizon, and its lit cloud colour; the shader blends from the 2-stop sky by the master weight.
+        if let master, master.sky.stops.count >= 3 {
+            let mid = master.sky.stops[1]
+            g.skyMid = SIMD4(WorldGen.Color.linear(Palette.parse(mid.hex)), m)
+            g.skyWarm = SIMD4(WorldGen.Color.linear(Palette.parse(master.sky.warmHorizonHex)), Float(master.sky.warmHorizonMaxMix))
+            g.skyStops = SIMD4(Float(mid.elevation), Float(master.sky.warmHorizonMaxElevation), 0, 0)
+            g.cloudColor = simd_mix(g.cloudColor, WorldGen.Color.linear(Palette.parse(master.sky.cloudLitHex)), SIMD3(repeating: m * (1 - cloud)))
+        } else {
+            g.skyMid.w = 0
+        }
         g.sunDirection = dir
         g.sunDisk = elevation > -1.5 ? lin(sc) * 1.2 * Float(smoothstepD(-1.5, 1.0, elevation)) * (1 - veil) : .zero
         let moon = env.sky.moon

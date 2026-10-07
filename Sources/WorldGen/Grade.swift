@@ -129,15 +129,19 @@ public struct GradeTable: Sendable {
         /// bible's lift (§2.3 shade-to-sun ratio) and night floor (§2.4 trunk, roof and wall bands).
         public var fill: Double?
         public var groundFill: Double?
+        /// The approved mock's colour grade, relative to the engine's own output (the daytime master
+        /// for clear daytime states); neutral for states no approved mock grades yet.
+        public var look: Look = .neutral
 
         public init(luma: Double, saturation: Double, air: Air? = nil, direct: Double? = nil, fill: Double? = nil,
-                    groundFill: Double? = nil) {
+                    groundFill: Double? = nil, look: Look = .neutral) {
             self.luma = luma
             self.saturation = saturation
             self.air = air
             self.direct = direct
             self.fill = fill
             self.groundFill = groundFill
+            self.look = look
         }
 
         func mixed(_ b: Grade, _ t: Double) -> Grade {
@@ -156,7 +160,31 @@ public struct GradeTable: Sendable {
                 return a + (c - a) * t
             }
             return Grade(luma: luma + (b.luma - luma) * t, saturation: saturation + (b.saturation - saturation) * t, air: air,
-                         direct: one(direct, b.direct), fill: inherit(fill, b.fill), groundFill: inherit(groundFill, b.groundFill))
+                         direct: one(direct, b.direct), fill: inherit(fill, b.fill), groundFill: inherit(groundFill, b.groundFill),
+                         look: look.mixed(b.look, t))
+        }
+    }
+
+    /// A mock's grade, applied after lighting in the packs' order: exposure (EV over the solved auto
+    /// exposure), contrast (linear luminance slope about 0.18), saturation (linear, luminance kept),
+    /// warmth (red 1 + w/2, blue 1 − w/2), then the tone mapper.
+    public struct Look: Codable, Sendable, Equatable {
+        public var exposureEV: Double
+        public var contrast: Double
+        public var saturation: Double
+        public var warmth: Double
+        public static let neutral = Look(exposureEV: 0, contrast: 1, saturation: 1, warmth: 0)
+
+        public init(exposureEV: Double, contrast: Double, saturation: Double, warmth: Double) {
+            self.exposureEV = exposureEV
+            self.contrast = contrast
+            self.saturation = saturation
+            self.warmth = warmth
+        }
+
+        func mixed(_ b: Look, _ t: Double) -> Look {
+            Look(exposureEV: exposureEV + (b.exposureEV - exposureEV) * t, contrast: contrast + (b.contrast - contrast) * t,
+                 saturation: saturation + (b.saturation - saturation) * t, warmth: warmth + (b.warmth - warmth) * t)
         }
     }
 
@@ -205,12 +233,16 @@ public struct GradeTable: Sendable {
     public var weather: [String: Grade]
     public var fullAt: [String: Double]
 
-    public init(bible: LightingBible, tuning: GradeTuning) throws {
+    /// Clear daytime states (lighting-bible names) that the daytime master grades.
+    public static let masterStates = ["morning", "ordinary-1530", "midday"]
+
+    /// - Parameter looks: mock grades by lighting-bible state (or weather label).
+    public init(bible: LightingBible, tuning: GradeTuning, looks: [String: Look] = [:]) throws {
         func grade(_ name: String) throws -> Grade {
             guard let s = bible.states[name] else { throw StyleLibrary.LoadError.missing("lighting bible state \(name)") }
             let t = tuning.tuning[name]
             return Grade(luma: s.luma, saturation: t?.saturation ?? 1, air: s.air, direct: t?.direct, fill: t?.fill,
-                         groundFill: t?.groundFill)
+                         groundFill: t?.groundFill, look: looks[name] ?? .neutral)
         }
         clear = try tuning.clearStates.map { name in
             ClearPoint(state: name, elevation: bible.states[name]?.elevation ?? 0, grade: try grade(name))
@@ -220,7 +252,9 @@ public struct GradeTable: Sendable {
         moon = try grade(tuning.night.moon)
         var w: [String: Grade] = [:]
         for (label, state) in tuning.weatherStates { w[label] = try grade(state) }
-        for (label, o) in tuning.otherWeather { w[label] = Grade(luma: o.luma, saturation: o.saturation, air: o.air, direct: o.direct) }
+        for (label, o) in tuning.otherWeather {
+            w[label] = Grade(luma: o.luma, saturation: o.saturation, air: o.air, direct: o.direct, look: looks[label] ?? .neutral)
+        }
         weather = w
         fullAt = tuning.weatherFullAt ?? [:]
     }
@@ -268,6 +302,8 @@ extension StyleLibrary {
 
     /// The bible's per-state grade with the hand-tuned renderer values (`Profiles/grade.json`).
     public static func grade() throws -> GradeTable {
-        try GradeTable(bible: lightingBible(), tuning: JSONDecoder().decode(GradeTuning.self, from: data("grade")))
+        let master = try daytimeMaster()
+        return try GradeTable(bible: lightingBible(), tuning: JSONDecoder().decode(GradeTuning.self, from: data("grade")),
+                              looks: Dictionary(uniqueKeysWithValues: GradeTable.masterStates.map { ($0, master.grade) }))
     }
 }

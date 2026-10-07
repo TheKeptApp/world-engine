@@ -192,6 +192,11 @@ private struct WorldRealityView: View {
                         post.settings.exposureTarget = world.exposureTarget
                         post.settings.saturation = WorldPostProcess.Settings.default.saturation * world.gradeSaturation * world.lookTuning.saturation
                         post.settings.contrast = WorldPostProcess.Settings.default.contrast * world.lookTuning.contrast
+                        let look = world.gradeLook
+                        post.settings.lookEV = Float(look.exposureEV)
+                        post.settings.lookContrast = Float(look.contrast)
+                        post.settings.lookSaturation = Float(look.saturation)
+                        post.settings.lookWarmth = Float(look.warmth)
                     }
                     onFrame?(dt)
                 }

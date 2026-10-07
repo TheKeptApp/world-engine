@@ -72,6 +72,17 @@ public struct LookSpec: Codable, Sendable {
         public var blobStrength: Double
         public var blobCrownHeightM: Double
     }
+    /// Engine calibration for the daytime master (not look values: those come from mock-values.json):
+    /// key and fill multipliers that bring a neutral patch's shadow/lit ratio to the master's.
+    public struct DaytimeMasterCalibration: Codable, Sendable {
+        public var key: Double
+        public var fill: Double
+        /// The master's "+0.35 EV once" realised as the auto-exposure target: the four approved heroes'
+        /// measured mean display brightness (Y8, 16:9 picture area). A gain on top of our auto exposure
+        /// overshot the heroes by ~15 Y8 (they brighten far less than 0.35 EV over the captures).
+        public var exposureTargetY8: Double
+    }
+    public var daytimeMaster: DaytimeMasterCalibration
     public var water: Water
     public var sky: Sky
     public var shadows: Shadows
