@@ -6,7 +6,8 @@ import simd
 /// (`Profiles/mock-values.json`). No multipliers: the mock hex values replace the palette's.
 /// - Paving (asphalt road, concrete sidewalk, curb): spring, summer and autumn (winter keeps its salted look,
 ///   which the master does not cover).
-/// - Lawn (base lawn and the lot endpoint pair): summer.
+/// - Lawn: summer base lawn; the lot endpoint pair keeps its spread centred on the master lawn.
+/// - Water: lake-winter-v1 base colour, spring–autumn.
 /// - Deciduous crowns: spring and summer take the master's three crown greens, dark/mid/light, given to the
 ///   region's crown slots by their current summer lightness (darkest third → dark green); autumn and winter
 ///   (species colours, the Denver mix) are unchanged.
@@ -25,7 +26,22 @@ enum MockDaytime {
         set("road", seasons: [0, 1, 2], m.string(prefix + "ground.asphalt.hex"))
         set("sidewalk", seasons: [0, 1, 2], m.string(prefix + "ground.concrete.hex"))
         set("curb", seasons: [0, 1, 2], m.string(prefix + "ground.curbHex"))
-        for key in ["lawn", "lawnA", "lawnB"] { set(key, seasons: [1], m.string(prefix + "ground.lawn.hex")) }
+        if let lawn = m.string(prefix + "ground.lawn.hex") {
+            set("lawn", seasons: [1], lawn)
+            // Lot lawns keep their endpoint pair's spread (look-fix §1.1 lot-to-lot variation) centred on the
+            // master lawn: the pair's mean is the mock value, so no multiplier is applied to it.
+            if let a = out.surfaces["lawnA"]?[1], let b = out.surfaces["lawnB"]?[1] {
+                let la = Color.linear(Palette.parse(a)), lb = Color.linear(Palette.parse(b)), lm = Color.linear(Palette.parse(lawn))
+                let half = (lb - la) / 2
+                set("lawnA", seasons: [1], Palette.hex(Color.srgb(simd_max(lm - half, .zero))))
+                set("lawnB", seasons: [1], Palette.hex(Color.srgb(simd_min(lm + half, SIMD3(repeating: 1)))))
+            } else {
+                set("lawnA", seasons: [1], lawn)
+                set("lawnB", seasons: [1], lawn)
+            }
+        }
+        // Open water (lake-winter-v1 shoreline base colour; R's item 4 value), spring–autumn; winter ice is separate.
+        set("water", seasons: [0, 1, 2], m.string("lake-winter-v1/water.shoreline.exampleSurfaceValues[0].baseColourHex"))
         set("bark", seasons: [0, 1, 2, 3], m.string(prefix + "postcard.trees.barkHex"))
 
         let greens = (0..<3).compactMap { m.string(prefix + "postcard.trees.crownGreensHex[\($0)]") }

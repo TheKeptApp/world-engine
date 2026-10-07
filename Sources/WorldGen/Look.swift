@@ -13,6 +13,12 @@ public struct LookSpec: Codable, Sendable {
         public var rainRipples: Double
         /// Brightness of the reflected sky under full overcast (a storm lake reads dark slate, not light grey).
         public var overcastReflectGain: Double
+        /// Style profile → lake-winter-v1 water profile for the shore band (generator).
+        public var shoreProfiles: ShoreProfiles?
+    }
+    public struct ShoreProfiles: Codable, Sendable {
+        public var order: [String]
+        public var profiles: [String: String]
     }
     public struct Sky: Codable, Sendable {
         /// Width of a cloud edge in noise units, clear sky and full overcast (soft edges as the deck closes,
