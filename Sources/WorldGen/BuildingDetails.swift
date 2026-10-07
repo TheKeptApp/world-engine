@@ -261,7 +261,7 @@ extension BuildingGenerator {
                     let z0 = c.H + 0.55, z1 = min(gable.peak - 0.9, c.H + 1.7)
                     if z1 - z0 >= 0.6 {
                         addWindow(origin: p, dir: dir, normal: n, sCenter: gable.peakS, width: 0.75, z0: z0, z1: z1,
-                                  glass: c.glass, trim: c.trim, frames: near, into: &m)
+                                  glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, into: &m)
                     }
                 }
             }

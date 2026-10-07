@@ -247,16 +247,24 @@ public struct BuildingGenerator: Sendable {
         if let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
         // house-contrast-v1 defines trim and roof per house type: they replace the family ranges (owner 7 Oct).
         // Mapped roof:colour still wins.
+        // Chicago brick families: one of the pack's brick wall swatches per building, unless the wall colour is mapped.
+        let brickWalls = contrastType != nil && (Self.contrast?.brickWallFamilies ?? []).contains(g.family ?? "")
         if let t = contrastType {
             tuple[1] = t.trim
             if b.tags["roof:colour"].flatMap(Self.hexColor) == nil { tuple[3] = t.roof }
+            let walls = Self.contrast?.brickWalls ?? []
+            if brickWalls, !walls.isEmpty, b.tags["building:colour"].flatMap(Self.hexColor) == nil {
+                var wr = b.ref.random("brick-wall")
+                tuple[0] = walls[Int(wr.next() % UInt64(walls.count))]
+            }
         }
         g.colors = tuple
         let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03)))
         let trim = Paint(slot: palette.slot(hex: tuple[1]))
         let doorPaint = Paint(slot: palette.slot(hex: tuple[2]))
         let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04)))
-        let foundation = Paint(slot: palette.named("foundation"))
+        // Brick families stand on a stone base course in the trim (stone) colour (house-contrast-v1 paint-overs).
+        let foundation = Paint(slot: brickWalls ? palette.slot(hex: tuple[1]) : palette.named("foundation"))
         let glass = Paint(slot: contrastType.map { palette.slot(hex: $0.glass) } ?? palette.named("windowDay"), flags: .glass)
         var sideWall: Paint?
         if let sides = facade.sideWall, !sides.isEmpty, b.tags["building:colour"] == nil {
@@ -454,6 +462,10 @@ public struct BuildingGenerator: Sendable {
                                streetFacing: streetFacing, floors: max(1, g.floors),
                                mappedBays: facade.mappedBays == true && (role == .house || role == .block)
                                    ? mappedBays(ring, front: g.frontEdge, streetFacing: streetFacing) : [])
+        if brickWalls, let t = contrastType, near {
+            ctx.reveal = Paint(slot: palette.slot(hex: t.soffit))
+            ctx.stoneOpenings = true
+        }
         if lod <= .mid {
             if facade.sideBays == true, role == .house || role == .block {
                 ctx.sideBays = sideBayEdges(ring, front: g.frontEdge, streetFacing: streetFacing)
@@ -717,7 +729,7 @@ public struct BuildingGenerator: Sendable {
         g.mappedBays = c.mappedBays.count
         g.sideBays = c.sideBays.count
         let sideBayFaces = Set(c.sideBays.flatMap { $0 })
-        let lintel: Paint? = facade.lintels == true && near ? c.trim : nil
+        let lintel: Paint? = (facade.lintels == true || c.stoneOpenings) && near ? c.trim : nil
         let relief = near && details?.casings == true
         var shutter: Paint?
         if near, let sh = details?.shutters, let cols = sh.colours {
@@ -751,7 +763,7 @@ public struct BuildingGenerator: Sendable {
                 for (story, z0, z1) in rows(winH) where !(storefront && story == 0) {
                     lit(story, 0)
                     addWindow(origin: p, dir: dir, normal: n, sCenter: len / 2, width: w, z0: z0, z1: z1,
-                              glass: c.glass, trim: c.trim, frames: near, lintel: len >= w + 0.38 ? stoneHere : nil, into: &m)
+                              glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, lintel: len >= w + 0.38 ? stoneHere : nil, into: &m)
                     m.extra = SIMD4(1, 0, 0, 0)
                 }
                 continue
@@ -768,7 +780,7 @@ public struct BuildingGenerator: Sendable {
                     for (k, sc) in centers.enumerated() {
                         lit(story, 80 + k)
                         addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: z0, z1: z1,
-                                  glass: c.glass, trim: c.trim, frames: near, into: &m)
+                                  glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, into: &m)
                         m.extra = SIMD4(1, 0, 0, 0)
                     }
                 }
@@ -785,7 +797,7 @@ public struct BuildingGenerator: Sendable {
                         for (k, sc) in centers.enumerated() {
                             lit(story, 60 + k)
                             addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: max(z0, z1 - h), z1: z1,
-                                      glass: c.glass, trim: c.trim, frames: near, into: &m)
+                                      glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, into: &m)
                             m.extra = SIMD4(1, 0, 0, 0)
                         }
                     }
@@ -805,7 +817,7 @@ public struct BuildingGenerator: Sendable {
                             if breastCovers(c, edge: e, s: sc, width: w) { continue }
                             lit(story, gi * 4 + k)
                             addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: w, z0: z0, z1: z1,
-                                      glass: c.glass, trim: c.trim, frames: near, into: &m)
+                                      glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, into: &m)
                             m.extra = SIMD4(1, 0, 0, 0)
                         }
                     }
@@ -833,7 +845,7 @@ public struct BuildingGenerator: Sendable {
                         if o == 0, g.entryKit == "portico", z0 < F + 3.75 { continue }
                         lit(story, k)
                         addWindow(origin: p, dir: dir, normal: n, sCenter: doorS + o, width: winW, z0: z0, z1: z1,
-                                  glass: c.glass, trim: c.trim, frames: near, lintel: stoneHere, relief: reliefHere, into: &m)
+                                  glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, lintel: stoneHere, relief: reliefHere, into: &m)
                         m.extra = SIMD4(1, 0, 0, 0)
                         if let sp = shutter {
                             addShutters(origin: p, dir: dir, normal: n, sCenter: doorS + o, width: winW, z0: z0, z1: z1,
@@ -866,7 +878,7 @@ public struct BuildingGenerator: Sendable {
                     if let fb = facadeBay, fb.edge == e, story < fb.stories, sc + ww / 2 > fb.s0 - 0.1, sc - ww / 2 < fb.s1 + 0.1 { continue }
                     lit(story, k)
                     addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: ww, z0: z0, z1: z1,
-                              glass: c.glass, trim: c.trim, frames: near, mullions: w > winW * 1.5 ? group : 1, lintel: stoneHere,
+                              glass: c.glass, trim: c.trim, reveal: c.reveal, frames: near, mullions: w > winW * 1.5 ? group : 1, lintel: stoneHere,
                               relief: reliefHere, into: &m)
                     m.extra = SIMD4(1, 0, 0, 0)
                 }
@@ -942,13 +954,20 @@ public struct BuildingGenerator: Sendable {
 
     // swiftlint:disable:next function_parameter_count
     func addWindow(origin: LocalPoint, dir: LocalPoint, normal: LocalPoint, sCenter: Double, width: Double,
-                   z0: Double, z1: Double, glass: Paint, trim: Paint, frames: Bool = true, mullions: Int = 1,
+                   z0: Double, z1: Double, glass: Paint, trim: Paint, reveal: Paint? = nil, frames: Bool = true, mullions: Int = 1,
                    lintel: Paint? = nil, relief: Bool = false, into m: inout MeshBuffers) {
         guard width > 0.4 else { return }
         let s0 = sCenter - width / 2, s1 = sCenter + width / 2, f = 0.1
         m.paint = glass
         m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0, s1: s1, z0: z0, z1: z1, offset: 0.03)
         guard frames else { return }
+        if let reveal {
+            // Deep-window cue (house-contrast-v1: "deep glass"): a shadow-coloured reveal along the head and jambs.
+            m.paint = reveal
+            m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0, s1: s1, z0: z1 - 0.14, z1: z1, offset: 0.04)
+            m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0, s1: s0 + 0.07, z0: z0, z1: z1 - 0.14, offset: 0.04)
+            m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s1 - 0.07, s1: s1, z0: z0, z1: z1 - 0.14, offset: 0.04)
+        }
         let seed = m.extra
         m.extra = SIMD4(1, 0, 0, 0)
         m.paint = trim
@@ -1031,6 +1050,10 @@ struct BuildContext {
     var roof: Paint
     var foundation: Paint
     var glass: Paint
+    /// Window reveal strip (soffit colour) for house-contrast brick families, nil otherwise.
+    var reveal: Paint? = nil
+    /// Stone lintel/sill openings on every street window (house-contrast brick families).
+    var stoneOpenings = false
     /// The profile's light trim (gable panels, stucco gable triangles); `trim` may be the family's.
     var panel: Paint
     var mainRect: OrientedRect
