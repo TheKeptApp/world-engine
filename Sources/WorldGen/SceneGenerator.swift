@@ -62,6 +62,10 @@ public struct PropInstance: Sendable, Codable, Equatable {
     /// Extra scale along the prop's own x and z axes (before yaw): trees get their own crown width and
     /// an oval footprint; 1 for everything else.
     public var stretch = SIMD2<Double>(1, 1)
+    /// Trees in a region with a foliage-seasons-v1 city mix: the pack species id (e.g.
+    /// "ulmus_americana") and whether it came from the tree's OSM tags or was drawn from the mix.
+    public var species: String? = nil
+    public var speciesFrom: FoliageSeasons.Source? = nil
 
     public var transform: simd_float4x4 {
         simd_float4x4(translation: LocalFrame.scenePosition(LocalPoint(x, y), y: height), yaw: Float(yaw), scale: Float(scale),
@@ -190,7 +194,12 @@ public struct SceneGenerator: Sendable {
     }
 
     public func generate() -> GeneratedScene {
-        let dressed = MockDaytime.applying(VegetationLibrary.bundled.applying(to: Self.withLawnEndpoints(seasonal, profileID: profile.id), profileID: profile.id))
+        let vegetation = VegetationLibrary.bundled
+        // Region crown families, the daytime master's colours, then (profiles with a foliage-seasons-v1
+        // city mix) the pack species' summer crown albedo.
+        let dressed = vegetation.applyingFoliageSummer(
+            to: MockDaytime.applying(vegetation.applying(to: Self.withLawnEndpoints(seasonal, profileID: profile.id), profileID: profile.id)),
+            profileID: profile.id)
         var palette = startPalette ?? Palette(seasonal: dressed, season: season, base: baseColors)
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
@@ -402,30 +411,48 @@ public struct SceneGenerator: Sendable {
         // Trees: species from OSM tags, else the profile's deciduous share; crown archetype from the
         // tagged genus/species (vegetation.json genusForms), else the profile's weights; size from OSM
         // height, else the profile's ranges. Seeded by node ID.
+        // foliage-seasons-v1 (profiles with a city mix, vegetation.json foliageSeasons): a species named by
+        // the tags wins (mapped); otherwise one is drawn from the mix within the drawn crown form (inferred),
+        // so each colour family keeps its share. Species draws use their own salt: other draws unchanged.
         var conifers = 0, deciduous = 0
         let crownWeights = profile.trees.crownWeights
         let parks = features.areas(of: .park).map(\.polygon)
+        let foliage = VegetationLibrary.bundled.foliageSeasons
+        let mix = foliage?.mix(forProfile: profile.id)
         for tree in features.points(of: .tree) {
             var r = tree.ref.random("tree")
+            var sr = tree.ref.random("species")
             let leaf = tree.tags["leaf_type"]
             let tagged = VegetationLibrary.bundled.form(tags: tree.tags)
+            let mapped = mix == nil ? nil : foliage?.species(tags: tree.tags, mix: mix, random: &sr)
+            let mappedKind = mapped.flatMap { foliage?.kind($0) }
             let leafConifer = leaf == "needleleaved" ? true : leaf == "broadleaved" ? false : !r.chance(profile.trees.deciduousShare)
-            let isConifer = tagged.map { $0 == "conifer" } ?? leafConifer
+            let isConifer = mappedKind.map { $0 == .conifer } ?? tagged.map { $0 == "conifer" } ?? leafConifer
             let young = r.chance(profile.trees.youngShare)
             let height = tree.tags["height"].flatMap(TagParsing.length)
                 ?? (young ? r.range(profile.trees.youngHeightMeters) : r.range(profile.trees.heightMeters))
-            let kind: PropKind
+            var kind: PropKind
+            var species: String? = mapped, from: FoliageSeasons.Source? = mapped == nil ? nil : .mapped
             if isConifer {
                 kind = .conifer
                 conifers += 1
+                if species == nil, let mix, let s = foliage?.inferred(form: "conifer", mix: mix, random: &sr) { (species, from) = (s, .inferred) }
             } else {
                 deciduous += 1
                 let drawn = r.pick(crownWeights.keys.sorted()) { crownWeights[$0] ?? 0 }
                 let pick = tagged ?? (Self.inferredWeeping(tree, profile: profile, waterEdges: waterEdges, parks: parks) ? "weeping" : drawn)
-                kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : pick == "weeping" ? .treeWeeping : .treeBroad
+                kind = PropLibrary.formKind(pick)
+                if let k = mappedKind, k != .conifer {
+                    kind = k
+                } else if species == nil, tagged == nil, pick != "weeping", let mix, let s = foliage?.inferred(form: pick, mix: mix, random: &sr) {
+                    (species, from) = (s, .inferred)
+                    kind = foliage?.kind(s) ?? kind
+                }
             }
+            let width = species.map { foliage?.widthScale($0) ?? 1 } ?? 1
             instances.append(PropInstance(kind: kind, variant: 0, source: tree.ref.description, x: tree.position.x, y: tree.position.y,
-                                          height: 0, yaw: r.range(0, 6.28), scale: height, stretch: Self.treeStretch(tree.ref)))
+                                          height: 0, yaw: r.range(0, 6.28), scale: height, stretch: Self.treeStretch(tree.ref) * width,
+                                          species: species, speciesFrom: from))
             scene.clutter.blockedPoints.append(tree.position)
         }
 

@@ -160,9 +160,15 @@ struct YardTests {
     /// Triangles in view from the street cameras, now including the yard ground and the generated
     /// trees and shrubs at their render LODs. Buildings + yards + trees must fit the 400k main ceiling
     /// minus the existing scene (roads, mapped props) with margin: ≤ 250k here.
-    @Test(arguments: BuildingViewBudgetTests.cameras.map(\.name))
+    /// The building cameras plus a Sloan's Lake street view (W 23rd Ave fixture, looking west).
+    static let viewCameras = BuildingViewBudgetTests.cameras + [
+        BuildingViewBudgetTests.Camera(name: "sloans-street", area: "sloans-lake", profile: "front-range", lat: 39.7511195, lon: -105.0389,
+                                       heading: 270, aerial: false),
+    ]
+
+    @Test(arguments: viewCameras.map(\.name))
     func viewBudgetWithYards(_ name: String) throws {
-        let cam = BuildingViewBudgetTests.cameras.first { $0.name == name }!
+        let cam = Self.viewCameras.first { $0.name == name }!
         guard BuildingAreaTests.has(cam.area) else { return }
         // As in the app: full street detail in a 400 m box around the camera.
         let d = 200.0 / 111_000, dl = d / cos(cam.lat * .pi / 180)
@@ -178,6 +184,17 @@ struct YardTests {
         }
         var propTris: [String: Int] = [:], cardTris: [String: Int] = [:], puffTris: [String: Int] = [:]
         var trees = 0, shrubs = 0, hedgeTris = 0, yardGround = 0, cardTrees = 0, puffTrees = 0, treeDraws: Set<String> = []
+        // All trees in view, mapped and generated: draw groups (kind × variant × LOD × cell) and triangles.
+        var allTreeDraws: Set<String> = [], allTreeTris = 0
+        for inst in b.scene.instances where inst.kind.isTree {
+            let p = LocalPoint(inst.x, inst.y)
+            guard visible(p, 4) else { continue }
+            let lod = min(PropLibrary.lodCount(inst.kind) - 1, PropLibrary.lodDistances.filter { simd_distance(p, eye) >= $0 }.count)
+            let key = "\(inst.kind.rawValue)-\(inst.variant)-\(lod)"
+            if propTris[key] == nil { propTris[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: lod, palette: b.scene.palette).triangleCount }
+            allTreeTris += propTris[key]!
+            allTreeDraws.insert("\(key)-\(PropLibrary.cell(x: inst.x, y: inst.y))")
+        }
         for inst in b.scene.instances where inst.source.hasPrefix("gen:") {
             let p = LocalPoint(inst.x, inst.y)
             guard visible(p, 4) else { continue }
@@ -203,7 +220,7 @@ struct YardTests {
         }
         let lodTris = (0..<3).map { PropLibrary.mesh(.treeBroad, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
         let bushTris = (0..<3).map { PropLibrary.mesh(.bush, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
-        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) puffTreeTris=\(puffTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris)")
+        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) puffTreeTris=\(puffTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris) allTreeDraws=\(allTreeDraws.count) allTreeTris=\(allTreeTris) treeKinds=\(Set(allTreeDraws.map { String($0.split(separator: "-")[0]) }).sorted())")
         #expect(trees + shrubs + yardGround <= 200_000, "\(name)")
     }
 }

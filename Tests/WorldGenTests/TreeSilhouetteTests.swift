@@ -13,7 +13,9 @@ import Testing
 /// sway (0, 0.3, 1).
 @Suite("Tree silhouettes")
 struct TreeSilhouetteTests {
-    static let kinds: [PropKind] = [.treeBroad, .treeOval, .treeSpreading]
+    static let kinds: [PropKind] = [.treeBroad, .treeOval, .treeSpreading] + speciesKinds
+    /// The foliage-seasons-v1 species silhouettes.
+    static let speciesKinds: [PropKind] = [.treeRounded, .treePyramidal, .treeVase, .treeOpen, .treeUpright]
     /// Branch triangles per tree at near, mid and far detail (thousands of trees are drawn; at far
     /// detail the trunk carries the leader).
     static let branchBudget = [260, 90, 15]
@@ -153,7 +155,8 @@ struct TreeSilhouetteTests {
             let m = try Self.mesh(kind, lod: lod)
             let ref = lod < 2 ? try Self.solid(kind, lod: lod) : m
             let crown = Self.pieces(ref, Self.triangles(ref, .crown))
-            #expect(crown.count == [PropLibrary.lobes(kind).lobes.count, 2, 2, 1][lod], "\(kind) lod \(lod): \(crown.count) crown pieces")
+            let shape = PropLibrary.lobes(kind)
+            #expect(crown.count == [shape.lobes.count, shape.midCount, shape.shellFar ? 1 : 2, 1][lod], "\(kind) lod \(lod): \(crown.count) crown pieces")
             var outside: [SIMD3<Float>] = []
             for v in 0..<m.vertexCount {
                 let p = m.positions[v]
@@ -237,7 +240,26 @@ struct TreeSilhouetteTests {
     /// its faces at 75% or more of its corners' reach; an octahedron's sink to 58%), each lobe keeps its
     /// mid leaf threshold, and from the side at eight yaws and from above the far crown covers about what
     /// the mid crown covers, so the switch keeps the outline.
-    @Test(arguments: kinds)
+    /// Species crowns: one shrink-wrapped mass (20 triangles, leaf threshold 0.5) that covers about what
+    /// the five-lobe mid crown covers from the side (mean within 10 %, each yaw within 20 %) and above.
+    @Test(arguments: speciesKinds)
+    func farSpeciesCrownKeepsTheMidOutline(_ kind: PropKind) throws {
+        let far = try Self.mesh(kind, lod: 2), mid = try Self.solid(kind, lod: 1)
+        let farCrown = Self.triangles(far, .crown), midCrown = Self.triangles(mid, .crown)
+        #expect(Self.pieces(far, farCrown).count == 1 && farCrown.count == 20)
+        #expect(farCrown.allSatisfy { far.extras[Int(far.indices[$0 * 3])].y == 0.5 })
+        let side = (0..<8).map { k -> Double in
+            let yaw = Float(k) * .pi / 4
+            return Double(Self.coverage(far, farCrown, yaw: yaw)) / Double(Self.coverage(mid, midCrown, yaw: yaw))
+        }
+        let above = Double(Self.coverage(far, farCrown, fromAbove: true)) / Double(Self.coverage(mid, midCrown, fromAbove: true))
+        let mean = side.reduce(0, +) / 8
+        print("FARCOVER \(kind.rawValue) side \(side.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", mean)) above \(String(format: "%.3f", above))")
+        #expect(abs(mean - 1) < 0.1 && side.allSatisfy { $0 > 0.8 && $0 < 1.2 }, "\(kind): far crown covers \(side) of the mid crown from the side")
+        #expect(above > 0.9 && above < 1.2, "\(kind): far crown covers \(above) of the mid crown from above")
+    }
+
+    @Test(arguments: kinds.filter { !PropLibrary.lobes($0).shellFar })
     func farCrownKeepsTheMidOutline(_ kind: PropKind) throws {
         let far = try Self.mesh(kind, lod: 2), mid = try Self.solid(kind, lod: 1)
         let farCrown = Self.triangles(far, .crown), midCrown = Self.triangles(mid, .crown)

@@ -11,6 +11,9 @@ public struct VegetationLibrary: Codable, Sendable {
         public var colours: [String]
         /// Branch (bark) body colour.
         public var branches: String
+        /// The foliage-seasons-v1 species this family stands for (its summer colour in regions with a
+        /// city mix); nil when the pack describes none (willow).
+        public var packSpecies: String?
     }
 
     public struct Region: Codable, Sendable, Equatable {
@@ -27,6 +30,8 @@ public struct VegetationLibrary: Codable, Sendable {
     public var regions: [String: Region]
     /// OSM genus (or "Genus species") → crown form.
     public var genusForms: [String: String]
+    /// foliage-seasons-v1 (R approved 2026-10-07): described species, nearest-species map and city mixes.
+    public var foliageSeasons: FoliageSeasons?
 
     public static let bundled: VegetationLibrary = {
         guard let data = try? StyleLibrary.data("vegetation"), let lib = try? JSONDecoder().decode(VegetationLibrary.self, from: data) else {
