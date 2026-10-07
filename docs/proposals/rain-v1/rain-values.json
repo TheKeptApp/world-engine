@@ -1,0 +1,641 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-10-06",
+  "style": "B",
+  "status": "proposal_only",
+  "claimPolicy": "All numeric appearance values and performance subdivisions are authored assumptions unless a sources entry explicitly says verified or repository_constraint. No device timing or participant readability result is claimed.",
+  "units": {
+    "distance": "metres",
+    "time": "seconds",
+    "darkening": "percent linear RGB / linear luminance reduction relative to dry material",
+    "screen": "CSS px at 390x844 viewport unless marked drawable px",
+    "roughness": "perceptual roughness 0..1; adapter calibration required",
+    "sheen": "maximum effective reflected-sky blend weight at grazing view, 0..1; not metallic or raw specular"
+  },
+  "compatibility": {
+    "precedence": "This proposal specializes wetness appearance; adopt as one replacement material policy, never multiply it onto weather/ground darkening.",
+    "weatherMaxDarkeningPercent": 12,
+    "groundPackDeviation": "ground-v1 generic soaked -15% replaced by per-surface cap <=12%; ground-v1 generic light rain -10% replaced by per-surface rows.",
+    "baselineExcludes": [
+      "particle collisions",
+      "splashes",
+      "ripples",
+      "automatic banks"
+    ],
+    "optionalExtensions": [
+      "analytic impact cues within combined .20ms particle allocation",
+      "bounded ripple arcs inside wet material allocation",
+      "supplied-history snowbanks inside near-geometry reserve"
+    ]
+  },
+  "states": [
+    {
+      "id": "damp",
+      "wetness01": 0.2,
+      "rainIntensity01": 0,
+      "rainCountStreet": 0,
+      "rainCountAerial": 0,
+      "maxTransparentScreenCoveragePercent": 0,
+      "puddleEligibleCoveragePercent": 0,
+      "surfaceValues": [
+        {
+          "surface": "concrete",
+          "darkeningPercent": 4,
+          "linearBaseMultiplier": 0.96,
+          "roughness": 0.76,
+          "sheenStrength": 0.05
+        },
+        {
+          "surface": "asphalt",
+          "darkeningPercent": 5,
+          "linearBaseMultiplier": 0.95,
+          "roughness": 0.78,
+          "sheenStrength": 0.06
+        },
+        {
+          "surface": "brick",
+          "darkeningPercent": 4,
+          "linearBaseMultiplier": 0.96,
+          "roughness": 0.78,
+          "sheenStrength": 0.04
+        },
+        {
+          "surface": "lawn",
+          "darkeningPercent": 3,
+          "linearBaseMultiplier": 0.97,
+          "roughness": 0.92,
+          "sheenStrength": 0.01
+        },
+        {
+          "surface": "roof",
+          "darkeningPercent": 2,
+          "linearBaseMultiplier": 0.98,
+          "roughness": 0.82,
+          "sheenStrength": 0.03
+        }
+      ]
+    },
+    {
+      "id": "light_rain",
+      "wetness01": 0.45,
+      "rainIntensity01": 0.25,
+      "rainCountStreet": 180,
+      "rainCountAerial": 90,
+      "maxTransparentScreenCoveragePercent": 2,
+      "puddleEligibleCoveragePercent": 1,
+      "surfaceValues": [
+        {
+          "surface": "concrete",
+          "darkeningPercent": 8,
+          "linearBaseMultiplier": 0.92,
+          "roughness": 0.64,
+          "sheenStrength": 0.12
+        },
+        {
+          "surface": "asphalt",
+          "darkeningPercent": 9,
+          "linearBaseMultiplier": 0.91,
+          "roughness": 0.63,
+          "sheenStrength": 0.15
+        },
+        {
+          "surface": "brick",
+          "darkeningPercent": 7,
+          "linearBaseMultiplier": 0.9299999999999999,
+          "roughness": 0.66,
+          "sheenStrength": 0.1
+        },
+        {
+          "surface": "lawn",
+          "darkeningPercent": 5,
+          "linearBaseMultiplier": 0.95,
+          "roughness": 0.9,
+          "sheenStrength": 0.02
+        },
+        {
+          "surface": "roof",
+          "darkeningPercent": 4,
+          "linearBaseMultiplier": 0.96,
+          "roughness": 0.74,
+          "sheenStrength": 0.06
+        }
+      ]
+    },
+    {
+      "id": "steady_rain",
+      "wetness01": 0.7,
+      "rainIntensity01": 0.6,
+      "rainCountStreet": 360,
+      "rainCountAerial": 180,
+      "maxTransparentScreenCoveragePercent": 4,
+      "puddleEligibleCoveragePercent": 3,
+      "surfaceValues": [
+        {
+          "surface": "concrete",
+          "darkeningPercent": 10,
+          "linearBaseMultiplier": 0.9,
+          "roughness": 0.53,
+          "sheenStrength": 0.2
+        },
+        {
+          "surface": "asphalt",
+          "darkeningPercent": 11,
+          "linearBaseMultiplier": 0.89,
+          "roughness": 0.52,
+          "sheenStrength": 0.25
+        },
+        {
+          "surface": "brick",
+          "darkeningPercent": 10,
+          "linearBaseMultiplier": 0.9,
+          "roughness": 0.56,
+          "sheenStrength": 0.17
+        },
+        {
+          "surface": "lawn",
+          "darkeningPercent": 7,
+          "linearBaseMultiplier": 0.9299999999999999,
+          "roughness": 0.88,
+          "sheenStrength": 0.03
+        },
+        {
+          "surface": "roof",
+          "darkeningPercent": 6,
+          "linearBaseMultiplier": 0.94,
+          "roughness": 0.66,
+          "sheenStrength": 0.1
+        }
+      ]
+    },
+    {
+      "id": "soaked",
+      "wetness01": 1,
+      "rainIntensity01": 0.9,
+      "rainCountStreet": 540,
+      "rainCountAerial": 270,
+      "maxTransparentScreenCoveragePercent": 6,
+      "puddleEligibleCoveragePercent": 7,
+      "surfaceValues": [
+        {
+          "surface": "concrete",
+          "darkeningPercent": 12,
+          "linearBaseMultiplier": 0.88,
+          "roughness": 0.45,
+          "sheenStrength": 0.27
+        },
+        {
+          "surface": "asphalt",
+          "darkeningPercent": 12,
+          "linearBaseMultiplier": 0.88,
+          "roughness": 0.45,
+          "sheenStrength": 0.32
+        },
+        {
+          "surface": "brick",
+          "darkeningPercent": 12,
+          "linearBaseMultiplier": 0.88,
+          "roughness": 0.49,
+          "sheenStrength": 0.23
+        },
+        {
+          "surface": "lawn",
+          "darkeningPercent": 8,
+          "linearBaseMultiplier": 0.92,
+          "roughness": 0.86,
+          "sheenStrength": 0.04
+        },
+        {
+          "surface": "roof",
+          "darkeningPercent": 8,
+          "linearBaseMultiplier": 0.92,
+          "roughness": 0.6,
+          "sheenStrength": 0.14
+        }
+      ]
+    },
+    {
+      "id": "drying",
+      "wetness01": 0.35,
+      "rainIntensity01": 0,
+      "rainCountStreet": 0,
+      "rainCountAerial": 0,
+      "maxTransparentScreenCoveragePercent": 0,
+      "puddleEligibleCoveragePercent": 1.5,
+      "surfaceValues": [
+        {
+          "surface": "concrete",
+          "darkeningPercent": 6,
+          "linearBaseMultiplier": 0.94,
+          "roughness": 0.7,
+          "sheenStrength": 0.08
+        },
+        {
+          "surface": "asphalt",
+          "darkeningPercent": 7,
+          "linearBaseMultiplier": 0.9299999999999999,
+          "roughness": 0.69,
+          "sheenStrength": 0.1
+        },
+        {
+          "surface": "brick",
+          "darkeningPercent": 6,
+          "linearBaseMultiplier": 0.94,
+          "roughness": 0.72,
+          "sheenStrength": 0.07
+        },
+        {
+          "surface": "lawn",
+          "darkeningPercent": 4,
+          "linearBaseMultiplier": 0.96,
+          "roughness": 0.91,
+          "sheenStrength": 0.015
+        },
+        {
+          "surface": "roof",
+          "darkeningPercent": 3,
+          "linearBaseMultiplier": 0.97,
+          "roughness": 0.78,
+          "sheenStrength": 0.04
+        }
+      ]
+    }
+  ],
+  "materialFormula": {
+    "base": "Cdry_linear * (1-darkeningPercent/100); interpolate rows in linear light",
+    "sheen": "Csheen=(1-k)*Cwet + k*Csky_reflected; k=sheenStrength*pow(1-abs(dot(N,V)),3)*exposureMask; use this synthetic branch OR calibrated sky BRDF, never both.",
+    "eligibility": "Mapped surface type wins; shelter/upward-normal masks gate wetness; no glossy whole lawn or puddles on sloped roofs.",
+    "drying": "Drying row is a preview endpoint, not a fixed time after rain. Surface wetness follows weather-v1 reservoir/history. Mask shape stable through state changes."
+  },
+  "puddles": {
+    "maxVisiblePoolsStreet": 12,
+    "maxVisiblePoolGroupsAerial": 24,
+    "maxCoverageEligibleAreaPercent": 7,
+    "eligibility": "Known low areas/drainage override; otherwise tagged demo/inferred gutter or pavement depressions only. No flooding/ponding observation inferred from rain.",
+    "widthM": [
+      0.25,
+      1.5
+    ],
+    "lengthM": [
+      0.4,
+      4
+    ],
+    "edgeSoftnessM": [
+      0.03,
+      0.1
+    ],
+    "dampHaloWidthM": [
+      0.04,
+      0.16
+    ],
+    "haloExtraDarkeningPercent": 0,
+    "mask": "Stable two-band field 0.4-1.2m / 2-5m, clipped to eligible polygons. Increase threshold to shrink connected pools while drying. No per-frame random reseed.",
+    "roughness": 0.18,
+    "waterIOR": 1.333,
+    "waterF0": 0.02037,
+    "skyMixWeightNormal": 0.12,
+    "skyMixWeightGrazing": 0.55,
+    "formula": "Cpool=(1-k)*Cwet+k*Csky(reflect(-V,N)); k=.12+(.55-.12)*pow(1-abs(dot(N,V)),5). Synthetic opacity is material mixing, not alpha transparency. Exposure/shelter mask scales k. Use time-correct sky.",
+    "daylightTargetContrastPercent": [
+      15,
+      45
+    ],
+    "contrastScope": "Readability goal relative to adjacent shaded wet pavement in neutral-overcast phone fixture; not enforced energy gain or universal physical rule.",
+    "nightContrastPolicy": "No daytime luminance floor. Use current sky/lamp field; reflections may be darker than nearby light pavement.",
+    "aerialSkyMixScale": 0.65,
+    "ripples": {
+      "tier": "optional_extension",
+      "maxSimultaneousCenters": 6,
+      "maxRingsPerCenter": 2,
+      "radiusM": [
+        0.03,
+        0.18
+      ],
+      "lifetimeS": 0.55,
+      "opacityPeak": 0.16,
+      "widthCssPx": [
+        0.6,
+        1
+      ],
+      "maxDistanceM": 12,
+      "minPoolProjectedDiameterCssPx": 12,
+      "representation": "Bounded analytic ring modulation of reflection/normal inside same puddle shader; no collision solve, no geometry rings. Fade unresolved rings rather than widen.",
+      "duringRainOnly": true
+    }
+  },
+  "rain": {
+    "boxM": [
+      30,
+      20,
+      30
+    ],
+    "maxRainStreaks": 600,
+    "globalParticlesCap": 600,
+    "airborneLeavesCap": 12,
+    "speedMps": 12,
+    "windMultiplier": 0.2,
+    "maxHorizontalDriftMps": 2,
+    "streakLengthM": [
+      0.07,
+      0.24
+    ],
+    "nearLengthCssPx": [
+      5,
+      12
+    ],
+    "midLengthCssPx": [
+      3,
+      7
+    ],
+    "farLengthCssPx": [
+      1,
+      3
+    ],
+    "widthCssPx": [
+      0.65,
+      1.1
+    ],
+    "opacityLight": 0.26,
+    "opacitySteady": 0.34,
+    "opacityHeavy": 0.4,
+    "nightOpacity": 0.28,
+    "colorSource": "Current sky/fog neutral cool tone, bounded local light response. Do not use unlit fixed-white snow streaks.",
+    "targetVisibleConcurrentStreaksInPhoneCrop": [
+      12,
+      45
+    ],
+    "countScope": "CPU seeded particle pool count is not on-screen count; validate projected visibility and alpha area at actual camera.",
+    "distanceFadeM": [
+      20,
+      35
+    ],
+    "nearCameraClipM": 0.6,
+    "shelter": "Supplied roof/shelter mask hides precipitation under cover; depth test streaks.",
+    "aerial": {
+      "particleCountScale": 0.5,
+      "opacityScale": 0.7,
+      "projectedLengthCssPx": [
+        2,
+        5
+      ],
+      "maxTransparentScreenCoveragePercent": 3,
+      "noGeographicalStreakLengthInflation": true
+    },
+    "splashes": {
+      "tier": "optional_extension_default_off_until_device_verified",
+      "maxConcurrent": 12,
+      "lifeS": 0.22,
+      "radiusM": [
+        0.025,
+        0.06
+      ],
+      "heightM": 0.015,
+      "opacity": 0.22,
+      "minDistanceM": 1,
+      "maxDistanceM": 8,
+      "representation": "Seeded known exposed hard-surface anchors; two analytic arcs per impact, shared ring mask/instancing; no per-particle collisions.",
+      "shareAllocationWithRain": true,
+      "baselineFallback": "Ground sheen + precipitation only"
+    }
+  },
+  "fog": {
+    "source": "weather-v1 §5 dominant-state interpolation; one fog term only",
+    "rainTintHex": "#8F9FAA",
+    "rainTintBlend": 0.22,
+    "rainSunMultiplier": 0.18,
+    "streetStartMultiplier": 0.4,
+    "streetEndMultiplier": 0.5,
+    "snowStartMultiplier": 0.35,
+    "snowEndMultiplier": 0.45,
+    "aerialBaselineM": [
+      900,
+      2500
+    ],
+    "rainAerialFullIntensityM": [
+      360,
+      1250
+    ],
+    "overcastDayStreetBaselineM": [
+      180,
+      900
+    ],
+    "rainOvercastDayFullIntensityM": [
+      72,
+      450
+    ],
+    "nightStreetBaselineM": [
+      140,
+      600
+    ],
+    "rainNightFullIntensityM": [
+      56,
+      300
+    ],
+    "visibilityFloorsStartEndM": [
+      10,
+      60
+    ],
+    "minEndMinusStartM": 20,
+    "rule": "Interpolate baseline to weather ratios once by intensity; optional source visibility cap follows weather-v1. Overcast-day baseline here is a controlled preview assumption, not a new global key."
+  },
+  "lampStreaks": {
+    "maxFieldsGlobal": 6,
+    "maxFieldsPerLocalRegion": 2,
+    "maxActualUnshadowedLights": 2,
+    "lengthM": [
+      1.2,
+      4
+    ],
+    "widthM": [
+      0.1,
+      0.35
+    ],
+    "opacityDusk": 0.18,
+    "opacityNight": 0.24,
+    "color": "Owning lamp color e.g. warm #E7BA79; energy follows lamp on/off, source distance and exposure",
+    "breaksPerField": 3,
+    "fadeDistanceM": [
+      25,
+      45
+    ],
+    "mask": "Wet hard-surface/puddle eligibility times lamp ground footprint; source-ground projection to camera azimuth, taper away from source; world seeded gaps. No free-floating pillar or emissive road without owner source.",
+    "aerialLengthScale": 0.4,
+    "aerialOpacityScale": 0.65,
+    "representation": "Existing R5 analytic fields integrated into wet material. No SSR/cubemap world capture/planar reflection extra pass.",
+    "drySuppression": "Multiply by wetness and exposed non-snow mask"
+  },
+  "snow": {
+    "countsStreet": {
+      "flurries": 60,
+      "steady": 180,
+      "heavy": 270
+    },
+    "countsAerial": {
+      "flurries": 30,
+      "steady": 90,
+      "heavy": 135
+    },
+    "maxFlakes": 300,
+    "speedMps": 1.2,
+    "windMultiplier": 0.35,
+    "maxDriftMps": 3,
+    "diameterM": [
+      0.015,
+      0.045
+    ],
+    "diameterCssPx": [
+      1,
+      3
+    ],
+    "opacity": 0.6,
+    "aerialDiameterCssPx": [
+      0.8,
+      1.6
+    ],
+    "maxTransparentScreenCoveragePercent": 4,
+    "stages": [
+      {
+        "id": "falling_trace",
+        "cover01": 0.05
+      },
+      {
+        "id": "patchy",
+        "cover01": 0.55
+      },
+      {
+        "id": "covered",
+        "cover01": 0.9
+      },
+      {
+        "id": "melting",
+        "cover01": 0.35
+      }
+    ],
+    "coverMeaning": "Opaque eligible area fraction, not opacity; accumulation independent of current snowfall. State examples are explicit controlled demos.",
+    "palette": {
+      "fresh": "#E4E9EB",
+      "shadow": "#C3CDD6",
+      "compacted": "#ADB9C4",
+      "bank": "#DDE2E3",
+      "dirtyBankBase": "#91958D"
+    },
+    "edgeSoftnessM": [
+      0.05,
+      0.15
+    ],
+    "masksM": [
+      [
+        0.4,
+        1.2
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "optionalCaps": {
+      "maxCount": 24,
+      "maxDistanceM": 20,
+      "thicknessM": [
+        0.02,
+        0.05
+      ]
+    },
+    "banks": {
+      "tier": "supplied_history_stretch",
+      "maxSections": 8,
+      "heightM": [
+        0.15,
+        0.45
+      ],
+      "widthM": [
+        0.3,
+        0.8
+      ],
+      "dirtyBaseHeightFraction": [
+        0.05,
+        0.15
+      ],
+      "maxTrianglesTotal": 2000,
+      "sourceRequired": "Explicit clearing/plowing history or labeled demo override; never snowfall code alone.",
+      "geometry": "Opaque simple ridges clipped beside cleared corridor, keep crossings/ramps/access width clear.",
+      "aerial": "Merge visible bank segments into broad curb-side shapes, do not preserve lump microdetail."
+    }
+  },
+  "performance": {
+    "repositoryConstraints": {
+      "fps": 60,
+      "gpuCeilingMs": 10,
+      "contentAllocationMs": 7.9,
+      "safetyReserveMs": 2.1,
+      "surfacePatternMs": 0.25,
+      "wetLocalLightMs": 0.35,
+      "weatherParticlesMs": 0.2,
+      "nearGeometryMs": 0.35,
+      "mainTrianglesMax": 400000,
+      "shadowTrianglesMax": 150000,
+      "mainDrawsMax": 100
+    },
+    "proposedSuballocations": {
+      "wetAndPuddlesMs": 0.22,
+      "lampFieldsMs": 0.1,
+      "ripplesMs": 0.03,
+      "rainOrSnowMs": 0.17,
+      "optionalImpactCuesMs": 0.03
+    },
+    "allocationNote": "Suballocations sum to existing .35 wet and .20 particle buckets; snow masks share existing .25 pattern bucket, banks/caps share .35 geometry bucket. Targets unmeasured, never spend headroom by default.",
+    "proceduralMaskAlternative": {
+      "resolution": [
+        256,
+        256
+      ],
+      "format": "RG8",
+      "channels": [
+        "standing water / low-area mask",
+        "breakup / optional impact mask"
+      ],
+      "baseBytes": 131072,
+      "fullMipApproxBytes": 174763,
+      "count": 1,
+      "source": "Generated or authored abstract masks, no photographic albedo",
+      "filter": "mips, world-space stable mapping; analytic fallback allowed"
+    },
+    "degradeOrder": [
+      "disable splash/ripple extensions",
+      "halve precipitation count and alpha coverage",
+      "reduce lamp fields from 6 to 2",
+      "suppress aerial individual puddles/impact details",
+      "reduce other optional near geometry per v2 policy"
+    ],
+    "test": "Physical iPhone 13 class, iOS26+, 10min steady and transition, fixed drawable dimensions, max/p95GPU plus thermal/frame stalls. No budget pass from artwork or RAF."
+  },
+  "sources": [
+    {
+      "id": "weather-v1",
+      "type": "repository_constraint",
+      "path": "../weather-v1/WorldEngine-Weather-Spec-v1.md",
+      "checked": "2026-10-06",
+      "scope": "Wetness reservoir, fog parameters, precipitation caps, R5 fields, splashes excluded baseline."
+    },
+    {
+      "id": "visual-v2",
+      "type": "repository_constraint",
+      "path": "../visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md",
+      "checked": "2026-10-06",
+      "scope": "Style, GPU buckets, procedural masks allowed, no mirror/photographic textures."
+    },
+    {
+      "id": "ground-v1",
+      "type": "repository_reference",
+      "path": "../ground-v1/README.md",
+      "checked": "2026-10-06",
+      "scope": "Format, contrast definition, snow and bank construction."
+    },
+    {
+      "id": "pbrt-water",
+      "type": "verified_physical_principle",
+      "url": "https://pbr-book.org/4ed/Reflection_Models/Specular_Reflection_and_Transmission",
+      "checked": "2026-10-06",
+      "scope": "Water dielectric IOR1.333; specular reflection and Fresnel; does not establish brighter-than-ground in every view."
+    }
+  ]
+}
