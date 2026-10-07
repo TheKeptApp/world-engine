@@ -2109,6 +2109,133 @@
           }
         }
       }
+    },
+    {
+      "id": "chicago-weeping-willow",
+      "region": "chicago",
+      "name": "Weeping willow (weeping Salix horticultural family)",
+      "status": "authored design assumption; exact species requires evidence",
+      "silhouette": "broad arching scaffold with tapering hanging curtains",
+      "clusterCount": [
+        7,
+        10
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.18,
+      "urbanAssetHeightMetres": [
+        10,
+        20
+      ],
+      "urbanAssetCrownWidthMetres": [
+        10,
+        22
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#91A46A",
+          "midday": {
+            "crown": {
+              "body": "#91A46A",
+              "highlight": "#ACB587",
+              "shadow": "#6E7D5C"
+            },
+            "branches": {
+              "body": "#7A7159",
+              "highlight": "#9E937D",
+              "shadow": "#5E5B53"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#999958",
+              "highlight": "#B2AD7C",
+              "shadow": "#737552"
+            },
+            "branches": {
+              "body": "#866F4B",
+              "highlight": "#A59276",
+              "shadow": "#665A4C"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#7A9160",
+          "midday": {
+            "crown": {
+              "body": "#7A9160",
+              "highlight": "#9EA881",
+              "shadow": "#5E7056"
+            },
+            "branches": {
+              "body": "#7A7159",
+              "highlight": "#9E937D",
+              "shadow": "#5E5B53"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#868950",
+              "highlight": "#A5A278",
+              "shadow": "#666B4E"
+            },
+            "branches": {
+              "body": "#866F4B",
+              "highlight": "#A59276",
+              "shadow": "#665A4C"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#B3AD5C",
+          "midday": {
+            "crown": {
+              "body": "#B3AD5C",
+              "highlight": "#C4BB7E",
+              "shadow": "#858354"
+            },
+            "branches": {
+              "body": "#7A7159",
+              "highlight": "#9E937D",
+              "shadow": "#5E5B53"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#B7A14D",
+              "highlight": "#C7B277",
+              "shadow": "#887A4D"
+            },
+            "branches": {
+              "body": "#866F4B",
+              "highlight": "#A59276",
+              "shadow": "#665A4C"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#7A7159",
+              "highlight": "#9E937D",
+              "shadow": "#5E5B53"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#866F4B",
+              "highlight": "#A59276",
+              "shadow": "#665A4C"
+            }
+          }
+        }
+      }
     }
   ],
   "shrubs": [
@@ -2936,5 +3063,102 @@
         }
       }
     }
-  ]
+  ],
+  "weepingWillowAddendum": {
+    "date": "2026-10-06",
+    "treeId": "chicago-weeping-willow",
+    "status": "optional proposed construction metadata; numeric design assumptions",
+    "twigAccent": {
+      "neutralAlbedo": "#A28B52",
+      "appearanceReferences": {
+        "midday": {
+          "body": "#A28B52",
+          "highlight": "#B7A379",
+          "shadow": "#796C4F"
+        },
+        "goldenHour": {
+          "body": "#A88446",
+          "highlight": "#BC9F73",
+          "shadow": "#7D6849"
+        }
+      }
+    },
+    "construction": {
+      "upperMergedLobes": [
+        7,
+        10
+      ],
+      "hangingCurtainGroups": [
+        6,
+        10
+      ],
+      "skyHoleFractionRange": [
+        0.15,
+        0.22
+      ],
+      "scaffoldLimbs": [
+        2,
+        3
+      ],
+      "curtainDropMetres": [
+        3,
+        7
+      ],
+      "contactReductionPercent": [
+        15,
+        20
+      ],
+      "contactRadiusMetres": [
+        0.15,
+        0.4
+      ],
+      "winter": "Remove foliage; retain scaffold and bounded hanging twig bundles. Snow on supported upper branches only.",
+      "seeding": "Stable mapped object seed and identity through seasons; never move mapped trunks."
+    },
+    "LOD": {
+      "nearTriangles": [
+        600,
+        900
+      ],
+      "mediumTriangles": [
+        200,
+        450
+      ],
+      "farTriangles": [
+        80,
+        180
+      ],
+      "smallAerialTriangles": [
+        24,
+        60
+      ],
+      "tinyProjectedTriangles": [
+        8,
+        16
+      ],
+      "allocation": "Replaces existing vegetation allocation; no per-curtain draw calls. Winter bundles obey same limits."
+    },
+    "performance": {
+      "newBudget": false,
+      "baseOpaqueSharedMs": 4.25,
+      "shadowsSharedMs": 1.45,
+      "crownContactSharedMs": 0.15,
+      "sceneTriangles": 400000,
+      "shadowTriangles": 150000,
+      "draws": 100,
+      "GPUCeilingMs": 10
+    },
+    "claims": [
+      {
+        "status": "verified",
+        "claim": "Broad crown, hanging branches, greenish-yellow or gold fall foliage. Northern horticultural examples may be hybrids.",
+        "source": "https://landscapeplants.oregonstate.edu/plants/salix-babylonica",
+        "checked": "2026-10-06"
+      },
+      {
+        "status": "assumption",
+        "claim": "Chicago/North Shore visual family only with mapped/authored evidence; not abundance or planting advice."
+      }
+    ]
+  }
 }

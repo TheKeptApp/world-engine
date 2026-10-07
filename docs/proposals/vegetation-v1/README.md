@@ -138,3 +138,12 @@ Acceptance still requires actual iPhone 13-class measurements at the app's real 
 5. Are contact, beds and shrubs simplified enough to preserve the world budget and route clarity?
 
 Saved outputs: six PNG sheets, three SVG swatch charts, this README, colour JSON and prompt JSON. All deliverables are under this folder. Built-in image generation created the raster sheets; a single targeted simplification edit was applied to the shrub sheet. SVGs are exact authored colour diagrams, not substitutes for the illustrated sheets.
+
+## Addendum — Weeping willow
+
+**6 October 2026.** [Construction, assumptions and performance notes](ADDENDUM-Weeping-Willow.md). Exact colors extend the existing color JSON. Original entries and images are preserved.
+
+- [addendum-01-weeping-willow-seasons.png](images/addendum-01-weeping-willow-seasons.png)
+- [addendum-02-willow-exact-colours.svg](images/addendum-02-willow-exact-colours.svg)
+
+[Generation prompts](addendum-prompts.json). Raster artwork is illustrative; exact JSON/SVG references govern.

@@ -215,3 +215,15 @@ Compare effect toggles at identical camera, time, drawable size, warmed caches a
 5. Validate the same 5 / 20 / 40 m views on a phone with the existing v2 budget before increasing detail.
 
 Raster sheets were made with the built-in image-generation tool. Sheets 01 and 03 each received one targeted simplification edit; other sheets use their fresh generation. Exact SVG charts were authored as deterministic colour diagrams. Prompts and provenance are included.
+
+## Addendum — Chicago brick streets and stone paving
+
+**6 October 2026.** [Construction, assumptions and performance notes](ADDENDUM-Brick-Streets-and-Stone-Paving.md). Exact colors extend the existing color JSON. Original entries and images are preserved.
+
+- [addendum-01-chicago-brick-stone-weather.png](images/addendum-01-chicago-brick-stone-weather.png)
+- [addendum-02-brick-stone-phone-aerial.png](images/addendum-02-brick-stone-phone-aerial.png)
+- [addendum-03-brick-stone-exact-colours.svg](images/addendum-03-brick-stone-exact-colours.svg)
+
+[Generation prompts](addendum-prompts.json). Raster artwork is illustrative; exact JSON/SVG references govern.
+
+Distance columns mean 5 / 20 / 40 m / aerial; some generated labels remain incorrect after one edit. See the addendum for authority and filtering rules.
