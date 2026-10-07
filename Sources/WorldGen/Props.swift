@@ -40,24 +40,36 @@ public struct PropLibrary: Sendable {
         SIMD2(Int((x / cellMeters).rounded(.down)), Int((y / cellMeters).rounded(.down)))
     }
 
-    /// Crown lobes (center, radius) in unit-height tree space for each archetype.
+    /// Crown lobes (center, radius) in unit-height tree space for each archetype: a clustered, lopsided
+    /// crown of unequal, intersecting lobes (look-fix-v1 §5, vegetation-v1 crown construction: merged
+    /// masses with sky holes, not a pile of balls). Side-view sky holes inside the crown's convex outline
+    /// (vegetation-v1 targets): broad/maple ≈ 6%, oval/linden ≈ 5%, spreading/oak ≈ 10%.
+    /// Lobe 0 is the top lobe; lobes 1…`BranchStyle.limbs` are the major side lobes (each gets a limb, and lobes
+    /// 0 and 1 make the mid crown); later lobes are smaller shoulders that break the outline into an
+    /// asymmetric top and notches between lobes (they drop their leaves first).
     public static func lobes(_ kind: PropKind) -> (trunkTop: Float, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
         switch kind {
         case .treeOval:
-            // Upright oval: narrow, tall crown of stacked lobes.
+            // Upright oval (linden: tapered oval, 5–8 lobes): a column of offset lobes, a high shoulder
+            // on each side, a narrower waist and a low lobe over the fork.
             return (0.40, [0, 0.68, 0], [0.19, 0.30, 0.19], [
-                ([0, 0.84, 0], 0.15), ([0.05, 0.66, 0.04], 0.18), ([-0.06, 0.58, -0.03], 0.16), ([0.02, 0.50, -0.07], 0.13),
+                ([0.02, 0.83, 0.01], 0.15), ([-0.04, 0.64, 0.03], 0.18), ([0.1, 0.55, -0.06], 0.12), ([0.04, 0.47, 0.11], 0.1),
+                ([-0.13, 0.8, -0.04], 0.09), ([0.14, 0.72, 0.05], 0.09),
             ])
         case .treeSpreading:
-            // Open spreading: wide, flatter crown of five lobes.
-            return (0.46, [0, 0.66, 0], [0.36, 0.19, 0.34], [
-                ([0, 0.74, 0], 0.18), ([0.22, 0.64, 0.05], 0.15), ([-0.2, 0.65, -0.08], 0.16),
-                ([0.04, 0.63, 0.22], 0.14), ([-0.06, 0.62, -0.23], 0.14),
+            // Open spreading (oak: unequal spreading shoulders, 7–10 lobes; elm and honey locust share it):
+            // wide and flat-topped, separated rim lobes at different heights with gaps between them.
+            return (0.46, [0, 0.66, 0], [0.37, 0.2, 0.37], [
+                ([0, 0.74, 0], 0.18), ([0.22, 0.64, 0.05], 0.15), ([-0.23, 0.67, -0.08], 0.13),
+                ([0.05, 0.61, 0.22], 0.115), ([-0.09, 0.6, -0.22], 0.115),
+                ([0.23, 0.75, -0.2], 0.09), ([-0.22, 0.76, 0.19], 0.09),
             ])
         default:
-            // Broad rounded: one top lobe over three around it.
-            return (0.44, [0, 0.66, 0], [0.29, 0.24, 0.29], [
-                ([0, 0.78, 0], 0.2), ([0.15, 0.62, 0.06], 0.17), ([-0.13, 0.63, 0.1], 0.16), ([0.0, 0.6, -0.16], 0.17),
+            // Broad rounded (maple: upright rounded, uneven height, 6–9 lobes): an off-centre top lobe with
+            // two smaller crests beside it (notches between them), three side lobes and a low shoulder.
+            return (0.44, [0, 0.67, 0], [0.32, 0.26, 0.32], [
+                ([0.05, 0.78, 0.02], 0.19), ([-0.15, 0.64, 0.07], 0.18), ([0.2, 0.61, -0.06], 0.14), ([-0.02, 0.58, -0.2], 0.13),
+                ([-0.18, 0.82, -0.06], 0.11), ([0.22, 0.54, 0.14], 0.1), ([0.14, 0.86, -0.12], 0.09),
             ])
         }
     }
@@ -70,7 +82,7 @@ public struct PropLibrary: Sendable {
         case .treeBroad, .treeOval, .treeSpreading:
             return deciduous(kind, lod: lod, palette: palette, rng: &rng)
         case .conifer:
-            return conifer(lod: lod, palette: palette)
+            return conifer(lod: lod, palette: palette, rng: &rng)
         case .lamp:
             var m = MeshBuffers()
             m.paint = Paint(slot: palette.named("metal"))
@@ -462,7 +474,9 @@ public struct PropLibrary: Sendable {
 
     static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
         let shape = lobes(kind)
-        let trunkR: Float = kind == .treeSpreading ? 0.022 : 0.018
+        // Trunk radius (unit height): stout enough that a crown doesn't read as a lollipop on a pole
+        // (vegetation-v1: thick oak fork, stout trunks); about a tenth of the crown's width across.
+        let trunkR: Float = kind == .treeSpreading ? 0.03 : kind == .treeOval ? 0.024 : 0.026
         if lod == 3 { return skylineTree(shape, palette: palette, trunkRadius: trunkR) }
         // Branches: hidden inside the leafy crown, they carry the bare winter silhouette (sky-seasons
         // §5.3: foliage is removed lobe by lobe while branches remain; visual v2: meaningful winter
@@ -485,32 +499,123 @@ public struct PropLibrary: Sendable {
         let branchStart = m.positions.count
         addBareBranches(&m, skeleton, lod: lod, trunkSides: trunkSides, within: crownEnvelope(shape, lod: lod))
         m.bakeAO(from: branchStart) { _, _ in 0.8 }
+        if lod == 0 { addBranchStubs(&m, shape, trunkRadius: trunkR, rng: &rng) }
         // Crown: one color family per tree (the shader picks deciduous1…4 per instance); lobes
         // share a softened ellipsoid normal so the crown reads as one sculpted mass. Each lobe's
         // vertices carry a stable leaf threshold in extra.y: the lobe shows while the tree's leaf
-        // fraction is at or above it, so autumn thins crowns lobe by lobe. Mid detail keeps the top
-        // lobe and the first side lobe at 1.25×; its side lobe is a 48-triangle cube sphere.
+        // fraction is at or above it, so autumn thins crowns lobe by lobe. Near lobes are lumpy
+        // geodesic spheres (the largest ones finer while the near budget allows); mid detail keeps
+        // the top lobe and the first side lobe at 1.25×, its side lobe a 48-triangle cube sphere.
         m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
         let lobes = lod == 0 ? shape.lobes : midLobes(shape)
+        let fine = lod == 0 ? fineLobes(lobes, room: nearTriangleBudget - m.triangleCount) : []
         let start = m.positions.count
         for (k, (c, r)) in lobes.enumerated() {
             let lobeStart = m.positions.count
             if lod == 1 && k > 0 {
                 addCubeSphere(&m, center: c, radii: SIMD3(r, r * 0.92, r))
+            } else if lod == 0 {
+                addLumpyLobe(&m, center: c, radius: r, frequency: fine.contains(k) ? 3 : 2, rng: &rng)
             } else {
-                addBlob(&m, center: c, radius: r, squash: 0.92, jitter: lod == 0 ? 0.05 : 0, rng: &rng, subdivide: true)
+                addBlob(&m, center: c, radius: r, squash: 0.92, jitter: 0, rng: &rng, subdivide: true)
             }
             let threshold = lobeThreshold(k, of: lobes.count)
             for i in lobeStart..<m.positions.count {
                 m.extras[i].y = threshold
                 let q = (m.positions[i] - shape.crown) / shape.radii
-                let crownN = simd_normalize(q / shape.radii)
-                m.normals[i] = simd_normalize(m.normals[i] * 0.5 + crownN * 0.5)
+                m.normals[i] = blendedCrownNormal(m.normals[i], crown: simd_normalize(q / shape.radii))
             }
         }
         // Overlap AO against the modelled lobe radii (mid lobes are drawn 1.25× larger).
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: Array(shape.lobes.prefix(lobes.count)))
         return m
+    }
+
+    /// A crown vertex normal: the lobe's own normal softened toward the crown ellipsoid's, so lobes
+    /// shade as one mass; where the two disagree (a lobe's inner side) the lobe's own normal wins, so
+    /// the normal never turns away from its face.
+    static func blendedCrownNormal(_ lobe: SIMD3<Float>, crown: SIMD3<Float>) -> SIMD3<Float> {
+        simd_normalize(lobe + crown * max(0, simd_dot(lobe, crown)))
+    }
+
+    /// Triangle ceiling per deciduous tree at near detail (within `lodDistances[0]`, a few dozen trees).
+    public static let nearTriangleBudget = 900
+
+    /// Near lobes drawn as finer geodesic spheres (frequency 3, 180 triangles, instead of 80): the
+    /// largest first, while the crown still fits in `room` triangles.
+    static func fineLobes(_ lobes: [(SIMD3<Float>, Float)], room: Int) -> Set<Int> {
+        var left = room - lobes.count * geodesic(2).faces.count
+        let extra = geodesic(3).faces.count - geodesic(2).faces.count
+        var fine: Set<Int> = []
+        for k in lobes.indices.sorted(by: { lobes[$0].1 > lobes[$1].1 }) where left >= extra {
+            fine.insert(k)
+            left -= extra
+        }
+        return fine
+    }
+
+    /// A near crown lobe: a geodesic sphere (squashed to 0.92 in height) with two or three broad,
+    /// seeded lumps and dents (+5–8% / −6% of the radius), so lobes merge into a clustered mass instead
+    /// of reading as balls. Normals stay the sphere's (soft), blended with the crown's by the caller.
+    static func addLumpyLobe(_ m: inout MeshBuffers, center: SIMD3<Float>, radius: Float, frequency: Int, rng: inout StableRandom) {
+        let (units, faces) = frequency == 3 ? geodesic3 : geodesic2
+        var lumps: [(SIMD3<Float>, Float)] = []
+        for i in 0..<3 {
+            let z = Float(rng.range(-0.6, 1)), a = Float(rng.range(0, 2 * .pi)), rho = (1 - z * z).squareRoot()
+            lumps.append((SIMD3(rho * cos(a), z, rho * sin(a)), i == 2 ? -0.06 : Float(rng.range(0.05, 0.08))))
+        }
+        let base = UInt32(m.positions.count)
+        for v in units {
+            var k: Float = 1
+            for (d, amount) in lumps { k += amount * exp(-(1 - simd_dot(v, d)) / 0.18) }
+            m.addVertex(center + SIMD3(v.x, v.y * 0.92, v.z) * (radius * k), normal: simd_normalize(SIMD3(v.x, v.y / 0.92, v.z)))
+        }
+        for f in faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
+    }
+
+    /// Unit geodesic spheres of frequency 2 (80 triangles) and 3 (180), counter-clockwise outside.
+    static let geodesic2 = geodesic(2), geodesic3 = geodesic(3)
+
+    /// The icosahedron with each face split into `n` × `n` triangles, corners pushed onto the unit sphere.
+    static func geodesic(_ n: Int) -> Polyhedron {
+        let (ico, icoFaces) = icosahedron()
+        var units: [SIMD3<Float>] = []
+        var index: [SIMD3<Int32>: UInt32] = [:]
+        func corner(_ p: SIMD3<Float>) -> UInt32 {
+            let u = simd_normalize(p), key = SIMD3<Int32>((u * 4096).rounded(.toNearestOrEven))
+            if let i = index[key] { return i }
+            units.append(u)
+            index[key] = UInt32(units.count - 1)
+            return UInt32(units.count - 1)
+        }
+        var faces: [SIMD3<UInt32>] = []
+        for f in icoFaces {
+            let a = ico[Int(f.x)], b = ico[Int(f.y)], c = ico[Int(f.z)]
+            func at(_ i: Int, _ j: Int) -> UInt32 { corner(a + (b - a) * (Float(i) / Float(n)) + (c - a) * (Float(j) / Float(n))) }
+            for i in 0..<n { for j in 0..<(n - i) {
+                faces.append(SIMD3(at(i, j), at(i + 1, j), at(i, j + 1)))
+                if i + j < n - 1 { faces.append(SIMD3(at(i + 1, j), at(i + 1, j + 1), at(i, j + 1))) }
+            } }
+        }
+        return (units, oriented(faces, units))
+    }
+
+    /// Branch stubs where the trunk enters the crown (near detail): two or three short, pointed bark
+    /// stubs leaving the trunk below the fork, angled up and out, ending under the crown, so the trunk
+    /// doesn't read as a stick pushed into a ball. Bark, sway 0.3, AO 0.75 like the branches.
+    static func addBranchStubs(_ m: inout MeshBuffers, _ shape: TreeShape, trunkRadius: Float, rng: inout StableRandom) {
+        let paint = m.paint
+        m.paint = Paint(slot: paint.slot, sway: 0.3)
+        let count = rng.chance(0.5) ? 2 : 3, phase = Float(rng.range(0, 2 * .pi))
+        for i in 0..<count {
+            let a = phase + Float(i) * 2 * .pi / Float(count) + Float(rng.range(-0.4, 0.4))
+            let y = shape.trunkTop - Float(rng.range(0.08, 0.13))
+            let out = SIMD3<Float>(cos(a), 0, sin(a))
+            let base = SIMD3<Float>(0, y, 0) + out * (trunkRadius * 0.5)
+            let tip = base + simd_normalize(out + SIMD3(0, Float(rng.range(0.4, 0.65)), 0)) * Float(rng.range(0.08, 0.11))
+            addBranch(&m, [base, tip], radii: [trunkRadius * 0.45, 0], sides: 3)
+        }
+        m.paint = paint
     }
 
     /// Triangle ceiling per tree at skyline detail (beyond `lodDistances[2]`: the distant tree band and
@@ -630,7 +735,7 @@ public struct PropLibrary: Sendable {
             for v in lobe.polyhedron.units {
                 let p = lobe.center + SIMD3(v.x, v.y * 0.92, v.z) * lobe.radius
                 let crownN = simd_normalize((p - shape.crown) / (shape.radii * shape.radii))
-                m.addVertex(p, normal: simd_normalize(simd_normalize(SIMD3(v.x, v.y / 0.92, v.z)) * 0.5 + crownN * 0.5))
+                m.addVertex(p, normal: blendedCrownNormal(simd_normalize(SIMD3(v.x, v.y / 0.92, v.z)), crown: crownN))
             }
             for f in lobe.polyhedron.faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
             for i in lobeStart..<m.positions.count { m.extras[i].y = lobeThreshold(k, of: lobes.count) }
@@ -753,6 +858,8 @@ public struct PropLibrary: Sendable {
         var fork: Float, tilt: Float, rise: Float, inner: Float, branchReach: Float
         /// Twigs per inner and per end branch, their angle off the branch and upward pull.
         var innerTwigs: Int, endTwigs: Int, spray: Float, twigRise: Float
+        /// Side lobes that get a limb (lobes 1…limbs; the smaller shoulders after them get none).
+        var limbs = 3
 
         static func of(_ kind: PropKind) -> BranchStyle {
             switch kind {
@@ -765,9 +872,9 @@ public struct PropLibrary: Sendable {
             case .treeSpreading:
                 // Vase: limbs from one low fork rise, then flare wide; a short leader.
                 BranchStyle(leaderReach: 0.45, topBranches: 2, topFan: 0.75, topAt: 0.5,
-                            stagger: 0, outward: 0.4, limbReach: 0.58, limb: 0.66, bow: -0.05,
-                            fork: 0.5, tilt: 0.6, rise: 0.15, inner: 0.7, branchReach: 0.88,
-                            innerTwigs: 2, endTwigs: 3, spray: 0.6, twigRise: 0.2)
+                            stagger: 0, outward: 0.6, limbReach: 0.68, limb: 0.66, bow: -0.05,
+                            fork: 0.5, tilt: 0.6, rise: 0.15, inner: 0.7, branchReach: 0.93,
+                            innerTwigs: 2, endTwigs: 3, spray: 0.6, twigRise: 0.2, limbs: 4)
             default:
                 // Rounded: limbs from about the fork go out, then curve up around a leader.
                 BranchStyle(leaderReach: 0.55, topBranches: 3, topFan: 0.6, topAt: 0.5,
@@ -826,7 +933,7 @@ public struct PropLibrary: Sendable {
         }
         // Side limbs: one toward each side lobe's outer side.
         let forkY = shape.trunkTop - 0.04
-        for (k, (c, r)) in shape.lobes.enumerated() where k > 0 {
+        for (k, (c, r)) in shape.lobes.enumerated() where k > 0 && k <= style.limbs {
             let out = unit(SIMD3(c.x, 0, c.z), or: SIMD3(cos(Float(k) * 2.4), 0, sin(Float(k) * 2.4)))
             let a = SIMD3<Float>(0, forkY + style.stagger * max(0, c.y - r * 0.6 - forkY), 0)
             let d = rotate(simd_normalize(c + out * (style.outward * r) - a), around: up, by: jitter(0.12))
@@ -1107,7 +1214,7 @@ public struct PropLibrary: Sendable {
         return (verts, faces)
     }
 
-    static func conifer(lod: Int, palette: Palette) -> MeshBuffers {
+    static func conifer(lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
         var m = MeshBuffers()
         if lod == 3 {
             // Skyline: the far cone alone, no trunk and open underneath (5 triangles).
@@ -1121,9 +1228,22 @@ public struct PropLibrary: Sendable {
         m.bakeAO(from: 0) { p, _ in p.y > 0.15 ? 0.6 : 0.85 }
         m.paint = Paint(slot: palette.named("conifer1"), flags: .variant2, sway: 0.5)
         let start = m.positions.count
-        let tiers: [(Float, Float, Float)] = lod == 2 ? [(0.14, 1.0, 0.24)]
-            : [(0.14, 0.58, 0.26), (0.38, 0.8, 0.2), (0.6, 1.0, 0.13)]
-        for (z0, z1, r) in tiers { addCone(&m, radius: r, z0: z0, z1: z1, sides: lod == 0 ? 10 : (lod == 1 ? 7 : 5)) }
+        if lod == 0 {
+            // Near: staggered tiers with ragged, drooping rims (branch tips) and apexes a little off the
+            // axis, so the spire reads as layered boughs rather than stacked cones.
+            // Spruce (vegetation-v1): irregular taper of 7 drooping, staggered tiers with broken lengths.
+            for k in 0..<7 {
+                let t = Float(k) / 6
+                let z0 = 0.12 + 0.62 * t + Float(rng.range(-0.015, 0.015))
+                let r = (0.27 - 0.2 * t) * Float(rng.range(0.88, 1.08))
+                let lean = SIMD2<Float>(Float(rng.range(-0.012, 0.012)), Float(rng.range(-0.012, 0.012)))
+                addRaggedCone(&m, radius: r, z0: z0, z1: k == 6 ? 1.0 : z0 + 0.26 - 0.06 * t, tips: 5, apex: lean, rng: &rng)
+            }
+        } else {
+            let tiers: [(Float, Float, Float)] = lod == 2 ? [(0.14, 1.0, 0.24)]
+                : [(0.14, 0.58, 0.26), (0.38, 0.8, 0.2), (0.6, 1.0, 0.13)]
+            for (z0, z1, r) in tiers { addCone(&m, radius: r, z0: z0, z1: z1, sides: lod == 1 ? 7 : 5) }
+        }
         m.bakeAO(from: start) { p, n in n.y < -0.5 ? 0.6 : Float(0.7 + 0.3 * smoothstep(0.1, 0.9, Double(p.y))) }
         return m
     }
@@ -1237,6 +1357,36 @@ public struct PropLibrary: Sendable {
             return m.addVertex(SIMD3(cos(a) * r, y0, sin(a) * r), normal: simd_normalize(SIMD3(cos(a), slope, sin(a))))
         }
         for i in 0..<sides { m.addTriangle(apex, ring[(i + 1) % sides], ring[i]) }
+    }
+
+    /// A conifer tier: a cone whose rim alternates `tips` outer branch tips (full radius ±8%, drooping
+    /// 0.02 below `z0`) with notches (78% radius, 0.03 above it), the apex offset by `apex`; a flat
+    /// underside at 0.8 shade like `addCone`.
+    static func addRaggedCone(_ m: inout MeshBuffers, radius r: Float, z0: Float, z1: Float, tips: Int, apex: SIMD2<Float>,
+                              rng: inout StableRandom) {
+        let top = SIMD3<Float>(apex.x, z1, apex.y)
+        let phase = Float(rng.range(0, 2 * .pi))
+        var rim: [SIMD3<Float>] = []
+        for i in 0..<(tips * 2) {
+            let a = phase + Float(i) / Float(tips * 2) * 2 * .pi
+            let tip = i % 2 == 0
+            let rr = tip ? r * Float(rng.range(0.92, 1.08)) : r * 0.78
+            rim.append(SIMD3(cos(a) * rr, tip ? z0 - 0.02 : z0 + 0.03, sin(a) * rr))
+        }
+        let slope = r / (z1 - z0)
+        let apexID = m.addVertex(top, normal: SIMD3(0, 1, 0))
+        let ids = rim.map { p -> UInt32 in
+            let out = simd_normalize(SIMD3(p.x, 0, p.z))
+            return m.addVertex(p, normal: simd_normalize(SIMD3(out.x, slope, out.z)))
+        }
+        for i in 0..<ids.count { m.addTriangle(apexID, ids[(i + 1) % ids.count], ids[i]) }
+        let shade = m.paint
+        m.paint = Paint(slot: shade.slot, shade: shade.shade * 0.8, flags: shade.flags, sway: shade.sway)
+        // Underside: a fan from the axis (the ragged rim is star-shaped around it, not convex).
+        let hub = m.addVertex(SIMD3(0, z0, 0), normal: -sceneUp)
+        let down = rim.map { m.addVertex($0, normal: -sceneUp) }
+        for i in 0..<down.count { m.addTriangle(hub, down[i], down[(i + 1) % down.count]) }
+        m.paint = shade
     }
 
     /// Smooth cone with a flat underside.
