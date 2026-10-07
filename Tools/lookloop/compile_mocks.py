@@ -11,6 +11,10 @@ where an approved pack's clear-daytime value differs from the master is kept but
 the master; pairs where the other values belong to night / blue-hour / fog / golden / overcast states
 are marked "different state". Conflicts without the master stay pending (R decides).
 
+R-approved corrections in Tools/lookloop/mock-corrections.json are applied last (owner rule, R 2026-10-07:
+images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
+"original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
+
 Usage: python3 Tools/lookloop/compile_mocks.py [--check]
 """
 import json
@@ -23,6 +27,7 @@ INDEX = ROOT / "docs/proposals/INDEX.md"
 OUT = ROOT / "Resources/look/mock-values.json"
 # Byte-identical bundled copy so the WorldGen target can load it (P2, 7 Oct 2026); generated, never hand-edited.
 BUNDLE = ROOT / "Sources/WorldGen/Profiles/mock-values.json"
+CORRECTIONS = "Tools/lookloop/mock-corrections.json"
 CONFLICTS_MD = ROOT / "docs/lookloop/mock-conflicts.md"
 
 # Keys (at any depth) whose whole subtree is descriptive/meta, not a look value.
@@ -163,7 +168,26 @@ def build(root=ROOT):
             if pack == MASTER_PACK and path.startswith(MASTER_PREFIX):
                 entry["role"] = "daytime-master"
             entries[f"{pack}/{path}"] = entry
+    cpath = root / CORRECTIONS
+    corrections = json.loads(cpath.read_text())["corrections"] if cpath.exists() else []
+    for c in corrections:
+        pack, pre = c["pack"], c.get("replacePrefix")
+        if pack not in [p for p, _ in packs]:
+            continue
+        src = next(rel for p, rel in packs if p == pack)
+        old = {k: e for k, e in entries.items() if k.startswith(f"{pack}/") and (
+            (pre and e["key"].startswith(pre)) or e["key"] in c["set"])}
+        for k in old:
+            del entries[k]
+        for path, value in c["set"].items():
+            entry = {"value": value, "pack": pack, "key": path, "source": src, "correction": c["id"],
+                     "original": old[f"{pack}/{path}"]["value"] if f"{pack}/{path}" in old else None}
+            if pack == MASTER_PACK and path.startswith(MASTER_PREFIX):
+                entry["role"] = "daytime-master"
+            entries[f"{pack}/{path}"] = entry
+        c["originalValues"] = {e["key"]: e["value"] for e in old.values()}
     return {
+        "corrections": corrections,
         # Deterministic: newest approved pack date, not wall-clock time.
         "generated": max(dates) if dates else "unknown",
         "generator": "Tools/lookloop/compile_mocks.py",

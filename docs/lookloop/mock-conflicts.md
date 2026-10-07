@@ -18,15 +18,15 @@ overcast values are different states, not conflicts. Conflicts without the maste
 | haze extinction per metre (clear/haze fixture) | `night-fog-v1/states[0].haze.sigmaPerM` | `0.0015` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | pending (R decides) |
 | haze extinction per metre (clear/haze fixture) | `night-fog-v1/states[1].haze.sigmaPerM` | `0.002` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | pending (R decides) |
 | haze extinction per metre (clear/haze fixture) | `night-fog-v1/states[2].haze.sigmaPerM` | `0.0015` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | pending (R decides) |
-| sky horizon colour (0 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[2].hex` | `"#DBDCD1"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
+| sky horizon colour (0 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[2].hex` | `"#91C4ED"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
 | sky horizon colour (0 deg stop) | `night-fog-v1/states[0].skyGradient[2].hex` | `"#A5A8B1"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky horizon colour (0 deg stop) | `night-fog-v1/states[1].skyGradient[2].hex` | `"#344255"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky horizon colour (0 deg stop) | `night-fog-v1/states[2].skyGradient[2].hex` | `"#E7DCC8"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
-| sky mid colour (30 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[1].hex` | `"#A2C4DC"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
+| sky mid colour (30 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[1].hex` | `"#6FAFE4"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
 | sky mid colour (30 deg stop) | `night-fog-v1/states[0].skyGradient[1].hex` | `"#657FA3"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky mid colour (30 deg stop) | `night-fog-v1/states[1].skyGradient[1].hex` | `"#243854"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky mid colour (30 deg stop) | `night-fog-v1/states[2].skyGradient[1].hex` | `"#D1D5D3"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
-| sky zenith colour (90 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[0].hex` | `"#73A5CC"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
+| sky zenith colour (90 deg stop) | `house-contrast-v1/sharedLighting.sky.gradient[0].hex` | `"#6FAFE4"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (wins in clear daytime) |
 | sky zenith colour (90 deg stop) | `night-fog-v1/states[0].skyGradient[0].hex` | `"#314D79"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky zenith colour (90 deg stop) | `night-fog-v1/states[1].skyGradient[0].hex` | `"#15243C"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | sky zenith colour (90 deg stop) | `night-fog-v1/states[2].skyGradient[0].hex` | `"#AABED0"` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |

@@ -106,7 +106,7 @@
           "resolved": "master value (wins in clear daytime)",
           "source": "docs/proposals/house-contrast-v1/paintover-values.json",
           "state": "daytime-master",
-          "value": "#DBDCD1"
+          "value": "#91C4ED"
         },
         {
           "key": "night-fog-v1/states[0].skyGradient[2].hex",
@@ -144,7 +144,7 @@
           "resolved": "master value (wins in clear daytime)",
           "source": "docs/proposals/house-contrast-v1/paintover-values.json",
           "state": "daytime-master",
-          "value": "#A2C4DC"
+          "value": "#6FAFE4"
         },
         {
           "key": "night-fog-v1/states[0].skyGradient[1].hex",
@@ -182,7 +182,7 @@
           "resolved": "master value (wins in clear daytime)",
           "source": "docs/proposals/house-contrast-v1/paintover-values.json",
           "state": "daytime-master",
-          "value": "#73A5CC"
+          "value": "#6FAFE4"
         },
         {
           "key": "night-fog-v1/states[0].skyGradient[0].hex",
@@ -311,6 +311,68 @@
       ],
       "parameter": "sun elevation fixture (deg)",
       "resolved": "house-contrast-v1 sharedLighting (daytime master, R 2026-10-07)"
+    }
+  ],
+  "corrections": [
+    {
+      "approved": "R, 2026-10-07 (images win over pack JSON)",
+      "id": "hc-v1-sky-from-heroes",
+      "method": "Sampled the four approved mid-afternoon heroes (images/lakeview-hero.png, denver-hero.png, wilmette-hero.png, postcard-hero.png; 1672x941). Row elevation from the paint-overs' source camera (vFOV 50°, pitch down 3°). Sky pixels: b > r+40, b > g+10, b > 170, r+g+b > 420 (excludes blue windows). Bands: top 17-22° (frame top), mid 8-14°, horizon = the lowest 5 % of rows with visible sky (median 6.4°; below that houses and trees hide the sky). Clouds: near-white pixels above 3° (lit r+g+b > 705, shade otherwise). Per-image channel median, then the median across the four images (cloud lit from 2 images with enough lit pixels; mid from 3, Denver shows no sky at 8-14°). Every 3rd column, every 2nd row. No zenith is visible in any hero: the top-band colour is held from 20° to 90°.",
+      "originalValues": {
+        "sharedLighting.sky.cloudLitHex": "#F0F2EF",
+        "sharedLighting.sky.cloudShadeHex": "#CAD6DE",
+        "sharedLighting.sky.gradient[0].elevationDeg": 90,
+        "sharedLighting.sky.gradient[0].hex": "#73A5CC",
+        "sharedLighting.sky.gradient[1].elevationDeg": 30,
+        "sharedLighting.sky.gradient[1].hex": "#A2C4DC",
+        "sharedLighting.sky.gradient[2].elevationDeg": 0,
+        "sharedLighting.sky.gradient[2].hex": "#DBDCD1"
+      },
+      "pack": "house-contrast-v1",
+      "perImage": {
+        "denver": {
+          "cloudLit": null,
+          "cloudShade": "#DAE1EB",
+          "horizon": "#A3CAE8",
+          "mid": null,
+          "top": "#86BBE6"
+        },
+        "lakeview": {
+          "cloudLit": "#E8EFF8",
+          "cloudShade": "#D6E3F5",
+          "horizon": "#ABD4F2",
+          "mid": "#91C3ED",
+          "top": "#67A5E1"
+        },
+        "postcard": {
+          "cloudLit": "#FCF2DF",
+          "cloudShade": "#D8E6F5",
+          "horizon": "#A8D6F5",
+          "mid": "#88C6F5",
+          "top": "#61ACF1"
+        },
+        "wilmette": {
+          "cloudLit": null,
+          "cloudShade": "#DAE1EC",
+          "horizon": "#A6C9E0",
+          "mid": "#9AC4E2",
+          "top": "#78B2E3"
+        }
+      },
+      "reason": "The pack's sky gradient (#73A5CC zenith, #A2C4DC at 30°, #DBDCD1 horizon) is paler and greyer than its own four hero paint-overs; built exactly, the engine sky read pale grey-blue (5A finding, 7 Oct).",
+      "replacePrefix": "sharedLighting.sky.gradient",
+      "set": {
+        "sharedLighting.sky.cloudLitHex": "#F2F0EB",
+        "sharedLighting.sky.cloudShadeHex": "#D9E2F0",
+        "sharedLighting.sky.gradient[0].elevationDeg": 90,
+        "sharedLighting.sky.gradient[0].hex": "#6FAFE4",
+        "sharedLighting.sky.gradient[1].elevationDeg": 20,
+        "sharedLighting.sky.gradient[1].hex": "#6FAFE4",
+        "sharedLighting.sky.gradient[2].elevationDeg": 11,
+        "sharedLighting.sky.gradient[2].hex": "#91C4ED",
+        "sharedLighting.sky.gradient[3].elevationDeg": 0,
+        "sharedLighting.sky.gradient[3].hex": "#A7CFED"
+      }
     }
   ],
   "entries": {
@@ -1255,60 +1317,94 @@
       "value": 0.18
     },
     "house-contrast-v1/sharedLighting.sky.cloudLitHex": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.cloudLitHex",
+      "original": "#F0F2EF",
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": "#F0F2EF"
+      "value": "#F2F0EB"
     },
     "house-contrast-v1/sharedLighting.sky.cloudShadeHex": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.cloudShadeHex",
+      "original": "#CAD6DE",
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": "#CAD6DE"
+      "value": "#D9E2F0"
     },
     "house-contrast-v1/sharedLighting.sky.gradient[0].elevationDeg": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.gradient[0].elevationDeg",
+      "original": 90,
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
       "value": 90
     },
     "house-contrast-v1/sharedLighting.sky.gradient[0].hex": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.gradient[0].hex",
+      "original": "#73A5CC",
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": "#73A5CC"
+      "value": "#6FAFE4"
     },
     "house-contrast-v1/sharedLighting.sky.gradient[1].elevationDeg": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.gradient[1].elevationDeg",
+      "original": 30,
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": 30
+      "value": 20
     },
     "house-contrast-v1/sharedLighting.sky.gradient[1].hex": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.gradient[1].hex",
+      "original": "#A2C4DC",
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": "#A2C4DC"
+      "value": "#6FAFE4"
     },
     "house-contrast-v1/sharedLighting.sky.gradient[2].elevationDeg": {
+      "correction": "hc-v1-sky-from-heroes",
       "key": "sharedLighting.sky.gradient[2].elevationDeg",
+      "original": 0,
+      "pack": "house-contrast-v1",
+      "role": "daytime-master",
+      "source": "docs/proposals/house-contrast-v1/paintover-values.json",
+      "value": 11
+    },
+    "house-contrast-v1/sharedLighting.sky.gradient[2].hex": {
+      "correction": "hc-v1-sky-from-heroes",
+      "key": "sharedLighting.sky.gradient[2].hex",
+      "original": "#DBDCD1",
+      "pack": "house-contrast-v1",
+      "role": "daytime-master",
+      "source": "docs/proposals/house-contrast-v1/paintover-values.json",
+      "value": "#91C4ED"
+    },
+    "house-contrast-v1/sharedLighting.sky.gradient[3].elevationDeg": {
+      "correction": "hc-v1-sky-from-heroes",
+      "key": "sharedLighting.sky.gradient[3].elevationDeg",
+      "original": null,
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
       "value": 0
     },
-    "house-contrast-v1/sharedLighting.sky.gradient[2].hex": {
-      "key": "sharedLighting.sky.gradient[2].hex",
+    "house-contrast-v1/sharedLighting.sky.gradient[3].hex": {
+      "correction": "hc-v1-sky-from-heroes",
+      "key": "sharedLighting.sky.gradient[3].hex",
+      "original": null,
       "pack": "house-contrast-v1",
       "role": "daytime-master",
       "source": "docs/proposals/house-contrast-v1/paintover-values.json",
-      "value": "#DBDCD1"
+      "value": "#A7CFED"
     },
     "house-contrast-v1/sharedLighting.sky.noPurpleLavenderPink": {
       "key": "sharedLighting.sky.noPurpleLavenderPink",
