@@ -4,6 +4,9 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
+- **Candidate NASA layers for later:** VIIRS land surface phenology (real leaf-out and fall-colour timing), NSIDC daily snow cover, NASADEM global elevation, GPM IMERG rainfall. Applied: not yet (candidates).
+- **Suomi NPP delivery ends 2 Nov 2026:** Black Marble night lights use the existing archive years; future night lights come from the NOAA-20/21 equivalents. Applied: night-lights data plan.
+- **Earthdata access:** R's NASA account (worldengine) is set up; LAADS and GES DISC are approved; the token is stored in the cloud Default environment as `EARTHDATA_TOKEN` (expires Dec 2026; the value is never written to the repo). Applied: cloud environment.
 - **Design images backed up to iCloud** (`WorldEngine-Design-Backup/proposals/`), copy only, never delete; repeated whenever a pack lands; look-loop frames skipped. Applied: `Tools/lookloop/backup_design_images.sh`; registry.
 - **Every lane:** no logs or images over 1 MB committed without a stated reason; device logs stay local. Applied: README "Contributing notes"; `.gitignore`; L1 handoff; messaged 5A, P2, P1.
 - **Look loop commits** only the scoreboard, summary, regressions, grades and the daily before/after sheet; frames and contact sheets stay local. Applied: `.gitignore`; look-loop docs.
