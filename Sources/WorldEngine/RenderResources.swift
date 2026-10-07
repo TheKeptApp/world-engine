@@ -87,6 +87,8 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var wetB = SIMD4<Float>(0.5, 0.14, 0.06, 0.22)
     public var wetC = SIMD4<Float>(0.65, 0.2, 0.8, 0.45)
     public var wetD = SIMD4<Float>(0.35, 0.7, 0, 0)
+    /// look.json water: sky reflection (clear, overcast), overcast saturation, rain ripples (texel 34).
+    public var water = SIMD4<Float>(0.3, 0.8, 0.35, 0.25)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -232,6 +234,7 @@ final class RenderResources {
         p[w + 31] = SIMD4(h(g.wetB.x), h(g.wetB.y), h(g.wetB.z), h(g.wetB.w))
         p[w + 32] = SIMD4(h(g.wetC.x), h(g.wetC.y), h(g.wetC.z), h(g.wetC.w))
         p[w + 33] = SIMD4(h(g.wetD.x), h(g.wetD.y), h(g.wetD.z), h(g.wetD.w))
+        p[w + 34] = SIMD4(h(g.water.x), h(g.water.y), h(g.water.z), h(g.water.w))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

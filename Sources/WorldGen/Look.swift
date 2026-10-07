@@ -34,8 +34,18 @@ public struct LookSpec: Codable, Sendable {
         public var color: String
         public var opacity: Double
     }
+    public struct Water: Codable, Sendable {
+        /// How much of the water's colour is the reflected sky, clear and overcast (blended by cover).
+        public var skyReflectClear: Double
+        public var skyReflectOvercast: Double
+        /// Saturation left in the water under full overcast.
+        public var overcastSaturation: Double
+        /// Ripple ring strength on open water while it rains.
+        public var rainRipples: Double
+    }
     public var wet: Wet
     public var rain: Rain
+    public var water: Water
 }
 
 extension StyleLibrary {

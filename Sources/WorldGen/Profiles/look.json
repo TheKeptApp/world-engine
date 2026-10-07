@@ -1,8 +1,8 @@
 {
   "comment": "Renderer-neutral look values the lighting bible (lighting-bible.json) doesn't fix, tuned for the owner's phone checks. Both renderers read them from here; nothing look-related is hard-coded in shaders or Swift (owner, 6 Oct). Change log: docs/look-spec-changes.md.",
   "wet": {
-    "asphalt": {"darken": 0.50, "roughness": 0.42, "puddles": 0.16},
-    "walk": {"darken": 0.45, "roughness": 0.50, "puddles": 0.14},
+    "asphalt": {"darken": 0.6, "roughness": 0.42, "puddles": 0.16},
+    "walk": {"darken": 0.6, "roughness": 0.5, "puddles": 0.14},
     "lawnDarken": 0.06,
     "pavingGloss": 0.22,
     "lightRainResponse": 0.65,
@@ -11,5 +11,17 @@
     "puddleReflect": [0.35, 0.7],
     "ripples": 0.45
   },
-  "rain": {"drops": 600, "width": 0.022, "stretch": 10, "color": "#C7D0DB", "opacity": 0.7}
+  "rain": {
+    "drops": 600,
+    "width": 0.022,
+    "stretch": 10,
+    "color": "#C7D0DB",
+    "opacity": 0.7
+  },
+  "water": {
+    "skyReflectClear": 0.3,
+    "skyReflectOvercast": 0.8,
+    "overcastSaturation": 0.35,
+    "rainRipples": 0.25
+  }
 }
