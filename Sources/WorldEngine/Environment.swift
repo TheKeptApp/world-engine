@@ -179,6 +179,8 @@ extension World {
             g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
             g.waterB.x = Float(water.overcastReflectGain)
         }
+        // Hard cap: ±10° of hue (owner: at most about ±0.03 of the hue circle).
+        if let trees = Self.lookSpec?.trees { g.trees.x = Float(min(10, max(0, trees.hueJitterDeg))) }
         if let sky = Self.lookSpec?.sky {
             g.waterB.y = Float(sky.cloudEdgeClear); g.waterB.z = Float(sky.cloudEdgeOvercast)
         }

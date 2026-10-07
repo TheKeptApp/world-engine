@@ -46,7 +46,7 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 trees;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -87,6 +87,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.water = float4(tex.read(uint2(34, 1))); g.wetE = float4(tex.read(uint2(35, 1)));
     g.waterB = float4(tex.read(uint2(36, 1)));
     g.blobShadow = float4(tex.read(uint2(37, 1)));
+    g.trees = float4(tex.read(uint2(38, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -458,7 +459,12 @@ void worldFoliageSurface(realitykit::surface_parameters params)
     float u = hash12(origin.xz * 0.37 + 3.1);
     uint slot = paletteSlot(paint, origin);
     half3 ahead = srgbToLinear(tex.read(uint2(slot, 2)).rgb), behind = srgbToLinear(tex.read(uint2(slot, 3)).rgb);
-    su.base = mix(ahead, behind, half(u)) * half(paint.y) * half(0.95 + 0.10 * hash12(origin.xz * 0.37));
+    half3 seasonal = mix(ahead, behind, half(u));
+    // Hue turns by ±look.json trees.hueJitterDeg per tree (rotation about the grey axis), value ±5%.
+    float hue = (hash12(origin.xz * 0.53 + 11.7) * 2.0 - 1.0) * g.trees.x * M_PI_F / 180.0;
+    float3 k = float3(0.57735), c3 = float3(seasonal);
+    c3 = c3 * cos(hue) + cross(k, c3) * sin(hue) + k * dot(k, c3) * (1.0 - cos(hue));
+    su.base = half3(max(c3, 0.0)) * half(paint.y) * half(0.95 + 0.10 * hash12(origin.xz * 0.37));
     su.emissive = su.base * 0.05h * half(extra.x);
     su.roughness = 0.95h; su.specular = 0.1h; su.ao = half(extra.x); su.cuttable = true;
     // Snow settles on crowns, conifers, bushes and tufts, not on thin bark (it read as floating arcs).

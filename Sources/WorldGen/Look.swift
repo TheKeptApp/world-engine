@@ -1,7 +1,7 @@
 import Foundation
 
 /// Renderer-neutral look values beyond the lighting bible and the rain pack (`Profiles/look.json`):
-/// water, sky, wet paving and shadow range. Both renderers read them; see docs/look-spec-changes.md.
+/// tree colour spread, water, sky, wet paving and shadows. Both renderers read them; see docs/look-spec-changes.md.
 public struct LookSpec: Codable, Sendable {
     public struct Water: Codable, Sendable {
         /// How much of the water's colour is the reflected sky, clear and overcast (blended by cover).
@@ -38,6 +38,13 @@ public struct LookSpec: Codable, Sendable {
         public var blobStrength: Double
         public var blobCrownHeightM: Double
     }
+    /// Per-tree colour spread (owner, 7 Oct: a street is never one colour): each crown's hue turns by
+    /// up to ±`hueJitterDeg` (the renderer caps it at 10°, 0.028 of the hue circle; the season timing
+    /// stays the phenology's ±7 days).
+    public struct Trees: Codable, Sendable {
+        public var hueJitterDeg: Double
+    }
+    public var trees: Trees
     public var water: Water
     public var sky: Sky
     public var shadows: Shadows

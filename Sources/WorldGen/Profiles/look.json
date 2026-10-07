@@ -1,5 +1,9 @@
 {
   "comment": "Renderer-neutral look values neither the lighting bible (lighting-bible.json) nor the rain pack (rain-bible.json) fixes, tuned for the owner's phone checks. Both renderers read them from here; nothing look-related is hard-coded in shaders or Swift (owner, 6 Oct). Change log: docs/look-spec-changes.md.",
+  "trees": {
+    "comment": "Owner, 7 Oct (P2, P3 regressions: Denver crowns one lemon yellow): each crown's hue turns by up to +/-5 degrees (0.014 of the hue circle; the renderer caps it at 10). A +/-21 day season window was tried and dropped: blending green and autumn palettes made olive crowns.",
+    "hueJitterDeg": 5
+  },
   "water": {
     "skyReflectClear": 0.3,
     "skyReflectOvercast": 0.8,

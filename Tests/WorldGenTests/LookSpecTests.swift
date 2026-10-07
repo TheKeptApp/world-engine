@@ -15,5 +15,7 @@ struct LookSpecTests {
         // Owner: real sun shadows reach the lawns, 120–150 m.
         #expect(look.shadows.rangeM >= 120 && look.shadows.rangeM <= 150)
         #expect(look.shadows.lowSunRangeM >= look.shadows.rangeM)
+        // Owner: a street is never one colour; a small per-crown hue spread, at most ~±0.03 of the hue circle.
+        #expect(look.trees.hueJitterDeg > 0 && look.trees.hueJitterDeg <= 10)
     }
 }
