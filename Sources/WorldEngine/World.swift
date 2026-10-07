@@ -628,6 +628,8 @@ public final class World {
     public internal(set) var exposureTarget: Float = 0.54
     /// Post-process saturation multiplier for the current light and weather (set by `apply`).
     public internal(set) var gradeSaturation: Float = 1
+    /// paintover-v1's colour grade for the current light and weather (paintover-grade.json).
+    public internal(set) var gradeLook: GradeTable.Look = .neutral
     /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
     static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()

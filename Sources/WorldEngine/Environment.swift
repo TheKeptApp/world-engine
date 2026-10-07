@@ -59,6 +59,7 @@ extension World {
         if let grade {
             exposureTarget = Float(grade.luma / 255) + lookTuning.exposureTarget
             gradeSaturation = Float(grade.saturation)
+            gradeLook = grade.look
         }
         // Weather key:fill (grade.json weather `direct`): the renderer takes away more of the direct
         // sun under cloud, rain and fog than the weather model does, and the sky fill grows as the
