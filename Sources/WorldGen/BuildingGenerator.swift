@@ -473,7 +473,17 @@ public struct BuildingGenerator: Sendable {
         // soffits, and a band on the wall top under eaves and cornices. House-details families only.
         if let t = contrastType, let hc = Self.contrast, near {
             let top = pitched ? H : H + parapet
-            for i in 0..<roofStart where abs(m.normals[i].y) < 0.3 {
+            // Only vertices of wall triangles lying wholly at or below the band top: gable triangles share
+            // vertices on the eave line, and darkening those would shade the whole gable (buildingviz showed
+            // near-black cottage gables).
+            var inBand = [Bool](repeating: false, count: roofStart)
+            var ti = 0
+            while ti + 2 < m.indices.count {
+                let tri = [Int(m.indices[ti]), Int(m.indices[ti + 1]), Int(m.indices[ti + 2])]
+                if tri.allSatisfy({ $0 < roofStart && Double(m.positions[$0].y) < top + 0.05 }) { for v in tri { inBand[v] = true } }
+                ti += 3
+            }
+            for i in 0..<roofStart where abs(m.normals[i].y) < 0.3 && inBand[i] {
                 let y = Double(m.positions[i].y)
                 guard y > top - hc.eaveBandHeight - 0.05, y < top + 0.05 else { continue }
                 m.paints[i].y *= Float(1 - (1 - t.eaveShadow) * smoothstep(top - hc.eaveBandHeight, top, y))

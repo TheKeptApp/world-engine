@@ -35,7 +35,16 @@ struct HouseContrastTests {
                 let top = g.roofShape == .flat ? nil : Optional(g.eaveHeight)
                 if let top {
                     let wall = Float(palette.slot(hex: g.colors[0]))
-                    let band = (0..<m.vertexCount).filter { abs(m.normals[$0].y) < 0.3 && abs(Double(m.positions[$0].y) - top) < 0.02 && m.paints[$0].x == wall }.map { m.paints[$0].y }
+                    // Vertices of wall triangles lying wholly at or below the eave (gable-end faces rising above
+                    // it are left alone, so the band never shades a gable).
+                    var low = [Bool](repeating: false, count: m.vertexCount)
+                    var ti = 0
+                    while ti + 2 < m.indices.count {
+                        let tri = (0..<3).map { Int(m.indices[ti + $0]) }
+                        if tri.allSatisfy({ Double(m.positions[$0].y) < top + 0.05 }) { for v in tri { low[v] = true } }
+                        ti += 3
+                    }
+                    let band = (0..<m.vertexCount).filter { low[$0] && abs(m.normals[$0].y) < 0.3 && abs(Double(m.positions[$0].y) - top) < 0.02 && m.paints[$0].x == wall }.map { m.paints[$0].y }
                     if !band.isEmpty { #expect(band.max()! <= Float(t.eaveShadow) * 1.04 + 0.01, "\(g.family ?? "-"): eave band \(band.max()!)") }
                 }
                 checked += 1

@@ -11,7 +11,21 @@
     "skyReflectOvercast": 0.8,
     "overcastSaturation": 0.15,
     "rainRipples": 0.6,
-    "overcastReflectGain": 0.42
+    "overcastReflectGain": 0.42,
+    "shoreProfiles": {
+      "comment": "Generator (P2): style profile → lake-winter-v1 water profile (water.profiles.<id>; index = position in 'order', sent in water-mesh extra.w). Shore band width = that profile's shallowBlendWidthM from mock-values.json; extra.z = metres from the shore (open water 1000).",
+      "order": [
+        "lake_michigan",
+        "sloans_lake"
+      ],
+      "profiles": {
+        "evanston": "lake_michigan",
+        "wilmette": "lake_michigan",
+        "chicago-dense-north": "lake_michigan",
+        "default": "sloans_lake",
+        "front-range": "sloans_lake"
+      }
+    }
   },
   "sky": {
     "cloudEdgeClear": 0.05,
