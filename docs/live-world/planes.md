@@ -19,7 +19,8 @@ specification's hysteresis rule, or the default flow without wind.
 and lengths from OpenStreetMap, copied from the specification's table 2.3 with its base timestamps; flows;
 model parameters). Each carries `aircraftMode` (`off` stops the generator).
 
-**Not done: Midway (MDW).** The brief names O'Hare, Midway and DEN; the specification covers ORD and DEN only,
+**Midway (MDW): runways only (P1, 2026-10-07).** `data/ambient-planes/mdw.json` holds the runway table from FAA NASR
+(cycle 2026-10-01, public domain, licensing LW13); flows and model are not set yet (owner's choice). Earlier note: the brief names O'Hare, Midway and DEN; the specification covers ORD and DEN only,
 and deriving Midway's runway table needs one Overpass query, which this cloud session's network policy denies.
 With network access: run the specification's section 2.1 query for MDW, add `mdw.json` in the same schema
 (flows for Midway are not in the specification and would need the owner's choice).
