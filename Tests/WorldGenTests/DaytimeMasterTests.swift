@@ -11,16 +11,18 @@ struct DaytimeMasterTests {
 
     @Test func readsThePackKeys() throws {
         let p = "house-contrast-v1/sharedLighting."
-        #expect(master.sky.stops.count == 3)
+        // Stops by elevation (P3 may sample more from the heroes): horizon at 0°, zenith at 90°.
+        #expect(master.sky.stops.count >= 3)
         #expect(master.sky.stops.first!.elevation == 0 && master.sky.stops.last!.elevation == 90)
-        #expect(master.sky.stops.last!.hex == (try mv.hex(p + "sky.gradient[0].hex")))
-        #expect(master.sunColorHex == (try mv.hex(p + "sun.colorHex")))
-        #expect(master.skyFillHex == (try mv.hex(p + "sun.skyFillColorHex")))
-        #expect(abs(master.shadowStrength - (try mv.number(p + "shadows.strengthPercent")) / 100) < 1e-12)
-        #expect(master.grade.exposureEV == (try mv.number(p + "exposure.relativeEV")))
-        #expect(master.grade.contrast == (try mv.number(p + "exposure.contrastSlope")))
-        #expect(master.grade.saturation == (try mv.number(p + "exposure.saturationFactor")))
-        #expect(master.grade.warmth == (try mv.number(p + "exposure.additionalWarmthPercent")) / 100)
+        let zenith = (0..<8).first { mv.number(p + "sky.gradient[\($0)].elevationDeg") == 90 }!
+        #expect(master.sky.stops.last!.hex == (try mv.requireHex(p + "sky.gradient[\(zenith)].hex")))
+        #expect(master.sunColorHex == (try mv.requireHex(p + "sun.colorHex")))
+        #expect(master.skyFillHex == (try mv.requireHex(p + "sun.skyFillColorHex")))
+        #expect(abs(master.shadowStrength - (try mv.requireNumber(p + "shadows.strengthPercent")) / 100) < 1e-12)
+        #expect(master.grade.exposureEV == (try mv.requireNumber(p + "exposure.relativeEV")))
+        #expect(master.grade.contrast == (try mv.requireNumber(p + "exposure.contrastSlope")))
+        #expect(master.grade.saturation == (try mv.requireNumber(p + "exposure.saturationFactor")))
+        #expect(master.grade.warmth == (try mv.requireNumber(p + "exposure.additionalWarmthPercent")) / 100)
     }
 
     @Test func clearDaytimeTakesTheMasterGrade() throws {
