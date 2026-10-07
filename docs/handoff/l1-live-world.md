@@ -15,6 +15,26 @@ Sources and licences: `docs/research/licensing.md` section 14, rows LW1-LW12.
 | 3. Transit | relay schema 1 + `motion`, `positionState`, `basis`, `/v1/shapes` (`livefeeds.sh serve`) | RTD shape smoothing built; CTA not started | Offline tests (shapes, speed estimation, reference `Smoother` following live-feeds.md 8.6 along shapes, privacy of trip ids) |
 | 4. Planes | live-feeds.md 8 schema 1, `live: false`, `basis: "simulated"` (`livefeeds.sh planes`) | ORD and DEN simulated traffic built per `docs/research/ambient-planes.md`; live ADS-B evaluated, not built | Offline tests (StableRandom reference vectors, glide path, timing, spacing, flows, labels) |
 
+## Owner decisions (2026-10-07)
+
+1. Satellites: phones download orbital elements from the relay's cache (refreshed within CelesTrak's policy), never
+   from CelesTrak directly, and never send their location. Lawyer question recorded in licensing.md LW7.
+2. Stars: the 6.5-magnitude catalogue is a separate sky-only data file, shipped once with the app (not per area), in a
+   compact binary or compressed form under 1 MB; the JSON stays the build source.
+3. CTA purpose clause: on the pre-ship legal checklist, not a blocker now.
+4. Hosts have been added for the next session (Swift download, star catalogues, NASA, Overpass). If Overpass still
+   resets connections, treat it as its own rate limiting: back off and retry politely. Never use a mirror without
+   checking its terms. `CTA_BUS_API_KEY` also takes effect in the next session.
+
+## Next session, in order
+
+1. Confirm the new hosts; install Swift (setup script) and run `swift test --filter LiveSkyTests`; fix whatever the
+   first compile finds (LiveSky was written without a compiler).
+2. Build the star catalogue to 6.5 (`build_star_catalog.py OUT --count all --missing-bv null`) and the compact
+   sky-only file (< 1 MB) with a loader in LiveSky.
+3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways.
+4. Relay endpoint serving cached elements to phones (OMM JSON), CTA Bus Tracker adapter.
+
 ## Blocked (and why)
 
 Hosts re-checked 2026-10-07 from the cloud session. **Still blocked: add these to the environment's allowed domains**
