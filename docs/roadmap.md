@@ -88,3 +88,23 @@ Nothing in this section is decided. Order: after the look gate and streaming; de
 4. **PROPOSED — official partner builds** (universities, stadiums) with licensed logos and colours, as a partnership product. Outside partner builds, the legal lines above still apply (no logos on models).
 
 Lawyer questions: `docs/research/licensing.md` Q49–Q52 (user-content ownership and licence including ODbL, contributor warranties, takedown/DMCA, logos and trademarks in user builds). The engine stays generic (CLAUDE.md): the kit, accounts and user content belong to the app and a service, not the engine.
+
+## Licensing path to revenue — PROPOSED (R decides)
+
+From ChatGPT's competitors-as-customers teardown (`docs/research-gpt/creator-kit-demand-v1/competitors-as-customers.md`, `.csv`; research, unverified). Nothing in this section is decided.
+
+1. **PROPOSED — engine licensing:** 5–7 engine-licensing deals (ranges from the teardown: Mapme, CampusTours, Concept3D, OnePlan, Terranaut, Racemap) could reach about $150–200k a year. Shadowmap is a partner, not a customer. All figures are the research's estimates, not quotes.
+2. **PROPOSED — sequence after the look gate:**
+   - a) Streaming core and the three.js web viewer together, on a shared tile format.
+   - b) First SDK: a WorldEngine custom 3D layer for MapLibre GL JS (reaches Mapme, Felt and other MapLibre products).
+   - c) Embeddable viewer (iframe) for partners not on MapLibre.
+   - d) Coverage growth.
+3. **PROPOSED — licensing prerequisites to plan for:**
+   - Web and Android browser support.
+   - A coverage list with the age of each source.
+   - About 99.9 % availability, with burst capacity for events.
+   - OEM and white-label terms metered by views or sites.
+   - Customer data (routes, BIM, plans) stays authoritative over ours.
+   - Weather labelled observed or forecast.
+
+Licensing questions already open: `docs/research/licensing.md` (Q49–Q52 user content and logos; §16 data layers; §18 weather redistribution). The engine stays generic (CLAUDE.md): SDKs and viewers wrap it; partner logic stays in the partner's app.

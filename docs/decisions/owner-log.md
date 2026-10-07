@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **Licensing path (PROPOSED):** 5–7 engine-licensing deals (~$150–200k/yr per the teardown; Shadowmap a partner); after the look gate: streaming core + three.js web viewer, then a MapLibre GL JS custom-layer SDK, then an embeddable viewer, then coverage; prerequisites listed. Applied: `docs/roadmap.md`; creator-kit-demand-v1 filed (research, unverified).
+
 - **house-archetypes-v1 R approved, binding:** 16 archetypes (Chicago 5, Denver 6, Miami 5), boards and block paint-overs. Compiled into mock-values.json per archetype with the pack's proposal labels; house-contrast-v1 stays the daytime lighting master (the pack's copied sharedLighting is not compiled). Scoring: Chicago block on the Lakeview afternoon views, Denver block on ordinary-street-afternoon; Miami registered, no view until a Miami test area. Conformance: profile house colours and pitches within each archetype's variants. Applied: INDEX.md, STATUS.md, views.json, GRADING §M, conformance.py.
 
 - **Images beat JSON (standing, R):** when an approved pack's images and its values JSON disagree, the images win; P3 samples the images and records the correction (`Tools/lookloop/mock-corrections.json`, applied by `compile_mocks.py`, originals kept). First use: house-contrast-v1 sky from the four heroes (median): zenith band #6FAFE4 (held 20-90°), mid #91C4ED (11°), horizon #A7CFED (0°), cloud lit #F2F0EB, cloud shade #D9E2F0; was #73A5CC / #A2C4DC / #DBDCD1. Sun direct-strength row marked calibrated (0.6 key scale = sun-to-fill balance, restored by auto exposure). Applied: mock-values.json (both copies), conformance mapping.
