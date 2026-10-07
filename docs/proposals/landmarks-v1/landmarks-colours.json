@@ -1,0 +1,1707 @@
+{
+  "schema_version": "proposal-1",
+  "date": "2026-10-06",
+  "style": "B — rich stylized; simplified shapes, real light and colour, no photo textures",
+  "status": "Proposal only; no engine changes. Numeric style values are authored assumptions.",
+  "colour_space": "Hex is sRGB. Convert to linear once for lighting. Keep base albedo unchanged across time; do not bake dusk into base colour.",
+  "material_policy": "Shared palette; opaque glazing; procedural broad bay rhythm permitted, no brick/shingle photograph textures.",
+  "materials": {
+    "black-metal": {
+      "base_colour_srgb": "#30363D",
+      "roughness": 0.38,
+      "metallic": 1,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "bronze-glass": {
+      "base_colour_srgb": "#626B72",
+      "roughness": 0.22,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Opaque shaded glazing proxy; no refractive interior pass"
+    },
+    "light-concrete": {
+      "base_colour_srgb": "#BFC3BF",
+      "roughness": 0.85,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "red-brick": {
+      "base_colour_srgb": "#AA7359",
+      "roughness": 0.88,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "deep-red-brick": {
+      "base_colour_srgb": "#8C5145",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "dark-green-metal": {
+      "base_colour_srgb": "#3D554C",
+      "roughness": 0.55,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "muted-turf": {
+      "base_colour_srgb": "#81915A",
+      "roughness": 0.95,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "pale-stone": {
+      "base_colour_srgb": "#D5CCB8",
+      "roughness": 0.88,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "buff-stone": {
+      "base_colour_srgb": "#CBB99B",
+      "roughness": 0.87,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "grey-granite": {
+      "base_colour_srgb": "#B2B5AF",
+      "roughness": 0.8,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "red-granite": {
+      "base_colour_srgb": "#9A6557",
+      "roughness": 0.75,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "dark-granite": {
+      "base_colour_srgb": "#68645D",
+      "roughness": 0.75,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "blue-glass": {
+      "base_colour_srgb": "#597787",
+      "roughness": 0.25,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Opaque shaded glazing proxy; no refractive interior pass"
+    },
+    "dark-glass": {
+      "base_colour_srgb": "#3B4C57",
+      "roughness": 0.28,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Opaque shaded glazing proxy; no refractive interior pass"
+    },
+    "cool-metal": {
+      "base_colour_srgb": "#A6AEB2",
+      "roughness": 0.4,
+      "metallic": 0.85,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "bridge-steel": {
+      "base_colour_srgb": "#5C4845",
+      "roughness": 0.65,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "river-water": {
+      "base_colour_srgb": "#4E7780",
+      "roughness": 0.26,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Use existing water material; no new reflection pass"
+    },
+    "lake-water": {
+      "base_colour_srgb": "#547F91",
+      "roughness": 0.26,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Use existing water material; no new reflection pass"
+    },
+    "roof-grey": {
+      "base_colour_srgb": "#59616A",
+      "roughness": 0.8,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "gold-metal": {
+      "base_colour_srgb": "#C3A361",
+      "roughness": 0.35,
+      "metallic": 1,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "red-sandstone": {
+      "base_colour_srgb": "#B77655",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "weathered-concrete": {
+      "base_colour_srgb": "#B5B1A5",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "dark-stage-metal": {
+      "base_colour_srgb": "#40484D",
+      "roughness": 0.65,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "canopy-white": {
+      "base_colour_srgb": "#DDDCD2",
+      "roughness": 0.6,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "path-concrete": {
+      "base_colour_srgb": "#C3C0B5",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "tile-roof": {
+      "base_colour_srgb": "#98694F",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "buff-brick": {
+      "base_colour_srgb": "#B9A07D",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "titanium-grey": {
+      "base_colour_srgb": "#A7ACAD",
+      "roughness": 0.42,
+      "metallic": 1,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "ochre-wall": {
+      "base_colour_srgb": "#BEA174",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "green-grey-metal": {
+      "base_colour_srgb": "#727E71",
+      "roughness": 0.65,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "polished-steel": {
+      "base_colour_srgb": "#BAC2C5",
+      "roughness": 0.12,
+      "metallic": 1,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "white-cast-concrete": {
+      "base_colour_srgb": "#DEDCD2",
+      "roughness": 0.75,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "road-asphalt": {
+      "base_colour_srgb": "#606773",
+      "roughness": 0.9,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    },
+    "pale-concrete": {
+      "base_colour_srgb": "#C8C8BD",
+      "roughness": 0.85,
+      "metallic": 0,
+      "opacity": 1,
+      "status": "assumption — authored Style B palette, not measured material",
+      "treatment": "Flat colour planes and broad light response; no photograph textures"
+    }
+  },
+  "lighting": {
+    "window_warm_srgb": "#FFD09A",
+    "architecture_warm_srgb": "#F1E8D2",
+    "cool_fill_srgb": "#7189AF",
+    "units": "Relative linear emission with diffuse white=1, not watts/lumens/lux",
+    "status": "Assumption; environment/time spec takes precedence"
+  },
+  "performance": {
+    "source": "WorldEngine Visual Spec Proposal v2 §8.1, checked 2026-10-06",
+    "gpu_ms_envelope": {
+      "base_opaque": 4.25,
+      "shadows": 1.45,
+      "crown_variation_sway": 0.15,
+      "surface_masks": 0.25,
+      "near_geometry": 0.35,
+      "wet_light_streaks": 0.35,
+      "particles": 0.2,
+      "post_processing": 0.9,
+      "reserve": 2.1
+    },
+    "target_gpu_ms": 10,
+    "target_fps": 60,
+    "scene_triangle_cap": 400000,
+    "shadow_triangle_cap": 150000,
+    "scene_draw_call_cap": 100,
+    "shared_visible_landmark_triangle_cap": 50000,
+    "shared_visible_landmark_shadow_triangle_cap": 20000,
+    "shared_visible_landmark_draw_call_cap": 12,
+    "allocation_rule": "All caps are subsets of scene budget. Replace generic footprint meshes. Do not sum near caps across all catalog entries. Degrade far LOD first until shared caps pass.",
+    "new_reflection_captures": 0,
+    "new_shadow_lights": 0,
+    "status": "Budget proposals, not measured performance",
+    "pixel_rule": {
+      "formula": "p_draw = H_draw * W_world / (2*d*tan(vFOV/2)); p_logical=p_draw/render_to_logical_ratio",
+      "drop_below_logical_px": 1,
+      "model_detail_above_logical_px": 2,
+      "transition_ms": 300,
+      "example": {
+        "height_draw_px": 700,
+        "vFOV_deg": 55,
+        "render_to_logical_ratio": 3,
+        "one_metre_at_50m_logical_px": 4.482,
+        "one_metre_at_300m_logical_px": 0.747
+      },
+      "status": "Perspective approximation at image centre; example dimensions are assumptions"
+    }
+  },
+  "landmarks": [
+    {
+      "id": "chicago-willis-tower",
+      "city": "chicago",
+      "code": "01",
+      "name": "Willis Tower",
+      "image": "images/chicago-01-willis-tower.png",
+      "asset_type": "tower",
+      "recognition_features": [
+        "Nine connected square tubes",
+        "Unequal setback heights",
+        "Dark vertical planes",
+        "Bronze glazing bands",
+        "Twin antenna silhouette",
+        "Broad rectangular base"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Preserve bundle plan and every major setback; merge window mullions into broad bands; omit roof equipment below 2 logical pixels.",
+      "materials": [
+        "black-metal",
+        "bronze-glass",
+        "light-concrete"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain nine connected square tubes, unequal setback heights, dark vertical planes, bronze glazing bands. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain nine connected square tubes and unequal setback heights. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 5000,
+          "medium": 1800,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "Nine connected structural tubes form the stepped tower.",
+        "source": "https://www.architecture.org/online-resources/buildings-of-chicago/willis-tower/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-wrigley-area",
+      "city": "chicago",
+      "code": "02",
+      "name": "Wrigley Field area",
+      "image": "images/chicago-02-wrigley-area.png",
+      "asset_type": "stadium",
+      "recognition_features": [
+        "Compact neighborhood stadium",
+        "Brick street wall",
+        "Blank entry marquee frame",
+        "Ivy-colored outfield strip",
+        "Open seating bowl",
+        "Plain scoreboard mass"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep the neighborhood enclosure and bowl opening; group seat rows into bands; flatten brick courses and leave all marquee/scoreboard faces blank.",
+      "materials": [
+        "red-brick",
+        "dark-green-metal",
+        "muted-turf"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain compact neighborhood stadium, brick street wall, blank entry marquee frame, ivy-colored outfield strip. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain compact neighborhood stadium and brick street wall. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 10000,
+          "medium": 3000,
+          "far": 800
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "Ivy walls and the original scoreboard are documented.",
+        "source": "https://www.mlb.com/cubs/ballpark/information/history",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-soldier-field",
+      "city": "chicago",
+      "code": "03",
+      "name": "Soldier Field",
+      "image": "images/chicago-03-soldier-field.png",
+      "asset_type": "stadium",
+      "recognition_features": [
+        "Parallel classical colonnades",
+        "Modern bowl above old base",
+        "Asymmetric upper profile",
+        "Oval seating geometry",
+        "Pale stone versus cool metal",
+        "Lakefront setbacks"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep the old-colonnade/new-bowl contrast; instance plain columns nearby, merge them into a rhythm band far away; omit sculpted ornament.",
+      "materials": [
+        "pale-stone",
+        "cool-metal",
+        "blue-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain parallel classical colonnades, modern bowl above old base, asymmetric upper profile, oval seating geometry. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain parallel classical colonnades and modern bowl above old base. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 10000,
+          "medium": 3000,
+          "far": 800
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The venue combines historic architecture with a modern stadium.",
+        "source": "https://www.soldierfield.com/stadium-info/about",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-riverwalk-bridges",
+      "city": "chicago",
+      "code": "04",
+      "name": "Chicago Riverwalk and bridges",
+      "image": "images/chicago-04-riverwalk-bridges.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Promenade below roadway",
+        "Stepped river terraces",
+        "Closed bascule crossing",
+        "Dark bridge trusses",
+        "Plain bridgehouse masses",
+        "Continuous river street wall"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep vertical street/promenade separation and closed bridge geometry; reduce truss members at distance; omit rail pickets and deck seams.",
+      "materials": [
+        "pale-stone",
+        "bridge-steel",
+        "river-water"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain promenade below roadway, stepped river terraces, closed bascule crossing, dark bridge trusses. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain promenade below roadway and stepped river terraces. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Riverwalk forms a sequence of lower riverside spaces.",
+        "source": "https://www.sasaki.com/projects/chicago-riverwalk/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-navy-pier",
+      "city": "chicago",
+      "code": "05",
+      "name": "Navy Pier area",
+      "image": "images/chicago-05-navy-pier.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Long narrow pier",
+        "Landward headhouse",
+        "Low linear halls",
+        "Lakeward ballroom dome",
+        "Broad lake surround",
+        "Continuous waterfront edge"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep the long pier and opposite-end roof masses; merge low halls; omit amusements, boats and all decoration not needed for the building silhouette.",
+      "materials": [
+        "pale-stone",
+        "roof-grey",
+        "blue-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain long narrow pier, landward headhouse, low linear halls, lakeward ballroom dome. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain long narrow pier and landward headhouse. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The pier has a landward headhouse and lakeward ballroom.",
+        "source": "https://www.wttw.com/navypier/timeline",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-northwestern-lakefront",
+      "city": "chicago",
+      "code": "06",
+      "name": "Northwestern lakefront campus (Evanston)",
+      "image": "images/chicago-06-northwestern-lakefront.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Inland Gothic library",
+        "Pointed window rhythm",
+        "Modern lakefront glass mass",
+        "Open campus lawns",
+        "Lakefill shoreline",
+        "Separation of old and new"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep the inland/waterfront split; merge buttresses and arch recesses at distance; simplify individual Gothic carvings and shoreline planting.",
+      "materials": [
+        "pale-stone",
+        "blue-glass",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain inland gothic library, pointed window rhythm, modern lakefront glass mass, open campus lawns. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain inland gothic library and pointed window rhythm. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "Deering Library has a Gothic limestone exterior.",
+        "source": "https://www.library.northwestern.edu/about/at-a-glance/libraries-art-architechture.html",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-water-tower",
+      "city": "chicago",
+      "code": "07",
+      "name": "Chicago Water Tower",
+      "image": "images/chicago-07-water-tower.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Slender central tower",
+        "Octagonal shaft",
+        "Castellated low base",
+        "Pointed openings",
+        "Buff limestone family",
+        "Small footprint among tall buildings"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep octagonal tower and battlement silhouette; merge small turrets at distance; omit all carvings and stone joints.",
+      "materials": [
+        "buff-stone",
+        "roof-grey",
+        "dark-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain slender central tower, octagonal shaft, castellated low base, pointed openings. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain slender central tower and octagonal shaft. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Water Tower uses castellated Gothic forms and warm limestone.",
+        "source": "https://www.architecture.org/online-resources/buildings-of-chicago/chicago-water-tower",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-marina-city",
+      "city": "chicago",
+      "code": "08",
+      "name": "Marina City",
+      "image": "images/chicago-08-marina-city.png",
+      "asset_type": "tower",
+      "recognition_features": [
+        "Paired circular towers",
+        "Scalloped balcony silhouette",
+        "Equal tower height",
+        "Radial floor plates",
+        "Open lower parking bands",
+        "Shared low podium"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep equal tower heights and scalloped outer contour; merge balcony stacks into shaded bands; omit handrails and parked cars.",
+      "materials": [
+        "pale-concrete",
+        "dark-glass",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain paired circular towers, scalloped balcony silhouette, equal tower height, radial floor plates. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain paired circular towers and scalloped balcony silhouette. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 5000,
+          "medium": 1800,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "Marina City has paired concrete towers with radial balconies.",
+        "source": "https://www.architecture.org/online-resources/buildings-of-chicago/marina-city",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-merchandise-mart",
+      "city": "chicago",
+      "code": "09",
+      "name": "Merchandise Mart",
+      "image": "images/chicago-09-merchandise-mart.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Very broad riverfront block",
+        "Horizontal limestone mass",
+        "Dense regular bay rhythm",
+        "Stepped upper crown",
+        "Deep base entry",
+        "Roof setbacks"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep broad block and upper setbacks; turn regular bays into a quiet surface pattern; omit carved panels and facade projections.",
+      "materials": [
+        "buff-stone",
+        "dark-glass",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain very broad riverfront block, horizontal limestone mass, dense regular bay rhythm, stepped upper crown. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain very broad riverfront block and horizontal limestone mass. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Mart is a large limestone Art Deco riverfront block.",
+        "source": "https://www.architecture.org/online-resources/buildings-of-chicago/merchandise-mart",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-rookery",
+      "city": "chicago",
+      "code": "10",
+      "name": "Rookery",
+      "image": "images/chicago-10-rookery.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Heavy granite base",
+        "Red-brown brick upper walls",
+        "Large entry arch",
+        "Horizontal stringcourses",
+        "Grouped arched bays",
+        "Central light court"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep entry arch, stringcourses and roof court; flatten brick/stone joints; omit figurative ornament.",
+      "materials": [
+        "deep-red-brick",
+        "red-granite",
+        "dark-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain heavy granite base, red-brown brick upper walls, large entry arch, horizontal stringcourses. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain heavy granite base and red-brown brick upper walls. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Rookery exterior combines brick and granite.",
+        "source": "https://www.architecture.org/city-tours/rookery-building",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-state-capitol",
+      "city": "denver",
+      "code": "01",
+      "name": "Colorado State Capitol",
+      "image": "images/denver-01-state-capitol.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Central gold dome",
+        "Columned dome drum",
+        "Symmetrical civic wings",
+        "Grey granite planes",
+        "Broad stairs",
+        "Plain pediment porticos"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep dome, drum, wings and stairs; reduce columns at distance; remove inscriptions, flags and statuary.",
+      "materials": [
+        "grey-granite",
+        "gold-metal",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain central gold dome, columned dome drum, symmetrical civic wings, grey granite planes. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain central gold dome and columned dome drum. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Capitol has grey granite walls and a gold dome.",
+        "source": "https://content.leg.colorado.gov/Visit-Learn",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-coors-field",
+      "city": "denver",
+      "code": "02",
+      "name": "Coors Field",
+      "image": "images/denver-02-coors-field.png",
+      "asset_type": "stadium",
+      "recognition_features": [
+        "Curved brick entry",
+        "Plain clock above entrance",
+        "Dark green structural frame",
+        "Open baseball bowl",
+        "Broad outfield opening",
+        "Warehouse street context"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep brick entry and plain clock mass; use seat-color bands; remove ads, scoreboard content and seat hardware.",
+      "materials": [
+        "red-brick",
+        "dark-green-metal",
+        "muted-turf"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain curved brick entry, plain clock above entrance, dark green structural frame, open baseball bowl. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain curved brick entry and plain clock above entrance. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 10000,
+          "medium": 3000,
+          "far": 800
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "Brick and a signature entry clock tower are documented by an installation contractor.",
+        "source": "https://www.fordav.com/projects/coors-field/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-red-rocks",
+      "city": "denver",
+      "code": "03",
+      "name": "Red Rocks Amphitheatre",
+      "image": "images/denver-03-red-rocks.png",
+      "asset_type": "rock",
+      "recognition_features": [
+        "Two inclined sandstone walls",
+        "Seating between rock walls",
+        "Descending terrace rows",
+        "Low stage roof",
+        "Stone stair aisles",
+        "Terrain rather than isolated pedestal"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep the two rock-wall slopes and seating relationship; terrace rows become bands at distance; omit individual stone chips and concert equipment.",
+      "materials": [
+        "red-sandstone",
+        "weathered-concrete",
+        "dark-stage-metal"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain two inclined sandstone walls, seating between rock walls, descending terrace rows, low stage roof. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain two inclined sandstone walls and seating between rock walls. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 8500,
+          "medium": 2500,
+          "far": 600
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The amphitheatre seats lie between large sandstone formations.",
+        "source": "https://www.redrocksonline.com/our-story/history/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-union-station",
+      "city": "denver",
+      "code": "04",
+      "name": "Denver Union Station",
+      "image": "images/denver-04-union-station.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Tall central terminal hall",
+        "Long low masonry wings",
+        "Grouped arch windows",
+        "Plain facade clock",
+        "Front plaza",
+        "Rear white rail canopy"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep tall hall/low-wing composition and front/rear relationship; merge window divisions; remove the lettering frame entirely.",
+      "materials": [
+        "pale-stone",
+        "roof-grey",
+        "canopy-white"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain tall central terminal hall, long low masonry wings, grouped arch windows, plain facade clock. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain tall central terminal hall and long low masonry wings. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The terminal was rebuilt in 1914.",
+        "source": "https://www.denverunionstation.com/about/our-history/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-sloans-lake",
+      "city": "denver",
+      "code": "05",
+      "name": "Sloan’s Lake park",
+      "image": "images/denver-05-sloans-lake.png",
+      "asset_type": "landscape",
+      "recognition_features": [
+        "Broad lake basin",
+        "Continuous shoreline path",
+        "Low support building",
+        "Lawn strip",
+        "Spaced shade trees",
+        "Low surrounding neighborhood"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Use actual lake outline and mapped support footprint; keep the support building low and schematic until surveyed; omit decorative towers and invented arcades.",
+      "materials": [
+        "buff-stone",
+        "path-concrete",
+        "lake-water"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain broad lake basin, continuous shoreline path, low support building, lawn strip. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain broad lake basin and continuous shoreline path. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 8000,
+          "medium": 2000,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "A city project record documents boathouse improvements.",
+        "source": "https://www.denvergov.org/content/dam/denvergov/Portals/642/documents/Better_Denver/final/BDBond-project-1.04.18.01.pdf",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-city-park-skyline",
+      "city": "denver",
+      "code": "06",
+      "name": "Denver skyline from City Park",
+      "image": "images/denver-06-city-park-skyline.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Park foreground",
+        "Lake and pavilion",
+        "Red pavilion roof family",
+        "Separated downtown skyline",
+        "Distinctive skyline crowns",
+        "Distant mountain layer"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep park/skyline/mountain separation; use surveyed skyline masses; simplify pavilion arches and roof tiles. Generated skyline placement is illustrative.",
+      "materials": [
+        "buff-stone",
+        "tile-roof",
+        "blue-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain park foreground, lake and pavilion, red pavilion roof family, separated downtown skyline. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain park foreground and lake and pavilion. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The master plan treats downtown and mountain views as park assets.",
+        "source": "https://denvergov.org/files/assets/public/v/1/parks-and-recreation/documents/planning/citypark_2018_masterplan_part1.pdf",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-daniels-fisher",
+      "city": "denver",
+      "code": "07",
+      "name": "Daniels & Fisher Tower",
+      "image": "images/denver-07-daniels-fisher.png",
+      "asset_type": "tower",
+      "recognition_features": [
+        "Slender square shaft",
+        "Pale brick/terracotta family",
+        "Large clock circles",
+        "Arched belfry",
+        "Pyramidal cap",
+        "Small street-level base"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep square slender shaft, large clock circles, belfry and pyramid; drop numerals and tiny masonry joints.",
+      "materials": [
+        "buff-brick",
+        "pale-stone",
+        "tile-roof"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain slender square shaft, pale brick/terracotta family, large clock circles, arched belfry. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain slender square shaft and pale brick/terracotta family. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 5000,
+          "medium": 1800,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The tower has a square shaft, clock faces and an arched upper level.",
+        "source": "https://history.denverlibrary.org/building/daniels-and-fishers-clock-tower",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-brown-palace",
+      "city": "denver",
+      "code": "08",
+      "name": "Brown Palace",
+      "image": "images/denver-08-brown-palace.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Triangular block plan",
+        "Rounded wedge corner",
+        "Sandstone upper walls",
+        "Dark granite base",
+        "Horizontal sill bands",
+        "Heavy cornice"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep triangular plan and rounded corner; merge bay rhythm far away; omit carved medallions and hotel branding.",
+      "materials": [
+        "red-sandstone",
+        "dark-granite",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain triangular block plan, rounded wedge corner, sandstone upper walls, dark granite base. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain triangular block plan and rounded wedge corner. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The hotel uses red granite and sandstone.",
+        "source": "https://www.historichotels.org/us/hotels-resorts/the-brown-palace-hotel-and-spa-autograph-collection/history",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-hamilton-building",
+      "city": "denver",
+      "code": "09",
+      "name": "Denver Art Museum — Hamilton Building",
+      "image": "images/denver-09-hamilton-building.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Faceted metallic volumes",
+        "Strong cantilever",
+        "Sloping walls",
+        "Sharp roof silhouette",
+        "Glass seams",
+        "Open plaza"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep major facets and cantilever; merge titanium panel seams; omit plaza artworks and exhibition banners.",
+      "materials": [
+        "titanium-grey",
+        "blue-glass",
+        "path-concrete"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain faceted metallic volumes, strong cantilever, sloping walls, sharp roof silhouette. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain faceted metallic volumes and strong cantilever. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The contractor documents the Hamilton Building’s angular titanium-clad construction.",
+        "source": "https://www.mortenson.com/projects/denver-art-museum-frederic-c-hamilton-building",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "denver-central-library",
+      "city": "denver",
+      "code": "10",
+      "name": "Denver Central Library",
+      "image": "images/denver-10-central-library.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Ochre and buff blocks",
+        "Rounded tower volume",
+        "Stepped roof forms",
+        "Green-grey roof family",
+        "Geometric entry rhythm",
+        "Restrained window grid"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep warm/cool geometric masses; merge window grids; omit names and decorative graphics.",
+      "materials": [
+        "ochre-wall",
+        "buff-stone",
+        "green-grey-metal"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain ochre and buff blocks, rounded tower volume, stepped roof forms, green-grey roof family. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain ochre and buff blocks and rounded tower volume. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The library documents Michael Graves’s postmodern addition.",
+        "source": "https://www.denverlibrary.org/content/michael-graves",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-grant-park",
+      "city": "chicago",
+      "code": "11",
+      "name": "Grant Park",
+      "image": "images/chicago-11-grant-park.png",
+      "asset_type": "landscape",
+      "recognition_features": [
+        "Rectangular lawns",
+        "Straight axial paths",
+        "Tree allees",
+        "Lakeward edge",
+        "Michigan Avenue street wall",
+        "Broad paved terraces"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep formal path/lawn axes and the lakeward edge; tree allees become grouped crowns far away; omit fountains, monuments and seasonal event infrastructure.",
+      "materials": [
+        "muted-turf",
+        "path-concrete",
+        "lake-water"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain rectangular lawns, straight axial paths, tree allees, lakeward edge. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain rectangular lawns and straight axial paths. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 8000,
+          "medium": 2000,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Park District documents Grant Park as a formal lakefront park.",
+        "source": "https://www.chicagoparkdistrict.com/parks-facilities/grant-ulysses-park",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-south-side-ballpark",
+      "city": "chicago",
+      "code": "12",
+      "name": "South Side ballpark (user: US Cellular Park)",
+      "image": "images/chicago-12-south-side-ballpark.png",
+      "asset_type": "stadium",
+      "recognition_features": [
+        "Modern baseball seating bowl",
+        "Broad grandstand tiers",
+        "Masonry entry envelope",
+        "Dark upper structure",
+        "Plain scoreboard masses",
+        "Open surrounding access area"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep modern bowl and access-space contrast with Wrigley; merge seats and floodlight hardware; blank all scoreboards and field marks.",
+      "materials": [
+        "red-brick",
+        "pale-stone",
+        "dark-stage-metal"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain modern baseball seating bowl, broad grandstand tiers, masonry entry envelope, dark upper structure. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain modern baseball seating bowl and broad grandstand tiers. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 10000,
+          "medium": 3000,
+          "far": 800
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The current official ballpark name is Rate Field.",
+        "source": "https://www.mlb.com/whitesox/ballpark",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-cloud-gate",
+      "city": "chicago",
+      "code": "13",
+      "name": "Cloud Gate / the Bean — explicit user exception",
+      "image": "images/chicago-13-cloud-gate.png",
+      "asset_type": "art",
+      "recognition_features": [
+        "Squat kidney silhouette",
+        "Seamless reflective skin",
+        "Concave underside arch",
+        "Two ground contact lobes",
+        "Asymmetric rounded profile",
+        "Plaza and skyline reflections"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep kidney outline and underside opening; smooth the surface with a modest mesh; approximate reflections with existing environment blocks; no extra live capture.",
+      "materials": [
+        "polished-steel",
+        "path-concrete",
+        "blue-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain squat kidney silhouette, seamless reflective skin, concave underside arch, two ground contact lobes. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain squat kidney silhouette and seamless reflective skin. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 2500,
+          "medium": 800,
+          "far": 200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 0,
+        "lit_window_share": 0,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The fabricator documents seamless welded stainless-steel construction.",
+        "source": "https://jnicktaylor.com/portfolio/anish-kapoors-cloud-gate/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [
+        "User explicitly requested Cloud Gate, overriding exclusion of this one public artwork. No other artwork permitted."
+      ],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-united-center",
+      "city": "chicago",
+      "code": "14",
+      "name": "United Center",
+      "image": "images/chicago-14-united-center.png",
+      "asset_type": "stadium",
+      "recognition_features": [
+        "Enclosed arena roof",
+        "Broad low mass",
+        "Repeated entrance piers",
+        "Concrete wall family",
+        "Brick entry accents",
+        "Tall glass vestibules"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep enclosed roof and broad entrance rhythm; merge piers and glass bays at distance; omit all venue/team names and athlete statues.",
+      "materials": [
+        "pale-concrete",
+        "red-brick",
+        "roof-grey"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain enclosed arena roof, broad low mass, repeated entrance piers, concrete wall family. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain enclosed arena roof and broad low mass. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 10000,
+          "medium": 3000,
+          "far": 800
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The operator identifies the building as an enclosed sports and entertainment arena.",
+        "source": "https://www.unitedcenter.com/venue/introduction-history/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-bahai-temple",
+      "city": "chicago",
+      "code": "15",
+      "name": "Bahá’í House of Worship (Wilmette)",
+      "image": "images/chicago-15-bahai-temple.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Ninefold radial plan",
+        "Tall central dome",
+        "Repeated entry arches",
+        "Open geometric dome ribs",
+        "Slender exterior pylons",
+        "Formal garden approaches"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep ninefold plan and tall dome; retain coarse open ribs nearby, replace fine lace with opaque tonal pattern far away; omit religious glyphs and inscriptions.",
+      "materials": [
+        "white-cast-concrete",
+        "dark-glass",
+        "muted-turf"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain ninefold radial plan, tall central dome, repeated entry arches, open geometric dome ribs. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain ninefold radial plan and tall central dome. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#F1E8D2",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The ornamental exterior is white cast concrete, including dome panels.",
+        "source": "https://www.bahai.us/bahai-temple-welcome/architecture/",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-field-museum",
+      "city": "chicago",
+      "code": "16",
+      "name": "Field Museum",
+      "image": "images/chicago-16-field-museum.png",
+      "asset_type": "building",
+      "recognition_features": [
+        "Broad symmetrical museum",
+        "Central pediment portico",
+        "Large column rhythm",
+        "Monumental stairs",
+        "Long low wings",
+        "Roof courts and light wells"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep central portico, long wings and stairs; columns become broad rhythm at distance; remove figurative relief and exhibition banners.",
+      "materials": [
+        "pale-stone",
+        "roof-grey",
+        "dark-glass"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain broad symmetrical museum, central pediment portico, large column rhythm, monumental stairs. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain broad symmetrical museum and central pediment portico. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 4500,
+          "medium": 1500,
+          "far": 400
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The museum documents its monumental classical building.",
+        "source": "https://www.fieldmuseum.org/page/architecture",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-lower-wacker",
+      "city": "chicago",
+      "code": "17",
+      "name": "Lower Wacker Drive",
+      "image": "images/chicago-17-lower-wacker.png",
+      "asset_type": "precinct",
+      "recognition_features": [
+        "Separated road decks",
+        "Massive support piers",
+        "Repeated cross beams",
+        "Covered lower perspective",
+        "Open portals where mapped",
+        "Upper road continuity"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep independent road levels and mapped ramps; reduce small crossbeam details; cutaway is documentation only. Never flatten distinct levels into one road.",
+      "materials": [
+        "pale-concrete",
+        "dark-stage-metal",
+        "path-concrete"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain separated road decks, massive support piers, repeated cross beams, covered lower perspective. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain separated road decks and massive support piers. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 12000,
+          "medium": 4000,
+          "far": 1200
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.6,
+        "lit_window_share": 0.05,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The engineering paper documents a double-deck roadway.",
+        "source": "https://www.pci.org/PCI_Docs/Papers/2002/Variations-on-the-Structural-Scheme-for-Wacker-Drive-Reconstruction.pdf",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [
+        "Aerial is an explanatory cutaway; never transparent production geometry. Additional mapped road levels must be preserved."
+      ],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    },
+    {
+      "id": "chicago-lake-shore-drive",
+      "city": "chicago",
+      "code": "18",
+      "name": "Lake Shore Drive",
+      "image": "images/chicago-18-lake-shore-drive.png",
+      "asset_type": "landscape",
+      "recognition_features": [
+        "Flat lake shoreline",
+        "Curving road alignment",
+        "Parallel separated trail",
+        "Park lawn strip",
+        "Inland building wall",
+        "Continuous water-road-park layers"
+      ],
+      "feature_status": "Authored recognition priorities; exact statement separately verified below. Unmeasured proportions are assumptions.",
+      "simplification": "Keep actual shoreline/road/trail separation and grade; use broad road surfaces; omit lane micro-wear and signs at distance.",
+      "materials": [
+        "road-asphalt",
+        "path-concrete",
+        "lake-water"
+      ],
+      "scale": {
+        "units": "metres",
+        "placement": "Use surveyed/mapped footprint, orientation, elevation and real height. Never derive measurements from the sheet.",
+        "at_50m": "Retain flat lake shoreline, curving road alignment, parallel separated trail, park lawn strip. Model only recesses/edges exceeding 2 logical pixels; tower/precinct may extend outside view.",
+        "at_300m": "Retain flat lake shoreline and curving road alignment. Merge fine bay, seat, joint and railing detail into calm planes. Large assets may still require medium LOD.",
+        "lod_triangles": {
+          "near": 8000,
+          "medium": 2000,
+          "far": 500
+        },
+        "lod_status": "Assumption — art budgets, subject to measured GPU gating"
+      },
+      "dusk": {
+        "colour_srgb": "#FFD09A",
+        "emission_relative_to_diffuse_white": 1.2,
+        "lit_window_share": 0.18,
+        "additional_shadow_lights": 0,
+        "status": "Assumption — illustrative emission, not measured lux; actual light follows environment.json/time and occupancy"
+      },
+      "verified_statement": {
+        "claim": "The Park District documents the lakefront trail corridor.",
+        "source": "https://www.chicagoparkdistrict.com/lakefront-trail",
+        "checked": "2026-10-06"
+      },
+      "exceptions": [],
+      "image_limitation": "AI concept sheet, not a survey. Exact setbacks, bay counts, road/shore alignments and surrounding landmarks need surveyed references before production."
+    }
+  ]
+}
