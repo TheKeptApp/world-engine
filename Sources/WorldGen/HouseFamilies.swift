@@ -229,37 +229,10 @@ extension BuildingGenerator {
     }
 
     /// House family: the profile's situation weights, its eligibility rules, then the grammar's
-    /// soft fit to frontage aspect and area. Stable per building.
+    /// soft fit to frontage aspect and area (`houseChoice`). Stable per building.
     public func houseFamily(for b: Building, shape: FootprintAnalysis, frontEdge: Int?) -> (StyleProfile.HouseType, String) {
-        let ring = b.footprint.outer
-        var broadFront = false
-        if let e = frontEdge {
-            let (_, dir, _, _) = Self.edge(ring, e)
-            broadFront = abs(simd_dot(dir, shape.obb.u)) > 0.85
-        }
-        let key = situation(b, shape: shape, broadFront: broadFront)
-        let weights = profile.typeRules[key] ?? profile.typeRules["unknown"] ?? [:]
-        let aspect = shape.obb.halfWidth > 0 ? shape.obb.halfLength / shape.obb.halfWidth : 1
-        let frontage = frontageAspect(ring, shape: shape, frontEdge: frontEdge)
-        let levels = b.levels.map { Int($0.rounded()) }
-        func eligible(_ t: StyleProfile.HouseType) -> Bool {
-            if families.grammar(t.id).role == "block" { return false }
-            if let l = levels, l > 0, !t.floors.contains(l) { return false }
-            if let m = t.minAspect, aspect < m { return false }
-            if let m = t.maxAspect, aspect > m { return false }
-            if let q = t.minRectangularity, shape.rectangularity < q { return false }
-            if t.broadFrontage == true, !broadFront { return false }
-            return true
-        }
-        let all = weights.keys.sorted().compactMap { id in profile.houseType(id).map { ($0, weights[id]!) } }
-        let candidates = all.filter { eligible($0.0) }
-        let pool = candidates.isEmpty ? all : candidates
-        var r = b.ref.random("house-type")
-        let chosen = r.pick(pool) { item in
-            let g = families.grammar(item.0.id)
-            return item.1 * HouseFamilyGrammar.fit(frontage, g.aspect) * HouseFamilyGrammar.fit(b.footprint.area, g.area)
-        }.0
-        return (chosen, key)
+        let c = houseChoice(for: b, shape: shape, frontEdge: frontEdge)
+        return (c.type, c.situation)
     }
 }
 

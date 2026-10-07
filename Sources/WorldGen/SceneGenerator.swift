@@ -323,14 +323,19 @@ public struct SceneGenerator: Sendable {
         // Roads, paths, sidewalks (mapped).
         for road in features.roads {
             let service = road.kind == .service || road.kind == .track
+            var paint = Paint(slot: n("road"), shade: service ? 1.06 : 1, flags: .road)
+            if let (slot, pattern) = Self.paving(road.tags["surface"]) {
+                paint = Paint(slot: n(slot), flags: [.road, .paving], sway: pattern)
+            }
             addLines(road.centerline, width: road.width, y: service ? GroundLayer.alley : GroundLayer.road,
-                     paint: Paint(slot: n("road"), shade: service ? 1.06 : 1, flags: .road), feature: road.ref.description, into: &chunks)
+                     paint: paint, feature: road.ref.description, into: &chunks)
         }
         for path in features.paths {
             let gravel = ["gravel", "fine_gravel", "dirt", "compacted", "ground", "unpaved"].contains(path.tags["surface"] ?? "")
             let (paint, y, w): (Paint, Double, Double) = path.isCrossing
                 ? (Paint(slot: n("crossing")), GroundLayer.crossing, 2.4)
-                : (gravel ? Paint(slot: n("sand")) : Paint(slot: n("sidewalk"), shade: 1.02, flags: .sidewalk), GroundLayer.path, max(1.6, path.width))
+                : (gravel ? Paint(slot: n("sand")) : Self.paving(path.tags["surface"]).map { Paint(slot: n($0.slot), flags: .paving, sway: $0.pattern) }
+                    ?? Paint(slot: n("sidewalk"), shade: 1.02, flags: .sidewalk), GroundLayer.path, max(1.6, path.width))
             addLines(path.centerline, width: w, y: y, paint: paint, feature: path.ref.description, into: &chunks)
         }
         for sw in features.sidewalks {
@@ -564,5 +569,19 @@ extension simd_float4x4 {
             SIMD4(si * s * stretch.y, 0, c * s * stretch.y, 0),
             SIMD4(t.x, t.y, t.z, 1)
         ))
+    }
+}
+
+extension SceneGenerator {
+    /// Historic paving from a mapped `surface` tag only (ground-v1 brick addendum: never inferred from a
+    /// district, unknown paving keeps the regional fallback): palette slot and shader pattern ID
+    /// (1 brick, 2 stone setts, 3 rounded cobble). Modern `paving_stones` keep the ordinary look.
+    static func paving(_ surface: String?) -> (slot: String, pattern: Float)? {
+        switch surface {
+        case "bricks", "brick": return ("pavingBrick", 1)
+        case "sett", "cobblestone:flattened", "stone": return ("pavingSetts", 2)
+        case "cobblestone", "unhewn_cobblestone": return ("pavingCobble", 3)
+        default: return nil
+        }
     }
 }

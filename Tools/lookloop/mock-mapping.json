@@ -3825,7 +3825,7 @@
     }
   ],
   "archetypes": {
-    "comment": "house-archetypes-v1 (R approved 2026-10-07) -> engine profile house types. P3 mapping by form; archetypes with no matching profile type are listed as unmapped (P2 to add or map). Colours [wall, trim, door, roof] must each be within dE 5 of one of the archetype's colourVariations; the profile pitch range must lie inside the archetype's allowedPitchDegreeRangesProposal.",
+    "comment": "house-archetypes-v1 (R approved 2026-10-07) -> engine profile house types. P3 mapping by form; archetypes with no matching profile type are listed as unmapped (P2 to add or map). Colours [wall, trim, door, roof] must each be within dE 5 of one of the archetype's colourVariations; the profile pitch range must lie inside the archetype's allowedPitchDegreeRangesProposal. P2 (2026-10-07): each mapped profile type names its archetype (houseTypes[].archetype) and takes its colours, roof family, pitch range, floor-to-floor and porch depth from the shared mock values by key; added the new archetype types (chicago foursquare/ranch, front-range minimalTraditional/splitLevel).",
     "map": {
       "chicago-01-bungalow": [
         "chicago-dense-north/brickBungalow"
@@ -3836,14 +3836,26 @@
       "chicago-03-cottage": [
         "chicago-dense-north/frameCottage"
       ],
+      "chicago-04-foursquare": [
+        "chicago-dense-north/foursquare"
+      ],
+      "chicago-05-ranch": [
+        "chicago-dense-north/ranch"
+      ],
       "denver-01-square": [
         "front-range/foursquare"
       ],
       "denver-02-bungalow": [
         "front-range/bungalow"
       ],
+      "denver-03-minimal": [
+        "front-range/minimalTraditional"
+      ],
       "denver-04-ranch": [
         "front-range/ranch"
+      ],
+      "denver-05-split": [
+        "front-range/splitLevel"
       ],
       "denver-06-infill": [
         "front-range/duplex",
@@ -3851,10 +3863,6 @@
       ]
     },
     "unmapped": [
-      "chicago-04-foursquare",
-      "chicago-05-ranch",
-      "denver-03-minimal",
-      "denver-05-split",
       "miami-01-ranch",
       "miami-02-mediterranean",
       "miami-03-cottage",

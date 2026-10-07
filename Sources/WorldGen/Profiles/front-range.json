@@ -6,69 +6,199 @@
   "seasons": { "hemisphere": "north", "spring": [3, 4, 5], "summer": [6, 7, 8], "autumn": [9, 10, 11], "winter": [12, 1, 2] },
   "trees": {
     "canopyShare": 0.25,
-    "deciduousShare": 0.90,
-    "crownWeights": { "broad": 0.45, "oval": 0.30, "spreading": 0.25 },
+    "deciduousShare": 0.9,
+    "crownWeights": { "broad": 0.45, "oval": 0.3, "spreading": 0.25 },
     "heightMeters": [9, 15],
     "youngShare": 0.15,
     "youngHeightMeters": [4, 7]
   },
   "houseTypes": [
-    { "id": "bungalow", "floors": [1], "perFloor": [3.0, 3.5],
-      "roof": { "gabled": 0.85, "hipped": 0.15, "flat": 0 }, "pitch": [20, 32], "overhang": [0.45, 0.70],
-      "porch": { "likelihood": 0.80, "depth": [1.5, 2.1], "frontage": [0.5, 0.9], "style": "covered" },
+    {
+      "id": "bungalow",
+      "floors": [1],
+      "perFloor": [3, 3],
+      "roof": { "gabled": 1, "hipped": 0, "flat": 0 },
+      "pitch": [18.0, 28.0],
+      "overhang": [0.45, 0.7],
+      "porch": { "likelihood": 0.8, "depth": [2.2, 2.2], "frontage": [0.5, 0.9], "style": "covered" },
       "windows": { "bay": [2.6, 3.2], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
       "door": [0.35, 0.65],
-      "colors": [["#B47760", "#E8D9BC", "#426A6A", "#555A63"], ["#9F7964", "#DCCFB6", "#775446", "#65625D"]] },
-    { "id": "foursquare", "floors": [2], "perFloor": [3.0, 3.4], "maxAspect": 1.4, "minRectangularity": 0.78,
-      "roof": { "gabled": 0, "hipped": 1.0, "flat": 0 }, "pitch": [27, 38], "overhang": [0.45, 0.65],
-      "porch": { "likelihood": 0.85, "depth": [1.6, 2.2], "frontage": [0.75, 1.0], "style": "covered" },
+      "colors": [
+        ["#9A6650", "#DDD0B6", "#426A6A", "#67645B"],
+        ["#B9A88B", "#DDD0B6", "#775446", "#67645B"],
+        ["#CAC4AC", "#DDD0B6", "#426A6A", "#67645B"],
+        ["#C3B798", "#DDD0B6", "#775446", "#67645B"]
+      ],
+      "archetype": "denver-02-bungalow"
+    },
+    {
+      "id": "foursquare",
+      "floors": [2],
+      "perFloor": [3.05, 3.05],
+      "maxAspect": 1.4,
+      "minRectangularity": 0.78,
+      "roof": { "gabled": 0, "hipped": 1, "flat": 0 },
+      "pitch": [25.0, 35.0],
+      "overhang": [0.45, 0.65],
+      "porch": { "likelihood": 0.85, "depth": [2.4, 2.4], "frontage": [0.75, 1.0], "style": "covered" },
       "windows": { "bay": [2.8, 3.6], "width": [0.9, 1.2], "height": [1.3, 1.5], "broad": null },
       "door": [0.5],
-      "colors": [["#B18B6D", "#E7DCC5", "#4F6667", "#60616A"], ["#C2AE8B", "#EFE2C8", "#7D554C", "#5D6368"]] },
-    { "id": "ranch", "floors": [1], "perFloor": [2.8, 3.3], "minAspect": 1.6, "broadFrontage": true,
-      "roof": { "gabled": 0.4, "hipped": 0.6, "flat": 0 }, "pitch": [12, 23], "overhang": [0.40, 0.70],
-      "porch": { "likelihood": 0.35, "depth": [1.0, 1.6], "frontage": [0.2, 0.35], "style": "stoop" },
+      "colors": [
+        ["#B59865", "#DDD0AE", "#4F6667", "#625F59"],
+        ["#925F48", "#DDD0AE", "#7D554C", "#625F59"],
+        ["#C1B18B", "#DDD0AE", "#4F6667", "#625F59"],
+        ["#C8BBA0", "#DDD0AE", "#7D554C", "#625F59"]
+      ],
+      "archetype": "denver-01-square"
+    },
+    {
+      "id": "ranch",
+      "floors": [1],
+      "perFloor": [2.8, 2.8],
+      "minAspect": 1.3,
+      "broadFrontage": true,
+      "roof": { "gabled": 1, "hipped": 0, "flat": 0 },
+      "pitch": [12.0, 23.0],
+      "overhang": [0.4, 0.7],
+      "porch": { "likelihood": 0.35, "depth": [0.8, 0.8], "frontage": [0.2, 0.35], "style": "stoop" },
       "windows": { "bay": [3.0, 4.0], "width": [0.9, 1.2], "height": [1.1, 1.4], "broad": [1.6, 2.2] },
       "door": [0.33],
-      "colors": [["#8D9A87", "#E2D8C1", "#8A654E", "#6B6C65"], ["#C2AE95", "#E9DFC9", "#496E70", "#626770"]] },
-    { "id": "cottage", "floors": [1, 2], "perFloor": [3.0, 3.3],
-      "roof": { "gabled": 1.0, "hipped": 0, "flat": 0 }, "pitch": [35, 48], "overhang": [0.20, 0.40],
+      "colors": [
+        ["#A17E62", "#E0D7C4", "#8A654E", "#6D6A62"],
+        ["#C9BDA5", "#E0D7C4", "#496E70", "#6D6A62"],
+        ["#D1CEC4", "#E0D7C4", "#8A654E", "#6D6A62"],
+        ["#B1A68D", "#E0D7C4", "#496E70", "#6D6A62"]
+      ],
+      "archetype": "denver-04-ranch"
+    },
+    {
+      "id": "minimalTraditional",
+      "floors": [1],
+      "perFloor": [2.8, 2.8],
+      "roof": { "gabled": 1, "hipped": 0, "flat": 0 },
+      "pitch": [18.0, 30.0],
+      "overhang": [0.4, 0.7],
+      "porch": { "likelihood": 0.6, "depth": [0.7, 0.7], "frontage": [0.15, 0.25], "style": "stoop" },
+      "windows": { "bay": [2.6, 3.2], "width": [0.9, 1.2], "height": [1.2, 1.4], "broad": [1.4, 1.8] },
+      "door": [0.45, 0.55],
+      "colors": [
+        ["#A7785E", "#DAD3C2", "#64746B", "#706B63"],
+        ["#D0CCBF", "#DAD3C2", "#8B5D4C", "#706B63"],
+        ["#C4BCAB", "#DAD3C2", "#64746B", "#706B63"],
+        ["#C8BBA0", "#DAD3C2", "#8B5D4C", "#706B63"]
+      ],
+      "archetype": "denver-03-minimal"
+    },
+    {
+      "id": "splitLevel",
+      "floors": [2],
+      "perFloor": [2.8, 2.8],
+      "minAspect": 1.2,
+      "roof": { "gabled": 1, "hipped": 0, "flat": 0 },
+      "pitch": [14.0, 25.0],
+      "overhang": [0.4, 0.7],
+      "porch": { "likelihood": 0.5, "depth": [0.8, 0.8], "frontage": [0.15, 0.25], "style": "stoop" },
+      "windows": { "bay": [3.0, 4.0], "width": [0.9, 1.2], "height": [1.1, 1.4], "broad": [1.6, 2.0] },
+      "door": [0.5],
+      "colors": [
+        ["#92735A", "#D8D0B9", "#496E70", "#69665D"],
+        ["#C3BEAC", "#D8D0B9", "#8A654E", "#69665D"],
+        ["#AEB5A6", "#D8D0B9", "#496E70", "#69665D"],
+        ["#C8BBA0", "#D8D0B9", "#8A654E", "#69665D"]
+      ],
+      "archetype": "denver-05-split"
+    },
+    {
+      "id": "cottage",
+      "floors": [1, 2],
+      "perFloor": [3.0, 3.3],
+      "roof": { "gabled": 1.0, "hipped": 0, "flat": 0 },
+      "pitch": [35, 48],
+      "overhang": [0.2, 0.4],
       "porch": { "likelihood": 0.55, "depth": [0.8, 1.3], "frontage": [0.2, 0.35], "style": "entry" },
       "windows": { "bay": [2.4, 3.0], "width": [0.7, 0.95], "height": [1.2, 1.5], "broad": null },
       "door": [0.3, 0.7],
-      "colors": [["#AC806D", "#E3D6BA", "#64746B", "#64616A"], ["#CBB99B", "#EADFC8", "#8B5D4C", "#6E665F"]] },
-    { "id": "modern", "floors": [2, 3], "perFloor": [3.0, 3.2],
-      "roof": { "gabled": 0, "hipped": 0, "flat": 1.0 }, "pitch": [0, 5], "overhang": [0.05, 0.15], "parapet": [0.25, 0.45],
-      "porch": { "likelihood": 0.40, "depth": [0.6, 1.2], "frontage": [0.15, 0.3], "style": "canopy" },
+      "colors": [["#AC806D", "#E3D6BA", "#64746B", "#64616A"], ["#CBB99B", "#EADFC8", "#8B5D4C", "#6E665F"]]
+    },
+    {
+      "id": "modern",
+      "floors": [2, 3],
+      "perFloor": [3.1, 3.1],
+      "roof": { "gabled": 0, "hipped": 0, "flat": 1 },
+      "pitch": [0.0, 8.0],
+      "overhang": [0.05, 0.15],
+      "parapet": [0.25, 0.45],
+      "porch": { "likelihood": 0.4, "depth": [1.2, 1.2], "frontage": [0.15, 0.3], "style": "canopy" },
       "windows": { "bay": [2.5, 3.2], "width": [0.9, 1.2], "height": [1.4, 1.8], "broad": null },
       "door": [0.15, 0.85],
-      "colors": [["#D2CFC1", "#E8E3D5", "#597678", "#616972"], ["#B5A799", "#D8D6CA", "#8B674F", "#515D66"]] },
-    { "id": "duplex", "floors": [2, 3], "perFloor": [3.0, 3.2],
-      "roof": { "gabled": 0, "hipped": 0, "flat": 1.0 }, "pitch": [0, 5], "overhang": [0.05, 0.20], "parapet": [0.25, 0.45],
-      "porch": { "likelihood": 0.60, "depth": [0.6, 1.2], "frontage": [0.15, 0.25], "style": "canopy" },
+      "colors": [
+        ["#D2CCBE", "#454A49", "#597678", "#555A57"],
+        ["#8A857B", "#454A49", "#8B674F", "#555A57"],
+        ["#454A49", "#454A49", "#597678", "#555A57"],
+        ["#A69B89", "#454A49", "#8B674F", "#555A57"]
+      ],
+      "archetype": "denver-06-infill"
+    },
+    {
+      "id": "duplex",
+      "floors": [2, 3],
+      "perFloor": [3.1, 3.1],
+      "roof": { "gabled": 0, "hipped": 0, "flat": 1 },
+      "pitch": [0.0, 8.0],
+      "overhang": [0.05, 0.2],
+      "parapet": [0.25, 0.45],
+      "porch": { "likelihood": 0.6, "depth": [1.2, 1.2], "frontage": [0.15, 0.25], "style": "canopy" },
       "windows": { "bay": [2.5, 3.0], "width": [0.9, 1.2], "height": [1.3, 1.6], "broad": null },
       "door": [0.25, 0.75],
-      "colors": [["#C6B69E", "#E5DCC9", "#546F72", "#62656C"], ["#A3AAA1", "#DFDECF", "#956B53", "#58636C"]] }
+      "colors": [
+        ["#D2CCBE", "#454A49", "#546F72", "#555A57"],
+        ["#8A857B", "#454A49", "#956B53", "#555A57"],
+        ["#454A49", "#454A49", "#546F72", "#555A57"],
+        ["#A69B89", "#454A49", "#956B53", "#555A57"]
+      ],
+      "archetype": "denver-06-infill",
+      "archetypeShare": 0
+    }
   ],
   "typeRules": {
-    "comment": "v2 §4.4 priority rules. Keys are footprint situations; values are type weights before eligibility filtering.",
-    "oneFloorBroad":  { "ranch": 75, "bungalow": 25 },
-    "oneFloor":       { "bungalow": 65, "cottage": 20, "ranch": 15 },
-    "twoFloorSquare": { "foursquare": 55, "cottage": 15, "modern": 30 },
-    "twoFloorNarrow": { "modern": 85, "cottage": 15 },
-    "twoFloor":       { "foursquare": 40, "modern": 45, "cottage": 15 },
-    "threeFloor":     { "modern": 100 },
-    "unknown":        { "bungalow": 45, "ranch": 20, "foursquare": 10, "cottage": 10, "modern": 15 },
-    "small":          { "cottage": 70, "modern": 30 },
-    "large":          { "ranch": 60, "foursquare": 40 },
-    "semidetached":   { "duplex": 100 }
+    "comment": "v2 §4.4 priority rules. Keys are footprint situations; values are type weights before eligibility filtering. Archetypes (house-archetypes-v1, R approved 2026-10-07; P2 2026-10-07): '@archetypes' = the summed weight of the archetype types in each situation before, split among the profile's archetype types by the pack's metro fallback mix (generatorWeightPctProposal, read by key at run time) after eligibility (levels, aspect, frontage). cottage (Victorian, not a house-archetypes-v1 Denver archetype) left the mix: its weight joined '@archetypes' so every Denver house gets an archetype; small keeps its old 1-/2-floor split (cottage 70 / modern 30) as '@archetypes:1' / '@archetypes:2'. duplex has archetypeShare 0: chosen only for shared walls (semidetached).",
+    "oneFloorBroad": { "@archetypes": 100 },
+    "oneFloor": { "@archetypes": 100 },
+    "twoFloorSquare": { "@archetypes": 100 },
+    "twoFloorNarrow": { "@archetypes": 100 },
+    "twoFloor": { "@archetypes": 100 },
+    "threeFloor": { "@archetypes": 100 },
+    "unknown": { "@archetypes": 100 },
+    "small": { "@archetypes:1": 70, "@archetypes:2": 30 },
+    "large": { "@archetypes": 100 },
+    "semidetached": { "duplex": 100 }
   },
-  "typeThresholds": { "smallArea": 60, "largeArea": 220, "hugeArea": 350, "broadAspect": 1.7, "squareAspect": 1.4, "squareRectangularity": 0.78, "narrowAspect": 1.7,
-                      "smallAreaPercentile": 0.02, "largeAreaPercentile": 0.865, "hugeAreaPercentile": 0.99 },
-  "garage": { "wallHeight": [2.5, 3.0], "roof": { "gabled": 0.6, "hipped": 0.05, "flat": 0.35 }, "pitch": [15, 27], "overhang": [0.20, 0.35],
-              "doubleDoorMinWidthMeters": 6.0, "colors": [["#A69A84", "#DCCFB6", "#C7C1AF", "#65676C"], ["#8D9685", "#DED5C1", "#B9B6A9", "#636A70"]] },
-  "shed": { "wallHeight": [2.0, 2.4], "pitch": [8, 18], "overhang": [0.10, 0.20],
-            "colors": [["#8B967E", "#D5CCB8", "#6C7D70", "#676C6A"], ["#AB8E73", "#DBCBB0", "#7C6859", "#686568"]] },
+  "typeThresholds": {
+    "smallArea": 60,
+    "largeArea": 220,
+    "hugeArea": 350,
+    "broadAspect": 1.7,
+    "squareAspect": 1.4,
+    "squareRectangularity": 0.78,
+    "narrowAspect": 1.7,
+    "smallAreaPercentile": 0.02,
+    "largeAreaPercentile": 0.865,
+    "hugeAreaPercentile": 0.99
+  },
+  "garage": {
+    "wallHeight": [2.5, 3.0],
+    "roof": { "gabled": 0.6, "hipped": 0.05, "flat": 0.35 },
+    "pitch": [15, 27],
+    "overhang": [0.2, 0.35],
+    "doubleDoorMinWidthMeters": 6.0,
+    "colors": [["#A69A84", "#DCCFB6", "#C7C1AF", "#65676C"], ["#8D9685", "#DED5C1", "#B9B6A9", "#636A70"]]
+  },
+  "shed": {
+    "wallHeight": [2.0, 2.4],
+    "pitch": [8, 18],
+    "overhang": [0.1, 0.2],
+    "colors": [["#8B967E", "#D5CCB8", "#6C7D70", "#676C6A"], ["#AB8E73", "#DBCBB0", "#7C6859", "#686568"]]
+  },
   "chimneyLikelihood": 0.35,
   "foundationMeters": [0.45, 0.75],
   "provenance": {
@@ -82,6 +212,12 @@
       "acquired": "2023-09-25",
       "check": "50 photo-interpreted points: 0.196 (0.11-0.33); mask vs points agree 91 %. One mature inner-city area; suburbs likely lower.",
       "date": "2026-10-06"
+    },
+    "archetypes": {
+      "status": "house-archetypes-v1 (R approved 2026-10-07, binding); values are the pack's proposals",
+      "mirror": "archetype, colors (wall/trim/roof from colourVariations; doors stay the profile's, the pack has none), roof, pitch (the allowed range holding the sheet pitch), perFloor (floorToFloorM) and porch.depth (porchDepthM) mirror the shared mock values; the engine reads them by key at load (StyleProfile.resolvingArchetypes)",
+      "added": "minimalTraditional (denver-03-minimal) and splitLevel (denver-05-split; two-storey main block plus one-storey wing from the pack's buildingPartsProposal); ranch minAspect 1.6 -> 1.3 so the sheet's 14.5 x 9.5 m footprint is eligible",
+      "date": "2026-10-07"
     }
   }
 }
