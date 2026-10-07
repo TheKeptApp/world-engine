@@ -1,31 +1,30 @@
-**Owner rule (> 3 parity points, same rubric, c25b6dc vs 393ed1e):** v2-04 87 → 79 % · showcase-05 95 → 90 % · wilmette-street-fall 87 → 83 %. Commits in range: `8434b65` (5A overcast cloud edges), `c25b6dc` (5A wet paving), `e7be7c3` (P1 LiveSky test only). All three are dry, non-overcast views (summer noon, fog, fall afternoon), so neither 5A change reaches them; treated as grader noise and re-checked next run.
+**Owner rule (> 3 parity points, same rubric, a2c818b vs c25b6dc):** showcase-10 78 → 69 % · light-rain-street 79 → 72 % · showcase-01 98 → 93 %. Commit: `a2c818b` (P2 walk clearance). showcase-10 is an aerial and showcase-01 a lake-trail view without walk-side generated trees, so clearance cannot reach them; light-rain-street's reviewer cites dry-looking ground under rain, not trees. Treated as grader noise; re-check after the tree stack.
 
 # Look loop: regressions
 
-This run (2026-10-06 22:03, engine `c25b6dc`) against the previous published run (2026-10-06 20:44, engine `b8ee81a`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
+This run (2026-10-06 23:45, engine `463e06c`) against the previous published run (2026-10-06 22:03, engine `c25b6dc`). Rule: a view down 2 or more on /50, or any criterion down 1 or more. 32 freshly graded view(s) compared; 0 reused unchanged view(s) cannot regress.
 
-**21 regression flag(s) in 13 view(s).**
+Caution: docs/lookloop/GRADING.md changed between the two runs (see calibration.md for why). Score moves can come from the procedure rather than the render; compare the sheets before acting.
+
+**18 regression flag(s) in 9 view(s).**
 
 | View | What | Before | Now | Reviewer's reason now |
 |---|---|---|---|---|
-| [v2-04](sheets/v2-04.jpg) | v2 /50 | 31.0 | 28.1 | At phone size the frame reads as a clean but flat stylized street with correct noon light and a legible black dog, yet the ground is two flat lawn colours and the house is a blank wall. The biggest gap is ground and buil |
-| [v2-04](sheets/v2-04.jpg) | softnessAO | 3 | 2 | Dark band at the wall base, small contact under shrubs, but no tree-base occlusion, no eave/porch occlusion; hard-edged flat shading |
-| [v2-04](sheets/v2-04.jpg) | characterReadability | 4 | 3 | Black dog reads clearly on pale sidewalk at about 20% frame height; flat silhouette, weak contact shadow, no coat detail |
-| [v2-04](sheets/v2-04.jpg) | houseVariety | 3 | 2 | One large blank grey wall with windows foreground, a beige apartment block in distance; no porches, roof profiles or entries visible |
-| [v2-04](sheets/v2-04.jpg) | adRegional | 3 | 2 | Generic suburban street; no low western mountain band despite facing west, no clear bungalow or foursquare families or conifers |
-| [showcase-03](sheets/showcase-03.jpg) | softnessAO | 3 | 2 | Trunk bases have little contact darkening and no crown shadows or occlusion on the lawn; surfaces look flat. |
-| [showcase-05](sheets/showcase-05.jpg) | depthFog | 4 | 3 | Trees fade with distance and fog is readable, but sky is a dark grey wall, lake is barely visible and the near lawn stays saturated. |
-| [showcase-07](sheets/showcase-07.jpg) | adRegional | 3 | 2 | Generic park with bare trees and spruce, no Denver cues such as the distant skyline or the cottonwoods and bungalows. |
-| [showcase-10](sheets/showcase-10.jpg) | depthFog | 3 | 2 | No rain haze or distance fade; the world ends in flat plates at the frame edges, with no atmospheric separation. |
-| [ordinary-trail](sheets/ordinary-trail.jpg) | softnessAO | 3 | 2 | Trunk bases sit on flat lawn with little contact darkening; bench and spruce base have no occlusion; shadows are the only depth cue. |
-| [light-rain-street](sheets/light-rain-street.jpg) | adRainReadable | 3 | 2 | The sky is dark and the road is darker, but there are no visible puddles or sheen on the road or walk, and the walk is a dry light grey; the faint streaks are barely visible. |
-| [wilmette-street-rain](sheets/wilmette-street-rain.jpg) | softnessAO | 3 | 2 | Trunk bases and shrubs have almost no contact darkening; shrubs and houses look pasted on flat lawn. |
-| [wilmette-street-fall](sheets/wilmette-street-fall.jpg) | light | 4 | 3 | One coherent low sun with soft shadow bands on the left lawn, but little warm/cool golden contrast; walls and lawn look evenly lit and not golden-hour. |
-| [wilmette-aerial](sheets/wilmette-aerial.jpg) | houseVariety | 4 | 3 | Several believable kit families (brick foursquares, gables, detached garages) but many near-identical dark-roof boxes repeat. |
-| [wilmette-aerial](sheets/wilmette-aerial.jpg) | adRegional | 4 | 3 | Brick North Shore houses, gridded blocks, a mix of fall maples and elms and a park read as Chicago suburb; the land-use pattern is generic and street trees are uniformly sparse. |
-| [evanston-street](sheets/evanston-street.jpg) | groundRichness | 3 | 2 | Lawn is nearly one green with sparse orange leaf dots on the walk and verge; one small shadow band on the left lawn, no patches, beds or worn edges; the pole-like trunk dominates. |
-| [evanston-street](sheets/evanston-street.jpg) | adGroundRich | 3 | 2 | Single lawn tone with leaf dots; a few foundation shrubs on the left but no beds, mulch or lawn patches; hard grass-to-walk edges. |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | groundRichness | 3 | 2 | Large near-uniform white snow with one olive patch and a few grass tufts; no patchy melt, lawn tone variation or leaf litter like the anchor's snow/dry-grass mix. |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | adGroundRich | 3 | 2 | Few foundation shrubs as simple blobs, little bed or lawn variation under the snow, one lone shrub in foreground; mostly flat white. |
-| [evanston-street-winter](sheets/evanston-street-winter.jpg) | adRainReadable | 3 | 2 | Wet flag set; snow reads as snow but no visible falling particles, road is fully snow-covered with no wet sheen or dark wet surface contrast; overcast sky is the only weather cue. |
-| [evanston-aerial](sheets/evanston-aerial.jpg) | houseVariety | 4 | 3 | Several kit families (gabled brick, apartment slab, pale siding, large flat-roof block) with mixed footprints, but facades and roof colours repeat and many roofs are the same slate grey. |
+| [showcase-01](sheets/showcase-01.jpg) | light | 4 | 3 | Long low shadows and warm rim on crowns suit golden hour, but the sky is a flat lilac with no sun glow and the ground reads dull, not warm-lit. |
+| [showcase-02](sheets/showcase-02.jpg) | softnessAO | 3 | 2 | Trunk bases show little or no contact darkening; spruce has hard black wedge tiers; the bench and trunks sit on the lawn with minimal occlusion. |
+| [showcase-04](sheets/showcase-04.jpg) | adRainReadable | 3 | 2 | Sky is dark and a few faint streaks and one small puddle on the path exist, but the path and grass show no wet sheen or darkening; it reads close to a dry day under a dark sky. |
+| [showcase-07](sheets/showcase-07.jpg) | adRainReadable | 3 | 2 | Falling snow is barely visible (a few specks) and the dark overcast sky is the main weather cue; no wet sheen, slush or melt contrast on the path. |
+| [showcase-10](sheets/showcase-10.jpg) | v2 /50 | 26.8 | 23.7 | At phone size the frame reads as a flat, desaturated map with correct lake and grid but no canopy, haze or wet readability. The biggest gap is the missing autumn tree and colour richness that carries the target. |
+| [showcase-10](sheets/showcase-10.jpg) | silhouettes | 3 | 2 | Houses read as tiny uniform specks in grid blocks; no distinct crown or roof families at aerial scale, trees barely visible. |
+| [showcase-10](sheets/showcase-10.jpg) | softnessAO | 3 | 2 | No visible occlusion or soft shadow; buildings and parcels look like flat extrusions. |
+| [showcase-10](sheets/showcase-10.jpg) | houseVariety | 3 | 2 | Dense blocks show only a few colours at tiny size; no readable mass variety; a lone red building stands out oddly. |
+| [showcase-10](sheets/showcase-10.jpg) | adRainReadable | 3 | 2 | Overall grey cast and slightly darker lake suggest wet, but no sheen, puddles or sky change is readable. |
+| [showcase-11](sheets/showcase-11.jpg) | adRegional | 3 | 2 | The lake outline reads, but the surrounding Denver bungalow grid, park ring and cottonwood/conifer mix do not; the land-use pattern looks generic. |
+| [ordinary-street](sheets/ordinary-street.jpg) | groundRichness | 3 | 2 | Two broad flat lawn tones with sparse identical grass tufts, a clean slab sidewalk and little leaf litter; no worn edges, patches, beds or layering in the foreground. |
+| [ordinary-street](sheets/ordinary-street.jpg) | adGroundRich | 3 | 2 | Lawns are flat colour blocks with minimal tone variation, only a short row of foundation shrubs and scattered litter; hard edges between grass, verge and sidewalk. |
+| [light-rain-street](sheets/light-rain-street.jpg) | v2 /50 | 30.0 | 27.6 | At phone size this reads as a calm, flat overcast autumn street with a clear dog and trees, but little rain or wet-surface mood. The biggest gap is weather readability and light: the dry-looking pale sidewalk and bright  |
+| [light-rain-street](sheets/light-rain-street.jpg) | light | 3 | 2 | Flat, even overcast with no readable key or wet-sky luminance. The wall and sidewalk have almost no tonal direction, and the pale grey ground sits mid-value everywhere, so the afternoon rain mood of the targets is missin |
+| [light-rain-street](sheets/light-rain-street.jpg) | groundRichness | 3 | 2 | Two large flat lawn colours with sparse identical grass tufts and a few leaf specks. A little tone variation, but no beds, worn edges or leaf litter. The ground reads as a sterile carpet. |
+| [light-rain-street](sheets/light-rain-street.jpg) | adGroundRich | 3 | 2 | Foundation shrubs are present (a short row of 3-4 merged lobes) but the lawns are flat with no beds, mulch or patches, and the verge is a uniform green strip. |
+| [lakeview-postcard](sheets/lakeview-postcard.jpg) | groundRichness | 3 | 2 | Large flat mauve road fills the foreground and parkway lawn is a single green; only sparse grass tufts and dark bed rectangles on the right. |
+| [lakeview-postcard](sheets/lakeview-postcard.jpg) | adGroundRich | 3 | 2 | One flat lawn tone, bare beds, few shrubs and no foundation planting or leaf litter in the foreground; Lakeview should be denser. |
