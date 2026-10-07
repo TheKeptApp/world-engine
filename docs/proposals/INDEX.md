@@ -85,6 +85,9 @@ Filed from the drop folder; none has a STATUS.md, so none is a binding target ye
 |---|---|---|---|---|
 | NYC city life, Style B | nyc-life-v1 | `~/Desktop/world-engine/docs/proposals/nyc-life-v1/` (32 images) | `docs/proposals/nyc-life-v1/values.json` | pending R approval |
 | Water surfaces: lakes, rivers, bays, ocean, canal, shorelines, ice | water-surfaces-v1 | `~/Desktop/world-engine/docs/proposals/water-surfaces-v1/` (28 images) | `docs/proposals/water-surfaces-v1/water-values.json` | pending R approval |
+| Creator kit UX v3 (Easy + Pro) | creator-kit-ux-v3 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v3/` (45 images) | `docs/proposals/creator-kit-ux-v3/design-values.json` | pending R approval |
+| Road signs and signals, seven countries | road-signs-signals-v1 | `~/Desktop/world-engine/docs/proposals/road-signs-signals-v1/` (11 images) | `docs/proposals/road-signs-signals-v1/road-signs-values.json` | pending R approval |
+| Terrain and slope (grades, foundations, stairs, retaining walls) | terrain-slope-v1 | `~/Desktop/world-engine/docs/proposals/terrain-slope-v1/` (16 images) | `docs/proposals/terrain-slope-v1/values.json` | pending R approval |
 
 ## Past packs – R to confirm
 
