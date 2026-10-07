@@ -1,0 +1,123 @@
+{
+  "tool": "built-in imagegen",
+  "referencePolicy": "Rain-v1 style and framing; no current engine lake render supplied. Original inputs read only.",
+  "generation": [
+    {
+      "id": "01-water-that-reads",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle WATER THAT READS. Portrait 3 columns by 3 rows matrix. Columns CALM, BREEZY, GOLDEN HOUR. Rows 20 m, 100 m, AERIAL. Same modest Denver city lake and park edge across all panels; opposite tree-lined shore remains visible, a few simple distant city buildings. Near camera height 1.65m, aerial pitch55 degrees. Calm clear sky wind0: water #477C8D, roughness .18, sky blend .12 normal to .55 grazing. Breezy same clear sky wind10km/h: wavelength .80m, amplitude .025m, roughness .28. Golden hour wind10km/h: water #477884, reflected warm sky #E7BA79, roughness .28, one broad low sun reflection, never orange water everywhere. Water softly moves in broad restrained bands, no sparkling noise. Near shore shallow #668C82 blended across2m; water-edge darkening12% linear over.60m with.40m soft transition. Water meets bank without black outline or hard colour step, actual land silhouette remains crisp enough. At100m drop tiny ripples keep broad reflected sky masses. Aerial use sky strength x.65, retain shoreline shape and colour belt, no microdetail. Footer exact short values 'SHALLOW #668C82 \u2022 EDGE \u221212%Y / 0.60m \u2022 SOFT 0.40m' and swatches. Include calm/breezy/golden numeric captions above rather than excessive text.",
+      "references": [
+        "rain-v1/images/01-wetness-states.png",
+        "rain-v1/images/06-phone-rain-snow-acceptance.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve all9panels, typography, numeric captions and citylake composition. Simplify all grass into smooth continuous plain green verge; eliminate every grass blade and bark/rock texture. Trees must have smooth large puff-cluster surfaces, not tiny leaf lobes. Calm water reflects only broad sky colour masses with optional broad dark shore mass, remove detailed mirror images of individual buildings/trees because baseline renderer does not support geometric reflections. Breezy and golden water have few broad low-amplitude bands, eliminate fine repetitive ripple lines and glitter. Keep shoreline soft. Keep palette and warm atmospheric lighting, don't flatten light.",
+          "inputs": [
+            "first_generated_01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02-big-lake-vs-city-lake",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle BIG LAKE VS CITY LAKE. Two equal tall columns LAKE MICHIGAN and SLOAN'S LAKE; each column upper street shoreline view at100m, lower55degree pitched aerial. Identical clear-sky afternoon sun elevation35degrees azimuth230degrees, wind10km/h, same exposure; change only lake context. Michigan open-water horizon to sky, far water deeper blue #315F7F, broad low waves wavelength3.0m amplitude.10m; visible atmosphere over long lake with continuous horizon fade. Sloan's smaller enclosed city lake water #477C8D, visible opposite park shoreline, waves wavelength.80m amplitude.025m, local urban background retains scale. Shallow Michigan #557F83 across4m; Sloan #668C82 across2m; no invented beaches or unnaturally thick turquoise rings. Both roughness.28 normal/grazing sky mix.12/.55. Shared haze extinction.0008 per metre, so greater Michigan view distances naturally get more haze; don't apply fake new fog layer per lake. Make lake size differences unmistakable. Footer clean comparison swatches and lines 'MICHIGAN: 3.0m / 0.10m' and 'SLOAN: 0.80m / 0.025m', 'SAME WIND 10km/h \u2022 SAME LIGHT \u2022 HAZE 0.0008m\u207b\u00b9'. No opposite shoreline visible in Michigan street view.",
+      "references": [
+        "rain-v1/images/06-phone-rain-snow-acceptance.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve two-lake comparison, fourpanels and all numeric captions. Replace every individually shaped leaf in foreground tree canopies with large smooth rounded puff clusters, bushes too. Remove all grain, grass blades, rock textures and tiny white glitter. Michigan water: broad smooth shallow waves, 3.0m wavelength and0.10m amplitude, absolutely no whitecaps or speckled sunlight, no huge ocean surf. Sloan water: broader quiet bands .80m wavelength .025m amplitude, no glitter. Keep open Michigan horizon and enclosed Sloan opposite shore. Correct both aerial captions to150m altitude /55degree pitch. Keep equal light.",
+          "inputs": [
+            "first_generated_02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "03-ice-that-reads",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle ICE THAT READS. Three columns PARTLY FROZEN, FULLY FROZEN, SNOW ON ICE; two rows STREET VIEW20m and AERIAL55degrees. Same Sloan city lake outline and winter park, broad few structural bare branches, same cool clear daylight with warm sun35degrees. Partial lake is55% opaque ice #91ADBA, open-water dark blue #477C8D forms broad connected edges and irregular channels; white ice isn't transparent grey wash. Fully frozen coverage100% ice #91ADBA perceptualroughness.32 sky sheen.18. Snow on ice100% ice underlying,85% eligible ice area covered opaque fresh snow #E4E9EB cool shadow #C3CDD6 r.90 sheen.01; broad readable snow shape breaks expose ice, do not turn it into pavement. Ice roughness.32, no water ripple on frozen portion; open water retains breeze10 waves. Freeze boundaries have.30m soft material transition, no black outlining or intricate crack textures. Snow cap thickness.03m. Snow covered surrounding banks sufficient for context but focus lake only, don't repeat street snow stage posters. Side/bottom swatches exact 'ICE #91ADBA \u2022 r0.32 \u2022 SHEEN0.18' 'COVER 55% /100% /85% SNOW'. Footer 'SUPPLIED ICE HISTORY \u2022 NO COLD-HOURS SHORTCUT'. Broad frozen lake must remain distinct from water from aerial.",
+      "references": [
+        "rain-v1/images/05-snow-phone-stages.png",
+        "rain-v1/images/06-phone-rain-snow-acceptance.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve poster panels, captions and each freeze distinction. Use an urban Denver city-lake park matching second reference lake board: remove invented island and all buildings on islands, church/castle/hill across lake; opposite shore is an unbroken flat citypark with distant anonymous block skyline, no landmark claim. Same outline across states. Bare trees only handful of thick structural branches, no fine twigs. Snow, ice and rocks all completely smooth plain surfaces; remove every fleck/crack/sparkle. Partial lake openwater edges broad not stipple. Aerial snow ice85% broad coverage obvious.",
+          "inputs": [
+            "first_generated_03",
+            "first_generated_01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04-snow-on-trees",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle SNOW ON TREES. Portrait poster with two columns FRESH and DAY 2: WIND / MELT. Three row bands5m,20m,AERIAL. In every panel one bare deciduous tree and one evergreen, same geometry and camera pairs. At5m use only thick trunk and a handful of structural branches, smooth snow strips on upward branch tops; evergreen broad rounded tier clusters carrying a few white mantle caps, never needles/leaves. Fresh deciduous35% eligible upward branch area coverage, evergreen65%; day2 after supplied wind/melt deciduous12%, evergreen25%. Show remaining asymmetrical lee-side caps and broad dark evergreen interiors, bare brown branches exposed after shedding, no grey paint on entire canopy. Snow #E4E9EB shadow #C3CDD6 perceptualroughness.90 sheen.01 cap thickness.035m. At20m prioritize few bright cap masses over dark trunk/evergreen silhouette; no tiny twigs. Aerial consolidate snow into broad canopy lobes, no branch glitter. Same winter neighbourhood street atmosphere as ref, pale warm facades and deep green evergreens. Bottom exact swatch/coverage cards: 'BARE:35% \u219212%' 'EVERGREEN:65% \u219225%' 'CAP0.035m \u2022 NO LEAF DETAIL'. Note 'DAY2 IS A WIND/MELT FIXTURE, NOT AGE ALONE'.",
+      "references": [
+        "rain-v1/images/05-snow-phone-stages.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve entire poster grid, trees, captions, colours and percentages. Replace evergreen leaf/needle lobules with only5smooth broad rounded crown tiers per tree, no individually visible leaves or photo texture. Snow caps thin smooth mantles .035m on top of large tiers, not drooping .3m icing. Bare structural tree has8largebranch paths near, reduce finer offshoots at20m and aerial; no tiny twigs. Bark, grass, ground and buildings are plain smooth matte surfaces with no grain. Fresh vsday2 coverage35/12 bare65/25 evergreen still clearly distinct through fewer thin bright bands/caps. Aerial3broad white crownlobes maximum. Keep rich warm light/cool snow shadows.",
+          "inputs": [
+            "first_generated_04"
+          ]
+        },
+        {
+          "stage": 2,
+          "prompt": "Edit only the RIGHT COLUMN of this SNOW ON TREES poster, all three rows. Keep the left FRESH column entirely unchanged. The right DAY2 column currently has almost as much snow as the left, which is incorrect. Visibly REMOVE roughly two thirds of white snow on the right evergreens: upper four crown tiers now completely bare dark green, retain just one small asymmetric white patch on a lower tier at5m and20m, and a single small white patch at aerial. On right bare deciduous trees REMOVE almost all white branch strips: leave only TWO SHORT thin white top strips total near trunk at5m and20m, one small white stripe aerial. The visual must show dramatic shedding and far more exposed green/brown on right. Retain exact original text and percentages65% to25%,35% to12% unchanged. No grain, foliage texture or realistic needles; smooth dark green plain crown shapes. Do not add new lettering.",
+          "inputs": [
+            "stage1_04-snow-on-trees"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-old-snow",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle OLD SNOW. Use supplied rain-v1 snow street as composition reference: left sidewalk receding into distance, road on right, large bare trunk left, same simple pale houses and lamps and shrubs, building/tree positions preserved as closely as possible. NEW aged-snow exploration only, not falling/patchy/covered/cleared stages. Three tall panels DAY2, DAY5, THAW same winter street geometry and same sun35degrees. Day2 lawn snow clean bank #DDE2E3, pavement clear, banks.30m tall. Day5 aged banks broad dirty beige-grey snow #A5A698, dirt concentrated lower20% bank height #91958D, lawns stay cleaner #DDE2E3 with broad thaw gaps (55% lawn coverage), plowed pile.45m; preserve accessible crossings and clear sidewalk. Thaw banks.15m, lawn20% coverage, grey slush #858E93 width.35m from curb height.025m, roughness.30 sheen.32; water sheen restricted to slush/wet road, no glassy dry dirty snow. Show rounded softened broad melting banks without granular ice texture. Old snow roughness.88 sheen.02. Bottom three small comparative closeups LAWN, PLOWED PILE, CURB SLUSH with palette swatches and above values. Aged snow looks like snow with dirty basal band, not brown ground or black holes. Footer 'AGE + THAW + DIRT + PLOW HISTORY \u2022 SAME STREET'. No snowflakes/no repeated rain-v1 states.",
+      "references": [
+        "rain-v1/images/05-snow-phone-stages.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve exact street composition, 3tallpanels, all caption text and lower3closeups. Make surfaces perfectly smooth stylized forms with no asphalt/concrete/snow grain or grass blades. Snow banks broad rounded ridges with at most3large undulations near, not granular lumpy ice. DAY5 aged bank visibly grey-beige #A5A698 over upperbody, dirtybase #91958D bottom20%, lawn snow remains clean#DDE2E3. THAW curb slush visibly cooler grey#858E93 flat low smooth lobes0.025mthick with broad sheen r.30, width.35m; not tiny white pebbles. Sidewalkclear throughallpanels, rich light, treessimple thick branches and no twigs. Correct DAY5 top caption '0.30m banks /0.45m piles' so no ambiguity. Lower lawncloseup clean with smooth tan dormancy gaps, never grassblades.",
+          "inputs": [
+            "first_generated_05"
+          ]
+        },
+        {
+          "stage": 2,
+          "prompt": "Edit this OLD SNOW poster. Correct DAY5 header height line to exactly '0.30m BANKS /0.45m PILES'. Keep all other text and composition. On DAY5 main curb bank and lower PLOWED PILE closeup, paint a visibly DARK GREY dirt band #91958D on the lowest20% of bank HEIGHT, with upper80% grey-beige #A5A698. This is a broad soft colour band on smooth snow, no grain, stain speckles or texture. Snow on lawns stays clean white. THAW curbslush visibly muted grey#858E93 smooth flat wet lobes, not white lumps. Preserve warm lighting, matte dirty snow, low slush sheen, tree/building geometry and poster layout.",
+          "inputs": [
+            "stage1_05-old-snow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06-phone-readability-targets",
+      "prompt": "Create a new WorldEngine Style B design-reference poster matching the supplied rain-v1 poster's cream #F5F1E7 background, deep forest-green #19392E headings, generous rectangular gutters, dark-green condition labels, restrained swatch/footer typography and smooth stylized 3D rendering. Rich saturated living-world colour through warm sunlight, bright highlights, long soft shadows, deep shade and atmospheric depth. Plain material surfaces, rounded forms, trees with broad unequal puff clusters and thick branching trunks; bare winter trees have only a few structural branches. Absolutely no photo textures, fine surface noise, individual leaves, bricks, grass blades, photorealism, people, logos, house numbers or cars. Precise readable uppercase headings and short numeric captions; never let captions obscure primary scenes. Scene geometry true-scale in intent. These are conceptual scene references, not photographic geographic reconstructions. Numeric captions are authored renderer targets. Keep reference layout and palette.\n\nTitle PHONE READABILITY TARGETS. Match reference06 four equal rectangular panels2x2 with cream title bands. Top left LAKE DAY: Sloan shoreline clear sky at20m, #477C8D water, broad sky reflection k.12/.55,r.28 wind10, shallowgreen #668C82 soft shore. Top right LAKE GOLDEN HOUR: same20m shoreline, water #477884 r.28, sun elevation8degrees, warm skyreflection#E7BA79 and bright broad glint,long shadows. Bottom left FROZEN LAKE AERIAL: Sloan lake55degree aerial, ice100%,snow-on-ice85%,snow#E4E9EB coolshadow#C3CDD6, ice#91ADBA exposed in few broad breaks. Bottom right OLD-SNOW STREET: exact street framing from supplied05 with leftsidewalk/rightroad, large bare tree left, dirtybank#A5A698 baseline#91958D,bankheight.15m lawn20% coverage,greycurbslush#858E93 width.35m. Four scenes must read from thumbnail without labels; no detail textures. Under each scene short numericcaption and2swatches, same material values otherboards. Footer '390px +320px REVIEW \u2022 BROAD SHAPES \u2022 EXACT VALUES IN JSON'. Strong warm stylized light and deep cool shade, no ordinary falling/covered snow poster repeats.",
+      "references": [
+        "rain-v1/images/06-phone-rain-snow-acceptance.png",
+        "rain-v1/images/05-snow-phone-stages.png"
+      ],
+      "edits": [
+        {
+          "stage": 1,
+          "prompt": "Preserve fourpanel layout and all exact numeric captions, swatches. Replace top two generic mountain wilderness lakes with Sloan citylake park composition from second reference WATER THAT READS: flat opposite urban park shore, anonymous distant cityblock skyline, same near bench/path/roundedpufftrees geometry for day/goldenhour, no mountains or forestwilderness. Frozen aerial same citylake outline from third reference ICE THAT READS, no island/buildings inside water. 100%ice85%snow broad shapes no thin cracktexture. Oldsnowstreet match fourth reference OLD SNOW thawcolumn, short dirtygreybank.15m nothighfreshwhitebank. Every surface perfectly smooth no grain, leaf shapes, grass blades or fine twigs. Water broad reflecting sky masses and gentle low broad bands no glitter. Preserve warm vibrant light, cool deep shade and atmosphericdepth.",
+          "inputs": [
+            "first_generated_06",
+            "first_generated_01",
+            "first_generated_03",
+            "first_generated_05"
+          ]
+        }
+      ]
+    }
+  ]
+}

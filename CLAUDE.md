@@ -16,3 +16,11 @@
 - Signing: the team ID lives in `.local/team_id` (git-ignored), never in `project.yml`.
 - `docs/proposals/` is written by ChatGPT: read-only input. Never edit it. The visual source of truth is `docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md` (VISUAL_DIRECTION.md is kept consistent with it).
 - `~/Desktop/worldengine-handoff/dog/` may be read (DogWell dog exports); never write there.
+
+## Visual work builds to approved mocks
+
+Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes read this at session start.
+
+- Before any visual change, read `docs/proposals/INDEX.md`, open the matching mock images (absolute path in INDEX.md; they are not in worktrees), and use the pack's values JSON.
+- Every pre-merge report includes a phone-size side-by-side (render vs mock), the values used, and the remaining gaps.
+- Never invent a value that a mock's JSON already defines.
