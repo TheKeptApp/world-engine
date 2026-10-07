@@ -21,6 +21,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 INDEX = ROOT / "docs/proposals/INDEX.md"
 OUT = ROOT / "Resources/look/mock-values.json"
+# Byte-identical bundled copy so the WorldGen target can load it (P2, 7 Oct 2026); generated, never hand-edited.
+BUNDLE = ROOT / "Sources/WorldGen/Profiles/mock-values.json"
 CONFLICTS_MD = ROOT / "docs/lookloop/mock-conflicts.md"
 
 # Keys (at any depth) whose whole subtree is descriptive/meta, not a look value.
@@ -201,11 +203,12 @@ def main(argv):
     doc = build()
     text, md = render(doc), render_conflicts_md(doc)
     if "--check" in argv:
-        ok = OUT.exists() and OUT.read_text() == text and CONFLICTS_MD.exists() and CONFLICTS_MD.read_text() == md
+        ok = OUT.exists() and OUT.read_text() == text and BUNDLE.exists() and BUNDLE.read_text() == text and CONFLICTS_MD.exists() and CONFLICTS_MD.read_text() == md
         print("mock-values.json up to date" if ok else "mock-values.json is STALE: run Tools/lookloop/compile_mocks.py")
         return 0 if ok else 1
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(text)
+    BUNDLE.write_text(text)
     CONFLICTS_MD.write_text(md)
     print(f"wrote {OUT.relative_to(ROOT)}: {len(doc['entries'])} entries from {', '.join(doc['approvedPacks'])}; "
           f"{len(doc['conflicts'])} conflicts")
