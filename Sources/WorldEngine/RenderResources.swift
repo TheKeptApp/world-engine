@@ -82,6 +82,11 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var fogWeight: Float = 0
     /// Haze present from the camera outward (smoke's near field), 0–1.
     public var fogFloor: Float = 0
+    /// look.json wet ground, packed for texels 30–33 (see WorldShaders.metal `wetA`…`wetD`).
+    public var wetA = SIMD4<Float>(0.5, 0.42, 0.16, 0.45)
+    public var wetB = SIMD4<Float>(0.5, 0.14, 0.06, 0.22)
+    public var wetC = SIMD4<Float>(0.65, 0.2, 0.8, 0.45)
+    public var wetD = SIMD4<Float>(0.35, 0.7, 0, 0)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -223,6 +228,10 @@ final class RenderResources {
         p[w + 26] = SIMD4(h(cs.x), h(cs.y), h(g.canopySize.x - cs.x), h(g.canopySize.y - cs.y))
         p[w + 27] = SIMD4(h(g.airColor.x), h(g.airColor.y), h(g.airColor.z), h(g.airCap))
         p[w + 28] = SIMD4(h(g.airStart), h(g.airD50), h(g.fogWeight), h(g.fogFloor))
+        p[w + 30] = SIMD4(h(g.wetA.x), h(g.wetA.y), h(g.wetA.z), h(g.wetA.w))
+        p[w + 31] = SIMD4(h(g.wetB.x), h(g.wetB.y), h(g.wetB.z), h(g.wetB.w))
+        p[w + 32] = SIMD4(h(g.wetC.x), h(g.wetC.y), h(g.wetC.z), h(g.wetC.w))
+        p[w + 33] = SIMD4(h(g.wetD.x), h(g.wetD.y), h(g.wetD.z), h(g.wetD.w))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

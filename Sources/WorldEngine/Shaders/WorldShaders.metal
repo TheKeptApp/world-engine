@@ -43,6 +43,9 @@ struct Globals {
     float3 moonDir; float moonRadius; float3 moonLight; float moonOpacity; half3 moonColor;
     half3 litterA; half3 litterB; float leafLitter; float2 canopyOrigin; float2 canopySize;
     half3 airColor; float airCap; float airStart; float airD50; float fogWeight; float fogFloor;
+    // look.json wet ground (texels 30–33): asphalt and walk darken/roughness/puddles, lawn darken,
+    // paving gloss, light-rain response, puddle start/base/ripples, puddle reflection, rain intensity.
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -78,6 +81,8 @@ Globals readGlobals(texture2d<half> tex) {
     half4 t27 = tex.read(uint2(27, 1)), t28 = tex.read(uint2(28, 1));
     g.airColor = t27.rgb; g.airCap = float(t27.a);
     g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b); g.fogFloor = float(t28.a);
+    g.wetA = float4(tex.read(uint2(30, 1))); g.wetB = float4(tex.read(uint2(31, 1)));
+    g.wetC = float4(tex.read(uint2(32, 1))); g.wetD = float4(tex.read(uint2(33, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -237,16 +242,18 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
         float exposure = mix(0.5, 1.0, smoothstep(0.3, 0.8, n.y));
         // Any rain reads wet: light rain (W 0.65) darkens at ~3/4 of the soaked strength, soaked at full
         // (owner: light rain at least 15–20% on paths and roads at phone size).
-        half wet = half((0.5 + 0.5 * smoothstep(0.3, 0.9, g.wetness)) * min(1.0, g.wetness / 0.3) * exposure);
+        // look.json: light rain (W ~0.65) shows lightRainResponse of the soaked response, soaked all of it.
+        float lrr = g.wetC.x;
+        half wet = half((lrr + (1.0 - lrr) * smoothstep(0.65, 1.0, g.wetness)) * min(1.0, g.wetness / 0.3) * exposure);
         // Diffuse reduction at full W: asphalt and walks set their own (below); grass 8% (§3.1
         // 6–10%); other ground, stone and walls the weather profile's value.
-        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.06h : half(g.wetDarkening));
+        half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? half(g.wetB.z) : half(g.wetDarkening));
         su.base *= 1.0h - darken * wet;
         half wr = su.wetRoughness >= 0.0h ? su.wetRoughness : half(g.wetRoughness);
         su.roughness = mix(su.roughness, min(su.roughness, wr), wet);
         su.specular = mix(su.specular, max(su.specular, 0.6h), wet);
         half puddle = 0.0h;
-        float pw = max(0.0, (g.wetness - 0.2) / 0.8);
+        float pw = max(0.0, (g.wetness - g.wetC.y) / max(1.0 - g.wetC.y, 0.05));
         if (su.puddles && n.y > 0.95 && pw > 0.0) {
             // §3.1 puddles: irregular 0.2–1.5 m masks (stable in world space) that appear above
             // W = 0.35 and cover `puddleMax` of flat paving when soaked (asphalt 6–10%, walks 3–5%;
@@ -256,7 +263,7 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float cover = float(su.puddleMax) * pow(pw, 0.45);
             float t = 0.157 + 1.33 * cover;
             puddle = half((1.0 - smoothstep(t - 0.02, t + 0.005, p)) * smoothstep(0.0, 0.01, cover));
-            su.base = mix(su.base, su.base * 0.5h, puddle);
+            su.base = mix(su.base, su.base * half(g.wetC.z), puddle);
             su.roughness = mix(su.roughness, 0.03h, puddle);
             su.specular = mix(su.specular, 1.0h, puddle);
         }
@@ -270,8 +277,18 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float3 sky = mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5));
             // §3.1: sky-only reflection in puddles, clamped to 0.35 (a floor of 0.12 keeps near ones
             // reading as water, not shadow); outside them a broad restrained sheen (≤ 0.15).
-            float amount = float(puddle) * clamp(max(fresnel, 0.12), 0.0, 0.35)
-                + min(fresnel * 0.6 + (su.puddles ? 0.2 : 0.12), 0.4) * float(wet) * (1.0 - float(puddle));
+            // Puddles reflect the sky brighter than the wet ground round them (look.json reflect
+            // floor/cap), with ripple rings while it rains; paving keeps a gloss floor.
+            float ripple = 0.0;
+            if (puddle > 0.01h && g.wetD.z > 0.01) {
+                float2 cell = floor(wp.xz / 0.45), f = fract(wp.xz / 0.45) - 0.5;
+                float ph = hash12(cell * 1.7 + 4.2), tt = fract(params.uniforms().time() * 0.9 + ph);
+                float2 c = float2(hash12(cell + 2.1), hash12(cell + 7.3)) - 0.5;
+                float ring = abs(length(f - c * 0.6) - tt * 0.45);
+                ripple = (1.0 - smoothstep(0.0, 0.03, ring)) * (1.0 - tt) * g.wetD.z;
+            }
+            float amount = float(puddle) * (clamp(max(fresnel, g.wetD.x), 0.0, g.wetD.y) + ripple * g.wetC.w)
+                + min(fresnel * 0.6 + (su.puddles ? g.wetB.w : 0.12), 0.45) * float(wet) * (1.0 - float(puddle));
             // Grass and other rough ground glint far less than paving.
             if (su.puddles) { su.emissive += half3(sky * amount); }
             else if (n.y > 0.6) { su.emissive += half3(sky * amount * 0.3); }
@@ -399,9 +416,9 @@ void worldStaticSurface(realitykit::surface_parameters params)
     // concrete still read dry): asphalt 40%, walks 35%, lawn 15%, puddles up to 16%/14%, (owner and P3: rain must
     // read at phone size; at W 0.65 the bible's 1–3% of walks didn't show):
     // asphalt 30% darker, roughness to 0.42, puddles up to 8%; concrete walks 18%, 0.58, up to 4%.
-    if (flags & 16u) { su.wetRoughness = 0.42h; su.wetDarkening = 0.40h; su.puddles = true; su.puddleMax = 0.16h; }
+    if (flags & 16u) { su.wetDarkening = half(g.wetA.x); su.wetRoughness = half(g.wetA.y); su.puddles = true; su.puddleMax = half(g.wetA.z); }
     if (flags & 8u) {
-        su.wetRoughness = 0.5h; su.wetDarkening = 0.35h; su.puddles = true; su.puddleMax = 0.14h;
+        su.wetDarkening = half(g.wetA.w); su.wetRoughness = half(g.wetB.x); su.puddles = true; su.puddleMax = half(g.wetB.y);
         // R7 sidewalk joints: transverse joints every 1.75 m along the path, ~1.2 cm wide,
         // darkening 14%; anti-aliased; gone by 60 m.
         float u = extra.z / 1.75;

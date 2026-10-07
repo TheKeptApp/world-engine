@@ -147,6 +147,14 @@ extension World {
         g.fogWeight = extinction ? Float(state == .snow ? min(1, max(0, env.state.intensity01 ?? 0)) : weight) : 0
         // Smoke fills the near field: up to 30% haze from the camera at full weight (owner's phone check).
         g.fogFloor = state == .smoke ? 0.3 * Float(weight) : 0
+        // Wet ground and puddles from look.json (renderer-neutral spec); rain intensity drives ripples.
+        if let wet = Self.lookSpec?.wet {
+            g.wetA = SIMD4(Float(wet.asphalt.darken), Float(wet.asphalt.roughness), Float(wet.asphalt.puddles), Float(wet.walk.darken))
+            g.wetB = SIMD4(Float(wet.walk.roughness), Float(wet.walk.puddles), Float(wet.lawnDarken), Float(wet.pavingGloss))
+            g.wetC = SIMD4(Float(wet.lightRainResponse), Float(wet.puddleStart), Float(wet.puddleBase), Float(wet.ripples))
+            let raining = state == .rain || state == .thunderstorm ? Float(min(1, max(0.3, env.state.intensity01 ?? 0.5))) : 0
+            g.wetD = SIMD4(Float(wet.puddleReflect.first ?? 0.35), Float(wet.puddleReflect.last ?? 0.7), raining, 0)
+        }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill
@@ -415,7 +423,7 @@ extension World {
         let kind = budget.rain >= budget.snow ? (budget.rain > 0 ? "rain" : "") : "snow"
         // Art direction (Prompt 5): rain must read, so light rain keeps a floor of 240 streaks
         // (snow 120 flakes) within the 600/300 caps.
-        let count = kind == "rain" ? max(budget.rain, 240) : max(budget.snow, 120)
+        let count = kind == "rain" ? max(budget.rain, Self.lookSpec?.rain.drops ?? 240) : max(budget.snow, 120)
         guard !kind.isEmpty, count > 0 else {
             precipitation?.isEnabled = false
             environmentState.precipitation = ""
@@ -449,12 +457,15 @@ extension World {
             p.speedVariation = 1
             e.lifeSpan = 1.6
             e.lifeSpanVariation = 0.2
-            e.size = 0.012
-            e.stretchFactor = 4
+            // Streak size and colour from look.json (read at phone size).
+            let streak = Self.lookSpec?.rain
+            e.size = Float(streak?.width ?? 0.012)
+            e.stretchFactor = Float(streak?.stretch ?? 4)
             e.billboardMode = .billboard
             e.acceleration = .zero
             // Mid grey-blue: lighter than dark trees, a touch darker than a bright overcast sky.
-            e.color = .constant(.single(.init(red: 0.72, green: 0.76, blue: 0.82, alpha: 0.55)))
+            let rc = Palette.parse(streak?.color ?? "#B8C2D1")
+            e.color = .constant(.single(.init(red: CGFloat(rc.x), green: CGFloat(rc.y), blue: CGFloat(rc.z), alpha: CGFloat(streak?.opacity ?? 0.55))))
         } else {
             let fall: Float = 1.2
             let side = simd_length(drift) > 0 ? simd_normalize(drift) * min(3, 0.35 * simd_length(drift)) : .zero

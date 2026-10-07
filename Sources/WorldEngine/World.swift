@@ -454,6 +454,8 @@ public final class World {
     /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
     static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()
+    /// Renderer-neutral look values beyond the bible (`Profiles/look.json`).
+    static let lookSpec = try? StyleLibrary.look()
 
     /// Runtime multipliers on the resolved light and grade, for tuning the look on a device
     /// (WorldLab `-tune`). Identity by default: the shipped look lives in the profiles.
