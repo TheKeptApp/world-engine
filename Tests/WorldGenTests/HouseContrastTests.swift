@@ -10,9 +10,10 @@ import WorldMesh
 struct HouseContrastTests {
     @Test func lookCarriesThePackSwatches() throws {
         let hc = try #require(BuildingGenerator.contrast)
-        #expect(hc.types["chicago_three_flat"]?.soffit == "#51463E" && hc.types["chicago_three_flat"]?.trim == "#DBC8A7")
-        #expect(hc.type(family: "brickStackedFacade", floors: 3) == hc.types["chicago_three_flat"])
-        #expect(hc.type(family: "brickStackedFacade", floors: 2) == hc.types["chicago_two_flat"])
+        #expect(hc.values("chicago_three_flat")?.soffit == "#51463E" && hc.values("chicago_three_flat")?.trim == "#DBC8A7")
+        #expect(hc.type(family: "brickStackedFacade", floors: 3) == hc.values("chicago_three_flat"))
+        #expect(hc.type(family: "brickStackedFacade", floors: 2) == hc.values("chicago_two_flat"))
+        for (fam, id) in hc.families where id != "flat" { #expect(hc.values(id) != nil, "\(fam) → \(id) missing in mock values") }
         #expect(hc.type(family: "modernInfill", floors: 3) == nil)
     }
 
@@ -55,7 +56,8 @@ struct HouseContrastTests {
             return (e as? [String: Any])?["value"] ?? e
         }
         let hc = try #require(BuildingGenerator.contrast)
-        for (name, t) in hc.types {
+        for name in ["chicago_three_flat", "chicago_two_flat", "workers_cottage", "chicago_bungalow"] {
+            let t = try #require(hc.values(name))
             for (field, surface) in [("trim", t.trim), ("soffit", t.soffit), ("porch_shadow", t.porchShadow), ("window_glass_day", t.glass), ("roof", t.roof)] {
                 let v = value("houseTypes.\(name).surfaces.\(field).hex") as? String
                 #expect(v?.uppercased() == surface.uppercased(), "\(name) \(field): look \(surface) vs mock \(v ?? "nil")")
