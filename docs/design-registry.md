@@ -64,6 +64,7 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 | 2026-10-06 | Owner override: lawn contrast beyond look-fix §1.1 (see look-fix-v1 row). | P2 merge `ec7a62a` | look-fix-v1 |
 | 2026-10-06 | Owner override: wet paving darkening and puddle cover beyond the bible's ranges so rain reads on the phone (5A `df6baf4`). | 5A merge message | experience-v1, look-fix-v1 |
 | 2026-10-06 | Look loop gate: concept parity ≥ 100 % of the calibrated concept plus v2 floors; art-direction ≥ 3 required at the end of 5B; full Opus gate when a routine Sonnet loop reaches ≥ 92 % (85 % + measured 7-point offset). | `docs/lookloop/README.md`, `scoreboard.md` | visual-v2, look-fix-v1 |
+| 2026-10-06 | Tree crowns as leaf cards (option a) rather than smooth puffs, subject to 5A's phone overdraw check (fallback: puffs with stronger interior darkening). The paint-overs are a lighting reference, not a tree-shape reference. | `docs/decisions/owner-log.md` | vegetation-v1, paintover-v1 |
 
 ## Change log
 
