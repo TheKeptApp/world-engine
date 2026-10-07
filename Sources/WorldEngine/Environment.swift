@@ -170,6 +170,7 @@ extension World {
         }
         if let water = Self.lookSpec?.water {
             g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
+            g.waterB.x = Float(water.overcastReflectGain)
         }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
