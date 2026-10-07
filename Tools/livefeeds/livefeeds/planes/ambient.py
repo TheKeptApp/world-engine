@@ -54,12 +54,15 @@ def multiplier(table: List[float], local_hours: float) -> float:
 
 
 def choose_flow(area: dict, wind_from_deg: Optional[float], wind_mps: Optional[float]) -> str:
-    """ambient-planes.md section 3: prefer the default flow unless the other is clearly better into the wind."""
+    """ambient-planes.md section 3: prefer the default flow unless the other is clearly better into the wind.
+    An area whose data declares `flowSelection` uses that rule instead (`choose_flow_by_rule`)."""
     default = area["defaultFlow"]
     m = area["model"]
     if wind_from_deg is None or wind_mps is None:
         return default
     v = wind_mps / KT
+    if "flowSelection" in area:
+        return choose_flow_by_rule(area, wind_from_deg, v)
     if v < m["windMinKt"]:
         return default
 
@@ -70,6 +73,30 @@ def choose_flow(area: dict, wind_from_deg: Optional[float], wind_mps: Optional[f
         if f != default and head(f) - head(best) >= m["windSwitchMarginKt"]:
             best = f
     return best
+
+
+def choose_flow_by_rule(area: dict, wind_from_deg: float, v_kt: float) -> str:
+    """The `flowSelection` rule in the area file (data, not code), `leastCrosswind`: below `calmKt` the default flow;
+    otherwise drop flows whose tailwind exceeds `tailwindLimitKt`, take the least crosswind, and among flows within
+    `tieCrosswindKt` of it prefer the longest arrival runway (`preferLongerRunway`), then the stronger headwind, then the
+    name. If every flow is over the tailwind limit, the one with the least tailwind."""
+    rule = area["flowSelection"]
+    if rule.get("rule") != "leastCrosswind":
+        raise ValueError("unknown flowSelection rule %r" % rule.get("rule"))
+    if v_kt < rule["calmKt"]:
+        return area["defaultFlow"]
+    lengths = {r["ref"]: r["lengthM"] for r in area["runways"]}
+    comps = {}
+    for name, f in area["flows"].items():
+        a = math.radians(wind_from_deg - f["landingHeadingTrueDeg"])
+        comps[name] = (v_kt * math.cos(a), abs(v_kt * math.sin(a)))  # (headwind, crosswind)
+    ok = [n for n, (h, _) in comps.items() if -h <= rule["tailwindLimitKt"]]
+    if not ok:
+        return min(comps, key=lambda n: (-comps[n][0], n))
+    least = min(comps[n][1] for n in ok)
+    near = [n for n in ok if comps[n][1] - least <= rule.get("tieCrosswindKt", 0)]
+    longest = lambda n: max(lengths[r] for r in area["flows"][n]["arrivals"]) if rule.get("preferLongerRunway") else 0
+    return min(near, key=lambda n: (-longest(n), comps[n][1], -comps[n][0], n))
 
 
 @dataclass
@@ -263,14 +290,19 @@ def snapshot(areas: List[dict], t: float, wind=None) -> dict:
     """The on-device snapshot of ambient-planes.md section 7 (schema 1, live false), for one instant."""
     vehicles: List[dict] = []
     flows = {}
+    attribution: List[dict] = []
     for area in areas:
         if area.get("aircraftMode", "ambient") != "ambient":
             continue
         ap = Airport(area)
         vehicles += ap.aircraft(t, wind)
         flows[area["airport"]] = ap.flow_at(t, wind)
+        # An area whose runways are not from OSM names its own (still illustrative, not-live) credit.
+        entry = area.get("attributionEntry", ATTRIBUTION)
+        if entry not in attribution:
+            attribution.append(entry)
     return {
         "schema": 1, "layer": "planes", "live": False, "basis": "simulated", "generatedAt": int(t),
         "feedTimestamp": None, "state": "fresh", "stale": False, "label": LABEL,
-        "flows": flows, "visibility": VISIBILITY_RULES, "vehicles": vehicles, "attribution": [ATTRIBUTION],
+        "flows": flows, "visibility": VISIBILITY_RULES, "vehicles": vehicles, "attribution": attribution or [ATTRIBUTION],
     }
