@@ -14,6 +14,9 @@ public enum GroundLayer {
     public static let alley = 0.035
     public static let road = 0.04
     public static let crossing = 0.045
+    /// Road paint (lane lines, crosswalks): one step over the road; it shares the crossing step, whose solid
+    /// band is no longer drawn on a carriageway once paint is on.
+    public static let marking = 0.045
     public static let path = 0.05
     public static let sidewalk = 0.06
     public static let curbTop = 0.15
@@ -127,6 +130,9 @@ public struct SceneGenerator: Sendable {
     /// instead of the chunk meshes (RealityKit; the package keeps one detail level per chunk).
     public var buildingLODs = false
     public var buildingCellSize = 100.0
+    /// Road paint (infrastructure-kit-v1 via the shared mock values) and its look.json tuning; nil = no paint.
+    public var markingValues: MarkingValues? = MarkingValues.bundled
+    public var markingTuning: LookSpec.MarkingTuning? = LookSpec.bundled?.markings
 
     public init(features: MapFeatures, profile: StyleProfile, seasonal: SeasonalPalette, baseColors: [String: String],
                 season: Int, focus: Rect2D) {
@@ -330,13 +336,51 @@ public struct SceneGenerator: Sendable {
             addLines(road.centerline, width: road.width, y: service ? GroundLayer.alley : GroundLayer.road,
                      paint: paint, feature: road.ref.description, into: &chunks)
         }
-        for path in features.paths {
+        // Road paint (infrastructure-kit-v1 stage 1): lane lines and crosswalks from tags, full detail only.
+        // (At reduced detail only the crossing bands' carriageway parts are dropped, so the LODs agree.)
+        let roadPaint: RoadMarkings.Output? = markingValues.flatMap { v in markingTuning.map { RoadMarkings(features: features, values: v, tuning: $0).build() } }
+        for (pi, path) in features.paths.enumerated() {
             let gravel = ["gravel", "fine_gravel", "dirt", "compacted", "ground", "unpaved"].contains(path.tags["surface"] ?? "")
             let (paint, y, w): (Paint, Double, Double) = path.isCrossing
                 ? (Paint(slot: n("crossing")), GroundLayer.crossing, 2.4)
                 : (gravel ? Paint(slot: n("sand")) : Self.paving(path.tags["surface"]).map { Paint(slot: n($0.slot), flags: .paving, sway: $0.pattern) }
                     ?? Paint(slot: n("sidewalk"), shade: 1.02, flags: .sidewalk), GroundLayer.path, max(1.6, path.width))
+            if let spans = roadPaint?.crossingSpans[pi] {
+                // On the carriageway the crossing is its paint (or bare asphalt when unmarked); the band stays off-road.
+                let cum = RoadMarkings.cumulative(path.centerline)
+                for keep in RoadMarkings.subtract(spans, from: 0...cum.last!) where keep.upperBound - keep.lowerBound > 0.05 {
+                    addLines(RoadMarkings.subline(path.centerline, cum, from: keep.lowerBound, to: keep.upperBound), width: w, y: y,
+                             paint: paint, feature: path.ref.description, into: &chunks)
+                }
+                continue
+            }
             addLines(path.centerline, width: w, y: y, paint: paint, feature: path.ref.description, into: &chunks)
+        }
+        if lod == 0, let roadPaint, let v = markingValues {
+            var meshes: [SIMD2<Int>: MeshBuffers] = [:]
+            let keys = chunks.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }).filter { chunks[$0]!.detail == .full }
+            for mark in roadPaint.marks {
+                let box = Rect2D(enclosing: mark.line).expanded(by: mark.width)
+                guard box.intersects(focus) else { continue }
+                let hex = switch mark.colour { case .white: v.white; case .yellow: v.yellow; case .crossingWhite: v.crossingWhite }
+                let p = Paint(slot: palette.slot(hex: hex), shade: mark.shade, flags: .road)
+                for key in keys where chunks[key]!.rect.intersects(box) {
+                    for piece in Clipping.clip(polyline: mark.line, to: chunks[key]!.rect) {
+                        var m = Ribbon.build(piece, width: mark.width, y: GroundLayer.marking)
+                        m.repaint(from: 0, p)
+                        meshes[key, default: MeshBuffers()].append(m)
+                    }
+                }
+            }
+            var tris = 0
+            for key in meshes.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) {
+                tris += meshes[key]!.triangleCount
+                append(meshes[key]!, feature: "gen:markings", to: key)
+            }
+            scene.stats.merge([
+                "markingTriangles": tris, "markingMarks": roadPaint.marks.count, "crosswalks": roadPaint.crosswalks.count,
+                "crosswalksPainted": roadPaint.crosswalks.filter { $0.style != .none }.count, "markingConflicts": roadPaint.conflicts,
+            ]) { _, new in new }
         }
         for sw in features.sidewalks {
             addLines(sw.centerline, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),

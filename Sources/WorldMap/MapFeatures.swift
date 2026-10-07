@@ -138,6 +138,8 @@ public struct PointFeature: Sendable {
     public enum Kind: String, Sendable, CaseIterable {
         case tree, bench, streetLamp, wasteBasket, picnicTable, drinkingWater, fireHydrant
         case bicycleParking, toilets, postBox, bollard, flagpole, playgroundEquipment
+        /// `highway=crossing` node: where a crossing meets a road (its `crossing*` tags say how it is marked).
+        case crossing
     }
 
     public var ref: OSMRef

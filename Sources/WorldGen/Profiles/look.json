@@ -77,5 +77,31 @@
     "farPorchShade": 0.35,
     "tierFrameHeightPx": 565,
     "tierFovDegrees": 50
+  },
+  "markings": {
+    "comment": "Road paint (P2, infrastructure stage 1): only values infrastructure-kit-v1 does not give; its line widths, dashes, crosswalk bars and colours are read by key from Profiles/mock-values.json (RoadMarkings.swift, MarkingValues). wearShadeMax: authored (the pack gives no wear value), each dash/line piece/bar darkens by a seeded 0..12%. stopBarSetbackM: MUTCD 11th ed. (stop line at least 4 ft / 1.2 m in advance of the nearest crosswalk line); the pack names a stop-bar offset but gives no number. bikeLaneWidthM: docs/research-gpt/street-geometry-rules-v1 rules.csv, us_arterial cycle_optional_width_m.",
+    "wearShadeMax": 0.12,
+    "stopBarSetbackM": 1.2,
+    "bikeLaneWidthM": 1.8
+  },
+  "infrastructure": {
+    "comment": "Copy of infrastructure-kit-v1 values (docs/proposals/infrastructure-kit-v1/infrastructure-values.json) used by road paint until P3 compiles the pack into Profiles/mock-values.json (pending R's approval; P3, 7 Oct). Each source is the compiled mock key (<pack>/<json path>); a compiled value wins over this copy. Copied by script, never edited; RoadMarkingsTests checks every entry equals the pack.",
+    "entries": [
+      {"source": "infrastructure-kit-v1/assets[7].dimensionsM.lineWidth", "value": 0.15},
+      {"source": "infrastructure-kit-v1/assets[7].dimensionsM.dashLength", "value": 3},
+      {"source": "infrastructure-kit-v1/assets[7].dimensionsM.dashGap", "value": 9},
+      {"source": "infrastructure-kit-v1/assets[7].dimensionsM.doubleLineGap", "value": 0.15},
+      {"source": "infrastructure-kit-v1/assets[7].dimensionsM.stopBarWidth", "value": 0.3},
+      {"source": "infrastructure-kit-v1/assets[7].palette[0].secondaryHex", "value": "#EEE9D9"},
+      {"source": "infrastructure-kit-v1/assets[7].palette[0].accentHex", "value": "#F0D067"},
+      {"source": "infrastructure-kit-v1/assets[8].dimensionsM.crossingWidthAlongRoad", "value": 3},
+      {"source": "infrastructure-kit-v1/assets[8].dimensionsM.stripeWidth", "value": 0.5},
+      {"source": "infrastructure-kit-v1/assets[8].dimensionsM.stripeGap", "value": 0.6},
+      {"source": "infrastructure-kit-v1/assets[8].dimensionsM.transverseLineWidth", "value": 0.3},
+      {"source": "infrastructure-kit-v1/assets[8].palette[0].secondaryHex", "value": "#EEE9D9"},
+      {"source": "infrastructure-kit-v1/assets[0].dimensionsM.laneWidth", "value": 3.6},
+      {"source": "infrastructure-kit-v1/assets[4].dimensionsM.laneWidth", "value": 3.3},
+      {"source": "infrastructure-kit-v1/assets[5].dimensionsM.travelLaneWidth", "value": 3}
+    ]
   }
 }

@@ -105,13 +105,16 @@ public struct RoadRules: Sendable {
     /// Number of sides (0–2) with on-street parking in the carriageway. Untagged sides count as parked.
     /// Reads `parking:{both,left,right}` (current scheme) and `parking:lane[:{both,left,right}]` (old).
     public func parkingSides(_ t: Tags) -> Int {
-        func side(_ s: String) -> Bool {
-            let v = t["parking:\(s)"] ?? t["parking:both"]
-                ?? t["parking:lane:\(s)"] ?? t["parking:lane:both"] ?? t["parking:lane"]
-            guard let v else { return true }
-            return !Self.noCarriagewayParking.contains(v)
-        }
-        return (side("left") ? 1 : 0) + (side("right") ? 1 : 0)
+        (parking(t, side: "left").parked ? 1 : 0) + (parking(t, side: "right").parked ? 1 : 0)
+    }
+
+    /// Whether one side ("left" or "right" of the way's direction) has on-street parking in the
+    /// carriageway, and whether that was tagged (false: untagged, assumed parked).
+    public func parking(_ t: Tags, side s: String) -> (parked: Bool, tagged: Bool) {
+        let v = t["parking:\(s)"] ?? t["parking:both"]
+            ?? t["parking:lane:\(s)"] ?? t["parking:lane:both"] ?? t["parking:lane"]
+        guard let v else { return (true, false) }
+        return (!Self.noCarriagewayParking.contains(v), true)
     }
 
     /// Parking values that leave no parked cars in the carriageway (bays, kerb parking and bans).
