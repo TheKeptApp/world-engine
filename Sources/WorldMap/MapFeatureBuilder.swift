@@ -76,6 +76,8 @@ public struct MapFeatureBuilder: Sendable {
             }
         }
 
+        out.roads = roadRules.clampedToSidewalks(out.roads, sidewalks: out.sidewalks)
+
         // Multipolygon relations. A `type=building` relation only groups an outline and parts, which
         // are ordinary ways: it never makes a building from its members.
         for rel in relations {

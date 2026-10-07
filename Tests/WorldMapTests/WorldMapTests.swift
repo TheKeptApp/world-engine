@@ -82,8 +82,71 @@ struct RoadRuleTests {
     @Test func widthTagThenLanesThenDefault() {
         #expect(rules.width(kind: .residential, tags: ["width": "9"]) == 9)
         #expect(abs(rules.width(kind: .primary, tags: ["lanes": "4"]) - 13.2) < 1e-9)
-        #expect(rules.width(kind: .residential, tags: [:]) == 6)
+        #expect(rules.width(kind: .residential, tags: [:]) == 8)
         #expect(rules.width(kind: .footway, tags: ["lanes": "2"]) == 2) // lanes ignored on paths
+    }
+
+    @Test func singleLaneTwoWayResidentialGetsParking() {
+        // W Roscoe St-like: lanes=1 (one-way or two-way), parking untagged.
+        for tags: Tags in [["highway": "residential", "lanes": "1"], ["highway": "residential", "lanes": "1", "oneway": "yes"]] {
+            let w = rules.width(kind: .residential, tags: tags)
+            #expect(w >= 8)
+            #expect(abs(w - (4.5 + 2 * 2.3)) < 1e-9)
+        }
+        // Two lanes plus parking both sides.
+        #expect(abs(rules.width(kind: .residential, tags: ["lanes": "2"]) - (6.6 + 4.6)) < 1e-9)
+        // No parking allowance on kinds outside parkingKinds.
+        #expect(abs(rules.width(kind: .service, tags: ["lanes": "1"]) - 3.3) < 1e-9)
+    }
+
+    @Test func taggedWidthWins() {
+        #expect(rules.width(kind: .residential, tags: ["width": "5.5", "lanes": "2"]) == 5.5)
+        #expect(rules.width(kind: .residential, tags: ["width": "7 m", "parking:both": "lane"]) == 7)
+    }
+
+    @Test func parkingTagsRemoveSides() {
+        let full = rules.width(kind: .residential, tags: ["lanes": "2"])
+        let none = rules.width(kind: .residential, tags: ["lanes": "2", "parking:both": "no"])
+        let oneOld = rules.width(kind: .residential, tags: ["lanes": "2", "parking:lane:left": "no_parking"])
+        let oneNew = rules.width(kind: .residential, tags: ["lanes": "2", "parking:right": "no", "parking:left": "lane"])
+        #expect(none < full)
+        #expect(abs(none - 6.6) < 1e-9)
+        #expect(abs(oneOld - 8.9) < 1e-9)
+        #expect(abs(oneNew - 8.9) < 1e-9)
+        #expect(rules.parkingSides(["parking:lane:both": "parallel"]) == 2)
+        #expect(rules.parkingSides(["parking:lane:both": "no_stopping", "parking:lane:right": "parallel"]) == 1)
+        // Default-width streets lose a parking lane per tagged no-parking side, never below the floor.
+        #expect(abs(rules.width(kind: .residential, tags: ["parking:left": "no"]) - 5.7) < 1e-9)
+        #expect(rules.width(kind: .residential, tags: ["parking:both": "no"]) == 4.5)
+        #expect(abs(rules.width(kind: .tertiary, tags: ["parking:both": "no"]) - 4.5) < 1e-9)
+        #expect(abs(rules.width(kind: .secondary, tags: ["parking:both": "no"]) - 5.4) < 1e-9)
+    }
+
+    @Test func clampedToSidewalkAlongside() {
+        func way(_ id: Int64, _ kind: HighwayKind, _ y: Double, _ tags: Tags, _ width: Double) -> WayFeature {
+            WayFeature(ref: OSMRef(.way, id), kind: kind, centerline: [LocalPoint(-50, y), LocalPoint(50, y)],
+                       tags: tags, width: width, sidewalkLeft: .unknown, sidewalkRight: .unknown,
+                       isCrossing: false, layer: 0, isBridge: false, isTunnel: false)
+        }
+        let roadTags: Tags = ["highway": "secondary", "lanes": "2"]
+        let road = way(1, .secondary, 0, roadTags, rules.width(kind: .secondary, tags: roadTags)) // 11.2 m
+        // Sidewalk centreline 5 m off the road centre, 1.5 m wide: near edge at 4.25 m.
+        let sidewalk = way(2, .footway, 5, ["footway": "sidewalk", "width": "1.5"], 1.5)
+        let out = rules.clampedToSidewalks([road], sidewalks: [sidewalk])
+        #expect(abs(out[0].width - 2 * (5 - 0.75 - 0.3)) < 1e-9)
+        #expect(out[0].width / 2 + rules.sidewalkClearance <= 5 - 0.75 + 1e-9)
+        // A tagged width is real data and is not clamped.
+        let tagged = way(3, .secondary, 0, ["width": "12"], 12)
+        #expect(rules.clampedToSidewalks([tagged], sidewalks: [sidewalk])[0].width == 12)
+        // A crossing (perpendicular) footway does not clamp, nor does a far one.
+        let crossing = WayFeature(ref: OSMRef(.way, 4), kind: .footway, centerline: [LocalPoint(0, -20), LocalPoint(0, 20)],
+                                  tags: ["footway": "sidewalk"], width: 2, sidewalkLeft: .unknown, sidewalkRight: .unknown,
+                                  isCrossing: false, layer: 0, isBridge: false, isTunnel: false)
+        let far = way(5, .footway, 20, ["footway": "sidewalk"], 2)
+        #expect(rules.clampedToSidewalks([road], sidewalks: [crossing, far])[0].width == road.width)
+        // A narrow road already clear of the sidewalk is unchanged.
+        let narrow = way(6, .residential, 0, ["parking:both": "no", "lanes": "2"], 6.6)
+        #expect(rules.clampedToSidewalks([narrow], sidewalks: [sidewalk])[0].width == 6.6)
     }
 
     @Test func linkRoadsUseTheirBaseKind() {
@@ -149,7 +212,7 @@ struct FixtureTests {
         let f = try Self.features()
         #expect(f.roads.count == 1 && f.paths.count == 1 && f.sidewalks.count == 1)
         let road = f.roads[0]
-        #expect(road.kind == .residential && road.width == 6)
+        #expect(road.kind == .residential && road.width == 8)
         #expect(road.sidewalkLeft == .tagged && road.sidewalkRight == .tagged)
         // Starts 256 m west, so it's clipped at the area's west edge.
         #expect(abs(road.centerline[0].x + 100) < 1e-6)

@@ -6,8 +6,9 @@ import WorldMesh
 
 // Facade pass (5B gate gaps 1 and 5): family window sizes, entry kits (portico, vestibule,
 // arched surround), masonry sills and lintels, mapped and inferred street bays, side-wall window
-// rhythm. Everything is switched on per family in house-families.json and seeded with its own
-// salts, so buildings without these fields come out exactly as before.
+// rhythm; side walls (gap 5): chimney breasts, gangway window stacks, mapped side bays.
+// Everything is switched on per family in house-families.json and seeded with its own salts, so
+// buildings without these fields come out exactly as before.
 
 /// A street bay: mapped (faces of the footprint) or inferred (a shallow volume added in front of
 /// the facade). Plan points are local; `faces` are wall segments with outward normals.
@@ -21,6 +22,17 @@ struct FacadeBay {
     /// Wall top of the bay and the hip cap rise above it (0 = flat cap).
     var top: Double
     var capRise: Double
+}
+
+/// A chimney on a long side wall: a shallow masonry breast from the ground to just under the eave,
+/// then the stack through the eave to above the roof. `s` is its center along the edge.
+struct SideBreast {
+    var edge: Int
+    var s: Double
+    var width: Double
+    var depth: Double
+    var tall: Bool
+    var broad: Bool
 }
 
 extension BuildingGenerator {
@@ -229,26 +241,27 @@ extension BuildingGenerator {
     func mappedBays(_ ring: Ring, front: Int?, streetFacing: Set<Int>) -> [[Int]] {
         guard let f = front, ring.count >= 6 else { return [] }
         let fn = Self.edge(ring, f).2
+        return streetFacing.sorted().filter { $0 != f }.compactMap { protrusion(ring, $0, facing: fn) }
+    }
+
+    /// A face `e` of the footprint 0.9–5 m long, facing along `fn`, between two short (≤ 2.2 m)
+    /// side or 45° faces, standing 0.25–1.8 m in front of the walls beside it: [side, e, side].
+    func protrusion(_ ring: Ring, _ e: Int, facing fn: LocalPoint) -> [Int]? {
         let count = ring.count
         func mid(_ i: Int) -> LocalPoint { let (p, d, _, l) = Self.edge(ring, i); return p + d * (l / 2) }
-        var out: [[Int]] = []
-        for e in streetFacing.sorted() where e != f {
-            let (_, _, ne, le) = Self.edge(ring, e)
-            guard simd_dot(ne, fn) > 0.9, le >= 0.9, le <= 5 else { continue }
-            let a = (e + count - 1) % count, b = (e + 1) % count
-            let a2 = (e + count - 2) % count, b2 = (e + 2) % count
-            guard a != b, a2 != b, b2 != a else { continue }
-            var ok = true
-            for (side, beyond) in [(a, a2), (b, b2)] {
-                let (_, _, ns, ls) = Self.edge(ring, side)
-                let dot = simd_dot(ns, fn)
-                let nb = Self.edge(ring, beyond).2
-                let setback = simd_dot(mid(e) - mid(beyond), fn)
-                if ls > 2.2 || dot > 0.85 || dot < -0.3 || simd_dot(nb, fn) < 0.9 || setback < 0.25 || setback > 1.8 { ok = false }
-            }
-            if ok { out.append([a, e, b]) }
+        let (_, _, ne, le) = Self.edge(ring, e)
+        guard simd_dot(ne, fn) > 0.9, le >= 0.9, le <= 5 else { return nil }
+        let a = (e + count - 1) % count, b = (e + 1) % count
+        let a2 = (e + count - 2) % count, b2 = (e + 2) % count
+        guard a != b, a2 != b, b2 != a else { return nil }
+        for (side, beyond) in [(a, a2), (b, b2)] {
+            let (_, _, ns, ls) = Self.edge(ring, side)
+            let dot = simd_dot(ns, fn)
+            let nb = Self.edge(ring, beyond).2
+            let setback = simd_dot(mid(e) - mid(beyond), fn)
+            if ls > 2.2 || dot > 0.85 || dot < -0.3 || simd_dot(nb, fn) < 0.9 || setback < 0.25 || setback > 1.8 { return nil }
         }
-        return out
+        return [a, e, b]
     }
 
     /// Where an inferred bay goes on the front edge: beside the entry, within the family's width
@@ -434,5 +447,96 @@ extension BuildingGenerator {
             out.append((center, gw, count))
         }
         return out
+    }
+
+    // MARK: - Side walls (gap 5)
+
+    /// Clear distance to the neighbour that makes a side wall a gangway wall.
+    static let gangwayGap = 0.9...3.1
+
+    /// A side wall: not on the street side and roughly perpendicular to the front wall.
+    func isSideWall(_ c: BuildContext, _ e: Int, front: Int?) -> Bool {
+        guard let f = front, e != f, !c.streetFacing.contains(e) else { return false }
+        return abs(simd_dot(Self.edge(c.ring, f).2, Self.edge(c.ring, e).2)) < 0.5
+    }
+
+    /// Clear distance from a wall straight out to the next building, probed at 20, 50 and 80 % of
+    /// its length: the median of the three. Infinity when nothing stands within `reach`; 0 when the
+    /// own footprint is in the way (a concave corner is never a gangway or open ground).
+    func sideGap(_ c: BuildContext, edge e: Int, reach: Double = 4) -> Double {
+        guard let obstacles else { return .infinity }
+        let (p, dir, n, len) = Self.edge(c.ring, e)
+        var gaps: [Double] = []
+        for f in [0.2, 0.5, 0.8] {
+            let base = p + dir * (len * f)
+            var gap = Double.infinity
+            var t = 0.1
+            while t <= reach + 1e-9 {
+                let q = base + n * t
+                if c.b.footprint.contains(q) { gap = 0; break }
+                if obstacles.contains(q) { gap = t; break }
+                t += 0.2
+            }
+            gaps.append(gap)
+        }
+        return gaps.sorted()[1]
+    }
+
+    /// Where the gangway window stacks go along a side wall: one near the middle of the depth, or
+    /// (walls ≥ 14 m, half of them) two, toward the front third (stairs) and the back (bath).
+    func gangwayStackCenters(_ c: BuildContext, edge e: Int, width w: Double) -> [Double] {
+        let len = Self.edge(c.ring, e).3
+        var r = c.b.ref.random("gangway-\(e)")
+        let fracs = len >= 14 && r.chance(0.5) ? [r.range(0.25, 0.35), r.range(0.6, 0.72)] : [r.range(0.4, 0.6)]
+        return fracs.map { min(max(len * $0, w / 2 + 0.6), len - w / 2 - 0.6) }
+            .filter { !breastCovers(c, edge: e, s: $0, width: w) }
+    }
+
+    /// True when a window centered at `s` (width `width`) on edge `e` would touch the chimney breast.
+    func breastCovers(_ c: BuildContext, edge e: Int, s: Double, width: Double) -> Bool {
+        guard let br = c.breast, br.edge == e else { return false }
+        return abs(s - br.s) < br.width / 2 + width / 2 + 0.25
+    }
+
+    /// Mapped protrusions on side walls (a face parallel to its side wall between two short faces).
+    func sideBayEdges(_ ring: Ring, front: Int?, streetFacing: Set<Int>) -> [[Int]] {
+        guard let f = front, ring.count >= 6 else { return [] }
+        let fn = Self.edge(ring, f).2
+        return (0..<ring.count).filter { e in
+            e != f && !streetFacing.contains(e) && abs(simd_dot(Self.edge(ring, e).2, fn)) < 0.3
+        }.compactMap { protrusion(ring, $0, facing: Self.edge(ring, $0).2) }
+    }
+
+    /// The chimney as a side-wall breast: only when the family's chimney roll (the roof chimney's
+    /// own draw) succeeds, the family's breast chance passes, and a long side wall (≥ 12 m) has
+    /// open ground (3 m clear of buildings, roads and sidewalks) at the family's chimney position.
+    func planChimneyBreast(_ c: BuildContext, front: Int?) -> SideBreast? {
+        guard let chance = c.grammar.facade?.chimneyBreast, chance > 0, c.lod <= .mid, let env = c.envelope,
+              let plan = c.plan, plan.clip == nil, let f = front else { return nil }
+        let rr = c.grammar.roof
+        var roll = c.b.ref.random("chimney")
+        guard roll.chance(rr?.chimney ?? profile.chimneyLikelihood) else { return nil }
+        var r = c.b.ref.random("chimney-breast")
+        guard r.chance(chance) else { return nil }
+        let width = r.range(1.2, 1.8), depth = r.range(0.25, 0.4)
+        // Depth position from the front follows the family's chimney placement.
+        let want: Double = switch rr?.chimneyPlacement {
+        case "front": r.range(0.25, 0.4)
+        case "rear": r.range(0.6, 0.75)
+        default: r.range(0.4, 0.6)
+        }
+        let fn = Self.edge(c.ring, f).2
+        var walls = (0..<c.ring.count).filter { isSideWall(c, $0, front: f) && Self.edge(c.ring, $0).3 >= 12 }
+        if walls.count > 1, r.chance(0.5) { walls.reverse() }
+        for e in walls {
+            let (p, dir, n, len) = Self.edge(c.ring, e)
+            var s = simd_dot(dir, fn) <= 0 ? len * want : len * (1 - want)
+            s = min(max(s, width / 2 + 0.8), len - width / 2 - 0.8)
+            guard env.height(at: p + dir * s - n * 0.3) != nil,
+                  frontClear(c, origin: p, dir: dir, n: n, s0: s - width / 2 - 0.3, s1: s + width / 2 + 0.3, depth: 3.0, roadMargin: 0.6)
+            else { continue }
+            return SideBreast(edge: e, s: s, width: width, depth: depth, tall: rr?.chimneyTall == true, broad: rr?.chimneyBroad == true)
+        }
+        return nil
     }
 }

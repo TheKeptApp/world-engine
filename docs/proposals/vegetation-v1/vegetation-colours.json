@@ -1,0 +1,2940 @@
+{
+  "schema": "worldengine.vegetation-reference.proposal.v1",
+  "date": "2026-10-06",
+  "status": "proposal only; not an existing engine schema",
+  "colorSpace": "sRGB hex; perform interpolation and lighting in linear RGB",
+  "authority": "Exact JSON and SVG swatches override illustrative raster chips. No colors are sampled from photographs.",
+  "lightingPolicy": "neutralCrownAlbedo is authoring input. Midday/goldenHour swatches are display appearance targets, not additional material multipliers. Never bake goldenHour into albedo.",
+  "rigs": {
+    "midday": {
+      "sunElevationDegrees": 60,
+      "sunAzimuthDegrees": 315
+    },
+    "goldenHour": {
+      "sunElevationDegrees": 6,
+      "sunAzimuthDegrees": 315
+    },
+    "note": "Canonical comparison rigs, not a real date or location. Production uses engine solar model."
+  },
+  "paletteMath": {
+    "middayBody": "linear(neutral albedo)",
+    "goldenBody": "0.82 * linear(albedo) * [1.12,0.94,0.72] + 0.06 * linear(#FFC17B)",
+    "highlight": "0.82 * linear(body) + 0.18 * linear(#FFF0D7)",
+    "shadow": "0.48 * linear(body) + 0.12 * linear(#6E8198)",
+    "encoding": "clamp to [0,1], sRGB encode, round to nearest 8-bit. Art-direction swatch transform, not a physical renderer model."
+  },
+  "winterPolicy": "Null crown means bare branches, never grey foliage. Evergreen crowns remain. Snow requires weather evidence, not season; Miami default snow disabled.",
+  "overlays": {
+    "snow": {
+      "neutral": "#E3E8E7",
+      "midday": {
+        "body": "#E3E8E7",
+        "highlight": "#E8E9E4",
+        "shadow": "#A7ACAE"
+      },
+      "goldenHour": {
+        "body": "#E3D3B9",
+        "highlight": "#E8D9BF",
+        "shadow": "#A79E8E"
+      }
+    },
+    "crabapple-blossom": {
+      "neutral": "#E7C5CE",
+      "midday": {
+        "body": "#E7C5CE",
+        "highlight": "#ECCED0",
+        "shadow": "#AA949C"
+      },
+      "goldenHour": {
+        "body": "#E6B5A5",
+        "highlight": "#EBC1AF",
+        "shadow": "#AA8981"
+      }
+    },
+    "sea-grape-new-growth": {
+      "neutral": "#A87958",
+      "midday": {
+        "body": "#A87958",
+        "highlight": "#BC987C",
+        "shadow": "#7D6052"
+      },
+      "goldenHour": {
+        "body": "#AD754B",
+        "highlight": "#C09675",
+        "shadow": "#815E4B"
+      }
+    },
+    "flower-cream": {
+      "neutral": "#E0DBAD",
+      "midday": {
+        "body": "#E0DBAD",
+        "highlight": "#E6DFB6",
+        "shadow": "#A5A386"
+      },
+      "goldenHour": {
+        "body": "#E0C88B",
+        "highlight": "#E6D09C",
+        "shadow": "#A59670"
+      }
+    },
+    "flower-purple": {
+      "neutral": "#947AA5",
+      "midday": {
+        "body": "#947AA5",
+        "highlight": "#AE99AF",
+        "shadow": "#706181"
+      },
+      "goldenHour": {
+        "body": "#9C7685",
+        "highlight": "#B39698",
+        "shadow": "#755F6C"
+      }
+    },
+    "ornamental-red-accent": {
+      "neutral": "#AF543C",
+      "midday": {
+        "body": "#AF543C",
+        "highlight": "#C1846F",
+        "shadow": "#824A45"
+      },
+      "goldenHour": {
+        "body": "#B45937",
+        "highlight": "#C4866D",
+        "shadow": "#864D43"
+      }
+    },
+    "dry-grass": {
+      "neutral": "#B4A16B",
+      "midday": {
+        "body": "#B4A16B",
+        "highlight": "#C4B387",
+        "shadow": "#867B5D"
+      },
+      "goldenHour": {
+        "body": "#B89658",
+        "highlight": "#C7AB7C",
+        "shadow": "#897452"
+      }
+    },
+    "lawn": {
+      "neutral": "#89985A",
+      "midday": {
+        "body": "#89985A",
+        "highlight": "#A7AC7D",
+        "shadow": "#687553"
+      },
+      "goldenHour": {
+        "body": "#938F4C",
+        "highlight": "#ADA676",
+        "shadow": "#6F6F4C"
+      }
+    },
+    "mulch": {
+      "neutral": "#80684E",
+      "midday": {
+        "body": "#80684E",
+        "highlight": "#A18E77",
+        "shadow": "#62564D"
+      },
+      "goldenHour": {
+        "body": "#8B6843",
+        "highlight": "#A88E72",
+        "shadow": "#695648"
+      }
+    },
+    "gravel": {
+      "neutral": "#B9AC90",
+      "midday": {
+        "body": "#B9AC90",
+        "highlight": "#C8BBA0",
+        "shadow": "#898273"
+      },
+      "goldenHour": {
+        "body": "#BCA075",
+        "highlight": "#CBB28D",
+        "shadow": "#8C7A62"
+      }
+    }
+  },
+  "trees": [
+    {
+      "id": "chicago-oak",
+      "region": "chicago",
+      "name": "Oak (red-oak exemplar)",
+      "status": "authored design assumption",
+      "silhouette": "broad asymmetric spreading",
+      "clusterCount": [
+        7,
+        10
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.1,
+      "urbanAssetHeightMetres": [
+        12,
+        24
+      ],
+      "urbanAssetCrownWidthMetres": [
+        10,
+        22
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#748B46",
+          "midday": {
+            "crown": {
+              "body": "#748B46",
+              "highlight": "#9AA373",
+              "shadow": "#5A6C49"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#81843E",
+              "highlight": "#A29F70",
+              "shadow": "#636846"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#58753C",
+          "midday": {
+            "crown": {
+              "body": "#58753C",
+              "highlight": "#8B956F",
+              "shadow": "#485E45"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#6C7237",
+              "highlight": "#95946D",
+              "shadow": "#555C43"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#A55835",
+          "midday": {
+            "crown": {
+              "body": "#A55835",
+              "highlight": "#BA866D",
+              "shadow": "#7B4C42"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#AB5C33",
+              "highlight": "#BE886C",
+              "shadow": "#7F4F41"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-maple",
+      "region": "chicago",
+      "name": "Maple (sugar-maple exemplar)",
+      "status": "authored design assumption",
+      "silhouette": "upright rounded",
+      "clusterCount": [
+        6,
+        9
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.06,
+      "urbanAssetHeightMetres": [
+        10,
+        22
+      ],
+      "urbanAssetCrownWidthMetres": [
+        8,
+        18
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#91A552",
+          "midday": {
+            "crown": {
+              "body": "#91A552",
+              "highlight": "#ACB679",
+              "shadow": "#6E7E4F"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#999A46",
+              "highlight": "#B2AE73",
+              "shadow": "#737649"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#638044",
+          "midday": {
+            "crown": {
+              "body": "#638044",
+              "highlight": "#919C72",
+              "shadow": "#4F6548"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#747B3D",
+              "highlight": "#9A996F",
+              "shadow": "#5A6245"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#CE763C",
+          "midday": {
+            "crown": {
+              "body": "#CE763C",
+              "highlight": "#D8966F",
+              "shadow": "#985F45"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#CF7337",
+              "highlight": "#D9946D",
+              "shadow": "#995D43"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-elm",
+      "region": "chicago",
+      "name": "Elm",
+      "status": "authored design assumption",
+      "silhouette": "open vase; arching limbs",
+      "clusterCount": [
+        7,
+        11
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.18,
+      "urbanAssetHeightMetres": [
+        12,
+        25
+      ],
+      "urbanAssetCrownWidthMetres": [
+        10,
+        22
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#83A056",
+          "midday": {
+            "crown": {
+              "body": "#83A056",
+              "highlight": "#A3B27B",
+              "shadow": "#647A51"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#8E9649",
+              "highlight": "#AAAB75",
+              "shadow": "#6B734B"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#5C8147",
+          "midday": {
+            "crown": {
+              "body": "#5C8147",
+              "highlight": "#8D9D74",
+              "shadow": "#4B664A"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#6F7C3F",
+              "highlight": "#979A70",
+              "shadow": "#576246"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#BCAE4D",
+          "midday": {
+            "crown": {
+              "body": "#BCAE4D",
+              "highlight": "#CABC77",
+              "shadow": "#8B844D"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#BFA143",
+              "highlight": "#CDB372",
+              "shadow": "#8E7B48"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-linden",
+      "region": "chicago",
+      "name": "Linden",
+      "status": "authored design assumption",
+      "silhouette": "dense tapered oval; low shoulders",
+      "clusterCount": [
+        5,
+        8
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.05,
+      "urbanAssetHeightMetres": [
+        10,
+        22
+      ],
+      "urbanAssetCrownWidthMetres": [
+        7,
+        15
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#8FA559",
+          "midday": {
+            "crown": {
+              "body": "#8FA559",
+              "highlight": "#ABB67D",
+              "shadow": "#6C7E53"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#989A4B",
+              "highlight": "#B0AE76",
+              "shadow": "#72764C"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#658147",
+          "midday": {
+            "crown": {
+              "body": "#658147",
+              "highlight": "#929D74",
+              "shadow": "#50664A"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#757C3F",
+              "highlight": "#9B9A70",
+              "shadow": "#5B6246"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#C6B24E",
+          "midday": {
+            "crown": {
+              "body": "#C6B24E",
+              "highlight": "#D2BF77",
+              "shadow": "#93864D"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#C8A543",
+              "highlight": "#D3B572",
+              "shadow": "#947D48"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-honey-locust",
+      "region": "chicago",
+      "name": "Honey locust",
+      "status": "authored design assumption",
+      "silhouette": "airy irregular umbrella",
+      "clusterCount": [
+        8,
+        12
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.25,
+      "urbanAssetHeightMetres": [
+        10,
+        20
+      ],
+      "urbanAssetCrownWidthMetres": [
+        8,
+        18
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#A4AE60",
+          "midday": {
+            "crown": {
+              "body": "#A4AE60",
+              "highlight": "#B9BC81",
+              "shadow": "#7B8456"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#AAA150",
+              "highlight": "#BDB378",
+              "shadow": "#7F7B4E"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#768E50",
+          "midday": {
+            "crown": {
+              "body": "#768E50",
+              "highlight": "#9BA578",
+              "shadow": "#5B6E4E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#838745",
+              "highlight": "#A3A173",
+              "shadow": "#646949"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#D2B95C",
+          "midday": {
+            "crown": {
+              "body": "#D2B95C",
+              "highlight": "#DBC47E",
+              "shadow": "#9B8B54"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#D3AB4D",
+              "highlight": "#DCBA77",
+              "shadow": "#9C814D"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-spruce",
+      "region": "chicago",
+      "name": "Spruce",
+      "status": "authored design assumption",
+      "silhouette": "narrow irregular conical tiers",
+      "clusterCount": [
+        7,
+        10
+      ],
+      "clusterUnit": "bough tiers",
+      "skyHoleAreaFractionTarget": 0.06,
+      "urbanAssetHeightMetres": [
+        8,
+        22
+      ],
+      "urbanAssetCrownWidthMetres": [
+        4,
+        9
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#567A61",
+          "midday": {
+            "crown": {
+              "body": "#567A61",
+              "highlight": "#8B9981",
+              "shadow": "#476157"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#6A7651",
+              "highlight": "#959679",
+              "shadow": "#545F4F"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#476851",
+          "midday": {
+            "crown": {
+              "body": "#476851",
+              "highlight": "#848E79",
+              "shadow": "#3F564E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#606846",
+              "highlight": "#8F8E73",
+              "shadow": "#4E5649"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#4D6C53",
+          "midday": {
+            "crown": {
+              "body": "#4D6C53",
+              "highlight": "#87907A",
+              "shadow": "#42584F"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#646B47",
+              "highlight": "#919074",
+              "shadow": "#50584A"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#45634F",
+          "midday": {
+            "crown": {
+              "body": "#45634F",
+              "highlight": "#838B78",
+              "shadow": "#3D534E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#5F6444",
+              "highlight": "#8F8C73",
+              "shadow": "#4D5448"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-cottonwood",
+      "region": "denver",
+      "name": "Cottonwood",
+      "status": "authored design assumption",
+      "silhouette": "high irregular spreading; stout forks",
+      "clusterCount": [
+        7,
+        10
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.16,
+      "urbanAssetHeightMetres": [
+        14,
+        28
+      ],
+      "urbanAssetCrownWidthMetres": [
+        12,
+        24
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#91A558",
+          "midday": {
+            "crown": {
+              "body": "#91A558",
+              "highlight": "#ACB67C",
+              "shadow": "#6E7E52"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#999A4B",
+              "highlight": "#B2AE75",
+              "shadow": "#73764B"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#668744",
+          "midday": {
+            "crown": {
+              "body": "#668744",
+              "highlight": "#92A172",
+              "shadow": "#516948"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#76813D",
+              "highlight": "#9B9D6F",
+              "shadow": "#5C6545"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#C8AC46",
+          "midday": {
+            "crown": {
+              "body": "#C8AC46",
+              "highlight": "#D3BB73",
+              "shadow": "#948249"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#CAA03E",
+              "highlight": "#D5B270",
+              "shadow": "#957A46"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-ash",
+      "region": "denver",
+      "name": "Ash (green-ash exemplar)",
+      "status": "authored design assumption",
+      "silhouette": "upright oval; open forks",
+      "clusterCount": [
+        6,
+        9
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.13,
+      "urbanAssetHeightMetres": [
+        10,
+        20
+      ],
+      "urbanAssetCrownWidthMetres": [
+        8,
+        16
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#91A15A",
+          "midday": {
+            "crown": {
+              "body": "#91A15A",
+              "highlight": "#ACB37D",
+              "shadow": "#6E7B53"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#99964C",
+              "highlight": "#B2AB76",
+              "shadow": "#73744C"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#66824B",
+          "midday": {
+            "crown": {
+              "body": "#66824B",
+              "highlight": "#929E76",
+              "shadow": "#51664C"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#767D41",
+              "highlight": "#9B9A71",
+              "shadow": "#5C6347"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#BFA547",
+          "midday": {
+            "crown": {
+              "body": "#BFA547",
+              "highlight": "#CDB674",
+              "shadow": "#8E7E4A"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#C29A3F",
+              "highlight": "#CFAE70",
+              "shadow": "#907646"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-blue-spruce",
+      "region": "denver",
+      "name": "Blue spruce",
+      "status": "authored design assumption",
+      "silhouette": "blue-grey irregular cone",
+      "clusterCount": [
+        7,
+        10
+      ],
+      "clusterUnit": "bough tiers",
+      "skyHoleAreaFractionTarget": 0.06,
+      "urbanAssetHeightMetres": [
+        8,
+        20
+      ],
+      "urbanAssetCrownWidthMetres": [
+        4,
+        8
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#71958C",
+          "midday": {
+            "crown": {
+              "body": "#71958C",
+              "highlight": "#98AA9D",
+              "shadow": "#587370"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#7F8C72",
+              "highlight": "#A0A48B",
+              "shadow": "#616D60"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#62867E",
+          "midday": {
+            "crown": {
+              "body": "#62867E",
+              "highlight": "#90A093",
+              "shadow": "#4F6968"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#738067",
+              "highlight": "#9A9C85",
+              "shadow": "#5A655A"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#678B83",
+          "midday": {
+            "crown": {
+              "body": "#678B83",
+              "highlight": "#93A397",
+              "shadow": "#526C6B"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#77846B",
+              "highlight": "#9C9F87",
+              "shadow": "#5C685C"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#597C77",
+          "midday": {
+            "crown": {
+              "body": "#597C77",
+              "highlight": "#8C9A8F",
+              "shadow": "#496264"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#6D7861",
+              "highlight": "#969781",
+              "shadow": "#556057"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-aspen",
+      "region": "denver",
+      "name": "Aspen",
+      "status": "authored design assumption",
+      "silhouette": "slender airy oval; pale trunks",
+      "clusterCount": [
+        5,
+        8
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.2,
+      "urbanAssetHeightMetres": [
+        8,
+        18
+      ],
+      "urbanAssetCrownWidthMetres": [
+        3,
+        7
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#A0B263",
+          "midday": {
+            "crown": {
+              "body": "#A0B263",
+              "highlight": "#B6BF82",
+              "shadow": "#788658"
+            },
+            "branches": {
+              "body": "#C9C6B5",
+              "highlight": "#D4CEBC",
+              "shadow": "#95948B"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#A6A553",
+              "highlight": "#BAB579",
+              "shadow": "#7C7D4F"
+            },
+            "branches": {
+              "body": "#CBB691",
+              "highlight": "#D6C2A1",
+              "shadow": "#968974"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#79924C",
+          "midday": {
+            "crown": {
+              "body": "#79924C",
+              "highlight": "#9DA876",
+              "shadow": "#5D714C"
+            },
+            "branches": {
+              "body": "#C9C6B5",
+              "highlight": "#D4CEBC",
+              "shadow": "#95948B"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#858A42",
+              "highlight": "#A4A372",
+              "shadow": "#666B47"
+            },
+            "branches": {
+              "body": "#CBB691",
+              "highlight": "#D6C2A1",
+              "shadow": "#968974"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#D4B44C",
+          "midday": {
+            "crown": {
+              "body": "#D4B44C",
+              "highlight": "#DDC176",
+              "shadow": "#9C884C"
+            },
+            "branches": {
+              "body": "#C9C6B5",
+              "highlight": "#D4CEBC",
+              "shadow": "#95948B"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#D5A642",
+              "highlight": "#DDB772",
+              "shadow": "#9D7F47"
+            },
+            "branches": {
+              "body": "#CBB691",
+              "highlight": "#D6C2A1",
+              "shadow": "#968974"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#C9C6B5",
+              "highlight": "#D4CEBC",
+              "shadow": "#95948B"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#CBB691",
+              "highlight": "#D6C2A1",
+              "shadow": "#968974"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-crabapple",
+      "region": "denver",
+      "name": "Crabapple",
+      "status": "authored design assumption",
+      "silhouette": "low branching small broad crown",
+      "clusterCount": [
+        5,
+        7
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.1,
+      "urbanAssetHeightMetres": [
+        3,
+        7
+      ],
+      "urbanAssetCrownWidthMetres": [
+        3,
+        7
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#8B9B59",
+          "midday": {
+            "crown": {
+              "body": "#8B9B59",
+              "highlight": "#A8AE7D",
+              "shadow": "#697753"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#94914B",
+              "highlight": "#AEA876",
+              "shadow": "#70704C"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#687C44",
+          "midday": {
+            "crown": {
+              "body": "#687C44",
+              "highlight": "#939A72",
+              "shadow": "#526248"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#78783D",
+              "highlight": "#9C976F",
+              "shadow": "#5D6045"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#AF843E",
+          "midday": {
+            "crown": {
+              "body": "#AF843E",
+              "highlight": "#C19F70",
+              "shadow": "#826846"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#B47E39",
+              "highlight": "#C49B6E",
+              "shadow": "#866444"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-royal-palm",
+      "region": "miami",
+      "name": "Royal palm",
+      "status": "authored design assumption",
+      "silhouette": "radial folded fronds; green crownshaft",
+      "clusterCount": [
+        10,
+        14
+      ],
+      "clusterUnit": "frond ribbons",
+      "skyHoleAreaFractionTarget": 0.38,
+      "urbanAssetHeightMetres": [
+        12,
+        25
+      ],
+      "urbanAssetCrownWidthMetres": [
+        4,
+        8
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#7D9650",
+          "midday": {
+            "crown": {
+              "body": "#7D9650",
+              "highlight": "#9FAB78",
+              "shadow": "#60734E"
+            },
+            "branches": {
+              "body": "#B6B2A0",
+              "highlight": "#C6BFAC",
+              "shadow": "#87867D"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#898D45",
+              "highlight": "#A6A573",
+              "shadow": "#686E49"
+            },
+            "branches": {
+              "body": "#BAA581",
+              "highlight": "#C9B595",
+              "shadow": "#8A7D6A"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#638346",
+          "midday": {
+            "crown": {
+              "body": "#638346",
+              "highlight": "#919E73",
+              "shadow": "#4F6749"
+            },
+            "branches": {
+              "body": "#B6B2A0",
+              "highlight": "#C6BFAC",
+              "shadow": "#87867D"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#747E3E",
+              "highlight": "#9A9B70",
+              "shadow": "#5A6346"
+            },
+            "branches": {
+              "body": "#BAA581",
+              "highlight": "#C9B595",
+              "shadow": "#8A7D6A"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#6D8748",
+          "midday": {
+            "crown": {
+              "body": "#6D8748",
+              "highlight": "#96A174",
+              "shadow": "#56694A"
+            },
+            "branches": {
+              "body": "#B6B2A0",
+              "highlight": "#C6BFAC",
+              "shadow": "#87867D"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#7C813F",
+              "highlight": "#9F9D70",
+              "shadow": "#5F6546"
+            },
+            "branches": {
+              "body": "#BAA581",
+              "highlight": "#C9B595",
+              "shadow": "#8A7D6A"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#6B854B",
+          "midday": {
+            "crown": {
+              "body": "#6B854B",
+              "highlight": "#95A076",
+              "shadow": "#54684C"
+            },
+            "branches": {
+              "body": "#B6B2A0",
+              "highlight": "#C6BFAC",
+              "shadow": "#87867D"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#7A7F41",
+              "highlight": "#9E9C71",
+              "shadow": "#5E6447"
+            },
+            "branches": {
+              "body": "#BAA581",
+              "highlight": "#C9B595",
+              "shadow": "#8A7D6A"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-live-oak",
+      "region": "miami",
+      "name": "Live oak",
+      "status": "authored design assumption",
+      "silhouette": "wide low horizontal limbs",
+      "clusterCount": [
+        8,
+        12
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.12,
+      "urbanAssetHeightMetres": [
+        10,
+        22
+      ],
+      "urbanAssetCrownWidthMetres": [
+        15,
+        30
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#859351",
+          "midday": {
+            "crown": {
+              "body": "#859351",
+              "highlight": "#A4A979",
+              "shadow": "#65714E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#8F8B46",
+              "highlight": "#ABA373",
+              "shadow": "#6C6C49"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#5E7844",
+          "midday": {
+            "crown": {
+              "body": "#5E7844",
+              "highlight": "#8E9772",
+              "shadow": "#4C6048"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#70753D",
+              "highlight": "#98956F",
+              "shadow": "#585E45"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#637B48",
+          "midday": {
+            "crown": {
+              "body": "#637B48",
+              "highlight": "#919974",
+              "shadow": "#4F624A"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#74773F",
+              "highlight": "#9A9770",
+              "shadow": "#5A5F46"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#647B4A",
+          "midday": {
+            "crown": {
+              "body": "#647B4A",
+              "highlight": "#919975",
+              "shadow": "#50624B"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#757741",
+              "highlight": "#9A9771",
+              "shadow": "#5B5F47"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-sea-grape",
+      "region": "miami",
+      "name": "Sea grape",
+      "status": "authored design assumption",
+      "silhouette": "multistem vase; broad leaf masses",
+      "clusterCount": [
+        5,
+        8
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.08,
+      "urbanAssetHeightMetres": [
+        3,
+        10
+      ],
+      "urbanAssetCrownWidthMetres": [
+        4,
+        9
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#879652",
+          "midday": {
+            "crown": {
+              "body": "#879652",
+              "highlight": "#A5AB79",
+              "shadow": "#67734F"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#918D46",
+              "highlight": "#ACA573",
+              "shadow": "#6D6E49"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#6C874A",
+          "midday": {
+            "crown": {
+              "body": "#6C874A",
+              "highlight": "#96A175",
+              "shadow": "#55694B"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#7B8141",
+              "highlight": "#9E9D71",
+              "shadow": "#5F6547"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#74894F",
+          "midday": {
+            "crown": {
+              "body": "#74894F",
+              "highlight": "#9AA278",
+              "shadow": "#5A6B4E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#818244",
+              "highlight": "#A29E73",
+              "shadow": "#636748"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#778951",
+          "midday": {
+            "crown": {
+              "body": "#778951",
+              "highlight": "#9CA279",
+              "shadow": "#5C6B4E"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#848246",
+              "highlight": "#A39E73",
+              "shadow": "#656749"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-banyan",
+      "region": "miami",
+      "name": "Banyan",
+      "status": "authored design assumption",
+      "silhouette": "wide flattened umbrella; fluted trunk",
+      "clusterCount": [
+        9,
+        14
+      ],
+      "clusterUnit": "merged crown lobes",
+      "skyHoleAreaFractionTarget": 0.1,
+      "urbanAssetHeightMetres": [
+        12,
+        24
+      ],
+      "urbanAssetCrownWidthMetres": [
+        18,
+        35
+      ],
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#789452",
+          "midday": {
+            "crown": {
+              "body": "#789452",
+              "highlight": "#9CAA79",
+              "shadow": "#5D724F"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#848C46",
+              "highlight": "#A4A473",
+              "shadow": "#656C49"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#5E7E47",
+          "midday": {
+            "crown": {
+              "body": "#5E7E47",
+              "highlight": "#8E9B74",
+              "shadow": "#4C644A"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#70793F",
+              "highlight": "#989870",
+              "shadow": "#586146"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#648149",
+          "midday": {
+            "crown": {
+              "body": "#648149",
+              "highlight": "#919D75",
+              "shadow": "#50664B"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#757C40",
+              "highlight": "#9A9A71",
+              "shadow": "#5B6247"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#67834B",
+          "midday": {
+            "crown": {
+              "body": "#67834B",
+              "highlight": "#939E76",
+              "shadow": "#52674C"
+            },
+            "branches": {
+              "body": "#796B57",
+              "highlight": "#9D907C",
+              "shadow": "#5D5852"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#777E41",
+              "highlight": "#9C9B71",
+              "shadow": "#5C6347"
+            },
+            "branches": {
+              "body": "#856A4A",
+              "highlight": "#A48F75",
+              "shadow": "#66574B"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "shrubs": [
+    {
+      "id": "chicago-deciduous-shrub",
+      "region": "chicago",
+      "name": "Deciduous foundation shrub",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#94A364",
+          "midday": {
+            "crown": {
+              "body": "#94A364",
+              "highlight": "#AEB483",
+              "shadow": "#707C59"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#9C9853",
+              "highlight": "#B3AC7A",
+              "shadow": "#757550"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#74884E",
+          "midday": {
+            "crown": {
+              "body": "#74884E",
+              "highlight": "#9AA177",
+              "shadow": "#5A6A4D"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#818243",
+              "highlight": "#A29D72",
+              "shadow": "#636648"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#B39051",
+          "midday": {
+            "crown": {
+              "body": "#B39051",
+              "highlight": "#C4A779",
+              "shadow": "#856F4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#B78846",
+              "highlight": "#C7A273",
+              "shadow": "#886A49"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "chicago-evergreen-hedge",
+      "region": "chicago",
+      "name": "Evergreen hedge / yew-like",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#60815A",
+          "midday": {
+            "crown": {
+              "body": "#60815A",
+              "highlight": "#8F9D7D",
+              "shadow": "#4D6653"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#727C4C",
+              "highlight": "#999A76",
+              "shadow": "#59624C"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#486C4D",
+          "midday": {
+            "crown": {
+              "body": "#486C4D",
+              "highlight": "#859077",
+              "shadow": "#3F584D"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#616B43",
+              "highlight": "#909072",
+              "shadow": "#4E5848"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#506F50",
+          "midday": {
+            "crown": {
+              "body": "#506F50",
+              "highlight": "#889278",
+              "shadow": "#445A4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#666E45",
+              "highlight": "#939173",
+              "shadow": "#515949"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#4A654B",
+          "midday": {
+            "crown": {
+              "body": "#4A654B",
+              "highlight": "#858C76",
+              "shadow": "#40544C"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#626641",
+              "highlight": "#908D71",
+              "shadow": "#4F5547"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-deciduous-shrub",
+      "region": "denver",
+      "name": "Deciduous dry-garden shrub",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#9BA66D",
+          "midday": {
+            "crown": {
+              "body": "#9BA66D",
+              "highlight": "#B3B688",
+              "shadow": "#747E5E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#A29B5A",
+              "highlight": "#B7AE7D",
+              "shadow": "#797653"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#809057",
+          "midday": {
+            "crown": {
+              "body": "#809057",
+              "highlight": "#A1A77C",
+              "shadow": "#626F52"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#8B884A",
+              "highlight": "#A8A275",
+              "shadow": "#696A4B"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#B4A064",
+          "midday": {
+            "crown": {
+              "body": "#B4A064",
+              "highlight": "#C4B283",
+              "shadow": "#867A59"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#B89653",
+              "highlight": "#C7AB7A",
+              "shadow": "#897350"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": false,
+          "neutralCrownAlbedo": null,
+          "midday": {
+            "crown": null,
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": null,
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "denver-juniper",
+      "region": "denver",
+      "name": "Low juniper / informal hedge",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#7B9C8E",
+          "midday": {
+            "crown": {
+              "body": "#7B9C8E",
+              "highlight": "#9EAF9E",
+              "shadow": "#5F7772"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#879273",
+              "highlight": "#A5A88C",
+              "shadow": "#677161"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#63887D",
+          "midday": {
+            "crown": {
+              "body": "#63887D",
+              "highlight": "#91A193",
+              "shadow": "#4F6A67"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#748266",
+              "highlight": "#9A9D84",
+              "shadow": "#5A665A"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#688C80",
+          "midday": {
+            "crown": {
+              "body": "#688C80",
+              "highlight": "#93A495",
+              "shadow": "#526D69"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#788568",
+              "highlight": "#9C9F86",
+              "shadow": "#5D685B"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#607F77",
+          "midday": {
+            "crown": {
+              "body": "#607F77",
+              "highlight": "#8F9C8F",
+              "shadow": "#4D6464"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#727A61",
+              "highlight": "#999981",
+              "shadow": "#596157"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-broadleaf-hedge",
+      "region": "miami",
+      "name": "Broadleaf hedge / cocoplum-like",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#8CA451",
+          "midday": {
+            "crown": {
+              "body": "#8CA451",
+              "highlight": "#A9B579",
+              "shadow": "#6A7D4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#959946",
+              "highlight": "#AFAD73",
+              "shadow": "#707549"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#698B46",
+          "midday": {
+            "crown": {
+              "body": "#698B46",
+              "highlight": "#94A373",
+              "shadow": "#536C49"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#79843E",
+              "highlight": "#9D9F70",
+              "shadow": "#5D6846"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#738F4B",
+          "midday": {
+            "crown": {
+              "body": "#738F4B",
+              "highlight": "#99A676",
+              "shadow": "#596F4C"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#808741",
+              "highlight": "#A1A171",
+              "shadow": "#626A47"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#738B4F",
+          "midday": {
+            "crown": {
+              "body": "#738B4F",
+              "highlight": "#99A378",
+              "shadow": "#596C4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#808444",
+              "highlight": "#A19F73",
+              "shadow": "#626848"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-coontie",
+      "region": "miami",
+      "name": "Coontie-like radial clump",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#809D51",
+          "midday": {
+            "crown": {
+              "body": "#809D51",
+              "highlight": "#A1B079",
+              "shadow": "#62784E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#8B9346",
+              "highlight": "#A8A973",
+              "shadow": "#697149"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#587D43",
+          "midday": {
+            "crown": {
+              "body": "#587D43",
+              "highlight": "#8B9A72",
+              "shadow": "#486348"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#6C793C",
+              "highlight": "#95986F",
+              "shadow": "#556045"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#638447",
+          "midday": {
+            "crown": {
+              "body": "#638447",
+              "highlight": "#919F74",
+              "shadow": "#4F684A"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#747E3F",
+              "highlight": "#9A9B70",
+              "shadow": "#5A6446"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#68874A",
+          "midday": {
+            "crown": {
+              "body": "#68874A",
+              "highlight": "#93A175",
+              "shadow": "#52694B"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#788141",
+              "highlight": "#9C9D71",
+              "shadow": "#5D6547"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "miami-sea-grape-shrub",
+      "region": "miami",
+      "name": "Sea-grape shrub",
+      "status": "authored design assumption",
+      "seasons": {
+        "spring": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#879652",
+          "midday": {
+            "crown": {
+              "body": "#879652",
+              "highlight": "#A5AB79",
+              "shadow": "#67734F"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#918D46",
+              "highlight": "#ACA573",
+              "shadow": "#6D6E49"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "summer": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#6C874A",
+          "midday": {
+            "crown": {
+              "body": "#6C874A",
+              "highlight": "#96A175",
+              "shadow": "#55694B"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#7B8141",
+              "highlight": "#9E9D71",
+              "shadow": "#5F6547"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "peak-fall": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#74894F",
+          "midday": {
+            "crown": {
+              "body": "#74894F",
+              "highlight": "#9AA278",
+              "shadow": "#5A6B4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#818244",
+              "highlight": "#A29E73",
+              "shadow": "#636748"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        },
+        "winter": {
+          "foliagePresent": true,
+          "neutralCrownAlbedo": "#778951",
+          "midday": {
+            "crown": {
+              "body": "#778951",
+              "highlight": "#9CA279",
+              "shadow": "#5C6B4E"
+            },
+            "branches": {
+              "body": "#82745C",
+              "highlight": "#A2957E",
+              "shadow": "#635D54"
+            }
+          },
+          "goldenHour": {
+            "crown": {
+              "body": "#848246",
+              "highlight": "#A39E73",
+              "shadow": "#656749"
+            },
+            "branches": {
+              "body": "#8D714D",
+              "highlight": "#A99377",
+              "shadow": "#6B5C4D"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

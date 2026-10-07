@@ -78,9 +78,15 @@ def _retry_after(headers) -> Optional[float]:
         return None  # an HTTP-date form is ignored; the caller's own backoff applies
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None  # urllib then raises HTTPError with the 3xx code
+
+
 def http_get(url: str, user_agent: str = USER_AGENT, etag: Optional[str] = None,
              last_modified: Optional[str] = None, timeout: float = DEFAULT_TIMEOUT,
-             max_bytes: int = MAX_BODY_BYTES) -> FetchResult:
+             max_bytes: int = MAX_BODY_BYTES, follow_redirects: bool = True) -> FetchResult:
+    """follow_redirects=False turns a 3xx into FetchError(status=3xx) (CelesTrak asks clients to treat 301 as an error)."""
     headers: Dict[str, str] = {"User-Agent": user_agent, "Accept-Encoding": "gzip"}
     if etag:
         headers["If-None-Match"] = etag
@@ -88,7 +94,10 @@ def http_get(url: str, user_agent: str = USER_AGENT, etag: Optional[str] = None,
         headers["If-Modified-Since"] = last_modified
     req = urllib.request.Request(url, headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=timeout, context=ssl_context()) as resp:
+        handlers = [urllib.request.HTTPSHandler(context=ssl_context())]
+        if not follow_redirects:
+            handlers.append(_NoRedirect())
+        with urllib.request.build_opener(*handlers).open(req, timeout=timeout) as resp:
             raw = resp.read(max_bytes + 1)
             if len(raw) > max_bytes:
                 raise FetchError("response larger than %d bytes" % max_bytes, resp.status)

@@ -43,6 +43,16 @@ public struct YardRules: Codable, Sendable, Equatable {
     /// alley side (both inferred dressing, gaps at walks, drives and garages).
     public var frontFence: Double?
     public var rearFence: Double?
+    /// Broad tonal patches per lot lawn (min, max; look-fix §1.1: 3–5, ±3–6 %).
+    public var lawnPatches: [Int]?
+    /// Share of front lawns with mowing bands (2.5–4 m, ≤ 4 bands, 3 % contrast; at most half of suburban lawns).
+    public var mowShare: Double?
+    /// Likelihood of a worn strip beside each walk or driveway (0.3–0.7 m, one side, part of its length).
+    public var wornEdges: Double?
+    /// Parkway strips between curb and sidewalk drawn as their own lawn band (drier, darker at the curb).
+    public var parkwayBand: Bool?
+    /// Lawn detail contrast (nil = the look-fix spec values, `GroundContrast.spec`).
+    public var groundContrast: GroundContrast?
 }
 
 public struct YardLibrary: Codable, Sendable, Equatable {
@@ -56,7 +66,8 @@ public struct YardLibrary: Codable, Sendable, Equatable {
     static let fallback = YardRules(maxLotDepth: 30, streetTreeSpacing: 20, minParkway: 1.2, yardTreesPerHouse: 0.8, frontHedge: 0.1,
                                     sideHedge: 0.1, shrubs: [1, 3], beds: 0.5, lawnShade: [0.93, 1.06], frontWalk: 0.85,
                                     canopyFill: nil, maxTreesPerKm2: nil, lawnEndpoints: nil, bedArea: nil, maxYardTreesPerLot: nil,
-                                    frontGarden: nil, rearPaving: nil, frontFence: nil, rearFence: nil)
+                                    frontGarden: nil, rearPaving: nil, frontFence: nil, rearFence: nil,
+                                    lawnPatches: nil, mowShare: nil, wornEdges: nil, parkwayBand: nil, groundContrast: nil)
 
     /// The bundled library (fallback rules if the file is missing).
     public static let bundled: YardLibrary = {

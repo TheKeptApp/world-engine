@@ -68,7 +68,7 @@ class VehiclesEndpointTests(ServerCase):
         self.assertEqual(len(doc["vehicles"]), 2)                   # the two buses; rail and far bus are other tiles
         for v in doc["vehicles"]:
             self.assertEqual(list(v), ["id", "kind", "route", "routeName", "lat", "lon", "heading", "speedMps",
-                                       "stopStatus", "timestamp", "ageSeconds", "source"])
+                                       "stopStatus", "timestamp", "ageSeconds", "source", "positionState", "basis", "motion"])
             self.assertEqual((v["kind"], v["route"], v["source"]), ("bus", "15", "rtd"))
         self.assertEqual([v["id"] for v in doc["vehicles"]], sorted(v["id"] for v in doc["vehicles"]))
 
@@ -363,3 +363,23 @@ class KeepAliveTests(ServerCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ShapesEndpointTests(ServerCase):
+    def setUp(self):
+        super().setUp()
+        from tests.test_transit import table
+        self.relay._shapes = table()
+
+    def test_shapes_by_id(self):
+        status, hdrs, doc = self.get_json("/v1/shapes?ids=SH-15E,NOPE")
+        self.assertEqual(status, 200)
+        self.assertEqual([s["id"] for s in doc["shapes"]], ["SH-15E"])
+        self.assertEqual(doc["missing"], ["NOPE"])
+        self.assertIn("max-age=86400", hdrs["cache-control"])
+        self.assertTrue(doc["attribution"])
+
+    def test_shapes_needs_ids(self):
+        self.assertEqual(self.get_json("/v1/shapes")[0], 400)
+        many = ",".join("s%d" % i for i in range(51))
+        self.assertEqual(self.get_json("/v1/shapes?ids=" + many)[0], 400)

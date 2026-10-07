@@ -1,4 +1,20 @@
-# Live-feed relay prototype (Denver RTD only)
+# Live-feed relay prototype and live-world data layers
+
+This directory holds two things: the RTD relay prototype described below, and the renderer-neutral live-world
+layers (sky first), each with its JSON contract in [`docs/live-world/`](../../docs/live-world/README.md).
+
+| Layer | Command | Contract |
+|---|---|---|
+| Planes (simulated) | `Tools/livefeeds/livefeeds.sh planes [--time ISO] [--areas ord,den] --pretty` | [`planes.md`](../../docs/live-world/planes.md) |
+| Transit (RTD) | `Tools/livefeeds/livefeeds.sh serve`; vehicles now carry `motion`, shapes at `/v1/shapes?ids=` |
+| Transit (CTA 'L' trains) | `Tools/livefeeds/livefeeds.sh serve --feed cta` (needs `CTA_TRAIN_API_KEY` in the environment; never printed or logged) | [`transit.md`](../../docs/live-world/transit.md) |
+| Transit (CTA buses) | `Tools/livefeeds/livefeeds.sh serve --feed ctabus` (needs `CTA_BUS_API_KEY`; never printed or logged) | [`transit.md`](../../docs/live-world/transit.md) |
+| Satellites | `Tools/livefeeds/livefeeds.sh sats --lat 41.8781 --lon -87.6298 [--elements FILE] [--visible-only] --pretty` | [`satellites.md`](../../docs/live-world/satellites.md) |
+| Sky | `Tools/livefeeds/livefeeds.sh sky --lat 41.8781 --lon -87.6298 [--time 2026-10-06T04:00:00Z] [--radiance grid.json] --pretty` | [`sky.md`](../../docs/live-world/sky.md) |
+
+Validation scripts that need third-party packages (never imported by the modules) live in `validation/`.
+
+## RTD relay (Denver)
 
 A small local server that polls Denver RTD's public GTFS Realtime vehicle-position file (rail and bus),
 normalises it, caches it, and serves a small JSON per area that a phone would fetch. It is a
@@ -34,6 +50,8 @@ with a python.org Python that ships no CA certificates, the tool falls back to t
 | File | Purpose |
 |---|---|
 | `livefeeds/gtfsrt.py` | Protobuf wire decoder for the GTFS-RT fields used (header timestamp; entity id; vehicle trip, route, id, label, position, bearing, speed, timestamp, current status) |
+| `livefeeds/cta.py` | CTA Train Tracker: key from the environment, fetch (no key in any message), normalisation to the same records |
+| `livefeeds/ctabus.py` | CTA Bus Tracker: routes daily, vehicles 10 routes per call, same key rules and record shape |
 | `livefeeds/rtd.py` | RTD constants and attribution, route table (`routes.txt` to rail or bus), fetch, normalisation |
 | `livefeeds/zipstream.py` | Reads `routes.txt` from the first ~130 KB of the 10 MB static zip instead of downloading all of it |
 | `livefeeds/fetch.py` | Polite HTTP client: honest User-Agent, conditional GET, gzip, size cap, timeout |
@@ -42,6 +60,13 @@ with a python.org Python that ships no CA certificates, the tool falls back to t
 | `livefeeds/salt.py` | Daily-rotating salted vehicle ids |
 | `livefeeds/server.py` | `http.server` handler: `/v1/vehicles`, `/v1/status`, ETag, gzip, cache headers |
 | `areas.json` | Allowlist of served areas (data, not code) |
+| `livefeeds/sky/` | Sky layer: `astro.py` (time, frames, horizon), `bodies.py` (Sun, Moon, planets), `stars.py`, `skyglow.py` (light pollution, limiting magnitude), `contract.py` |
+| `livefeeds/sats/` | Satellite layer: `elements.py` (TLE, OMM), `sgp4.py`, `passes.py` (frames, shadow, passes, magnitude), `celestrak.py` (polite fetch, cache), `contract.py` |
+| `livefeeds/transit/` | Route shapes (`shapes.py`: parse, simplify, project, walk) and smoothing (`smoothing.py`: relay `Tracker`, reference client `Smoother`) |
+| `livefeeds/planes/` | Simulated ambient aircraft (`ambient.py`) and the `StableRandom` port |
+| `data/ambient-planes/` | Per-airport runway, flow and model data (OSM-derived runways, ODbL) |
+| `data/satellites.json` | Element groups, refresh limits, standard magnitudes (data, not code) |
+| `validation/` | Reference comparisons that need PyPI packages (Skyfield + DE421); not part of the test suite |
 | `tests/` | `unittest` suite; `tests/pbenc.py` is a tiny protobuf encoder that builds synthetic feeds |
 
 Never committed: raw feed bytes, the static zip, `routes.json` (derived route table), `snapshot.json`, `salt.json`. They

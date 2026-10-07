@@ -12,10 +12,12 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Tuple
 
-from . import rtd, tiles
+from . import cta, ctabus, rtd, tiles
 from .fetch import FetchError, FetchResult, USER_AGENT, http_get
 from .gtfsrt import DecodeError, decode_feed
 from .salt import DailySalt
+from .transit.shapes import ShapeTable
+from .transit.smoothing import Tracker
 
 SCHEMA = 1
 MIN_POLL_INTERVAL = 30.0    # RTD is polled at most once every 30 s (owner's rule; the file refreshes about that often)
@@ -39,12 +41,53 @@ class Config:
     routes_max_age: float = 7 * 86400.0  # re-read static routes.txt after a week ...
     routes_refresh_min: float = 6 * 3600.0   # ... or after 6 h when the feed shows a route the table lacks
     routes_retry: float = 600.0          # never retry the static download more often than this
+    shapes_max_age: float = 7 * 86400.0  # route shapes (full static zip, about 10 MB) are re-read weekly
+    shapes_retry: float = 3600.0
     timeout: float = 20.0
     cache_dir: Optional[str] = None
 
     def __post_init__(self) -> None:
         if self.poll_interval < MIN_POLL_INTERVAL:
             raise ValueError("poll interval must be at least %d s" % MIN_POLL_INTERVAL)
+
+
+class RtdSource:
+    """Denver RTD GTFS Realtime: needs the static routes table; shapes optional."""
+    name = rtd.SOURCE
+    attribution = rtd.ATTRIBUTION
+    needs_routes = True
+    snapshot_file = "snapshot.json"
+
+    @staticmethod
+    def normalise(body: bytes, routes, salt, now: float, max_age: float) -> rtd.Normalised:
+        return rtd.normalise(decode_feed(body), routes, salt, now, max_age)
+
+
+class CtaSource:
+    """CTA Train Tracker ('L' trains): JSON, no routes table, no shapes yet (motion null)."""
+    name = cta.SOURCE
+    attribution = cta.ATTRIBUTION
+    needs_routes = False
+    snapshot_file = "snapshot-cta.json"
+
+    @staticmethod
+    def normalise(body: bytes, routes, salt, now: float, max_age: float) -> rtd.Normalised:
+        return cta.normalise(body, salt, now, max_age)
+
+
+class CtaBusSource:
+    """CTA Bus Tracker: JSON, route names come with the combined body, no shapes yet (motion null)."""
+    name = ctabus.SOURCE
+    attribution = ctabus.ATTRIBUTION
+    needs_routes = False
+    snapshot_file = "snapshot-ctabus.json"
+
+    @staticmethod
+    def normalise(body: bytes, routes, salt, now: float, max_age: float) -> rtd.Normalised:
+        return ctabus.normalise(body, salt, now, max_age)
+
+
+SOURCES = {"rtd": RtdSource, "cta": CtaSource, "ctabus": CtaBusSource}
 
 
 @dataclass(frozen=True)
@@ -54,6 +97,7 @@ class Area:
     bbox: Tuple[float, float, float, float]   # south, west, north, east
     timezone: str
     day_start_hour: int
+    feeds: Tuple[str, ...] = ("rtd",)
 
 
 def load_areas(path: str) -> List[Area]:
@@ -64,7 +108,8 @@ def load_areas(path: str) -> List[Area]:
     for a in doc["areas"]:
         s, w, n, e = (float(v) for v in a["bbox"])
         out.append(Area(a["id"], a.get("name", a["id"]), (s, w, n, e),
-                        a.get("timezone", "UTC"), int(a.get("serviceDayStartHour", 3))))
+                        a.get("timezone", "UTC"), int(a.get("serviceDayStartHour", 3)),
+                        tuple(a.get("feeds", ["rtd"]))))
     if not out:
         raise ValueError("areas.json lists no areas")
     return out
@@ -96,14 +141,26 @@ class Relay:
     def __init__(self, cfg: Config, areas: List[Area],
                  fetch: Optional[Callable[[Optional[str], Optional[str]], FetchResult]] = None,
                  routes_fetch: Optional[Callable[[], Tuple[rtd.Routes, int]]] = None,
+                 shapes_fetch: Optional[Callable[[], Tuple[ShapeTable, int]]] = None,
                  clock: Callable[[], float] = time.time,
-                 log: Optional[Callable[[str], None]] = None):
+                 log: Optional[Callable[[str], None]] = None,
+                 source=RtdSource):
         self.cfg = cfg
+        self.source = source
         self.log = log or (lambda message: None)
         self.areas = areas
         self.clock = clock
+        if fetch is None and source is CtaSource:
+            fetch = cta.fetcher(cfg.user_agent, cfg.timeout)
+        if fetch is None and source is CtaBusSource:
+            fetch = ctabus.fetcher(cfg.user_agent, cfg.timeout, clock=clock)
         self._fetch = fetch or (lambda etag, lm: http_get(cfg.feed_url, cfg.user_agent, etag, lm, cfg.timeout))
         self._routes_fetch = routes_fetch or (lambda: rtd.fetch_routes(cfg.routes_url, cfg.user_agent, clock))
+        # Shapes (for smoothing) are optional: without a fetcher vehicles are served unsmoothed (motion null).
+        self._shapes_fetch = shapes_fetch
+        self._shapes: Optional[ShapeTable] = None
+        self._shapes_tried_at: Optional[float] = None
+        self.tracker = Tracker()
         # One feed, one salt: the service day follows the first area's time zone (prototype: one area).
         self.salt = DailySalt(cfg.cache_dir, areas[0].timezone, areas[0].day_start_hour)
 
@@ -132,6 +189,9 @@ class Relay:
         self._wake = threading.Event()
         self._load_routes_cache()
         self._load_snapshot_cache()
+        p = self._path("shapes.json")
+        if p and shapes_fetch is not None:
+            self._shapes = ShapeTable.load(p)
 
     # -- disk cache --------------------------------------------------------------------------
     def _path(self, name: str) -> Optional[str]:
@@ -144,7 +204,7 @@ class Relay:
 
     def _load_snapshot_cache(self) -> None:
         """Restore the last good snapshot after a restart, only if it is still younger than the cutoff."""
-        p = self._path("snapshot.json")
+        p = self._path(self.source.snapshot_file)
         if not p:
             return
         try:
@@ -166,7 +226,7 @@ class Relay:
             self._pulled_at = None
 
     def _save_snapshot(self, snap: Snapshot) -> None:
-        p = self._path("snapshot.json")
+        p = self._path(self.source.snapshot_file)
         if not p:
             return
         try:
@@ -211,6 +271,35 @@ class Relay:
                 pass
         return True
 
+    def shape(self, shape_id: str):
+        s = self._shapes
+        return s.shapes.get(shape_id) if s else None
+
+    def _ensure_shapes(self, now: float) -> None:
+        if self._shapes_fetch is None:
+            return
+        s = self._shapes
+        if s is not None and now - s.fetched_at <= self.cfg.shapes_max_age:
+            return
+        if self._shapes_tried_at is not None and now - self._shapes_tried_at < self.cfg.shapes_retry:
+            return
+        self._shapes_tried_at = now
+        try:
+            new, nbytes = self._shapes_fetch()
+        except FetchError as e:
+            self.stats["shapesErrors"] += 1
+            self.log("shapes: %s (vehicles stay unsmoothed)" % e)
+            return
+        self.stats["shapesBytes"] += nbytes
+        self.stats["shapesFetches"] += 1
+        self._shapes = new
+        p = self._path("shapes.json")
+        if p:
+            try:
+                new.save(p)
+            except OSError:
+                pass
+
     # -- polling -----------------------------------------------------------------------------
     def _jitter(self, base: float) -> float:
         """Deterministic, positive-only spread (up to +10 percent) so the interval is never below the floor."""
@@ -241,7 +330,7 @@ class Relay:
         """One upstream request. Returns "updated", "unchanged" or "error". Never raises."""
         now = self.clock()
         self.stats["polls"] += 1
-        if not self._ensure_routes(now):
+        if self.source.needs_routes and not self._ensure_routes(now):
             return self._fail("routes table unavailable (%s)" % self._routes_error, None, None)
         try:
             res = self._fetch(self._etag, self._last_modified)
@@ -258,10 +347,14 @@ class Relay:
             self.log("poll %d: HTTP 304 not modified" % self.stats["polls"])
             return self._finish("unchanged", self.cfg.poll_interval)
         try:
-            feed = decode_feed(res.body or b"")
-        except DecodeError as e:
+            norm = self.source.normalise(res.body or b"", self._routes, self.salt, now, self.cfg.max_vehicle_age)
+        except FetchError as e:              # an error reported inside a 200 body (CTA errCd)
+            return self._fail(str(e), e.status, None)
+        except (DecodeError, ValueError, UnicodeDecodeError) as e:
             return self._fail("decode error: %s" % e, None, None)
-        norm = rtd.normalise(feed, self._routes, self.salt, now, self.cfg.max_vehicle_age)
+        self._ensure_shapes(now)
+        self.tracker.annotate(norm.vehicles, norm.trips, self._shapes, now)
+        norm.trips = {}
         if norm.unknown_routes:
             self._unknown_routes_seen = True
         self._etag, self._last_modified = res.etag, res.last_modified
@@ -278,8 +371,8 @@ class Relay:
                 self._save_snapshot(self._snap)
         self.stats["updates" if outcome == "updated" else "unchanged"] += 1
         snap = self._snap
-        self.log("poll %d: HTTP %d %s, %d bytes, feed age %ds, vehicles %d (rail %d, bus %d), dropped %s" % (
-            self.stats["polls"], res.status, outcome, res.wire_bytes, now - norm.feed_timestamp,
+        self.log("poll %d: %s HTTP %d %s, %d bytes, feed age %ds, vehicles %d (rail %d, bus %d), dropped %s" % (
+            self.stats["polls"], self.source.name, res.status, outcome, res.wire_bytes, now - norm.feed_timestamp,
             len(norm.vehicles), snap.counts.get("rail", 0) if snap else 0,
             snap.counts.get("bus", 0) if snap else 0, norm.dropped))
         return self._finish(outcome, self.cfg.poll_interval)
@@ -336,7 +429,7 @@ class Relay:
         if self._thread is not None:
             return
         self._last_request = self.clock()   # starting the server counts as activity: fetch once now
-        self._thread = threading.Thread(target=self._loop, name="rtd-poller", daemon=True)
+        self._thread = threading.Thread(target=self._loop, name="%s-poller" % self.source.name, daemon=True)
         self._thread.start()
 
     def stop(self) -> None:
@@ -383,6 +476,8 @@ class Relay:
                 "consecutiveErrors": self._errors,
                 "nextPollInSeconds": max(0.0, round(self._next_poll_at - now, 1)),
                 "pollIntervalSeconds": self.cfg.poll_interval,
+                "shapes": {"count": len(self._shapes.shapes) if self._shapes else 0,
+                           "ageSeconds": round(now - self._shapes.fetched_at) if self._shapes else None},
                 "routes": {"count": len(self._routes) if self._routes else 0,
                            "ageSeconds": round(now - self._routes.fetched_at) if self._routes else None},
                 "counters": dict(self.stats),
