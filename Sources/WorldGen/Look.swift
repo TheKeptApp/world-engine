@@ -75,6 +75,8 @@ public struct LookSpec: Codable, Sendable {
     public var sky: Sky
     public var wetPaving: WetPaving
     public var houseContrast: HouseContrast?
+    /// House archetype choice and tier tuning (house-archetypes-v1 mapping values the pack does not give).
+    public var archetypes: ArchetypeTuning?
 
     /// The bundled look values (nil if the file is missing).
     public static let bundled: LookSpec? = try? StyleLibrary.look()

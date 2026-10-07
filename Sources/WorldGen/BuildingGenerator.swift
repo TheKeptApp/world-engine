@@ -96,6 +96,12 @@ public struct GeneratedBuilding: Sendable {
     public var gangwayStacks = 0
     /// Mapped footprint protrusions on side walls dressed with windows.
     public var sideBays = 0
+    /// house-archetypes-v1 archetype (always inferred, never observed), its choice confidence (0–1) and the evidence used.
+    public var archetype: String?
+    public var archetypeConfidence: Double?
+    public var archetypeEvidence: [String] = []
+    /// Split-level massing (archetype building parts) applied to the mapped footprint.
+    public var splitLevel = false
 }
 
 public struct BuildingGenerator: Sendable {
@@ -116,6 +122,8 @@ public struct BuildingGenerator: Sendable {
     /// Size thresholds resolved for this area (percentiles of local house footprints); nil = the profile's.
     public var areaThresholds: StyleProfile.Thresholds?
     var thresholds: StyleProfile.Thresholds { areaThresholds ?? profile.typeThresholds }
+    /// Debug tools only (buildingviz --type): every house takes this profile house type.
+    public var forcedHouseType: String?
 
     public init(profile: StyleProfile, context: StreetContext) {
         self.profile = profile
@@ -188,7 +196,11 @@ public struct BuildingGenerator: Sendable {
     }
 
     public func generate(_ b: Building, palette: inout Palette, lod: BuildingLOD) -> GeneratedBuilding {
-        let role = role(for: b)
+        generate(b, palette: &palette, lod: lod, part: nil)
+    }
+
+    func generate(_ b: Building, palette: inout Palette, lod: BuildingLOD, part: SplitPart?) -> GeneratedBuilding {
+        let role = part != nil ? .house : role(for: b)
         let shape = FootprintAnalysis(b.footprint)
         let fp = b.footprint
         let ring = fp.outer
@@ -213,14 +225,27 @@ public struct BuildingGenerator: Sendable {
 
         // Family, colors, dimensions.
         var rng = b.ref.random("building")
+        let choice: HouseChoice? = role == .house ? (part?.choice ?? houseChoice(for: b, shape: shape, frontEdge: g.frontEdge)) : nil
         let type: StyleProfile.HouseType? = switch role {
-        case .house: houseFamily(for: b, shape: shape, frontEdge: g.frontEdge).0
+        case .house: choice?.type
         case .block: blockFamily(for: b, shape: shape)
         default: nil
         }
         g.houseType = role == .house ? type?.id : nil
         g.family = type?.id
-        let grammar = families.grammar(type?.id)
+        // house-archetypes-v1: the type's archetype (inferred; tags and geometry still override its defaults).
+        let archetype = role == .house ? HouseArchetype.named(type?.archetype) : nil
+        if let a = archetype, let c = choice {
+            g.archetype = a.id
+            g.archetypeConfidence = (c.confidence * 1000).rounded() / 1000
+            g.archetypeEvidence = c.evidence
+            if part == nil, lod != .skyline, let split = splitLevel(b, shape: shape, archetype: a, choice: c, palette: &palette, lod: lod) {
+                return split
+            }
+        }
+        var grammar = families.grammar(type?.id)
+        // The sheet's porch depth replaces the family's porch depth range.
+        if let a = archetype, grammar.details?.porch != nil { grammar.details?.porch?.depth = [a.porchDepth, a.porchDepth] }
         let facade = grammar.facade ?? HouseFamilyGrammar.Facade()
         // House details apply to houses and block families (not garages or sheds).
         let details = role == .house || role == .block ? grammar.details : nil
@@ -232,7 +257,8 @@ public struct BuildingGenerator: Sendable {
         var cr = b.ref.random("palette")
         g.colorSet = Int(cr.next() % UInt64(max(1, tuples.count)))
         var tuple = tuples[g.colorSet]
-        if let floors = families.toneFloors {
+        // Archetype palettes are approved values: the tone floors (a guard for profile colours) leave them alone.
+        if let floors = families.toneFloors, archetype == nil {
             tuple[0] = HouseFamilyLibrary.lifted(tuple[0], gain: floors.wallGain, floor: floors.wall)
             tuple[3] = HouseFamilyLibrary.lifted(tuple[3], gain: floors.roofGain, floor: floors.roof)
         }
@@ -244,12 +270,14 @@ public struct BuildingGenerator: Sendable {
         // House contrast (house-contrast-v1) type: trim, roof, glass, soffit, porch-underside and eave-band values.
         // Storeys aren't final yet here: mapped levels, else the family's first floor count.
         let contrastType = details != nil ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
-        if let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
+        // Archetype types keep their palette variant's trim and roof (house-archetypes-v1 per type; for the Chicago
+        // types they equal the house-contrast-v1 swatches).
+        if archetype == nil, let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
         // house-contrast-v1 defines trim and roof per house type: they replace the family ranges (owner 7 Oct).
         // Mapped roof:colour still wins.
         // Chicago brick families: one of the pack's brick wall swatches per building, unless the wall colour is mapped.
         let brickWalls = contrastType != nil && (Self.contrast?.brickWallFamilies ?? []).contains(g.family ?? "")
-        if let t = contrastType {
+        if let t = contrastType, archetype == nil {
             tuple[1] = t.trim
             if b.tags["roof:colour"].flatMap(Self.hexColor) == nil { tuple[3] = t.roof }
             let walls = Self.contrast?.brickWalls ?? []
@@ -265,7 +293,8 @@ public struct BuildingGenerator: Sendable {
         let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04)))
         // Brick families stand on a stone base course in the trim (stone) colour (house-contrast-v1 paint-overs).
         let foundation = Paint(slot: brickWalls ? palette.slot(hex: tuple[1]) : palette.named("foundation"))
-        let glass = Paint(slot: contrastType.map { palette.slot(hex: $0.glass) } ?? palette.named("windowDay"), flags: .glass)
+        let glassHex = archetype.map { $0.variants[g.colorSet % $0.variants.count].glass } ?? contrastType?.glass
+        let glass = Paint(slot: glassHex.map { palette.slot(hex: $0) } ?? palette.named("windowDay"), flags: .glass)
         var sideWall: Paint?
         if let sides = facade.sideWall, !sides.isEmpty, b.tags["building:colour"] == nil {
             var sr = b.ref.random("side-wall")
@@ -309,7 +338,7 @@ public struct BuildingGenerator: Sendable {
         let pitch = rng.range(pitchRange)
         let overhang = rng.range(overhangRange)
         let F: Double = switch role {
-        case .house: rng.range(details?.foundation ?? profile.foundationMeters)
+        case .house: archetype?.foundation ?? rng.range(details?.foundation ?? profile.foundationMeters)
         case .garage: 0.12
         case .shed: 0.05
         case .block: facade.stoop == true ? rng.range(details?.foundation ?? profile.foundationMeters) : 0.3
@@ -325,7 +354,7 @@ public struct BuildingGenerator: Sendable {
         case .shed:
             H = min(b.height.top, rng.range(profile.shed.wallHeight))
         case .house, .block:
-            let floors = osmLevels ?? type?.floors.first ?? max(1, Int((b.height.top / 3.1).rounded()))
+            let floors = part?.floors ?? osmLevels ?? type?.floors.first ?? max(1, Int((b.height.top / 3.1).rounded()))
             g.floors = floors
             let perFloor = rng.range(type?.perFloor ?? [3.0, 3.2])
             if b.height.source == .heightTag {
@@ -472,6 +501,11 @@ public struct BuildingGenerator: Sendable {
             }
             if role == .house { ctx.breast = planChimneyBreast(ctx, front: g.frontEdge) }
         }
+        ctx.entry = part?.entry ?? true
+        ctx.garageFront = part?.garage ?? false
+        if lod == .far, archetype != nil, role == .house {
+            addFarEntryVoid(ctx, g, contrast: contrastType, palette: &palette, into: &m)
+        }
         if lod <= .mid {
             addOpenings(ctx, &g, palette: &palette, into: &m)
             addFacadeDetails(ctx, &g, into: &m)
@@ -550,7 +584,20 @@ public struct BuildingGenerator: Sendable {
         var doorAtS: Double?
         var facadeBay: FacadeBay?
 
-        if role == .house || role == .block, let e = g.frontEdge {
+        if role == .house, !c.entry, c.garageFront, let e = g.frontEdge {
+            let (p, dir, n, len) = Self.edge(ring, e)
+            let w = min(len - 0.8, 2.7), s0 = 0.5
+            if w > 1.8 {
+                if near {
+                    m.paint = c.trim
+                    m.addWallQuad(origin: p, dir: dir, normal: n, s0: s0 - 0.12, s1: s0 + w + 0.12, z0: 0.12, z1: 2.37, offset: 0.025)
+                }
+                m.paint = c.door
+                m.addWallQuad(origin: p, dir: dir, normal: n, s0: s0, s1: s0 + w, z0: 0.12, z1: 2.24, offset: 0.04)
+                doorSpan = (e, s0 - 0.3, s0 + w + 0.3)
+            }
+        }
+        if role == .house || role == .block, c.entry, let e = g.frontEdge {
             let (p, dir, n, len) = Self.edge(ring, e)
             var r = b.ref.random("door")
             var doorAt = c.type.map { r.pick($0.door) { _ in 1 } } ?? 0.5
@@ -1054,6 +1101,10 @@ struct BuildContext {
     var reveal: Paint? = nil
     /// Stone lintel/sill openings on every street window (house-contrast brick families).
     var stoneOpenings = false
+    /// Front door, porch or stoop on the front edge (false for a split-level's upper block).
+    var entry = true
+    /// A garage door on the front edge's ground floor instead (split-level lower garage).
+    var garageFront = false
     /// The profile's light trim (gable panels, stucco gable triangles); `trim` may be the family's.
     var panel: Paint
     var mainRect: OrientedRect

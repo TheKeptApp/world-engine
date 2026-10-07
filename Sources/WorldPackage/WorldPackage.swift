@@ -103,6 +103,15 @@ public enum WorldPackage {
             if let t = g.houseType { d["houseType"] = t }
             if let f = g.family { d["family"] = f }
             if let p = g.profileID { d["profile"] = p }
+            // house-archetypes-v1: always inferred (never observed), with the pick's confidence and the evidence used.
+            if let a = g.archetype {
+                d["archetype"] = a
+                d["archetypeFrom"] = "inferred"
+                d["archetypeConfidence"] = g.archetypeConfidence ?? 0
+                d["archetypeEvidence"] = g.archetypeEvidence
+                d["paletteVariant"] = g.colorSet
+                if g.splitLevel { d["splitLevel"] = true }
+            }
             if let p = g.porchStyle { d["porchStyle"] = p }
             if let k = g.entryKit { d["entryKit"] = k }
             if g.roofMasses > 0 { d["roofMasses"] = g.roofMasses }

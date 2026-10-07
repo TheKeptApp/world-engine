@@ -247,17 +247,17 @@
         1
       ],
       "perFloor": [
-        2.8,
-        3.2
+        3.1,
+        3.1
       ],
       "roof": {
-        "gabled": 0.15,
-        "hipped": 0.85,
+        "gabled": 0,
+        "hipped": 1,
         "flat": 0
       },
       "pitch": [
-        18,
-        28
+        18.0,
+        28.0
       ],
       "overhang": [
         0.4,
@@ -266,8 +266,8 @@
       "porch": {
         "likelihood": 0.65,
         "depth": [
-          0.8,
-          1.3
+          1.5,
+          1.5
         ],
         "frontage": [
           0.2,
@@ -297,18 +297,31 @@
       ],
       "colors": [
         [
-          "#A97C68",
-          "#DED6C2",
+          "#A57450",
+          "#DECBAB",
           "#52676A",
-          "#59636B"
+          "#5B5A52"
         ],
         [
-          "#AD9274",
-          "#E1D9C6",
+          "#955C46",
+          "#DECBAB",
           "#745E50",
-          "#646363"
+          "#5B5A52"
+        ],
+        [
+          "#82634F",
+          "#DECBAB",
+          "#52676A",
+          "#5B5A52"
+        ],
+        [
+          "#B67550",
+          "#DECBAB",
+          "#745E50",
+          "#5B5A52"
         ]
-      ]
+      ],
+      "archetype": "chicago-01-bungalow"
     },
     {
       "id": "brickStackedFacade",
@@ -317,8 +330,8 @@
         3
       ],
       "perFloor": [
-        2.8,
-        3.2
+        3.05,
+        3.05
       ],
       "roof": {
         "gabled": 0,
@@ -326,8 +339,8 @@
         "flat": 1
       },
       "pitch": [
-        0,
-        4
+        0.0,
+        4.0
       ],
       "overhang": [
         0.05,
@@ -336,8 +349,8 @@
       "porch": {
         "likelihood": 0.55,
         "depth": [
-          0.8,
-          1.3
+          0.9,
+          0.9
         ],
         "frontage": [
           0.2,
@@ -367,22 +380,35 @@
       ],
       "colors": [
         [
-          "#A97C68",
-          "#DED6C2",
+          "#98664F",
+          "#DBC8A7",
           "#52676A",
-          "#59636B"
+          "#554E49"
         ],
         [
-          "#AD9274",
-          "#E1D9C6",
+          "#92513E",
+          "#DBC8A7",
           "#745E50",
-          "#646363"
+          "#554E49"
+        ],
+        [
+          "#B09373",
+          "#DBC8A7",
+          "#52676A",
+          "#554E49"
+        ],
+        [
+          "#A77960",
+          "#DBC8A7",
+          "#745E50",
+          "#554E49"
         ]
       ],
       "parapet": [
         0.25,
         0.45
-      ]
+      ],
+      "archetype": "chicago-02-flats"
     },
     {
       "id": "greystoneFacade",
@@ -459,8 +485,8 @@
         2
       ],
       "perFloor": [
-        2.8,
-        3.2
+        3,
+        3
       ],
       "roof": {
         "gabled": 1,
@@ -468,8 +494,8 @@
         "flat": 0
       },
       "pitch": [
-        30,
-        42
+        32.0,
+        45.0
       ],
       "overhang": [
         0.2,
@@ -478,8 +504,8 @@
       "porch": {
         "likelihood": 0.55,
         "depth": [
-          0.8,
-          1.3
+          1.1,
+          1.1
         ],
         "frontage": [
           0.2,
@@ -509,18 +535,198 @@
       ],
       "colors": [
         [
-          "#97A39B",
-          "#E3DCCB",
+          "#B9B9A4",
+          "#F1E4CA",
           "#6E5950",
-          "#616B71"
+          "#60615A"
         ],
         [
-          "#B3AA96",
-          "#E5DDC9",
+          "#AEB8B1",
+          "#F1E4CA",
           "#55716E",
-          "#62696B"
+          "#60615A"
+        ],
+        [
+          "#C9C1AD",
+          "#F1E4CA",
+          "#6E5950",
+          "#60615A"
+        ],
+        [
+          "#955544",
+          "#F1E4CA",
+          "#55716E",
+          "#60615A"
         ]
-      ]
+      ],
+      "archetype": "chicago-03-cottage"
+    },
+    {
+      "id": "foursquare",
+      "floors": [
+        2
+      ],
+      "perFloor": [
+        3.1,
+        3.1
+      ],
+      "maxAspect": 1.4,
+      "minRectangularity": 0.78,
+      "roof": {
+        "gabled": 0,
+        "hipped": 1,
+        "flat": 0
+      },
+      "pitch": [
+        25.0,
+        38.0
+      ],
+      "overhang": [
+        0.45,
+        0.65
+      ],
+      "porch": {
+        "likelihood": 0.85,
+        "depth": [
+          2.2,
+          2.2
+        ],
+        "frontage": [
+          0.75,
+          1.0
+        ],
+        "style": "covered"
+      },
+      "windows": {
+        "bay": [
+          2.8,
+          3.6
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.3,
+          1.5
+        ],
+        "broad": null
+      },
+      "door": [
+        0.5
+      ],
+      "colors": [
+        [
+          "#D3C6AB",
+          "#E3D8C1",
+          "#4F6667",
+          "#56524B"
+        ],
+        [
+          "#ADA68A",
+          "#E3D8C1",
+          "#7D554C",
+          "#56524B"
+        ],
+        [
+          "#895A48",
+          "#E3D8C1",
+          "#4F6667",
+          "#56524B"
+        ],
+        [
+          "#B9B4A0",
+          "#E3D8C1",
+          "#7D554C",
+          "#56524B"
+        ]
+      ],
+      "archetype": "chicago-04-foursquare"
+    },
+    {
+      "id": "ranch",
+      "floors": [
+        1
+      ],
+      "perFloor": [
+        2.8,
+        2.8
+      ],
+      "minAspect": 1.3,
+      "broadFrontage": true,
+      "roof": {
+        "gabled": 0,
+        "hipped": 1,
+        "flat": 0
+      },
+      "pitch": [
+        14.0,
+        25.0
+      ],
+      "overhang": [
+        0.4,
+        0.7
+      ],
+      "porch": {
+        "likelihood": 0.35,
+        "depth": [
+          0.8,
+          0.8
+        ],
+        "frontage": [
+          0.2,
+          0.35
+        ],
+        "style": "stoop"
+      },
+      "windows": {
+        "bay": [
+          3.0,
+          4.0
+        ],
+        "width": [
+          0.9,
+          1.2
+        ],
+        "height": [
+          1.1,
+          1.4
+        ],
+        "broad": [
+          1.6,
+          2.2
+        ]
+      },
+      "door": [
+        0.33
+      ],
+      "colors": [
+        [
+          "#A8785C",
+          "#D9D0BC",
+          "#8A654E",
+          "#56524B"
+        ],
+        [
+          "#C4B9A3",
+          "#D9D0BC",
+          "#496E70",
+          "#56524B"
+        ],
+        [
+          "#A6A7A0",
+          "#D9D0BC",
+          "#8A654E",
+          "#56524B"
+        ],
+        [
+          "#B7AA91",
+          "#D9D0BC",
+          "#496E70",
+          "#56524B"
+        ]
+      ],
+      "archetype": "chicago-05-ranch"
     },
     {
       "id": "victorianRow",
@@ -917,54 +1123,46 @@
     }
   ],
   "typeRules": {
-    "comment": "unknown and large: measured (OSM building:levels, 1,756 levels-tagged principal houses in three Chicago dense-north cells; regionkit floors, 2026-10-06), so houses without levels get default floors 1/2/3+ = 0.10/0.62/0.28 against a measured 0.075/0.68/0.245 with the relative size thresholds (previously 0.28/0.50/0.22), or 0.31/0.49/0.21 with the absolute 60/220 m2 fallback (previously 0.44/0.39/0.17). small and the levels-tagged situations are unchanged proposal values. Details: provenance below.",
+    "comment": "unknown and large: measured (OSM building:levels, 1,756 levels-tagged principal houses in three Chicago dense-north cells; regionkit floors, 2026-10-06), so houses without levels get default floors 1/2/3+ = 0.10/0.62/0.28 against a measured 0.075/0.68/0.245 with the relative size thresholds (previously 0.28/0.50/0.22), or 0.31/0.49/0.21 with the absolute 60/220 m2 fallback (previously 0.44/0.39/0.17). small and the levels-tagged situations are unchanged proposal values. Details: provenance below. Archetypes (house-archetypes-v1, R approved 2026-10-07; P2 2026-10-07): '@archetypes' = the summed weight of the archetype types (brickBungalow, brickStackedFacade, frameCottage) in each situation before, split among the profile's archetype types by the pack's metro fallback mix (generatorWeightPctProposal, read by key at run time); '@archetypes:N' splits among the archetype types whose default floor count is N, so the measured floor-group totals of unknown and large stay exactly as measured. greystoneFacade and victorianRow are not pack archetypes and keep their weights.",
     "oneFloorBroad": {
-      "brickBungalow": 8,
-      "frameCottage": 20
+      "@archetypes": 28
     },
     "oneFloor": {
-      "brickBungalow": 8,
-      "frameCottage": 20
+      "@archetypes": 28
     },
     "twoFloorSquare": {
-      "brickStackedFacade": 30,
+      "@archetypes": 50,
       "greystoneFacade": 20,
-      "frameCottage": 20,
       "victorianRow": 22
     },
     "twoFloorNarrow": {
-      "brickStackedFacade": 30,
+      "@archetypes": 50,
       "greystoneFacade": 20,
-      "frameCottage": 20,
       "victorianRow": 22
     },
     "twoFloor": {
-      "brickStackedFacade": 30,
+      "@archetypes": 50,
       "greystoneFacade": 20,
-      "frameCottage": 20,
       "victorianRow": 22
     },
     "threeFloor": {
-      "brickStackedFacade": 30,
+      "@archetypes": 30,
       "greystoneFacade": 20,
       "victorianRow": 22
     },
     "unknown": {
-      "brickBungalow": 2.98,
-      "brickStackedFacade": 38.51,
+      "@archetypes:1": 10.43,
+      "@archetypes:2": 38.51,
       "greystoneFacade": 25.68,
-      "frameCottage": 7.45,
       "victorianRow": 25.37
     },
     "small": {
-      "brickBungalow": 8,
-      "frameCottage": 20
+      "@archetypes": 28
     },
     "large": {
-      "brickBungalow": 1.77,
-      "brickStackedFacade": 22.76,
+      "@archetypes:1": 6.21,
+      "@archetypes:2": 22.76,
       "greystoneFacade": 15.17,
-      "frameCottage": 4.44,
       "victorianRow": 55.86
     },
     "semidetached": {
@@ -1054,7 +1252,13 @@
     "comment": "Documentation only; the profile decoder ignores this object. Fields not listed here are unmeasured proposal values (docs/proposals/regions-chicagoland-miami).",
     "typeRules.unknown": {
       "status": "measured",
-      "previous": { "brickBungalow": 8, "brickStackedFacade": 30, "greystoneFacade": 20, "frameCottage": 20, "victorianRow": 22 },
+      "previous": {
+        "brickBungalow": 8,
+        "brickStackedFacade": 30,
+        "greystoneFacade": 20,
+        "frameCottage": 20,
+        "victorianRow": 22
+      },
       "source": "OSM building:levels on principal houses (generator houses minus probable garages) in the region kit's Chicago dense-north cells lakeview-gill-park, lincoln-park-oz-park and edgewater-broadway-armory-park (1 km x 1 km each, Tools/regionkit/regions/chicagoland.json); (c) OpenStreetMap contributors, ODbL 1.0",
       "method": "Tools/regionkit/regionkit.sh floors regions/chicagoland.json --zone dense-north --profile chicago-dense-north: families grouped by their first floors value, generator eligibility filter, target post-stratified by footprint-area bin with per-bin shrinkage k = 30; area classes from this profile's percentile thresholds (43.0 / 181.9 / 248.9 m2 on these houses). Only existing weights were rescaled; no family added.",
       "n": 1756,
@@ -1064,7 +1268,13 @@
     },
     "typeRules.large": {
       "status": "measured",
-      "previous": { "brickBungalow": 8, "brickStackedFacade": 30, "greystoneFacade": 20, "frameCottage": 20, "victorianRow": 22 },
+      "previous": {
+        "brickBungalow": 8,
+        "brickStackedFacade": 30,
+        "greystoneFacade": 20,
+        "frameCottage": 20,
+        "victorianRow": 22
+      },
       "source": "as typeRules.unknown",
       "method": "as typeRules.unknown",
       "n": 1756,
@@ -1078,11 +1288,37 @@
     },
     "defaultFloors": {
       "status": "measured",
-      "truth": { "1": 0.075, "2": 0.679, "3+": 0.245 },
-      "before": { "1": 0.28, "2": 0.5, "3+": 0.22 },
-      "after": { "1": 0.1, "2": 0.616, "3+": 0.284 },
-      "residualTVD": { "before": 0.205, "after": 0.064 },
-      "withAbsoluteThresholds": { "before": { "1": 0.442, "2": 0.387, "3+": 0.171 }, "after": { "1": 0.305, "2": 0.487, "3+": 0.208 } },
+      "truth": {
+        "1": 0.075,
+        "2": 0.679,
+        "3+": 0.245
+      },
+      "before": {
+        "1": 0.28,
+        "2": 0.5,
+        "3+": 0.22
+      },
+      "after": {
+        "1": 0.1,
+        "2": 0.616,
+        "3+": 0.284
+      },
+      "residualTVD": {
+        "before": 0.205,
+        "after": 0.064
+      },
+      "withAbsoluteThresholds": {
+        "before": {
+          "1": 0.442,
+          "2": 0.387,
+          "3+": 0.171
+        },
+        "after": {
+          "1": 0.305,
+          "2": 0.487,
+          "3+": 0.208
+        }
+      },
       "note": "Expected default floors of houses without building:levels, size-stratified: tagged houses evaluated with the tag hidden, per footprint-area bin, weighted like the untagged houses (bins cover 95.5 % of them). The absolute 60/220/350 m2 fallback leaves more houses in the one-floor-only small rule. Not modelled: the family grammar's frontage-aspect fit and the generator's alley-garage and huge-house role rules (the kit's role port predates them).",
       "date": "2026-10-06"
     },
@@ -1098,9 +1334,20 @@
     },
     "trees.heightMeters": {
       "status": "measured",
-      "value": [11.3, 16.0],
-      "measuredValue": {"p25": 11.26, "p75": 16.03, "trees": 1718, "basis": "detected trees at least 7 m high and at least 3 m from any building-class lidar cell"},
-      "previous": [8, 15],
+      "value": [
+        11.3,
+        16.0
+      ],
+      "measuredValue": {
+        "p25": 11.26,
+        "p75": 16.03,
+        "trees": 1718,
+        "basis": "detected trees at least 7 m high and at least 3 m from any building-class lidar cell"
+      },
+      "previous": [
+        8,
+        15
+      ],
       "source": "USGS 3DEP lidar, EPT USGS_LPC_IL_4County_Cook_2017_LAS_2019 (project IL_4_County_QL1_LiDAR_2016_B16; public domain; credit: U.S. Geological Survey, 3D Elevation Program). Vegetation-class canopy height model at 1 m (height above class-2 ground), roof, wall and wire clutter removed, tree tops by height-adaptive local maxima, crowns by watershed. value = p25 and p75 of the detected trees at least 7 m high (the trees the generator draws from heightMeters after its youngShare draw) and at least 3 m from any building-class cell. Tools/regionkit/lidar/trees.py, results in Tools/regionkit/lidar/results/trees.json; docs/research/lidar-roofs.md section Tree heights.",
       "area": "Data/areas/lakeview-sheil-park (1 km2)",
       "acquired": "2017-04-16 to 2017-05-07 (leaf-off: tops of bare crowns, probably 0.5-1 m low; about 9 years of growth since the flight not included)",
@@ -1117,6 +1364,12 @@
       "acquired": "2017-04-16 to 2017-05-07 (leaf-off)",
       "check": "0.055-0.085 over the detection settings; 0.118 for all surviving trees, which still hold some near-building clutter of 6-10 m. In the other two areas the clear subset gives 0.03 less than all trees (small trees stand near houses), so 0.07 is probably a little low. Leaf-off lidar also sees small sparse trees less well. youngHeightMeters [3, 6] is unchanged.",
       "date": "2026-10-06"
+    },
+    "archetypes": {
+      "status": "house-archetypes-v1 (R approved 2026-10-07, binding); values are the pack's proposals",
+      "mirror": "archetype, colors (wall/trim/roof from colourVariations; doors stay the profile's, the pack has none), roof, pitch (the allowed range holding the sheet pitch), perFloor (floorToFloorM) and porch.depth (porchDepthM) mirror the shared mock values; the engine reads them by key at load (StyleProfile.resolvingArchetypes)",
+      "added": "foursquare (chicago-04-foursquare) and ranch (chicago-05-ranch, minAspect 1.3 so the sheet's 12.4 x 8.7 m footprint is eligible) from the front-range types' shape fields",
+      "date": "2026-10-07"
     }
   }
 }

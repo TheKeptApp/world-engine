@@ -460,3 +460,47 @@ card crowns have more sky holes than the pack's solid-crown targets.
     colours; mapped `roof:colour` wins. Zero geometry or draw change (same triangle counts). Comparison:
     [facades/house-contrast-lakeview.jpg](facades/house-contrast-lakeview.jpg) (pack source frame, paint-over, ours
     before/after in buildingviz).
+
+39. **House archetypes (house-archetypes-v1, R approved 2026-10-07, binding)**: profile house types are the
+    archetypes. A type names its archetype (`houseTypes[].archetype`); at load (`StyleLibrary.profile(id:)` →
+    `StyleProfile.resolvingArchetypes()`, `Sources/WorldGen/HouseArchetypes.swift`) the archetype's values are read by
+    key from `Profiles/mock-values.json` (`house-archetypes-v1/archetypes.<id>.…`) and replace the type's palette
+    (`colourVariations[n]` wall/trim/roof; doors stay the profile's, the pack has none), roof family (one family;
+    `pyramidal` = hip), pitch range (the allowed range holding the sheet pitch), floor-to-floor and porch depth; the
+    generator takes the sheet's foundation height and each variant's daytime glass. The JSON copies are mirrors for
+    review tools (`ArchetypeTests` checks they equal the by-key values). Archetype palettes skip the tone floors
+    (approved values) and replace the family trim ranges and the house-contrast trim/roof/brick-wall swatches (for
+    the Chicago types those are the same swatches); house-contrast soffit, porch underside, eave band, stone openings
+    and base course still apply. Default floors stay the profile's (two-/three-flat defaults to 2 storeys: P1's measured
+    floor groups), so `eave = foundation + floors × floor-to-floor` reproduces the sheet's eave height exactly at the
+    sheet's floor count.
+    - **Choice from data** (`BuildingGenerator.houseChoice`): situation from mapped levels/footprint, eligibility
+      (levels, aspect, rectangularity, broad frontage), soft fit of frontage aspect and area to the family grammar or,
+      without one, to the sheet's footprint (look.json `archetypes.aspectFactor` 1.5, `areaRange` 0.5–1.8), a mapped
+      `roof:shape` as evidence (types without that roof family × `roofTagFloor` 0.1), `building=semidetached_house` as
+      shared walls; then the situation weights, where `@archetypes` carries the metro fallback mix: the summed weight
+      the archetype types had in that situation, split among the profile's archetype types by the pack's
+      `generatorWeightPctProposal` (by key), `@archetypes:N` among those with default floor count N (keeps P1's measured
+      floor-group totals). Year built is not used (no GREEN-licensed source). Every choice is exported as inferred:
+      scene.json `archetype`, `archetypeFrom: "inferred"`, `archetypeConfidence` (the pick's probability in the
+      weighted pool), `archetypeEvidence`, `paletteVariant` (= `colorSet`, seeded by `OSMRef.random("palette")`).
+      Mapped levels, height, roof shape and colours override the archetype; footprints are never resized.
+    - **Chicago** (`chicago-dense-north`): brickBungalow = chicago-01, brickStackedFacade = chicago-02,
+      frameCottage = chicago-03, new foursquare = chicago-04 (front-range foursquare shape fields; dormer 1, chance
+      0.75), new ranch = chicago-05 (minAspect 1.3 so the sheet's 12.4 × 8.7 m footprint qualifies). greystoneFacade
+      and victorianRow are not pack archetypes and keep their weights. Lakeview mix (BuildingAreaTests): flats 607
+      (was 480), cottage 244 (300), bungalow 87 (34), foursquare 17, ranch 12, greystone 273 (337), Victorian row
+      362 (451). Conformance (archetypes): Chicago 73/73.
+    - **Detail tiers** (sheets: < 6 px silhouette + wall/roof colour; 6–20 px porch/bay/carport/entry voids; > 20 px
+      dormers, openings, broad trim), on the reference phone frame (565 px tall, 50° vertical FOV; look.json
+      `tierFrameHeightPx`, `tierFovDegrees`), by the sheet's total height: 20 px at 144 m (Chicago ranch) to 306 m
+      (flats), 6 px at 479–1020 m. Mapping onto `BuildingLOD`: near (< 50 m) and mid (50–150 m) = the > 20 px tier
+      (archetype houses now get dormers at mid too); far (150–600 m) = the 6–20 px tier: archetype houses now carry
+      the porch as a dark void (house-contrast porch_shadow, else wall × `farPorchShade` 0.35) under a slab roof, or
+      a dark entry recess (2–14 triangles); skyline (> 600 m) = < 6 px. Remaining mismatch, renderer side (5A): the
+      fixed 150 m mid→far switch drops openings for two-/three-storey archetypes that stay above 20 px to 235–306 m,
+      and the 600 m far→skyline switch drops their voids while they are still 6–20 px (to 680–1020 m).
+    - Comparisons (buildingviz, 1005 × 565 panels): [Chicago block](archetypes/chicago-block-side-by-side.jpg),
+      sheets [bungalow](archetypes/chicago-01-bungalow-side-by-side.jpg),
+      [flats](archetypes/chicago-02-flats-side-by-side.jpg), [cottage](archetypes/chicago-03-cottage-side-by-side.jpg),
+      [foursquare](archetypes/chicago-04-foursquare-side-by-side.jpg), [ranch](archetypes/chicago-05-ranch-side-by-side.jpg).

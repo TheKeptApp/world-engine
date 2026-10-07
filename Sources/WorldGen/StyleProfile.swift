@@ -91,6 +91,13 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         public var door: [Double]
         /// Coordinated tuples: [wall, trim, door, roof].
         public var colors: [[String]]
+        /// house-archetypes-v1 archetype ID (e.g. "denver-01-square"). When set, the archetype's values (read by key
+        /// from the shared mock values) replace colours, roof mix, pitch, floor-to-floor height and porch depth at load
+        /// (`StyleProfile.resolvingArchetypes()`); the JSON copies of those fields are mirrors for review tools.
+        public var archetype: String?
+        /// Share of the archetype's fallback-mix weight this type takes in "@archetypes" type rules (default 1;
+        /// 0 = chosen only by an explicit rule, e.g. a duplex for shared walls).
+        public var archetypeShare: Double?
     }
 
     public struct Thresholds: Codable, Sendable, Equatable {
@@ -289,8 +296,9 @@ public enum StyleLibrary {
         try JSONDecoder().decode(RegionCatalog.self, from: data("regions"))
     }
 
+    /// A profile with its house types' archetypes resolved (house-archetypes-v1 values by key).
     public static func profile(id: String) throws -> StyleProfile {
-        try JSONDecoder().decode(StyleProfile.self, from: data(id))
+        try JSONDecoder().decode(StyleProfile.self, from: data(id)).resolvingArchetypes()
     }
 
     /// The profile selected for a location by the region catalog.

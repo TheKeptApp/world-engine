@@ -39,8 +39,9 @@ extension BuildingGenerator {
             }
         }
 
-        // Dormers on the street-facing slope, near only.
-        guard c.lod == .near, let range = rr?.dormers, range.count >= 2, main.pitch >= 24, plan.frontSign != 0 else { return used }
+        // Dormers on the street-facing slope, near only; archetype houses also at mid (house-archetypes-v1: dormers
+        // above 20 px, which a sheet-size house stays out to 144-306 m on the reference phone frame).
+        guard c.lod == .near || (c.lod == .mid && c.type?.archetype != nil), let range = rr?.dormers, range.count >= 2, main.pitch >= 24, plan.frontSign != 0 else { return used }
         var d = c.b.ref.random("dormers")
         guard d.chance(rr?.dormerChance ?? 0) else { return used }
         let count = range[0] + Int(d.next() % UInt64(max(1, range[1] - range[0] + 1)))

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions. House details (house-details-v1, docs/buildings/README.md decision 37): details = per-family porches (posts, rails, brackets, porch roof), stoops (width, cheek walls, stone), trim colour endpoints (3 linear-light steps per house), eave overhang, fascia, corner boards/chamfers, relief casings, frieze, shutters, cornice-cap bevel. pack names the house-details-v1 family the recipe follows.",
+  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions. House details (house-details-v1, docs/buildings/README.md decision 37): details = per-family porches (posts, rails, brackets, porch roof), stoops (width, cheek walls, stone), trim colour endpoints (3 linear-light steps per house), eave overhang, fascia, corner boards/chamfers, relief casings, frieze, shutters, cornice-cap bevel. pack names the house-details-v1 family the recipe follows. Archetypes (house-archetypes-v1, P2 2026-10-07): foursquare carries the sheets' one small centred dormer (dormerChance is a judgment). Archetype types take colours, pitch, floor-to-floor, foundation and porch depth from the pack by key (Profiles/mock-values.json), not from this file.",
   "toneFloors": {
     "roofGain": 1.0,
     "wallGain": 1.0,
@@ -857,6 +857,17 @@
             1.7
           ]
         }
+      },
+      "roof": {
+        "dormers": [
+          1,
+          1
+        ],
+        "dormerChance": 0.75,
+        "dormerWidth": [
+          1.6,
+          2.2
+        ]
       }
     },
     "ranch": {
