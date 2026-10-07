@@ -1,5 +1,11 @@
 {
   "comment": "Renderer-neutral look values neither the lighting bible (lighting-bible.json) nor the rain pack (rain-bible.json) fixes, tuned for the owner's phone checks. Both renderers read them from here; nothing look-related is hard-coded in shaders or Swift (owner, 6 Oct). Change log: docs/look-spec-changes.md.",
+  "daytimeMaster": {
+    "comment": "Engine calibration only (owner, 7 Oct: look values come from mock-values.json, house-contrast-v1 sharedLighting). key and fill scale the clear-day sun and sky fill under the master so a neutral patch's shadow/lit linear luminance meets the master's 0.62 (shadows.strengthPercent 38). Measured on the simulator; see docs/look-spec-changes.md.",
+    "key": 0.6,
+    "fill": 1.65,
+    "exposureTargetY8": 131.3
+  },
   "water": {
     "skyReflectClear": 0.3,
     "skyReflectOvercast": 0.8,

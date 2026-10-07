@@ -628,11 +628,15 @@ public final class World {
     public internal(set) var exposureTarget: Float = 0.54
     /// Post-process saturation multiplier for the current light and weather (set by `apply`).
     public internal(set) var gradeSaturation: Float = 1
+    /// The approved mock's colour grade for the current light and weather (daytime master, mock-values.json).
+    public internal(set) var gradeLook: GradeTable.Look = .neutral
     /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
     static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()
     /// Renderer-neutral look values beyond the bible (`Profiles/look.json`).
     static let lookSpec = try? StyleLibrary.look()
+    /// The daytime lighting master (house-contrast-v1 sharedLighting, from mock-values.json).
+    static let daytimeMaster = try? StyleLibrary.daytimeMaster()
     /// The rain pack (generated from docs/proposals/rain-v1).
     static let rainBible = try? StyleLibrary.rainBible()
 

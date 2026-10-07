@@ -24,6 +24,12 @@ public final class WorldPostProcess: @unchecked Sendable {
         public var exposureMin: Float = 0.6
         public var exposureMax: Float = 1.6
         public var exposureRate: Float = 0.06
+        /// The approved mock's grade (daytime master) in linear light, in its order after lighting: `lookEV` over the solved
+        /// exposure (the solve would meter a lift away), contrast about 0.18, saturation, warmth.
+        public var lookEV: Float = 0
+        public var lookContrast: Float = 1
+        public var lookSaturation: Float = 1
+        public var lookWarmth: Float = 0
         public init() {}
         /// The shipped settings; per-frame values (saturation, contrast) scale these.
         public static let `default` = Settings()
@@ -56,7 +62,18 @@ public final class WorldPostProcess: @unchecked Sendable {
     #include <metal_stdlib>
     using namespace metal;
     struct P { float threshold; float strength; float saturation; float contrast;
-               float target; float minGain; float maxGain; float rate; float autoExposure; };
+               float target; float minGain; float maxGain; float rate; float autoExposure;
+               float lookContrast; float lookSaturation; float lookWarmth; float lookGain; };
+    // The mock grade's contrast, saturation and warmth in linear light, before exposure and the tone
+    // mapper: luminance as a power about the 0.18 pivot (deeper darks, brighter highlights without
+    // clipping the darks), luminance-preserving saturation, then a red/blue diagonal warmth.
+    float3 lookOf(float3 x, constant P& p) {
+        float l = dot(x, float3(0.2126, 0.7152, 0.0722));
+        if (l > 1e-5) { x *= pow(l / 0.18, p.lookContrast - 1.0); }
+        float l2 = dot(x, float3(0.2126, 0.7152, 0.0722));
+        x = max(mix(float3(l2), x, p.lookSaturation), 0.0);
+        return x * float3(1.0 + 0.5 * p.lookWarmth, 1.0, 1.0 - 0.5 * p.lookWarmth);
+    }
     kernel void prefilter(texture2d<half, access::sample> src [[texture(0)]], texture2d<half, access::write> dst [[texture(1)]],
                           constant P& p [[buffer(0)]], uint2 gid [[thread_position_in_grid]]) {
         if (gid.x >= dst.get_width() || gid.y >= dst.get_height()) return;
@@ -85,6 +102,7 @@ public final class WorldPostProcess: @unchecked Sendable {
     // look loop's and the lighting bible's whole-frame measure (Y8 / 255). 16 × 16 samples,
     // bisection in log space within [minGain, maxGain], then eased into state[0].
     float3 gradeOf(float3 x, float g, constant P& p) {
+        x = lookOf(x, p);
         float3 c = g * x / (1.0 + (g - 1.0) * x);
         float l = dot(c, float3(0.2126, 0.7152, 0.0722));
         c = mix(float3(l), c, p.saturation);
@@ -125,13 +143,11 @@ public final class WorldPostProcess: @unchecked Sendable {
         float2 uv = (float2(gid) + 0.5) / float2(dst.get_width(), dst.get_height());
         half4 c = src.read(gid);
         half3 col = c.rgb + bloom.sample(s, uv).rgb * half(p.strength);
-        if (p.autoExposure > 0.5 && state[0] > 0.0) {
-            // The solved gain (exposureSolve), applied in linear light with a soft curve
-            // (g·x / (1 + (g − 1)·x)) so that white stays white.
-            float g = pow(state[0], 2.2);
-            float3 x = float3(col);
-            col = half3(g * x / (1.0 + (g - 1.0) * x));
-        }
+        float3 x = lookOf(float3(col), p);
+        // The solved gain (exposureSolve) times the mock grade's exposure lift, applied in linear light
+        // with a soft curve (g·x / (1 + (g − 1)·x)) so that white stays white.
+        float g = (p.autoExposure > 0.5 && state[0] > 0.0 ? pow(state[0], 2.2) : 1.0) * p.lookGain;
+        col = half3(g * x / (1.0 + (g - 1.0) * x));
         half luma = dot(col, half3(0.2126h, 0.7152h, 0.0722h));
         col = mix(half3(luma), col, half(p.saturation));
         col = (col - 0.5h) * half(p.contrast) + 0.5h;
@@ -176,7 +192,8 @@ public final class WorldPostProcess: @unchecked Sendable {
         }
         var p = (settings.bloomThreshold, settings.bloomStrength, settings.saturation, settings.contrast,
                  settings.exposureTarget, settings.exposureMin, settings.exposureMax, settings.exposureRate,
-                 Float(settings.autoExposure ? 1 : 0))
+                 Float(settings.autoExposure ? 1 : 0), settings.lookContrast, settings.lookSaturation, settings.lookWarmth,
+                 Float(pow(2, Double(settings.lookEV))))
         func dispatch(_ name: String, _ textures: [MTLTexture], bytes: (UnsafeRawPointer, Int)?, grid: (Int, Int)) {
             guard let pipe = pipelines[name], let enc = cb.makeComputeCommandEncoder() else { return }
             enc.setComputePipelineState(pipe)
