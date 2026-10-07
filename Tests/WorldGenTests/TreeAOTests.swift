@@ -4,8 +4,9 @@ import Testing
 @testable import WorldGen
 @testable import WorldMesh
 
-/// Baked contact shading on trees (extra.x, vegetation-v1): the trunk base 10–20% darker where it meets
-/// the lawn, unshaded just above; crown undersides gently shaded.
+/// Baked contact shading on trees (extra.x): the trunk base at the renderer's ambient floor (0.65; owner
+/// 2026-10-07, stronger than vegetation-v1's 10–20 % so it reads at phone size), unshaded above the band;
+/// crown undersides gently shaded.
 @Suite("Tree AO")
 struct TreeAOTests {
     @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .conifer])
@@ -14,9 +15,9 @@ struct TreeAOTests {
             let m = try TreeSilhouetteTests.mesh(kind, lod: lod)
             let base = (0..<m.vertexCount).filter { m.positions[$0].y < 0.005 && TreeSilhouetteTests.part(m, vertex: $0) == .trunk }
             #expect(!base.isEmpty, "\(kind) lod \(lod): no trunk base")
-            for v in base { #expect(m.extras[v].x >= 0.8 && m.extras[v].x <= 0.9, "\(kind) lod \(lod): trunk base AO \(m.extras[v].x)") }
+            for v in base { #expect(m.extras[v].x >= 0.6 && m.extras[v].x <= 0.7, "\(kind) lod \(lod): trunk base AO \(m.extras[v].x)") }
         }
-        // Just above the contact band (about 0.4 m up a 15 m tree) and below the fork, the trunk is unshaded.
+        // Just above the contact band (about 0.9 m up a 15 m tree) and below the fork, the trunk is unshaded.
         if kind != .conifer {
             let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
             let above = (0..<m.vertexCount).filter {

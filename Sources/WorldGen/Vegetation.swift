@@ -45,12 +45,35 @@ public struct VegetationLibrary: Codable, Sendable {
     public func applying(to seasonal: SeasonalPalette, profileID: String) -> SeasonalPalette {
         guard let region = region(forProfile: profileID) else { return seasonal }
         var out = seasonal
-        for (slot, id) in region.slots {
-            if let s = species[id], s.colours.count == 4 { out.surfaces[slot] = s.colours }
+        for (slot, entry) in region.slots {
+            // "species@lag": a later-turning tree of that species (autumn colour lag × of the way back
+            // toward its summer green, mixed in linear light), so one street mixes green, gold and orange.
+            let parts = entry.split(separator: "@").map(String.init)
+            guard let s = species[parts[0]], s.colours.count == 4 else { continue }
+            var colours = s.colours
+            if parts.count == 2, let lag = Double(parts[1]), lag > 0 {
+                colours[2] = Self.mixHex(s.colours[2], s.colours[1], min(1, lag))
+            }
+            out.surfaces[slot] = colours
         }
         if let s = species[region.bark] { out.surfaces["bark"] = Array(repeating: s.branches, count: 4) }
         out.crownColors = region.crownColors
         return out
+    }
+
+    /// The species ID of a slot entry ("species" or "species@lag").
+    public static func speciesID(_ entry: String) -> String { String(entry.split(separator: "@").first ?? Substring(entry)) }
+
+    /// Two sRGB hex colours mixed in linear light (t = 0 → a, 1 → b).
+    static func mixHex(_ a: String, _ b: String, _ t: Double) -> String {
+        func rgb(_ h: String) -> [Double] {
+            let v = UInt32(h.dropFirst(), radix: 16) ?? 0
+            return [Double((v >> 16) & 255), Double((v >> 8) & 255), Double(v & 255)].map { $0 / 255 }
+        }
+        func lin(_ c: Double) -> Double { c <= 0.04045 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4) }
+        func srgb(_ c: Double) -> Double { c <= 0.0031308 ? c * 12.92 : 1.055 * pow(c, 1 / 2.4) - 0.055 }
+        let m = zip(rgb(a), rgb(b)).map { srgb(lin($0) * (1 - t) + lin($1) * t) }
+        return String(format: "#%02X%02X%02X", Int((m[0] * 255).rounded()), Int((m[1] * 255).rounded()), Int((m[2] * 255).rounded()))
     }
 
     /// Crown form for a mapped tree's tags: `species` / `taxon` ("Genus species") first, then `genus`

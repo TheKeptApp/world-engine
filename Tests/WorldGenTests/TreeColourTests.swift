@@ -56,13 +56,13 @@ struct TreeColourTests {
         for (name, region) in lib.regions {
             #expect(lib.species[region.bark] != nil, "\(name): bark species")
             for (slot, id) in region.slots {
-                #expect(SeasonalPalette.order.contains(slot) && lib.species[id] != nil, "\(name): \(slot) → \(id)")
+                #expect(SeasonalPalette.order.contains(slot) && lib.species[VegetationLibrary.speciesID(id)] != nil, "\(name): \(slot) → \(id)")
             }
             for (form, family) in region.crownColors {
                 let first = try #require(SeasonalPalette.order.firstIndex(of: family.first))
                 var forms: [String] = []
                 for key in SeasonalPalette.order[first..<(first + family.count)] {
-                    let species = try #require(region.slots[key].flatMap { lib.species[$0] }, "\(name) \(form): \(key) unset")
+                    let species = try #require(region.slots[key].flatMap { lib.species[VegetationLibrary.speciesID($0)] }, "\(name) \(form): \(key) unset")
                     #expect(species.form != "conifer", "\(name) \(form): \(key) is a conifer")
                     forms.append(species.form)
                 }
@@ -92,15 +92,28 @@ struct TreeColourTests {
                 let c = p.colors[s]
                 let key = SeasonalPalette.order[s]
                 print("AUTUMNSLOT \(profile) \(form) \(key) \(region.slots[key] ?? "?") \(Palette.hex(c))")
-                #expect(c.x > c.y + 0.03 && c.x > c.z + 0.15, "\(profile) \(form): \(key) \(Palette.hex(c)) is not an autumn colour")
+                // Denver keeps later-turning (still green) slots on purpose (owner 2026-10-07).
+                if profile != "front-range" {
+                    #expect(c.x > c.y + 0.03 && c.x > c.z + 0.15, "\(profile) \(form): \(key) \(Palette.hex(c)) is not an autumn colour")
+                }
             }
+        }
+        if profile == "front-range" {
+            // A Denver street mixes orange/russet, gold and still-green crowns (Sloan's Lake read as one
+            // lemon yellow with the pack's Denver list alone).
+            let all = [PropKind.treeBroad, .treeOval, .treeSpreading].flatMap { Self.slots($0, p) }.map { p.colors[$0] }
+            let orange = all.filter { $0.x > $0.y + 0.15 }.count
+            let gold = all.filter { $0.x > $0.y + 0.03 && $0.x <= $0.y + 0.15 }.count
+            let green = all.filter { $0.y >= $0.x }.count
+            #expect(orange >= 2 && gold >= 2 && green >= 1, "Denver autumn: orange \(orange), gold \(gold), green \(green)")
         }
         if profile == "evanston" {
             #expect(Self.slots(.treeBroad, p).map { Palette.hex(p.colors[$0]) } == ["#CE763C"])     // maple
             #expect(Self.slots(.treeOval, p).map { Palette.hex(p.colors[$0]) } == ["#C6B24E"])      // linden
             #expect(Set(Self.slots(.treeSpreading, p).map { Palette.hex(p.colors[$0]) }) == ["#A55835", "#BCAE4D", "#D2B95C"])
         } else {
-            #expect(Self.slots(.treeSpreading, p).map { Palette.hex(p.colors[$0]) } == ["#C8AC46"])  // cottonwood
+            // Denver (owner 2026-10-07): cottonwood gold, oak russet, later honey locust and elm.
+            #expect(Self.slots(.treeSpreading, p).map { Palette.hex(p.colors[$0]) } == ["#C8AC46", "#A55835", "#ACA556", "#839049"])
         }
         // Every level of every deciduous archetype paints its crown with its form's family.
         for kind in [PropKind.treeBroad, .treeOval, .treeSpreading] {
