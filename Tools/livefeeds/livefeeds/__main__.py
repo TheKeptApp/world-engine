@@ -17,7 +17,7 @@ import os
 import sys
 import time
 
-from . import cta, ctabus, rtd, tiles
+from . import cta, ctabus, ctagtfs, rtd, tiles
 from .relay import SOURCES, Config, Relay, MIN_POLL_INTERVAL, load_areas
 from .server import etag_for, make_server, vehicles_payload
 
@@ -63,7 +63,13 @@ def _relay(args) -> Relay:
     areas = [a for a in load_areas(args.areas) if feed in a.feeds]
     if not areas:
         raise SystemExit("no area in %s lists the feed %r" % (args.areas, feed))
-    shapes = (lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent)) if feed == "rtd" else None
+    if feed == "rtd":
+        shapes = lambda: rtd.fetch_shapes(cfg.routes_url, cfg.user_agent)
+    else:
+        def shapes():
+            table, stops, n = ctagtfs.fetch(user_agent=cfg.user_agent)
+            table.stops = stops
+            return table, n
     return Relay(cfg, areas, log=_log, shapes_fetch=shapes, source=SOURCES[feed])
 
 
