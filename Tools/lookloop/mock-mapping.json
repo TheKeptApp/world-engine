@@ -1,0 +1,3805 @@
+{
+  "comment": "Mock key (Resources/look/mock-values.json) -> engine value implementing it. transform: 'none' = engine value is final; 'multiply' = engine value x each factor; 'log2_ratio' = log2(engine value / factor); 'raw, transform not modelled' = compared raw. Written by P3; checked by Tools/lookloop/conformance.py.",
+  "mappings": [
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.skyTop"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[0].skyGradient[0].hex",
+      "note": "zenith (90 deg) stop vs engine skyTop of the dusk key; grade.json saturation is a post-process on the whole frame and is not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.skyHorizon"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[0].skyGradient[2].hex",
+      "note": "horizon (0 deg) stop vs engine skyHorizon of the dusk key",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.fog"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[0].haze.hex",
+      "note": "haze colour vs time-key distance-fog colour",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.exposure"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/time-of-day.json",
+          "path": "keys.noon.exposure"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[0].exposureRelativeEV",
+      "note": "EV relative to day: log2(key exposure / noon exposure), both linear scene-light multipliers in time-of-day.json",
+      "transform": "log2_ratio"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.sky"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/grade.json",
+          "path": "tuning.blue-hour.fill"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[0].skyFillNoonRelative",
+      "note": "R8 sky fill x grade.json tuning.blue-hour.fill",
+      "transform": "multiply"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.ground"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/grade.json",
+          "path": "tuning.blue-hour.groundFill"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[0].groundFillNoonRelative",
+      "note": "R8 ground bounce x grade.json tuning.blue-hour.groundFill",
+      "transform": "multiply"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.litWindows"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[0].windowsLitShare",
+      "note": "share of lit window apertures",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.dusk.sunIntensity"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[0].directSun",
+      "note": "direct sun relative to noon",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.skyTop"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[1].skyGradient[0].hex",
+      "note": "zenith (90 deg) stop vs engine skyTop of the night key; grade.json saturation is a post-process on the whole frame and is not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.skyHorizon"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[1].skyGradient[2].hex",
+      "note": "horizon (0 deg) stop vs engine skyHorizon of the night key",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.fog"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[1].haze.hex",
+      "note": "haze colour vs time-key distance-fog colour",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.exposure"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/time-of-day.json",
+          "path": "keys.noon.exposure"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[1].exposureRelativeEV",
+      "note": "EV relative to day: log2(key exposure / noon exposure), both linear scene-light multipliers in time-of-day.json",
+      "transform": "log2_ratio"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.sky"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/grade.json",
+          "path": "tuning.moonless-night.fill"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[1].skyFillNoonRelative",
+      "note": "R8 sky fill x grade.json tuning.moonless-night.fill",
+      "transform": "multiply"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.ground"
+      },
+      "factors": [
+        {
+          "file": "Sources/WorldGen/Profiles/grade.json",
+          "path": "tuning.moonless-night.groundFill"
+        }
+      ],
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[1].groundFillNoonRelative",
+      "note": "R8 ground bounce x grade.json tuning.moonless-night.groundFill",
+      "transform": "multiply"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.litWindows"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[1].windowsLitShare",
+      "note": "share of lit window apertures",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.sunIntensity"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[1].directSun",
+      "note": "direct sun relative to noon",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "states.fog.ev"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[2].exposureRelativeEV",
+      "note": "fog state EV from the lighting bible (already relative to day)",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.sky"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[2].skyFillNoonRelative",
+      "note": "grade.json tuning.fog sets no fill multiplier, so fill.sky is final",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "fill.ground"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[2].groundFillNoonRelative",
+      "note": "grade.json tuning.fog sets no groundFill multiplier",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/grade.json",
+        "path": "tuning.fog.direct"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[2].directSunRelativeClear",
+      "note": "fog direct-sun multiplier on the clear model",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.morning.litWindows"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/states[2].windowsLitShare",
+      "note": "morning key",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/weather.json",
+        "path": "states.fog.tint"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[2].haze.hex",
+      "note": "fog weather tint (linear blend at tintWeight over the time key)",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "extinction.fog-medium.color"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/states[2].groundFog.hex",
+      "note": "closest engine fog extinction colour",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.windowLitNight"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/windows.warmHex",
+      "note": "warm lit window colour",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.night.litWindows"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/windows.defaultNightShare",
+      "note": "",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "night.litWindows[0]"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/windows.nightShareAllowed[0]",
+      "note": "",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "night.litWindows[1]"
+      },
+      "kind": "scalar",
+      "mock": "night-fog-v1/windows.nightShareAllowed[1]",
+      "note": "",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.lampGlow"
+      },
+      "kind": "colour",
+      "mock": "night-fog-v1/streetlights.types[0].colourHex",
+      "note": "led-warm (default type for all three area profiles) vs the engine lamp glow colour",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickBungalow].colors[0][0]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.wall.hex",
+      "note": "first colour set of brickBungalow; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickBungalow].colors[0][1]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.trim.hex",
+      "note": "first colour set of brickBungalow; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickBungalow].colors[0][3]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.roof.hex",
+      "note": "first colour set of brickBungalow; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.windowDay"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.window_glass_day.hex",
+      "note": "day window glass",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][0]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.wall.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][1]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.trim.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][3]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.roof.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.windowDay"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.window_glass_day.hex",
+      "note": "day window glass",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][0]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.wall.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][1]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.trim.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=brickStackedFacade].colors[0][3]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.roof.hex",
+      "note": "first colour set of brickStackedFacade; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.windowDay"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.window_glass_day.hex",
+      "note": "day window glass",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=frameCottage].colors[0][0]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.wall.hex",
+      "note": "first colour set of frameCottage; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=frameCottage].colors[0][1]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.trim.hex",
+      "note": "first colour set of frameCottage; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/chicago-dense-north.json",
+        "path": "houseTypes[id=frameCottage].colors[0][3]"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.roof.hex",
+      "note": "first colour set of frameCottage; colours quad read as [wall, trim, accent, roof]; house-families.json details.trim ranges and per-instance variation not modelled",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/base-palette.json",
+        "path": "colors.windowDay"
+      },
+      "kind": "colour",
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.window_glass_day.hex",
+      "note": "day window glass",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.water[1]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].resultHex",
+      "note": "Sloan clear calm water vs summer water swatch; per-lake profiles do not exist in the engine",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.water[1]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].resultHex",
+      "note": "Lake Michigan clear calm vs summer water swatch",
+      "transform": "raw, transform not modelled"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/look.json",
+        "path": "water.skyReflectClear"
+      },
+      "kind": "scalar",
+      "mock": "lake-winter-v1/water.reflection.normalStrength",
+      "note": "normal-incidence sky reflection blend (clear)",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.snow[3]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/ice.snowColourHex",
+      "note": "winter snow swatch",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.snow[3]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/branchSnow.colourHex",
+      "note": "winter snow swatch",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.snow[3]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/oldSnow.cleanLawnSnowColourHex",
+      "note": "winter snow swatch",
+      "transform": "none"
+    },
+    {
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.bark[3]"
+      },
+      "kind": "colour",
+      "mock": "lake-winter-v1/branchSnow.exposedBranchColourHex",
+      "note": "winter bark",
+      "transform": "none"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.gradient[0].hex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.noon.skyTop"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; zenith stop vs clear-day key skyTop (noon is the nearest clear daytime key; no 40 deg afternoon key)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.gradient[2].hex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.noon.skyHorizon"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; horizon stop vs noon skyHorizon"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.colorHex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "states.ordinary-1530.directTint"
+      },
+      "transform": "none",
+      "note": "daytime master; sun colour vs bible ordinary-1530 direct tint (clear afternoon state the renderer uses)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.skyFillColorHex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.noon.ambientSky"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; sky fill colour vs noon ambientSky (bible ordinary-1530 skyFillTint #99AFE0)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.appearanceTintHex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/time-of-day.json",
+        "path": "keys.noon.shadowTint"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; shadow appearance tint vs noon shadowTint (bible ordinary-1530 shadeTint #6E7FAC)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.directIntensityRelativeClearE0",
+      "kind": "scalar",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/grade.json",
+        "path": "tuning.ordinary-1530.direct"
+      },
+      "transform": "none",
+      "note": "daytime master; direct sun 1.0 x clear E0 vs grade.json direct multiplier on the weather model sun"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.keyToSkyFillWitnessRatio",
+      "kind": "scalar",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "states.ordinary-1530.keyFill"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; key:fill witness .613 vs bible keyFill 2.2; master says do NOT also apply the legacy 2.2 ratio (definitions differ, compared raw)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.relativeEV",
+      "kind": "scalar",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/lighting-bible.json",
+        "path": "states.ordinary-1530.ev"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; relative EV vs bible ordinary-1530 ev (E0 references differ)",
+      "phase5b": "phase5b paintover-grade.json (909eed2) states.ordinary-1530.exposureEV 0.3"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.saturationFactor",
+      "kind": "scalar",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/grade.json",
+        "path": "tuning.ordinary-1530.saturation"
+      },
+      "transform": "none",
+      "note": "daytime master; saturation factor vs grade.json clear-day saturation",
+      "phase5b": "phase5b paintover-grade.json (909eed2) states.ordinary-1530.saturation 1.075"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.asphalt.hex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.road[1]"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; summer road base albedo vs dry neutral base swatch; lighting not modelled"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.concrete.hex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.sidewalk[1]"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; summer sidewalk base albedo vs dry neutral base swatch; lighting not modelled"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.lawn.hex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.lawn[1]"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; summer lawn (lot lawns use lawnA/lawnB, North Shore defaults) base albedo vs dry neutral base swatch; lighting not modelled"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.curbHex",
+      "kind": "colour",
+      "engine": {
+        "file": "Sources/WorldGen/Profiles/seasonal-palette.json",
+        "path": "surfaces.curb[1]"
+      },
+      "transform": "raw, transform not modelled",
+      "note": "daytime master; summer curb base albedo vs dry neutral base swatch; lighting not modelled"
+    }
+  ],
+  "unmapped": [
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.eave_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.eave_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.eave_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.porch_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.porch_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.porch_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.roof.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.roof.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.soffit.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.soffit.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.soffit.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.trim.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.trim.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.wall.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.wall.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.window_glass_day.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.surfaces.window_glass_day.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_bungalow.wallMaterial",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.eave_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.eave_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.eave_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.porch_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.porch_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.porch_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.roof.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.roof.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.soffit.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.soffit.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.soffit.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.trim.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.trim.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.wall.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.wall.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.window_glass_day.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.surfaces.window_glass_day.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_three_flat.wallMaterial",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.eave_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.eave_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.eave_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.porch_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.porch_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.porch_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.roof.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.roof.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.soffit.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.soffit.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.soffit.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.trim.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.trim.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.wall.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.wall.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.window_glass_day.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.surfaces.window_glass_day.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.chicago_two_flat.wallMaterial",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.eave_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.eave_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.eave_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.porch_shadow.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.porch_shadow.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.porch_shadow.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.roof.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.roof.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.soffit.hex",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.soffit.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.soffit.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.trim.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.trim.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.wall.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.wall.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.window_glass_day.linearLuminance",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.surfaces.window_glass_day.relativeBrightness",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "house-contrast-v1/houseTypes.workers_cottage.wallMaterial",
+      "reason": "engine has no soffit/eave/porch-shadow colour, luminance target or wall-material enum in data (shadows come from lighting/AO)"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.day2FixtureHistory.hoursAboveFreezing",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.day2FixtureHistory.hoursSinceSnowfall",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.day2FixtureHistory.peakWindKmh",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.day2WindMeltCoveragePercent.bare_deciduous",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.day2WindMeltCoveragePercent.evergreen",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.evergreenInteriorHex",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.freshCoveragePercent.bare_deciduous",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.freshCoveragePercent.evergreen",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.aerialMaxLobesPerTree",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.maxVisibleCappedTrees",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.midMaxCapsPerTree",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.midRangeM",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.minCapLengthM",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.nearMaxCapsPerTree",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.lod.nearRangeM",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.roughness",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.shadowTintHex",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.sheenStrength",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/branchSnow.thicknessM",
+      "reason": "no branch snow caps in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.colourHex",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.openWaterEdgeTransitionM",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.roughness",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.sheenStrength",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.snowRoughness",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.snowShadowTintHex",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.snowSheenStrength",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.snowThicknessM",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.fully_frozen.iceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.fully_frozen.snowOnIceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.partly_frozen.iceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.partly_frozen.snowOnIceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.snow_on_ice.iceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/ice.states.snow_on_ice.snowOnIceCoveragePercent",
+      "reason": "no lake ice in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.bankEdgeSoftnessM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.curbPersistenceDistanceM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.curbSlushThicknessM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.curbSlushWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.dirtyBankBaseColourHex",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.dirtyBaseHeightFraction",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.dirtySnowColourHex",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.dirtySnowRoughness",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.dirtySnowSheenStrength",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.shadowTintHex",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.slushColourHex",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.slushRoughness",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.slushSheenStrength",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.bankColourState",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.bankHeightM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.bankWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.curbSlushWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.daysSinceSnowfall",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.fixturePositiveDegreeHours",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day2.lawnSnowCoveragePercent",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.bankColourState",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.bankHeightM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.bankWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.curbSlushWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.daysSinceSnowfall",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.fixturePositiveDegreeHours",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.lawnSnowCoveragePercent",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.day5.plowedPileHeightM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.bankColourState",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.bankHeightM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.bankWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.curbSlushWidthM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.daysSinceSnowfall",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.fixturePositiveDegreeHours",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.lawnSnowCoveragePercent",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/oldSnow.states.thaw.plowedPileHeightM",
+      "reason": "no old snow/banks/slush in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[0].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[10].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[11].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[12].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[13].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[14].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[15].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[16].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[17].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[18].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[19].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[1].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[20].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[21].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[22].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[23].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[24].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[25].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[26].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].comparisonColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].linearLuminanceChangePercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[27].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].comparisonColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].linearLuminanceChangePercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[28].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].comparisonColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].linearLuminanceChangePercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[29].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[2].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].comparisonColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].linearLuminanceChangePercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[30].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[3].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[4].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[5].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[6].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[7].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[8].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].id",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].lakeProfile",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].reflectionGrazingStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].reflectionNormalStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].skyState",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].baseColourHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].darkeningPercent",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].linearBaseMultiplier",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].resultHex",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].roughness",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].sheenStrength",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].surfaceValues[0].surface",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/states[9].windKmh",
+      "reason": "engine has one seasonal water colour; no per-lake/per-sky/per-wind water, ice or old-snow material states"
+    },
+    {
+      "mock": "lake-winter-v1/style",
+      "reason": "no engine equivalent"
+    },
+    {
+      "mock": "lake-winter-v1/water.haze.fixtureExtinctionPerM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.lod.aerialNormalAmplitudeScale",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.lod.minimumProjectedWaveWidthCssPx",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.lod.normalDetailFadeEndM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.lod.normalDetailFadeStartM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.defaultWindDurationHours",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.farShoreVisible",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.shallowBlendWidthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.shallowColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.0.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.0.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.0.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.10.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.10.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.10.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.25.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.25.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.lake_michigan.waveByWindKmh.25.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.defaultWindDurationHours",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.farShoreVisible",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.shallowBlendWidthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.shallowColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.0.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.0.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.0.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.10.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.10.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.10.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.25.amplitudeM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.25.phaseSpeedMps",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.profiles.sloans_lake.waveByWindKmh.25.wavelengthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.aerialScale",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.grazingExponent",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.grazingStrength",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.metallic",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.physicalF0",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.reflection.waterIOR",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.darkeningPercent",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.darkeningWidthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].baseColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].darkeningPercent",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].linearBaseMultiplier",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].resultHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].roughness",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].sheenStrength",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.exampleSurfaceValues[0].surface",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.linearBaseMultiplier",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.shoreline.transitionWidthM",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.clear.reflectionColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.clear.sunAzimuthDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.clear.sunElevationDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.golden_hour.reflectionColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.golden_hour.sunAzimuthDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.golden_hour.sunElevationDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.night.reflectionColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.night.sunAzimuthDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.night.sunElevationDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.overcast.reflectionColourHex",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.overcast.sunAzimuthDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.skyStates.overcast.sunElevationDegrees",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.0.normalAmplitude",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.0.roughness",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.0.windKmh",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.10.normalAmplitude",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.10.roughness",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.10.windKmh",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.25.normalAmplitude",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.25.roughness",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "lake-winter-v1/water.windStates.25.windKmh",
+      "reason": "no per-lake profile, wave, shoreline band or reflection-grazing data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].cityStarMultiplier",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].id",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].skyglow.colourHex",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].skyglow.downtownWorldAzimuthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].skyglow.halfWidthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].skyglow.heightSupportDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].skyglow.maxLinearBlend",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].streetlightType",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[0].windowWarmShare",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].cityStarMultiplier",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].headlightsAllowedInThisView",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].id",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].legacySodiumAlternative.enabledByDefault",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].legacySodiumAlternative.type",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].skyglow.colourHex",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].skyglow.downtownWorldAzimuthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].skyglow.halfWidthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].skyglow.heightSupportDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].skyglow.maxLinearBlend",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].streetlightType",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[1].windowWarmShare",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].cityStarMultiplier",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].id",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].skyglow.colourHex",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].skyglow.downtownWorldAzimuthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].skyglow.halfWidthDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].skyglow.heightSupportDeg",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].skyglow.maxLinearBlend",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].streetlightType",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/areaProfiles[2].windowWarmShare",
+      "reason": "engine has no per-area skyglow/star/window-warmth profile"
+    },
+    {
+      "mock": "night-fog-v1/fog.noSmoke",
+      "reason": "engine fog is linear distance fog; no transition/patch data"
+    },
+    {
+      "mock": "night-fog-v1/fog.showLiftOnlyWithEvidence",
+      "reason": "engine fog is linear distance fog; no transition/patch data"
+    },
+    {
+      "mock": "night-fog-v1/fog.transitionSeconds",
+      "reason": "engine fog is linear distance fog; no transition/patch data"
+    },
+    {
+      "mock": "night-fog-v1/headlights.castsNewShadows",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.colourHex",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.haloMaxBlend",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.maxAdditiveNoonRelative",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.maxDemoCarsPerStreetView",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.pairSeparationM",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.poolHalfWidthM",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/headlights.poolLengthM",
+      "reason": "no headlights in the engine"
+    },
+    {
+      "mock": "night-fog-v1/performance.activePoolAndHeadlightFieldsTotal",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.baseWorldMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.bloomMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.contentMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.fogInBaseWorld",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.fps",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.marginMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.maxActualLocalLights",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.minimumiOS",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.noExtraFullScreenPass",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.noShadowedLampMaps",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.phoneClass",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.starsInSkyDraw",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.totalGpuMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.wetLocalMs",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/performance.windowsInstanceEmissive",
+      "reason": "performance budget, not a look value"
+    },
+    {
+      "mock": "night-fog-v1/stars.blueHourUseActualSolarGate",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.catalogRequired",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.dayAndMorningOff",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.noRandomConstellations",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.noTwinkle",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.siderealTimeRequired",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/stars.visibleCap",
+      "reason": "no star field data in the engine"
+    },
+    {
+      "mock": "night-fog-v1/states[0].haze.sigmaPerM",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].id",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].skyGradient[0].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].skyGradient[1].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].skyGradient[1].hex",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].skyGradient[2].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].starsMaxIllustrated",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].streetlightOnFactor",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].time.kind",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[0].time.offsetMinutes",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].haze.sigmaPerM",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].id",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].skyGradient[0].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].skyGradient[1].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].skyGradient[1].hex",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].skyGradient[2].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].starsMaxIllustrated",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].streetlightOnFactor",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].time.kind",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[1].time.maxElevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.clearNearM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.layerTopM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.liftDemoSeconds",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.liftEnd.layerTopM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.liftEnd.patchCoverage01",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.liftEnd.sigmaPerM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchCountMax",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchCoverage01",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchEdgeFadeM[0]",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchEdgeFadeM[1]",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchHorizontalScaleM[0]",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.patchHorizontalScaleM[1]",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.shadowStrengthReductionPercent",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.sigmaPerM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.upperTaperM",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].groundFog.warmScatterHex",
+      "reason": "engine fog is distance fog (fogStart/fogEnd); no height/patch ground-fog layer"
+    },
+    {
+      "mock": "night-fog-v1/states[2].haze.sigmaPerM",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].id",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[0].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[0].hex",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[1].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[1].hex",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[2].elevationDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].skyGradient[2].hex",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].starsMaxIllustrated",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].streetlightOnFactor",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].time.elevationExampleDeg",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/states[2].time.kind",
+      "reason": "no engine equivalent for this state parameter (30 deg sky stop, stars, streetlight factor, sigma extinction, time fixture)"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.halo.depthOcclusionRequired",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.halo.halfRadiusCssPx",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.halo.maxBlend",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.halo.supportRadiusCssPx",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.halo.totalScreenCoveragePercentMax",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.maxActivePoolFields",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.maxActualUnshadowedLocalLights",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.maxPerRegion",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.pointLightBudgetSharedWithCars",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].approxCctK",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].coreEmissiveNoonRelative",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].groundAdditiveNoonRelativeMax",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].id",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].poolHalfMaxRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[0].poolSupportRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].approxCctK",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].colourHex",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].coreEmissiveNoonRelative",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].groundAdditiveNoonRelativeMax",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].id",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].poolHalfMaxRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[1].poolSupportRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].approxCctK",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].colourHex",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].coreEmissiveNoonRelative",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].groundAdditiveNoonRelativeMax",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].id",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].poolHalfMaxRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/streetlights.types[2].poolSupportRadiusM",
+      "reason": "engine has no streetlight pool/intensity data; only colors.lampGlow"
+    },
+    {
+      "mock": "night-fog-v1/style",
+      "reason": "no engine equivalent"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.asphaltDarkeningPercent",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.concreteDarkeningPercent",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.dewGrazingBlendMax",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.lawnDarkeningPercent",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.morningDemoWetness",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.nightDry",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.noAutoPuddles",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/surfaces.noMirrorRoad",
+      "reason": "engine wetness comes from the accumulation model; no dew/night-dry constants"
+    },
+    {
+      "mock": "night-fog-v1/windows.bloomWeightMax",
+      "reason": "engine has no cool-window colour, emissive scale or bloom weight in data"
+    },
+    {
+      "mock": "night-fog-v1/windows.coolEmissiveNoonRelative",
+      "reason": "engine has no cool-window colour, emissive scale or bloom weight in data"
+    },
+    {
+      "mock": "night-fog-v1/windows.coolHex",
+      "reason": "engine has no cool-window colour, emissive scale or bloom weight in data"
+    },
+    {
+      "mock": "night-fog-v1/windows.noPerWindowPointLights",
+      "reason": "engine has no cool-window colour, emissive scale or bloom weight in data"
+    },
+    {
+      "mock": "night-fog-v1/windows.warmEmissiveNoonRelative",
+      "reason": "engine has no cool-window colour, emissive scale or bloom weight in data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.gradient[1].hex",
+      "reason": "daytime master; engine sky is two-stop (skyTop/skyHorizon); no 30 deg stop"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.warmHorizon.tintHex",
+      "reason": "daytime master; no warm-horizon mix in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.warmHorizon.maximumMix01",
+      "reason": "daytime master; no warm-horizon mix in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.warmHorizon.maxElevationDeg",
+      "reason": "daytime master; no warm-horizon mix in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.cloudLitHex",
+      "reason": "daytime master; cloud colours are not data in engine (look.json sky only has cloud edge)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.cloudShadeHex",
+      "reason": "daytime master; cloud colours are not data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sky.cloudCoverage01",
+      "reason": "daytime master; clear-state cloud cover comes from live weather (bible fixture 0.15), not a look value"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.elevationDeg",
+      "reason": "daytime master; illustrative fixture; live solar model governs (master fixturePolicy)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.azimuthDegTrueNorthClockwise",
+      "reason": "daytime master; illustrative fixture; live solar model governs"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.geometry.shadowBearingDeg",
+      "reason": "daytime master; derived from fixture sun"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.geometry.flatGroundShadowLengthPerHeight",
+      "reason": "daytime master; derived from fixture sun"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.angularDiameterDeg",
+      "reason": "daytime master; no sun-disc size in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.sun.skyFillRelativeDirect",
+      "reason": "daytime master; derived (.62/.38); engine fill is time-of-day fill.sky x grade fill, different units"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.strengthPercent",
+      "reason": "daytime master; main has no shadow-strength value (achieved via direct/fill); phase5b paintover-grade.json states.ordinary-1530.shadowStrength 0.39"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.neutralWitnessShadowToLitLinearY",
+      "reason": "daytime master; measured, not data (grade.json comment: 15:30 shade-to-sun 0.37 measured 6 Oct); phase5b shadowStrength 0.39 => 0.61"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.addedAmbientVisibilityFloor",
+      "reason": "daytime master; AO floor not in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.filterDrawablePx[0]",
+      "reason": "daytime master; shadow filter not in data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.shadows.filterDrawablePx[1]",
+      "reason": "daytime master; shadow filter not in data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.linearGain",
+      "reason": "daytime master; derived from relativeEV (2^EV)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.contrastSlope",
+      "reason": "daytime master; main has no contrast grade; phase5b paintover-grade.json contrast 1.065"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.linearLuminancePivot",
+      "reason": "daytime master; main has no contrast grade; phase5b pivot .18 by definition"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.additionalWarmthPercent",
+      "reason": "daytime master; main has no warmth grade; phase5b paintover-grade.json warmth 0.05 (master: remove)"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.asphalt.roughness",
+      "reason": "daytime master; ground roughness not in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.concrete.roughness",
+      "reason": "daytime master; ground roughness not in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.ground.lawn.roughness",
+      "reason": "daytime master; ground roughness not in engine data"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.additionalWarmthDiagonalRGB[0]",
+      "reason": "daytime master; no warmth grade on main; phase5b warmth 0.05"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.additionalWarmthDiagonalRGB[1]",
+      "reason": "daytime master; no warmth grade on main; phase5b warmth 0.05"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.exposure.additionalWarmthDiagonalRGB[2]",
+      "reason": "daytime master; no warmth grade on main; phase5b warmth 0.05"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.barkHex",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.crownGreensHex[0]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.crownGreensHex[1]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.crownGreensHex[2]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.earlyAutumnHex",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.earlyAutumnAreaTargetMax01",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.lobesPerCrown[0]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.trees.lobesPerCrown[1]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.dressing.carColorsHex[0]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.dressing.carColorsHex[1]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.dressing.carColorsHex[2]",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    },
+    {
+      "mock": "house-contrast-v1/sharedLighting.postcard.dressing.parkedCarsTargetCount",
+      "reason": "postcard-view vegetation/dressing (P2); no per-view tree or car data in engine"
+    }
+  ]
+}

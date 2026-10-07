@@ -12,4 +12,4 @@
 
 - [fog-lifting](https://www.weather.gov/safety/fog-radiation) — **verified_principle_prior_checked**, checked 2026-10-06. Radiationfog formsnear cooledsurface and commonly dissipates withsunlight; not a fixedclock clearingrule.
 
-Repository style authorities: [visual-v2](/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md), [weather-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md), [paintover-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/paintover-v1/README.md), [fog-v1](../fog-v1/README.md). Appearance values and build costs are authored assumptions.
+Repository style authorities: [visual-v2](~/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md), [weather-v1](~/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md), [paintover-v1](~/Desktop/world-engine/docs/proposals/paintover-v1/README.md), [fog-v1](../fog-v1/README.md). Appearance values and build costs are authored assumptions.

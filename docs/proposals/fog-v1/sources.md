@@ -8,12 +8,12 @@ Research principles and authored proposals are separated. No source verifies the
 
 - [nws-water](https://www.weather.gov/safety/fog-water) — **verified_principle**. Warm moist air over cooler water can produce lake/advection fog, including the Great Lakes; it can move onto land. This does not verify a particular Chicago or Denver event.
 
-- [repository-0](/Users/robwoodbury/Desktop/world-engine/docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
+- [repository-0](~/Desktop/world-engine/docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
 
-- [repository-1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/rain-v1/README.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
+- [repository-1](~/Desktop/world-engine/docs/proposals/rain-v1/README.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
 
-- [repository-2](/Users/robwoodbury/Desktop/world-engine/docs/proposals/paintover-v1/README.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
+- [repository-2](~/Desktop/world-engine/docs/proposals/paintover-v1/README.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
 
-- [repository-3](/Users/robwoodbury/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
+- [repository-3](~/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
 
-- [repository-4](/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.
+- [repository-4](~/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md) — **repository_reference**. Style, weather contract or provisional performance authority; existing numerical artistic targets are not measured device results.

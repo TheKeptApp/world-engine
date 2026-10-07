@@ -66,7 +66,7 @@ Dates are a proposal from this research snapshot, not a commitment or roadmap ed
 
 ### Existing project context
 
-`/Users/robwoodbury/Desktop/world-engine/docs/roadmap.md` was **not present**. Read `docs/design-registry.md`, repository `AGENTS.md`/`CLAUDE.md`, `docs/plan-m1.md` and `docs/data-licensing.md` as the available context. They document rich-stylized generation, deterministic identities, chunk/LOD budgets and the package/code licensing separation. The user reports 60 fps; this research did not independently run or benchmark the app. No repo files were changed.
+`~/Desktop/world-engine/docs/roadmap.md` was **not present**. Read `docs/design-registry.md`, repository `AGENTS.md`/`CLAUDE.md`, `docs/plan-m1.md` and `docs/data-licensing.md` as the available context. They document rich-stylized generation, deterministic identities, chunk/LOD budgets and the package/code licensing separation. The user reports 60 fps; this research did not independently run or benchmark the app. No repo files were changed.
 
 ### Twenty metros and priority-place ranking
 

@@ -23,7 +23,7 @@ Night should read through cool sky and filled shadow shapes, selective warm wind
 
 All numeric appearance targets are **authored assumptions**, not observations of Chicago/Denver light pollution, household occupancy, lamp installations, emitted spectra, or physical moon illuminance. Repository budget/cap references were checked on disk on 6 October 2026. **Verified astronomy:** civil, nautical and astronomical twilight use solar-center elevations −6°, −12°, −18°. [US Naval Observatory, checked 6 October 2026](https://aa.usno.navy.mil/faq/RST_defs).
 
-Read-only anchors: [look-fix-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/look-fix-v1/README.md), [paintover-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/paintover-v1/README.md), [rain-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/rain-v1/README.md), [live-world-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/live-world-v1/README.md). These references live outside this delivery folder; the pack does not modify or copy them.
+Read-only anchors: [look-fix-v1](~/Desktop/world-engine/docs/proposals/look-fix-v1/README.md), [paintover-v1](~/Desktop/world-engine/docs/proposals/paintover-v1/README.md), [rain-v1](~/Desktop/world-engine/docs/proposals/rain-v1/README.md), [live-world-v1](~/Desktop/world-engine/docs/proposals/live-world-v1/README.md). These references live outside this delivery folder; the pack does not modify or copy them.
 
 Generated sheets are concept scenes, not surveyed geography, renderer captures, precise source positions, measured pixel brightness or GPU evidence. JSON and the exact SVG govern numerical values. AI windows/stars/shadows/pool boundaries are illustrative. Do not implement incidental fine surface grain, invented lakes, duplicate props or new openings in a mapped scene.
 
@@ -124,7 +124,7 @@ Accumulation/clearing history governs snow, footprints and banks. The sheet's cl
 
 At **5 m**, window partitions/curtains, lamp pools and lower-crown light can read. At **20 m**, reduce room detail to grouped warm planes and keep pool falloff. At **40 m**, preserve separated warm points, roof/crown silhouettes and path boundaries; cull subpixel decoration. In aerial, use sparse facade emission and pool groups; do not light roof planes as windows or enlarge houses/fixtures.
 
-The [v2 §8.1 budget](/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md) governs:
+The [v2 §8.1 budget](~/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md) governs:
 
 | Existing bucket | Allowance | Night effects charged here |
 |---|---:|---|
