@@ -49,7 +49,8 @@ struct OvertureTests {
         #expect(r.droppedOutsideBounds == 1)
         #expect(r.skipped == 1)
         #expect(r.added == 4)
-        #expect(r.buildings == 5)
+        #expect(r.buildings == 4)
+        #expect(r.extraPolygonsDropped == 1)
     }
 
     @Test func recordWithAnOSMSourceIsDropped() throws {
@@ -87,10 +88,10 @@ struct OvertureTests {
         #expect(abs(g.footprint.area - (20 * 16 - 6 * 4)) < 1)
     }
 
-    @Test func multiPolygonRecordAddsOneBuildingPerPolygon() throws {
+    @Test func multiPolygonRecordKeepsItsLargestPolygon() throws {
         let parts = try Self.overture(Self.load(), "ffffffff-ffff-4fff-8000-0000000000ff")
-        #expect(parts.count == 2)
-        #expect(Set(parts.map(\.ref)).count == 1)
+        #expect(parts.count == 1, "one building per GERS ID, so map-layer IDs stay unique")
+        #expect(parts.first?.tags["overture:id"] == "ffffffff-ffff-4fff-8000-0000000000ff")
     }
 
     @Test func osmBuildingsComeFirstAndUnchanged() throws {
@@ -153,7 +154,8 @@ struct OvertureTests {
         #expect(OSMRef(overtureID: "08b2a100d2c8dfff0200f7a6b2fd1f1c") == OSMRef(.overture, 0x08b2_a100_d2c8_dfff)) // older 32-hex form
         let neg = try #require(OSMRef(overtureID: "ffffffff-ffff-4fff-8000-0000000000ff"))
         #expect(neg.id == Int64(bitPattern: 0xffff_ffff_ffff_4fff) && neg.id < 0)
-        #expect(neg.description == "overture/-45057")
+        #expect(neg.description == "overture/ffffffffffff4fff")
+        #expect(OSMRef(.overture, 0x08b2_a100_d2c8_dfff).description == "overture/08b2a100d2c8dfff")
         #expect(OSMRef(overtureID: "abc") == nil)
         #expect(OSMRef(overtureID: "not-a-gers-id-at-all-zzzz") == nil)
     }

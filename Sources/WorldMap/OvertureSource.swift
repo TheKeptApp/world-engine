@@ -249,10 +249,18 @@ public enum OvertureBuildings {
                     continue
                 }
                 seenRefs[ref] = r.id
-                let tags = tags(for: r)
+                var tags = tags(for: r)
+                // The footprint's dataset, for the map data layer's provenance labels (`overture:id`
+                // already holds the full GERS ID; the ref keeps its first 16 hex digits).
+                if let g = r.sources.first(where: { $0.property == nil || $0.property == "" }) { tags["overture:geometry_source"] = g.dataset }
                 let type = tags["building"] ?? "yes"
                 var added = false, insideOSM = false, outside = false
-                for poly in r.polygons {
+                // One building per GERS ID: a record with several polygons keeps its largest (IDs stay unique).
+                let largest = r.polygons.max { a, b in
+                    (localPolygon(a, frame: out.frame).map { abs($0.area) } ?? 0) < (localPolygon(b, frame: out.frame).map { abs($0.area) } ?? 0)
+                }
+                if r.polygons.count > 1 { report.extraPolygonsDropped += r.polygons.count - 1 }
+                for poly in largest.map({ [$0] }) ?? [] {
                     guard let polygon = localPolygon(poly, frame: out.frame) else { continue }
                     let c = polygon.centroid
                     guard out.bounds.contains(c) else { outside = true; continue }
@@ -353,8 +361,10 @@ public struct OvertureMergeReport: Sendable, Equatable {
     public var skipped = 0
     /// Records that added at least one building.
     public var added = 0
-    /// Buildings appended (a MultiPolygon record can add several, sharing one ref).
+    /// Buildings appended (one per record: a MultiPolygon record keeps its largest polygon).
     public var buildings = 0
+    /// Smaller polygons of MultiPolygon records left out so every GERS ID names one building.
+    public var extraPolygonsDropped = 0
 
     public init() {}
 }

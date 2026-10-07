@@ -25,8 +25,13 @@ import WorldMesh
 ///     collision.json                building hulls for camera collision
 ///     palettes.json, materials.json, environment.json, sky-<state>.png, profiles/*.json
 ///     LICENSE-DATA.md               licence notice: ODbL data files, every source, how to get the data
+///     map/*.json                    map data layer (worldengine.map/2, see MapLayer): network, buildings,
+///                                   lots, entry points, places, transit; world.json `mapLayer`, `mapSnapshotID`
 public enum WorldPackage {
     public static let schema = "worldengine.package/1"
+    /// world.json `frame.type` and `frame.vertical` (the map layer header repeats them verbatim).
+    public static let frameType = "local tangent plane (ENU) on WGS84, exact"
+    public static let frameVertical = "flat terrain; y = 0 is ground (no terrain payload in this version)"
 
     public struct Options: Sendable {
         public var recipe: WorldRecipe
@@ -34,11 +39,15 @@ public enum WorldPackage {
         public var lightStates: [(name: String, date: Date)]
         /// Generator version string recorded in world.json (e.g. the git commit).
         public var generatorVersion: String
+        /// The map data layer (nil = left out of the package).
+        public var mapLayer: MapLayer.Options?
 
-        public init(recipe: WorldRecipe, lightStates: [(name: String, date: Date)], generatorVersion: String = "dev") {
+        public init(recipe: WorldRecipe, lightStates: [(name: String, date: Date)], generatorVersion: String = "dev",
+                    mapLayer: MapLayer.Options? = .init()) {
             self.recipe = recipe
             self.lightStates = lightStates
             self.generatorVersion = generatorVersion
+            self.mapLayer = mapLayer
         }
     }
 
@@ -63,6 +72,13 @@ public enum WorldPackage {
         var files: [String: Data] = [:]
         var summary = Summary()
         let frame = build.manifest.frame
+
+        // Map data layer (worldengine.map/2).
+        let map = try options.mapLayer.map { try MapLayer.export(build: build, areaDirectory: areaDirectory, generatorVersion: options.generatorVersion, options: $0) }
+        if let map { files.merge(map.files) { a, _ in a } }
+        // Sources: the area manifest's, plus the map layer's ZCTA boundaries and terrain.
+        var sourced = build.manifest
+        sourced.sources += map?.extraSources ?? []
 
         // Feature identities and the generator's choices.
         var kinds: [String: String] = [:]
@@ -262,8 +278,8 @@ public enum WorldPackage {
         // Licence notice and credits (decisions 6a, 6b, 6f): the data files are an ODbL Derivative
         // Database of OpenStreetMap; every manifest source is named with its licence.
         let catalog = try CreditsCatalog.bundled()
-        let credits = catalog.merged(sources: build.manifest.sources, surface: .package)
-        files[dataNoticeFile] = Data(dataNotice(manifest: build.manifest, credits: credits, catalog: catalog,
+        let credits = catalog.merged(sources: sourced.sources, surface: .package)
+        files[dataNoticeFile] = Data(dataNotice(manifest: sourced, credits: credits, catalog: catalog,
                                                 generatorVersion: options.generatorVersion).utf8)
 
         // Manifest.
@@ -277,9 +293,9 @@ public enum WorldPackage {
             "generator": ["name": "WorldEngine WorldGen", "version": options.generatorVersion],
             "area": ["id": build.manifest.id, "name": build.manifest.name, "widthMeters": build.manifest.widthMeters,
                      "heightMeters": build.manifest.heightMeters],
-            "sources": build.manifest.sources.map { s -> [String: Any] in
+            "sources": sourced.sources.map { s -> [String: Any] in
                 var d: [String: Any] = ["format": s.format, "license": s.license, "attribution": s.attribution, "layers": s.layers]
-                if let u = catalog.licenseURL(for: s.license) { d["licenseURL"] = u }
+                if let u = catalog.licenseURL(for: s.license) ?? map?.extraLicenseURLs[s.format] { d["licenseURL"] = u }
                 if let t = s.dataTimestamp { d["dataTimestamp"] = t }
                 if let h = s.sha256 { d["sha256"] = h }
                 return d
@@ -293,10 +309,10 @@ public enum WorldPackage {
             ] as [String: Any],
             "credits": try jsonObject(credits),
             "frame": [
-                "type": "local tangent plane (ENU) on WGS84, exact",
+                "type": frameType,
                 "origin": ["latitude": frame.origin.latitude, "longitude": frame.origin.longitude, "height": 0],
                 "units": "meters", "axes": ["x": "east", "y": "up", "z": "south (north is −Z)"],
-                "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)",
+                "vertical": frameVertical,
                 "meshVertices": "float32, relative to each chunk node's translation (its origin)",
             ],
             "recipe": [
@@ -327,7 +343,24 @@ public enum WorldPackage {
             ],
             "files": hashes,
         ]
-        files["world.json"] = try json(world)
+        var manifestObject = world
+        if let map {
+            manifestObject["mapLayer"] = ["schema": MapLayer.schema, "header": MapLayer.header]
+            manifestObject["mapSnapshotID"] = map.snapshotID
+            var meta: [String: Any] = ["schema": MapMeta.schema, "ids": MapMeta.idsPath, "provenance": MapMeta.provenancePath]
+            if map.files[MapMeta.migrationPath] != nil { meta["migration"] = MapMeta.migrationPath }
+            manifestObject["mapMeta"] = meta
+            let dir = MapLayer.independentDirectory
+            if map.files["\(dir)/terrain-slope.json"] != nil {
+                manifestObject["independentLayers"] = [
+                    "terrainSlope": ["header": "\(dir)/terrain-slope.json", "data": "\(dir)/terrain-slope.bin",
+                                     "derivedFrom": "USGS 3DEP lidar only", "join": "position (package frame)"],
+                    "lotSlope": ["file": "\(dir)/lot-slope.json", "derivedFrom": "USGS 3DEP lidar over OSM-derived lot outlines (not cleanly independent)",
+                                 "join": "lots[].id"],
+                ]
+            }
+        }
+        files["world.json"] = try json(manifestObject)
 
         // Write.
         let fm = FileManager.default
@@ -406,6 +439,8 @@ public enum WorldPackage {
         .init(pattern: "clutter-tufts.bin", meaning: "edge-tuft candidates (positions derived from the map data)"),
         .init(pattern: "collision.json", meaning: "building hulls"),
         .init(pattern: "environment.json", meaning: "location and experience defaults derived from the map data (its lighting tables are WorldEngine content)"),
+        .init(pattern: "map/*.json", meaning: "map data layer: street network with OSM tags, building footprints, inferred yards and entry points, places and transit stops"),
+        .init(pattern: "mapmeta/*.json", meaning: "map data layer companions: source links of every ID, provenance labels, ID migration from the previous snapshot"),
     ]
 
     /// Files that are WorldEngine's own content, not covered by the ODbL.
@@ -416,6 +451,7 @@ public enum WorldPackage {
         .init(pattern: "prototypes/*.glb", meaning: "prototype meshes (trees, bushes, props)"),
         .init(pattern: "boundary.glb", meaning: "boundary ground"),
         .init(pattern: "sky-*.png", meaning: "sky images"),
+        .init(pattern: "independent/*", meaning: "independent layers from public-domain non-OSM sources (USGS 3DEP lidar slope grid; lot slope keyed by lot ID), joined at runtime by position or ID; not part of the ODbL Derivative Database (licence pending review; see world.json independentLayers)"),
     ]
 
     /// Which class a package path belongs to: the ODbL data, separately licensed content, or the

@@ -30,6 +30,13 @@ enum Fetcher {
             (._;>;);
             out body qt;
             """
+        case "relations":
+            // Turn restrictions and public-transport routes for the map data layer: the relations
+            // only (their member ways and stops come from the area and context extracts).
+            return header + """
+            relation["type"~"^(restriction|route)$"]\(b);
+            out body qt;
+            """
         case "buildings":
             return header + """
             (way["building"]\(b);relation["building"]["type"="multipolygon"]\(b););
@@ -41,8 +48,12 @@ enum Fetcher {
         }
     }
 
-    static func fetch(manifest: AreaManifest, layer: String, into dir: URL) async throws -> AreaManifest.Source {
-        let q = try query(layer: layer, bbox: manifest.bounds)
+    static func fetch(manifest: AreaManifest, layer: String, into dir: URL, marginM: Double = 0) async throws -> AreaManifest.Source {
+        // The relations layer covers the map layer's road margin beyond the area box.
+        let bbox = layer == "relations"
+            ? GeoBoundingBox(center: manifest.center, widthMeters: manifest.widthMeters + 2 * marginM, heightMeters: manifest.heightMeters + 2 * marginM)
+            : manifest.bounds
+        let q = try query(layer: layer, bbox: bbox)
         let fileName = layer == "all" ? "osm.json" : "osm-\(layer).json"
         try q.write(to: dir.appendingPathComponent(fileName.replacingOccurrences(of: ".json", with: ".overpassql")), atomically: true, encoding: .utf8)
 
@@ -54,7 +65,7 @@ enum Fetcher {
                     let doc = try OSMDocument(overpassJSON: data) // validates the payload
                     try data.write(to: dir.appendingPathComponent(fileName))
                     return AreaManifest.Source(
-                        format: "osm-overpass-json", path: fileName, layers: [layer], bounds: manifest.bounds,
+                        format: "osm-overpass-json", path: fileName, layers: [layer], bounds: bbox,
                         dataTimestamp: doc.timestamp,
                         fetchedAt: ISO8601DateFormatter().string(from: Date()),
                         bytes: data.count,

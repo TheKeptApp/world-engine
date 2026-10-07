@@ -26,3 +26,15 @@ Building footprints in `overture-buildings.json` come from the Overture Maps Fou
 
 - **How it was fetched:** with `worldbake fetch <dir> --layers overture` (`scripts/data/fetch_overture.py`), reading only the area's bounding box from Overture's public GeoParquet.
 - **Where to look up details:** `manifest.json` records the release, the fetch time and the file's SHA-256; the file lists the GeoParquet files read and every source dataset with its licence.
+
+## ZIP Code Tabulation Areas
+
+`zcta.json` holds U.S. Census Bureau ZIP Code Tabulation Area (ZCTA5, 2020) boundaries clipped to the context-ring box, fetched from the Census TIGERweb service by `Tools/regionkit/zcta` (source URL and vintage in the file header). U.S. Census Bureau data is a U.S. Government work (public domain; licence statement still marked unverified in `docs/research/licensing.md`, row Z1). Used only to tag map-layer features with their ZCTA. ZCTAs approximate USPS ZIP codes; they are not the same thing.
+
+## Terrain slope
+
+`terrain-slope.json` and `terrain-slope.bin` hold a 1 m slope grid in the area's local frame, computed by `Tools/regionkit/terrain` from USGS 3D Elevation Program lidar ground returns (public domain; acknowledgement: "Data available from U.S. Geological Survey, National Geospatial Program."). Slope values only, no elevations or point data; project, collection dates, method and validation are in the header. Not keyed to OSM or Overture.
+
+## Network relations
+
+`osm-relations.json` is an unmodified extract of OpenStreetMap relations (same license as above): turn restrictions (`type=restriction`) and public-transport routes (`type=route`) in the area box plus 400 m, fetched with `out body` by `worldbake fetch --layers relations` using the query in `osm-relations.overpassql`. Relations only (tags and member lists, not recursed): their member ways and stops come from `osm.json` and `context.json`. Used by the map data layer (`docs/data/map-layer.md`) for turn restrictions and transit routes; not loaded into the rendered world.

@@ -194,7 +194,10 @@ struct PackageTests {
         }
         #expect(fa.keys.filter { WorldPackage.licenseClass(of: $0) == nil }.sorted() == [], "unclassified package files")
         let sources = world["sources"] as! [[String: Any]]
-        #expect(sources.count == build.manifest.sources.count)
+        // The area manifest's sources plus the map layer's ZCTA boundaries and lidar slope grid, when the area has them.
+        let extras = [("zcta.json", "census-zcta-v1"), ("terrain-slope.json", "worldengine-slope-grid-v1")]
+            .filter { FileManager.default.fileExists(atPath: Self.areaDir.appendingPathComponent($0.0).path) }.map(\.1)
+        #expect(sources.map { $0["format"] as? String ?? "" } == build.manifest.sources.map(\.format) + extras)
         #expect(sources.allSatisfy { ($0["licenseURL"] as? String)?.hasPrefix("https://") == true })
         let dataLicense = world["dataLicense"] as! [String: Any]
         #expect(dataLicense["license"] as? String == "ODbL-1.0" && dataLicense["notice"] as? String == WorldPackage.dataNoticeFile)

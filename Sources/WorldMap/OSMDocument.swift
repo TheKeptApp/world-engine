@@ -20,7 +20,11 @@ public struct OSMRef: Hashable, Codable, Sendable, CustomStringConvertible, Comp
         self.id = id
     }
 
-    public var description: String { "\(kind.rawValue)/\(id)" }
+    /// `node/<id>`, `way/<id>`, `relation/<id>`; Overture: `overture/<16 lowercase hex digits>`, the
+    /// GERS ID prefix the ref holds (the form the map data layer's ID patterns require).
+    public var description: String {
+        kind == .overture ? "overture/" + String(format: "%016llx", UInt64(bitPattern: id)) : "\(kind.rawValue)/\(id)"
+    }
 
     public static func < (a: OSMRef, b: OSMRef) -> Bool { (a.kind, a.id) < (b.kind, b.id) }
 

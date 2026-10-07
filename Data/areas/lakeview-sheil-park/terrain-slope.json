@@ -1,0 +1,97 @@
+{
+  "binBytes": 367753,
+  "binFile": "terrain-slope.bin",
+  "binSha256": "ecee8445cd695b6b02ca227caae15f62376ac81954953d28190afcfe9091c724",
+  "cellM": 1,
+  "cols": 1000,
+  "encoding": "uint8 row-major, row 0 south, col 0 west; raw deflate",
+  "format": "worldengine-slope-grid-v1",
+  "frame": {
+    "origin": {
+      "latitude": 41.94567,
+      "longitude": -87.66361
+    }
+  },
+  "groundPointsPerM2": 5.18,
+  "method": "Vendor ground-class (2) lidar points are binned on a 1 m grid in the area's local frame (exact WGS84 east/north about the manifest centre); each cell takes the mean height of its ground points. Empty cells are filled by inverse-distance weighting (power 2, up to 12 neighbours) of ground points within 2 m of the cell centre; cells with no ground point within 2 m stay no-data (buildings, water: no terrain is invented there). The DTM is smoothed with a 3x3 mean over the valid cells of the window (no-data cells stay no-data), then slope percent = 100 x |grad z| is taken with the Horn 3x3 operator; any no-data cell in the Horn window makes the slope no-data.",
+  "minX": -500,
+  "minY": -500,
+  "noDataShare": 0.2762,
+  "quantization": "value = round(slope percent × 2); 254 = ≥ 127 %; 255 = no data",
+  "rows": 1000,
+  "source": {
+    "attribution": "USGS 3D Elevation Program",
+    "collected": "2017-04-16 to 2017-05-07",
+    "id": "usgs-3dep-il-4county-cook-2017",
+    "license": "public-domain",
+    "licenseURL": "https://www.usgs.gov/faqs/what-are-terms-uselicensing-map-services-and-data-national-map",
+    "qualityLevel": "QL1",
+    "title": "USGS 3DEP lidar IL_4_County_QL1_LiDAR_2016_B16 (delivery IL_4County_Cook_2017)",
+    "url": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/",
+    "verticalAccuracy": "QL1 specification RMSEz 10 cm (NVA 19.6 cm at 95 %); tested NVA 0.101 m at 95 % (114 checkpoints) per the vendor metadata ClassifiedPointCloud_Dewberry_20ppsm.xml of the Cook delivery, whose extent text names Lake County (same QL1 project)"
+  },
+  "validation": {
+    "bestIntegerShiftCells": [
+      0,
+      0
+    ],
+    "heightMedianOffsetM": -0.001,
+    "heightResidualMadM": 0.005,
+    "how": "Our 1 m slope (as encoded) vs the same 3x3-mean + Horn slope of the USGS 3DEP 1 m DEM (IL_4_County_QL1_LiDAR_2016_B16, bilinear-sampled at our cell centres from a windowed read of the public COG), excluding cells within 2 m of lidar building/water points or of our no-data; classes by DEM slope. Both come from the same lidar, so this measures gridding/method error, not lidar accuracy. nearNoDataEdge: the excluded cells within 2 m of our no-data (e.g. yard strips next to houses), where the DEM interpolates across buildings.",
+    "nearNoDataEdge": {
+      "slope15AndAbove": {
+        "cells": 20,
+        "medianAbsDiffPts": 1.97,
+        "p90AbsDiffPts": 4.24,
+        "shareWithin2Pts": 0.5,
+        "shareWithin5Pts": 0.95
+      },
+      "slopeBelow15": {
+        "cells": 10416,
+        "medianAbsDiffPts": 0.37,
+        "p90AbsDiffPts": 1.27,
+        "shareWithin2Pts": 0.9709,
+        "shareWithin5Pts": 0.9993
+      }
+    },
+    "reference": {
+      "product": "USGS 3DEP 1 m DEM",
+      "tiles": [
+        "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/IL_4_County_QL1_LiDAR_2016_B16/TIFF/USGS_1M_16_x44y465_IL_4_County_QL1_LiDAR_2016_B16.tif"
+      ]
+    },
+    "splitSample": {
+      "how": "DTM and slope rebuilt from alternate halves of the ground points (each at half density); |slope A - slope B| by our full-density slope class; an upper bound on point-noise error.",
+      "slope15AndAbove": {
+        "cells": 3066,
+        "medianAbsDiffPts": 0.74,
+        "p90AbsDiffPts": 2.96,
+        "shareWithin2Pts": 0.8014,
+        "shareWithin5Pts": 0.9677
+      },
+      "slopeBelow15": {
+        "cells": 703794,
+        "medianAbsDiffPts": 0.21,
+        "p90AbsDiffPts": 0.74,
+        "shareWithin2Pts": 0.9929,
+        "shareWithin5Pts": 0.9996
+      }
+    },
+    "vsReference1mDEM": {
+      "slope15AndAbove": {
+        "cells": 1158,
+        "medianAbsDiffPts": 1.35,
+        "p90AbsDiffPts": 2.68,
+        "shareWithin2Pts": 0.7107,
+        "shareWithin5Pts": 0.9965
+      },
+      "slopeBelow15": {
+        "cells": 358541,
+        "medianAbsDiffPts": 0.21,
+        "p90AbsDiffPts": 0.66,
+        "shareWithin2Pts": 0.9981,
+        "shareWithin5Pts": 1.0
+      }
+    }
+  }
+}
