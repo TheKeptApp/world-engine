@@ -26,10 +26,39 @@ The README, values JSON and prompts are committed, so they are readable from any
 | Landmarks (Chicago, Denver) | landmarks-v1 | `~/Desktop/world-engine/docs/proposals/landmarks-v1/images/` | `docs/proposals/landmarks-v1/landmarks-colours.json` | reference – build after the look gate; Cloud Gate reference only |
 | Live objects (rail, planes) | live-world-v1 | `~/Desktop/world-engine/docs/proposals/live-world-v1/images/` | `docs/proposals/live-world-v1/live-style.json` | in use (pre-rule; R to confirm) |
 | Look fixes (ground, light, weather, aerial edges, sky) | look-fix-v1 | `~/Desktop/world-engine/docs/proposals/look-fix-v1/images/` | `docs/proposals/look-fix-v1/sky-projection-reference.json` | in use (pre-rule; R to confirm) |
-| Weather block (app UI design) | weather-block-design-v1 | `~/Desktop/world-engine/docs/proposals/weather-block-design-v1/images/` | `docs/proposals/weather-block-design-v1/design-values.json` | pending R approval (UI, not engine) |
+| Weather block (app UI design) | weather-block-design-v1 | `~/Desktop/world-engine/docs/proposals/weather-block-design-v1/images/` | `docs/proposals/weather-block-design-v1/design-values.json` | pending R approval – app, after look gate |
 | Mascots (app characters) | mascots-v1 | `~/Desktop/world-engine/docs/proposals/mascots-v1/` | – | pending R approval (app, not engine) |
 | Visual spec, concepts and rubric | visual-v2 | `~/Desktop/world-engine/docs/proposals/visual-v2/images/` | `docs/proposals/visual-v2/comparison-presets.json` | in use (grading source of truth) |
 | Weather and time concepts | experience-v1 | `~/Desktop/world-engine/docs/proposals/experience-v1/images/` | `docs/proposals/experience-v1/showcase-presets.json` | in use (concept parity targets) |
 | Regional concepts (North Shore, Chicago) | regions-chicagoland-miami | `~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/` | `docs/proposals/regions-chicagoland-miami/region-catalog.json` | in use (style anchors 03, 04, 06) |
 
 Older and reference-only packs (visual-v1, weather-v1, sky-seasons-v1, engine-choice, regions-v1, regions-northshore-chicago-miami, postcards-widgets-v1): see the registry. Research (not design) is under `docs/research-gpt/`.
+
+## Past packs – R to confirm
+
+Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of them binding; R confirms in one reply. "Evidence" is what the registry and owner log record about R approving or using the pack.
+
+| Pack | Date | Covers | Registry status | Evidence of R approval or use |
+|---|---|---|---|---|
+| visual-v2 | 2026-10-05 | Visual spec: 9 targets, richness ladder, camera/light fixtures, 10 ms budget, 10-criterion rubric | in use | CLAUDE.md names it the visual source of truth; rubric of the look gate |
+| visual-v1 | 2026-10-05 | First spec, 5 concepts | superseded | Superseded by visual-v2 |
+| experience-v1 | 2026-10-05 | 11 weather/time concepts (golden hour, overcast, rain, storm, fog, smoke, snow, night, aerial rain/snow) | in use | Concept-parity targets of the look gate (owner decision 2026-10-06) |
+| regions-chicagoland-miami | 2026-10-05 | North Shore and Chicago concepts, regional cues | in use | R chose concepts 03, 04, 06 as style anchors (2026-10-06) |
+| regions-northshore-chicago-miami | 2026-10-05 | Regional profiles draft, evidence | reference | No approval recorded |
+| regions-v1 | 2026-10-05 | Regional profile data, geometry rules | reference | No approval recorded |
+| weather-v1 | 2026-10-05 | Weather and time spec | reference | No approval recorded |
+| sky-seasons-v1 | 2026-10-05 | Sky and seasons spec, fixtures | reference | No approval recorded |
+| engine-choice | 2026-10-05 | Engine-choice review | reference | Decision input only |
+| postcards-widgets-v1 | 2026-10 | Postcard and widget designs | reference | No approval recorded; app UI, not engine |
+| look-fix-v1 | 2026-10-06 | Ground, lawn, shrubs, light, weather, aerial, sky fixes; "pass if" checks | in use | R had its checks added to grading (§H); R override on lawn contrast |
+| vegetation-v1 | 2026-10-06 | Style-B trees and shrubs: crown construction, 4 seasons for Chicago, Denver, Miami (Denver/Front Range: cottonwood, ash, blue spruce, aspen, crabapple), shrubs, hedges, beds, willow, colours | in use | R made it the tree grading reference (§V, 2026-10-06); R's tree-crown and Denver-mix decisions build on it (2026-10-07) |
+| ground-v1 | 2026-10-06 | Lawn tone, pavement rhythm, worn edges, contact shade, brick/stone addendum | landed (reference) | Landed per R (2026-10-06); R stopped further lawn micro-detail passes |
+| rain-v1 | 2026-10-06 | Wetness states, puddles, rain at phone distance, snow stages | landed (reference) | R-approved temporary exception against its 10 % wet darkening (2026-10-07) |
+| live-world-v1 | 2026-10-06 | Rail vehicles, elevated rail, planes, live styling | landed (reference) | Landed per R; R's live-world decisions (L1) use it |
+| paintover-v1 | 2026-10-06 | Paint-overs of 6 look-loop frames, per-view grade values | landed (in use) | R requested it and its grading; R liked its lighting, not its tree shape; daytime lighting now superseded by house-contrast-v1 (R 2026-10-07) |
+| fog-v1 | 2026-10-06 | Morning fog density, Sloan's Lake aerial fog, lakefront | landed (reference) | No approval recorded; night-fog-v1 (approved) is the fog target |
+| night-v1 | 2026-10-06 | Dusk and night: windows, streetlights, moon, night rain/snow | landed (reference) | No approval recorded; night-fog-v1 (approved) is the night target |
+| house-details-v1 | 2026-10-06 | House families, details, distance/bevel rules, colours | landed (reference) | P2 built details 1/3 and 2/3 from it; no explicit R approval recorded |
+| landmarks-v1 | 2026-10-06 | 28 landmark sheets, Chicago and Denver | reference – after the look gate | R: reference, Phase 3; Cloud Gate reference only (2026-10-07) |
+| weather-block-design-v1 | 2026-10-07 | Weather block app UI | pending R approval – app, after look gate | Not engine work; the all-in-one zip stays local (gitignored) |
+| mascots-v1 | 2026-10-07 | App mascots | pending R approval | Not engine work |
