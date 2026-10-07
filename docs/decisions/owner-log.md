@@ -4,6 +4,7 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
+- **Local look-loop frames:** keep only the ccb5f77 baseline (run 20261006-124042 and its re-grade copies) and the last 3 runs; older frames are deleted (regenerable, not design images); grades and text stay. First prune recovered 487 MB. Applied: `.build/lookloop/runs/` (local only).
 - **Candidate NASA layers for later:** VIIRS land surface phenology (real leaf-out and fall-colour timing), NSIDC daily snow cover, NASADEM global elevation, GPM IMERG rainfall. Applied: not yet (candidates).
 - **Suomi NPP delivery ends 2 Nov 2026:** Black Marble night lights use the existing archive years; future night lights come from the NOAA-20/21 equivalents. Applied: night-lights data plan.
 - **Earthdata access:** R's NASA account (worldengine) is set up; LAADS and GES DISC are approved; the token is stored in the cloud Default environment as `EARTHDATA_TOKEN` (expires Dec 2026; the value is never written to the repo). Applied: cloud environment.
