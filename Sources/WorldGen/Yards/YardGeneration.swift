@@ -57,13 +57,12 @@ struct YardSubject {
 }
 
 /// Where a yard shrub stands; it picks the shrub form (PropLibrary bush variants, look-fix-v1 §1.2).
-enum ShrubSite: Sendable { case bed, entry, corner, lotEdge }
+enum ShrubSite: Sendable { case bed, entry, corner, lotEdge, foundation }
 
 extension SceneGenerator {
     /// Bush variants by form: 2, 6, 7 cushions; 3 loose; 4 upright; 5 hedge segment.
     static let cushionVariants = [2, 6, 7]
     static let looseVariant = 3, uprightVariant = 4, hedgeVariant = 5
-    /// Hedge segments are 1 m long; scale 1.0–1.06 lets neighbours overlap a little.
     /// Hedge sections are 2 m long; a 5 cm overlap keeps the envelope closed.
     static let hedgeSegmentSpacing = 1.95
 
@@ -72,8 +71,8 @@ extension SceneGenerator {
     static func shrubVariant(_ site: ShrubSite, _ r: inout StableRandom) -> Int {
         switch site {
         case .entry, .corner: return uprightVariant
-        case .lotEdge where r.chance(0.4): return looseVariant
-        case .bed, .lotEdge: return cushionVariants[Int(r.next() % UInt64(cushionVariants.count))]
+        case .lotEdge where r.chance(0.4), .foundation where r.chance(0.5): return looseVariant
+        case .bed, .lotEdge, .foundation: return cushionVariants[Int(r.next() % UInt64(cushionVariants.count))]
         }
     }
 
@@ -97,6 +96,8 @@ extension SceneGenerator {
         // carriageway wins, so nothing generated (trees, litter, lots) lands in the street.
         for r in features.roads { raster.fill(line: r.centerline, width: r.width, .road) }
         for s in subjects { raster.fill(s.building.footprint, .building, building: Int32(s.index)) }
+        // Exact footprints for planting checks (the 1 m raster classifies cells by their centres).
+        let footprints = PolygonIndex(features.buildings.map(\.footprint))
 
         // Who grows a yard: houses and residential blocks; other buildings claim a narrow margin
         // so houses don't take the ground beside a church or a shop. Garages and sheds don't.
@@ -325,7 +326,8 @@ extension SceneGenerator {
 
             let near = inFocus(anchor)
 
-            // Foundation beds: along the front wall (skipping the door), depth 0.6–1.2 m toward the
+            var bedRuns: [(a: LocalPoint, b: LocalPoint, out: LocalPoint, depth: Double)] = []
+            // Foundation beds: along the front wall (skipping the door), depth 0.9–1.2 m toward the
             // zone's bed area, with short returns along the side walls when the front alone is short.
             if near, let (fp, dir, fn, len) = front, len >= 4, r.chance(rules.beds), let fe = g.frontEdge {
                 var m = MeshBuffers()
@@ -335,19 +337,22 @@ extension SceneGenerator {
                 spans = spans.filter { $0.1 - $0.0 >= 1.0 }
                 let frontLen = spans.reduce(0) { $0 + $1.1 - $1.0 }
                 let target = rules.bedArea.map { r.range($0) } ?? frontLen
-                let depth = min(1.2, max(0.6, target / max(frontLen, 1)))
+                let depth = min(1.2, max(0.9, target / max(frontLen, 1)))
                 var area = 0.0
                 for (a, b) in spans {
                     let q = [fp + dir * a, fp + dir * b, fp + dir * b + fn * depth, fp + dir * a + fn * depth]
                     if q.allSatisfy({ raster.useAt($0) != .road && raster.useAt($0) != .walkway }) {
                         m.addFace(q.map { P($0, GroundLayer.yardBed) }, facing: sceneUp)
                         area += (b - a) * depth
+                        bedRuns.append((fp + dir * a, fp + dir * b, fn, depth))
                     }
                 }
                 // Side returns at the front corners.
                 let ring = s.building.footprint.outer
                 for (e, fromStart) in [((fe + 1) % ring.count, true), ((fe + ring.count - 1) % ring.count, false)] where area < target - 1 {
-                    let (sp, sdir, sn, slen) = BuildingGenerator.edge(ring, e)
+                    let (sp, sdir, sn0, slen) = BuildingGenerator.edge(ring, e)
+                    // Away from the house, whatever the ring's winding.
+                    let sn = simd_dot(sn0, sp + sdir * (slen / 2) - s.building.footprint.centroid) >= 0 ? sn0 : -sn0
                     guard abs(simd_dot(sdir, fn)) > 0.7, slen >= 2 else { continue }
                     let run = min(3.0, slen - 0.5, (target - area) / depth)
                     guard run >= 0.8 else { continue }
@@ -356,6 +361,7 @@ extension SceneGenerator {
                     guard q.allSatisfy({ raster.useAt($0) == .open || raster.useAt($0) == .building }) else { continue }
                     m.addFace(q.map { P($0, GroundLayer.yardBed) }, facing: sceneUp)
                     area += run * depth
+                    bedRuns.append((sp + sdir * a, sp + sdir * b, sn, depth))
                 }
                 if !m.isEmpty {
                     addStatic(m, "gen:bed:\(s.building.ref)", at: anchor)
@@ -384,8 +390,34 @@ extension SceneGenerator {
                 }
                 let houseCorners = s.building.footprint.outer
                 let extra = rules.shrubs.count >= 2 ? rules.shrubs[0] + Int(shr.next() % UInt64(max(1, rules.shrubs[1] - rules.shrubs[0] + 1))) : 1
+                // Foundation drifts (vegetation-v1: adjacent shrubs overlap, never a string of balls): groups
+                // of 3–5 overlapping shrubs inside each bed, mulch showing in the gaps and in front.
+                let cap = (rules.shrubs.last ?? 6) + 3
+                var fr2 = s.building.ref.random("yard-drift")
+                let beforeDrift = placed.count
+                for run in bedRuns {
+                    let d = run.b - run.a, len = simd_length(d)
+                    guard len >= 1.2 else { continue }
+                    let u = d / len
+                    var t = fr2.range(0.3, 0.7)
+                    while t < len - 0.3, placed.count < cap {
+                        let group = 3 + Int(fr2.next() % 3)
+                        for k in 0..<group where t < len - 0.3 && placed.count < cap {
+                            let p = run.a + u * t + run.out * max(0.55, run.depth * 0.5) + run.out * fr2.range(-0.08, 0.08)
+                            t += fr2.range(0.7, 1.0)
+                            guard raster.useAt(p) == .open, !footprints.contains(p, margin: 0.35),
+                                  !raster.nearUse(p, .road, radius: 1.2), !raster.nearUse(p, .walkway, radius: 1.0), !raster.nearUse(p, .hard, radius: 0.7),
+                                  placed.allSatisfy({ simd_distance($0, p) > 0.6 }) else { continue }
+                            placed.append(p)
+                            let atEnd = (k == 0 && t < 1.6) || t > len - 1.0
+                            sites.append(atEnd && fr2.chance(0.5) ? .corner : .foundation)
+                        }
+                        t += fr2.range(1.2, 1.8)
+                    }
+                }
+                stats["driftShrubs", default: 0] += placed.count - beforeDrift
                 var tries = 0
-                while placed.count < extra + 2, tries < 160 {
+                while placed.count < min(cap, extra + 2), tries < 160 {
                     tries += 1
                     let i = l.x + Int(shr.next() % UInt64(h.x - l.x + 1)), j = l.y + Int(shr.next() % UInt64(h.y - l.y + 1))
                     let k = raster.index(i, j)
@@ -407,7 +439,7 @@ extension SceneGenerator {
                     let kind: PropKind = rr.chance(0.35) ? .flowerBush : .bush
                     instances.append(PropInstance(kind: kind, variant: Self.shrubVariant(sites[k], &rr),
                                                   source: "gen:shrub:\(s.building.ref):\(k)", x: p.x, y: p.y, height: 0,
-                                                  yaw: rr.range(0, 6.28), scale: rr.range(0.75, 1.15)))
+                                                  yaw: rr.range(0, 6.28), scale: sites[k] == .foundation ? rr.range(0.95, 1.3) : rr.range(0.75, 1.15)))
                 }
                 stats["shrubs", default: 0] += placed.count
 
