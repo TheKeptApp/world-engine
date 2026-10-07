@@ -27,6 +27,23 @@ public struct GeneratedLot: Sendable {
     public var origin = "inferred"
     /// Yard rule version (bump when placement rules change so caches and comparisons know).
     public var ruleVersion = 2
+    /// The yard split at the building's front line (front: the side of the front edge's line that
+    /// faces the street), for the map data layer's lots. Empty when the building has no front edge.
+    public var parts: [LotPart] = []
+}
+
+/// One side of a yard: the owned yard cells (house excluded) on one side of the front line.
+public struct LotPart: Sendable {
+    public var front: Bool
+    /// The largest connected outline of the part, counter-clockwise (smaller pieces are dropped).
+    public var outline: Ring
+    /// Lawn inside `outline`: open yard cells, without walks, driveways, a planted front garden or
+    /// a paved rear yard.
+    public var lawn: [Ring]
+    /// Lawn area in m² minus foundation beds; ≤ the outline's area.
+    public var mowableArea: Double
+    /// Yard area in m² of this part's cells outside `outline` (the pieces that were dropped).
+    public var droppedArea: Double
 }
 
 /// A fall leaf-litter patch near a deciduous tree (look-fix §1.3). Renderers show it only in the
@@ -325,6 +342,7 @@ extension SceneGenerator {
             }
 
             let near = inFocus(anchor)
+            var bedArea = 0.0
 
             var bedRuns: [(a: LocalPoint, b: LocalPoint, out: LocalPoint, depth: Double)] = []
             // Foundation beds: along the front wall (skipping the door), depth 0.9–1.2 m toward the
@@ -363,6 +381,7 @@ extension SceneGenerator {
                     area += run * depth
                     bedRuns.append((sp + sdir * a, sp + sdir * b, sn, depth))
                 }
+                bedArea = area
                 if !m.isEmpty {
                     addStatic(m, "gen:bed:\(s.building.ref)", at: anchor)
                     stats["beds", default: 0] += 1
@@ -546,7 +565,36 @@ extension SceneGenerator {
             }
             stats["yardTrees", default: 0] += planted
             lotTrees[idx] = planted
-            scene.lots.append(lot)
+            // Front and back parts for the map data layer (export only; nothing above reads them).
+            var exported = lot
+            if front != nil {
+                for isFront in [true, false] {
+                    let yard: (Int) -> Bool = { k in owned(k) && raster.use[k] != LotRaster.Use.building.rawValue && cellFront(k) == isFront }
+                    let pieces = raster.outlines(ri, rj, tolerance: 0.8, inside: yard)
+                    guard let outline = pieces.max(by: { RingMath.signedArea($0) < RingMath.signedArea($1) }) else { continue }
+                    let isLawn: (Int) -> Bool = { k in
+                        yard(k) && raster.use[k] == LotRaster.Use.open.rawValue && !(garden && isFront) && !(paved && !isFront)
+                    }
+                    var cells = 0, outside = 0
+                    for j in rj { for i in ri {
+                        let k = raster.index(i, j)
+                        guard yard(k) else { continue }
+                        if RingMath.contains(outline, raster.center(i, j)) {
+                            if isLawn(k) { cells += 1 }
+                        } else {
+                            outside += 1
+                        }
+                    } }
+                    let lawn = raster.outlines(ri, rj, tolerance: 0.8, inside: isLawn).filter { RingMath.contains(outline, RingMath.centroid($0)) }
+                    let cellArea = raster.res * raster.res
+                    let outlineArea = RingMath.signedArea(outline)
+                    // A planted front garden already left the lawn cells; its beds are not subtracted twice.
+                    let mowable = Double(cells) * cellArea - (isFront && !garden ? bedArea : 0)
+                    exported.parts.append(LotPart(front: isFront, outline: outline, lawn: lawn, mowableArea: max(0, min(mowable, outlineArea)),
+                                             droppedArea: Double(outside) * cellArea))
+                }
+            }
+            scene.lots.append(exported)
         }
 
         let t3 = Date()

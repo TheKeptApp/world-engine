@@ -19,3 +19,15 @@ https://www.openstreetmap.org/copyright
 ## Lidar roof hints
 
 `lidar-roofs.json` and `roof-mix-blocks.json` are derived from USGS 3D Elevation Program lidar (dataset `USGS_LPC_IL_4County_Cook_2017_LAS_2019`, flown 2017-04-16 to 2017-05-07; US Government Public Domain; credit "USGS 3D Elevation Program") and from this folder's `osm.json` footprints and street centrelines (© OpenStreetMap contributors, ODbL 1.0). Per-footprint values are keyed by OSM ref; blocks with fewer than 5 classified buildings carry no shares. Method: `docs/research/lidar-roofs.md` sections 14 and 15 (method version 2.0; the mansard rule is UNVALIDATED).
+
+## ZIP Code Tabulation Areas
+
+`zcta.json` holds U.S. Census Bureau ZIP Code Tabulation Area (ZCTA5, 2020) boundaries clipped to the context-ring box, fetched from the Census TIGERweb service by `Tools/regionkit/zcta` (source URL and vintage in the file header). U.S. Census Bureau data is a U.S. Government work (public domain; licence statement still marked unverified in `docs/research/licensing.md`, row Z1). Used only to tag map-layer features with their ZCTA. ZCTAs approximate USPS ZIP codes; they are not the same thing.
+
+## Terrain slope
+
+`terrain-slope.json` and `terrain-slope.bin` hold a 1 m slope grid in the area's local frame, computed by `Tools/regionkit/terrain` from USGS 3D Elevation Program lidar ground returns (public domain; acknowledgement: "Data available from U.S. Geological Survey, National Geospatial Program."). Slope values only, no elevations or point data; project, collection dates, method and validation are in the header. Not keyed to OSM or Overture.
+
+## Network relations
+
+`osm-relations.json` is an unmodified extract of OpenStreetMap relations (same license as above): turn restrictions (`type=restriction`) and public-transport routes (`type=route`) in the area box plus 400 m, fetched with `out body` by `worldbake fetch --layers relations` using the query in `osm-relations.overpassql`. Relations only (tags and member lists, not recursed): their member ways and stops come from `osm.json` and `context.json`. Used by the map data layer (`docs/data/map-layer.md`) for turn restrictions and transit routes; not loaded into the rendered world.

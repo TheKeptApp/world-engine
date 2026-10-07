@@ -1,0 +1,455 @@
+{
+  "definition": {
+    "door": "share of labelled front doors whose blind NAIP label lies on the same wall within 2.0 m along it",
+    "driveway": "share of labelled driveway ends whose blind NAIP label lies within 3.0 m",
+    "frontage": "share of buildings with OSM addr:street whose frontage segment's name is that street (names normalized)",
+    "lots": "share of lots whose outline overlaps the yard cut from the parcel (parcel minus footprint, split at the same front line) at IoU >= 0.6"
+  },
+  "minN": 30,
+  "tables": {
+    "door": {
+      "bins": {
+        "all": {
+          "byArea": {
+            "evanston-south": {
+              "n": 15,
+              "share": 0.4
+            },
+            "lakeview-sheil-park": {
+              "n": 11,
+              "share": 0.727
+            },
+            "sloans-lake": {
+              "n": 32,
+              "share": 0.219
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.451,
+          "n": 58,
+          "share": 0.362,
+          "success": 21
+        }
+      },
+      "n": 58,
+      "share": 0.362
+    },
+    "driveway": {
+      "bins": {
+        "all": {
+          "byArea": {
+            "evanston-south": {
+              "n": 26,
+              "share": 0.654
+            },
+            "lakeview-sheil-park": {
+              "n": 40,
+              "share": 0.95
+            },
+            "sloans-lake": {
+              "n": 35,
+              "share": 0.914
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.279,
+          "n": 101,
+          "share": 0.861,
+          "success": 87
+        }
+      },
+      "n": 101,
+      "share": 0.861
+    },
+    "frontage": {
+      "bins": {
+        "corner/other20-30": {
+          "byArea": {
+            "evanston-south": {
+              "n": 88,
+              "share": 0.466
+            },
+            "lakeview-sheil-park": {
+              "n": 266,
+              "share": 0.575
+            },
+            "sloans-lake": {
+              "n": 227,
+              "share": 0.361
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.187,
+          "n": 581,
+          "share": 0.475,
+          "success": 276
+        },
+        "corner/other30-40": {
+          "byArea": {
+            "evanston-south": {
+              "n": 104,
+              "share": 0.846
+            },
+            "lakeview-sheil-park": {
+              "n": 231,
+              "share": 0.87
+            },
+            "sloans-lake": {
+              "n": 178,
+              "share": 0.865
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.022,
+          "n": 513,
+          "share": 0.864,
+          "success": 443
+        },
+        "corner/other<20": {
+          "byArea": {
+            "evanston-south": {
+              "n": 6,
+              "share": 0.167
+            },
+            "lakeview-sheil-park": {
+              "n": 16,
+              "share": 0.25
+            },
+            "sloans-lake": {
+              "n": 15,
+              "share": 0.133
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.107,
+          "n": 37,
+          "share": 0.189,
+          "success": 7
+        },
+        "street/d12-20": {
+          "byArea": {
+            "evanston-south": {
+              "n": 239,
+              "share": 0.979
+            },
+            "lakeview-sheil-park": {
+              "n": 838,
+              "share": 1.0
+            },
+            "sloans-lake": {
+              "n": 295,
+              "share": 0.973
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.024,
+          "n": 1372,
+          "share": 0.991,
+          "success": 1359
+        },
+        "street/d<12": {
+          "byArea": {
+            "evanston-south": {
+              "n": 15,
+              "share": 1.0
+            },
+            "lakeview-sheil-park": {
+              "n": 130,
+              "share": 0.985
+            },
+            "sloans-lake": {
+              "n": 15,
+              "share": 0.6
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.386,
+          "n": 160,
+          "share": 0.95,
+          "success": 152
+        },
+        "street/d>=20": {
+          "byArea": {
+            "evanston-south": {
+              "n": 107,
+              "share": 0.897
+            },
+            "lakeview-sheil-park": {
+              "n": 39,
+              "share": 0.795
+            },
+            "sloans-lake": {
+              "n": 72,
+              "share": 0.694
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.175,
+          "n": 218,
+          "share": 0.812,
+          "success": 177
+        }
+      },
+      "n": 2881,
+      "share": 0.838
+    },
+    "lots": {
+      "bins": {
+        "back/a150-250": {
+          "byArea": {
+            "evanston-south": {
+              "n": 94,
+              "share": 0.128
+            },
+            "lakeview-sheil-park": {
+              "n": 243,
+              "share": 0.243
+            },
+            "sloans-lake": {
+              "n": 132,
+              "share": 0.144
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.106,
+          "n": 469,
+          "share": 0.192,
+          "success": 90
+        },
+        "back/a250-600": {
+          "byArea": {
+            "evanston-south": {
+              "n": 266,
+              "share": 0.226
+            },
+            "lakeview-sheil-park": {
+              "n": 105,
+              "share": 0.095
+            },
+            "sloans-lake": {
+              "n": 409,
+              "share": 0.33
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.194,
+          "n": 780,
+          "share": 0.263,
+          "success": 205
+        },
+        "back/a<150": {
+          "byArea": {
+            "evanston-south": {
+              "n": 33,
+              "share": 0.0
+            },
+            "lakeview-sheil-park": {
+              "n": 263,
+              "share": 0.057
+            },
+            "sloans-lake": {
+              "n": 68,
+              "share": 0.029
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.051,
+          "n": 364,
+          "share": 0.047,
+          "success": 17
+        },
+        "back/a>=600": {
+          "byArea": {
+            "evanston-south": {
+              "n": 186,
+              "share": 0.156
+            },
+            "lakeview-sheil-park": {
+              "n": 4,
+              "share": 0.0
+            },
+            "sloans-lake": {
+              "n": 72,
+              "share": 0.194
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.042,
+          "n": 262,
+          "share": 0.164,
+          "success": 43
+        },
+        "back/split": {
+          "byArea": {
+            "evanston-south": {
+              "n": 41,
+              "share": 0.049
+            },
+            "lakeview-sheil-park": {
+              "n": 860,
+              "share": 0.069
+            },
+            "sloans-lake": {
+              "n": 89,
+              "share": 0.056
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.019,
+          "n": 990,
+          "share": 0.067,
+          "success": 66
+        },
+        "front/a40-250/f12-16": {
+          "byArea": {
+            "evanston-south": {
+              "n": 118,
+              "share": 0.5
+            },
+            "lakeview-sheil-park": {
+              "n": 410,
+              "share": 0.756
+            },
+            "sloans-lake": {
+              "n": 259,
+              "share": 0.541
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.228,
+          "n": 787,
+          "share": 0.647,
+          "success": 509
+        },
+        "front/a40-250/f16-20": {
+          "byArea": {
+            "evanston-south": {
+              "n": 213,
+              "share": 0.714
+            },
+            "lakeview-sheil-park": {
+              "n": 72,
+              "share": 0.847
+            },
+            "sloans-lake": {
+              "n": 225,
+              "share": 0.751
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.114,
+          "n": 510,
+          "share": 0.749,
+          "success": 382
+        },
+        "front/a40-250/f20-30": {
+          "byArea": {
+            "evanston-south": {
+              "n": 82,
+              "share": 0.744
+            },
+            "lakeview-sheil-park": {
+              "n": 9,
+              "share": 0.222
+            },
+            "sloans-lake": {
+              "n": 26,
+              "share": 0.731
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.144,
+          "n": 117,
+          "share": 0.701,
+          "success": 82
+        },
+        "front/a40-250/f<12": {
+          "byArea": {
+            "evanston-south": {
+              "n": 15,
+              "share": 0.133
+            },
+            "lakeview-sheil-park": {
+              "n": 13,
+              "share": 0.154
+            },
+            "sloans-lake": {
+              "n": 87,
+              "share": 0.138
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.017,
+          "n": 115,
+          "share": 0.139,
+          "success": 16
+        },
+        "front/a40-250/f>=30": {
+          "byArea": {
+            "evanston-south": {
+              "n": 23,
+              "share": 0.043
+            },
+            "lakeview-sheil-park": {
+              "n": 18,
+              "share": 0.0
+            },
+            "sloans-lake": {
+              "n": 8,
+              "share": 0.125
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.065,
+          "n": 49,
+          "share": 0.041,
+          "success": 2
+        },
+        "front/a<40": {
+          "byArea": {
+            "evanston-south": {
+              "n": 37,
+              "share": 0.108
+            },
+            "lakeview-sheil-park": {
+              "n": 639,
+              "share": 0.426
+            },
+            "sloans-lake": {
+              "n": 58,
+              "share": 0.155
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.295,
+          "n": 734,
+          "share": 0.388,
+          "success": 285
+        },
+        "front/a>=250": {
+          "byArea": {
+            "evanston-south": {
+              "n": 96,
+              "share": 0.438
+            },
+            "lakeview-sheil-park": {
+              "n": 1,
+              "share": 0.0
+            },
+            "sloans-lake": {
+              "n": 67,
+              "share": 0.373
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.07,
+          "n": 164,
+          "share": 0.409,
+          "success": 67
+        },
+        "front/split": {
+          "byArea": {
+            "evanston-south": {
+              "n": 26,
+              "share": 0.269
+            },
+            "lakeview-sheil-park": {
+              "n": 151,
+              "share": 0.291
+            },
+            "sloans-lake": {
+              "n": 20,
+              "share": 0.05
+            }
+          },
+          "leaveOneAreaOutMaxGap": 0.238,
+          "n": 197,
+          "share": 0.264,
+          "success": 52
+        }
+      },
+      "n": 5538,
+      "share": 0.328
+    }
+  }
+}

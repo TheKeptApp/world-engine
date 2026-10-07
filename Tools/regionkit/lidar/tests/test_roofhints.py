@@ -37,10 +37,9 @@ class OvertureFootprints(unittest.TestCase):
     """The engine's ref for an Overture record and the footprint merge (Sources/WorldMap/OvertureSource.swift)."""
 
     def test_ref_is_signed_int64_of_first_16_hex(self):
-        self.assertEqual(rh.overture_ref("000d07de-8477-475b-b2e4-c0adfe78ae8e"), "overture/%d" % 0x000D07DE8477475B)
-        self.assertEqual(rh.overture_ref("ffffffff-ffff-ffff-0000-000000000000"), "overture/-1")
-        self.assertEqual(rh.overture_ref("80000000-0000-0000-0000-000000000000"), "overture/-9223372036854775808")
-        self.assertEqual(rh.overture_ref("7fffffff-ffff-ffff-ffff-ffffffffffff"), "overture/9223372036854775807")
+        self.assertEqual(rh.overture_ref("000d07de-8477-475b-b2e4-c0adfe78ae8e"), "overture/000d07de8477475b")
+        self.assertEqual(rh.overture_ref("FFFFFFFF-FFFF-FFFF-0000-000000000000"), "overture/ffffffffffffffff")
+        self.assertEqual(rh.overture_ref("80000000-0000-0000-0000-000000000000"), "overture/8000000000000000")
 
     def test_ref_needs_16_hex_digits(self):
         self.assertIsNone(rh.overture_ref("1234"))
@@ -78,14 +77,14 @@ class OvertureFootprints(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             man, pilot = self.make_area(tmp)
             out, rep = rh.overture_footprints(pilot, man, root=tmp)
-        self.assertEqual(sorted(out), ["overture/1", "overture/5"])
+        self.assertEqual(sorted(out), ["overture/0000000000000001", "overture/0000000000000005"])
         self.assertEqual(rep["records"], 6)
         self.assertEqual(rep["droppedOsmSource"], 1)
         self.assertEqual(rep["droppedInsideOsm"], 1)
         self.assertEqual(rep["droppedOutsideBounds"], 1)
         self.assertEqual(rep["added"], 2)
         self.assertEqual(rep["multiPolygonRecords"], 1)
-        self.assertAlmostEqual(out["overture/5"]["poly"].area, 64.0, delta=1.0)  # the 8 m square, not the 4 m one
+        self.assertAlmostEqual(out["overture/0000000000000005"]["poly"].area, 64.0, delta=1.0)  # the 8 m square, not the 4 m one
 
 
 class PitchClass(unittest.TestCase):

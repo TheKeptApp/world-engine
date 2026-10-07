@@ -9,6 +9,9 @@
 //   worldbake ring-stats <dir> --inner-width M --inner-height M
 //   worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID]
 //                    [--season N] [--version STRING]      (shared world package, see WorldPackage)
+//                    [--margin M] [--map-diagnostics FILE] [--previous PKG]  (map data layer: road margin beyond the
+//                                       area, confidence features for calibration, ID migration from the previous package)
+//   worldbake fetch <dir> --layers relations [--margin M]  (turn restrictions and transit routes for the map layer)
 //
 // No command contains place-specific values: the area directory's manifest is the only input.
 
@@ -68,7 +71,8 @@ worldbake fetch <dir> [--layers all|buildings|overture] [--release R]
 worldbake stats <dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
-worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S]
+worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S] [--margin M] [--map-diagnostics FILE] [--previous PKG]
+worldbake fetch <dir> --layers relations [--margin M]
 worldbake compose <dir> --date ISO [--focus S,W,N,E]
 worldbake fetch <dir> --layers context [--building-band-km 1.5|1.0|0.5] [--max-mb 25] [--probe 1] [--split 1] [--no-split 1] [--cache-dir PATH] [--dry-run 1]
     (context ring: real OSM at low detail, area bounds + 3 km, building footprints within the band; see docs/data/context-rings.md)
@@ -106,9 +110,10 @@ do {
     case "fetch":
         var m = try AreaLoader.loadManifest(dir)
         let layer = args.options["layers"] ?? "all"
+        let margin = Double(args.options["margin"] ?? "") ?? MapLayer.Options().marginM
         let source = layer == "overture"
             ? try OvertureFetcher.fetch(manifest: m, into: dir, release: args.options["release"])
-            : try await Fetcher.fetch(manifest: m, layer: layer, into: dir)
+            : try await Fetcher.fetch(manifest: m, layer: layer, into: dir, marginM: margin)
         m.sources.removeAll { $0.path == source.path }
         m.sources.append(source)
         try writeManifest(m, to: dir)
@@ -169,8 +174,13 @@ do {
         let recipe = WorldRecipe(profileID: args.options["profile"], date: date, season: args.options["season"].flatMap(Int.init), focus: focus)
         let out = URL(fileURLWithPath: args.positional[2], isDirectory: true)
         let start = Date()
+        var mapOptions = MapLayer.Options()
+        if let m = args.options["margin"].flatMap(Double.init) { mapOptions.marginM = m }
+        mapOptions.diagnosticsURL = args.options["map-diagnostics"].map { URL(fileURLWithPath: $0) }
+        mapOptions.previousPackage = args.options["previous"].map { URL(fileURLWithPath: $0, isDirectory: true) }
         let s = try WorldPackage.export(areaDirectory: dir, to: out, options: .init(recipe: recipe, lightStates: states,
-                                                                                    generatorVersion: args.options["version"] ?? "dev"))
+                                                                                    generatorVersion: args.options["version"] ?? "dev",
+                                                                                    mapLayer: mapOptions))
         print(String(format: "Wrote %@: %d files, %.1f MB, %d chunks, %d/%d triangles (lod0/lod1), %d instances, %d tuft candidates, %.1f s",
                      out.path, s.files, Double(s.bytes) / 1_048_576, s.chunks, s.triangles[0], s.triangles[1], s.instances, s.tufts,
                      Date().timeIntervalSince(start)))

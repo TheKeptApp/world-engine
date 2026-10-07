@@ -20,7 +20,7 @@
     "Data/areas/lakeview-sheil-park/overture-buildings.json"
    ],
    "osmTimestamp": "2026-10-06T06:22:21Z",
-   "note": "closed building ways and building multipolygons whose centroid is inside the area; keys are OSM refs (way/<id>, relation/<id>); plus the Overture buildings the engine adds (no OpenStreetMap source, centroid in the area and outside every OSM building or part), keyed by the engine's ref: overture/<signed int64 of the first 16 hex digits of the GERS id> (Sources/WorldMap/OvertureSource.swift OSMRef.init(overtureID:))",
+   "note": "closed building ways and building multipolygons whose centroid is inside the area; keys are OSM refs (way/<id>, relation/<id>); plus the Overture buildings the engine adds (no OpenStreetMap source, centroid in the area and outside every OSM building or part), keyed by the engine's ref: overture/<first 16 hex digits of the GERS id, lowercase> (Sources/WorldMap/OvertureSource.swift OSMRef.init(overtureID:))",
    "overtureMerge": {
     "records": 2895,
     "added": 24,
@@ -146,7 +146,7 @@
   }
  },
  "buildings": {
-  "overture/-1846643066106330105": {
+  "overture/e65f67ea51cb4407": {
    "topM": 9.6,
    "eaveM": 8.4,
    "pitchDeg": 22.7,
@@ -155,7 +155,7 @@
    "points": 461,
    "confidence": 1.0
   },
-  "overture/-2207263108466848377": {
+  "overture/e15e39e5be024d87": {
    "topM": 12.0,
    "eaveM": 8.6,
    "pitchDeg": 0.4,
@@ -164,7 +164,7 @@
    "points": 31,
    "confidence": 0.94
   },
-  "overture/-3023580860879255736": {
+  "overture/d60a153a059f4748": {
    "topM": 5.3,
    "eaveM": 3.9,
    "pitchDeg": 28.0,
@@ -173,7 +173,7 @@
    "points": 112,
    "confidence": 1.0
   },
-  "overture/-502688932445994158": {
+  "overture/f90617144d094352": {
    "topM": 5.9,
    "eaveM": 2.7,
    "pitchDeg": 0.7,
@@ -182,7 +182,7 @@
    "points": 148,
    "confidence": 0.53
   },
-  "overture/-6838774871204019096": {
+  "overture/a117ca7cef044468": {
    "topM": 6.6,
    "eaveM": 3.5,
    "pitchDeg": 1.0,
@@ -191,7 +191,7 @@
    "points": 37,
    "confidence": 0.58
   },
-  "overture/-9198849215694617203": {
+  "overture/80571f603c24458d": {
    "topM": 5.6,
    "eaveM": 3.1,
    "pitchDeg": 39.8,
@@ -200,7 +200,7 @@
    "points": 235,
    "confidence": 1.0
   },
-  "overture/1268976062252959": {
+  "overture/00048220836b479f": {
    "topM": 9.0,
    "eaveM": 8.7,
    "pitchDeg": 0.6,
@@ -209,7 +209,7 @@
    "points": 400,
    "confidence": 1.0
   },
-  "overture/1573029318858981512": {
+  "overture/15d485d4cbdd4088": {
    "topM": 2.8,
    "eaveM": 2.7,
    "pitchDeg": 0.7,
@@ -218,7 +218,7 @@
    "points": 68,
    "confidence": 1.0
   },
-  "overture/1777995231621236854": {
+  "overture/18acb53e311f4876": {
    "topM": 3.6,
    "eaveM": 3.0,
    "pitchDeg": 18.6,
@@ -227,7 +227,7 @@
    "points": 57,
    "confidence": 0.8
   },
-  "overture/2115294117115609390": {
+  "overture/1d5b08cace26412e": {
    "topM": 8.7,
    "eaveM": 2.8,
    "pitchDeg": 19.2,
@@ -236,7 +236,7 @@
    "points": 101,
    "confidence": 0.68
   },
-  "overture/3892358953454748593": {
+  "overture/36046fd876fb43b1": {
    "topM": 9.3,
    "eaveM": 8.3,
    "pitchDeg": 0.2,
@@ -245,7 +245,7 @@
    "points": 40,
    "confidence": 0.63
   },
-  "overture/5309282180099621848": {
+  "overture/49ae5c03552643d8": {
    "topM": 3.5,
    "eaveM": 2.7,
    "pitchDeg": 17.0,
@@ -254,7 +254,7 @@
    "points": 100,
    "confidence": 1.0
   },
-  "overture/781624407959160240": {
+  "overture/0ad8e342002e45b0": {
    "topM": 2.7,
    "eaveM": 2.2,
    "pitchDeg": 15.9,

@@ -1,0 +1,40 @@
+{
+  "comment": "Terrain slope grids from USGS 3DEP lidar (data, not code). Areas are committed test areas (read-only manifests); each names the 3DEP Entwine Point Tiles project that covers it. Only EPT octree nodes whose horizontal extent meets the area box plus marginMeters are read. maxBytesPerArea caps the LAZ read per area; the fetch stops before exceeding it.",
+  "cellM": 1,
+  "marginMeters": 10,
+  "gapFillMeters": 2,
+  "gapFillNeighbours": 12,
+  "maxBytesPerArea": 600000000,
+  "minGroundPointsPerM2": 1.0,
+  "slopeClassSplitPercent": 15,
+  "sources": {
+    "cook-2017": {
+      "id": "usgs-3dep-il-4county-cook-2017",
+      "title": "USGS 3DEP lidar IL_4_County_QL1_LiDAR_2016_B16 (delivery IL_4County_Cook_2017)",
+      "eptRoot": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/",
+      "tnmProject": "IL_4_County_QL1_LiDAR_2016_B16",
+      "collected": "2017-04-16 to 2017-05-07",
+      "collectedSource": "FGDC metadata (begdate/enddate) of delivery tile USGS_LPC_IL_4_County_QL1_LiDAR_2016_B16_LAS_15759550 (ScienceBase item 64828bced34ef77fcafc9fc4, Evanston) and ScienceBase item 64828c79d34ef77fcafca558 (tile LAS_16509225, Lakeview): same dates",
+      "qualityLevel": "QL1",
+      "verticalAccuracy": "QL1 specification RMSEz 10 cm (NVA 19.6 cm at 95 %); tested NVA 0.101 m at 95 % (114 checkpoints) per the vendor metadata ClassifiedPointCloud_Dewberry_20ppsm.xml of the Cook delivery, whose extent text names Lake County (same QL1 project)",
+      "metadataURL": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/IL_4County_Cook_2017/USGS_LPC_IL_4_County_QL1_LiDAR_2016_B16_LAS_15759550.xml"
+    },
+    "drcog-2-2020": {
+      "id": "usgs-3dep-co-drcog-2-2020",
+      "title": "USGS 3DEP lidar CO_DRCOG_2020_B20 (delivery CO_DRCOG_2_2020)",
+      "eptRoot": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CO_DRCOG_2_2020/",
+      "tnmProject": "CO_DRCOG_2020_B20",
+      "collected": "2020-05-26 to 2020-06-12",
+      "collectedSource": "FGDC metadata (begdate/enddate) of delivery tile USGS_LPC_CO_DRCOG_2020_B20_w0495n4399 and its ScienceBase item 61c57256d34e2ca389db8f7c",
+      "qualityLevel": "QL2",
+      "verticalAccuracy": "ASPRS 2014 10-cm RMSEz vertical accuracy class (vendor metadata 312020336_USGS_DRCOG_Lidar_QL2_ClassifiedPointCloud.xml); tested values not read",
+      "metadataURL": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/CO_DRCOG_2_2020/USGS_LPC_CO_DRCOG_2020_B20_w0495n4399.xml"
+    }
+  },
+  "licenseURL": "https://www.usgs.gov/faqs/what-are-terms-uselicensing-map-services-and-data-national-map",
+  "areas": [
+    {"id": "evanston-south", "source": "cook-2017"},
+    {"id": "lakeview-sheil-park", "source": "cook-2017"},
+    {"id": "sloans-lake", "source": "drcog-2-2020"}
+  ]
+}
