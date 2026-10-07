@@ -406,7 +406,7 @@ extension BuildingGenerator {
                 guard w > 0.42 else { continue }
                 var wr = StableRandom(UInt64(bay.edge), UInt64(story * 31 + 100 + i), salt: "lit")
                 m.extra = SIMD4(1, min(0.999, lit * 0.6 + Float(wr.unit()) * 0.4), 0, 0)
-                addWindow(origin: f.0, dir: f.1, normal: f.2, sCenter: f.4 / 2, width: w, z0: z0, z1: z1, glass: c.glass, trim: c.trim,
+                addWindow(origin: f.0, dir: f.1, normal: f.2, sCenter: f.4 / 2, width: w, z0: z0, z1: z1, glass: c.glass, trim: c.trim, reveal: c.reveal,
                           frames: near, mullions: mullions, lintel: f.4 >= w + 0.38 ? lintel : nil, into: &m)
                 m.extra = SIMD4(1, 0, 0, 0)
             }
