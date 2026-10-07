@@ -43,3 +43,9 @@ overcast values are different states, not conflicts. Conflicts without the maste
 | sun elevation fixture (deg) | `night-fog-v1/states[2].time.elevationExampleDeg` | `5` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
 | US residential carriageway width (m) | `style-b/infrastructure/assets.roads-06-residential.dimensionsM.carriagewayWidth` | `10.2` | day | `docs/proposals/infrastructure-kit-v1/infrastructure-values.json` | superseded for geometry; the kit keeps look |
 | US residential carriageway width (m) | `street-geometry-rules-v1/us_residential_v1.carriageway_default_m` | `10.6` | day | `docs/research-gpt/street-geometry-rules-v1/rules.csv` | owns street geometry (research CSV, not compiled) |
+| look sky.zenithHex | `house-contrast-v1/sharedLighting.sky.gradient[0].hex` | `"#6FAFE4"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (numeric baseline) |
+| look sky.zenithHex | `style-b/look/lighting.sky.zenithHex` | `"#7AAFE2"` | day | `docs/proposals/style-b-calibration-v2/values.json` | calibration look value, from its own frames (R: images beat JSON) |
+| look sky.midHex | `house-contrast-v1/sharedLighting.sky.gradient[2].hex` | `"#91C4ED"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (numeric baseline) |
+| look sky.midHex | `style-b/look/lighting.sky.midHex` | `"#8FBAE7"` | day | `docs/proposals/style-b-calibration-v2/values.json` | calibration look value, from its own frames (R: images beat JSON) |
+| look sky.horizonHex | `house-contrast-v1/sharedLighting.sky.gradient[3].hex` | `"#A7CFED"` | daytime-master | `docs/proposals/house-contrast-v1/paintover-values.json` | master value (numeric baseline) |
+| look sky.horizonHex | `style-b/look/lighting.sky.horizonHex` | `"#A0C8F2"` | day | `docs/proposals/style-b-calibration-v2/values.json` | calibration look value, from its own frames (R: images beat JSON) |

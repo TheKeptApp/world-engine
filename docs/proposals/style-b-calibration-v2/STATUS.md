@@ -1,0 +1,5 @@
+# Status
+
+**R approved – 2026-10-07.** Binding look target for the lean release: packs own content; calibration v2 owns look (lighting, exposure, saturation, matte material response, distance-based actor detail). It replaces the old Lakeview street as the look-gate target.
+
+Values compile into `Resources/look/mock-values.json` under the key prefix `style-b/look/` (the `sharedLook` block only; scenes and notes are not compiled). The pack's sky stops are the pale house-contrast-v1 JSON; its own calibrated frames show the clear blue sky, so by R's rule (images beat JSON) they are corrected from the frames: zenith #7AAFE2, mid #8FBAE7, horizon #A0C8F2 (method and originals in `Tools/lookloop/mock-corrections.json`). The daytime lighting master (house-contrast-v1 `sharedLighting`) stays the numeric baseline where the two differ; the differences are listed in `docs/lookloop/mock-conflicts.md`. Numbers are authored targets, not measured; the frames match composition visually and carry no camera matrices.
