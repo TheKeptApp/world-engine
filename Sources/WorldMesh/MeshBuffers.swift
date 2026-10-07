@@ -31,6 +31,10 @@ public struct Paint: Hashable, Sendable {
         /// (`PropLibrary.leafAtlas`) through `MeshBuffers.uvs`; opaque, clipped at alpha 0.5.
         /// extra.x = AO, extra.y = leaf-drop threshold, extra.z = 0, extra.w = per-card random value.
         public static let leafCard = Flags(rawValue: 512)
+        /// Historic paving (ground-v1 brick addendum): brick, stone setts or rounded cobble drawn as a
+        /// shader pattern on a road or path; the pattern ID (1 brick, 2 setts, 3 cobble) is in `sway`,
+        /// which roads never use. Zero geometry per unit.
+        public static let paving = Flags(rawValue: 1024)
     }
 
     public var slot: Int
