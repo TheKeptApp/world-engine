@@ -8,6 +8,8 @@ Last checked: 2026-10-06 22:30 (P3).
 
 **Images are local-only from 2026-10-06:** new pack images (PNG, JPG, ZIP, SVG over 1 MB) live in R's local checkout and are gitignored; each pack's README, JSON and prompts are committed. Images committed before then remain in git history.
 
+**ChatGPT drop folder (from 2026-10-06):** ChatGPT saves new packs to `~/Desktop/worldengine-gpt-drop/<pack>/`, outside the repo, so its files never sit untracked in a checkout. Each watch runs `Tools/lookloop/ingest_drop.py`: text goes to `docs/proposals/<pack>/` (design packs, with images) or `docs/research-gpt/<pack>/` (research), and is committed; images are copied to the local `docs/proposals/<pack>/` (gitignored) and to iCloud. Nothing in the drop folder is deleted. The transit research files were placed there as the first entry (already filed; `Tools/lookloop/drop-map.json` keeps its existing path).
+
 **iCloud backup:** P3 copies every pack's images (PNG, JPG, ZIP, SVG) to `iCloud Drive/WorldEngine-Design-Backup/proposals/` with `Tools/lookloop/backup_design_images.sh` (copy only, never deletes), on every watch and whenever a pack lands. First copy 2026-10-06: 150 files, 329 MB; after paintover-v1: 184 files, 384 MB. Look-loop frames are not backed up (regenerable).
 
 ## Packs in this repo
@@ -69,3 +71,4 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-06 20:00: verified local vs iCloud after 5A's move: nothing missing from ground-v1 or vegetation-v1; restored the two visual-v2 ZIPs locally from iCloud (gitignored); addenda landed (brick/stone, willow); rain-v1 landed; backup updated, keeping the earlier rain-v1 01 image as `.prev-2026-10-06`. Per pack local/iCloud: experience 11/11, ground 15/15, live-world 11/11, look-fix 21/21, postcards 45/45, rain 7/7, regions-chicagoland-miami 10/10, regions-v1 6/6, vegetation 11/11, visual-v1 11/11, visual-v2 11/11 (345 MB).
 - 2026-10-06 22:30: paintover-v1 landed (text committed unedited; 24 images local-only and backed up to iCloud, 39 MB; its 12 SVGs are all over 1 MB and gitignored). Users 5A, P2, P3; P3 adds paint-over parity (GRADING.md §P).
 - 2026-10-06 22:55: research section added; transit-feeds-top20 (ChatGPT research, 32 agencies) committed and spot-checked (8 rows).
+- 2026-10-06 22:40: drop folder `~/Desktop/worldengine-gpt-drop/` created and the ingest process set up; untracked duplicates of the committed research files removed from the owner's checkout (originals kept in the drop folder).
