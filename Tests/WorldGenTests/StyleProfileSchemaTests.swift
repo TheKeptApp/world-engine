@@ -38,6 +38,7 @@ struct StyleProfileSchemaTests {
         o.removeValue(forKey: "provenance")
         if var t = o["trees"] as? [String: Any] {
             t.removeValue(forKey: "canopyShare")
+            t.removeValue(forKey: "weeping")
             o["trees"] = t
         }
         if var th = o["typeThresholds"] as? [String: Any] {
@@ -61,6 +62,7 @@ struct StyleProfileSchemaTests {
             // Everything else is identical to the full file.
             var full = try StyleLibrary.profile(id: id)
             full.trees.canopyShare = nil
+            full.trees.weeping = nil
             full.typeThresholds.smallAreaPercentile = nil
             full.typeThresholds.largeAreaPercentile = nil
             full.typeThresholds.hugeAreaPercentile = nil

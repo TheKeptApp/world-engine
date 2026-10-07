@@ -40,6 +40,16 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         /// generated yard trees toward it (`yards.json` `canopyFill`); absent → behaviour unchanged. Decoded with
         /// `decodeIfPresent` (synthesized `Codable` for an optional), so older JSON still decodes.
         public var canopyShare: Double?
+        /// Optional weeping willow prior (vegetation-v1 addendum) for untagged mapped deciduous trees:
+        /// the share drawn as willows within `nearWaterMeters` of a water edge, and inside parks.
+        /// Absent → no inferred willows (tagged Salix still are).
+        public var weeping: Weeping?
+
+        public struct Weeping: Codable, Sendable, Equatable {
+            public var nearWaterMeters: Double
+            public var nearWaterShare: Double
+            public var parkShare: Double
+        }
     }
 
     public struct Porch: Codable, Sendable, Equatable {
@@ -211,7 +221,7 @@ public struct SeasonalPalette: Codable, Sendable {
         // Context-ring land-use masses (look-fix-v1 §4), appended so earlier slots keep their indices.
         "residential", "commercial", "wood", "farmland",
         // More crown colour slots (vegetation-v1 species families; regions fill them, vegetation.json).
-        "deciduous5", "deciduous6", "deciduous7", "deciduous8",
+        "deciduous5", "deciduous6", "deciduous7", "deciduous8", "deciduous9",
     ]
 }
 

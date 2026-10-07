@@ -1,5 +1,5 @@
 {
-  "comment": "Tree species families and their regions (look-fix-v1 §5, vegetation-v1). Colours are vegetation-v1 vegetation-colours.json neutralCrownAlbedo per season (spring, summer, peak-fall as autumn, winter); a bare winter crown (null) takes the family's branch body colour, so leaf drop blends toward bare wood, never grey foliage. form = the crown archetype the family is drawn with (broad, oval, spreading, conifer). A region fills the scene palette's crown slots (deciduous1-8, conifer1-2) and bark from its families; crownColors gives each crown form the consecutive slots its trees pick from per instance (count 1, 2 or 4; a repeated family weights it). seasonal-palette.json keeps the chicago region as its defaults (tested). genusForms: OSM genus (or the first word of species/taxon) -> crown form for mapped trees; species entries override their genus. Real tags win over profile crown weights. Not covered: a Chicago willow family (none in vegetation-v1), Miami (no region profile yet), elm and honey locust drawn with the oak's spreading form.",
+  "comment": "Tree species families and their regions (look-fix-v1 §5, vegetation-v1). Colours are vegetation-v1 vegetation-colours.json neutralCrownAlbedo per season (spring, summer, peak-fall as autumn, winter); a bare winter crown (null) takes the family's branch body colour, so leaf drop blends toward bare wood, never grey foliage. form = the crown archetype the family is drawn with (broad, oval, spreading, conifer). A region fills the scene palette's crown slots (deciduous1-9, conifer1-2) and bark from its families; crownColors gives each crown form the consecutive slots its trees pick from per instance (count 1, 2 or 4; a repeated family weights it). seasonal-palette.json keeps the chicago region as its defaults (tested). genusForms: OSM genus (or the first word of species/taxon) -> crown form for mapped trees; species entries override their genus. Real tags win over profile crown weights. Weeping willow (vegetation-v1 addendum) is form weeping, slot deciduous9, picked by Salix tags or the profile prior (trees.weeping); denver reuses it for tagged Salix. Not covered: Miami (no region profile yet), elm and honey locust drawn with the oak's spreading form.",
   "species": {
     "chicago-oak": {
       "form": "spreading",
@@ -110,6 +110,16 @@
         "#796B57"
       ],
       "branches": "#796B57"
+    },
+    "chicago-weeping-willow": {
+      "form": "weeping",
+      "colours": [
+        "#91A46A",
+        "#7A9160",
+        "#B3AD5C",
+        "#7A7159"
+      ],
+      "branches": "#7A7159"
     }
   },
   "regions": {
@@ -130,7 +140,8 @@
         "deciduous7": "chicago-honey-locust",
         "deciduous8": "chicago-oak",
         "conifer1": "chicago-spruce",
-        "conifer2": "chicago-spruce"
+        "conifer2": "chicago-spruce",
+        "deciduous9": "chicago-weeping-willow"
       },
       "bark": "chicago-oak",
       "crownColors": {
@@ -145,6 +156,10 @@
         "spreading": {
           "first": "deciduous5",
           "count": 4
+        },
+        "weeping": {
+          "first": "deciduous9",
+          "count": 1
         }
       }
     },
@@ -162,7 +177,8 @@
         "deciduous7": "denver-cottonwood",
         "deciduous8": "denver-cottonwood",
         "conifer1": "denver-blue-spruce",
-        "conifer2": "denver-blue-spruce"
+        "conifer2": "denver-blue-spruce",
+        "deciduous9": "chicago-weeping-willow"
       },
       "bark": "denver-cottonwood",
       "crownColors": {
@@ -176,6 +192,10 @@
         },
         "spreading": {
           "first": "deciduous5",
+          "count": 1
+        },
+        "weeping": {
+          "first": "deciduous9",
           "count": 1
         }
       }
@@ -200,6 +220,7 @@
     "Thuja": "conifer",
     "Juniperus": "conifer",
     "Tsuga": "conifer",
-    "Populus tremuloides": "oval"
+    "Populus tremuloides": "oval",
+    "Salix": "weeping"
   }
 }

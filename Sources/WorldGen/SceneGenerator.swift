@@ -389,6 +389,7 @@ public struct SceneGenerator: Sendable {
         // height, else the profile's ranges. Seeded by node ID.
         var conifers = 0, deciduous = 0
         let crownWeights = profile.trees.crownWeights
+        let parks = features.areas(of: .park).map(\.polygon)
         for tree in features.points(of: .tree) {
             var r = tree.ref.random("tree")
             let leaf = tree.tags["leaf_type"]
@@ -405,8 +406,8 @@ public struct SceneGenerator: Sendable {
             } else {
                 deciduous += 1
                 let drawn = r.pick(crownWeights.keys.sorted()) { crownWeights[$0] ?? 0 }
-                let pick = tagged ?? drawn
-                kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : .treeBroad
+                let pick = tagged ?? (Self.inferredWeeping(tree, profile: profile, waterEdges: waterEdges, parks: parks) ? "weeping" : drawn)
+                kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : pick == "weeping" ? .treeWeeping : .treeBroad
             }
             instances.append(PropInstance(kind: kind, variant: 0, source: tree.ref.description, x: tree.position.x, y: tree.position.y,
                                           height: 0, yaw: r.range(0, 6.28), scale: height, stretch: Self.treeStretch(tree.ref)))
@@ -447,6 +448,17 @@ public struct SceneGenerator: Sendable {
     /// instance yaw turning their lopsided crowns): crown width ×0.88–1.14 and an oval footprint (up to
     /// 8% longer on one horizontal axis than the other). Height stays as mapped or drawn. Its own seed,
     /// so kinds, heights and yaws are unchanged.
+    /// Whether an untagged mapped deciduous tree is drawn as a weeping willow: the profile's prior
+    /// (`trees.weeping`; Chicago/North Shore only) near a water edge, else inside a park. Its own salt,
+    /// so the tree's other draws are unchanged.
+    static func inferredWeeping(_ tree: PointFeature, profile: StyleProfile, waterEdges: SegmentIndex, parks: [Polygon2D]) -> Bool {
+        guard let w = profile.trees.weeping else { return false }
+        var r = tree.ref.random("weeping")
+        let roll = r.unit()
+        if waterEdges.nearest(to: tree.position, within: w.nearWaterMeters) != nil { return roll < w.nearWaterShare }
+        return parks.contains { $0.contains(tree.position) } && roll < w.parkShare
+    }
+
     static func treeStretch(_ ref: OSMRef) -> SIMD2<Double> {
         var r = ref.random("tree-shape")
         let width = r.range(0.88, 1.14), oval = r.range(-0.08, 0.08)

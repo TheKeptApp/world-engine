@@ -1,9 +1,10 @@
 {
-  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y). Tree crown slots deciduous1-8, conifer1-2 and bark: the chicago region of vegetation.json (vegetation-v1 species colours: deciduous1 linden, 2 maple, 3 oak, 4 elm, 5-8 the spreading family oak/elm/honey locust/oak; conifers spruce; bare winter = branch colour); a scene replaces them with its profile's region (vegetation.json). deciduous5-8 are appended after the context-ring masses so earlier slots keep their indices. crownColors: per crown form (profile crownWeights keys) the first slot and how many consecutive slots (1, 2 or 4) its trees pick from per instance.",
+  "comment": "v2 spec §3.2 seasonal material palettes; backdrop (the land beyond the data) from the lighting bible look-fix-v1 §4: #A9B4A0 summer, #BDC8D4 winter (sRGB authoring colors; interpolate in linear light). Order: spring, summer, autumn, winter. House colors are season-independent and live in the regional profiles. Context-ring masses (look-fix-v1 §4, land seen from beyond the detailed area): residential = linear-light mix of 28% roof #606368, 30% lawn, 27% deciduous, 15% road/sidewalk; commercial = 45% flat roof #73746F, 40% parking, 15% green; wood = deciduous/conifer canopy (75/25) x0.86; farmland hand-set muted crop/stubble/soil. lawnA/lawnB: lot lawn endpoint pair (look-fix-v1 §1.1, North Shore defaults); a scene overrides them from its area profile's yards.json lawnEndpoints; renderers mix base = mix(lawnA, lawnB, extra.y). Tree crown slots deciduous1-8, conifer1-2 and bark: the chicago region of vegetation.json (vegetation-v1 species colours: deciduous1 linden, 2 maple, 3 oak, 4 elm, 5-8 the spreading family oak/elm/honey locust/oak, 9 weeping willow; conifers spruce; bare winter = branch colour); a scene replaces them with its profile's region (vegetation.json). deciduous5-8 are appended after the context-ring masses so earlier slots keep their indices. crownColors: per crown form (profile crownWeights keys) the first slot and how many consecutive slots (1, 2 or 4) its trees pick from per instance.",
   "crownColors": {
     "broad": {"first": "deciduous2", "count": 1},
     "oval": {"first": "deciduous1", "count": 1},
-    "spreading": {"first": "deciduous5", "count": 4}
+    "spreading": {"first": "deciduous5", "count": 4},
+    "weeping": {"first": "deciduous9", "count": 1}
   },
   "seasons": ["spring", "summer", "autumn", "winter"],
   "surfaces": {
@@ -34,6 +35,7 @@
     "deciduous5":  ["#748B46", "#58753C", "#A55835", "#796B57"],
     "deciduous6":  ["#83A056", "#5C8147", "#BCAE4D", "#796B57"],
     "deciduous7":  ["#A4AE60", "#768E50", "#D2B95C", "#796B57"],
-    "deciduous8":  ["#748B46", "#58753C", "#A55835", "#796B57"]
+    "deciduous8":  ["#748B46", "#58753C", "#A55835", "#796B57"],
+    "deciduous9":  ["#91A46A", "#7A9160", "#B3AD5C", "#7A7159"]
   }
 }
