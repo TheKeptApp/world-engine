@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **house-contrast-v1 and lake-winter-v1 R approved** (binding visual targets). Applied: STATUS.md in each, INDEX.md, registry.
+- **Mock values become the engine's single source of truth:** approved packs compile into one file; a conformance test compares engine values with the mocks; exceptions only when R approves them. First exception (TEMPORARY, R approved): wet-path darkening ×3.8 (about 40 %) vs rain-v1's 10 %, until 5A's sheen/reflection lands. Applied: `Tools/lookloop/compile_mocks.py`, `Resources/look/mock-values.json`, conformance test, `docs/lookloop/mock-exceptions.md`.
 - **Approved GPT mocks are the exact visual direction; lanes build to match them.** Any drop-folder pack R approved in ChatGPT (it carries a `STATUS.md` saying "R approved") is final direction, with no further review step. Applied: registry status "R approved – binding target" / "pending R approval"; `docs/proposals/INDEX.md`; GRADING.md §M (score each view against its matching mock); P3 sweeps the drop folder at the start of every session.
 - **PROPOSED — snow states need weather history** (snowfall over the last 1–3 days, melt): a future P1 data task. Applied: `docs/roadmap.md` (PROPOSED).
 - **Score each merge on the core set with Sonnet; full set only for gate checks.** Core set: 13 views (all six paint-over views, the three regions, rain, smoke, fall, two aerials). Applied: `Tools/lookloop/views.json` (`core`), `lookloop.sh run --core`, GRADING.md §N.
