@@ -76,6 +76,15 @@ Chicago, Denver and Miami 2025 grids in `Tools/livefeeds/data/radiance/` (docs/l
 successor products after Suomi NPP ends 2026-11-02: NOAA-20 VJ146A4). Open: calibrate `CALIBRATION` (a ratio of 140 in
 downtown Chicago is too high) against sky-quality-meter readings, and wire the grids into areas/serving.
 
+**MDW runways done (P1, 2026-10-07):** `Tools/livefeeds/data/ambient-planes/mdw.json` from FAA NASR cycle 2026-10-01
+(`APT_RWY_END.csv`, `APT_RWY.csv`; public domain; licensing row LW13): 4 runways, 8 ends (04L/22R, 04R/22L, 13L/31R,
+13R/31L) with landing thresholds (displaced where NASR gives one), true alignment and length. **No `flows`, `defaultFlow` or
+`model` yet**: Midway's flows need the owner's choice (planes.md), so `load_area("mdw")` loads but `Airport` will not
+simulate it until those are added. The snapshot's global `ATTRIBUTION` names OpenStreetMap runways; MDW's are FAA (the
+file's own `attribution`), so the credit line needs a per-area source when MDW is switched on.
+Seen on the Mac while checking: `tests/test_vectors.py` fails, because the committed `live-sky-vectors.json` differs from
+a Mac rebuild in the last digits (e.g. …7097778 vs …7097769), presumably Linux vs macOS libm. Left alone (L1's).
+
 ## Blocked (and why)
 
 Re-checked 2026-10-07 (session 3). Reachable now: heasarc, rochester, cdsarc, blackmarble, urs.earthdata, www.nasa.gov,

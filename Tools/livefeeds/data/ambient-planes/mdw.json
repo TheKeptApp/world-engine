@@ -1,0 +1,100 @@
+{
+ "schema": "worldengine.ambient-planes-area/1",
+ "note": "Runway geometry from the FAA NASR 28-day subscription, cycle effective 2026-10-01 (APT_RWY_END.csv, APT_RWY.csv in 01_Oct_2026_APT_CSV.zip), a U.S. federal government work (public domain, 17 U.S.C. 105). threshold = the landing threshold (the displaced threshold where NASR gives one, else the runway end); headingTrueDeg = NASR true alignment (whole degrees); lengthM = NASR runway length. FLOWS AND MODEL NOT SET: Midway's arrival/departure flows are not in docs/research/ambient-planes.md and need the owner's choice (docs/live-world/planes.md); until then this area is not simulated.",
+ "aircraftMode": "ambient",
+ "airport": "MDW",
+ "timeZone": "America/Chicago",
+ "nasrEffectiveDate": "2026-10-01",
+ "nasrSha256": "aba48ea877f249d9b8cd63988b14b3432a6a09ad1fbe9561a5e6443c99c03dd0",
+ "runways": [
+  {
+   "ref": "04L",
+   "threshold": [
+    41.78288,
+    -87.75928
+   ],
+   "headingTrueDeg": 43.0,
+   "lengthM": 1679,
+   "displacedThresholdM": 231,
+   "nasrRunway": "04L/22R"
+  },
+  {
+   "ref": "04R",
+   "threshold": [
+    41.78019,
+    -87.75801
+   ],
+   "headingTrueDeg": 43.0,
+   "lengthM": 1964,
+   "displacedThresholdM": 158,
+   "nasrRunway": "04R/22L"
+  },
+  {
+   "ref": "13L",
+   "threshold": [
+    41.7907,
+    -87.75984
+   ],
+   "headingTrueDeg": 134.0,
+   "lengthM": 1988,
+   "displacedThresholdM": 141,
+   "nasrRunway": "13L/31R"
+  },
+  {
+   "ref": "13R",
+   "threshold": [
+    41.78807,
+    -87.75881
+   ],
+   "headingTrueDeg": 134.0,
+   "lengthM": 1176,
+   "displacedThresholdM": 0,
+   "nasrRunway": "13R/31L"
+  },
+  {
+   "ref": "22L",
+   "threshold": [
+    41.79073,
+    -87.74466
+   ],
+   "headingTrueDeg": 223.0,
+   "lengthM": 1964,
+   "displacedThresholdM": 194,
+   "nasrRunway": "04R/22L"
+  },
+  {
+   "ref": "22R",
+   "threshold": [
+    41.79059,
+    -87.74952
+   ],
+   "headingTrueDeg": 223.0,
+   "lengthM": 1679,
+   "displacedThresholdM": 268,
+   "nasrRunway": "04L/22R"
+  },
+  {
+   "ref": "31L",
+   "threshold": [
+    41.78077,
+    -87.74855
+   ],
+   "headingTrueDeg": 314.0,
+   "lengthM": 1176,
+   "displacedThresholdM": 0,
+   "nasrRunway": "13R/31L"
+  },
+  {
+   "ref": "31R",
+   "threshold": [
+    41.78056,
+    -87.74559
+   ],
+   "headingTrueDeg": 314.0,
+   "lengthM": 1988,
+   "displacedThresholdM": 212,
+   "nasrRunway": "13L/31R"
+  }
+ ],
+ "attribution": "Runway data: FAA NASR (public domain)"
+}
