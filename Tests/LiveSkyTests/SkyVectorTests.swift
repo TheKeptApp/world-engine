@@ -54,7 +54,9 @@ struct SkyVectorTests {
             let m = Astro.pyMod(a - e, 360.0)
             diff = min(m, 360.0 - m)
         }
-        #expect(diff <= tol, "\(ctx): got \(a), expected \(e), diff \(diff), tolerance \(tol)")
+        // Large magnitudes (Julian dates near 2.46e6) cannot resolve below a few ulps of the value.
+        let limit = max(tol, 4 * e.ulp)
+        #expect(diff <= limit, "\(ctx): got \(a), expected \(e), diff \(diff), tolerance \(limit)")
     }
 
     private static func vec(_ v: Vec3, _ expectedAny: Any?, tol: Double, _ ctx: String) {
