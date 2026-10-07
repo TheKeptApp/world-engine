@@ -701,7 +701,10 @@ struct HUD: View {
     var body: some View {
         let s = world.stats
         VStack(alignment: .leading, spacing: 2) {
-            Text(String(format: "%.0f fps  frame %.1f ms  gpu %.1f ms", metrics.fps, metrics.frameMs, metrics.gpuMs))
+            // RealityKit gives no whole-frame GPU time (gpuFrameMs is nil), so the figure is the
+            // post-processing pass alone: label it, or it reads as the frame's GPU cost.
+            Text(String(format: "%.0f fps  frame %.1f ms  %@ %.1f ms", metrics.fps, metrics.frameMs,
+                        render.gpuFrameMs == nil ? "post pass" : "gpu", metrics.gpuMs))
             Text("view \(s.viewTriangles / 1000)k tris  all \(s.triangles / 1000)k (trees \(s.treeTriangles / 1000)k)  draws \(s.drawCalls)")
             Text(String(format: "mem %.0f MB  mesh %.1f MB  %@", metrics.memoryMB, Double(s.meshBytes) / 1_048_576, metrics.thermal))
             Text(render.summary)
