@@ -46,7 +46,7 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops; float4 skyMid2;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -88,7 +88,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.waterB = float4(tex.read(uint2(36, 1)));
     g.blobShadow = float4(tex.read(uint2(37, 1)));
     g.skyMid = float4(tex.read(uint2(39, 1))); g.skyWarm = float4(tex.read(uint2(40, 1)));
-    g.skyStops = float4(tex.read(uint2(41, 1)));
+    g.skyStops = float4(tex.read(uint2(41, 1))); g.skyMid2 = float4(tex.read(uint2(42, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -594,9 +594,11 @@ void worldSkySurface(realitykit::surface_parameters params)
     // faint warm tint low on the horizon; blended in by the master weight (skyMid.w).
     if (g.skyMid.w > 0.001) {
         float e = asin(clamp(d.y, 0.0, 1.0)) * 180.0 / M_PI_F;
-        float midE = max(g.skyStops.x, 1.0);
-        float3 mid = float3(g.skyMid.rgb);
-        float3 m3 = e < midE ? mix(horizon, mid, e / midE) : mix(mid, top, (e - midE) / (90.0 - midE));
+        float midE = max(g.skyStops.x, 1.0), mid2E = clamp(g.skyStops.z, midE, 89.0);
+        float3 mid = float3(g.skyMid.rgb), mid2 = float3(g.skyMid2.rgb);
+        float3 m3 = e < midE ? mix(horizon, mid, e / midE)
+                  : e < mid2E ? mix(mid, mid2, (e - midE) / max(mid2E - midE, 1e-3))
+                  : mix(mid2, top, (e - mid2E) / (90.0 - mid2E));
         m3 = mix(m3, float3(g.skyWarm.rgb), g.skyWarm.w * (1.0 - smoothstep(0.0, max(g.skyStops.y, 0.1), e)));
         c = mix(c, m3, g.skyMid.w);
     }

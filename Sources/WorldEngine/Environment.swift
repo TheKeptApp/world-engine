@@ -59,6 +59,12 @@ extension World {
         if let grade {
             exposureTarget = Float(grade.luma / 255) + lookTuning.exposureTarget
             gradeSaturation = Float(grade.saturation)
+            // Under the daytime master its grade saturation is the only one (applied once): the bible
+            // state's display saturation fades out with the master weight.
+            if Self.daytimeMaster != nil {
+                let mw = smoothstepD(15, 30, env.light.sunElevationDeg) * (state == nil || state == .clear ? 1 : 1 - weight)
+                gradeSaturation += (1 - gradeSaturation) * Float(mw)
+            }
             gradeLook = grade.look
         }
         // Daytime master exposure: the heroes' brightness as the auto-exposure target, and the master's
@@ -270,10 +276,13 @@ extension World {
         // Daytime master: its 3-stop gradient (horizon, mid, zenith by elevation) with a faint warm
         // horizon, and its lit cloud colour; the shader blends from the 2-stop sky by the master weight.
         if let master, master.sky.stops.count >= 3 {
+            // Up to two middle stops between horizon and zenith (P3 sampled 0°, 11°, 20°, 90° from the heroes).
             let mid = master.sky.stops[1]
+            let mid2 = master.sky.stops.count >= 4 ? master.sky.stops[2] : mid
             g.skyMid = SIMD4(WorldGen.Color.linear(Palette.parse(mid.hex)), m)
+            g.skyMid2 = SIMD4(WorldGen.Color.linear(Palette.parse(mid2.hex)), 0)
             g.skyWarm = SIMD4(WorldGen.Color.linear(Palette.parse(master.sky.warmHorizonHex)), Float(master.sky.warmHorizonMaxMix))
-            g.skyStops = SIMD4(Float(mid.elevation), Float(master.sky.warmHorizonMaxElevation), 0, 0)
+            g.skyStops = SIMD4(Float(mid.elevation), Float(master.sky.warmHorizonMaxElevation), Float(mid2.elevation), 0)
             g.cloudColor = simd_mix(g.cloudColor, WorldGen.Color.linear(Palette.parse(master.sky.cloudLitHex)), SIMD3(repeating: m * (1 - cloud)))
         } else {
             g.skyMid.w = 0
