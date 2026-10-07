@@ -174,7 +174,116 @@
    },
    "area": "sloans-lake",
    "core": true,
-   "mock": "docs/proposals/lake-winter-v1/01-water-that-reads.png"
+   "mock": "docs/proposals/lake-winter-v1/01-water-that-reads.png",
+   "mockConditions": "lake-winter-v1 01 water that reads: open water, clear, wind ~10 m/s (sloans_lake_clear_wind_10)"
+  },
+  {
+   "id": "showcase-01-morning-fog",
+   "group": "showcase",
+   "title": "showcase-01 camera, morning fog (sun +5\u00b0), fog 1.0, visibility 220 m (night-fog-v1 sloans-lake-morning-fog)",
+   "args": [
+    "-showcase",
+    "01",
+    "-date",
+    "2026-10-15T13:42:00Z",
+    "-weatherspec",
+    "label=fog,intensity=1,cloud=0.8,visibility=220"
+   ],
+   "utc": "2026-10-15T13:42:00Z",
+   "local": "2026-10-15 07:42 MDT",
+   "weather": "label=fog, intensity=1, cloud=0.8, visibility=220",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png",
+     "label": "approved mock night-fog-v1 sloans-lake-morning-fog (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": 5.1,
+    "azimuthDeg": 105.7,
+    "shadowBearingDeg": 285.7,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "area": "sloans-lake",
+   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png",
+   "mockConditions": "night-fog-v1 morning-fog: morning fog (sun +5\u00b0), fog 1.0, visibility 220 m",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "showcase-01-blue-hour",
+   "group": "showcase",
+   "title": "showcase-01 camera, blue hour (sun \u22126\u00b0), clear (night-fog-v1 sloans-lake-blue-hour)",
+   "args": [
+    "-showcase",
+    "01",
+    "-date",
+    "2026-10-16T00:48:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "utc": "2026-10-16T00:48:00Z",
+   "local": "2026-10-15 18:48 MDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/sloans-lake-blue-hour.png",
+     "label": "approved mock night-fog-v1 sloans-lake-blue-hour (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": -6.1,
+    "azimuthDeg": 263.5,
+    "shadowBearingDeg": 83.5,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "area": "sloans-lake",
+   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-blue-hour.png",
+   "mockConditions": "night-fog-v1 blue-hour: blue hour (sun \u22126\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "showcase-01-night",
+   "group": "showcase",
+   "title": "showcase-01 camera, night (sun below \u221218\u00b0), clear (night-fog-v1 sloans-lake-night)",
+   "args": [
+    "-showcase",
+    "01",
+    "-date",
+    "2026-10-16T01:50:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "utc": "2026-10-16T01:50:00Z",
+   "local": "2026-10-15 19:50 MDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "autumn",
+   "character": false,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/sloans-lake-night.png",
+     "label": "approved mock night-fog-v1 sloans-lake-night (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "camera": "experience-v1 showcase street (lake trail), heading 100 (ESE), pitch down 3, vFOV 50, lake on the right",
+   "sun": {
+    "elevationDeg": -18.0,
+    "azimuthDeg": 273.4,
+    "shadowBearingDeg": 93.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "area": "sloans-lake",
+   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-night.png",
+   "mockConditions": "night-fog-v1 night: night (sun below \u221218\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
   },
   {
    "id": "showcase-02",
@@ -254,7 +363,12 @@
    },
    "area": "sloans-lake",
    "paintover": "docs/proposals/paintover-v1/images/showcase-03-paintover.png",
-   "core": true
+   "core": true,
+   "mockPending": {
+    "path": "docs/proposals/rain-v1/images/03-rain-phone-distance.png",
+    "status": "in use (pre-rule; R to confirm) \u2014 no \u00a7M closeness until approved",
+    "conditions": "rain-v1 03 rain at phone distance: daytime rain, wet surfaces"
+   }
   },
   {
    "id": "showcase-04",
@@ -315,10 +429,6 @@
     {
      "path": "docs/proposals/look-fix-v1/images/lighting-09-fog.png",
      "label": "look-fix-v1 lighting-09-fog (appearance reference; not calibrated)"
-    },
-    {
-     "path": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png",
-     "label": "approved mock night-fog-v1 sloans-lake-morning-fog (R approved 2026-10-07; same camera; mock is morning ground fog, view is midday fog: judge the fog look, not the time of day)"
     }
    ],
    "na": [
@@ -333,7 +443,7 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
    "area": "sloans-lake",
-   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-morning-fog.png"
+   "mockScope": "moved: the night-fog-v1 mock was painted over showcase-01's camera; closeness is scored on showcase-01-morning-fog"
   },
   {
    "id": "showcase-06",
@@ -414,7 +524,8 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
    "area": "sloans-lake",
-   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+   "mockConditions": "lake-winter-v1 04 snow on trees: falling/fresh snow on branches (branchSnowState fresh)"
   },
   {
    "id": "showcase-08",
@@ -452,7 +563,8 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
    "area": "sloans-lake",
-   "mock": "docs/proposals/lake-winter-v1/05-old-snow.png"
+   "mock": "docs/proposals/lake-winter-v1/05-old-snow.png",
+   "mockConditions": "lake-winter-v1 05 old snow: clear morning after snow (oldSnowState day2)"
   },
   {
    "id": "showcase-09",
@@ -480,10 +592,6 @@
     {
      "path": "docs/proposals/look-fix-v1/images/sky-02-moon-water.png",
      "label": "look-fix-v1 sky-02-moon-water (appearance reference; not calibrated)"
-    },
-    {
-     "path": "docs/proposals/night-fog-v1/images/sloans-lake-night.png",
-     "label": "approved mock night-fog-v1 sloans-lake-night (R approved 2026-10-07; same lake-trail camera, full night)"
     }
    ],
    "na": [
@@ -499,7 +607,7 @@
     "note": "night: Moon alt 17.2, az 72.0 (upper left of the ESE frame), stars; experience-v1 night-sky-reference.json"
    },
    "area": "sloans-lake",
-   "mock": "docs/proposals/night-fog-v1/images/sloans-lake-night.png"
+   "mockScope": "moved: the night-fog-v1 mock was painted over showcase-01's camera; closeness is scored on showcase-01-night"
   },
   {
    "id": "showcase-10",
@@ -578,7 +686,8 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
    "area": "sloans-lake",
-   "mock": "docs/proposals/lake-winter-v1/03-ice-that-reads.png"
+   "mock": "docs/proposals/lake-winter-v1/03-ice-that-reads.png",
+   "mockConditions": "lake-winter-v1 03 ice that reads: clear morning, frozen lake with snow on ice"
   },
   {
    "id": "ordinary-trail",
@@ -659,10 +768,6 @@
     {
      "path": "docs/proposals/paintover-v1/images/ordinary-street-paintover.png",
      "label": "paintover-v1 ordinary-street (paint-over of this camera; exact appearance target; geometry from the capture governs; rain-puddle rim is a known artefact, not a target)"
-    },
-    {
-     "path": "docs/proposals/house-contrast-v1/images/denver-hero.png",
-     "label": "approved mock house-contrast-v1 denver-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -678,7 +783,44 @@
    "area": "sloans-lake",
    "paintover": "docs/proposals/paintover-v1/images/ordinary-street-paintover.png",
    "core": true,
-   "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png"
+   "mockScope": "parity only: golden hour does not match its approved mock's clear mid-afternoon; closeness (GRADING \u00a7M) is scored on ordinary-street-afternoon"
+  },
+  {
+   "id": "ordinary-street-afternoon",
+   "group": "ordinary",
+   "title": "Ordinary afternoon, W 23rd Ave street (v2 camera, Luna) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+   "args": [
+    "-preset",
+    "v2-01",
+    "-weather",
+    "clear",
+    "-date",
+    "2026-10-15T20:30:00Z"
+   ],
+   "utc": "2026-10-15T20:30:00Z",
+   "local": "2026-10-15 14:30 MDT",
+   "weather": "clear, cloud 0.05",
+   "season": "autumn",
+   "character": true,
+   "wet": false,
+   "targets": [
+    {
+     "path": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+     "label": "approved mock house-contrast-v1 denver-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+    }
+   ],
+   "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+   "sun": {
+    "elevationDeg": 35.8,
+    "azimuthDeg": 212.4,
+    "shadowBearingDeg": 32.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "area": "sloans-lake",
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+   "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
   },
   {
    "id": "light-rain-street",
@@ -753,10 +895,6 @@
     {
      "path": "docs/proposals/look-fix-v1/images/ground-01-north-shore-clear.png",
      "label": "look-fix-v1 ground-01-north-shore-clear (appearance reference; not calibrated)"
-    },
-    {
-     "path": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
-     "label": "approved mock house-contrast-v1 wilmette-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -774,7 +912,172 @@
     "label=clear,cloud=0.12"
    ],
    "core": true,
-   "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png"
+   "mockScope": "parity only: golden hour does not match its approved mock's clear mid-afternoon; closeness (GRADING \u00a7M) is scored on wilmette-street-afternoon"
+  },
+  {
+   "id": "wilmette-street-afternoon",
+   "group": "region",
+   "title": "Wilmette, Highland Ave looking east, (regions 01) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "weatherPreset": "clear",
+   "utc": "2026-09-15T19:56:00Z",
+   "local": "2026-09-15 14:56 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "wilmette-vattmann-park named camera 'northshore-postcard' (WorldLab demo.json): eye 1.65 m at 42.074933,-87.719996, heading 90, pitch down 3, vFOV 50. Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+   "sun": {
+    "elevationDeg": 41.1,
+    "azimuthDeg": 225.4,
+    "shadowBearingDeg": 45.4,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+     "label": "approved mock house-contrast-v1 wilmette-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+    }
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-15T19:56:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+   "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "wilmette-street-morning-fog",
+   "group": "region",
+   "title": "wilmette-street camera, morning fog (sun +5\u00b0), fog 1.0, visibility 220 m (night-fog-v1 wilmette-morning-fog)",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "weatherPreset": "clear",
+   "utc": "2026-09-15T12:03:00Z",
+   "local": "2026-09-15 07:03 CDT",
+   "weather": "label=fog, intensity=1, cloud=0.8, visibility=220",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "wilmette-vattmann-park named camera 'northshore-postcard' (WorldLab demo.json): eye 1.65 m at 42.074933,-87.719996, heading 90, pitch down 3, vFOV 50. Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+   "sun": {
+    "elevationDeg": 5.1,
+    "azimuthDeg": 90.7,
+    "shadowBearingDeg": 270.7,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/wilmette-morning-fog.png",
+     "label": "approved mock night-fog-v1 wilmette-morning-fog (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-15T12:03:00Z",
+    "-weatherspec",
+    "label=fog,intensity=1,cloud=0.8,visibility=220"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/wilmette-morning-fog.png",
+   "mockConditions": "night-fog-v1 morning-fog: morning fog (sun +5\u00b0), fog 1.0, visibility 220 m",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "wilmette-street-blue-hour",
+   "group": "region",
+   "title": "wilmette-street camera, blue hour (sun \u22126\u00b0), clear (night-fog-v1 wilmette-blue-hour)",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "weatherPreset": "clear",
+   "utc": "2026-09-16T00:28:00Z",
+   "local": "2026-09-15 19:28 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "wilmette-vattmann-park named camera 'northshore-postcard' (WorldLab demo.json): eye 1.65 m at 42.074933,-87.719996, heading 90, pitch down 3, vFOV 50. Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+   "sun": {
+    "elevationDeg": -6.0,
+    "azimuthDeg": 279.1,
+    "shadowBearingDeg": 99.1,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/wilmette-blue-hour.png",
+     "label": "approved mock night-fog-v1 wilmette-blue-hour (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-16T00:28:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/wilmette-blue-hour.png",
+   "mockConditions": "night-fog-v1 blue-hour: blue hour (sun \u22126\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "wilmette-street-night",
+   "group": "region",
+   "title": "wilmette-street camera, night (sun below \u221218\u00b0), clear (night-fog-v1 wilmette-night)",
+   "area": "wilmette-vattmann-park",
+   "profile": "wilmette",
+   "focus": null,
+   "weatherPreset": "clear",
+   "utc": "2026-09-16T01:35:00Z",
+   "local": "2026-09-15 20:35 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "wilmette-vattmann-park named camera 'northshore-postcard' (WorldLab demo.json): eye 1.65 m at 42.074933,-87.719996, heading 90, pitch down 3, vFOV 50. Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+   "sun": {
+    "elevationDeg": -18.0,
+    "azimuthDeg": 291.0,
+    "shadowBearingDeg": 111.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/wilmette-night.png",
+     "label": "approved mock night-fog-v1 wilmette-night (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "wilmette-vattmann-park",
+    "-camera",
+    "northshore-postcard",
+    "-date",
+    "2026-09-16T01:35:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/wilmette-night.png",
+   "mockConditions": "night-fog-v1 night: night (sun below \u221218\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
   },
   {
    "id": "wilmette-street-rain",
@@ -914,7 +1217,8 @@
     "-weatherspec",
     "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
    ],
-   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+   "mockConditions": "lake-winter-v1 04 snow on trees: fresh branch snow, midday snow"
   },
   {
    "id": "wilmette-aerial",
@@ -1103,7 +1407,51 @@
     "-weatherspec",
     "label=rain,intensity=0.5,cloud=0.95,rate=2,wetness=0.7,visibility=9000"
    ],
-   "core": true
+   "core": true,
+   "mockPending": {
+    "path": "docs/proposals/rain-v1/images/03-rain-phone-distance.png",
+    "status": "in use (pre-rule; R to confirm) \u2014 no \u00a7M closeness until approved",
+    "conditions": "rain-v1 03 rain at phone distance: daytime rain, wet surfaces"
+   }
+  },
+  {
+   "id": "evanston-street-rain-dusk",
+   "group": "region",
+   "title": "Evanston South, Wesley Ave, rain at dusk into night (rain-v1 04 conditions)",
+   "area": "evanston-south",
+   "profile": "evanston",
+   "focus": "42.0350,-87.6940,42.0410,-87.6885",
+   "weatherPreset": "rain",
+   "utc": "2026-09-16T00:20:00Z",
+   "local": "2026-09-15 19:20 CDT",
+   "weather": "label=rain, intensity=0.5, cloud=0.95, rate=2, wetness=0.7, visibility=9000",
+   "season": "late summer",
+   "character": false,
+   "wet": true,
+   "camera": "evanston-south named camera 'wesley-street' (WorldLab demo.json): eye 1.65 m at 42.0382,-87.69135, heading 180, pitch down 3, vFOV 50. Wesley Avenue, east sidewalk, looking south (P2 evanston-street)",
+   "sun": {
+    "elevationDeg": -4.5,
+    "azimuthDeg": 277.8,
+    "shadowBearingDeg": 97.8,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [],
+   "args": [
+    "-area",
+    "evanston-south",
+    "-camera",
+    "wesley-street",
+    "-date",
+    "2026-09-16T00:20:00Z",
+    "-weatherspec",
+    "label=rain,intensity=0.5,cloud=0.95,rate=2,wetness=0.7,visibility=9000"
+   ],
+   "mockPending": {
+    "path": "docs/proposals/rain-v1/images/04-rain-dusk-night.png",
+    "status": "in use (pre-rule; R to confirm) \u2014 no \u00a7M closeness until approved",
+    "conditions": "rain-v1 04 rain at dusk and night: wet roads, lamp reflections"
+   },
+   "scoreOn": "captured for rain-v1 04; closeness once R approves rain-v1"
   },
   {
    "id": "evanston-street-winter",
@@ -1150,7 +1498,8 @@
     "-weatherspec",
     "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
    ],
-   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+   "mockConditions": "lake-winter-v1 04 snow on trees: fresh branch snow, midday snow"
   },
   {
    "id": "evanston-aerial",
@@ -1230,10 +1579,6 @@
     {
      "path": "docs/proposals/look-fix-v1/images/ground-04-lakeview-clear.png",
      "label": "look-fix-v1 ground-04-lakeview-clear (appearance reference; not calibrated)"
-    },
-    {
-     "path": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
-     "label": "approved mock house-contrast-v1 postcard-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -1241,7 +1586,46 @@
     10
    ],
    "core": true,
-   "mock": "docs/proposals/house-contrast-v1/images/postcard-hero.png"
+   "mockScope": "parity only: golden hour does not match its approved mock's clear mid-afternoon; closeness (GRADING \u00a7M) is scored on lakeview-postcard-afternoon"
+  },
+  {
+   "id": "lakeview-postcard-afternoon",
+   "group": "region",
+   "title": "Lakeview, W Roscoe St looking east, (regions 05 composition) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+   "area": "lakeview-sheil-park",
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "lakeview-postcard",
+    "-date",
+    "2026-09-15T19:55:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "utc": "2026-09-15T19:55:00Z",
+   "local": "2026-09-15 14:55 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'lakeview-postcard' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.6632, heading 90, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking east (regions lakeview-postcard composition)",
+   "sun": {
+    "elevationDeg": 41.3,
+    "azimuthDeg": 225.3,
+    "shadowBearingDeg": 45.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+     "label": "approved mock house-contrast-v1 postcard-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+    }
+   ],
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+   "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
   },
   {
    "id": "lakeview-street",
@@ -1276,10 +1660,6 @@
     {
      "path": "docs/proposals/paintover-v1/images/lakeview-street-paintover.png",
      "label": "paintover-v1 lakeview-street (paint-over of this camera; exact appearance target; geometry from the capture governs; rain-puddle rim is a known artefact, not a target)"
-    },
-    {
-     "path": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
-     "label": "approved mock house-contrast-v1 lakeview-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -1298,7 +1678,172 @@
    ],
    "paintover": "docs/proposals/paintover-v1/images/lakeview-street-paintover.png",
    "core": true,
-   "mock": "docs/proposals/house-contrast-v1/images/lakeview-hero.png"
+   "mockScope": "parity only: golden hour does not match its approved mock's clear mid-afternoon; closeness (GRADING \u00a7M) is scored on lakeview-street-afternoon"
+  },
+  {
+   "id": "lakeview-street-afternoon",
+   "group": "region",
+   "title": "Lakeview, W Roscoe St looking west \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+   "area": "lakeview-sheil-park",
+   "profile": "chicago-dense-north",
+   "focus": "41.9415,-87.6690,41.9480,-87.6585",
+   "weatherPreset": "clear",
+   "utc": "2026-09-15T19:55:00Z",
+   "local": "2026-09-15 14:55 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'roscoe-street' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.66075, heading 270, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
+   "sun": {
+    "elevationDeg": 41.3,
+    "azimuthDeg": 225.3,
+    "shadowBearingDeg": 45.3,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+     "label": "approved mock house-contrast-v1 lakeview-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+    }
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "roscoe-street",
+    "-date",
+    "2026-09-15T19:55:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+   "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "lakeview-street-morning-fog",
+   "group": "region",
+   "title": "lakeview-street camera, morning fog (sun +5\u00b0), fog 1.0, visibility 220 m (night-fog-v1 lakeview-morning-fog)",
+   "area": "lakeview-sheil-park",
+   "profile": "chicago-dense-north",
+   "focus": "41.9415,-87.6690,41.9480,-87.6585",
+   "weatherPreset": "clear",
+   "utc": "2026-09-15T12:03:00Z",
+   "local": "2026-09-15 07:03 CDT",
+   "weather": "label=fog, intensity=1, cloud=0.8, visibility=220",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'roscoe-street' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.66075, heading 270, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
+   "sun": {
+    "elevationDeg": 5.1,
+    "azimuthDeg": 90.7,
+    "shadowBearingDeg": 270.7,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/lakeview-morning-fog.png",
+     "label": "approved mock night-fog-v1 lakeview-morning-fog (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "roscoe-street",
+    "-date",
+    "2026-09-15T12:03:00Z",
+    "-weatherspec",
+    "label=fog,intensity=1,cloud=0.8,visibility=220"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/lakeview-morning-fog.png",
+   "mockConditions": "night-fog-v1 morning-fog: morning fog (sun +5\u00b0), fog 1.0, visibility 220 m",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "lakeview-street-blue-hour",
+   "group": "region",
+   "title": "lakeview-street camera, blue hour (sun \u22126\u00b0), clear (night-fog-v1 lakeview-blue-hour)",
+   "area": "lakeview-sheil-park",
+   "profile": "chicago-dense-north",
+   "focus": "41.9415,-87.6690,41.9480,-87.6585",
+   "weatherPreset": "clear",
+   "utc": "2026-09-16T00:28:00Z",
+   "local": "2026-09-15 19:28 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'roscoe-street' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.66075, heading 270, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
+   "sun": {
+    "elevationDeg": -6.0,
+    "azimuthDeg": 279.1,
+    "shadowBearingDeg": 99.1,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/lakeview-blue-hour.png",
+     "label": "approved mock night-fog-v1 lakeview-blue-hour (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "roscoe-street",
+    "-date",
+    "2026-09-16T00:28:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/lakeview-blue-hour.png",
+   "mockConditions": "night-fog-v1 blue-hour: blue hour (sun \u22126\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
+  },
+  {
+   "id": "lakeview-street-night",
+   "group": "region",
+   "title": "lakeview-street camera, night (sun below \u221218\u00b0), clear (night-fog-v1 lakeview-night)",
+   "area": "lakeview-sheil-park",
+   "profile": "chicago-dense-north",
+   "focus": "41.9415,-87.6690,41.9480,-87.6585",
+   "weatherPreset": "clear",
+   "utc": "2026-09-16T01:35:00Z",
+   "local": "2026-09-15 20:35 CDT",
+   "weather": "label=clear, cloud=0.12",
+   "season": "late summer",
+   "character": false,
+   "wet": false,
+   "camera": "lakeview-sheil-park named camera 'roscoe-street' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.66075, heading 270, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
+   "sun": {
+    "elevationDeg": -18.0,
+    "azimuthDeg": 291.0,
+    "shadowBearingDeg": 111.0,
+    "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+   },
+   "targets": [
+    {
+     "path": "docs/proposals/night-fog-v1/images/lakeview-night.png",
+     "label": "approved mock night-fog-v1 lakeview-night (R approved; painted over this camera; judge sky, light, fog, windows and lamps)"
+    }
+   ],
+   "args": [
+    "-area",
+    "lakeview-sheil-park",
+    "-camera",
+    "roscoe-street",
+    "-date",
+    "2026-09-16T01:35:00Z",
+    "-weatherspec",
+    "label=clear,cloud=0.12"
+   ],
+   "mock": "docs/proposals/night-fog-v1/images/lakeview-night.png",
+   "mockConditions": "night-fog-v1 night: night (sun below \u221218\u00b0), clear",
+   "scoreOn": "mock closeness only (no calibrated concept for this moment)"
   },
   {
    "id": "lakeview-alley",
