@@ -33,6 +33,10 @@ public struct LookSpec: Codable, Sendable {
         public var rangeM: Double
         public var lowSunRangeM: Double
         public var lowSunBelowDeg: Double
+        /// Beyond the range, lawns and paths darken under the canopy map shifted along the sun by a
+        /// typical crown's shadow (`blobCrownHeightM`), by `blobStrength` in full direct sun.
+        public var blobStrength: Double
+        public var blobCrownHeightM: Double
     }
     public var water: Water
     public var sky: Sky

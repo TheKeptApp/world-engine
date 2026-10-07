@@ -116,7 +116,10 @@ extension World {
             let sun = SIMD2<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.z))
             let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
             shadowCast = SIMD3(away.x, away.y, Float(1 / tan(max(elevation, 3) * .pi / 180)))
+            // Far crown shadows take over where the shadow map ends, as strong as the direct sun is.
+            if let spec { shaderGlobals.blobShadow = SIMD4(range, Float(spec.blobStrength) * min(1, direct), Float(spec.blobCrownHeightM), 0) }
         } else {
+            shaderGlobals.blobShadow.y = 0
             sunEntity.components.remove(DirectionalLightComponent.Shadow.self)
             shadowCast = nil
         }
