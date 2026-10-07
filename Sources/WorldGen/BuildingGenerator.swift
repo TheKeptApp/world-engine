@@ -243,7 +243,8 @@ public struct BuildingGenerator: Sendable {
         let panelHex = tuple[1]
         // House contrast (house-contrast-v1) type: trim, roof, glass, soffit, porch-underside and eave-band values.
         // Storeys aren't final yet here: mapped levels, else the family's first floor count.
-        let contrastType = details != nil ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
+        let contrastType = role == .house || role == .block
+            ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
         if let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
         // house-contrast-v1 defines trim and roof per house type: they replace the family ranges (owner 7 Oct).
         // Mapped roof:colour still wins.
