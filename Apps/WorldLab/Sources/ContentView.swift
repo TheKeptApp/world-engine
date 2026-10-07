@@ -167,10 +167,12 @@ struct RealityKitScreen: View {
             await phase("all1") {}
             await phase("noShadows") { world.set(.shadows, enabled: false) }
             await phase("all2") { world.set(.shadows, enabled: true) }
-            await phase("shadow50") { world.setShadowDistance(50) }
-            await phase("all3") { world.setShadowDistance(80) }
-            await phase("shadow30") { world.setShadowDistance(30) }
-            await phase("all4") { world.setShadowDistance(80) }
+            // The live range comes from look.json (120 m); 60 m was the range before 7 Oct.
+            let range = world.shadowRange
+            await phase("shadow60") { world.setShadowDistance(60) }
+            await phase("all3") { world.setShadowDistance(range) }
+            await phase("shadow150") { world.setShadowDistance(150) }
+            await phase("all4") { world.setShadowDistance(range) }
             await phase("noMSAA") { multisampling = false }
             await phase("all5") { multisampling = true }
             await phase("noFoliage") { world.set(.foliage, enabled: false) }
@@ -180,6 +182,7 @@ struct RealityKitScreen: View {
             await phase("all7") { world.set(.opaqueDetail, enabled: true) }
             await phase("noSky") { world.set(.sky, enabled: false) }
             await phase("all8") { world.set(.sky, enabled: true) }
+            // Surface detail includes the far crown shadows (one canopy-map sample on lawns and walks).
             await phase("noSurfaceDetail") { world.set(.surfaceDetail, enabled: false) }
             await phase("all9") { world.set(.surfaceDetail, enabled: true) }
             await phase("noPost") { post.settings.enabled = false }
