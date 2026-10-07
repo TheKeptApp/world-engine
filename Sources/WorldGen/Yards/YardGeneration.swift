@@ -613,6 +613,7 @@ extension SceneGenerator {
         stats["canopyTrees"] = plantForCanopy(raster, eligible: eligible, lo: lo, hi: hi, count: count, byIndex: byIndex, library: library,
                                               lotTrees: &lotTrees, trees: &trees, instances: &instances, scene: &scene)
         // Lot lawns and parkways, now that every tree, hedge and shrub is placed.
+        stats["treesDroppedForClearance"] = clearPaths(&instances, raster: raster)
         let sceneContrast = library.rules(for: profile.id).groundContrast ?? .spec
         let pools = GroundPools(instances, treeDepth: sceneContrast.poolDepth[0], shrubDepth: sceneContrast.poolDepth[1])
         var lawnTris = 0
@@ -818,6 +819,43 @@ extension SceneGenerator {
             variant = pool[Int(r.next() % UInt64(pool.count))]
         }
         return PropInstance(kind: kind, variant: variant, source: source, x: pos.x, y: pos.y, height: 0, yaw: r.range(0, 6.28), scale: height)
+    }
+
+    /// Path clearance (owner, 2026-10-06): no foliage in a walk or carriageway corridor below 2.5 m.
+    /// Generated deciduous trees whose crown reaches within 3 m of a path are raised until the crown base
+    /// clears 2.5 m ("pruned" street trees), or dropped if that would make them more than 1.2× the zone's
+    /// tallest tree; generated conifers are set back by their crown radius from walks and roads (none
+    /// in parkways). Mapped trees keep their position and size. Returns the number dropped.
+    func clearPaths(_ instances: inout [PropInstance], raster: LotRaster) -> Int {
+        let clearance = 2.5
+        var dropped = 0
+        var kept: [PropInstance] = []
+        kept.reserveCapacity(instances.count)
+        for var inst in instances {
+            let generated = inst.source.hasPrefix("gen:yardtree:") || inst.source.hasPrefix("gen:canopytree:") || inst.source.hasPrefix("gen:streettree:")
+            guard generated, inst.kind.isTree else { kept.append(inst); continue }
+            let p = LocalPoint(inst.x, inst.y)
+            let shape = PropLibrary.lobes(inst.kind)
+            let reach = Double(shape.radii.x) * inst.scale * max(inst.stretch.x, inst.stretch.y)
+            func nearPath(_ r: Double) -> Bool { raster.nearUse(p, .walkway, radius: r) || raster.nearUse(p, .road, radius: r) }
+            if inst.kind == .conifer {
+                if nearPath(max(1.0, reach)) { dropped += 1; continue }
+                kept.append(inst)
+                continue
+            }
+            if nearPath(max(3.0, reach)) {
+                let baseShare = Double(min(shape.crown.y - shape.radii.y, shape.lobes.map { $0.0.y - $0.1 }.min() ?? 1))
+                if baseShare > 0.05, baseShare * inst.scale < clearance {
+                    let need = clearance / baseShare
+                    let zoneMax = (zones?.profile(at: p) ?? profile).trees.heightMeters.last ?? 20
+                    if need > zoneMax * 1.2 { dropped += 1; continue }
+                    inst.scale = need
+                }
+            }
+            kept.append(inst)
+        }
+        instances = kept
+        return dropped
     }
 
     /// Fall leaf-litter patches: 1–3 per deciduous tree within its crown, radius 0.4–1.2 m, on open
