@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **Images beat JSON (standing, R):** when an approved pack's images and its values JSON disagree, the images win; P3 samples the images and records the correction (`Tools/lookloop/mock-corrections.json`, applied by `compile_mocks.py`, originals kept). First use: house-contrast-v1 sky from the four heroes (median): zenith band #6FAFE4 (held 20-90°), mid #91C4ED (11°), horizon #A7CFED (0°), cloud lit #F2F0EB, cloud shade #D9E2F0; was #73A5CC / #A2C4DC / #DBDCD1. Sun direct-strength row marked calibrated (0.6 key scale = sun-to-fill balance, restored by auto exposure). Applied: mock-values.json (both copies), conformance mapping.
+
 - **No permission, no raw data (R decided):** until a dataset is GREEN for our use the engine doesn't load it; it uses rule-based generation from the research catalogs (street-trees-by-metro-v1, regional-look-catalog-v1), labelled "inferred". GREEN datasets may be used now with their required credit. Real inventories replace inferred placement per city as permissions arrive. Outreach requests are a backlog, not sent. Applied: `docs/outreach.md`; licensing §19 (TD1–TD4).
 
 - **Creator kit as lead wedge candidate (PROPOSED):** ready-made real-place view + Style B parts kit + live shareable embed; paid tiers; first segment race/event organizers; two-layer trust model protecting the base map; community corrections through the same promotion pipeline; official partner builds with licensed logos. After the look gate and streaming; demand research (creator-kit-demand-v1) now. Applied: `docs/roadmap.md`; licensing Q49–Q52.
