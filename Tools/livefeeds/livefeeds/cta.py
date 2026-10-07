@@ -116,6 +116,7 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
     feed_ts = local_time(tt.get("tmst")) or int(now)
     dropped: Counter = Counter()
     out: List[dict] = []
+    keys: Dict[str, str] = {}
     for r in _as_list(tt.get("route")):
         route = _BY_LOWER.get(str(r.get("@name", "")).lower())
         for t in _as_list(r.get("train")):
@@ -139,8 +140,10 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
                 continue
             hdg = _num(t.get("heading"))
             heading = round(hdg % 360.0, 1) if hdg is not None and 0.0 <= hdg <= 360.0 else None
+            vid = salt.vehicle_id(SOURCE, route + ":" + run, now)
+            keys[vid] = "route:" + route         # shape lookup key (ctagtfs), memory only
             out.append({
-                "id": salt.vehicle_id(SOURCE, route + ":" + run, now),
+                "id": vid,
                 "kind": "rail",
                 "route": route,
                 "routeName": ROUTES[route],
@@ -153,4 +156,4 @@ def normalise(body: bytes, salt: DailySalt, now: float, max_vehicle_age: float =
                 "source": SOURCE,
             })
     out.sort(key=lambda v: v["id"])
-    return Normalised(out, feed_ts, dict(dropped))
+    return Normalised(out, feed_ts, dict(dropped), trips=keys)

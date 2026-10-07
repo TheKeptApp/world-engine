@@ -1,0 +1,7 @@
+# Only the relay package, areas.json and data/ go into the image (never caches, tests or local secrets).
+*
+!livefeeds/
+!areas.json
+!data/
+**/__pycache__
+**/*.pyc

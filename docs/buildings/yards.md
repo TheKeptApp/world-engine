@@ -100,3 +100,13 @@ region, not quotas), in `Profiles/yards.json`:
 generated roof base colours at or above #303942 (Y8 56) and walls at or above Y8 80, gains 1.0. Every
 current profile colour already meets both (roofs Y8 90–112, walls 128+), so **no hex changes**; the
 dark rendered roofs are the renderer's shade lift (0.17 vs 0.30–0.38), which 5A is fixing.
+
+## Known gaps (logged for later)
+
+- **Chicago red-brick and cobblestone streets** (owner, 2026-10-06; ground-v1 pack): some Chicago
+  alleys and side streets are brick or cobble. Needs a mapped `surface=paving_stones|sett|unhewn_cobblestone|bricks`
+  road surface treatment; not built.
+- **Chicago willow family** (owner, 2026-10-06; vegetation-v1): a weeping-willow crown family for
+  Chicago-area water edges and parks; not built.
+- Ground passes stopped after pass 3 (worn edges): lawn micro-detail doesn't read at phone size.
+  Remaining ground work uses `docs/proposals/ground-v1` for large value/colour/contrast changes only.

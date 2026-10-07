@@ -51,6 +51,8 @@ with a python.org Python that ships no CA certificates, the tool falls back to t
 |---|---|
 | `livefeeds/gtfsrt.py` | Protobuf wire decoder for the GTFS-RT fields used (header timestamp; entity id; vehicle trip, route, id, label, position, bearing, speed, timestamp, current status) |
 | `livefeeds/cta.py` | CTA Train Tracker: key from the environment, fetch (no key in any message), normalisation to the same records |
+| `livefeeds/ctagtfs.py` | CTA static GTFS: shapes (by bus pattern or rail line) and stops, weekly |
+| `Dockerfile` | Container for one feed per service; config by environment ([deploy.md](../../docs/live-world/deploy.md)) |
 | `livefeeds/ctabus.py` | CTA Bus Tracker: routes daily, vehicles 10 routes per call, same key rules and record shape |
 | `livefeeds/rtd.py` | RTD constants and attribution, route table (`routes.txt` to rail or bus), fetch, normalisation |
 | `livefeeds/zipstream.py` | Reads `routes.txt` from the first ~130 KB of the 10 MB static zip instead of downloading all of it |
