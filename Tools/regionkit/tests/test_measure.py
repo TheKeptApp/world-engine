@@ -70,7 +70,7 @@ class SyntheticCell(unittest.TestCase):
     def test_setback_and_frontage(self):
         sb = self.s["setback"]
         self.assertEqual(sb["housesMeasured"], 3)
-        self.assertAlmostEqual(sb["facadeToCurbM"]["p50"], 17.0, delta=0.1)   # 20 m to the centreline - 6 m / 2
+        self.assertAlmostEqual(sb["facadeToCurbM"]["p50"], 16.0, delta=0.1)   # 20 m to the centreline - 8 m / 2 (RoadRules, parked both sides)
         fr = self.s["frontage"]
         self.assertEqual(fr["housesWithFrontEdge"], 3)
         self.assertEqual(fr["longSideFacesStreet"], 1)   # only the 16 x 8 house; 10 x 12 and 12 x 14 show their short side
