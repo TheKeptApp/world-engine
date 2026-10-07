@@ -44,14 +44,14 @@ struct LeafAtlasTests {
     }
 }
 
-/// Leaf cards stay behind `PropLibrary.leafCards` (off unless WORLDENGINE_LEAF_CARDS=1): the default
+/// Leaf cards and puffs stay behind `PropLibrary.crownStyle` (default `.solid`): the default
 /// meshes are exactly the solid crowns (no uv0, no card flag), so main renders unchanged until the
 /// card material lands; with cards on, near and mid crowns are cards and far/skyline are unchanged.
 @Suite("Leaf card switch")
 struct LeafCardSwitchTests {
     @Test(arguments: PropKind.allCases.filter(\.isTree))
     func defaultMeshesAreTheSolidCrowns(_ kind: PropKind) throws {
-        guard !PropLibrary.leafCards else { return }
+        guard PropLibrary.crownStyle == .solid else { return }
         let palette = try TreeSilhouetteTests.palette()
         for lod in 0..<PropLibrary.lodCount(kind) {
             let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette)

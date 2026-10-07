@@ -176,8 +176,8 @@ struct YardTests {
             let dist = simd_length(d)
             return dist < r + 1 || acos(max(-1, min(1, simd_dot(d / dist, forward)))) <= halfFOV + atan(r / max(dist, 1))
         }
-        var propTris: [String: Int] = [:], cardTris: [String: Int] = [:]
-        var trees = 0, shrubs = 0, hedgeTris = 0, yardGround = 0, cardTrees = 0, treeDraws: Set<String> = []
+        var propTris: [String: Int] = [:], cardTris: [String: Int] = [:], puffTris: [String: Int] = [:]
+        var trees = 0, shrubs = 0, hedgeTris = 0, yardGround = 0, cardTrees = 0, puffTrees = 0, treeDraws: Set<String> = []
         for inst in b.scene.instances where inst.source.hasPrefix("gen:") {
             let p = LocalPoint(inst.x, inst.y)
             guard visible(p, 4) else { continue }
@@ -189,6 +189,8 @@ struct YardTests {
                 trees += propTris[key]!
                 if cardTris[key] == nil { cardTris[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: lod, palette: b.scene.palette, leafCards: true).triangleCount }
                 cardTrees += cardTris[key]!
+                if puffTris[key] == nil { puffTris[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: lod, palette: b.scene.palette, style: .puffs).triangleCount }
+                puffTrees += puffTris[key]!
                 treeDraws.insert("\(key)-\(PropLibrary.cell(x: inst.x, y: inst.y))")
             } else { shrubs += propTris[key]! }
             if inst.source.hasPrefix("gen:hedge:") { hedgeTris += propTris[key]! }
@@ -201,7 +203,7 @@ struct YardTests {
         }
         let lodTris = (0..<3).map { PropLibrary.mesh(.treeBroad, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
         let bushTris = (0..<3).map { PropLibrary.mesh(.bush, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
-        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris)")
+        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) puffTreeTris=\(puffTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris)")
         #expect(trees + shrubs + yardGround <= 200_000, "\(name)")
     }
 }

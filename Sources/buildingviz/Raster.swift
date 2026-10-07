@@ -26,6 +26,9 @@ struct ScreenTriangle {
     var x0: Double, y0: Double, x1: Double, y1: Double, x2: Double, y2: Double
     var iz0: Double, iz1: Double, iz2: Double
     var color: SIMD3<Float>
+    /// Smooth (Gouraud) shading: colours at the second and third corners (`color` is the first's).
+    var smooth = false
+    var color1 = SIMD3<Float>.zero, color2 = SIMD3<Float>.zero
     /// Alpha-tested (leaf card): texture coordinates per corner, divided by depth (perspective-correct).
     var cutout = false
     var uz0 = SIMD2<Double>.zero, uz1 = SIMD2<Double>.zero, uz2 = SIMD2<Double>.zero
@@ -45,6 +48,9 @@ struct Scene {
         /// and the card's bent normal for lighting.
         var uv: (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>)? = nil
         var normal: SIMD3<Float>? = nil
+        /// Smooth shading: vertex normals and AO per corner (props), lit per corner and interpolated.
+        var vertexNormals: (SIMD3<Float>, SIMD3<Float>, SIMD3<Float>)? = nil
+        var vertexAO: SIMD3<Float>? = nil
     }
     var tris: [Tri] = []
     /// Coverage atlas for alpha-tested triangles.
@@ -100,37 +106,48 @@ struct SceneRenderer {
                 color = t.color * t.shade * (0.45 + 0.55 * diffuse) * (0.55 + 0.45 * t.ao)
             }
             color = simd_clamp(color, SIMD3(repeating: 0), SIMD3(repeating: 1))
+            var corner: [SIMD3<Float>]? = nil
+            if let vn = t.vertexNormals, !t.glass {
+                let ao = t.vertexAO ?? SIMD3(repeating: t.ao)
+                corner = [vn.0, vn.1, vn.2].enumerated().map { i, n in
+                    let d = max(0, simd_dot(simd_normalize(n), sunDirection))
+                    return simd_clamp(t.color * t.shade * (0.45 + 0.55 * d) * (0.55 + 0.45 * ao[i]), SIMD3(repeating: 0), SIMD3(repeating: 1))
+                }
+            }
 
             let ca = toCam(t.a), cb = toCam(t.b), cc = toCam(t.c)
             let uvs = t.uv.map { [SIMD2<Double>($0.0), SIMD2<Double>($0.1), SIMD2<Double>($0.2)] }
             if ca.z >= near && cb.z >= near && cc.z >= near {
-                emit(ca, cb, cc, uvs?[0] ?? .zero, uvs?[1] ?? .zero, uvs?[2] ?? .zero)
+                emit(ca, cb, cc, uvs?[0] ?? .zero, uvs?[1] ?? .zero, uvs?[2] ?? .zero, corner ?? [color, color, color])
             } else if ca.z < near && cb.z < near && cc.z < near {
                 continue
             } else {
                 // Sutherland-Hodgman against z = near.
-                let poly = [ca, cb, cc], puv = uvs ?? [.zero, .zero, .zero]
-                var out: [SIMD3<Double>] = [], outUV: [SIMD2<Double>] = []
+                let poly = [ca, cb, cc], puv = uvs ?? [.zero, .zero, .zero], pc = corner ?? [color, color, color]
+                var out: [SIMD3<Double>] = [], outUV: [SIMD2<Double>] = [], outC: [SIMD3<Float>] = []
                 for i in 0..<3 {
                     let p = poly[i], q = poly[(i + 1) % 3]
                     let pin = p.z >= near, qin = q.z >= near
-                    if pin { out.append(p); outUV.append(puv[i]) }
+                    if pin { out.append(p); outUV.append(puv[i]); outC.append(pc[i]) }
                     if pin != qin {
                         let s = (near - p.z) / (q.z - p.z)
                         out.append(p + (q - p) * s)
                         outUV.append(puv[i] + (puv[(i + 1) % 3] - puv[i]) * s)
+                        outC.append(pc[i] + (pc[(i + 1) % 3] - pc[i]) * Float(s))
                     }
                 }
                 if out.count >= 3 {
-                    for i in 1..<(out.count - 1) { emit(out[0], out[i], out[i + 1], outUV[0], outUV[i], outUV[i + 1]) }
+                    for i in 1..<(out.count - 1) {
+                        emit(out[0], out[i], out[i + 1], outUV[0], outUV[i], outUV[i + 1], [outC[0], outC[i], outC[i + 1]])
+                    }
                 }
             }
 
             func emit(_ a: SIMD3<Double>, _ b: SIMD3<Double>, _ c: SIMD3<Double>,
-                      _ ua: SIMD2<Double>, _ ub: SIMD2<Double>, _ uc: SIMD2<Double>) {
+                      _ ua: SIMD2<Double>, _ ub: SIMD2<Double>, _ uc: SIMD2<Double>, _ cs: [SIMD3<Float>]) {
                 let (x0, y0, i0) = project(a), (x1, y1, i1) = project(b), (x2, y2, i2) = project(c)
                 screen.append(ScreenTriangle(x0: x0, y0: y0, x1: x1, y1: y1, x2: x2, y2: y2,
-                                             iz0: i0, iz1: i1, iz2: i2, color: color,
+                                             iz0: i0, iz1: i1, iz2: i2, color: cs[0], smooth: corner != nil, color1: cs[1], color2: cs[2],
                                              cutout: uvs != nil && scene.atlas != nil, uz0: ua * i0, uz1: ub * i1, uz2: uc * i2))
             }
         }
@@ -238,7 +255,7 @@ struct RasterContext: @unchecked Sendable {
                     }
                     if iz > depth[idx] {
                         depth[idx] = iz
-                        color[idx] = t.color
+                        color[idx] = t.smooth ? t.color * Float(w0) + t.color1 * Float(w1) + t.color2 * Float(w2) : t.color
                     }
                 }
             }
