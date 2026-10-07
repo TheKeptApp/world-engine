@@ -4,6 +4,7 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
+- **Design images backed up to iCloud** (`WorldEngine-Design-Backup/proposals/`), copy only, never delete; repeated whenever a pack lands; look-loop frames skipped. Applied: `Tools/lookloop/backup_design_images.sh`; registry.
 - **Every lane:** no logs or images over 1 MB committed without a stated reason; device logs stay local. Applied: README "Contributing notes"; `.gitignore`; L1 handoff; messaged 5A, P2, P1.
 - **Look loop commits** only the scoreboard, summary, regressions, grades and the daily before/after sheet; frames and contact sheets stay local. Applied: `.gitignore`; look-loop docs.
 - **Duplicate review ZIPs removed** from visual-v2 (ordinary commit; history keeps them). Applied: `docs/proposals/visual-v2/`.

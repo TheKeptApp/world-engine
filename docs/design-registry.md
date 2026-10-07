@@ -4,9 +4,11 @@ The single list of every WorldEngine design pack, its status and which lanes use
 
 Status: **reference** (read for direction, not tracked), **in use** (lanes build or grade against it), **superseded** (kept for history), **pending** (announced, not yet in the repo). Lanes: 5A (light, weather, sky, post), P2 (buildings, yards, ground, vegetation placement), P3 (look loop and grading), L1, NJ.
 
-Last checked: 2026-10-06 19:10 (P3).
+Last checked: 2026-10-06 19:25 (P3).
 
 **Images are local-only from 2026-10-06:** new pack images (PNG, JPG, ZIP, SVG over 1 MB) live in R's local checkout and are gitignored; each pack's README, JSON and prompts are committed. Images committed before then remain in git history.
+
+**iCloud backup:** P3 copies every pack's images (PNG, JPG, ZIP, SVG) to `iCloud Drive/WorldEngine-Design-Backup/proposals/` with `Tools/lookloop/backup_design_images.sh` (copy only, never deletes), on every watch and whenever a pack lands. First copy 2026-10-06: 150 files, 329 MB. Look-loop frames are not backed up (regenerable).
 
 ## Packs in this repo
 
@@ -24,6 +26,7 @@ Last checked: 2026-10-06 19:10 (P3).
 | postcards-widgets-v1 | `docs/proposals/postcards-widgets-v1/` | 2026-10 | Scene studies, framed postcards, frame variations, widget boards, one-page spec | reference | — | Design proposal, not deployed UI. Widget attribution fit and provider review still required. Lane not assigned. |
 | look-fix-v1 | `docs/proposals/look-fix-v1/` | 2026-10-06 | Ground, lawn, shrubs, light, weather, aerial edges and sky fixes; 21 reference images; "pass if" checks | in use | 5A, P2, P3 | **R override:** lawn contrast exceeds §1.1 (P2 ground pass 2: in-lot patches ±10–15 %, pools −25 % under trees, −18 % under shrubs and hedges, mowing bands). "Pass if" checks are GRADING.md §H. Images are uncalibrated appearance references. |
 | vegetation-v1 | `docs/proposals/vegetation-v1/` | 2026-10-06 | Style-B tree and shrub reference: crown construction, four seasons for Chicago, Denver and Miami, shrubs, hedges and beds, exact colours (`vegetation-colours.json`), phone-distance and triangle budgets | in use | P2, P3 | **Gap:** Chicago needs a willow (later). P3: tree and shrub grading reference (GRADING.md §V, from the run after ec7a62a). |
+| rain-v1 | `docs/proposals/rain-v1/` | 2026-10-06 | Rain look: wetness states, puddle stain vs water, rain at phone distance (3 images so far) | pending | — | Arriving in the main checkout (18:17–18:19, no README yet). Images local-only; backed up to iCloud. |
 | ground-v1 | `docs/proposals/ground-v1/` | 2026-10-06 | Style-B ground construction: lawn tone, pavement rhythm, worn edges, soft contact shade, restrained weather response; colours in `ground-colours.json`; reference images | **landed** (reference) | P2, 5A | Landed 2026-10-06 (committed unedited, 17 MB). **Gap:** Chicago red-brick and cobblestone streets missing (later). Not yet a P3 grading reference. |
 | live-world-v1 | `docs/proposals/live-world-v1/` | 2026-10-06 | Style-B live objects: rail vehicles (CTA, Metra-inspired, RTD-inspired), elevated rail and portals, planes and other live layers; styling in `live-style.json` | **landed** (reference) | 5A (render), L1 (contracts) | Landed 2026-10-06 (committed unedited, 15 MB). Not yet a P3 grading reference. |
 
@@ -55,3 +58,4 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-06 18:00: ground-v1 appeared in the main checkout (uncommitted); row filled in, still pending. No other pack folders changed.
 - 2026-10-06 18:40: ground-v1 and live-world-v1 landed (committed unedited); statuses, contents, users and gaps set per owner. NJ paused note added.
 - 2026-10-06 19:10: image files made local-only (gitignored); visual-v2 review ZIPs removed from the current files.
+- 2026-10-06 19:25: iCloud image backup started (150 files, 329 MB); rain-v1 arriving (3 images, pending).
