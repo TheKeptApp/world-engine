@@ -62,7 +62,7 @@ struct YardTests {
         for (a, c) in zip(hedges, hedges.dropFirst()) where a.source.split(separator: ":")[2] == c.source.split(separator: ":")[2] {
             let d = LocalPoint(c.x - a.x, c.y - a.y)
             // Neighbours in one row: close together, same heading up to an end-for-end turn.
-            guard simd_length(d) > 0.5, simd_length(d) < 1.2, abs(sin(a.yaw - c.yaw)) < 1e-6 else { continue }
+            guard simd_length(d) > 1.5, simd_length(d) < 2.3, abs(sin(a.yaw - c.yaw)) < 1e-6 else { continue }
             let u = d / simd_length(d)
             if abs(u.x * sin(a.yaw) - u.y * cos(a.yaw)) < 0.02 { alongRow += 1 } else { acrossRow += 1 }
         }

@@ -1,6 +1,6 @@
 # Ground diagnosis: mocks vs renders (P2, 2026-10-06)
 
-Sheet: [ground-diagnosis.png](ground-diagnosis.png). It puts each look-fix-v1 mock next to our in-app
+Sheet: [ground-diagnosis.jpg](ground-diagnosis.jpg). It puts each look-fix-v1 mock next to our in-app
 frames of the views P3 compares it with, all at phone size, from P3's run on ec7a62a (ground pass 2):
 - ground-01 (North Shore clear) against wilmette-street and evanston-street;
 - ground-04 (Lakeview clear) against lakeview-street and lakeview-postcard.

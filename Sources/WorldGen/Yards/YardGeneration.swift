@@ -64,7 +64,8 @@ extension SceneGenerator {
     static let cushionVariants = [2, 6, 7]
     static let looseVariant = 3, uprightVariant = 4, hedgeVariant = 5
     /// Hedge segments are 1 m long; scale 1.0–1.06 lets neighbours overlap a little.
-    static let hedgeSegmentSpacing = 1.0
+    /// Hedge sections are 2 m long; a 5 cm overlap keeps the envelope closed.
+    static let hedgeSegmentSpacing = 1.95
 
     /// The form for a shrub at `site`: cushions in beds and gardens, upright beside the walk and at
     /// lot and house corners, lot edges a mix of loose shrubs (40 %) and cushions.
@@ -422,7 +423,7 @@ extension SceneGenerator {
                         return o > Int32(idx) && raster.use[k] == LotRaster.Use.open.rawValue && eligible.contains(Int(o))
                     }.map { $0.filter(isFrontYard) }
                 }
-                // Each row is a straight hedge of 1 m segments (bush variant 5, long axis = local +X) yawed
+                // Each row is a straight hedge of 2 m sections (bush variant 5, long axis = local +X) yawed
                 // to the row, laid end to end along the line through the row's cells.
                 var hedgeCount = 0
                 for row in rows where row.count >= 3 {
@@ -433,6 +434,8 @@ extension SceneGenerator {
                     let (s0, s1) = (along.min()!, along.max()!)
                     let n = Int((s1 - s0 + 1) / Self.hedgeSegmentSpacing)
                     let yaw = atan2(axis.y, axis.x)
+                    // One height per hedge (0.95–1.2 m), small steps between sections: the crest stays continuous.
+                    let rowScale = hr.range(1.0, 1.25)
                     var line: [LocalPoint] = []
                     for k in 0..<n {
                         let p = c + axis * ((s0 + s1) / 2 + (Double(k) - Double(n - 1) / 2) * Self.hedgeSegmentSpacing)
@@ -440,7 +443,7 @@ extension SceneGenerator {
                         line.append(p)
                         // Half the segments are turned end for end so the lobed top does not repeat.
                         instances.append(PropInstance(kind: .bush, variant: Self.hedgeVariant, source: "gen:hedge:\(s.building.ref):\(hedgeCount)",
-                                                      x: p.x, y: p.y, height: 0, yaw: yaw + (hr.chance(0.5) ? .pi : 0), scale: hr.range(1.0, 1.06)))
+                                                      x: p.x, y: p.y, height: 0, yaw: yaw + (hr.chance(0.5) ? .pi : 0), scale: rowScale * hr.range(0.97, 1.03)))
                         hedgeCount += 1
                     }
                     if line.count >= 2 { scene.litterHints.append(LitterHint(kind: .hedge, line: line, weight: 0.8)) }

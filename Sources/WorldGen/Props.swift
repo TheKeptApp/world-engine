@@ -202,9 +202,9 @@ public struct PropLibrary: Sendable {
         }
 
         /// Hedge section (unit half-length × half-width): square-ish ends that keep 82% of the width,
-        /// so segments in a row join without a waist; three points along each long side.
-        static let hedgeSection: [SIMD2<Float>] = [[1, 0], [0.97, 0.82], [0.72, 1], [0, 1.02], [-0.72, 1], [-0.97, 0.82],
-                                                   [-1, 0], [-0.97, -0.82], [-0.72, -1], [0, -1.02], [0.72, -1], [0.97, -0.82]]
+        /// so sections in a row join without a waist; five points along each long side.
+        static let hedgeSection: [SIMD2<Float>] = [[1, 0], [0.97, 0.82], [0.75, 1], [0.4, 1], [0, 1.02], [-0.4, 1], [-0.75, 1], [-0.97, 0.82],
+                                                   [-1, 0], [-0.97, -0.82], [-0.75, -1], [-0.4, -1], [0, -1.02], [0.4, -1], [0.75, -1], [0.97, -0.82]]
 
         func level(_ lod: Int) -> Level {
             switch (lod, boxy) {
@@ -233,12 +233,14 @@ public struct PropLibrary: Sendable {
                           lobes: [[0.5, 0.2, 0.7, 0.3], [2.7, 0.2, 0.7, 0.55], [4.6, 0.18, 0.7, 0.85], [1.6, 0.14, 0.5, 0.88]],
                           tops: [[1.2, 0.08, 0.7], [4.2, -0.05, 0.8]], lean: [0.03, -0.02], midRing: 0.72, farRing: 0.55)
             case 5:
-                // Hedge segment: 1 m along +X, 0.7 m wide, 0.95 m high; lobed top ±0.08 m on the long
-                // sides, ends left plain so neighbouring segments join.
-                ShrubForm(height: 0.95, halfX: 0.5, halfZ: 0.35, rings: [[-1, 0.94], [0.45, 1.0], [0.95, 0.95]],
-                          lobes: [[0.946, 0.05, 0.25, 0.6], [2.196, 0.04, 0.25, 0.5], [4.712, 0.05, 0.25, 0.55]],
-                          tops: [[0.946, 0.09, 0.2], [1.571, -0.08, 0.2], [2.196, 0.07, 0.2],
-                                 [4.087, -0.09, 0.2], [4.712, 0.08, 0.2], [5.337, -0.06, 0.2]], boxy: true)
+                // Hedge section (vegetation-v1: one continuous envelope with an irregular crest, broken
+                // into 1.5–3 m cullable sections): 2 m along +X, 0.7 m wide, 0.95 m high; the crest rises
+                // and dips ±0.06–0.1 m along both long sides, ends left plain so sections join.
+                ShrubForm(height: 0.95, halfX: 1.0, halfZ: 0.35, rings: [[-1, 0.94], [0.45, 1.0], [0.95, 0.95]],
+                          lobes: [[1.19, 0.04, 0.2, 0.6], [1.951, 0.05, 0.2, 0.5], [4.332, 0.05, 0.2, 0.55], [5.093, 0.04, 0.2, 0.6]],
+                          tops: [[0.927, 0.09, 0.15], [1.19, -0.07, 0.15], [1.571, 0.1, 0.15], [1.951, -0.06, 0.15], [2.214, 0.08, 0.15],
+                                 [4.069, -0.08, 0.15], [4.332, 0.07, 0.15], [4.712, -0.09, 0.15], [5.093, 0.06, 0.15], [5.356, -0.07, 0.15]],
+                          boxy: true)
             case 6:
                 // Second cushion: wide and flat, two merged mounds with a shallow saddle.
                 ShrubForm(height: 0.36, halfX: 0.42, halfZ: 0.31, rings: cushion,
@@ -354,16 +356,16 @@ public struct PropLibrary: Sendable {
         for t in tris { m.addTriangle(base + t.x, base + t.y, base + t.z) }
     }
 
-    /// Far hedge segment: a tent over the full 1 m × width footprint with its ridge along +X at full
-    /// length (6 triangles, open underneath), so a row of segments reads as one continuous hedge.
+    /// Far hedge section: a tent over the full length × width footprint with its ridge along +X at
+    /// full length (6 triangles, open underneath), so a row of sections reads as one continuous hedge.
     static func addHedgeTent(_ m: inout MeshBuffers, _ f: ShrubForm) {
-        let h = f.height, w = f.halfZ, start = m.positions.count
+        let h = f.height, w = f.halfZ, l = f.halfX, start = m.positions.count
         let up = SIMD3<Float>(0, 1, 0)
-        let ridge = [m.addVertex([-0.5, h, 0], normal: up), m.addVertex([0.5, h, 0], normal: up)]
+        let ridge = [m.addVertex([-l, h, 0], normal: up), m.addVertex([l, h, 0], normal: up)]
         var base: [[UInt32]] = []
         for s: Float in [-1, 1] {
             let n = simd_normalize(SIMD3<Float>(0, w, s * (h + ShrubForm.sink)))
-            base.append([m.addVertex([-0.5, -ShrubForm.sink, s * w], normal: n), m.addVertex([0.5, -ShrubForm.sink, s * w], normal: n)])
+            base.append([m.addVertex([-l, -ShrubForm.sink, s * w], normal: n), m.addVertex([l, -ShrubForm.sink, s * w], normal: n)])
         }
         // Long sides (−z, +z), then the two end triangles.
         m.addTriangle(base[0][1], base[0][0], ridge[0]); m.addTriangle(base[0][1], ridge[0], ridge[1])
@@ -383,10 +385,10 @@ public struct PropLibrary: Sendable {
     static func addShrubSkyline(_ m: inout MeshBuffers, _ f: ShrubForm) {
         let h = f.height, start = m.positions.count
         if f.boxy {
-            let ridge = [m.addVertex([-0.47, 0.9 * h, 0], normal: [0, 1, 0]), m.addVertex([0.47, 0.9 * h, 0], normal: [0, 1, 0])]
+            let ridge = [m.addVertex([-0.94 * f.halfX, 0.9 * h, 0], normal: [0, 1, 0]), m.addVertex([0.94 * f.halfX, 0.9 * h, 0], normal: [0, 1, 0])]
             for s: Float in [-1, 1] {
                 let n = simd_normalize(SIMD3<Float>(0, f.halfZ, s * 0.9 * h))
-                let a = m.addVertex([-0.5, 0.05, s * f.halfZ], normal: n), b = m.addVertex([0.5, 0.05, s * f.halfZ], normal: n)
+                let a = m.addVertex([-f.halfX, 0.05, s * f.halfZ], normal: n), b = m.addVertex([f.halfX, 0.05, s * f.halfZ], normal: n)
                 if s > 0 { m.addTriangle(a, b, ridge[1]); m.addTriangle(a, ridge[1], ridge[0]) }
                 else { m.addTriangle(b, a, ridge[0]); m.addTriangle(b, ridge[0], ridge[1]) }
             }
