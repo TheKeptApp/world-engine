@@ -93,4 +93,29 @@ struct GroundDetailTests {
             .filter { walks.nearest(to: LocalPoint($0.x, $0.y), within: 0.8 + 1.0 - 0.75) != nil }
         #expect(close.isEmpty, "\(area): \(close.count) shrubs crowd a sidewalk, e.g. \(close.first.map { "\($0.x), \($0.y)" } ?? "")")
     }
+
+    /// Path clearance (owner): generated deciduous trees near a sidewalk keep their crown base ≥ 2.5 m;
+    /// generated conifers stand back from sidewalks by their crown radius.
+    @Test(arguments: YardTests.cases)
+    func treesClearWalks(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let b = try YardTests.build(area, profile)
+        let walks = SegmentIndex(b.features.sidewalks.map(\.centerline))
+        var low: [String] = [], conifers: [String] = []
+        for inst in b.scene.instances where inst.kind.isTree
+            && (inst.source.hasPrefix("gen:yardtree:") || inst.source.hasPrefix("gen:canopytree:") || inst.source.hasPrefix("gen:streettree:")) {
+            let shape = PropLibrary.lobes(inst.kind)
+            let reach = Double(shape.radii.x) * inst.scale * max(inst.stretch.x, inst.stretch.y)
+            let p = LocalPoint(inst.x, inst.y)
+            // Walk corridor edge = centreline + 0.8 m; the 1 m raster may place a tree half a cell closer.
+            if inst.kind == .conifer {
+                if walks.nearest(to: p, within: 0.8 + max(1.0, reach) - 0.75) != nil { conifers.append(inst.source) }
+            } else if walks.nearest(to: p, within: 0.8 + reach - 0.75) != nil {
+                let base = Double(min(shape.crown.y - shape.radii.y, shape.lobes.map { $0.0.y - $0.1 }.min() ?? 1)) * inst.scale
+                if base < 2.5 - 1e-6 { low.append(inst.source) }
+            }
+        }
+        #expect(low.isEmpty, "\(area): \(low.count) crowns below 2.5 m over a walk, e.g. \(low.prefix(2))")
+        #expect(conifers.isEmpty, "\(area): \(conifers.count) conifers beside a walk, e.g. \(conifers.prefix(2))")
+    }
 }
