@@ -12,5 +12,8 @@ struct LookSpecTests {
         let steady = try StyleLibrary.rainBible().at(wetness: 0.7).surfaces["concrete"]!.darken
         let d = min(look.wetPaving.darkenMax, steady * look.wetPaving.darkenScale)
         #expect(d >= 0.35 && d <= 0.4)
+        // Owner: real sun shadows reach the lawns, 120–150 m.
+        #expect(look.shadows.rangeM >= 120 && look.shadows.rangeM <= 150)
+        #expect(look.shadows.lowSunRangeM >= look.shadows.rangeM)
     }
 }

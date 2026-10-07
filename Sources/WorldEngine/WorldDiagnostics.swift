@@ -134,11 +134,15 @@ extension World {
 
     private func featureWasEnabled(_ e: Entity) -> Bool { true }
 
-    /// Sun shadow range in metres (diagnostics: GPU cost of shorter shadow ranges).
+    /// The live sun shadow range in metres (look.json `shadows.rangeM`; low sun widens it).
+    public var shadowRange: Float { shadowDistance }
+
+    /// Sun shadow range in metres (diagnostics: GPU cost of other shadow ranges).
     public func setShadowDistance(_ meters: Float) {
         shadowDistance = meters
         guard var shadow = sunEntity.components[DirectionalLightComponent.Shadow.self] else { return }
         shadow.shadowProjection = .automatic(maximumDistance: meters)
+        shadow.depthBias = Self.shadowBias(range: meters)
         sunEntity.components.set(shadow)
     }
 }

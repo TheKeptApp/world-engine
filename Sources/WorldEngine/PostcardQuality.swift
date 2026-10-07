@@ -20,7 +20,7 @@ public struct PostcardQuality: Sendable, Equatable {
     /// square and portrait at 2× and puts story at about 1.8× (Mac: 2× story raised Metal memory by
     /// ~330 MB at its peak, 1.5× by ~180 MB; 4 GB iPhones are the concern).
     public var maxRenderPixels: Int
-    /// Sun shadow range in metres: 0 keeps the live view's range (`World.shadowDistance`, 80 m);
+    /// Sun shadow range in metres: 0 keeps the live view's range (`World.shadowDistance`, look.json);
     /// otherwise the shadow reaches the farthest building or tree in frame, up to this distance.
     public var maxShadowDistance: Double
     /// Trees, bushes and building cells in frame at their nearest detail (opaque).
@@ -270,7 +270,7 @@ extension World {
             let fogEnd = Float(environment?.light.weather.fogEndM ?? 5000)
             let d = Swift.max(shadowDistance, Swift.min(Float(q.maxShadowDistance), farthest, fogEnd))
             var s = DirectionalLightComponent.Shadow()
-            s.depthBias = 1.5 * Swift.max(1, d / shadowDistance)
+            s.depthBias = World.shadowBias(range: d)
             switch Self.postcardShadowFit {
             case .automatic:
                 s.shadowProjection = .automatic(maximumDistance: d)

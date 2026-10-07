@@ -93,6 +93,8 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var wetE = SIMD4<Float>(0, 1, 0, 0)
     /// look.json, texel 36: water reflected-sky gain under full overcast; sky cloud edge clear, overcast.
     public var waterB = SIMD4<Float>(0.9, 0.05, 0.05, 0)
+    /// Far crown shadows beyond the sun's shadow range (texel 37): range m, strength × direct sun, crown height m.
+    public var blobShadow = SIMD4<Float>(0, 0, 7, 0)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -241,6 +243,7 @@ final class RenderResources {
         p[w + 34] = SIMD4(h(g.water.x), h(g.water.y), h(g.water.z), h(g.water.w))
         p[w + 35] = SIMD4(h(g.wetE.x), h(g.wetE.y), h(g.wetE.z), h(g.wetE.w))
         p[w + 36] = SIMD4(h(g.waterB.x), h(g.waterB.y), h(g.waterB.z), 0)
+        p[w + 37] = SIMD4(h(g.blobShadow.x), h(g.blobShadow.y), h(g.blobShadow.z), 0)
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
