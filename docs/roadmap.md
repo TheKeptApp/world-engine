@@ -69,3 +69,22 @@ Nothing in this section is decided. Owners are the proposed lanes.
    - c) No crime mapping or crime heat overlays; safety appears only as official alerts.
    - Every item shows its source and time, and a "summary" label when AI-written.
 5. **PROPOSED — on-device AI, optional extra:** plain-language map questions, a "your block" weather brief, one-line alert summaries, using Apple's on-device Foundation Models (iOS 26, iPhone 15 Pro and newer only) with a non-AI fallback. AI text is never shown as observed data. Ships with the weather-for-your-block app, not the engine core.
+
+## Creator kit — PROPOSED (R's lead wedge candidate; pending creator-kit-demand-v1 research)
+
+Nothing in this section is decided. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
+
+1. **PROPOSED — creator kit:** non-technical users start from a ready-made view of their real place, add detail from a Style B parts kit, and share or embed a live view (weather, sun, time).
+   - Paid tiers: free private builds; per event; per site monthly; business tier. Prices to be set from the research.
+   - First segment candidate: race and event organizers.
+2. **PROPOSED — trust model (protects the base map):**
+   - Two layers: the base map (verified) and customer overlays (private to their build or share). Overlays never change the base map.
+   - Temporary items (routes, tents, phases) carry dates and expire.
+   - Permanent facts (shape, roof, door, species) are promoted only with evidence: agreement with other data, independent confirmations or a verified owner, and automatic sanity checks.
+   - Contributors have trust levels; verified owners are prioritized for their own property.
+   - Every fact is labelled observed, community or owner-verified, with author and date. Everything is reversible through stable IDs and the migration map, with bulk revert for vandal accounts.
+   - Promotions are reviewed by a person at first, with agent-assisted triage.
+3. **PROPOSED — community corrections:** users fixing doors, species and roofs on their block feed the same promotion pipeline.
+4. **PROPOSED — official partner builds** (universities, stadiums) with licensed logos and colours, as a partnership product. Outside partner builds, the legal lines above still apply (no logos on models).
+
+Lawyer questions: `docs/research/licensing.md` Q49–Q52 (user-content ownership and licence including ODbL, contributor warranties, takedown/DMCA, logos and trademarks in user builds). The engine stays generic (CLAUDE.md): the kit, accounts and user content belong to the app and a service, not the engine.
