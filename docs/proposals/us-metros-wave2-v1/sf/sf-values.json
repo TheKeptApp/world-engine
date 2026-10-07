@@ -1,6 +1,6 @@
 {
   "schema": "worldengine.sf-regional.v1",
-  "status": "Authored visual/engine-target proposals with separately cited published witnesses; no survey or GPU benchmark",
+  "status": "superseded by ../sf-r2/sf-values.json; retained historical values",
   "sharedLighting": {
     "id": "shared_clear_midafternoon_hero_v1",
     "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
@@ -2378,5 +2378,6 @@
       "noRaymarch": true
     }
   },
-  "weatherOrdering": "State lighting/exposure replaces clear fixture; surface shading => one integrated fog optical depth in linear light => shared exposure/tone-map. Never stack additional distance fades. Overhead stratus is not shallow street fog."
+  "weatherOrdering": "State lighting/exposure replaces clear fixture; surface shading => one integrated fog optical depth in linear light => shared exposure/tone-map. Never stack additional distance fades. Overhead stratus is not shallow street fog.",
+  "supersededBy": "../sf-r2/sf-values.json"
 }

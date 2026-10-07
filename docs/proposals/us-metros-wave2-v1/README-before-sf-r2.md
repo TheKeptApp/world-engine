@@ -1,6 +1,6 @@
 # US metros wave 2 — Style B
 
-Open [index.html](index.html) for the nine current metro packs, with SF first. Current set: **38 archetype sheets, 20 district boards, 9 block paint-overs and 7 SF supplemental studies**, each with an editable HTML sheet and PNG artwork. Full-sheet PNG exports include the metres, hexes and detail tiers. The house and district artwork uses matching street / aerial / far panels.
+Open [index.html](index.html) for the nine current metro packs, with SF first. Current set: **38 archetype sheets, 20 district boards, 9 block paint-overs and 6 SF supplemental studies**, each with an editable HTML sheet and PNG artwork. Full-sheet PNG exports include the metres, hexes and detail tiers. The house and district artwork uses matching street / aerial / far panels.
 
 The approved Style B Bible is the main authority: real proportions, simplified matte materials, coherent soft light. House-archetypes-v1 supplies sheet structure and projected-size tiers; Japan regional kit supplies the real-proportion transport standard; infrastructure kit supplies ground and utility discipline. The imported `sharedLighting` object is copied unchanged from the Bible, including its historical provenance notes. This does not revive an old unresolved lighting approval: the current user instruction selects the approved Bible as the authority.
 
@@ -104,7 +104,7 @@ Leafy lawns and planted yards, modest rolling grades from DEM; concrete sidewalk
 
 ## Approved follow-up — SF and Southern differentiation v2
 
-[SF priority pack — current hero r2](sf-r2/index.html) adds6 archetypes,4 district boards,1 block paint-over and6 slope/transit/weather/bridge studies. Its full [README](sf-r2/README.md) and [values](sf-r2/sf-values.json) describe MSL marine layers, real slope witness versus authored grades, map-bound bridge sightlines and generic transit.
+[SF priority pack](sf/index.html) adds6 archetypes,4 district boards,1 block paint-over and6 slope/transit/weather/bridge studies. Its full [README](sf/README.md) and [values](sf/sf-values.json) describe MSL marine layers, real slope witness versus authored grades, map-bound bridge sightlines and generic transit.
 
 The five Southern packs now use revised archetypes and blocks: Austin limestone/native beds/Hill Country grades; Houston low-relief humid ground/raised cottage/newer stucco; Dallas broad brick ranch lots (Fort Worth's narrower bungalow remains separate); Nashville brick/rolling grades; Atlanta dense tall canopy/hillside foundations. These are selected-block treatments, not universal city conditions or prevalence estimates. Root JSON retains scoped catalog evidence and updates authored dimensions/materials/terrain targets. Northern packs remain approved and unchanged. The original Southern district context boards remain available; revised house/block material and terrain treatment is the current authority.
 
@@ -112,8 +112,3 @@ Previous Southern house/block images, sheets and overview pages are retained wit
 
 
 Current follow-up verification: `verification-v2.json` checks 42 new/revised sheets and the current galleries at 390 CSS pixels. The original `verification.json` describes the previously approved baseline. Supplemental fog, transit and bridge boards have effect-specific detail tiers.
-
-
-## SF hero-market r2 — current
-
-[SF r2](sf-r2/index.html) supersedes every sheet in the historical `sf/` pack.18 current sheets, including25% block,21% cable car,30% witness, attached varied-pastel rows, sparse small trees and three regional fog states. The earlier SF files remain in place with superseded banners and `SUPERSEDED.json`. Current exact SF values / prompts / phone checks are in `sf-r2/`. Main-gallery SF links now point there. Other metros remain unchanged.

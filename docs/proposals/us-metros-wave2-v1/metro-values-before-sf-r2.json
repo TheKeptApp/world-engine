@@ -14375,21 +14375,21 @@
           "name": "Painted Lady Victorian",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-01.png",
-          "sheetFile": "sf-r2/sf-house-01.html",
-          "sheetPngFile": "sf-r2/sf-house-01-sheet.png",
+          "imageFile": "sf/sf-house-01.png",
+          "sheetFile": "sf/sf-house-01.html",
+          "sheetPngFile": "sf/sf-house-01-sheet.png",
           "dimensionsProposal": {
-            "footprintWidthM": 7.6,
+            "footprintWidthM": 6.4,
             "footprintDepthM": 15,
             "fullFloors": 2,
             "floorToFloorM": 3.05,
             "foundationAboveGradeM": 0.9,
             "eaveHeightM": 7.0,
-            "roofRiseM": 3.42,
-            "totalHeightM": 10.42,
+            "roofRiseM": 2.88,
+            "totalHeightM": 9.88,
             "porchDepthM": 2.7,
             "setbackM": 0.8,
-            "lotFrontageM": 7.6,
+            "lotFrontageM": 6.4,
             "stairRiserCount": 6,
             "stairRiserM": 0.15,
             "stairTreadM": 0.28,
@@ -14398,29 +14398,29 @@
           },
           "palette": [
             {
-              "wallHex": "#C78696",
-              "trimHex": "#F1D9B7",
+              "wallHex": "#A5B6AE",
+              "trimHex": "#E4D2B3",
               "roofHex": "#62625D",
               "glassHex": "#425A68",
               "surfaceValues": {
                 "wall": {
-                  "hex": "#C78696",
+                  "hex": "#A5B6AE",
                   "linearRGB": [
-                    0.571125,
-                    0.238398,
-                    0.304987
+                    0.376262,
+                    0.467784,
+                    0.423268
                   ],
-                  "linearLuminance": 0.313943,
+                  "linearLuminance": 0.445112,
                   "roughness01": 0.86
                 },
                 "trim": {
-                  "hex": "#F1D9B7",
+                  "hex": "#E4D2B3",
                   "linearRGB": [
-                    0.879622,
-                    0.693872,
-                    0.473531
+                    0.775822,
+                    0.64448,
+                    0.450786
                   ],
-                  "linearLuminance": 0.717454,
+                  "linearLuminance": 0.658418,
                   "roughness01": 0.8
                 },
                 "roof": {
@@ -14448,8 +14448,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -14469,10 +14468,10 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 15,
-            "gradeDegrees": 8.5308,
+            "gradePercentProposal": 8,
+            "gradeDegrees": 4.5739,
             "profileLocalM": [
               [
                 0,
@@ -14480,211 +14479,35 @@
               ],
               [
                 20,
-                3.0
+                1.6
               ],
               [
                 50,
-                7.5
+                4.0
               ],
               [
                 100,
-                15
+                8
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Attached 7.6 m Painted Lady row; zero gaps, four facade colours per house, different neighbours, 15% grade, level floors and stepped entries.",
+          "signatureElements": "Narrow Victorian/Queen Anne house with two full living floors above raised basement, tall projecting bay, asymmetrical steep front gable, three restrained complementary paint colours. Selective broad cornice/bracket masses, not lace ornament. Not a literal copy of the famous row.",
           "roof": {
             "form": "steep gable plus bay",
             "construction": "steep gable plus bay",
             "representativePitchDeg": 42,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-01.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. A TRUE ATTACHED ROW of five narrow7.6m-wide Painted Lady Victorian houses, shared side walls ZERO gaps, stepping down a15% San Francisco hill. Two occupied floors above raised base, steep gables, projecting bay windows, substantial stair runs and recessed doors. Each house a DIFFERENT facade: dusty pink, seafoam green, pale gold, lavender-blue, pale coral. EACH facade uses FOUR discernibly different colours on wall / broad trim / bay inset / ornament accent, not beige with one cream trim. Natural restrained rich pastels, no garish carnival colours. Treeless foreground; one small street tree at far end. Far view street falls toward northern Bay, no downtown towers needed.",
-          "rowGeometry": {
-            "sharedSideWalls": true,
-            "sideGapM": 0,
-            "lotWidthM": 7.6,
-            "partyWallPolicy": "Mapped footprints control; adjacent fronts touch; decorative cornice seams allowed, open alleys forbidden unless mapped."
-          },
-          "facadePalettes": [
-            {
-              "wallHex": "#C78696",
-              "trimHex": "#F1D9B7",
-              "accentHexes": [
-                "#577F83",
-                "#A85B5F"
-              ],
-              "coloursPerFacade": 4,
-              "linearRGB": [
-                [
-                  0.571125,
-                  0.238398,
-                  0.304987
-                ],
-                [
-                  0.879622,
-                  0.693872,
-                  0.473531
-                ],
-                [
-                  0.095307,
-                  0.212231,
-                  0.226966
-                ],
-                [
-                  0.391572,
-                  0.104616,
-                  0.114435
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#83A99B",
-              "trimHex": "#F0E7CB",
-              "accentHexes": [
-                "#466B79",
-                "#BA8457"
-              ],
-              "coloursPerFacade": 4,
-              "linearRGB": [
-                [
-                  0.226966,
-                  0.396755,
-                  0.327778
-                ],
-                [
-                  0.871367,
-                  0.799103,
-                  0.597202
-                ],
-                [
-                  0.061246,
-                  0.147027,
-                  0.191202
-                ],
-                [
-                  0.491021,
-                  0.23074,
-                  0.095307
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#D7B56E",
-              "trimHex": "#F3E5C8",
-              "accentHexes": [
-                "#805E88",
-                "#5D8184"
-              ],
-              "coloursPerFacade": 4,
-              "linearRGB": [
-                [
-                  0.679542,
-                  0.462077,
-                  0.155926
-                ],
-                [
-                  0.896269,
-                  0.783538,
-                  0.57758
-                ],
-                [
-                  0.215861,
-                  0.111932,
-                  0.246201
-                ],
-                [
-                  0.109462,
-                  0.219526,
-                  0.23074
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#9C9FBF",
-              "trimHex": "#F0DDC8",
-              "accentHexes": [
-                "#637D87",
-                "#B67B72"
-              ],
-              "coloursPerFacade": 4,
-              "linearRGB": [
-                [
-                  0.332452,
-                  0.346704,
-                  0.520996
-                ],
-                [
-                  0.871367,
-                  0.723055,
-                  0.57758
-                ],
-                [
-                  0.124772,
-                  0.205079,
-                  0.242281
-                ],
-                [
-                  0.467784,
-                  0.198069,
-                  0.168269
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#C9957E",
-              "trimHex": "#F1E4C9",
-              "accentHexes": [
-                "#5C8176",
-                "#855F7B"
-              ],
-              "coloursPerFacade": 4,
-              "linearRGB": [
-                [
-                  0.584078,
-                  0.300544,
-                  0.208637
-                ],
-                [
-                  0.879622,
-                  0.775822,
-                  0.584078
-                ],
-                [
-                  0.107023,
-                  0.219526,
-                  0.181164
-                ],
-                [
-                  0.234551,
-                  0.114435,
-                  0.198069
-                ]
-              ],
-              "roughness01": 0.86
-            }
-          ]
+          }
         },
         {
           "id": "sf-house-02",
           "name": "Edwardian flats",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-02.png",
-          "sheetFile": "sf-r2/sf-house-02.html",
-          "sheetPngFile": "sf-r2/sf-house-02-sheet.png",
+          "imageFile": "sf/sf-house-02.png",
+          "sheetFile": "sf/sf-house-02.html",
+          "sheetPngFile": "sf/sf-house-02-sheet.png",
           "dimensionsProposal": {
             "footprintWidthM": 7.6,
             "footprintDepthM": 18,
@@ -14705,29 +14528,29 @@
           },
           "palette": [
             {
-              "wallHex": "#BAD0BE",
-              "trimHex": "#F2EBDF",
+              "wallHex": "#C2BBA5",
+              "trimHex": "#DAD3C2",
               "roofHex": "#62625D",
               "glassHex": "#425A68",
               "surfaceValues": {
                 "wall": {
-                  "hex": "#BAD0BE",
+                  "hex": "#C2BBA5",
                   "linearRGB": [
-                    0.491021,
-                    0.630757,
-                    0.514918
+                    0.539479,
+                    0.496933,
+                    0.376262
                   ],
-                  "linearLuminance": 0.592686,
+                  "linearLuminance": 0.497266,
                   "roughness01": 0.86
                 },
                 "trim": {
-                  "hex": "#F2EBDF",
+                  "hex": "#DAD3C2",
                   "linearRGB": [
-                    0.887923,
-                    0.83077,
-                    0.73791
+                    0.701102,
+                    0.651406,
+                    0.539479
                   ],
-                  "linearLuminance": 0.836216,
+                  "linearLuminance": 0.65389,
                   "roughness01": 0.8
                 },
                 "roof": {
@@ -14755,8 +14578,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -14776,10 +14598,10 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 15,
-            "gradeDegrees": 8.5308,
+            "gradePercentProposal": 10,
+            "gradeDegrees": 5.7106,
             "profileLocalM": [
               [
                 0,
@@ -14787,155 +14609,35 @@
               ],
               [
                 20,
-                3.0
+                2.0
               ],
               [
                 50,
-                7.5
+                5.0
               ],
               [
                 100,
-                15
+                10
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Three-level Edwardian flats with flat parapets; attached pastel/white row on 15% review grade, paired bays, stairs and sparse small trees.",
+          "signatureElements": "Three full flat floors, stacked shallow rounded/squared bay rhythm and paired flat entries, restrained broad cornice. A narrow attached urban apartment frontage; no turret or gingerbread.",
           "roof": {
             "form": "low roof behind cornice",
             "construction": "low roof behind cornice",
             "representativePitchDeg": 2,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-02.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Preserve Edwardian three-storey paired-bay massing and FLAT low-parapet roofs. Rebuild as zero-gap shared-wall7.6m-wide ATTACHED row on15% grade, each neighboring facade pale mint, light rose, white, pale blue or warm cream, not all beige. Level floors and stair runs on stepped foundations. One small narrow street tree at most. Far view bay beyond hill; no invented tower cluster across bay.",
-          "rowGeometry": {
-            "sharedSideWalls": true,
-            "sideGapM": 0,
-            "lotWidthM": 7.6,
-            "partyWallPolicy": "Mapped footprints control; adjacent fronts touch; decorative cornice seams allowed, open alleys forbidden unless mapped."
-          },
-          "facadePalettes": [
-            {
-              "wallHex": "#BAD0BE",
-              "trimHex": "#F2EBDF",
-              "accentHexes": [
-                "#718D91"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.491021,
-                  0.630757,
-                  0.514918
-                ],
-                [
-                  0.887923,
-                  0.83077,
-                  0.73791
-                ],
-                [
-                  0.165132,
-                  0.266356,
-                  0.283149
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#DABFC4",
-              "trimHex": "#F1E9DC",
-              "accentHexes": [
-                "#868AAB"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.701102,
-                  0.520996,
-                  0.552011
-                ],
-                [
-                  0.879622,
-                  0.814847,
-                  0.715694
-                ],
-                [
-                  0.238398,
-                  0.254152,
-                  0.40724
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#ECDED0",
-              "trimHex": "#FFFFFF",
-              "accentHexes": [
-                "#76978F"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.838799,
-                  0.730461,
-                  0.630757
-                ],
-                [
-                  1.0,
-                  1.0,
-                  1.0
-                ],
-                [
-                  0.181164,
-                  0.309469,
-                  0.274677
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#BDCDE0",
-              "trimHex": "#F4EFE2",
-              "accentHexes": [
-                "#748D95"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.508881,
-                  0.610496,
-                  0.745404
-                ],
-                [
-                  0.904661,
-                  0.863157,
-                  0.760525
-                ],
-                [
-                  0.174647,
-                  0.266356,
-                  0.300544
-                ]
-              ],
-              "roughness01": 0.86
-            }
-          ]
+          }
         },
         {
           "id": "sf-house-03",
           "name": "Marina-style stucco over garage",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-03.png",
-          "sheetFile": "sf-r2/sf-house-03.html",
-          "sheetPngFile": "sf-r2/sf-house-03-sheet.png",
+          "imageFile": "sf/sf-house-03.png",
+          "sheetFile": "sf/sf-house-03.html",
+          "sheetPngFile": "sf/sf-house-03-sheet.png",
           "dimensionsProposal": {
             "footprintWidthM": 7.5,
             "footprintDepthM": 17,
@@ -14956,29 +14658,29 @@
           },
           "palette": [
             {
-              "wallHex": "#F1EBDD",
-              "trimHex": "#FFFFFF",
+              "wallHex": "#D8C9AD",
+              "trimHex": "#E2D7BF",
               "roofHex": "#62625D",
               "glassHex": "#425A68",
               "surfaceValues": {
                 "wall": {
-                  "hex": "#F1EBDD",
+                  "hex": "#D8C9AD",
                   "linearRGB": [
-                    0.879622,
-                    0.83077,
-                    0.723055
+                    0.686685,
+                    0.584078,
+                    0.417885
                   ],
-                  "linearLuminance": 0.833379,
+                  "linearLuminance": 0.593893,
                   "roughness01": 0.86
                 },
                 "trim": {
-                  "hex": "#FFFFFF",
+                  "hex": "#E2D7BF",
                   "linearRGB": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.760525,
+                    0.679542,
+                    0.520996
                   ],
-                  "linearLuminance": 1.0,
+                  "linearLuminance": 0.685312,
                   "roughness01": 0.8
                 },
                 "roof": {
@@ -15006,8 +14708,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15027,7 +14728,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 1,
             "gradeDegrees": 0.5729,
@@ -15049,144 +14750,24 @@
                 1
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Attached Marina row, garage plus two living levels, rounded parapet and smooth light pastel stucco; nearly level 1% street.",
+          "signatureElements": "Garage level plus two living floors, smooth warm cream stucco, broad bay window group, restrained curving parapet/arched entry, tiny warm terracotta roof-cap cue. Physically level Marina street; do not place every SF family on steep hill.",
           "roof": {
             "form": "flat parapet with shallow tile cap",
             "construction": "flat parapet with shallow tile cap",
             "representativePitchDeg": 2,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-03.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-house-03.png"
-          ],
-          "operation": "edit",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Preserve Marina-style smooth stucco, rounded parapet cap, garage groundfloor plus TWO living floors, stacked broad bay windows. Zero-gap shared-wall7.6m attached row on nearly LEVEL1% Marina street. Varied whites and pale pastel mint/peach/blue stucco, no single beige row. Few small narrow street trees with20m gaps. Flat neighborhood toward open north Bay, no steep Marina hill, no downtown across Bay.",
-          "rowGeometry": {
-            "sharedSideWalls": true,
-            "sideGapM": 0,
-            "lotWidthM": 7.6,
-            "partyWallPolicy": "Mapped footprints control; adjacent fronts touch; decorative cornice seams allowed, open alleys forbidden unless mapped."
-          },
-          "facadePalettes": [
-            {
-              "wallHex": "#F1EBDD",
-              "trimHex": "#FFFFFF",
-              "accentHexes": [
-                "#C5A181"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.879622,
-                  0.83077,
-                  0.723055
-                ],
-                [
-                  1.0,
-                  1.0,
-                  1.0
-                ],
-                [
-                  0.55834,
-                  0.3564,
-                  0.219526
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#C8DACC",
-              "trimHex": "#F5F2E8",
-              "accentHexes": [
-                "#879C91"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.57758,
-                  0.701102,
-                  0.603827
-                ],
-                [
-                  0.913099,
-                  0.887923,
-                  0.806952
-                ],
-                [
-                  0.242281,
-                  0.332452,
-                  0.283149
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#E6CBBE",
-              "trimHex": "#FCF5E7",
-              "accentHexes": [
-                "#AE8E78"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.791298,
-                  0.597202,
-                  0.514918
-                ],
-                [
-                  0.973445,
-                  0.913099,
-                  0.799103
-                ],
-                [
-                  0.423268,
-                  0.270498,
-                  0.187821
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#C8D9DF",
-              "trimHex": "#F2ECE2",
-              "accentHexes": [
-                "#879FA4"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.57758,
-                  0.693872,
-                  0.73791
-                ],
-                [
-                  0.887923,
-                  0.838799,
-                  0.760525
-                ],
-                [
-                  0.242281,
-                  0.346704,
-                  0.371238
-                ]
-              ],
-              "roughness01": 0.86
-            }
-          ]
+          }
         },
         {
           "id": "sf-house-04",
           "name": "Sunset District row house",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-04.png",
-          "sheetFile": "sf-r2/sf-house-04.html",
-          "sheetPngFile": "sf-r2/sf-house-04-sheet.png",
+          "imageFile": "sf/sf-house-04.png",
+          "sheetFile": "sf/sf-house-04.html",
+          "sheetPngFile": "sf/sf-house-04-sheet.png",
           "dimensionsProposal": {
             "footprintWidthM": 7.6,
             "footprintDepthM": 16,
@@ -15207,29 +14788,29 @@
           },
           "palette": [
             {
-              "wallHex": "#E7DDD0",
-              "trimHex": "#F7F2E9",
+              "wallHex": "#C8B8A4",
+              "trimHex": "#DFD4C0",
               "roofHex": "#62625D",
               "glassHex": "#425A68",
               "surfaceValues": {
                 "wall": {
-                  "hex": "#E7DDD0",
+                  "hex": "#C8B8A4",
                   "linearRGB": [
-                    0.799103,
-                    0.723055,
-                    0.630757
+                    0.57758,
+                    0.47932,
+                    0.371238
                   ],
-                  "linearLuminance": 0.732559,
+                  "linearLuminance": 0.492407,
                   "roughness01": 0.86
                 },
                 "trim": {
-                  "hex": "#F7F2E9",
+                  "hex": "#DFD4C0",
                   "linearRGB": [
-                    0.930111,
-                    0.887923,
-                    0.814847
+                    0.73791,
+                    0.658375,
+                    0.527115
                   ],
-                  "linearLuminance": 0.891616,
+                  "linearLuminance": 0.665807,
                   "roughness01": 0.8
                 },
                 "roof": {
@@ -15257,8 +14838,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15278,7 +14858,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 5,
             "gradeDegrees": 2.8624,
@@ -15300,144 +14880,24 @@
                 5
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Attached Sunset garage-plus-one-living-floor row; varied light pastels, low parapets, almost treeless rolling 5% western street, Pacific horizon.",
+          "signatureElements": "Postwar attached stucco house, garage and entry at lower floor, ONE main living floor above, broad horizontal front window, simple flat/low-pitch roof, near-zero front setback. Continuous row stepping with slope, very little lawn.",
           "roof": {
             "form": "low roof behind simple parapet",
             "construction": "low roof behind simple parapet",
             "representativePitchDeg": 2,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-04.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Sunset District two-level houses, ground garages and one living floor above, low flat/parapet roofs, repetitive bay/window bands; true attached zero-gap7.6m lots, each house white/pale mint/light rose/pale blue. Rolling5% western street, long almost TREELESS frontages, tiny street-tree gaps. Far view low coastal haze toward Pacific western horizon; no downtown or inhabited opposite shore across water.",
-          "rowGeometry": {
-            "sharedSideWalls": true,
-            "sideGapM": 0,
-            "lotWidthM": 7.6,
-            "partyWallPolicy": "Mapped footprints control; adjacent fronts touch; decorative cornice seams allowed, open alleys forbidden unless mapped."
-          },
-          "facadePalettes": [
-            {
-              "wallHex": "#E7DDD0",
-              "trimHex": "#F7F2E9",
-              "accentHexes": [
-                "#8B9895"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.799103,
-                  0.723055,
-                  0.630757
-                ],
-                [
-                  0.930111,
-                  0.887923,
-                  0.814847
-                ],
-                [
-                  0.258183,
-                  0.313989,
-                  0.300544
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#C5D5C5",
-              "trimHex": "#F7EFE0",
-              "accentHexes": [
-                "#758A83"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.55834,
-                  0.665387,
-                  0.55834
-                ],
-                [
-                  0.930111,
-                  0.863157,
-                  0.745404
-                ],
-                [
-                  0.177888,
-                  0.254152,
-                  0.226966
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#DEBEBF",
-              "trimHex": "#F6EADC",
-              "accentHexes": [
-                "#987B80"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.730461,
-                  0.514918,
-                  0.520996
-                ],
-                [
-                  0.921582,
-                  0.822786,
-                  0.715694
-                ],
-                [
-                  0.313989,
-                  0.198069,
-                  0.215861
-                ]
-              ],
-              "roughness01": 0.86
-            },
-            {
-              "wallHex": "#BECEDF",
-              "trimHex": "#F2EADF",
-              "accentHexes": [
-                "#7A909E"
-              ],
-              "coloursPerFacade": 3,
-              "linearRGB": [
-                [
-                  0.514918,
-                  0.617207,
-                  0.73791
-                ],
-                [
-                  0.887923,
-                  0.822786,
-                  0.73791
-                ],
-                [
-                  0.194618,
-                  0.278894,
-                  0.341914
-                ]
-              ],
-              "roughness01": 0.86
-            }
-          ]
+          }
         },
         {
           "id": "sf-house-05",
           "name": "Oakland Craftsman",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-05.png",
-          "sheetFile": "sf-r2/sf-house-05.html",
-          "sheetPngFile": "sf-r2/sf-house-05-sheet.png",
+          "imageFile": "sf/sf-house-05.png",
+          "sheetFile": "sf/sf-house-05.html",
+          "sheetPngFile": "sf/sf-house-05-sheet.png",
           "dimensionsProposal": {
             "footprintWidthM": 10.5,
             "footprintDepthM": 13,
@@ -15508,8 +14968,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Oakland Craftsman remains detached, with mapped setbacks."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15529,7 +14988,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 3,
             "gradeDegrees": 1.7184,
@@ -15553,31 +15012,22 @@
             ],
             "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Kept approved detached Oakland Craftsman porch/yard form; mapped setbacks and its broader planted residential context remain distinct from SF attached rows.",
+          "signatureElements": "Oakland detached wood-frame Craftsman with broad real usable porch, low front gable, slender/tapered supports on masonry piers, garden beds and a real yard. Oakland form distinct from San Francisco attached bay-front houses.",
           "roof": {
             "form": "front gable and broad eaves",
             "construction": "front gable and broad eaves",
             "representativePitchDeg": 25,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-05.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-house-05.png"
-          ],
-          "operation": "retain",
-          "prompt": "Retain approved artwork without pixel edits; audit for prohibited Chicago elements. Detached Oakland Craftsman is intentionally not an attached SF row.",
-          "retainedSource": "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-house-05.png"
+          }
         },
         {
           "id": "sf-house-06",
           "name": "Modern Bay Area mid-rise",
           "kind": "archetype",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-house-06.png",
-          "sheetFile": "sf-r2/sf-house-06.html",
-          "sheetPngFile": "sf-r2/sf-house-06-sheet.png",
+          "imageFile": "sf/sf-house-06.png",
+          "sheetFile": "sf/sf-house-06.html",
+          "sheetPngFile": "sf/sf-house-06-sheet.png",
           "dimensionsProposal": {
             "footprintWidthM": 22,
             "footprintDepthM": 30,
@@ -15648,8 +15098,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15669,7 +15118,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 2,
             "gradeDegrees": 1.1458,
@@ -15691,23 +15140,15 @@
                 2
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Kept six-storey modern mid-rise massing; flat matte glazing, sparse narrow street trees and exclusively SF tower cues in the far context.",
+          "signatureElements": "Six-storey contemporary apartment mid-rise, real repetitive window rhythm, recessed balconies in a few broad grouped voids, muted off-white stucco/metal-like matte planes, active ground-floor entrances. No mirrored glass curtain wall.",
           "roof": {
             "form": "flat roof and restrained parapet",
             "construction": "flat roof and restrained parapet",
             "representativePitchDeg": 2,
             "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-house-06.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-house-06.png"
-          ],
-          "operation": "edit",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. KEEP the reference SIX-storey modern midrise massing, floor count, footprint, flat roof and restrained material palette. Remove/replace any wrong skyline in far panel with clearly SF rounded-top tall tower plus a slim pyramid-roof silhouette, no Chicago antenna-topped stepped tower. Reduce street trees to sparse narrow crowns separated20m. Maintain all six floors in each view; no rail crossings."
+          }
         }
       ],
       "districts": [
@@ -15716,9 +15157,9 @@
           "name": "Pacific Heights / Alamo Square slope families",
           "kind": "district",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-district-01.png",
-          "sheetFile": "sf-r2/sf-district-01.html",
-          "sheetPngFile": "sf-r2/sf-district-01-sheet.png",
+          "imageFile": "sf/sf-district-01.png",
+          "sheetFile": "sf/sf-district-01.html",
+          "sheetPngFile": "sf/sf-district-01-sheet.png",
           "dimensionsProposal": {
             "typicalHeroBuildingHeightM": 9,
             "laneWidthM": 3.1,
@@ -15779,8 +15220,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15800,10 +15240,10 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 25,
-            "gradeDegrees": 14.0362,
+            "gradePercentProposal": 12,
+            "gradeDegrees": 6.8428,
             "profileLocalM": [
               [
                 0,
@@ -15811,37 +15251,29 @@
               ],
               [
                 20,
-                5
+                2.4
               ],
               [
                 50,
-                12.5
+                6.0
               ],
               [
                 100,
-                25
+                12
               ]
             ],
-            "production": "Illustrative hill profile; mapped DEM overrides. Level floors, vertical walls, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Pacific Heights hillside treatment: attached pastel rows, stepped foundations, level floors, garages and stairs on 25% review grade, northern Bay beyond.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-district-01.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Pacific Heights hillside ATTACHED Victorian and Edwardian pastel rows,7.6m narrow lots zero gaps,15\u201325% steep descending street, bay-window rhythms, level floors, long entry stair runs, stepped foundations and street-level garages. No park-like tree canopy, two small spaced street trees only. STREET view looks DOWNHILL to northern Bay, AIR shows closely packed stepped rows, FAR reads SF hill and Bay. Distinct individual facade colours and3\u20135 colour Victorian trim. Do not put downtown towers on far north shore."
+          "signatureElements": "Two separate district character examples, NOT the same intersection. Victorian and Edwardian bay-front rows, clearly sloping street and level floor bands stepping uphill, small planted frontage. Pacific Heights and Alamo Square are separately named areas; show one plausible Alamo Square-like block in three views, no invented common landmark vista."
         },
         {
           "id": "sf-district-02",
           "name": "Mission mixed blocks",
           "kind": "district",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-district-02.png",
-          "sheetFile": "sf-r2/sf-district-02.html",
-          "sheetPngFile": "sf-r2/sf-district-02-sheet.png",
+          "imageFile": "sf/sf-district-02.png",
+          "sheetFile": "sf/sf-district-02.html",
+          "sheetPngFile": "sf/sf-district-02-sheet.png",
           "dimensionsProposal": {
             "typicalHeroBuildingHeightM": 10,
             "laneWidthM": 3.1,
@@ -15902,8 +15334,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -15923,7 +15354,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 2,
             "gradeDegrees": 1.1458,
@@ -15945,26 +15376,18 @@
                 2
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Nearly level Mission block: attached varied-pastel Edwardian and simple mixed-use massing, 2% review grade, no elevated railway or stadium.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-district-02.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Mission District relatively LEVEL2% urban block. Zero-gap attached Edwardian flats in varied pastel whites and3-floor heights, simple brick mixed-use corners, shallow sidewalks, sparse small narrow street trees. Continuous street-level urban fabric, NO elevated train, NO bridge or viaduct crossing, NO stadium. Distant SF round-top tallest and pyramid tower only where unobtrusive. No murals or signage."
+          "signatureElements": "Fine-grained attached two/three-storey Edwardian flats mixed with low plain commercial fronts and garage openings; relatively level wider urban grid, selective street trees and restrained stucco colours. Blank storefronts, no murals, real signs, brands or festival dressing."
         },
         {
           "id": "sf-district-03",
           "name": "SoMa / downtown tower fabric",
           "kind": "district",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-district-03.png",
-          "sheetFile": "sf-r2/sf-district-03.html",
-          "sheetPngFile": "sf-r2/sf-district-03-sheet.png",
+          "imageFile": "sf/sf-district-03.png",
+          "sheetFile": "sf/sf-district-03.html",
+          "sheetPngFile": "sf/sf-district-03-sheet.png",
           "dimensionsProposal": {
             "typicalHeroBuildingHeightM": 70,
             "laneWidthM": 3.1,
@@ -16025,8 +15448,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16046,7 +15468,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 1,
             "gradeDegrees": 0.5729,
@@ -16068,26 +15490,18 @@
                 1
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "SoMa / downtown: rounded-top tall tower and pyramid-roof silhouette, dense lower skyline, flat street grid; no elevated neighborhood rail or ballpark bowl.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-district-03.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. SoMa / downtown SF unmistakable cluster: tallest soft rounded/crowned tapered glass-blue tower, slim sharp PYRAMID-ROOF tower silhouette distinct from other buildings, real dense lower tower cluster and broad warehouse/midrise bases. Ground-level wide street grid and sparse narrow urban street trees, flat1% terrain. NO elevated train crossings, no stadium bowl, no antenna-topped Chicago tower. SF bay context in far view only, no fantasy mountains directly behind downtown."
+          "signatureElements": "Broader streets and lower brick warehouse blocks beneath genuinely tall contemporary tower masses, mixed office/residential canyon, limited street trees. Matte flat glazing; stepped heights and real structural proportions. No transplanted NYC/Chicago tower silhouette."
         },
         {
           "id": "sf-district-04",
           "name": "Embarcadero waterfront",
           "kind": "district",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-district-04.png",
-          "sheetFile": "sf-r2/sf-district-04.html",
-          "sheetPngFile": "sf-r2/sf-district-04-sheet.png",
+          "imageFile": "sf/sf-district-04.png",
+          "sheetFile": "sf/sf-district-04.html",
+          "sheetPngFile": "sf/sf-district-04-sheet.png",
           "dimensionsProposal": {
             "typicalHeroBuildingHeightM": 16,
             "laneWidthM": 3.1,
@@ -16148,8 +15562,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16169,7 +15582,7 @@
               "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 0.5,
             "gradeDegrees": 0.2865,
@@ -16191,35 +15604,27 @@
                 0.5
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Kept Embarcadero pier/promenade geometry and SF skyline; ground-level waterfront streetcar, Bay Bridge and smaller spaced street trees.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-district-04.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "edit",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. KEEP the approved reference Embarcadero waterfront geometry, piers, low pier buildings, promenade, historic ground-level electric streetcar, Bay Bridge and SF rounded-top downtown massing. Only reduce excessive broad tree canopy: narrower smaller street trees5m high/2.5m crowns at20m spacing, gaps and substantial treeless promenade; add subtle pyramid-roof tower in cluster if absent. Flat waterfront, no elevated rail, no stadium. Maintain grounded proportions and existing waterfront composition."
+          "signatureElements": "Broad low-gradient waterfront boulevard and promenade, plain pier/warehouse structures, calm broad bay water, rail corridor with generic unbranded single-car electric streetcar and actual-style overhead power wires. Downtown taller masses inland. Bay Bridge only as distant generic silhouette to geographically plausible southeast viewpoint; Golden Gate NOT inserted in same vista."
         }
       ],
       "supplementalBoards": [
         {
           "id": "sf-steep-geometry",
-          "name": "Steep-street geometry / 30% witness",
+          "name": "Steep-street geometry / 21% witness",
           "kind": "infrastructure",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-steep-geometry.png",
-          "sheetFile": "sf-r2/sf-steep-geometry.html",
-          "sheetPngFile": "sf-r2/sf-steep-geometry-sheet.png",
+          "imageFile": "sf/sf-steep-geometry.png",
+          "sheetFile": "sf/sf-steep-geometry.html",
+          "sheetPngFile": "sf/sf-steep-geometry-sheet.png",
           "dimensionsProposal": {
-            "gradePercentWitness": 30,
-            "horizontalRunM": 100,
-            "riseM": 30,
-            "inclineDegrees": 16.6992,
-            "lotWidthM": 7.6,
-            "sideGapM": 0
+            "gradePercent": 21,
+            "gradeDegrees": 11.8598,
+            "risePer100mM": 21,
+            "laneWidthM": 3.1,
+            "curbHeightM": 0.15,
+            "cableTrackGaugeMProposal": 1.067
           },
           "palette": [
             {
@@ -16273,8 +15678,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16283,21 +15687,21 @@
           "detailTiers": [
             {
               "projectedObjectHeightPx": "<6",
-              "keep": "Hill profile, stepped roofline and bay horizon; never flatten terrain."
+              "keep": "Mapped hill profile and vertical building silhouette."
             },
             {
               "projectedObjectHeightPx": "6\u201320",
-              "keep": "Attached row rhythm, level floors, stairs and street garages."
+              "keep": "Stepped foundations, level floors and road / curb grades."
             },
             {
               "projectedObjectHeightPx": ">20",
-              "keep": "Equal stair risers, conforming curb, pitched parked car bodies; cable slot only on cable-car route."
+              "keep": "Real equal-riser stairs and cable-car track grade; no tilt of whole houses."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 30,
-            "gradeDegrees": 16.6992,
+            "gradePercentProposal": 21,
+            "gradeDegrees": 11.8598,
             "profileLocalM": [
               [
                 0,
@@ -16305,37 +15709,29 @@
               ],
               [
                 20,
-                6.0
+                4.2
               ],
               [
                 50,
-                15.0
+                10.5
               ],
               [
                 100,
-                30
+                21
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "30% illustrative witness: 30 m rise per 100 m horizontal run, 16.6992 degrees. Profile / street / aerial show attached rows and level floors on stepped foundations. No transit route is assigned to this 30% witness.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-steep-geometry.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. THREE PANELS, slope geometry witness. LEFT side-on architectural profile of30% hill:100m horizontal run climbs30m, street visibly16.7degrees; six ZERO-GAP attached7.6m pastel SF houses with LEVEL floors, VERTICAL walls and stepped foundations stepping down hill, cars bodies pitch with street. CENTER crest STREET view on same30% hill with severe drop to far northern Bay, stair runs and street-level garages, roofs descend radically relative to water horizon, no wide trees. RIGHT AERIAL same contiguous row/hill profile, nearly no trees. No rail. Make slope undeniable using side-on witness and level floor horizontals. No textual labels; exact diagram dimensions added outside image."
+          "signatureElements": "Use a generic San Francisco Hyde-route-like steep block with21PERCENT longitudinal grade: 21m rise per100m run, angle11.86degrees, level-floor buildings step uphill, road and curb follow terrain, intersections resolve with smooth vertical crest transitions. Generic cable car on rails and central cable slot, no overhead trolley wire. Do NOT apply21% to all SF streets."
         },
         {
           "id": "sf-cable-car",
           "name": "Generic cable car",
           "kind": "infrastructure",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-cable-car.png",
-          "sheetFile": "sf-r2/sf-cable-car.html",
-          "sheetPngFile": "sf-r2/sf-cable-car-sheet.png",
+          "imageFile": "sf/sf-cable-car.png",
+          "sheetFile": "sf/sf-cable-car.html",
+          "sheetPngFile": "sf/sf-cable-car-sheet.png",
           "dimensionsProposal": {
             "lengthM": 8.8,
             "widthM": 2.4,
@@ -16394,8 +15790,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16404,21 +15799,21 @@
           "detailTiers": [
             {
               "projectedObjectHeightPx": "<6",
-              "keep": "Hill profile, stepped roofline and bay horizon; never flatten terrain."
+              "keep": "Correct-scale vehicle silhouette and track alignment."
             },
             {
               "projectedObjectHeightPx": "6\u201320",
-              "keep": "Attached row rhythm, level floors, stairs and street garages."
+              "keep": "Open-end / enclosed grip-cab massing; underground cable route."
             },
             {
               "projectedObjectHeightPx": ">20",
-              "keep": "Equal stair risers, conforming curb, pitched parked car bodies; cable slot only on cable-car route."
+              "keep": "Simple roof, end platforms and grip slot; no trolley wire."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 21,
-            "gradeDegrees": 11.8598,
+            "gradePercentProposal": 1,
+            "gradeDegrees": 0.5729,
             "profileLocalM": [
               [
                 0,
@@ -16426,37 +15821,29 @@
               ],
               [
                 20,
-                4.2
+                0.2
               ],
               [
                 50,
-                10.5
+                0.5
               ],
               [
                 100,
-                21
+                1
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Generic cable car on 21% route review grade, narrow-gauge rails and a cable slot between them; no overhead trolley wire, no branding; northern Bay far below.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-cable-car.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Generic UNBRANDED SF cable car on a genuine21% steep hill dropping toward Bay. Show three-panel street/aerial/far of same hill; tracks steeply descend, thin CABLE SLOT BETWEEN RAILS plainly visible at near range; cable car open end platforms, central enclosed grip cab, wood/brown/cream plain body, no overhead trolley pole or trolley wires. Attached zero-gap pastel houses on7.6m lots step down hill, level floors long stairs street garages. Generic parked car body follows road pitch and wheels turned at curb. Almost treeless. Bay far below eye line, no downtown on north shore, no elevated trains."
+          "signatureElements": "Real proportion single cable car8.8m long2.4m wide3.4m high, partly open seating ends and central enclosed grip cabin, low bogies, darkwood/cream generic finish, empty seats. Track center underground cable slot and narrow gauge rail. NO overhead pole, pantograph, motorized bus shape, official livery, fleet numbers or logos."
         },
         {
           "id": "sf-streetcar",
           "name": "Generic electric streetcar",
           "kind": "infrastructure",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-streetcar.png",
-          "sheetFile": "sf-r2/sf-streetcar.html",
-          "sheetPngFile": "sf-r2/sf-streetcar-sheet.png",
+          "imageFile": "sf/sf-streetcar.png",
+          "sheetFile": "sf/sf-streetcar.html",
+          "sheetPngFile": "sf/sf-streetcar-sheet.png",
           "dimensionsProposal": {
             "lengthM": 14.3,
             "widthM": 2.55,
@@ -16515,8 +15902,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16536,10 +15922,10 @@
               "keep": "Trolley pole and simple wire only when above2px; no cable slot."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
-            "gradePercentProposal": 0.5,
-            "gradeDegrees": 0.2865,
+            "gradePercentProposal": 1,
+            "gradeDegrees": 0.5729,
             "profileLocalM": [
               [
                 0,
@@ -16547,37 +15933,253 @@
               ],
               [
                 20,
-                0.1
+                0.2
               ],
               [
                 50,
-                0.25
+                0.5
               ],
               [
                 100,
-                0.5
+                1
               ]
             ],
-            "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Generic historic electric streetcar on the nearly level Embarcadero waterfront line only; overhead trolley power, ground-level tracks, no cable grip slot.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-streetcar.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
+          "signatureElements": "Real proportion single electric streetcar14.3m long2.55m wide3.4m high, gently rounded rectangular steel body, regular window rhythm, two real bogies, overhead trolley pole and wire, no cable slot, matte cream/gray-green generic palette. No official livery, fleet numbers or branding; empty vehicle."
+        },
+        {
+          "id": "sf-marine-layer",
+          "name": "Overhead marine layer / low stratus",
+          "kind": "weather",
+          "metro": "San Francisco Bay Area",
+          "imageFile": "sf/sf-marine-layer.png",
+          "sheetFile": "sf/sf-marine-layer.html",
+          "sheetPngFile": "sf/sf-marine-layer-sheet.png",
+          "dimensionsProposal": {
+            "cloudBaseMSLM": 120,
+            "cloudTopMSLM": 350,
+            "streetElevationMSLM": 20,
+            "contrastVisibilityM": 2000
+          },
+          "palette": [
+            {
+              "wallHex": "#C1CACD",
+              "trimHex": "#DDD3BD",
+              "roofHex": "#62625D",
+              "glassHex": "#425A68",
+              "surfaceValues": {
+                "wall": {
+                  "hex": "#C1CACD",
+                  "linearRGB": [
+                    0.533276,
+                    0.590619,
+                    0.610496
+                  ],
+                  "linearLuminance": 0.579863,
+                  "roughness01": 0.86
+                },
+                "trim": {
+                  "hex": "#DDD3BD",
+                  "linearRGB": [
+                    0.723055,
+                    0.651406,
+                    0.508881
+                  ],
+                  "linearLuminance": 0.656348,
+                  "roughness01": 0.8
+                },
+                "roof": {
+                  "hex": "#62625D",
+                  "linearRGB": [
+                    0.122139,
+                    0.122139,
+                    0.109462
+                  ],
+                  "linearLuminance": 0.121223,
+                  "roughness01": 0.9
+                },
+                "glass": {
+                  "hex": "#425A68",
+                  "linearRGB": [
+                    0.05448,
+                    0.102242,
+                    0.138432
+                  ],
+                  "linearLuminance": 0.094701,
+                  "roughness01": 0.5
+                }
+              }
+            }
           ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. Three equal vertical panels, STREET eye height1.6m at20m, AERIAL55degree pitch, FAR100m; SAME type and neighborhood coherently across panels, no lettering. Generic HISTORIC ELECTRIC STREETCAR ONLY on the flat Embarcadero waterfront line, pale cream and subdued sea-green unbranded body, enclosed windows, overhead trolley pole and thin power wires. Three panels street along shoreline/promenade, aerial shows ground-level waterfront tracks and piers, far reads SF waterfront rounded-top skyline and Bay Bridge where appropriate. NO hill street, no elevated rail, no stadium, no cable slot. Sparse5m tall narrow trees with broad gaps."
+          "mustBeExact": [
+            "Positions and sightlines come from the map.",
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
+          ],
+          "canSimplify": [
+            "Broad matte colour planes and selected silhouette details; no microtexture.",
+            "Details below2 drawable pixels disappear, never grow to fake scale."
+          ],
+          "detailTiers": [
+            {
+              "projectedObjectHeightPx": "<6",
+              "keep": "Broad overcast sky and depth contrast; maintain map silhouettes."
+            },
+            {
+              "projectedObjectHeightPx": "6\u201320",
+              "keep": "Consistent layer height and path-length attenuation across cameras."
+            },
+            {
+              "projectedObjectHeightPx": ">20",
+              "keep": "Soft cloud ceiling and restrained diffuse shading; no surface microdetail."
+            }
+          ],
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+          "terrain": {
+            "gradePercentProposal": 2,
+            "gradeDegrees": 1.1458,
+            "profileLocalM": [
+              [
+                0,
+                0
+              ],
+              [
+                20,
+                0.4
+              ],
+              [
+                50,
+                1.0
+              ],
+              [
+                100,
+                2
+              ]
+            ],
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+          },
+          "signatureElements": "Same Mission-like streetblock under a continuous soft low-stratus cloud deck, cool diffuse sky fill, directSunRelativeClear0.25, exposure+0.15EV REPLACES clear+0.35EV; clear local foreground air and2km illustrative horizontal visibility. Cloud base120m above sea level and top350m MSL, NOT a ground-hugging smoke blanket. Street z=20m MSL remains below cloud with reduced sun; aerial80m above street also below cloud. Hills can meet cloud in far view; do not hide everynear house."
+        },
+        {
+          "id": "sf-surface-fog",
+          "name": "Marine fog reaching the street",
+          "kind": "weather",
+          "metro": "San Francisco Bay Area",
+          "imageFile": "sf/sf-surface-fog.png",
+          "sheetFile": "sf/sf-surface-fog.html",
+          "sheetPngFile": "sf/sf-surface-fog-sheet.png",
+          "dimensionsProposal": {
+            "cloudBaseMSLM": 0,
+            "cloudTopMSLM": 200,
+            "streetElevationMSLM": 20,
+            "contrastVisibilityM": 220
+          },
+          "palette": [
+            {
+              "wallHex": "#C1CACD",
+              "trimHex": "#DDD3BD",
+              "roofHex": "#62625D",
+              "glassHex": "#425A68",
+              "surfaceValues": {
+                "wall": {
+                  "hex": "#C1CACD",
+                  "linearRGB": [
+                    0.533276,
+                    0.590619,
+                    0.610496
+                  ],
+                  "linearLuminance": 0.579863,
+                  "roughness01": 0.86
+                },
+                "trim": {
+                  "hex": "#DDD3BD",
+                  "linearRGB": [
+                    0.723055,
+                    0.651406,
+                    0.508881
+                  ],
+                  "linearLuminance": 0.656348,
+                  "roughness01": 0.8
+                },
+                "roof": {
+                  "hex": "#62625D",
+                  "linearRGB": [
+                    0.122139,
+                    0.122139,
+                    0.109462
+                  ],
+                  "linearLuminance": 0.121223,
+                  "roughness01": 0.9
+                },
+                "glass": {
+                  "hex": "#425A68",
+                  "linearRGB": [
+                    0.05448,
+                    0.102242,
+                    0.138432
+                  ],
+                  "linearLuminance": 0.094701,
+                  "roughness01": 0.5
+                }
+              }
+            }
+          ],
+          "mustBeExact": [
+            "Positions and sightlines come from the map.",
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
+          ],
+          "canSimplify": [
+            "Broad matte colour planes and selected silhouette details; no microtexture.",
+            "Details below2 drawable pixels disappear, never grow to fake scale."
+          ],
+          "detailTiers": [
+            {
+              "projectedObjectHeightPx": "<6",
+              "keep": "Readable nearby ground and fading far silhouettes."
+            },
+            {
+              "projectedObjectHeightPx": "6\u201320",
+              "keep": "Terrain-intersecting fog and weather-consistent street / aerial depth."
+            },
+            {
+              "projectedObjectHeightPx": ">20",
+              "keep": "One physical extinction pass, soft lighting; no extra saturation fade."
+            }
+          ],
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+          "terrain": {
+            "gradePercentProposal": 2,
+            "gradeDegrees": 1.1458,
+            "profileLocalM": [
+              [
+                0,
+                0
+              ],
+              [
+                20,
+                0.4
+              ],
+              [
+                50,
+                1.0
+              ],
+              [
+                100,
+                2
+              ]
+            ],
+            "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+          },
+          "signatureElements": "Same coastal SF block in a cool neutral sea fog bank that intersects street/shore, near5m clear, illustrative contrast visibility220m and extinction0.01393363848164647 per m; broad fog-color#C1CACD, directSunRelativeClear0.15, exposure+0.15EV replacesclear+0.35EV. Foreground geometry legible; progressively pale and softened distant buildings, aerial same physical foglayer200m MSL top, not arbitrarilyclear aerial. No warm shafts, purple tint, smoke wisps, glowing outlines or sunrise changes. Marine fog depth is not2.5m ground fog."
         },
         {
           "id": "sf-bridge-silhouettes",
           "name": "Bridge far silhouettes / separate sightlines",
           "kind": "landmarks",
           "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-bridge-silhouettes.png",
-          "sheetFile": "sf-r2/sf-bridge-silhouettes.html",
-          "sheetPngFile": "sf-r2/sf-bridge-silhouettes-sheet.png",
+          "imageFile": "sf/sf-bridge-silhouettes.png",
+          "sheetFile": "sf/sf-bridge-silhouettes.html",
+          "sheetPngFile": "sf/sf-bridge-silhouettes-sheet.png",
           "dimensionsProposal": {
             "goldenGateMainSpanM": 1280,
             "goldenGateTowerHeightAboveWaterM": 227,
@@ -16641,8 +16243,7 @@
           ],
           "mustBeExact": [
             "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+            "Mapped footprint, height, grade, real floor count and usable access geometry."
           ],
           "canSimplify": [
             "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -16662,7 +16263,7 @@
               "keep": "Portal or single-pylon shape and broad deck layering; sub2px hangers drop."
             }
           ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+          "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
           "terrain": {
             "gradePercentProposal": 0,
             "gradeDegrees": 0.0,
@@ -16686,7 +16287,7 @@
             ],
             "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
           },
-          "signatureElements": "Kept separate generic Golden Gate, Bay Bridge western double-deck suspension and eastern single-pylon far silhouettes; each viewpoint remains map-bound.",
+          "signatureElements": "Three separate geographically isolated far-view studies: Golden Gate suspension silhouette; Bay Bridge western double-deck suspension silhouette; Bay Bridge eastern single-pylon asymmetric span silhouette.",
           "dimensionEvidence": {
             "westSpan": "2310ft each of two main spans; bridge builder source",
             "eastPylon": "525ft; MTC construction account",
@@ -16695,411 +16296,6 @@
               "https://mtc.ca.gov/news/bay-bridge-uses-google-earth-showcase-iconic-east-span-construction-process"
             ],
             "otherDimensions": "Mapped model inputs; no invented survey dimensions."
-          },
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-bridge-silhouettes.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-bridge-silhouettes.png"
-          ],
-          "operation": "retain",
-          "prompt": "Retain approved artwork without pixel edits; audit for prohibited Chicago elements. Separate Golden Gate, Bay west and Bay east views retain generic silhouettes.",
-          "retainedSource": "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-bridge-silhouettes.png"
-        },
-        {
-          "id": "sf-fog-advection",
-          "name": "Advection fog / sunny east side",
-          "kind": "weather",
-          "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-fog-advection.png",
-          "sheetFile": "sf-r2/sf-fog-advection.html",
-          "sheetPngFile": "sf-r2/sf-fog-advection-sheet.png",
-          "dimensionsProposal": {
-            "fogBaseMSLM": 0,
-            "fogTopMSLM": 360
-          },
-          "palette": [
-            {
-              "wallHex": "#A5B6AE",
-              "trimHex": "#DDD3BD",
-              "roofHex": "#62625D",
-              "glassHex": "#425A68",
-              "surfaceValues": {
-                "wall": {
-                  "hex": "#A5B6AE",
-                  "linearRGB": [
-                    0.376262,
-                    0.467784,
-                    0.423268
-                  ],
-                  "linearLuminance": 0.445112,
-                  "roughness01": 0.86
-                },
-                "trim": {
-                  "hex": "#DDD3BD",
-                  "linearRGB": [
-                    0.723055,
-                    0.651406,
-                    0.508881
-                  ],
-                  "linearLuminance": 0.656348,
-                  "roughness01": 0.8
-                },
-                "roof": {
-                  "hex": "#62625D",
-                  "linearRGB": [
-                    0.122139,
-                    0.122139,
-                    0.109462
-                  ],
-                  "linearLuminance": 0.121223,
-                  "roughness01": 0.9
-                },
-                "glass": {
-                  "hex": "#425A68",
-                  "linearRGB": [
-                    0.05448,
-                    0.102242,
-                    0.138432
-                  ],
-                  "linearLuminance": 0.094701,
-                  "roughness01": 0.5
-                }
-              }
-            }
-          ],
-          "mustBeExact": [
-            "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
-          ],
-          "canSimplify": [
-            "Broad matte colour planes and selected silhouette details; no microtexture.",
-            "Details below2 drawable pixels disappear, never grow to fake scale."
-          ],
-          "detailTiers": [
-            {
-              "projectedObjectHeightPx": "<6",
-              "keep": "Western cloud mass / sunny eastern silhouette; correct regional visibility."
-            },
-            {
-              "projectedObjectHeightPx": "6\u201320",
-              "keep": "Hill / cloud intersection and large fog-edge gradient."
-            },
-            {
-              "projectedObjectHeightPx": ">20",
-              "keep": "Soft vertical height transition and route-specific depth; no microcloud texture."
-            }
-          ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
-          "terrain": {
-            "gradePercentProposal": 15,
-            "gradeDegrees": 8.5308,
-            "profileLocalM": [
-              [
-                0,
-                0
-              ],
-              [
-                100,
-                15
-              ]
-            ],
-            "production": "Mapped western hills and cloud layer intersection control; not a citywide flat slab."
-          },
-          "signatureElements": "Western advection bank over hills and ridge mast; Golden Gate towers swallowed; downtown/east side remain sunny. Separate geography-plausible viewpoints.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-marine-layer.html and ../sf/sf-surface-fog.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. THREE geography-separated views of the SAME incoming WESTERN fog scenario. LEFT ground/oblique view fog pours like a low stratus river over western hills and Twin Peaks ridge, modest Sutro-style broadcast mast partly lost. CENTER aerial geographically coherent peninsula west-to-east fog edge: Pacific western coast/western hills buried beneath bank, downtown EAST stays SUNLIT with unmistakable rounded-top tall tower plus pyramid roof; no fake Golden Gate placed next to downtown. RIGHT far Golden Gate TWO orange portal towers partly SWALLOWED by fog, only tower tops/deck fragments emerge, no clear entire bridge. A horizontal flat-grey stratus top, no cotton-puff storm cloud, fog follows real relief; eastern sunlight bright warm, western cool shade. No blanket fog over entire city.",
-          "weatherValues": {
-            "baseMSLM": 0,
-            "topMSLM": 360,
-            "westVisibilityM": 180,
-            "eastVisibilityM": 12000,
-            "edgeTransitionWidthM": 350,
-            "westSunScale01": 0.12,
-            "eastSunScale01": 1,
-            "fogHex": "#C1CACD",
-            "cloudCoverageWest01": 1,
-            "cloudCoverageEast01": 0.15,
-            "softHeightTransitionM": 30,
-            "fogLinearRGB": [
-              0.533276,
-              0.590619,
-              0.610496
-            ],
-            "numbersStatus": "Authored review target, not meteorological observation.",
-            "nearClearM": 5,
-            "extinctionPerM": 0.017118470134594232
-          }
-        },
-        {
-          "id": "sf-fog-offshore-sunset",
-          "name": "Offshore fog bank / sunset",
-          "kind": "weather",
-          "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-fog-offshore-sunset.png",
-          "sheetFile": "sf-r2/sf-fog-offshore-sunset.html",
-          "sheetPngFile": "sf-r2/sf-fog-offshore-sunset-sheet.png",
-          "dimensionsProposal": {
-            "fogBaseMSLM": 0,
-            "fogTopMSLM": 150
-          },
-          "palette": [
-            {
-              "wallHex": "#A5B6AE",
-              "trimHex": "#DDD3BD",
-              "roofHex": "#62625D",
-              "glassHex": "#425A68",
-              "surfaceValues": {
-                "wall": {
-                  "hex": "#A5B6AE",
-                  "linearRGB": [
-                    0.376262,
-                    0.467784,
-                    0.423268
-                  ],
-                  "linearLuminance": 0.445112,
-                  "roughness01": 0.86
-                },
-                "trim": {
-                  "hex": "#DDD3BD",
-                  "linearRGB": [
-                    0.723055,
-                    0.651406,
-                    0.508881
-                  ],
-                  "linearLuminance": 0.656348,
-                  "roughness01": 0.8
-                },
-                "roof": {
-                  "hex": "#62625D",
-                  "linearRGB": [
-                    0.122139,
-                    0.122139,
-                    0.109462
-                  ],
-                  "linearLuminance": 0.121223,
-                  "roughness01": 0.9
-                },
-                "glass": {
-                  "hex": "#425A68",
-                  "linearRGB": [
-                    0.05448,
-                    0.102242,
-                    0.138432
-                  ],
-                  "linearLuminance": 0.094701,
-                  "roughness01": 0.5
-                }
-              }
-            }
-          ],
-          "mustBeExact": [
-            "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
-          ],
-          "canSimplify": [
-            "Broad matte colour planes and selected silhouette details; no microtexture.",
-            "Details below2 drawable pixels disappear, never grow to fake scale."
-          ],
-          "detailTiers": [
-            {
-              "projectedObjectHeightPx": "<6",
-              "keep": "Western cloud mass / sunny eastern silhouette; correct regional visibility."
-            },
-            {
-              "projectedObjectHeightPx": "6\u201320",
-              "keep": "Hill / cloud intersection and large fog-edge gradient."
-            },
-            {
-              "projectedObjectHeightPx": ">20",
-              "keep": "Soft vertical height transition and route-specific depth; no microcloud texture."
-            }
-          ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
-          "terrain": {
-            "gradePercentProposal": 15,
-            "gradeDegrees": 8.5308,
-            "profileLocalM": [
-              [
-                0,
-                0
-              ],
-              [
-                100,
-                15
-              ]
-            ],
-            "production": "Mapped western hills and cloud layer intersection control; not a citywide flat slab."
-          },
-          "signatureElements": "West-facing coastal street / aerial / far views: broad low grey-blue offshore fog bank, warm sunset rim, clear land and no eastern downtown skyline.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-marine-layer.html and ../sf/sf-surface-fog.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. THREE coherent WEST-LOOKING coastal views at sunset, street near western coast, coastal aerial, far Pacific horizon. Very low broad OFFSHORE FOG BANK under orange-gold sunset light, flat grey-blue top, thin glowing warm rim, land foreground remains clear. Sunset attached pastel rows in street foreground, no downtown skyline or Bay Bridge west of western coast. Pacific ocean toward setting sun and fog bank plainly offshore. Simplified water no wave microtexture. Almost treeless coast. Do not put both bridges into scene.",
-          "weatherValues": {
-            "baseMSLM": 0,
-            "topMSLM": 150,
-            "offshoreDistanceM": 1000,
-            "edgeTransitionWidthM": 250,
-            "clearLandVisibilityM": 10000,
-            "bankVisibilityM": 250,
-            "sunElevationDeg": 4,
-            "sunAzimuthDeg": 270,
-            "sunHex": "#FFD09A",
-            "fogHex": "#AABAC5",
-            "exposureEV": 0.15,
-            "softHeightTransitionM": 30,
-            "fogLinearRGB": [
-              0.401978,
-              0.491021,
-              0.55834
-            ],
-            "numbersStatus": "Authored review target, not meteorological observation.",
-            "nearClearM": 5,
-            "extinctionPerM": 0.01222747866756731
-          }
-        },
-        {
-          "id": "sf-june-gloom",
-          "name": "June gloom / low stratus ceiling",
-          "kind": "weather",
-          "metro": "San Francisco Bay Area",
-          "imageFile": "sf-r2/sf-june-gloom.png",
-          "sheetFile": "sf-r2/sf-june-gloom.html",
-          "sheetPngFile": "sf-r2/sf-june-gloom-sheet.png",
-          "dimensionsProposal": {
-            "fogBaseMSLM": 180,
-            "fogTopMSLM": 500
-          },
-          "palette": [
-            {
-              "wallHex": "#A5B6AE",
-              "trimHex": "#DDD3BD",
-              "roofHex": "#62625D",
-              "glassHex": "#425A68",
-              "surfaceValues": {
-                "wall": {
-                  "hex": "#A5B6AE",
-                  "linearRGB": [
-                    0.376262,
-                    0.467784,
-                    0.423268
-                  ],
-                  "linearLuminance": 0.445112,
-                  "roughness01": 0.86
-                },
-                "trim": {
-                  "hex": "#DDD3BD",
-                  "linearRGB": [
-                    0.723055,
-                    0.651406,
-                    0.508881
-                  ],
-                  "linearLuminance": 0.656348,
-                  "roughness01": 0.8
-                },
-                "roof": {
-                  "hex": "#62625D",
-                  "linearRGB": [
-                    0.122139,
-                    0.122139,
-                    0.109462
-                  ],
-                  "linearLuminance": 0.121223,
-                  "roughness01": 0.9
-                },
-                "glass": {
-                  "hex": "#425A68",
-                  "linearRGB": [
-                    0.05448,
-                    0.102242,
-                    0.138432
-                  ],
-                  "linearLuminance": 0.094701,
-                  "roughness01": 0.5
-                }
-              }
-            }
-          ],
-          "mustBeExact": [
-            "Positions and sightlines come from the map.",
-            "Floor count, physical height, mapped grades, curb access and transit route.",
-            "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
-          ],
-          "canSimplify": [
-            "Broad matte colour planes and selected silhouette details; no microtexture.",
-            "Details below2 drawable pixels disappear, never grow to fake scale."
-          ],
-          "detailTiers": [
-            {
-              "projectedObjectHeightPx": "<6",
-              "keep": "Western cloud mass / sunny eastern silhouette; correct regional visibility."
-            },
-            {
-              "projectedObjectHeightPx": "6\u201320",
-              "keep": "Hill / cloud intersection and large fog-edge gradient."
-            },
-            {
-              "projectedObjectHeightPx": ">20",
-              "keep": "Soft vertical height transition and route-specific depth; no microcloud texture."
-            }
-          ],
-          "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
-          "terrain": {
-            "gradePercentProposal": 15,
-            "gradeDegrees": 8.5308,
-            "profileLocalM": [
-              [
-                0,
-                0
-              ],
-              [
-                100,
-                15
-              ]
-            ],
-            "production": "Mapped western hills and cloud layer intersection control; not a citywide flat slab."
-          },
-          "signatureElements": "Full-overcast flat grey low-stratus ceiling; diffuse near-street light; upper hillside and ridge mast cut off by cloud, with no blue-sky gaps.",
-          "revision": "sf-r2",
-          "status": "current",
-          "supersedes": "../sf/sf-marine-layer.html and ../sf/sf-surface-fog.html",
-          "references": [
-            "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-          ],
-          "operation": "generate",
-          "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. THREE panels STREET/AERIAL/FAR under FULL OVERCAST San Francisco low stratus. Flat GREY continuous ceiling, absolutely NO blue sky gaps or fluffy clouds, no direct sunlight or sharp sun shadows. Zero-gap pastel Edwardian/Sunset rows and sparse narrow street trees, hills disappear where they intersect low cloudbase; Twin Peaks ridge tops and Sutro mast cut off, not a ground-hugging2m haze. Near street objects stay readable and rich in diffuse light, distant grey hill silhouettes fade into flat ceiling. Aerial below cloudbase, no overhead puffy clouds, believable cool grey ambient.",
-          "weatherValues": {
-            "baseMSLM": 180,
-            "topMSLM": 500,
-            "cloudCoverage01": 1,
-            "horizontalVisibilityM": 3000,
-            "hillIntersectionFadeM": 40,
-            "sunScale01": 0,
-            "fogHex": "#C1CACD",
-            "ceilingHex": "#B9C3C8",
-            "exposureEV": 0.15,
-            "softHeightTransitionM": 30,
-            "fogLinearRGB": [
-              0.533276,
-              0.590619,
-              0.610496
-            ],
-            "numbersStatus": "Authored review target, not meteorological observation.",
-            "nearClearM": 5,
-            "extinctionPerM": 0.0010002444986824677
           }
         }
       ],
@@ -17108,9 +16304,9 @@
         "name": "SF sloping residential block paint-over",
         "kind": "paintover",
         "metro": "San Francisco Bay Area",
-        "imageFile": "sf-r2/sf-block.png",
-        "sheetFile": "sf-r2/sf-block.html",
-        "sheetPngFile": "sf-r2/sf-block-sheet.png",
+        "imageFile": "sf/sf-block.png",
+        "sheetFile": "sf/sf-block.html",
+        "sheetPngFile": "sf/sf-block-sheet.png",
         "dimensionsProposal": {
           "cameraHeightM": 1.65,
           "laneWidthM": 3.1,
@@ -17169,8 +16365,7 @@
         ],
         "mustBeExact": [
           "Positions and sightlines come from the map.",
-          "Floor count, physical height, mapped grades, curb access and transit route.",
-          "Attached SF rows share sidewalls; zero open gap, typical review frontage7.6m."
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
         ],
         "canSimplify": [
           "Broad matte colour planes and selected silhouette details; no microtexture.",
@@ -17179,21 +16374,21 @@
         "detailTiers": [
           {
             "projectedObjectHeightPx": "<6",
-            "keep": "Hill profile, stepped roofline and bay horizon; never flatten terrain."
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
           },
           {
             "projectedObjectHeightPx": "6\u201320",
-            "keep": "Attached row rhythm, level floors, stairs and street garages."
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
           },
           {
             "projectedObjectHeightPx": ">20",
-            "keep": "Equal stair risers, conforming curb, pitched parked car bodies; cable slot only on cable-car route."
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
           }
         ],
-        "evidenceStatus": "Authored visual and dimensional review targets, not survey or renderer calibration. 30% witness is illustrative, supported by published SF grades above30%; mapped street profiles override.",
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
         "terrain": {
-          "gradePercentProposal": 25,
-          "gradeDegrees": 14.0362,
+          "gradePercentProposal": 12,
+          "gradeDegrees": 6.8428,
           "profileLocalM": [
             [
               0,
@@ -17201,122 +16396,93 @@
             ],
             [
               20,
-              5.0
+              2.4
             ],
             [
               50,
-              12.5
+              6.0
             ],
             [
               100,
-              25
+              12
             ]
           ],
-          "production": "Authoring witness; replace with mapped DEM profiles. Level floors, vertical walls, conforming curbs, stepped foundations."
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
         },
-        "signatureElements": "25% north-facing hill reconstruction: street drops toward Bay, attached varied-pastel rows, level floors, stepped garages/stairs, pitched generic parked cars and sparse trees. No downtown across the northern water.",
-        "sourceImagePath": "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png",
-        "sourceStatus": "SF look-reference based steep block reconstruction; camera reframed at crest, not registered to a real block capture.",
-        "revision": "sf-r2",
-        "status": "current",
-        "supersedes": "../sf/sf-block.html",
-        "references": [
-          "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/sf/sf-district-04.png"
-        ],
-        "operation": "generate",
-        "prompt": "Use case: stylized-concept. WorldEngine SF hero-market architectural visualization. Image reference supplies rich warm clear-afternoon light and grounded simplified 3D material treatment ONLY. Real proportions, leaning architectural realism, rich restrained colour, soft bevels, opaque flat glazing, plain MATTE surfaces. No photo textures, individual bricks, leaf-level detail, grass blades, toy proportions or cartoon outlines. No people animals dogs characters app content brands logos signage text badges murals or public art. NO Chicago elements, no Willis/Sears bundled stepped skyscraper with antenna pair, no ballpark or stadium bowl, no elevated rail or viaduct crossing streets ANYWHERE. Skyline if visible: San Francisco rounded-top tapered tallest tower, slim pyramid-roof tower, lower downtown cluster; do not repeat a foreign skyline. Bridges only in geography-plausible separate mapped sightlines; never place both in one fake panorama. Smaller narrow sparse street trees about 5m high, crown2.5m wide, separated by20m or more, extensive treeless frontage. Buildings vertical and floors level, real stepped foundations. One WIDE single-image block paint-over, eye-level1.6m at CREST of25% street dropping steeply toward northern BAY. Camera sees foreground crest and severe drop, street ends far BELOW eye-height, water beyond. Real SF zero-gap ATTACHED7.6m rows on both sides, each facade different pastel colour,3\u20135 Victorian trim colours, stepped foundations/street-level garages and long stair runs, all floors LEVEL. Important steepness evidence: downhill rooflines descend strongly relative to horizon, driveway thresholds step, sloping curb and stairs visible. Two generic compact parked cars parallel-to-curb with their bodies PITCHED along road slope and front wheels turned against curb, no car badges. Almost no trees. No rail, no bridge crossing, no downtown on north shore. This is the hero SF block, unmistakable hill city, not a mild flat suburb."
+        "signatureElements": "Sloped street with level-floor Victorian / Edwardian rows; stepped entries and compact frontage",
+        "sourceImagePath": "~/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/lakeview-postcard.png",
+        "sourceStatus": "Existing WorldEngine camera composition framework, not a captured SF block; terrain and architecture adapted."
       },
       "streetCharacter": {
-        "note": "Attached pastel rows, hill terrain, small narrow intermittent street trees and treeless frontage. Marina/Mission/waterfront remain relatively flat. Oakland detached yard and modern mid-rise are distinct kept families.",
+        "note": "Stepped lot foundations and entries on hills; narrow attached frontages and bay-window rhythm. Concrete sidewalks, small tree pits, selective planted front gardens. Oakland Craftsman has distinct detached yard/porch grain. Coastal exposure and mapped species govern trees; no palm default. Utilities and rail/cable routes from mapped geometry only.",
+        "trees": [
+          "London plane (candidate)",
+          "Brisbane box (candidate)",
+          "coast live oak (candidate Oakland/yard)"
+        ],
+        "treeEvidence": "Illustrative candidates; no citywide abundance claim.",
         "sidewalkWidthMProposal": 2.4,
         "curbHeightMProposal": 0.15,
-        "overheadWires": "Mapped cable-car route has no trolley wires; waterfront streetcar uses overhead wire."
+        "sidewalkHex": "#BCB9AF",
+        "overheadWires": "Actual mapped overhead electric streetcar wires only; cable cars use underground cable and no trolley wire."
       },
       "weatherStates": [
         {
-          "id": "sf-fog-advection",
-          "baseMSLM": 0,
-          "topMSLM": 360,
-          "westVisibilityM": 180,
-          "eastVisibilityM": 12000,
-          "edgeTransitionWidthM": 350,
-          "westSunScale01": 0.12,
-          "eastSunScale01": 1,
-          "fogHex": "#C1CACD",
-          "cloudCoverageWest01": 1,
-          "cloudCoverageEast01": 0.15,
-          "softHeightTransitionM": 30,
-          "fogLinearRGB": [
-            0.533276,
-            0.590619,
-            0.610496
-          ],
-          "numbersStatus": "Authored review target, not meteorological observation.",
-          "nearClearM": 5,
-          "extinctionPerM": 0.017118470134594232,
-          "signatureElements": "Western advection bank over hills and ridge mast; Golden Gate towers swallowed; downtown/east side remain sunny. Separate geography-plausible viewpoints."
+          "id": "clear",
+          "source": "sharedLighting unchanged"
         },
         {
-          "id": "sf-fog-offshore-sunset",
-          "baseMSLM": 0,
-          "topMSLM": 150,
-          "offshoreDistanceM": 1000,
-          "edgeTransitionWidthM": 250,
-          "clearLandVisibilityM": 10000,
-          "bankVisibilityM": 250,
-          "sunElevationDeg": 4,
-          "sunAzimuthDeg": 270,
-          "sunHex": "#FFD09A",
-          "fogHex": "#AABAC5",
-          "exposureEV": 0.15,
-          "softHeightTransitionM": 30,
-          "fogLinearRGB": [
-            0.401978,
-            0.491021,
-            0.55834
-          ],
-          "numbersStatus": "Authored review target, not meteorological observation.",
+          "id": "marine-layer",
+          "cloudBaseMSLMProposal": 120,
+          "cloudTopMSLMProposal": 350,
+          "streetElevationMSLMProposal": 20,
+          "cloudCoverage01": 0.95,
+          "horizontalContrastVisibilityMProposal": 2000,
           "nearClearM": 5,
-          "extinctionPerM": 0.01222747866756731,
-          "signatureElements": "West-facing coastal street / aerial / far views: broad low grey-blue offshore fog bank, warm sunset rim, clear land and no eastern downtown skyline."
+          "extinctionPerM": 0.0015016201872451083,
+          "fogHex": "#C1CACD",
+          "directSunRelativeClear": 0.25,
+          "exposureRelativeEV": 0.15,
+          "status": "Authored review scenario; cloud observations/model layers replace heights and attenuation."
         },
         {
-          "id": "sf-june-gloom",
-          "baseMSLM": 180,
-          "topMSLM": 500,
-          "cloudCoverage01": 1,
-          "horizontalVisibilityM": 3000,
-          "hillIntersectionFadeM": 40,
-          "sunScale01": 0,
-          "fogHex": "#C1CACD",
-          "ceilingHex": "#B9C3C8",
-          "exposureEV": 0.15,
-          "softHeightTransitionM": 30,
-          "fogLinearRGB": [
-            0.533276,
-            0.590619,
-            0.610496
-          ],
-          "numbersStatus": "Authored review target, not meteorological observation.",
+          "id": "surface-fog",
+          "cloudBaseMSLMProposal": 0,
+          "cloudTopMSLMProposal": 200,
+          "streetElevationMSLMProposal": 20,
+          "horizontalContrastVisibilityMProposal": 220,
           "nearClearM": 5,
-          "extinctionPerM": 0.0010002444986824677,
-          "signatureElements": "Full-overcast flat grey low-stratus ceiling; diffuse near-street light; upper hillside and ridge mast cut off by cloud, with no blue-sky gaps."
+          "extinctionPerM": 0.01393363848164647,
+          "fogHex": "#C1CACD",
+          "directSunRelativeClear": 0.15,
+          "exposureRelativeEV": 0.15,
+          "status": "Authored marine-layer extension; no shallow ground-fog substitution."
         }
       ],
       "slopeWitness": {
-        "gradePercent": 30,
-        "locationScope": "Illustrative unnamed SF hill; not an asserted measured30% segment",
-        "publishedContext": "DOT/Volpe lists Filbert31.5%; archived SFMTA cable route witness21%",
+        "gradePercent": 21,
+        "gradeDegrees": 11.8598,
+        "locationScope": "Hyde between Bay and Francisco, historic SFMTA route specification; not Alamo Square or Pacific Heights survey",
+        "source": "https://archives.sfmta.com/cms/rhomemu/genmuinfo.htm",
         "profileLocalM": [
           [
             0,
             0
           ],
           [
+            20,
+            4.2
+          ],
+          [
+            50,
+            10.5
+          ],
+          [
             100,
-            30
+            21
           ]
-        ]
+        ],
+        "status": "Published historic grade witness; contemporary block profile and exact elevation datum require mapped/surveyed data."
       },
       "sourceUrls": [
         "https://sfplanning.org/project/sf-histories-historic-context-statements",
@@ -17329,11 +16495,10 @@
         "https://archives.sfmta.com/cms/rhomemu/genmuinfo.htm",
         "https://www.weather.gov/media/sgx/marine/BoatersWeatherBooklet.pdf",
         "https://www.goldengate.org/bridge/history-research/statistics-data/design-construction-stats/"
-      ],
-      "revision": "sf-r2"
+      ]
     }
   ],
-  "revision": "Southern differentiation v2 + SF hero-market sf-r2",
+  "revision": "SF expansion and Southern differentiation v2",
   "supersededFiles": [
     "atlanta-block-sheet-superseded-v1.png",
     "atlanta-block-superseded-v1.html",
@@ -17419,789 +16584,5 @@
     "nashville-house-04-superseded-v1.png",
     "prompts-superseded-v1.json"
   ],
-  "sfValuesFile": "sf-r2/sf-values.json",
-  "sfRevisionValues": {
-    "slopeRanges": {
-      "units": "percent rise / horizontal run, not degrees",
-      "heroHillPercent": [
-        15,
-        30
-      ],
-      "blockReviewPercent": 25,
-      "cableCarReviewPercent": 21,
-      "witnessPercent": 30,
-      "witnessDegrees": 16.699244,
-      "witnessRunM": 100,
-      "witnessRiseM": 30,
-      "flatDistricts": {
-        "Marina": [
-          0,
-          3
-        ],
-        "Mission": [
-          0,
-          4
-        ],
-        "SoMa": [
-          0,
-          3
-        ],
-        "Embarcadero": [
-          0,
-          2
-        ]
-      },
-      "SunsetRollingProposalPercent": [
-        0,
-        12
-      ],
-      "production": "Actual mapped DEM profiles override each authored range; this does not assign a30% cable-car grade. Published Filbert witness31.5% supports feasibility; this pack does not claim a surveyed30% block."
-    },
-    "lotWidths": {
-      "attachedTypicalM": 7.6,
-      "25ftExactM": 7.62,
-      "authoredTypicalVsExact": "7.6m rounded proposal; preserve exact parcel width when mapped.",
-      "attachedRangeProposalM": [
-        6.1,
-        9.1
-      ],
-      "openSideGapM": 0,
-      "sharedPartyWall": true,
-      "OaklandCraftsman": "Detached mapped yard geometry retained; SF row rule does not apply."
-    },
-    "treeSpacing": {
-      "sfDefaultSpacingM": 22,
-      "sfReviewRangeM": [
-        18,
-        35
-      ],
-      "sfTreeHeightM": [
-        4,
-        7
-      ],
-      "sfCrownWidthM": [
-        2,
-        3.5
-      ],
-      "sfNarrowCrownHeroM": 2.5,
-      "sfHeroHeightM": 5,
-      "streetRunTreelessShareProposal01": 0.6,
-      "treelessBlockTreeCount": 0,
-      "minimumCrownGapM": 10,
-      "OaklandException": {
-        "spacingM": [
-          10,
-          18
-        ],
-        "heightM": [
-          6,
-          10
-        ],
-        "crownWidthM": [
-          4,
-          7
-        ]
-      },
-      "production": "Use mapped inventory and actual planting geometry; ranges are rendering review targets, not an empirical municipal inventory."
-    },
-    "palettePerArchetype": {
-      "sf-house-01": [
-        {
-          "wallHex": "#C78696",
-          "trimHex": "#F1D9B7",
-          "accentHexes": [
-            "#577F83",
-            "#A85B5F"
-          ],
-          "coloursPerFacade": 4,
-          "linearRGB": [
-            [
-              0.571125,
-              0.238398,
-              0.304987
-            ],
-            [
-              0.879622,
-              0.693872,
-              0.473531
-            ],
-            [
-              0.095307,
-              0.212231,
-              0.226966
-            ],
-            [
-              0.391572,
-              0.104616,
-              0.114435
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#83A99B",
-          "trimHex": "#F0E7CB",
-          "accentHexes": [
-            "#466B79",
-            "#BA8457"
-          ],
-          "coloursPerFacade": 4,
-          "linearRGB": [
-            [
-              0.226966,
-              0.396755,
-              0.327778
-            ],
-            [
-              0.871367,
-              0.799103,
-              0.597202
-            ],
-            [
-              0.061246,
-              0.147027,
-              0.191202
-            ],
-            [
-              0.491021,
-              0.23074,
-              0.095307
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#D7B56E",
-          "trimHex": "#F3E5C8",
-          "accentHexes": [
-            "#805E88",
-            "#5D8184"
-          ],
-          "coloursPerFacade": 4,
-          "linearRGB": [
-            [
-              0.679542,
-              0.462077,
-              0.155926
-            ],
-            [
-              0.896269,
-              0.783538,
-              0.57758
-            ],
-            [
-              0.215861,
-              0.111932,
-              0.246201
-            ],
-            [
-              0.109462,
-              0.219526,
-              0.23074
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#9C9FBF",
-          "trimHex": "#F0DDC8",
-          "accentHexes": [
-            "#637D87",
-            "#B67B72"
-          ],
-          "coloursPerFacade": 4,
-          "linearRGB": [
-            [
-              0.332452,
-              0.346704,
-              0.520996
-            ],
-            [
-              0.871367,
-              0.723055,
-              0.57758
-            ],
-            [
-              0.124772,
-              0.205079,
-              0.242281
-            ],
-            [
-              0.467784,
-              0.198069,
-              0.168269
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#C9957E",
-          "trimHex": "#F1E4C9",
-          "accentHexes": [
-            "#5C8176",
-            "#855F7B"
-          ],
-          "coloursPerFacade": 4,
-          "linearRGB": [
-            [
-              0.584078,
-              0.300544,
-              0.208637
-            ],
-            [
-              0.879622,
-              0.775822,
-              0.584078
-            ],
-            [
-              0.107023,
-              0.219526,
-              0.181164
-            ],
-            [
-              0.234551,
-              0.114435,
-              0.198069
-            ]
-          ],
-          "roughness01": 0.86
-        }
-      ],
-      "sf-house-02": [
-        {
-          "wallHex": "#BAD0BE",
-          "trimHex": "#F2EBDF",
-          "accentHexes": [
-            "#718D91"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.491021,
-              0.630757,
-              0.514918
-            ],
-            [
-              0.887923,
-              0.83077,
-              0.73791
-            ],
-            [
-              0.165132,
-              0.266356,
-              0.283149
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#DABFC4",
-          "trimHex": "#F1E9DC",
-          "accentHexes": [
-            "#868AAB"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.701102,
-              0.520996,
-              0.552011
-            ],
-            [
-              0.879622,
-              0.814847,
-              0.715694
-            ],
-            [
-              0.238398,
-              0.254152,
-              0.40724
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#ECDED0",
-          "trimHex": "#FFFFFF",
-          "accentHexes": [
-            "#76978F"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.838799,
-              0.730461,
-              0.630757
-            ],
-            [
-              1.0,
-              1.0,
-              1.0
-            ],
-            [
-              0.181164,
-              0.309469,
-              0.274677
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#BDCDE0",
-          "trimHex": "#F4EFE2",
-          "accentHexes": [
-            "#748D95"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.508881,
-              0.610496,
-              0.745404
-            ],
-            [
-              0.904661,
-              0.863157,
-              0.760525
-            ],
-            [
-              0.174647,
-              0.266356,
-              0.300544
-            ]
-          ],
-          "roughness01": 0.86
-        }
-      ],
-      "sf-house-03": [
-        {
-          "wallHex": "#F1EBDD",
-          "trimHex": "#FFFFFF",
-          "accentHexes": [
-            "#C5A181"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.879622,
-              0.83077,
-              0.723055
-            ],
-            [
-              1.0,
-              1.0,
-              1.0
-            ],
-            [
-              0.55834,
-              0.3564,
-              0.219526
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#C8DACC",
-          "trimHex": "#F5F2E8",
-          "accentHexes": [
-            "#879C91"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.57758,
-              0.701102,
-              0.603827
-            ],
-            [
-              0.913099,
-              0.887923,
-              0.806952
-            ],
-            [
-              0.242281,
-              0.332452,
-              0.283149
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#E6CBBE",
-          "trimHex": "#FCF5E7",
-          "accentHexes": [
-            "#AE8E78"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.791298,
-              0.597202,
-              0.514918
-            ],
-            [
-              0.973445,
-              0.913099,
-              0.799103
-            ],
-            [
-              0.423268,
-              0.270498,
-              0.187821
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#C8D9DF",
-          "trimHex": "#F2ECE2",
-          "accentHexes": [
-            "#879FA4"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.57758,
-              0.693872,
-              0.73791
-            ],
-            [
-              0.887923,
-              0.838799,
-              0.760525
-            ],
-            [
-              0.242281,
-              0.346704,
-              0.371238
-            ]
-          ],
-          "roughness01": 0.86
-        }
-      ],
-      "sf-house-04": [
-        {
-          "wallHex": "#E7DDD0",
-          "trimHex": "#F7F2E9",
-          "accentHexes": [
-            "#8B9895"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.799103,
-              0.723055,
-              0.630757
-            ],
-            [
-              0.930111,
-              0.887923,
-              0.814847
-            ],
-            [
-              0.258183,
-              0.313989,
-              0.300544
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#C5D5C5",
-          "trimHex": "#F7EFE0",
-          "accentHexes": [
-            "#758A83"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.55834,
-              0.665387,
-              0.55834
-            ],
-            [
-              0.930111,
-              0.863157,
-              0.745404
-            ],
-            [
-              0.177888,
-              0.254152,
-              0.226966
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#DEBEBF",
-          "trimHex": "#F6EADC",
-          "accentHexes": [
-            "#987B80"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.730461,
-              0.514918,
-              0.520996
-            ],
-            [
-              0.921582,
-              0.822786,
-              0.715694
-            ],
-            [
-              0.313989,
-              0.198069,
-              0.215861
-            ]
-          ],
-          "roughness01": 0.86
-        },
-        {
-          "wallHex": "#BECEDF",
-          "trimHex": "#F2EADF",
-          "accentHexes": [
-            "#7A909E"
-          ],
-          "coloursPerFacade": 3,
-          "linearRGB": [
-            [
-              0.514918,
-              0.617207,
-              0.73791
-            ],
-            [
-              0.887923,
-              0.822786,
-              0.73791
-            ],
-            [
-              0.194618,
-              0.278894,
-              0.341914
-            ]
-          ],
-          "roughness01": 0.86
-        }
-      ],
-      "sf-house-05": [
-        {
-          "wallHex": "#879D88",
-          "trimHex": "#DACBB1",
-          "roofHex": "#62625D",
-          "glassHex": "#425A68",
-          "surfaceValues": {
-            "wall": {
-              "hex": "#879D88",
-              "linearRGB": [
-                0.242281,
-                0.337164,
-                0.246201
-              ],
-              "linearLuminance": 0.310424,
-              "roughness01": 0.86
-            },
-            "trim": {
-              "hex": "#DACBB1",
-              "linearRGB": [
-                0.701102,
-                0.597202,
-                0.439657
-              ],
-              "linearLuminance": 0.607916,
-              "roughness01": 0.8
-            },
-            "roof": {
-              "hex": "#62625D",
-              "linearRGB": [
-                0.122139,
-                0.122139,
-                0.109462
-              ],
-              "linearLuminance": 0.121223,
-              "roughness01": 0.9
-            },
-            "glass": {
-              "hex": "#425A68",
-              "linearRGB": [
-                0.05448,
-                0.102242,
-                0.138432
-              ],
-              "linearLuminance": 0.094701,
-              "roughness01": 0.5
-            }
-          }
-        }
-      ],
-      "sf-house-06": [
-        {
-          "wallHex": "#B9BBAF",
-          "trimHex": "#D9D5C7",
-          "roofHex": "#62625D",
-          "glassHex": "#425A68",
-          "surfaceValues": {
-            "wall": {
-              "hex": "#B9BBAF",
-              "linearRGB": [
-                0.48515,
-                0.496933,
-                0.42869
-              ],
-              "linearLuminance": 0.489501,
-              "roughness01": 0.86
-            },
-            "trim": {
-              "hex": "#D9D5C7",
-              "linearRGB": [
-                0.693872,
-                0.665387,
-                0.571125
-              ],
-              "linearLuminance": 0.664637,
-              "roughness01": 0.8
-            },
-            "roof": {
-              "hex": "#62625D",
-              "linearRGB": [
-                0.122139,
-                0.122139,
-                0.109462
-              ],
-              "linearLuminance": 0.121223,
-              "roughness01": 0.9
-            },
-            "glass": {
-              "hex": "#425A68",
-              "linearRGB": [
-                0.05448,
-                0.102242,
-                0.138432
-              ],
-              "linearLuminance": 0.094701,
-              "roughness01": 0.5
-            }
-          }
-        }
-      ]
-    },
-    "fogHeightBands": {
-      "sf-fog-advection": {
-        "baseMSLM": 0,
-        "topMSLM": 360,
-        "westVisibilityM": 180,
-        "eastVisibilityM": 12000,
-        "edgeTransitionWidthM": 350,
-        "westSunScale01": 0.12,
-        "eastSunScale01": 1,
-        "fogHex": "#C1CACD",
-        "cloudCoverageWest01": 1,
-        "cloudCoverageEast01": 0.15,
-        "softHeightTransitionM": 30,
-        "fogLinearRGB": [
-          0.533276,
-          0.590619,
-          0.610496
-        ],
-        "numbersStatus": "Authored review target, not meteorological observation.",
-        "nearClearM": 5,
-        "extinctionPerM": 0.017118470134594232
-      },
-      "sf-fog-offshore-sunset": {
-        "baseMSLM": 0,
-        "topMSLM": 150,
-        "offshoreDistanceM": 1000,
-        "edgeTransitionWidthM": 250,
-        "clearLandVisibilityM": 10000,
-        "bankVisibilityM": 250,
-        "sunElevationDeg": 4,
-        "sunAzimuthDeg": 270,
-        "sunHex": "#FFD09A",
-        "fogHex": "#AABAC5",
-        "exposureEV": 0.15,
-        "softHeightTransitionM": 30,
-        "fogLinearRGB": [
-          0.401978,
-          0.491021,
-          0.55834
-        ],
-        "numbersStatus": "Authored review target, not meteorological observation.",
-        "nearClearM": 5,
-        "extinctionPerM": 0.01222747866756731
-      },
-      "sf-june-gloom": {
-        "baseMSLM": 180,
-        "topMSLM": 500,
-        "cloudCoverage01": 1,
-        "horizontalVisibilityM": 3000,
-        "hillIntersectionFadeM": 40,
-        "sunScale01": 0,
-        "fogHex": "#C1CACD",
-        "ceilingHex": "#B9C3C8",
-        "exposureEV": 0.15,
-        "softHeightTransitionM": 30,
-        "fogLinearRGB": [
-          0.533276,
-          0.590619,
-          0.610496
-        ],
-        "numbersStatus": "Authored review target, not meteorological observation.",
-        "nearClearM": 5,
-        "extinctionPerM": 0.0010002444986824677
-      }
-    },
-    "fogSpatialPolicy": {
-      "datum": "MSL; convert each eye/cloud point through mapped terrain elevation, never confuse AGL with MSL",
-      "advectionDirection": "Pacific west to east through mapped western ridge gaps and Golden Gate",
-      "regionalMask": "Terrain/coast-aligned western cloud-density field with350m horizontal transition; east/downtown density0 in the advection review state, not a uniform citywide fog plane",
-      "hilltops": "Clip / soften where world elevation intersects cloudbase/top; hilltops at sufficient height can emerge or be obscured according to the cloud band",
-      "advectionVsGloom": "Incoming-west mask and full-overcast low ceiling are separate states; live conditions choose mask and cloudbase",
-      "composition": "Do not relocate bridges, downtown or western hills to fit a single camera; separate vantage panels when geography requires it",
-      "extinction": "T=exp(-sigma * integrated density-path metres). Colour blend in linear light once, before exposure. No duplicate distance blur/saturation fade."
-    },
-    "skylinePolicy": {
-      "allowed": [
-        "rounded-top tallest downtown tower",
-        "pyramid-roof tower silhouette",
-        "Bay Bridge separate west/east spans",
-        "Golden Gate orange portals",
-        "Twin Peaks / Sutro-style ridge mast"
-      ],
-      "forbidden": [
-        "Chicago bundled antenna tower",
-        "stadium / ballpark bowl",
-        "elevated neighborhood rail crossing"
-      ],
-      "positionAuthority": "Map and sightline occlusion; named cues are silhouette references, no branded model or signage."
-    },
-    "transitPolicy": {
-      "cableCar": {
-        "gradeWitnessPercent": 21,
-        "railGaugeProposalM": 1.067,
-        "cableSlotWidthMProposal": 0.05,
-        "overheadPower": false,
-        "route": "Mapped cable-car line, no invented transit corridor"
-      },
-      "historicStreetcar": {
-        "gradeProposalPercent": 0.5,
-        "railGaugeProposalM": 1.435,
-        "overheadPower": true,
-        "route": "Embarcadero waterfront line only in this pack",
-        "elevated": false
-      }
-    },
-    "parkedCarGeometry": {
-      "genericCarLengthM": 4.2,
-      "widthM": 1.8,
-      "bodyPitch": "atan(mappedGrade/100); tires contact sloping road",
-      "parkingAlignment": "Parallel to mapped curb, not diagonal stalls; steering wheels turned against curb per illustration",
-      "badgeOrBrand": false
-    },
-    "references": {
-      "visualAnchor": "../sf/sf-district-04.png",
-      "Bible": "Exact sharedLighting copied; Chicago calibration IMAGE never supplied to SF generation",
-      "map": "Positions, footprints, slopes and sightlines come from the map"
-    }
-  }
+  "sfValuesFile": "sf/sf-values.json"
 }

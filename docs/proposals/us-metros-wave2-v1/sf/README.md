@@ -1,3 +1,5 @@
+> **SUPERSEDED:** Use [SF r2](../sf-r2/index.html). All files here are preserved historical versions; earlier Chicago contamination and mild slopes are rejected.
+
 # San Francisco Bay Area — priority Style B pack
 
 Open [index.html](index.html). Six archetypes: Painted Lady Victorian, Edwardian flats, Marina-style stucco over garage, Sunset row house, Oakland Craftsman, modern mid-rise. Four districts: Pacific Heights / Alamo Square slope families, Mission, SoMa / downtown towers, Embarcadero waterfront. Extras: steep-street geometry, generic cable car, generic electric streetcar, overhead marine layer, surface marine fog, separate bridge silhouettes, and a block paint-over. Every artwork has an HTML/PNG specification sheet with metres, hexes and projected-size tiers.
