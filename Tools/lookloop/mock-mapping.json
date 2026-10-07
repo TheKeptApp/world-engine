@@ -615,7 +615,11 @@
         "path": "states.ordinary-1530.keyFill"
       },
       "transform": "raw, transform not modelled",
-      "note": "daytime master; key:fill witness .613 vs bible keyFill 2.2; master says do NOT also apply the legacy 2.2 ratio (definitions differ, compared raw)"
+      "note": "daytime master; key:fill witness .613 vs bible keyFill 2.2; master says do NOT also apply the legacy 2.2 ratio (definitions differ, compared raw)",
+      "calibration": {
+        "block": "daytimeMaster",
+        "note": "5A calibration (look.json daytimeMaster key 0.6, fill 1.65): effective key:fill on a neutral witness about 0.613 vs mock 0.6129 (5A, 7 Oct; docs/look-spec-changes.md); legacy 2.2 applies outside clear daytime"
+      }
     },
     {
       "mock": "house-contrast-v1/sharedLighting.exposure.relativeEV",
@@ -626,7 +630,11 @@
       },
       "transform": "raw, transform not modelled",
       "note": "daytime master; relative EV vs bible ordinary-1530 ev (E0 references differ)",
-      "phase5b": "phase5b paintover-grade.json (909eed2) states.ordinary-1530.exposureEV 0.3"
+      "phase5b": "phase5b paintover-grade.json (909eed2) states.ordinary-1530.exposureEV 0.3",
+      "calibration": {
+        "block": "daytimeMaster",
+        "note": "5A calibration: realised as auto-exposure target 131.3 Y8 (the four heroes' measured mean display brightness), not a +EV gain (docs/look-spec-changes.md)"
+      }
     },
     {
       "mock": "house-contrast-v1/sharedLighting.exposure.saturationFactor",

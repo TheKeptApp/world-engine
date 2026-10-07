@@ -791,6 +791,165 @@
       "facade": {
         "cornice": true
       }
+    },
+    "bungalow": {
+      "details": {
+        "pack": "denver_bungalow",
+        "trim": [
+          "#E8C883",
+          "#FFE5AF"
+        ],
+        "eave": [
+          0.6,
+          0.9
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "porch": {
+          "posts": "tapered",
+          "postWidth": [
+            0.28,
+            0.34
+          ],
+          "pierHeight": [
+            0.8,
+            1.0
+          ],
+          "roof": "gable",
+          "pitch": 30
+        },
+        "stoop": {
+          "width": [
+            1.3,
+            1.7
+          ]
+        }
+      }
+    },
+    "foursquare": {
+      "details": {
+        "pack": "denver_bungalow (porch); foursquare is not a pack family",
+        "trim": [
+          "#E8C883",
+          "#FFE5AF"
+        ],
+        "eave": [
+          0.5,
+          0.75
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "porch": {
+          "posts": "tapered",
+          "postWidth": [
+            0.26,
+            0.32
+          ],
+          "pierHeight": [
+            0.8,
+            1.0
+          ],
+          "roof": "hip"
+        },
+        "stoop": {
+          "width": [
+            1.3,
+            1.7
+          ]
+        }
+      }
+    },
+    "ranch": {
+      "facade": {
+        "porchStyle": "covered",
+        "porchLikelihood": 0.35
+      },
+      "details": {
+        "pack": "denver_ranch",
+        "trim": [
+          "#E6CA8E",
+          "#F9E4B8"
+        ],
+        "eave": [
+          0.45,
+          0.8
+        ],
+        "corners": "chamfer",
+        "foundation": [
+          0.15,
+          0.35
+        ],
+        "porch": {
+          "posts": "square",
+          "postWidth": [
+            0.12,
+            0.16
+          ],
+          "roof": "shed",
+          "pitch": 12,
+          "depth": [
+            1.2,
+            1.6
+          ],
+          "frontage": [
+            0.25,
+            0.4
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.2,
+            1.5
+          ]
+        }
+      }
+    },
+    "cottage": {
+      "facade": {
+        "porchStyle": "covered",
+        "porchLikelihood": 0.55
+      },
+      "details": {
+        "pack": "denver_victorian",
+        "trim": [
+          "#EDC774",
+          "#FFE6AE"
+        ],
+        "eave": [
+          0.3,
+          0.5
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "foundation": [
+          0.6,
+          0.95
+        ],
+        "porch": {
+          "posts": "turned",
+          "postWidth": [
+            0.13,
+            0.17
+          ],
+          "rail": true,
+          "brackets": true,
+          "roof": "hip",
+          "depth": [
+            1.4,
+            1.8
+          ],
+          "frontage": [
+            0.3,
+            0.45
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.1,
+            1.3
+          ]
+        }
+      }
     }
   }
 }

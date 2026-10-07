@@ -51,6 +51,8 @@ From ChatGPT's data-layers research (`docs/research-gpt/data-layers-research-v1/
 - **PROPOSED — rights order:** our own apps use a layer first; licensed or redistributed products include it only after its rights are confirmed (`docs/research/licensing.md` §16, Q44–Q46).
 - **PROPOSED — water:** USGS legacy water services retire in February 2027, so any water layer uses the new USGS APIs from day one.
 - **PROPOSED — snow states need weather history:** how much snow lies on the ground depends on snowfall over the last 1–3 days and on melt, not just today's weather. A future P1 data task supplies that history to the snow states.
+- **PROPOSED — ground-state layer** (P1, after the look gate's data needs): wet / dry / snow / ice per area, labelled "estimated", built from NOAA data (MRMS rain, NOHRSC / SNODAS snow, melt) plus our own sun and shadow. Owner-decided weather source rules are in `docs/decisions/owner-log.md` (2026-10-07).
+- **Planned change — NOAA HRRR → RRFS:** NOAA plans to replace the HRRR short-range model with RRFS; the research cites a 3 Nov 2026 implementation notice, but dates conflict and need confirming. P1 plans the switch for any HRRR-derived input.
 - **Hosting estimate (hypothetical, not a plan):** Cloudflare R2 storage and reads about $1.35–70 a month for 10k–1M monthly users, under the research's assumptions (100 GB stored, 200 origin requests and 100 MB per user a month, no edge caching; delivery, compute, live APIs and taxes excluded).
 
 
@@ -67,3 +69,22 @@ Nothing in this section is decided. Owners are the proposed lanes.
    - c) No crime mapping or crime heat overlays; safety appears only as official alerts.
    - Every item shows its source and time, and a "summary" label when AI-written.
 5. **PROPOSED — on-device AI, optional extra:** plain-language map questions, a "your block" weather brief, one-line alert summaries, using Apple's on-device Foundation Models (iOS 26, iPhone 15 Pro and newer only) with a non-AI fallback. AI text is never shown as observed data. Ships with the weather-for-your-block app, not the engine core.
+
+## Creator kit — PROPOSED (R's lead wedge candidate; pending creator-kit-demand-v1 research)
+
+Nothing in this section is decided. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
+
+1. **PROPOSED — creator kit:** non-technical users start from a ready-made view of their real place, add detail from a Style B parts kit, and share or embed a live view (weather, sun, time).
+   - Paid tiers: free private builds; per event; per site monthly; business tier. Prices to be set from the research.
+   - First segment candidate: race and event organizers.
+2. **PROPOSED — trust model (protects the base map):**
+   - Two layers: the base map (verified) and customer overlays (private to their build or share). Overlays never change the base map.
+   - Temporary items (routes, tents, phases) carry dates and expire.
+   - Permanent facts (shape, roof, door, species) are promoted only with evidence: agreement with other data, independent confirmations or a verified owner, and automatic sanity checks.
+   - Contributors have trust levels; verified owners are prioritized for their own property.
+   - Every fact is labelled observed, community or owner-verified, with author and date. Everything is reversible through stable IDs and the migration map, with bulk revert for vandal accounts.
+   - Promotions are reviewed by a person at first, with agent-assisted triage.
+3. **PROPOSED — community corrections:** users fixing doors, species and roofs on their block feed the same promotion pipeline.
+4. **PROPOSED — official partner builds** (universities, stadiums) with licensed logos and colours, as a partnership product. Outside partner builds, the legal lines above still apply (no logos on models).
+
+Lawyer questions: `docs/research/licensing.md` Q49–Q52 (user-content ownership and licence including ODbL, contributor warranties, takedown/DMCA, logos and trademarks in user builds). The engine stays generic (CLAUDE.md): the kit, accounts and user content belong to the app and a service, not the engine.

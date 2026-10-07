@@ -39,3 +39,9 @@
 ## Waiting on the owner
 
 Nothing.
+
+## Session start (standing, owner 7 Oct 2026)
+
+1. Sweep `~/Desktop/worldengine-gpt-drop/` and file new packs (`Tools/lookloop/ingest_drop.py`).
+2. Bring the Desktop checkout (`~/Desktop/world-engine`, which ChatGPT and INDEX.md image paths use) up to date with main. Never switch it while another lane's job runs there or while it holds unpushed commits; report the blocker instead. Gitignored mock images under `docs/proposals/` must stay in place (count per pack before and after).
+3. Next run: re-baseline the four `-afternoon` hero views (§M closeness) and confirm or clear the v2-06 flag.

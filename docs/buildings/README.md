@@ -292,6 +292,36 @@ Per family, Lakeview near (before → after): bungalow 258 → 283, stacked bric
 | Lakeview, W Roscoe St | ![](facades/details-lakeview-street.jpg) |
 | Two-flat stoops with cheek walls, cornice caps | ![](facades/details-lakeview-stoops.jpg) |
 
+### Group 3: Denver (front-range: bungalow, foursquare, ranch, cottage)
+
+New `house-families.json` entries for the front-range type IDs carry only `details` (and, for ranch
+and cottage, the covered-porch roll); everything else about them is unchanged.
+
+| Family | Pack recipe | What it gets |
+|---|---|---|
+| Bungalow | denver_bungalow | trim; eave 0.6–0.9 m; front-gable porch (profile 80 %) on brick piers 0.8–1.0 m high with tapered posts; relief casings; chamfers |
+| Foursquare | (none; denver_bungalow porch) | hip-roofed porch on brick piers with tapered posts; eave 0.5–0.75 m |
+| Ranch | denver_ranch | low floor 0.15–0.35 m (1–2 risers); small shed-roofed entry porch (35 %) on slender 0.12–0.16 m posts; eave 0.45–0.8 m |
+| Cottage | denver_victorian | raised floor 0.6–0.95 m; small porch (55 %) with slim turned posts, brackets, rails and hip roof; relief casings |
+| Modern, duplex | none | unchanged |
+
+| Area | Near tris/km² | Mid | Far | Skyline |
+|---|---|---|---|---|
+| Sloan's Lake (1.92 km²), origin/main → group 3 | 211.9k → 228.6k (+7.9 %) | 94.0k → 102.8k (+9.4 %) | 46.1k → 46.6k (+1.1 %) | unchanged |
+
+Per family near (before → after): bungalow 394 → 447, foursquare 571 → 651, ranch 513 → 520,
+cottage 367 → 462.
+
+| View | Sheet |
+|---|---|
+| Denver bungalows (front-range gallery, rectangle and deep lots) | ![](facades/details-denver-bungalows.jpg) |
+| Sloan's Lake, Perry St (mostly modern/duplex: little changes) | ![](facades/details-sloans-street.jpg) |
+
+Not built (left for later): wrap-around porches (Queen Anne), Chicago bungalow recessed corner porch
+(the mapped footprint would have to be cut), rafter tails and gable brackets (Denver bungalow),
+shutters outside Colonial, dormer cheek trim, step nosing chamfers (sub-pixel beyond 10 m), Tudor
+leaded glass and other painted 10 m marks (no texture channel in the building material).
+
 ## Decisions: zones and yards (round 2)
 
 22. **Per-building zone profiles.** Without a forced profile, each building takes the `regions.json`

@@ -254,9 +254,9 @@ def main():
         # Fingerprints as of grading time: GRADING.md may change between plan and finish. Only when the
         # rendered code is still what was captured; otherwise a checkout moved on since capture (6 Oct 2026:
         # finishing a2c818b's run at a later HEAD stamped its frames with that HEAD and hid the next change).
-        from plan import fingerprints, git
+        from plan import fingerprints, git as plan_git
         render = ("Sources", "Apps/WorldLab", "Package.swift", "Data/areas")
-        moved = meta.get("commit") and any(git("rev-parse", f"{meta['commit']}:{p}").strip() != git("rev-parse", f"HEAD:{p}").strip()
+        moved = meta.get("commit") and any(plan_git("rev-parse", f"{meta['commit']}:{p}").strip() != plan_git("rev-parse", f"HEAD:{p}").strip()
                                            for p in render)
         if moved:
             print(f"finish: checkout moved past {meta['commit']} in rendered code; keeping capture-time fingerprints")
