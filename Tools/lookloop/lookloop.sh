@@ -46,6 +46,7 @@ run, rel, model, manifest = sys.argv[1:5]
 meta = json.load(open(os.path.join(run, "run.json")))
 reused = set(meta.get("reused", []))
 inapp = "in-app" in meta.get("frameSource", "")
+views = {v["id"]: v for v in json.load(open(os.path.join(run[:-len(rel)], manifest))).get("views", [])} if os.path.exists(os.path.join(run[:-len(rel)], manifest)) else {}
 ids = sorted(f[:-4] for f in os.listdir(os.path.join(run, "sheets")) if f.endswith(".jpg") and f[:-4] not in reused)
 lines = [f"# Reviewer prompts: {len(ids)} view(s), model `{model}`", "",
          f"Spawn one `{model}` sub-agent per line, all in parallel (general-purpose agent; it needs Read and Write). "
@@ -57,6 +58,10 @@ for i in ids:
         f"look-loop run `{rel}`. Read GRADING.md first, then the view entry in {manifest}, the `{i}` entry in {rel}/signals.json, "
         f"the contact sheet {rel}/sheets/{i}.jpg, the full frame {rel}/frames/{i}.jpg and the target PNG(s) if any. "
         + ("Frames in this run are WorldLab in-app captures (no UI): do not raise osm-credit-missing (the credit is checked on the UI screenshots). " if inapp else "")
+        + (f"This view has an approved mock captured at its own conditions: compare the frame at phone size against {views[i]['mock']} "
+           f"(if it is not in this checkout, use ~/Desktop/world-engine/{views[i]['mock']}) and include \"mockGap\" "
+           f"(GRADING.md section M: mock, closeness 1-5, at most 3 gaps). " if views.get(i, {}).get("mock")
+           else "Do not add mockGap for this view. ")
         + f"Write only the "
         f"JSON object of section G to {rel}/grades/{i}.json (set \"grader\" to your model id), then reply \"done\".")
 open(os.path.join(run, "reviewers.md"), "w").write("\n".join(lines) + "\n")

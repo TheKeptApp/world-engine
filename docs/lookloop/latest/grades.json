@@ -1,29 +1,33 @@
 {
  "run": {
-  "stamp": "20261007-091548",
-  "started": "2026-10-07 09:15",
-  "t0": 1791386149.1352818,
+  "stamp": "20261007-101255",
+  "started": "2026-10-07 10:12",
+  "t0": 1791389575.377435,
   "kind": "routine",
   "gate": false,
-  "commit": "4263b3f",
-  "engineCommit": "4263b3f",
+  "commit": "e29d4c9",
+  "engineCommit": "2c8f6c5",
   "branch": "p3-lookloop",
   "dirtyEngineFiles": 0,
-  "gradingSha": "b3a48e87de12",
+  "gradingSha": "c34382464e5c",
   "fingerprints": {
-   "v2-01": "0940fb9bd36c5e22ab44",
-   "v2-06": "4e9df912b56af722e167",
-   "showcase-01": "d12f468f8dbc0f06c285",
-   "showcase-03": "75af80d8c0091dc3ab86",
-   "showcase-06": "bd44dd63425ca35605b9",
-   "ordinary-street": "cd6e993f6dd84f0c9423",
-   "wilmette-street": "4be7ac93637662c530b7",
-   "wilmette-street-fall": "ace569c1356cb0efe8e8",
-   "wilmette-aerial": "cd48fccce4f4c1ce676a",
-   "evanston-street": "63dfe1aac01f8106b55b",
-   "evanston-street-rain": "369c84c153b01212b189",
-   "lakeview-postcard": "ed083ff3ee9b0d2d61b5",
-   "lakeview-street": "10491fe2a63a6ae96347"
+   "v2-01": "87632baa94f144330509",
+   "v2-06": "176a63562831d1508d58",
+   "showcase-01": "c2d2d5563f44caa4fd42",
+   "showcase-03": "d54b226cbe394e194b62",
+   "showcase-06": "3eac96f796accc55d017",
+   "ordinary-street": "38c00d142ad97a04693f",
+   "ordinary-street-afternoon": "2a00667d7826d1412c39",
+   "wilmette-street": "93c827ac8bce02bcdb5e",
+   "wilmette-street-afternoon": "e8555b7ca1776f799857",
+   "wilmette-street-fall": "a5c1a37eb5935211c9a4",
+   "wilmette-aerial": "1bdb59744320fb234688",
+   "evanston-street": "49ef553a09447ae87517",
+   "evanston-street-rain": "b9aa3511d80dd1cbc2cf",
+   "lakeview-postcard": "53f49d695d0ca019d1a5",
+   "lakeview-postcard-afternoon": "54df5b59e9783f384812",
+   "lakeview-street": "b60f86f3a3b98d2d643b",
+   "lakeview-street-afternoon": "7a785fe167af35bcb470"
   },
   "captured": [
    "v2-01",
@@ -32,18 +36,22 @@
    "showcase-03",
    "showcase-06",
    "ordinary-street",
+   "ordinary-street-afternoon",
    "wilmette-street",
+   "wilmette-street-afternoon",
    "wilmette-street-fall",
    "wilmette-aerial",
    "evanston-street",
    "evanston-street-rain",
    "lakeview-postcard",
-   "lakeview-street"
+   "lakeview-postcard-afternoon",
+   "lakeview-street",
+   "lakeview-street-afternoon"
   ],
   "reused": [],
   "forced": false,
   "frameSource": "in-app capture (WorldLab -viewlist, Documents/views); UI screenshots with the OSM credit in ui/",
-  "minutes": 9.7
+  "minutes": 7.1
  },
  "views": {
   "v2-01": {
@@ -53,39 +61,39 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Orange/yellow crowns read as separate lobed masses and a few teal spruces, but crowns repeat in shape and the near house is a plain box with a flat roof edge."
+      "reason": "Autumn crowns read as unequal orange and yellow masses, and the near trunks are solid; but the far crowns are small repeated lollipop-like balls and the near house is a plain box."
      },
      "palette": {
       "score": 3,
-      "reason": "Autumn crowns are differentiated (russet, orange, yellow) but the ground is flat olive and green and the road a cold grey-blue; saturation is far below the golden-hour target."
+      "reason": "Orange, gold and russet crowns are correct for autumn and the dog stays distinct, but the grass is flat olive and green with no warm golden-hour grading, and the saturation is far below the target (dSaturation -71)."
      },
      "light": {
       "score": 2,
-      "reason": "Sun is low and ahead-left but there is no warm key on the near surfaces and no visible cast shadows; the foreground is evenly lit and cool, with only a pale streak on the road, so it does not read as golden hour."
+      "reason": "Sun is 6 deg high at 253 deg, yet the frame has no visible cast shadows on the sidewalk, lawn or house, and no warm key. It reads as flat overcast; only a faint streak on the road shows a low sun."
      },
      "softnessAO": {
       "score": 2,
-      "reason": "Shrubs at the foundation sit with little contact darkening, there are no shadow pockets under the crowns and trunks, and the house base is a flat band."
+      "reason": "The tree trunk bases and the dog have little contact darkening, and the sidewalk edges are hard. Only the shrubs at the foundation have mild occlusion."
      },
      "groundRichness": {
       "score": 3,
-      "reason": "Two lawn tones, a darker verge strip, sparse grass tufts and a few leaves on the walk, but large flat unvaried areas."
+      "reason": "Lawn tone varies (yellow-olive left, green right), the sidewalk has joints, and there are sparse grass tufts and a few leaves near the trunk. But beds and leaf litter are thin compared with the target, and the left lawn is mostly flat."
      },
      "characterReadability": {
-      "score": 3,
-      "reason": "Dog is about 20% of frame height with contact on the walk, but it reads as a near-black silhouette with little coat colour."
+      "score": 4,
+      "reason": "The black dog reads clearly against the pale sidewalk at about 25 % of frame height with intact contact; it has no cast shadow and the coat is flat and dark."
      },
      "depthFog": {
       "score": 3,
-      "reason": "Distant houses and trees fade into a pink-lilac sky haze, which separates depth modestly; the road and lawns stay flat."
+      "reason": "Haze and a pink sky give some separation toward the far street, but there is no lake or backdrop and the distance is flat, with weak atmospheric gradation."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Distant row of cream apartment-style buildings and one near box; few families visible and the near house is a plain mass with oversized windows."
+      "reason": "A plain pink box in the foreground and cream apartment-like blocks far right: a few families but little porch, gable or entry character."
      },
      "geography": {
       "score": 4,
-      "reason": "Street runs west with the sun ahead-left, which agrees with the camera. Shadows are too weak to verify the bearing, and nothing visible contradicts the layout."
+      "reason": "The street runs west with the road on the right and nothing contradicts the camera or sun. Shadows are too weak to verify the bearing, so layout alone is judged."
      },
      "motion": {
       "score": null,
@@ -95,7 +103,7 @@
     "artDirection": {
      "adGroundRich": {
       "score": 3,
-      "reason": "Some lawn tone variation, small foundation shrub lobes and leaf scatter, but no beds with mulch and the verge and lawns are mostly flat."
+      "reason": "Some lawn tone variation, a few foundation shrub lobes and grass tufts and a little leaf litter, but beds, mulch and leaf piles under the crowns are minimal."
      },
      "adRainReadable": {
       "score": null,
@@ -103,12 +111,12 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Cottonwood-like gold and orange crowns, conifers and low-rise houses are plausible for Denver, but the street is generic and no mountain band appears, which is correct for a west-looking frame at this height."
+      "reason": "Boulevard trees, a street grid and low-rise houses suit a Denver neighbourhood, but there are no conifers or western mountain band (camera faces west, though none is visible) and the houses lack bungalow or foursquare character."
      }
     },
-    "v2Total": 26,
+    "v2Total": 27,
     "v2Max": 45,
-    "v2Score50": 28.6,
+    "v2Score50": 29.5,
     "adMean": 3.0,
     "gatePass": false,
     "adPass": true,
@@ -116,105 +124,106 @@
     "topFixes": [
      {
       "area": "light",
-      "fix": "Add a warm low-sun key: tint lit lawn, walk and house faces gold-orange and cast long soft crown and trunk shadows across the walk and lawns toward the camera and right.",
-      "why": "The frame is evenly cool and lit with no visible cast shadows, unlike the target's warm glow and long shadows.",
+      "fix": "Add a warm low-angle key with long soft shadows falling toward the camera and right (bearing 73 deg) from trunks, house and dog, with warm lit and cool shaded sides.",
+      "why": "No cast shadows are visible on the sidewalk or lawns, so the 6 deg sun reads as flat overcast.",
       "expectedGain": [
        "light",
+       "softnessAO",
+       "palette"
+      ]
+     },
+     {
+      "area": "post",
+      "fix": "Raise saturation and warm the grade toward golden hour: lawns warm olive-gold in the light, sidewalk peach, sky gradient richer.",
+      "why": "Frame saturation is about half the target's (71 vs 142) and the sidewalk and grass are cold grey-green.",
+      "expectedGain": [
        "palette",
-       "softnessAO"
+       "light",
+       "depthFog"
       ]
      },
      {
       "area": "ground",
-      "fix": "Raise lawn saturation and add warm lawn patches, leaf litter under the crowns and a mulched bed along the house, plus darker shade tone at the trunk bases.",
-      "why": "Lawns are flat olive and green with sparse tufts and the house base has no bed.",
+      "fix": "Add leaf litter piles at the trunk bases and sidewalk edges, foundation beds with mulch, and soft contact darkening around trunk bases and the dog.",
+      "why": "Trunk bases meet the lawn bare, and leaf litter is sparse compared with the target.",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
        "softnessAO"
       ]
-     },
-     {
-      "area": "character",
-      "fix": "Give the dog a readable coat tone (warm lit rim and mid-tone) so it does not collapse to a black silhouette on the grey walk.",
-      "why": "The dog reads as near-black with little coat detail.",
-      "expectedGain": [
-       "characterReadability"
-      ]
      }
     ],
-    "vsPrevious": "better: luma is up about 11 and colour slightly warmer than the previous run, but the lighting remains flat.",
-    "summary": "At phone size this reads as a clean stylized autumn street with good crown colour, but it is cool and flat, with no golden-hour key or cast shadows. The single biggest gap is the missing warm low-sun light and shadow.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "Lawn tones and shrubs exist but there are fewer than three rich layers and the lawns are flat."
+      "reason": "groundRichness and adGroundRich are 3, but the foreground has only lawn tones, a walk and sparse tufts, with no real beds or litter layer."
      },
      "LF-light": {
       "pass": false,
-      "reason": "light is 2; source and shadow bearings cannot be confirmed; the exposure flattens the architecture."
+      "reason": "light is 2: the sun bearing cannot be confirmed from the weak shadows and the architecture looks flat."
      },
      "LF-weather": {
       "pass": null,
-      "reason": "n/a: dry clear view"
+      "reason": "n/a: dry, clear view"
      },
      "LF-aerial": {
       "pass": null,
       "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": false,
-      "reason": "Season is correct but crowns repeat in form and the near trunks are plain; adRegional is 3 so the pass is marginal, with repetition as the failure."
+      "pass": true,
+      "reason": "silhouettes 3 and adRegional 3; the autumn season is right, with differentiated orange and yellow crowns and no three identical neighbours."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Pink-lilac sky haze supports the evening mood; no sun disk is visible."
+      "reason": "Soft pink gradient sky, no sun disk shown and no astronomy contradiction; no cumulus."
      }
     },
+    "vsPrevious": "better: slightly lighter and warmer (mean R +12), with minor scene change.",
+    "summary": "At phone size the street reads as a tidy low-poly autumn boulevard with good crown colours and a clear dog, but the lighting is flat and cool with no cast shadows against a golden-hour target. The biggest gap is the missing warm low-sun key and shadows, which also leaves the palette desaturated and the ground without contact shadow.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 35.2,
-    "parity": 81,
+    "parity": 84,
     "paintoverScore50": null,
     "paintoverParity": null,
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
      "LF-ground",
-     "LF-light",
-     "LF-trees"
+     "LF-light"
     ],
     "lookFixChecked": 4
    },
    "signals": {
     "current": {
-     "lumaMean": 127.9,
-     "lumaP5": 85,
-     "lumaP50": 125,
-     "lumaP95": 164,
-     "clipBlackPct": 0.07,
+     "lumaMean": 130.1,
+     "lumaP5": 88,
+     "lumaP50": 129,
+     "lumaP95": 167,
+     "clipBlackPct": 0.08,
      "clipWhitePct": 0.0,
      "rgbMean": [
-      125.4,
-      130.2,
-      112.2
+      137.4,
+      129.9,
+      111.3
      ],
-     "saturationMean": 69.0,
-     "colorfulness": 46.0,
-     "edgeMean": 7.92,
+     "saturationMean": 71.5,
+     "colorfulness": 47.7,
+     "edgeMean": 7.75,
      "hueHist": [
-      0.136,
-      0.093,
-      0.312,
-      0.11,
-      0.115,
+      0.283,
+      0.381,
+      0.016,
+      0.185,
       0.002,
-      0.04,
-      0.138,
-      0.001,
       0.0,
+      0.019,
+      0.025,
+      0.039,
+      0.041,
       0.001,
-      0.05
+      0.009
      ]
     },
     "targets": [
@@ -285,71 +294,71 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.483,
-      "rgbHistIntersection": 0.407,
-      "hueHistIntersection": 0.261,
-      "dLumaMean": -0.5,
-      "dSaturation": -73.4,
-      "dColorfulness": -25.8,
-      "dEdge": -5.03,
+      "lumaHistIntersection": 0.498,
+      "rgbHistIntersection": 0.423,
+      "hueHistIntersection": 0.658,
+      "dLumaMean": 1.7,
+      "dSaturation": -70.9,
+      "dColorfulness": -24.1,
+      "dEdge": -5.2,
       "dRGB": [
-       -49.7,
-       10.6,
-       34.1
+       -37.7,
+       10.3,
+       33.2
       ]
      },
      {
-      "lumaHistIntersection": 0.444,
-      "rgbHistIntersection": 0.481,
-      "hueHistIntersection": 0.558,
-      "dLumaMean": -23.5,
-      "dSaturation": -48.6,
-      "dColorfulness": -42.8,
-      "dEdge": -3.22,
+      "lumaHistIntersection": 0.454,
+      "rgbHistIntersection": 0.495,
+      "hueHistIntersection": 0.242,
+      "dLumaMean": -21.3,
+      "dSaturation": -46.1,
+      "dColorfulness": -41.1,
+      "dEdge": -3.39,
       "dRGB": [
-       -14.2,
-       -27.7,
-       -10.0
+       -2.2,
+       -28.0,
+       -10.9
       ]
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.477,
-     "rgbHistIntersection": 0.434,
-     "hueHistIntersection": 0.586,
-     "dLumaMean": 11.1,
-     "dSaturation": 2.0,
-     "dColorfulness": 8.0,
-     "dEdge": -0.06,
+     "lumaHistIntersection": 0.831,
+     "rgbHistIntersection": 0.741,
+     "hueHistIntersection": 0.44,
+     "dLumaMean": 2.2,
+     "dSaturation": 2.7,
+     "dColorfulness": 2.1,
+     "dEdge": -0.4,
      "dRGB": [
-      8.2,
       12.1,
-      7.9
+      -0.3,
+      -1.0
      ],
-     "pixelChange": 11.21
+     "pixelChange": 5.4
     },
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.97s",
+     "build": "32.49s",
      "fpsMedian": 0.0,
      "frameMsMedian": null,
      "gpuMsMedian": null,
      "renderSamples": 30,
-     "viewTriangles": 385159,
-     "viewDraws": 79,
+     "viewTriangles": 395490,
+     "viewDraws": 86,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 38.3
+     "loadSeconds": 37.6
     }
    }
   },
@@ -360,39 +369,39 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Block footprints and orange crown dots read as house/tree families at aerial scale, but crowns are small uniform dots and lack the paint-over's distinct masses."
+      "reason": "At aerial scale the lot grid reads with varied roof colours and crown dots, but houses and crowns are small repetitive blobs; no clear family differences as in the paint-over."
      },
      "palette": {
-      "score": 2,
-      "reason": "Frame is desaturated grey-beige with a slate-grey lake (saturation -79 vs target 1); fields and lake lack the paint-over's warm gold and deep blue; autumn orange only in tiny crowns."
+      "score": 3,
+      "reason": "Coherent but washed out: beige/grey fields, flat slate-blue lake, saturation far below the paint-over; autumn orange crowns in the neighbourhood are the only colour."
      },
      "light": {
       "score": 2,
-      "reason": "Flat, nearly shadowless light; no golden-hour warm/cool split, no sun glint on the lake, no long shadows from a 6 degree sun."
+      "reason": "Golden hour (sun 6 deg) is not conveyed: no warm cast, no long shadows, no lake glint, uniform flat grey-beige illumination; paint-over has warm raking light and sun glitter."
      },
      "softnessAO": {
       "score": 2,
-      "reason": "Little visible contact shading around buildings, crowns or lakeshore; houses look pasted on flat ground."
+      "reason": "Almost no contact shadow or occlusion at this scale; buildings and trees sit flat on the ground, unlike the paint-over's soft shading."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Fields and parcels are flat single tones with grey road grid; park has some tone variation but little else."
+      "reason": "Fields and parcels are flat single tones with hard edges; park has some tone variation but little else; no low-frequency variation across the farmland."
      },
      "characterReadability": {
       "score": null,
       "reason": "no character in frame"
      },
      "depthFog": {
-      "score": 2,
-      "reason": "No atmospheric haze or tonal gradient with distance; far fields as bright as near; lake and shore edge are continuous and no horizon."
+      "score": 3,
+      "reason": "Slight haze toward the top gives some separation and there is no horizon, but the whole frame is evenly grey with no warm-to-cool depth gradient; lake is flat."
      },
      "houseVariety": {
-      "score": 2,
-      "reason": "Neighbourhood grids are tiny orange/grey clutter; roof families barely differentiate and no modern/old mix reads."
+      "score": 3,
+      "reason": "Several roof colours and a few landmark buildings (red school, warehouses) are readable; neighbourhood blocks look uniform and dense orange."
      },
      "geography": {
       "score": 4,
-      "reason": "Lake shape, island, north-facing grid and neighbourhood layout match the paint-over and camera; shadows too weak to verify bearing, nothing contradicts."
+      "reason": "Lake shape, island, peninsula, east grid and park ring match the paint-over camera (north-up, steep aerial, no horizon). Shadows too small to verify the 73 degree bearing; nothing contradicts."
      },
      "motion": {
       "score": null,
@@ -402,7 +411,7 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "Fields are flat tan/green slabs; park lawns show mild variation, few visible beds or shrub masses."
+      "reason": "Surrounding fields are flat colour blocks; park has a few tone patches and shrub dots but little planting or bed structure compared with the paint-over."
      },
      "adRainReadable": {
       "score": null,
@@ -410,12 +419,12 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Front Range plains grid, large lake, field mosaic and warm autumn crowns read plausibly as Denver, but without mountains or tonal richness it is generic."
+      "reason": "Plains-city grid, big lake and farmland read as Front Range Denver at land-use level; autumn cottonwood gold is present but muted and no western mountain band is expected in this north-facing frame."
      }
     },
-    "v2Total": 19,
+    "v2Total": 22,
     "v2Max": 40,
-    "v2Score50": 23.2,
+    "v2Score50": 27.4,
     "adMean": 2.5,
     "gatePass": false,
     "adPass": false,
@@ -423,8 +432,8 @@
     "topFixes": [
      {
       "area": "light",
-      "fix": "Warm the golden-hour key: warm gold on fields and roofs, long cool shadows toward 73 degrees, and a sun glint on the lake's western part.",
-      "why": "Frame is flat and grey-beige while the paint-over has warm raking light and a lake glint.",
+      "fix": "Add warm low-sun grading with raking shadows from the west-southwest, warm highlights on roofs and crowns, cool shaded sides, and a sun glitter patch on the lake's west shore.",
+      "why": "Frame is evenly lit grey-beige and reads as overcast midday rather than 17:44 golden hour.",
       "expectedGain": [
        "light",
        "palette",
@@ -432,65 +441,66 @@
       ]
      },
      {
-      "area": "water",
-      "fix": "Deepen the lake to a saturated blue with sky-tinted gradient and glint, instead of slate grey.",
-      "why": "Lake is the largest feature and reads dull grey-blue.",
+      "area": "ground",
+      "fix": "Vary field and parcel tones (green/ochre/straw patches, soft low-frequency tint), and give the park lawns, tree rows and path edges stronger tone separation.",
+      "why": "Surrounding parcels are flat single-tone blocks; paint-over has layered greens and golds.",
       "expectedGain": [
-       "palette",
-       "depthFog"
+       "groundRichness",
+       "adGroundRich",
+       "palette"
       ]
      },
      {
-      "area": "fog",
-      "fix": "Add gentle warm distance haze and tonal separation so far fields recede, and vary field colours (gold, green) more.",
-      "why": "Near and far ground are equally bright and flat.",
+      "area": "water",
+      "fix": "Make the lake a deeper saturated blue-teal with a gradient from shore to centre, a light sky-reflection band and a faint glitter, and a clearer shore edge with tree-ring darkening.",
+      "why": "Lake is a flat desaturated slate with no light response.",
       "expectedGain": [
-       "depthFog",
-       "groundRichness",
-       "adGroundRich"
+       "palette",
+       "light",
+       "depthFog"
       ]
      }
     ],
+    "vsPrevious": "unchanged: pixel change 1.7 percent, same luma, saturation and colour; no visible difference.",
+    "summary": "At phone size the scene has the right layout but is flat, desaturated and unlit, reading as a grey-beige map rather than a golden-hour aerial. The biggest gap against the paint-over is light and colour: no warm raking sun, shading or lake glint.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness and adGroundRich are 2; flat fields and few layers."
+      "reason": "Surrounding ground is flat single-tone parcels; groundRichness and adGroundRich are 2."
      },
      "LF-light": {
       "pass": false,
-      "reason": "light and palette are 2; flat exposure, no visible shadows."
+      "reason": "light is 2; no warm sun or shadows consistent with a 6 degree sun."
      },
      "LF-weather": {
       "pass": null,
       "reason": "n/a: dry, clear view"
      },
      "LF-aerial": {
-      "pass": false,
-      "reason": "depthFog is 2 although no horizon, no floating tile and geography is 4."
+      "pass": true,
+      "reason": "silhouettes 3, depthFog 3, geography 4; no horizon, no floating tile, no hidden routes."
      },
      "LF-trees": {
-      "pass": true,
-      "reason": "Silhouettes 3 and regional 3; autumn orange crowns fit the date; no obvious repeated diamonds at this scale."
+      "pass": false,
+      "reason": "Crowns are near-uniform small dots at this scale and adRegional is only 3 with muted autumn colour; silhouettes 3 but repeated identical crowns visible in rows."
      },
      "LF-sky": {
       "pass": null,
-      "reason": "n/a: no sky visible"
+      "reason": "n/a: no sky visible in steep aerial"
      }
     },
-    "vsPrevious": "unchanged: pixel change 2.8%, luma and saturation within 2 points.",
-    "summary": "At phone size the aerial reads as a correct but flat, desaturated map with a slate lake and no golden-hour light compared with the warm paint-over. The biggest gap is light and colour: no warm raking sun, lake glint or distance haze.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 34.2,
-    "parity": 68,
+    "parity": 80,
     "paintoverScore50": 31.6,
-    "paintoverParity": 73,
+    "paintoverParity": 87,
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-aerial",
      "LF-ground",
-     "LF-light"
+     "LF-light",
+     "LF-trees"
     ],
     "lookFixChecked": 4
    },
@@ -668,42 +678,42 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.963,
-     "rgbHistIntersection": 0.872,
-     "hueHistIntersection": 0.878,
-     "dLumaMean": 0.1,
-     "dSaturation": 1.9,
-     "dColorfulness": 3.2,
-     "dEdge": -0.07,
+     "lumaHistIntersection": 0.989,
+     "rgbHistIntersection": 0.97,
+     "hueHistIntersection": 0.962,
+     "dLumaMean": 0.0,
+     "dSaturation": 0.4,
+     "dColorfulness": 0.9,
+     "dEdge": -0.26,
      "dRGB": [
-      0.8,
-      -0.3,
-      1.2
+      0.1,
+      0.0,
+      0.0
      ],
-     "pixelChange": 2.84
+     "pixelChange": 1.69
     },
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.97s",
-     "fpsMedian": 60.2,
-     "frameMsMedian": 16.61,
+     "build": "32.49s",
+     "fpsMedian": 60.1,
+     "frameMsMedian": 16.64,
      "gpuMsMedian": null,
      "renderSamples": 3,
-     "viewTriangles": 288731,
+     "viewTriangles": 288821,
      "viewDraws": 41,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 41.0
+     "loadSeconds": 40.4
     }
    }
   },
@@ -714,23 +724,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Crown families differ (round yellow, orange-red, tiered spruce) but near crowns read as lollipops on poles with stacked spheres and many repeated yellow balls in the far tree line."
+      "reason": "Maple, linden and spruce families read; crowns are merged sphere clusters on thin poles and several repeat, so lollipop-leaning."
      },
      "palette": {
       "score": 3,
-      "reason": "Autumn yellows/oranges read and the lilac sky is coherent, but the lawn is a flat desaturated olive and the path a cold grey; saturation is about 30 below the target."
+      "reason": "Autumn gold, orange and russet crowns are right for Oct; purple-mauve sky, dull grey lake and flat olive lawn are less rich than the anchors."
      },
      "light": {
       "score": 3,
-      "reason": "One coherent low sun with long warm shadow bands, but the warm light is thin on the ground, the sky is a flat purple gradient with no sun glow and the path stays cold."
+      "reason": "Low warm sun with long cast shadows and rim-lit crowns is coherent, but warm-cool balance is weak: lawn and path are muted and the sky is violet."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Cast shadows are soft and legible but trunk bases have no contact darkening and the spruce tiers have hard dark edges."
+      "reason": "Trunks sit on the ground with soft cast shadows; no distinct contact darkening at trunk bases or under spruce tiers."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Large flat olive lawn with only sparse tiny tufts and faint path seams; no tone patches, beds, shrubs or leaf litter."
+      "reason": "Lawn is a near-uniform olive green with only a few tufts; path is a single flat grey with thin seams; no beds, litter or worn edges."
      },
      "characterReadability": {
       "score": null,
@@ -738,15 +748,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Some haze on the far tree band but the lake is a flat grey slab with no band, glow or reflection; the shore does not read as continuous water."
+      "reason": "Distant tree line and houses fade with some haze, but the lake on the right is a flat grey band with no shore band, reflection or depth gradient."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Only tiny distant rooftops behind the tree line; nothing to judge, scored baseline."
+      "reason": "Only tiny distant roofs behind the tree line; not judgeable beyond baseline."
      },
      "geography": {
       "score": 4,
-      "reason": "Lake on the right, no sunset disk or mountains, sun behind-left with shadows falling ahead-right, consistent with heading 100 and shadow bearing 73."
+      "reason": "Lake on the right of an ESE-facing trail, bench at shore, no sunset disk or mountains; shadows run plausibly for a low sun behind the camera. Nothing contradicts the camera or sun data."
      },
      "motion": {
       "score": null,
@@ -756,7 +766,7 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "One lawn colour with hard path edges; no foundation shrubs, beds, worn edges or litter under the crowns."
+      "reason": "One lawn tone with light patches from shadows; no shrubs, beds, leaf litter under the crowns or worn edges."
      },
      "adRainReadable": {
       "score": null,
@@ -764,7 +774,7 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Cottonwood/aspen-like gold crowns and spruce suggest Front Range, but there is no western band and the lake and park read generic."
+      "reason": "Cottonwood-like gold crowns, spruce, lakeside trail with bench and low distant houses suggest Sloan's Lake; little more that is regional."
      }
     },
     "v2Total": 24,
@@ -777,45 +787,45 @@
     "topFixes": [
      {
       "area": "water",
-      "fix": "Give the lake a blue-lilac body with a warm glitter band toward the sun side, a lighter shore band and a soft sky reflection at 20-100 m instead of flat grey.",
-      "why": "The right third of the frame is a featureless grey plane; targets and the approved mock show readable water.",
+      "fix": "Give the lake the mock's blue-teal body colour, a lighter shallow band at the shore, soft sky reflection and warm glitter streaks toward the sun",
+      "why": "Lake reads as a flat grey slab at right with no shore edge or reflection",
       "expectedGain": [
-       "depthFog",
        "palette",
+       "depthFog",
        "light"
       ]
      },
      {
       "area": "ground",
-      "fix": "Add lawn tone patches (sun-warmed vs shade), worn path edges, shrub clumps and a few fallen-leaf scatters under crowns; warm the path colour.",
-      "why": "Foreground is a flat olive carpet with a cold grey path.",
+      "fix": "Add lawn tone patches, worn edges, foundation-style shrub masses and leaf litter under the crowns, and warm the path",
+      "why": "Lawn is one olive green and the path a flat grey strip",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
-       "palette"
+       "softnessAO"
       ]
      },
      {
       "area": "sky",
-      "fix": "Add a warm horizon glow and sparse simple cumulus; lift saturation of golden-hour light on ground and trunks, add trunk-base contact darkening.",
-      "why": "Sky is a flat purple gradient and saturation is about 30 below the target.",
+      "fix": "Shift the sky from violet to a warm gradient with a pale gold horizon glow and soft haze at the tree line",
+      "why": "Sky is mauve and cool against warm trees, so key light and sky disagree",
       "expectedGain": [
        "light",
        "palette",
-       "softnessAO"
+       "depthFog"
       ]
      }
     ],
-    "vsPrevious": "unchanged: near-identical frame, slightly higher saturation and colourfulness, same flat lawn and lake.",
-    "summary": "At phone size it reads as a clean stylized autumn park with a coherent low sun, but the ground is flat and desaturated and the lake is an empty grey plane. The biggest gap is water and ground richness against the golden-hour targets.",
+    "vsPrevious": "unchanged: histograms and pixels differ by about 1 % from the previous run.",
+    "summary": "A readable autumn lake trail with coherent low sun and good gold crown colour, but flat lawn, a dull grey lake and a violet sky keep it near baseline. The biggest gap is the lake and ground richness against the mock.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; only lawn and path layers visible."
+      "reason": "groundRichness and adGroundRich are 2; essentially one lawn layer plus a path."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light and palette 3, sun and shadow bearings agree with the view, autumn reads as autumn, trunks stay distinguishable."
+      "reason": "light and palette are 3, trunks and crowns stay distinct, shadows plausible, season reads autumn."
      },
      "LF-weather": {
       "pass": null,
@@ -823,24 +833,24 @@
      },
      "LF-aerial": {
       "pass": null,
-      "reason": "n/a: street-level view"
+      "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": false,
-      "reason": "Season is correct, but near crowns are lollipops and the far line repeats the same yellow balls."
+      "pass": true,
+      "reason": "silhouettes 3, adRegional 3, season correct; crowns vary in colour and family."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "No sunset disk in the ESE view; sky is simple and does not move astronomy, though it is plain."
+      "reason": "No sunset disk in the ESE frame; sky is simple, though violet."
      }
     },
     "mockGap": {
      "mock": "docs/proposals/lake-winter-v1/01-water-that-reads.png",
      "closeness": 2,
      "gaps": [
-      "Lake is a flat grey plane without colour, bands or reflection",
-      "Shore and ground lack the mock's tonal variation and edge detail",
-      "Lighting lacks sky reflection on the water"
+      "Water: mock lake is blue-teal (#477884 golden hour) with a lighter shore band, sky reflection and warm sun glitter; frame lake is a flat grey band with no edge, reflection or glitter",
+      "Sky and warmth: mock golden-hour sky is a soft orange-gold gradient warming the whole scene with warm-lit path; frame sky is violet, ground cool olive and path grey",
+      "Ground and trees: mock has rich saturated green lawn with curved shore bank, lit sandy path, and rounded merged crowns with soft shading; frame has dull lawn, thin-pole sphere crowns and no contact shrubs"
      ]
     },
     "v2Floors": false,
@@ -852,8 +862,7 @@
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground",
-     "LF-trees"
+     "LF-ground"
     ],
     "lookFixChecked": 4
    },
@@ -872,7 +881,7 @@
      ],
      "saturationMean": 89.4,
      "colorfulness": 74.9,
-     "edgeMean": 13.49,
+     "edgeMean": 13.5,
      "hueHist": [
       0.107,
       0.434,
@@ -1026,7 +1035,7 @@
       "dLumaMean": -12.7,
       "dSaturation": -29.3,
       "dColorfulness": -5.1,
-      "dEdge": 5.21,
+      "dEdge": 5.22,
       "dRGB": [
        -26.0,
        -9.2,
@@ -1040,7 +1049,7 @@
       "dLumaMean": -20.8,
       "dSaturation": -39.0,
       "dColorfulness": -18.7,
-      "dEdge": -1.91,
+      "dEdge": -1.9,
       "dRGB": [
        -23.3,
        -19.1,
@@ -1054,7 +1063,7 @@
       "dLumaMean": -0.7,
       "dSaturation": -32.7,
       "dColorfulness": -19.5,
-      "dEdge": 3.83,
+      "dEdge": 3.84,
       "dRGB": [
        0.2,
        4.3,
@@ -1068,7 +1077,7 @@
       "dLumaMean": -23.3,
       "dSaturation": -11.3,
       "dColorfulness": 7.8,
-      "dEdge": -6.78,
+      "dEdge": -6.77,
       "dRGB": [
        -1.6,
        -28.4,
@@ -1077,42 +1086,42 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.945,
-     "rgbHistIntersection": 0.94,
-     "hueHistIntersection": 0.962,
-     "dLumaMean": -0.7,
-     "dSaturation": 6.7,
-     "dColorfulness": 12.6,
-     "dEdge": -0.16,
+     "lumaHistIntersection": 0.984,
+     "rgbHistIntersection": 0.98,
+     "hueHistIntersection": 0.987,
+     "dLumaMean": -0.1,
+     "dSaturation": 1.0,
+     "dColorfulness": 1.8,
+     "dEdge": -0.11,
      "dRGB": [
-      -0.4,
-      -0.3,
-      -4.5
+      0.0,
+      0.0,
+      -0.5
      ],
-     "pixelChange": 5.05
+     "pixelChange": 1.24
     },
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.97s",
-     "fpsMedian": 60.4,
-     "frameMsMedian": 16.56,
+     "build": "32.49s",
+     "fpsMedian": 59.5,
+     "frameMsMedian": 16.81,
      "gpuMsMedian": null,
      "renderSamples": 3,
-     "viewTriangles": 364774,
+     "viewTriangles": 365247,
      "viewDraws": 64,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 44.5
+     "loadSeconds": 43.6
     }
    }
   },
@@ -1123,23 +1132,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Crowns are merged lobed masses with a branch skeleton and the spruce has staggered tiers, but several deciduous crowns repeat the same ball cluster and the distant tree line is uniform."
+      "reason": "Crowns are clusters of spheres on branch skeletons with distinct families (round maples, tiered spruce), but the balls are fairly uniform and lollipop-like next to the paint-over."
      },
      "palette": {
       "score": 3,
-      "reason": "Autumn mix of russet, orange, olive and yellow reads correctly, but the lawn is a flat minty green with a blue-grey cast and the sky is a saturated teal-blue, less restrained than the paint-over's neutral grey."
+      "reason": "Autumn crowns differentiate (russet, orange, yellow, olive) and the sky is a cool rain grey-blue, but the lawn is a flat minty green and the path a flat grey; the paint-over has a deeper, damper green and warmer tone."
      },
      "light": {
       "score": 3,
-      "reason": "Overcast diffuse light is coherent with no contradictory shadows, but it is flat: no cool/warm separation, trunks and path lose contrast, and the frame looks brighter and bluer than a rainy noon."
+      "reason": "Overcast rain light is coherent with no hard shadows, but overall it reads flat and slightly blue-green washed; little wet-light modelling on the surfaces."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Trunks have only faint contact darkening and no dark pockets under crowns; nothing floats and there are no black seams, but the paint-over's soft trunk-base shading is missing."
+      "reason": "Trunk bases and bench have faint contact darkening with no black rings, but crowns have no occlusion where masses meet and the path edges are hard."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Lawn is nearly one flat green with only tiny yellow tufts and sparse litter; no tone patches, worn edges or beds, and the path is a plain matte grey with thin joints, no wet streaks."
+      "reason": "The lawn is one large flat green plane with a few tiny grass tufts and sparse leaf specks; path joints are the only detail. No tone patches, beds or worn edges."
      },
      "characterReadability": {
       "score": null,
@@ -1147,15 +1156,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Distant tree line and lake fade slightly and the horizon is continuous, but the rain haze is weak so far trees stay saturated and the lake band is thin and flat."
+      "reason": "A distant tree band and lake fade gently and the horizon is continuous, but there is little rain haze separating near, mid and far."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "No houses visible; only a distant tree line and a few low roofs at the horizon, so scored at baseline."
+      "reason": "No houses are visible, only tree line and a few rooftop hints in the far distance; scored 3 per the no-house rule."
      },
      "geography": {
       "score": 4,
-      "reason": "Lake on the right, path running ahead and no mountains or sun disk contradict the ESE camera; overcast, so shadow bearing cannot be judged and layout alone is scored."
+      "reason": "Lake on the right, trail and benches fit the camera; no sun or shadows to check in rain, so scored on layout alone and nothing contradicts it."
      },
      "motion": {
       "score": null,
@@ -1165,70 +1174,69 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "One flat lawn colour, no shrubs, beds or worn edges; only small tufts and a few leaves under the nearest trees."
+      "reason": "Single flat lawn colour, no shrubs or beds along the path or shore, hard path edges; the paint-over has tonal lawn variation and shrubs."
      },
      "adRainReadable": {
-      "score": 2,
-      "reason": "Darker sky and a small flat puddle on the path, but the path and grass look dry and matte: no wet sheen or reflections and no visible streaks; rain is hard to read at a glance."
+      "score": 3,
+      "reason": "A dark stormy sky and a small sky-reflecting puddle show rain, but the path has little wet sheen and the grass is not noticeably darker; the paint-over's path reflects strongly."
      },
      "adRegional": {
       "score": 3,
-      "reason": "Autumn cottonwood-like gold crowns, conifers and lakeside park path suit Sloan's Lake, but little else marks the Front Range and the low backdrop is generic."
+      "reason": "Cottonwood-like yellow crowns, spruce and a lake band are plausible for Sloan's Lake, but the park reads generic and no western mountain band is expected for an ESE view."
      }
     },
     "v2Total": 24,
     "v2Max": 40,
     "v2Score50": 30.0,
-    "adMean": 2.33,
+    "adMean": 2.67,
     "gatePass": false,
     "adPass": false,
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "weather",
-      "fix": "Add a wet gloss to the path with sky reflection and darker streaks, a larger flush sky-reflecting puddle, and darker saturated wet grass with a faint sheen.",
-      "why": "Path is matte grey and the lawn dry-looking; only one small puddle shows wetness.",
-      "expectedGain": [
-       "adRainReadable",
-       "groundRichness",
-       "light"
-      ]
-     },
-     {
       "area": "ground",
-      "fix": "Vary the lawn with darker and yellower tone patches, worn edges along the path, and a few shrub masses or beds near the trunks.",
-      "why": "The lawn is one flat minty green across the whole foreground.",
+      "fix": "Add lawn tone patches, darker wet grass, foundation-style shrub masses and mulch beds along the path and shore edge, plus leaf litter under the crowns.",
+      "why": "The lawn is one flat minty plane filling half the frame.",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
-       "softnessAO"
+       "palette"
       ]
      },
      {
-      "area": "sky",
-      "fix": "Shift sky and grade to a neutral grey overcast with visible cloud layers, reduce the teal cast on lawn and path, and thicken rain haze toward the far tree line and lake.",
-      "why": "Sky is a saturated teal-blue and the green is cool; the paint-over is neutral grey with deeper contrast and hazier distance.",
+      "area": "weather",
+      "fix": "Raise wet sheen on the path with sky and tree reflections and darken the grass and trunks.",
+      "why": "The path is flat matte grey and only one tiny puddle shows the rain.",
       "expectedGain": [
-       "palette",
+       "adRainReadable",
        "light",
-       "depthFog"
+       "palette"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Vary crown size and shape, merge lobes into unequal masses and add contact darkening at trunk bases.",
+      "why": "Crowns are near-identical spheres on thin poles.",
+      "expectedGain": [
+       "silhouettes",
+       "softnessAO"
       ]
      }
     ],
-    "vsPrevious": "unchanged: near-identical composition and light, slightly more saturated greens (pixel change 4 %), no new wet or ground detail.",
-    "summary": "At phone size the frame reads as a clean stylized autumn lakeside park with good crown colour variety, but the lawn and path are flat and dry-looking under a bluish sky, so light rain barely registers. The biggest gap against the paint-over is wet-surface response (glossy path, reflective puddle, dark wet grass) and neutral overcast grading.",
+    "vsPrevious": "unchanged: near-identical frame (pixel change 0.97, luma +0.0).",
+    "summary": "At phone size this is a coherent but flat, minty-green rain scene with readable autumn crowns and a stormy sky. The biggest gap is the sterile lawn and matte path, which lack the wet richness of the paint-over.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; lawn is a single tone with no beds or shrubs."
+      "reason": "groundRichness 2 and adGroundRich 2; effectively one lawn layer plus the path."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light 3 and palette 3; trunks stay distinguishable, season reads as autumn, though flat."
+      "reason": "light 3, palette 3; trunks stay distinct, autumn reads correctly, overcast so no shadow bearing to check."
      },
      "LF-weather": {
       "pass": false,
-      "reason": "adRainReadable 2: only a small puddle and darker sky; no wet surface contrast or sheen. Particle-hidden survival not checkable from a still."
+      "reason": "Dark sky and one puddle are visible but there is little wet surface contrast; particles are faint, so cues without particles are not checkable."
      },
      "LF-aerial": {
       "pass": null,
@@ -1236,11 +1244,11 @@
      },
      "LF-trees": {
       "pass": true,
-      "reason": "silhouettes 3 and adRegional 3; season correct, mostly varied crowns, though some repeated clusters."
+      "reason": "silhouettes 3, adRegional 3; autumn season correct, no three adjacent identical crowns."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Overcast sky is cloudy with no sun disk in the ESE view; palette support is acceptable though too teal."
+      "reason": "Overcast cloud deck reinforces the rain mood, with no sun disk."
      }
     },
     "v2Floors": false,
@@ -1272,13 +1280,13 @@
      ],
      "saturationMean": 86.8,
      "colorfulness": 47.8,
-     "edgeMean": 6.66,
+     "edgeMean": 6.67,
      "hueHist": [
-      0.05,
-      0.128,
+      0.049,
+      0.127,
       0.127,
       0.021,
-      0.282,
+      0.283,
       0.007,
       0.384,
       0.001,
@@ -1390,11 +1398,11 @@
      {
       "lumaHistIntersection": 0.582,
       "rgbHistIntersection": 0.499,
-      "hueHistIntersection": 0.216,
+      "hueHistIntersection": 0.214,
       "dLumaMean": -3.2,
       "dSaturation": 5.8,
       "dColorfulness": -4.4,
-      "dEdge": -0.18,
+      "dEdge": -0.17,
       "dRGB": [
        -27.9,
        3.8,
@@ -1402,13 +1410,13 @@
       ]
      },
      {
-      "lumaHistIntersection": 0.58,
+      "lumaHistIntersection": 0.581,
       "rgbHistIntersection": 0.465,
       "hueHistIntersection": 0.193,
       "dLumaMean": -9.1,
       "dSaturation": -2.1,
       "dColorfulness": -3.5,
-      "dEdge": -5.94,
+      "dEdge": -5.93,
       "dRGB": [
        -11.6,
        -7.2,
@@ -1416,13 +1424,13 @@
       ]
      },
      {
-      "lumaHistIntersection": 0.619,
+      "lumaHistIntersection": 0.618,
       "rgbHistIntersection": 0.531,
-      "hueHistIntersection": 0.404,
+      "hueHistIntersection": 0.403,
       "dLumaMean": 4.9,
       "dSaturation": 1.2,
       "dColorfulness": 1.4,
-      "dEdge": -2.2,
+      "dEdge": -2.19,
       "dRGB": [
        -1.3,
        6.3,
@@ -1431,42 +1439,42 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.937,
-     "rgbHistIntersection": 0.939,
-     "hueHistIntersection": 0.885,
-     "dLumaMean": -0.4,
-     "dSaturation": 8.1,
-     "dColorfulness": 4.1,
-     "dEdge": -0.03,
+     "lumaHistIntersection": 0.994,
+     "rgbHistIntersection": 0.971,
+     "hueHistIntersection": 0.989,
+     "dLumaMean": 0.0,
+     "dSaturation": 0.6,
+     "dColorfulness": 0.3,
+     "dEdge": -0.16,
      "dRGB": [
-      -0.6,
-      -0.2,
-      -2.6
+      0.0,
+      0.0,
+      -0.2
      ],
-     "pixelChange": 4.22
+     "pixelChange": 0.97
     },
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.97s",
-     "fpsMedian": 59.7,
-     "frameMsMedian": 16.75,
+     "build": "32.49s",
+     "fpsMedian": 60.1,
+     "frameMsMedian": 16.64,
      "gpuMsMedian": null,
      "renderSamples": 3,
-     "viewTriangles": 364774,
+     "viewTriangles": 365247,
      "viewDraws": 65,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 47.4
+     "loadSeconds": 46.9
     }
    }
   },
@@ -1477,23 +1485,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Faceted lobed crowns with unequal masses, a tiered spruce and open branch skeletons read as families, but crowns repeat and look more lollipop-like than the paint-over."
+      "reason": "Crowns are merged lobed masses in oak/elm-like and spruce families, but several mid-ground crowns repeat and the spruce is a single hero; reads as stylized but repetitive."
      },
      "palette": {
       "score": 3,
-      "reason": "Autumn mix of russet, orange and yellow-olive is right, but the whole frame, sky included, is tinted a uniform brown-orange; the paint-over smoke is a neutral grey-tan with greener crowns."
+      "reason": "Autumn crown spread (russet, orange, yellow, olive) is right, but sky and haze are a saturated orange-brown wash versus the paint-over's neutral grey-beige smoke; lawn is flat olive-green."
      },
      "light": {
       "score": 3,
-      "reason": "Flat smoke light with soft shadows is plausible at noon, but the heavy single orange cast flattens contrast; sun at 180 azimuth is not readable."
+      "reason": "Single coherent soft key with muted shadows suits smoke; the uniform orange cast tints the whole frame and flattens form compared with the target's neutral dimmed light."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Trunk bases have little darkening; contact is basic, with no pockets under crowns as in the paint-over."
+      "reason": "Trunk bases have small contact darkening and no floating trunks, but no soft crown shadows on the lawn and little occlusion where the path meets grass."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Lawn is a nearly flat green with only tiny grass tufts; no tone patches, worn edges, beds or leaf litter."
+      "reason": "Lawn is nearly one flat tone with only a few sparse tufts; no beds, shrubs, worn edges or leaf litter. Paint-over has tonal patches and lawn variation."
      },
      "characterReadability": {
       "score": null,
@@ -1501,15 +1509,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Distant tree band fades into orange haze and the lake edge softens, but the haze is a flat band and the near-to-far gradient is weaker than in the paint-over."
+      "reason": "Distant trees fade into orange haze with a visible band, but the sky/ground transition is abrupt and the lake is a thin grey strip with no haze separation; near/mid/far steps are present but coarse."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "No houses visible; only distant tree band, so scored 3."
+      "reason": "No houses visible in this park view; distant backdrop is only tree line, so scored 3 as per guidance."
      },
      "geography": {
       "score": 4,
-      "reason": "Lake on the right, path and bench consistent with the ESE lake-trail camera; smoke hides shadow bearing so judged on layout; no contradictions."
+      "reason": "Lake on the right, path heading ESE, sun behind with soft shadows; nothing contradicts the camera notes. Smoke obscures shadows so scored on layout."
      },
      "motion": {
       "score": null,
@@ -1519,15 +1527,15 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "One lawn colour, no shrubs, beds or leaf litter under crowns; hard-edged path."
+      "reason": "Single lawn colour, hard path edges, no shrubs, beds or litter under crowns."
      },
      "adRainReadable": {
       "score": null,
-      "reason": "n/a: not a wet view"
+      "reason": "not wet"
      },
      "adRegional": {
       "score": 3,
-      "reason": "Front Range lakeside park with deciduous mix, spruce and lake reads plausibly, but few distinctive Denver cues (no cottonwood gold dominance, no mountains, which is correct for ESE)."
+      "reason": "Cottonwood/aspen-like gold and a conifer with low lake edge read as Sloan's Lake autumn, but no mountain band or Denver housing cue and the orange cast reads generic."
      }
     },
     "v2Total": 24,
@@ -1539,9 +1547,9 @@
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "post",
-      "fix": "Neutralise the smoke grade to a grey-tan haze like the paint-over: keep crowns' own greens and golds visible and stop the orange wash on sky and lawn.",
-      "why": "Sky and ground are one brown-orange cast, much more saturated than the paint-over (dRGB blue/green about -14/-11).",
+      "area": "sky",
+      "fix": "Shift smoke sky and haze from saturated orange-brown to the paint-over's grey-beige with a faint warm tint, lighter near the horizon",
+      "why": "Frame is dLuma -11 and RGB blue/green channels 11-14 below the paint-over; the whole frame reads orange",
       "expectedGain": [
        "palette",
        "light",
@@ -1550,8 +1558,8 @@
      },
      {
       "area": "ground",
-      "fix": "Add lawn tone patches, a worn edge along the path, shrub clusters and leaf litter under crowns, and soften the path edges.",
-      "why": "The foreground lawn is a flat green plane with almost no variation.",
+      "fix": "Add lawn tone patches, shade under crowns, a few shrub masses and leaf litter near trunks, and soften path edges",
+      "why": "Lawn is a flat olive plane covering over half the frame",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
@@ -1560,28 +1568,26 @@
      },
      {
       "area": "fog",
-      "fix": "Build distance haze in layers so near trees keep colour, mid trees fade and far trees dissolve; add soft contact darkening at trunk bases.",
-      "why": "Haze reads as a flat band at the horizon; near/mid contrast is weak.",
+      "fix": "Add distinct near/mid/far haze steps and a hazed lake with a visible shoreline edge",
+      "why": "Lake is a thin grey strip and distant trees jump to an orange band",
       "expectedGain": [
        "depthFog",
-       "softnessAO"
+       "geography"
       ]
      }
     ],
-    "vsPrevious": "unchanged: near-identical (pixel change 2.3), slightly more saturated.",
-    "summary": "At phone size it reads as a stylized autumn lake park under an orange smoke wash, with decent tree families but a flat lawn. The biggest gap against the paint-over is the over-saturated uniform orange cast and the sterile ground.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; only lawn and path layers."
+      "reason": "Only lawn and path layers visible; no beds, shrubs or litter."
      },
      "LF-light": {
-      "pass": false,
-      "reason": "Single orange cast flattens the scene and the sky tint is off; autumn season reads right."
+      "pass": true,
+      "reason": "light and palette are 3, trunks and the spruce stay distinguishable, bearings plausible; heavy orange cast noted."
      },
      "LF-weather": {
-      "pass": false,
-      "reason": "Smoke: near, mid and far contrast does differ, but the haze is a flat orange band and the near trees keep little separation; weak pass at best."
+      "pass": true,
+      "reason": "Smoke contrast differs between near trees, mid trees and the hazed far tree line."
      },
      "LF-aerial": {
       "pass": null,
@@ -1589,13 +1595,15 @@
      },
      "LF-trees": {
       "pass": true,
-      "reason": "silhouettes 3, adRegional 3, no three identical adjacent crowns, season correct."
+      "reason": "Autumn season correct, varied crowns with a spruce; some repetition but no three identical adjacent silhouettes."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Smoke sky with no sun disk; astronomy not contradicted, though overly orange."
+      "reason": "Smoke sky has no sun disk and keeps the haze simple; strength of palette is limited by the orange tone."
      }
     },
+    "vsPrevious": "unchanged: pixel change 0.69 percent, same orange cast and flat lawn.",
+    "summary": "At phone size the park reads as a stylized autumn smoke scene with good crown colour variety, but a saturated orange wash and a flat lawn separate it from the neutral beige paint-over. The biggest gap is sky/haze colour, followed by empty ground.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 34.2,
@@ -1605,9 +1613,7 @@
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground",
-     "LF-light",
-     "LF-weather"
+     "LF-ground"
     ],
     "lookFixChecked": 5
    },
@@ -1739,42 +1745,42 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.962,
-     "rgbHistIntersection": 0.96,
+     "lumaHistIntersection": 0.995,
+     "rgbHistIntersection": 0.987,
      "hueHistIntersection": 0.966,
-     "dLumaMean": -0.4,
-     "dSaturation": 1.7,
-     "dColorfulness": 1.6,
-     "dEdge": -0.13,
+     "dLumaMean": -0.1,
+     "dSaturation": 0.3,
+     "dColorfulness": 0.2,
+     "dEdge": -0.18,
      "dRGB": [
-      -0.5,
-      -0.2,
-      -1.0
+      0.0,
+      -0.1,
+      -0.1
      ],
-     "pixelChange": 2.33
+     "pixelChange": 0.69
     },
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.97s",
-     "fpsMedian": 60.0,
-     "frameMsMedian": 16.67,
+     "build": "32.49s",
+     "fpsMedian": 60.4,
+     "frameMsMedian": 16.56,
      "gpuMsMedian": null,
      "renderSamples": 3,
-     "viewTriangles": 364774,
+     "viewTriangles": 365247,
      "viewDraws": 64,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 50.6
+     "loadSeconds": 50.1
     }
    }
   },
@@ -1785,39 +1791,39 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Orange/yellow crowns read as unequal merged masses with trunks, but are repetitive and small; house is a plain box with grey-mauve wall, far houses boxy."
+      "reason": "Orange/yellow lollipop-ish crowns in repeated families, flat-faced beige houses; readable but repetitive"
      },
      "palette": {
       "score": 3,
-      "reason": "Autumn crowns are right, but ground and house are desaturated and hazy (saturation 73 vs 91 mock); lawns olive-yellow left and flat green right, house wall dull grey-mauve instead of the brick of the mock."
+      "reason": "Autumn orange/gold crowns fit the season but lawns are flat olive and green, grey road/walk; much less saturated than the paint-over (sat 73 vs 83)"
      },
      "light": {
       "score": 3,
-      "reason": "Coherent afternoon with soft road shadows, but low contrast, hazy milky sky, no strong key light or warm/cool split, and lawns and house show almost no cast shadow or dappled tree shade as in the paint-over and mock."
+      "reason": "Soft shadows on road and a lit left wall are coherent with a low SW sun, but the warm/cool balance is muted and the frame reads flat compared with the paint-over"
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Shrubs at the foundation and a darker base band give basic contact; no dog shadow, no trunk-base pocket, no eave occlusion, the wall base looks pasted."
+      "reason": "Shrubs at the foundation and a faint dog contact shadow; no eave or trunk-base occlusion, the wall base is a hard band"
      },
      "groundRichness": {
-      "score": 3,
-      "reason": "Two lawn tones, sparse grass tufts, a few leaves on the walk; lawns are flat carpets with no tree shade patches and little litter; sidewalk very plain."
+      "score": 2,
+      "reason": "Two flat lawn tones with sparse identical grass tufts; plain walk, a few leaf specks, no beds or tone patches in the foreground"
      },
      "characterReadability": {
       "score": 3,
-      "reason": "Black dog reads clearly on pale walk at about 20% framing, but is a flat dark silhouette with no ground shadow, little form light and contact looks weak."
+      "reason": "Black dog reads on the pale walk at about 25% height, but is a near-solid black silhouette with little coat detail"
      },
      "depthFog": {
       "score": 3,
-      "reason": "Distant row of houses and trees fade softly and give separation, but the haze is flat and sky is nearly white-grey; no clear blue sky gradient."
+      "reason": "Mild haze on the far block and sky, but no lake or mountain backdrop and little separation between mid and far"
      },
      "houseVariety": {
-      "score": 2,
-      "reason": "Near house is a bare box with large window and no trim, porch or roof; the far yellow building is a generic block. Little variation or detail compared with the mock's brick and trim contrast."
+      "score": 3,
+      "reason": "Plain beige foreground block, cream apartment-like house and brick distant; a few families but boxy and low in detail"
      },
      "geography": {
       "score": 4,
-      "reason": "Camera faces west on a street with road on the right; shadows on the road fall toward the camera and right, consistent with the sun at azimuth 227; nothing contradicts the view data."
+      "reason": "Facing west with shadows falling toward the camera and right, consistent with sun az 227.5; nothing contradicts the camera"
      },
      "motion": {
       "score": null,
@@ -1826,8 +1832,8 @@
     },
     "artDirection": {
      "adGroundRich": {
-      "score": 3,
-      "reason": "Olive foundation shrubs in a row, two lawn tones, sparse tufts and a few leaves; no beds with visible mulch, no tree shade, lawn variation weak."
+      "score": 2,
+      "reason": "Flat lawns, few shrubs only at the wall base, no beds, hard edges between lawn and walk"
      },
      "adRainReadable": {
       "score": null,
@@ -1835,85 +1841,75 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Front Range street cues (wide lawns, sidewalks, autumn crowns, low houses) are present but generic; no mountain band or distinctive Denver house families visible."
+      "reason": "Autumn crown mix, street layout and low-rise block suggest Denver, but no mountain or distinct regional cues"
      }
     },
     "v2Total": 27,
     "v2Max": 45,
     "v2Score50": 30.0,
-    "adMean": 3.0,
+    "adMean": 2.5,
     "gatePass": false,
-    "adPass": true,
+    "adPass": false,
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "light",
-      "fix": "Strengthen the afternoon key: a clear blue sky gradient, warmer sunlit surfaces with cooler shadows, and dappled tree-shade patches across lawns and sidewalk, as in the mock.",
-      "why": "Frame is hazy and low contrast; sky is milky and ground has no cast shade, while the mock has blue sky and strong shade patches.",
+      "area": "ground",
+      "fix": "Add lawn tone patches, shade tone under crowns, worn edges, shrub and bed islands and calm leaf litter along the walk and verge",
+      "why": "Both lawns are flat single tones with identical tufts, far below the paint-over's varied ground",
       "expectedGain": [
-       "light",
-       "palette",
-       "depthFog",
-       "groundRichness"
-      ]
-     },
-     {
-      "area": "buildings",
-      "fix": "Give the near house brick or siding colour contrast with cream trim, window casing, eave and porch details and a darker foundation band.",
-      "why": "The wall is a flat grey-mauve box with a single window, far from the mock's brick and trim contrast.",
-      "expectedGain": [
-       "houseVariety",
-       "silhouettes",
-       "palette"
-      ]
-     },
-     {
-      "area": "character",
-      "fix": "Add a soft contact shadow under the dog and a slight form light on the coat.",
-      "why": "The dog is a flat black shape with no shadow or grounding on the walk.",
-      "expectedGain": [
-       "characterReadability",
+       "groundRichness",
+       "adGroundRich",
        "softnessAO"
+      ]
+     },
+     {
+      "area": "light",
+      "fix": "Raise saturation and warm/cool contrast: warmer sunlit surfaces, cooler blue-violet shadows, brighter highlights on walk and wall",
+      "why": "Saturation 73 vs 83 and p95 luma 177 vs 209 in the paint-over; frame looks muted and flat",
+      "expectedGain": [
+       "palette",
+       "light"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Vary crown size, shape and openness by family with trunk-base contact darkening; add foundation shrubs as merged lobes",
+      "why": "Crowns read as repeated balls on poles; trunk bases are bare",
+      "expectedGain": [
+       "silhouettes",
+       "softnessAO",
+       "adRegional"
       ]
      }
     ],
-    "vsPrevious": "unchanged: pixel change 2.6%, luma and colour histograms near identical to the previous run.",
-    "summary": "At phone size the frame reads as a coherent autumn street but hazy, desaturated and flat compared with the paint-over and the daytime mock. The biggest gap is the missing crisp sunlight, blue sky and shade patterns, plus a plain box house.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "Layers are present (lawn, shrubs, walk, a few leaves) but lawn variation and litter are weak and flat."
+      "reason": "groundRichness 2 and adGroundRich 2; only lawn and walk layers with a few shrubs"
      },
      "LF-light": {
-      "pass": false,
-      "reason": "light and palette are 3, but exposure and haze flatten the architecture; the house wall has little form shading and no dappled shadow."
+      "pass": true,
+      "reason": "light 3 and palette 3; shadow bearing matches the sun, season reads autumn, though flat"
      },
      "LF-weather": {
       "pass": null,
-      "reason": "n/a: dry, clear view"
+      "reason": "n/a: dry clear view"
      },
      "LF-aerial": {
       "pass": null,
       "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": true,
-      "reason": "Autumn season correct, crowns vary in colour and size, no three identical adjacent crowns visible; silhouettes and regional are 3."
+      "pass": false,
+      "reason": "adjacent crowns repeat similar orange ball silhouettes; trunks bare at base"
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Sky is sparse and simple, no sunset disk; pale but does not move astronomy."
+      "reason": "Pale sky with sparse simple clouds, no sun disk, no astronomy faults"
      }
     },
-    "mockGap": {
-     "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png",
-     "closeness": 3,
-     "gaps": [
-      "No blue sky, crisp sun and dappled tree shade; frame is hazy and low contrast",
-      "House is a plain grey-mauve box without brick colour, trim and eave contrast",
-      "Lawn is a flat olive/green carpet without shade tone patches and dog has no shadow"
-     ]
-    },
+    "vsPrevious": "unchanged: pixel change 1.01 with luma, saturation and edge deltas near zero",
+    "summary": "At phone size this is a clean but flat stylized autumn street: muted colour, flat lawns and a black dog silhouette. The biggest gap against the paint-over is ground richness and colour/light saturation.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 34.3,
@@ -1924,7 +1920,7 @@
     "gate5B": false,
     "lookFixFailed": [
      "LF-ground",
-     "LF-light"
+     "LF-trees"
     ],
     "lookFixChecked": 4
    },
@@ -1934,16 +1930,16 @@
      "lumaP5": 89,
      "lumaP50": 132,
      "lumaP95": 177,
-     "clipBlackPct": 0.16,
+     "clipBlackPct": 0.15,
      "clipWhitePct": 0.0,
      "rgbMean": [
       134.0,
       138.1,
       113.5
      ],
-     "saturationMean": 73.2,
+     "saturationMean": 73.3,
      "colorfulness": 51.6,
-     "edgeMean": 8.14,
+     "edgeMean": 8.1,
      "hueHist": [
       0.197,
       0.099,
@@ -2087,7 +2083,288 @@
        0.0,
        0.0
       ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.528,
+      "rgbHistIntersection": 0.46,
+      "hueHistIntersection": 0.32,
+      "dLumaMean": 7.5,
+      "dSaturation": -56.6,
+      "dColorfulness": -19.7,
+      "dEdge": -2.86,
+      "dRGB": [
+       -33.5,
+       17.5,
+       28.1
+      ]
      },
+     {
+      "lumaHistIntersection": 0.39,
+      "rgbHistIntersection": 0.401,
+      "hueHistIntersection": 0.688,
+      "dLumaMean": -21.2,
+      "dSaturation": -16.3,
+      "dColorfulness": -9.5,
+      "dEdge": -7.51,
+      "dRGB": [
+       -25.3,
+       -20.7,
+       -15.7
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.468,
+      "rgbHistIntersection": 0.477,
+      "hueHistIntersection": 0.578,
+      "dLumaMean": -15.9,
+      "dSaturation": -44.3,
+      "dColorfulness": -37.2,
+      "dEdge": -3.04,
+      "dRGB": [
+       -5.6,
+       -19.8,
+       -8.7
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.639,
+      "rgbHistIntersection": 0.533,
+      "hueHistIntersection": 0.873,
+      "dLumaMean": -5.6,
+      "dSaturation": -9.7,
+      "dColorfulness": -2.4,
+      "dEdge": -2.04,
+      "dRGB": [
+       -0.9,
+       -7.3,
+       -2.9
+      ]
+     }
+    ],
+    "vsPrevious": {
+     "lumaHistIntersection": 0.985,
+     "rgbHistIntersection": 0.972,
+     "hueHistIntersection": 0.987,
+     "dLumaMean": 0.1,
+     "dSaturation": 0.3,
+     "dColorfulness": 0.5,
+     "dEdge": -0.26,
+     "dRGB": [
+      0.0,
+      0.0,
+      -0.2
+     ],
+     "pixelChange": 1.01
+    },
+    "perf": {
+     "static": 138649,
+     "props": 27390,
+     "instances": 11025,
+     "draws": 14,
+     "chunks": 48,
+     "meshBytes": 163371924,
+     "triangles": 166039,
+     "treeTrianglesNonInstanced": 0,
+     "countersScope": "whole world (not in view)",
+     "profile": "front-range",
+     "season": "2",
+     "build": "32.01s",
+     "fpsMedian": 0.0,
+     "frameMsMedian": null,
+     "gpuMsMedian": null,
+     "renderSamples": 29,
+     "viewTriangles": 383660,
+     "viewDraws": 80,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 37.0
+    }
+   }
+  },
+  "ordinary-street-afternoon": {
+   "grade": {
+    "view": "ordinary-street-afternoon",
+    "grader": "claude-sonnet-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Autumn crowns are merged lollipop-ish masses in orange/yellow families; house is a plain box with one big window and no trim."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Orange/russet trees against blue sky read right for Denver October, but lawns are lemon-olive on the left and flat mid green on the right; house is grey-mauve and washed out."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One coherent sun with soft shadows falling toward camera-right, but exposure is flat and hazy; no strong sun/shadow contrast on the house wall or lawn."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Soft shadow bands on lawn and road; shrubs sit on the foundation with some contact, but eave/soffit and trunk-base occlusion are weak."
+     },
+     "groundRichness": {
+      "score": 3,
+      "reason": "Lawn tone split, sidewalk, sparse tufts and a few leaves; lawns are large flat planes and the tone changes read as banding."
+     },
+     "characterReadability": {
+      "score": 4,
+      "reason": "Black dog is readable on the pale sidewalk, centred and grounded, with a faint contact shadow; it is slightly small."
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild haze separates the far block, but the distance is a bit milky and the sky band is small."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Near house is a single plain mass; far houses (cream apartment, red brick) differ in colour but are simple boxes."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Heading west with shadows falling toward the camera and right, consistent with sun az 212; nothing contradicts the camera."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 3,
+      "reason": "Shrub row and tufts present, lawn tone variation; no mulch bed, no worn edges, large flat lawns."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Autumn trees and low brick/clapboard houses suggest Denver; no bungalow/foursquare profile and no mountain cue (camera west, mountains not visible)."
+     }
+    },
+    "v2Total": 29,
+    "v2Max": 45,
+    "v2Score50": 31.9,
+    "adMean": 3.0,
+    "gatePass": false,
+    "adPass": true,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "buildings",
+      "fix": "Give the near house a warm brick or clapboard colour with cream corner boards, window casings, an eave band and a dark plinth, and stronger sunlit/shaded wall contrast.",
+      "why": "The wall is a flat grey-mauve with one window and no trim, far from the warm brick mock.",
+      "expectedGain": [
+       "silhouettes",
+       "houseVariety",
+       "palette"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Warm the lawns to a saturated, even mid green with soft sun/shade patches, and add a mulch bed under the shrubs.",
+      "why": "The left lawn reads lemon-olive and the right a flat grey-green; both are large bare planes.",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     },
+     {
+      "area": "sky",
+      "fix": "Brighten and saturate the sky with white cumulus and a cleaner, warmer sun key and lower haze.",
+      "why": "Sky is a thin pale band and the whole frame is milky.",
+      "expectedGain": [
+       "light",
+       "depthFog",
+       "palette"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: view is new in this run.",
+    "summary": "At phone size the street reads as autumn Denver with coherent light, but it is washed out, with a plain grey house and flat lawns. The biggest gap is house colour and trim contrast plus lawn colour against the approved mock.",
+    "lookFixChecks": {
+     "LF-ground": {
+      "pass": false,
+      "reason": "Layers present (lawn, walk, shrubs, litter) but lawn is flat and tone patches read as banding."
+     },
+     "LF-light": {
+      "pass": true,
+      "reason": "Shadows agree with sun; trunks stay distinct; reads as autumn; exposure is flat but acceptable."
+     },
+     "LF-weather": {
+      "pass": null,
+      "reason": "n/a: dry, clear view"
+     },
+     "LF-aerial": {
+      "pass": null,
+      "reason": "n/a: street view"
+     },
+     "LF-trees": {
+      "pass": false,
+      "reason": "Crowns are repeated rounded masses, adjacent similar silhouettes in the distance."
+     },
+     "LF-sky": {
+      "pass": true,
+      "reason": "Sky stays simple, no sun disk, astronomy not contradicted."
+     }
+    },
+    "mockGap": {
+     "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+     "closeness": 3,
+     "gaps": [
+      "House is a flat grey-mauve with one window; mock has warm terracotta/brick clapboard with cream corner boards, window casings, eave band, porch/stoop and dark plinth.",
+      "Lawns are lemon-olive left and flat grey-green right; mock is saturated mid green with sunlit/shaded contrast, dark mulch bed under shrubs and clear tree-base contact.",
+      "Sky is a thin pale milky band with no cumulus and weaker sun rim; mock has saturated blue sky with white clouds, crisper shadows, and richer orange crowns with taller trunks."
+     ]
+    },
+    "v2Floors": true,
+    "longTerm40": false,
+    "conceptScore50": null,
+    "parity": null,
+    "paintoverScore50": null,
+    "paintoverParity": null,
+    "gateBasis": "40/50 (no calibrated concept)",
+    "gate5B": false,
+    "lookFixFailed": [
+     "LF-ground",
+     "LF-trees"
+    ],
+    "lookFixChecked": 4
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 137.5,
+     "lumaP5": 78,
+     "lumaP50": 133,
+     "lumaP95": 213,
+     "clipBlackPct": 0.16,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      137.9,
+      140.4,
+      106.9
+     ],
+     "saturationMean": 83.2,
+     "colorfulness": 56.8,
+     "edgeMean": 8.49,
+     "hueHist": [
+      0.157,
+      0.316,
+      0.32,
+      0.051,
+      0.043,
+      0.002,
+      0.035,
+      0.075,
+      0.001,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
      {
       "label": "approved mock house-contrast-v1 denver-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)",
       "path": "docs/proposals/house-contrast-v1/images/denver-hero.png",
@@ -2123,113 +2400,43 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.527,
-      "rgbHistIntersection": 0.46,
-      "hueHistIntersection": 0.32,
-      "dLumaMean": 7.5,
-      "dSaturation": -56.7,
-      "dColorfulness": -19.7,
-      "dEdge": -2.82,
+      "lumaHistIntersection": 0.45,
+      "rgbHistIntersection": 0.548,
+      "hueHistIntersection": 0.66,
+      "dLumaMean": 4.1,
+      "dSaturation": -7.4,
+      "dColorfulness": 0.8,
+      "dEdge": -5.98,
       "dRGB": [
-       -33.5,
-       17.5,
-       28.1
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.39,
-      "rgbHistIntersection": 0.402,
-      "hueHistIntersection": 0.688,
-      "dLumaMean": -21.2,
-      "dSaturation": -16.4,
-      "dColorfulness": -9.5,
-      "dEdge": -7.47,
-      "dRGB": [
-       -25.3,
-       -20.7,
-       -15.7
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.468,
-      "rgbHistIntersection": 0.478,
-      "hueHistIntersection": 0.578,
-      "dLumaMean": -15.9,
-      "dSaturation": -44.4,
-      "dColorfulness": -37.2,
-      "dEdge": -3.0,
-      "dRGB": [
-       -5.6,
-       -19.8,
-       -8.7
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.639,
-      "rgbHistIntersection": 0.533,
-      "hueHistIntersection": 0.873,
-      "dLumaMean": -5.6,
-      "dSaturation": -9.8,
-      "dColorfulness": -2.4,
-      "dEdge": -2.0,
-      "dRGB": [
-       -0.9,
-       -7.3,
-       -2.9
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.615,
-      "rgbHistIntersection": 0.511,
-      "hueHistIntersection": 0.703,
-      "dLumaMean": 2.1,
-      "dSaturation": -17.4,
-      "dColorfulness": -4.4,
-      "dEdge": -6.33,
-      "dRGB": [
-       -3.6,
-       2.5,
-       13.2
+       0.3,
+       4.8,
+       6.6
       ]
      }
     ],
-    "vsPrevious": {
-     "lumaHistIntersection": 0.967,
-     "rgbHistIntersection": 0.951,
-     "hueHistIntersection": 0.958,
-     "dLumaMean": -0.1,
-     "dSaturation": 4.2,
-     "dColorfulness": 7.5,
-     "dEdge": -0.15,
-     "dRGB": [
-      1.3,
-      -0.3,
-      -2.1
-     ],
-     "pixelChange": 2.57
-    },
+    "vsPrevious": null,
     "perf": {
      "static": 138649,
      "props": 27390,
-     "instances": 10995,
+     "instances": 11025,
      "draws": 14,
      "chunks": 48,
-     "meshBytes": 155444716,
+     "meshBytes": 163371924,
      "triangles": 166039,
      "treeTrianglesNonInstanced": 0,
      "countersScope": "whole world (not in view)",
      "profile": "front-range",
      "season": "2",
-     "build": "32.24s",
-     "fpsMedian": 0.0,
-     "frameMsMedian": null,
+     "build": "32.01s",
+     "fpsMedian": 60.0,
+     "frameMsMedian": 16.67,
      "gpuMsMedian": null,
-     "renderSamples": 30,
-     "viewTriangles": 381058,
-     "viewDraws": 80,
+     "renderSamples": 3,
+     "viewTriangles": 391409,
+     "viewDraws": 87,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 37.9
+     "loadSeconds": 39.8
     }
    }
   },
@@ -2240,23 +2447,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Gabled brick/clapboard houses and round-crown street trees read as families, but crowns are repeated lollipop-like balls on thin poles and house massing is repetitive."
+      "reason": "Gabled brick houses and ball-crowned street trees read as families but crowns are near-identical lime spheres on thin trunks, repetitive down the street."
      },
      "palette": {
       "score": 3,
-      "reason": "Coherent warm brick, green lawn and lavender sky, but lime-yellow crowns are candy-bright and the sky is pink-purple versus the mock's blue; saturation is higher than the mock."
+      "reason": "Coherent brick/tan/green with lilac sky, but the tree foliage is a hot lime-yellow that reads more autumn than late-summer olive, and lawns are flat saturated green."
      },
      "light": {
       "score": 3,
-      "reason": "Low warm sun from behind-left with cast crown shadows on the lawn and sidewalk is coherent, but the sky tint is purple and the golden-hour wash flattens the road and house sides; the master mock is a neutral afternoon."
+      "reason": "Warm low sun from behind-left with long crown shadows on the lawn and lit sidewalk edge agree with the 88 degree shadow bearing; wash is a little flat on facades and sky is pinkish-lilac rather than golden."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Soft shadow patches on lawn and a faint contact darkening at trunks and shrubs; no black rings, but eaves and porches have little occlusion."
+      "reason": "Soft crown shadows and some contact under shrubs and trunk bases; house bases and eaves have little occlusion."
      },
      "groundRichness": {
-      "score": 2,
-      "reason": "Lawn is two flat green tones with a hard-edged concrete path and verge strip; few leaves, no patches, worn edges or beds; reads sterile versus targets."
+      "score": 3,
+      "reason": "Lawn has a subtle tone split, a cross walk, a verge strip, sparse tufts; large foreground lawn is still mostly one flat green."
      },
      "characterReadability": {
       "score": null,
@@ -2264,15 +2471,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Houses and trees fade modestly toward a purple horizon haze with useful separation, but distance is somewhat flat and the road recedes without much atmosphere."
+      "reason": "Street recedes with gentle haze and a lilac sky; the distant row is a bit crisp and the sky gradient is modest."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Several facade colours (tan, red brick, grey-brown) and gable types, with dormers and entries, but forms are boxy and the mix is modest next to the mock."
+      "reason": "Brick, tan clapboard and gabled forms differ by colour and roof, but massing is similar and less varied than the Tudor/colonial mix of the target."
      },
      "geography": {
       "score": 4,
-      "reason": "Heading 90 with sun at 268 deg: shadows fall toward the camera's right/forward-east as seen, consistent with the sun behind; nothing visible contradicts the camera or layout."
+      "reason": "Street runs east with shadows falling toward the camera-right/east, consistent with sun at 268 degrees; nothing contradicts the camera."
      },
      "motion": {
       "score": null,
@@ -2281,30 +2488,40 @@
     },
     "artDirection": {
      "adGroundRich": {
-      "score": 2,
-      "reason": "Foundation shrubs exist as small masses, but lawns lack tone variation and no beds or mulch are visible; hard path edges."
+      "score": 3,
+      "reason": "Foundation shrubs as merged lobes, a hedge row and lawn tone variation are present; no beds with mulch and lawns are mostly flat."
      },
      "adRainReadable": {
       "score": null,
-      "reason": "n/a: dry view"
+      "reason": "dry view"
      },
      "adRegional": {
       "score": 3,
-      "reason": "Brick and Tudor-ish gabled houses with street trees and parkway suggest North Shore, but the cues are generic and the lime foliage and pink sky weaken the place's read."
+      "reason": "Tree-lined residential street with brick houses and gables suggests North Shore, but lacks Tudor/half-timber richness and tree mix variety."
      }
     },
-    "v2Total": 24,
+    "v2Total": 25,
     "v2Max": 40,
-    "v2Score50": 30.0,
-    "adMean": 2.5,
+    "v2Score50": 31.1,
+    "adMean": 3.0,
     "gatePass": false,
-    "adPass": false,
+    "adPass": true,
     "hardGateFlags": [],
     "topFixes": [
      {
+      "area": "vegetation",
+      "fix": "Vary crown size, shape and open/closed families, and shift foliage from lime to a deeper olive-green with some russet-leaning oak; stop repeating identical spheres.",
+      "why": "Street trees are near-identical lime balls and read autumn-yellow in late summer.",
+      "expectedGain": [
+       "silhouettes",
+       "palette",
+       "adRegional"
+      ]
+     },
+     {
       "area": "ground",
-      "fix": "Add lawn tone patches and shade tone under crowns, soft worn edges along the walk, a few planting beds with mulch, and sparse leaf litter near trunks.",
-      "why": "Foreground lawn is two flat greens split by hard-edged concrete bands.",
+      "fix": "Break the foreground lawn into patches of different green, worn edges, shade tone and add a planting bed with mulch.",
+      "why": "Foreground lawns are large flat green fields.",
       "expectedGain": [
        "groundRichness",
        "adGroundRich"
@@ -2312,31 +2529,23 @@
      },
      {
       "area": "light",
-      "fix": "Shift the sky from lavender-pink toward a clearer blue-to-warm gradient and reduce crown yellow saturation so foliage reads late-summer green.",
-      "why": "Sky is purple and crowns are lime-yellow, off the mock's neutral afternoon and the anchor's palette.",
+      "fix": "Warm the key light on facades and lawn, deepen golden-hour sky toward amber near the sun, add contact shading at house bases and under eaves.",
+      "why": "Sky is lilac and facades look evenly lit compared with the golden target.",
       "expectedGain": [
-       "palette",
-       "light"
-      ]
-     },
-     {
-      "area": "vegetation",
-      "fix": "Vary crown size, openness and tone between trees, with thicker branching, instead of repeated round balls on thin trunks.",
-      "why": "Street trees repeat near-identical spheres on poles.",
-      "expectedGain": [
-       "silhouettes",
-       "adRegional"
+       "light",
+       "softnessAO",
+       "depthFog"
       ]
      }
     ],
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; only lawn, walk and a few shrubs visible."
+      "reason": "Lawn, walk, verge and shrubs present but foreground lawn is flat; no beds or litter."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light and palette 3, roofs and trunks distinguishable, shadow bearing agrees with sun, summer reads as summer."
+      "reason": "Shadow bearing agrees with sun; summer reads as summer, architecture not flattened."
      },
      "LF-weather": {
       "pass": null,
@@ -2348,28 +2557,19 @@
      },
      "LF-trees": {
       "pass": false,
-      "reason": "Silhouettes 3 and regional 3 but repeated round crowns recur on adjacent trees along the street."
+      "reason": "Adjacent crowns repeat as near-identical lime spheres and the hue leans autumn."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Sparse simple cirrus, no sunset disk in frame; sky strengthens depth though tint is purple."
+      "reason": "Sparse simple cloud wisps, no sun disk, no astronomy issue."
      }
     },
-    "vsPrevious": "unchanged: near-identical frame, slightly warmer and more saturated (dSat +11.8) with similar structure.",
-    "summary": "At phone size it is a coherent stylized street with warm light and clear house colours, but the sky is purple, crowns are lime and lollipop-like, and the lawn is flat. The biggest gap is sterile ground richness against the mock and look-fix references.",
-    "mockGap": {
-     "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
-     "closeness": 3,
-     "gaps": [
-      "Sky and light are pink-lavender golden hour rather than the mock's neutral blue afternoon, with higher saturation",
-      "Crowns are lime lollipops, unlike the mock's varied green masses",
-      "Lawn is flat with hard bands, lacking the mock's tonal variation and beds"
-     ]
-    },
-    "v2Floors": false,
+    "vsPrevious": "unchanged: near-identical to the previous run.",
+    "summary": "At phone size a clean, warm-lit tree-lined North Shore street that is coherent but simple, with repeated lime crowns and flat lawns. The biggest gap is vegetation colour and variety against the target.",
+    "v2Floors": true,
     "longTerm40": false,
     "conceptScore50": 34.2,
-    "parity": 88,
+    "parity": 91,
     "paintoverScore50": null,
     "paintoverParity": null,
     "gateBasis": "parity",
@@ -2475,7 +2675,256 @@
        0.0,
        0.0
       ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.657,
+      "rgbHistIntersection": 0.597,
+      "hueHistIntersection": 0.508,
+      "dLumaMean": -5.7,
+      "dSaturation": -1.1,
+      "dColorfulness": 1.9,
+      "dEdge": -0.85,
+      "dRGB": [
+       -10.1,
+       -5.4,
+       3.9
+      ]
      },
+     {
+      "lumaHistIntersection": 0.6,
+      "rgbHistIntersection": 0.558,
+      "hueHistIntersection": 0.622,
+      "dLumaMean": -16.2,
+      "dSaturation": -21.4,
+      "dColorfulness": -23.8,
+      "dEdge": -2.03,
+      "dRGB": [
+       -2.9,
+       -21.2,
+       -4.9
+      ]
+     }
+    ],
+    "vsPrevious": {
+     "lumaHistIntersection": 0.993,
+     "rgbHistIntersection": 0.962,
+     "hueHistIntersection": 0.973,
+     "dLumaMean": 0.0,
+     "dSaturation": 0.7,
+     "dColorfulness": 0.6,
+     "dEdge": -0.26,
+     "dRGB": [
+      0.2,
+      0.0,
+      0.0
+     ],
+     "pixelChange": 1.07
+    },
+    "perf": {
+     "static": 159128,
+     "props": 13506,
+     "instances": 10703,
+     "draws": 15,
+     "chunks": 25,
+     "meshBytes": 153507568,
+     "triangles": 172634,
+     "treeTrianglesNonInstanced": 0,
+     "countersScope": "whole world (not in view)",
+     "profile": "wilmette",
+     "season": "2",
+     "build": "28.82s",
+     "fpsMedian": 0.0,
+     "frameMsMedian": null,
+     "gpuMsMedian": null,
+     "renderSamples": 27,
+     "viewTriangles": 369283,
+     "viewDraws": 85,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 33.9
+    }
+   }
+  },
+  "wilmette-street-afternoon": {
+   "grade": {
+    "view": "wilmette-street-afternoon",
+    "grader": "claude-sonnet-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Gable/hip roof families and tree crowns read, but crowns are repeated round lollipop-like masses on straight trunks."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent but over-saturated: tan/orange siding and neon yellow-green lawn vs the mock's muted sage siding and calmer green; sky blue is good."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One sun, shadows on road and walls agree with a SW sun; but warm orange walls and bright lawn feel warmer and flatter than the mock's cool-shadow afternoon."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Hedges and shrubs sit on the ground; soft tree shadows on road and verge, but little contact pocketing at foundations or eaves."
+     },
+     "groundRichness": {
+      "score": 3,
+      "reason": "Lawn has stripes, walk, verge and hedges, but lawn tone is flat and saturated with no dappled shade; mock has soft dapple on grass."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild haze and size falloff down the street; distance is fairly crisp and saturated."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Tan and brick houses with gables, dormers and chimneys vary; facades are flat and stoops are minimal."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Street looks east, sun at SW behind-right, shadows fall toward the road side consistently; nothing contradicts the camera."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 3,
+      "reason": "Foundation shrubs, hedge with irregular crest and walks present; lawn is large flat bands without patches or beds."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "North Shore cues: brick and clapboard gables, street trees, parkway; houses lean orange rather than muted painted siding."
+     }
+    },
+    "v2Total": 25,
+    "v2Max": 40,
+    "v2Score50": 31.1,
+    "adMean": 3.0,
+    "gatePass": false,
+    "adPass": true,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "light",
+      "fix": "Cool the shadow side of walls and roofs, tone down warm key on tan siding, add soft dappled tree shadow over lawns",
+      "why": "Walls glow orange and lawn is uniformly bright; the mock has cool blue-grey shade and dappled lawn",
+      "expectedGain": [
+       "light",
+       "palette",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Shift the main house siding toward muted sage/grey with cream trim and darker slate roofs",
+      "why": "Large foreground house is saturated tan vs the mock's grey-green clapboard",
+      "expectedGain": [
+       "palette",
+       "houseVariety"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Desaturate lawn to a deeper calm green, add lawn tone patches and a bed edge",
+      "why": "Lawn is neon yellow-green in large flat bands",
+      "expectedGain": [
+       "groundRichness",
+       "adGroundRich",
+       "palette"
+      ]
+     }
+    ],
+    "lookFixChecks": {
+     "LF-ground": {
+      "pass": true,
+      "reason": "lawn, walk, verge, shrubs and hedges give 3+ layers; no road grass"
+     },
+     "LF-light": {
+      "pass": true,
+      "reason": "light and palette 3; sun and shadows agree; summer reads as summer"
+     },
+     "LF-weather": {
+      "pass": null,
+      "reason": "n/a: dry clear view"
+     },
+     "LF-aerial": {
+      "pass": null,
+      "reason": "n/a: street view"
+     },
+     "LF-trees": {
+      "pass": true,
+      "reason": "silhouettes and regional 3; green summer crowns; repeats are a little uniform"
+     },
+     "LF-sky": {
+      "pass": true,
+      "reason": "blue sky with sparse simple clouds, no sun disk issue"
+     }
+    },
+    "vsPrevious": "no previous: first run of this twin view",
+    "summary": "Reads as a clean stylized North Shore street at phone size, but warmer and more saturated than the mock. Biggest gap is orange walls and neon lawn with no cool shade or dappling.",
+    "mockGap": {
+     "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+     "closeness": 3,
+     "gaps": [
+      "Colour: tan/orange siding and neon yellow-green lawn vs muted sage-grey clapboard and calmer deeper green; frame is far more saturated",
+      "Light: no cool bluish shadow tint or soft dappled tree shadow on lawn and sidewalk; sidewalk is cream not cool grey; shadows and soffits flat",
+      "Detail: sky lacks big white cumulus; trunks thinner/darker orange-brown, no eave band, porch/stoop and window trim weaker than mock"
+     ]
+    },
+    "v2Floors": true,
+    "longTerm40": false,
+    "conceptScore50": null,
+    "parity": null,
+    "paintoverScore50": null,
+    "paintoverParity": null,
+    "gateBasis": "40/50 (no calibrated concept)",
+    "gate5B": false,
+    "lookFixFailed": [],
+    "lookFixChecked": 4
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 136.6,
+     "lumaP5": 50,
+     "lumaP50": 137,
+     "lumaP95": 228,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      132.1,
+      141.5,
+      101.4
+     ],
+     "saturationMean": 115.2,
+     "colorfulness": 64.7,
+     "edgeMean": 11.22,
+     "hueHist": [
+      0.156,
+      0.096,
+      0.434,
+      0.165,
+      0.038,
+      0.004,
+      0.006,
+      0.099,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
      {
       "label": "approved mock house-contrast-v1 wilmette-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)",
       "path": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
@@ -2511,63 +2960,21 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.657,
-      "rgbHistIntersection": 0.597,
-      "hueHistIntersection": 0.508,
-      "dLumaMean": -5.7,
-      "dSaturation": -1.1,
-      "dColorfulness": 1.9,
-      "dEdge": -0.85,
+      "lumaHistIntersection": 0.531,
+      "rgbHistIntersection": 0.521,
+      "hueHistIntersection": 0.554,
+      "dLumaMean": 4.0,
+      "dSaturation": 45.3,
+      "dColorfulness": 21.3,
+      "dEdge": -2.38,
       "dRGB": [
-       -10.1,
-       -5.4,
-       3.9
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.6,
-      "rgbHistIntersection": 0.558,
-      "hueHistIntersection": 0.622,
-      "dLumaMean": -16.2,
-      "dSaturation": -21.4,
-      "dColorfulness": -23.8,
-      "dEdge": -2.03,
-      "dRGB": [
-       -2.9,
-       -21.2,
-       -4.9
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.609,
-      "rgbHistIntersection": 0.595,
-      "hueHistIntersection": 0.667,
-      "dLumaMean": -7.5,
-      "dSaturation": 27.4,
-      "dColorfulness": 13.6,
-      "dEdge": -2.58,
-      "dRGB": [
-       4.8,
-       -9.9,
-       -18.8
+       9.2,
+       4.7,
+       -17.2
       ]
      }
     ],
-    "vsPrevious": {
-     "lumaHistIntersection": 0.684,
-     "rgbHistIntersection": 0.761,
-     "hueHistIntersection": 0.863,
-     "dLumaMean": -0.2,
-     "dSaturation": 11.8,
-     "dColorfulness": 10.0,
-     "dEdge": 0.29,
-     "dRGB": [
-      0.0,
-      0.3,
-      -6.0
-     ],
-     "pixelChange": 8.86
-    },
+    "vsPrevious": null,
     "perf": {
      "static": 159128,
      "props": 13506,
@@ -2580,16 +2987,16 @@
      "countersScope": "whole world (not in view)",
      "profile": "wilmette",
      "season": "2",
-     "build": "29.89s",
-     "fpsMedian": 0.0,
-     "frameMsMedian": null,
+     "build": "28.82s",
+     "fpsMedian": 60.3,
+     "frameMsMedian": 16.58,
      "gpuMsMedian": null,
-     "renderSamples": 27,
+     "renderSamples": 3,
      "viewTriangles": 369283,
      "viewDraws": 85,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 35.2
+     "loadSeconds": 36.5
     }
    }
   },
@@ -2600,23 +3007,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Gabled house families and orange/yellow crowns read, but crowns are near-identical balls on bare poles with few branches; repetitive down the street."
+      "reason": "Gabled houses with chimneys and orange lollipop-ish crowns on trunks read as families but are repetitive; crowns are faceted ball clusters."
      },
      "palette": {
       "score": 3,
-      "reason": "Orange/yellow/russet crowns are correctly autumn, but lawns stay saturated summer green while the anchor has olive-gold grass; sky is slightly purple-blue and house colours flat."
+      "reason": "Orange/yellow fall crowns and brick/tan walls are coherent, but the lawn is a saturated flat green that fights the fall mood and the sky is cool lavender versus the warm anchor."
      },
      "light": {
       "score": 3,
-      "reason": "Warm key with shadows falling ahead-left, consistent with sun az 220 and shadow bearing 41; but overall lighting is flat with little golden-hour warmth in lawn and facades versus the anchor."
+      "reason": "One coherent sun with warm lit walls and soft cool shadows, but low contrast, no golden warmth on grass and sky/road are flat grey-blue."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Soft tree shadows on lawn and some eave darkening; trunk bases and hedge bases have little contact darkening."
+      "reason": "Soft tree shadows on the lawn and some trunk-base darkening; hedges and shrubs sit with little contact occlusion."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Large flat saturated green lawn planes with a hard-edged green overlay band along the walk; sparse leaf litter, no tonal patches or beds."
+      "reason": "Large lawn areas are near-uniform green with a hard-edged flat strip and a pale green verge band; sparse litter and few tone patches."
      },
      "characterReadability": {
       "score": null,
@@ -2624,15 +3031,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Modest haze and size falloff along the street give separation; distant houses and trees stay fairly crisp, no strong atmospheric layering."
+      "reason": "Some haze and size falloff along the street, but distant houses stay crisp and the sky has no horizon gradient."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Several gable and massing types in tan, salmon and brick, but simple boxes with few Tudor/porch details compared with the anchor."
+      "reason": "Several tan, brick and gabled forms with different roofs; windows and walls are simple and similar."
      },
      "geography": {
       "score": 4,
-      "reason": "Street runs east as per camera heading 90; shadows fall ahead-left matching the 41 degree bearing; nothing contradicts the layout."
+      "reason": "Street runs east, shadows fall left and forward toward the NE as expected for sun az 220; nothing contradicts camera notes."
      },
      "motion": {
       "score": null,
@@ -2642,7 +3049,7 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "Foundation shrubs and a hedge exist, but lawns are one flat green, no beds, little litter, hard-edged overlay strip beside the sidewalk."
+      "reason": "A few foundation shrubs and a long hedge, but lawns are flat saturated green with no beds, worn edges or leaf litter beyond a few specks."
      },
      "adRainReadable": {
       "score": null,
@@ -2650,7 +3057,7 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Brick and gabled North Shore house families with a tree-lined street and fall crowns read as the region; generic lawns and sparse planting weaken it."
+      "reason": "Street trees, parkways and gabled brick houses suggest North Shore, but there is no Tudor or half-timber richness, and the mix is generic."
      }
     },
     "v2Total": 24,
@@ -2663,8 +3070,8 @@
     "topFixes": [
      {
       "area": "ground",
-      "fix": "Shift lawns toward olive-gold autumn tones with patches of tone variation, add leaf litter drifts under crowns and beds with mulch at foundations; remove the hard-edged green band beside the sidewalk.",
-      "why": "Foreground is two flat saturated green planes with a visible overlay strip.",
+      "fix": "Vary lawn tone with warm olive and yellow-green patches, shade tone under crowns, scattered leaf litter and mulched beds; soften the parkway band and the hard rectangle strip.",
+      "why": "Foreground lawn is one flat saturated green with a hard-edged strip.",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
@@ -2672,33 +3079,33 @@
       ]
      },
      {
-      "area": "vegetation",
-      "fix": "Vary crown shapes into merged unequal masses with visible branch skeletons and some openness, and add darker russet and bare-ish trees.",
-      "why": "Crowns are near-identical spheres on poles.",
-      "expectedGain": [
-       "silhouettes",
-       "adRegional"
-      ]
-     },
-     {
       "area": "light",
-      "fix": "Warm the afternoon key on facades and lawns and deepen shadow cool tone; shift sky toward clearer blue with warm horizon haze.",
-      "why": "Flat lighting and purple sky compared with the golden anchor.",
+      "fix": "Warm the key light and ground bounce, raise contrast and add a warmer sky gradient toward the sun side.",
+      "why": "Frame is cool and flat next to the golden fall anchor.",
       "expectedGain": [
        "light",
        "palette",
        "depthFog"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Make crowns unequal merged masses with varied russet, orange and yellow, and vary sizes along the street.",
+      "why": "Crowns are near-identical orange balls on thin trunks.",
+      "expectedGain": [
+       "silhouettes",
+       "adRegional"
       ]
      }
     ],
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; flat lawn planes, few layers."
+      "reason": "groundRichness 2 and adGroundRich 2; lawn reads as one flat green."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light and palette are 3, shadows agree with sun bearing, trunks and roofs stay distinguishable, autumn reads as autumn."
+      "reason": "light and palette 3; roofs and trunks distinguishable, shadows agree with sun, fall reads as fall."
      },
      "LF-weather": {
       "pass": null,
@@ -2709,16 +3116,16 @@
       "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": true,
-      "reason": "silhouettes and adRegional are 3, season correct, no three identical adjacent silhouettes obvious though repetitive."
+      "pass": false,
+      "reason": "Crowns repeat as similar orange spheres; adRegional 3 and silhouettes 3 meet the minimums, but repetition fails the no-repeat rule."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Simple sparse cirrus, no sun disk, nothing contradicting astronomy."
+      "reason": "Sparse simple cumulus, no sunset disk, nothing moved."
      }
     },
-    "vsPrevious": "unchanged: same composition and crown colours, slightly more saturated; ground still flat.",
-    "summary": "At phone size the street reads as a clean stylized North Shore autumn with good orange crowns, but the flat summer-green lawns and ball-on-pole trees keep it below the anchor. The biggest gap is ground richness and autumn lawn colour.",
+    "vsPrevious": "unchanged: pixel change 1.1 percent, same read.",
+    "summary": "At phone size the street reads as a clean stylized fall scene with strong orange crowns, but the flat saturated lawn and cool flat light keep it below the warm anchor. The biggest gap is the sterile ground.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 36.3,
@@ -2728,7 +3135,8 @@
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground"
+     "LF-ground",
+     "LF-trees"
     ],
     "lookFixChecked": 4
    },
@@ -2757,7 +3165,7 @@
       0.004,
       0.004,
       0.09,
-      0.001,
+      0.002,
       0.001,
       0.001,
       0.001
@@ -2833,7 +3241,7 @@
      {
       "lumaHistIntersection": 0.653,
       "rgbHistIntersection": 0.598,
-      "hueHistIntersection": 0.557,
+      "hueHistIntersection": 0.558,
       "dLumaMean": 3.7,
       "dSaturation": -12.0,
       "dColorfulness": -9.1,
@@ -2845,7 +3253,7 @@
       ]
      },
      {
-      "lumaHistIntersection": 0.729,
+      "lumaHistIntersection": 0.73,
       "rgbHistIntersection": 0.579,
       "hueHistIntersection": 0.577,
       "dLumaMean": -6.7,
@@ -2860,19 +3268,19 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.776,
-     "rgbHistIntersection": 0.777,
-     "hueHistIntersection": 0.859,
-     "dLumaMean": 0.0,
-     "dSaturation": 5.6,
-     "dColorfulness": 9.6,
-     "dEdge": 0.33,
+     "lumaHistIntersection": 0.995,
+     "rgbHistIntersection": 0.981,
+     "hueHistIntersection": 0.99,
+     "dLumaMean": 0.1,
+     "dSaturation": 0.5,
+     "dColorfulness": 0.7,
+     "dEdge": -0.27,
      "dRGB": [
-      4.1,
-      -1.0,
-      -2.4
+      0.0,
+      0.0,
+      -0.2
      ],
-     "pixelChange": 9.91
+     "pixelChange": 1.13
     },
     "perf": {
      "static": 159128,
@@ -2886,16 +3294,16 @@
      "countersScope": "whole world (not in view)",
      "profile": "wilmette",
      "season": "2",
-     "build": "29.47s",
+     "build": "28.86s",
      "fpsMedian": 0.0,
      "frameMsMedian": null,
      "gpuMsMedian": null,
-     "renderSamples": 27,
+     "renderSamples": 26,
      "viewTriangles": 341295,
      "viewDraws": 85,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 34.7
+     "loadSeconds": 36.7
     }
    }
   },
@@ -2906,23 +3314,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Gabled and hipped roofs and a few dark spruces read, but deciduous crowns are repeated lollipop clusters of 2-3 spheres on thin poles; families differ mainly by colour."
+      "reason": "Roof families (hips, gables, garages) and crown colours differ, but crowns are repeated stacked-sphere lollipops on thin poles; spruce reads as a separate family."
      },
      "palette": {
-      "score": 4,
-      "reason": "Differentiated autumn of orange, russet and yellow against green lawns and brick, coherent and not clipped; yellow is slightly saturated and uniform versus the anchor's softer olive and russet spread."
+      "score": 3,
+      "reason": "Fall reads as fall (orange, yellow, russet, dark spruce) but yellows and oranges are saturated near candy and the lawns stay summer green; limited russet and olive spread versus anchor 03."
      },
      "light": {
-      "score": 4,
-      "reason": "One coherent warm afternoon sun with crisp soft-edged shadows falling away right, consistent with shadow bearing 40.6 and heading 20; sky not visible, warmth modest."
+      "score": 3,
+      "reason": "One coherent sun with warm lit roofs and cool shadows falling consistently; lit side warmth is modest and shadows are fairly hard and flat, so no strong golden-afternoon mood."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Cast shadows ground roofs and trees, but trunk bases and house footings have little contact darkening and crowns read floating on thin trunks."
+      "reason": "Crown shadows and house shadows ground objects; trunk bases and eave contact are only lightly darkened, no black rings or floating, but little occlusion where masses meet."
      },
      "groundRichness": {
       "score": 3,
-      "reason": "Lawns show some tone variation and light walks and drives, but yards are mostly one green with few beds or leaf litter visible at this scale."
+      "reason": "Lawns show some tone variation, sidewalks, drives and a few shrubs at the lower right; yards remain mostly uniform green with little leaf litter or beds at this scale."
      },
      "characterReadability": {
       "score": null,
@@ -2930,15 +3338,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Slight haze and size falloff toward the top, but distance is flat and crisp with no atmospheric separation; no horizon."
+      "reason": "Sharp centre and slight scale falloff to the top, but almost no haze or colour shift with distance; far blocks are as saturated as near ones and the lawn at top left is a flat plane."
      },
      "houseVariety": {
       "score": 4,
-      "reason": "Mix of brick, tan and cream houses, varied footprints, garages and detached outbuildings; roof colours are mostly grey-blue, somewhat repetitive."
+      "reason": "Brick, tan and clapboard masses with varied footprints, hips and gables, garages and chimneys; reads as mixed older North Shore housing though roof greys repeat."
      },
      "geography": {
       "score": 4,
-      "reason": "Shadow direction matches the sun and heading, street grid and park lawn at top-left are plausible; nothing contradicts the camera notes."
+      "reason": "Camera heading 20 with sun azimuth 220.6: shadows fall toward the upper right (bearing about 40), consistent in trunks and houses; grid of streets and park lawn top left plausible, no horizon in the frame, nothing contradicts the camera notes."
      },
      "motion": {
       "score": null,
@@ -2948,83 +3356,82 @@
     "artDirection": {
      "adGroundRich": {
       "score": 3,
-      "reason": "Some lawn tone patches and walks, few foundation shrubs or beds, no visible leaf litter under crowns."
+      "reason": "Some lawn tone variation and walks, a few foundation shrubs visible lower right, but beds and leaf litter under crowns are absent at this scale."
      },
      "adRainReadable": {
       "score": null,
       "reason": "dry view (wet false)"
      },
      "adRegional": {
-      "score": 4,
-      "reason": "Reads as a North Shore fall block: brick Tudor-ish and Georgian houses, mature street trees in russet and yellow, regular grid with alleys and detached garages."
+      "score": 3,
+      "reason": "Dense gridded blocks, mature street trees, alleys and brick houses read as an inner North Shore suburb, with a mixed fall crown palette; generic in tree-family difference and lacks a lake or backdrop cue."
      }
     },
-    "v2Total": 28,
+    "v2Total": 26,
     "v2Max": 40,
-    "v2Score50": 35.3,
-    "adMean": 3.5,
+    "v2Score50": 32.1,
+    "adMean": 3.0,
     "gatePass": false,
     "adPass": true,
     "hardGateFlags": [],
     "topFixes": [
      {
+      "area": "fog",
+      "fix": "Add gentle aerial haze with a warm-to-cool tint so the far blocks desaturate and lighten with distance",
+      "why": "Top of frame is as saturated and contrasty as the foreground, so depth reads flat",
+      "expectedGain": [
+       "depthFog",
+       "palette"
+      ]
+     },
+     {
       "area": "vegetation",
-      "fix": "Merge crowns into larger unequal masses with family differences (open oak, closed maple) and thicken trunks with some branching; vary hue within families toward russet and olive.",
-      "why": "Crowns are repeated 2-3 sphere lollipops on thin poles, in near-uniform yellow and orange.",
+      "fix": "Vary crown shapes into merged unequal masses with russet, olive and bare-ish openings and thicker trunks, breaking up the repeated stacked-sphere crowns",
+      "why": "Many identical yellow and orange double-ball crowns on thin poles",
       "expectedGain": [
        "silhouettes",
-       "palette",
-       "softnessAO"
+       "palette"
       ]
      },
      {
       "area": "ground",
-      "fix": "Add foundation shrubs, beds, lawn tone patches and leaf litter under crowns, plus darkening at trunk bases and house footings.",
-      "why": "Yards are mostly flat green and buildings and trunks sit on the lawn without contact shading.",
+      "fix": "Add autumn lawn tone shift (golden-olive patches), leaf litter under crowns and foundation beds",
+      "why": "Lawns are uniform summer green, which clashes with peak-fall crowns",
       "expectedGain": [
        "groundRichness",
        "adGroundRich",
-       "softnessAO"
-      ]
-     },
-     {
-      "area": "fog",
-      "fix": "Add gentle warm haze and desaturation toward the upper frame so distant blocks separate from the foreground.",
-      "why": "Far blocks at the top are as crisp and saturated as the foreground.",
-      "expectedGain": [
-       "depthFog",
-       "light"
+       "palette"
       ]
      }
     ],
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "Only lawn tones, walks and drives are visible; no beds, shrubs or litter layers."
+      "reason": "Lawn tones, walks and few shrubs but no clear third layer (beds, litter) at aerial scale; lawns read summer green"
      },
      "LF-light": {
       "pass": true,
-      "reason": "Light 4 and palette 4; dark roofs stay distinct, shadows agree with sun, reads as autumn."
+      "reason": "light and palette are 3, shadow bearing agrees with sun, roofs and trunks stay distinguishable, fall reads as fall"
      },
      "LF-weather": {
       "pass": null,
       "reason": "n/a: dry, clear view"
      },
      "LF-aerial": {
-      "pass": true,
-      "reason": "Silhouettes 3, depthFog 3, geography 4; no horizon, no floating tile, no route hidden. Crowns are somewhat uniform but not diamond-shaped."
+      "pass": false,
+      "reason": "silhouettes 3, depthFog 3 and geography 4 meet the floors, but crowns are repeated identical stacked spheres and the top-left lawn is a flat plane with no depth falloff"
      },
      "LF-trees": {
       "pass": false,
-      "reason": "Several adjacent crowns repeat the same 2-3 sphere silhouette; season is correct."
+      "reason": "Season is correct, but adjacent crowns repeat nearly identical double-sphere silhouettes (several runs of three or more)"
      },
      "LF-sky": {
       "pass": null,
-      "reason": "n/a: no sky visible in frame"
+      "reason": "n/a: no sky visible"
      }
     },
-    "vsPrevious": "better: crowns now show differentiated orange and yellow instead of the previous pale olive-yellow wash, with higher saturation; structure unchanged.",
-    "summary": "At phone size it reads as a warm, coherent autumn North Shore block with good colour and lighting. The biggest gap is repeated lollipop crowns and thin contact and ground detail versus the stylized target.",
+    "vsPrevious": "unchanged: pixel change 2.26 %, luma and colour histograms near identical to the 2026-10-07 09:15 run.",
+    "summary": "A dense, readable fall suburb at phone size with a consistent sun and varied houses, but flat in depth and with candy-saturated, repeated sphere crowns over summer-green lawns. The biggest gap is the missing atmospheric depth and varied, russet-toned crowns against the anchor.",
     "v2Floors": true,
     "longTerm40": false,
     "conceptScore50": null,
@@ -3034,6 +3441,7 @@
     "gateBasis": "40/50 (no calibrated concept)",
     "gate5B": false,
     "lookFixFailed": [
+     "LF-aerial",
      "LF-ground",
      "LF-trees"
     ],
@@ -3121,19 +3529,19 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.828,
-     "rgbHistIntersection": 0.799,
-     "hueHistIntersection": 0.88,
-     "dLumaMean": 0.1,
-     "dSaturation": 18.9,
-     "dColorfulness": 24.3,
-     "dEdge": 0.82,
+     "lumaHistIntersection": 0.996,
+     "rgbHistIntersection": 0.976,
+     "hueHistIntersection": 0.985,
+     "dLumaMean": 0.0,
+     "dSaturation": 0.5,
+     "dColorfulness": 1.7,
+     "dEdge": -0.26,
      "dRGB": [
-      5.3,
-      0.4,
-      -18.1
+      0.1,
+      0.0,
+      -0.2
      ],
-     "pixelChange": 16.52
+     "pixelChange": 2.26
     },
     "perf": {
      "static": 159128,
@@ -3147,16 +3555,16 @@
      "countersScope": "whole world (not in view)",
      "profile": "wilmette",
      "season": "2",
-     "build": "29.47s",
-     "fpsMedian": 60.0,
-     "frameMsMedian": 16.67,
+     "build": "28.86s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
      "gpuMsMedian": null,
      "renderSamples": 3,
      "viewTriangles": 282352,
      "viewDraws": 60,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 37.1
+     "loadSeconds": 37.0
     }
    }
   },
@@ -3167,23 +3575,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Crowns are merged lobed masses in orange and yellow with visible branch skeletons, but they repeat and read as similar balls; houses are plain two-storey boxes with gabled roofs, less varied than the paint-over."
+      "reason": "Gabled grey house, brick block and orange/yellow crowns read as families, but crowns are faceted blobs on bare forked branches and the near trunk slab fills a fifth of the frame."
      },
      "palette": {
       "score": 3,
-      "reason": "Fall oranges and yellows are right, but the grass is flat saturated green with no russet or gold tone, the sky is a dull lilac-grey and the whole frame is desaturated against the paint-over (saturation -19, colourfulness -19)."
+      "reason": "Orange, russet and yellow crowns match peak fall, but lawns are a flat saturated mint green (dSat -44 vs target) and the fall warmth does not reach the ground; the paint-over has golden-olive grass."
      },
      "light": {
       "score": 3,
-      "reason": "Warm low sun with long soft shadows across the lawn falling toward the camera and left, consistent with the 220 degree sun azimuth, but the key is muted and facades are flat grey-beige with little warm/cool contrast."
+      "reason": "One coherent sun with long soft lawn shadows on the left; the scene is pale and flat in value with little warm/cool contrast, and walls lack warm sun-side glow."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Trunk bases and house foundations have a modest dark contact line and shrubs sit on the lawn; no strong eave or crown occlusion. The near trunk is a flat brown slab with no occlusion or gradient."
+      "reason": "Some contact shadow under the house and shrubs, soft cast shadows; trunk bases and shrubs are not grounded by darkening and walls have no eave or base occlusion."
      },
      "groundRichness": {
       "score": 3,
-      "reason": "Scattered orange leaf litter, sidewalk joints, a cross walk and some lawn shade; but the lawn is one flat green in the foreground with no patches or worn edges, and the road is a smooth grey plane."
+      "reason": "Leaf litter flecks and a cast-shadow tone break up the left lawn, but the right verge is one flat green with sparse scattered leaves, no beds or worn edges."
      },
      "characterReadability": {
       "score": null,
@@ -3191,15 +3599,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Some haze and colour fade on distant trees and the street vanishing point give useful separation, but the transition is weak and the far end is not clearly softened."
+      "reason": "Mild haze and lilac sky give some separation down the street; mid and far houses are only slightly desaturated and the vanishing street is abrupt."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Beige clapboard, red brick bungalow and an orange-brown two-storey building give several families, with windows and an entry, but facades are flat and repetitive and there are no porches or other details."
+      "reason": "Grey gable house, red brick bungalow and tan two-storey on the right differ in colour and massing, but facades are plain with repeated identical windows and little porch or trim detail."
      },
      "geography": {
       "score": 4,
-      "reason": "Camera looks south down the street with the sun ahead-right and shadows falling toward the camera and left as expected; nothing visible contradicts the camera or sun data."
+      "reason": "Street runs south as camera heading 180 implies, sun is right and ahead (az 221) with shadows falling toward the left/camera, nothing contradicts camera or sun."
      },
      "motion": {
       "score": null,
@@ -3209,15 +3617,15 @@
     "artDirection": {
      "adGroundRich": {
       "score": 3,
-      "reason": "Foundation shrubs as small merged lobes along the house, leaf litter and a walk, but no beds, lawn tone patches or worn edges, and the near-camera lawn is flat."
+      "reason": "Shadow-tone variation and leaf litter on lawn, a few foundation shrubs; right verge flat, no beds, mulch or fence-line planting."
      },
      "adRainReadable": {
       "score": null,
-      "reason": "dry view (wet false)"
+      "reason": "dry view"
      },
      "adRegional": {
       "score": 3,
-      "reason": "Autumn street trees, a narrow terrace lawn and mid-rise brick houses read as an Evanston street, but the tree mix is generic and houses lack North Shore character."
+      "reason": "Evanston fall cues: street trees along the parkway, mixed brick and clapboard houses, orange maple crowns; lacks the dense shrub/tree richness of the North Shore mocks."
      }
     },
     "v2Total": 25,
@@ -3229,29 +3637,30 @@
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "light",
-      "fix": "Warm the sun and key light, strengthen the golden-hour tint on lit facades and lawn, and cool the shadows; lift the sky to a clearer blue with cumulus.",
-      "why": "The frame is greyer and lower in saturation than the paint-over, the sky is dull lilac and facades are flat beige.",
+      "area": "ground",
+      "fix": "Shift lawn colour to golden-olive fall tones with patchy light and shade variation, and add curb-edge and foundation planting beds with shrub masses and a leaf-litter drift under crowns",
+      "why": "Verge and lawn are a flat saturated mint green that clashes with the orange canopy and is the largest area of the frame",
       "expectedGain": [
-       "light",
        "palette",
-       "depthFog"
+       "groundRichness",
+       "adGroundRich",
+       "adRegional"
       ]
      },
      {
-      "area": "ground",
-      "fix": "Vary the lawn with patches in olive, yellow-green and shade tones, plus a leaf drift at the kerb and under trees; darken the road with a subtle tonal gradient.",
-      "why": "The terrace lawns are one flat bright green and the road is a flat grey plane.",
+      "area": "light",
+      "fix": "Warm the sun-side of walls, lawn and sidewalk and cool the shadows to raise value contrast, in the manner of the paint-over",
+      "why": "Whole frame is pale and low-contrast, saturation 44 below the fall target, no golden afternoon glow",
       "expectedGain": [
-       "groundRichness",
-       "adGroundRich",
-       "palette"
+       "light",
+       "palette",
+       "softnessAO"
       ]
      },
      {
       "area": "vegetation",
-      "fix": "Make crowns unequal and merged with varied colour (russet, orange, gold) and add a soft contact shadow at the trunk bases; give the near trunk a lit/shade gradient.",
-      "why": "Crowns are similar rounded lobes, and the near trunk reads as a flat brown slab.",
+      "fix": "Merge crown lobes into larger unequal masses with denser foliage, and darken the soft contact at trunk bases and shrubs",
+      "why": "Crowns are faceted blobs on thin branches with sky gaps; trunks and shrubs sit on the lawn without grounding",
       "expectedGain": [
        "silhouettes",
        "softnessAO",
@@ -3262,11 +3671,11 @@
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "Layers are present (lawn, walk, shrubs, litter) but the lawn is flat green and the road is uniform, so groundRichness only reaches 3 against the pass bar of richer layering."
+      "reason": "Lawn is mostly flat green with one shadow tone and leaf flecks; fewer than three distinct planting layers in the foreground."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light 3 and palette 3; shadows agree with the sun bearing, summer/fall reads as fall, trunks and roofs stay distinguishable."
+      "reason": "light and palette at 3, source and shadow bearings agree with sun, summer/fall read correct, but exposure is flat."
      },
      "LF-weather": {
       "pass": null,
@@ -3277,16 +3686,16 @@
       "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": false,
-      "reason": "Fall season is correct but adjacent crowns repeat as similar orange or yellow ball clusters and silhouettes are only 3."
+      "pass": true,
+      "reason": "silhouettes 3, adRegional 3, season correct (russet and yellow crowns), no three identical adjacent crowns."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Sparse simple cumulus, no sunset disk, sky consistent with a clear afternoon, though paler than the paint-over."
+      "reason": "Lilac sky with sparse simple cumulus, no sunset disk, astronomy consistent."
      }
     },
-    "vsPrevious": "unchanged: composition and geometry are the same, with slightly higher saturation (+11.5) and a little more warmth in the foliage.",
-    "summary": "At phone size the street reads as a clean stylized fall afternoon with correct sun direction and fall foliage, but it is muted and flat compared with the paint-over: grey-lilac sky, uniform green lawn and flat facades. The biggest gap is warm light and colour richness on the ground and walls.",
+    "vsPrevious": "unchanged: previous run frame is virtually identical (pixel change 1.07, dLuma +0.1).",
+    "summary": "At phone size the street reads as a plausible fall afternoon with good orange canopy, but the mint-green flat lawns, low contrast light and the big trunk slab in the foreground keep it well short of the paint-over. The biggest gap is the ground colour and richness, which is cold and flat against the warm canopy.",
     "v2Floors": true,
     "longTerm40": false,
     "conceptScore50": 36.3,
@@ -3296,8 +3705,7 @@
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground",
-     "LF-trees"
+     "LF-ground"
     ],
     "lookFixChecked": 4
    },
@@ -3465,7 +3873,7 @@
     "vsTargets": [
      {
       "lumaHistIntersection": 0.633,
-      "rgbHistIntersection": 0.573,
+      "rgbHistIntersection": 0.574,
       "hueHistIntersection": 0.585,
       "dLumaMean": 5.1,
       "dSaturation": -43.7,
@@ -3521,19 +3929,19 @@
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.941,
-     "rgbHistIntersection": 0.846,
-     "hueHistIntersection": 0.943,
-     "dLumaMean": -0.7,
-     "dSaturation": 11.5,
-     "dColorfulness": 6.7,
-     "dEdge": 0.86,
+     "lumaHistIntersection": 0.984,
+     "rgbHistIntersection": 0.97,
+     "hueHistIntersection": 0.975,
+     "dLumaMean": 0.1,
+     "dSaturation": 0.9,
+     "dColorfulness": 0.7,
+     "dEdge": -0.17,
      "dRGB": [
-      0.8,
-      -0.8,
-      -5.6
+      0.0,
+      0.0,
+      -0.2
      ],
-     "pixelChange": 7.05
+     "pixelChange": 1.07
     },
     "perf": {
      "static": 68626,
@@ -3547,7 +3955,7 @@
      "countersScope": "whole world (not in view)",
      "profile": "evanston",
      "season": "2",
-     "build": "22.31s",
+     "build": "22.19s",
      "fpsMedian": 0.0,
      "frameMsMedian": null,
      "gpuMsMedian": null,
@@ -3556,7 +3964,7 @@
      "viewDraws": 69,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 27.0
+     "loadSeconds": 26.9
     }
    }
   },
@@ -3567,23 +3975,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Crowns are stacked-sphere clusters with some variety and a visible branch skeleton; houses are readable gable/hip families but repetitive boxes."
+      "reason": "Gabled houses and tree families read, but crowns are repeated round lobes on forked trunks and a huge foreground trunk blocks the right half."
      },
      "palette": {
       "score": 3,
-      "reason": "Coherent grey-green wet scheme with dark blue sky, but lawns are flat light green and less saturated/deep than the rain targets."
+      "reason": "Coherent green/grey/brick set, but grass is a bright saturated green (sat -22 vs target) and the rain mood is only in the sky; walls are flat grey."
      },
      "light": {
       "score": 3,
-      "reason": "Overcast flat light with no hard shadows is correct for rain; reads slightly flat and cold on facades, lawns look sunlit-bright against a dark sky."
+      "reason": "Dark overcast sky with soft light is coherent with rain, but ground and walls are evenly lit and slightly flat; shadows not judgeable in overcast."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Soft contact under shrubs and house bases is present; the foreground trunk base and tree contact are bare, no eave/crown occlusion."
+      "reason": "Some darkening at house bases and shrubs, but trunk bases have little contact and a shrub on the left looks like a floating dark blob."
      },
      "groundRichness": {
-      "score": 2,
-      "reason": "Lawns are near-uniform flat green with only faint tone patches; walk is clean, sparse grass tufts only; target has beds, mulch and varied lawn."
+      "score": 3,
+      "reason": "Two lawn tones, sidewalk, verge and a few leaf/grass specks, but lawns are mostly plain and verge is one flat green."
      },
      "characterReadability": {
       "score": null,
@@ -3591,15 +3999,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Some far haze and smaller distant trees, but little visible rain haze; targets show strong mist fade at distance."
+      "reason": "Some haze toward the far street and darker sky, but distant houses stay fairly crisp compared with the misty target."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Grey frame house, brick red houses and tan block read as different families, but facades are plain with few porches or chimneys."
+      "reason": "Grey frame house, red brick and tan brick apartment give a few families; windows and rooflines are repetitive."
      },
      "geography": {
       "score": 4,
-      "reason": "Overcast so shadow bearing cannot be judged; street, sidewalk and houses are consistent with a south-facing Wesley Ave view and nothing contradicts the camera."
+      "reason": "Overcast, so scored on layout: south-facing street with sidewalk and road on the right; nothing contradicts the camera."
      },
      "motion": {
       "score": null,
@@ -3608,39 +4016,30 @@
     },
     "artDirection": {
      "adGroundRich": {
-      "score": 2,
-      "reason": "Mostly flat lawn, a few small shrubs at foundations, no beds with mulch, no litter; hard edges at walk."
+      "score": 3,
+      "reason": "Foundation shrubs, lawn tone variation and a few specks; no real beds or mulch, shrubs are small and sparse."
      },
      "adRainReadable": {
       "score": 3,
-      "reason": "Dark stormy sky, desaturated wet road with small puddles and white edge line; grass and walks show little wet darkening or sheen."
+      "reason": "Dark stormy sky, blue-grey road and a couple of puddles, faint streaks; grass and sidewalk show little wet darkening or sheen so the street does not read as soaked."
      },
      "adRegional": {
       "score": 3,
-      "reason": "Tree-lined parkway, brick and frame houses suit Evanston; houses are plainer than the North Shore targets."
+      "reason": "Frame houses and brick apartments with street trees suit Evanston, but lack of foreground character and bright lawns keep it generic."
      }
     },
-    "v2Total": 24,
+    "v2Total": 25,
     "v2Max": 40,
-    "v2Score50": 30.0,
-    "adMean": 2.67,
+    "v2Score50": 31.1,
+    "adMean": 3.0,
     "gatePass": false,
-    "adPass": false,
+    "adPass": true,
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "ground",
-      "fix": "Add lawn tone patches, foundation planting beds with mulch and shrub clusters, and a few leaf/edge details along the parkway",
-      "why": "Lawns are one flat light green with bare house bases",
-      "expectedGain": [
-       "groundRichness",
-       "adGroundRich"
-      ]
-     },
-     {
       "area": "weather",
-      "fix": "Darken and desaturate wet grass and the sidewalk, add sheen on the walk and more puddles on the road reflecting the sky",
-      "why": "Only the road reads wet; lawns look dry and sunlit under a dark sky",
+      "fix": "Darken and desaturate grass, sidewalk and verge under rain, add soft sheen on the sidewalk and larger sky-reflecting puddles on the road edge",
+      "why": "Lawns stay bright saturated green and the sidewalk is dry-looking beside a stormy sky",
       "expectedGain": [
        "adRainReadable",
        "palette",
@@ -3649,80 +4048,90 @@
      },
      {
       "area": "fog",
-      "fix": "Add rain haze that lowers contrast at mid and far distance and grey-blue the far trees and houses",
-      "why": "Distant street stays crisp compared with the misty target",
+      "fix": "Add rain haze that lowers contrast of mid and far houses and trees",
+      "why": "Far houses and crowns stay crisp, unlike the misty target",
       "expectedGain": [
        "depthFog",
        "palette"
       ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Vary crown shapes and sizes, add layered shrub masses and beds at foundations, add soft contact darkening at trunk bases",
+      "why": "Repeated ball crowns, sparse shrubs, a floating shrub on the left and an overpowering plain trunk in the foreground",
+      "expectedGain": [
+       "silhouettes",
+       "softnessAO",
+       "adGroundRich",
+       "groundRichness"
+      ]
      }
     ],
-    "vsPrevious": "unchanged: composition and layout are the same; slightly less saturated sky and puddles on the road are now visible.",
-    "summary": "At phone size the frame reads as a clean stylized wet street with a stormy sky, but the lawns look dry and flat. The biggest gap is ground richness and wet-surface response on grass and walks.",
+    "vsPrevious": "unchanged: near-identical frame (pixel change 1.07 %), same sky, lawns and puddles.",
+    "summary": "At phone size the street reads as a rainy suburban block with a dark sky, but the bright flat green lawns and dry-looking sidewalk undercut the weather. The biggest gap is wet ground response and rain haze compared with the target.",
     "lookFixChecks": {
      "LF-ground": {
-      "pass": false,
-      "reason": "groundRichness 2 and adGroundRich 2; fewer than three ground layers in the foreground."
+      "pass": true,
+      "reason": "Lawn tones, verge, sidewalk, shrubs and specks give three layers; borderline thin."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light and palette 3; roofs and trunks distinguishable; summer foliage; overcast so no bearing conflict."
+      "reason": "light and palette are 3; roofs and trunks stay distinguishable; reads as summer."
      },
      "LF-weather": {
-      "pass": false,
-      "reason": "Road contrast and puddles and a dark sky are visible, but grass and walk show no wet sheen so only two cues; particle dependence not checkable from a still."
+      "pass": true,
+      "reason": "Wet-look road, puddles and a stormy sky are visible, but wet contrast on grass and paths is weak; particles are present, survival without them not checkable."
      },
      "LF-aerial": {
       "pass": null,
       "reason": "n/a: street view"
      },
      "LF-trees": {
-      "pass": true,
-      "reason": "silhouettes 3, adRegional 3, summer season correct, no three identical adjacent crowns evident."
+      "pass": false,
+      "reason": "Crowns repeat as similar round lobes in adjacent trees; silhouettes only 3."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Dark overcast sky supports rain mood; no sun disk or astronomy errors."
+      "reason": "Dark rain cloud sky supports mood; no sun disk."
      }
     },
-    "v2Floors": false,
+    "v2Floors": true,
     "longTerm40": false,
     "conceptScore50": 35.3,
-    "parity": 85,
+    "parity": 88,
     "paintoverScore50": null,
     "paintoverParity": null,
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground",
-     "LF-weather"
+     "LF-trees"
     ],
     "lookFixChecked": 5
    },
    "signals": {
     "current": {
-     "lumaMean": 126.2,
-     "lumaP5": 68,
-     "lumaP50": 128,
+     "lumaMean": 126.6,
+     "lumaP5": 69,
+     "lumaP50": 129,
      "lumaP95": 189,
      "clipBlackPct": 0.0,
      "clipWhitePct": 0.0,
      "rgbMean": [
-      117.0,
-      129.8,
-      116.3
+      117.2,
+      130.2,
+      117.0
      ],
-     "saturationMean": 60.1,
+     "saturationMean": 59.5,
      "colorfulness": 32.9,
-     "edgeMean": 8.36,
+     "edgeMean": 8.4,
      "hueHist": [
-      0.026,
-      0.241,
-      0.071,
-      0.349,
-      0.028,
-      0.005,
-      0.28,
+      0.027,
+      0.234,
+      0.07,
+      0.345,
+      0.031,
+      0.006,
+      0.286,
       0.0,
       0.0,
       0.0,
@@ -3798,48 +4207,48 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.605,
-      "rgbHistIntersection": 0.595,
-      "hueHistIntersection": 0.382,
-      "dLumaMean": 6.8,
-      "dSaturation": -21.2,
+      "lumaHistIntersection": 0.607,
+      "rgbHistIntersection": 0.588,
+      "hueHistIntersection": 0.383,
+      "dLumaMean": 7.2,
+      "dSaturation": -21.8,
       "dColorfulness": -7.3,
-      "dEdge": -1.2,
+      "dEdge": -1.16,
       "dRGB": [
-       7.0,
-       5.6,
-       17.4
+       7.2,
+       6.0,
+       18.1
       ]
      },
      {
-      "lumaHistIntersection": 0.615,
-      "rgbHistIntersection": 0.518,
-      "hueHistIntersection": 0.475,
-      "dLumaMean": 5.0,
-      "dSaturation": -38.4,
+      "lumaHistIntersection": 0.619,
+      "rgbHistIntersection": 0.515,
+      "hueHistIntersection": 0.476,
+      "dLumaMean": 5.4,
+      "dSaturation": -39.0,
       "dColorfulness": -16.3,
-      "dEdge": -5.37,
+      "dEdge": -5.33,
       "dRGB": [
-       14.0,
-       0.5,
-       21.1
+       14.2,
+       0.9,
+       21.8
       ]
      }
     ],
     "vsPrevious": {
-     "lumaHistIntersection": 0.696,
-     "rgbHistIntersection": 0.705,
-     "hueHistIntersection": 0.643,
-     "dLumaMean": -0.9,
-     "dSaturation": 7.3,
-     "dColorfulness": 2.4,
-     "dEdge": 0.55,
+     "lumaHistIntersection": 0.987,
+     "rgbHistIntersection": 0.966,
+     "hueHistIntersection": 0.977,
+     "dLumaMean": 0.3,
+     "dSaturation": 0.1,
+     "dColorfulness": 0.3,
+     "dEdge": -0.15,
      "dRGB": [
-      -4.9,
-      0.2,
-      -2.1
+      0.1,
+      0.3,
+      0.5
      ],
-     "pixelChange": 9.24
+     "pixelChange": 1.07
     },
     "perf": {
      "static": 68626,
@@ -3853,16 +4262,16 @@
      "countersScope": "whole world (not in view)",
      "profile": "evanston",
      "season": "2",
-     "build": "22.18s",
+     "build": "21.88s",
      "fpsMedian": 0.0,
      "frameMsMedian": null,
      "gpuMsMedian": null,
-     "renderSamples": 20,
-     "viewTriangles": 202349,
-     "viewDraws": 69,
+     "renderSamples": 21,
+     "viewTriangles": 210896,
+     "viewDraws": 75,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 27.7
+     "loadSeconds": 27.3
     }
    }
   },
@@ -3873,23 +4282,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Clear stylized roof and crown families; crowns are repetitive round blobs on orange trunks but read at phone size."
+      "reason": "Three-flat/gable families readable on both sides, tree crowns are stacked spheres on straight trunks and repeat; no tall brick three-flat masses like the target."
      },
      "palette": {
       "score": 3,
-      "reason": "Warm brick and gold light with purple sky is cohesive, but the sky is a heavy violet and the road/trunk orange is over-saturated against the targets' fresher green/blue."
+      "reason": "Warm brick/tan/teal doors cohere and lawn greens are calm, but crowns are saturated lime and trunks glow flat orange; sky is lavender-purple vs the target blue."
      },
      "light": {
       "score": 3,
-      "reason": "Low warm sun with long shadows reads as golden hour; shadows are dark and the road is flat, so the light does not shape the street as in the mock."
+      "reason": "Low warm sun from behind camera gives rim-lit trunks and warm facades, consistent with sun azimuth 268; whole frame is uniformly warm-pink and contrast is low, with no strong long cast shadows on the road."
      },
      "softnessAO": {
       "score": 3,
-      "reason": "Some contact shading under eaves and trees; the road and lawn strips are flat with little AO."
+      "reason": "Soft contact darkening under hedges and steps, no black rings; trunk bases and curb edges are fairly flat."
      },
      "groundRichness": {
-      "score": 2,
-      "reason": "Large flat grey road and flat green verge strips; only small shrubs and a few beds on the right. Fewer than three layers in the foreground."
+      "score": 3,
+      "reason": "Parkway grass has tone variation and a few blades, beds and walks visible on the right; the road foreground is a large empty flat surface and lawns are plain."
      },
      "characterReadability": {
       "score": null,
@@ -3897,15 +4306,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Perspective and tree rhythm give depth; haze is mild and the far end of the street stays fairly crisp."
+      "reason": "Tree rows converge to a hazy vanishing point with some atmospheric lightening, but far haze is modest and the sky is flat."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Mix of brick, tan and grey houses with different roofs, but facades are simple and similar in massing."
+      "reason": "Several facade kits and colours (brick, tan, grey, gabled) but low-rise, boxy and without the stone stoops and bay detail of Lakeview three-flats."
      },
      "geography": {
       "score": 4,
-      "reason": "Straight east-looking residential street with tree-lined verges consistent with Lakeview; nothing moved."
+      "reason": "Street looking east, sun low behind camera with shadows falling ahead; nothing contradicts camera, sun or layout."
      },
      "motion": {
       "score": null,
@@ -3914,40 +4323,40 @@
     },
     "artDirection": {
      "adGroundRich": {
-      "score": 2,
-      "reason": "Verges and road are mostly flat colour; lawn tone variation, beds and walks are sparse compared with the dense Lakeview target."
+      "score": 3,
+      "reason": "Foundation shrubs, hedge runs and a few beds on the right, but foreground lawns and street are sparse and uniform at phone size."
      },
      "adRainReadable": {
       "score": null,
-      "reason": "dry clear view"
+      "reason": "dry view"
      },
      "adRegional": {
       "score": 3,
-      "reason": "Brick two-flats and street trees suggest Chicago, but lacks three-flat stoops, iron fences and dense plantings of the target."
+      "reason": "Tree-lined parkway, brick two-flats and sidewalk read as Chicago but not clearly Lakeview three-flat density."
      }
     },
-    "v2Total": 24,
+    "v2Total": 25,
     "v2Max": 40,
-    "v2Score50": 30.0,
-    "adMean": 2.5,
+    "v2Score50": 31.1,
+    "adMean": 3.0,
     "gatePass": false,
-    "adPass": false,
+    "adPass": true,
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "ground",
-      "fix": "Add lawn tone patches, foundation shrubs and flower beds in front yards and break up the verge strips with walks, litter and edge shrubs.",
-      "why": "Foreground road and verge are large flat colour fields with few layers.",
+      "area": "buildings",
+      "fix": "Raise near facades to taller three-flat masses with stone bases, stoops and bays, as in the target",
+      "why": "Buildings are low and boxy compared with the target composition",
       "expectedGain": [
-       "groundRichness",
-       "adGroundRich",
-       "softnessAO"
+       "silhouettes",
+       "houseVariety",
+       "adRegional"
       ]
      },
      {
-      "area": "light",
-      "fix": "Reduce the violet sky cast, lighten shadow tint and add warm/cool contrast on road and facades.",
-      "why": "Sky is heavy purple and the road is a flat grey-pink that flattens the street.",
+      "area": "sky",
+      "fix": "Shift the sky to a clearer blue gradient with warm horizon and reduce the uniform pink cast",
+      "why": "Lavender sky and pink fill flatten the palette",
       "expectedGain": [
        "palette",
        "light",
@@ -3956,24 +4365,23 @@
      },
      {
       "area": "vegetation",
-      "fix": "Vary crown size, shape and tone, and tone down the bright orange trunks.",
-      "why": "Repeated round crowns on saturated orange trunks look uniform.",
+      "fix": "Vary crown size and shape, lower lime saturation, and give trunks a darker bark tone with base shading",
+      "why": "Repeated sphere crowns and flat orange trunks",
       "expectedGain": [
        "silhouettes",
-       "adRegional"
+       "palette",
+       "softnessAO"
       ]
      }
     ],
-    "vsPrevious": "unchanged: nearly the same composition and look as the 2026-10-06 capture, with slightly lighter tree crowns.",
-    "summary": "At phone size it reads as a warm stylized golden-hour residential street with decent geography, but the foreground is flat and the sky and trunk colours are over-saturated. The biggest gap is ground richness.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness and adGroundRich are 2; foreground has fewer than three layers."
+      "reason": "Lakeview dense layers are thin in foreground; large empty road and plain lawns."
      },
      "LF-light": {
       "pass": true,
-      "reason": "light and palette are 3; shadows agree with a low sun, though architecture is somewhat flattened."
+      "reason": "light and palette are 3, source and shadow direction agree with sun, summer reads as summer."
      },
      "LF-weather": {
       "pass": null,
@@ -3985,28 +4393,19 @@
      },
      "LF-trees": {
       "pass": false,
-      "reason": "Adjacent crowns repeat as similar round shapes; adRegional is 3 but repetition fails."
+      "reason": "Repeated sphere crowns adjacent in the row; silhouettes borderline."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "Sparse simple clouds, no sun disk; sky is heavy violet but supports the mood."
+      "reason": "Sparse simple clouds, no astronomy errors, though colour is purple."
      }
     },
-    "mockGap": {
-     "mock": "house-contrast-v1/images/postcard-hero.png",
-     "closeness": 2,
-     "gaps": [
-      "Sky is a heavy violet-pink dusk gradient; the mock is clear saturated blue with white puffy clouds and neutral daylight, so the whole frame reads warm-purple instead of fresh daytime.",
-      "Ground colour: road is a flat pinkish-tan and the verge a yellow-olive; the mock has cool blue-grey asphalt with soft tree-shadow dapple and a cleaner mid green lawn, plus mulch pits at trunks.",
-      "Tree trunks are flat saturated orange cylinders with spiky stub branches; the mock has slim brown-grey bark trunks with forking limbs, and lumpy cloud-like crowns mixing green and yellow-ochre rather than uniform lime spheres.",
-      "Brick is a brown-orange flat tone with thin cream trim; the mock has terracotta red brick with chunky cream cornices, stepped eave bands, deep window reveals with blue glass, door surrounds and concrete stoops with railings.",
-      "Missing street life and furniture: no lamp posts, parked cars, rim light on foliage or soft AO under eaves and porches; shadows are hard dark wedges instead of soft dappled ones."
-     ]
-    },
-    "v2Floors": false,
+    "vsPrevious": "unchanged: pixel change about 1 percent, same look as the previous run.",
+    "summary": "At phone size the street reads as a pleasant warm stylized Chicago parkway but with low boxy houses, lime sphere crowns and a pink-lavender cast. The biggest gap against the target is the missing tall three-flat masses and the blue-sky colour balance.",
+    "v2Floors": true,
     "longTerm40": false,
     "conceptScore50": 36.3,
-    "parity": 83,
+    "parity": 86,
     "paintoverScore50": null,
     "paintoverParity": null,
     "gateBasis": "parity",
@@ -4026,17 +4425,17 @@
      "clipBlackPct": 0.0,
      "clipWhitePct": 0.04,
      "rgbMean": [
-      149.6,
-      126.5,
+      149.7,
+      126.6,
       101.4
      ],
      "saturationMean": 99.7,
      "colorfulness": 56.7,
-     "edgeMean": 13.92,
+     "edgeMean": 13.91,
      "hueHist": [
       0.481,
-      0.208,
-      0.15,
+      0.209,
+      0.149,
       0.077,
       0.0,
       0.0,
@@ -4112,7 +4511,259 @@
        0.002,
        0.007
       ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.601,
+      "rgbHistIntersection": 0.572,
+      "hueHistIntersection": 0.584,
+      "dLumaMean": -8.1,
+      "dSaturation": -12.2,
+      "dColorfulness": -13.7,
+      "dEdge": -1.62,
+      "dRGB": [
+       3.4,
+       -12.6,
+       2.3
+      ]
      },
+     {
+      "lumaHistIntersection": 0.624,
+      "rgbHistIntersection": 0.538,
+      "hueHistIntersection": 0.594,
+      "dLumaMean": -9.6,
+      "dSaturation": 13.7,
+      "dColorfulness": -7.5,
+      "dEdge": -6.03,
+      "dRGB": [
+       9.5,
+       -14.4,
+       -18.3
+      ]
+     }
+    ],
+    "vsPrevious": {
+     "lumaHistIntersection": 0.991,
+     "rgbHistIntersection": 0.975,
+     "hueHistIntersection": 0.985,
+     "dLumaMean": 0.0,
+     "dSaturation": 1.1,
+     "dColorfulness": 0.9,
+     "dEdge": -0.2,
+     "dRGB": [
+      0.1,
+      0.1,
+      -0.2
+     ],
+     "pixelChange": 1.16
+    },
+    "perf": {
+     "static": 211584,
+     "props": 20898,
+     "instances": 10178,
+     "draws": 14,
+     "chunks": 25,
+     "meshBytes": 332811200,
+     "triangles": 232482,
+     "treeTrianglesNonInstanced": 0,
+     "countersScope": "whole world (not in view)",
+     "profile": "chicago-dense-north",
+     "season": "2",
+     "build": "36.30s",
+     "fpsMedian": 0.0,
+     "frameMsMedian": null,
+     "gpuMsMedian": null,
+     "renderSamples": 31,
+     "viewTriangles": 333034,
+     "viewDraws": 70,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 42.9
+    }
+   }
+  },
+  "lakeview-postcard-afternoon": {
+   "grade": {
+    "view": "lakeview-postcard-afternoon",
+    "grader": "claude-sonnet-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Crowns are unequal merged ball clusters on forked trunks, but the repeated round lobes and sparse branching read as lollipop-ish; roof/massing families (flat-top rows, gable end, bay) are readable but repetitive."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent brick/tan/cream/grey-blue coats and blue sky, but lawns and tree greens are one saturated flat green, road is neutral grey with no warm/cool shift, and the mock's yellow-green crown variation is missing."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One sun, soft crown shadow on the road and warm sunlit faces on the right, but shadows are faint and flat, house shaded faces barely cooler, no sunlit rim or sky-tinted shadow; overall exposure slightly bright and flat."
+     },
+     "softnessAO": {
+      "score": 2,
+      "reason": "Trunk bases have no contact darkening or mulch pockets, eave/soffit and stoop undersides are not occluded, hedges sit on the lawn without a dark seam; reads as clean flat shading."
+     },
+     "groundRichness": {
+      "score": 3,
+      "reason": "Lawns have slight tone steps, beds with dark mulch, hedges and foundation shrubs, sidewalk shadow patches; the verge and far lawns are still a uniform green and road is very quiet and flat."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Gentle blue-ish haze toward the vanishing point and shrinking perspective give useful separation, but the far end is a fairly hard cut with little horizon haze and the sky is plain."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Several families (rowhouse flat-roof, gable end, bay front, hip-roof cream) in varied colours; windows and doors are simple and repetitive and porches/stoops are minimal."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Street runs east with sun from the right-rear (SW); crown shadows fall toward the left-ahead, consistent with shadow bearing 45 degrees. Nothing contradicts the camera or layout."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 3,
+      "reason": "Some lawn variation, foundation shrubs, hedges, mulch beds and stoops; verge and road edge are plain and no leaf litter."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Dense Lakeview/Chicago street cues: brick-and-stone two-flats, street trees on parkway, stoops; houses lack the mock's brick richness and parked cars/lamps that sell the place."
+     }
+    },
+    "v2Total": 24,
+    "v2Max": 40,
+    "v2Score50": 30.0,
+    "adMean": 3.0,
+    "gatePass": false,
+    "adPass": true,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "light",
+      "fix": "Strengthen cast shadows: darker, cooler sky-tinted shadows on road, lawn and sidewalk with a crisper warm lit side on facades and trunks",
+      "why": "The road and lawns are almost uniformly lit and the shaded sides of houses barely differ from the lit sides",
+      "expectedGain": [
+       "light",
+       "softnessAO",
+       "palette"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Vary crown colour (yellow-green and olive patches), make crowns less ball-like with irregular merged lobes, and add dark contact pockets and mulch rings at trunk bases",
+      "why": "Crowns are one saturated green of repeating spheres and trunks stand on the lawn without contact darkening",
+      "expectedGain": [
+       "silhouettes",
+       "palette",
+       "softnessAO"
+      ]
+     },
+     {
+      "area": "buildings",
+      "fix": "Deepen brick/terracotta saturation, add soffit and eave shadow bands, darker window recesses, and porch/stoop undersides",
+      "why": "Facades read as flat colour planes with thin trim, lacking the mock's brick contrast and shaded eaves",
+      "expectedGain": [
+       "houseVariety",
+       "softnessAO",
+       "adRegional"
+      ]
+     }
+    ],
+    "lookFixChecks": {
+     "LF-ground": {
+      "pass": true,
+      "reason": "Lawn tones, beds/shrubs and walks/curb layers present in foreground; Lakeview density kept; verge still flat."
+     },
+     "LF-light": {
+      "pass": false,
+      "reason": "Sun bearing agrees, summer reads as summer, but exposure and shadow strength flatten the architecture and shaded faces barely separate."
+     },
+     "LF-weather": {
+      "pass": null,
+      "reason": "n/a: dry, clear view"
+     },
+     "LF-aerial": {
+      "pass": null,
+      "reason": "n/a: street view"
+     },
+     "LF-trees": {
+      "pass": true,
+      "reason": "Silhouettes 3 and regional 3, correct summer season, trunks readable; crowns repetitive but not three identical adjacent."
+     },
+     "LF-sky": {
+      "pass": true,
+      "reason": "Blue sky with sparse simple cumulus, no sun disk; mid-tone and flat but not wrong."
+     }
+    },
+    "vsPrevious": "no previous: first run of this twin view.",
+    "summary": "At phone size a clean, readable stylized Lakeview street with correct sun direction, but flat in light and ground: faint shadows, uniform green, and no contact darkening. The biggest gap is shadow and light contrast, with crown colour variety and facade richness close behind.",
+    "mockGap": {
+     "mock": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+     "closeness": 2,
+     "gaps": [
+      "Light and shadow: the mock has a deeper saturated blue sky, strong cool-tinted dappled crown shadows across road, lawn and walk, and warm rim on trunks; the frame has a paler sky, faint soft shadows and flat grey road",
+      "Foliage and ground colour: the mock mixes yellow-green and olive crowns with fuzzy scalloped edges and darker mulch rings at trunk bases and cars/lamps; the frame is uniform saturated green balls, flat bright lawn and no trunk contact darkening",
+      "Houses: the mock has saturated terracotta brick with cream trim bands, eave and soffit shadows, deep window recesses and shaded stoops; the frame has desaturated tan/pastel flat facades with thin trim and no eave band or stoop shading"
+     ]
+    },
+    "v2Floors": false,
+    "longTerm40": false,
+    "conceptScore50": null,
+    "parity": null,
+    "paintoverScore50": null,
+    "paintoverParity": null,
+    "gateBasis": "40/50 (no calibrated concept)",
+    "gate5B": false,
+    "lookFixFailed": [
+     "LF-light"
+    ],
+    "lookFixChecked": 4
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 136.4,
+     "lumaP5": 53,
+     "lumaP50": 150,
+     "lumaP95": 188,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      135.9,
+      137.8,
+      124.6
+     ],
+     "saturationMean": 70.9,
+     "colorfulness": 46.0,
+     "edgeMean": 11.79,
+     "hueHist": [
+      0.213,
+      0.143,
+      0.285,
+      0.136,
+      0.007,
+      0.002,
+      0.026,
+      0.185,
+      0.0,
+      0.0,
+      0.0,
+      0.003
+     ]
+    },
+    "targets": [
      {
       "label": "approved mock house-contrast-v1 postcard-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)",
       "path": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
@@ -4148,63 +4799,21 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.601,
-      "rgbHistIntersection": 0.572,
-      "hueHistIntersection": 0.585,
-      "dLumaMean": -8.1,
-      "dSaturation": -12.2,
-      "dColorfulness": -13.7,
-      "dEdge": -1.61,
-      "dRGB": [
-       3.3,
-       -12.7,
-       2.3
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.624,
-      "rgbHistIntersection": 0.539,
-      "hueHistIntersection": 0.595,
-      "dLumaMean": -9.6,
-      "dSaturation": 13.7,
-      "dColorfulness": -7.5,
-      "dEdge": -6.02,
-      "dRGB": [
-       9.4,
-       -14.5,
-       -18.3
-      ]
-     },
-     {
       "lumaHistIntersection": 0.548,
-      "rgbHistIntersection": 0.534,
-      "hueHistIntersection": 0.524,
-      "dLumaMean": 4.3,
-      "dSaturation": 18.8,
-      "dColorfulness": 0.5,
-      "dEdge": -0.22,
+      "rgbHistIntersection": 0.514,
+      "hueHistIntersection": 0.841,
+      "dLumaMean": 11.0,
+      "dSaturation": -10.0,
+      "dColorfulness": -10.2,
+      "dEdge": -2.35,
       "dRGB": [
-       26.9,
-       -0.5,
-       -15.4
+       13.2,
+       10.8,
+       7.8
       ]
      }
     ],
-    "vsPrevious": {
-     "lumaHistIntersection": 0.85,
-     "rgbHistIntersection": 0.772,
-     "hueHistIntersection": 0.908,
-     "dLumaMean": 0.9,
-     "dSaturation": 8.7,
-     "dColorfulness": 6.5,
-     "dEdge": 0.57,
-     "dRGB": [
-      1.1,
-      1.1,
-      -2.1
-     ],
-     "pixelChange": 8.17
-    },
+    "vsPrevious": null,
     "perf": {
      "static": 211584,
      "props": 20898,
@@ -4217,16 +4826,16 @@
      "countersScope": "whole world (not in view)",
      "profile": "chicago-dense-north",
      "season": "2",
-     "build": "38.04s",
-     "fpsMedian": 0.0,
-     "frameMsMedian": null,
+     "build": "36.30s",
+     "fpsMedian": 60.2,
+     "frameMsMedian": 16.61,
      "gpuMsMedian": null,
-     "renderSamples": 32,
-     "viewTriangles": 333034,
-     "viewDraws": 70,
+     "renderSamples": 3,
+     "viewTriangles": 348808,
+     "viewDraws": 76,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 46.6
+     "loadSeconds": 43.9
     }
    }
   },
@@ -4237,23 +4846,23 @@
     "scores": {
      "silhouettes": {
       "score": 3,
-      "reason": "Tree crowns are merged low-poly masses on branch skeletons, but the near trunk is a bare cylinder with no flare and the row repeats similar crowns; the brick block and rowhouses read as families but are plain."
+      "reason": "Brick block, steps and street trees read as families, but crowns are repeated round lobes on forked trunks and the near trunk is a bare cylinder."
      },
      "palette": {
       "score": 3,
-      "reason": "Coherent terracotta, green and lavender-grey, but the grass and road are muted and desaturated (saturation -24 vs target 1); the sidewalk and road read as one violet-grey; foliage is a flat mid green."
+      "reason": "Coherent brick, green and violet-grey road, but muted and desaturated versus the paint-over (sat -15); lawn is a flat grey-green."
      },
      "light": {
       "score": 3,
-      "reason": "Pink-peach golden-hour sky and warm bounce on far houses, but the near facade is a flat orange-tan with no lit/shadow modelling and little cast shadow on the lawn; warm/cool split is weaker than the paint-over and the mock."
+      "reason": "Pink sky and a warm road strip hint at low sun, but the building face and lawns are evenly lit with no warm rim light, so golden hour is weak against the paint-over."
      },
      "softnessAO": {
       "score": 2,
-      "reason": "Trunk base has no contact darkening, stoop and walk edges are hard, near foundation meets the lawn with no occlusion; only a hint of shrub shadow."
+      "reason": "No contact darkening at the trunk base, none under shrubs or along the wall base, and few cast shadows across the sidewalk or lawn; objects look placed on the ground."
      },
      "groundRichness": {
       "score": 2,
-      "reason": "Foreground lawns are near-flat single green tones with hard edges against the walk; little tone variation, no worn edges or litter; sparse tufts only in the distance."
+      "reason": "Lawns are single flat tones, the sidewalk is clean, and only a few grass tufts appear; no patches, worn edges or litter."
      },
      "characterReadability": {
       "score": null,
@@ -4261,15 +4870,15 @@
      },
      "depthFog": {
       "score": 3,
-      "reason": "Street recedes with some haze and a pink sky, but the distant block ends abruptly and the far end lacks graded warm haze; ok separation."
+      "reason": "Pink sky and a vanishing street give some separation, but there is little haze gradation along the distant block."
      },
      "houseVariety": {
       "score": 3,
-      "reason": "Near block is a big flat brick slab with repeated windows and low relief; far houses vary in colour and entries, with shrubs and steps, but are repetitive."
+      "reason": "The left block is a plain flat brick slab; the right side shows two red and buff houses with stoops, giving a few kit families."
      },
      "geography": {
       "score": 4,
-      "reason": "Street runs west with the low sun ahead, light on the road and cast shadows consistent with a shadow bearing east (toward the camera); nothing contradicts camera or layout."
+      "reason": "Looking west with the low sun ahead; shadows fall back toward the camera and right along the road, consistent with the 88 degree bearing; nothing visible contradicts the layout."
      },
      "motion": {
       "score": null,
@@ -4279,7 +4888,7 @@
     "artDirection": {
      "adGroundRich": {
       "score": 2,
-      "reason": "A few foundation shrubs on the near building and hedges far away, but lawns, parkways and walks are flat and clean with no beds, mulch or litter."
+      "reason": "A small shrub row at the wall base and distant hedges are present, but lawns are flat and there are no beds, mulch or tone patches in the foreground."
      },
      "adRainReadable": {
       "score": null,
@@ -4287,7 +4896,7 @@
      },
      "adRegional": {
       "score": 3,
-      "reason": "Chicago brick walk-up, parkway street trees and stoops read as Lakeview, but the three-flat detail and density of the target are missing."
+      "reason": "Brick Chicago street with stoops, a parkway tree line and a grid street reads as Lakeview, though the tall flat block is generic and the three-flat character is thin."
      }
     },
     "v2Total": 23,
@@ -4299,19 +4908,9 @@
     "hardGateFlags": [],
     "topFixes": [
      {
-      "area": "ground",
-      "fix": "Add low-frequency lawn tone patches, worn edges and shade tone under trees, plus a foundation bed with mulch and shrub islands along the near building and parkway",
-      "why": "Foreground lawns are flat single green blocks with hard edges to the walk",
-      "expectedGain": [
-       "groundRichness",
-       "adGroundRich",
-       "softnessAO"
-      ]
-     },
-     {
       "area": "light",
-      "fix": "Model the golden-hour key: a lit warm face and cooler shaded side on the near brick facade, long tree and building shadows across the lawn and road, cool-tinted shadows",
-      "why": "Near facade is a uniform orange-tan and the lawns show almost no cast shadow",
+      "fix": "Add warm low-sun rim light on the building face, trunks and sidewalk, with long cool blue-violet cast shadows across the lawn and road.",
+      "why": "The building face and lawns are evenly lit with no golden-hour glow or shadows, unlike the paint-over.",
       "expectedGain": [
        "light",
        "palette",
@@ -4319,30 +4918,37 @@
       ]
      },
      {
-      "area": "buildings",
-      "fix": "Break up the near brick slab with bay, cornice, stoop and entry relief and brick-tone variation; add trunk flare and base darkening to the foreground tree",
-      "why": "Large flat facade and a bare cylinder trunk dominate the left and center of the frame",
+      "area": "ground",
+      "fix": "Add contact darkening at trunk bases and the wall foot, lawn tone patches, and worn edges.",
+      "why": "The trunk sits on a flat lawn with no occlusion, and the grass is a single grey-green tone.",
       "expectedGain": [
-       "houseVariety",
+       "softnessAO",
+       "groundRichness",
+       "adGroundRich"
+      ]
+     },
+     {
+      "area": "vegetation",
+      "fix": "Merge crowns into larger unequal masses with shaded undersides, give the trunks base flare, and add foundation shrubs and beds along the facade.",
+      "why": "Crowns are separate repeated lobes and the near trunk is a bare cylinder.",
+      "expectedGain": [
        "silhouettes",
-       "softnessAO"
+       "adGroundRich"
       ]
      }
     ],
-    "vsPrevious": "unchanged: near-identical composition; slightly warmer sky and building, trunk and foliage similar.",
-    "summary": "At phone size it reads as a clean stylized Lakeview street with a warm sky, but the ground is flat and the near facade and trunk lack contact shading and light modelling. The biggest gap against the mock is the ground richness and the sunlit/shadow contrast on the facade and lawn.",
     "lookFixChecks": {
      "LF-ground": {
       "pass": false,
-      "reason": "groundRichness and adGroundRich are 2; foreground has only flat lawn and walk layers"
+      "reason": "Flat lawn tones and clean walks; only about two layers (lawn, shrub row) in the foreground."
      },
      "LF-light": {
-      "pass": true,
-      "reason": "light and palette are 3, shadows agree with sun, summer reads as summer; the facade is somewhat flat"
+      "pass": false,
+      "reason": "Light and palette are at 3, but the exposure flattens the building face and the sun cue is weak."
      },
      "LF-weather": {
       "pass": null,
-      "reason": "n/a: dry clear view"
+      "reason": "n/a: dry, clear view"
      },
      "LF-aerial": {
       "pass": null,
@@ -4350,24 +4956,15 @@
      },
      "LF-trees": {
       "pass": true,
-      "reason": "silhouettes and adRegional are 3, summer crowns, no three identical adjacent; near trunk is plain"
+      "reason": "Crowns are readable and the season is right; the bare near trunk is the main flaw."
      },
      "LF-sky": {
       "pass": true,
-      "reason": "pink-peach golden-hour sky is simple and matches the westward camera"
+      "reason": "Pink gradient sky, no disk, plausible for golden hour."
      }
     },
-    "mockGap": {
-     "mock": "house-contrast-v1/images/lakeview-hero.png",
-     "closeness": 3,
-     "gaps": [
-      "Sky is pink-peach dusk haze; mock is clear blue with white clouds",
-      "Brick is flat orange-tan with no mortar texture, cream window surrounds, plinth/eave band or soffit; mock is saturated red-brick with cream trim, dark roof edge and a cream stone base course",
-      "Ground is muted violet-grey road and sidewalk with dull green lawn; mock has warm cream concrete, clear green grass and darker asphalt with soft tree shadows across road and lawn",
-      "Tree trunks are thin-contrast brown cylinders with no cast shadow at the base or rim light; mock trunks are lighter tan with long soft shadows on the grass",
-      "Far porches, stoops and hedges are small and low-detail; mock shows cream porch columns, hip roofs, clipped hedge rows and brick stoops with railings"
-     ]
-    },
+    "vsPrevious": "unchanged: pixel change 0.96 and luma and saturation within 1 point.",
+    "summary": "At phone size the street reads as a clean, calm Lakeview block but looks flat next to the paint-over, with muted colour, weak golden-hour light and no ground contact shading. The biggest gap is the lack of warm low-sun lighting and cast shadows.",
     "v2Floors": false,
     "longTerm40": false,
     "conceptScore50": 36.3,
@@ -4377,26 +4974,27 @@
     "gateBasis": "parity",
     "gate5B": false,
     "lookFixFailed": [
-     "LF-ground"
+     "LF-ground",
+     "LF-light"
     ],
     "lookFixChecked": 4
    },
    "signals": {
     "current": {
-     "lumaMean": 128.5,
+     "lumaMean": 128.4,
      "lumaP5": 72,
      "lumaP50": 126,
      "lumaP95": 191,
      "clipBlackPct": 0.0,
      "clipWhitePct": 0.07,
      "rgbMean": [
-      138.5,
-      127.6,
+      138.6,
+      127.5,
       109.0
      ],
      "saturationMean": 87.5,
      "colorfulness": 47.3,
-     "edgeMean": 9.39,
+     "edgeMean": 9.38,
      "hueHist": [
       0.464,
       0.017,
@@ -4405,8 +5003,8 @@
       0.071,
       0.0,
       0.001,
-      0.046,
-      0.025,
+      0.043,
+      0.027,
       0.021,
       0.002,
       0.007
@@ -4508,7 +5106,273 @@
        0.006,
        0.013
       ]
+     }
+    ],
+    "vsTargets": [
+     {
+      "lumaHistIntersection": 0.566,
+      "rgbHistIntersection": 0.57,
+      "hueHistIntersection": 0.644,
+      "dLumaMean": -9.4,
+      "dSaturation": -24.4,
+      "dColorfulness": -23.1,
+      "dEdge": -6.15,
+      "dRGB": [
+       -7.7,
+       -11.7,
+       9.9
+      ]
      },
+     {
+      "lumaHistIntersection": 0.512,
+      "rgbHistIntersection": 0.52,
+      "hueHistIntersection": 0.616,
+      "dLumaMean": -10.9,
+      "dSaturation": 1.5,
+      "dColorfulness": -16.9,
+      "dEdge": -10.56,
+      "dRGB": [
+       -1.6,
+       -13.5,
+       -10.7
+      ]
+     },
+     {
+      "lumaHistIntersection": 0.551,
+      "rgbHistIntersection": 0.518,
+      "hueHistIntersection": 0.831,
+      "dLumaMean": 10.7,
+      "dSaturation": -15.4,
+      "dColorfulness": -9.5,
+      "dEdge": -1.49,
+      "dRGB": [
+       4.1,
+       12.2,
+       16.3
+      ]
+     }
+    ],
+    "vsPrevious": {
+     "lumaHistIntersection": 0.992,
+     "rgbHistIntersection": 0.968,
+     "hueHistIntersection": 0.978,
+     "dLumaMean": 0.0,
+     "dSaturation": 0.7,
+     "dColorfulness": 0.4,
+     "dEdge": -0.24,
+     "dRGB": [
+      0.3,
+      0.0,
+      0.1
+     ],
+     "pixelChange": 0.96
+    },
+    "perf": {
+     "static": 211584,
+     "props": 20898,
+     "instances": 10178,
+     "draws": 14,
+     "chunks": 25,
+     "meshBytes": 332811200,
+     "triangles": 232482,
+     "treeTrianglesNonInstanced": 0,
+     "countersScope": "whole world (not in view)",
+     "profile": "chicago-dense-north",
+     "season": "2",
+     "build": "36.30s",
+     "fpsMedian": 59.9,
+     "frameMsMedian": 16.69,
+     "gpuMsMedian": null,
+     "renderSamples": 3,
+     "viewTriangles": 421166,
+     "viewDraws": 87,
+     "renderScale": 2.5,
+     "renderSize": "1005x565",
+     "loadSeconds": 47.2
+    }
+   }
+  },
+  "lakeview-street-afternoon": {
+   "grade": {
+    "view": "lakeview-street-afternoon",
+    "grader": "claude-sonnet-5-5",
+    "scores": {
+     "silhouettes": {
+      "score": 3,
+      "reason": "Crowns are merged lobed masses with branch skeletons, but the near trees repeat similar rounded forms; apartment block and rowhouses read as families, flat roofs lack cornice profile."
+     },
+     "palette": {
+      "score": 3,
+      "reason": "Coherent but muddy: tan-brown walls instead of red brick, minty washed lawn with a yellow-green patch, deep flat-green crowns; sky pale and hazy rather than clear blue."
+     },
+     "light": {
+      "score": 3,
+      "reason": "One coherent sun with soft tree shadows across road falling to the right; shading is flat, lit and shaded faces of the big wall barely differ, no warm/cool split."
+     },
+     "softnessAO": {
+      "score": 3,
+      "reason": "Trunk bases and shrubs have basic contact, but no eave/soffit or cornice occlusion and stoops are weakly grounded."
+     },
+     "groundRichness": {
+      "score": 3,
+      "reason": "Lawn has tone variation and a worn patch, parkway grass strip with tufts, sidewalk joints; still broad flat tints, little edge variety."
+     },
+     "characterReadability": {
+      "score": null,
+      "reason": "no character in frame"
+     },
+     "depthFog": {
+      "score": 3,
+      "reason": "Mild haze gives usable separation down the street and the far buildings soften, but no distinct near/mid/far tonal steps and the sky is washed."
+     },
+     "houseVariety": {
+      "score": 3,
+      "reason": "Large tan block left versus orange-red rowhouses right with stoops and shrub hedges; kit families visible but facades are plain with few eave or porch details."
+     },
+     "geography": {
+      "score": 4,
+      "reason": "Heading 270, sun azimuth 225 behind-left: shadows fall to the right/forward-right consistent with bearing 45; nothing contradicts the camera."
+     },
+     "motion": {
+      "score": null,
+      "reason": "still capture"
+     }
+    },
+    "artDirection": {
+     "adGroundRich": {
+      "score": 3,
+      "reason": "Lawn tones, foundation shrub lobes, small shrubs at far stoops, parkway tufts; no mulch beds or leaf litter, ground still sparse in the foreground."
+     },
+     "adRainReadable": {
+      "score": null,
+      "reason": "dry view"
+     },
+     "adRegional": {
+      "score": 3,
+      "reason": "Chicago three-flat/rowhouse brick with stoops and street trees reads as city, but tan walls and sparse street detail make it somewhat generic."
+     }
+    },
+    "v2Total": 25,
+    "v2Max": 40,
+    "v2Score50": 31.1,
+    "adMean": 3.0,
+    "gatePass": false,
+    "adPass": true,
+    "hardGateFlags": [],
+    "topFixes": [
+     {
+      "area": "buildings",
+      "fix": "Shift wall colour from tan to saturated red-orange brick with cream stone bands and window surrounds, darker brick shadow side",
+      "why": "Large left facade reads as flat tan, losing the Lakeview brick identity and house contrast",
+      "expectedGain": [
+       "palette",
+       "houseVariety",
+       "adRegional"
+      ]
+     },
+     {
+      "area": "sky",
+      "fix": "Deepen the sky to clear saturated blue with small white cumulus and less haze",
+      "why": "Sky is pale, hazy and desaturated, flattening the clear mid-afternoon mood",
+      "expectedGain": [
+       "palette",
+       "light",
+       "depthFog"
+      ]
+     },
+     {
+      "area": "ground",
+      "fix": "Warm olive-green lawn with dark cool tree shadows, remove the minty wash and yellow blotch",
+      "why": "Grass looks pale mint with a yellowish patch, low contrast against sidewalk",
+      "expectedGain": [
+       "palette",
+       "groundRichness",
+       "adGroundRich"
+      ]
+     }
+    ],
+    "vsPrevious": "no previous: first run of this view",
+    "summary": "At phone size the street is readable and coherent with trees, stoops and a sunlit road, but colour is washed: tan walls, pale mint lawn, hazy sky. The biggest gap is the missing saturated red brick and clear blue sky of the approved mock.",
+    "lookFixChecks": {
+     "LF-ground": {
+      "pass": true,
+      "reason": "Lawn tones, shrubs, walks, parkway strip present; scores are 3."
+     },
+     "LF-light": {
+      "pass": false,
+      "reason": "Exposure and flat shading flatten the architecture; palette and light at 3 but walls lack lit/shade separation."
+     },
+     "LF-weather": {
+      "pass": null,
+      "reason": "n/a: dry, clear view"
+     },
+     "LF-aerial": {
+      "pass": null,
+      "reason": "n/a: street view"
+     },
+     "LF-trees": {
+      "pass": true,
+      "reason": "Summer foliage correct, crowns varied enough, no three identical adjacent."
+     },
+     "LF-sky": {
+      "pass": true,
+      "reason": "Sparse simple cumulus, no sunset disk."
+     }
+    },
+    "mockGap": {
+     "mock": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+     "closeness": 3,
+     "gaps": [
+      "Walls are flat tan-brown with no brick, cream stone belt/sills or eave band; mock has saturated red brick and strong cream trim",
+      "Sky is pale and hazy; mock is clear saturated blue with crisp cumulus. Lawn is minty with yellow patch versus mock's olive green, and tree crowns are darker and less lit",
+      "Missing soffits, porch/stoop brick detail and the strong cool tree shadows on road and parkway"
+     ]
+    },
+    "v2Floors": true,
+    "longTerm40": false,
+    "conceptScore50": null,
+    "parity": null,
+    "paintoverScore50": null,
+    "paintoverParity": null,
+    "gateBasis": "40/50 (no calibrated concept)",
+    "gate5B": false,
+    "lookFixFailed": [
+     "LF-light"
+    ],
+    "lookFixChecked": 4
+   },
+   "signals": {
+    "current": {
+     "lumaMean": 138.3,
+     "lumaP5": 69,
+     "lumaP50": 130,
+     "lumaP95": 225,
+     "clipBlackPct": 0.0,
+     "clipWhitePct": 0.0,
+     "rgbMean": [
+      139.9,
+      140.4,
+      114.4
+     ],
+     "saturationMean": 87.2,
+     "colorfulness": 47.4,
+     "edgeMean": 10.04,
+     "hueHist": [
+      0.349,
+      0.057,
+      0.321,
+      0.131,
+      0.026,
+      0.001,
+      0.041,
+      0.071,
+      0.002,
+      0.001,
+      0.0,
+      0.0
+     ]
+    },
+    "targets": [
      {
       "label": "approved mock house-contrast-v1 lakeview-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)",
       "path": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
@@ -4544,77 +5408,21 @@
     ],
     "vsTargets": [
      {
-      "lumaHistIntersection": 0.566,
-      "rgbHistIntersection": 0.566,
-      "hueHistIntersection": 0.647,
-      "dLumaMean": -9.3,
-      "dSaturation": -24.4,
-      "dColorfulness": -23.1,
-      "dEdge": -6.14,
+      "lumaHistIntersection": 0.57,
+      "rgbHistIntersection": 0.563,
+      "hueHistIntersection": 0.835,
+      "dLumaMean": 4.8,
+      "dSaturation": 2.4,
+      "dColorfulness": -1.7,
+      "dEdge": -3.68,
       "dRGB": [
-       -7.8,
-       -11.6,
-       9.9
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.512,
-      "rgbHistIntersection": 0.516,
-      "hueHistIntersection": 0.619,
-      "dLumaMean": -10.8,
-      "dSaturation": 1.5,
-      "dColorfulness": -16.9,
-      "dEdge": -10.55,
-      "dRGB": [
-       -1.7,
-       -13.4,
-       -10.7
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.551,
-      "rgbHistIntersection": 0.518,
-      "hueHistIntersection": 0.829,
-      "dLumaMean": 10.8,
-      "dSaturation": -15.4,
-      "dColorfulness": -9.5,
-      "dEdge": -1.48,
-      "dRGB": [
-       4.0,
-       12.3,
-       16.3
-      ]
-     },
-     {
-      "lumaHistIntersection": 0.601,
-      "rgbHistIntersection": 0.628,
-      "hueHistIntersection": 0.789,
-      "dLumaMean": -5.0,
-      "dSaturation": 2.7,
-      "dColorfulness": -1.8,
-      "dEdge": -4.33,
-      "dRGB": [
-       -1.0,
-       -6.6,
-       -0.3
+       0.4,
+       6.2,
+       5.1
       ]
      }
     ],
-    "vsPrevious": {
-     "lumaHistIntersection": 0.704,
-     "rgbHistIntersection": 0.629,
-     "hueHistIntersection": 0.852,
-     "dLumaMean": 1.4,
-     "dSaturation": 14.1,
-     "dColorfulness": 4.6,
-     "dEdge": 0.34,
-     "dRGB": [
-      2.4,
-      1.7,
-      -3.5
-     ],
-     "pixelChange": 9.25
-    },
+    "vsPrevious": null,
     "perf": {
      "static": 211584,
      "props": 20898,
@@ -4627,119 +5435,115 @@
      "countersScope": "whole world (not in view)",
      "profile": "chicago-dense-north",
      "season": "2",
-     "build": "38.04s",
-     "fpsMedian": 59.2,
-     "frameMsMedian": 16.89,
+     "build": "36.30s",
+     "fpsMedian": 59.8,
+     "frameMsMedian": 16.72,
      "gpuMsMedian": null,
      "renderSamples": 3,
-     "viewTriangles": 405582,
-     "viewDraws": 80,
+     "viewTriangles": 421166,
+     "viewDraws": 87,
      "renderScale": 2.5,
      "renderSize": "1005x565",
-     "loadSeconds": 46.9
+     "loadSeconds": 50.4
     }
    }
   }
  },
  "aggregate": {
-  "meanConceptParity": 84,
+  "meanConceptParity": 86,
   "paintoverParity": {
-   "v2-06": 73,
+   "v2-06": 87,
    "showcase-03": 104,
    "showcase-06": 102,
    "ordinary-street": 93,
    "evanston-street": 104,
    "lakeview-street": 83
   },
-  "meanPaintoverParity": 93,
+  "meanPaintoverParity": 96,
   "gate5BPasses": 0,
-  "regionBuildingsGround": 2.68,
+  "regionBuildingsGround": 2.92,
   "lookFixFailed": {
    "LF-ground": 13,
-   "LF-light": 4,
-   "LF-trees": 6,
-   "LF-aerial": 1,
-   "LF-weather": 3
+   "LF-light": 5,
+   "LF-trees": 8,
+   "LF-weather": 1,
+   "LF-aerial": 1
   },
   "ordinaryParity": 87,
-  "milestones": "end of 5A wrap \u226585%: not yet \u00b7 end of 5B \u2265100%: not yet",
-  "meanV2Score50": 29.8,
+  "milestones": "end of 5A wrap \u226585%: **met** \u00b7 end of 5B \u2265100%: not yet",
+  "meanV2Score50": 30.4,
   "conceptParity": {
-   "v2-01": 81,
-   "v2-06": 68,
+   "v2-01": 84,
+   "v2-06": 80,
    "showcase-01": 93,
    "showcase-03": 90,
    "showcase-06": 88,
    "ordinary-street": 87,
-   "wilmette-street": 88,
+   "wilmette-street": 91,
    "wilmette-street-fall": 83,
    "evanston-street": 86,
-   "evanston-street-rain": 85,
-   "lakeview-postcard": 83,
+   "evanston-street-rain": 88,
+   "lakeview-postcard": 86,
    "lakeview-street": 80
   },
-  "meanArtDirection": 2.69,
+  "meanArtDirection": 2.8,
   "gatePasses": 0,
-  "graded": 13,
-  "captured": 13,
+  "graded": 17,
+  "captured": 17,
   "failedGrades": [],
   "placeholders": [],
   "criterionMeans": {
    "silhouettes": 3.0,
    "palette": 3.0,
-   "light": 2.92,
-   "softnessAO": 2.77,
-   "groundRichness": 2.31,
-   "characterReadability": 3.0,
-   "depthFog": 2.92,
-   "houseVariety": 2.92,
+   "light": 2.88,
+   "softnessAO": 2.76,
+   "groundRichness": 2.59,
+   "characterReadability": 3.67,
+   "depthFog": 3.0,
+   "houseVariety": 3.06,
    "geography": 4.0,
-   "adGroundRich": 2.31,
-   "adRegional": 3.08,
-   "adRainReadable": 2.5
+   "adGroundRich": 2.59,
+   "adRegional": 3.0,
+   "adRainReadable": 3.0
   },
   "fixAreasWeighted": [
    [
     "ground",
-    27
+    28
    ],
    [
     "light",
-    19
+    22
    ],
    [
     "vegetation",
-    8
+    14
    ],
    [
-    "water",
-    5
+    "buildings",
+    12
+   ],
+   [
+    "sky",
+    9
+   ],
+   [
+    "fog",
+    6
    ],
    [
     "weather",
     5
    ],
    [
-    "fog",
+    "water",
     4
    ],
    [
     "post",
-    3
-   ],
-   [
-    "buildings",
-    3
-   ],
-   [
-    "character",
-    2
-   ],
-   [
-    "sky",
     2
    ]
   ],
-  "regressionFlags": 10
+  "regressionFlags": 6
  }
 }
