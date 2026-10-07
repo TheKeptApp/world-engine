@@ -1,7 +1,7 @@
 import Foundation
 
 /// Renderer-neutral look values beyond the lighting bible and the rain pack (`Profiles/look.json`):
-/// water, sky and wet paving. Both renderers read them; see docs/look-spec-changes.md.
+/// water, sky, wet paving and shadow range. Both renderers read them; see docs/look-spec-changes.md.
 public struct LookSpec: Codable, Sendable {
     public struct Water: Codable, Sendable {
         /// How much of the water's colour is the reflected sky, clear and overcast (blended by cover).
@@ -27,8 +27,20 @@ public struct LookSpec: Codable, Sendable {
         public var darkenMax: Double
         public var surfaces: [String]
     }
+    /// Sun shadow coverage from the camera (RealityKit fits its cascades inside it): normal and
+    /// below `lowSunBelowDeg` of sun elevation, when shadows grow long.
+    public struct Shadows: Codable, Sendable {
+        public var rangeM: Double
+        public var lowSunRangeM: Double
+        public var lowSunBelowDeg: Double
+        /// Beyond the range, lawns and paths darken under the canopy map shifted along the sun by a
+        /// typical crown's shadow (`blobCrownHeightM`), by `blobStrength` in full direct sun.
+        public var blobStrength: Double
+        public var blobCrownHeightM: Double
+    }
     public var water: Water
     public var sky: Sky
+    public var shadows: Shadows
     public var wetPaving: WetPaving
 }
 
