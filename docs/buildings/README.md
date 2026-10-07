@@ -264,6 +264,34 @@ average house 471 vs the 401 baseline (+17 %).
 | Queen Anne porch, Tudor, corner boards and frieze | ![](facades/details-evanston-porch.jpg) |
 | Wilmette street: Tudor timber trim, Colonial portico and shutters | ![](facades/details-wilmette-street.jpg) |
 
+### Group 2: Chicago city (bungalow, two/three-flat, greystone, frame cottage, Victorian row, six-flat, courtyard, corner mixed-use)
+
+| Family | Pack recipe | What it gets |
+|---|---|---|
+| Brick bungalow | bungalow | cream trim; eave 0.4–0.7 m; raised floor 0.8–1.2 m (4–6 risers); stone steps with brick cheek walls; chamfers |
+| Two/three-flat (brick stacked) | two_flat | cream trim; stone steps with brick cheek walls; chamfered cornice cap; chamfers |
+| Greystone | greystone | limestone trim; broad 1.5–1.9 m stone steps with stone cheek walls; heavy door surround (jambs + head block); chamfered cornice cap |
+| Six-flat | courtyard_building (portals) | stone portal (jambs + head), cheek-walled stoop, chamfered cornice cap |
+| Courtyard mass, corner mixed-use | courtyard_building | trim, portal (courtyard), chamfered cornice cap, chamfers |
+| Frame cottage | (none; denver_victorian nearest) | covered porch (35 %) with square posts, rails and shed roof; corner boards; relief casings |
+| Victorian row | (none; queen_anne trim) | warm cream trim; eave 0.3–0.5 m; corner boards; relief casings |
+
+Courtyard voids are untouched (the court is a footprint hole; nothing is added inside it).
+
+| Area | Near tris/km² | Mid | Far | Skyline | Avg house near |
+|---|---|---|---|---|---|
+| Lakeview (Sheil Park), origin/main → group 2 | 1.112M → 1.164M (+4.7 %) | 358.0k → 372.5k (+4.0 %) | 129.8k → 131.0k (+0.9 %) | unchanged | 509 → 540 |
+
+Per family, Lakeview near (before → after): bungalow 258 → 283, stacked brick 532 → 552, greystone
+555 → 598, frame cottage 364 → 397, Victorian row 566 → 598, six-flat 1419 → 1466, courtyard
+1373 → 1417, corner mixed-use 695 → 705. Views: lakeview-street 50.5k → 51.3k, lakeview-alley
+48.4k → 48.9k, lakeview-block-center 54.4k → 55.5k building triangles (≤ 170k share).
+
+| View | Sheet |
+|---|---|
+| Lakeview, W Roscoe St | ![](facades/details-lakeview-street.jpg) |
+| Two-flat stoops with cheek walls, cornice caps | ![](facades/details-lakeview-stoops.jpg) |
+
 ## Decisions: zones and yards (round 2)
 
 22. **Per-building zone profiles.** Without a forced profile, each building takes the `regions.json`

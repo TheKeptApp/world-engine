@@ -443,6 +443,31 @@
         "chimneyBreast": 0.6,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "bungalow",
+        "trim": [
+          "#EBCE91",
+          "#FFE9B9"
+        ],
+        "eave": [
+          0.4,
+          0.7
+        ],
+        "corners": "chamfer",
+        "foundation": [
+          0.8,
+          1.2
+        ],
+        "stoop": {
+          "width": [
+            1.2,
+            1.5
+          ],
+          "cheeks": true,
+          "steps": "trim",
+          "cheekColour": "wall"
+        }
       }
     },
     "brickStackedFacade": {
@@ -479,6 +504,24 @@
         "sideRhythm": true,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "two_flat",
+        "trim": [
+          "#DCC18B",
+          "#F6DFB0"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "stoop": {
+          "width": [
+            1.3,
+            1.6
+          ],
+          "cheeks": true,
+          "steps": "trim",
+          "cheekColour": "wall"
+        }
       }
     },
     "greystoneFacade": {
@@ -520,6 +563,25 @@
         "sideRhythm": true,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "greystone",
+        "trim": [
+          "#C3BD9E",
+          "#E1DBBD"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "jambs": true,
+        "stoop": {
+          "width": [
+            1.5,
+            1.9
+          ],
+          "cheeks": true,
+          "steps": "trim",
+          "cheekColour": "wall"
+        }
       }
     },
     "frameCottage": {
@@ -552,6 +614,38 @@
         "chimneyBreast": 0.5,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "denver_victorian (nearest: small porch, slim posts); Chicago frame cottage is not a pack family",
+        "trim": [
+          "#EDC774",
+          "#FFE6AE"
+        ],
+        "corners": "board",
+        "casings": true,
+        "porch": {
+          "posts": "square",
+          "postWidth": [
+            0.14,
+            0.18
+          ],
+          "rail": true,
+          "roof": "shed",
+          "depth": [
+            1.5,
+            2.0
+          ],
+          "frontage": [
+            0.45,
+            0.8
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.1,
+            1.3
+          ]
+        }
       }
     },
     "victorianRow": {
@@ -584,6 +678,25 @@
         "chimneyBreast": 0.5,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "queen_anne / denver_victorian (trim, casings); Chicago Victorian row is not a pack family",
+        "trim": [
+          "#EEC56D",
+          "#FFE3A7"
+        ],
+        "eave": [
+          0.3,
+          0.5
+        ],
+        "corners": "board",
+        "casings": true,
+        "stoop": {
+          "width": [
+            1.1,
+            1.4
+          ]
+        }
       }
     },
     "sixFlat": {
@@ -608,6 +721,25 @@
         "sideRhythm": true,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "courtyard_building (apartment portals)",
+        "trim": [
+          "#D8BC82",
+          "#F7DEAE"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "jambs": true,
+        "stoop": {
+          "width": [
+            1.4,
+            1.8
+          ],
+          "cheeks": true,
+          "steps": "trim",
+          "cheekColour": "wall"
+        }
       }
     },
     "courtyardMass": {
@@ -616,6 +748,23 @@
       "facade": {
         "cornice": true,
         "tallWindows": true
+      },
+      "details": {
+        "pack": "courtyard_building",
+        "trim": [
+          "#D8BC82",
+          "#F7DEAE"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "jambs": true,
+        "stoop": {
+          "width": [
+            1.4,
+            1.8
+          ],
+          "steps": "trim"
+        }
       }
     },
     "cornerMixedUse": {
@@ -625,6 +774,15 @@
         "cornice": true,
         "storefront": true,
         "tallWindows": true
+      },
+      "details": {
+        "pack": "courtyard_building (trim, cornice); no pack family",
+        "trim": [
+          "#D8BC82",
+          "#F7DEAE"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true
       }
     },
     "vintageHighRise": {

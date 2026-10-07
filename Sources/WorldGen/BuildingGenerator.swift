@@ -545,7 +545,15 @@ public struct BuildingGenerator: Sendable {
                 }
                 m.paint = c.door
                 m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.45, s1: doorS + 0.45, z0: F, z1: F + 2.05, offset: 0.045)
-                if near, details?.casings == true {
+                if near, details?.jambs == true {
+                    // Heavy stone surround: jambs either side and a head block (greystone portal).
+                    m.paint = c.trim
+                    for sx in [-1.0, 1.0] {
+                        let a = doorS + sx * 0.56, b2 = doorS + sx * 0.86
+                        addLedge(origin: p, dir: dir, normal: n, s0: min(a, b2), s1: max(a, b2), z0: F, z1: F + 2.3, depth: 0.12, ends: true, into: &m)
+                    }
+                    addLedge(origin: p, dir: dir, normal: n, s0: doorS - 0.94, s1: doorS + 0.94, z0: F + 2.3, z1: F + 2.62, depth: 0.16, ends: true, into: &m)
+                } else if near, details?.casings == true {
                     // Door head: a projecting cap over the surround.
                     m.paint = c.trim
                     addLedge(origin: p, dir: dir, normal: n, s0: doorS - 0.66, s1: doorS + 0.66, z0: F + 2.2, z1: F + 2.34, depth: 0.08, ends: true, into: &m)

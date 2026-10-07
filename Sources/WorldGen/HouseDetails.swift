@@ -49,6 +49,8 @@ extension HouseFamilyGrammar {
         public var copingBevel: Bool?
         /// Portico columns with a base and a capital block (near).
         public var columnCaps: Bool?
+        /// Heavy stone door surround: two jambs and a head block (greystone, apartment portals; near).
+        public var jambs: Bool?
     }
 
     public struct Shutters: Codable, Sendable, Equatable {
@@ -353,6 +355,21 @@ extension BuildingGenerator {
                      paint: detailPaint(c, stoop?.steps), cheekPaint: detailPaint(c, stoop?.cheekColour ?? stoop?.steps), into: &m)
         }
         return PorchLayout(s0: s0, s1: s1, depth: depth, stairS: doorS, stairW: stairW)
+    }
+
+    /// Cornice along a street wall with one chamfer on its top outer edge (house-details-v1:
+    /// parapet cap 1 chamfer): bottom, front, chamfer, top and the two ends.
+    // swiftlint:disable:next function_parameter_count
+    func addChamferedCornice(origin p: LocalPoint, dir: LocalPoint, n: LocalPoint, s0: Double, s1: Double, z0: Double, z1: Double,
+                             depth: Double, chamfer ch: Double, into m: inout MeshBuffers) {
+        func q(_ s: Double, _ t: Double, _ z: Double) -> SIMD3<Float> { P(p + dir * s + n * t, z) }
+        m.addCleanFace([q(s0, 0, z0), q(s1, 0, z0), q(s1, depth, z0), q(s0, depth, z0)], facing: -sceneUp)
+        m.addCleanFace([q(s0, depth, z0), q(s1, depth, z0), q(s1, depth, z1 - ch), q(s0, depth, z1 - ch)], facing: D(n))
+        m.addCleanFace([q(s0, depth, z1 - ch), q(s1, depth, z1 - ch), q(s1, depth - ch, z1), q(s0, depth - ch, z1)], facing: D(n) + sceneUp)
+        m.addCleanFace([q(s0, depth - ch, z1), q(s1, depth - ch, z1), q(s1, 0, z1), q(s0, 0, z1)], facing: sceneUp)
+        for (s, sx) in [(s0, -1.0), (s1, 1.0)] {
+            m.addCleanFace([q(s, 0, z0), q(s, depth, z0), q(s, depth, z1 - ch), q(s, depth - ch, z1), q(s, 0, z1)], facing: D(dir * sx))
+        }
     }
 
     /// A named detail colour: trim | wall | foundation (default).
