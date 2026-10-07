@@ -1,0 +1,1545 @@
+{
+  "schema": "worldengine.canada-style-b.v1",
+  "date": "2026-10-07",
+  "status": "Art and data proposal; no surveys, measured regional shares, code or phone benchmark",
+  "style": "Approved rich Style B: real proportions, simplified matte surfaces, grounded soft light",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "lightingCopiedUnchanged": true,
+  "currentVisualAuthority": "User-approved Style B Bible calibration; older inherited lighting anchor ambiguity is retained as provenance, not a request for reapproval",
+  "sourceInputs": [
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/images/01-calibration-scene.png",
+      "sha256": "b107e0e162b12b21e682d5fb1fabf67ee8ea9ae4b0ae717c9deb46ce7912b4a4"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/house-archetypes-v1/chicago-01-bungalow.png",
+      "sha256": "62241cc7848e2f5e0579024ac58103c63299ae519f3b6d0b0c0cbb19fe088f19"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/japan-regional-kit-v1/05-vehicles.png",
+      "sha256": "7ab4a008a476e69fe5ccd1626e46191a5a1751916ec669515f23e5ac0c4ef5a4"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/infrastructure-kit-v1/rail-01-elevated.png",
+      "sha256": "4ca064a11a34e908c3142e5635db1ce4e49e50c96447708d8e39eae0163e6fab"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/country-shortlist-v1/README.md",
+      "sha256": "fb98f5d034462864c957e8dc028f9dbd5db16255f6ef456a59200f577439da49"
+    }
+  ],
+  "archetypesAndSheets": [
+    {
+      "id": "vancouver-01-special",
+      "city": "Vancouver",
+      "name": "Vancouver Special",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 10,
+        "depth": 13,
+        "height": 7.4
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two full floors, low front-facing gable, wide upper balcony, simple brick lower/stucco upper walls, shallow front steps, rear lane access.",
+      "palette": {
+        "primary": "#C9C4AF",
+        "secondary": "#A66C55",
+        "trim": "#F0E7D4",
+        "roof": "#626D71"
+      },
+      "roof_pitch_degrees_proposal": 18,
+      "image": "vancouver-01-special.png",
+      "sheet": "vancouver-01-special.html",
+      "source_ids": [
+        "CA01"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-02-craftsman",
+      "city": "Vancouver",
+      "name": "Craftsman bungalow",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 8.5,
+        "depth": 13,
+        "height": 7.5
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "One full floor plus occupied steep roof, broad covered porch on tapering square posts, front cross-gable and one dormer, shingle/siding and masonry base.",
+      "palette": {
+        "primary": "#748B7A",
+        "secondary": "#A48466",
+        "trim": "#DDD6BC",
+        "roof": "#60696B"
+      },
+      "roof_pitch_degrees_proposal": 38,
+      "image": "vancouver-02-craftsman.png",
+      "sheet": "vancouver-02-craftsman.html",
+      "source_ids": [
+        "CA02"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-03-westcoast",
+      "city": "Vancouver",
+      "name": "West Coast modern",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 12,
+        "depth": 14,
+        "height": 7.2
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two floors, low-pitched shed roof, post-and-beam rhythm, cedar-colored matte broad wall panels and large muted blue glazing, contour-aware decks.",
+      "palette": {
+        "primary": "#9D8164",
+        "secondary": "#D2CEC0",
+        "trim": "#536C78",
+        "roof": "#5B6467"
+      },
+      "roof_pitch_degrees_proposal": 10,
+      "image": "vancouver-03-westcoast.png",
+      "sheet": "vancouver-03-westcoast.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-04-edwardian",
+      "city": "Vancouver",
+      "name": "Edwardian wood house",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 7.5,
+        "depth": 12,
+        "height": 10
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two full floors plus roof, simple steep front gable, recessed porch and square bay, painted wood siding, stone foundation, narrow lot.",
+      "palette": {
+        "primary": "#B8C3BA",
+        "secondary": "#F0E6D1",
+        "trim": "#8F735A",
+        "roof": "#646D70"
+      },
+      "roof_pitch_degrees_proposal": 42,
+      "image": "vancouver-04-edwardian.png",
+      "sheet": "vancouver-04-edwardian.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-05-laneway",
+      "city": "Vancouver",
+      "name": "Laneway house",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 6,
+        "depth": 8,
+        "height": 6.2
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Compact one-and-a-half-storey rear-lane dwelling, simple gable, small entry deck, broad siding fields, no invented front street driveway.",
+      "palette": {
+        "primary": "#A9B6A7",
+        "secondary": "#DDD3BC",
+        "trim": "#756B5B",
+        "roof": "#5E6A6F"
+      },
+      "roof_pitch_degrees_proposal": 32,
+      "image": "vancouver-05-laneway.png",
+      "sheet": "vancouver-05-laneway.html",
+      "source_ids": [
+        "CA11"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-06-podium",
+      "city": "Vancouver",
+      "name": "Glass tower on podium",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 28,
+        "depth": 24,
+        "height": 90
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "28-storey generic residential tower on four-storey broad podium, restrained repeated balcony slabs and opaque muted blue glazing, landscape setback, no landmark silhouette.",
+      "palette": {
+        "primary": "#BFC9C5",
+        "secondary": "#536F80",
+        "trim": "#DED9CB",
+        "roof": "#626D72"
+      },
+      "roof_pitch_degrees_proposal": 0,
+      "image": "vancouver-06-podium.png",
+      "sheet": "vancouver-06-podium.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-01-baygable",
+      "city": "Toronto",
+      "name": "Bay-and-gable Victorian",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 5.5,
+        "depth": 14,
+        "height": 10.5
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two full floors plus roof, tall narrow projecting polygonal bay topped with steep front gable, red brick, restrained pale stone lintels, small front garden.",
+      "palette": {
+        "primary": "#A3624C",
+        "secondary": "#DBCAB1",
+        "trim": "#EFDFC6",
+        "roof": "#626971"
+      },
+      "roof_pitch_degrees_proposal": 48,
+      "image": "toronto-01-baygable.png",
+      "sheet": "toronto-01-baygable.html",
+      "source_ids": [
+        "CA03"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-02-semi",
+      "city": "Toronto",
+      "name": "Semi-detached brick pair",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 11,
+        "depth": 14,
+        "height": 9.2
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two attached homes in ONE paired envelope, two full floors plus roof, mirrored entries and projecting bays, simple shared gable/hip roof, party wall maintained.",
+      "palette": {
+        "primary": "#AF785C",
+        "secondary": "#D7C6A7",
+        "trim": "#ECE1CC",
+        "roof": "#606A70"
+      },
+      "roof_pitch_degrees_proposal": 36,
+      "image": "toronto-02-semi.png",
+      "sheet": "toronto-02-semi.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-03-annex",
+      "city": "Toronto",
+      "name": "Annex brick-and-stone house",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 9,
+        "depth": 15,
+        "height": 12
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Two-and-a-half-storey substantial house with broad asymmetrical steep gable, porch, tall bay and pale sandstone accents; sparing complex roof articulation, no named private property.",
+      "palette": {
+        "primary": "#995C48",
+        "secondary": "#CBBCA2",
+        "trim": "#E3D6BF",
+        "roof": "#60666C"
+      },
+      "roof_pitch_degrees_proposal": 42,
+      "image": "toronto-03-annex.png",
+      "sheet": "toronto-03-annex.html",
+      "source_ids": [
+        "CA04"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-04-workers",
+      "city": "Toronto",
+      "name": "Worker cottage",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 6.5,
+        "depth": 11,
+        "height": 5.5
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "One-storey compact redbrick cottage, simple low hip roof, small stoop and close front setback, narrow side passage.",
+      "palette": {
+        "primary": "#AD775E",
+        "secondary": "#D4C8AE",
+        "trim": "#EDE2CE",
+        "roof": "#606A70"
+      },
+      "roof_pitch_degrees_proposal": 26,
+      "image": "toronto-04-workers.png",
+      "sheet": "toronto-04-workers.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-05-midrise",
+      "city": "Toronto",
+      "name": "Main-street mid-rise",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 22,
+        "depth": 18,
+        "height": 22
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "Six-storey generic brick mixed-use infill, blank shop sign shapes at ground level, set-back top floor, flat roof/parapet, retained sidewalk and transit corridor.",
+      "palette": {
+        "primary": "#A5705A",
+        "secondary": "#C9C3B6",
+        "trim": "#506977",
+        "roof": "#626D72"
+      },
+      "roof_pitch_degrees_proposal": 0,
+      "image": "toronto-05-midrise.png",
+      "sheet": "toronto-05-midrise.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-06-condo",
+      "city": "Toronto",
+      "name": "Condo tower on podium",
+      "category": "archetype",
+      "dimensions_m": {
+        "width": 30,
+        "depth": 25,
+        "height": 105
+      },
+      "dimensions_status": "authored proposal, not surveyed",
+      "form": "32-storey original rectilinear residential tower on five-storey podium, quiet opaque blue-grey glazing, simple balcony bands, no named city landmark.",
+      "palette": {
+        "primary": "#CBCBC3",
+        "secondary": "#526C7C",
+        "trim": "#B9B2A3",
+        "roof": "#5D6870"
+      },
+      "roof_pitch_degrees_proposal": 0,
+      "image": "toronto-06-condo.png",
+      "sheet": "toronto-06-condo.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-district-01",
+      "city": "Vancouver",
+      "name": "Residential lanes and cherry streets",
+      "category": "district",
+      "form": "Composite Mount Pleasant-like public residential district: Specials, Craftsman and Edwardian wood houses, rear lanes/garages/laneway houses, planted setbacks and cherry trees. Modest local street, no mountain wall directly behind every house.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "vancouver-district-01.png",
+      "sheet": "vancouver-district-01.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "vancouver-district-02",
+      "city": "Vancouver",
+      "name": "Waterfront podium district",
+      "category": "district",
+      "form": "Composite False Creek-like waterfront public district: generic tower-podium buildings, seawall path, planted edges and modest quiet water, distant layered mountains appropriate to sightline; no named landmarks.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "vancouver-district-02.png",
+      "sheet": "vancouver-district-02.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-district-01",
+      "city": "Toronto",
+      "name": "Annex-like residential fabric",
+      "category": "district",
+      "form": "Composite public residential street: narrow bay-and-gable houses, semi pairs, one larger Annex brick/stone house, small front gardens and mature maples, restrained overhead utilities.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "toronto-district-01.png",
+      "sheet": "toronto-district-01.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "toronto-district-02",
+      "city": "Toronto",
+      "name": "Streetcar main street",
+      "category": "district",
+      "form": "Composite public mixed-use main street: two/three-storey brick storefront rhythm, six-storey infill and distant generic condo towers, embedded streetcar tracks and original unbranded muted teal streetcar, blank signs only.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "toronto-district-02.png",
+      "sheet": "toronto-district-02.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-01-trees",
+      "city": "Canada",
+      "name": "Street trees and seasonal crowns",
+      "category": "regional",
+      "form": "Grid: Vancouver flowering cherry (spring soft pale pink and summer green), Douglas-fir-like layered conifer and western-redcedar-like soft taper; Toronto sugar/red-maple-like rounded branching crowns (summer green, yellow/orange/red autumn, bare winter). Species-inspired broad forms not botanical survey. No individual foliage geometry required.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-01-trees.png",
+      "sheet": "canada-01-trees.html",
+      "source_ids": [
+        "CA05",
+        "CA06",
+        "CA07"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-02-yards",
+      "city": "Canada",
+      "name": "Yards, lanes and edges",
+      "category": "regional",
+      "form": "Vancouver hedge, timber fence, small rain garden, rear lane and compact laneway house; Toronto low brick/stone garden wall, stoop, narrow side passage and planted front garden. No addresses or owners.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-02-yards.png",
+      "sheet": "canada-02-yards.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-03-vehicles",
+      "city": "Canada",
+      "name": "Generic Canadian road vehicles",
+      "category": "regional",
+      "form": "Six generic forms sedan, compact SUV, pickup, delivery van, city bus and snowplow truck. All fictional, simple plain dark grille slots with NO central badge pads/emblems, simple non-signature rectangular lamp patches, matte painted trim, natural proportions; right-hand traffic, no vehicle brands, license text or actual agency livery.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-03-vehicles.png",
+      "sheet": "canada-03-vehicles.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-04-transit",
+      "city": "Canada",
+      "name": "Generic elevated, streetcar and commuter rail",
+      "category": "regional",
+      "form": "Three families: Vancouver-inspired automated elevated metro on concrete guideway and simple station; Toronto-inspired low-floor articulated streetcar with overhead wire on embedded rails; southern-Ontario-inspired long bi-level commuter train and plain locomotive on separate rail corridor. All original generic non-branded subdued teal/cream/bluegrey palettes, no actual operator colors or models. Stations blank signs.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-04-transit.png",
+      "sheet": "canada-04-transit.html",
+      "source_ids": [
+        "CA08",
+        "CA09",
+        "CA10"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-05-furniture",
+      "city": "Canada",
+      "name": "Signals, signs and street furniture",
+      "category": "regional",
+      "form": "Generic Canadian-region horizontal/vertical black or yellow traffic signal housings, blank rectangular street-name blades, blank sign plates (no readable symbols/lettering), bus shelter, curb ramps, hydrant, bicycle rack and simple lamp. Blank bilingual sign layout two empty bands only. Not a regulatory-sign specification.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-05-furniture.png",
+      "sheet": "canada-05-furniture.html",
+      "source_ids": [],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    },
+    {
+      "id": "canada-06-snow",
+      "city": "Canada",
+      "name": "Weather-driven snow states",
+      "category": "regional",
+      "form": "Four same-block state vignettes, patchy dusting with tan grass showing, fresh shallow accumulation, plowed roads with low dirty-grey curb banks and clear path, wet thaw with patchy remnant snow. Vancouver residential and Toronto residential examples; distinguish damp Vancouver thaw from Toronto longer-lived snow as illustrative scenarios not automatic date rules. No active falling particle clutter, show smooth matte snow masses.",
+      "dimensions_status": "authored modules and scene proposals, not surveys",
+      "image": "canada-06-snow.png",
+      "sheet": "canada-06-snow.html",
+      "source_ids": [
+        "CA12",
+        "CA13"
+      ],
+      "evidence": "Form is a sourced family where source_ids are present; numeric envelopes/palettes/roof pitches and composite arrangement are authored proposals.",
+      "lod": {
+        "far": "<6 drawable pixels: real-scale silhouette and primary colour only",
+        "mid": "6\u201320 drawable pixels: roof/bay/cabin/crown structure and broad glazing masses",
+        "near": ">20 drawable pixels: selective seams, porch/balcony recesses and branch gaps; no badges or photographic detail"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "id": "flowering_cherry",
+      "sheet": "canada-01-trees",
+      "dimensions_m": {
+        "width": 7,
+        "length": 7,
+        "height": 8
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#688253",
+        "#E8C4CE",
+        "#786450"
+      ],
+      "placement": "Vancouver; spring bloom is weather/phenology driven, no fixed-date blanket blossoms",
+      "base_linear_Y": [
+        0.19533,
+        0.61092,
+        0.13687
+      ],
+      "secondary_relative_primary_percent": 312.8
+    },
+    {
+      "id": "layered_conifer",
+      "sheet": "canada-01-trees",
+      "dimensions_m": {
+        "width": 7,
+        "length": 7,
+        "height": 20
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#4E715C",
+        "#345749",
+        "#786450"
+      ],
+      "placement": "Vancouver; keep layered branch silhouette and natural taper, avoid stacked cone toy",
+      "base_linear_Y": [
+        0.14203,
+        0.08027,
+        0.13687
+      ],
+      "secondary_relative_primary_percent": 56.5
+    },
+    {
+      "id": "soft_cedar",
+      "sheet": "canada-01-trees",
+      "dimensions_m": {
+        "width": 6,
+        "length": 6,
+        "height": 16
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#597A60",
+        "#3E5F4D",
+        "#786450"
+      ],
+      "placement": "Vancouver; evergreen, park/private planting space observed",
+      "base_linear_Y": [
+        0.16887,
+        0.09744,
+        0.13687
+      ],
+      "secondary_relative_primary_percent": 57.7
+    },
+    {
+      "id": "maple",
+      "sheet": "canada-01-trees",
+      "dimensions_m": {
+        "width": 12,
+        "length": 12,
+        "height": 16
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#718653",
+        "#CFAD53",
+        "#C68A46",
+        "#A76751"
+      ],
+      "placement": "Toronto; broad summer crown, variable fall colour, bare winter branches",
+      "base_linear_Y": [
+        0.21185,
+        0.43777,
+        0.30625,
+        0.1851
+      ],
+      "secondary_relative_primary_percent": 206.6
+    },
+    {
+      "id": "hedge",
+      "sheet": "canada-02-yards",
+      "dimensions_m": {
+        "width": 3,
+        "length": 0.8,
+        "height": 1.4
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#52724D",
+        "#38573F"
+      ],
+      "placement": "Private recess/setback only; never obstruct accessible sidewalk",
+      "base_linear_Y": [
+        0.14364,
+        0.08016
+      ],
+      "secondary_relative_primary_percent": 55.8
+    },
+    {
+      "id": "timber_fence",
+      "sheet": "canada-02-yards",
+      "dimensions_m": {
+        "width": 2.4,
+        "length": 0.12,
+        "height": 1.8
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#A28B71",
+        "#796C59"
+      ],
+      "placement": "Panel span; private edge, cull slats under projected thickness",
+      "base_linear_Y": [
+        0.27339,
+        0.15511
+      ],
+      "secondary_relative_primary_percent": 56.7
+    },
+    {
+      "id": "garden_wall",
+      "sheet": "canada-02-yards",
+      "dimensions_m": {
+        "width": 3,
+        "length": 0.25,
+        "height": 0.65
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#A8735B",
+        "#C4B99F"
+      ],
+      "placement": "Toronto low private garden boundary, no blanket walls",
+      "base_linear_Y": [
+        0.21342,
+        0.48937
+      ],
+      "secondary_relative_primary_percent": 229.3
+    },
+    {
+      "id": "rain_garden",
+      "sheet": "canada-02-yards",
+      "dimensions_m": {
+        "width": 3,
+        "length": 2,
+        "height": 0.3
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#688253",
+        "#7A7460"
+      ],
+      "placement": "Optional observed landscaped depression, not every yard",
+      "base_linear_Y": [
+        0.19533,
+        0.17473
+      ],
+      "secondary_relative_primary_percent": 89.5
+    },
+    {
+      "id": "sedan",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 1.8,
+        "length": 4.5,
+        "height": 1.45
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#748E91",
+        "#B9C1BB",
+        "#526E7C"
+      ],
+      "placement": "Generic full-size real proportions, no signature styling",
+      "base_linear_Y": [
+        0.25103,
+        0.52042,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 207.3
+    },
+    {
+      "id": "suv",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 1.9,
+        "length": 4.7,
+        "height": 1.75
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#737E87",
+        "#BFC6BC",
+        "#526E7C"
+      ],
+      "placement": "Generic form, no brand-specific grille",
+      "base_linear_Y": [
+        0.20316,
+        0.55095,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 271.2
+    },
+    {
+      "id": "pickup",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 2,
+        "length": 5.7,
+        "height": 1.85
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#ACAFA3",
+        "#687E89",
+        "#526E7C"
+      ],
+      "placement": "Generic cab and bed proportions",
+      "base_linear_Y": [
+        0.42075,
+        0.19671,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 46.8
+    },
+    {
+      "id": "van",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 2,
+        "length": 5.9,
+        "height": 2.6
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#CCCABD",
+        "#748B91",
+        "#526E7C"
+      ],
+      "placement": "Plain delivery van, no logos",
+      "base_linear_Y": [
+        0.58753,
+        0.24223,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 41.2
+    },
+    {
+      "id": "city_bus",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 2.55,
+        "length": 12,
+        "height": 3.2
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#BFC6BC",
+        "#738F99",
+        "#526E7C"
+      ],
+      "placement": "Right-side curb boarding, no agency livery",
+      "base_linear_Y": [
+        0.55095,
+        0.2559,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 46.4
+    },
+    {
+      "id": "snowplow",
+      "sheet": "canada-03-vehicles",
+      "dimensions_m": {
+        "width": 2.55,
+        "length": 8,
+        "height": 3.3
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#B29D6C",
+        "#677F8A",
+        "#626A70"
+      ],
+      "placement": "Envelope excludes deployed blade; bladeW3.2m proposal, no agency brand",
+      "base_linear_Y": [
+        0.34662,
+        0.19897,
+        0.14075
+      ],
+      "secondary_relative_primary_percent": 57.4
+    },
+    {
+      "id": "elevated_metro_car",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 2.8,
+        "length": 18,
+        "height": 3.5
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#C5C9BE",
+        "#678C92",
+        "#526E7C"
+      ],
+      "placement": "Generic Vancouver-inspired body; no actual model; observed guideway overrides",
+      "base_linear_Y": [
+        0.57361,
+        0.23715,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 41.3
+    },
+    {
+      "id": "streetcar",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 2.6,
+        "length": 30,
+        "height": 3.6
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#C7C6B8",
+        "#6E8F92",
+        "#526E7C"
+      ],
+      "placement": "Articulated low-floor family; envelope excludes pantograph; no TTC model or livery",
+      "base_linear_Y": [
+        0.55991,
+        0.25035,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 44.7
+    },
+    {
+      "id": "commuter_coach",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 3.1,
+        "length": 26,
+        "height": 4.8
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#C1C8BB",
+        "#6C8796",
+        "#526E7C"
+      ],
+      "placement": "Two-level broad window bands; no GO livery or exact coach copy",
+      "base_linear_Y": [
+        0.56234,
+        0.22718,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 40.4
+    },
+    {
+      "id": "locomotive",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 3.1,
+        "length": 21,
+        "height": 4.7
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#788F96",
+        "#C1C8BB",
+        "#526E7C"
+      ],
+      "placement": "Generic original locomotive; separate rail corridor",
+      "base_linear_Y": [
+        0.2584,
+        0.56234,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 217.6
+    },
+    {
+      "id": "guideway_span",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 8,
+        "length": 24,
+        "height": 10
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#BCBEB4",
+        "#879993"
+      ],
+      "placement": "Symbolic W/L/H module, support topology from map/engineering data",
+      "base_linear_Y": [
+        0.50814,
+        0.3004
+      ],
+      "secondary_relative_primary_percent": 59.1
+    },
+    {
+      "id": "station_canopy",
+      "sheet": "canada-04-transit",
+      "dimensions_m": {
+        "width": 8,
+        "length": 36,
+        "height": 4
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#C7C8BE",
+        "#7B908D",
+        "#526E7C"
+      ],
+      "placement": "Original simple shelter canopy, not complete accessible station design",
+      "base_linear_Y": [
+        0.57168,
+        0.26081,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 45.6
+    },
+    {
+      "id": "signal_head",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 0.35,
+        "length": 0.3,
+        "height": 1.1
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#5F665F",
+        "#BBA460"
+      ],
+      "placement": "Vertical unit envelope; orient locally; road signals not fake bilingual text",
+      "base_linear_Y": [
+        0.12762,
+        0.3796
+      ],
+      "secondary_relative_primary_percent": 297.5
+    },
+    {
+      "id": "sign_plate",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 0.75,
+        "length": 0.04,
+        "height": 0.9
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#D2D4C7",
+        "#668087"
+      ],
+      "placement": "Blank plate, arbitrary graphic has no regulatory meaning",
+      "base_linear_Y": [
+        0.64912,
+        0.20012
+      ],
+      "secondary_relative_primary_percent": 30.8
+    },
+    {
+      "id": "street_name_blade",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 0.85,
+        "length": 0.05,
+        "height": 0.22
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#667F87",
+        "#D9DCCF"
+      ],
+      "placement": "Blank street name; no addresses",
+      "base_linear_Y": [
+        0.19753,
+        0.70443
+      ],
+      "secondary_relative_primary_percent": 356.6
+    },
+    {
+      "id": "bus_shelter",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 4,
+        "length": 1.6,
+        "height": 2.5
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#82948E",
+        "#526E7C"
+      ],
+      "placement": "Muted glazing panels, no ads",
+      "base_linear_Y": [
+        0.27879,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 51.7
+    },
+    {
+      "id": "lamp",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 0.8,
+        "length": 0.8,
+        "height": 8
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#687775",
+        "#D8D2B8"
+      ],
+      "placement": "Pole diameter0.16m proposal; do not inflate thin geometry",
+      "base_linear_Y": [
+        0.17421,
+        0.64153
+      ],
+      "secondary_relative_primary_percent": 368.2
+    },
+    {
+      "id": "hydrant",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 0.6,
+        "length": 0.5,
+        "height": 0.85
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#BCA36F",
+        "#64746C"
+      ],
+      "placement": "Generic no city insignia",
+      "base_linear_Y": [
+        0.38033,
+        0.16283
+      ],
+      "secondary_relative_primary_percent": 42.8
+    },
+    {
+      "id": "cycle_rack",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 1.8,
+        "length": 0.6,
+        "height": 0.9
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#77847D",
+        "#526E7C"
+      ],
+      "placement": "Simple loop mass, retain travel clearances",
+      "base_linear_Y": [
+        0.21905,
+        0.14401
+      ],
+      "secondary_relative_primary_percent": 65.7
+    },
+    {
+      "id": "curb_ramp",
+      "sheet": "canada-05-furniture",
+      "dimensions_m": {
+        "width": 1.5,
+        "length": 1.8,
+        "height": 0.15
+      },
+      "dimension_status": "authored envelope proposal, not measured or engineering specification",
+      "palette": [
+        "#C5C0B3",
+        "#B5AE95"
+      ],
+      "placement": "Concept module not compliance claim; observed accessible design required",
+      "base_linear_Y": [
+        0.52824,
+        0.42266
+      ],
+      "secondary_relative_primary_percent": 80.0
+    }
+  ],
+  "basePalette": {
+    "concrete": "#C5C0B3",
+    "asphalt": "#626A70",
+    "glass": "#526E7C",
+    "snow": "#E5EEF1",
+    "snow_shadow": "#AABDC7",
+    "dirty_snow": "#ADB1AB",
+    "lake": "#607F8E",
+    "trunk": "#786450",
+    "green_light": "#91A269",
+    "green_mid": "#688253",
+    "green_dark": "#425C47",
+    "cherry_bloom": "#E8C4CE",
+    "fall_gold": "#CFAD53",
+    "fall_orange": "#C68A46",
+    "fall_red": "#A76751"
+  },
+  "units": "metres, sRGB hex, degrees from horizontal; W/D/H buildings; W/L/H transport",
+  "evidencePolicy": "Every numeric envelope, colour, pitch, composition, seasonal fraction and performance target is authored proposal unless explicitly sourced; sources establish family context only. No measured values asserted.",
+  "lodPolicy": {
+    "screenExtent": "Longest projected asset extent in drawable pixels; preserve shape/physical size",
+    "farBelowPx": 6,
+    "midPx": [
+      6,
+      20
+    ],
+    "nearAbovePx": 20,
+    "thinDetailMinPx": 1.5,
+    "hysteresisPx": 2,
+    "transitionSeconds": [
+      0.3,
+      0.6
+    ],
+    "maxAdjacentTiersAlive": 2,
+    "policy": "Keep topology and scale; merge seams/slats/leaves/balcony detail before silhouette. Reference far panels illustrate composition, not measured LOD."
+  },
+  "regionalRules": {
+    "roads": "Right-hand traffic; generic buses curb/right boarding; actual observed layout wins",
+    "rail": "Rail alignments, platforms and running direction come from source; never infer by mirroring road traffic",
+    "signage": "Blank shapes only; bilingual layouts two empty text bands, no pseudo-text or regulatory sign semantics",
+    "snow": "Recent weather/temperature/maintenance drive snow; no permanent citywide seasonal blanket",
+    "trees": "Mapped species/planting space wins; no all-cherry or all-maple monoculture",
+    "data": "Reuse country-shortlist Canada context; ODB/HRDEM/OSM do not prove height/roof completeness; transit rights/feed freshness separate from generic art"
+  },
+  "snowStates": [
+    {
+      "id": "dusting",
+      "depthMProposal": 0.01,
+      "groundCover01Proposal": 0.25,
+      "banksMProposal": 0
+    },
+    {
+      "id": "fresh",
+      "depthMProposal": 0.08,
+      "groundCover01Proposal": 0.8,
+      "banksMProposal": 0
+    },
+    {
+      "id": "plowed",
+      "depthMProposal": 0.12,
+      "groundCover01Proposal": 0.85,
+      "banksMProposal": 0.35,
+      "roadClear01Proposal": 0.9
+    },
+    {
+      "id": "thaw",
+      "depthMProposal": 0.025,
+      "groundCover01Proposal": 0.3,
+      "banksMProposal": 0.15,
+      "wetness01Proposal": 0.55
+    }
+  ],
+  "performance": {
+    "status": "authored design targets; not benchmarked",
+    "targetFps": 60,
+    "sceneGpuBudgetMs": 10,
+    "kitNearCarveOutTriangles": 35000,
+    "kitNearDrawsTarget": 12,
+    "carveOutNotAdditionalBudget": true,
+    "newGlobalPasses": 0,
+    "newShadowMaps": 0,
+    "newDaytimeLights": 0,
+    "rules": [
+      "Building roofs/podium/tower silhouettes use existing geometry buckets; no new total scene allowance.",
+      "Opaque clustered trees; no individual leaves/needles or separate bloom geometry at distance.",
+      "Opaque muted glazing; no reflection camera per window/vehicle.",
+      "Instance/batch repeated balconies, transit cars, lights and snow banks; distant modules merge without changing road/rail topology.",
+      "Snow coverage in existing ground/roof surface fields and a few bank meshes; no whole-world duplicated snow mesh."
+    ]
+  },
+  "sources": [
+    {
+      "id": "CA01",
+      "title": "Vancouver Heritage Foundation \u2014 Vancouver Special",
+      "url": "https://www.vancouverheritagefoundation.org/house-styles/vancouver-special/",
+      "scope": "Verified typology: boxy two-storey front gable, shallow balcony, brick lower/stucco upper. Numeric sizes/pitches here are authored.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA02",
+      "title": "Vancouver Heritage Foundation \u2014 Craftsman",
+      "url": "https://www.vancouverheritagefoundation.org/discover-heritage/vancouver-heritage-house-styles-hub/house-styles-by-name-and-era/craftsman-styles-1910-1930/",
+      "scope": "Verified presence and family descriptions. Exact proposed geometry not sourced.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA03",
+      "title": "City of Toronto \u2014 Kensington heritage district report",
+      "url": "https://www.toronto.ca/legdocs/mmis/2025/pb/bgrd/backgroundfile-251704.pdf",
+      "scope": "Search-index verified bay-and-gable family; no private property image reproduced.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA04",
+      "title": "City of Toronto \u2014 Annex heritage notice",
+      "url": "https://secure.toronto.ca/nm/api/individual/notice/1892.do",
+      "scope": "Search-index typology context only: brick/stone 2.5-storey house and gabled form; not a model of the address.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA05",
+      "title": "Vancouver urban forest strategy",
+      "url": "https://vancouver.ca/files/cov/2025-urban-forest-strategy.pdf",
+      "scope": "Search-index verified cherry/maple genera context; no prevalence weights or exact bloom calendar asserted.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA06",
+      "title": "Vancouver \u2014 Stanley Park trees",
+      "url": "https://vancouver.ca/parks-recreation-culture/trees.aspx",
+      "scope": "Search-index verified conifer context; species-inspired art is not a site survey.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA07",
+      "title": "Toronto \u2014 street planting species",
+      "url": "https://www.toronto.ca/services-payments/water-environment/trees/tree-planting/species-planted-on-streets/",
+      "scope": "Verified maple species context and diverse planting emphasis; no all-maple monoculture rule.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA08",
+      "title": "TransLink \u2014 SkyTrain schedules",
+      "url": "https://www.translink.ca/schedules-and-maps/skytrain.aspx",
+      "scope": "Verified automated transit family; no actual train model/livery or service data reproduced.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA09",
+      "title": "TTC \u2014 low-floor streetcars",
+      "url": "https://www.ttc.ca/transparency-and-accountability/Operating-Statistics/operating-statistics-2014/next-generation-streetcars",
+      "scope": "Search-index verified low-floor streetcar family; illustrative generic envelopes not dimensions of this fleet.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA10",
+      "title": "GO Transit \u2014 vehicles",
+      "url": "https://www.gotransit.com/en/about-go/our-vehicles",
+      "scope": "Verified vehicle source page; no service feed imported or operator branding used.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA11",
+      "title": "Vancouver \u2014 laneway context",
+      "url": "https://vancouver.ca/people-programs/creating-new-market-rental-housing.aspx",
+      "scope": "Search-index verified laneway housing context; drawn envelopes not zoning advice.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA12",
+      "title": "Vancouver \u2014 winter maintenance",
+      "url": "https://vancouver.ca/streets-transportation/snow-removal-from-city-streets.aspx",
+      "scope": "Search-index verified maintenance exists; visuals do not imply every sidewalk is cleared.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA13",
+      "title": "Toronto \u2014 winter maintenance",
+      "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-maintenance/winter-maintenance/",
+      "scope": "Search-index verified maintenance source; snow depictions are weather/operations scenarios.",
+      "accessed": "2026-10-07"
+    },
+    {
+      "id": "CA14",
+      "title": "Vancouver \u2014 public views",
+      "url": "https://vancouver.ca/home-property-development/protecting-public-views.aspx",
+      "scope": "Search-index verified view-planning context; illustration not a mapped sightline.",
+      "accessed": "2026-10-07"
+    }
+  ],
+  "verification": {
+    "jsonParsed": true,
+    "runtimeMeasured": false,
+    "geographySurveyed": false,
+    "photoTextureAssetsCreated": false
+  }
+}

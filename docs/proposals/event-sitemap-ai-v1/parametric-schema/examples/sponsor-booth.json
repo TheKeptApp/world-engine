@@ -1,0 +1,632 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentType": "catalog",
+  "createdAt": "2026-10-07T18:00:00Z",
+  "catalogId": "example:sponsor-booth",
+  "parts": [
+    {
+      "partId": "sponsor-booth",
+      "partVersion": "1.0.0",
+      "name": "Sponsor booth",
+      "category": "activation",
+      "coordinateConvention": "local-right-forward-up; pivot ground footprint centre; yaw clockwise from true north",
+      "parameters": {
+        "width": {
+          "label": "Width",
+          "type": "number",
+          "unit": "m",
+          "minimum": 2,
+          "maximum": 12,
+          "step": 0.01,
+          "default": 3,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "depth": {
+          "label": "Depth",
+          "type": "number",
+          "unit": "m",
+          "minimum": 2,
+          "maximum": 12,
+          "step": 0.01,
+          "default": 3,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "height": {
+          "label": "Height",
+          "type": "number",
+          "unit": "m",
+          "minimum": 2,
+          "maximum": 5,
+          "step": 0.01,
+          "default": 2.7,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "roof": {
+          "label": "Canopy roof",
+          "type": "boolean",
+          "unit": "none",
+          "default": true,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "backwall": {
+          "label": "Backwall",
+          "type": "boolean",
+          "unit": "none",
+          "default": true,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "counterWidth": {
+          "label": "Counter width",
+          "type": "number",
+          "unit": "m",
+          "minimum": 0,
+          "maximum": 4,
+          "step": 0.01,
+          "default": 1.8,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "counterDepth": {
+          "label": "Counter depth",
+          "type": "number",
+          "unit": "m",
+          "minimum": 0,
+          "maximum": 1.5,
+          "step": 0.01,
+          "default": 0.6,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "counterHeight": {
+          "label": "Counter height",
+          "type": "number",
+          "unit": "m",
+          "minimum": 0.6,
+          "maximum": 1.2,
+          "step": 0.01,
+          "default": 0.9,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "label": {
+          "label": "Sponsor name",
+          "type": "string",
+          "unit": "none",
+          "maxLength": 60,
+          "default": "Community Partner",
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "powerRequired": {
+          "label": "Needs power",
+          "type": "boolean",
+          "unit": "none",
+          "default": true,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "sidePanels": {
+          "label": "Side panels",
+          "type": "enum",
+          "unit": "none",
+          "choices": [
+            "none",
+            "left",
+            "right",
+            "both"
+          ],
+          "default": "none",
+          "boundBasis": "design_assumption",
+          "editable": true
+        }
+      },
+      "presets": [
+        {
+          "id": "planning-default",
+          "name": "Planning default",
+          "values": {
+            "width": 3,
+            "depth": 3,
+            "height": 2.7,
+            "roof": true,
+            "backwall": true,
+            "counterWidth": 1.8,
+            "counterDepth": 0.6,
+            "counterHeight": 0.9,
+            "label": "Community Partner",
+            "powerRequired": true,
+            "sidePanels": "none"
+          },
+          "sourceId": "design:sponsor-booth",
+          "verification": "design_assumption",
+          "supplierId": null,
+          "supplierSku": null,
+          "checkedAt": null,
+          "note": "Illustrative visual layout only."
+        }
+      ],
+      "supplierSizePresets": [
+        {
+          "id": "supplier-size-to-confirm",
+          "name": "Supplier-size candidate \u2014 unverified",
+          "values": {
+            "width": 3.048,
+            "depth": 3.048,
+            "height": 2.7,
+            "roof": true,
+            "backwall": true,
+            "counterWidth": 1.8,
+            "counterDepth": 0.6,
+            "counterHeight": 0.9,
+            "label": "Community Partner",
+            "powerRequired": true,
+            "sidePanels": "none"
+          },
+          "sourceId": "design:sponsor-booth",
+          "verification": "unverified_supplier_size",
+          "supplierId": null,
+          "supplierSku": null,
+          "checkedAt": null,
+          "note": "Complete nominal size profile; supplier/SKU deliberately unknown. Replace with actual documented inventory before booking."
+        }
+      ],
+      "envelopes": [
+        {
+          "id": "footprint",
+          "kind": "footprint",
+          "shape": "box",
+          "width": {
+            "op": "parameter",
+            "name": "width"
+          },
+          "depth": {
+            "op": "parameter",
+            "name": "depth"
+          },
+          "height": {
+            "op": "constant",
+            "value": 0.1
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:sponsor-booth",
+          "purpose": "Visible footprint; resolve physical dimensions with supplier.",
+          "blocksPlacement": true
+        },
+        {
+          "id": "clearance",
+          "kind": "clearance",
+          "shape": "box",
+          "width": {
+            "op": "add",
+            "args": [
+              {
+                "op": "parameter",
+                "name": "width"
+              },
+              {
+                "op": "constant",
+                "value": 2
+              }
+            ]
+          },
+          "depth": {
+            "op": "add",
+            "args": [
+              {
+                "op": "parameter",
+                "name": "depth"
+              },
+              {
+                "op": "constant",
+                "value": 2
+              }
+            ]
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:sponsor-booth",
+          "purpose": "Proposed working/access envelope; no safety certification.",
+          "blocksPlacement": true
+        },
+        {
+          "id": "queue",
+          "kind": "queue",
+          "shape": "box",
+          "width": {
+            "op": "parameter",
+            "name": "width"
+          },
+          "depth": {
+            "op": "constant",
+            "value": 3
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 3
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:sponsor-booth",
+          "purpose": "Proposed visitor queue; does not establish capacity.",
+          "blocksPlacement": false
+        },
+        {
+          "id": "utility",
+          "kind": "utility",
+          "shape": "box",
+          "width": {
+            "op": "constant",
+            "value": 1
+          },
+          "depth": {
+            "op": "parameter",
+            "name": "depth"
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 2
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:sponsor-booth",
+          "purpose": "Proposed servicing/routing zone; confirm on site.",
+          "blocksPlacement": true
+        }
+      ],
+      "utilityPorts": [
+        {
+          "id": "power-in",
+          "kind": "power_in",
+          "position": {
+            "right": 0,
+            "forward": -1.5,
+            "up": 0.2
+          },
+          "direction": {
+            "right": 0,
+            "forward": -1,
+            "up": 0
+          },
+          "label": "Power inlet position proposed",
+          "supplierConfirmationRequired": true
+        }
+      ],
+      "materialSlots": [
+        {
+          "slotId": "structure",
+          "role": "structure",
+          "palette": [
+            "#718076",
+            "#53675D"
+          ],
+          "defaultColour": "#718076",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "fabric",
+          "role": "fabric",
+          "palette": [
+            "#EEE7D5",
+            "#507459"
+          ],
+          "defaultColour": "#EEE7D5",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "deck",
+          "role": "deck",
+          "palette": [
+            "#8B8C7B",
+            "#B49B77"
+          ],
+          "defaultColour": "#8B8C7B",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "panel",
+          "role": "panel",
+          "palette": [
+            "#D5D9C8",
+            "#607B67"
+          ],
+          "defaultColour": "#D5D9C8",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "hardware",
+          "role": "hardware",
+          "palette": [
+            "#829186",
+            "#68776D"
+          ],
+          "defaultColour": "#829186",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "label",
+          "role": "label",
+          "palette": [
+            "#F3F1E5",
+            "#285C48"
+          ],
+          "defaultColour": "#F3F1E5",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "albedo_only",
+          "bakedLighting": false
+        }
+      ],
+      "detailTiers": [
+        {
+          "tier": "footprint",
+          "maxTriangles": 24,
+          "instancing": true,
+          "castsShadow": false,
+          "labels": false,
+          "smallProps": false,
+          "screenHeightPxMin": 0
+        },
+        {
+          "tier": "balanced",
+          "maxTriangles": 3000,
+          "instancing": true,
+          "castsShadow": true,
+          "labels": true,
+          "smallProps": false,
+          "screenHeightPxMin": 24
+        },
+        {
+          "tier": "close",
+          "maxTriangles": 12000,
+          "instancing": true,
+          "castsShadow": true,
+          "labels": true,
+          "smallProps": true,
+          "screenHeightPxMin": 180
+        }
+      ],
+      "geometry": {
+        "generatorId": "kit:sponsor-booth",
+        "generatorVersion": "1.0.0",
+        "strategy": "deterministic_parametric",
+        "footprintAxisParameters": [
+          "width",
+          "depth"
+        ]
+      },
+      "constraints": [
+        {
+          "id": "supplier-review",
+          "rule": "manual_supplier_check",
+          "left": "width",
+          "right": "documented supplier assembly",
+          "message": "Validate physical dimensions, availability and operational requirements with supplier."
+        },
+        {
+          "id": "counter-fit",
+          "rule": "lte",
+          "left": "counterWidth",
+          "right": "width",
+          "message": "Counter must fit booth."
+        }
+      ],
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:sponsor-booth",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:sponsor-booth",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:sponsor-booth"
+        ],
+        "method": "curated",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backwall": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterWidth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterDepth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterHeight": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "powerRequired": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "sidePanels": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    }
+  ]
+}

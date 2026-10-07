@@ -1,0 +1,2819 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:worldengine:kit-schema:1.0.0",
+  "title": "WorldEngine kit contracts 1.0.0",
+  "description": "Closed, versioned catalog, instances and reversible command proposals. Cross-reference/geometry/approval checks specified separately. All example supplier sizes are unverified.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/catalog"
+    },
+    {
+      "$ref": "#/$defs/instanceSet"
+    },
+    {
+      "$ref": "#/$defs/commandSet"
+    }
+  ],
+  "$defs": {
+    "quantity": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "m",
+            "ft",
+            "in",
+            "km",
+            "mi",
+            "deg",
+            "count",
+            "kVA"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "vec3": {
+      "type": "object",
+      "properties": {
+        "east": {
+          "type": "number"
+        },
+        "north": {
+          "type": "number"
+        },
+        "up": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "east",
+        "north",
+        "up"
+      ],
+      "additionalProperties": false
+    },
+    "local3": {
+      "type": "object",
+      "properties": {
+        "right": {
+          "type": "number"
+        },
+        "forward": {
+          "type": "number"
+        },
+        "up": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "right",
+        "forward",
+        "up"
+      ],
+      "additionalProperties": false
+    },
+    "confidence": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "model_score",
+            "human_assessment",
+            "not_scored"
+          ]
+        },
+        "calibration": {
+          "type": "string",
+          "enum": [
+            "uncalibrated",
+            "calibrated_on_named_dataset",
+            "not_applicable"
+          ]
+        },
+        "calibrationDataset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "score",
+        "basis",
+        "calibration",
+        "calibrationDataset"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "organizer_document",
+            "supplier_document",
+            "curated_design",
+            "ai_generation",
+            "human_measurement",
+            "language_request"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "cropPixels": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "width": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "width",
+                "height"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "rights": {
+          "type": "string",
+          "enum": [
+            "organizer_confirmed",
+            "supplier_permission",
+            "owned_design",
+            "unverified"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "uri",
+        "sha256",
+        "page",
+        "cropPixels",
+        "rights",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "approval": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "propose",
+            "accept",
+            "replace",
+            "resize",
+            "dismiss",
+            "reopen",
+            "bulk_accept"
+          ]
+        },
+        "actorId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "actorRole": {
+          "type": "string",
+          "enum": [
+            "organizer",
+            "supplier",
+            "reviewer",
+            "system"
+          ]
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "subjectDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "previousEventId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "groupId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "action",
+        "actorId",
+        "actorRole",
+        "at",
+        "revision",
+        "subjectDigest",
+        "previousEventId",
+        "reason",
+        "groupId"
+      ],
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+          },
+          "minItems": 1
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "curated",
+            "vector_extraction",
+            "vision_detection",
+            "language_command",
+            "ai_generated",
+            "human_edit"
+          ]
+        },
+        "model": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "model": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "taskId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "outputLicence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "licenceReview": {
+                  "type": "string",
+                  "enum": [
+                    "unverified",
+                    "approved_for_scope",
+                    "rejected"
+                  ]
+                }
+              },
+              "required": [
+                "provider",
+                "model",
+                "version",
+                "taskId",
+                "createdAt",
+                "outputLicence",
+                "licenceReview"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "aiMade": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "parameterOrigins": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+              },
+              "basis": {
+                "type": "string",
+                "enum": [
+                  "measured",
+                  "supplier_stated",
+                  "extracted_dimension",
+                  "proposed_default",
+                  "human_edit"
+                ]
+              },
+              "confidence": {
+                "$ref": "#/$defs/confidence"
+              }
+            },
+            "required": [
+              "sourceId",
+              "basis",
+              "confidence"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "approvalState": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "accepted",
+            "dismissed",
+            "needs_review"
+          ]
+        },
+        "approvalHistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/approval"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "sources",
+        "sourceIds",
+        "method",
+        "model",
+        "aiMade",
+        "confidence",
+        "parameterOrigins",
+        "approvalState",
+        "approvalHistory"
+      ],
+      "additionalProperties": false
+    },
+    "parameter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "m",
+                "deg",
+                "count",
+                "kVA",
+                "none"
+              ]
+            },
+            "boundBasis": {
+              "type": "string",
+              "enum": [
+                "design_assumption",
+                "supplier_verified"
+              ]
+            },
+            "editable": {
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "number",
+                "integer"
+              ]
+            },
+            "minimum": {
+              "type": "number"
+            },
+            "maximum": {
+              "type": "number"
+            },
+            "step": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "default": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "label",
+            "unit",
+            "boundBasis",
+            "editable",
+            "type",
+            "minimum",
+            "maximum",
+            "step",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "m",
+                "deg",
+                "count",
+                "kVA",
+                "none"
+              ]
+            },
+            "boundBasis": {
+              "type": "string",
+              "enum": [
+                "design_assumption",
+                "supplier_verified"
+              ]
+            },
+            "editable": {
+              "type": "boolean"
+            },
+            "type": {
+              "const": "enum"
+            },
+            "choices": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "default": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "label",
+            "unit",
+            "boundBasis",
+            "editable",
+            "type",
+            "choices",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "m",
+                "deg",
+                "count",
+                "kVA",
+                "none"
+              ]
+            },
+            "boundBasis": {
+              "type": "string",
+              "enum": [
+                "design_assumption",
+                "supplier_verified"
+              ]
+            },
+            "editable": {
+              "type": "boolean"
+            },
+            "type": {
+              "const": "boolean"
+            },
+            "default": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "label",
+            "unit",
+            "boundBasis",
+            "editable",
+            "type",
+            "default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "m",
+                "deg",
+                "count",
+                "kVA",
+                "none"
+              ]
+            },
+            "boundBasis": {
+              "type": "string",
+              "enum": [
+                "design_assumption",
+                "supplier_verified"
+              ]
+            },
+            "editable": {
+              "type": "boolean"
+            },
+            "type": {
+              "const": "string"
+            },
+            "maxLength": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "default": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "unit",
+            "boundBasis",
+            "editable",
+            "type",
+            "maxLength",
+            "default"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "constant"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "op",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "parameter"
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+            }
+          },
+          "required": [
+            "op",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "add",
+                "multiply"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/expression"
+              },
+              "minItems": 2
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "envelope": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "footprint",
+            "clearance",
+            "queue",
+            "utility"
+          ]
+        },
+        "shape": {
+          "const": "box"
+        },
+        "width": {
+          "$ref": "#/$defs/expression"
+        },
+        "depth": {
+          "$ref": "#/$defs/expression"
+        },
+        "height": {
+          "$ref": "#/$defs/expression"
+        },
+        "offset": {
+          "type": "object",
+          "properties": {
+            "right": {
+              "$ref": "#/$defs/expression"
+            },
+            "forward": {
+              "$ref": "#/$defs/expression"
+            },
+            "up": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "right",
+            "forward",
+            "up"
+          ],
+          "additionalProperties": false
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "design_assumption",
+            "supplier_verified",
+            "organizer_requirement"
+          ]
+        },
+        "sourceId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocksPlacement": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "shape",
+        "width",
+        "depth",
+        "height",
+        "offset",
+        "basis",
+        "sourceId",
+        "purpose",
+        "blocksPlacement"
+      ],
+      "additionalProperties": false
+    },
+    "utilityPort": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "power_in",
+            "power_out",
+            "water_in",
+            "drain",
+            "exhaust"
+          ]
+        },
+        "position": {
+          "$ref": "#/$defs/local3"
+        },
+        "direction": {
+          "$ref": "#/$defs/local3"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supplierConfirmationRequired": {
+          "const": true
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "position",
+        "direction",
+        "label",
+        "supplierConfirmationRequired"
+      ],
+      "additionalProperties": false
+    },
+    "materialSlot": {
+      "type": "object",
+      "properties": {
+        "slotId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "structure",
+            "fabric",
+            "deck",
+            "panel",
+            "hardware",
+            "label"
+          ]
+        },
+        "palette": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^#[A-Fa-f0-9]{6}$"
+          },
+          "minItems": 1
+        },
+        "defaultColour": {
+          "type": "string",
+          "pattern": "^#[A-Fa-f0-9]{6}$"
+        },
+        "roughness": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 1
+        },
+        "metalness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.15
+        },
+        "texturePolicy": {
+          "type": "string",
+          "enum": [
+            "none",
+            "albedo_only"
+          ]
+        },
+        "bakedLighting": {
+          "const": false
+        }
+      },
+      "required": [
+        "slotId",
+        "role",
+        "palette",
+        "defaultColour",
+        "roughness",
+        "metalness",
+        "texturePolicy",
+        "bakedLighting"
+      ],
+      "additionalProperties": false
+    },
+    "tier": {
+      "type": "object",
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": [
+            "footprint",
+            "balanced",
+            "close"
+          ]
+        },
+        "maxTriangles": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "instancing": {
+          "type": "boolean"
+        },
+        "castsShadow": {
+          "type": "boolean"
+        },
+        "labels": {
+          "type": "boolean"
+        },
+        "smallProps": {
+          "type": "boolean"
+        },
+        "screenHeightPxMin": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "tier",
+        "maxTriangles",
+        "instancing",
+        "castsShadow",
+        "labels",
+        "smallProps",
+        "screenHeightPxMin"
+      ],
+      "additionalProperties": false
+    },
+    "preset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "number",
+              "string",
+              "boolean"
+            ]
+          }
+        },
+        "sourceId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "verification": {
+          "type": "string",
+          "enum": [
+            "design_assumption",
+            "supplier_verified",
+            "unverified_supplier_size"
+          ]
+        },
+        "supplierId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supplierSku": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checkedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "values",
+        "sourceId",
+        "verification",
+        "supplierId",
+        "supplierSku",
+        "checkedAt",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "part": {
+      "type": "object",
+      "properties": {
+        "partId": {
+          "enum": [
+            "stage",
+            "canopy-tent",
+            "water-table",
+            "barrier",
+            "finish-arch",
+            "toilet-block",
+            "gate",
+            "sign",
+            "generator",
+            "sponsor-booth"
+          ]
+        },
+        "partVersion": {
+          "const": "1.0.0"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coordinateConvention": {
+          "const": "local-right-forward-up; pivot ground footprint centre; yaw clockwise from true north"
+        },
+        "parameters": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/parameter"
+          }
+        },
+        "presets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/preset"
+          },
+          "minItems": 1
+        },
+        "supplierSizePresets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/preset"
+          },
+          "minItems": 1
+        },
+        "envelopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/envelope"
+          },
+          "minItems": 4
+        },
+        "utilityPorts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/utilityPort"
+          },
+          "minItems": 0
+        },
+        "materialSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/materialSlot"
+          },
+          "minItems": 1
+        },
+        "detailTiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tier"
+          },
+          "minItems": 3
+        },
+        "geometry": {
+          "type": "object",
+          "properties": {
+            "generatorId": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+            },
+            "generatorVersion": {
+              "const": "1.0.0"
+            },
+            "strategy": {
+              "const": "deterministic_parametric"
+            },
+            "footprintAxisParameters": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+              },
+              "minItems": 2
+            }
+          },
+          "required": [
+            "generatorId",
+            "generatorVersion",
+            "strategy",
+            "footprintAxisParameters"
+          ],
+          "additionalProperties": false
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+              },
+              "rule": {
+                "type": "string",
+                "enum": [
+                  "lte",
+                  "gte",
+                  "lt",
+                  "parameter_count_lte",
+                  "manual_supplier_check"
+                ]
+              },
+              "left": {
+                "type": "string",
+                "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+              },
+              "right": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "rule",
+              "left",
+              "right",
+              "message"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "required": [
+        "partId",
+        "partVersion",
+        "name",
+        "category",
+        "coordinateConvention",
+        "parameters",
+        "presets",
+        "supplierSizePresets",
+        "envelopes",
+        "utilityPorts",
+        "materialSlots",
+        "detailTiers",
+        "geometry",
+        "constraints",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "orientation": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "bearing",
+            "along_route",
+            "face_anchor"
+          ]
+        },
+        "bearingDeg": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        },
+        "anchorId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "mode",
+        "bearingDeg",
+        "anchorId"
+      ],
+      "additionalProperties": false
+    },
+    "placement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "absolute"
+            },
+            "position": {
+              "$ref": "#/$defs/vec3"
+            },
+            "orientation": {
+              "$ref": "#/$defs/orientation"
+            }
+          },
+          "required": [
+            "type",
+            "position",
+            "orientation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "boundary"
+            },
+            "boundaryId": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+            },
+            "compassSector": {
+              "type": "string",
+              "enum": [
+                "N",
+                "NE",
+                "E",
+                "SE",
+                "S",
+                "SW",
+                "W",
+                "NW"
+              ]
+            },
+            "relation": {
+              "type": "string",
+              "enum": [
+                "inside",
+                "outside",
+                "on"
+              ]
+            },
+            "setbackM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "alongFraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "orientation": {
+              "$ref": "#/$defs/orientation"
+            }
+          },
+          "required": [
+            "type",
+            "boundaryId",
+            "compassSector",
+            "relation",
+            "setbackM",
+            "alongFraction",
+            "orientation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "near_anchor"
+            },
+            "anchorId": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+            },
+            "distanceM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "bearingDeg": {
+              "type": "number",
+              "minimum": 0,
+              "exclusiveMaximum": 360
+            },
+            "orientation": {
+              "$ref": "#/$defs/orientation"
+            }
+          },
+          "required": [
+            "type",
+            "anchorId",
+            "distanceM",
+            "bearingDeg",
+            "orientation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "route_chainage"
+            },
+            "routeId": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+            },
+            "routeVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "chainageM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "side": {
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "centre"
+              ]
+            },
+            "offsetM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "originalQuantity": {
+              "$ref": "#/$defs/quantity"
+            },
+            "orientation": {
+              "$ref": "#/$defs/orientation"
+            }
+          },
+          "required": [
+            "type",
+            "routeId",
+            "routeVersion",
+            "chainageM",
+            "side",
+            "offsetM",
+            "originalQuantity",
+            "orientation"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "array": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "basis": {
+              "type": "string",
+              "enum": [
+                "route",
+                "line"
+              ]
+            },
+            "routeId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "start": {
+              "$ref": "#/$defs/vec3"
+            },
+            "end": {
+              "$ref": "#/$defs/vec3"
+            },
+            "startChainageM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "endChainageM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "spacingM": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "endpointPolicy": {
+              "type": "string",
+              "enum": [
+                "include_start",
+                "include_both_if_exact",
+                "exclude_both"
+              ]
+            },
+            "side": {
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "centre"
+              ]
+            },
+            "offsetM": {
+              "type": "number",
+              "minimum": 0
+            },
+            "orientation": {
+              "$ref": "#/$defs/orientation"
+            },
+            "maxCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          },
+          "required": [
+            "basis",
+            "routeId",
+            "start",
+            "end",
+            "startChainageM",
+            "endChainageM",
+            "spacingM",
+            "endpointPolicy",
+            "side",
+            "offsetM",
+            "orientation",
+            "maxCount"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "originalText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locale": {
+          "const": "en-US"
+        },
+        "normalizedPlacement": {
+          "$ref": "#/$defs/placement"
+        },
+        "array": {
+          "$ref": "#/$defs/array"
+        },
+        "ambiguities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "resolved",
+            "needs_clarification"
+          ]
+        },
+        "mapRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "anchorIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "originalText",
+        "locale",
+        "normalizedPlacement",
+        "array",
+        "ambiguities",
+        "resolution",
+        "mapRevision",
+        "anchorIds"
+      ],
+      "additionalProperties": false
+    },
+    "values-stage": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 24
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 16
+        },
+        "riserHeight": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 2
+        },
+        "stairs": {
+          "enum": [
+            "none",
+            "front",
+            "left",
+            "right",
+            "both"
+          ]
+        },
+        "roof": {
+          "type": "boolean"
+        },
+        "roofHeight": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 8
+        },
+        "backdrop": {
+          "type": "boolean"
+        },
+        "backdropHeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "stairWidth": {
+          "type": "number",
+          "minimum": 0.6,
+          "maximum": 3
+        },
+        "stairRun": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 4
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "riserHeight",
+        "stairs",
+        "roof",
+        "roofHeight",
+        "backdrop",
+        "backdropHeight",
+        "stairWidth",
+        "stairRun"
+      ],
+      "additionalProperties": false
+    },
+    "values-canopy-tent": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 18
+        },
+        "eaveHeight": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 4
+        },
+        "peakHeight": {
+          "type": "number",
+          "minimum": 2.5,
+          "maximum": 7
+        },
+        "sides": {
+          "enum": [
+            "none",
+            "rear",
+            "three",
+            "all"
+          ]
+        },
+        "ballastCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "colour": {
+          "enum": [
+            "warm-ivory",
+            "forest",
+            "slate"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "eaveHeight",
+        "peakHeight",
+        "sides",
+        "ballastCount",
+        "colour"
+      ],
+      "additionalProperties": false
+    },
+    "values-water-table": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 1.2,
+          "maximum": 3
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 0.45,
+          "maximum": 1.2
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0.65,
+          "maximum": 1
+        },
+        "cupCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "cupRows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "dispenserCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "tablecloth": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "cupCount",
+        "cupRows",
+        "dispenserCount",
+        "tablecloth"
+      ],
+      "additionalProperties": false
+    },
+    "values-barrier": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 1
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 1.5
+        },
+        "type": {
+          "enum": [
+            "pedestrian",
+            "mesh",
+            "solid"
+          ]
+        },
+        "feet": {
+          "enum": [
+            "flat",
+            "splayed"
+          ]
+        },
+        "banner": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "type",
+        "feet",
+        "banner"
+      ],
+      "additionalProperties": false
+    },
+    "values-finish-arch": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 4,
+          "maximum": 14
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 0.6,
+          "maximum": 3
+        },
+        "height": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 7
+        },
+        "clearWidth": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "clearHeight": {
+          "type": "number",
+          "minimum": 2.5,
+          "maximum": 6
+        },
+        "type": {
+          "enum": [
+            "truss",
+            "inflatable"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "ballastVisual": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "clearWidth",
+        "clearHeight",
+        "type",
+        "label",
+        "ballastVisual"
+      ],
+      "additionalProperties": false
+    },
+    "values-toilet-block": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 1.2,
+          "maximum": 15
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "height": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 3
+        },
+        "unitCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "accessibleCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "handwashCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "doorSide": {
+          "enum": [
+            "front",
+            "rear"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "unitCount",
+        "accessibleCount",
+        "handwashCount",
+        "doorSide"
+      ],
+      "additionalProperties": false
+    },
+    "values-gate": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 2
+        },
+        "height": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "clearWidth": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 11
+        },
+        "type": {
+          "enum": [
+            "open-frame",
+            "swing",
+            "checkpoint"
+          ]
+        },
+        "leafCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "swingDegrees": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 180
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "clearWidth",
+        "type",
+        "leafCount",
+        "swingDegrees",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "values-sign": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 2
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 1.2
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 3
+        },
+        "panelHeight": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 1.5
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "arrow": {
+          "enum": [
+            "none",
+            "left",
+            "right",
+            "straight"
+          ]
+        },
+        "mount": {
+          "enum": [
+            "freestanding",
+            "post",
+            "fence"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "panelHeight",
+        "text",
+        "arrow",
+        "mount"
+      ],
+      "additionalProperties": false
+    },
+    "values-generator": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 0.6,
+          "maximum": 3
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 3
+        },
+        "ratedPower": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "trailer": {
+          "type": "boolean"
+        },
+        "exhaustSide": {
+          "enum": [
+            "left",
+            "right",
+            "rear"
+          ]
+        },
+        "fuel": {
+          "enum": [
+            "diesel",
+            "petrol",
+            "battery"
+          ]
+        },
+        "outletCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "ratedPower",
+        "trailer",
+        "exhaustSide",
+        "fuel",
+        "outletCount"
+      ],
+      "additionalProperties": false
+    },
+    "values-sponsor-booth": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 12
+        },
+        "depth": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 12
+        },
+        "height": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 5
+        },
+        "roof": {
+          "type": "boolean"
+        },
+        "backwall": {
+          "type": "boolean"
+        },
+        "counterWidth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "counterDepth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.5
+        },
+        "counterHeight": {
+          "type": "number",
+          "minimum": 0.6,
+          "maximum": 1.2
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "powerRequired": {
+          "type": "boolean"
+        },
+        "sidePanels": {
+          "enum": [
+            "none",
+            "left",
+            "right",
+            "both"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "depth",
+        "height",
+        "roof",
+        "backwall",
+        "counterWidth",
+        "counterDepth",
+        "counterHeight",
+        "label",
+        "powerRequired",
+        "sidePanels"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "partId": {
+          "enum": [
+            "stage",
+            "canopy-tent",
+            "water-table",
+            "barrier",
+            "finish-arch",
+            "toilet-block",
+            "gate",
+            "sign",
+            "generator",
+            "sponsor-booth"
+          ]
+        },
+        "partVersion": {
+          "const": "1.0.0"
+        },
+        "parameterValues": {
+          "type": "object"
+        },
+        "activePresetId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selectedDetailTier": {
+          "type": "string",
+          "enum": [
+            "footprint",
+            "balanced",
+            "close"
+          ]
+        },
+        "materialOverrides": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[a-fA-F0-9]{6}$"
+          }
+        },
+        "placementIntent": {
+          "$ref": "#/$defs/intent"
+        },
+        "resolvedTransform": {
+          "type": "object",
+          "properties": {
+            "position": {
+              "$ref": "#/$defs/vec3"
+            },
+            "yawDeg": {
+              "type": "number",
+              "minimum": 0,
+              "exclusiveMaximum": 360
+            },
+            "sceneRevision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "alignmentId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "independentCheckpointErrorM": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            }
+          },
+          "required": [
+            "position",
+            "yawDeg",
+            "sceneRevision",
+            "alignmentId",
+            "independentCheckpointErrorM"
+          ],
+          "additionalProperties": false
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "required": [
+        "instanceId",
+        "partId",
+        "partVersion",
+        "parameterValues",
+        "activePresetId",
+        "selectedDetailTier",
+        "materialOverrides",
+        "placementIntent",
+        "resolvedTransform",
+        "provenance"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "stage"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-stage"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "canopy-tent"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-canopy-tent"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "water-table"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-water-table"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "barrier"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-barrier"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "finish-arch"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-finish-arch"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "toilet-block"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-toilet-block"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "gate"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-gate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "sign"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-sign"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "generator"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-generator"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "sponsor-booth"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-sponsor-booth"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "command": {
+      "type": "object",
+      "properties": {
+        "commandId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "verb": {
+          "type": "string",
+          "enum": [
+            "create",
+            "move",
+            "rotate",
+            "resize",
+            "replace",
+            "array"
+          ]
+        },
+        "targetInstanceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+          },
+          "minItems": 0
+        },
+        "partId": {
+          "enum": [
+            "stage",
+            "canopy-tent",
+            "water-table",
+            "barrier",
+            "finish-arch",
+            "toilet-block",
+            "gate",
+            "sign",
+            "generator",
+            "sponsor-booth"
+          ]
+        },
+        "partVersion": {
+          "const": "1.0.0"
+        },
+        "parameterValues": {
+          "type": "object"
+        },
+        "intent": {
+          "$ref": "#/$defs/intent"
+        },
+        "expectedSceneRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "proposalState": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "accepted",
+            "rejected",
+            "stale"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "required": [
+        "commandId",
+        "verb",
+        "targetInstanceIds",
+        "partId",
+        "partVersion",
+        "parameterValues",
+        "intent",
+        "expectedSceneRevision",
+        "proposalState",
+        "provenance"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "stage"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-stage"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "canopy-tent"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-canopy-tent"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "water-table"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-water-table"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "barrier"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-barrier"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "finish-arch"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-finish-arch"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "toilet-block"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-toilet-block"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "gate"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-gate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "sign"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-sign"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "generator"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-generator"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "partId": {
+                "const": "sponsor-booth"
+              }
+            },
+            "required": [
+              "partId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterValues": {
+                "$ref": "#/$defs/values-sponsor-booth"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "documentType": {
+          "const": "catalog"
+        },
+        "catalogId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/part"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "createdAt",
+        "documentType",
+        "catalogId",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "instanceSet": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "documentType": {
+          "const": "instanceSet"
+        },
+        "sceneId": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9_.:-]*$"
+        },
+        "sceneRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "coordinateFrame": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "local_ENU"
+            },
+            "originWGS84": {
+              "type": "object",
+              "properties": {
+                "longitude": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                },
+                "latitude": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "ellipsoidHeightM": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "longitude",
+                "latitude",
+                "ellipsoidHeightM"
+              ],
+              "additionalProperties": false
+            },
+            "verticalDatum": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricUnit": {
+              "const": "m"
+            },
+            "angleUnit": {
+              "const": "deg"
+            }
+          },
+          "required": [
+            "kind",
+            "originWGS84",
+            "verticalDatum",
+            "metricUnit",
+            "angleUnit"
+          ],
+          "additionalProperties": false
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/instance"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "createdAt",
+        "documentType",
+        "sceneId",
+        "sceneRevision",
+        "coordinateFrame",
+        "instances"
+      ],
+      "additionalProperties": false
+    },
+    "commandSet": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "documentType": {
+          "const": "commandSet"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "createdAt",
+        "documentType",
+        "commands"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

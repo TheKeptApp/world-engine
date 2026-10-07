@@ -16,6 +16,11 @@ contexts and scenes keyed by metro, plus approvedHouseValues; its copied sharedL
 compiled (house-contrast-v1 stays the daytime master). Each archetype entry carries "label": the pack's nearest
 "status" text (its "proposal" labels). Differences between the archetypes' inherited house values and
 house-contrast-v1 houseTypes are listed as conflicts for R.
+infrastructure-kit-v1 (R approved 2026-10-07, all 48 sheets) is compiled under the key prefix "style-b/infrastructure"
+(assets by id, palettes by name; its copied sharedLighting is not compiled). Precedence (R, 7 Oct 2026):
+street-geometry-rules-v1 owns street geometry (carriageway, lane and sidewalk widths by country and class); the kit
+owns look (markings, materials, colours, bridge, rail and airport styling). The kit's street cross-section keys carry
+"supersededFor": "geometry" and are listed as a resolved conflict (US residential carriageway: kit 10.2 m, rules 10.6 m).
 R-approved corrections in Tools/lookloop/mock-corrections.json are applied last (owner rule, R 2026-10-07:
 images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
 "original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
@@ -41,7 +46,7 @@ SKIP_KEYS = {
     "status", "units", "definitions", "paintoverValidation", "frames", "priorities", "boards",
     "review", "poster", "weatherHistory", "representation", "materialFormula", "compatibility",
     "comment", "policy", "rule", "liftRule", "selectionStatus", "bearingStatus", "sourceStatus",
-    "geometryStatus", "inventory", "cctNote",
+    "geometryStatus", "inventory", "cctNote", "valuesStatus",
 }
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 ENUM = re.compile(r"^[A-Za-z0-9_\-.]{1,48}$")
@@ -105,6 +110,14 @@ def flatten(obj, path=""):
         yield path, obj
 
 
+INFRA_PACK, INFRA_PREFIX = "infrastructure-kit-v1", "style-b/infrastructure"
+KEY_PREFIX = {INFRA_PACK: INFRA_PREFIX}  # compiled key prefix per pack (default: the pack name)
+GEOMETRY_OWNER = "street-geometry-rules-v1"
+GEOMETRY_RULES = "docs/research-gpt/street-geometry-rules-v1/rules.csv"
+# The kit's street cross-section keys (Roads sheets 01, 02, 05, 06, 07, 08); markings, crosswalk, bridge and soundwall keys stay the kit's.
+GEOMETRY_KEYS = re.compile(r"^assets\.roads-0[125678]-[^.]+\.dimensionsM\.(laneWidth|lanesEachDirection|shoulderWidth|medianWidth|"
+                           r"rampPavementWidth|pavementWidth|throughLanesTotal|centerTurnLaneWidth|sidewalkWidth|parkwayWidth|curbHeight|"
+                           r"carriagewayWidth|travelLaneWidth|parkingLaneWidth|pavedWidth|drainStripWidth|edgeSetback)$")
 ARCH_PACK = "house-archetypes-v1"
 ARCH_KEEP = ("archetypes", "streetContexts", "streetScenes", "approvedHouseValues")
 
@@ -117,10 +130,39 @@ def arch_view(data):
             "approvedHouseValues": data.get("approvedHouseValues", {})}
 
 
+def infra_view(data):
+    """The infrastructure kit by asset id, palettes by name; sharedLighting, generation and verification are not compiled."""
+    assets = {}
+    for a in data.get("assets", []):
+        a = dict(a)
+        a["palette"] = {p["name"]: {k: v for k, v in p.items() if k != "name"} for p in a.get("palette", [])}
+        assets[a["id"]] = a
+    return {"assets": assets, "lodPolicy": data.get("lodPolicy", {})}
+
+
+def geometry_conflict(entries, root):
+    """The documented US residential carriageway conflict (R, 2026-10-07): street-geometry-rules-v1 owns geometry."""
+    key = f"{INFRA_PREFIX}/assets.roads-06-residential.dimensionsM.carriagewayWidth"
+    rules = root / GEOMETRY_RULES
+    if key not in entries or not rules.exists():
+        return []
+    import csv
+    row = next((r for r in csv.DictReader(rules.open()) if r.get("rule_id") == "us_residential_v1"), None)
+    if not row:
+        return []
+    return [{"parameter": "US residential carriageway width (m)", "resolved": f"{GEOMETRY_OWNER} owns street geometry (R, 2026-10-07)",
+             "definitions": [
+                 {"key": key, "pack": INFRA_PACK, "value": entries[key]["value"], "source": entries[key]["source"], "state": "day",
+                  "resolved": "superseded for geometry; the kit keeps look"},
+                 {"key": f"{GEOMETRY_OWNER}/us_residential_v1.carriageway_default_m", "pack": GEOMETRY_OWNER,
+                  "value": float(row["carriageway_default_m"]), "source": GEOMETRY_RULES, "state": "day",
+                  "resolved": "owns street geometry (research CSV, not compiled)"}]}]
+
+
 def flatten_labelled(obj, path="", label=None):
     """flatten() that also yields the nearest enclosing "status" text (the pack's proposal label)."""
     if isinstance(obj, dict):
-        label = obj["status"] if isinstance(obj.get("status"), str) else label
+        label = obj["status"] if isinstance(obj.get("status"), str) else obj["valuesStatus"] if isinstance(obj.get("valuesStatus"), str) else label
         for k in sorted(obj):
             if k in SKIP_KEYS:
                 continue
@@ -216,14 +258,19 @@ def build(root=ROOT):
         data = json.loads((root / rel).read_text())
         if isinstance(data.get("date"), str):
             dates.append(data["date"])
-        rows = (flatten_labelled(arch_view(data)) if pack == ARCH_PACK else ((p, v, None) for p, v in flatten(data)))
+        rows = (flatten_labelled(arch_view(data)) if pack == ARCH_PACK else flatten_labelled(infra_view(data)) if pack == INFRA_PACK
+                else ((p, v, None) for p, v in flatten(data)))
+        prefix = KEY_PREFIX.get(pack, pack)
         for path, value, label in rows:
             entry = {"value": value, "pack": pack, "key": path, "source": rel}
             if label:
                 entry["label"] = label
             if pack == MASTER_PACK and path.startswith(MASTER_PREFIX):
                 entry["role"] = "daytime-master"
-            entries[f"{pack}/{path}"] = entry
+            if pack == INFRA_PACK and GEOMETRY_KEYS.match(path):
+                entry["supersededFor"] = "geometry"
+                entry["geometryOwner"] = GEOMETRY_OWNER
+            entries[f"{prefix}/{path}"] = entry
     cpath = root / CORRECTIONS
     corrections = json.loads(cpath.read_text())["corrections"] if cpath.exists() else []
     for c in corrections:
@@ -231,7 +278,7 @@ def build(root=ROOT):
         if pack not in [p for p, _ in packs]:
             continue
         src = next(rel for p, rel in packs if p == pack)
-        old = {k: e for k, e in entries.items() if k.startswith(f"{pack}/") and (
+        old = {k: e for k, e in entries.items() if k.startswith(f"{KEY_PREFIX.get(pack, pack)}/") and (
             (pre and e["key"].startswith(pre)) or e["key"] in c["set"])}
         for k in old:
             del entries[k]
@@ -248,7 +295,10 @@ def build(root=ROOT):
         "generated": max(dates) if dates else "unknown",
         "generator": "Tools/lookloop/compile_mocks.py",
         "approvedPacks": [p for p, _ in packs],
-        "conflicts": find_conflicts({k: e for k, e in entries.items() if e["pack"] != ARCH_PACK}) + archetype_conflicts(entries),
+        "precedence": [{"id": "street-geometry-owner", "decided": "R, 2026-10-07",
+                        "statement": f"{GEOMETRY_OWNER} owns street geometry (carriageway, lane, sidewalk widths by country and class); the infrastructure kit owns look (markings, materials, colours, bridge, rail and airport styling). Keys marked supersededFor=geometry are not geometry sources. Images beat JSON applies to look, not measurements."}],
+        "conflicts": (find_conflicts({k: e for k, e in entries.items() if e["pack"] not in (ARCH_PACK, INFRA_PACK)})
+                      + archetype_conflicts(entries) + geometry_conflict(entries, root)),
         "entries": entries,
     }
 

@@ -1,0 +1,130 @@
+{
+  "base": "Use case: stylized-concept. Create a polished WorldEngine Style B regional weather hero comparison board. Match the attached approved calibration reference for real architectural scale, rich grounded rendered realism, simplified restrained surfaces, soft coherent lighting, organic tree form and stylized softly volumetric clouds. NOT photography, not painterly, not cartoon, not toy diorama, no thick outlines or photographic texture. Reference image is STYLE ONLY: never copy its people. Absolutely no people, characters, dogs, animals, logos, brands, signage, letters, watermarks, UI or host app content. Generic empty real-scale environments. Each row is one BEFORE/AFTER pair: two equally sized landscape panels; EXACT SAME viewpoint, building layout, trees, horizon, lens and scale within each row. Narrow neutral separators, no captions or labels in the bitmap. Weather and light change only. Natural material colors remain recognizable; no global yellow or purple grade; retain contact/eave shadows. Streets never become mirrors. Clouds are broad clean softly shaded forms. ",
+  "regions": [
+    {
+      "id": "chicago",
+      "name": "Chicago",
+      "rows": [
+        "Lake-effect snow squall: left cold overcast clear-air lakeshore path with brick housing; right same geometry during a dense wind-driven snow curtain, thin fresh snow on exposed tops, Lake Michigan remains open.",
+        "Summer thunderstorm over Lake Michigan: left humid bright lakefront skyline and park before storm; right identical viewpoint with a huge softly modeled dark cloud shelf and distant rain over water, foreground slightly damp.",
+        "Loop at blue hour: left Loop elevated rail corridor in ordinary late afternoon; right identical geometry at blue hour with cool readable building fill, sparse warm windows and small grounded warm streetlight pools, dry pavement."
+      ],
+      "file": "images/chicago.png",
+      "moments": [
+        "chi-squall",
+        "chi-thunder",
+        "chi-blue"
+      ]
+    },
+    {
+      "id": "denver",
+      "name": "Denver / Front Range",
+      "rows": [
+        "Spring snow on green trees: left Sloan's Lake residential edge in early spring with newly green deciduous crowns; right same camera with wet spring snow resting on upper green branches and lawns, moderate falling flakes, clear sidewalk gaps.",
+        "Mountain sunset alpenglow: left west-facing Front Range foothill neighbourhood in neutral late-afternoon daylight; right same camera, mountain summits glow restrained coral gold with cool shaded lower slopes and houses, soft warm horizon, no orange global wash.",
+        "Afternoon hail-storm sky: left Denver neighbourhood with distant Front Range in blue midafternoon; right same camera dark towering thunderhead and localized pale hail/rain shaft approaching beyond houses, subdued gray-green underside, tiny sparse hail cues only no damage."
+      ],
+      "file": "images/denver.png",
+      "moments": [
+        "den-spring",
+        "den-alpenglow",
+        "den-hail"
+      ]
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "rows": [
+        "Tropical downpour then rainbow: left Miami Beach pastel low-rise neighbourhood and palms during heavy tropical rain, wet road with bounded broken reflections; right same camera after rain with sun breaking through and a subtle geometrically plausible rainbow over residual distant rain, still-wet road.",
+        "Hurricane-season cloud band, no damage: left Miami coastal street and ocean glimpse in humid partly cloudy daylight; right same camera with broad curved layered tropical cloud bands and distant rain curtains, palms lightly wind-bent, no flood, debris or damage.",
+        "Neon-warm Ocean Drive night: left unbranded Art Deco facade rhythm with palms in neutral daytime; right identical scene at night with localized warm amber and soft coral/turquoise architectural glow from plain light strips, cool readable sky/ambient, absolutely no signs or lettering."
+      ],
+      "file": "images/miami.png",
+      "moments": [
+        "mia-rainbow",
+        "mia-band",
+        "mia-night"
+      ]
+    },
+    {
+      "id": "san-francisco",
+      "name": "San Francisco",
+      "rows": [
+        "Fog rolling over hills and bridge silhouette: left SF residential hillside with plausible Golden Gate silhouette beyond bay, clear marine morning; right same geometry with broad low marine fog rolling around hills and partly obscuring bridge, near houses readable.",
+        "Golden hour through fog: left same hill/bay/bridge setting under cool marine fog; right exact composition with low sun warming upper fog layer pale gold, bridge emerges softly, no dramatic god rays or orange filter."
+      ],
+      "file": "images/san-francisco.png",
+      "moments": [
+        "sf-fog",
+        "sf-gold"
+      ]
+    },
+    {
+      "id": "seattle",
+      "name": "Seattle",
+      "rows": [
+        "Drizzle and mist on conifers: left Seattle residential street with tall real-scale conifers and neutral overcast light; right identical scene with fine drizzle, damp restrained roadway, depth-correct mist softening far crowns.",
+        "Rare clear day with mountain backdrop: left south-facing Seattle hillside residential viewpoint with cloud obscuring distant Mount Rainier; right same geometry on a clean clear day revealing correctly proportioned distant glaciated mountain, fresh neutral-blue sky and restrained sun."
+      ],
+      "file": "images/seattle.png",
+      "moments": [
+        "sea-drizzle",
+        "sea-clear"
+      ]
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "rows": [
+        "Monsoon storm and dust wall approaching: left Phoenix desert-edge neighbourhood with saguaro, palo verde and distant ridges in hot clear light; right same camera with dark monsoon tower and broad tan dust wall approaching in far background, clear foreground and intact buildings, no theatrical cyclone.",
+        "Desert night with city glow: left west-facing desert-edge neighbourhood and distant Phoenix skyline in late afternoon; right identical geometry at desert night, cool readable desert, warm low horizon city glow and sparse stars, no giant moon or Milky Way."
+      ],
+      "file": "images/phoenix.png",
+      "moments": [
+        "phx-monsoon",
+        "phx-night"
+      ]
+    },
+    {
+      "id": "new-england",
+      "name": "New England",
+      "rows": [
+        "Peak autumn colour after rain: left New England village street with white clapboard houses, real-scale maples in peak muted red/gold/ochre foliage during soft rain; right identical composition after rain with restrained low sun, moist dark road and tiny broken puddle highlights, believable bark/crowns without individual leaf noise."
+      ],
+      "file": "images/new-england.png",
+      "moments": [
+        "ne-autumn"
+      ]
+    },
+    {
+      "id": "gulf-coast",
+      "name": "Gulf Coast",
+      "rows": [
+        "Humid sunset with towering cumulus: left Gulf Coast coastal neighbourhood and marsh-water glimpse under humid ordinary late-afternoon light and tall softly modeled cumulus; right same composition at sunset with peach-gold cloud tops, blue-gray cloud bases and luminous humid horizon, clean intact houses."
+      ],
+      "file": "images/gulf-coast.png",
+      "moments": [
+        "gulf-sunset"
+      ]
+    }
+  ],
+  "tool": "built-in image_gen",
+  "revisionNotes": [
+    {
+      "region": "denver",
+      "changes": "Remove Chicago skyline from rows 1 and 3; west-facing Sloan lake/low-rise neighbourhood/Front Range; preserve paired cameras. Restrained summit alpenglow; sparse distant hail, no damage."
+    },
+    {
+      "region": "miami",
+      "changes": "Restrict wet reflections to broken gutter/depression patches <=7%; row2 damp; row3 dry road and localized warm accent fixtures; preserve all paired layouts."
+    },
+    {
+      "region": "new-england",
+      "changes": "Replace glazed road with matte wet asphalt and disconnected puddles; <=3% during rain /1.5% after; simplify microtexture."
+    },
+    {
+      "region": "gulf-coast",
+      "changes": "Replace copied Chicago towers, stadium and elevated rail with raised wood cottages, live oaks/Spanish moss, palms and coastal marsh glimpse. Preserve paired weather/lighting treatment."
+    }
+  ]
+}

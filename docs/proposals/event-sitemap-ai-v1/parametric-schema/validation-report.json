@@ -1,0 +1,94 @@
+{
+  "schema": "Draft 2020-12",
+  "schemaVersion": "1.0.0",
+  "schemaMetaValidation": "passed",
+  "examples": [
+    {
+      "file": "examples/barrier.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/canopy-tent.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/catalog.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/commands.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/finish-arch.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/gate.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/generator.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/instances.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/sign.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/sponsor-booth.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/stage.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/toilet-block.json",
+      "status": "passed"
+    },
+    {
+      "file": "examples/water-table.json",
+      "status": "passed"
+    }
+  ],
+  "negativeCases": [
+    {
+      "case": "negative width",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "unknown parameter",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "wrong count type",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "dependent clear width exceeds arch",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "unapproved accepted state",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "wrong mile conversion",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "wrong schema version",
+      "status": "correctly_rejected"
+    },
+    {
+      "case": "stale accepted transform",
+      "status": "correctly_rejected"
+    }
+  ],
+  "limits": "Does not resolve actual map geometry, supplier certification, operational safety or measured accuracy."
+}

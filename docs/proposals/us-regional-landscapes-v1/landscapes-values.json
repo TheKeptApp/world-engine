@@ -1,0 +1,2091 @@
+{
+  "schema": "worldengine.us-regional-landscapes.v1",
+  "status": "Authored art proposals; ecological regional groupings are not strict boundaries",
+  "styleRule": "Proportions real. Surfaces simplified. Light soft.",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "referenceImages": [
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/images/01-calibration-scene.png",
+      "sha256": "b107e0e162b12b21e682d5fb1fabf67ee8ea9ae4b0ae717c9deb46ce7912b4a4"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/japan-regional-kit-v1/03-regional-landscape.png",
+      "sha256": "64ca2935b93509e9b1416fc7d924fdc4579d913ef2fbcfe0b208156f2cddf450"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/street-to-space-v1/images/04-region-day.png",
+      "sha256": "e52ed3746b7b5c2883e32c299fb41333653b1ad12d2cfa7f1edc2562a1e33a04"
+    }
+  ],
+  "streetToSpaceContract": {
+    "surface": "Flat solid land-cover colour fields, matte, no photo textures, grain, mottling or satellite imagery",
+    "terrain": "Broad simplified softly shaded relief; no fine fractal terrain or individual tree geometry at city and above",
+    "clouds": "Street-reference chunky lobed cumulus clusters, clean silhouette, flat base and softly shaded facets; no satellite-derived cloud texture",
+    "coastlines": "Simplified clean continuous silhouettes; no luminous coastline outlines",
+    "atmosphere": "Soft low-intensity blue rim, no neon bloom",
+    "nightLights": "Soft warm regional glow clusters, no dense pinpoint radiance texture, starbursts or illuminated road grid",
+    "approvedFrames": "01\u201302 preserved except removal of dogs/characters",
+    "cameraFixturesKm": {
+      "street": 0.0017,
+      "neighbourhood": 0.6,
+      "city": 12,
+      "region": 150,
+      "continent": 1800,
+      "globe": 12000,
+      "orbit": 70000
+    },
+    "colourMeaning": "Authored sRGB design swatches, not pixel-exact samples; decode to linear for blending"
+  },
+  "regionContinentBaseDay": {
+    "landCover": {
+      "grass": "#73865B",
+      "forest": "#49664C",
+      "cropland": "#9C9E68",
+      "dry_plains": "#B49A60",
+      "bare_rock": "#A49781",
+      "urban": "#99988D",
+      "snow_ice": "#E6E9E3",
+      "wetland": "#668278"
+    },
+    "water": {
+      "lake": "#477E99",
+      "ocean": "#285F80"
+    },
+    "clouds": {
+      "lit": "#F0F2EF",
+      "shade": "#CAD6DE"
+    },
+    "atmosphere": {
+      "zenith": "#73A5CC",
+      "horizon": "#DBDCD1",
+      "limb": "#8BB5CC",
+      "rimAppearance": "soft low-intensity falloff"
+    },
+    "nightLights": {
+      "core": "#FFD49A",
+      "halo": "#B88758",
+      "shape": "soft diffuse clustered glow",
+      "sharpRoadGrid": false,
+      "starburst": false,
+      "density": "sparse large clusters",
+      "sunlitIntensity": 0
+    },
+    "space": {
+      "background": "#070E19",
+      "stars": "#C9D5E2"
+    },
+    "cloudShape": {
+      "type": "chunky_lobed_cumulus",
+      "lobesPerCluster": [
+        3,
+        7
+      ],
+      "base": "flat",
+      "detail": "large clean forms",
+      "surfaceNoiseAmplitude": 0
+    },
+    "surfaceTexture": {
+      "noiseAmplitude": 0,
+      "photographicTexture": false,
+      "coverageBlend": "linear RGB from class fractions"
+    }
+  },
+  "regionContinentBaseNight": {
+    "landCover": {
+      "grass": "#4D6048",
+      "forest": "#304A40",
+      "cropland": "#646B4D",
+      "dry_plains": "#756F53",
+      "bare_rock": "#626664",
+      "urban": "#626B68",
+      "snow_ice": "#AEB8C3",
+      "wetland": "#35514A"
+    },
+    "water": {
+      "lake": "#2A5275",
+      "ocean": "#21466B"
+    },
+    "clouds": {
+      "unlit": "#66758A",
+      "litBeyondTerminator": "#F0F2EF"
+    },
+    "atmosphere": {
+      "zenith": "#15243C",
+      "horizon": "#344255",
+      "limb": "#466780",
+      "sunlitLimb": "#73B7DF",
+      "rimAppearance": "soft low-intensity falloff"
+    },
+    "nightLights": {
+      "core": "#FFD49A",
+      "halo": "#B88758",
+      "shape": "soft diffuse clustered glow",
+      "sharpRoadGrid": false,
+      "starburst": false,
+      "density": "sparse large clusters",
+      "sunlitIntensity": 0
+    },
+    "space": {
+      "background": "#050A13",
+      "stars": "#C9D5E2"
+    },
+    "cloudShape": {
+      "type": "chunky_lobed_cumulus",
+      "lobesPerCluster": [
+        3,
+        7
+      ],
+      "base": "flat",
+      "detail": "large clean forms",
+      "surfaceNoiseAmplitude": 0
+    },
+    "surfaceTexture": {
+      "noiseAmplitude": 0,
+      "photographicTexture": false,
+      "coverageBlend": "linear RGB from class fractions"
+    },
+    "appearancePolicy": "Readable cool night concept fill with flat class fields; day palette remains on the sunlit side. Approximate authored targets, not sampled exact image values."
+  },
+  "regions": [
+    {
+      "id": "01-desert-southwest",
+      "name": "Desert Southwest \u2014 Phoenix / Las Vegas / Tucson",
+      "terrainFamilies": [
+        "Broad alluvial basin",
+        "Rocky bajada/foothill",
+        "Incised dry wash"
+      ],
+      "vegetationFamilies": [
+        "Sonoran: irregular palo-verde/mesquite crowns, creosote shrubs and locally appropriate columnar cactus",
+        "Mojave: sparse creosote/saltbush; Joshua-tree form only within its mapped habitat",
+        "Riparian: taller broadleaf corridor only where supported"
+      ],
+      "fieldPatterns": [
+        "Irrigated valley rectangles with canals; seasonal crop state distinct from surrounding desert",
+        "No invented farm grid across rocky slopes or unwatered basin"
+      ],
+      "smallTownArchetypes": [
+        "Low masonry/stucco ranch: 1 storey, shallow roof or parapet",
+        "Historic small commercial strip: 1\u20132 storeys, shaded recesses",
+        "Detached metal-roof shed/garage; gravel yard"
+      ],
+      "ruralRoads": [
+        "Two-lane asphalt ribbon, aggregate shoulder, shallow drainage swale",
+        "Sparse rural sidewalks; paved sidewalk/curb in town only",
+        "Fenced irrigation access and simple culverts"
+      ],
+      "waterEdges": [
+        "Dry wash: pale coarse bed and vegetated margins, no permanent blue stream by default",
+        "Canal: straight defined banks; live water state",
+        "Reservoir: exposed shore band when supported"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          6,
+          7.2
+        ],
+        "shoulderWidth": [
+          0.6,
+          1.5
+        ],
+        "shrubHeight": [
+          0.5,
+          2
+        ],
+        "treeHeight": [
+          4,
+          10
+        ],
+        "columnarCactusHeight": [
+          3,
+          10
+        ],
+        "houseWidth": [
+          10,
+          18
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "fieldWidth": [
+          200,
+          600
+        ],
+        "washWidth": [
+          5,
+          40
+        ]
+      },
+      "seasonalStates": [
+        "Spring: small local green-up and restrained flowers; desert base remains visible",
+        "Summer: dry exposed ground; monsoon response for Sonoran locations when supported",
+        "Autumn: shrubs mostly muted green, riparian leaf change locally",
+        "Winter: basin remains exposed; snow only from elevation and weather"
+      ],
+      "scene": "Sonoran edge settlement on an alluvial plain: low stucco homes, open matte sandy terrain, sparse irregular desert shrubs and palo verde; a dry wash, irrigated rectangular fields in the valley, rocky distant foothills. Do not place desert towers or ocean. Show a clear Mojave alternative as notes rather than mixing Joshua trees and saguaros everywhere.",
+      "exceptions": [
+        "Never use saguaros as a Las Vegas default; Sonoran range mask required",
+        "Phoenix/Tucson and Las Vegas are separate vegetation subprofiles",
+        "Season name is not a rain/snow observation"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#7C895D",
+          "forest": "#536A50",
+          "cropland": "#899365",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#8B8860",
+          "forest": "#536A50",
+          "cropland": "#879563",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#858363",
+          "forest": "#536A50",
+          "cropland": "#B4A077",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#84856C",
+          "forest": "#536A50",
+          "cropland": "#92956B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "01-desert-southwest.png",
+      "sheetFile": "01-desert-southwest.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Desert Southwest \u2014 Phoenix / Las Vegas / Tucson. Primary scene: Sonoran edge settlement on an alluvial plain: low stucco homes, open matte sandy terrain, sparse irregular desert shrubs and palo verde; a dry wash, irrigated rectangular fields in the valley, rocky distant foothills. Do not place desert towers or ocean. Show a clear Mojave alternative as notes rather than mixing Joshua trees and saguaros everywhere. Primary season summer.\nTerrain families: Broad alluvial basin; Rocky bajada/foothill; Incised dry wash. Vegetation: Sonoran: irregular palo-verde/mesquite crowns, creosote shrubs and locally appropriate columnar cactus; Mojave: sparse creosote/saltbush; Joshua-tree form only within its mapped habitat; Riparian: taller broadleaf corridor only where supported. Agriculture: Irrigated valley rectangles with canals; seasonal crop state distinct from surrounding desert; No invented farm grid across rocky slopes or unwatered basin. Small-town forms: Low masonry/stucco ranch: 1 storey, shallow roof or parapet; Historic small commercial strip: 1\u20132 storeys, shaded recesses; Detached metal-roof shed/garage; gravel yard. Roads: Two-lane asphalt ribbon, aggregate shoulder, shallow drainage swale; Sparse rural sidewalks; paved sidewalk/curb in town only; Fenced irrigation access and simple culverts. Water: Dry wash: pale coarse bed and vegetated margins, no permanent blue stream by default; Canal: straight defined banks; live water state; Reservoir: exposed shore band when supported.\nSeason strip: Spring: small local green-up and restrained flowers; desert base remains visible; Summer: dry exposed ground; monsoon response for Sonoran locations when supported; Autumn: shrubs mostly muted green, riparian leaf change locally; Winter: basin remains exposed; snow only from elevation and weather. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#8B8860\", \"forest\": \"#536A50\", \"cropland\": \"#879563\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#B3A28A\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [6, 7.2], \"shoulderWidth\": [0.6, 1.5], \"shrubHeight\": [0.5, 2], \"treeHeight\": [4, 10], \"columnarCactusHeight\": [3, 10], \"houseWidth\": [10, 18], \"floorHeight\": [2.7, 3.2], \"fieldWidth\": [200, 600], \"washWidth\": [5, 40]}. Avoid Never use saguaros as a Las Vegas default; Sonoran range mask required; Phoenix/Tucson and Las Vegas are separate vegetation subprofiles; Season name is not a rain/snow observation. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "ce7a2e3df84cf4baabdc9f93d56883577f770f34ca91aaaf880fea1383d297e0"
+    },
+    {
+      "id": "02-pacific-northwest",
+      "name": "Pacific Northwest \u2014 forest and coast",
+      "terrainFamilies": [
+        "Rounded forested uplands",
+        "Steep coastal headland",
+        "Low estuary/floodplain"
+      ],
+      "vegetationFamilies": [
+        "Tall irregular conifer crowns: Douglas-fir/hemlock/cedar family forms",
+        "Deciduous alder/maple along settlement and water",
+        "Low coastal grass, shrubs and understory masses"
+      ],
+      "fieldPatterns": [
+        "Valley pasture rectangles and irregular wet margins",
+        "Row-crop/orchard patches where mapped; coastal bluff is not cropland"
+      ],
+      "smallTownArchetypes": [
+        "Timber-clad gable houses: 1\u20132 storeys, porches",
+        "Simple pitched-roof mill/coastal sheds",
+        "Small main street: 1\u20132 storey wood/masonry fronts"
+      ],
+      "ruralRoads": [
+        "Narrow asphalt road follows valley contours; gravel verge and drainage ditch",
+        "Town concrete sidewalks; simple timber fences",
+        "Avoid straight road cuts across cliffs"
+      ],
+      "waterEdges": [
+        "Rocky headland and pale beach bands; estuary mudflat separate from open sea",
+        "Freshwater stream gravel bank beneath broadleaf corridor",
+        "Tide state moves water edge without scaling rocks"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          5.5,
+          7
+        ],
+        "shoulderWidth": [
+          0.5,
+          1.5
+        ],
+        "coniferHeight": [
+          20,
+          45
+        ],
+        "broadleafHeight": [
+          12,
+          25
+        ],
+        "houseWidth": [
+          8,
+          14
+        ],
+        "floorHeight": [
+          2.7,
+          3.1
+        ],
+        "fieldWidth": [
+          100,
+          400
+        ],
+        "streamWidth": [
+          4,
+          25
+        ],
+        "beachWidth": [
+          10,
+          70
+        ]
+      },
+      "seasonalStates": [
+        "Spring: deciduous leaf-out; conifer mass remains dark green",
+        "Summer: evergreen forest; dry grass locally at valley edges",
+        "Autumn: deciduous pockets ochre, evergreen stays green",
+        "Winter: lower-elevation forest remains green; leaf-off pockets, upland snow by observation"
+      ],
+      "scene": "Small timber coastal town beside a sheltered estuary, realistic tall conifers, rounded forested hills, valley pasture, rocky headland and a narrow pale beach. Near view has gabled houses and drainage verge; aerial includes town, pasture and estuary; far is clean forest/grass/water fields with broad relief.",
+      "exceptions": [
+        "No blanket winter snow at sea level",
+        "Forest canopy at far scale is a continuous matte land-cover field",
+        "Pacific Northwest coast and inland dry side require separate habitat inputs"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#89976A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#829064",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#8B8F68",
+          "forest": "#526A4E",
+          "cropland": "#ADA079",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#77816A",
+          "forest": "#49664C",
+          "cropland": "#8C8B72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "02-pacific-northwest.png",
+      "sheetFile": "02-pacific-northwest.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Pacific Northwest \u2014 forest and coast. Primary scene: Small timber coastal town beside a sheltered estuary, realistic tall conifers, rounded forested hills, valley pasture, rocky headland and a narrow pale beach. Near view has gabled houses and drainage verge; aerial includes town, pasture and estuary; far is clean forest/grass/water fields with broad relief. Primary season summer.\nTerrain families: Rounded forested uplands; Steep coastal headland; Low estuary/floodplain. Vegetation: Tall irregular conifer crowns: Douglas-fir/hemlock/cedar family forms; Deciduous alder/maple along settlement and water; Low coastal grass, shrubs and understory masses. Agriculture: Valley pasture rectangles and irregular wet margins; Row-crop/orchard patches where mapped; coastal bluff is not cropland. Small-town forms: Timber-clad gable houses: 1\u20132 storeys, porches; Simple pitched-roof mill/coastal sheds; Small main street: 1\u20132 storey wood/masonry fronts. Roads: Narrow asphalt road follows valley contours; gravel verge and drainage ditch; Town concrete sidewalks; simple timber fences; Avoid straight road cuts across cliffs. Water: Rocky headland and pale beach bands; estuary mudflat separate from open sea; Freshwater stream gravel bank beneath broadleaf corridor; Tide state moves water edge without scaling rocks.\nSeason strip: Spring: deciduous leaf-out; conifer mass remains dark green; Summer: evergreen forest; dry grass locally at valley edges; Autumn: deciduous pockets ochre, evergreen stays green; Winter: lower-elevation forest remains green; leaf-off pockets, upland snow by observation. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#829064\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [5.5, 7], \"shoulderWidth\": [0.5, 1.5], \"coniferHeight\": [20, 45], \"broadleafHeight\": [12, 25], \"houseWidth\": [8, 14], \"floorHeight\": [2.7, 3.1], \"fieldWidth\": [100, 400], \"streamWidth\": [4, 25], \"beachWidth\": [10, 70]}. Avoid No blanket winter snow at sea level; Forest canopy at far scale is a continuous matte land-cover field; Pacific Northwest coast and inland dry side require separate habitat inputs. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "0074f63675e0bebf139142dc906752b33690a34aa09399c894888136dc69e177"
+    },
+    {
+      "id": "03-california-coast",
+      "name": "California \u2014 coast and hills",
+      "terrainFamilies": [
+        "Smooth rolling coastal hills",
+        "Chaparral slopes",
+        "Coastal terrace/cliff"
+      ],
+      "vegetationFamilies": [
+        "Irregular live-oak broad crowns",
+        "Chaparral/sage shrub masses",
+        "Coastal grass; conifer/redwood family only within appropriate northern/coastal habitat"
+      ],
+      "fieldPatterns": [
+        "Valley crop rectangles, orchard grids and vineyard rows as mapped subfamilies",
+        "Pasture and open hill grass are distinct from irrigated crop green"
+      ],
+      "smallTownArchetypes": [
+        "Wood/stucco bungalow and shallow-pitch ranch: 1 storey",
+        "Small 1\u20132 storey town frontage",
+        "Simple agricultural shed; no branded winery shapes"
+      ],
+      "ruralRoads": [
+        "Contour-following asphalt road with gravel shoulders",
+        "Town concrete walks and curbs; rural ditch",
+        "Retaining wall only at necessary cut/fill"
+      ],
+      "waterEdges": [
+        "Clean cliff/terrace outline, beach sand strip, rocky coves",
+        "Creek bank distinct from ocean",
+        "No invented tropical lagoon"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          6,
+          7.2
+        ],
+        "shoulderWidth": [
+          0.6,
+          1.5
+        ],
+        "oakHeight": [
+          8,
+          18
+        ],
+        "shrubHeight": [
+          0.5,
+          2.5
+        ],
+        "houseWidth": [
+          9,
+          16
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "fieldWidth": [
+          100,
+          450
+        ],
+        "orchardSpacing": [
+          4,
+          8
+        ],
+        "beachWidth": [
+          10,
+          80
+        ]
+      },
+      "seasonalStates": [
+        "Spring: rain-responsive green hills and restrained local bloom",
+        "Summer: rainfed grass straw; oak/chaparral muted green; irrigated fields can remain green",
+        "Autumn: dry hills until rains; crop-specific harvest",
+        "Winter: wet-season green-up when observed; no sea-level snow default"
+      ],
+      "scene": "California coastal terrace town with modest bungalow forms, rounded oak-dotted straw hills in dry season, chaparral slopes, a small irrigated orchard and valley fields, pale coastal cliffs and beach. No palm-lined tropical bay; northern redwood alternative remains a separate rule. Keep golden hill grass matte and subdued.",
+      "exceptions": [
+        "Northern redwood coast is not the same biome as southern chaparral coast",
+        "Summer grass browning is conditional on water/phenology; irrigated ground is separate",
+        "Marine layer changes atmosphere, not permanent grey albedo"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#8C9964",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#B49A60",
+          "forest": "#526D50",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#AB9864",
+          "forest": "#566C50",
+          "cropland": "#AF9D71",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#798963",
+          "forest": "#49664C",
+          "cropland": "#8C956C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "03-california-coast.png",
+      "sheetFile": "03-california-coast.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: California \u2014 coast and hills. Primary scene: California coastal terrace town with modest bungalow forms, rounded oak-dotted straw hills in dry season, chaparral slopes, a small irrigated orchard and valley fields, pale coastal cliffs and beach. No palm-lined tropical bay; northern redwood alternative remains a separate rule. Keep golden hill grass matte and subdued. Primary season summer.\nTerrain families: Smooth rolling coastal hills; Chaparral slopes; Coastal terrace/cliff. Vegetation: Irregular live-oak broad crowns; Chaparral/sage shrub masses; Coastal grass; conifer/redwood family only within appropriate northern/coastal habitat. Agriculture: Valley crop rectangles, orchard grids and vineyard rows as mapped subfamilies; Pasture and open hill grass are distinct from irrigated crop green. Small-town forms: Wood/stucco bungalow and shallow-pitch ranch: 1 storey; Small 1\u20132 storey town frontage; Simple agricultural shed; no branded winery shapes. Roads: Contour-following asphalt road with gravel shoulders; Town concrete walks and curbs; rural ditch; Retaining wall only at necessary cut/fill. Water: Clean cliff/terrace outline, beach sand strip, rocky coves; Creek bank distinct from ocean; No invented tropical lagoon.\nSeason strip: Spring: rain-responsive green hills and restrained local bloom; Summer: rainfed grass straw; oak/chaparral muted green; irrigated fields can remain green; Autumn: dry hills until rains; crop-specific harvest; Winter: wet-season green-up when observed; no sea-level snow default. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#B49A60\", \"forest\": \"#526D50\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [6, 7.2], \"shoulderWidth\": [0.6, 1.5], \"oakHeight\": [8, 18], \"shrubHeight\": [0.5, 2.5], \"houseWidth\": [9, 16], \"floorHeight\": [2.7, 3.2], \"fieldWidth\": [100, 450], \"orchardSpacing\": [4, 8], \"beachWidth\": [10, 80]}. Avoid Northern redwood coast is not the same biome as southern chaparral coast; Summer grass browning is conditional on water/phenology; irrigated ground is separate; Marine layer changes atmosphere, not permanent grey albedo. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "cf35bf103c77ae4f54d66331f3817b2f6114937efbbb6da30f084474a34ebc5c"
+    },
+    {
+      "id": "04-rocky-front-range",
+      "name": "Rocky Mountains / Front Range",
+      "terrainFamilies": [
+        "Foothill hogback and open plains",
+        "Montane forest slope",
+        "Alpine ridge/talus basin"
+      ],
+      "vegetationFamilies": [
+        "Ponderosa-like open pine crowns in foothills",
+        "Denser spruce/fir-like montane crowns",
+        "Aspen broadleaf groves and riparian cottonwood",
+        "Alpine low vegetation above mapped treeline"
+      ],
+      "fieldPatterns": [
+        "Plains pasture rectangles, irrigated fields and mapped pivot circles",
+        "Mountain meadows irregular; no crop grid on alpine slopes"
+      ],
+      "smallTownArchetypes": [
+        "Front Range brick/wood bungalow and ranch: 1\u20132 storeys",
+        "Mountain town timber/masonry gable frontage",
+        "Slope-set house with downhill foundation exposure"
+      ],
+      "ruralRoads": [
+        "Valley-contour road; cut/fill terrain, limited retaining walls",
+        "Rural gravel shoulders and ditch; town walks",
+        "Snow is a weather layer; preserve road topology"
+      ],
+      "waterEdges": [
+        "Rock/gravel stream edge",
+        "Reservoir banks with exposed shore bands as observed",
+        "No glaciers invented on every peak"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          5.5,
+          7.2
+        ],
+        "shoulderWidth": [
+          0.5,
+          1.5
+        ],
+        "pineHeight": [
+          10,
+          28
+        ],
+        "aspenHeight": [
+          10,
+          22
+        ],
+        "houseWidth": [
+          8,
+          16
+        ],
+        "floorHeight": [
+          2.7,
+          3.1
+        ],
+        "pivotRadius": [
+          200,
+          400
+        ],
+        "streamWidth": [
+          3,
+          30
+        ],
+        "illustrativeRelief": [
+          300,
+          1800
+        ]
+      },
+      "seasonalStates": [
+        "Spring: staggered leaf-out/snowmelt by elevation",
+        "Summer: green alpine meadow and pine, drier plains grass",
+        "Autumn: localized aspen gold; conifers stable; plains straw",
+        "Winter: mountain snow coverage from altitude/weather; valley snow intermittent"
+      ],
+      "scene": "Front Range foothill village with real-scale bungalow/ranch and slope-set timber forms, open pine slopes, aspen pockets, a gravel-edged stream, plains pasture and one mapped-pattern pivot circle, distant broad alpine ridges. Snow appears only on high distant ridges in primary summer view.",
+      "exceptions": [
+        "Do not flatten Denver plains into alpine scenery",
+        "Treeline, snow and vegetation follow elevation/habitat masks",
+        "Daylight basement exposure follows slope, not a universal regional style"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#7D8C66",
+          "forest": "#49664C",
+          "cropland": "#8C956A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#9B9463",
+          "forest": "#586E4E",
+          "cropland": "#AE9E70",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#9B947C",
+          "forest": "#49664C",
+          "cropland": "#9F967E",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "04-rocky-front-range.png",
+      "sheetFile": "04-rocky-front-range.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Rocky Mountains / Front Range. Primary scene: Front Range foothill village with real-scale bungalow/ranch and slope-set timber forms, open pine slopes, aspen pockets, a gravel-edged stream, plains pasture and one mapped-pattern pivot circle, distant broad alpine ridges. Snow appears only on high distant ridges in primary summer view. Primary season summer.\nTerrain families: Foothill hogback and open plains; Montane forest slope; Alpine ridge/talus basin. Vegetation: Ponderosa-like open pine crowns in foothills; Denser spruce/fir-like montane crowns; Aspen broadleaf groves and riparian cottonwood; Alpine low vegetation above mapped treeline. Agriculture: Plains pasture rectangles, irrigated fields and mapped pivot circles; Mountain meadows irregular; no crop grid on alpine slopes. Small-town forms: Front Range brick/wood bungalow and ranch: 1\u20132 storeys; Mountain town timber/masonry gable frontage; Slope-set house with downhill foundation exposure. Roads: Valley-contour road; cut/fill terrain, limited retaining walls; Rural gravel shoulders and ditch; town walks; Snow is a weather layer; preserve road topology. Water: Rock/gravel stream edge; Reservoir banks with exposed shore bands as observed; No glaciers invented on every peak.\nSeason strip: Spring: staggered leaf-out/snowmelt by elevation; Summer: green alpine meadow and pine, drier plains grass; Autumn: localized aspen gold; conifers stable; plains straw; Winter: mountain snow coverage from altitude/weather; valley snow intermittent. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [5.5, 7.2], \"shoulderWidth\": [0.5, 1.5], \"pineHeight\": [10, 28], \"aspenHeight\": [10, 22], \"houseWidth\": [8, 16], \"floorHeight\": [2.7, 3.1], \"pivotRadius\": [200, 400], \"streamWidth\": [3, 30], \"illustrativeRelief\": [300, 1800]}. Avoid Do not flatten Denver plains into alpine scenery; Treeline, snow and vegetation follow elevation/habitat masks; Daylight basement exposure follows slope, not a universal regional style. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "967ca98bb3d0493ea1ca75fdbf36e23c4bd99136a82dce954b5b425ee59be4a3"
+    },
+    {
+      "id": "05-great-plains",
+      "name": "Great Plains \u2014 farmland",
+      "terrainFamilies": [
+        "Broad low-relief prairie",
+        "Gentle rolling uplands",
+        "Incised river corridor"
+      ],
+      "vegetationFamilies": [
+        "Grassland surface bands without individual blades",
+        "Shelterbelt linear tree masses",
+        "Riparian cottonwood-like broadleaf corridor"
+      ],
+      "fieldPatterns": [
+        "Large rectangular fields; roads and boundaries follow actual geometry",
+        "Pivot circles only where mapped irrigation exists",
+        "Wheat-like cereal, row crop and pasture are separate crop states"
+      ],
+      "smallTownArchetypes": [
+        "Low main street brick fronts: 1\u20132 storeys",
+        "Detached wood/brick ranch or gable house",
+        "Generic barn, cylindrical silo and grain-elevator mass without signage"
+      ],
+      "ruralRoads": [
+        "Long two-lane asphalt/gravel roads, grass ditch and narrow shoulders",
+        "Sparse fencing; no urban curb continuous across farmland",
+        "Rail/road crossing simple generic form"
+      ],
+      "waterEdges": [
+        "Broad riparian corridor; exposed sandbar only where appropriate",
+        "Farm pond distinct from field irrigation",
+        "No water in every ditch"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          5.5,
+          7.2
+        ],
+        "ditchWidth": [
+          1.5,
+          4
+        ],
+        "treeHeight": [
+          10,
+          24
+        ],
+        "houseWidth": [
+          9,
+          16
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "fieldWidth": [
+          400,
+          1000
+        ],
+        "pivotRadius": [
+          200,
+          400
+        ],
+        "siloHeight": [
+          12,
+          30
+        ],
+        "barnWidth": [
+          15,
+          30
+        ]
+      },
+      "seasonalStates": [
+        "Spring: bare/planting fields, local prairie green-up",
+        "Summer: crop-specific green or mature cereal gold; pasture reacts to rain",
+        "Autumn: harvested stubble and muted grass; leaf change in corridors",
+        "Winter: dormant prairie, exposed soil/stubble, snow only when observed"
+      ],
+      "scene": "Broad Great Plains farm and small town: huge matte rectangular fields and one irrigation circle, sparse shelterbelts, modest gable farmhouses, generic barn and silo, a long narrow two-lane road and distant riparian corridor. Horizon is broad and low, not mountains.",
+      "exceptions": [
+        "Winter wheat can be green outside calendar summer; crop phenology wins",
+        "Do not apply pivot circles to every farm",
+        "Field size values are examples, never cadastral reconstruction"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#7F9166",
+          "forest": "#49664C",
+          "cropland": "#958A72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#859164",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#AD9C70",
+          "forest": "#626E51",
+          "cropland": "#B09E74",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#A3977C",
+          "forest": "#716F60",
+          "cropland": "#A0927C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "05-great-plains.png",
+      "sheetFile": "05-great-plains.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Great Plains \u2014 farmland. Primary scene: Broad Great Plains farm and small town: huge matte rectangular fields and one irrigation circle, sparse shelterbelts, modest gable farmhouses, generic barn and silo, a long narrow two-lane road and distant riparian corridor. Horizon is broad and low, not mountains. Primary season summer.\nTerrain families: Broad low-relief prairie; Gentle rolling uplands; Incised river corridor. Vegetation: Grassland surface bands without individual blades; Shelterbelt linear tree masses; Riparian cottonwood-like broadleaf corridor. Agriculture: Large rectangular fields; roads and boundaries follow actual geometry; Pivot circles only where mapped irrigation exists; Wheat-like cereal, row crop and pasture are separate crop states. Small-town forms: Low main street brick fronts: 1\u20132 storeys; Detached wood/brick ranch or gable house; Generic barn, cylindrical silo and grain-elevator mass without signage. Roads: Long two-lane asphalt/gravel roads, grass ditch and narrow shoulders; Sparse fencing; no urban curb continuous across farmland; Rail/road crossing simple generic form. Water: Broad riparian corridor; exposed sandbar only where appropriate; Farm pond distinct from field irrigation; No water in every ditch.\nSeason strip: Spring: bare/planting fields, local prairie green-up; Summer: crop-specific green or mature cereal gold; pasture reacts to rain; Autumn: harvested stubble and muted grass; leaf change in corridors; Winter: dormant prairie, exposed soil/stubble, snow only when observed. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#859164\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [5.5, 7.2], \"ditchWidth\": [1.5, 4], \"treeHeight\": [10, 24], \"houseWidth\": [9, 16], \"floorHeight\": [2.7, 3.2], \"fieldWidth\": [400, 1000], \"pivotRadius\": [200, 400], \"siloHeight\": [12, 30], \"barnWidth\": [15, 30]}. Avoid Winter wheat can be green outside calendar summer; crop phenology wins; Do not apply pivot circles to every farm; Field size values are examples, never cadastral reconstruction. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "61c70325055335864eedf110afe2abaa053402f6f69dff8fd5b2732dbdf57df6"
+    },
+    {
+      "id": "06-midwest",
+      "name": "Midwest \u2014 farm and small town",
+      "terrainFamilies": [
+        "Low rolling glacial landscape",
+        "Flat agricultural plain",
+        "Creek/drainage swale"
+      ],
+      "vegetationFamilies": [
+        "Mixed broadleaf shade trees",
+        "Farmstead windbreak/tree grove",
+        "Hedgerow and creek-edge woody band"
+      ],
+      "fieldPatterns": [
+        "Corn/soy-like rectangular mosaic with farm access lanes",
+        "Pasture, hay and orchard variants",
+        "Field boundaries preserve tree belts and creeks"
+      ],
+      "smallTownArchetypes": [
+        "Brick main-street storefronts: 1\u20132 storeys",
+        "Foursquare/gable farmhouse and postwar ranch",
+        "Gable/gambrel barn, metal shed and silo in observed farm compound"
+      ],
+      "ruralRoads": [
+        "Grid-like rural roads with grass drainage ditches",
+        "Concrete sidewalk/curb in town core",
+        "Gravel farm drive; road remains full scale"
+      ],
+      "waterEdges": [
+        "Soft grassy creek bank, wooded drainage corridor",
+        "Pond with narrow reed edge",
+        "No decorative canals replacing drainage"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          6,
+          7.2
+        ],
+        "ditchWidth": [
+          1,
+          3
+        ],
+        "treeHeight": [
+          12,
+          26
+        ],
+        "houseWidth": [
+          9,
+          15
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "fieldWidth": [
+          200,
+          700
+        ],
+        "barnWidth": [
+          15,
+          30
+        ],
+        "siloHeight": [
+          12,
+          25
+        ],
+        "creekWidth": [
+          2,
+          15
+        ]
+      },
+      "seasonalStates": [
+        "Spring: bare planting ground, leaf-out and patchy green pasture",
+        "Summer: green crops and broadleaf shade; hay cuts form clean patches",
+        "Autumn: crop harvest/stubble and muted broadleaf ochre/rust",
+        "Winter: leaf-off groves and dormant fields; conditional snow/ice"
+      ],
+      "scene": "Midwest small-town edge with two-storey brick shop fronts, gable farmhouses and one foursquare, a gable barn and silo, low rolling rectangular corn/soy field mosaic, broadleaf shade groves and wooded creek. No named town, farm advertising or painted murals.",
+      "exceptions": [
+        "Crop identity and harvest state need data; illustrative crop labels are proposals",
+        "Do not add individual corn geometry at region zoom",
+        "Blank storefronts must never become real brand signs"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#617A54",
+          "cropland": "#998D74",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#9E9867",
+          "forest": "#8D8156",
+          "cropland": "#AE9C72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#9C967E",
+          "forest": "#827C6C",
+          "cropland": "#9D927C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "06-midwest.png",
+      "sheetFile": "06-midwest.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Midwest \u2014 farm and small town. Primary scene: Midwest small-town edge with two-storey brick shop fronts, gable farmhouses and one foursquare, a gable barn and silo, low rolling rectangular corn/soy field mosaic, broadleaf shade groves and wooded creek. No named town, farm advertising or painted murals. Primary season summer.\nTerrain families: Low rolling glacial landscape; Flat agricultural plain; Creek/drainage swale. Vegetation: Mixed broadleaf shade trees; Farmstead windbreak/tree grove; Hedgerow and creek-edge woody band. Agriculture: Corn/soy-like rectangular mosaic with farm access lanes; Pasture, hay and orchard variants; Field boundaries preserve tree belts and creeks. Small-town forms: Brick main-street storefronts: 1\u20132 storeys; Foursquare/gable farmhouse and postwar ranch; Gable/gambrel barn, metal shed and silo in observed farm compound. Roads: Grid-like rural roads with grass drainage ditches; Concrete sidewalk/curb in town core; Gravel farm drive; road remains full scale. Water: Soft grassy creek bank, wooded drainage corridor; Pond with narrow reed edge; No decorative canals replacing drainage.\nSeason strip: Spring: bare planting ground, leaf-out and patchy green pasture; Summer: green crops and broadleaf shade; hay cuts form clean patches; Autumn: crop harvest/stubble and muted broadleaf ochre/rust; Winter: leaf-off groves and dormant fields; conditional snow/ice. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [6, 7.2], \"ditchWidth\": [1, 3], \"treeHeight\": [12, 26], \"houseWidth\": [9, 15], \"floorHeight\": [2.7, 3.2], \"fieldWidth\": [200, 700], \"barnWidth\": [15, 30], \"siloHeight\": [12, 25], \"creekWidth\": [2, 15]}. Avoid Crop identity and harvest state need data; illustrative crop labels are proposals; Do not add individual corn geometry at region zoom; Blank storefronts must never become real brand signs. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "595c878bf4032abaac12c7e2a4bab92350d3d95e33909fcd670956e43e20eea5"
+    },
+    {
+      "id": "07-southeast",
+      "name": "Southeast \u2014 forest and swamp",
+      "terrainFamilies": [
+        "Low rolling uplands",
+        "Flat coastal plain",
+        "Wet bottomland basin"
+      ],
+      "vegetationFamilies": [
+        "Pine crown masses mixed with hardwood",
+        "Broad spreading oak family",
+        "Cypress-like wetland trees with base form only at close scale"
+      ],
+      "fieldPatterns": [
+        "Irregular forest-clearing farms, pasture and cultivated rectangles",
+        "Plantation timber block only if mapped land use, not inferred from appearance",
+        "Wet bottomland remains wetland, not cropland"
+      ],
+      "smallTownArchetypes": [
+        "Porch-front timber cottage: 1\u20132 storeys",
+        "Brick ranch and compact 1\u20132 storey main street",
+        "Metal-roof barn/shed; raised foundation only where local conditions justify"
+      ],
+      "ruralRoads": [
+        "Two-lane road beneath broad tree canopy, grass shoulder and ditch",
+        "Town concrete walks; rural verges mostly unpaved",
+        "Boardwalk only in mapped public access"
+      ],
+      "waterEdges": [
+        "Cypress bottomland/slough with shallow muted water",
+        "Creek bank broadleaf masses",
+        "Wetland edges follow hydroperiod; no universal stagnant brown water"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          5.5,
+          7.2
+        ],
+        "ditchWidth": [
+          1,
+          3
+        ],
+        "pineHeight": [
+          15,
+          30
+        ],
+        "oakHeight": [
+          10,
+          24
+        ],
+        "cypressHeight": [
+          12,
+          28
+        ],
+        "houseWidth": [
+          8,
+          15
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "fieldWidth": [
+          100,
+          500
+        ],
+        "sloughWidth": [
+          5,
+          40
+        ]
+      },
+      "seasonalStates": [
+        "Spring: hardwood leaf-out, persistent pine greens",
+        "Summer: dense muted green canopy; wet/dry state follows water data",
+        "Autumn: partial hardwood ochre, pine stays green",
+        "Winter: mixed evergreen and leaf-off hardwood; no blanket snow default"
+      ],
+      "scene": "Southeast village edge with realistic porch cottages and brick ranch, mixed pine/oak uplands, pasture clearing, low cypress bottomland and shallow slough. Primary view transitions from dry road shoulder to wet basin, not waterlogged entire town.",
+      "exceptions": [
+        "Upland pine/oak and cypress wetland are separate masks",
+        "Spanish moss only as sparse regional close detail when supported, never universal",
+        "Snow is uncommon in some subregions but never prohibited by region name"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#4E6C4D",
+          "cropland": "#8F9866",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#929263",
+          "forest": "#65724F",
+          "cropland": "#A99B70",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#74846B"
+        },
+        "winter": {
+          "grass": "#949078",
+          "forest": "#5E7055",
+          "cropland": "#9B947C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#778271"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "07-southeast.png",
+      "sheetFile": "07-southeast.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Southeast \u2014 forest and swamp. Primary scene: Southeast village edge with realistic porch cottages and brick ranch, mixed pine/oak uplands, pasture clearing, low cypress bottomland and shallow slough. Primary view transitions from dry road shoulder to wet basin, not waterlogged entire town. Primary season summer.\nTerrain families: Low rolling uplands; Flat coastal plain; Wet bottomland basin. Vegetation: Pine crown masses mixed with hardwood; Broad spreading oak family; Cypress-like wetland trees with base form only at close scale. Agriculture: Irregular forest-clearing farms, pasture and cultivated rectangles; Plantation timber block only if mapped land use, not inferred from appearance; Wet bottomland remains wetland, not cropland. Small-town forms: Porch-front timber cottage: 1\u20132 storeys; Brick ranch and compact 1\u20132 storey main street; Metal-roof barn/shed; raised foundation only where local conditions justify. Roads: Two-lane road beneath broad tree canopy, grass shoulder and ditch; Town concrete walks; rural verges mostly unpaved; Boardwalk only in mapped public access. Water: Cypress bottomland/slough with shallow muted water; Creek bank broadleaf masses; Wetland edges follow hydroperiod; no universal stagnant brown water.\nSeason strip: Spring: hardwood leaf-out, persistent pine greens; Summer: dense muted green canopy; wet/dry state follows water data; Autumn: partial hardwood ochre, pine stays green; Winter: mixed evergreen and leaf-off hardwood; no blanket snow default. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [5.5, 7.2], \"ditchWidth\": [1, 3], \"pineHeight\": [15, 30], \"oakHeight\": [10, 24], \"cypressHeight\": [12, 28], \"houseWidth\": [8, 15], \"floorHeight\": [2.7, 3.2], \"fieldWidth\": [100, 500], \"sloughWidth\": [5, 40]}. Avoid Upland pine/oak and cypress wetland are separate masks; Spanish moss only as sparse regional close detail when supported, never universal; Snow is uncommon in some subregions but never prohibited by region name. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "c97ab0422ce7069c265455afc4e7410bbfb22d3f8dd4aa8c256acef735be1bdc"
+    },
+    {
+      "id": "08-florida",
+      "name": "Florida \u2014 coast and Everglades",
+      "terrainFamilies": [
+        "Low coastal barrier/lagoon",
+        "Nearly flat freshwater sawgrass plain",
+        "Mangrove estuary and hardwood hammock islands"
+      ],
+      "vegetationFamilies": [
+        "Sawgrass as broad surface masses",
+        "Mangrove low irregular shoreline crown band",
+        "Pine/hardwood hammock island",
+        "Palms in appropriate habitat/planting, not every marsh"
+      ],
+      "fieldPatterns": [
+        "Agricultural rectangles outside protected wetland masks",
+        "Orchard/grove and sugarcane-like crop families only with source support",
+        "No farms or houses inside pristine Everglades scene"
+      ],
+      "smallTownArchetypes": [
+        "Coastal masonry ranch: 1 storey, shallow hip/gable roof",
+        "Generic timber coastal cottage, locally appropriate raised floor",
+        "Compact unbranded low-rise town strip"
+      ],
+      "ruralRoads": [
+        "Town concrete sidewalk and curb; rural aggregate verge",
+        "Canal/causeway only where mapped",
+        "No road grid cut through sawgrass wilderness"
+      ],
+      "waterEdges": [
+        "Freshwater slough separate from tidal mangrove edge",
+        "Pale beach/dune, lagoon and ocean as separate surfaces",
+        "Water level follows wet/dry hydroperiod and tide where connected"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          6,
+          7.2
+        ],
+        "shoulderWidth": [
+          0.5,
+          1.5
+        ],
+        "mangroveHeight": [
+          3,
+          12
+        ],
+        "palmHeight": [
+          8,
+          18
+        ],
+        "grassHeight": [
+          0.8,
+          2
+        ],
+        "houseWidth": [
+          10,
+          18
+        ],
+        "floorHeight": [
+          2.7,
+          3.2
+        ],
+        "beachWidth": [
+          15,
+          80
+        ],
+        "canalWidth": [
+          10,
+          35
+        ]
+      },
+      "seasonalStates": [
+        "Spring: late dry-season state in southern wetland; mature greens remain",
+        "Summer: wet-season freshwater expansion where observed",
+        "Autumn: wet-season recession timing depends on current water data",
+        "Winter: dry-season recession; no leaf-off or snowy Everglades default"
+      ],
+      "scene": "South Florida transition sheet: near view at a small coastal masonry ranch settlement edge, aerial spans lagoon/mangrove coastline and broad sawgrass freshwater wetland beyond, far clean flat coastal land-cover fields. Small grove/farm remains outside natural wetland. No houses or cultivation within intact sawgrass marsh. Coast sand pale, ocean restrained blue, wetland muted green.",
+      "exceptions": [
+        "Freshwater Everglades, saltwater mangroves and beach are distinct subprofiles",
+        "South Florida wet/dry cycle replaces temperate leaf calendar",
+        "Northern Florida seasonal cold response differs; generic statewide snow prohibition is wrong"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#839166",
+          "forest": "#49664C",
+          "cropland": "#92996A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7B8F70"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#7A8D62",
+          "forest": "#49664C",
+          "cropland": "#A49B6B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#6A8575"
+        },
+        "winter": {
+          "grass": "#879267",
+          "forest": "#4D6A4E",
+          "cropland": "#949A6B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7B8D72"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "08-florida.png",
+      "sheetFile": "08-florida.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Florida \u2014 coast and Everglades. Primary scene: South Florida transition sheet: near view at a small coastal masonry ranch settlement edge, aerial spans lagoon/mangrove coastline and broad sawgrass freshwater wetland beyond, far clean flat coastal land-cover fields. Small grove/farm remains outside natural wetland. No houses or cultivation within intact sawgrass marsh. Coast sand pale, ocean restrained blue, wetland muted green. Primary season summer.\nTerrain families: Low coastal barrier/lagoon; Nearly flat freshwater sawgrass plain; Mangrove estuary and hardwood hammock islands. Vegetation: Sawgrass as broad surface masses; Mangrove low irregular shoreline crown band; Pine/hardwood hammock island; Palms in appropriate habitat/planting, not every marsh. Agriculture: Agricultural rectangles outside protected wetland masks; Orchard/grove and sugarcane-like crop families only with source support; No farms or houses inside pristine Everglades scene. Small-town forms: Coastal masonry ranch: 1 storey, shallow hip/gable roof; Generic timber coastal cottage, locally appropriate raised floor; Compact unbranded low-rise town strip. Roads: Town concrete sidewalk and curb; rural aggregate verge; Canal/causeway only where mapped; No road grid cut through sawgrass wilderness. Water: Freshwater slough separate from tidal mangrove edge; Pale beach/dune, lagoon and ocean as separate surfaces; Water level follows wet/dry hydroperiod and tide where connected.\nSeason strip: Spring: late dry-season state in southern wetland; mature greens remain; Summer: wet-season freshwater expansion where observed; Autumn: wet-season recession timing depends on current water data; Winter: dry-season recession; no leaf-off or snowy Everglades default. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#B4AC92\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [6, 7.2], \"shoulderWidth\": [0.5, 1.5], \"mangroveHeight\": [3, 12], \"palmHeight\": [8, 18], \"grassHeight\": [0.8, 2], \"houseWidth\": [10, 18], \"floorHeight\": [2.7, 3.2], \"beachWidth\": [15, 80], \"canalWidth\": [10, 35]}. Avoid Freshwater Everglades, saltwater mangroves and beach are distinct subprofiles; South Florida wet/dry cycle replaces temperate leaf calendar; Northern Florida seasonal cold response differs; generic statewide snow prohibition is wrong. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "1b671aff0d22e8a13016693250c4b2581d8ea839a9a1b8a8b4aba8e8e6d43738"
+    },
+    {
+      "id": "09-northeast",
+      "name": "Northeast \u2014 forest and small town",
+      "terrainFamilies": [
+        "Rounded wooded ridge",
+        "Glacial lake/valley",
+        "Rocky upland pasture"
+      ],
+      "vegetationFamilies": [
+        "Mixed deciduous broadleaf crowns",
+        "Conifer pockets and riparian trees",
+        "Open meadow/pasture with stone boundaries where supported"
+      ],
+      "fieldPatterns": [
+        "Irregular pasture and hay fields in valley clearings",
+        "Small orchard rectangle/grid variants",
+        "No giant farm rectangles across wooded mountain relief"
+      ],
+      "smallTownArchetypes": [
+        "Timber-clad gable/Cape-like house: 1\u20132 storeys",
+        "Brick or timber compact main street",
+        "Gable barn and slope-exposed foundations where terrain requires"
+      ],
+      "ruralRoads": [
+        "Winding valley road with gravel shoulder, ditch and locally stone wall",
+        "Town sidewalk/curb only in built-up streets",
+        "Driveway follows grade; avoid impossible steep ramps"
+      ],
+      "waterEdges": [
+        "Rock/gravel lake edge and wooded stream bank",
+        "Tidal coast only in coastal subprofile",
+        "Seasonal ice conditional on actual temperature/water body"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          5.5,
+          7
+        ],
+        "shoulderWidth": [
+          0.5,
+          1.2
+        ],
+        "treeHeight": [
+          12,
+          27
+        ],
+        "houseWidth": [
+          8,
+          14
+        ],
+        "floorHeight": [
+          2.7,
+          3.1
+        ],
+        "fieldWidth": [
+          80,
+          300
+        ],
+        "stoneWallHeight": [
+          0.7,
+          1.2
+        ],
+        "streamWidth": [
+          3,
+          20
+        ],
+        "barnWidth": [
+          12,
+          25
+        ]
+      },
+      "seasonalStates": [
+        "Spring: delayed leaf-out at elevation, muted fresh greens",
+        "Summer: continuous mixed forest greens and hay meadow",
+        "Autumn: broadleaf gold/rust patches, evergreen pockets unchanged",
+        "Winter: leaf-off deciduous crowns, dark evergreen, weather-controlled snow/ice"
+      ],
+      "scene": "Northeast wooded valley small town with real gabled timber homes, compact brick main street, stone pasture boundaries, irregular hay fields, a simple gable barn, rounded forest ridges and a modest glacial lake. Autumn primary treatment restrained patchwork gold and rust with evergreen pockets, not saturated orange everything.",
+      "exceptions": [
+        "No forced New England architecture across the entire Northeast",
+        "Autumn colour follows species/local phenology, not an identical date",
+        "Regional colour is class-fraction aggregate; no individual trees at far zoom"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#7E9167",
+          "forest": "#647D59",
+          "cropland": "#8E956E",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#A19669",
+          "forest": "#967F55",
+          "cropland": "#AE9E75",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7A826B"
+        },
+        "winter": {
+          "grass": "#9A947E",
+          "forest": "#807C6C",
+          "cropland": "#9C927B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7A847B"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "09-northeast.png",
+      "sheetFile": "09-northeast.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "autumn",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Northeast \u2014 forest and small town. Primary scene: Northeast wooded valley small town with real gabled timber homes, compact brick main street, stone pasture boundaries, irregular hay fields, a simple gable barn, rounded forest ridges and a modest glacial lake. Autumn primary treatment restrained patchwork gold and rust with evergreen pockets, not saturated orange everything. Primary season autumn.\nTerrain families: Rounded wooded ridge; Glacial lake/valley; Rocky upland pasture. Vegetation: Mixed deciduous broadleaf crowns; Conifer pockets and riparian trees; Open meadow/pasture with stone boundaries where supported. Agriculture: Irregular pasture and hay fields in valley clearings; Small orchard rectangle/grid variants; No giant farm rectangles across wooded mountain relief. Small-town forms: Timber-clad gable/Cape-like house: 1\u20132 storeys; Brick or timber compact main street; Gable barn and slope-exposed foundations where terrain requires. Roads: Winding valley road with gravel shoulder, ditch and locally stone wall; Town sidewalk/curb only in built-up streets; Driveway follows grade; avoid impossible steep ramps. Water: Rock/gravel lake edge and wooded stream bank; Tidal coast only in coastal subprofile; Seasonal ice conditional on actual temperature/water body.\nSeason strip: Spring: delayed leaf-out at elevation, muted fresh greens; Summer: continuous mixed forest greens and hay meadow; Autumn: broadleaf gold/rust patches, evergreen pockets unchanged; Winter: leaf-off deciduous crowns, dark evergreen, weather-controlled snow/ice. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#A49781\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [5.5, 7], \"shoulderWidth\": [0.5, 1.2], \"treeHeight\": [12, 27], \"houseWidth\": [8, 14], \"floorHeight\": [2.7, 3.1], \"fieldWidth\": [80, 300], \"stoneWallHeight\": [0.7, 1.2], \"streamWidth\": [3, 20], \"barnWidth\": [12, 25]}. Avoid No forced New England architecture across the entire Northeast; Autumn colour follows species/local phenology, not an identical date; Regional colour is class-fraction aggregate; no individual trees at far zoom. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "953ab8cde317c935e7ef1e1a49adf84ab2ffab5b42fb571aa7febe9dadafc07b"
+    },
+    {
+      "id": "10-gulf-coast",
+      "name": "Gulf Coast",
+      "terrainFamilies": [
+        "Low coastal plain",
+        "Delta/marsh distributary network",
+        "Barrier beach and inland prairie"
+      ],
+      "vegetationFamilies": [
+        "Salt/brackish marsh surface masses",
+        "Live-oak and pine on suitable dry ground",
+        "Cypress/tupelo-like freshwater bottomland; separate from saline marsh"
+      ],
+      "fieldPatterns": [
+        "Rice-like irrigated rectangles, pasture and row crops where mapped",
+        "Water-filled rice state only during source crop phase",
+        "Delta wetland channels never replaced with farm grid"
+      ],
+      "smallTownArchetypes": [
+        "Generic raised coastal cottage with simple porch",
+        "Low brick/stucco ranch inland",
+        "Plain timber/masonry main street and metal-roof shed"
+      ],
+      "ruralRoads": [
+        "Two-lane causeway/levee road only on mapped alignment",
+        "Grass ditch inland, concrete curb in town",
+        "Culvert continuity and bridge openings preserve water connectivity"
+      ],
+      "waterEdges": [
+        "Low muddy/sandy tidal edge and pale barrier beach",
+        "Salt marsh fingers follow estuary channels",
+        "Freshwater bayou distinct from open Gulf water"
+      ],
+      "dimensionsProposalM": {
+        "roadWidth": [
+          6,
+          7.2
+        ],
+        "shoulderWidth": [
+          0.5,
+          1.5
+        ],
+        "oakHeight": [
+          10,
+          22
+        ],
+        "pineHeight": [
+          15,
+          30
+        ],
+        "marshHeight": [
+          0.5,
+          1.5
+        ],
+        "houseWidth": [
+          8,
+          15
+        ],
+        "floorHeight": [
+          2.7,
+          3.1
+        ],
+        "raisedFloorAboveGround": [
+          1,
+          3
+        ],
+        "fieldWidth": [
+          150,
+          600
+        ],
+        "channelWidth": [
+          10,
+          100
+        ]
+      },
+      "seasonalStates": [
+        "Spring: marsh/prairie green-up, evergreen tree mass stable",
+        "Summer: crop/wetland greens, rice flooding only at supported stage",
+        "Autumn: straw marsh patches and crop harvest, mixed tree response",
+        "Winter: dormant marsh/pasture and mixed evergreen/leaf-off; no automatic snow"
+      ],
+      "scene": "Low Gulf Coast village at an estuary edge, modest raised porch cottages on suitable developed ground, live-oak grove, separate inland pasture and rice-pattern rectangles, branching muted marsh channels, pale barrier sand and distant Gulf water. Flat horizon without tropical mountains.",
+      "exceptions": [
+        "Texas prairie, Louisiana delta and Florida panhandle are distinct subprofiles",
+        "Raised cottage height is a proposal, never an inferred flood-safe clearance",
+        "No dramatic surge or flood extent without event data"
+      ],
+      "seasonalLandCover": {
+        "spring": {
+          "grass": "#7D9065",
+          "forest": "#4D6B4E",
+          "cropland": "#92986B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#748970"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#A0966B",
+          "forest": "#5A7050",
+          "cropland": "#AD9C71",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#90916D"
+        },
+        "winter": {
+          "grass": "#A0967B",
+          "forest": "#5D7157",
+          "cropland": "#A0957B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#959276"
+        }
+      },
+      "waterColours": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "seasonalSnowPolicy": "snow_ice is an overlay fraction from weather/elevation/hydrology, never a fixed winter land-cover replacement",
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "keep": "Real silhouette, aggregate land-cover colour; omit individual trees, crop rows, fence posts and tiny houses"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "keep": "Major crown/roof mass, field footprint, broad channel and road alignment; no enlargement for visibility"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse recognition-critical trunk/roof/porch/ditch/bank geometry; no leaf, grain, photographic grass or dense crop repetition"
+        }
+      ],
+      "zoomReading": {
+        "street": "Local terrain grade, real plant silhouette, house/road scale and water-edge profile",
+        "aerial": "Settlement footprint, canopy groups, field geometry, drainage connectivity",
+        "region": "Broad relief and coverage fractions; no individual tree/house/crop geometry; preserve resolved coast/channel topology",
+        "continent": "Reproject and aggregate the SAME class fractions and seasonal palette into matte fields; no demographic/place labels or texture substitution"
+      },
+      "units": "dimensionsProposalM ranges in metres; not habitat prevalence, surveyed dimensions or code requirements",
+      "imageFile": "10-gulf-coast.png",
+      "sheetFile": "10-gulf-coast.html",
+      "status": "Proposal: composite landscape, dimensions, seasonal colours and generator defaults; not surveyed site",
+      "primaryIllustratedSeason": "summer",
+      "prompt": "Use case: stylized-concept. Create a WorldEngine US regional landscape DESIGN SHEET IMAGE, with THREE equal side-by-side primary panels on top: LEFT street 3/4 at adult eye height, CENTRE aerial 3/4 of the same composite landscape, RIGHT FAR/REGION view. Below, FOUR equal small seasonal thumbnails of the same landscape in spring, summer, autumn, winter order. No text, labels, badges or UI; labels will be added in HTML.\nReference 1 is the APPROVED Style B calibration for realistic proportions and soft grounded lighting; DO NOT copy its people, vehicles, named skyline or place. Reference 2 supplies the regional sheet arrangement and vegetation realism, not Japanese architecture; DO NOT copy rice paddies or Japanese houses. Reference 3 controls the FAR panel: clean matte land-cover fields, broad softly shaded relief, no individual trees or houses at region zoom.\nRegion: Gulf Coast. Primary scene: Low Gulf Coast village at an estuary edge, modest raised porch cottages on suitable developed ground, live-oak grove, separate inland pasture and rice-pattern rectangles, branching muted marsh channels, pale barrier sand and distant Gulf water. Flat horizon without tropical mountains. Primary season summer.\nTerrain families: Low coastal plain; Delta/marsh distributary network; Barrier beach and inland prairie. Vegetation: Salt/brackish marsh surface masses; Live-oak and pine on suitable dry ground; Cypress/tupelo-like freshwater bottomland; separate from saline marsh. Agriculture: Rice-like irrigated rectangles, pasture and row crops where mapped; Water-filled rice state only during source crop phase; Delta wetland channels never replaced with farm grid. Small-town forms: Generic raised coastal cottage with simple porch; Low brick/stucco ranch inland; Plain timber/masonry main street and metal-roof shed. Roads: Two-lane causeway/levee road only on mapped alignment; Grass ditch inland, concrete curb in town; Culvert continuity and bridge openings preserve water connectivity. Water: Low muddy/sandy tidal edge and pale barrier beach; Salt marsh fingers follow estuary channels; Freshwater bayou distinct from open Gulf water.\nSeason strip: Spring: marsh/prairie green-up, evergreen tree mass stable; Summer: crop/wetland greens, rice flooding only at supported stage; Autumn: straw marsh patches and crop harvest, mixed tree response; Winter: dormant marsh/pasture and mixed evergreen/leaf-off; no automatic snow. Winter snow only for appropriate observed-like uplands/temperate examples; never blanket coastal desert or tropical scene. All seasonal panels use the SAME clear mid-afternoon lighting, only vegetation, soil/crop state and justified snow change.\nStyle B: grounded believable real-scale architecture and terrain, smoothly shaded organic crowns with irregular silhouettes, simplified broad matte surfaces, no individual leaf/grass/gravel noise, no photographic ground texture, no toy houses, no identical balloon trees, no outlines, no excessive gloss. Far panel MUST be broad flat solid class fields with NO individually dotted trees, houses or crop stripes; broad softly shaded relief and clean water outlines only.\nApproved shared light: sun elevation 40\u00b0, azimuth225\u00b0, sun#FFE8C6, fill#AEBCCA, shadow cue#7F8F99, +0.35EV, contrast1.06, saturation1.08, NO added warmth or orange wash. Blue sky #73A5CC/#A2C4DC/#DBDCD1, soft lobed clouds. Summer base land palette {\"grass\": \"#73865B\", \"forest\": \"#49664C\", \"cropland\": \"#9C9E68\", \"dry_plains\": \"#B49A60\", \"bare_rock\": \"#B4AC92\", \"urban\": \"#99988D\", \"snow_ice\": \"#E6E9E3\", \"wetland\": \"#668278\"}; lake#477E99 ocean#285F80. Real earth tones, no neon water or saturated blanket orange forest.\nScale examples in metres (not labels): {\"roadWidth\": [6, 7.2], \"shoulderWidth\": [0.5, 1.5], \"oakHeight\": [10, 22], \"pineHeight\": [15, 30], \"marshHeight\": [0.5, 1.5], \"houseWidth\": [8, 15], \"floorHeight\": [2.7, 3.1], \"raisedFloorAboveGround\": [1, 3], \"fieldWidth\": [150, 600], \"channelWidth\": [10, 100]}. Avoid Texas prairie, Louisiana delta and Florida panhandle are distinct subprofiles; Raised cottage height is a proposal, never an inferred flood-safe clearance; No dramatic surge or flood extent without event data. Absolutely NO PEOPLE, dogs, animals, silhouettes of persons, characters, logos, badges, brands, signs with words, real murals, identifying place replicas or real addresses. Empty landscape, no miniature model/diorama base. Output one coherent wide sheet with narrow neutral gutters.",
+      "imageSHA256": "ed3a86a494296032ecb7307aaee61be8602ea4b4eecc8366d0f673f0e719d834"
+    }
+  ],
+  "zoomPalettePolicy": {
+    "colourSpace": "sRGB swatches decode to linear RGB before blending; encode once at output",
+    "formula": "C_linear = sum(fraction_i * srgbToLinear(palette_i)); fractions >= 0 and sum = 1 after area-weighted reprojection",
+    "seasonBlend": "Interpolate corresponding class colours in linear RGB using local phenology state; calendar only fallback. Crop stage and water state have separate masks.",
+    "snowOverlay": "Base class fractions*(1-snowFraction) plus snow_ice*snowFraction; snowFraction from actual supported coverage, not all winter ground",
+    "unknownData": "Neutral inherited class palette; do not invent species, irrigation, crop type or shoreline changes",
+    "resolution": "Area-weighted land-cover fractions in equal-area space before reprojection; blend ecotones by coverage, not state/metro boundaries",
+    "continents": "Same palettes/fractions at region and continent, coarser polygons; no separate vivid continent tint",
+    "wetness": "Weather material response applies once after seasonal base colour; no albedo shadow bake",
+    "night": "Use unchanged street-to-space night appearance palette/state as the documented fallback; do not multiply day seasonal colours by arbitrary night tint or add duplicate exposure",
+    "minimumFeaturePolicy": "Under 6 drawable pixels aggregate/cull; preserve source water connectivity until unresolved, never widen roads or rivers artificially"
+  },
+  "globalExclusions": [
+    "logos",
+    "badges",
+    "brands",
+    "real murals",
+    "dogs",
+    "characters",
+    "people"
+  ],
+  "verification": {
+    "rendererPixelCalibration": false,
+    "dimensionsAreProposals": true,
+    "sharedLightingExactMatch": true,
+    "regions": 10,
+    "seasonalClassSwatches": 320,
+    "primaryViewsPerSheet": 3,
+    "seasonalThumbnailsPerSheet": 4,
+    "validatedRangeUnits": "metres",
+    "sourcePaletteAndContractEquality": true,
+    "noVisiblePeopleDogsBrandsFound": true,
+    "allArtworkVisuallyReviewed": true,
+    "artworks": 10,
+    "specificationPNGExports": 10,
+    "loadedGalleryImages": 10,
+    "primaryViewLabels": 30,
+    "seasonLabels": 40,
+    "phoneViewportWidth": 390,
+    "phoneDocumentWidth": 390,
+    "scriptErrors": [],
+    "inheritedStreetToSpacePaletteExactMatch": true
+  },
+  "cropStageColoursProposal": {
+    "bare": "#96846F",
+    "emergent": "#87936B",
+    "green": "#7F955E",
+    "ripe_cereal": "#B7A16A",
+    "harvested_stubble": "#AA9876",
+    "dormant_pasture": "#A3977C"
+  },
+  "nearMaterialColoursProposal": {
+    "bark": "#716659",
+    "conifer": "#49664C",
+    "fresh_broadleaf": "#6F8758",
+    "mature_broadleaf": "#49664C",
+    "autumn_gold": "#B49A60",
+    "autumn_rust": "#9D7652",
+    "leaf_off_wood": "#827C6C",
+    "marsh_dormant": "#959276",
+    "beach_sand": "#C6BDA5",
+    "dry_wash": "#B3A28A",
+    "soil": "#96846F"
+  },
+  "cropStagePolicy": "Per crop/elevation/water mask: bare -> emergent -> green -> ripe (only appropriate crop, e.g. cereal) -> harvested stubble. Different crops may be harvested green; winter crops may stay green in calendar winter. Seasonal regional cropland hex is an aggregate fallback, never a crop calendar.",
+  "dataSelectionPolicy": {
+    "order": [
+      "Source terrain/hydrography/land use",
+      "Mapped habitat/ecoregion/local species",
+      "Observed crop/phenology/water/snow state",
+      "Regional fallback proposal"
+    ],
+    "noGlobalRegionalCoverageAssumption": true,
+    "noInventedIndividuals": true,
+    "fieldGeometry": "Preserve observed polygons, mapped pivot shape and drainage; do not stamp a grid or circle from region name",
+    "smallTownPlacement": "Only source settlement/building footprint; proposed facade family never creates houses in wilderness",
+    "wetlands": "Use freshwater/saline/hydroperiod masks; flooding overrides broad calendar colour",
+    "dateFallback": "Calendar seasons only when local phenology unavailable; identify fallback as inferred"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "initialPrompts": "prompts.json",
+    "correctionPrompts": "correction-prompts.json",
+    "status": "Authored raster concept images; exact renderer pixel equality unverified"
+  }
+}

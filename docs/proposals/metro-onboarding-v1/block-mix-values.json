@@ -1,0 +1,352 @@
+{
+  "schema": "worldengine.metro-block-mixes.v1",
+  "date": "2026-10-07",
+  "style": "Style B",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "lightingValuesCopiedUnchanged": true,
+  "photometricPixelEqualityVerified": false,
+  "camera": "Borrowed existing Denver ordinary-street composition; not a captured block in these four areas",
+  "references": [
+    {
+      "path": "~/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/ordinary-street.png",
+      "sha256": "db79018445eb6f4e505d9a5220d6699f90612ccade56c2b800bd818932e0e2de"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/house-contrast-v1/images/denver-hero.png",
+      "sha256": "9de3f5cc9051fc6bbb48cdd1554f14a0b034d55553d7acc95f9f2cf91427c6d4"
+    }
+  ],
+  "tool": "built-in image_gen",
+  "scenes": [
+    {
+      "id": "brooklyn-heights-block",
+      "name": "Brooklyn Heights",
+      "imageFile": "brooklyn-heights-block.png",
+      "sourceCandidate": {
+        "metro": "New York",
+        "area_type": "residential",
+        "candidate_area": "Brooklyn Heights / Promenade / northern Cobble Hill",
+        "recommended_first": "true",
+        "center_lat": "40.696",
+        "center_lon": "-73.995",
+        "bbox_west_south_east_north": "-74.003886, 40.689263, -73.986114, 40.702737",
+        "extent_km": "1.5 x 1.5 approximately; proposal",
+        "area_status": "Proposed axis-aligned WGS84 bounds, approximately 1.5 \u00d7 1.5 km; not verified against local map or measured in GIS.",
+        "why": "Recommended first: proposed stoop/attached-rowhouse, street-tree and waterfront test; official historic-district map establishes district extent. Existing catalogue brownstone/brick rowhouse rules reused as proposals, not surveyed share. https://www.nyc.gov/assets/lpc/downloads/pdf/maps/HistoricDistrictMaps/Brooklyn/brooklyn_heights.pdf",
+        "landmarks_and_views": "Official scenic-view description establishes Lower Manhattan skyline, Brooklyn Bridge archway, South Street Seaport, Whitehall Ferry Terminal, Statue of Liberty and Governors Island from protected Brooklyn Heights view. Specific chosen camera occlusion and inclusion of every landmark unverified; skyline requires geometry well outside test square. https://zr.planning.nyc.gov/article-x/chapter-2/102-615",
+        "osm_building_coverage": "Qualitative strong baseline inferred from completed NYC building import; no current candidate-area completeness percentage. NYC wiki says all import data uploaded/cleanup since 2014. https://wiki.openstreetmap.org/wiki/New_York_City",
+        "osm_height_tag_completeness": "Height included in city import; roof refinements manual. Current candidate height, levels and roof-tag percentages unclear; no live Overpass count performed. https://wiki.openstreetmap.org/wiki/New_York_City",
+        "osm_roof_tag_completeness": "Height included in city import; roof refinements manual. Current candidate height, levels and roof-tag percentages unclear; no live Overpass count performed. https://wiki.openstreetmap.org/wiki/New_York_City",
+        "overture_coverage": "Global offering; local footprint/height completeness unmeasured. https://docs.overturemaps.org/guides/buildings/",
+        "city_footprints_and_3d": "Weekly BUILDING footprints: roof height above ground, ground elevation, construction year, BIN/MapPLUTO_BBL; zero/null heights and dates mean unknown. Scope excludes some small sheds and placeholders exist. https://data.cityofnewyork.us/City-Government/BUILDING/5zhs-2jue | https://github.com/CityOfNewYork/nyc-geo-metadata/blob/main/Metadata/Metadata_BuildingFootprints.md",
+        "terrain_lidar": "2017 topobathymetric lidar/DEM available from NYC/NOAA; newer date, selected-area point density and voids unclear. https://maps.nyc.gov/lidar/2017/ | https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NYC_topobathy_BE_DEM_2017_9307/index.html",
+        "building_look": "Catalogue reuse: attached brick/brownstone rowhouse with stoop/areaway and low roof/cornice; 3\u20134-storey defaults and hexes remain proposals. Tenement/flats family only when PLUTO/observed geometry supports. Concrete sidewalk default and historic bluestone/granite exceptions from official design guidance; street species from tree inventory, never uniform blanket species. Ground proposal: paved frontage and tree pits, small rear yards/park lawns rather than suburban continuous front lawns. https://s-media.nyc.gov/agencies/lpc/lp/2590.pdf | https://www.nyc.gov/site/designcommission/design-review/design-guidelines/distinctive-sidewalks.page | https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/uvpi-gqnh/about_data",
+        "trees_ground_sidewalks": "Catalogue reuse: attached brick/brownstone rowhouse with stoop/areaway and low roof/cornice; 3\u20134-storey defaults and hexes remain proposals. Tenement/flats family only when PLUTO/observed geometry supports. Concrete sidewalk default and historic bluestone/granite exceptions from official design guidance; street species from tree inventory, never uniform blanket species. Ground proposal: paved frontage and tree pits, small rear yards/park lawns rather than suburban continuous front lawns. https://s-media.nyc.gov/agencies/lpc/lp/2590.pdf | https://www.nyc.gov/site/designcommission/design-review/design-guidelines/distinctive-sidewalks.page | https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/uvpi-gqnh/about_data",
+        "sky_weather_seasons": "Seasonal palette from actual weather and species; avoid constant gray/haze. Nor\u2019easters affect NYC I-95 corridor; heavy rain/flash flooding, snow and coastal flooding documented by OKX archive. Lake effect is not adopted as a NYC default. https://www.weather.gov/safety/winter-noreaster | https://www.weather.gov/okx/stormarchive",
+        "live_transit": "Subway/rail/service alerts GTFS-RT; buses GTFS-RT TripUpdates/VehiclePositions/Alerts and API key via Bus Time account. Do not render inferred subway positions as measured above-ground vehicles. https://www.mta.info/developers | https://bustime-classic.mta.info/wiki/Developers/GTFSRt",
+        "nws_office": "NWS New York/Upton OKX https://www.weather.gov/okx",
+        "top_risks": "MTA requires own-server redistribution, stale-data notice above 1 minute lag, no data modification/deletion, no implied endorsement; logos/maps/symbols need separate licence. OSM/Overture building derivative-database obligations. City 3D model is 2014 snapshot and generalized roof forms. Landmark listing is not evidence of prohibited building depiction; public-art reproduction rights unclear, exclude artwork/logos unless cleared. https://www.mta.info/developers/terms-and-conditions | https://www.mta.info/developers | https://www.openstreetmap.org/copyright | https://www.nyc.gov/assets/planning/download/pdf/data-maps/open-data/nyc-3d-model-metadata.pdf | https://www.nyc.gov/site/dcla/public art/public art.page",
+        "checked_date": "2026-10-07"
+      },
+      "blockMixProposal": "Brooklyn Heights residential street near Promenade: predominantly narrow ATTACHED 3\u20134-storey brick/brownstone rowhouses with continuous party walls, flat/low roofs and cornices, stoops and recessed areaways. Different warm brownstone/red brick tones with quiet pale trim. Pavement reaches stoops; iron areaway railings, individual tree pits, no suburban front lawns and NO detached cottages. Mature green broadleaf street canopy, occasional lighter leaves only no blanket orange. One compatible modest brick apartment building further down the block. Dense urban narrow street, restrained concrete sidewalks with small historic bluestone accents proposed. Do not put Manhattan skyscrapers directly among houses; only extremely faint distant urban massing if naturally unobstructed, no promised skyline or bridge sightline.",
+      "generationPrompt": "Create a WorldEngine Style B block-mix architectural PAINT-OVER, landscape 1672x941 intent. Reference 1 is the existing ENGINE CAMERA COMPOSITION: borrow eye-level street-side three-quarter perspective, sidewalk receding through middle and street on right. Reference 2 is APPROVED STYLE AND LIGHTING: match its simple stylized game geometry, matte clean faceted materials and shared clear mid-afternoon light. Do not copy Denver buildings or autumn palette. Keep one consistent camera lens, exposure, sun/shadows and sky across this metro series. Approved numerical target: sun elevation40 degrees azimuth225 degrees, warm sun #FFE8C6, cool fill #AEBCCA, sky zenith#73A5CC horizon#DBDCD1, exposure+.35EV contrast1.06 saturation1.08. Neutral-gray asphalt#626A70 concrete#C5C0B3 lawn#73865B where irrigated. No photography, no hyper-real masonry/grasses, no text labels, signs, logos, street numbers, addresses, sculptures or public-art replicas. This is a plausible neighbourhood design proposal, not a geographic reconstruction. Realistic locally coherent mix of 6\u201310 buildings visible; no forced collection of every city archetype. Preserve unbranded small dog from camera if it fits. Brooklyn Heights residential street near Promenade: predominantly narrow ATTACHED 3\u20134-storey brick/brownstone rowhouses with continuous party walls, flat/low roofs and cornices, stoops and recessed areaways. Different warm brownstone/red brick tones with quiet pale trim. Pavement reaches stoops; iron areaway railings, individual tree pits, no suburban front lawns and NO detached cottages. Mature green broadleaf street canopy, occasional lighter leaves only no blanket orange. One compatible modest brick apartment building further down the block. Dense urban narrow street, restrained concrete sidewalks with small historic bluestone accents proposed. Do not put Manhattan skyscrapers directly among houses; only extremely faint distant urban massing if naturally unobstructed, no promised skyline or bridge sightline.",
+      "status": "Proposed local block mix; no surveyed layouts, skyline sightlines or camera matrices verified",
+      "imageSHA256": "8f2fe1eab9f6dd86698036363c6637847d9003ee9ccadfd3552865caff20adf5"
+    },
+    {
+      "id": "angelino-heights-block",
+      "name": "Angelino Heights",
+      "imageFile": "angelino-heights-block.png",
+      "sourceCandidate": {
+        "metro": "Los Angeles",
+        "area_type": "residential",
+        "candidate_area": "Angelino Heights / Echo Park edge",
+        "recommended_first": "yes; architecture+terrain+skyline first",
+        "center_lat": "34.0745",
+        "center_lon": "-118.2585",
+        "bbox_west_south_east_north": "-118.26664, 34.06776, -118.25036, 34.08124",
+        "extent_km": "1.5 x 1.5 approximately; proposal",
+        "area_status": "PROPOSAL / unverified exact neighbourhood intersection; approximate1.5\u00d71.5km WGS84 box",
+        "why": "Residentialhilltop district officiallydocuments Victorian/Craftsman/MissionRevival examples near downtown; good distinct silhouette and slope test. Recognizable localheritage; NOT representative of all LA housing. https://planning.lacity.gov/preservation-design/overlays/angelino-heights",
+        "landmarks_and_views": "Downtown skyline from selected hilltop viewpoints supported qualitatively by city's HPOZspotlight; exactviews unverified. EchoParkLake nearbytarget only where camera/box overlaps; not allstreetviews promised. https://planning.lacity.gov/odocument/13dff9e4-3fbe-498b-85e2-5e78f9adf445/2019_Fall.pdf",
+        "osm_building_coverage": "Qualitative favorable footprint starting point from completed county/city import; no bbox percentage measured. https://wiki.openstreetmap.org/wiki/Los_angeles%2C_California/Buildings_Import",
+        "osm_height_tag_completeness": "Import documents HEIGHT\u2192height and YearBuilt\u2192start_date; current local percentage unclear. https://wiki.openstreetmap.org/wiki/Los_angeles%2C_California/Buildings_Import",
+        "osm_roof_tag_completeness": "Unclear; historical import table does not establish roof tags; measure roof:shape,roof:height,roof:angle in selected bbox. https://wiki.openstreetmap.org/wiki/Los_angeles%2C_California/Buildings_Import",
+        "overture_coverage": "Global offering; local footprint/height completeness unmeasured. https://docs.overturemaps.org/guides/buildings/",
+        "city_footprints_and_3d": "Public2Dfootprints include HEIGHT/ELEV; not an audited3Dmesh. https://maps.lacity.org/lahub/rest/services/Landbase_Information_WFS/MapServer/0",
+        "terrain_lidar": "USGS3DEP national candidate with exact project/box date checkpending; LA2025postfire footprint may not cover downtown. https://www.usgs.gov/3d-elevation-program",
+        "building_look": "Source-confirmed Victorian, Craftsman and MissionRevival here. Reuse catalog Craftsman/Spanishrules but add Victorian roofs/bays for this district; all mixes/hexes/widths proposals. Trees diverse not all palms https://streets.lacity.gov/resources/biodiversity . PROPOSED observed mixed lawn/drought planting; no regional uniform lawn assumption. City sidewalk manual describes parallel walks/parkway crossings and curb sequence https://completestreetdesignmanual.engineering.lacity.gov/e-600-cross-section-elements/e-650-borders/e-652-sidewalks ; material/curb prevalence unverified. No blanket autumn palette; species/weather drive phenology.",
+        "trees_ground_sidewalks": "Source-confirmed Victorian, Craftsman and MissionRevival here. Reuse catalog Craftsman/Spanishrules but add Victorian roofs/bays for this district; all mixes/hexes/widths proposals. Trees diverse not all palms https://streets.lacity.gov/resources/biodiversity . PROPOSED observed mixed lawn/drought planting; no regional uniform lawn assumption. City sidewalk manual describes parallel walks/parkway crossings and curb sequence https://completestreetdesignmanual.engineering.lacity.gov/e-600-cross-section-elements/e-650-borders/e-652-sidewalks ; material/curb prevalence unverified. No blanket autumn palette; species/weather drive phenology.",
+        "sky_weather_seasons": "Marine low cloud/fog and inland-clear variation; Santa Ana/offshore heat and fire weather; use live observations not permanently smoggy sky. https://www.weather.gov/lox/observations ; https://marine.weather.gov/product.php?format=CI&glossary=1&issuedby=LOX&product=AFD&site=RNK&version=37",
+        "live_transit": "Metro GTFS-rt/API official https://api.metro.net/; agency-specific terms/key unverified, do not ingestlicensedSWdataforonwardresale pending clarification. https://www.goswift.ly/api-license-agreement",
+        "nws_office": "NWS Los Angeles/Oxnard (LOX). https://www.weather.gov/lox/",
+        "top_risks": "2014 source footprints/stale sidewalks; city / licensed LARIAC distinction; Metro terms; public art/logos excluded. https://www.metro.net/about/copyright/ ; https://www.arcgis.com/home/item.html?id=10854b6040a74950abeab5502c69fe77",
+        "checked_date": "2026-10-07"
+      },
+      "blockMixProposal": "Angelino Heights residential gentle hillside: foreground distinctive two-storey late Victorian WOOD house with projecting BAY, steep complex gabled roof and modest corner turret, cream/sage paint, readable porch. Across street one second Victorian with muted mauve/cream paint, several Craftsman bungalows with broad porches and lower gable roofs, one restrained stucco Mission Revival with shaped parapet farther away. This is historic LA district not generic Beverly Hills. Diverse broadleaf GREEN shade trees with very few palms if any; mixed small irrigated lawn and drought-tolerant planted gardens, no blanket desert/no autumn orange. Concrete sidewalks and curbs follow gentle hillside with short front steps. Low walls only where retaining terrain. Quiet distant downtown building cluster if elevated view allows, extremely subtle no hero landmarks.",
+      "generationPrompt": "Create a WorldEngine Style B block-mix architectural PAINT-OVER, landscape 1672x941 intent. Reference 1 is the existing ENGINE CAMERA COMPOSITION: borrow eye-level street-side three-quarter perspective, sidewalk receding through middle and street on right. Reference 2 is APPROVED STYLE AND LIGHTING: match its simple stylized game geometry, matte clean faceted materials and shared clear mid-afternoon light. Do not copy Denver buildings or autumn palette. Keep one consistent camera lens, exposure, sun/shadows and sky across this metro series. Approved numerical target: sun elevation40 degrees azimuth225 degrees, warm sun #FFE8C6, cool fill #AEBCCA, sky zenith#73A5CC horizon#DBDCD1, exposure+.35EV contrast1.06 saturation1.08. Neutral-gray asphalt#626A70 concrete#C5C0B3 lawn#73865B where irrigated. No photography, no hyper-real masonry/grasses, no text labels, signs, logos, street numbers, addresses, sculptures or public-art replicas. This is a plausible neighbourhood design proposal, not a geographic reconstruction. Realistic locally coherent mix of 6\u201310 buildings visible; no forced collection of every city archetype. Preserve unbranded small dog from camera if it fits. Angelino Heights residential gentle hillside: foreground distinctive two-storey late Victorian WOOD house with projecting BAY, steep complex gabled roof and modest corner turret, cream/sage paint, readable porch. Across street one second Victorian with muted mauve/cream paint, several Craftsman bungalows with broad porches and lower gable roofs, one restrained stucco Mission Revival with shaped parapet farther away. This is historic LA district not generic Beverly Hills. Diverse broadleaf GREEN shade trees with very few palms if any; mixed small irrigated lawn and drought-tolerant planted gardens, no blanket desert/no autumn orange. Concrete sidewalks and curbs follow gentle hillside with short front steps. Low walls only where retaining terrain. Quiet distant downtown building cluster if elevated view allows, extremely subtle no hero landmarks.",
+      "status": "Proposed local block mix; no surveyed layouts, skyline sightlines or camera matrices verified",
+      "imageSHA256": "5ba2fd5c4109c97cea41ea2ce83bf916a89f65bd99db01e0f46a8cd64cc1513e"
+    },
+    {
+      "id": "coronado-block",
+      "name": "Coronado",
+      "imageFile": "coronado-block.png",
+      "sourceCandidate": {
+        "metro": "Phoenix",
+        "area_type": "residential",
+        "candidate_area": "Coronado historic neighborhood",
+        "recommended_first": "true",
+        "center_lat": "33.477",
+        "center_lon": "-112.055",
+        "bbox_west_south_east_north": "-112.063077,33.470263,-112.046923,33.483737",
+        "extent_km": "1.5 x 1.5 approximately; proposal",
+        "area_status": "candidate bounds and visibility proposed; facts source scoped; local coverage unverified",
+        "why": "Historic district has directly documented bungalow, Spanish Colonial Revival, English Cottage and Early Western Ranch forms. Best architectural test for existing low-rise generator, not whole-metro prevalence. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "landmarks_and_views": "Local low-rise roof/porch streetscape; downtown tower cluster to southwest from elevated/unobstructed camera is a proposed sightline, not verified street-level visibility. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "osm_building_coverage": "unclear; no local count/independent reference audit performed Method: https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL",
+        "osm_height_tag_completeness": "unclear; national/global tag stats are not a defensible local percentage Method: https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL",
+        "osm_roof_tag_completeness": "unclear; national/global tag stats are not a defensible local percentage Method: https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL",
+        "overture_coverage": "Global offering; local footprint/height completeness unmeasured. https://docs.overturemaps.org/guides/buildings/",
+        "city_footprints_and_3d": "dedicated Phoenix city footprint/3D release unclear; use OSM/Overture and licensed county attributes; do not mislabel parcels as buildings https://maps.phoenix.gov/pub/rest/services/public",
+        "terrain_lidar": "USGS LidarExplorer locates 3DEP lidar/DEM and EPT viewer; exact square acquisition year/quality unresolved https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "building_look": "Source: Coronado bungalow one-story sloping roofs and wide porches; Spanish Colonial Revival/English Cottage/Early Western Ranch. Proposal: pale stucco, warm roof tile, shaded porches, mixed irrigated lawns and gravel; do not force all-desert yard treatment. Curbs/sidewalk dimensions and district-wide tree species shares unclear. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "trees_ground_sidewalks": "Cool Corridors plants desert-adapted low-water species: Mulga, Ghost Gum, Southern Live Oak, Chinese Elm, Blue Palo Verde; not an existing per-tree inventory or Coronado species census.; sidewalk/curb details unverified https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "sky_weather_seasons": "NWS Phoenix PSR: monsoon June15\u2013Sept30 moisture/clouds/showers/thunderstorms; flash flood/microburst/hail/dust hazards documented. Proposal: clear dry skies when observed, dust/haze only driven by live conditions, no permanent orange sky. Summer heat and cooler winter; lawn/deciduous phenology local verification needed. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "live_transit": "Valley Metro developer-resources retrieval failed; GTFS-RT endpoint/auth/licence unclear. City LightRailLine/Stops service directory verified, geometry not realtime. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "nws_office": "Phoenix PSR",
+        "top_risks": "Phoenix open REST service availability does not establish commercial redistribution rights; paid Landbase has explicit written-consent restriction. | Coronado is historic inner-city Phoenix, not representative of all newer suburban Phoenix; reuse catalog forms but not generator weights as measured prevalence. | Public-art locations are an exclusion/clearance aid, not permission to reproduce works. Phoenix bird city symbol must not be replicated. | OSM heights, roof completeness and Overture local coverage are unclear without area audit; do not invent percentages. | Valley Metro official GTFS-RT endpoints and terms could not be verified in this pass. https://www.phoenix.gov/content/dam/phoenix/pddsite/villagessite/documents/pdd_pz_pdf_00094.pdf | https://www.phoenix.gov/administration/departments/streets/initiatives/cool-corridors.html | https://www.weather.gov/psr/2025MonsoonSeasonReview | https://maps.phoenix.gov/pub/rest/services/public | https://www.usgs.gov/tools/lidarexplorer | https://www.phoenix.gov/administration/departments/communications/copyright.html | https://www.phoenix.gov/streetssite/documents/eas_pdf_gis_request_packet.pdf",
+        "checked_date": "2026-10-07"
+      },
+      "blockMixProposal": "Coronado Phoenix older residential block: mostly compact ONE-storey Craftsman/bungalow houses with broad shaded porches and sloping gables, scattered early Western ranch with low wide hip/gable and carport, one pale Spanish Colonial Revival stucco/tile example, one restrained English cottage farther back. Mixed pale stucco/painted siding/occasional warm brick, not uniform newer stucco subdivision. Mature shade pockets and varied low-water planting, lawns on some irrigated lots plus tan gravel/planted yards on others. No uniform cactus forest and no all gravel or all perfect lawn. Modest front setbacks, driveway gaps, concrete sidewalks, broadly level terrain. Green warm-season trees, blue clear shared sky not orange dust/smog. Avoid assigning Cool Corridor species to actual Coronado trees. No tall building backdrop forced into residential camera.",
+      "generationPrompt": "Create a WorldEngine Style B block-mix architectural PAINT-OVER, landscape 1672x941 intent. Reference 1 is the existing ENGINE CAMERA COMPOSITION: borrow eye-level street-side three-quarter perspective, sidewalk receding through middle and street on right. Reference 2 is APPROVED STYLE AND LIGHTING: match its simple stylized game geometry, matte clean faceted materials and shared clear mid-afternoon light. Do not copy Denver buildings or autumn palette. Keep one consistent camera lens, exposure, sun/shadows and sky across this metro series. Approved numerical target: sun elevation40 degrees azimuth225 degrees, warm sun #FFE8C6, cool fill #AEBCCA, sky zenith#73A5CC horizon#DBDCD1, exposure+.35EV contrast1.06 saturation1.08. Neutral-gray asphalt#626A70 concrete#C5C0B3 lawn#73865B where irrigated. No photography, no hyper-real masonry/grasses, no text labels, signs, logos, street numbers, addresses, sculptures or public-art replicas. This is a plausible neighbourhood design proposal, not a geographic reconstruction. Realistic locally coherent mix of 6\u201310 buildings visible; no forced collection of every city archetype. Preserve unbranded small dog from camera if it fits. Coronado Phoenix older residential block: mostly compact ONE-storey Craftsman/bungalow houses with broad shaded porches and sloping gables, scattered early Western ranch with low wide hip/gable and carport, one pale Spanish Colonial Revival stucco/tile example, one restrained English cottage farther back. Mixed pale stucco/painted siding/occasional warm brick, not uniform newer stucco subdivision. Mature shade pockets and varied low-water planting, lawns on some irrigated lots plus tan gravel/planted yards on others. No uniform cactus forest and no all gravel or all perfect lawn. Modest front setbacks, driveway gaps, concrete sidewalks, broadly level terrain. Green warm-season trees, blue clear shared sky not orange dust/smog. Avoid assigning Cool Corridor species to actual Coronado trees. No tall building backdrop forced into residential camera.",
+      "status": "Proposed local block mix; no surveyed layouts, skyline sightlines or camera matrices verified",
+      "imageSHA256": "8b561e32265c89d6151251d5bed0cb3c4ebe92fd7bda5f97d6ce8065fd7c04a4"
+    },
+    {
+      "id": "queen-anne-block",
+      "name": "Queen Anne / Kerry Park",
+      "imageFile": "queen-anne-block.png",
+      "sourceCandidate": {
+        "metro": "Seattle",
+        "area_type": "Residential",
+        "candidate_area": "Queen Anne south/crown, including Kerry Park",
+        "recommended_first": "Recommended first: distinctive slopes/houses plus supported skyline viewpoint",
+        "center_lat": "47.633",
+        "center_lon": "-122.36",
+        "bbox_west_south_east_north": "-122.37, 47.62626, -122.35, 47.63974",
+        "extent_km": "1.5 x 1.5 approximately; proposal",
+        "area_status": "Candidate center/bbox and view occlusion PROPOSED/UNVERIFIED, ~1.5km square computed geographic approximation; official sources support area character only",
+        "why": "City historic context documents historic houses, replacements and view-oriented slope design; Kerry Park provides documented downtown/Elliott Bay view. Distinct from flat Chicago/Denver test areas. https://www.seattle.gov/documents/Departments/Neighborhoods/HistoricPreservation/HistoricResourcesSurvey/ContextQueen%20Anne%20Historic_1963%20to%20present.pdf https://www.seattle.gov/parks/parks/kerry-park",
+        "landmarks_and_views": "Kerry Park official page documents Elliott Bay and Central City, occasional Mount Rainier backdrop; Space Needle is a proposed skyline target needing occlusion and trademark review. Visibility not guaranteed from every residential street. https://www.seattle.gov/parks/parks/kerry-park https://www.spaceneedle.com/trademark",
+        "osm_building_coverage": "Unverified: Seattle wiki documents2013 city-data import, no local completeness denominator. https://wiki.openstreetmap.org/wiki/Seattle",
+        "osm_height_tag_completeness": "Unverified; no box-level stats queried/downloaded. Count-only planned audit height/building:levels/roof:shape/roof:height/roof:angle separately.",
+        "osm_roof_tag_completeness": "Unverified; no box-level stats queried/downloaded. Count-only planned audit height/building:levels/roof:shape/roof:height/roof:angle separately.",
+        "overture_coverage": "Global offering; local footprint/height completeness unmeasured. https://docs.overturemaps.org/guides/buildings/",
+        "city_footprints_and_3d": "2023 city hand-drawn building outlines available, no verified complete city3D mesh/roof surface product. https://catalog.data.gov/dataset/building-outlines-2023",
+        "terrain_lidar": "DNR portal DEMs/point clouds; exact acquisition coverage/date/resolution in boxes unverified. https://www.dnr.wa.gov/lidar",
+        "building_look": "Reuse catalogue Craftsman/Tudor/cottage/ranch families as proposals, no metro prevalence. Add Queen Anne modern replacements and altered historic homes; slope/daylight-basement response based actual geometry. https://www.seattle.gov/documents/Departments/Neighborhoods/HistoricPreservation/HistoricResourcesSurvey/ContextQueen%20Anne%20Historic_1963%20to%20present.pdf",
+        "trees_ground_sidewalks": "Proposal: evergreen/deciduous mix from species inventory, lawns plus planted yards, concrete walks/curbs where mapped, slope-aware retaining/steps. No city-wide lawn/tree percentages asserted. https://catalog.data.gov/dataset/sdot-trees https://catalog.data.gov/dataset/seattle-streets https://catalog.data.gov/dataset/sdot-gis-datasets",
+        "sky_weather_seasons": "Moist marine air/cloudy winter; rainy Oct\u2013March; dry season July/August; variable snow. Summer dry lawn colour and leaf timing proposed until local validation. https://www.weather.gov/media/wrh/online_publications/TMs/TM-257.pdf",
+        "live_transit": "Direct King County GTFS-RT PB feeds + request-based Sound Transit OneBusAway. End 2026 regional consolidated static feed shutdown. https://kingcounty.gov/en/dept/metro/rider-tools/mobile-and-web-apps https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd/otd-downloads https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd/consolidated-schedule-decommissioning",
+        "nws_office": "Seattle WFO SEW https://www.weather.gov/sew/",
+        "top_risks": "Space Needle likeness/trademark review, public-art reproduction excluded; proprietary imagery not copied; Assessor GIS extract NotPublic; city per-item licence confirmation; slope-induced collisions. https://www.spaceneedle.com/trademark https://www.seattle.gov/documents/Departments/Arts/Downloads/Public%20Art%20Roadmap/Roadmap_Section3.pdf https://www5.kingcounty.gov/sdc?Layer=resbldg_extr",
+        "checked_date": "2026-10-07"
+      },
+      "blockMixProposal": "Queen Anne Seattle residential street near Kerry Park: visibly STEEP downhill street and sidewalk, terrain relief is crucial. Predominantly two-storey Craftsman/Tudor houses and smaller cottages, one restrained contemporary replacement farther along. Front wood siding in muted blue-gray, cream and sage; occasional brick accents, gabled roofs. Each house sits on sloping parcel: downhill facade reveals DAYLIGHT BASEMENT windows/door, uphill side remains nearer grade, stepped foundations, short retaining walls, terraced yards and switchback/straight stepped paths. Do not float houses on hills or expose full basement equally all sides. Sidewalk continuous slope, periodic steps on private entries not stair-blocked public walk. Lawns and planted yards, evergreen conifers mixed with broadleaf deciduous green canopy; not all pine. Same CLEAR approved mid-afternoon light, no Seattle-specific gloomy lighting. Subtle distant central-city skyline only if natural open corridor allows. Omit isolated Space Needle hero silhouette and public art. No Mount Rainier mandatory backdrop. Focus on slopes/daylight basements at phone distance.",
+      "generationPrompt": "Create a WorldEngine Style B block-mix architectural PAINT-OVER, landscape 1672x941 intent. Reference 1 is the existing ENGINE CAMERA COMPOSITION: borrow eye-level street-side three-quarter perspective, sidewalk receding through middle and street on right. Reference 2 is APPROVED STYLE AND LIGHTING: match its simple stylized game geometry, matte clean faceted materials and shared clear mid-afternoon light. Do not copy Denver buildings or autumn palette. Keep one consistent camera lens, exposure, sun/shadows and sky across this metro series. Approved numerical target: sun elevation40 degrees azimuth225 degrees, warm sun #FFE8C6, cool fill #AEBCCA, sky zenith#73A5CC horizon#DBDCD1, exposure+.35EV contrast1.06 saturation1.08. Neutral-gray asphalt#626A70 concrete#C5C0B3 lawn#73865B where irrigated. No photography, no hyper-real masonry/grasses, no text labels, signs, logos, street numbers, addresses, sculptures or public-art replicas. This is a plausible neighbourhood design proposal, not a geographic reconstruction. Realistic locally coherent mix of 6\u201310 buildings visible; no forced collection of every city archetype. Preserve unbranded small dog from camera if it fits. Queen Anne Seattle residential street near Kerry Park: visibly STEEP downhill street and sidewalk, terrain relief is crucial. Predominantly two-storey Craftsman/Tudor houses and smaller cottages, one restrained contemporary replacement farther along. Front wood siding in muted blue-gray, cream and sage; occasional brick accents, gabled roofs. Each house sits on sloping parcel: downhill facade reveals DAYLIGHT BASEMENT windows/door, uphill side remains nearer grade, stepped foundations, short retaining walls, terraced yards and switchback/straight stepped paths. Do not float houses on hills or expose full basement equally all sides. Sidewalk continuous slope, periodic steps on private entries not stair-blocked public walk. Lawns and planted yards, evergreen conifers mixed with broadleaf deciduous green canopy; not all pine. Same CLEAR approved mid-afternoon light, no Seattle-specific gloomy lighting. Subtle distant central-city skyline only if natural open corridor allows. Omit isolated Space Needle hero silhouette and public art. No Mount Rainier mandatory backdrop. Focus on slopes/daylight basements at phone distance.",
+      "status": "Proposed local block mix; no surveyed layouts, skyline sightlines or camera matrices verified",
+      "imageSHA256": "6e991f7d4e0a04ba27a88a1e364e19e8bb4e09a37caad3944c144955914b4ee7"
+    }
+  ],
+  "verification": {
+    "artworkReviewed": true,
+    "scenes": 4,
+    "approvedLightingValueEqualityChecked": true,
+    "cameraPoseSolved": false,
+    "photometricPixelEqualityVerified": false
+  }
+}

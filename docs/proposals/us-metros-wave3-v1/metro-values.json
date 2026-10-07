@@ -1,0 +1,3142 @@
+{
+  "schema": "worldengine.us-metros-wave3.v1",
+  "date": "2026-10-07",
+  "status": "authored visual proposals; no engine integration or device benchmark",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "surfacePolicy": {
+    "wallRoughness01": 0.86,
+    "trimRoughness01": 0.8,
+    "roofRoughness01": 0.9,
+    "glassRoughness01": 0.5,
+    "glassMetalness01": 0,
+    "glassTransmission01": 0,
+    "asphaltRoughness01": 0.92,
+    "sidewalkRoughness01": 0.9,
+    "foliageRoughness01": 0.9,
+    "waterRoughness01": 0.28,
+    "waterReflectionStrength01": 0.3,
+    "noPhotoTextures": true,
+    "selectiveBevelM": [
+      0.008,
+      0.025
+    ],
+    "additionalGlobalPasses": 0
+  },
+  "views": {
+    "street": {
+      "cameraHeightM": 1.65,
+      "targetDistanceM": 20
+    },
+    "aerial": {
+      "pitchDownDeg": 55,
+      "heightM": 65
+    },
+    "far": {
+      "distanceM": 100
+    },
+    "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+  },
+  "metros": [
+    {
+      "id": "minneapolis-st-paul",
+      "name": "Minneapolis\u2013St Paul",
+      "houses": [
+        {
+          "name": "Foursquare",
+          "form": "square two-storey clapboard house, hip roof, central dormer, full porch",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 25,
+          "wallHex": "#B2B6A5",
+          "id": "minneapolis-st-paul-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.33,
+          "totalHeightM": 8.73,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Craftsman bungalow",
+          "form": "low side-gable with broad porch and tapered piers",
+          "widthM": 10,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#A9ADA0",
+          "id": "minneapolis-st-paul-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 3.46,
+          "totalHeightM": 7.11,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 13,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Queen Anne",
+          "form": "two-storey asymmetrical wood house, cross-gable, modest corner bay",
+          "widthM": 10,
+          "depthM": 13,
+          "floors": 2,
+          "pitchDeg": 38,
+          "wallHex": "#A9B7B1",
+          "id": "minneapolis-st-paul-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 3.91,
+          "totalHeightM": 10.31,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Tudor revival",
+          "form": "brick house with steep front gable, restrained stucco inset",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 45,
+          "wallHex": "#975C4C",
+          "id": "minneapolis-st-paul-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 5.0,
+          "totalHeightM": 11.4,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        }
+      ],
+      "districts": [
+        {
+          "id": "minneapolis-st-paul-district-01",
+          "name": "Minneapolis boulevard foursquares",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "minneapolis-st-paul-district-02",
+          "name": "St Paul Victorian porch street",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Craftsman bungalow",
+            "roof_form": "gable/hip proposed",
+            "materials": "stucco/wood/brick proposed",
+            "facade_hex_proposal": "#C7B997;#AFB2A2",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://www.minneapolismn.gov/resident-services/property-housing/preservation/landmarks-districts/landmarks/wakefield-house/",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Queen Anne / late Victorian",
+            "roof_form": "cross gable/turret proposed",
+            "materials": "painted wood proposed",
+            "facade_hex_proposal": "#B5A27C;#94A49B",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://www.minneapolismn.gov/resident-services/property-housing/preservation/landmarks-districts/historic-districts/healy-block/",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Tudor / Period Revival house",
+            "roof_form": "steep cross gable proposed",
+            "materials": "stucco/brick proposed",
+            "facade_hex_proposal": "#B6A484;#95664E",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://www.minneapolismn.gov/media/-www-content-assets/documents/Fifth-Street-Southeast-Historic-District-Resurvey-Project-Presentation-6-13-24.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Postwar ranch",
+            "roof_form": "low gable/hip proposed",
+            "materials": "siding/brick proposed",
+            "facade_hex_proposal": "#B8B5A3;#C7B79B",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://www.minneapolismn.gov/media/-www-content-assets/documents/Minneapolis-in-the-Modern-Era-1930-1975-Historic-Context-Study.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "Minneapolis\u2013St Paul",
+            "tree_spacing_m_proposal": "10\u201315;state recommended large-tree minimum30ft/9.14m not observed",
+            "tree_density_observed": "Unverified;actual inventoried points/canopy override",
+            "parkway_width_m_proposal": "1.8\u20133",
+            "sidewalk": "St Paul programme specifies concrete curb/gutter/aprons/outwalks and sodded boulevards; not measured metro prevalence",
+            "curb": "Concrete curb/gutter in St Paul programme; profiles outside coverage unverified",
+            "wires": "Unverified distribution;only mapped utility runs",
+            "alleys": "Mapped rear access only; no metro-wide alley share",
+            "fences_walls": "Proposed low metal front fence0.8\u20131.2m conditional;rear wood/chainlink unverified prevalence",
+            "driveways": "Proposed alley block rear apron versus suburban front/side drive2.5\u20133.2m;actual geometry controls",
+            "lawn_xeriscape_gravel": "Proposed temperate grass/tree strips,not measured landcover",
+            "dry_lawn_hex_proposal": "#A6A66D;weather/phenology controlled rather than fixed dry season",
+            "soil_rock_hex_proposal": "#817357;proposed;only expose where landcover evidence",
+            "terrain": "Use actualDEM/lakes/river geometry;metro slope distribution unverified;do not flatten bluffs",
+            "downtown_materials": "Proposed glass/stone/brick palette; dominant material proportions and IDS blue-glass feature unverified in primary-only pass",
+            "downtown_hex_proposal": "#6E8A9B; #C4BDA9; #816A57",
+            "skyline": "Proposed: separate actual Minneapolis and St Paul downtown clusters; skyways only mapped; IDS detail unverified",
+            "impact_rank": "Proposed: roof/water/terrain 1; broad postwar versus prewar mass 2; canopy/boulevard 3; siding/stucco 4; porch/garage 5",
+            "omit_details": "PROPOSED omit details below1pixel:brickjoints/shinglelaps/muntins/balusters;preserve silhouette/porch slabs",
+            "evidence_urls": "https://stormwater.pca.state.mn.us/construction_guidelines_for_tree_trenches_and_tree_boxes | https://www.stpaul.gov/departments/public-works/street-engineering-and-construction/saint-paul-streets",
+            "unresolved": "Metro tree/lot/setback distributions, wires/fences, ground colours unverified. IDS owner page republishes secondary article, so unsupported detail is not used as verified primary evidence.",
+            "region": "Midwest",
+            "msa_rank_2025": "16",
+            "cbsa_code": "33460",
+            "msa_population_2025": "3790295",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "Red maple",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://stormwater.pca.state.mn.us/case_studies_for_tree_trenches_and_tree_boxes"
+          },
+          {
+            "common_name": "Freeman maple",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://stormwater.pca.state.mn.us/case_studies_for_tree_trenches_and_tree_boxes"
+          },
+          {
+            "common_name": "Boxelder",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://stormwater.pca.state.mn.us/case_studies_for_tree_trenches_and_tree_boxes"
+          },
+          {
+            "common_name": "Honeylocust",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://stormwater.pca.state.mn.us/case_studies_for_tree_trenches_and_tree_boxes"
+          }
+        ],
+        "additionalSources": [
+          {
+            "metro": "minneapolis-st-paul",
+            "url": "https://www.minneapolisparks.org/park-care-improvements/trees/boulevard_trees/",
+            "claim": "MPRB documents boulevard-tree management. Does not establish St Paul mix.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Green boulevard strips, gentle glacial relief, rear alleys, mature broadleaf canopy; Minneapolis foursquares and St Paul Victorian streets are separate district cues.",
+        "planting": "maple, honeylocust and elm-shaped crowns; green turf, mulch pits",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#788E60",
+          "soilMulch": "#665945",
+          "dryGroundOrEdge": "#A5A080",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "detroit",
+      "name": "Detroit",
+      "houses": [
+        {
+          "name": "Brick bungalow",
+          "form": "one-and-half-storey brick side-gable, broad dormer and small porch",
+          "widthM": 9,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 38,
+          "wallHex": "#925848",
+          "id": "detroit-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 4.69,
+          "totalHeightM": 8.34,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0.5,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Colonial revival",
+          "form": "two-storey brick rectangular house, symmetrical facade, side-gable",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 32,
+          "wallHex": "#9B6251",
+          "id": "detroit-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 3.75,
+          "totalHeightM": 10.15,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Tudor brick",
+          "form": "steep cross-gable brick house, small arched entry",
+          "widthM": 9,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 46,
+          "wallHex": "#8D5447",
+          "id": "detroit-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 4.66,
+          "totalHeightM": 11.06,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 9,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Minimal traditional",
+          "form": "compact one-storey house, side-gable and small entry gable",
+          "widthM": 9,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#B3A48C",
+          "id": "detroit-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 2.92,
+          "totalHeightM": 6.27,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "parallel to facade"
+        }
+      ],
+      "districts": [
+        {
+          "id": "detroit-district-01",
+          "name": "Brick bungalow grid",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "detroit-district-02",
+          "name": "Brick revival avenue",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Side-gabled bungalow",
+            "roof_form": "side gable with dormer",
+            "materials": "brick/frame/stucco",
+            "facade_hex_proposal": "#8C5544;#B6AD91",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2025-04/HDC%20Color%20Package.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Brick Colonial Revival",
+            "roof_form": "side gable",
+            "materials": "brick/wood trim",
+            "facade_hex_proposal": "#8B5243;#A07358",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-08/Rosedale%20Park%20HD%20Final%20Report.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Tudor-influenced brick house",
+            "roof_form": "steep front/cross gable",
+            "materials": "brick/stone/stucco",
+            "facade_hex_proposal": "#925E48;#B1A185",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/events/2023-01/Draft%20Ordinance%20-%20Krainz%20Woods%20and%20Sojourner%20Truth%20Homes.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          },
+          {
+            "house_type": "Minimal Traditional",
+            "roof_form": "side/front gable",
+            "materials": "brick/siding/simulated stone proposed",
+            "facade_hex_proposal": "#A06A50;#C0BAA8",
+            "roof_hex_proposal": "#56524B",
+            "evidence_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/events/2023-01/Draft%20Ordinance%20-%20Krainz%20Woods%20and%20Sojourner%20Truth%20Homes.pdf",
+            "evidence_status": "Type presence sourced; weights, pitch, setback, most lot widths and hex colours are proposed generator defaults"
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "Detroit",
+            "tree_spacing_m_proposal": "9\u201315;official draft30ft/9.14m design spacing,not observed",
+            "tree_density_observed": "Unverified;actual inventoried points/canopy override",
+            "parkway_width_m_proposal": "1.5\u20133",
+            "sidewalk": "City ROW standards document concrete sidewalk/driveway-approach standards; observed material proportions unverified",
+            "curb": "Proposed concrete curb; actual profile from mapped evidence",
+            "wires": "Unverified distribution;only mapped utility runs",
+            "alleys": "Mapped alleys only; Rosedale district side drives documented, not metro frequency",
+            "fences_walls": "Proposed low metal front fence0.8\u20131.2m conditional;rear wood/chainlink unverified prevalence",
+            "driveways": "Proposed alley block rear apron versus suburban front/side drive2.5\u20133.2m;actual geometry controls",
+            "lawn_xeriscape_gravel": "Proposed temperate grass/tree strips,not measured landcover",
+            "dry_lawn_hex_proposal": "#A3A36D;weather/phenology controlled rather than fixed dry season",
+            "soil_rock_hex_proposal": "#806F58;proposed;only expose where landcover evidence",
+            "terrain": "Use actualDEM/lakes/river geometry;metro slope distribution unverified;do not flatten bluffs",
+            "downtown_materials": "Primary architectural research describes Renaissance Center steel/concrete/glass/stainless steel; skyline-wide shares unverified",
+            "downtown_hex_proposal": "#64777D; #B7ADA0; #596269",
+            "skyline": "Central cylinder/four octagonal office masses documented for Renaissance Center; current redevelopment geometry verify; actual buildings override",
+            "impact_rank": "Proposed: roof/massing 1; bungalow/Tudor/brick contrast 2; garage access 3; tree/porch rhythm 4",
+            "omit_details": "PROPOSED omit details below1pixel:brickjoints/shinglelaps/muntins/balusters;preserve silhouette/porch slabs",
+            "evidence_urls": "https://detroitmi.gov/departments/department-public-works/right-way-permits-and-standards | https://detroitmi.gov/sites/detroitmi.localhost/files/2023-04/VBB_DRAFT_April2023.pdf | https://sah-archipedia.org/buildings/MI-01-WN7 | https://detroitmi.gov/departments/planning-and-development-department/community-benefits-ordinance/current-cbo-engagements/renaissance-center-and-east-riverfront-projects",
+            "unresolved": "Metro tree/lot/setback distributions, wires/fences, ground colours unverified. Draft tree-design spacing is not observed street-tree density. Skyline redevelopment requires current geometry.",
+            "region": "Midwest",
+            "msa_rank_2025": "14",
+            "cbsa_code": "19820",
+            "msa_population_2025": "4390913",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "Red maple",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-05/gi_progress2011.pdf"
+          },
+          {
+            "common_name": "Swamp white oak",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-05/gi_progress2011.pdf"
+          },
+          {
+            "common_name": "London planetree",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-05/gi_progress2011.pdf"
+          },
+          {
+            "common_name": "American elm",
+            "evidence_status": "candidate_local_planting_report",
+            "source_urls": "https://detroitmi.gov/sites/detroitmi.localhost/files/2018-05/gi_progress2011.pdf"
+          }
+        ],
+        "additionalSources": [],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Level grid, narrow side drives, brick houses and side-gabled roofs, grass parkways and rear garages. Show an intact residential block; do not use vacancy as a citywide stereotype.",
+        "planting": "maple, swamp-white-oak and elm-shaped crowns; green lawns",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#7F925E",
+          "soilMulch": "#665746",
+          "dryGroundOrEdge": "#A69E77",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "st-louis",
+      "name": "St. Louis",
+      "houses": [
+        {
+          "name": "Two-family brick flat",
+          "form": "two-storey red brick flat, paired entries, shallow parapet roof",
+          "widthM": 7,
+          "depthM": 16,
+          "floors": 2,
+          "pitchDeg": 2,
+          "wallHex": "#A65B46",
+          "id": "st-louis-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 0.25,
+          "totalHeightM": 6.65,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 8.4,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 7,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Brick shotgun cottage",
+          "form": "narrow one-storey brick cottage, tall front windows, side gable hidden by parapet",
+          "widthM": 6,
+          "depthM": 15,
+          "floors": 1,
+          "pitchDeg": 22,
+          "wallHex": "#9B5844",
+          "id": "st-louis-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 1.21,
+          "totalHeightM": 4.86,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 7.4,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 6,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Italianate rowhouse",
+          "form": "two-storey brick rowhouse, tall windows, broad restrained cornice and stoop",
+          "widthM": 7,
+          "depthM": 15,
+          "floors": 2,
+          "pitchDeg": 2,
+          "wallHex": "#A06049",
+          "id": "st-louis-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 0.25,
+          "totalHeightM": 6.65,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 7.6,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 7,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Brick bungalow",
+          "form": "one-storey brick bungalow, broad hip with dormer and small porch",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 30,
+          "wallHex": "#9D624C",
+          "id": "st-louis-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.89,
+          "totalHeightM": 6.54,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 11.4,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "st-louis-district-01",
+          "name": "South-city brick flats",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "st-louis-district-02",
+          "name": "Park-edge brick bungalows",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [],
+        "additionalSources": [
+          {
+            "metro": "st-louis",
+            "url": "https://www.stlouis-mo.gov/government/departments/planning/cultural-resources/Cherokee-Lemp-Historic-District.cfm",
+            "claim": "District description supports fine brickwork and supporting residential/commercial fabric, not all metro forms or shares.",
+            "status": "verified official search excerpt 2026-10-07"
+          },
+          {
+            "metro": "st-louis",
+            "url": "https://nara-media.s3.amazonaws.com/electronic-records/rg-079/NPS_MO/88000437.pdf",
+            "claim": "Historic nomination excerpt describes brick two-family flats with stone trim; district-specific evidence.",
+            "status": "verified indexed federal nomination excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Tight red-brick rows, raised stoops, narrow gangways, rear alleys, stone sills and parapet roofs; gently rolling terrain.",
+        "planting": "oak, elm and honeylocust forms as authored candidates; lawn strips and small planted fronts",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#829260",
+          "soilMulch": "#6B5946",
+          "dryGroundOrEdge": "#AD9C79",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "kansas-city",
+      "name": "Kansas City",
+      "houses": [
+        {
+          "name": "Shirtwaist",
+          "form": "two-storey foursquare, limestone first floor and wood upper floor, hip and dormer",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 30,
+          "wallHex": "#AEB2A1",
+          "id": "kansas-city-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.89,
+          "totalHeightM": 9.29,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Craftsman bungalow",
+          "form": "low broad bungalow, limestone porch piers, side-gable and dormer",
+          "widthM": 11,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#A4AF9C",
+          "id": "kansas-city-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 3.46,
+          "totalHeightM": 7.11,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 13,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Tudor revival",
+          "form": "brick and pale stone house, steep front gable and chimney",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 44,
+          "wallHex": "#9B6451",
+          "id": "kansas-city-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 4.83,
+          "totalHeightM": 11.23,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Prairie-influenced foursquare",
+          "form": "two-storey broad hip, deep eaves, brick and horizontal window rhythm",
+          "widthM": 11,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 20,
+          "wallHex": "#A27155",
+          "id": "kansas-city-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.0,
+          "totalHeightM": 8.4,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "kansas-city-district-01",
+          "name": "Hillside shirtwaist street",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "kansas-city-district-02",
+          "name": "Leafy boulevard bungalows",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [],
+        "additionalSources": [
+          {
+            "metro": "kansas-city",
+            "url": "https://www.libertymissouri.gov/DocumentCenter/View/29946/Historic-Preservation-Plan-2021",
+            "claim": "Official metro-area preservation plan describes shirtwaist masonry first floors and clapboard/shingle upper floors; district scope, not citywide distribution.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Rolling streets, raised stone retaining edges, limestone bases below wood siding, deep porches, grassy parkways and boulevard medians.",
+        "planting": "oak and elm forms as authored candidates; green turf and limestone terrace walls",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#7F8C5B",
+          "soilMulch": "#796B51",
+          "dryGroundOrEdge": "#B6B09C",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "new-orleans",
+      "name": "New Orleans",
+      "houses": [
+        {
+          "name": "Single shotgun",
+          "form": "one room wide long wood house, front-gable, raised shallow porch",
+          "widthM": 4.8,
+          "depthM": 20,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#B6C8B8",
+          "id": "new-orleans-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 1.28,
+          "totalHeightM": 4.93,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 6.8,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 4.8,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Double shotgun",
+          "form": "two parallel narrow units, paired doors, raised full-width porch",
+          "widthM": 8,
+          "depthM": 20,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#C8B4A1",
+          "id": "new-orleans-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.13,
+          "totalHeightM": 5.78,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 10,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 8,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Creole cottage",
+          "form": "one-and-half-storey cottage, steep side-gable, four front bays, minimal setback, no invented full porch",
+          "widthM": 9,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 42,
+          "wallHex": "#D6C7AA",
+          "id": "new-orleans-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 4.95,
+          "totalHeightM": 8.3,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 11,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0.5,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Center-hall cottage",
+          "form": "broad raised one-storey cottage, central door, symmetrical windows, deep full gallery",
+          "widthM": 13,
+          "depthM": 15,
+          "floors": 1,
+          "pitchDeg": 32,
+          "wallHex": "#D8D6C5",
+          "id": "new-orleans-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 4.06,
+          "totalHeightM": 7.71,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 1.2,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 13,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        }
+      ],
+      "districts": [
+        {
+          "id": "new-orleans-district-01",
+          "name": "Close-set cottage block",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "new-orleans-district-02",
+          "name": "Live-oak gallery avenue",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [],
+        "additionalSources": [
+          {
+            "metro": "new-orleans",
+            "url": "https://nola.gov/next/hdlc/topics/design-guidelines/",
+            "claim": "Official design-guideline index names shotgun, Creole cottage and center-hall cottage building types.",
+            "status": "verified official search excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Flat close-set blocks; raised porches, narrow lots, sidewalk-adjacent cottages, drainage edges and lush shade. Galleries simplify as real thin structures.",
+        "planting": "live-oak spreading crowns and palms as authored planting candidates; small planted yards, neutral concrete",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#73935F",
+          "soilMulch": "#75674E",
+          "dryGroundOrEdge": "#B5B3A6",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "las-vegas",
+      "name": "Las Vegas",
+      "houses": [
+        {
+          "name": "Stucco tract",
+          "form": "two-storey pale stucco, low tile hip, recessed windows and attached garage",
+          "widthM": 12,
+          "depthM": 14,
+          "floors": 2,
+          "pitchDeg": 20,
+          "wallHex": "#D7C5A8",
+          "id": "las-vegas-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.18,
+          "totalHeightM": 8.58,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#A86E50",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 16,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Contemporary ranch",
+          "form": "one-storey horizontal ranch, shallow gable, carport, simple masonry",
+          "widthM": 15,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 14,
+          "wallHex": "#D4CCB9",
+          "id": "las-vegas-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.87,
+          "totalHeightM": 5.22,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 19,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 15,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Courtyard house",
+          "form": "one-storey stucco courtyard house, low tile roof and privacy wall",
+          "widthM": 14,
+          "depthM": 14,
+          "floors": 1,
+          "pitchDeg": 18,
+          "wallHex": "#CDB895",
+          "id": "las-vegas-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 2.27,
+          "totalHeightM": 5.62,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#A86E50",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 18,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 14,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Desert modern infill",
+          "form": "two-storey flat-roof simple volumes, deep shade recesses",
+          "widthM": 11,
+          "depthM": 14,
+          "floors": 2,
+          "pitchDeg": 2,
+          "wallHex": "#C7C1B1",
+          "id": "las-vegas-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 0.25,
+          "totalHeightM": 6.65,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        }
+      ],
+      "districts": [
+        {
+          "id": "las-vegas-district-01",
+          "name": "Xeric tract neighborhood",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "las-vegas-district-02",
+          "name": "Midcentury ranch grid",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [
+          {
+            "common_name": "Mexican fan palm",
+            "evidence_status": "candidate; rank unknown",
+            "source_urls": "https://naes.agnt.unr.edu/PMS/Pubs/2010-3409.pdf"
+          },
+          {
+            "common_name": "California fan palm",
+            "evidence_status": "candidate; rank unknown",
+            "source_urls": "https://naes.agnt.unr.edu/PMS/Pubs/2010-3409.pdf"
+          },
+          {
+            "common_name": "Date palm",
+            "evidence_status": "candidate; rank unknown",
+            "source_urls": "https://naes.agnt.unr.edu/PMS/Pubs/2010-3409.pdf"
+          },
+          {
+            "common_name": "Canary Island date palm",
+            "evidence_status": "candidate; rank unknown",
+            "source_urls": "https://naes.agnt.unr.edu/PMS/Pubs/2010-3409.pdf"
+          }
+        ],
+        "additionalSources": [
+          {
+            "metro": "las-vegas",
+            "url": "https://files.lasvegasnevada.gov/planning/Historic-Preservation/Las_Vegas_Historic_Design-Guidelines.pdf",
+            "claim": "Official guide includes contemporary ranch form; tract/courtyard/modern variants are authored proposals.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Level valley grid backed by dry mountain silhouettes; pale stucco, tile roofs, block side walls, xeric yards and shade-limited canopy. No casino signs.",
+        "planting": "sparse desert shade trees and fan palms; buff gravel, soil, drought shrubs, limited irrigated turf",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#879270",
+          "soilMulch": "#B5A081",
+          "dryGroundOrEdge": "#C8B89A",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "san-diego",
+      "name": "San Diego",
+      "houses": [
+        {
+          "name": "Spanish revival",
+          "form": "one-and-half-storey white stucco, red tile gable, small arched porch and courtyard",
+          "widthM": 11,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 23,
+          "wallHex": "#E0D7C4",
+          "id": "san-diego-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 2.33,
+          "totalHeightM": 5.68,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#A86E50",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0.5,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Craftsman bungalow",
+          "form": "wood bungalow with broad low gable, porch and exposed broad beams",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 25,
+          "wallHex": "#AEB4A0",
+          "id": "san-diego-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.33,
+          "totalHeightM": 5.98,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Minimal traditional cottage",
+          "form": "small stucco side-gable with compact stoop",
+          "widthM": 9,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 25,
+          "wallHex": "#D6CCB7",
+          "id": "san-diego-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 2.56,
+          "totalHeightM": 5.91,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Tract ranch",
+          "form": "long one-storey stucco shallow hip, attached garage",
+          "widthM": 15,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 17,
+          "wallHex": "#D2C6AE",
+          "id": "san-diego-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.68,
+          "totalHeightM": 5.03,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 19,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "san-diego-district-01",
+          "name": "Mesa Spanish revival street",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "san-diego-district-02",
+          "name": "Canyon-edge bungalow block",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Craftsman bungalow",
+            "roof_form": "low hip/front gable; deep eaves",
+            "materials": "clapboard/shingles; stone/brick options",
+            "facade_hex_proposal": "#AAA68C",
+            "roof_hex_proposal": "#625F51",
+            "evidence_urls": "https://www.sandiego.gov/sites/default/files/old_san_diego_survey_report_20180403_final_adopted.pdf; https://www.sandiego.gov/sites/default/files/appendix_h_-_historic_context_statement.pdf",
+            "evidence_status": "Official local guide; metro applicability and all numeric dimensions, hex palettes and weights are proposals, NOT prevalence"
+          },
+          {
+            "house_type": "Spanish Colonial / later revival",
+            "roof_form": "low tile gable/hip; parapet",
+            "materials": "proposal: stucco; clay tile",
+            "facade_hex_proposal": "#E3D7BD",
+            "roof_hex_proposal": "#A56446",
+            "evidence_urls": "https://www.sandiego.gov/sites/default/files/old_san_diego_survey_report_20180403_final_adopted.pdf",
+            "evidence_status": "Official local guide; metro applicability and all numeric dimensions, hex palettes and weights are proposals, NOT prevalence"
+          },
+          {
+            "house_type": "Minimal Traditional cottage",
+            "roof_form": "simple low gable/hip",
+            "materials": "proposal: stucco/wood trim",
+            "facade_hex_proposal": "#D4CBB8",
+            "roof_hex_proposal": "#7B7569",
+            "evidence_urls": "https://www.sandiego.gov/sites/default/files/old_san_diego_survey_report_20180403_final_adopted.pdf",
+            "evidence_status": "Official local guide; metro applicability and all numeric dimensions, hex palettes and weights are proposals, NOT prevalence"
+          },
+          {
+            "house_type": "Tract Ranch",
+            "roof_form": "broad low gable/hip proposal",
+            "materials": "proposal: stucco/wood; masonry accent",
+            "facade_hex_proposal": "#CCBFA7",
+            "roof_hex_proposal": "#806E5A",
+            "evidence_urls": "https://www.sandiego.gov/sites/default/files/appendix_f1_-_historic_context_statement.pdf",
+            "evidence_status": "Official local guide; metro applicability and all numeric dimensions, hex palettes and weights are proposals, NOT prevalence"
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "San Diego",
+            "tree_spacing_m_proposal": "11",
+            "tree_density_observed": "unclear: no comparable metro-wide trees-per-street-length denominator",
+            "parkway_width_m_proposal": "1.5",
+            "sidewalk": "proposal: concrete slabs; instantiate interruptions/curbless exceptions from geometry",
+            "curb": "proposal: concrete curb/gutter where mapped",
+            "wires": "proposal: only where mapped overhead utility evidence exists; otherwise omit",
+            "alleys": "proposal: mapped alleys only; never uniform by metro",
+            "fences_walls": "proposal: modest wood/stucco/block/hedge variants; retaining walls by slope, not social labels",
+            "driveways": "proposal: side access for early forms; garage apron for tract forms; mapped access takes precedence",
+            "lawn_xeriscape_gravel": "proposal: varied lawn/drought planting/mulch/gravel by land-cover evidence; avoid uniform regional stereotypes",
+            "dry_lawn_hex_proposal": "#BCAA6B",
+            "soil_rock_hex_proposal": "#B69E7D",
+            "terrain": "proposal: retain actual elevations, slopes, grade-following houses and steps; never flatten city",
+            "downtown_materials": "proposal: historic brick/stucco; glass/concrete towers",
+            "downtown_hex_proposal": "#B9B7AF",
+            "skyline": "proposal: actual footprints/heights; avoid fabricated landmark replicas",
+            "impact_rank": "5",
+            "omit_details": "logos, actual addresses, people/ownership/household fields, unmapped wires, specific private decoration",
+            "evidence_urls": "https://www.sandiego.gov/sites/default/files/old_san_diego_survey_report_20180403_final_adopted.pdf; https://www.sandiego.gov/sites/default/files/appendix_f1_-_historic_context_statement.pdf; https://www.sandiego.gov/planning/work/working-on/street-design-manual-update",
+            "unresolved": "No metro prevalence or measured street distribution established. City/district sources are not metro surveys. Numeric spacing/width/colors/rank proposals. Contemporary tract mix, county coverage and GIS licences unclear; San Diego December 2024 manual identified as public draft.",
+            "region": "Pacific",
+            "msa_rank_2025": "18",
+            "cbsa_code": "41740",
+            "msa_population_2025": "3282248",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "Carrotwood",
+            "evidence_status": "candidate; search evidence only; direct source inaccessible",
+            "source_urls": "https://www.sandiego.gov/sites/default/files/2024-01/cw-2241135.pdf"
+          },
+          {
+            "common_name": "Arizona ash",
+            "evidence_status": "candidate; search evidence only; direct source inaccessible",
+            "source_urls": "https://www.sandiego.gov/sites/default/files/2024-01/cw-2241135.pdf"
+          },
+          {
+            "common_name": "Canary Island pine",
+            "evidence_status": "candidate; search evidence only; direct source inaccessible",
+            "source_urls": "https://www.sandiego.gov/sites/default/files/2024-01/cw-2241135.pdf"
+          },
+          {
+            "common_name": "Silk oak",
+            "evidence_status": "candidate; search evidence only; direct source inaccessible",
+            "source_urls": "https://www.sandiego.gov/sites/default/files/2024-01/cw-2241135.pdf"
+          }
+        ],
+        "additionalSources": [],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Coastal mesas and canyon slopes; low stucco/tile houses, retained yards and mixed irrigated/dry planting. Palms punctuate rather than replace canopy.",
+        "planting": "Canary Island pine, carrotwood forms and occasional palms; sage planting, tan-green turf",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#85917C",
+          "soilMulch": "#9D8B69",
+          "dryGroundOrEdge": "#B9AD8A",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "portland",
+      "name": "Portland",
+      "houses": [
+        {
+          "name": "Craftsman bungalow",
+          "form": "low wood bungalow, broad front-gable porch, stout real piers",
+          "widthM": 10,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 28,
+          "wallHex": "#8F9F91",
+          "id": "portland-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.66,
+          "totalHeightM": 6.31,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Foursquare",
+          "form": "two-storey wood hip-roof house, central dormer, full porch",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 28,
+          "wallHex": "#ADB3A2",
+          "id": "portland-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.66,
+          "totalHeightM": 9.06,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Victorian cottage",
+          "form": "one-and-half-storey wood cross-gable, projecting bay and small porch",
+          "widthM": 8,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 40,
+          "wallHex": "#B7B1A4",
+          "id": "portland-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 3.36,
+          "totalHeightM": 6.71,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 12,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0.5,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 8,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Modern narrow infill",
+          "form": "three-storey narrow wood-clad simple volume, flat roof, restrained recessed entry",
+          "widthM": 6,
+          "depthM": 14,
+          "floors": 3,
+          "pitchDeg": 2,
+          "wallHex": "#ABA99A",
+          "id": "portland-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 9.45,
+          "roofRiseM": 0.25,
+          "totalHeightM": 9.7,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 10,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 6,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        }
+      ],
+      "districts": [
+        {
+          "id": "portland-district-01",
+          "name": "Leafy Craftsman slope",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "portland-district-02",
+          "name": "Compact infill mixed block",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [],
+        "additionalSources": [
+          {
+            "metro": "portland",
+            "url": "https://efiles.portlandoregon.gov/Record/17055070/File/Document",
+            "claim": "Official historic-resource report includes Craftsman and Foursquare type categories; not a prevalence census.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          },
+          {
+            "metro": "portland",
+            "url": "https://www.portland.gov/ppd/tree-permits/native-and-nuisance-trees/native-tree-list",
+            "claim": "Official native list includes Douglas-fir and bigleaf maple. Suitability/context only, not street or yard abundance.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Rolling leafy streets, deep planted setbacks, wooden porches, mature broadleaf canopy mixed with tall conifers. Green verge and garden beds, not blanket gravel.",
+        "planting": "maple and Douglas-fir forms as authored candidates; lush turf, mulch and fern beds",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#68855D",
+          "soilMulch": "#605343",
+          "dryGroundOrEdge": "#9CA28B",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "salt-lake-city",
+      "name": "Salt Lake City",
+      "houses": [
+        {
+          "name": "Brick bungalow",
+          "form": "one-storey brick bungalow, broad low gable and solid porch piers",
+          "widthM": 11,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 27,
+          "wallHex": "#A46B52",
+          "id": "salt-lake-city-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.8,
+          "totalHeightM": 6.45,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Victorian cottage",
+          "form": "one-and-half-storey brick cottage, steep cross-gable and small raised porch",
+          "widthM": 8,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 40,
+          "wallHex": "#B17C5C",
+          "id": "salt-lake-city-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 3.36,
+          "totalHeightM": 6.71,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 12,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0.5,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 8,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Tudor revival",
+          "form": "brick cottage with steep front-gable and modest chimney",
+          "widthM": 9,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 43,
+          "wallHex": "#96614E",
+          "id": "salt-lake-city-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 4.2,
+          "totalHeightM": 7.55,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 9,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Postwar ranch",
+          "form": "one-storey long brick ranch, low hip, garage and wide frontage",
+          "widthM": 16,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 16,
+          "wallHex": "#AE8067",
+          "id": "salt-lake-city-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.58,
+          "totalHeightM": 4.93,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 20,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "salt-lake-city-district-01",
+          "name": "Mountain-view bungalow grid",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "salt-lake-city-district-02",
+          "name": "Raised historic cottage street",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [],
+        "streetContext": [],
+        "treeCandidates": [],
+        "additionalSources": [
+          {
+            "metro": "salt-lake-city",
+            "url": "https://www.slcdocs.com/planning/preservationhandbook.pdf",
+            "claim": "Official handbook identifies bungalows as prevalent in many city historic districts; not a metro-wide share.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          },
+          {
+            "metro": "salt-lake-city",
+            "url": "https://www.slc.gov/parks/urban-forestry/",
+            "claim": "City page confirms a public street-tree/parkstrip management setting; no species proportions inferred.",
+            "status": "verified official indexed excerpt 2026-10-07"
+          }
+        ],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Wide valley grid with broad parkways, brick porches, irrigation-shaped lawns and Wasatch backdrop only in geographically plausible eastward views.",
+        "planting": "maple, elm and conifer forms as authored candidates; lawn, mulch and some waterwise beds",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#859063",
+          "soilMulch": "#8A7D5F",
+          "dryGroundOrEdge": "#B8AC8D",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "charlotte",
+      "name": "Charlotte",
+      "houses": [
+        {
+          "name": "Streetcar bungalow",
+          "form": "wood bungalow with deep porch and tapered piers",
+          "widthM": 10,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 27,
+          "wallHex": "#B1B5A0",
+          "id": "charlotte-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.55,
+          "totalHeightM": 6.2,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Small brick cottage",
+          "form": "compact brick cottage with steep entry gable",
+          "widthM": 9,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 34,
+          "wallHex": "#A06B53",
+          "id": "charlotte-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 3.04,
+          "totalHeightM": 6.39,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 9,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Brick ranch",
+          "form": "horizontal one-storey brick ranch, shallow hip, carport",
+          "widthM": 16,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 17,
+          "wallHex": "#A16A52",
+          "id": "charlotte-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.68,
+          "totalHeightM": 5.03,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 20,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Split-level",
+          "form": "brick lower volume and siding upper volume, offset floor levels, side-gable",
+          "widthM": 14,
+          "depthM": 12,
+          "floors": 2,
+          "pitchDeg": 22,
+          "wallHex": "#ADAB96",
+          "id": "charlotte-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 6.4,
+          "roofRiseM": 2.42,
+          "totalHeightM": 8.82,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 18,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        }
+      ],
+      "districts": [
+        {
+          "id": "charlotte-district-01",
+          "name": "Oak-shaded porch neighborhood",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "charlotte-district-02",
+          "name": "Rolling ranch neighborhood",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Streetcar-suburb bungalow",
+            "roof_form": "gable (source-informed proposal)",
+            "materials": "brick/siding proposed",
+            "facade_hex_proposal": "#986551/#C4C9B9/#D9CFBC",
+            "roof_hex_proposal": "#6B6C63",
+            "evidence_urls": "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Historic-District",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "American small house / cottage",
+            "roof_form": "side/front gable (source-informed proposal)",
+            "materials": "brick/siding proposed",
+            "facade_hex_proposal": "#A17459/#D5D3C4",
+            "roof_hex_proposal": "#6D6D65",
+            "evidence_urls": "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Historic-District",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Brick ranch",
+            "roof_form": "hip/side gable (source-informed proposal)",
+            "materials": "brick",
+            "facade_hex_proposal": "#9B6751/#AA8667",
+            "roof_hex_proposal": "#6F6E66",
+            "evidence_urls": "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Historic-District",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Split-level",
+            "roof_form": "offset side gables (source-informed proposal)",
+            "materials": "brick lower/siding upper proposed",
+            "facade_hex_proposal": "#94634E/#D5D1C2/#BEC2B0",
+            "roof_hex_proposal": "#6C6E64",
+            "evidence_urls": "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Historic-District",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "Charlotte",
+            "tree_spacing_m_proposal": "8\u201314; fallback large broadleaf canopy",
+            "tree_density_observed": "Tree-canopied Wesley Heights streets documented; historical city 47% benchmark not current. Official service has 2022 geography fields; no total queried. Street density unverified",
+            "parkway_width_m_proposal": "1\u20133",
+            "sidewalk": "light concrete proposed; actual material/absence wins; slab texture near only",
+            "curb": "concrete provisional; verify geometry/type locally",
+            "wires": "Mapped utility evidence only; citywide frequency unverified",
+            "alleys": "Only mapped alley graph; do not invent metro-wide rear access",
+            "fences_walls": "Miami: low rendered walls/hedges proposal; others wood/hedge/open front proposals; actual mapped evidence wins; proportions unverified",
+            "driveways": "Historic side/rear access versus ranch carport and later front/side garage proposals; actual road/access topology wins",
+            "lawn_xeriscape_gravel": "turf/planting beds and canopy proposed; gravel/xeriscape only where evidenced; no uniform city lawn-colour calendar",
+            "dry_lawn_hex_proposal": "#9B9865; weather/species/irrigation dependent, not fixed seasonal observation",
+            "soil_rock_hex_proposal": "#9A6648; art proposal, not mapped soil colour",
+            "terrain": "Actual DEM; regional Piedmont context only",
+            "downtown_materials": "glass/pale stone/dark glazing proposed; dominance unverified",
+            "downtown_hex_proposal": "#7E959D/#C4BBA9/#5B6871",
+            "skyline": "Actual concentrated tower heights; crown/material prevalence unverified",
+            "impact_rank": "Proposal: 1 real terrain/water/tower geometry and canopy; 2 low-rise archetype mass/roof; 3 broad material colour; 4 porch/carport/garage void; 5 driveway/wall pattern",
+            "omit_details": "Far LOD: omit brick joints, siding lines, rafters, fine ornament, jalousies and screen perforations; retain broad silhouette/shadow",
+            "evidence_urls": "https://www.charlottenc.gov/Growth-and-Development/Planning-and-Development/Historic-District | https://gis.mecknc.gov/data-center | https://pubs.usgs.gov/publication/70015958 | https://services.arcgis.com/9Nl857LBlQVyzq54/ArcGIS/rest/services/Charlotte_Mecklenburg_Tree_Canopy/FeatureServer/0 | https://www.charlottenc.gov/files/sharedassets/city/city-government/departments/documents/seap-executive-summary-full-doc-final.pdf",
+            "unresolved": "All spacing/widths/palettes are generator proposals. No empirical house shares. Wires/alleys/fences/material prevalence and downtown dominance unverified. Canopy benchmark scope/vintage differs by source. Commercial municipal/assessor redistribution rights unclear.",
+            "region": "Southeast/Florida",
+            "msa_rank_2025": "21",
+            "cbsa_code": "16740",
+            "msa_population_2025": "2938830",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "White oak",
+            "evidence_status": "candidate_local_list_not_ranked",
+            "source_urls": "https://www.charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/getting-started/documents/ctm-1.0-initial-version.pdf"
+          },
+          {
+            "common_name": "Northern red oak",
+            "evidence_status": "candidate_local_list_not_ranked",
+            "source_urls": "https://www.charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/getting-started/documents/ctm-1.0-initial-version.pdf"
+          },
+          {
+            "common_name": "Southern red oak",
+            "evidence_status": "candidate_local_list_not_ranked",
+            "source_urls": "https://www.charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/getting-started/documents/ctm-1.0-initial-version.pdf"
+          },
+          {
+            "common_name": "Willow oak",
+            "evidence_status": "candidate_local_list_not_ranked",
+            "source_urls": "https://www.charlottenc.gov/files/sharedassets/city/v/1/growth-and-development/getting-started/documents/ctm-1.0-initial-version.pdf"
+          }
+        ],
+        "additionalSources": [],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Rolling Piedmont, dense oak canopy, porch streets and deep green setbacks; newer blocks show brick ranches and driveways. No mountains.",
+        "planting": "white-oak and willow-oak-shaped crowns; green lawns, pine-straw beds",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#748953",
+          "soilMulch": "#826344",
+          "dryGroundOrEdge": "#9C7850",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "tampa",
+      "name": "Tampa",
+      "houses": [
+        {
+          "name": "Florida bungalow",
+          "form": "raised wood bungalow, broad gable and shaded front porch",
+          "widthM": 10,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 27,
+          "wallHex": "#AFC2AF",
+          "id": "tampa-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 2.55,
+          "totalHeightM": 6.2,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "along depth; cross-gable parts separately"
+        },
+        {
+          "name": "Frame vernacular cottage",
+          "form": "wood cottage, steep metal side-gable, raised porch",
+          "widthM": 8,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 34,
+          "wallHex": "#CFD2BF",
+          "id": "tampa-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 4.05,
+          "totalHeightM": 7.4,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 12,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Mediterranean revival",
+          "form": "stucco cottage, terracotta hip and arched loggia",
+          "widthM": 11,
+          "depthM": 13,
+          "floors": 1,
+          "pitchDeg": 20,
+          "wallHex": "#DEC9A8",
+          "id": "tampa-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 2.0,
+          "totalHeightM": 5.35,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#A86E50",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 15,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Masonry ranch",
+          "form": "one-storey rendered masonry, shallow hip, carport and broad windows",
+          "widthM": 15,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 17,
+          "wallHex": "#D8D1B8",
+          "id": "tampa-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.68,
+          "totalHeightM": 5.03,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 19,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "tampa-district-01",
+          "name": "Live-oak bungalow street",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "tampa-district-02",
+          "name": "Coastal stucco ranch grid",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Craftsman / Florida bungalow",
+            "roof_form": "gable; optional dormer (source-informed proposal)",
+            "materials": "wood/brick/stucco",
+            "facade_hex_proposal": "#E2D7BF/#B8C6B5/#9F6553",
+            "roof_hex_proposal": "#6A6A63",
+            "evidence_urls": "https://www.tampa.gov/sites/default/files/document/2021/Seminole%20Heights%20Design%20Guidelines.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Florida frame-vernacular cottage",
+            "roof_form": "simple gable; optional metal (source-informed proposal)",
+            "materials": "wood siding",
+            "facade_hex_proposal": "#DAD8C8/#BCCDC6",
+            "roof_hex_proposal": "#AAAFA8",
+            "evidence_urls": "https://www.tampa.gov/sites/default/files/content/files/migrated/INTRODUCTION_PGS_1-24.PDF",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Mediterranean Revival",
+            "roof_form": "tile hip/gable; optional parapet (source-informed proposal)",
+            "materials": "stucco/terracotta",
+            "facade_hex_proposal": "#E9DABB/#DCC9AA",
+            "roof_hex_proposal": "#A9694D",
+            "evidence_urls": "https://www.tampa.gov/sites/default/files/document/2021/Seminole%20Heights%20Design%20Guidelines.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Postwar masonry ranch",
+            "roof_form": "hip/gable (source-informed proposal)",
+            "materials": "masonry/stucco/brick proposed",
+            "facade_hex_proposal": "#DCD8C5/#E5D5B7/#AF8C72",
+            "roof_hex_proposal": "#78756A",
+            "evidence_urls": "https://downloads.hcpafl.org/default.aspx?subfolder=_shapefile_archives | https://fchlpm.sbafla.com/media/rxepccwx/20210609_fphlm_2019_finalizedmar2021.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "Tampa\u2013St Petersburg",
+            "tree_spacing_m_proposal": "9\u201316; fallback broad shade crowns and only site-supported palms",
+            "tree_density_observed": "32.3% Tampa city canopy in 2016; 95% interval 30.9\u201333.7%; NOT whole MSA street density",
+            "parkway_width_m_proposal": "0.8\u20132.5",
+            "sidewalk": "light concrete proposed; actual material/absence wins; slab texture near only",
+            "curb": "concrete provisional; verify geometry/type locally",
+            "wires": "Mapped utility evidence only; citywide frequency unverified",
+            "alleys": "Only mapped alley graph; do not invent metro-wide rear access",
+            "fences_walls": "Miami: low rendered walls/hedges proposal; others wood/hedge/open front proposals; actual mapped evidence wins; proportions unverified",
+            "driveways": "Historic side/rear access versus ranch carport and later front/side garage proposals; actual road/access topology wins",
+            "lawn_xeriscape_gravel": "turf/planting beds and canopy proposed; gravel/xeriscape only where evidenced; no uniform city lawn-colour calendar",
+            "dry_lawn_hex_proposal": "#A6A16C; weather/species/irrigation dependent, not fixed seasonal observation",
+            "soil_rock_hex_proposal": "#CDBD9B; art proposal, not mapped soil colour",
+            "terrain": "Actual DEM; coastal/inland differences preserved",
+            "downtown_materials": "glass/pale concrete proposed; dominance unverified",
+            "downtown_hex_proposal": "#81959C/#D8D6C8",
+            "skyline": "Keep Tampa and St. Petersburg actual clusters separate; no invented skyline",
+            "impact_rank": "Proposal: 1 real terrain/water/tower geometry and canopy; 2 low-rise archetype mass/roof; 3 broad material colour; 4 porch/carport/garage void; 5 driveway/wall pattern",
+            "omit_details": "Far LOD: omit brick joints, siding lines, rafters, fine ornament, jalousies and screen perforations; retain broad silhouette/shadow",
+            "evidence_urls": "https://www.tampa.gov/sites/default/files/document/2021/Seminole%20Heights%20Design%20Guidelines.pdf | https://www.tampa.gov/sites/default/files/content/files/migrated/INTRODUCTION_PGS_1-24.PDF | https://www.tampa.gov/system/files/file-visibility/document/2021/Tree%20Canopy%20Study%202016.pdf | https://blogs.ifas.ufl.edu/charlotteco/2022/05/27/foolproof-lawncare-st-augustinegrass/ | https://blogs.ifas.ufl.edu/sarasotaco/2024/06/27/dry-season-landscaping/ | https://downloads.hcpafl.org/default.aspx?subfolder=_shapefile_archives | https://fchlpm.sbafla.com/media/rxepccwx/20210609_fphlm_2019_finalizedmar2021.pdf",
+            "unresolved": "All spacing/widths/palettes are generator proposals. No empirical house shares. Wires/alleys/fences/material prevalence and downtown dominance unverified. Canopy benchmark scope/vintage differs by source. Commercial municipal/assessor redistribution rights unclear.",
+            "region": "Southeast/Florida",
+            "msa_rank_2025": "17",
+            "cbsa_code": "45300",
+            "msa_population_2025": "3418895",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "Southern live oak",
+            "evidence_status": "candidate_corridor_presence_not_ranked",
+            "source_urls": "https://www.tampa.gov/sites/default/files/project-doc/2024-02/glen_avenue_tree_inventory_report.doc.pdf"
+          },
+          {
+            "common_name": "Cabbage palm",
+            "evidence_status": "candidate_corridor_presence_not_ranked",
+            "source_urls": "https://www.tampa.gov/sites/default/files/project-doc/2024-02/glen_avenue_tree_inventory_report.doc.pdf"
+          },
+          {
+            "common_name": "Laurel oak",
+            "evidence_status": "candidate_corridor_presence_not_ranked",
+            "source_urls": "https://www.tampa.gov/sites/default/files/project-doc/2024-02/glen_avenue_tree_inventory_report.doc.pdf"
+          },
+          {
+            "common_name": "Queen palm",
+            "evidence_status": "candidate_corridor_presence_not_ranked",
+            "source_urls": "https://www.tampa.gov/sites/default/files/project-doc/2024-02/glen_avenue_tree_inventory_report.doc.pdf"
+          }
+        ],
+        "additionalSources": [],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Low coastal terrain, shaded bungalow streets and stucco/tile neighborhoods; live oaks spread over green yards with palm accents.",
+        "planting": "live-oak, cabbage-palm and laurel-oak forms; green lawn, sandy soil at bed edges",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#6D8C56",
+          "soilMulch": "#7B684C",
+          "dryGroundOrEdge": "#C2B699",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    },
+    {
+      "id": "orlando",
+      "name": "Orlando",
+      "houses": [
+        {
+          "name": "Craftsman bungalow",
+          "form": "wood bungalow, low side-gable and front porch",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 27,
+          "wallHex": "#B4BEAA",
+          "id": "orlando-house-01",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.6,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.65,
+          "roofRiseM": 3.06,
+          "totalHeightM": 6.71,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Frame cottage",
+          "form": "wood cottage with side-gable, deep front porch and low raised foundation",
+          "widthM": 9,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 32,
+          "wallHex": "#D3D0BB",
+          "id": "orlando-house-02",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 3.75,
+          "totalHeightM": 7.1,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 13,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 2.4,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 12,
+          "ridgeDirection": "parallel to facade"
+        },
+        {
+          "name": "Spanish eclectic",
+          "form": "stucco cottage, tile hip and recessed arch entry",
+          "widthM": 10,
+          "depthM": 12,
+          "floors": 1,
+          "pitchDeg": 20,
+          "wallHex": "#DECDB0",
+          "id": "orlando-house-03",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.82,
+          "totalHeightM": 5.17,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#A86E50",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 14,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 10,
+          "ridgeDirection": "hip shortest-span control"
+        },
+        {
+          "name": "Early ranch",
+          "form": "compact one-storey masonry ranch, shallow hip, carport",
+          "widthM": 14,
+          "depthM": 11,
+          "floors": 1,
+          "pitchDeg": 17,
+          "wallHex": "#CFCBB7",
+          "id": "orlando-house-04",
+          "status": "authored numeric/material proposal; local-context evidence separate",
+          "foundationAboveGradeM": 0.3,
+          "floorToFloorM": 3.05,
+          "eaveHeightM": 3.35,
+          "roofRiseM": 1.68,
+          "totalHeightM": 5.03,
+          "roofGeometryNote": "Primary roof rise = roofSpanM/2*tan(pitch); flat roof allowance0.25m. Cross-gables, hips, occupied roof parts and terrain need actual building-part evidence.",
+          "roofHex": "#686A63",
+          "trimHex": "#D9D2BF",
+          "glassHex": "#435D6B",
+          "setbackM": 6,
+          "lotFrontageM": 18,
+          "doorWidthM": 0.9,
+          "doorHeightM": 2.1,
+          "porchDepthM": 0,
+          "occupiedRoofFloorEquivalent": 0,
+          "occupancyNote": "Roof-floor-equivalent is a review suggestion, not inferred occupied area; mapped building parts and actual storeys win.",
+          "roofSpanM": 11,
+          "ridgeDirection": "hip shortest-span control"
+        }
+      ],
+      "districts": [
+        {
+          "id": "orlando-district-01",
+          "name": "Lake-edge bungalow neighborhood",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        },
+        {
+          "id": "orlando-district-02",
+          "name": "Inland ranch subdivision",
+          "status": "fictional district composition / judgment",
+          "camera": {
+            "street": {
+              "cameraHeightM": 1.65,
+              "targetDistanceM": 20
+            },
+            "aerial": {
+              "pitchDownDeg": 55,
+              "heightM": 65
+            },
+            "far": {
+              "distanceM": 100
+            },
+            "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+          }
+        }
+      ],
+      "evidence": {
+        "architectureContext": [
+          {
+            "house_type": "Craftsman bungalow",
+            "roof_form": "gable (source-informed proposal)",
+            "materials": "wood/stucco",
+            "facade_hex_proposal": "#C6CBB8/#E0D5BC",
+            "roof_hex_proposal": "#6A6B62",
+            "evidence_urls": "https://www.orlando.gov/files/sharedassets/public/v/1/documents/city-and-district-plans/comprehensive-plan/support-documents/historicpreservation_support_2010-07.pdf | https://www.orlando.gov/files/sharedassets/public/documents/city-and-district-plans/baldwin-park/baldwinpark-residentialguidelines.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Frame-vernacular farmhouse/cottage",
+            "roof_form": "gable (source-informed proposal)",
+            "materials": "clapboard",
+            "facade_hex_proposal": "#E2DFD1/#CCD3C5",
+            "roof_hex_proposal": "#868C86",
+            "evidence_urls": "https://www.orlando.gov/files/sharedassets/public/v/1/documents/city-and-district-plans/comprehensive-plan/support-documents/historicpreservation_support_2010-07.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Mediterranean / Spanish eclectic",
+            "roof_form": "tile hip/gable; parapet section (source-informed proposal)",
+            "materials": "stucco/tile",
+            "facade_hex_proposal": "#E6D5B8/#D9C2A0",
+            "roof_hex_proposal": "#A56B4D",
+            "evidence_urls": "https://www.orlando.gov/files/sharedassets/public/v/1/documents/city-and-district-plans/comprehensive-plan/support-documents/historicpreservation_support_2010-07.pdf | https://www.orlando.gov/files/sharedassets/public/documents/city-and-district-plans/baldwin-park/baldwinpark-residentialguidelines.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          },
+          {
+            "house_type": "Minimal traditional / early ranch",
+            "roof_form": "hip/side gable (source-informed proposal)",
+            "materials": "masonry/stucco proposed",
+            "facade_hex_proposal": "#DCD6C2/#E7DDC7",
+            "roof_hex_proposal": "#73736A",
+            "evidence_urls": "https://www.orlando.gov/files/sharedassets/public/v/1/documents/city-and-district-plans/comprehensive-plan/support-documents/historicpreservation_support_2010-07.pdf",
+            "evidence_status": "Qualitative local taxonomy documented unless row says proposed/unverified; all numeric geometry, palettes and generator weights are proposals, never measured shares. Later suburban archetype and Tampa ranch local prevalence unverified."
+          }
+        ],
+        "streetContext": [
+          {
+            "metro": "Orlando",
+            "tree_spacing_m_proposal": "10\u201318; fallback shade crowns and locally supported palms",
+            "tree_density_observed": "27% city canopy in 2018; 25% in 2010; NOT current MSA street density",
+            "parkway_width_m_proposal": "0.8\u20132.5",
+            "sidewalk": "light concrete proposed; actual material/absence wins; slab texture near only",
+            "curb": "concrete provisional; verify geometry/type locally",
+            "wires": "Mapped utility evidence only; citywide frequency unverified",
+            "alleys": "Only mapped alley graph; do not invent metro-wide rear access",
+            "fences_walls": "Miami: low rendered walls/hedges proposal; others wood/hedge/open front proposals; actual mapped evidence wins; proportions unverified",
+            "driveways": "Historic side/rear access versus ranch carport and later front/side garage proposals; actual road/access topology wins",
+            "lawn_xeriscape_gravel": "turf/planting beds and canopy proposed; gravel/xeriscape only where evidenced; no uniform city lawn-colour calendar",
+            "dry_lawn_hex_proposal": "#A39E6B; weather/species/irrigation dependent, not fixed seasonal observation",
+            "soil_rock_hex_proposal": "#CCBC9B; art proposal, not mapped soil colour",
+            "terrain": "Actual lakes/drainage/DEM; low-to-gently-rolling treatment proposed",
+            "downtown_materials": "glass/pale concrete proposed; dominance unverified",
+            "downtown_hex_proposal": "#80979D/#D5D1C3",
+            "skyline": "Actual tower/lake relationship; material proportions unverified",
+            "impact_rank": "Proposal: 1 real terrain/water/tower geometry and canopy; 2 low-rise archetype mass/roof; 3 broad material colour; 4 porch/carport/garage void; 5 driveway/wall pattern",
+            "omit_details": "Far LOD: omit brick joints, siding lines, rafters, fine ornament, jalousies and screen perforations; retain broad silhouette/shadow",
+            "evidence_urls": "https://www.orlando.gov/files/sharedassets/public/v/1/documents/city-and-district-plans/comprehensive-plan/support-documents/historicpreservation_support_2010-07.pdf | https://www.orlando.gov/files/sharedassets/public/documents/city-and-district-plans/baldwin-park/baldwinpark-residentialguidelines.pdf | https://www.orlando.gov/Our-Government/Departments-Offices/Executive-Offices/CAO/Sustainability-Resilience/Orlando-Voluntary-Local-Review | https://blogs.ifas.ufl.edu/charlotteco/2022/05/27/foolproof-lawncare-st-augustinegrass/ | https://blogs.ifas.ufl.edu/sarasotaco/2024/06/27/dry-season-landscaping/ | https://ocpaimages.ocpafl.org/api/Content/GetContentDynamicFile?contentFileID=149898 | https://vgispublic.ocpafl.org/server/rest/services/OCPA/Drone_Catalog/MapServer/layers",
+            "unresolved": "All spacing/widths/palettes are generator proposals. No empirical house shares. Wires/alleys/fences/material prevalence and downtown dominance unverified. Canopy benchmark scope/vintage differs by source. Commercial municipal/assessor redistribution rights unclear.",
+            "region": "Southeast/Florida",
+            "msa_rank_2025": "20",
+            "cbsa_code": "36740",
+            "msa_population_2025": "2957672",
+            "population_source_url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/metro/totals/cbsa-est2025-alldata.csv",
+            "controls_status": "All weights, numeric default dimensions, roof pitches, spacing and hex values are proposals unless explicitly marked sourced; observed geometry overrides",
+            "source_scope": "City/district examples and standards establish local forms only; full-MSA distributions unverified",
+            "checked_date": "2026-10-07"
+          }
+        ],
+        "treeCandidates": [
+          {
+            "common_name": "Southern live oak",
+            "evidence_status": "verified_historical_street_inventory",
+            "source_urls": "https://research.fs.usda.gov/download/treesearch/60591.pdf"
+          },
+          {
+            "common_name": "Crape myrtle",
+            "evidence_status": "verified_historical_street_inventory",
+            "source_urls": "https://research.fs.usda.gov/download/treesearch/60591.pdf"
+          },
+          {
+            "common_name": "Laurel oak",
+            "evidence_status": "verified_historical_street_inventory",
+            "source_urls": "https://research.fs.usda.gov/download/treesearch/60591.pdf"
+          },
+          {
+            "common_name": "Cabbage palm",
+            "evidence_status": "verified_historical_street_inventory",
+            "source_urls": "https://research.fs.usda.gov/download/treesearch/60591.pdf"
+          }
+        ],
+        "additionalSources": [],
+        "scope": "Input catalog coverage is incomplete for this wave. Unsupported local forms, tree choices, terrain and composition are judgment proposals; no citywide shares."
+      },
+      "streetCharacter": {
+        "note": "Flat inland lake landscape, bungalow districts with palms and broadleaf canopy; later subdivision roofscape. Distinguish inland lake edges from Tampa coastal cues.",
+        "planting": "live-oak, crape-myrtle and cabbage-palm forms; green lawns, broad planting beds",
+        "status": "authored district cues, not measured inventory",
+        "sidewalkWidthM": 1.5,
+        "curbHeightM": 0.15,
+        "treeSpacingM": [
+          9,
+          15
+        ],
+        "observedMapOverrides": true,
+        "groundHexProposal": {
+          "vegetation": "#75965D",
+          "soilMulch": "#766546",
+          "dryGroundOrEdge": "#BAB196",
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3"
+        }
+      }
+    }
+  ],
+  "lod": {
+    "metric": "projected building height in drawable pixels",
+    "farBelow": 6,
+    "nearAbove": 20,
+    "featureMinimumPx": 2,
+    "hysteresisPx": 2,
+    "transitionSeconds": [
+      0.3,
+      0.6
+    ]
+  },
+  "performance": {
+    "fpsTarget": 60,
+    "totalSceneGpuMsMax": 10,
+    "additionalGlobalPasses": 0,
+    "additionalShadowMaps": 0,
+    "additionalDayLights": 0,
+    "existingV2BucketsRetained": true,
+    "noDeviceBenchmark": true
+  },
+  "mapPolicy": "Real geometry, material/species evidence, access and terrain override all fallback values. No metro-wide prevalence assigned.",
+  "provenance": {
+    "references": [
+      "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/images/01-calibration-scene.png",
+      "~/Desktop/worldengine-gpt-drop/us-metros-wave2-v1/atlanta-house-01.png",
+      "~/Desktop/worldengine-gpt-drop/japan-regional-kit-v1/05-vehicles.png",
+      "~/Desktop/worldengine-gpt-drop/infrastructure-kit-v1/rail-01-elevated.png"
+    ],
+    "inputs": [
+      "regional-look-catalog-v1",
+      "street-trees-by-metro-v1",
+      "us-metros-wave2-v1"
+    ]
+  }
+}

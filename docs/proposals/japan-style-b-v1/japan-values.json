@@ -1,0 +1,2835 @@
+{
+  "schema": "worldengine.house-archetypes.v1",
+  "date": "2026-10-07",
+  "style": "B",
+  "status": "proposal_only; r1 superseded for street scale",
+  "units": {
+    "length": "metres",
+    "angle": "degrees",
+    "hex": "sRGB display appearance swatches, not measured albedo"
+  },
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "sharedLightingUse": {
+    "applyToArchetypeIds": [
+      "jp-01-wooden",
+      "jp-02-concrete",
+      "jp-03-mansion",
+      "jp-04-shop-house",
+      "jp-05-machiya",
+      "jp-06-gate",
+      "jp-07-corner",
+      "jp-08-block"
+    ],
+    "applyToScenes": [
+      "street-character",
+      "tokyo-lane",
+      "kyoto-street",
+      "kyoto-spring",
+      "kyoto-summer",
+      "kyoto-autumn",
+      "kyoto-snow"
+    ],
+    "copiedUnchanged": true,
+    "lightingImageExactness": "target only; no photometric equality from AI pixels"
+  },
+  "approvedHouseValues": {
+    "chicago_three_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#98664F",
+          "linearLuminance": 0.1674,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DBC8A7",
+          "linearLuminance": 0.5916,
+          "relativeBrightness": 3.533
+        },
+        "soffit": {
+          "hex": "#51463E",
+          "linearLuminance": 0.0648,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#493C35",
+          "linearLuminance": 0.0491,
+          "relativeBrightness": 0.293
+        },
+        "porch_shadow": {
+          "hex": "#3E3733",
+          "linearLuminance": 0.04,
+          "relativeBrightness": 0.239
+        },
+        "window_glass_day": {
+          "hex": "#405766",
+          "linearLuminance": 0.0887,
+          "relativeBrightness": 0.53
+        },
+        "roof": {
+          "hex": "#554E49",
+          "linearLuminance": 0.0786,
+          "relativeBrightness": 0.47
+        }
+      }
+    },
+    "chicago_two_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A77960",
+          "linearLuminance": 0.2273,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E2D2B7",
+          "linearLuminance": 0.6568,
+          "relativeBrightness": 2.889
+        },
+        "soffit": {
+          "hex": "#554A40",
+          "linearLuminance": 0.072,
+          "relativeBrightness": 0.317
+        },
+        "eave_shadow": {
+          "hex": "#4B4037",
+          "linearLuminance": 0.0544,
+          "relativeBrightness": 0.239
+        },
+        "porch_shadow": {
+          "hex": "#403934",
+          "linearLuminance": 0.0426,
+          "relativeBrightness": 0.188
+        },
+        "window_glass_day": {
+          "hex": "#425A68",
+          "linearLuminance": 0.0947,
+          "relativeBrightness": 0.417
+        },
+        "roof": {
+          "hex": "#58514A",
+          "linearLuminance": 0.0845,
+          "relativeBrightness": 0.372
+        }
+      }
+    },
+    "workers_cottage": {
+      "wallMaterial": "siding",
+      "surfaces": {
+        "wall": {
+          "hex": "#B9B9A4",
+          "linearLuminance": 0.4769,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#F1E4CA",
+          "linearLuminance": 0.7845,
+          "relativeBrightness": 1.645
+        },
+        "soffit": {
+          "hex": "#5F6258",
+          "linearLuminance": 0.1187,
+          "relativeBrightness": 0.249
+        },
+        "eave_shadow": {
+          "hex": "#52574F",
+          "linearLuminance": 0.0917,
+          "relativeBrightness": 0.192
+        },
+        "porch_shadow": {
+          "hex": "#454C47",
+          "linearLuminance": 0.0689,
+          "relativeBrightness": 0.144
+        },
+        "window_glass_day": {
+          "hex": "#465D6B",
+          "linearLuminance": 0.1019,
+          "relativeBrightness": 0.214
+        },
+        "roof": {
+          "hex": "#60615A",
+          "linearLuminance": 0.1177,
+          "relativeBrightness": 0.247
+        }
+      }
+    },
+    "chicago_bungalow": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A57450",
+          "linearLuminance": 0.2107,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DECBAB",
+          "linearLuminance": 0.6118,
+          "relativeBrightness": 2.904
+        },
+        "soffit": {
+          "hex": "#565046",
+          "linearLuminance": 0.0816,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#4B443B",
+          "linearLuminance": 0.0595,
+          "relativeBrightness": 0.282
+        },
+        "porch_shadow": {
+          "hex": "#403D36",
+          "linearLuminance": 0.0469,
+          "relativeBrightness": 0.223
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.429
+        },
+        "roof": {
+          "hex": "#5B5A52",
+          "linearLuminance": 0.1015,
+          "relativeBrightness": 0.482
+        }
+      }
+    }
+  },
+  "archetypes": [
+    {
+      "id": "jp-01-wooden",
+      "metro": "Japan",
+      "name": "Tokyo two-storey wooden / siding house",
+      "catalogueHouseType": "Tokyo two-storey wooden / siding house",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-01-wooden.html",
+      "imageFile": "jp-01-wooden.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 6,
+        "footprintDepthM": 9,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 5.75,
+        "roofRiseM": 1.336,
+        "totalHeightM": 7.086,
+        "porchDepthM": 0.6,
+        "setbackM": 0,
+        "lotFrontageM": 7
+      },
+      "storeys": {
+        "fullFloors": 2,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "2 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "gable",
+        "catalogueDescription": "gable",
+        "pitchDegrees": 24,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            21,
+            27
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            7,
+            7
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#B7B3A5",
+          "trimHex": "#E3DDCB",
+          "roofHex": "#62665F",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#A8A496",
+          "trimHex": "#E3DDCB",
+          "roofHex": "#62665F",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#C1BDAF",
+          "trimHex": "#E3DDCB",
+          "roofHex": "#62665F",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B1AD9F",
+          "trimHex": "#E3DDCB",
+          "roofHex": "#62665F",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Compact entry recess; one bicycle tucked by wall, pot garden; no garage unless supported.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Plain pale siding, charcoal roof, compact projecting balcony and deep eave band; two full floors, narrow lot; no Western porch or chimney.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#B7B3A5",
+          "linearLuminance": 0.4502,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E3DDCB",
+          "linearLuminance": 0.7236,
+          "relativeBrightness": 1.607
+        },
+        "soffit": {
+          "hex": "#807C6E",
+          "linearLuminance": 0.2013,
+          "relativeBrightness": 0.447
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.13
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.092
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.201
+        },
+        "roof": {
+          "hex": "#62665F",
+          "linearLuminance": 0.1293,
+          "relativeBrightness": 0.287
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-02-concrete",
+      "metro": "Japan",
+      "name": "Small modern concrete house",
+      "catalogueHouseType": "Small modern concrete house",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-02-concrete.html",
+      "imageFile": "jp-02-concrete.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 6,
+        "footprintDepthM": 8,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 5.75,
+        "roofRiseM": 0.45,
+        "totalHeightM": 6.2,
+        "porchDepthM": 0.8,
+        "setbackM": 0,
+        "lotFrontageM": 7
+      },
+      "storeys": {
+        "fullFloors": 2,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "2 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "flat parapet",
+        "catalogueDescription": "flat parapet",
+        "pitchDegrees": 1,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            0,
+            4
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            7,
+            7
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#BFC1B8",
+          "trimHex": "#DDDCD0",
+          "roofHex": "#6A706B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B0B2A9",
+          "trimHex": "#DDDCD0",
+          "roofHex": "#6A706B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#C9CBC2",
+          "trimHex": "#DDDCD0",
+          "roofHex": "#6A706B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B9BBB2",
+          "trimHex": "#DDDCD0",
+          "roofHex": "#6A706B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Separated entry path; optional single compact parking bay only with access evidence.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Two-storey compact exposed-concrete cuboid, offset volumes, one deep square entry, recessed glass, privacy wall; perfectly plain surfaces not mottled concrete.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#BFC1B8",
+          "linearLuminance": 0.5268,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DDDCD0",
+          "linearLuminance": 0.7111,
+          "relativeBrightness": 1.35
+        },
+        "soffit": {
+          "hex": "#888A81",
+          "linearLuminance": 0.25,
+          "relativeBrightness": 0.475
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.112
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.079
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.172
+        },
+        "roof": {
+          "hex": "#6A706B",
+          "linearLuminance": 0.1571,
+          "relativeBrightness": 0.298
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-03-mansion",
+      "metro": "Japan",
+      "name": "Low-rise apartment / mansion",
+      "catalogueHouseType": "Low-rise apartment / mansion",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-03-mansion.html",
+      "imageFile": "jp-03-mansion.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 18,
+        "footprintDepthM": 12,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 3.0,
+        "eaveHeightM": 12.15,
+        "roofRiseM": 0.45,
+        "totalHeightM": 12.6,
+        "porchDepthM": 1.2,
+        "setbackM": 0,
+        "lotFrontageM": 22
+      },
+      "storeys": {
+        "fullFloors": 4,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "4 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "flat parapet",
+        "catalogueDescription": "flat parapet",
+        "pitchDegrees": 1,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            0,
+            4
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            22,
+            22
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#C3B8A3",
+          "trimHex": "#E6DFCD",
+          "roofHex": "#646B68",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B4A994",
+          "trimHex": "#E6DFCD",
+          "roofHex": "#646B68",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#CDC2AD",
+          "trimHex": "#E6DFCD",
+          "roofHex": "#646B68",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#BDB29D",
+          "trimHex": "#E6DFCD",
+          "roofHex": "#646B68",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Common entrance kept clear; bicycle shelter to side, no speculative curb cuts.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Japanese low-rise reinforced-concrete apartment type called mansion, FOUR full storeys, stacked balcony bands, compact recessed common lobby, flat roof; never a palace.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#C3B8A3",
+          "linearLuminance": 0.4853,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E6DFCD",
+          "linearLuminance": 0.7401,
+          "relativeBrightness": 1.525
+        },
+        "soffit": {
+          "hex": "#8C816C",
+          "linearLuminance": 0.2236,
+          "relativeBrightness": 0.461
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.121
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.086
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.186
+        },
+        "roof": {
+          "hex": "#646B68",
+          "linearLuminance": 0.1422,
+          "relativeBrightness": 0.293
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-04-shop-house",
+      "metro": "Japan",
+      "name": "Shotengai shop-house",
+      "catalogueHouseType": "Shotengai shop-house",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-04-shop-house.html",
+      "imageFile": "jp-04-shop-house.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 6,
+        "footprintDepthM": 12,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 5.75,
+        "roofRiseM": 0.804,
+        "totalHeightM": 6.554,
+        "porchDepthM": 0.4,
+        "setbackM": 0,
+        "lotFrontageM": 6
+      },
+      "storeys": {
+        "fullFloors": 2,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "2 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "low gable",
+        "catalogueDescription": "low gable",
+        "pitchDegrees": 15,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            12,
+            18
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            6,
+            6
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#C4BAA3",
+          "trimHex": "#E5DCC4",
+          "roofHex": "#676A62",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B5AB94",
+          "trimHex": "#E5DCC4",
+          "roofHex": "#676A62",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#CEC4AD",
+          "trimHex": "#E5DCC4",
+          "roofHex": "#676A62",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#BEB49D",
+          "trimHex": "#E5DCC4",
+          "roofHex": "#676A62",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Ground shop threshold and independent residential entry; no front garage.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Two-storey narrow shop-house with domestic upper floor, broad ground storefront, shallow muted rust awning, blank hanging colour slab; neighbouring shops partially visible.",
+      "catalogueEvidenceUrls": [
+        "https://www.gotokyo.org/en/story/guide/neighborhood-shopping-streets/index.html"
+      ],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#C4BAA3",
+          "linearLuminance": 0.495,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E5DCC4",
+          "linearLuminance": 0.7183,
+          "relativeBrightness": 1.451
+        },
+        "soffit": {
+          "hex": "#8D836C",
+          "linearLuminance": 0.2298,
+          "relativeBrightness": 0.464
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.119
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.084
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.183
+        },
+        "roof": {
+          "hex": "#676A62",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 0.284
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-05-machiya",
+      "metro": "Japan",
+      "name": "Kyoto machiya",
+      "catalogueHouseType": "Kyoto machiya",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-05-machiya.html",
+      "imageFile": "jp-05-machiya.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 5.5,
+        "footprintDepthM": 18,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 5.75,
+        "roofRiseM": 1.111,
+        "totalHeightM": 6.861,
+        "porchDepthM": 0.4,
+        "setbackM": 0,
+        "lotFrontageM": 5.5
+      },
+      "storeys": {
+        "fullFloors": 2,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "2 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "gable",
+        "catalogueDescription": "gable",
+        "pitchDegrees": 22,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            19,
+            25
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            5.5,
+            5.5
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#A39074",
+          "trimHex": "#D9CDB4",
+          "roofHex": "#545D5B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#948165",
+          "trimHex": "#D9CDB4",
+          "roofHex": "#545D5B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#AD9A7E",
+          "trimHex": "#D9CDB4",
+          "roofHex": "#545D5B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#9D8A6E",
+          "trimHex": "#D9CDB4",
+          "roofHex": "#545D5B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Flush modest threshold, side/service path only when actual geometry supports it.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Long narrow TWO-storey wooden townhouse, dark timber lattice on lower facade as broad sparse slats, pale upper plaster, low grey tiled gable roof, deep eave and short canopy, small rear courtyard; attached neighbours.",
+      "catalogueEvidenceUrls": [
+        "https://kyoto.travel/en/accommodations/",
+        "https://plus.kyoto.travel/entry/kyomachiya"
+      ],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#A39074",
+          "linearLuminance": 0.2899,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#D9CDB4",
+          "linearLuminance": 0.6171,
+          "relativeBrightness": 2.128
+        },
+        "soffit": {
+          "hex": "#6C593D",
+          "linearLuminance": 0.1067,
+          "relativeBrightness": 0.368
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.203
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.144
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.312
+        },
+        "roof": {
+          "hex": "#545D5B",
+          "linearLuminance": 0.1047,
+          "relativeBrightness": 0.361
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-06-gate",
+      "metro": "Japan",
+      "name": "Generic precinct gate",
+      "catalogueHouseType": "Generic precinct gate",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-06-gate.html",
+      "imageFile": "jp-06-gate.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 10,
+        "footprintDepthM": 4,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": null,
+        "eaveHeightM": 5.2,
+        "roofRiseM": 1.4,
+        "totalHeightM": 6.6,
+        "porchDepthM": 0,
+        "setbackM": 0.2,
+        "lotFrontageM": 16
+      },
+      "storeys": {
+        "fullFloors": 0,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "open gate, zero enclosed floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "gable",
+        "catalogueDescription": "gable",
+        "pitchDegrees": 20,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            17,
+            23
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            16,
+            16
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#76604C",
+          "trimHex": "#B9A98D",
+          "roofHex": "#515B59",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#67513D",
+          "trimHex": "#B9A98D",
+          "roofHex": "#515B59",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#806A56",
+          "trimHex": "#B9A98D",
+          "roofHex": "#515B59",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#705A46",
+          "trimHex": "#B9A98D",
+          "roofHex": "#515B59",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Central 4m clear pedestrian passage; generic garden beyond, not a surveyed sacred site.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Generic roofed timber precinct portal, two stout posts and broad dark-grey curved gable roof with restrained upturned eave tips, open central passage and low plain side walls. No torii, real temple copy, pagoda, statue, crest, sacred rope, prayer plaques or religious symbols.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#76604C",
+          "linearLuminance": 0.1274,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#B9A98D",
+          "linearLuminance": 0.4061,
+          "relativeBrightness": 3.188
+        },
+        "soffit": {
+          "hex": "#3F2915",
+          "linearLuminance": 0.027,
+          "relativeBrightness": 0.212
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.461
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.327
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.71
+        },
+        "roof": {
+          "hex": "#515B59",
+          "linearLuminance": 0.0995,
+          "relativeBrightness": 0.781
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-07-corner",
+      "metro": "Japan",
+      "name": "Unbranded corner convenience shop",
+      "catalogueHouseType": "Unbranded corner convenience shop",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-07-corner.html",
+      "imageFile": "jp-07-corner.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal physical envelope, not measured real property",
+        "unit": "metres",
+        "footprintWidthM": 13,
+        "footprintDepthM": 10,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 2.9499999999999997,
+        "roofRiseM": 0.45,
+        "totalHeightM": 3.4,
+        "porchDepthM": 0.5,
+        "setbackM": 0,
+        "lotFrontageM": 16
+      },
+      "storeys": {
+        "fullFloors": 1,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "1 full floors",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "flat fascia",
+        "catalogueDescription": "flat fascia",
+        "pitchDegrees": 1,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            0,
+            4
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            16,
+            16
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#D4D5C8",
+          "trimHex": "#EAE6D7",
+          "roofHex": "#666E6B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#C5C6B9",
+          "trimHex": "#EAE6D7",
+          "roofHex": "#666E6B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#DEDFD2",
+          "trimHex": "#EAE6D7",
+          "roofHex": "#666E6B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#CECFC2",
+          "trimHex": "#EAE6D7",
+          "roofHex": "#666E6B",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Clear entrance and corner sightline, two side bicycle spaces, no universal parking apron.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "ONE-storey corner convenience shop: broad glass band under plain pale fascia, one muted slate-blue accent #607787, blank sign panel. Avoid recognizable branded stripe combinations or logo layouts.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#D4D5C8",
+          "linearLuminance": 0.6576,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#EAE6D7",
+          "linearLuminance": 0.7899,
+          "relativeBrightness": 1.201
+        },
+        "soffit": {
+          "hex": "#9D9E91",
+          "linearLuminance": 0.3367,
+          "relativeBrightness": 0.512
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.089
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.063
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.138
+        },
+        "roof": {
+          "hex": "#666E6B",
+          "linearLuminance": 0.1504,
+          "relativeBrightness": 0.229
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    },
+    {
+      "id": "jp-08-block",
+      "metro": "Japan",
+      "name": "Narrow-lane mixed block",
+      "catalogueHouseType": "Narrow-lane mixed block",
+      "era": "unspecified; typological concept",
+      "empiricalMetroShare": "unverified; no prevalence claim",
+      "generatorWeightPctProposal": 0,
+      "sheetFile": "jp-08-block.html",
+      "imageFile": "jp-08-block.png",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "dimensions": {
+        "status": "proposal block envelope; max height from three-floor component, not an aggregate roof",
+        "unit": "metres",
+        "footprintWidthM": 26,
+        "footprintDepthM": 24,
+        "foundationAboveGradeM": 0.15,
+        "floorToFloorM": 2.8,
+        "eaveHeightM": 8.4,
+        "roofRiseM": 0.45,
+        "totalHeightM": 8.85,
+        "porchDepthM": 0,
+        "setbackM": 0,
+        "lotFrontageM": 26
+      },
+      "storeys": {
+        "fullFloors": 2,
+        "occupiedRoofFloorEquivalent": 0,
+        "descriptionFromCatalogue": "2\u20133 per constituent; envelope not one house",
+        "status": "proposal; block floors refer representative component only"
+      },
+      "roof": {
+        "family": "mixed gable / flat",
+        "catalogueDescription": "mixed gable / flat",
+        "pitchDegrees": 18,
+        "allowedPitchDegreeRangesProposal": [
+          [
+            15,
+            21
+          ]
+        ],
+        "pitchUnit": "degrees from horizontal",
+        "ridgeDirection": "observed tags win; simple default across short span",
+        "status": "proposal",
+        "geometryPolicy": "Simple pitched envelope. Gate eave curvature is a stylized exception; block uses component roofs, not single envelope roof."
+      },
+      "catalogueRanges": {
+        "setbackMProposal": [
+          [
+            0,
+            0.3
+          ]
+        ],
+        "frontageM": [
+          [
+            26,
+            26
+          ]
+        ],
+        "frontageEvidence": "authored envelope, not surveyed"
+      },
+      "materials": "Plain smooth wood/siding, plaster or concrete as appropriate; no photo textures",
+      "colourVariations": [
+        {
+          "wallHex": "#B9B4A3",
+          "trimHex": "#DED6C0",
+          "roofHex": "#606763",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#AAA594",
+          "trimHex": "#DED6C0",
+          "roofHex": "#606763",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#C3BEAD",
+          "trimHex": "#DED6C0",
+          "roofHex": "#606763",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        },
+        {
+          "wallHex": "#B3AE9D",
+          "trimHex": "#DED6C0",
+          "roofHex": "#606763",
+          "windowGlassDayHex": "#405867",
+          "status": "proposal, not observed colour frequency",
+          "wallMaterial": "plain matte surfaces"
+        }
+      ],
+      "detailTiers": [
+        {
+          "id": "far",
+          "buildingHeightPx": {
+            "minInclusive": 0,
+            "maxExclusive": 6
+          },
+          "keep": [
+            "silhouette",
+            "roof family and major pitch",
+            "broad wall/roof colour"
+          ],
+          "omit": [
+            "window grids",
+            "porch supports",
+            "small dormers",
+            "material lines"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "middle",
+          "buildingHeightPx": {
+            "minInclusive": 6,
+            "maxInclusive": 20
+          },
+          "keep": [
+            "far tier",
+            "entry and eave/canopy shadow",
+            "balcony bands where supported",
+            "open gate passage where applicable"
+          ],
+          "omit": [
+            "brick courses",
+            "tile ridges",
+            "fine screen perforations"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        },
+        {
+          "id": "near",
+          "buildingHeightPx": {
+            "minExclusive": 20,
+            "maxInclusive": null
+          },
+          "keep": [
+            "middle tier",
+            "recessed windows and doors",
+            "broad trim",
+            "sparse machiya lattice where supported"
+          ],
+          "omit": [
+            "subpixel ornament",
+            "logos",
+            "actual addresses"
+          ],
+          "status": "catalogue/user tier; proposed unbenchmarked policy"
+        }
+      ],
+      "porchStoop": "Compact recessed entry / eave canopy; see form",
+      "garageAlley": "Lane continuity preserved; entries face clear route, bicycle parking in recesses.",
+      "yardTreatment": "Sparse pots, small courtyard or service recess INSIDE parcel; no public lawn strip or raised sidewalk.",
+      "yardStatus": "r2 proposal; narrow lane context per user correction and showcase notes",
+      "definingForm": "Small coherent BLOCK ENVELOPE 26x24m: a 4m narrow asphalt lane, two-storey pale siding house, two-storey shop-house, three-storey concrete apartment and one small modern cuboid; no sidewalks; modest overhead utility spans. Street and aerial show exact same building arrangement.",
+      "catalogueEvidenceUrls": [],
+      "catalogueEvidenceStatus": "Authored typology proposal; no surveyed local dimensions or prevalence",
+      "detection": {
+        "rule": "Proposal only; not a style classifier. Use actual footprint, floors, access and land use; never assume a gate or shop from roof shape alone.",
+        "dataUrls": "",
+        "licence": "No Japan data imported. Actual OSM/other source integration needs its own rights review."
+      },
+      "inheritedHouseValuesKey": "workers_cottage",
+      "inheritedHouseValues": {
+        "wallMaterial": "siding",
+        "surfaces": {
+          "wall": {
+            "hex": "#B9B9A4",
+            "linearLuminance": 0.4769,
+            "relativeBrightness": 1.0
+          },
+          "trim": {
+            "hex": "#F1E4CA",
+            "linearLuminance": 0.7845,
+            "relativeBrightness": 1.645
+          },
+          "soffit": {
+            "hex": "#5F6258",
+            "linearLuminance": 0.1187,
+            "relativeBrightness": 0.249
+          },
+          "eave_shadow": {
+            "hex": "#52574F",
+            "linearLuminance": 0.0917,
+            "relativeBrightness": 0.192
+          },
+          "porch_shadow": {
+            "hex": "#454C47",
+            "linearLuminance": 0.0689,
+            "relativeBrightness": 0.144
+          },
+          "window_glass_day": {
+            "hex": "#465D6B",
+            "linearLuminance": 0.1019,
+            "relativeBrightness": 0.214
+          },
+          "roof": {
+            "hex": "#60615A",
+            "linearLuminance": 0.1177,
+            "relativeBrightness": 0.247
+          }
+        }
+      },
+      "newControlsStatus": "All exact dimensions, palettes, access, layout and prop placement are proposals. Mapped evidence overrides defaults. Not Japanese zoning or structural guidance.",
+      "surfaceValuesProposal": {
+        "wall": {
+          "hex": "#B9B4A3",
+          "linearLuminance": 0.456,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DED6C0",
+          "linearLuminance": 0.6743,
+          "relativeBrightness": 1.479
+        },
+        "soffit": {
+          "hex": "#827D6C",
+          "linearLuminance": 0.205,
+          "relativeBrightness": 0.449
+        },
+        "eave_shadow": {
+          "hex": "#414640",
+          "linearLuminance": 0.0587,
+          "relativeBrightness": 0.129
+        },
+        "porch_shadow": {
+          "hex": "#353B37",
+          "linearLuminance": 0.0416,
+          "relativeBrightness": 0.091
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.198
+        },
+        "roof": {
+          "hex": "#606763",
+          "linearLuminance": 0.1309,
+          "relativeBrightness": 0.287
+        }
+      },
+      "inheritedValuesRole": "Approved contrast witness retained for comparison; Japan actual proposed surface hexes are surfaceValuesProposal, not inherited Chicago wall.",
+      "blockComponentsProposal": [
+        {
+          "type": "wooden house",
+          "floors": 2,
+          "footprintM": [
+            6,
+            9
+          ]
+        },
+        {
+          "type": "shop-house",
+          "floors": 2,
+          "footprintM": [
+            6,
+            12
+          ]
+        },
+        {
+          "type": "apartment",
+          "floors": 3,
+          "footprintM": [
+            8,
+            10
+          ]
+        },
+        {
+          "type": "concrete house",
+          "floors": 2,
+          "footprintM": [
+            6,
+            8
+          ]
+        }
+      ],
+      "streetContextRevision": "r2: lane4\u20136mwalltowall; no curb/sidewalk/lawn; facadeeaves nearlane;2nearpolescap"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "street-character",
+      "title": "Japan street character",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "kind": "new concept board",
+      "description": "One coherent Japanese narrow residential lane in front three-quarter plus aerial inset-style equal paired panels, lane width4m no raised sidewalks; utility poles with believable overhead bundles running ALONG lane and simple drooping service cables, generic blank vending machine tucked in recess, two parked bicycles against walls, potted plants and tiny gardens, blank muted colour signs. No huge US front lawns. Plain wood/siding houses and small concrete homes, sparse shade crowns. Board is artwork only, no generated labels; no electrical engineering claim.",
+      "imageFile": "street-character.png",
+      "cameraPixelExact": false
+    },
+    {
+      "id": "tokyo-lane",
+      "title": "Tokyo residential lane",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "kind": "r2 area-inspired block concept; US camera constraint superseded",
+      "description": "Yanaka\u2013Sendagi lane",
+      "imageFile": "tokyo-lane.png",
+      "cameraPixelExact": false,
+      "sourceCameraReference": null
+    },
+    {
+      "id": "kyoto-street",
+      "title": "Kyoto historic street / summer base",
+      "lightingRef": "shared_clear_midafternoon_hero_v1",
+      "kind": "r2 area-inspired block concept; US camera constraint superseded",
+      "description": "Nishijin side lane near Itsutsuji/Omiya, mixedmachiya and moderninfill",
+      "imageFile": "kyoto-street.png",
+      "cameraPixelExact": false,
+      "sourceCameraReference": null
+    },
+    {
+      "id": "tokyo-river-golden",
+      "title": "Tokyo river skyline / golden hour",
+      "lightingRef": "japan_golden_hour_proposal",
+      "kind": "new concept; no matching Japan river capture",
+      "description": "Fictional Tokyo riverside skyline at golden hour, eye-level from broad river promenade, water across lowerhalf, layered generic dense midrise skyline with selected slim taller cuboids and one low utilitarian riverbridge; no exact real landmark silhouettes, no TokyoTower or Skytree identity. Plain smooth concrete/glass masses with broad window value bands not photo textures, river real stylized smooth reflection. Warm pale-gold sun low at15deg, azimuth225, sun#FFD9A3, blue zenith#6E9CC3 warmneutral horizon#E8CDA7, cool-neutral shade; no orange filter, magenta/purple sky, edge outlines. Exposure+.35EV unchanged; GOLDEN variant replaces daytime sun/sky, never stacks lighting. Quiet riverside railing and small natural trees, no people.",
+      "imageFile": "tokyo-river-golden.png",
+      "cameraPixelExact": false,
+      "sourceCameraReference": null
+    },
+    {
+      "id": "kyoto-night",
+      "title": "Kyoto lantern night",
+      "imageFile": "kyoto-night.png",
+      "baseImageFile": "kyoto-street.png",
+      "lightingRef": "night-fog-v1/night",
+      "kind": "requested night-state edit of summer concept",
+      "cameraPixelExact": false
+    }
+  ],
+  "nightValuesSource": {
+    "path": "~/Desktop/worldengine-gpt-drop/night-fog-v1/night-fog-values.json",
+    "sha256": "87cc57e18864e4fa23803178e81c3453bc9778b554929869edc450fc7abb757e",
+    "state": {
+      "id": "night",
+      "time": {
+        "kind": "solar_elevation",
+        "maxElevationDeg": -12,
+        "note": "Fullnightfixture; mooncontribution onlyifcomputedabovehorizon. No moon insertedintheseimages."
+      },
+      "skyGradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#15243C"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#243854"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#344255"
+        }
+      ],
+      "exposureRelativeEV": 0.35,
+      "skyFillNoonRelative": 0.24,
+      "groundFillNoonRelative": 0.08,
+      "directSun": 0,
+      "windowsLitShare": 0.3,
+      "streetlightOnFactor": 1,
+      "starsMaxIllustrated": 6,
+      "haze": {
+        "hex": "#475568",
+        "sigmaPerM": 0.002
+      },
+      "groundFog": null
+    },
+    "windows": {
+      "nightShareAllowed": [
+        0.2,
+        0.4
+      ],
+      "defaultNightShare": 0.3,
+      "warmHex": "#F3D0A0",
+      "coolHex": "#C9DDEB",
+      "warmEmissiveNoonRelative": 1.1,
+      "coolEmissiveNoonRelative": 0.85,
+      "selection": "Seedstableworld/building/apertureids. RankeligibleexistingapertureswithdeterministicstablePRNG; selectround(p*N)inloadedstabletile. Groupfloors/households forplausiblevariation; no per-frame random. Persistselection acrosscameras/time states; statefactor changesintensity/thresholdbyfixedseed.",
+      "geometry": "Emissiveexistingwindowfaces, preserveframes/openings. No newwindowcuts, roomprops, people, silhouettedplants or lightbehindopaque wall.",
+      "scope": "Shares referwindowapertures, notbuildings. Extendsweather-v1stable20\u201330%policytoauthored20\u201340%windowrange peruserrequest; do notsilentlyconflate.",
+      "bloomWeightMax": 0.035,
+      "noPerWindowPointLights": true
+    },
+    "streetlights": {
+      "types": [
+        {
+          "id": "led-warm",
+          "colourHex": "#F0DDC0",
+          "approxCctK": 3000,
+          "poolHalfMaxRadiusM": 4.5,
+          "poolSupportRadiusM": 9,
+          "coreEmissiveNoonRelative": 1.5,
+          "groundAdditiveNoonRelativeMax": 0.22
+        },
+        {
+          "id": "sodium-legacy",
+          "colourHex": "#F3B96F",
+          "approxCctK": 2000,
+          "poolHalfMaxRadiusM": 5,
+          "poolSupportRadiusM": 10,
+          "coreEmissiveNoonRelative": 1.3,
+          "groundAdditiveNoonRelativeMax": 0.2
+        },
+        {
+          "id": "led-neutral",
+          "colourHex": "#D8E4EB",
+          "approxCctK": 4000,
+          "poolHalfMaxRadiusM": 4.5,
+          "poolSupportRadiusM": 9,
+          "coreEmissiveNoonRelative": 1.5,
+          "groundAdditiveNoonRelativeMax": 0.22
+        }
+      ],
+      "cctNote": "Illustrativeidentity only, hexes artistic swatches not colorimetricCCTconversion; sodium not chosenfromwarmcolouralone.",
+      "poolFormula": "Add maxRadiance*exp(-ln2*(r/rHalf)^2)*smoothTaper(r,0.8*rSupport,rSupport)*normalEligibility*occlusionEligibility; clampcombinedNoonRelative.30. Fixtureorientation may stretchroadellipse1.5x, supportdimensionsscaledexplicitly.",
+      "maxActivePoolFields": 6,
+      "maxPerRegion": 2,
+      "maxActualUnshadowedLocalLights": 2,
+      "pointLightBudgetSharedWithCars": true,
+      "halo": {
+        "halfRadiusCssPx": 5,
+        "supportRadiusCssPx": 14,
+        "maxBlend": 0.08,
+        "totalScreenCoveragePercentMax": 2,
+        "depthOcclusionRequired": true
+      },
+      "inventory": "Useactualfixturedata/sceneobjects. Demo-addedfixtures inart are conceptproposals, not verifiedlocations. Never infer roadlight everytree or newprivateporchfixture."
+    }
+  },
+  "lightingVariantsProposal": {
+    "goldenHour": {
+      "id": "japan_golden_hour_proposal",
+      "sunElevationDeg": 15,
+      "sunAzimuthDeg": 225,
+      "sunHex": "#FFD9A3",
+      "skyGradientHex": [
+        "#6E9CC3",
+        "#AFC3D0",
+        "#E8CDA7"
+      ],
+      "exposureRelativeEV": 0.35,
+      "shadowTintHex": "#7F8F99",
+      "status": "authored variant, not ephemeris or approved new preset"
+    },
+    "night": {
+      "id": "night-fog-v1/night",
+      "use": "REPLACE hero sky/sun/exposure; copied exact night state and windows. Japan lantern dimensions artistic additions, not measured photometry.",
+      "lanternHex": "#F3D0A0",
+      "lanternDiameterM": 0.35,
+      "lanternHeightM": 0.6,
+      "emissiveNoonRelative": 1.1,
+      "noPointLightPerLantern": true,
+      "nightWindowShare": 0.3,
+      "localPoolFieldsTotalMax": 6,
+      "actualUnshadowedLightsTotalMax": 2
+    }
+  },
+  "streetCharacterProposal": {
+    "laneWidthsM": [
+      4,
+      6
+    ],
+    "sidewalkDefault": "no sidewalks/curbs in these target lanes; flush paint or10\u201320cm gutteredge only",
+    "asphaltHex": "#626A70",
+    "concreteHex": "#C5C0B3",
+    "drainageStoneHex": "#969D96",
+    "potClayHex": "#A37A5F",
+    "poleHex": "#878D85",
+    "wireHex": "#424B47",
+    "woodHex": "#76604C",
+    "vendingBodyHex": "#D1D5CB",
+    "vendingAccentHex": "#718C8B",
+    "bicycleHex": [
+      "#65747C",
+      "#6D7468"
+    ],
+    "blankSignHex": [
+      "#8A6453",
+      "#657E86",
+      "#C0AF84"
+    ],
+    "laneUtilityPoleHeightM": 8,
+    "poleSpacingM": [
+      20,
+      35
+    ],
+    "wireArtRule": "Concept placement inferred; mapped inventory governs production; no real utility alignment or safe-clearance claim",
+    "wiresTier": "near >=2px pole width and span>=8px; 1px world-projected ribbon with smooth alpha distancefade if needed; omit below .7px; no aerial wire clutter",
+    "props": "Clear walking route and door swing; all fictional, no observed/live status",
+    "plants": "Sparse frontage pots/recessedcourtyard trees; no street lawns or continuous boulevard canopy",
+    "facadeBlankSignRule": "blank solidcolour panels or simple fictional category tea/book silhouette, no pseudo-kanji, brands or addresses",
+    "vendingDimensionsM": [
+      0.9,
+      0.75,
+      1.85
+    ],
+    "bicycleEnvelopeM": [
+      1.8,
+      0.65,
+      1.1
+    ],
+    "planterDiameterM": [
+      0.25,
+      0.7
+    ],
+    "status": "all exact values artist assumptions; no urban/code survey",
+    "wallToWallNominalM": 5,
+    "frontageSetbackM": [
+      0,
+      0.3
+    ],
+    "eaveProjectionTowardLaneM": [
+      0.45,
+      0.8
+    ],
+    "nearUtilityPolesMax": 2,
+    "nearWireSpansMax": 3,
+    "utilityDistanceMaxM": 30,
+    "sightlineBeforeBendM": [
+      25,
+      35
+    ],
+    "sightlineRule": "gentle dogleg/staggered infill occludes distance, no endless straightcorridor",
+    "categoryTextReview": "No Japanese text used; native reviewer needed before future Japanese labels."
+  },
+  "seasonsProposal": [
+    {
+      "id": "kyoto-spring",
+      "title": "Sakura spring",
+      "crownHex": [
+        "#E6CACD",
+        "#F2DFD8",
+        "#C493A0"
+      ],
+      "mapleHex": "#82915F",
+      "groundHex": "#626A70",
+      "snowCover": 0,
+      "imageFile": "kyoto-spring.png",
+      "baseImageFile": "kyoto-street.png",
+      "cameraPixelExact": false
+    },
+    {
+      "id": "kyoto-summer",
+      "title": "Summer",
+      "crownHex": [
+        "#49664C",
+        "#6F8758",
+        "#879466"
+      ],
+      "mapleHex": "#6F8758",
+      "groundHex": "#626A70",
+      "snowCover": 0,
+      "usesImage": "kyoto-street.png",
+      "imageFile": "kyoto-summer.png",
+      "baseImageFile": "kyoto-street.png",
+      "cameraPixelExact": false
+    },
+    {
+      "id": "kyoto-autumn",
+      "title": "Momiji autumn",
+      "crownHex": [
+        "#B15E40",
+        "#C18446",
+        "#A8483D"
+      ],
+      "mapleHex": "#B15E40",
+      "groundHex": "#626A70",
+      "leafLitterHex": "#986845",
+      "snowCover": 0,
+      "imageFile": "kyoto-autumn.png",
+      "baseImageFile": "kyoto-street.png",
+      "cameraPixelExact": false
+    },
+    {
+      "id": "kyoto-snow",
+      "title": "Light snow",
+      "crownHex": [
+        "#716659"
+      ],
+      "mapleHex": "#716659",
+      "groundHex": "#626A70",
+      "snowHex": "#E1E6E1",
+      "snowShadeHex": "#BCCAD2",
+      "snowCover": 0.25,
+      "imageFile": "kyoto-snow.png",
+      "baseImageFile": "kyoto-street.png",
+      "cameraPixelExact": false
+    }
+  ],
+  "seasonPolicy": "Same r2 narrow Nishijin summer base camera, mixedmachiya/moderninfill, bend, lane-width and existingtrunkpositions; no newlawns/sidewalks. Seasonal states artistic, not forecasts.",
+  "privacyAndRights": {
+    "noLogos": true,
+    "noReadableBrands": true,
+    "noAddresses": true,
+    "noPeople": true,
+    "noReligiousEmblems": true,
+    "noSpecificTempleIdentity": true,
+    "noImportedJapanDataset": true,
+    "proposalsNotObserved": true
+  },
+  "performanceProposal": {
+    "extraGlobalPasses": 0,
+    "extraDayLights": 0,
+    "extraShadowMaps": 0,
+    "nightActualLightsMax": 2,
+    "nightPoolFieldsMax": 6,
+    "noWindowOrLanternPointLights": true,
+    "nearGeometry": "Reuse existing budgets; batch same material; broad eave/lattice geometry only when >20px house-height. No microtile/leaf/grass geometry.",
+    "wires": "short capped camera-near set; no independent object/draw per cable; no wire shadows",
+    "screenTiers": "height in drawable pixels, not metres; match v1 thresholds",
+    "benchmark": false
+  },
+  "sourceInputs": {
+    "~/Desktop/worldengine-gpt-drop/house-archetypes-v1/archetypes-values.json": "4bc79d481cf06ac70b040b16d0ba105cb99351d7afce1a598518d25e90258648",
+    "~/Desktop/worldengine-gpt-drop/house-contrast-v1/paintover-values.json": "782c486e984744837fcf1d583a05e18f83f04d4022476162867414ba1d9d87e7",
+    "~/Desktop/worldengine-gpt-drop/night-fog-v1/night-fog-values.json": "87cc57e18864e4fa23803178e81c3453bc9778b554929869edc450fc7abb757e",
+    "~/Desktop/worldengine-gpt-drop/house-archetypes-v1/denver-01-square.html": "c1b848c1b043dc3908c46d7672fa2b24fd3091776bab63bd93f65620d9f0a90e",
+    "~/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-101255/raw/lakeview-postcard-afternoon.png": "97c4a8f217ab4e1b1c9be55f49d10ed5db9af6b088901abcff7892d44634533f",
+    "~/Desktop/worldengine-gpt-drop/japan-showcase-v1/README.md": "97d34148ee3b4f517d3cf3994287a5a58d109498a9cadaff79791a4af0736f63",
+    "~/Desktop/worldengine-gpt-drop/japan-showcase-v1/sources.md": "b346f903deae63f079bf2db7a8b0880f61a70e49d9ae339a2476d25d7ca4fdd8",
+    "~/Desktop/worldengine-gpt-drop/japan-showcase-v1/datasets.csv": "a8502c4784541fa620c4c2b2e45bb1c035f8f835e47278f4e9f5ebab4296186b"
+  },
+  "sources": [
+    {
+      "url": "https://www.gotokyo.org/en/story/guide/neighborhood-shopping-streets/index.html",
+      "checked": "2026-10-07",
+      "scope": "official Tokyo shopping-street context only; not numerical geometry"
+    },
+    {
+      "url": "https://kyoto.travel/en/accommodations/",
+      "checked": "2026-10-07",
+      "scope": "official Kyoto page describes machiya as traditional wooden homes; not dimensions"
+    },
+    {
+      "url": "https://www.mlit.go.jp/road/road_e/pdf/Road2023web.pdf",
+      "checked": "2026-10-07",
+      "scope": "official indexed context on utility-pole removal; not depicted inventory or clearances"
+    }
+  ],
+  "generation": {
+    "tool": "built-in image_gen",
+    "maxCorrectiveEditsPerAsset": 1,
+    "promptsFile": "prompts.json",
+    "notes": "Season and night variants are requested lighting/weather edits of summer base, not corrective edit passes.",
+    "manifestFile": "image-manifest.json",
+    "uniqueGeneratedArtworkCount": 16,
+    "summerAliasExactCopy": true,
+    "outputSHA256": {
+      "jp-01-wooden": "c833965399ffade9edcfb0124e28b42ecea00f4331b2fe38f01306cdc4329932",
+      "jp-02-concrete": "659cbcde4f6e7504fcf393ddefad5b2bfb7dfb2763216670598911e18ae7b804",
+      "jp-03-mansion": "8d720d316032211e02bf831890bac77628d95b7184e48767c96b8dc247fae2c2",
+      "jp-04-shop-house": "b68929775223bfa41e99000fd9b688338df5558ee04af0f0ac93c3c68c51d793",
+      "jp-05-machiya": "0c6fd8d9c32fdae6607bb21218420ab2ed00c8cb34cdd92893a81b10cfae336a",
+      "jp-06-gate": "aa53f79daca087bbc0276497d2aa024cee6a71ea3110b86f7cd6daeac6fa33cf",
+      "jp-07-corner": "b109d441a9557e314048caeb53483d76824cd697ccf398f409750c8f69a6bc9c",
+      "jp-08-block": "5e8407c90971608b4d7e8f2173a24a4f8a2d96040b649ae4df8e9e1542cea72b",
+      "street-character": "47fa40df4095bc61d01bc283d5214082490b4f3c93072e5c746c0ba03b89aff4",
+      "tokyo-lane": "73a85215b83f90aa8ac0c08c6f0ba14469e0a56bd4b45f32ae81ae31079519c1",
+      "kyoto-street": "37f019a89b917317c075eba3202dde7b900a76faec455bf17f8931ca9a85f5d1",
+      "kyoto-spring": "74a380c2ad6cda95847aa632f661041dedbc35df233d1a4bb8bd253569a1336c",
+      "kyoto-autumn": "6432be4a244da63bc704127b42d6405101703ae4d00879a92975da7f28fd5156",
+      "kyoto-snow": "f34f9102942d855c21d0d810ab7e143ad349097801b65e6ae9f6340880037294",
+      "kyoto-night": "e72236a25bef598fa7d9570ab8d580e3203efa44f168e3fd5a965dc811978c68",
+      "tokyo-river-golden": "862c637fee72f829183b8afa42f696f51c062ca98831fa38736329bd47f79129"
+    },
+    "correctiveRevision": "User requested full scale correction; not an approval of r1 street geometry",
+    "requestedRevisionImages": 15,
+    "uniqueCurrentArtworkCount": 16,
+    "unchangedRiverImage": true,
+    "supersededPath": "superseded/r1-us-scale/"
+  },
+  "verification": {
+    "layout": {
+      "exported": 12,
+      "phoneWidth": 390,
+      "imageCount": 17,
+      "loaded": true,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    "lightingUnchanged": true,
+    "nightValuesUnchanged": true,
+    "all15RevisionImagesVisuallyReviewed": true,
+    "supersededOriginalsVerified": true,
+    "summerAliasByteIdentical": true,
+    "riverUnchanged": true,
+    "sourceInputsUnchanged": true,
+    "metreScaleIsAuthoredNotSurveyed": true,
+    "noDeviceBenchmark": true
+  },
+  "revision": "r2_corrected_lane_scale",
+  "showcaseAreas": {
+    "Tokyo": "Yanaka Ginza / Yanaka\u2013Sendagi public lanes",
+    "Kyoto": "Nishijin; Itsutsuji-dori / Omiya-dori vicinity public lane",
+    "windowMetres": [
+      600,
+      600
+    ],
+    "source": "~/Desktop/worldengine-gpt-drop/japan-showcase-v1/README.md",
+    "actualBoundaryAndCamera": "unverified; area-inspired illustration, not surveyed render",
+    "laneWidthBasis": "User-required 4\u20136m target; no measured claim for every street or Omiya-dori main road"
+  }
+}
