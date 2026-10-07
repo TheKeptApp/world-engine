@@ -605,7 +605,11 @@
         "path": "tuning.ordinary-1530.direct"
       },
       "transform": "none",
-      "note": "daytime master; direct sun 1.0 x clear E0 vs grade.json direct multiplier on the weather model sun"
+      "note": "daytime master; direct sun 1.0 x clear E0 vs grade.json direct multiplier on the weather model sun",
+      "calibration": {
+        "block": "daytimeMaster",
+        "note": "calibrated (with keyToSkyFillWitnessRatio): key x0.6 is the key:fill split paired with fill x1.65, not a dimming; auto exposure to the heroes' 131.3 Y8 restores absolute direct to about 1 x E0 (5A, 7 Oct)"
+      }
     },
     {
       "mock": "house-contrast-v1/sharedLighting.sun.keyToSkyFillWitnessRatio",
