@@ -110,8 +110,14 @@ extension World {
                 sunEntity.components.set(shadow)
                 appliedShadowRange = range
             }
+            // Where shadows fall (`World.updateLODs` keeps out-of-view trees whose shadow reaches the
+            // view): horizontal direction away from the sun, shadow length per metre of height.
+            let sun = SIMD2<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.z))
+            let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
+            shadowCast = SIMD3(away.x, away.y, Float(1 / tan(max(elevation, 3) * .pi / 180)))
         } else {
             sunEntity.components.remove(DirectionalLightComponent.Shadow.self)
+            shadowCast = nil
         }
         let dir = SIMD3<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.y), Float(env.light.sunDirection.z))
         sunEntity.look(at: .zero, from: dir.y > 0.02 ? dir * 100 : [dir.x * 100, 2, dir.z * 100], relativeTo: nil)

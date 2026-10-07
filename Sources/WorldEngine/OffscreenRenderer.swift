@@ -34,7 +34,13 @@ extension World {
         for m in motions { m.isPaused = true }
         let contact = contactEntity
         if !keepContact { contactEntity = nil }
+        // Every tree and bush, not just those in the live view (the picture's frame may be wider);
+        // the live view culls again at its next update.
+        foliageViewCulling = false
+        lodCenter = nil
         update(deltaTime: 0, camera: camera, focusPoint: target, cutAwayTarget: nil)
+        foliageViewCulling = true
+        lodCenter = nil
         contactEntity = contact
         for (m, p) in zip(motions, paused) { m.isPaused = p }
     }
@@ -52,7 +58,7 @@ extension World {
         var copies: [ObjectIdentifier: Entity] = [:]
         var hostEntities: Set<ObjectIdentifier> = []
         // Tree and bush slots that quality mode refills anyway skip the instance copy.
-        let refilled = quality.nearDetail ? Set(lodGroups.flatMap { $0.levels.map { ObjectIdentifier($0.entity) } }) : []
+        let refilled = quality.nearDetail ? Set(lodBatches.map { ObjectIdentifier($0.entity) }) : []
         var skipInstances: Set<ObjectIdentifier> = []
         for child in rootEntity.children {
             if child.name == "Occluders" { continue }

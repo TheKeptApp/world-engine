@@ -136,10 +136,12 @@ struct RealityKitScreen: View {
                 print(String(format: "RENDER t=%.0f fps=%.1f gpu=%@ %@", Date().timeIntervalSince(started), metrics.liveFPS(),
                              render.gpuFrameMs.map { String(format: "%.2f", $0) } ?? "-", render.summary))
                 // What the current view asks the GPU to draw (P3's look loop): frustum-tested
-                // triangles and draw calls of the world (sky, rain and characters not counted).
+                // triangles and draw calls of the world (sky, stars and rain one draw each; characters
+                // not counted), then the draw calls and triangles by category.
                 if let w = world {
                     print(String(format: "VIEW t=%.0f triangles=%d draws=%d", Date().timeIntervalSince(started),
-                                 w.stats.viewTriangles, w.stats.viewDrawCalls))
+                                 w.stats.viewTriangles, w.stats.viewDrawCalls)
+                          + " drawsplit[\(w.stats.viewDraws.summary)] trisplit[\(w.stats.viewTriangleSplit.summary)]")
                 }
             }
         }
@@ -318,7 +320,7 @@ struct RealityKitScreen: View {
             do { try shot.data.write(to: file, options: .atomic) } catch {
                 print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
             }
-            print("VIEWSHOT id=\(spec.id) file=views/\(spec.id).png size=\(shot.size) source=\(shot.source) triangles=\(world.stats.viewTriangles) draws=\(world.stats.viewDrawCalls) \(render.summary)")
+            print("VIEWSHOT id=\(spec.id) file=views/\(spec.id).png size=\(shot.size) source=\(shot.source) triangles=\(world.stats.viewTriangles) draws=\(world.stats.viewDrawCalls) \(render.summary) drawsplit[\(world.stats.viewDraws.summary)]")
             fflush(nil)
             done += 1
         }
