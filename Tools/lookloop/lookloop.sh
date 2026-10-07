@@ -65,6 +65,10 @@ for i in ids:
         + (f"Also compare against the approved house-archetypes-v1 block paint-over {views[i]['archetypeMock']} (houses only: forms, "
            f"materials, palette variety, porches, garages, yards; not lighting) and include \"archetypeGap\" with the same shape "
            f"as mockGap (mock, closeness 1-5, at most 3 gaps). " if views.get(i, {}).get("archetypeMock") else "")
+        + (f"Also compare the road look (lane markings, crosswalks, curbs, paving colours and materials; not widths, which street-geometry-rules-v1 owns) "
+           f"against the approved infrastructure-kit-v1 sheets {', '.join(views[i]['infraSheets'])} (if not in this checkout, use ~/Desktop/world-engine/ plus the same path) "
+           f"and include \"infraGap\" with the same shape as mockGap (mock = the sheet that fits best, closeness 1-5, at most 3 gaps; "
+           f"1 = the feature is missing). " if views.get(i, {}).get("infraSheets") else "")
         + f"Write only the "
         f"JSON object of section G to {rel}/grades/{i}.json (set \"grader\" to your model id), then reply \"done\".")
 open(os.path.join(run, "reviewers.md"), "w").write("\n".join(lines) + "\n")

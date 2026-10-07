@@ -54,6 +54,8 @@ Packs R approved in ChatGPT are the exact visual direction (`docs/proposals/INDE
 
 **House archetypes (R approved 2026-10-07, house-archetypes-v1):** views with an `archetypeMock` (the Chicago block paint-over on `lakeview-postcard-afternoon` and `lakeview-street-afternoon`, the Denver one on `ordinary-street-afternoon`) also get `"archetypeGap"` with the mockGap shape, judged on houses only (forms, materials, palette variety, porches, garages, yards), not lighting. Miami targets are registered on the inactive `miami-street` entry until a Miami test area exists.
 
+**Infrastructure (R approved 2026-10-07, infrastructure-kit-v1, all 48 sheets):** the four afternoon hero views carry `infraSheets` (road sheets: arterial, residential, markings, crosswalks) and reviewers add `"infraGap"` with the mockGap shape, judged on road look only (lane markings, crosswalks, curbs, paving colours and materials), never on widths: `street-geometry-rules-v1` owns street geometry (R, 2026-10-07). Baseline before P2's markings stage: expect 1.
+
 ## P. Paint-over targets (owner, 6 Oct 2026; docs/proposals/paintover-v1/)
 
 Six views have a ChatGPT paint-over of their own camera: `ordinary-street`, `evanston-street`, `showcase-03`, `showcase-06`, `v2-06` and `lakeview-street`. The paint-over is listed as the view's last target. It is the closest thing to an exact appearance target: it starts from the same capture, so compare like for like (crown shading, ground families, contact pockets, wet sheen, sky, haze) and name in the fixes what still separates the frame from it. The pack's README and `paintover-values.json` give the authored values per view.

@@ -16,6 +16,8 @@ Filing rules added 7 Oct 2026 (disk was short): hidden folders (.work, ChatGPT s
 owner's checkout (--worktree-images also copies them here); text files over 1 MB and binary documents (xlsx, pdf, docx, pptx)
 are kept local like images and named in .gitignore; the pack's own bundle zips (*-all.zip, *-all-files.zip, *-complete.zip)
 and the images inside superseded* folders are skipped (their text is filed); --quiet prints one line per pack.
+--update-text also replaces already-filed TEXT files that ChatGPT has since revised in place (git history keeps the previous
+version; images are never replaced).
 Nothing in the drop folder is ever changed or deleted. A destination file that already exists with different
 content is reported and left alone, never overwritten. The caller commits, updates docs/design-registry.md
 and runs the backup.
@@ -105,6 +107,7 @@ def plan(only=(), worktree_images=False):
 def main():
     apply = "--apply" in sys.argv
     quiet = "--quiet" in sys.argv
+    update_text = "--update-text" in sys.argv
     rows = plan(tuple(a for a in sys.argv[1:] if not a.startswith("--")), worktree_images="--worktree-images" in sys.argv)
     per = {}
     for pack, k, f, d, state in rows:
@@ -116,8 +119,12 @@ def main():
                 open(d, "wb").write(scrub(open(f, "rb").read()))
             else:
                 shutil.copy2(f, d)
+        if state == "CONFLICT" and k == "text" and update_text:
+            if apply:
+                open(d, "wb").write(scrub(open(f, "rb").read()))
+            state = "updated"
         c = per.setdefault(pack, {})
-        key = state if state.startswith(("new", "CONFLICT")) else "skipped"
+        key = state if state.startswith(("new", "CONFLICT", "updated")) else "skipped"
         c[key] = c.get(key, 0) + 1
         if not quiet or state == "CONFLICT":
             print(f"{state:9} {k:5} {pack}: {os.path.relpath(f, DROP)} -> {d}")
@@ -133,7 +140,7 @@ def main():
         if apply:
             open(os.path.join(ROOT, ".gitignore"), "a").write("\n# ChatGPT drop: local-only (SVG or text over 1 MB, binary documents)\n" + "\n".join(unignored) + "\n")
     news = sum(1 for r in rows if r[4] == "new")
-    conflicts = sum(1 for r in rows if r[4] == "CONFLICT")
+    conflicts = sum(1 for r in rows if r[4] == "CONFLICT" and not (update_text and r[1] == "text"))
     skipped = sum(1 for r in rows if r[4].startswith("skipped"))
     print(f"{'copied' if apply else 'would copy'} {news} file(s); {conflicts} conflict(s) left for review; {skipped} skipped; drop folder untouched")
     sys.exit(1 if conflicts else 0)

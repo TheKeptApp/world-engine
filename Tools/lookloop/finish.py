@@ -220,6 +220,8 @@ def main():
            if any(g and isinstance(g.get("mockGap"), dict) for _, g, _, _ in rows) else "Approved-mock closeness: no view with an approved mock was graded."), "",
           ("House-archetype closeness (house-archetypes-v1 block paint-overs, 1–5): " + ", ".join(f"{vid} {g['archetypeGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("archetypeGap"), dict)) + "."
            if any(g and isinstance(g.get("archetypeGap"), dict) for _, g, _, _ in rows) else "House-archetype closeness: not graded in this run."), "",
+          ("Infrastructure closeness (infrastructure-kit-v1 road sheets: markings, crosswalks, curbs, paving look, 1–5): " + ", ".join(f"{vid} {g['infraGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("infraGap"), dict)) + "."
+           if any(g and isinstance(g.get("infraGap"), dict) for _, g, _, _ in rows) else "Infrastructure closeness: not graded in this run."), "",
           (f"Paint-over parity {fmt(mean_po)}% (paintover-v1, beside the gate; view /50 ÷ its own paint-over's calibrated /50): "
            + ", ".join(f"{v} {p}%" for v, p in sorted(po_parity.items())) + "." if po_parity else
            "Paint-over parity: not available (paint-overs not calibrated yet)."), "",
