@@ -125,15 +125,41 @@ class Shape:
 
 
 class ShapeTable:
-    def __init__(self, shapes: Dict[str, Shape], trips: Dict[str, str], fetched_at: float, source: str = ""):
+    def __init__(self, shapes: Dict[str, Shape], trips: Dict[str, str], fetched_at: float, source: str = "",
+                 candidates: Optional[Dict[str, List[str]]] = None):
         self.shapes = shapes
         self.trips = trips
         self.fetched_at = fetched_at
         self.source = source
+        # Feeds without GTFS trip ids (CTA): a key such as "route:Red" or "pid:6351" -> possible shape ids.
+        self.candidates = candidates or {}
 
     def for_trip(self, trip_id: Optional[str]) -> Optional[Shape]:
         sid = self.trips.get(trip_id) if trip_id else None
         return self.shapes.get(sid) if sid else None
+
+    def resolve(self, key: Optional[str], lat: float, lon: float, prefer: Optional[str] = None) -> Optional[Shape]:
+        """Shape for a vehicle: by GTFS trip id when the key is one, else the nearest of the key's candidate
+        shapes, keeping `prefer` (the shape it was on) while it stays within MAX_OFFSET_M, so a train does not
+        hop between branches where they share track."""
+        if not key:
+            return None
+        if "|" in key:                      # fallbacks in order, e.g. "pid:6351|route:1"
+            for k in key.split("|"):
+                if k in self.candidates or k in self.trips:
+                    return self.resolve(k, lat, lon, prefer)
+            return None
+        sh = self.for_trip(key)
+        if sh is not None:
+            return sh
+        cands = [self.shapes[c] for c in self.candidates.get(key, ()) if c in self.shapes]
+        if not cands:
+            return None
+        if prefer is not None:
+            for c in cands:
+                if c.id == prefer and c.project(lat, lon)[1] <= MAX_OFFSET_M:
+                    return c
+        return min(cands, key=lambda c: (c.project(lat, lon)[1], c.id))
 
     @classmethod
     def from_gtfs(cls, trips_txt: str, shapes_txt: str, fetched_at: float, source: str = "") -> "ShapeTable":
@@ -165,6 +191,7 @@ class ShapeTable:
 
     def save(self, path: str) -> None:
         doc = {"schema": 1, "fetchedAt": self.fetched_at, "source": self.source, "trips": self.trips,
+               "candidates": self.candidates,
                "shapes": {sid: [[p[0], p[1]] for p in s.points] for sid, s in self.shapes.items()}}
         fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".", suffix=".tmp")
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
@@ -179,6 +206,7 @@ class ShapeTable:
             if d.get("schema") != 1:
                 return None
             shapes = {sid: Shape(sid, [tuple(p) for p in pts]) for sid, pts in d["shapes"].items()}
-            return cls(shapes, dict(d["trips"]), float(d["fetchedAt"]), d.get("source", ""))
+            return cls(shapes, dict(d["trips"]), float(d["fetchedAt"]), d.get("source", ""),
+                       {k: list(v) for k, v in d.get("candidates", {}).items()})
         except (OSError, ValueError, KeyError, TypeError):
             return None

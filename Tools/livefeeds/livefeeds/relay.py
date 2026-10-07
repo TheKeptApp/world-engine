@@ -64,7 +64,7 @@ class RtdSource:
 
 
 class CtaSource:
-    """CTA Train Tracker ('L' trains): JSON, no routes table, no shapes yet (motion null)."""
+    """CTA Train Tracker ('L' trains): JSON, no routes table; shapes from CTA static GTFS (ctagtfs)."""
     name = cta.SOURCE
     attribution = cta.ATTRIBUTION
     needs_routes = False
@@ -76,7 +76,7 @@ class CtaSource:
 
 
 class CtaBusSource:
-    """CTA Bus Tracker: JSON, route names come with the combined body, no shapes yet (motion null)."""
+    """CTA Bus Tracker: JSON, route names come with the combined body; shapes from CTA static GTFS (ctagtfs)."""
     name = ctabus.SOURCE
     attribution = ctabus.ATTRIBUTION
     needs_routes = False
@@ -160,6 +160,7 @@ class Relay:
         self._shapes_fetch = shapes_fetch
         self._shapes: Optional[ShapeTable] = None
         self._shapes_tried_at: Optional[float] = None
+        self.stops = None                    # ctagtfs.StopTable for feeds that publish stops (CTA)
         self.tracker = Tracker()
         # One feed, one salt: the service day follows the first area's time zone (prototype: one area).
         self.salt = DailySalt(cfg.cache_dir, areas[0].timezone, areas[0].day_start_hour)
@@ -192,6 +193,10 @@ class Relay:
         p = self._path("shapes.json")
         if p and shapes_fetch is not None:
             self._shapes = ShapeTable.load(p)
+        sp = self._path("stops.json")
+        if sp and shapes_fetch is not None and os.path.exists(sp):
+            from .ctagtfs import StopTable
+            self.stops = StopTable.load(sp)
 
     # -- disk cache --------------------------------------------------------------------------
     def _path(self, name: str) -> Optional[str]:
@@ -293,6 +298,11 @@ class Relay:
         self.stats["shapesBytes"] += nbytes
         self.stats["shapesFetches"] += 1
         self._shapes = new
+        if getattr(new, "stops", None) is not None:
+            self.stops = new.stops
+            sp = self._path("stops.json")
+            if sp:
+                new.stops.save(sp)
         p = self._path("shapes.json")
         if p:
             try:

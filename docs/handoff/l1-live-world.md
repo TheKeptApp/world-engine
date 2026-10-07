@@ -12,7 +12,7 @@ Sources and licences: `docs/research/licensing.md` section 14, rows LW1-LW12.
 |---|---|---|---|
 | 1. Sky | `worldengine.live.sky/1` (`livefeeds.sh sky`) | Built | 3 dates x Chicago/Denver/Miami against JPL DE421 (Skyfield): Sun <= 13", Moon <= 4", stars <= 1.6", planets <= 34" except Jupiter 82" and Saturn 5' (inside the Standish table's stated accuracy); Meeus worked examples in tests |
 | 2. Satellites | `worldengine.live.satellites/1` (`livefeeds.sh sats`) | Built | SGP4 matches Vallado's published `tcppver.out` on all 9 near-earth cases (158 states, < 1e-8 km); pass times within 0.3 s of Skyfield, sunlit flag 4,187/4,187 |
-| 3. Transit | relay schema 1 + `motion`, `positionState`, `basis`, `/v1/shapes` (`livefeeds.sh serve`) | RTD shape smoothing built; CTA not started | Offline tests (shapes, speed estimation, reference `Smoother` following live-feeds.md 8.6 along shapes, privacy of trip ids) |
+| 3. Transit | relay schema 1 + `motion`, `positionState`, `basis`, `/v1/shapes` (`livefeeds.sh serve`) | RTD and CTA (trains, buses) shape snapping and speed built; CTA stops served (`/v1/stops`) | Offline tests (shapes, speed estimation, reference `Smoother` following live-feeds.md 8.6 along shapes, privacy of trip ids) |
 | 4. Planes | live-feeds.md 8 schema 1, `live: false`, `basis: "simulated"` (`livefeeds.sh planes`) | ORD and DEN simulated traffic built per `docs/research/ambient-planes.md`; live ADS-B evaluated, not built | Offline tests (StableRandom reference vectors, glide path, timing, spacing, flows, labels) |
 
 ## Owner decisions (2026-10-07)
