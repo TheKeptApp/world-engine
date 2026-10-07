@@ -10,5 +10,11 @@
   "sky": {
     "cloudEdgeClear": 0.05,
     "cloudEdgeOvercast": 0.3
+  },
+  "wetPaving": {
+    "comment": "Departure from rain-v1 (owner's phone check, 7 Oct): the pack's paving darkening x3.8, so steady rain darkens concrete ~38% and asphalt ~42%, light rain ~30%.",
+    "darkenScale": 3.8,
+    "darkenMax": 0.5,
+    "surfaces": ["concrete", "asphalt"]
   }
 }
