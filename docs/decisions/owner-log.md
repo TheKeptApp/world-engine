@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **No permission, no raw data (R decided):** until a dataset is GREEN for our use the engine doesn't load it; it uses rule-based generation from the research catalogs (street-trees-by-metro-v1, regional-look-catalog-v1), labelled "inferred". GREEN datasets may be used now with their required credit. Real inventories replace inferred placement per city as permissions arrive. Outreach requests are a backlog, not sent. Applied: `docs/outreach.md`; licensing §19 (TD1–TD4).
+
 - **Creator kit as lead wedge candidate (PROPOSED):** ready-made real-place view + Style B parts kit + live shareable embed; paid tiers; first segment race/event organizers; two-layer trust model protecting the base map; community corrections through the same promotion pipeline; official partner builds with licensed logos. After the look gate and streaming; demand research (creator-kit-demand-v1) now. Applied: `docs/roadmap.md`; licensing Q49–Q52.
 
 - **Mock closeness at the mock's own conditions:** heroes get clear mid-afternoon twins for §M closeness; golden-hour views are scored on parity only; every approved mock has a view at its time and weather (night-fog states on their source cameras; rain-v1 recorded, pending approval). Re-baseline the afternoon heroes on the next run; watch v2-06. Applied: `Tools/lookloop/views.json`, GRADING.md §M.
