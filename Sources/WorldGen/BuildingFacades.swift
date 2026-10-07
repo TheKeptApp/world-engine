@@ -116,7 +116,15 @@ extension BuildingGenerator {
             var cols = [-edgeS, edgeS]
             if four { cols += [-edgeS / 3, edgeS / 3] }
             for s in cols {
-                m.addBox(center: p + dir * (doorS + s) + n * (depth - 0.17), u: dir, halfLength: 0.11, halfWidth: 0.11, z0: F, z1: colTop)
+                let at = p + dir * (doorS + s) + n * (depth - 0.17)
+                if c.grammar.details?.columnCaps == true {
+                    // Slender shaft with one simplified base and capital (house-details-v1 Colonial).
+                    m.addBox(center: at, u: dir, halfLength: 0.15, halfWidth: 0.15, z0: F, z1: F + 0.22)
+                    addPrism(at: at, u: dir, half: 0.105, z0: F + 0.22, z1: colTop - 0.2, topHalf: 0.09, into: &m)
+                    m.addBox(center: at, u: dir, halfLength: 0.15, halfWidth: 0.15, z0: colTop - 0.2, z1: colTop, bottom: true)
+                } else {
+                    m.addBox(center: at, u: dir, halfLength: 0.11, halfWidth: 0.11, z0: F, z1: colTop)
+                }
             }
             // Pilasters where the beam meets the wall.
             for sx in [-1.0, 1.0] {
@@ -186,7 +194,7 @@ extension BuildingGenerator {
         for sx in [-1.0, 1.0] {
             m.addCleanFace([q(sx * hw, 0, z0), q(sx * hw, depth, z0), q(sx * hw, depth, zv), q(sx * hw, 0, zv)], facing: D(dir * sx))
         }
-        m.paint = c.grammar.facade?.gablePanel == true || c.grammar.facade?.halfTimber == true ? Paint(slot: c.trim.slot, shade: 0.97) : c.wall
+        m.paint = c.grammar.facade?.gablePanel == true || c.grammar.facade?.halfTimber == true ? Paint(slot: c.panel.slot, shade: 0.97) : c.wall
         m.addCleanFace([q(-hw, depth, zv), q(hw, depth, zv), q(0, depth, peak)], facing: D(n))
         // Roof: two steep planes from the front rake back to the wall (or under the main roof).
         m.paint = c.roof

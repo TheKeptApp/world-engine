@@ -240,7 +240,8 @@ extension BuildingGenerator {
                 let (p, dir, n, len) = Self.edge(ring, e)
                 guard len >= 2.5, let gable = Self.gable(env.profile(p, p + dir * len), length: len, eave: c.H), gable.peak - c.H >= 1.6 else { continue }
                 if facade.halfTimber == true, near {
-                    m.paint = Paint(slot: c.door.slot, shade: 0.8)
+                    // Dark timber: the family trim when it has one (Tudor trim is the timber brown).
+                    m.paint = c.grammar.details?.trim != nil ? c.trim : Paint(slot: c.door.slot, shade: 0.8)
                     let half = (gable.s1 - gable.s0) / 2
                     m.addWallQuad(origin: p, dir: dir, normal: n, s0: gable.s0 + 0.25, s1: gable.s1 - 0.25, z0: c.H, z1: c.H + 0.2, offset: 0.04)
                     for sx in [-1.0, 1.0] {

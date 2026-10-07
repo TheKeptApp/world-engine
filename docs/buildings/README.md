@@ -209,6 +209,61 @@ Before / after (`buildingviz`, same camera, top before):
 | South Evanston: chimney breasts on open side walls | ![](facades/sidewalls-evanston.jpg) |
 | Lakeview: gangway window stacks, side-wall chimney through the eave | ![](facades/sidewalls-lakeview.jpg) |
 
+## House details (house-details-v1)
+
+Input: `docs/proposals/house-details-v1/` (family recipes, 10/25/50 m model/paint/drop table, bevel
+table, `house-details-colours.json`). Code: `Sources/WorldGen/HouseDetails.swift` (porch, stairs,
+post styles, corners and frieze, shutters, cornice bevel), hooks in `BuildingGenerator` (trim colour,
+eave, foundation, relief casings, door head, porch/stoop choice), `RoofAssembly` (fascia chamfer),
+`BuildingFacades` (portico column caps). Data: `details` per family in `house-families.json`
+(decision 37). Families without `details` are generated exactly as before. Tests: `HouseDetailTests`
+(entry stays open, steps reach the ground in risers ≤ 0.4 m, skyline unchanged and far within 5 %,
+per-LOD caps, street corners softened at near only, trim colours ≤ 3 steps per family) plus the
+existing geometry, facade-kit, side-wall, area and view-budget suites.
+
+**Distance tiers.** Pack 10 m and 25 m → `near` (0–50 m); pack 50 m → `mid` (50–150 m); `far` and
+`skyline` are outside the pack's range and unchanged.
+
+| Part | near | mid |
+|---|---|---|
+| Covered porch | platform, posts by family style (square; turned = rail-height block + slim shaft + capital; masonry pier with cap; brick pier + tapered post), bracket wedges, top rail with a few stout uprights (front both sides of the steps and the porch ends), beam and ceiling, hip / shed / gable / flat roof kept 0.25 m under the main roof, steps | platform, plain posts and piers (gaps kept), beam, roof, front top rail only |
+| Stoop and steps | stoop sized to the stair; one block per riser (0.3 m treads, no hidden back faces), solid cheek walls where the family has them | stair wedge when ≥ 3 risers |
+| Trim | family trim colour on casings, door surround, fascia, rakes, soffits, posts; relief casings (projecting sill and head) on street windows; door head cap; frieze board under street eaves; paired shutters on symmetric fronts | trim colour only |
+| Eaves | family overhang range and fascia depth; one 2.5 cm chamfer on the fascia's lower outer edge of street-facing eaves and rakes | family overhang, plain fascia |
+| Corners | street corners: corner boards (siding: 14 cm, 3 cm proud, 2 cm chamfer) or a 4 cm chamfer strip (masonry) | none |
+
+### Group 1: North Shore suburban (Tudor, Colonial, Prairie, Queen Anne, Shingle, mid-century)
+
+| Family | Pack recipe | What it gets |
+|---|---|---|
+| Tudor | tudor | dark timber trim (#573326–#88502D) on casings, half-timber and fascia; eave 0.2–0.4 m; masonry chamfers; broad 1.6–2.0 m stoop; vestibule kept |
+| Colonial | colonial | cream trim; eave 0.3–0.5 m; frieze; portico columns with base and capital; shutters (55 %, pack shutter greens) |
+| Prairie | prairie | brown trim; eave 0.8–1.2 m; covered terrace porch (55 %) on 0.45–0.6 m masonry piers with a flat slab roof; broad steps |
+| Queen Anne | queen_anne | warm cream trim; eave 0.3–0.6 m; corner boards, frieze; porch (75 %) with turned posts, brackets, rails, hip roof |
+| Shingle | (none; QA porch, Colonial trim) | square-post porch with rails and hip roof; corner boards |
+| Mid-century | denver_ranch (nearest) | ranch trim; eave 0.45–0.8 m; chamfers; wider stoop |
+
+Measured (`BuildingAreaTests`, all buildings of each 1 km² area; before = origin/main 8f90162):
+
+| Area | Near tris/km² | Mid | Far | Skyline | Avg house near | Inferred bays |
+|---|---|---|---|---|---|---|
+| South Evanston | 325.8k → 366.8k (+12.6 %) | 117.7k → 121.0k (+2.8 %) | 41.2k → 41.5k (+0.7 %) | unchanged | 413 → 471 | 78 → 65 |
+| Wilmette (Vattmann Park) | 425.6k → 473.7k (+11.3 %) | 156.8k → 161.1k (+2.8 %) | 57.5k → 58.1k (+1.1 %) | unchanged | 412 → 466 | 80 → 66 |
+
+Per family, Evanston near (before → after): Tudor 403 → 423, Colonial 473 → 565, Prairie 445 → 491,
+Queen Anne 493 → 639, Shingle 381 → 450, mid-century 262 → 273. Lakeview and Sloan's Lake houses
+have no details yet; they lose 2 triangles per riser (near 1.112M → 1.096M, 211.9k → 209.0k per km²).
+Views (building triangles, all LODs): evanston-street 19.4k → 20.1k, wilmette-street 28.1k → 28.7k.
+No new materials (draws): every new part uses existing palette slots plus ≤ 3 trim and 3 shutter
+colours per family. Facade budget test (near ≤ +45 % vs the pre-facade baseline) holds: Evanston
+average house 471 vs the 401 baseline (+17 %).
+
+| View | Sheet (top before, bottom after; `buildingviz`, 1005×565) |
+|---|---|
+| South Evanston, gate camera | ![](facades/details-evanston-street.jpg) |
+| Queen Anne porch, Tudor, corner boards and frieze | ![](facades/details-evanston-porch.jpg) |
+| Wilmette street: Tudor timber trim, Colonial portico and shutters | ![](facades/details-wilmette-street.jpg) |
+
 ## Decisions: zones and yards (round 2)
 
 22. **Per-building zone profiles.** Without a forced profile, each building takes the `regions.json`
@@ -271,6 +326,21 @@ Before / after (`buildingviz`, same camera, top before):
     clamped. All constants are `RoadRules` fields. Lakeview: W Roscoe St 3.3 → 9.1 m.
 36. **Trees built to vegetation-v1** ([Trees](#trees)): crown shapes, species colours per region,
     trunk-base contact, weeping willow, and leaf-card crowns behind a switch; numbers and gaps there.
+37. **House details (house-details-v1)** ([section](#house-details-house-details-v1)): per-family `details` in
+    `house-families.json` (porch, stoop, trim colour, eave, fascia, corners, casings, frieze, shutters,
+    foundation, cornice bevel, column caps). Choices outside the pack, logged: (a) the pack's 10 m and
+    25 m tiers both map to `near` (0–50 m) and its 50 m tier to `mid`; far/skyline unchanged; (b) trim
+    colour is one of three linear-light steps of the pack range per house (palette stays ≤ 3 slots per
+    family), and the profile's old light trim stays the gable/stucco panel colour; (c) Shingle Style
+    (no pack family) uses the Queen Anne porch with square posts and Colonial trim; mid-century uses the
+    Denver ranch recipe; (d) Prairie houses now roll the profile's 55 % porch as a covered terrace on
+    masonry piers instead of a canopy; (e) a covered porch is built only where the ground in front
+    (porch + steps) is clear of buildings, roads (+0.6 m) and sidewalks, else the stoop with a canopy
+    (the old porch had no clearance test); (f) Queen Anne porches take 35–55 % of the front so the
+    family's bay keeps its room; (g) fascia and rake chamfers only on street-facing edges, corner
+    treatment only on street corners, relief casings only on street walls (budget); (h) steps lose
+    their hidden back faces everywhere (−2 triangles per riser); (i) Tudor half-timber strips use the
+    family trim (the pack's timber brown) instead of a darkened door colour.
 
 ## Trees
 

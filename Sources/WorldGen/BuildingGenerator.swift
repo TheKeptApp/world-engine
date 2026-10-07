@@ -63,6 +63,10 @@ public struct GeneratedBuilding: Sendable {
     /// True if the garage door faces an alley/service road (vs. a street).
     public var garageDoorFacesAlley = false
     public var eaveHeight: Double = 0
+    /// Ground-floor (foundation) height: the top of the stoop or porch floor.
+    public var floorHeight: Double = 0
+    /// Covered porch built from family details (house-details-v1): its plan rectangle.
+    public var porchOutline: [LocalPoint] = []
     public var topHeight: Double = 0
     public var hasPorch = false
     public var porchStyle: String?
@@ -216,6 +220,8 @@ public struct BuildingGenerator: Sendable {
         g.family = type?.id
         let grammar = families.grammar(type?.id)
         let facade = grammar.facade ?? HouseFamilyGrammar.Facade()
+        // House details apply to houses and block families (not garages or sheds).
+        let details = role == .house || role == .block ? grammar.details : nil
         let tuples: [[String]] = switch role {
         case .garage: profile.garage.colors
         case .shed: profile.shed.colors
@@ -230,6 +236,10 @@ public struct BuildingGenerator: Sendable {
         }
         if let wall = b.tags["building:colour"].flatMap(Self.hexColor) { tuple[0] = wall }
         if let roof = b.tags["roof:colour"].flatMap(Self.hexColor) { tuple[3] = roof }
+        // The profile's light trim stays the gable / stucco panel colour; the family trim colour
+        // (house-details-v1) takes casings, fascia, soffits, corner boards and porch posts.
+        let panelHex = tuple[1]
+        if let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
         g.colors = tuple
         let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03)))
         let trim = Paint(slot: palette.slot(hex: tuple[1]))
@@ -275,15 +285,15 @@ public struct BuildingGenerator: Sendable {
         let overhangRange: [Double] = switch role {
         case .garage: profile.garage.overhang
         case .shed: profile.shed.overhang
-        default: type?.overhang ?? [0.3, 0.5]
+        default: details?.eave ?? type?.overhang ?? [0.3, 0.5]
         }
         let pitch = rng.range(pitchRange)
         let overhang = rng.range(overhangRange)
         let F: Double = switch role {
-        case .house: rng.range(profile.foundationMeters)
+        case .house: rng.range(details?.foundation ?? profile.foundationMeters)
         case .garage: 0.12
         case .shed: 0.05
-        case .block: facade.stoop == true ? rng.range(profile.foundationMeters) : 0.3
+        case .block: facade.stoop == true ? rng.range(details?.foundation ?? profile.foundationMeters) : 0.3
         }
         let mainRect = shape.roofRects.max { $0.area < $1.area } ?? shape.obb
         let rise = (roofShape == .gabled || roofShape == .hipped) ? Roofs.rise(mainRect, pitch: pitch) : 0
@@ -343,6 +353,7 @@ public struct BuildingGenerator: Sendable {
             RoofEnvelope(masses: lod == .far ? p.masses.map { var m = $0; m.overhang = min(m.overhang, 0.35); return m } : p.masses, clip: p.clip)
         }
         g.eaveHeight = H
+        g.floorHeight = F
         g.topHeight = envelope.map { max(H, $0.topHeight) } ?? H + rise + parapet
         if let plan {
             g.roofMasses = plan.masses.count
@@ -354,7 +365,8 @@ public struct BuildingGenerator: Sendable {
         let near = lod == .near
         let streetFacing = streetFacingEdges(ring, front: g.frontEdge)
         let wallFor: (Int) -> Paint = { e in sideWall != nil && !streetFacing.contains(e) ? sideWall! : wallPaint }
-        let gablePaint: Paint? = (facade.gablePanel == true || facade.halfTimber == true) ? Paint(slot: trim.slot, shade: 0.97) : nil
+        let panel = Paint(slot: palette.slot(hex: panelHex))
+        let gablePaint: Paint? = (facade.gablePanel == true || facade.halfTimber == true) ? Paint(slot: panel.slot, shade: 0.97) : nil
 
         // Walls in bands so baked AO has vertices to live on: base contact, eave shadow.
         for (ri, wallRing) in ([fp.outer] + fp.holes).enumerated() {
@@ -389,7 +401,12 @@ public struct BuildingGenerator: Sendable {
         // Roof.
         let roofStart = m.positions.count
         if let envelope {
-            let paints = RoofPaints(roof: roofPaint, trim: trim, wall: wallPaint, gable: gablePaint, fascia: near ? 0.22 : 0.18)
+            var paints = RoofPaints(roof: roofPaint, trim: trim, wall: wallPaint, gable: gablePaint, fascia: near ? details?.fascia ?? 0.22 : 0.18)
+            // Softened roof edges (house-details-v1): one 2.5 cm chamfer on street-facing fascia and rakes, near only.
+            if near, details?.corners != nil, let f = g.frontEdge {
+                paints.bevel = 0.025
+                paints.bevelToward = Self.edge(ring, f).2
+            }
             envelope.emitRoof(paints: paints, soffits: lod != .far, fascia: lod != .far, into: &m)
         } else {
             let roofStyle = Roofs.Style(pitchDegrees: pitch, overhang: overhang, roof: roofPaint, gableWall: wallPaint, trim: trim, fascia: 0.22)
@@ -411,7 +428,7 @@ public struct BuildingGenerator: Sendable {
 
         var ctx = BuildContext(b: b, ring: ring, type: type, grammar: grammar, F: F, H: H, parapet: parapet, pitch: pitch,
                                overhang: overhang, wall: wallPaint, sideWall: sideWall, trim: trim, door: doorPaint, roof: roofPaint,
-                               foundation: foundation, glass: glass, mainRect: mainRect, lod: lod, envelope: envelope, plan: plan,
+                               foundation: foundation, glass: glass, panel: panel, mainRect: mainRect, lod: lod, envelope: envelope, plan: plan,
                                streetFacing: streetFacing, floors: max(1, g.floors),
                                mappedBays: facade.mappedBays == true && (role == .house || role == .block)
                                    ? mappedBays(ring, front: g.frontEdge, streetFacing: streetFacing) : [])
@@ -424,6 +441,7 @@ public struct BuildingGenerator: Sendable {
         if lod <= .mid {
             addOpenings(ctx, &g, palette: &palette, into: &m)
             addFacadeDetails(ctx, &g, into: &m)
+            addCornersAndFrieze(ctx, into: &m)
             optional += addRoofDetails(ctx, &g, palette: &palette, budget: Self.optionalRoofCap - optional, into: &m)
             if near { addContactSkirt(ring, palette: palette, into: &m) }
         }
@@ -465,6 +483,7 @@ public struct BuildingGenerator: Sendable {
         let role = g.role
         let b = c.b, ring = c.ring, F = c.F, H = c.H
         let facade = c.grammar.facade ?? HouseFamilyGrammar.Facade()
+        let details = role == .house || role == .block ? c.grammar.details : nil
         let near = c.lod == .near
         var rng = b.ref.random("openings")
         let win = c.type?.windows ?? StyleProfile.Windows(bay: [2.8, 3.2], width: [0.9, 1.2], height: [1.2, 1.5], broad: nil)
@@ -526,11 +545,26 @@ public struct BuildingGenerator: Sendable {
                 }
                 m.paint = c.door
                 m.addWallQuad(origin: p, dir: dir, normal: n, s0: doorS - 0.45, s1: doorS + 0.45, z0: F, z1: F + 2.05, offset: 0.045)
+                if near, details?.casings == true {
+                    // Door head: a projecting cap over the surround.
+                    m.paint = c.trim
+                    addLedge(origin: p, dir: dir, normal: n, s0: doorS - 0.66, s1: doorS + 0.66, z0: F + 2.2, z1: F + 2.34, depth: 0.08, ends: true, into: &m)
+                }
             }
             let eaveZ = H - c.overhang * tan(c.pitch * .pi / 180)
+            let porchKit: PorchLayout? = if kitHalf == nil, wantsPorch, porchStyle == "covered", let spec = details?.porch {
+                addPorch(c, spec, profilePorch: porch, edge: e, doorS: doorS, into: &m)
+            } else { nil }
+            if porchKit == nil, details?.porch != nil, wantsPorch, porchStyle == "covered" {
+                // No room for the covered porch: the stoop with a small canopy instead.
+                g.porchStyle = "canopy"
+            }
             if let hw = kitHalf {
                 doorSpan = (e, doorS - hw - 0.3, doorS + hw + 0.3)
-            } else if wantsPorch, porchStyle == "covered" {
+            } else if let pk = porchKit {
+                doorSpan = (e, pk.s0 - 0.3, pk.s1 + 0.3)
+                g.porchOutline = [p + dir * pk.s0, p + dir * pk.s1, p + dir * pk.s1 + n * pk.depth, p + dir * pk.s0 + n * pk.depth]
+            } else if wantsPorch, porchStyle == "covered", details?.porch == nil {
                 let depth = r.range(porch?.depth ?? [1.6, 2.2])
                 let width = min(len - 0.4, max(2.4, len * r.range(porch?.frontage ?? [0.5, 0.8])))
                 let s0 = max(0.2, min(len - 0.2 - width, doorS - width / 2))
@@ -563,7 +597,13 @@ public struct BuildingGenerator: Sendable {
                 let depth = porch.map { r.range($0.depth) } ?? 1.0
                 let start = m.positions.count
                 m.paint = c.foundation
-                m.addBox(center: p + dir * doorS + n * 0.6, u: dir, halfLength: 0.8, halfWidth: 0.6, z0: 0, z1: F)
+                var stoopHalf = 0.8, stoopStair = 1.2
+                if let st = details?.stoop {
+                    var sr = b.ref.random("stoop")
+                    stoopStair = min(sr.range(st.width ?? [1.2, 1.2]), 2 * min(doorS, len - doorS) - (st.cheeks == true ? 0.6 : 0.2))
+                    stoopHalf = max(0.8, stoopStair / 2 + (st.cheeks == true ? 0.24 : 0.1))
+                }
+                m.addBox(center: p + dir * doorS + n * 0.6, u: dir, halfLength: stoopHalf, halfWidth: 0.6, z0: 0, z1: F)
                 if kit == "surround" {
                     // The arched stone surround is the entry.
                 } else if facade.entryPediment == true {
@@ -573,7 +613,12 @@ public struct BuildingGenerator: Sendable {
                                z: F + 2.35, thickness: 0.12, overhang: 0.05, paint: roofPaint(c.roof, c.trim, porchStyle), into: &m)
                 }
                 m.bakeAO(from: start) { _, nn in nn.y < -0.5 ? 0.7 : 1 }
-                if near { addSteps(at: p + dir * doorS + n * 1.2, dir: dir, n: n, width: 1.2, height: F, foundation: c.foundation, into: &m) }
+                if let st = details?.stoop {
+                    addStair(c, top: p + dir * doorS + n * 1.2, dir: dir, n: n, width: stoopStair, height: F, cheeks: st.cheeks == true,
+                             paint: detailPaint(c, st.steps), cheekPaint: detailPaint(c, st.cheekColour ?? st.steps), into: &m)
+                } else if near {
+                    addSteps(at: p + dir * doorS + n * 1.2, dir: dir, n: n, width: 1.2, height: F, foundation: c.foundation, into: &m)
+                }
             }
             // Inferred street bay beside the entry (family data, clear space only).
             if let fb = planBay(c, g, doorSpan: doorSpan, winH: winH) {
@@ -634,12 +679,21 @@ public struct BuildingGenerator: Sendable {
         g.sideBays = c.sideBays.count
         let sideBayFaces = Set(c.sideBays.flatMap { $0 })
         let lintel: Paint? = facade.lintels == true && near ? c.trim : nil
+        let relief = near && details?.casings == true
+        var shutter: Paint?
+        if near, let sh = details?.shutters, let cols = sh.colours {
+            var sr = b.ref.random("shutters")
+            if sr.chance(sh.chance ?? 1), let hex = HouseDetailColours.pick(cols, ref: b.ref, salt: "shutter-colour") {
+                shutter = Paint(slot: palette.slot(hex: hex))
+            }
+        }
         for e in 0..<ring.count {
             let (p, dir, n, len) = Self.edge(ring, e)
             if role == .garage, e == g.garageDoorEdge { continue }
             let isFront = e == g.frontEdge
             let street = c.streetFacing.contains(e)
             let stoneHere = street || bayFaces.contains(e) ? lintel : nil
+            let reliefHere = relief && street && stoneHere == nil
             func lit(_ story: Int, _ k: Int) {
                 var wr = StableRandom(UInt64(e), UInt64(story * 31 + k), salt: "lit")
                 m.extra = SIMD4(1, min(0.999, householdSeed * 0.6 + Float(wr.unit()) * 0.4), 0, 0)
@@ -731,13 +785,21 @@ public struct BuildingGenerator: Sendable {
                 let entryHalf = (span.s1 - span.s0) / 2
                 for (story, z0, z1) in rows(winH) where !(storefront && story == 0) {
                     let offs = symmetricOffsets(len: len, doorS: doorS, minPitch: winW + 1.0, width: winW, entryHalf: entryHalf, story: story)
+                    // Shutters fit the narrowest gap between neighbouring windows (and the corners).
+                    var gap = min(doorS, len - doorS) - (offs.map { abs($0) }.max() ?? 0) - winW / 2 - 0.15
+                    for (a, b2) in zip(offs, offs.dropFirst()) { gap = min(gap, (b2 - a - winW) / 2) }
+                    let sw = min(winW * 0.45, gap - 0.15)
                     for (k, o) in offs.enumerated() {
                         // Over the door only where the entry roof stays below the sill.
                         if o == 0, g.entryKit == "portico", z0 < F + 3.75 { continue }
                         lit(story, k)
                         addWindow(origin: p, dir: dir, normal: n, sCenter: doorS + o, width: winW, z0: z0, z1: z1,
-                                  glass: c.glass, trim: c.trim, frames: near, lintel: stoneHere, into: &m)
+                                  glass: c.glass, trim: c.trim, frames: near, lintel: stoneHere, relief: reliefHere, into: &m)
                         m.extra = SIMD4(1, 0, 0, 0)
+                        if let sp = shutter {
+                            addShutters(origin: p, dir: dir, normal: n, sCenter: doorS + o, width: winW, z0: z0, z1: z1,
+                                        shutterWidth: sw, paint: sp, into: &m)
+                        }
                     }
                 }
                 continue
@@ -765,7 +827,8 @@ public struct BuildingGenerator: Sendable {
                     if let fb = facadeBay, fb.edge == e, story < fb.stories, sc + ww / 2 > fb.s0 - 0.1, sc - ww / 2 < fb.s1 + 0.1 { continue }
                     lit(story, k)
                     addWindow(origin: p, dir: dir, normal: n, sCenter: sc, width: ww, z0: z0, z1: z1,
-                              glass: c.glass, trim: c.trim, frames: near, mullions: w > winW * 1.5 ? group : 1, lintel: stoneHere, into: &m)
+                              glass: c.glass, trim: c.trim, frames: near, mullions: w > winW * 1.5 ? group : 1, lintel: stoneHere,
+                              relief: reliefHere, into: &m)
                     m.extra = SIMD4(1, 0, 0, 0)
                 }
             }
@@ -841,7 +904,7 @@ public struct BuildingGenerator: Sendable {
     // swiftlint:disable:next function_parameter_count
     func addWindow(origin: LocalPoint, dir: LocalPoint, normal: LocalPoint, sCenter: Double, width: Double,
                    z0: Double, z1: Double, glass: Paint, trim: Paint, frames: Bool = true, mullions: Int = 1,
-                   lintel: Paint? = nil, into m: inout MeshBuffers) {
+                   lintel: Paint? = nil, relief: Bool = false, into m: inout MeshBuffers) {
         guard width > 0.4 else { return }
         let s0 = sCenter - width / 2, s1 = sCenter + width / 2, f = 0.1
         m.paint = glass
@@ -856,6 +919,10 @@ public struct BuildingGenerator: Sendable {
             addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - 0.14, s1: s1 + 0.14, z0: z0 - 0.13, z1: z0, depth: 0.1, ends: true, into: &m)
             addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - 0.18, s1: s1 + 0.18, z0: z1, z1: z1 + 0.28, depth: 0.07, ends: true, into: &m)
             m.paint = trim
+        } else if relief {
+            // Relief casing (house-details-v1, 3–8 cm): projecting sill and head with top faces.
+            addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - f - 0.03, s1: s1 + f + 0.03, z0: z0 - 0.08, z1: z0, depth: 0.08, ends: false, into: &m)
+            addLedge(origin: origin, dir: dir, normal: normal, s0: s0 - f - 0.02, s1: s1 + f + 0.02, z0: z1, z1: z1 + 0.12, depth: 0.07, ends: false, into: &m)
         } else {
             m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z0 - f, z1: z0, offset: 0.06)
             m.addWallQuad(origin: origin, dir: dir, normal: normal, s0: s0 - f, s1: s1 + f, z0: z1, z1: z1 + f, offset: 0.06)
@@ -892,10 +959,17 @@ public struct BuildingGenerator: Sendable {
         let count = max(1, Int((height / 0.18).rounded()))
         let rise = height / Double(count + 1)
         m.paint = foundation
+        func q(_ s: Double, _ t: Double, _ z: Double) -> SIMD3<Float> { P(top + dir * s + n * t, z) }
+        let hw = width / 2
         for k in 0..<count {
+            // Top, front and sides; the back face is hidden by the step (or stoop) behind it.
             let z1 = height - rise * Double(k + 1)
-            let c = top + n * (0.15 + 0.3 * Double(k))
-            m.addBox(center: c, u: dir, halfLength: width / 2, halfWidth: 0.15, z0: 0, z1: z1)
+            let t0 = 0.3 * Double(k), t1 = t0 + 0.3
+            m.addFace([q(-hw, t0, z1), q(hw, t0, z1), q(hw, t1, z1), q(-hw, t1, z1)], facing: sceneUp)
+            m.addFace([q(-hw, t1, 0), q(hw, t1, 0), q(hw, t1, z1), q(-hw, t1, z1)], facing: D(n))
+            for sx in [-1.0, 1.0] {
+                m.addFace([q(sx * hw, t0, 0), q(sx * hw, t1, 0), q(sx * hw, t1, z1), q(sx * hw, t0, z1)], facing: D(dir * sx))
+            }
         }
     }
 }
@@ -918,6 +992,8 @@ struct BuildContext {
     var roof: Paint
     var foundation: Paint
     var glass: Paint
+    /// The profile's light trim (gable panels, stucco gable triangles); `trim` may be the family's.
+    var panel: Paint
     var mainRect: OrientedRect
     var lod: BuildingLOD
     var envelope: RoofEnvelope?

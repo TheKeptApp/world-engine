@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions.",
+  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions. House details (house-details-v1, docs/buildings/README.md decision 37): details = per-family porches (posts, rails, brackets, porch roof), stoops (width, cheek walls, stone), trim colour endpoints (3 linear-light steps per house), eave overhang, fascia, corner boards/chamfers, relief casings, frieze, shutters, cornice-cap bevel. pack names the house-details-v1 family the recipe follows.",
   "toneFloors": {
     "roofGain": 1.0,
     "wallGain": 1.0,
@@ -47,6 +47,25 @@
         "chimneyBreast": 0.3,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "tudor",
+        "trim": [
+          "#573326",
+          "#88502D"
+        ],
+        "eave": [
+          0.2,
+          0.4
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "stoop": {
+          "width": [
+            1.6,
+            2.0
+          ]
+        }
       }
     },
     "colonial": {
@@ -87,6 +106,34 @@
         "chimneyBreast": 0.5,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "colonial",
+        "trim": [
+          "#EFD8A2",
+          "#FFF0CB"
+        ],
+        "eave": [
+          0.3,
+          0.5
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "frieze": true,
+        "columnCaps": true,
+        "shutters": {
+          "chance": 0.55,
+          "colours": [
+            "#205D54",
+            "#3B8970"
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.4,
+            1.8
+          ]
+        }
       }
     },
     "prairie": {
@@ -116,7 +163,44 @@
         "mappedBays": true,
         "sideRhythm": true,
         "gangwayWindows": true,
-        "sideBays": true
+        "sideBays": true,
+        "porchStyle": "covered",
+        "porchLikelihood": 0.55
+      },
+      "details": {
+        "pack": "prairie",
+        "trim": [
+          "#673E27",
+          "#A36C34"
+        ],
+        "eave": [
+          0.8,
+          1.2
+        ],
+        "corners": "chamfer",
+        "casings": true,
+        "porch": {
+          "posts": "pier",
+          "postWidth": [
+            0.45,
+            0.6
+          ],
+          "roof": "flat",
+          "depth": [
+            1.8,
+            2.4
+          ],
+          "frontage": [
+            0.45,
+            0.7
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.6,
+            2.2
+          ]
+        }
       }
     },
     "queenAnne": {
@@ -167,6 +251,44 @@
         "chimneyBreast": 0.5,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "queen_anne",
+        "trim": [
+          "#EEC56D",
+          "#FFE3A7"
+        ],
+        "eave": [
+          0.3,
+          0.6
+        ],
+        "corners": "board",
+        "casings": true,
+        "frieze": true,
+        "porch": {
+          "posts": "turned",
+          "postWidth": [
+            0.16,
+            0.2
+          ],
+          "rail": true,
+          "brackets": true,
+          "roof": "hip",
+          "depth": [
+            1.8,
+            2.4
+          ],
+          "frontage": [
+            0.35,
+            0.55
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.2,
+            1.5
+          ]
+        }
       }
     },
     "shingleStyle": {
@@ -212,6 +334,38 @@
         "chimneyBreast": 0.4,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "queen_anne (porch) / colonial (trim); Shingle is not a pack family",
+        "trim": [
+          "#EFD8A2",
+          "#FFF0CB"
+        ],
+        "corners": "board",
+        "casings": true,
+        "porch": {
+          "posts": "square",
+          "postWidth": [
+            0.18,
+            0.22
+          ],
+          "rail": true,
+          "roof": "hip",
+          "depth": [
+            1.8,
+            2.4
+          ],
+          "frontage": [
+            0.5,
+            0.85
+          ]
+        },
+        "stoop": {
+          "width": [
+            1.2,
+            1.6
+          ]
+        }
       }
     },
     "midCentury": {
@@ -232,6 +386,24 @@
         "sideRhythm": true,
         "gangwayWindows": true,
         "sideBays": true
+      },
+      "details": {
+        "pack": "denver_ranch (nearest pack family)",
+        "trim": [
+          "#E6CA8E",
+          "#F9E4B8"
+        ],
+        "eave": [
+          0.45,
+          0.8
+        ],
+        "corners": "chamfer",
+        "stoop": {
+          "width": [
+            1.2,
+            1.6
+          ]
+        }
       }
     },
     "modernInfill": {

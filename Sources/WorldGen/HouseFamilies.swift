@@ -123,6 +123,8 @@ public struct HouseFamilyGrammar: Codable, Sendable, Equatable {
     public var evidence: String?
     public var roof: Roof?
     public var facade: Facade?
+    /// House details (house-details-v1): porches, stoops, trim, eaves, softened edges.
+    public var details: Details?
 
     public init() {}
 

@@ -367,6 +367,9 @@ struct RoofPaints {
     var gable: Paint?
     /// Roof edge thickness (fascia board).
     var fascia: Double = 0.22
+    /// Chamfer on the fascia's lower outer edge (0 = none), only on edges facing `bevelToward`.
+    var bevel: Double = 0
+    var bevelToward = LocalPoint(0, 0)
 }
 
 extension RoofEnvelope {
@@ -405,8 +408,18 @@ extension RoofEnvelope {
                     } else if fascia, mass.overhang > 0.01 {
                         let f = paints.fascia
                         m.paint = paints.trim
-                        m.addCleanFace([P(p0, piece.own0 - f), P(p1, piece.own1 - f), P(p1, piece.own1), P(p0, piece.own0)],
-                                       facing: D(outward))
+                        let c = paints.bevel
+                        if c > 0, simd_dot(outward, paints.bevelToward) > 0.3 {
+                            // Fascia face down to the chamfer, then one 45° face back under the soffit.
+                            m.addCleanFace([P(p0, piece.own0 - f + c), P(p1, piece.own1 - f + c), P(p1, piece.own1), P(p0, piece.own0)],
+                                           facing: D(outward))
+                            let i0 = p0 - outward * c, i1 = p1 - outward * c
+                            m.addCleanFace([P(i0, piece.own0 - f), P(i1, piece.own1 - f), P(p1, piece.own1 - f + c), P(p0, piece.own0 - f + c)],
+                                           facing: D(outward) - sceneUp)
+                        } else {
+                            m.addCleanFace([P(p0, piece.own0 - f), P(p1, piece.own1 - f), P(p1, piece.own1), P(p0, piece.own0)],
+                                           facing: D(outward))
+                        }
                     }
                 }
             }
