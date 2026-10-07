@@ -1,0 +1,2069 @@
+{
+  "schemaVersion": "worldengine.districts.chicago-denver.style-b.v1",
+  "date": "2026-10-07",
+  "status": "art-direction targets; not map-solved meshes or renderer-calibrated imagery",
+  "style": "B strict",
+  "approvalAuthority": "User-approved Miami district sheets; source historical reference-number ambiguity is retained metadata, not a new approval request.",
+  "references": {
+    "sheet": "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/miami-brickell.html",
+    "art": "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png",
+    "nightArt": "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-night-style-b-v2.png",
+    "lighting": "~/Desktop/worldengine-gpt-drop/house-contrast-v1/paintover-values.json"
+  },
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "approvedHouseValues": {
+    "chicago_three_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#98664F",
+          "linearLuminance": 0.1674,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DBC8A7",
+          "linearLuminance": 0.5916,
+          "relativeBrightness": 3.533
+        },
+        "soffit": {
+          "hex": "#51463E",
+          "linearLuminance": 0.0648,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#493C35",
+          "linearLuminance": 0.0491,
+          "relativeBrightness": 0.293
+        },
+        "porch_shadow": {
+          "hex": "#3E3733",
+          "linearLuminance": 0.04,
+          "relativeBrightness": 0.239
+        },
+        "window_glass_day": {
+          "hex": "#405766",
+          "linearLuminance": 0.0887,
+          "relativeBrightness": 0.53
+        },
+        "roof": {
+          "hex": "#554E49",
+          "linearLuminance": 0.0786,
+          "relativeBrightness": 0.47
+        }
+      }
+    },
+    "chicago_two_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A77960",
+          "linearLuminance": 0.2273,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E2D2B7",
+          "linearLuminance": 0.6568,
+          "relativeBrightness": 2.889
+        },
+        "soffit": {
+          "hex": "#554A40",
+          "linearLuminance": 0.072,
+          "relativeBrightness": 0.317
+        },
+        "eave_shadow": {
+          "hex": "#4B4037",
+          "linearLuminance": 0.0544,
+          "relativeBrightness": 0.239
+        },
+        "porch_shadow": {
+          "hex": "#403934",
+          "linearLuminance": 0.0426,
+          "relativeBrightness": 0.188
+        },
+        "window_glass_day": {
+          "hex": "#425A68",
+          "linearLuminance": 0.0947,
+          "relativeBrightness": 0.417
+        },
+        "roof": {
+          "hex": "#58514A",
+          "linearLuminance": 0.0845,
+          "relativeBrightness": 0.372
+        }
+      }
+    },
+    "workers_cottage": {
+      "wallMaterial": "siding",
+      "surfaces": {
+        "wall": {
+          "hex": "#B9B9A4",
+          "linearLuminance": 0.4769,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#F1E4CA",
+          "linearLuminance": 0.7845,
+          "relativeBrightness": 1.645
+        },
+        "soffit": {
+          "hex": "#5F6258",
+          "linearLuminance": 0.1187,
+          "relativeBrightness": 0.249
+        },
+        "eave_shadow": {
+          "hex": "#52574F",
+          "linearLuminance": 0.0917,
+          "relativeBrightness": 0.192
+        },
+        "porch_shadow": {
+          "hex": "#454C47",
+          "linearLuminance": 0.0689,
+          "relativeBrightness": 0.144
+        },
+        "window_glass_day": {
+          "hex": "#465D6B",
+          "linearLuminance": 0.1019,
+          "relativeBrightness": 0.214
+        },
+        "roof": {
+          "hex": "#60615A",
+          "linearLuminance": 0.1177,
+          "relativeBrightness": 0.247
+        }
+      }
+    },
+    "chicago_bungalow": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A57450",
+          "linearLuminance": 0.2107,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DECBAB",
+          "linearLuminance": 0.6118,
+          "relativeBrightness": 2.904
+        },
+        "soffit": {
+          "hex": "#565046",
+          "linearLuminance": 0.0816,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#4B443B",
+          "linearLuminance": 0.0595,
+          "relativeBrightness": 0.282
+        },
+        "porch_shadow": {
+          "hex": "#403D36",
+          "linearLuminance": 0.0469,
+          "relativeBrightness": 0.223
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.429
+        },
+        "roof": {
+          "hex": "#5B5A52",
+          "linearLuminance": 0.1015,
+          "relativeBrightness": 0.482
+        }
+      }
+    }
+  },
+  "nightReference": {
+    "sourcePath": "~/Desktop/worldengine-gpt-drop/night-fog-v1/night-fog-values.json",
+    "sourceSha256": "87cc57e18864e4fa23803178e81c3453bc9778b554929869edc450fc7abb757e",
+    "state": {
+      "id": "night",
+      "time": {
+        "kind": "solar_elevation",
+        "maxElevationDeg": -12,
+        "note": "Fullnightfixture; mooncontribution onlyifcomputedabovehorizon. No moon insertedintheseimages."
+      },
+      "skyGradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#15243C"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#243854"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#344255"
+        }
+      ],
+      "exposureRelativeEV": 0.35,
+      "skyFillNoonRelative": 0.24,
+      "groundFillNoonRelative": 0.08,
+      "directSun": 0,
+      "windowsLitShare": 0.3,
+      "streetlightOnFactor": 1,
+      "starsMaxIllustrated": 6,
+      "haze": {
+        "hex": "#475568",
+        "sigmaPerM": 0.002
+      },
+      "groundFog": null
+    },
+    "windows": {
+      "nightShareAllowed": [
+        0.2,
+        0.4
+      ],
+      "defaultNightShare": 0.3,
+      "warmHex": "#F3D0A0",
+      "coolHex": "#C9DDEB",
+      "warmEmissiveNoonRelative": 1.1,
+      "coolEmissiveNoonRelative": 0.85,
+      "selection": "Seedstableworld/building/apertureids. RankeligibleexistingapertureswithdeterministicstablePRNG; selectround(p*N)inloadedstabletile. Groupfloors/households forplausiblevariation; no per-frame random. Persistselection acrosscameras/time states; statefactor changesintensity/thresholdbyfixedseed.",
+      "geometry": "Emissiveexistingwindowfaces, preserveframes/openings. No newwindowcuts, roomprops, people, silhouettedplants or lightbehindopaque wall.",
+      "scope": "Shares referwindowapertures, notbuildings. Extendsweather-v1stable20\u201330%policytoauthored20\u201340%windowrange peruserrequest; do notsilentlyconflate.",
+      "bloomWeightMax": 0.035,
+      "noPerWindowPointLights": true
+    },
+    "streetlights": {
+      "types": [
+        {
+          "id": "led-warm",
+          "colourHex": "#F0DDC0",
+          "approxCctK": 3000,
+          "poolHalfMaxRadiusM": 4.5,
+          "poolSupportRadiusM": 9,
+          "coreEmissiveNoonRelative": 1.5,
+          "groundAdditiveNoonRelativeMax": 0.22
+        },
+        {
+          "id": "sodium-legacy",
+          "colourHex": "#F3B96F",
+          "approxCctK": 2000,
+          "poolHalfMaxRadiusM": 5,
+          "poolSupportRadiusM": 10,
+          "coreEmissiveNoonRelative": 1.3,
+          "groundAdditiveNoonRelativeMax": 0.2
+        },
+        {
+          "id": "led-neutral",
+          "colourHex": "#D8E4EB",
+          "approxCctK": 4000,
+          "poolHalfMaxRadiusM": 4.5,
+          "poolSupportRadiusM": 9,
+          "coreEmissiveNoonRelative": 1.5,
+          "groundAdditiveNoonRelativeMax": 0.22
+        }
+      ],
+      "cctNote": "Illustrativeidentity only, hexes artistic swatches not colorimetricCCTconversion; sodium not chosenfromwarmcolouralone.",
+      "poolFormula": "Add maxRadiance*exp(-ln2*(r/rHalf)^2)*smoothTaper(r,0.8*rSupport,rSupport)*normalEligibility*occlusionEligibility; clampcombinedNoonRelative.30. Fixtureorientation may stretchroadellipse1.5x, supportdimensionsscaledexplicitly.",
+      "maxActivePoolFields": 6,
+      "maxPerRegion": 2,
+      "maxActualUnshadowedLocalLights": 2,
+      "pointLightBudgetSharedWithCars": true,
+      "halo": {
+        "halfRadiusCssPx": 5,
+        "supportRadiusCssPx": 14,
+        "maxBlend": 0.08,
+        "totalScreenCoveragePercentMax": 2,
+        "depthOcclusionRequired": true
+      },
+      "inventory": "Useactualfixturedata/sceneobjects. Demo-addedfixtures inart are conceptproposals, not verifiedlocations. Never infer roadlight everytree or newprivateporchfixture."
+    },
+    "stars": {
+      "catalogRequired": true,
+      "siderealTimeRequired": true,
+      "visibleCap": 128,
+      "formula": "weather-v1strength*area.cityStarMultiplier*(1-skyglowDirectionalWeight/maxSkyglowWeight)*nightFactor; clamp0..1; evaluatehorizongate. Treatzero maxskyglow asnoextraangularattenuation.",
+      "dayAndMorningOff": true,
+      "blueHourUseActualSolarGate": true,
+      "noTwinkle": true,
+      "noRandomConstellations": true,
+      "moon": "Omitunlessvalidatedposition/phase/altitudegate supplied."
+    },
+    "fog": {
+      "formula": "tau=integral(sigmaHaze+sigmaGround*wHeight*wPatch)ds; Cout=exp(-tau)*Clit+(1-exp(-tau))*CfogEffective. One fog application. Effectivefogcolour opticaldepthweightedbetweenhaze/ground; no duplicatefogpass.",
+      "height": "w=1 belowH-taper, linearfalloff to0 atH, zeroabovelayer; terrain/lakereference elevation supplied.",
+      "patch": "Stablebroadworld-spacepatches only. Max4 precomputedcenters/scales, edges8\u201312m. No particles/cloudcards/fastnoise. Cliptoactualpark/water eligibility; datarequired. Roadfog mayextendnearby but cannotchangegeometry.",
+      "evaluation": "Flat uniformheightlayer permitsclosed-formintegral. Patchmode mayusebounded4-samplequadrature overraysegmentinside2.5m layer; unmeasuredmaterialcost. No arbitraryscreenoverlays, no volumetricraymarch solver.",
+      "baselineFallback": "Ifpatch/layerdata unsupported usehomogeneoussigma flagassumption; cannotclaimpatchparity. Haze stillmatches water/land/backdrop.",
+      "nearClearBand": "Authored5m forgroundfog; hazeremainsdepthcorrect.",
+      "noSmoke": true,
+      "chimneySmoke": "Onlyifactualchimney/sourceactivityexists, optionalseparateeffectdisabledhere. Morningfognever implieschimneysmoke.",
+      "transitionSeconds": 20,
+      "showLiftOnlyWithEvidence": true
+    },
+    "surfaces": {
+      "nightDry": true,
+      "morningDemoWetness": 0.2,
+      "concreteDarkeningPercent": 4,
+      "asphaltDarkeningPercent": 5,
+      "lawnDarkeningPercent": 3,
+      "dewGrazingBlendMax": 0.025,
+      "noAutoPuddles": true,
+      "noMirrorRoad": true
+    },
+    "performance": {
+      "status": "unmeasuredproposedconstraints",
+      "fps": 60,
+      "phoneClass": "iPhone13",
+      "minimumiOS": 26,
+      "totalGpuMs": 10,
+      "contentMs": 7.9,
+      "marginMs": 2.1,
+      "baseWorldMs": 4.25,
+      "wetLocalMs": 0.35,
+      "bloomMs": 0.35,
+      "fogInBaseWorld": true,
+      "starsInSkyDraw": true,
+      "windowsInstanceEmissive": true,
+      "noShadowedLampMaps": true,
+      "noExtraFullScreenPass": true,
+      "maxActualLocalLights": 2,
+      "activePoolAndHeadlightFieldsTotal": 6,
+      "test": "10min physicalphone fixeddrawable resolution night/fog/lift, max+p95GPU/thermal/roadmask/occlusion checks; artnotdevicepass."
+    }
+  },
+  "sourceHashes": {
+    "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/miami-brickell.html": "6bf214186660af3225401cf26b58824bbaa73d6c564130fb2f45e6dae2b24976",
+    "~/Desktop/worldengine-gpt-drop/house-contrast-v1/paintover-values.json": "782c486e984744837fcf1d583a05e18f83f04d4022476162867414ba1d9d87e7",
+    "~/Desktop/worldengine-gpt-drop/night-fog-v1/night-fog-values.json": "87cc57e18864e4fa23803178e81c3453bc9778b554929869edc450fc7abb757e"
+  },
+  "materialPolicy": {
+    "hexColorSpace": "sRGB; decode once to linear; supplied linearRGB already decoded",
+    "hexRole": "Authored appearance targets/initial proxies, not literal observed albedo or measured AI pixels",
+    "photographicTextures": false,
+    "fineBrickOrGrassDetail": false,
+    "flatGlazing": {
+      "opacity": 1,
+      "transmission": 0,
+      "metalness": 0,
+      "roughness": 0.9,
+      "screenSpaceReflectionEnabled": false,
+      "environmentReflectionStrength01": 0
+    },
+    "water": {
+      "model": "opaque broad flat color bands",
+      "roughness": 0.78,
+      "sheen01": 0.04,
+      "transmission": 0,
+      "screenSpaceReflectionEnabled": false,
+      "dayBroadHighlightBlendMax01": 0.08,
+      "nightBroadHighlightBlendMax01": 0.1,
+      "nightHighlightEmissionNoonRelativeMax": 0.12,
+      "worldBandLengthM": [
+        4,
+        12
+      ],
+      "worldBandWidthM": [
+        0.8,
+        2.4
+      ],
+      "shoreTransitionM": 1.2,
+      "animatedWaveGeometry": false,
+      "note": "Authored strict-style adapter, not copied lake-physics targets; no full-scene mirror or high-frequency wave noise."
+    },
+    "bevel": {
+      "buildingEdgeRadiusM": [
+        0.02,
+        0.06
+      ],
+      "majorPodiumEdgeRadiusM": 0.06,
+      "roadCurbRadiusM": 0.02,
+      "steelMemberEdgeRadiusM": 0.01,
+      "segmentsNearMax": 2,
+      "projectedDropBelowCssPx": 2,
+      "policy": "Shading bevels may vanish at distance; never alter mapped footprint, clearances, bridge axes or roof envelope."
+    }
+  },
+  "screenSizePolicy": {
+    "units": "CSS/logical projected asset or selected district-cluster height; not distance and not physical drawable px",
+    "tiersCssPx": [
+      6,
+      20
+    ],
+    "detailDropBelowCssPx": 2,
+    "farPositionsPolicy": "concept \u2013 positions and sightlines come from the map",
+    "benchmarkStatus": "Not phone device tested"
+  },
+  "districtGeometryPolicy": {
+    "positions": "Map/source geometry authority, never illustration",
+    "districtHeightM": null,
+    "singleDistrictHeightAllowed": false,
+    "cameraCoordinatesValidated": false,
+    "sightlinesValidated": false,
+    "topologyAndVerticalDatumRequired": true
+  },
+  "dayAdapter": {
+    "usesSharedLightingUnchanged": true,
+    "noPerViewGrade": true,
+    "postcardDressingApplied": false,
+    "skyAndTerrainAtmosphereShared": true,
+    "haze": "Use engine weather atmosphere; no invented per-district coefficient or exposure."
+  },
+  "nightDistrictAdapter": {
+    "status": "authored Loop adapter; baseline nightReference copied unchanged",
+    "areaProfileId": "chicago-loop-river",
+    "streetlightType": "led-warm",
+    "fixtureTypeRequiresInventory": true,
+    "windowWarmShare": 0.85,
+    "cityStarMultiplier": 0.05,
+    "illustratedStarPointsMax": 0,
+    "skyglow": {
+      "downtownWorldAzimuthDeg": null,
+      "bearingPolicy": "Compute per camera/source cluster; no Lakeview 155-degree bearing reused",
+      "maxLinearBlend": 0.1,
+      "halfWidthDeg": 35,
+      "heightSupportDeg": 15,
+      "colourHex": "#C2BDAF"
+    },
+    "groundFogEnabled": false,
+    "noDayLightingStack": true,
+    "noNewNightPasses": true,
+    "waterAdapterRef": "materialPolicy.water"
+  },
+  "exclusions": [
+    "logos",
+    "team names",
+    "sponsor marks",
+    "lettering on depicted architecture",
+    "public art including Cloud Gate and Picasso",
+    "people",
+    "dogs",
+    "characters"
+  ],
+  "districts": [
+    {
+      "id": "01-chicago-loop-river",
+      "name": "The Loop + Chicago River",
+      "metro": "chicago",
+      "description": "Dense mixed-height river canyon, Chicago-type bascule bridges, stone river walls and the inland elevated L.",
+      "signatureElements": [
+        "Double-leaf bascule bridge profile and center joint",
+        "River walls and lower riverwalk ledges",
+        "Steel elevated L structure on mapped streets",
+        "Mixed stepped tower massing",
+        "Brick and limestone street podiums"
+      ],
+      "hexes": {
+        "river": "#3F777B",
+        "limestone": "#C8BFAF",
+        "bridgeSteel": "#58666A",
+        "glass": "#6996A8",
+        "brick": "#98664F",
+        "concrete": "#C5C0B3"
+      },
+      "mustBeExact": [
+        "River polygon, banks, wall elevations and riverwalk access from map/survey",
+        "Bridge deck endpoints, span type, trunnion/leaf axes, clearances and opening state for each actual bridge",
+        "Elevated L alignment/supports and road clearances; do not infer tracks from a scenic river composition",
+        "Every building footprint and height; real camera heading and occlusion"
+      ],
+      "canSimplify": [
+        "Rivets and fine rail lattice collapse into a few broad beam/brace solids",
+        "Opaque glazing and repeated opening bands; no reflective facade",
+        "Bridgehouses as simple volumes; no logos or carved sculpture",
+        "Plain flat river with low-frequency highlights; no water simulation"
+      ],
+      "geo": "The Loop elevated rectangle is inland south of the main river branch. Bridge types differ by crossing; do not duplicate one bascule archetype everywhere.",
+      "sources": [
+        "https://webapps1.chicago.gov/landmarksweb/web/tourdetails.htm?touId=21",
+        "https://www.transitchicago.com/maps/system/"
+      ],
+      "state": "day",
+      "image": "images/01-chicago-loop-river.png",
+      "sheet": "01-chicago-loop-river.html",
+      "sheetPng": "01-chicago-loop-river-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "river": {
+          "hex": "#3F777B",
+          "linearRGB": [
+            0.049707,
+            0.184475,
+            0.198069
+          ],
+          "linearLuminance": 0.156805,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "limestone": {
+          "hex": "#C8BFAF",
+          "linearRGB": [
+            0.57758,
+            0.520996,
+            0.42869
+          ],
+          "linearLuminance": 0.526361,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "bridgeSteel": {
+          "hex": "#58666A",
+          "linearRGB": [
+            0.097587,
+            0.132868,
+            0.144128
+          ],
+          "linearLuminance": 0.12618,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#6996A8",
+          "linearRGB": [
+            0.141263,
+            0.304987,
+            0.391572
+          ],
+          "linearLuminance": 0.276431,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "brick": {
+          "hex": "#98664F",
+          "linearRGB": [
+            0.313989,
+            0.132868,
+            0.078187
+          ],
+          "linearLuminance": 0.167426,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "linearRGB": [
+            0.55834,
+            0.527115,
+            0.450786
+          ],
+          "linearLuminance": 0.528242,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Double-leaf bascule bridge profile and center joint"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Double-leaf bascule bridge profile and center joint",
+            "River walls and lower riverwalk ledges",
+            "Steel elevated L structure on mapped streets"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Double-leaf bascule bridge profile and center joint",
+            "River walls and lower riverwalk ledges",
+            "Steel elevated L structure on mapped streets",
+            "Mixed stepped tower massing",
+            "Brick and limestone street podiums"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "01-chicago-loop-river",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nCHICAGO LOOP AND MAIN BRANCH RIVER. Left: riverwalk-level hero with green-teal river, stepped stone river walls, closed double-leaf steel Chicago-type bascule road bridge with visible central hinge split, shallow bridgehouses, cream stone and brick podiums beneath mixed high-rise towers. Hint of elevated L steel rail trestle farther inland on its own mapped street; rail does not run along every river wall. Center: river canyon with several road bascule bridges across the river, Loop elevated rail rectangle inland SOUTH of the main river, simplified gray generic train, recognizable Chicago dense varied stepped tower skyline. Right: far river-corridor view, bridge profile and river walls read strongly, towers recede into atmosphere. Lake Michigan not placed inside river canyon. Palette teal river #3F777B, limestone #C8BFAF, bridge steel #58666A, flat glass #6996A8, brick #98664F. Do not include public art or readable bridge signage.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Geography correction: REMOVE the long elevated train/track structure immediately along the river wall in the center and right panels. Keep riverwalk open. Indicate a SMALL short elevated L trestle segment farther inland between city blocks, separated from river by a full row of mapped-context buildings; left panel may retain a short street trestle inland, not over promenade. Preserve bascule road bridge center leaf joint.Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "02-chicago-lakefront",
+      "name": "Lakefront",
+      "metro": "chicago",
+      "description": "Lake Shore Drive, broad park belt, beaches, lakefront paths, harbor docks and an open Lake Michigan horizon.",
+      "signatureElements": [
+        "Lake Michigan open-water horizon",
+        "City / drive / park / beach or revetment / water hierarchy",
+        "Harbor basins, breakwaters and dock fingers",
+        "Continuous park belt and separated paths",
+        "Distant lakeside residential towers"
+      ],
+      "hexes": {
+        "lake": "#377C95",
+        "deepWater": "#315B79",
+        "sand": "#D9C9A7",
+        "park": "#73865B",
+        "concrete": "#C5C0B3",
+        "glass": "#6996A8"
+      },
+      "mustBeExact": [
+        "Mapped shoreline, harbor entrances, breakwaters and dock layout",
+        "Drive carriageways, ramps, crossings, trail paths and relative elevations",
+        "Beaches versus hard revetments from actual shoreline data",
+        "Camera lakeward heading and visible tower positions; no opposite coast inserted"
+      ],
+      "canSimplify": [
+        "Sand as a smooth solid; no grains or footprints",
+        "Harbor vessels as optional unbranded hull blocks only when mapped/live",
+        "Clean tree instances; broad park color masses",
+        "Flat-band water and soft shore color transition, no dense waves"
+      ],
+      "geo": "Lake is east of the city; lakefront road/park/beach ordering varies along shore and must be checked locally. Do not substitute a canal for a harbor or invent a distant shore.",
+      "sources": [
+        "https://www.chicagoparkdistrict.com/facilities/harbors",
+        "https://www.chicagoparkdistrict.com/facilities/paths-trails"
+      ],
+      "state": "day",
+      "image": "images/02-chicago-lakefront.png",
+      "sheet": "02-chicago-lakefront.html",
+      "sheetPng": "02-chicago-lakefront-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "lake": {
+          "hex": "#377C95",
+          "linearRGB": [
+            0.038204,
+            0.201556,
+            0.300544
+          ],
+          "linearLuminance": 0.173974,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "deepWater": {
+          "hex": "#315B79",
+          "linearRGB": [
+            0.030713,
+            0.104616,
+            0.191202
+          ],
+          "linearLuminance": 0.095156,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "sand": {
+          "hex": "#D9C9A7",
+          "linearRGB": [
+            0.693872,
+            0.584078,
+            0.386429
+          ],
+          "linearLuminance": 0.59315,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "park": {
+          "hex": "#73865B",
+          "linearRGB": [
+            0.171441,
+            0.238398,
+            0.104616
+          ],
+          "linearLuminance": 0.214504,
+          "roughness": 0.92,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "linearRGB": [
+            0.55834,
+            0.527115,
+            0.450786
+          ],
+          "linearLuminance": 0.528242,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#6996A8",
+          "linearRGB": [
+            0.141263,
+            0.304987,
+            0.391572
+          ],
+          "linearLuminance": 0.276431,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Lake Michigan open-water horizon"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Lake Michigan open-water horizon",
+            "City / drive / park / beach or revetment / water hierarchy",
+            "Harbor basins, breakwaters and dock fingers"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Lake Michigan open-water horizon",
+            "City / drive / park / beach or revetment / water hierarchy",
+            "Harbor basins, breakwaters and dock fingers",
+            "Continuous park belt and separated paths",
+            "Distant lakeside residential towers"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "02-chicago-lakefront",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nCHICAGO LAKEFRONT north-side park/beach/harbor district. Left: lakefront trail eye-level, grassy park belt, clean deciduous trees, pale sand beach and broad blue Lake Michigan horizon, Lake Shore Drive behind park/trail toward city side, simple muted unbranded small car blocks only if needed. Center: shoreline aerial, city blocks and curving Lake Shore Drive inland on west/left, substantial park belt, beaches along actual conceptual coves, harbor water with simple breakwater and low dock fingers and a few tiny unbranded boat hulls, lake EAST/right. Keep park, road, beach, harbor separate; no river-style continuous canal walls. Right: far lake horizon with long park/shore sweep and distant north-side towers, no opposite shore across Lake Michigan. Beach matte #D9C9A7, park #73865B, lake #377C95 deeper #315B79, concrete #C5C0B3.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Rendering cleanup only; no new buildings/objects. Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "03-chicago-lakeview",
+      "name": "Wrigleyville / Lakeview",
+      "metro": "chicago",
+      "description": "Narrow-lot greystones and three-flats, raised stoops, cornices, rear alleys and generic nearby rooftop bleacher forms.",
+      "signatureElements": [
+        "Greystone bay masses and raised entrances",
+        "Three-flat stacked opening rhythm",
+        "Narrow lots and rear alleys",
+        "Deep porch/entry shade and cornice silhouette",
+        "Generic roof bleacher tiers near unmarked park shell"
+      ],
+      "hexes": {
+        "brick": "#98664F",
+        "trim": "#DBC8A7",
+        "greystone": "#AAA89F",
+        "glass": "#405766",
+        "roof": "#554E49",
+        "tree": "#6F8758"
+      },
+      "mustBeExact": [
+        "Individual footprints, floor/roof heights, bay extents and setbacks from mapped building data",
+        "Stoop placement and entrance height without obstructing sidewalk",
+        "Alley geometry and park boundary/adjacent buildings",
+        "Only documented rooftop seating locations; correct orientation and real sightlines to field"
+      ],
+      "canSimplify": [
+        "Stone into broad matte planes and brick into flat colored walls",
+        "Windows into opaque grouped apertures; mullions only above threshold",
+        "Bleachers into generic stepped volumes, no seats, logos or branding",
+        "No real house numbers, team/sponsor names or public-art objects"
+      ],
+      "geo": "A roof bleacher is an optional mapped feature, not an automatic Lakeview roof decoration. The sports shell stays near its real footprint; no team identity is drawn.",
+      "sources": [],
+      "state": "day",
+      "image": "images/03-chicago-lakeview.png",
+      "sheet": "03-chicago-lakeview.html",
+      "sheetPng": "03-chicago-lakeview-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "brick": {
+          "hex": "#98664F",
+          "linearRGB": [
+            0.313989,
+            0.132868,
+            0.078187
+          ],
+          "linearLuminance": 0.167426,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "trim": {
+          "hex": "#DBC8A7",
+          "linearRGB": [
+            0.708376,
+            0.57758,
+            0.386429
+          ],
+          "linearLuminance": 0.591586,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "greystone": {
+          "hex": "#AAA89F",
+          "linearRGB": [
+            0.401978,
+            0.391572,
+            0.346704
+          ],
+          "linearLuminance": 0.390545,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#405766",
+          "linearRGB": [
+            0.051269,
+            0.095307,
+            0.132868
+          ],
+          "linearLuminance": 0.088656,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "roof": {
+          "hex": "#554E49",
+          "linearRGB": [
+            0.090842,
+            0.076185,
+            0.066626
+          ],
+          "linearLuminance": 0.078611,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "tree": {
+          "hex": "#6F8758",
+          "linearRGB": [
+            0.158961,
+            0.242281,
+            0.097587
+          ],
+          "linearLuminance": 0.21412,
+          "roughness": 0.92,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Greystone bay masses and raised entrances"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Greystone bay masses and raised entrances",
+            "Three-flat stacked opening rhythm",
+            "Narrow lots and rear alleys"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Greystone bay masses and raised entrances",
+            "Three-flat stacked opening rhythm",
+            "Narrow lots and rear alleys",
+            "Deep porch/entry shade and cornice silhouette",
+            "Generic roof bleacher tiers near unmarked park shell"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "03-chicago-lakeview",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nCHICAGO LAKEVIEW/WRIGLEYVILLE residential blocks. Left hero: narrow-lot three-story Chicago three-flats and warm gray limestone greystones with raised stoops, bay-window masses, cornices, dark opaque glazing and modest flat roofs, clean parkway trees. Center aerial: dense Chicago grid, narrow adjacent lots and rear alleys, a generic unmarked baseball-park shell nearby, simple stepped rooftop seating/bleacher forms on a few nearby buildings facing park, no logos/teamnames/signage, no giant stadium planted on ordinary residential lots. Right: far neighborhood roofline, consistent two/three/four-story massing and only a distant generic low sports bowl where plausible, not downtown skyline beside every house. Roof bleachers generic geometry only. Walls brick #98664F, trim #DBC8A7, greystone #AAA89F, day windows #405766, roof #554E49. No individual bricks; masonry differentiation is broad matte masses.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Rendering cleanup only; no new buildings/objects. Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "04-denver-lodo",
+      "name": "LoDo / Union Station",
+      "metro": "denver",
+      "description": "Brick warehouse blocks, pale historic station frontage, plaza, white train canopy and rail-platform edge behind the station.",
+      "signatureElements": [
+        "Brick warehouse window bays and cornices",
+        "Low pale station block and arched openings",
+        "Station plaza / street frontage",
+        "White canopy and parallel platforms",
+        "Rail edge against the city block grid"
+      ],
+      "hexes": {
+        "brick": "#A77960",
+        "stationStone": "#D7D2C3",
+        "canopy": "#EEEAE0",
+        "glass": "#425A68",
+        "roof": "#58514A",
+        "concrete": "#C5C0B3"
+      },
+      "mustBeExact": [
+        "Station building footprint, heights and component roof forms",
+        "Rail/platform/canopy and approach track geometry northwest of historic station",
+        "Plaza and southeast street frontage; grade changes and accessible routes",
+        "Warehouse footprints/heights and local tower occlusion"
+      ],
+      "canSimplify": [
+        "Brick grain and cornice ornament into flat masses",
+        "Canopy into a few clean surfaces with structural silhouette retained",
+        "Rails/platforms into aligned bands at small sizes",
+        "No station lettering, sculpture, people or branded vehicles"
+      ],
+      "geo": "Rail infrastructure stays behind the historic frontage; it is not a plaza ornament. Downtown towers, rail edge and any mountain visibility are camera/map decisions.",
+      "sources": [
+        "https://www.denver.org/travel-trade/itineraries/downtown-denver/"
+      ],
+      "state": "day",
+      "image": "images/04-denver-lodo.png",
+      "sheet": "04-denver-lodo.html",
+      "sheetPng": "04-denver-lodo-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "brick": {
+          "hex": "#A77960",
+          "linearRGB": [
+            0.386429,
+            0.191202,
+            0.116971
+          ],
+          "linearLuminance": 0.227348,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "stationStone": {
+          "hex": "#D7D2C3",
+          "linearRGB": [
+            0.679542,
+            0.64448,
+            0.545724
+          ],
+          "linearLuminance": 0.644804,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "canopy": {
+          "hex": "#EEEAE0",
+          "linearRGB": [
+            0.854993,
+            0.822786,
+            0.745404
+          ],
+          "linearLuminance": 0.824046,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#425A68",
+          "linearRGB": [
+            0.05448,
+            0.102242,
+            0.138432
+          ],
+          "linearLuminance": 0.094701,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "roof": {
+          "hex": "#58514A",
+          "linearRGB": [
+            0.097587,
+            0.082283,
+            0.068478
+          ],
+          "linearLuminance": 0.08454,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "linearRGB": [
+            0.55834,
+            0.527115,
+            0.450786
+          ],
+          "linearLuminance": 0.528242,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Brick warehouse window bays and cornices"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Brick warehouse window bays and cornices",
+            "Low pale station block and arched openings",
+            "Station plaza / street frontage"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Brick warehouse window bays and cornices",
+            "Low pale station block and arched openings",
+            "Station plaza / street frontage",
+            "White canopy and parallel platforms",
+            "Rail edge against the city block grid"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "04-denver-lodo",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nDENVER LODO AND UNION STATION DISTRICT. Left: human-eye street view brick warehouses 3\u20135 floors with broad repeated dark window bays and simple cornices, historic Union Station main building as low pale stone Beaux-Arts central block with arched openings and original simple central roof form but NO lettering or signage. Center aerial: station plaza street frontage on southeast city side, rail yard/platform approach behind station northwest with simplified white curving tensile train canopy, tracks, platform bars and warehouse city grid; modern taller buildings as secondary masses. Right: far district roofline with station low in foreground and downtown towers behind, not mountains appearing through every street. Keep rail yard behind station and full street/plaza distinct. Matte brick #A77960, pale station stone #D7D2C3, canopy #EEEAE0, flat glazing #425A68, roof #58514A. No brick texture or ornate sculpture.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Rendering cleanup only; no new buildings/objects. Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "05-denver-highlands-sloan",
+      "name": "Highlands / Sloan\u2019s Lake",
+      "metro": "denver",
+      "description": "Low porch bungalows and taller hip-roof Denver Squares; neighborhood grid beside Sloan\u2019s Lake park and broad city-lake water.",
+      "signatureElements": [
+        "Bungalow low gable and wide porch",
+        "Denver Square two-story hip-roof mass",
+        "Parkway trees and house setbacks",
+        "Sloan\u2019s Lake shoreline and park ring",
+        "Low neighborhood edge with distant downtown"
+      ],
+      "hexes": {
+        "brick": "#A57450",
+        "siding": "#B9B9A4",
+        "trim": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#5B5A52",
+        "lake": "#3F777B"
+      },
+      "mustBeExact": [
+        "Separate neighborhood extents; Highlands is not synonymous with the lake shoreline",
+        "House footprints, porch depth, roof family and actual heights",
+        "Lake outline, shoreline paths, park width and street connections",
+        "Camera bearing and occlusion: east/southeast city view must not gain a western mountain backdrop"
+      ],
+      "canSimplify": [
+        "Bungalow/Square opening groups and roof planes, not floor-count-to-height inference",
+        "Five to nine broad clean crown lobes per near tree; no leaf geometry",
+        "Soft water/shore color blend, no textured ripples",
+        "Ground lawns and foundation planting masses only"
+      ],
+      "geo": "Treat Highlands and Sloan\u2019s Lake as adjacent context selections, not one continuous waterfront block. Lakeward and westward mountain views require separate solved cameras.",
+      "sources": [
+        "https://www.denver.org/neighborhoods/highlands/"
+      ],
+      "state": "day",
+      "image": "images/05-denver-highlands-sloan.png",
+      "sheet": "05-denver-highlands-sloan.html",
+      "sheetPng": "05-denver-highlands-sloan-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "brick": {
+          "hex": "#A57450",
+          "linearRGB": [
+            0.376262,
+            0.174647,
+            0.08022
+          ],
+          "linearLuminance": 0.210693,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "siding": {
+          "hex": "#B9B9A4",
+          "linearRGB": [
+            0.48515,
+            0.48515,
+            0.371238
+          ],
+          "linearLuminance": 0.476926,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "trim": {
+          "hex": "#DECBAB",
+          "linearRGB": [
+            0.730461,
+            0.597202,
+            0.40724
+          ],
+          "linearLuminance": 0.611818,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#405867",
+          "linearRGB": [
+            0.051269,
+            0.097587,
+            0.135633
+          ],
+          "linearLuminance": 0.090487,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "roof": {
+          "hex": "#5B5A52",
+          "linearRGB": [
+            0.104616,
+            0.102242,
+            0.084376
+          ],
+          "linearLuminance": 0.101457,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "lake": {
+          "hex": "#3F777B",
+          "linearRGB": [
+            0.049707,
+            0.184475,
+            0.198069
+          ],
+          "linearLuminance": 0.156805,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Bungalow low gable and wide porch"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Bungalow low gable and wide porch",
+            "Denver Square two-story hip-roof mass",
+            "Parkway trees and house setbacks"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Bungalow low gable and wide porch",
+            "Denver Square two-story hip-roof mass",
+            "Parkway trees and house setbacks",
+            "Sloan\u2019s Lake shoreline and park ring",
+            "Low neighborhood edge with distant downtown"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "05-denver-highlands-sloan",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nDENVER HIGHLANDS AND SLOAN'S LAKE NEIGHBORHOOD study. These are neighboring districts, not one continuous waterfront street. Left hero: quiet neighborhood with low brick Denver bungalows with wide porch/gabled low roof and taller Denver Square houses two full stories under hip roof with front porch, tree-lined parkway, deep porch/eave shadow masses, NO lake squeezed into every house street. Center aerial: broad city lake surrounded by park and gridded residential blocks; bungalow and Square roof silhouettes; dark green shoreline transition softened into flat blue-teal water. Highlands context may be separate adjacent city grid, no hillside resort. Right: far lakeshore view across Sloan's Lake toward EAST/SOUTHEAST with distant Denver skyline, low neighborhood edge and open flat water; do not put Rockies behind the eastern downtown skyline. Simple smooth deciduous tree crowns, plain grass. Brick #A57450, siding #B9B9A4, trim #DECBAB, windows #405867, roof #5B5A52, lake #3F777B. No dogs or people.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Rendering cleanup only; no new buildings/objects. Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "geographyCorrection": "Use case: precise-object-edit. EDIT TARGET is this strict Style B Denver Highlands / Sloan's Lake three-panel triptych. Change ONLY the center aerial panel's far horizon: REMOVE the blue mountain/ridge silhouettes BEHIND the downtown skyline. This east/southeast-looking skyline must have a LOW FLAT hazy plains horizon, no mountain range. Keep exact lake, houses, skyline buildings, all tree crowns, camera framing, panel separators, left hero and right lake view unchanged. Keep entire image flat matte simplified Style B, opaque glazing, flat water bands, same warm clear day lighting. Do not introduce any text, logos, artwork, people, dogs, characters or other objects. No other changes.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "06-denver-front-range",
+      "name": "Front Range edge",
+      "metro": "denver",
+      "description": "Western foothill terrain, tilted red sandstone fins, amphitheater context, dry grass/scrub and a distant mountain backdrop.",
+      "signatureElements": [
+        "Tilted sandstone fins and terrain silhouette",
+        "Foothill ridges and road cuts",
+        "Generic open-air seating terraces within rock context",
+        "Sparse scrub and dry grass masses",
+        "Layered western mountain backdrop"
+      ],
+      "hexes": {
+        "sandstone": "#B87552",
+        "rockHighlight": "#CE9A70",
+        "dryGrass": "#A5A177",
+        "scrub": "#74805B",
+        "mountain": "#7A96A4",
+        "road": "#626A70"
+      },
+      "mustBeExact": [
+        "DEM-derived terrain, ridge profiles and outcrop extents/orientations",
+        "Mapped Red Rocks footprint, stage/seating relationship and approach roads",
+        "Camera elevation/bearing and terrain-tested visibility to distant mountains",
+        "No scale, distance or elevation inferred from illustration"
+      ],
+      "canSimplify": [
+        "Broad rock planes and authored color faces, no photographic stratigraphy",
+        "Distant ridge geometry decimated with silhouette error controlled",
+        "Seating as a few broad unmarked terraces at phone distance",
+        "No signs, public art, characters or central-Denver tower collage"
+      ],
+      "geo": "Morrison/Red Rocks is a western foothill context. This sheet does not move it into downtown Denver. Outcrop inclination and far ridges come from terrain, not repeated decorative triangles.",
+      "sources": [
+        "https://www.redrocksonline.com/our-story/"
+      ],
+      "state": "day",
+      "image": "images/06-denver-front-range.png",
+      "sheet": "06-denver-front-range.html",
+      "sheetPng": "06-denver-front-range-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "sandstone": {
+          "hex": "#B87552",
+          "linearRGB": [
+            0.47932,
+            0.177888,
+            0.084376
+          ],
+          "linearLuminance": 0.235221,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "rockHighlight": {
+          "hex": "#CE9A70",
+          "linearRGB": [
+            0.617207,
+            0.323143,
+            0.162029
+          ],
+          "linearLuminance": 0.374029,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "dryGrass": {
+          "hex": "#A5A177",
+          "linearRGB": [
+            0.376262,
+            0.3564,
+            0.184475
+          ],
+          "linearLuminance": 0.34821,
+          "roughness": 0.92,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "scrub": {
+          "hex": "#74805B",
+          "linearRGB": [
+            0.174647,
+            0.215861,
+            0.104616
+          ],
+          "linearLuminance": 0.199067,
+          "roughness": 0.92,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "mountain": {
+          "hex": "#7A96A4",
+          "linearRGB": [
+            0.194618,
+            0.304987,
+            0.371238
+          ],
+          "linearLuminance": 0.286306,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "road": {
+          "hex": "#626A70",
+          "linearRGB": [
+            0.122139,
+            0.144128,
+            0.162029
+          ],
+          "linearLuminance": 0.140746,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "Overall land/water division and district roofline",
+            "Tilted sandstone fins and terrain silhouette"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Tilted sandstone fins and terrain silhouette",
+            "Foothill ridges and road cuts",
+            "Generic open-air seating terraces within rock context"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Tilted sandstone fins and terrain silhouette",
+            "Foothill ridges and road cuts",
+            "Generic open-air seating terraces within rock context",
+            "Sparse scrub and dry grass masses",
+            "Layered western mountain backdrop"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "id": "06-denver-front-range",
+        "generation": "Use case: stylized-concept. Asset: district artwork for an APPROVED WorldEngine Style B sheet. Create ONE wide 3:2 triptych with THREE equal-width vertical panels, thin white separators, NO captions/text. Left HERO STREET eye level, center AERIAL 55-degree pitched view, right FAR VIEW. Match the supplied Miami artwork EXACTLY in visual language: simplified true-scale architectural masses, softly bevelled edges, entirely plain matte solids, opaque FLAT blue-gray glazing (NO glass reflections), no photographic textures, no brick joints, asphalt grain, grass blades or leaf detail. Water is simple broad flat color bands with sparse broad soft highlights, NO mirror reflections or high-frequency waves. Trees are clean smooth rounded irregular crown clusters with thick branching trunks, not foliage noise or spiky foliage. Warm vibrant clear afternoon lighting following approved house-contrast: sun #FFE8C6, 40-degree elevation, moderate cool-neutral shade, sky blue #73A5CC toward #A2C4DC and pale horizon #DBDCD1, +.35EV visual cue, contrast1.06 saturation1.08, no purple/yellow post-grade. All three panels same state. Clear silhouettes and readable geometry at phone size. This is a concept: actual positions and sightlines come from mapped data, not illustration. Absolutely NO logos, lettering, team/sponsor marks, public artworks/sculptures, people, dogs, mascots or characters. Do NOT transfer Miami palms, islands or tropical architecture. Reference establishes rendering style only.\nFRONT RANGE EDGE NEAR MORRISON/RED ROCKS, a western foothill district context, NOT in central Denver. Left hero: foothill road/trail edge amid broad russet tilted sandstone fins and dry grassy slopes, sparse rounded scrub crowns, smooth rock polygon planes without photo striations, no urban highrise at trail corner. Center aerial: simplified tilted sandstone outcrops flanking broad open-air amphitheater seating terraces as generic unmarked functional geometry, foothill ridges and winding roads, dry green/tan vegetation; landscape dominates. Right: far view looking WEST toward layered foothills and mountain backdrop, actual ridge silhouettes must later come from terrain; distant Rocky mountain peaks behind foothills, atmospheric depth. Do not put ocean or city lake here; don't collage giant downtown towers beside Red Rocks. Sandstone #B87552 lit #CE9A70, dry grass #A5A177, scrub #74805B, mountains #7A96A4. Strict flat matte rock, no individual stones/grain, no people/signage/public sculpture.",
+        "cleanup": "Use case: precise-object-edit / style-transfer. Image 1 is the EDIT TARGET district triptych; Image 2 is approved Miami STYLE REFERENCE ONLY. Keep target three equal vertical panels, camera framing, district identity, building silhouettes and color family. Apply strict approved Style B surface cleanup. REMOVE EVERY fine masonry joint, brick line, realistic asphalt grain, leaf-level foliage, tiny grass blades, sand grain, textured rock striation and fine noise. Walls must be plain continuous solid matte color planes; windows flat opaque blue-gray patches without reflections. Roads/lawns/sand must be completely smooth plain solid planes. Trees clean smooth 5\u20139 larger lobed crown clusters, thick trunks, no tiny leaf aggregates. Simplify dry vegetation into broad smooth tan/green ground patches and a few rounded scrub solids; mountain background broad low-frequency planar silhouettes with haze, not jagged photoreal terrain. Water large flat color bands, sparse broad low-contrast highlights, no mirrors. Retain vibrant clear blue sky and softly warm approved afternoon sun; don't add glow/yellow outlines. No text, logos, people, dogs, characters or public art. Rendering cleanup only; no new buildings/objects. Match the reference's plain solids and flat glazing exactly, not the target's excessive detail.",
+        "referenceImages": [
+          "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-style-b-v2.png"
+        ]
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels."
+    },
+    {
+      "id": "07-chicago-loop-river-night",
+      "name": "The Loop + Chicago River \u2014 night",
+      "metro": "chicago",
+      "description": "The same river/bridge/tower district in full night, with readable cool architecture, sparse grouped warm windows and restrained fragmented river highlights.",
+      "signatureElements": [
+        "Readable bridge silhouette and center leaf joint",
+        "Dark river walls with isolated warm lamp pools",
+        "Grouped warm/cool window apertures within dark facades",
+        "Inland elevated L silhouette",
+        "Depth-correct night haze and fragmented water highlights"
+      ],
+      "hexes": {
+        "skyZenith": "#15243C",
+        "skyMid": "#243854",
+        "skyHorizon": "#344255",
+        "warmWindow": "#F3D0A0",
+        "coolWindow": "#C9DDEB",
+        "haze": "#475568"
+      },
+      "mustBeExact": [
+        "River polygon, banks, wall elevations and riverwalk access from map/survey",
+        "Bridge deck endpoints, span type, trunnion/leaf axes, clearances and opening state for each actual bridge",
+        "Elevated L alignment/supports and road clearances; do not infer tracks from a scenic river composition",
+        "Every building footprint and height; real camera heading and occlusion",
+        "Night lighting replaces day state; exposure applied once",
+        "Window selection deterministic by existing aperture IDs; mapped fixture inventory only"
+      ],
+      "canSimplify": [
+        "Rivets and fine rail lattice collapse into a few broad beam/brace solids",
+        "Opaque glazing and repeated opening bands; no reflective facade",
+        "Bridgehouses as simple volumes; no logos or carved sculpture",
+        "Plain flat river with low-frequency highlights; no water simulation",
+        "No per-window local lights or room detail",
+        "Water highlights as broad broken bands, no reflective glass or mirror river"
+      ],
+      "geo": "The Loop elevated rectangle is inland south of the main river branch. Bridge types differ by crossing; do not duplicate one bascule archetype everywhere.",
+      "sources": [
+        "https://webapps1.chicago.gov/landmarksweb/web/tourdetails.htm?touId=21",
+        "https://www.transitchicago.com/maps/system/"
+      ],
+      "state": "night",
+      "image": "images/07-chicago-loop-river-night.png",
+      "sheet": "07-chicago-loop-river-night.html",
+      "sheetPng": "07-chicago-loop-river-night-sheet.png",
+      "heightM": null,
+      "heightPolicy": "No district scalar height. Per-building components require mapped heights; no floor-count conversion.",
+      "farSilhouetteLabel": "concept \u2013 positions and sightlines come from the map",
+      "materials": {
+        "river": {
+          "hex": "#3F777B",
+          "linearRGB": [
+            0.049707,
+            0.184475,
+            0.198069
+          ],
+          "linearLuminance": 0.156805,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "limestone": {
+          "hex": "#C8BFAF",
+          "linearRGB": [
+            0.57758,
+            0.520996,
+            0.42869
+          ],
+          "linearLuminance": 0.526361,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "bridgeSteel": {
+          "hex": "#58666A",
+          "linearRGB": [
+            0.097587,
+            0.132868,
+            0.144128
+          ],
+          "linearLuminance": 0.12618,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "glass": {
+          "hex": "#6996A8",
+          "linearRGB": [
+            0.141263,
+            0.304987,
+            0.391572
+          ],
+          "linearLuminance": 0.276431,
+          "roughness": 0.9,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "brick": {
+          "hex": "#98664F",
+          "linearRGB": [
+            0.313989,
+            0.132868,
+            0.078187
+          ],
+          "linearLuminance": 0.167426,
+          "roughness": 0.86,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "linearRGB": [
+            0.55834,
+            0.527115,
+            0.450786
+          ],
+          "linearLuminance": 0.528242,
+          "roughness": 0.82,
+          "metalness": 0,
+          "opacity": 1,
+          "transmission": 0,
+          "sheen01": 0,
+          "colorRole": "authored appearance target; initial material proxy, not sampled pixels"
+        }
+      },
+      "views": [
+        {
+          "id": "hero",
+          "eyeHeightM": 1.6,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "aerial",
+          "pitchBelowHorizontalDeg": 55,
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "source": "illustrative, production camera from map"
+        },
+        {
+          "id": "far",
+          "cameraCoordinates": null,
+          "headingDeg": null,
+          "distanceM": null,
+          "source": "map-derived sightline and terrain occlusion required"
+        }
+      ],
+      "detailTiers": [
+        {
+          "maxProjectedHeightExclusiveCssPx": 6,
+          "retain": [
+            "District roofline, river dark/light division and bridge silhouette"
+          ],
+          "omit": [
+            "Facade detail, cables, tiny lamps and lettering"
+          ]
+        },
+        {
+          "minProjectedHeightInclusiveCssPx": 6,
+          "maxProjectedHeightInclusiveCssPx": 20,
+          "retain": [
+            "Readable bridge silhouette and center leaf joint",
+            "Dark river walls with isolated warm lamp pools",
+            "Grouped warm/cool window apertures within dark facades"
+          ],
+          "omit": [
+            "Individual windows and sub-2-pixel geometry"
+          ]
+        },
+        {
+          "minProjectedHeightExclusiveCssPx": 20,
+          "retain": [
+            "Readable bridge silhouette and center leaf joint",
+            "Dark river walls with isolated warm lamp pools",
+            "Grouped warm/cool window apertures within dark facades",
+            "Inland elevated L silhouette",
+            "Depth-correct night haze and fragmented water highlights"
+          ],
+          "omit": [
+            "Sub-2-pixel detail; all logos and real artworks"
+          ]
+        }
+      ],
+      "promptHistory": {
+        "generation": "Use case: lighting-weather. Image 1 is the Chicago Loop + River triptych EDIT TARGET. Image 2 is approved Miami NIGHT STYLE REFERENCE ONLY. Convert ONLY lighting/weather of image1 to FULL NIGHT; preserve exactly THREE vertical panels hero street / aerial / far view, thin white separators, same Chicago tower/river/bridge/rail framing. STRICT Style B, plain matte solids, completely flat opaque glazing, smooth clean clustered trees, no brick/asphalt texture. Night-fog-v1 renderer targets: sky zenith #15243C, middle #243854, horizon #344255; NO direct sun, NO sunset glow, NO moon. Exposure +0.35 EV of calibrated E0, cool sky fill .24 and ground .08 of noon. Readable cool architectural/bridge silhouettes and water walls, not black voids. Distant depth haze #475568 sigma .002/m visual cue, NO ground fog. Approximately30% eligible windows lit in stable grouped patches, mostly warm #F3D0A0, sparse cool #C9DDEB; ALL other windows dark FLAT opaque panels, no reflective glass. Small restrained bloom weight max.035. Sparse mapped-style lamps warm #F0DDC0 pools separated by dark gaps. NO stars necessary in dense city, no starfield. River dark teal-blue, simple broad flat bands with sparse vertically fragmented broad warm window/lamp highlight shapes, NOT perfect mirror, not neon, no high-frequency waves, no raytraced reflection. Keep bascule bridge closed with central split, elevated L short inland segment only; don't draw a long rail line along river promenade. No logos, lettering, advertisements, team names, people, dogs, characters or real public art. Match reference clean materials and night readability, not its tropical towers or palms. Do not add new architectural objects or change geometry.",
+        "sourceDayImage": "images/01-chicago-loop-river.png",
+        "nightStyleReference": "~/Desktop/worldengine-gpt-drop/landmarks-style-b-v1/images/miami-brickell-night-style-b-v2.png"
+      },
+      "visualCheck": "Plain matte masses, flat glazing, clean trees and three-view composition checked; geometry/hex/ephemeris not validated from AI pixels.",
+      "displayHexesRole": "Night state lighting/emissive/atmosphere, not daytime material albedo replacements."
+    }
+  ],
+  "validation": {
+    "districtDayCount": 6,
+    "districtNightCount": 1,
+    "sharedLightingCopiedUnchanged": true,
+    "nightBlocksCopiedUnchanged": true,
+    "imagesVisuallyInspected": true,
+    "phoneDeviceBenchmarked": false,
+    "surveyVerified": false,
+    "geometryMapSolved": false
+  }
+}

@@ -1,0 +1,2957 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentType": "instanceSet",
+  "createdAt": "2026-10-07T20:24:18.533Z",
+  "sceneId": "scene:demo",
+  "sceneRevision": 4,
+  "coordinateFrame": {
+    "kind": "local_ENU",
+    "originWGS84": {
+      "longitude": -87.635,
+      "latitude": 41.92,
+      "ellipsoidHeightM": 180
+    },
+    "verticalDatum": "WGS84 ellipsoid; illustrative origin, not surveyed",
+    "metricUnit": "m",
+    "angleUnit": "deg"
+  },
+  "instances": [
+    {
+      "instanceId": "import:item-1",
+      "partId": "stage",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 8,
+        "depth": 5,
+        "riserHeight": 0.9144,
+        "stairs": "front",
+        "roof": false,
+        "roofHeight": 4.5,
+        "backdrop": true,
+        "backdropHeight": 2.4,
+        "stairWidth": 1.2,
+        "stairRun": 1.8
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -20,
+          "north": 22,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Stage",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -20,
+            "north": 22,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 270,
+              "y": 160,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.94,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "extracted_dimension",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "extracted_dimension",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "riserHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "extracted_dimension",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairs": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roofHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdrop": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdropHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairWidth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairRun": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-1:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "792b11cb8d7d14f012a41e173f6b8bd31fca19451793a55772a6761ee131c0f1",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-1:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:11.496Z",
+            "revision": 2,
+            "subjectDigest": "792b11cb8d7d14f012a41e173f6b8bd31fca19451793a55772a6761ee131c0f1",
+            "previousEventId": "import:item-1:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-2",
+      "partId": "canopy-tent",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 6,
+        "depth": 6,
+        "eaveHeight": 2.7,
+        "peakHeight": 4.1,
+        "sides": "none",
+        "ballastCount": 4,
+        "colour": "warm-ivory"
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 12,
+          "north": 12,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Registration canopy",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 12,
+            "north": 12,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 430,
+              "y": 210,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.98,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "eaveHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "peakHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "sides": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ballastCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "colour": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-2:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "0e773c6ee6955a9f805c84d65290c85bb4c2c668843704b45fcef4d59a2cba1a",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-2:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:11.546Z",
+            "revision": 2,
+            "subjectDigest": "0e773c6ee6955a9f805c84d65290c85bb4c2c668843704b45fcef4d59a2cba1a",
+            "previousEventId": "import:item-2:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-3",
+      "partId": "water-table",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 1.8,
+        "depth": 0.75,
+        "height": 0.76,
+        "cupCount": 24,
+        "cupRows": 4,
+        "dispenserCount": 2,
+        "tablecloth": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 16,
+          "north": 14,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Water Station 2",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 16,
+            "north": 14,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 450,
+              "y": 200,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.89,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "cupCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "cupRows": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "dispenserCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "tablecloth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-3:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "da0e0d0a88c38f4b502b5c4868dee06bfa116c8e5d466e5905171e30531a9955",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-3:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:11.663Z",
+            "revision": 2,
+            "subjectDigest": "da0e0d0a88c38f4b502b5c4868dee06bfa116c8e5d466e5905171e30531a9955",
+            "previousEventId": "import:item-3:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-4",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -5,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Entry barrier",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -5,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 295,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.96,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-4:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "fa5d60f2e3574eceae576c82a37f40b7e00a473002bb9fb0d3314a9c03d070e5",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-4:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:12.127Z",
+            "revision": 2,
+            "subjectDigest": "fa5d60f2e3574eceae576c82a37f40b7e00a473002bb9fb0d3314a9c03d070e5",
+            "previousEventId": "import:item-4:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-5",
+      "partId": "finish-arch",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 8.8,
+        "depth": 1.2,
+        "height": 4.5,
+        "clearWidth": 8,
+        "clearHeight": 3.8,
+        "type": "truss",
+        "label": "FINISH",
+        "ballastVisual": true
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 0,
+          "north": -20,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Finish arch",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 0,
+            "north": -20,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 370,
+              "y": 370,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearWidth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ballastVisual": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-5:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "fdb67e6641532827241157f8b57026432a8397ab88324be18fe97c6a84d34817",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-5:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:12.529Z",
+            "revision": 2,
+            "subjectDigest": "fdb67e6641532827241157f8b57026432a8397ab88324be18fe97c6a84d34817",
+            "previousEventId": "import:item-5:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-6",
+      "partId": "toilet-block",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 6.4,
+        "depth": 1.6,
+        "height": 2.3,
+        "unitCount": 4,
+        "accessibleCount": 1,
+        "handwashCount": 1,
+        "doorSide": "front"
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 30,
+          "north": 8,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Toilet block",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 30,
+            "north": 8,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 520,
+              "y": 230,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.91,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "unitCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "accessibleCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "handwashCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "doorSide": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-6:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "518ebf2026c914193b4f26f7777bd68f8eaa0f31d8b23592c4bbc1a35e92e33d",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-6:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:12.836Z",
+            "revision": 2,
+            "subjectDigest": "518ebf2026c914193b4f26f7777bd68f8eaa0f31d8b23592c4bbc1a35e92e33d",
+            "previousEventId": "import:item-6:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-7",
+      "partId": "gate",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 4.4,
+        "depth": 0.6,
+        "height": 2.3,
+        "clearWidth": 4,
+        "type": "open-frame",
+        "leafCount": 2,
+        "swingDegrees": 90,
+        "label": "ENTRY"
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -22,
+          "north": -15,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of West gate",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -22,
+            "north": -15,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 260,
+              "y": 345,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.9,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearWidth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "leafCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "swingDegrees": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-7:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "6507829670d63bd439bbab77afe0397fc89bd5109ac6d5459df025ad7bd62fe1",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-7:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:13.125Z",
+            "revision": 2,
+            "subjectDigest": "6507829670d63bd439bbab77afe0397fc89bd5109ac6d5459df025ad7bd62fe1",
+            "previousEventId": "import:item-7:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-8",
+      "partId": "sign",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 0.9,
+        "depth": 0.4,
+        "height": 1.8,
+        "panelHeight": 0.5,
+        "text": "Water Station 2",
+        "arrow": "right",
+        "mount": "freestanding"
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -20,
+          "north": -10,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Wayfinding sign",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -20,
+            "north": -10,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 270,
+              "y": 320,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.87,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "panelHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "text": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "arrow": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "mount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-8:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "e2892b693f6a2dcea1d36ab9957b68401ed788f44ef2043afb880f4a2098d52e",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-8:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:13.163Z",
+            "revision": 2,
+            "subjectDigest": "e2892b693f6a2dcea1d36ab9957b68401ed788f44ef2043afb880f4a2098d52e",
+            "previousEventId": "import:item-8:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-9",
+      "partId": "generator",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 1.5,
+        "depth": 2.5,
+        "height": 1.7,
+        "ratedPower": 40,
+        "trailer": true,
+        "exhaustSide": "rear",
+        "fuel": "diesel",
+        "outletCount": 4
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 35,
+          "north": 19,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Generator",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 35,
+            "north": 19,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 545,
+              "y": 175,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.84,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ratedPower": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "trailer": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "exhaustSide": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "fuel": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "outletCount": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-9:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "02036132485f33160fe0ae9f07a3f68072c72d81a81ff3440cb57c4fe122f80b",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-9:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:13.712Z",
+            "revision": 2,
+            "subjectDigest": "02036132485f33160fe0ae9f07a3f68072c72d81a81ff3440cb57c4fe122f80b",
+            "previousEventId": "import:item-9:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:item-10",
+      "partId": "sponsor-booth",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 3,
+        "depth": 3,
+        "height": 2.7,
+        "roof": true,
+        "backwall": true,
+        "counterWidth": 1.8,
+        "counterDepth": 0.6,
+        "counterHeight": 0.9,
+        "label": "Community Partner",
+        "powerRequired": true,
+        "sidePanels": "none"
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": 10,
+          "north": -8,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Sponsor booth",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 10,
+            "north": -8,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 420,
+              "y": 310,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.95,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backwall": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterWidth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterDepth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterHeight": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "powerRequired": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "sidePanels": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:item-10:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "bf88f6a6cbc0fd3c704eb489d7f5c83640631ef0ccc53baf070b651b737e5a75",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:item-10:review-2",
+            "action": "accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:13.986Z",
+            "revision": 2,
+            "subjectDigest": "bf88f6a6cbc0fd3c704eb489d7f5c83640631ef0ccc53baf070b651b737e5a75",
+            "previousEventId": "import:item-10:review-1",
+            "reason": "DEMO: Organizer approved the source, family, proposed dimensions and placement.",
+            "groupId": null
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-1",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -15,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 1",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -15,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 345,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-1:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "058081895b7ca4c25b266aa6feb8e44cc31af47a70fe838822d244da7c5860de",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-1:review-2",
+            "action": "resize",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:16.630Z",
+            "revision": 2,
+            "subjectDigest": "26710a545849c3a5d8e6d4471bade934ae1a1dae8e85a44221c2b0ae18af22de",
+            "previousEventId": "import:barrier-1:review-1",
+            "reason": "DEMO: Demonstrated mismatched group dimension.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-1:review-3",
+            "action": "resize",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:16.936Z",
+            "revision": 3,
+            "subjectDigest": "058081895b7ca4c25b266aa6feb8e44cc31af47a70fe838822d244da7c5860de",
+            "previousEventId": "import:barrier-1:review-2",
+            "reason": "DEMO: Demonstrated mismatched group dimension.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-1:review-4",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 4,
+            "subjectDigest": "058081895b7ca4c25b266aa6feb8e44cc31af47a70fe838822d244da7c5860de",
+            "previousEventId": "import:barrier-1:review-3",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-2",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -12.6,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 2",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -12.6,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 333,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-2:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "21cfa3d551ad0d6876e5f8697111c2ad1887a936fc2da306bb21de8e42a5495f",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-2:review-2",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 2,
+            "subjectDigest": "21cfa3d551ad0d6876e5f8697111c2ad1887a936fc2da306bb21de8e42a5495f",
+            "previousEventId": "import:barrier-2:review-1",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-3",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -10.2,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 3",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -10.2,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 321,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-3:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "1a694d0cf0d86aea9537c56d1c0a61efd37d3f13f923f5e7c42afe4dfa8d5f72",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-3:review-2",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 2,
+            "subjectDigest": "1a694d0cf0d86aea9537c56d1c0a61efd37d3f13f923f5e7c42afe4dfa8d5f72",
+            "previousEventId": "import:barrier-3:review-1",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-4",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -7.800000000000001,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 4",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -7.800000000000001,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 309,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-4:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "e649bb39fb9432fba336dfea4d995c93d03682726f0d6e8bc92e7ae7737229fe",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-4:review-2",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 2,
+            "subjectDigest": "e649bb39fb9432fba336dfea4d995c93d03682726f0d6e8bc92e7ae7737229fe",
+            "previousEventId": "import:barrier-4:review-1",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-5",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -5.4,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 5",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -5.4,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 297,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-5:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "d347b86db5af65b7629e007fb5a7863bea9102427abdd7e5eab52140d2d3808d",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-5:review-2",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 2,
+            "subjectDigest": "d347b86db5af65b7629e007fb5a7863bea9102427abdd7e5eab52140d2d3808d",
+            "previousEventId": "import:barrier-5:review-1",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    },
+    {
+      "instanceId": "import:barrier-6",
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "resolvedTransform": {
+        "position": {
+          "east": -3,
+          "north": -3,
+          "up": 0
+        },
+        "yawDeg": 0,
+        "sceneRevision": 4,
+        "alignmentId": "alignment:demo",
+        "independentCheckpointErrorM": 0.7999999999999972
+      },
+      "activePresetId": null,
+      "selectedDetailTier": "balanced",
+      "materialOverrides": {},
+      "placementIntent": {
+        "originalText": "Organizer-reviewed import of Chute barrier 6",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -3,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 4,
+        "anchorIds": []
+      },
+      "provenance": {
+        "sources": [
+          {
+            "id": "source:demo-plan",
+            "kind": "organizer_document",
+            "uri": "urn:worldengine:synthetic-site-plan",
+            "sha256": null,
+            "page": 1,
+            "cropPixels": {
+              "x": 355,
+              "y": 285,
+              "width": 60,
+              "height": 60
+            },
+            "rights": "owned_design",
+            "note": "Synthetic demo drawing. Not an actual organizer plan or measured place."
+          }
+        ],
+        "sourceIds": [
+          "source:demo-plan"
+        ],
+        "method": "vision_detection",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": 0.97,
+          "basis": "model_score",
+          "calibration": "uncalibrated",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "source:demo-plan",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "accepted",
+        "approvalHistory": [
+          {
+            "id": "import:barrier-6:review-1",
+            "action": "propose",
+            "actorId": "demo:assistant",
+            "actorRole": "system",
+            "at": "2026-10-07T20:24:09.898Z",
+            "revision": 1,
+            "subjectDigest": "780c1bd2e4e5167a4327b65dfc21cbebc2fa2ce462212615052a8305bcbe7322",
+            "previousEventId": null,
+            "reason": "DEMO: Detected from synthetic sample, dimensions proposed for review.",
+            "groupId": null
+          },
+          {
+            "id": "import:barrier-6:review-2",
+            "action": "bulk_accept",
+            "actorId": "demo:organizer",
+            "actorRole": "organizer",
+            "at": "2026-10-07T20:24:17.556Z",
+            "revision": 2,
+            "subjectDigest": "780c1bd2e4e5167a4327b65dfc21cbebc2fa2ce462212615052a8305bcbe7322",
+            "previousEventId": "import:barrier-6:review-1",
+            "reason": "DEMO: Inspected matching source evidence and dimensions; group:finish-barriers.",
+            "groupId": "group:finish-barriers"
+          }
+        ]
+      }
+    }
+  ]
+}

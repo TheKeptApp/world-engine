@@ -1,0 +1,1880 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentType": "commandSet",
+  "createdAt": "2026-10-07T18:00:00Z",
+  "commands": [
+    {
+      "commandId": "command:stage",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "stage",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 8,
+        "depth": 5,
+        "riserHeight": 0.9144,
+        "stairs": "front",
+        "roof": false,
+        "roofHeight": 4.5,
+        "backdrop": true,
+        "backdropHeight": 2.4,
+        "stairWidth": 1.2,
+        "stairRun": 1.8
+      },
+      "intent": {
+        "originalText": "Build the stage on the north side of the field, 3 ft riser.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "boundary",
+          "boundaryId": "field:main",
+          "compassSector": "N",
+          "relation": "inside",
+          "setbackM": 6,
+          "alongFraction": 0.5,
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 180,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": [
+          "field:main"
+        ]
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:stage",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:stage",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:stage"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "riserHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairs": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roofHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdrop": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdropHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairWidth": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairRun": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:canopy-tent",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "canopy-tent",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 6,
+        "depth": 6,
+        "eaveHeight": 2.7,
+        "peakHeight": 4.1,
+        "sides": "none",
+        "ballastCount": 4,
+        "colour": "warm-ivory"
+      },
+      "intent": {
+        "originalText": "Place canopy tent at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 12,
+            "north": 12,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:canopy-tent",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:canopy-tent",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:canopy-tent"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "eaveHeight": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "peakHeight": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "sides": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ballastCount": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "colour": {
+            "sourceId": "design:canopy-tent",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:water-table",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "water-table",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 1.8,
+        "depth": 0.75,
+        "height": 0.76,
+        "cupCount": 24,
+        "cupRows": 4,
+        "dispenserCount": 2,
+        "tablecloth": false
+      },
+      "intent": {
+        "originalText": "Add a water table with cups at mile 2, right side, 3 m off the route.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "route_chainage",
+          "routeId": "route:10k",
+          "routeVersion": 1,
+          "chainageM": 3218.688,
+          "side": "right",
+          "offsetM": 3,
+          "originalQuantity": {
+            "value": 2,
+            "unit": "mi"
+          },
+          "orientation": {
+            "mode": "along_route",
+            "bearingDeg": null,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:water-table",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:water-table",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:water-table"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "cupCount": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "cupRows": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "dispenserCount": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "tablecloth": {
+            "sourceId": "design:water-table",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:barrier",
+      "verb": "array",
+      "targetInstanceIds": [],
+      "partId": "barrier",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 2.4,
+        "depth": 0.5,
+        "height": 1.1,
+        "type": "pedestrian",
+        "feet": "flat",
+        "banner": false
+      },
+      "intent": {
+        "originalText": "Line the left side of the finish chute with barriers every 2.4 m, from 0 to 12 m, 2 m off the route.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -3,
+            "north": -5,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": {
+          "basis": "route",
+          "routeId": "route:finish-chute",
+          "start": {
+            "east": -3,
+            "north": -5,
+            "up": 0
+          },
+          "end": {
+            "east": -3,
+            "north": 7,
+            "up": 0
+          },
+          "startChainageM": 0,
+          "endChainageM": 12,
+          "spacingM": 2.4,
+          "endpointPolicy": "include_start",
+          "side": "left",
+          "offsetM": 2,
+          "orientation": {
+            "mode": "along_route",
+            "bearingDeg": null,
+            "anchorId": null
+          },
+          "maxCount": 20
+        },
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:barrier",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:barrier",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:barrier"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "feet": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "banner": {
+            "sourceId": "design:barrier",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:finish-arch",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "finish-arch",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 8.8,
+        "depth": 1.2,
+        "height": 4.5,
+        "clearWidth": 8,
+        "clearHeight": 3.8,
+        "type": "truss",
+        "label": "FINISH",
+        "ballastVisual": true
+      },
+      "intent": {
+        "originalText": "Place finish arch at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 0,
+            "north": -20,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:finish-arch",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:finish-arch",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:finish-arch"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearWidth": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearHeight": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ballastVisual": {
+            "sourceId": "design:finish-arch",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:toilet-block",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "toilet-block",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 6.4,
+        "depth": 1.6,
+        "height": 2.3,
+        "unitCount": 4,
+        "accessibleCount": 1,
+        "handwashCount": 1,
+        "doorSide": "front"
+      },
+      "intent": {
+        "originalText": "Place toilet block at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 30,
+            "north": 8,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:toilet-block",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:toilet-block",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:toilet-block"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "unitCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "accessibleCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "handwashCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "doorSide": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:gate",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "gate",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 4.4,
+        "depth": 0.6,
+        "height": 2.3,
+        "clearWidth": 4,
+        "type": "open-frame",
+        "leafCount": 2,
+        "swingDegrees": 90,
+        "label": "ENTRY"
+      },
+      "intent": {
+        "originalText": "Place entry gate at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -22,
+            "north": -15,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:gate",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:gate",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:gate"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "clearWidth": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "type": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "leafCount": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "swingDegrees": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "design:gate",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:sign",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "sign",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 0.9,
+        "depth": 0.4,
+        "height": 1.8,
+        "panelHeight": 0.5,
+        "text": "Water Station 2",
+        "arrow": "right",
+        "mount": "freestanding"
+      },
+      "intent": {
+        "originalText": "Place wayfinding sign at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -20,
+            "north": -10,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:sign",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:sign",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:sign"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "panelHeight": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "text": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "arrow": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "mount": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:generator",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "generator",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 1.5,
+        "depth": 2.5,
+        "height": 1.7,
+        "ratedPower": 40,
+        "trailer": true,
+        "exhaustSide": "rear",
+        "fuel": "diesel",
+        "outletCount": 4
+      },
+      "intent": {
+        "originalText": "Place generator at the reviewed position.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": 35,
+            "north": 19,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:generator",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:generator",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:generator"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "ratedPower": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "trailer": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "exhaustSide": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "fuel": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "outletCount": {
+            "sourceId": "design:generator",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:sponsor-booth",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "sponsor-booth",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 3,
+        "depth": 3,
+        "height": 2.7,
+        "roof": true,
+        "backwall": true,
+        "counterWidth": 1.8,
+        "counterDepth": 0.6,
+        "counterHeight": 0.9,
+        "label": "Community Partner",
+        "powerRequired": true,
+        "sidePanels": "none"
+      },
+      "intent": {
+        "originalText": "Put the sponsor booth 6 m east of the west entrance, facing it.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "near_anchor",
+          "anchorId": "entrance:west",
+          "distanceM": 6,
+          "bearingDeg": 90,
+          "orientation": {
+            "mode": "face_anchor",
+            "bearingDeg": null,
+            "anchorId": "entrance:west"
+          }
+        },
+        "array": null,
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": [
+          "entrance:west"
+        ]
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:sponsor-booth",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:sponsor-booth",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:sponsor-booth"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backwall": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterWidth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterDepth": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "counterHeight": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "label": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "powerRequired": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "sidePanels": {
+            "sourceId": "design:sponsor-booth",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:sign-every-50m",
+      "verb": "array",
+      "targetInstanceIds": [],
+      "partId": "sign",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 0.9,
+        "depth": 0.4,
+        "height": 1.8,
+        "panelHeight": 0.5,
+        "text": "Water Station 2",
+        "arrow": "right",
+        "mount": "freestanding"
+      },
+      "intent": {
+        "originalText": "Repeat signs every 50 m along the path, right side, from 0 to 1000 m, with a 1 m setback.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "absolute",
+          "position": {
+            "east": -20,
+            "north": -10,
+            "up": 0
+          },
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 0,
+            "anchorId": null
+          }
+        },
+        "array": {
+          "basis": "route",
+          "routeId": "path:main",
+          "start": {
+            "east": 0,
+            "north": 0,
+            "up": 0
+          },
+          "end": {
+            "east": 0,
+            "north": 0,
+            "up": 0
+          },
+          "startChainageM": 0,
+          "endChainageM": 1000,
+          "spacingM": 50,
+          "endpointPolicy": "include_start",
+          "side": "right",
+          "offsetM": 1,
+          "orientation": {
+            "mode": "along_route",
+            "bearingDeg": null,
+            "anchorId": null
+          },
+          "maxCount": 30
+        },
+        "ambiguities": [],
+        "resolution": "resolved",
+        "mapRevision": 1,
+        "anchorIds": []
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:sign",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:sign",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:sign"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "panelHeight": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "text": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "arrow": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "mount": {
+            "sourceId": "design:sign",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    },
+    {
+      "commandId": "command:ambiguous-field",
+      "verb": "create",
+      "targetInstanceIds": [],
+      "partId": "stage",
+      "partVersion": "1.0.0",
+      "parameterValues": {
+        "width": 8,
+        "depth": 5,
+        "riserHeight": 0.9144,
+        "stairs": "front",
+        "roof": false,
+        "roofHeight": 4.5,
+        "backdrop": true,
+        "backdropHeight": 2.4,
+        "stairWidth": 1.2,
+        "stairRun": 1.8
+      },
+      "intent": {
+        "originalText": "Put the stage near the field.",
+        "locale": "en-US",
+        "normalizedPlacement": {
+          "type": "boundary",
+          "boundaryId": "field:main",
+          "compassSector": "N",
+          "relation": "inside",
+          "setbackM": 6,
+          "alongFraction": 0.5,
+          "orientation": {
+            "mode": "bearing",
+            "bearingDeg": 180,
+            "anchorId": null
+          }
+        },
+        "array": null,
+        "ambiguities": [
+          "Two named fields match; choose one.",
+          "Near has no agreed distance; approve a proposed setback."
+        ],
+        "resolution": "needs_clarification",
+        "mapRevision": 1,
+        "anchorIds": [
+          "field:main"
+        ]
+      },
+      "expectedSceneRevision": 1,
+      "proposalState": "draft",
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:stage",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:stage",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:stage"
+        ],
+        "method": "language_command",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "riserHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairs": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roof": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "roofHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdrop": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "backdropHeight": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairWidth": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "stairRun": {
+            "sourceId": "design:stage",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,1559 @@
+{
+  "schema": "worldengine.infrastructure-kit.v1",
+  "date": "2026-10-07",
+  "style": "Grounded approved Style B Bible realism / Japan infrastructure",
+  "status": "proposal_only",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "lightingValuesCopiedUnchanged": true,
+  "photometricPixelEqualityVerified": false,
+  "screenExtentDefinition": "Projected asset or chosen module bounding-box maximum dimension in drawable pixels, not CSS pixels or distance; huge sites use local component/module extent for detail decisions",
+  "lodPolicy": {
+    "tiersProposal": true,
+    "hysteresisProposalPx": 2,
+    "farWires": "Cull below resolvable projected width; do not inflate physical cables into beams",
+    "flatFeatures": "Ground patches/paint use decal or material representations rather than tiny raised geometry",
+    "doNotUseFarPanelAsMeasuredLodTest": true,
+    "preserveTopology": "Never merge road levels, remove required support spans, alter rail connectivity or water levels to fit a drawing"
+  },
+  "referenceImages": [
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/images/01-calibration-scene.png",
+      "sha256": "b107e0e162b12b21e682d5fb1fabf67ee8ea9ae4b0ae717c9deb46ce7912b4a4",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/japan-regional-kit-v1/05-vehicles.png",
+      "sha256": "7ab4a008a476e69fe5ccd1626e46191a5a1751916ec669515f23e5ac0c4ef5a4",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/infrastructure-kit-v1/roads-01-highway.html",
+      "sha256": "4174dcb83bf74287ad109efcaca50eb68e57f285ddf388ee94b64565fa152694",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/house-archetypes-v1/archetypes-values.json",
+      "sha256": "4bc79d481cf06ac70b040b16d0ba105cb99351d7afce1a598518d25e90258648",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/japan-style-b-v1/japan-values.json",
+      "sha256": "f8c219f9907b900512cd6dfbb3f7c0a2bca242a6eb0fb78fc39a238bc4228294",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/japan-showcase-v1/README.md",
+      "sha256": "97d34148ee3b4f517d3cf3994287a5a58d109498a9cadaff79791a4af0736f63",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/STYLE-B-RULE.md",
+      "sha256": "5bb66d64c9780c87f175390e6b8740a91b9a6aef9ea7ea752a29f80fc224b210",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/infrastructure-kit-v1/infrastructure-values.json",
+      "sha256": "13f32e58b0251210bed968365f7790af5c9656ddd2d99aaf63b0e4acbf0f5580",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/bible-values.json",
+      "sha256": "31b51e3a552280dae30da33119622e270d5240c0e3ab4ad08c6f6aeb31028a2e",
+      "role": "style/context/schema reference; not surveyed Japan geometry"
+    }
+  ],
+  "sources": [],
+  "assets": [
+    {
+      "id": "roads-01-expressway",
+      "group": "Roads",
+      "name": "Elevated urban expressway, ramps and sound walls",
+      "dimensionsM": {
+        "siteLength": 240,
+        "deckWidth": 17,
+        "laneWidth": 3.25,
+        "lanesEachDirectionCount": 2,
+        "deckHeight": 8,
+        "pierSpacing": 24,
+        "rampPavementWidth": 4.5,
+        "soundWallHeight": 3
+      },
+      "form": "Four-lane elevated urban expressway: two opposing carriageways separated by concrete median, each two lanes with white same-direction dashed separators, plain edge lines. One continuous connected single-lane entry ramp merges smoothly at same deck level, visible taper not intersecting pier. Moderate-high concrete acoustic panels on outer edges, some muted translucent upper panels. Slim credible pier rhythm not chunky toy supports. Low-rise Japanese urban mixed infill below; do not place expressway inside5m lane. Sparse plain cars KEEP LEFT. Sound walls shown as meaningful continuous panels not clutter.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Elevated urban expressway, ramps and sound walls. Four-lane elevated urban expressway: two opposing carriageways separated by concrete median, each two lanes with white same-direction dashed separators, plain edge lines. One continuous connected single-lane entry ramp merges smoothly at same deck level, visible taper not intersecting pier. Moderate-high concrete acoustic panels on outer edges, some muted translucent upper panels. Slim credible pier rhythm not chunky toy supports. Low-rise Japanese urban mixed infill below; do not place expressway inside5m lane. Sparse plain cars KEEP LEFT. Sound walls shown as meaningful continuous panels not clutter. Metre design examples, do not print: {\"siteLength\":240,\"deckWidth\":17,\"laneWidth\":3.25,\"lanesEachDirectionCount\":2,\"deckHeight\":8,\"pierSpacing\":24,\"rampPavementWidth\":4.5,\"soundWallHeight\":3}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#626A70",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#5C676D",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#6C6D64",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#657169",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#B9BBAF",
+          "linearLuminance": 0.4895,
+          "relativeBrightness": 3.479
+        },
+        "accent": {
+          "hex": "#DFDDD0",
+          "linearLuminance": 0.7195,
+          "relativeBrightness": 5.114
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Connected deck / ramp ribbons and sound-wall silhouette",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Separate carriageways, pier/support rhythm and ramp taper",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Resolved lane/gore paint, sparse sound-wall panel divisions",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "roads-01-expressway.png",
+      "sheetFile": "roads-01-expressway.html",
+      "sheetPngFile": "roads-01-expressway-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Module deck by span; ramps use separate road topology. Sound-wall panels instance along observed road edge. Never infer an expressway above a residential lane.",
+      "imageSHA256": "ae17778914fda920de6ce74148dc2b84ca2a1efa1211eeab6aeb7b37480e4e91"
+    },
+    {
+      "id": "roads-02-mountain",
+      "group": "Roads",
+      "name": "Mountain road, retaining walls and tunnel portal",
+      "dimensionsM": {
+        "siteLength": 180,
+        "carriagewayWidth": 6.5,
+        "laneWidth": 3.25,
+        "retainingWallHeight": 5,
+        "tunnelOpeningWidth": 8,
+        "tunnelOpeningHeight": 5.5,
+        "portalDepth": 3
+      },
+      "form": "Gently bending two-way mountain road KEEP LEFT, hillside cuts with concrete/stone retaining wall and broad drain slots, modest guardrail downhill, road continues into single clear arched twin-lane tunnel portal through hillside. No road ending into sealed wall, no impossible sharp ramp, believable grade. Simple yellow centreline as illustrative separation, white outer edges, not US-wide shoulders. Cedar/cypress-like hillside forest broad natural masses. Sparse unbranded car.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Mountain road, retaining walls and tunnel portal. Gently bending two-way mountain road KEEP LEFT, hillside cuts with concrete/stone retaining wall and broad drain slots, modest guardrail downhill, road continues into single clear arched twin-lane tunnel portal through hillside. No road ending into sealed wall, no impossible sharp ramp, believable grade. Simple yellow centreline as illustrative separation, white outer edges, not US-wide shoulders. Cedar/cypress-like hillside forest broad natural masses. Sparse unbranded car. Metre design examples, do not print: {\"siteLength\":180,\"carriagewayWidth\":6.5,\"laneWidth\":3.25,\"retainingWallHeight\":5,\"tunnelOpeningWidth\":8,\"tunnelOpeningHeight\":5.5,\"portalDepth\":3}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#626A70",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#5C676D",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#6C6D64",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#657169",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#B9BBAF",
+          "linearLuminance": 0.4895,
+          "relativeBrightness": 3.479
+        },
+        "accent": {
+          "hex": "#DFDDD0",
+          "linearLuminance": 0.7195,
+          "relativeBrightness": 5.114
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Road ribbon, landform and portal void",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Retaining-wall height, guardrail ribbon and tunnel aperture",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Drain slots, broad rock/concrete panels and portal recess",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "roads-02-mountain.png",
+      "sheetFile": "roads-02-mountain.html",
+      "sheetPngFile": "roads-02-mountain-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Respect terrain cuts and observed tunnel alignment. Portal is an aperture into terrain, not an isolated ornament; proposed clearances are not civil-engineering approval.",
+      "imageSHA256": "a70af4ba42c765a13cd73a69b9900ea9214e3318d36dd9e2007964b1c1551dbf",
+      "correctionPrompt": "Edit this three-panel Japan mountain road infrastructure artwork. Keep the EXACT road geometry, tunnel, retaining wall, forest, three-view composition, lighting and material treatment. Remove ALL vehicles and their shadows from ALL THREE panels, replacing their footprints with continuous matching road surface and preserving correct yellow centreline and white edge lines. No replacement vehicles, badges, logos, people, characters, text or signs. This sheet is infrastructure-only; retain real proportions, grounded rich Style B smooth matte surfaces.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    },
+    {
+      "id": "roads-03-paddy",
+      "group": "Roads",
+      "name": "Rice-paddy road and irrigation channels",
+      "dimensionsM": {
+        "siteLength": 140,
+        "roadWidth": 3,
+        "passingBayWidth": 5,
+        "passingBayLength": 10,
+        "channelWidth": 0.5,
+        "channelDepth": 0.4,
+        "bundWidth": 0.6
+      },
+      "form": "Narrow rural asphalt/concrete farm road3m wide, no raised sidewalk/curb, road along actual-looking paddy bund and parallel irrigation channel, flush simple bridge/slab at farm access over ditch, local passing recess. Water-filled crop planes broad rows, concrete open ditch cross section visible near, wide mountain/rural context far. No street trees/lawns or broad urban road. No vehicles necessary. Road remains connected.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Rice-paddy road and irrigation channels. Narrow rural asphalt/concrete farm road3m wide, no raised sidewalk/curb, road along actual-looking paddy bund and parallel irrigation channel, flush simple bridge/slab at farm access over ditch, local passing recess. Water-filled crop planes broad rows, concrete open ditch cross section visible near, wide mountain/rural context far. No street trees/lawns or broad urban road. No vehicles necessary. Road remains connected. Metre design examples, do not print: {\"siteLength\":140,\"roadWidth\":3,\"passingBayWidth\":5,\"passingBayLength\":10,\"channelWidth\":0.5,\"channelDepth\":0.4,\"bundWidth\":0.6}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#626A70",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#5C676D",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#6C6D64",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#657169",
+          "secondaryHex": "#B9BBAF",
+          "accentHex": "#DFDDD0"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#B9BBAF",
+          "linearLuminance": 0.4895,
+          "relativeBrightness": 3.479
+        },
+        "accent": {
+          "hex": "#DFDDD0",
+          "linearLuminance": 0.7195,
+          "relativeBrightness": 5.114
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Paddy and road/channel ribbons",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Bund edge, channel void and access slab",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse crop-row material marks, passing bay and flush ditch edges",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "roads-03-paddy.png",
+      "sheetFile": "roads-03-paddy.html",
+      "sheetPngFile": "roads-03-paddy-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Agricultural landuse only; use actual ditch/field geometry. Road may be a constrained shared route with passing bays, no painted centreline required.",
+      "imageSHA256": "d92a6349a0d59ffe7eabf92332ea987097725afce1d7d885ff66147bd9f3b58e"
+    },
+    {
+      "id": "water-01-river",
+      "group": "Water",
+      "name": "River embankment, paths and stepped banks",
+      "dimensionsM": {
+        "reachLength": 160,
+        "riverWidth": 35,
+        "crestPathWidth": 3,
+        "lowerPathWidth": 2.5,
+        "bankHeight": 4,
+        "stepRiser": 0.18,
+        "stepTread": 0.3
+      },
+      "form": "Small urban Japanese river, coherent water level, broad sloped grass/revetment banks with upper crest path and lower riverside path, one stepped access flight and broad stepped sitting bank, concrete toe retaining edge, rails only where warranted. Mixed low-rise Japan backdrop, sparsetrees. Quiet matte bluegreen water. Realistic bank slopes, no stepped mini-toy canyon, paths actually connected. No characters or murals.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: River embankment, paths and stepped banks. Small urban Japanese river, coherent water level, broad sloped grass/revetment banks with upper crest path and lower riverside path, one stepped access flight and broad stepped sitting bank, concrete toe retaining edge, rails only where warranted. Mixed low-rise Japan backdrop, sparsetrees. Quiet matte bluegreen water. Realistic bank slopes, no stepped mini-toy canyon, paths actually connected. No characters or murals. Metre design examples, do not print: {\"reachLength\":160,\"riverWidth\":35,\"crestPathWidth\":3,\"lowerPathWidth\":2.5,\"bankHeight\":4,\"stepRiser\":0.18,\"stepTread\":0.3}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#ADB5AB",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#A3AFA7",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#B7B4A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#AAB3A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#ADB5AB",
+          "linearLuminance": 0.4487,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#70918F",
+          "linearLuminance": 0.2568,
+          "relativeBrightness": 0.572
+        },
+        "accent": {
+          "hex": "#D3D3C5",
+          "linearLuminance": 0.6447,
+          "relativeBrightness": 1.437
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Water ribbon and bank landform",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Upper/lower path separation and stepped access mass",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Coarse stair treads, rail segments and revetment transitions",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "water-01-river.png",
+      "sheetFile": "water-01-river.html",
+      "sheetPngFile": "water-01-river-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Use source water level/bank elevation. Upper/lower paths and steps remain connected; no flood-safety or public-access claim.",
+      "imageSHA256": "42753c2de75f6ddecc85188b34cabed4450cc778197019bc94644088fa112886"
+    },
+    {
+      "id": "water-02-bridges",
+      "group": "Water",
+      "name": "Small river and canal bridges",
+      "dimensionsM": {
+        "riverBridgeLength": 28,
+        "riverBridgeDeckWidth": 7,
+        "riverBridgeDeckAboveWater": 4,
+        "canalBridgeLength": 8,
+        "canalBridgeDeckWidth": 5,
+        "canalWidth": 6,
+        "parapetHeight": 1.1
+      },
+      "form": "Two related bridges in one coherent riverside neighbourhood: plain concrete-girder small river bridge with simple rails/abutments and a shorter local canal slab bridge nearby. Near view river deck and canal bridge in background, aerial exposes both spans/waterways and approach connections, far same district. KEEPLEFT modest roads, not huge suspensionbridge. Waterpasses beneath spans, no support blockingwater. No American sidewalks retrofittedinto adjacent5m lanes, bridge protected edge pedestrianmargin only.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Small river and canal bridges. Two related bridges in one coherent riverside neighbourhood: plain concrete-girder small river bridge with simple rails/abutments and a shorter local canal slab bridge nearby. Near view river deck and canal bridge in background, aerial exposes both spans/waterways and approach connections, far same district. KEEPLEFT modest roads, not huge suspensionbridge. Waterpasses beneath spans, no support blockingwater. No American sidewalks retrofittedinto adjacent5m lanes, bridge protected edge pedestrianmargin only. Metre design examples, do not print: {\"riverBridgeLength\":28,\"riverBridgeDeckWidth\":7,\"riverBridgeDeckAboveWater\":4,\"canalBridgeLength\":8,\"canalBridgeDeckWidth\":5,\"canalWidth\":6,\"parapetHeight\":1.1}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#ADB5AB",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#A3AFA7",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#B7B4A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#AAB3A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#ADB5AB",
+          "linearLuminance": 0.4487,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#70918F",
+          "linearLuminance": 0.2568,
+          "relativeBrightness": 0.572
+        },
+        "accent": {
+          "hex": "#D3D3C5",
+          "linearLuminance": 0.6447,
+          "relativeBrightness": 1.437
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Bridge silhouette and waterway crossing",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Deck / abutment void and connected approaches",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Parapet rhythm, broad seams and drainage edge",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "water-02-bridges.png",
+      "sheetFile": "water-02-bridges.html",
+      "sheetPngFile": "water-02-bridges-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Actual bridge width, level and span metadata win. Retain water opening and abutments at all LODs; bridge edge path does not justify sidewalks on adjoining lanes.",
+      "imageSHA256": "759088bb02efc2b87d2000b02d7742668b6b08527fa4d285be1220ceffba71d4",
+      "correctionPrompt": "Edit this three-panel Japanese small-river and canal bridge reference board. Preserve EXACT bridge/road/canal geometry and connections, three views, lighting, buildings and style. Remove all vehicles and their shadows in all three panels. Fill with matching clean road surfaces and continuous correct existing paint. No replacement vehicles, badges, logos, characters, text or signage. Keep the infrastructure-only study grounded, real proportions, smooth matte Style B. Do not alter the bridge deck, railing or water.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    },
+    {
+      "id": "water-03-coast",
+      "group": "Water",
+      "name": "Seawall and generic wave-break blocks",
+      "dimensionsM": {
+        "reachLength": 120,
+        "seawallHeight": 3.5,
+        "crestWidth": 3,
+        "waveBlockEnvelope": 2.2,
+        "blockBandWidth": 8
+      },
+      "form": "Generic Japanese coastal concrete seawall with simple crest maintenance path and coherent toe protection band of original FOUR-ARM concrete wave-break block forms, no specific proprietary product shape/brand. Restrained varying orientations, stable piles not identical floating repeatedballs. Near shows broad interlocking arms and wall depth, aerialcontinuousband, far shoreline silhouette only. Quiet sea with few broad wave bands, no spray particle spectacle, coastal low-risecontext. No boats needed.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Seawall and generic wave-break blocks. Generic Japanese coastal concrete seawall with simple crest maintenance path and coherent toe protection band of original FOUR-ARM concrete wave-break block forms, no specific proprietary product shape/brand. Restrained varying orientations, stable piles not identical floating repeatedballs. Near shows broad interlocking arms and wall depth, aerialcontinuousband, far shoreline silhouette only. Quiet sea with few broad wave bands, no spray particle spectacle, coastal low-risecontext. No boats needed. Metre design examples, do not print: {\"reachLength\":120,\"seawallHeight\":3.5,\"crestWidth\":3,\"waveBlockEnvelope\":2.2,\"blockBandWidth\":8}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#B9BBAF",
+          "secondaryHex": "#7E9996",
+          "accentHex": "#D2D3C7"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#A3AFA7",
+          "secondaryHex": "#7E9996",
+          "accentHex": "#D2D3C7"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#B7B4A5",
+          "secondaryHex": "#7E9996",
+          "accentHex": "#D2D3C7"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#AAB3A5",
+          "secondaryHex": "#7E9996",
+          "accentHex": "#D2D3C7"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#B9BBAF",
+          "linearLuminance": 0.4895,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#7E9996",
+          "linearLuminance": 0.2942,
+          "relativeBrightness": 0.601
+        },
+        "accent": {
+          "hex": "#D2D3C7",
+          "linearLuminance": 0.6441,
+          "relativeBrightness": 1.316
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Coastline / seawall mass",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Protection band and crest path silhouette",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Few resolved four-arm wave-block intersections; no fine aggregate",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "water-03-coast.png",
+      "sheetFile": "water-03-coast.html",
+      "sheetPngFile": "water-03-coast-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Generic four-arm wave-break form only; do not copy a branded proprietary coastal product. Structural stability, tides and wave loading remain outside this art spec.",
+      "imageSHA256": "4c1cfd72bd15b4267ce9683222bd824c05d3cfd2530b6a7542917c5d6e51bf64"
+    },
+    {
+      "id": "water-04-port",
+      "group": "Water",
+      "name": "Working port and small fishing harbour",
+      "dimensionsM": {
+        "portBasinLength": 220,
+        "portBasinWidth": 120,
+        "quayApronWidth": 18,
+        "fishingBasinLength": 70,
+        "fishingBasinWidth": 45,
+        "smallBoatLength": 8,
+        "breakwaterLength": 100
+      },
+      "form": "Generic working port with larger quay/apron and plain warehouse/service yard adjoining a SMALL FISHING HARBOUR sheltered by modest breakwaters. A few ORIGINAL GENERIC8m fishing boats with credible long hulls, modest wheelhouses, simple rig poles, no toy hull, no emblems/registration numbers, no operators. Near looks over fishing basin edge, aerial exposes both workingport and fishingbasin, far same coastline. Docks connect, entrance remains clear, sea level coherent. No cargo brands/murals.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Working port and small fishing harbour. Generic working port with larger quay/apron and plain warehouse/service yard adjoining a SMALL FISHING HARBOUR sheltered by modest breakwaters. A few ORIGINAL GENERIC8m fishing boats with credible long hulls, modest wheelhouses, simple rig poles, no toy hull, no emblems/registration numbers, no operators. Near looks over fishing basin edge, aerial exposes both workingport and fishingbasin, far same coastline. Docks connect, entrance remains clear, sea level coherent. No cargo brands/murals. Metre design examples, do not print: {\"portBasinLength\":220,\"portBasinWidth\":120,\"quayApronWidth\":18,\"fishingBasinLength\":70,\"fishingBasinWidth\":45,\"smallBoatLength\":8,\"breakwaterLength\":100}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#ADB5AB",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#A3AFA7",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#B7B4A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#AAB3A5",
+          "secondaryHex": "#70918F",
+          "accentHex": "#D3D3C5"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#ADB5AB",
+          "linearLuminance": 0.4487,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#70918F",
+          "linearLuminance": 0.2568,
+          "relativeBrightness": 0.572
+        },
+        "accent": {
+          "hex": "#D3D3C5",
+          "linearLuminance": 0.6447,
+          "relativeBrightness": 1.437
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Basin / breakwater / quay footprint",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Harbour entrance, dock runs and real-scale hull silhouettes",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse wheelhouse/rig poles, quay edge and warehouse bays",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "water-04-port.png",
+      "sheetFile": "water-04-port.html",
+      "sheetPngFile": "water-04-port-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Ports/harbours are coastal regional contexts, not Yanaka/Nishijin landmarks. Navigation/channel depths and vessel operations require separate source data.",
+      "imageSHA256": "7115c2c5d462370dd0e931a051a7622dc6810e8b460871ef56be63cda5ce4c87"
+    },
+    {
+      "id": "transit-01-crossing",
+      "group": "Rail and transit",
+      "name": "Level crossing and pedestrian overpass",
+      "dimensionsM": {
+        "siteLength": 80,
+        "roadWidth": 6,
+        "trackGaugeProposal": 1.067,
+        "trackCount": 2,
+        "crossingArmLength": 3.2,
+        "footbridgeWalkWidth": 2.2,
+        "footbridgeDeckHeight": 6,
+        "stairWidth": 1.5
+      },
+      "form": "Two-track ground railway level crossing on local6m road with black/yellow barrier arms, generic warning lamps, stop paint, clear rail/road intersection. Nearby pedestrian steel/concrete overpass with TWO connected stair approaches, realwidth2.2m, no gianttoystairs. Gates DOWN: no cars crossing. Pedestrianstairsconnectexistingpaths not occupyingtraffic. Near details crossing and stairs, aerialtopology, far rail/bridge silhouettes. No train needed, no railwayinsignia or text. No sceneclaim of universalJapanese trackgauge.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Level crossing and pedestrian overpass. Two-track ground railway level crossing on local6m road with black/yellow barrier arms, generic warning lamps, stop paint, clear rail/road intersection. Nearby pedestrian steel/concrete overpass with TWO connected stair approaches, realwidth2.2m, no gianttoystairs. Gates DOWN: no cars crossing. Pedestrianstairsconnectexistingpaths not occupyingtraffic. Near details crossing and stairs, aerialtopology, far rail/bridge silhouettes. No train needed, no railwayinsignia or text. No sceneclaim of universalJapanese trackgauge. Metre design examples, do not print: {\"siteLength\":80,\"roadWidth\":6,\"trackGaugeProposal\":1.067,\"trackCount\":2,\"crossingArmLength\":3.2,\"footbridgeWalkWidth\":2.2,\"footbridgeDeckHeight\":6,\"stairWidth\":1.5}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#B9C0B5",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#AFBAB3",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#C0BCAF",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#B1B8AB",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#B9C0B5",
+          "linearLuminance": 0.5135,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 0.274
+        },
+        "accent": {
+          "hex": "#D4BA6B",
+          "linearLuminance": 0.5018,
+          "relativeBrightness": 0.977
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Rail-road crossing and overpass silhouette",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Connected stair flights, deck and closed barrier state",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Gate bands, signal discs and coarse sleeper material pattern",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "transit-01-crossing.png",
+      "sheetFile": "transit-01-crossing.html",
+      "sheetPngFile": "transit-01-crossing-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Gauge/count are examples, not a universal Japan default. Gates down means crossing occupied/closed: never render cars traversing lowered barriers. Platform/rail rules do not follow road handedness automatically.",
+      "imageSHA256": "5b7981de6f1494a5feb7966380899250a52ea2081579c61b9f6ade28155bec42"
+    },
+    {
+      "id": "transit-02-stops",
+      "group": "Rail and transit",
+      "name": "Bus stop and taxi stand",
+      "dimensionsM": {
+        "siteLength": 65,
+        "roadWidth": 7,
+        "busBerthLength": 12,
+        "busShelterLength": 4,
+        "busShelterDepth": 1.4,
+        "footpathWidth": 2,
+        "taxiBayWidth": 2.5,
+        "taxiBayLength": 5
+      },
+      "form": "Generic wider Japanese local street KEEP LEFT. One compact bus stop with plain canopy, blank information slab and credible unbranded7m smallbus pulledintoLEFTCURB boarding bay. Nearby dedicated taxi standing bays off travel lane with1plain generic taxi unmarkedroofblock. Driver right-hand side, bus passengerdoorsleft roadside. Pedestrianwaitingzone clear and continuous, no people. No writtenBUS/TAXI signs. Sidewalk only at actual widerroadcontext, not a Yanaka lane. Near stop, aerial separatebays, far context.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Bus stop and taxi stand. Generic wider Japanese local street KEEP LEFT. One compact bus stop with plain canopy, blank information slab and credible unbranded7m smallbus pulledintoLEFTCURB boarding bay. Nearby dedicated taxi standing bays off travel lane with1plain generic taxi unmarkedroofblock. Driver right-hand side, bus passengerdoorsleft roadside. Pedestrianwaitingzone clear and continuous, no people. No writtenBUS/TAXI signs. Sidewalk only at actual widerroadcontext, not a Yanaka lane. Near stop, aerial separatebays, far context. Metre design examples, do not print: {\"siteLength\":65,\"roadWidth\":7,\"busBerthLength\":12,\"busShelterLength\":4,\"busShelterDepth\":1.4,\"footpathWidth\":2,\"taxiBayWidth\":2.5,\"taxiBayLength\":5}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#B9C0B5",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#AFBAB3",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#C0BCAF",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#B1B8AB",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#B9C0B5",
+          "linearLuminance": 0.5135,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 0.274
+        },
+        "accent": {
+          "hex": "#D4BA6B",
+          "linearLuminance": 0.5018,
+          "relativeBrightness": 0.977
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Shelter and waiting/vehicle bay silhouettes",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Canopy, separated taxi/bus bays and broad glazing",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Blank stop slab, simple bench, resolved entry doors",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "transit-02-stops.png",
+      "sheetFile": "transit-02-stops.html",
+      "sheetPngFile": "transit-02-stops-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Bus door/boarding side left for this proposed Japan vehicle. Taxi layout uses dedicated spaces, no actual operator affiliation. Keep clear pedestrian paths.",
+      "imageSHA256": "148cdc436ed984b77753a3b25c334d4eccce41d466b4f59ced15111b4bad1a7b",
+      "correctionPrompt": "Edit this three-panel Japan bus-stop/taxi-bay infrastructure board. Preserve the exact stop canopy, bench, blank stop panel, bay paint, sidewalk, road, landscaping, buildings, three views, lighting and Style B. REMOVE every vehicle and their shadows (bus and taxi) in all three panels. Restore clean continuous matching asphalt and empty white-outlined boarding/standing bays. No replacement vehicles, badges, people, characters, lettering, operator logos or signs. This is an infrastructure-only empty-bay study. Keep real proportions and matte plain surfaces.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    },
+    {
+      "id": "transit-03-plaza",
+      "group": "Rail and transit",
+      "name": "Station plaza and multi-level bicycle parking",
+      "dimensionsM": {
+        "siteLength": 110,
+        "siteWidth": 75,
+        "busBayWidth": 3,
+        "busBayLength": 12,
+        "busBayCount": 3,
+        "bikeParkingLength": 22,
+        "bikeParkingWidth": 10,
+        "bikeParkingFloorsCount": 2,
+        "bikeParkingFloorHeight": 2.5
+      },
+      "form": "Original unbranded large urban station exterior with plaza containing3distinct busbays, LEFT-HAND clockwise? Do not rely on traffic circle; use separated simple access loop KEEPLEFT and allboardingbaysonvehicleleftside. Pedestrianforecourt separatedbylowposts. TWO-LEVEL bicycle parking building with open sidedground/upperdeck, visible simple rampconnectingfloors, few generic mamacharicycles representedbybroad silhouettes. No labels or operator livery, no toybus, nopeople. Near bicycleparking/plaza, aerialbaytopology, far station mass.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Station plaza and multi-level bicycle parking. Original unbranded large urban station exterior with plaza containing3distinct busbays, LEFT-HAND clockwise? Do not rely on traffic circle; use separated simple access loop KEEPLEFT and allboardingbaysonvehicleleftside. Pedestrianforecourt separatedbylowposts. TWO-LEVEL bicycle parking building with open sidedground/upperdeck, visible simple rampconnectingfloors, few generic mamacharicycles representedbybroad silhouettes. No labels or operator livery, no toybus, nopeople. Near bicycleparking/plaza, aerialbaytopology, far station mass. Metre design examples, do not print: {\"siteLength\":110,\"siteWidth\":75,\"busBayWidth\":3,\"busBayLength\":12,\"busBayCount\":3,\"bikeParkingLength\":22,\"bikeParkingWidth\":10,\"bikeParkingFloorsCount\":2,\"bikeParkingFloorHeight\":2.5}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#B9C0B5",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#AFBAB3",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#C0BCAF",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#B1B8AB",
+          "secondaryHex": "#626A70",
+          "accentHex": "#D4BA6B"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#B9C0B5",
+          "linearLuminance": 0.5135,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 0.274
+        },
+        "accent": {
+          "hex": "#D4BA6B",
+          "linearLuminance": 0.5018,
+          "relativeBrightness": 0.977
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Station/plaza mass and bicycle-parking envelope",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Distinct bus bays, two bike levels and connected ramp",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Sparse cycle silhouettes, broad rack rhythm and walkway posts",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "transit-03-plaza.png",
+      "sheetFile": "transit-03-plaza.html",
+      "sheetPngFile": "transit-03-plaza-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Plaza is not a narrow-lane profile. Keep bus manoeuvring, boarding and pedestrian zones separate; bicycle ramp/spacing are conceptual, not accessibility or fire-safety standards.",
+      "imageSHA256": "d8762b0c39972dec0e4f2a27af05540ec08de776d3eea21c40eb6f295a61b191",
+      "correctionPrompt": "Edit this three-panel Japan infrastructure artwork. Keep the EXACT infrastructure, buildings, road/site geometry, three views, matte materials, scale and light. Remove EVERY motor vehicle and its shadows in ALL THREE panels. Restore clean continuous matching road/stall/bay paving and preserve paint. No replacement cars, trucks, vans or buses; no badges, logos, signs, people or characters. Keep bicycles and bicycle racks where present. Infrastructure-only empty-bay/road study; preserve all requested facilities.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    },
+    {
+      "id": "other-01-parking",
+      "group": "Other",
+      "name": "Coin-parking lot",
+      "dimensionsM": {
+        "siteLength": 26,
+        "siteWidth": 18,
+        "stallWidth": 2.5,
+        "stallLength": 5,
+        "aisleWidth": 5,
+        "stallCount": 8,
+        "paymentCabinetWidth": 0.6,
+        "paymentCabinetHeight": 1.5
+      },
+      "form": "Small urban Japanese paid/coin parking lot inserted between mixed modern/timberlowrisebuildings with8plausible stalls, whitepaintedrectangles blank no numbers, modestgroundwheel-lock plates, oneplainpaymentcabinet withBLANKface, ONEsimpleentrybarrier. No readableP sign orcoinparkingbrands.1\u20132originalgenericunbadgedcarsrealproportions. Accessfrom5mflushedgebendinglane, buildingsatstreetedge no sidewalk/lawn. Nearpayment/stalls, aerialwholelot aisleactualvehicleturnspace, far smallurbaninfillparcel.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Coin-parking lot. Small urban Japanese paid/coin parking lot inserted between mixed modern/timberlowrisebuildings with8plausible stalls, whitepaintedrectangles blank no numbers, modestgroundwheel-lock plates, oneplainpaymentcabinet withBLANKface, ONEsimpleentrybarrier. No readableP sign orcoinparkingbrands.1\u20132originalgenericunbadgedcarsrealproportions. Accessfrom5mflushedgebendinglane, buildingsatstreetedge no sidewalk/lawn. Nearpayment/stalls, aerialwholelot aisleactualvehicleturnspace, far smallurbaninfillparcel. Metre design examples, do not print: {\"siteLength\":26,\"siteWidth\":18,\"stallWidth\":2.5,\"stallLength\":5,\"aisleWidth\":5,\"stallCount\":8,\"paymentCabinetWidth\":0.6,\"paymentCabinetHeight\":1.5}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#626A70",
+          "secondaryHex": "#A4AEA2",
+          "accentHex": "#DAD9CA"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#66737A",
+          "secondaryHex": "#A4AEA2",
+          "accentHex": "#DAD9CA"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#777970",
+          "secondaryHex": "#A4AEA2",
+          "accentHex": "#DAD9CA"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#7B8980",
+          "secondaryHex": "#A4AEA2",
+          "accentHex": "#DAD9CA"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#626A70",
+          "linearLuminance": 0.1407,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#A4AEA2",
+          "linearLuminance": 0.4077,
+          "relativeBrightness": 2.898
+        },
+        "accent": {
+          "hex": "#DAD9CA",
+          "linearLuminance": 0.688,
+          "relativeBrightness": 4.89
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Lot footprint and access void",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Stall groups, aisle and payment/entry masses",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Wheel-lock strips, sparse stall paint and blank payment face",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "other-01-parking.png",
+      "sheetFile": "other-01-parking.html",
+      "sheetPngFile": "other-01-parking-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Coin parking represented by generic pay box, lock strips and stall paint; no readable P/tariff/operator panel. Route to access aisle, not through buildings.",
+      "imageSHA256": "4334f447b6e226b178fbaebd22793b0854741914ac09ddaf5774bd10d55e64b5",
+      "correctionPrompt": "Edit this three-panel Japan infrastructure artwork. Keep the EXACT infrastructure, buildings, road/site geometry, three views, matte materials, scale and light. Remove EVERY motor vehicle and its shadows in ALL THREE panels. Restore clean continuous matching road/stall/bay paving and preserve paint. No replacement cars, trucks, vans or buses; no badges, logos, signs, people or characters. Keep bicycles and bicycle racks where present. Infrastructure-only empty-bay/road study; preserve all requested facilities.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    },
+    {
+      "id": "other-02-utilities",
+      "group": "Other",
+      "name": "Distribution poles, transformers and power pylons",
+      "dimensionsM": {
+        "distributionPoleHeight": 8,
+        "distributionPoleDiameter": 0.3,
+        "transformerWidth": 0.7,
+        "transformerHeight": 0.8,
+        "poleSpacing": 30,
+        "pylonHeight": 35,
+        "pylonBaseWidth": 8,
+        "pylonSpanLength": 180
+      },
+      "form": "Three-panel utilities family with two DISTINCT contexts: near a concrete distributionpole atedgeof5mYanaka/Nishijinstylelane with1\u20132plain cylindricaltransformers, sparsenearwirebundles, mixedmachiya moderninfill flush road edge, nocurb/lawn; aerial shows that lane plus regionaloutskirts withcrediblelarge steel latticepowerpylon corridor; far isolatespylonprofile againstregionalhills, no electricallinesinfrontofeverybuilding. Pylonheight35m realproportions slenderbroaddiagonals, ordinarymodulargenericdesign. No exaggeratedthicklattice or deeprepetition. No signage/emblems. Transformers placementvisualonly notengineering.",
+      "prompt": "Use case: stylized-concept. New WorldEngine JAPAN infrastructure reference artwork. Two input images are STYLE references only: Image1 approved Style B Bible calibration street governs grounded realism and soft lighting, Image2 Japan regional vehicles governs real proportions and simplified matte surface depth. Do NOT copy any characters, Chicago/US streets, badges, liveries or architecture. THREE EQUAL vertical panels side-by-side separated by narrow pale gutters: LEFT ground/street three-quarter near view, CENTRE aerial three-quarter of SAME infrastructure, RIGHT far regional view of SAME infrastructure at about 15\u201320% panel width. Preserve structure/topology across panels, reduce distant detail without changing physical scale. Grounded terrain, not floating toy/isometric slab. Rich Style B real proportions, smooth forms and smooth shading, broad matte surfaces, gentle contact/recess depth; no photographic textures or noisy asphalt/brick/grain, no dense individual foliage, no cartoon/faceted toy objects. Approved warm-neutral clear-afternoon sun #FFE8C6 40deg elevation/225azimuth, blue sky #73A5CC to #DBDCD1 soft clouds, fill #AEBCCA, shadows #7F8F99, +.35EV, no orange wash/purple shadows/rim outlines. All designs ORIGINAL GENERIC: NO logos, badges, brands, operator paint schemes, real murals, readable signage/letters/numbers, dogs, characters, people or animals. Very sparse generic unbadged vehicles only where requested, realistic wheelbase/cabin proportions, no signature grille. No labels, palette chips, dimensions or watermark in image; these will be supplied outside artwork. Japan left-hand roads, no US marking recipe. Subject: Distribution poles, transformers and power pylons. Three-panel utilities family with two DISTINCT contexts: near a concrete distributionpole atedgeof5mYanaka/Nishijinstylelane with1\u20132plain cylindricaltransformers, sparsenearwirebundles, mixedmachiya moderninfill flush road edge, nocurb/lawn; aerial shows that lane plus regionaloutskirts withcrediblelarge steel latticepowerpylon corridor; far isolatespylonprofile againstregionalhills, no electricallinesinfrontofeverybuilding. Pylonheight35m realproportions slenderbroaddiagonals, ordinarymodulargenericdesign. No exaggeratedthicklattice or deeprepetition. No signage/emblems. Transformers placementvisualonly notengineering. Metre design examples, do not print: {\"distributionPoleHeight\":8,\"distributionPoleDiameter\":0.3,\"transformerWidth\":0.7,\"transformerHeight\":0.8,\"poleSpacing\":30,\"pylonHeight\":35,\"pylonBaseWidth\":8,\"pylonSpanLength\":180}",
+      "palette": [
+        {
+          "name": "Base",
+          "primaryHex": "#A5AEA2",
+          "secondaryHex": "#76827C",
+          "accentHex": "#D5BF70"
+        },
+        {
+          "name": "Cool",
+          "primaryHex": "#66737A",
+          "secondaryHex": "#76827C",
+          "accentHex": "#D5BF70"
+        },
+        {
+          "name": "Warm",
+          "primaryHex": "#777970",
+          "secondaryHex": "#76827C",
+          "accentHex": "#D5BF70"
+        },
+        {
+          "name": "Muted",
+          "primaryHex": "#7B8980",
+          "secondaryHex": "#76827C",
+          "accentHex": "#D5BF70"
+        }
+      ],
+      "surfaceValuesProposal": {
+        "primary": {
+          "hex": "#A5AEA2",
+          "linearLuminance": 0.4088,
+          "relativeBrightness": 1.0
+        },
+        "secondary": {
+          "hex": "#76827C",
+          "linearLuminance": 0.2127,
+          "relativeBrightness": 0.52
+        },
+        "accent": {
+          "hex": "#D5BF70",
+          "linearLuminance": 0.5258,
+          "relativeBrightness": 1.286
+        }
+      },
+      "detailTiers": [
+        {
+          "screenExtentPx": [
+            0,
+            6
+          ],
+          "upperExclusive": true,
+          "keep": "Pole/pylon silhouette; physical scale retained",
+          "omit": "Small openings, fine cables, paint, lattice, repeated fixtures"
+        },
+        {
+          "screenExtentPx": [
+            6,
+            20
+          ],
+          "upperInclusive": true,
+          "keep": "Transformer masses, pylon crossarms and broad braces",
+          "omit": "Subpixel repetition, lettering, fasteners, individual leaf/crop geometry"
+        },
+        {
+          "screenExtentPx": [
+            20,
+            null
+          ],
+          "keep": "Few wire bundles and lattice diagonals; no unresolved strand forest",
+          "omit": "Photo textures, branding, readable signage, characters and unresolved fine ornament"
+        }
+      ],
+      "imageFile": "other-02-utilities.png",
+      "sheetFile": "other-02-utilities.html",
+      "sheetPngFile": "other-02-utilities-sheet.png",
+      "valuesStatus": "All new dimensions, module arrangements, palettes and tiers are authored proposals; observed geometry and tags take precedence",
+      "dimensionsUnits": "metres except keys ending Count (unitless counts)",
+      "sharedLightingRef": "shared_clear_midafternoon_hero_v1",
+      "imageViews": [
+        "street3_4",
+        "aerial3_4",
+        "far"
+      ],
+      "placementAndReuse": "Distribution poles at lane edge, not on an invented sidewalk. Pylons use observed regional corridors; no voltage, grounding or electrical-clearance claim. Do not scale lattice thicker to preserve far visibility.",
+      "imageSHA256": "356f13cb38b86811e9ee5862019c819884c4e08b15dea1a247a82f84e7c5ee3a",
+      "correctionPrompt": "Edit this three-panel Japan infrastructure artwork. Keep the EXACT infrastructure, buildings, road/site geometry, three views, matte materials, scale and light. Remove EVERY motor vehicle and its shadows in ALL THREE panels. Restore clean continuous matching road/stall/bay paving and preserve paint. No replacement cars, trucks, vans or buses; no badges, logos, signs, people or characters. Keep bicycles and bicycle racks where present. Infrastructure-only empty-bay/road study; preserve all requested facilities. Keep distribution poles and transformers, all regional pylons and countryside. In the near lane close the distant sightline with a subtle gently bending continuation around30m, no new sidewalks, curbs or lawns.",
+      "selectedRepresentation": "empty infrastructure-only road/bays; incidental motor vehicles omitted by final correction, original form/prompt retained for provenance"
+    }
+  ],
+  "japanContextProposal": {
+    "testAreas": [
+      "Yanaka Ginza / Yanaka\u2013Sendagi lanes",
+      "Nishijin / Itsutsuji-dori\u2013Omiya-dori vicinity"
+    ],
+    "notGeoreferenced": true,
+    "lanes": {
+      "wallToWallWidthM": [
+        4,
+        6
+      ],
+      "nominalWidthM": 5,
+      "raisedSidewalk": false,
+      "curb": false,
+      "publicLawn": false,
+      "buildingsAtLaneEdge": true,
+      "frontageSetbackM": [
+        0,
+        0.3
+      ],
+      "eaveProjectionM": [
+        0.45,
+        0.8
+      ],
+      "bendSightlineM": [
+        25,
+        35
+      ],
+      "privateGardenOnly": true,
+      "nearPoleCap": 2,
+      "nearMajorWireSpanCap": 3,
+      "nearUtilityDetailRangeM": 30
+    },
+    "regionalRule": "mountain/paddy/coast/port/expressway imagery is fictional regional context, not claimed to exist in the pilot lanes",
+    "handedness": "left road traffic; driver on right, bus passenger boarding left",
+    "markingPolicy": "authored visual intent; no universal US yellow-median/white-edge recipe. Same-direction separators illustrated white; mountain opposing separator illustrated yellow as one example, not a rule for every road. Narrow paddy/lanes may have no centreline. Implement from actual source marking/access data, not image tracing.",
+    "leftTrafficPlanFile": "left-hand-layout.svg",
+    "blankSignsOnly": true,
+    "viewerDirectionCorrection": {
+      "oncoming": "viewer right",
+      "receding": "viewer left",
+      "camera": "viewer looking along road",
+      "status": "corrected inherited regional-kit diagram; original source not edited"
+    }
+  },
+  "performanceProposal": {
+    "extraGlobalPasses": 0,
+    "extraShadowMaps": 0,
+    "extraDaytimeLights": 0,
+    "retainExistingSceneBudget": true,
+    "nearVisibleInfrastructureTrianglesCap": 35000,
+    "nearInfrastructureDrawsCap": 12,
+    "accounting": "allocation inside existing geometry/draw budget, never additive to other kits; actual shadow submissions and GPU work measured separately",
+    "modules": "road ribbons/spans/piers/panels; embankment/path strips; rail segments/crossing; plaza bay and parking block; poles/pylons",
+    "far": "coast/river/road/rail terrain masks and connected silhouettes; omit individual wave blocks, cycles, car wheels, wires and tiny fixtures",
+    "water": "one simple existing water material, no added planar reflections or volumetric spray",
+    "surfaces": "material regions/decals for paint, paddy rows, sleepers, moss and paving, not repeated fine raised geometry",
+    "utilities": "near-only wire bundles; no per-wire draws/shadows or far inflated lattice",
+    "topology": "retained through tiers; never collapse grades, cut shore/river openings or make stairs float",
+    "transition": "2 px hysteresis, .3\u2013.6s stable-ID crossfade; at most two levels overlapping, bounded updates",
+    "deviceBenchmark": false
+  },
+  "rightsAndPrivacy": {
+    "genericOriginalIntent": true,
+    "noLogosBadgesBrandsOperatorLiveriesReadableSignsMurals": true,
+    "noDogsCharactersPeopleAnimals": true,
+    "noSpecificRealTrainModelOrLandmarkCopy": true,
+    "sourceHouseAttribution": "\u00a9 OpenStreetMap contributors",
+    "attributionUrl": "https://www.openstreetmap.org/copyright",
+    "designIntentNotLegalClearance": true
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "requestedArtworks": 12,
+    "viewsPerArtwork": 3,
+    "promptFile": "prompts.json",
+    "correctionPasses": 6
+  },
+  "verification": {
+    "lightingExact": true,
+    "artworkReviewed": "all twelve selected artwork boards visually reviewed; six targeted edits remove incidental vehicles/badges",
+    "deviceBenchmark": false,
+    "metreAccuracy": "authored dimensions, not camera-solved image measurements or engineering approval",
+    "sourceHashesUnchanged": true,
+    "fullSheetExports": 12,
+    "phonePagesChecked": 13,
+    "phoneOverflow": false,
+    "pageErrors": [],
+    "viewLabels": 36,
+    "leftHandPlan": "away on viewer left, approaching on viewer right; diagram corrected relative to inherited source"
+  }
+}

@@ -1,0 +1,1919 @@
+{
+  "schema": "worldengine.venues-campuses.style-b.v1",
+  "date": "2026-10-07",
+  "style": "B grounded realism",
+  "status": "authored archetypes and AI concept art, not engine verified",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "lightingValuesCopiedUnchanged": true,
+  "pixelColourOrPhotometricEqualityVerified": false,
+  "references": {
+    "calibration": "style-b-bible-v1/images/01-calibration-scene.png",
+    "stadium": "landmarks-style-b-v1/denver-LM-DEN-STADIUM-sheet.png",
+    "infrastructure": "infrastructure-kit-v1",
+    "houses": "house-archetypes-v1"
+  },
+  "rule": "Proportions real. Surfaces simplified. Light soft.",
+  "crowdInstructionResolution": "Explicit user clarification permits anonymous simple crowd figures; no featured characters. No dogs.",
+  "exclusions": [
+    "logos",
+    "team names",
+    "school names",
+    "sponsor names",
+    "mascots",
+    "readable signage",
+    "dogs",
+    "featured characters",
+    "identifying faces",
+    "host-app content"
+  ],
+  "eventKitProposal": {
+    "unit": "metres",
+    "tents": [
+      {
+        "id": "tent-small",
+        "footprintM": [
+          3,
+          3
+        ],
+        "peakHeightM": 3.2
+      },
+      {
+        "id": "tent-large",
+        "footprintM": [
+          6,
+          6
+        ],
+        "peakHeightM": 4.2
+      }
+    ],
+    "barrier": {
+      "segmentLengthM": 2,
+      "heightM": 1.1
+    },
+    "smallStage": {
+      "deckM": [
+        8,
+        6
+      ],
+      "deckHeightM": 1,
+      "canopyHeightM": 5
+    },
+    "blankSign": {
+      "panelM": [
+        1.2,
+        0.8
+      ],
+      "content": null
+    },
+    "startFinishTruss": {
+      "clearSpanMProposal": 12,
+      "heightMProposal": 5,
+      "dimensionPolicy": "fit actual road geometry; no certified clearance claimed"
+    },
+    "dimensionPolicy": "proposed plausible kit sizes; image tool cannot guarantee measurement parity",
+    "crowdPolicy": "visual occupancy only; no capacity or egress simulation",
+    "circulationPolicy": "site-specific authored clear zones, no invented compliant widths"
+  },
+  "assets": [
+    {
+      "id": "stadium-01-open",
+      "group": "Stadiums",
+      "name": "Open-air professional football",
+      "basePlace": "Oval stepped open bowl, exposed concrete supports, restrained brick/metal/glass exterior, no dome, full-size gridiron, distributed gates, fan plaza and generous surface parking/tailgate blocks.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 420,
+        "siteWidthM": 340,
+        "permanentMassHeightM": 42
+      },
+      "recognitionGeometry": [
+        "bowl outline and tier hierarchy",
+        "exterior gate rhythm",
+        "parking/pedestrian spine"
+      ],
+      "eventDayOverlay": "Tailgate tent clusters in designated outer parking pockets, fan-plaza tents and small performance platform outside gates; no tents on playing field.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-01-open.png",
+        "sheet": "stadium-01-open-sheet.png",
+        "page": "stadium-01-open.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "stadium-02-roof",
+      "group": "Stadiums",
+      "name": "Domed / retractable stadium",
+      "basePlace": "Full-size stadium with smooth broad closed dome and two readable retractable roof leaves; no impossible thin roof. Exterior plaza, gate vestibules, service edge, parking and tailgate lots. Show CLOSED roof consistently in all three panels; opening state is a parameter.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 440,
+        "siteWidthM": 360,
+        "permanentMassHeightM": 68
+      },
+      "recognitionGeometry": [
+        "closed roof mass and retractable seam",
+        "structural ring",
+        "gate/service edge"
+      ],
+      "eventDayOverlay": "Plaza event tents and barrier queue lanes outside gate openings; tailgate pocket separated from service lane.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-02-roof.png",
+        "sheet": "stadium-02-roof-sheet.png",
+        "page": "stadium-02-roof.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "closed",
+        "retractableSupported": true,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "stadium-03-classic",
+      "group": "Stadiums",
+      "name": "Classic baseball park",
+      "basePlace": "Historic red-brick neighbourhood ballpark with asymmetrical baseball diamond/outfield, green steel roof canopy and modest entry corner blank marquee; adjacent parking/tailgate lot and small urban fan plaza.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 300,
+        "siteWidthM": 260,
+        "permanentMassHeightM": 32
+      },
+      "recognitionGeometry": [
+        "asymmetrical diamond/bowl footprint",
+        "brick street corner",
+        "canopy and blank marquee"
+      ],
+      "eventDayOverlay": "Temporary fan market tents in adjoining paved plaza, barriers at perimeter gates, small exterior stage; retain streets and open gate paths.",
+      "paletteProposal": {
+        "primary": "#A57450",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-03-classic.png",
+        "sheet": "stadium-03-classic-sheet.png",
+        "page": "stadium-03-classic.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "stadium-04-modern",
+      "group": "Stadiums",
+      "name": "Modern baseball park",
+      "basePlace": "Asymmetric modern baseball park with broad glass/brick entry facade, cantilever roof over seating, curved outfield mass and open view beyond outfield; parking/tailgate blocks, fan plaza, gates.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 350,
+        "siteWidthM": 290,
+        "permanentMassHeightM": 46
+      },
+      "recognitionGeometry": [
+        "diamond and outfield geometry",
+        "cantilever canopy",
+        "entry plaza"
+      ],
+      "eventDayOverlay": "Sponsor-free festival tents in outer plaza, blank sign panels, queue barriers and small stage outside gate concourse.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-04-modern.png",
+        "sheet": "stadium-04-modern-sheet.png",
+        "page": "stadium-04-modern.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "stadium-05-college",
+      "group": "Stadiums",
+      "name": "College football bowl",
+      "basePlace": "Generic university football bowl, low brick concourse buildings, stepped seating rising from ground, open sky, field long axis, simple light pylons; no school logos/names. Stadium district lots, tailgate lawns, pedestrian fan plaza and gates.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 380,
+        "siteWidthM": 300,
+        "permanentMassHeightM": 36
+      },
+      "recognitionGeometry": [
+        "open bowl and field axis",
+        "brick perimeter",
+        "district pedestrian link"
+      ],
+      "eventDayOverlay": "Tents on designated tailgate lot edge and lawn zone, stage at plaza edge, barrier queue pockets outside gates.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-05-college.png",
+        "sheet": "stadium-05-college-sheet.png",
+        "page": "stadium-05-college.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "stadium-06-soccer",
+      "group": "Stadiums",
+      "name": "Soccer-specific stadium",
+      "basePlace": "Rectangular soccer pitch with close compact four-sided seating, lightweight continuous canopy perimeter, contemporary matte exterior, separate gates, fan forecourt and modest surrounding parking/tailgate lots.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 280,
+        "siteWidthM": 240,
+        "permanentMassHeightM": 30
+      },
+      "recognitionGeometry": [
+        "rectangular close seating",
+        "continuous roof perimeter",
+        "forecourt gates"
+      ],
+      "eventDayOverlay": "Event village on forecourt with blank tents and small stage, barriers at gate queues, service lane remains open.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/stadium-06-soccer.png",
+        "sheet": "stadium-06-soccer-sheet.png",
+        "page": "stadium-06-soccer.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "venue-01-amphitheatre",
+      "group": "Venues",
+      "name": "Terrain amphitheatre",
+      "basePlace": "Outdoor amphitheatre carved into a natural gentle hillside, curved terraced seating facing one stage shell at downhill end, contour-following accessible-looking paths and side service access; no giant concert roof.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 420,
+        "siteWidthM": 320,
+        "permanentMassHeightM": 24
+      },
+      "recognitionGeometry": [
+        "terrain-supported seating",
+        "single stage orientation",
+        "contour paths"
+      ],
+      "eventDayOverlay": "Stage equipment with blank screens, concession tents on upper flat terrace, barrier check-in at entry, anonymous audience only when permitted.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/venue-01-amphitheatre.png",
+        "sheet": "venue-01-amphitheatre-sheet.png",
+        "page": "venue-01-amphitheatre.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "venue-02-arena",
+      "group": "Venues",
+      "name": "Urban arena + plaza",
+      "basePlace": "Compact enclosed indoor arena with broad real structural roof spans and matte metal/glass/brick facade, urban street blocks, pedestrian plaza, clear entrance bays, separate back-of-house service edge.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 260,
+        "siteWidthM": 230,
+        "permanentMassHeightM": 38
+      },
+      "recognitionGeometry": [
+        "enclosed roof mass",
+        "entry/plaza relationship",
+        "rear service bay"
+      ],
+      "eventDayOverlay": "Outdoor plaza stage and tents, queue barrier lanes, blank sign shapes; no visible interior roof cutaway.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/venue-02-arena.png",
+        "sheet": "venue-02-arena-sheet.png",
+        "page": "venue-02-arena.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "campus-01-quad",
+      "group": "Campuses",
+      "name": "Historic quad campus",
+      "basePlace": "Generic historic brick campus: four academic wings around lawn quad, simple pitched roofs, restrained arch recesses, generic clock tower with blank face no readable symbols, pedestrian walks, mature natural trees.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 520,
+        "siteWidthM": 420,
+        "permanentMassHeightM": 38
+      },
+      "recognitionGeometry": [
+        "quad enclosure",
+        "brick roof rhythm",
+        "generic tower"
+      ],
+      "eventDayOverlay": "Graduation/fair tents and low temporary stage on one quad edge, barrier zones on paved paths; central lawn and traversal paths remain legible.",
+      "paletteProposal": {
+        "primary": "#A57450",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/campus-01-quad.png",
+        "sheet": "campus-01-quad-sheet.png",
+        "page": "campus-01-quad.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "campus-02-urban",
+      "group": "Campuses",
+      "name": "Modern urban campus",
+      "basePlace": "Connected modern academic blocks of moderate height integrated into urban street grid, restrained glass/stone/concrete, two courtyard plazas, ground-level entries and pedestrian spine; not a futuristic megastructure.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 540,
+        "siteWidthM": 440,
+        "permanentMassHeightM": 34
+      },
+      "recognitionGeometry": [
+        "urban block edges",
+        "courtyard/plaza network",
+        "street-connected entrances"
+      ],
+      "eventDayOverlay": "Career/festival tents in courtyard plaza, modest stage near blank screen, barrier check-in off main street; no road obstruction by random tents.",
+      "paletteProposal": {
+        "primary": "#A57450",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/campus-02-urban.png",
+        "sheet": "campus-02-urban-sheet.png",
+        "page": "campus-02-urban.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "campus-03-state",
+      "group": "Campuses",
+      "name": "Large campus + stadium district",
+      "basePlace": "Large state-university archetype: academic core, broad green, residence clusters and separate open-air football stadium district linked by a long pedestrian avenue, peripheral parking/tailgate lots; no named school.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 1200,
+        "siteWidthM": 1000,
+        "permanentMassHeightM": 46
+      },
+      "recognitionGeometry": [
+        "core versus stadium district",
+        "green/pedestrian connector",
+        "parking boundary"
+      ],
+      "eventDayOverlay": "Event tents near stadium plaza and on designated tailgate pockets, small campus-green stage; preserve academic circulation and stadium gates.",
+      "paletteProposal": {
+        "primary": "#A57450",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/campus-03-state.png",
+        "sheet": "campus-03-state-sheet.png",
+        "page": "campus-03-state.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-01-fairgrounds",
+      "group": "Event grounds",
+      "name": "Fairgrounds",
+      "basePlace": "Permanent fairgrounds: simple exhibition halls, open exhibition yards, a modest grandstand, central pedestrian midway, perimeter parking, clear entry gates and service roads; no rides needed.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 800,
+        "siteWidthM": 600,
+        "permanentMassHeightM": 20
+      },
+      "recognitionGeometry": [
+        "hall/yard grid",
+        "midway and gates",
+        "perimeter service loop"
+      ],
+      "eventDayOverlay": "Blank market/exhibit tents arranged in yard bays, one small stage, barrier queues and blank freestanding sign boards.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-01-fairgrounds.png",
+        "sheet": "event-01-fairgrounds-sheet.png",
+        "page": "event-01-fairgrounds.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-02-festival",
+      "group": "Event grounds",
+      "name": "Festival park",
+      "basePlace": "Municipal festival park: broad flat lawn bordered by mature trees, simple path loops, existing small bandstand and entry plaza, paved service access; grounded ordinary landscape.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 600,
+        "siteWidthM": 450,
+        "permanentMassHeightM": 12
+      },
+      "recognitionGeometry": [
+        "open lawn",
+        "tree/path edges",
+        "entry and stage orientation"
+      ],
+      "eventDayOverlay": "Temporary main stage at lawn edge, secondary tent cluster and concession lanes on durable path shoulders, crowd-free clear corridors.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-02-festival.png",
+        "sheet": "event-02-festival-sheet.png",
+        "page": "event-02-festival.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-03-marathon",
+      "group": "Event grounds",
+      "name": "Downtown marathon start / finish",
+      "basePlace": "Ordinary downtown boulevard with realistic mid-rise facades, intersections, curbs and a wide civic plaza; no permanent marathon structures on base view. Streets remain identifiable.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 500,
+        "siteWidthM": 220,
+        "permanentMassHeightM": 32
+      },
+      "recognitionGeometry": [
+        "boulevard and intersections",
+        "civic plaza",
+        "curb geometry"
+      ],
+      "eventDayOverlay": "Generic blank start/finish truss across CLOSED event street, barrier chutes parallel to curb, recovery tents in plaza, bag drop and medical tent without logos; event closure conceptual.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-03-marathon.png",
+        "sheet": "event-03-marathon-sheet.png",
+        "page": "event-03-marathon.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-04-race-village",
+      "group": "Event grounds",
+      "name": "City-park race village",
+      "basePlace": "Everyday city park with open green, existing paths, small pavilion and adjacent city street; ordinary terrain and house/urban scale, no stadium.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 420,
+        "siteWidthM": 320,
+        "permanentMassHeightM": 10
+      },
+      "recognitionGeometry": [
+        "park paths and street edge",
+        "pavilion",
+        "open activity lawn"
+      ],
+      "eventDayOverlay": "Blank registration/recovery tents in discrete lawn-edge pods, small podium stage, barriers guide approach while through path remains clear; cyan route as restrained flat overlay.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-04-race-village.png",
+        "sheet": "event-04-race-village-sheet.png",
+        "page": "event-04-race-village.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-05-market",
+      "group": "Event grounds",
+      "name": "Farmers\u2019 market street",
+      "basePlace": "Neighbourhood commercial street with modest two/three-storey brick/stucco shop buildings, broad sidewalk, ordinary curb/road, pocket plaza, no shop names or signs.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 360,
+        "siteWidthM": 140,
+        "permanentMassHeightM": 14
+      },
+      "recognitionGeometry": [
+        "street frontages",
+        "curbs and sidewalks",
+        "plaza entry"
+      ],
+      "eventDayOverlay": "Temporary row of blank market tents in closed curb lane and pocket plaza, barriers at closure ends, simple produce-colored block displays not readable branding.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-05-market.png",
+        "sheet": "event-05-market-sheet.png",
+        "page": "event-05-market.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    },
+    {
+      "id": "event-06-beach",
+      "group": "Event grounds",
+      "name": "Beach event site",
+      "basePlace": "Generic public beach with realistic sandy shore, calm slate-blue water, dune/vegetation edge, boardwalk access and small paved arrival plaza behind beach; no tropical resort fantasy.",
+      "dimensionsProposal": {
+        "status": "authored physical envelopes for concept review; not surveyed, capacity or code compliance",
+        "units": "metres",
+        "siteLengthM": 600,
+        "siteWidthM": 360,
+        "permanentMassHeightM": 8
+      },
+      "recognitionGeometry": [
+        "shoreline and dune boundary",
+        "boardwalk access",
+        "arrival plaza"
+      ],
+      "eventDayOverlay": "Small stage inland facing sandy audience zone, tents on firm upper-beach area, barrier boundary and blank sign panels; keep waterline/dunes and access continuous.",
+      "paletteProposal": {
+        "primary": "#B7BCBE",
+        "secondary": "#DECBAB",
+        "glass": "#405867",
+        "roof": "#666C70",
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "tent": "#EEE9D9",
+        "barrier": "#65716B",
+        "signBlank": "#D9D5C9",
+        "sheetPrimary": "#B7BCBE",
+        "note": "Authored material palette; sheet swatches show the shared kit palette. Primary brick overrides apply to campus and classic ballpark massing."
+      },
+      "images": {
+        "artwork": "images/event-06-beach.png",
+        "sheet": "event-06-beach-sheet.png",
+        "page": "event-06-beach.html"
+      },
+      "viewOrder": [
+        "base street three-quarter",
+        "same-camera event day",
+        "aerial event planning"
+      ],
+      "baseEventCameraStatus": "AI broad framing consistency, not pixel-calibrated correspondence",
+      "heightsStatus": "authored archetype envelope; actual venue heights/footprints override",
+      "roofParameters": {
+        "roofState": "base geometry",
+        "retractableSupported": false,
+        "otherStateImageGenerated": false
+      },
+      "builderContract": {
+        "baseImmutable": true,
+        "overlayLayerSeparate": true,
+        "anchor": "real footprint/ground when instantiated; no coordinates invented here",
+        "placementInputs": [
+          "terrain",
+          "footprint/parts",
+          "gate points",
+          "circulation polygons",
+          "service areas",
+          "event zones"
+        ],
+        "placementRules": [
+          "resolve ground contact",
+          "avoid building and tree intersections",
+          "preserve gate/service/through-path zones",
+          "do not place in water or dunes",
+          "blank signs only"
+        ],
+        "previewNotPermission": true,
+        "persistTransforms": true
+      },
+      "screenTiersProposal": [
+        {
+          "projectedExtentPx": "<6",
+          "retain": "place silhouette, land-cover and major roof/bowl field",
+          "omit": "event individuals, tent legs, railings and facade subdivisions"
+        },
+        {
+          "projectedExtentPx": "6\u201320",
+          "retain": "recognition massing, plaza/path layout, event clusters",
+          "omit": "faces, tent frames, barrier bars and tiny text"
+        },
+        {
+          "projectedExtentPx": ">20",
+          "retain": "meaningful gate/entrance recesses, roof forms, appropriately resolvable overlay shapes",
+          "omit": "sub-2px ornament; never enlarge people or props for visibility"
+        }
+      ],
+      "crowds": {
+        "base": "No event crowd; incidental anonymous passers-by may appear.",
+        "event": true,
+        "aerial": true,
+        "style": "anonymous normal adult proportions; soft non-identifiable faces; no featured characters",
+        "capacityClaim": false
+      },
+      "imageGeometryVerification": "Concept geometry and event layout visually reviewed; exact correspondence across cameras is unverified."
+    }
+  ],
+  "verification": {
+    "expectedArchetypes": 17,
+    "expectedViews": 51,
+    "imageInspection": "All 17 triptychs visually reviewed for archetype, reference appearance, blank signage and anonymous figures; no exact geometry or photometry measurement.",
+    "runtimeMeshesCreated": false,
+    "performanceBenchmarks": false,
+    "eventPlanningApproval": false
+  }
+}

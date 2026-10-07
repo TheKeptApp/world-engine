@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-07",
+  "status": "concept comparison; unmeasured build judgments",
+  "levels": [
+    {
+      "id": "A",
+      "title": "Rich Style B",
+      "file": "A-rich-style-b.png",
+      "description": "Japan regional kit level: real proportions, matte broad forms, restrained seams, simplified glass and foliage.",
+      "cost": "Medium",
+      "hard": "Preserving convincing silhouettes at low mesh counts; smooth crown shading, stable contact shadows and consistent colour across an entire city. Dense foliage and elevated infrastructure still need instancing and careful LOD.",
+      "phone": "Strong silhouettes and clean material separation survive shrinking. Near people keep realistic anatomy with no face or identity detail."
+    },
+    {
+      "id": "B",
+      "title": "Grounded realism",
+      "file": "B-grounded-realism.png",
+      "description": "Realistic brick, asphalt, foliage and glass; near-photoreal generic vehicles and anonymous people; buildings slightly simplified.",
+      "cost": "High",
+      "hard": "Coherent PBR material authoring and streaming, glass/environment reflections, foliage overdraw, softer indirect light, contact shadows and natural human animation. Control texture frequency to avoid shimmer; use bounded probes rather than a live reflection camera per object.",
+      "phone": "Fine material detail adds richness nearby but much disappears at phone size. Spend first on silhouettes, lighting and animation."
+    },
+    {
+      "id": "C",
+      "title": "Full photoreal",
+      "file": "C-full-photoreal.png",
+      "description": "Photographic materials, subtle weathering, detailed foliage, realistic sky and reflections; same anonymous people and fictional transport.",
+      "cost": "Very high",
+      "hard": "High asset and texture memory, fine geometry, complex foliage, realistic reflections/transparency, indirect light and shadow quality, temporal stability and sustained GPU/thermal load. A photographic still does not establish a viable 60 fps phone renderer.",
+      "phone": "Many costly differences become subtle at phone size. Do not accept this target from a still image without a moving device test."
+    }
+  ],
+  "phone_crop": {
+    "width_css_px": 390,
+    "height_css_px": 600,
+    "fit": "cover",
+    "position": "50% 50%"
+  },
+  "camera": "Source-image edit lock; no numeric renderer camera claimed",
+  "people_count": 3,
+  "faces": "soft non-identifiable all tiers"
+}

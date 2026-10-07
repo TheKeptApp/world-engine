@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentType": "catalog",
+  "createdAt": "2026-10-07T18:00:00Z",
+  "catalogId": "example:toilet-block",
+  "parts": [
+    {
+      "partId": "toilet-block",
+      "partVersion": "1.0.0",
+      "name": "Toilet block",
+      "category": "utilities",
+      "coordinateConvention": "local-right-forward-up; pivot ground footprint centre; yaw clockwise from true north",
+      "parameters": {
+        "width": {
+          "label": "Width",
+          "type": "number",
+          "unit": "m",
+          "minimum": 1.2,
+          "maximum": 15,
+          "step": 0.01,
+          "default": 6.4,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "depth": {
+          "label": "Depth",
+          "type": "number",
+          "unit": "m",
+          "minimum": 1,
+          "maximum": 4,
+          "step": 0.01,
+          "default": 1.6,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "height": {
+          "label": "Height",
+          "type": "number",
+          "unit": "m",
+          "minimum": 2,
+          "maximum": 3,
+          "step": 0.01,
+          "default": 2.3,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "unitCount": {
+          "label": "Cabins",
+          "type": "integer",
+          "unit": "count",
+          "minimum": 1,
+          "maximum": 10,
+          "step": 1,
+          "default": 4,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "accessibleCount": {
+          "label": "Accessible cabins",
+          "type": "integer",
+          "unit": "count",
+          "minimum": 0,
+          "maximum": 4,
+          "step": 1,
+          "default": 1,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "handwashCount": {
+          "label": "Handwash stations",
+          "type": "integer",
+          "unit": "count",
+          "minimum": 0,
+          "maximum": 4,
+          "step": 1,
+          "default": 1,
+          "boundBasis": "design_assumption",
+          "editable": true
+        },
+        "doorSide": {
+          "label": "Doors face",
+          "type": "enum",
+          "unit": "none",
+          "choices": [
+            "front",
+            "rear"
+          ],
+          "default": "front",
+          "boundBasis": "design_assumption",
+          "editable": true
+        }
+      },
+      "presets": [
+        {
+          "id": "planning-default",
+          "name": "Planning default",
+          "values": {
+            "width": 6.4,
+            "depth": 1.6,
+            "height": 2.3,
+            "unitCount": 4,
+            "accessibleCount": 1,
+            "handwashCount": 1,
+            "doorSide": "front"
+          },
+          "sourceId": "design:toilet-block",
+          "verification": "design_assumption",
+          "supplierId": null,
+          "supplierSku": null,
+          "checkedAt": null,
+          "note": "Illustrative visual layout only."
+        }
+      ],
+      "supplierSizePresets": [
+        {
+          "id": "supplier-size-to-confirm",
+          "name": "Supplier-size candidate \u2014 unverified",
+          "values": {
+            "width": 6.4,
+            "depth": 1.6,
+            "height": 2.3,
+            "unitCount": 4,
+            "accessibleCount": 1,
+            "handwashCount": 1,
+            "doorSide": "front"
+          },
+          "sourceId": "design:toilet-block",
+          "verification": "unverified_supplier_size",
+          "supplierId": null,
+          "supplierSku": null,
+          "checkedAt": null,
+          "note": "Complete nominal size profile; supplier/SKU deliberately unknown. Replace with actual documented inventory before booking."
+        }
+      ],
+      "envelopes": [
+        {
+          "id": "footprint",
+          "kind": "footprint",
+          "shape": "box",
+          "width": {
+            "op": "parameter",
+            "name": "width"
+          },
+          "depth": {
+            "op": "parameter",
+            "name": "depth"
+          },
+          "height": {
+            "op": "constant",
+            "value": 0.1
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:toilet-block",
+          "purpose": "Visible footprint; resolve physical dimensions with supplier.",
+          "blocksPlacement": true
+        },
+        {
+          "id": "clearance",
+          "kind": "clearance",
+          "shape": "box",
+          "width": {
+            "op": "add",
+            "args": [
+              {
+                "op": "parameter",
+                "name": "width"
+              },
+              {
+                "op": "constant",
+                "value": 2
+              }
+            ]
+          },
+          "depth": {
+            "op": "add",
+            "args": [
+              {
+                "op": "parameter",
+                "name": "depth"
+              },
+              {
+                "op": "constant",
+                "value": 2
+              }
+            ]
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:toilet-block",
+          "purpose": "Proposed working/access envelope; no safety certification.",
+          "blocksPlacement": true
+        },
+        {
+          "id": "queue",
+          "kind": "queue",
+          "shape": "box",
+          "width": {
+            "op": "parameter",
+            "name": "width"
+          },
+          "depth": {
+            "op": "constant",
+            "value": 3
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 0
+            },
+            "forward": {
+              "op": "constant",
+              "value": 3
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:toilet-block",
+          "purpose": "Proposed visitor queue; does not establish capacity.",
+          "blocksPlacement": false
+        },
+        {
+          "id": "utility",
+          "kind": "utility",
+          "shape": "box",
+          "width": {
+            "op": "constant",
+            "value": 1
+          },
+          "depth": {
+            "op": "parameter",
+            "name": "depth"
+          },
+          "height": {
+            "op": "constant",
+            "value": 2
+          },
+          "offset": {
+            "right": {
+              "op": "constant",
+              "value": 2
+            },
+            "forward": {
+              "op": "constant",
+              "value": 0
+            },
+            "up": {
+              "op": "constant",
+              "value": 0
+            }
+          },
+          "basis": "design_assumption",
+          "sourceId": "design:toilet-block",
+          "purpose": "Proposed servicing/routing zone; confirm on site.",
+          "blocksPlacement": true
+        }
+      ],
+      "utilityPorts": [
+        {
+          "id": "service-drain",
+          "kind": "drain",
+          "position": {
+            "right": 0,
+            "forward": -0.8,
+            "up": 0
+          },
+          "direction": {
+            "right": 0,
+            "forward": -1,
+            "up": 0
+          },
+          "label": "Service-side access, schematic",
+          "supplierConfirmationRequired": true
+        }
+      ],
+      "materialSlots": [
+        {
+          "slotId": "structure",
+          "role": "structure",
+          "palette": [
+            "#718076",
+            "#53675D"
+          ],
+          "defaultColour": "#718076",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "fabric",
+          "role": "fabric",
+          "palette": [
+            "#EEE7D5",
+            "#507459"
+          ],
+          "defaultColour": "#EEE7D5",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "deck",
+          "role": "deck",
+          "palette": [
+            "#8B8C7B",
+            "#B49B77"
+          ],
+          "defaultColour": "#8B8C7B",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "panel",
+          "role": "panel",
+          "palette": [
+            "#D5D9C8",
+            "#607B67"
+          ],
+          "defaultColour": "#D5D9C8",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "hardware",
+          "role": "hardware",
+          "palette": [
+            "#829186",
+            "#68776D"
+          ],
+          "defaultColour": "#829186",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "none",
+          "bakedLighting": false
+        },
+        {
+          "slotId": "label",
+          "role": "label",
+          "palette": [
+            "#F3F1E5",
+            "#285C48"
+          ],
+          "defaultColour": "#F3F1E5",
+          "roughness": 0.92,
+          "metalness": 0,
+          "texturePolicy": "albedo_only",
+          "bakedLighting": false
+        }
+      ],
+      "detailTiers": [
+        {
+          "tier": "footprint",
+          "maxTriangles": 24,
+          "instancing": true,
+          "castsShadow": false,
+          "labels": false,
+          "smallProps": false,
+          "screenHeightPxMin": 0
+        },
+        {
+          "tier": "balanced",
+          "maxTriangles": 3000,
+          "instancing": true,
+          "castsShadow": true,
+          "labels": true,
+          "smallProps": false,
+          "screenHeightPxMin": 24
+        },
+        {
+          "tier": "close",
+          "maxTriangles": 12000,
+          "instancing": true,
+          "castsShadow": true,
+          "labels": true,
+          "smallProps": true,
+          "screenHeightPxMin": 180
+        }
+      ],
+      "geometry": {
+        "generatorId": "kit:toilet-block",
+        "generatorVersion": "1.0.0",
+        "strategy": "deterministic_parametric",
+        "footprintAxisParameters": [
+          "width",
+          "depth"
+        ]
+      },
+      "constraints": [
+        {
+          "id": "supplier-review",
+          "rule": "manual_supplier_check",
+          "left": "width",
+          "right": "documented supplier assembly",
+          "message": "Validate physical dimensions, availability and operational requirements with supplier."
+        },
+        {
+          "id": "dependent-dimensions",
+          "rule": "lte",
+          "left": "accessibleCount",
+          "right": "unitCount",
+          "message": "accessibleCount must not exceed unitCount"
+        }
+      ],
+      "provenance": {
+        "sources": [
+          {
+            "id": "design:toilet-block",
+            "kind": "curated_design",
+            "uri": "urn:worldengine:example:toilet-block",
+            "sha256": null,
+            "page": null,
+            "cropPixels": null,
+            "rights": "owned_design",
+            "note": "Synthetic specification, design assumptions only; no physical supplier verification."
+          }
+        ],
+        "sourceIds": [
+          "design:toilet-block"
+        ],
+        "method": "curated",
+        "model": null,
+        "aiMade": false,
+        "confidence": {
+          "score": null,
+          "basis": "not_scored",
+          "calibration": "not_applicable",
+          "calibrationDataset": null
+        },
+        "parameterOrigins": {
+          "width": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "depth": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "height": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "unitCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "accessibleCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "handwashCount": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          },
+          "doorSide": {
+            "sourceId": "design:toilet-block",
+            "basis": "proposed_default",
+            "confidence": {
+              "score": null,
+              "basis": "not_scored",
+              "calibration": "not_applicable",
+              "calibrationDataset": null
+            }
+          }
+        },
+        "approvalState": "draft",
+        "approvalHistory": []
+      }
+    }
+  ]
+}

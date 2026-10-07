@@ -1,0 +1,96 @@
+{
+  "version": "1.0.0",
+  "scope": "design state machine, not an importer implementation",
+  "steps": [
+    {
+      "id": "upload",
+      "label": "Upload",
+      "next": "crop",
+      "back": null
+    },
+    {
+      "id": "crop",
+      "label": "Page and crop",
+      "next": "scale",
+      "back": "upload"
+    },
+    {
+      "id": "scale",
+      "label": "Scale, units and north",
+      "next": "anchors",
+      "back": "crop"
+    },
+    {
+      "id": "anchors",
+      "label": "Anchors and independent check",
+      "next": "draft",
+      "back": "scale"
+    },
+    {
+      "id": "draft",
+      "label": "Detection draft",
+      "next": "review",
+      "back": "anchors"
+    },
+    {
+      "id": "review",
+      "label": "Per-item source / scene review",
+      "next": "bulk",
+      "back": "draft"
+    },
+    {
+      "id": "bulk",
+      "label": "Homogeneous group approval",
+      "next": "summary",
+      "back": "review"
+    },
+    {
+      "id": "summary",
+      "label": "Final summary",
+      "next": "private_workspace",
+      "back": "bulk"
+    }
+  ],
+  "itemStates": [
+    "pending",
+    "accepted",
+    "dismissed"
+  ],
+  "alignmentStates": [
+    "unpaired",
+    "fit_pending",
+    "check_pending",
+    "check_passed",
+    "check_failed",
+    "organizer_approved",
+    "reopened"
+  ],
+  "bulkGate": [
+    "same_family",
+    "same_dimensions",
+    "same_source_evidence",
+    "explicit_inspection",
+    "each_item_approval_event"
+  ],
+  "publishGate": [
+    "alignment_approved",
+    "zero_pending_items",
+    "zero_unresolved_symbols",
+    "current_revision"
+  ],
+  "reopensApproval": [
+    "source_page_change",
+    "crop_change",
+    "units_or_scale_change",
+    "anchor_change",
+    "family_replace",
+    "parameter_resize",
+    "placement_change"
+  ],
+  "prototypeLimits": [
+    "sample_detections_only",
+    "no_real_GIS_transform",
+    "no_photo_rectification",
+    "no_supplier_or_safety_certification"
+  ]
+}

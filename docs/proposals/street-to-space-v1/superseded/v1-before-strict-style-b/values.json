@@ -1,0 +1,715 @@
+{
+  "schema": "worldengine.street-to-space.style-b.v1",
+  "date": "2026-10-07",
+  "status": "authored_concept_targets_not_renderer_calibrated",
+  "units": {
+    "colours": "sRGB appearance swatches; decode to linear RGB before blending; not sampled output pixels",
+    "altitude": "km above surface; illustrative fixture"
+  },
+  "anchor": {
+    "name": "Denver / Sloan\u2019s Lake",
+    "coordinate_policy": "retain authoritative selected feature WGS84 anchor; no coordinate surveyed in this pack"
+  },
+  "dayLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "nightLighting": {
+    "directSun": 0,
+    "skyZenith": "#15243C",
+    "skyMid": "#243854",
+    "skyHorizon": "#344255",
+    "skyFillNoonRelative": 0.24,
+    "groundFillNoonRelative": 0.08,
+    "exposureRelativeEV": 0.35,
+    "exposurePolicy": "replace day state; never add EVs",
+    "windowsLitShare": 0.3
+  },
+  "levels": {
+    "street": {
+      "illustrativeAltitudeKm": 0.0017,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "neighbourhood": {
+      "illustrativeAltitudeKm": 0.6,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "city": {
+      "illustrativeAltitudeKm": 12,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "region": {
+      "illustrativeAltitudeKm": 150,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "continent": {
+      "illustrativeAltitudeKm": 1800,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "globe": {
+      "illustrativeAltitudeKm": 12000,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    },
+    "orbit": {
+      "illustrativeAltitudeKm": 70000,
+      "day": {
+        "landCover": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "water": {
+          "lake": "#477E99",
+          "ocean": "#285F80"
+        },
+        "clouds": {
+          "lit": "#F0F2EF",
+          "shade": "#CAD6DE"
+        },
+        "atmosphere": {
+          "zenith": "#73A5CC",
+          "horizon": "#DBDCD1",
+          "limb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "sunlitIntensity": 0
+        },
+        "space": {
+          "background": "#070E19",
+          "stars": "#C9D5E2"
+        }
+      },
+      "night": {
+        "landCover": {
+          "grass": "#28382F",
+          "forest": "#1B2C29",
+          "cropland": "#343C32",
+          "dry_plains": "#3A3C36",
+          "bare_rock": "#39434A",
+          "urban": "#34404C",
+          "snow_ice": "#7B8995",
+          "wetland": "#253B3B"
+        },
+        "water": {
+          "lake": "#182D3C",
+          "ocean": "#101E30"
+        },
+        "clouds": {
+          "unlit": "#526378",
+          "litBeyondTerminator": "#F0F2EF"
+        },
+        "atmosphere": {
+          "zenith": "#15243C",
+          "horizon": "#344255",
+          "limb": "#375D85",
+          "sunlitLimb": "#73B7DF"
+        },
+        "nightLights": {
+          "core": "#FFD49A",
+          "halo": "#B88758",
+          "coolSecondary": "#C1D4DF"
+        },
+        "space": {
+          "background": "#050A13",
+          "stars": "#C9D5E2"
+        }
+      }
+    }
+  },
+  "scalePolicy": "One palette at every level; geometry and coverage fractions change, never arbitrary altitude colour grades. Planet day/night colours coexist across the terminator."
+}

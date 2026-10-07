@@ -1,0 +1,1656 @@
+{
+  "schema": "worldengine.ambient-life-kit.v1",
+  "status": "Design targets; not measured performance or observed traffic",
+  "units": {
+    "dimensions": "meters",
+    "screen_size": "CSS-equivalent pixels at 390 px viewport width; native pixels divided by viewport scale",
+    "speed": "meters/second",
+    "triangles": "visible mesh triangles"
+  },
+  "style": {
+    "name": "Style B \u2014 real proportions, simplified surfaces, soft light",
+    "no_authored_surface_images": true,
+    "no_brands": true,
+    "faces": false,
+    "identity_detail": false,
+    "roughness": {
+      "body": 0.65,
+      "glass_opaque": 0.28,
+      "tire": 0.95
+    },
+    "glass": "#526878",
+    "tire": "#303942",
+    "trim": "#DAD5C6",
+    "color_space": "sRGB authoring; interpolate in linear light",
+    "lighting": "Inherit approved shared mid-afternoon review light for calibration; actual environment.json solar/weather/time overrides review fixture.",
+    "reference_light": {
+      "source": "../style-b-bible-v1/bible-values.json sharedLighting",
+      "inherited_unchanged": true
+    },
+    "skin_palette": [
+      "#D4B798",
+      "#BC9477",
+      "#986E55",
+      "#715447"
+    ],
+    "sharedLighting": {
+      "id": "shared_clear_midafternoon_hero_v1",
+      "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+      "appliesTo": [
+        "lakeview",
+        "denver",
+        "wilmette",
+        "postcard"
+      ],
+      "anchor": {
+        "requestedApprovedPaintoverNumber": 5,
+        "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+        "workingColorAnchor": "images/denver-paintover.png",
+        "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+        "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+        "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+      },
+      "sky": {
+        "gradient": [
+          {
+            "elevationDeg": 90,
+            "hex": "#73A5CC"
+          },
+          {
+            "elevationDeg": 30,
+            "hex": "#A2C4DC"
+          },
+          {
+            "elevationDeg": 0,
+            "hex": "#DBDCD1"
+          }
+        ],
+        "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+        "warmHorizon": {
+          "maxElevationDeg": 10,
+          "tintHex": "#E5DFCD",
+          "maximumMix01": 0.12
+        },
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "cloudCoverage01": 0.18,
+        "noPurpleLavenderPink": true,
+        "sharedAtmosphere": true,
+        "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+      },
+      "sun": {
+        "colorHex": "#FFE8C6",
+        "directIntensityRelativeClearE0": 1,
+        "elevationDeg": 40,
+        "azimuthDegTrueNorthClockwise": 225,
+        "angularDiameterDeg": 0.53,
+        "keyToSkyFillWitnessRatio": 0.6129032258064516,
+        "skyFillColorHex": "#AEBCCA",
+        "skyFillRelativeDirect": 1.631578947368421,
+        "geometry": {
+          "shadowBearingDeg": 45,
+          "flatGroundShadowLengthPerHeight": 1.19175359259421
+        },
+        "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+        "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+      },
+      "shadows": {
+        "appearanceTintHex": "#7F8F99",
+        "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "strengthPercent": 38,
+        "filterDrawablePx": [
+          1,
+          2
+        ],
+        "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+        "addedAmbientVisibilityFloor": 0.65,
+        "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+        "noYellowRimLightOutline": true
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+        "applyOnce": true,
+        "perViewExposureOverridesAllowed": false,
+        "contrastSlope": 1.06,
+        "linearLuminancePivot": 0.18,
+        "saturationFactor": 1.08,
+        "additionalWarmthPercent": 0,
+        "additionalWarmthDiagonalRGB": [
+          1,
+          1,
+          1
+        ],
+        "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+      },
+      "ground": {
+        "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+        "asphalt": {
+          "hex": "#626A70",
+          "roughness": 0.82
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "roughness": 0.82
+        },
+        "lawn": {
+          "hex": "#73865B",
+          "roughness": 0.92
+        },
+        "curbHex": "#B9B7AD",
+        "wetness01": 0,
+        "puddles": false,
+        "noLavenderOrTanCast": true
+      },
+      "postcard": {
+        "trees": {
+          "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+          "barkHex": "#716659",
+          "crownGreensHex": [
+            "#49664C",
+            "#6F8758",
+            "#879466"
+          ],
+          "earlyAutumnHex": "#B49A60",
+          "earlyAutumnAreaTargetMax01": 0.15,
+          "archetypes": [
+            "irregular broad lobed",
+            "upright oval",
+            "open vase"
+          ],
+          "lobesPerCrown": [
+            5,
+            9
+          ],
+          "noIdenticalBallClusters": true,
+          "noIndividualLeafGeometry": true
+        },
+        "dressing": {
+          "parkedCarsTargetCount": 3,
+          "carColorsHex": [
+            "#5D6D78",
+            "#C7C2B4",
+            "#656C71"
+          ],
+          "unbranded": true,
+          "observedOrLive": false,
+          "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+          "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+          "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+        }
+      },
+      "performance": {
+        "additionalGlobalPasses": 0,
+        "additionalShadowMaps": 0,
+        "additionalDaytimeLights": 0,
+        "retainExistingBuildingBudget": true,
+        "dressingMustFitExistingNearGeometryBudget": true,
+        "noDeviceBenchmark": true
+      },
+      "compatibility": [
+        {
+          "source": "docs/proposals/paintover-v1/paintover-values.json",
+          "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+          "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+        },
+        {
+          "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+          "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+          "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+        },
+        {
+          "source": "docs/proposals/rain-v1/rain-values.json",
+          "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+          "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+        },
+        {
+          "source": "night-fog-v1/night-fog-values.json",
+          "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+          "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+        },
+        {
+          "source": "Existing house-contrast paintoverValidation metadata",
+          "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+          "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+        }
+      ]
+    },
+    "proportion_policy": "Real body/cabin/wheelbase/wing/hull/head-limb ratios; no toy/chibi/chunky exaggeration; simplify surface detail not scale.",
+    "surface_policy": "Smooth matte surfaces, restrained broad geometry and opaque glass; no photographic textures, dense surface pattern or toy faceting.",
+    "bible": "../style-b-bible-v1/index.html",
+    "superseded_archive": "style-c-illustrated-concept/"
+  },
+  "tiers": {
+    "near": {
+      "min_css_px": 48,
+      "features": "Silhouette, bevels, wheels/limbs, up to2 large accent patches; no badges/handles/faces",
+      "animation_hz": 30
+    },
+    "mid": {
+      "min_css_px": 16,
+      "features": "Body plus cabin/limb silhouette; merge tiny pieces; no wheel spokes or face detail",
+      "animation_hz": 15
+    },
+    "far": {
+      "min_css_px": 5,
+      "features": "Single/simple colored silhouette, no small openings; no mesh upscaling",
+      "animation_hz": 8
+    },
+    "subpixel": {
+      "below_css_px": 5,
+      "action": "Cull optional life; preserve required tracked entities via separate map/UI representation, not fake oversized world meshes"
+    },
+    "hysteresis": {
+      "enter_multiplier": 1.15,
+      "exit_multiplier": 0.85,
+      "hold_seconds": 0.4
+    },
+    "people_distance_examples_m": {
+      "near": [
+        5,
+        12
+      ],
+      "mid": [
+        12,
+        35
+      ],
+      "far": [
+        35,
+        80
+      ],
+      "note": "Illustrative only; projected size wins. Wheels, wing span and hull length use longest projected dimension; people use height."
+    }
+  },
+  "caps": {
+    "street": {
+      "active_vehicles": 12,
+      "people": 16,
+      "animals": 12,
+      "rail_consists": 1,
+      "aircraft": 1,
+      "boats": 2,
+      "ambient_triangles": 18000,
+      "shadow_triangles": 4000,
+      "incremental_draw_calls": 8
+    },
+    "neighborhood": {
+      "active_vehicles": 28,
+      "people": 32,
+      "animals": 24,
+      "rail_consists": 2,
+      "aircraft": 2,
+      "boats": 4,
+      "ambient_triangles": 24000,
+      "shadow_triangles": 5000,
+      "incremental_draw_calls": 10
+    },
+    "aerial": {
+      "active_vehicles": 48,
+      "people": 24,
+      "animals": 24,
+      "rail_consists": 3,
+      "aircraft": 3,
+      "boats": 6,
+      "ambient_triangles": 18000,
+      "shadow_triangles": 2000,
+      "incremental_draw_calls": 10
+    },
+    "shared_effects": {
+      "max_rain_streaks": 150,
+      "max_snowflakes": 100,
+      "max_airborne_leaves": 24,
+      "max_rain_splash_rings": 24,
+      "max_snow_drift_ribbons": 6,
+      "max_steam_puffs": 12,
+      "max_chimney_puffs": 12,
+      "max_sprinkler_segments": 24,
+      "total_transparent_effect_primitives": 160,
+      "total_projected_alpha_area_fraction": 0.04,
+      "note": "Competing caps, not additive entitlements. Rain/snow/leaves share existing0.20ms weather bucket; all effects alpha area includes overlaps summed against screen area."
+    },
+    "parked_road_max": {
+      "street": 12,
+      "neighborhood": 28,
+      "aerial": 48,
+      "note": "Not additional triangle allowance. Count opaque geometry and submissions against same scene ceilings."
+    }
+  },
+  "budget": {
+    "total_gpu_ms": 10,
+    "planned_content_ms": 7.9,
+    "safety_margin_ms": 2.1,
+    "ambient_opaque_target_within_base_ms": 0.35,
+    "base_world_ms": 4.25,
+    "shared_weather_particles_ms": 0.2,
+    "shared_wet_local_lights_ms": 0.35,
+    "main_triangle_ceiling": 400000,
+    "main_draw_ceiling": 100,
+    "shadow_triangle_ceiling": 150000,
+    "note": "Ambient targets replace headroom inside existing buckets; do not add0.35ms on top. All timings are hypotheses until ten-minute sustained device benchmark."
+  },
+  "simulation": {
+    "fixed_hz": 10,
+    "interpolate_transforms": true,
+    "stable_seed": "Use existing StableRandom/OSMRef + semantic salt; never per-frame randomness",
+    "speed_rule": "Use verified live speed/route when available; generic ranges below are art priors, not legal limits",
+    "truth_modes": [
+      "live_observed",
+      "live_interpolated",
+      "schedule_simulated",
+      "ambient_synthetic"
+    ],
+    "spawn_rule": "Mapped navigable roads, footways, rail and water; respect lane direction/left-driving regional data, turn restrictions and accessible paths; never simulate known closures or private interiors",
+    "shelter_rule": "Suppress splashes/sprinklers under known cover; reduce pedestrians in hazardous weather; never infer evacuation crowds",
+    "lifecycle": "Fade optional population at spawn/despawn boundaries outside foreground; keep identity stable; no teleporting on camera motion",
+    "priority": [
+      "source-entitled tracked transit",
+      "near route safety/clearance",
+      "few readable pedestrians/vehicles",
+      "water wildlife",
+      "optional air and effects"
+    ],
+    "missing_live": "Show ambient_synthetic label in accessible info; no implied exact private activity",
+    "emergency": "Parked or rare slow-moving generic emergency vehicles only without entitled incident data; no invented emergency dispatch, flashing alarm or siren",
+    "pause_hidden": true
+  },
+  "assets": [
+    {
+      "id": "sedan",
+      "label": "Sedan",
+      "group": "road",
+      "dimensions_m": [
+        4.5,
+        1.8,
+        1.45
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#6F8F8A",
+        "#A75849",
+        "#D5CFBE",
+        "#687E99"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 420,
+        "mid": 147,
+        "far": 34
+      },
+      "speed_range_mps": [
+        3,
+        13
+      ],
+      "recognition_cues": "Low cabin, separate hood and trunk",
+      "motion": "Rigid body; wheels rotate only near",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "suv",
+      "label": "SUV",
+      "group": "road",
+      "dimensions_m": [
+        4.8,
+        1.95,
+        1.8
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#6F8F8A",
+        "#A75849",
+        "#D5CFBE",
+        "#687E99"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 460,
+        "mid": 161,
+        "far": 37
+      },
+      "speed_range_mps": [
+        3,
+        13
+      ],
+      "recognition_cues": "Tall cabin, continuous rear volume",
+      "motion": "No suspension wobble",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "pickup",
+      "label": "Pickup",
+      "group": "road",
+      "dimensions_m": [
+        5.4,
+        2,
+        1.85
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#83928B",
+        "#B79D79",
+        "#8B6D62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 500,
+        "mid": 175,
+        "far": 40
+      },
+      "speed_range_mps": [
+        3,
+        13
+      ],
+      "recognition_cues": "Open bed, long hood, stout cabin",
+      "motion": "Bed is geometry not dark texture",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "taxi",
+      "label": "Taxi",
+      "group": "road",
+      "dimensions_m": [
+        4.6,
+        1.85,
+        1.5
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D2AF53",
+        "#BDA55F"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 440,
+        "mid": 154,
+        "far": 35
+      },
+      "speed_range_mps": [
+        3,
+        13
+      ],
+      "recognition_cues": "Sedan and plain roof block; no checkerboard",
+      "motion": "Roof block removed mid/far",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "city_bus",
+      "label": "City bus",
+      "group": "road",
+      "dimensions_m": [
+        12,
+        2.55,
+        3.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D4D3BD",
+        "#668C8C",
+        "#879AB0"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 640,
+        "mid": 224,
+        "far": 51
+      },
+      "speed_range_mps": [
+        3,
+        11
+      ],
+      "recognition_cues": "Long low window band, wide door panel",
+      "motion": "Slow smooth turns; no visible passengers",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "school_bus",
+      "label": "School bus",
+      "group": "road",
+      "dimensions_m": [
+        10.5,
+        2.5,
+        3.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D5AE50",
+        "#C49B49"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 650,
+        "mid": 227,
+        "far": 52
+      },
+      "speed_range_mps": [
+        3,
+        11
+      ],
+      "recognition_cues": "Ochre body, hooded front, repeated window band",
+      "motion": "No stop-sign text, district badges or logos",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "delivery_van",
+      "label": "Delivery van",
+      "group": "road",
+      "dimensions_m": [
+        5.8,
+        2.05,
+        2.65
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D3D0C2",
+        "#88A29B",
+        "#8897AC"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 400,
+        "mid": 140,
+        "far": 32
+      },
+      "speed_range_mps": [
+        3,
+        11
+      ],
+      "recognition_cues": "Tall roof, short hood, blank side",
+      "motion": "No courier-specific color pairing",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "box_truck",
+      "label": "Box truck",
+      "group": "road",
+      "dimensions_m": [
+        8.5,
+        2.5,
+        3.6
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D3D0C2",
+        "#88A29B",
+        "#8897AC"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 460,
+        "mid": 161,
+        "far": 37
+      },
+      "speed_range_mps": [
+        3,
+        11
+      ],
+      "recognition_cues": "Cab and clear rectangular rear box",
+      "motion": "Rear wheels simplified mid",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "semi",
+      "label": "Semi",
+      "group": "road",
+      "dimensions_m": [
+        18,
+        2.55,
+        4
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#83928B",
+        "#B79D79",
+        "#8B6D62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 850,
+        "mid": 298,
+        "far": 68
+      },
+      "speed_range_mps": [
+        4,
+        15
+      ],
+      "recognition_cues": "Tractor plus separate long trailer",
+      "motion": "Articulate pivot at hitch; no bend through buildings",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "fire_truck",
+      "label": "Fire truck",
+      "group": "road",
+      "dimensions_m": [
+        9,
+        2.5,
+        3.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#B86858",
+        "#D8D6C9"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 700,
+        "mid": 245,
+        "far": 56
+      },
+      "speed_range_mps": [
+        2,
+        10
+      ],
+      "recognition_cues": "Long rescue box, simple folded ladder silhouette",
+      "motion": "No sirens/dispatch simulation",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "ambulance",
+      "label": "Ambulance",
+      "group": "road",
+      "dimensions_m": [
+        6.5,
+        2.3,
+        2.9
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#B86858",
+        "#D8D6C9"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 480,
+        "mid": 168,
+        "far": 38
+      },
+      "speed_range_mps": [
+        2,
+        10
+      ],
+      "recognition_cues": "Cab plus short medical-service box",
+      "motion": "No cross, emblem or real livery",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "police",
+      "label": "Police",
+      "group": "road",
+      "dimensions_m": [
+        4.8,
+        1.9,
+        1.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#4F6479",
+        "#D7D4C7"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 460,
+        "mid": 161,
+        "far": 37
+      },
+      "speed_range_mps": [
+        2,
+        10
+      ],
+      "recognition_cues": "Generic sedan/SUV, plain roof-light housing",
+      "motion": "No badge, agency marks, flashing alarm",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "bicycle",
+      "label": "Bicycle",
+      "group": "road",
+      "dimensions_m": [
+        1.8,
+        0.6,
+        1.1
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#6F8F8A",
+        "#A75849",
+        "#D5CFBE",
+        "#687E99"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 360,
+        "mid": 126,
+        "far": 29
+      },
+      "speed_range_mps": [
+        2,
+        6
+      ],
+      "recognition_cues": "Normal wheel diameter, slender real frame triangle and handlebar; no inflated wheels",
+      "motion": "Use rider combined asset if occupied",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "scooter",
+      "label": "Motor scooter",
+      "group": "road",
+      "dimensions_m": [
+        1.9,
+        0.7,
+        1.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#6F8F8A",
+        "#A75849",
+        "#D5CFBE",
+        "#687E99"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 380,
+        "mid": 133,
+        "far": 30
+      },
+      "speed_range_mps": [
+        2,
+        7
+      ],
+      "recognition_cues": "Two wheels, step-through body, upright front",
+      "motion": "Near wheel spin only",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "e_scooter",
+      "label": "Standing scooter",
+      "group": "road",
+      "dimensions_m": [
+        1.2,
+        0.5,
+        1.1
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#83928B",
+        "#B79D79",
+        "#8B6D62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 220,
+        "mid": 77,
+        "far": 18
+      },
+      "speed_range_mps": [
+        1,
+        5
+      ],
+      "recognition_cues": "Small wheels, thin deck, tall handle stem",
+      "motion": "No glowing trims",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "elevated_train",
+      "label": "Elevated train car",
+      "group": "rail",
+      "dimensions_m": [
+        14.6,
+        2.7,
+        3.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#BCC8C6",
+        "#6B8794",
+        "#C19370"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 760,
+        "mid": 266,
+        "far": 61
+      },
+      "speed_range_mps": [
+        5,
+        20
+      ],
+      "recognition_cues": "Boxy car, broad window rhythm; elevated only on mapped tracks",
+      "motion": "Consist2\u20136cars; cars follow route spline independently",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "commuter_train",
+      "label": "Commuter train car",
+      "group": "rail",
+      "dimensions_m": [
+        25,
+        3.1,
+        4.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#BCC8C6",
+        "#6B8794",
+        "#C19370"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 850,
+        "mid": 298,
+        "far": 68
+      },
+      "speed_range_mps": [
+        5,
+        25
+      ],
+      "recognition_cues": "Longer car, restrained cab taper",
+      "motion": "Consist2\u20138cars; distant budget may shorten visible detail not actual train",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "light_rail",
+      "label": "Light rail",
+      "group": "rail",
+      "dimensions_m": [
+        28,
+        2.65,
+        3.4
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#BCC8C6",
+        "#6B8794",
+        "#C19370"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 1050,
+        "mid": 368,
+        "far": 84
+      },
+      "speed_range_mps": [
+        3,
+        18
+      ],
+      "recognition_cues": "Low articulated body,2hinges",
+      "motion": "Consist1\u20133units; tracked size overrides",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "airliner",
+      "label": "Airliner",
+      "group": "air",
+      "dimensions_m": [
+        38,
+        35.8,
+        12
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#DADCD3",
+        "#90A6B0",
+        "#708D94"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 760,
+        "mid": 266,
+        "far": 61
+      },
+      "speed_range_mps": [
+        65,
+        240
+      ],
+      "recognition_cues": "Swept wings,2engines and tail",
+      "motion": "Flight route/speed requires source entitlement; not invented low city passes",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "regional_jet",
+      "label": "Regional jet",
+      "group": "air",
+      "dimensions_m": [
+        30,
+        28,
+        9
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#DADCD3",
+        "#90A6B0",
+        "#708D94"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 640,
+        "mid": 224,
+        "far": 51
+      },
+      "speed_range_mps": [
+        60,
+        220
+      ],
+      "recognition_cues": "Smaller swept-wing tube and engines",
+      "motion": "No airline-specific nose/paint",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "prop_plane",
+      "label": "Small prop plane",
+      "group": "air",
+      "dimensions_m": [
+        8.3,
+        11,
+        2.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#DADCD3",
+        "#90A6B0",
+        "#708D94"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 450,
+        "mid": 158,
+        "far": 36
+      },
+      "speed_range_mps": [
+        25,
+        65
+      ],
+      "recognition_cues": "High wing and prop disk",
+      "motion": "Static prop blur disk; no high-frequency flicker",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "helicopter",
+      "label": "Helicopter",
+      "group": "air",
+      "dimensions_m": [
+        12,
+        10,
+        3.4
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#DADCD3",
+        "#90A6B0",
+        "#708D94"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 600,
+        "mid": 210,
+        "far": 48
+      },
+      "speed_range_mps": [
+        0,
+        65
+      ],
+      "recognition_cues": "Cabin, tail boom and rotor disk",
+      "motion": "No low park buzzing or simulated emergency",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "sailboat",
+      "label": "Sailboat",
+      "group": "water",
+      "dimensions_m": [
+        9,
+        3,
+        12
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D1D3C3",
+        "#7A9694",
+        "#A36C57"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 460,
+        "mid": 161,
+        "far": 37
+      },
+      "speed_range_mps": [
+        0.5,
+        4
+      ],
+      "recognition_cues": "Hull, tall mast, calm triangular sail",
+      "motion": "Heel <=4degrees design target; mapped water only",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "motorboat",
+      "label": "Motorboat",
+      "group": "water",
+      "dimensions_m": [
+        6,
+        2.2,
+        2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D1D3C3",
+        "#7A9694",
+        "#A36C57"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 400,
+        "mid": 140,
+        "far": 32
+      },
+      "speed_range_mps": [
+        1,
+        8
+      ],
+      "recognition_cues": "Low hull, windscreen and open stern",
+      "motion": "No wake where speed/shelter not plausible",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "ferry",
+      "label": "Ferry",
+      "group": "water",
+      "dimensions_m": [
+        45,
+        12,
+        12
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D1D3C3",
+        "#7A9694",
+        "#A36C57"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 1000,
+        "mid": 350,
+        "far": 80
+      },
+      "speed_range_mps": [
+        2,
+        8
+      ],
+      "recognition_cues": "Broad hull and stacked cabin",
+      "motion": "Mapped ferry route or synthetic marked plausible corridor",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "cargo_ship",
+      "label": "Cargo ship",
+      "group": "water",
+      "dimensions_m": [
+        180,
+        28,
+        35
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#D1D3C3",
+        "#7A9694",
+        "#A36C57"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 1400,
+        "mid": 490,
+        "far": 112
+      },
+      "speed_range_mps": [
+        2,
+        10
+      ],
+      "recognition_cues": "Long hull, repeated broad cargo blocks, stern superstructure",
+      "motion": "Deep navigable water only; never on small lakes",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "pedestrian",
+      "label": "Pedestrian",
+      "group": "people",
+      "dimensions_m": [
+        0.55,
+        0.35,
+        1.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#9AABA0",
+        "#B78C61",
+        "#9A655B",
+        "#71849B"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 360,
+        "mid": 126,
+        "far": 29
+      },
+      "speed_range_mps": [
+        0.8,
+        1.6
+      ],
+      "recognition_cues": "Normal adult head/limb ratios, featureless head, plain clothing and natural stance",
+      "motion": "Walk cycle1\u20131.8Hz; no bobbing camera",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "runner",
+      "label": "Runner",
+      "group": "people",
+      "dimensions_m": [
+        0.6,
+        0.45,
+        1.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#9AABA0",
+        "#B78C61",
+        "#9A655B",
+        "#71849B"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 400,
+        "mid": 140,
+        "far": 32
+      },
+      "speed_range_mps": [
+        2,
+        4
+      ],
+      "recognition_cues": "Normal adult anatomy, slight forward lean, natural elbow bend and running stride",
+      "motion": "Cycle2\u20133Hz; no exaggerated bouncing",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "cyclist",
+      "label": "Cyclist",
+      "group": "people",
+      "dimensions_m": [
+        1.9,
+        0.65,
+        1.75
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#9AABA0",
+        "#B78C61",
+        "#9A655B",
+        "#71849B"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 620,
+        "mid": 217,
+        "far": 50
+      },
+      "speed_range_mps": [
+        2,
+        6
+      ],
+      "recognition_cues": "Normal adult anatomy on correctly sized thin-frame bicycle; no facial identity detail",
+      "motion": "Pedal1\u20131.8Hznear; torso stable",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "group",
+      "label": "Group of3",
+      "group": "people",
+      "dimensions_m": [
+        2,
+        0.5,
+        1.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#9AABA0",
+        "#B78C61",
+        "#9A655B",
+        "#71849B"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 1080,
+        "mid": 378,
+        "far": 86
+      },
+      "speed_range_mps": [
+        0.6,
+        1.4
+      ],
+      "recognition_cues": "2\u20134individuals, varied coats and normal spacing",
+      "motion": "Stagger phases; count members in people cap",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "flying_birds",
+      "label": "Flying flock",
+      "group": "animals",
+      "dimensions_m": [
+        0.5,
+        0.15,
+        0.2
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#8F7B67",
+        "#C5B896",
+        "#546C62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 90,
+        "mid": 31,
+        "far": 12
+      },
+      "speed_range_mps": [
+        5,
+        12
+      ],
+      "recognition_cues": "Real wing/body proportions and simple flight silhouettes;3\u20138birds, no feather microdetail",
+      "motion": "Wing cycle2\u20134Hznear;phase perbird;count each in animal cap",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "duck",
+      "label": "Duck",
+      "group": "animals",
+      "dimensions_m": [
+        0.55,
+        0.25,
+        0.3
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#8F7B67",
+        "#C5B896",
+        "#546C62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 150,
+        "mid": 53,
+        "far": 12
+      },
+      "speed_range_mps": [
+        0.1,
+        0.8
+      ],
+      "recognition_cues": "Short neck, broad floating body",
+      "motion": "Subtle head motion; short wake no full fluid sim",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    },
+    {
+      "id": "goose",
+      "label": "Goose",
+      "group": "animals",
+      "dimensions_m": [
+        0.9,
+        0.35,
+        0.7
+      ],
+      "dimensions_status": "Proposed generic size; source dimensions override",
+      "body_palette": [
+        "#8F7B67",
+        "#C5B896",
+        "#546C62"
+      ],
+      "accent_palette": [
+        "#DAD5C6",
+        "#526878",
+        "#303942"
+      ],
+      "triangles_by_tier": {
+        "near": 180,
+        "mid": 63,
+        "far": 14
+      },
+      "speed_range_mps": [
+        0.1,
+        0.8
+      ],
+      "recognition_cues": "Long neck, larger body than duck",
+      "motion": "Walk/swim; no synchronized whole-lake flock",
+      "materials_max": 3,
+      "proportion_policy": "Match Style B Bible: natural true-to-life class proportions; proposed generic dimensions unchanged; measured source dimensions override."
+    }
+  ],
+  "effects": [
+    {
+      "id": "contrail",
+      "color": "#D9E4E4",
+      "max_segments": 16,
+      "width_m": [
+        1,
+        15
+      ],
+      "lifetime_s": [
+        15,
+        60
+      ],
+      "opacity": [
+        0.04,
+        0.18
+      ],
+      "rule": "Only eligible high-altitude flight and weather support; unknown defaults off. Screen-size cap and no weather forecast claim."
+    },
+    {
+      "id": "rain_splashes",
+      "color": "#CDDCE0",
+      "lifetime_s": [
+        0.12,
+        0.35
+      ],
+      "radius_m": [
+        0.04,
+        0.16
+      ],
+      "opacity": [
+        0.15,
+        0.35
+      ],
+      "rate_per_m2_s": 0.2,
+      "rule": "Hard wet surface only; small expanding procedural ring+1\u20132droplets; no black stain. Budget prioritizes visible falling rain."
+    },
+    {
+      "id": "snow_drift",
+      "color": "#E8EDF0",
+      "lifetime_s": [
+        0.6,
+        2
+      ],
+      "height_m": [
+        0.05,
+        0.3
+      ],
+      "opacity": [
+        0.08,
+        0.2
+      ],
+      "rule": "Requires loose snow+wind; low sparse ribbons; never automatic drifting/plowing history."
+    },
+    {
+      "id": "leaves",
+      "colors": [
+        "#C4A15B",
+        "#B98251",
+        "#A9654C"
+      ],
+      "lifetime_s": [
+        2,
+        5
+      ],
+      "size_m": [
+        0.04,
+        0.1
+      ],
+      "opacity": 1,
+      "rule": "Opaque simple2\u20136triangle leaves; deciduous leaf-fall season+wind; bounded near camera."
+    },
+    {
+      "id": "steam",
+      "color": "#D8DFDB",
+      "lifetime_s": [
+        1,
+        3
+      ],
+      "height_m": [
+        0.3,
+        1.5
+      ],
+      "opacity": [
+        0.06,
+        0.2
+      ],
+      "rule": "Known vent or explicitly synthetic decorative location; pale vertical puffs drift with wind; no fire/smoke claim."
+    },
+    {
+      "id": "chimney_smoke",
+      "color": "#B9C0BE",
+      "lifetime_s": [
+        2,
+        6
+      ],
+      "height_m": [
+        1,
+        4
+      ],
+      "opacity": [
+        0.04,
+        0.16
+      ],
+      "rule": "Only existing plausible chimney; synthetic activity explicitly marked; not every house, never wildfire tint."
+    },
+    {
+      "id": "sprinkler",
+      "color": "#C7DEDA",
+      "lifetime_s": [
+        0.2,
+        0.7
+      ],
+      "radius_m": [
+        1,
+        3
+      ],
+      "opacity": [
+        0.08,
+        0.2
+      ],
+      "rule": "Optional synthetic sprinkler on eligible lawn; dry mild day only, off rain/freeze/drought restriction or unknown policy; no real household schedule claim."
+    }
+  ],
+  "shadow_policy": {
+    "nearest_road_vehicles_max": 6,
+    "nearest_people_max": 8,
+    "range_m": 35,
+    "animals": "Optional cheap contact treatment only inside existing shadow/contact bucket",
+    "far": "No additional cast-shadow solve",
+    "lights": "Emergency housings nonflashing; global maximum2nearby unshadowed lights shared by entire scene"
+  },
+  "density_defaults_fraction": {
+    "quiet_neighborhood": [
+      0.2,
+      0.4
+    ],
+    "residential_street": [
+      0.3,
+      0.5
+    ],
+    "busy_corridor": [
+      0.5,
+      0.75
+    ]
+  },
+  "realism_anchor_policy": {
+    "date": "2026-10-07",
+    "authority": "User-approved realism anchor",
+    "transport_reference": "../japan-regional-kit-v1/",
+    "reference_sheets": [
+      "05-vehicles-sheet.png",
+      "06-rail-vehicles-sheet.png",
+      "08-stations-sheet.png"
+    ],
+    "applies_to": [
+      "all road vehicles",
+      "all trains",
+      "all aircraft",
+      "all boats",
+      "station infrastructure"
+    ],
+    "rule": "Match Japan regional kit proportions, smooth matte surface simplification and detail restraint; adapt real class dimensions and silhouettes to local US forms. Boats inherit the same treatment; the Japan kit contains no boat-specific sheet.",
+    "regional_adaptation": "US roads: right-hand traffic, normally left-hand driver position and passenger boarding on the curb/right side. Japan roads: left-hand traffic and appropriate local placement. Rail running direction, platforms and vessel operations follow local/source data; never infer them by mirroring road traffic.",
+    "other_anchors": [
+      "Empower Field stadium sheet",
+      "house-archetypes-v1"
+    ],
+    "preserve": "Existing ambient tiers, palettes, dimensions and density budgets remain unchanged; Japan sheet thresholds do not replace ambient thresholds.",
+    "art_status": "Existing US sheets are supporting concepts; this transport anchor takes precedence wherever their surface detail differs."
+  }
+}
