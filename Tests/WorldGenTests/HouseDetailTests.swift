@@ -172,7 +172,11 @@ struct HouseDetailTests {
             let g = gen.generate(testBuilding(34_000 + id, Self.rect(0, 0, 12, 9)), palette: &palette, lod: .near)
             guard let fam = g.family, let range = gen.families.grammar(fam).details?.trim else { continue }
             seen[fam, default: []].insert(g.colors[1])
-            let allowed = (0..<3).map { HouseDetailColours.step(range[0], range[1], $0) }
+            // Families mapped to a house-contrast-v1 type take that type's trim swatch instead.
+            var allowed = (0..<3).map { HouseDetailColours.step(range[0], range[1], $0) }
+            if let hc = BuildingGenerator.contrast, hc.families[fam] != nil {
+                allowed = ["chicago_three_flat", "chicago_two_flat", "workers_cottage", "chicago_bungalow"].compactMap { hc.values($0)?.trim }
+            }
             #expect(allowed.contains(g.colors[1]), "\(fam): \(g.colors[1])")
         }
         #expect(seen.count >= 4)
