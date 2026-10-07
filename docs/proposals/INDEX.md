@@ -16,6 +16,7 @@ The README, values JSON and prompts are committed, so they are readable from any
 | House archetypes, Chicago (form, dimensions, roof pitch, palette variants, detail tiers, porch/garage/yard rules) | house-archetypes-v1 | `~/Desktop/world-engine/docs/proposals/house-archetypes-v1/` (images at the pack root): sheets `chicago-01-bungalow … chicago-05-ranch-sheet.png`, board `chicago-board.png`, block paint-over `chicago-block.png` (Lakeview postcard camera) | `docs/proposals/house-archetypes-v1/archetypes-values.json` (`archetypes[id=…]`) | **R approved – binding target** (per-type house values; daytime lighting stays house-contrast-v1) |
 | House archetypes, Denver (form, dimensions, roof pitch, palette variants, detail tiers, porch/garage/yard rules) | house-archetypes-v1 | `~/Desktop/world-engine/docs/proposals/house-archetypes-v1/` (images at the pack root): sheets `denver-01-square … denver-06-infill-sheet.png`, board `denver-board.png`, block paint-over `denver-block.png` (Denver street camera) | `docs/proposals/house-archetypes-v1/archetypes-values.json` (`archetypes[id=…]`) | **R approved – binding target** (per-type house values; daytime lighting stays house-contrast-v1) |
 | House archetypes, Miami (form, dimensions, roof pitch, palette variants, detail tiers, porch/garage/yard rules) | house-archetypes-v1 | `~/Desktop/world-engine/docs/proposals/house-archetypes-v1/` (images at the pack root): sheets `miami-01-ranch … miami-05-suburban-sheet.png`, board `miami-board.png`, block paint-over `miami-block.png` (borrowed Denver camera; no Miami view yet) | `docs/proposals/house-archetypes-v1/archetypes-values.json` (`archetypes[id=…]`) | **R approved – binding target** (per-type house values; daytime lighting stays house-contrast-v1) |
+| Infrastructure look: roads, bridges, rail, airports, water, utilities, parks (markings, materials, palettes, LOD tiers; street geometry is owned by street-geometry-rules-v1) | infrastructure-kit-v1 | `~/Desktop/world-engine/docs/proposals/infrastructure-kit-v1/` (97 images, 48 sheets) | `docs/proposals/infrastructure-kit-v1/infrastructure-values.json` | **R approved – binding target** (all 48 sheets, 7 Oct 2026; look only) |
 | Night and fog | night-fog-v1 | `~/Desktop/world-engine/docs/proposals/night-fog-v1/images/` | `docs/proposals/night-fog-v1/night-fog-values.json` | **R approved – binding target** |
 | **Daytime lighting master** (sky, sun, shadow tint, exposure, ground colours) and houses (contrast) | house-contrast-v1 | `~/Desktop/world-engine/docs/proposals/house-contrast-v1/images/` (`*-hero.png` = one shared afternoon; earlier `*-paintover.png` superseded) | `docs/proposals/house-contrast-v1/paintover-values.json` (`sharedLighting` block) | **R approved – binding target; DAYTIME LIGHTING MASTER** (wins over paintover-v1 and other packs on daytime lighting) |
 | Lake water and winter (ice, tree snow, old snow) | lake-winter-v1 | `~/Desktop/world-engine/docs/proposals/lake-winter-v1/` (images at the pack root) | `docs/proposals/lake-winter-v1/lake-winter-values.json` | **R approved – binding target** |
@@ -36,6 +37,34 @@ The README, values JSON and prompts are committed, so they are readable from any
 | Regional concepts (North Shore, Chicago) | regions-chicagoland-miami | `~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/` | `docs/proposals/regions-chicagoland-miami/region-catalog.json` | in use (style anchors 03, 04, 06) |
 
 Older and reference-only packs (visual-v1, weather-v1, sky-seasons-v1, engine-choice, regions-v1, regions-northshore-chicago-miami, postcards-widgets-v1): see the registry. Research (not design) is under `docs/research-gpt/`.
+
+## New packs filed 7 Oct 2026 – pending R approval
+
+Filed from the drop folder; none has a STATUS.md, so none is a binding target yet. Research packs (no images) are listed in the registry (`docs/design-registry.md`, Research).
+
+| Feature | Pack | Images (owner's checkout) | Values JSON (repo) | Status |
+|---|---|---|---|---|
+| Landmark models, Style B (Chicago, Denver, Miami) | landmarks-style-b-v1 | `~/Desktop/world-engine/docs/proposals/landmarks-style-b-v1/` (206 images) | `docs/proposals/landmarks-style-b-v1/landmarks-values.json` | pending R approval |
+| Landmark models, Style B (13 more metros) | landmarks-style-b-v2 | `~/Desktop/world-engine/docs/proposals/landmarks-style-b-v2/` (157 images) | `docs/proposals/landmarks-style-b-v2/landmarks-values.json` | pending R approval |
+| Venues, campuses and event grounds, Style B | venues-campuses-v1 | `~/Desktop/world-engine/docs/proposals/venues-campuses-v1/` (34 images) | `docs/proposals/venues-campuses-v1/venues-campus-values.json` | pending R approval |
+| District looks, Chicago and Denver | districts-chi-den-v1 | `~/Desktop/world-engine/docs/proposals/districts-chi-den-v1/` (14 images) | `docs/proposals/districts-chi-den-v1/districts-values.json` | pending R approval |
+| Metro looks, wave 2 | us-metros-wave2-v1 | `~/Desktop/world-engine/docs/proposals/us-metros-wave2-v1/` (130 images) | `docs/proposals/us-metros-wave2-v1/metro-values.json` | pending R approval |
+| Metro looks, wave 3 | us-metros-wave3-v1 | `~/Desktop/world-engine/docs/proposals/us-metros-wave3-v1/` (94 images) | `docs/proposals/us-metros-wave3-v1/metro-values.json` | pending R approval |
+| Metro onboarding, 4 metros | metro-onboarding-v1 | `~/Desktop/world-engine/docs/proposals/metro-onboarding-v1/` (4 images) | `docs/proposals/metro-onboarding-v1/block-mix-values.json` | pending R approval |
+| Japan, Style B | japan-style-b-v1 | `~/Desktop/world-engine/docs/proposals/japan-style-b-v1/` (31 images) | `docs/proposals/japan-style-b-v1/japan-values.json` | pending R approval |
+| Japan, infrastructure kit | japan-infrastructure-kit-v1 | `~/Desktop/world-engine/docs/proposals/japan-infrastructure-kit-v1/` (26 images) | `docs/proposals/japan-infrastructure-kit-v1/infrastructure-values.json` | pending R approval |
+| Japan, regional kit | japan-regional-kit-v1 | `~/Desktop/world-engine/docs/proposals/japan-regional-kit-v1/` (20 images) | `docs/proposals/japan-regional-kit-v1/regional-kit-values.json` | pending R approval |
+| Canada, Style B | canada-style-b-v1 | `~/Desktop/world-engine/docs/proposals/canada-style-b-v1/` (26 images) | `docs/proposals/canada-style-b-v1/canada-values.json` | pending R approval |
+| House archetypes: NYC, LA, Phoenix, Seattle | house-archetypes-v2 | `~/Desktop/world-engine/docs/proposals/house-archetypes-v2/` (41 images) | `docs/proposals/house-archetypes-v2/archetypes-values-v2.json` | pending R approval |
+| Foliage by season | foliage-seasons-v1 | `~/Desktop/world-engine/docs/proposals/foliage-seasons-v1/` (25 images) | `docs/proposals/foliage-seasons-v1/foliage-values.json` | pending R approval |
+| US regional landscapes | us-regional-landscapes-v1 | `~/Desktop/world-engine/docs/proposals/us-regional-landscapes-v1/` (21 images) | `docs/proposals/us-regional-landscapes-v1/landscapes-values.json` | pending R approval |
+| Weather and night moments | weather-moments-v1 | `~/Desktop/world-engine/docs/proposals/weather-moments-v1/` (8 images) | `docs/proposals/weather-moments-v1/values.json` | pending R approval |
+| Ambient life: traffic, people, wildlife, effects | ambient-life-kit-v1 | `~/Desktop/world-engine/docs/proposals/ambient-life-kit-v1/` (3 images) | `docs/proposals/ambient-life-kit-v1/ambient-life-values.json` | pending R approval |
+| Style B rule and realism levels | style-b-bible-v1 | `~/Desktop/world-engine/docs/proposals/style-b-bible-v1/` (5 images) | `docs/proposals/style-b-bible-v1/bible-values.json` | pending R approval |
+| Street-to-space zoom ladder | street-to-space-v1 | `~/Desktop/world-engine/docs/proposals/street-to-space-v1/` (17 images) | `docs/proposals/street-to-space-v1/values.json` | pending R approval |
+| Creator kit editor UX (web, v2) | creator-kit-ux-v1 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v1/` (34 images) | `docs/proposals/creator-kit-ux-v1/v2/design-tokens.json` | pending R approval |
+| Event site-map import and parts schema | event-sitemap-ai-v1 | `~/Desktop/world-engine/docs/proposals/event-sitemap-ai-v1/` (18 images) | `docs/proposals/event-sitemap-ai-v1/parametric-schema/examples/catalog.json` | pending R approval |
+| Three-city demo storyboard (90/30/15 s) | demo-storyboard-v1 | `~/Desktop/world-engine/docs/proposals/demo-storyboard-v1/` (2 images) | `docs/proposals/demo-storyboard-v1/shots.json` | pending R approval |
 
 ## Past packs – R to confirm
 

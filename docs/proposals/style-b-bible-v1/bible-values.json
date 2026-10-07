@@ -1,0 +1,258 @@
+{
+  "schema": "worldengine.style-b-bible.v1",
+  "rule": "proportions real, surfaces simplified, light soft",
+  "scene_status": "Composite art calibration, not mapped geography",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "references": [
+    "../landmarks-style-b-v1/denver-LM-DEN-STADIUM-sheet.png",
+    "../house-archetypes-v1/chicago-01-bungalow.png",
+    "../house-archetypes-v1/chicago-02-flats.png"
+  ],
+  "camera_proposal": {
+    "height_m": 1.7,
+    "lens_equivalent_mm": 35,
+    "solved_from_image": false
+  },
+  "sedan_witness_proposal": {
+    "dimensions_m": [
+      4.5,
+      1.8,
+      1.45
+    ],
+    "wheelbase_m": [
+      2.6,
+      2.8
+    ],
+    "wheel_diameter_m": [
+      0.62,
+      0.7
+    ],
+    "measurement_status": "generic art calibration, not surveyed make"
+  },
+  "people_witness": {
+    "height_m": 1.7,
+    "heads_per_body_height": [
+      7,
+      8
+    ],
+    "faces": false
+  },
+  "governs": "Default Style B ambient realism; Style C archive is separate",
+  "realism_anchor_policy": {
+    "date": "2026-10-07",
+    "authority": "User-approved realism anchor",
+    "transport_reference": "../japan-regional-kit-v1/",
+    "reference_sheets": [
+      "05-vehicles-sheet.png",
+      "06-rail-vehicles-sheet.png",
+      "08-stations-sheet.png"
+    ],
+    "applies_to": [
+      "all road vehicles",
+      "all trains",
+      "all aircraft",
+      "all boats",
+      "station infrastructure"
+    ],
+    "rule": "Match Japan regional kit proportions, smooth matte surface simplification and detail restraint; adapt real class dimensions and silhouettes to local US forms. Boats inherit the same treatment; the Japan kit contains no boat-specific sheet.",
+    "regional_adaptation": "US roads: right-hand traffic, normally left-hand driver position and passenger boarding on the curb/right side. Japan roads: left-hand traffic and appropriate local placement. Rail running direction, platforms and vessel operations follow local/source data; never infer them by mirroring road traffic.",
+    "other_anchors": [
+      "Empower Field stadium sheet",
+      "house-archetypes-v1"
+    ],
+    "preserve": "Existing ambient tiers, palettes, dimensions and density budgets remain unchanged; Japan sheet thresholds do not replace ambient thresholds.",
+    "art_status": "Existing US sheets are supporting concepts; this transport anchor takes precedence wherever their surface detail differs."
+  },
+  "owner_direction_2026_10_07": {
+    "retain": "accepted realistic vehicle/person form and rendered realism",
+    "generic_transport": true,
+    "detailed_faces": false,
+    "identity_detail": false,
+    "tiers": "unchanged",
+    "comparison": "../style-b-bible-v1/realism-levels/index.html",
+    "status": "A/B/C options do not automatically change engine target"
+  }
+}

@@ -1,0 +1,2382 @@
+{
+  "schema": "worldengine.sf-regional.v1",
+  "status": "Authored visual/engine-target proposals with separately cited published witnesses; no survey or GPU benchmark",
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "surfacePolicy": {
+    "wallRoughness01": 0.86,
+    "trimRoughness01": 0.8,
+    "roofRoughness01": 0.9,
+    "glassRoughness01": 0.5,
+    "glassMetalness01": 0,
+    "glassTransmission01": 0,
+    "asphaltRoughness01": 0.92,
+    "sidewalkRoughness01": 0.9,
+    "foliageRoughness01": 0.9,
+    "waterRoughness01": 0.28,
+    "waterReflectionStrength01": 0.3,
+    "noPhotoTextures": true,
+    "selectiveBevelM": [
+      0.008,
+      0.025
+    ],
+    "additionalGlobalPasses": 0
+  },
+  "views": {
+    "street": {
+      "cameraHeightM": 1.65,
+      "targetDistanceM": 20
+    },
+    "aerial": {
+      "pitchDownDeg": 55,
+      "heightM": 65
+    },
+    "far": {
+      "distanceM": 100
+    },
+    "note": "District overrides listed per sheet. Review camera proposals, not reconstructed survey."
+  },
+  "mapPolicy": "Positions and sightlines come from the map. Observed geometry/material/species override every fallback; missing data stays explicit. Artwork does not certify actual adjacency.",
+  "metro": {
+    "id": "sf",
+    "name": "San Francisco Bay Area",
+    "archetypes": [
+      {
+        "id": "sf-house-01",
+        "name": "Painted Lady Victorian",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-01.png",
+        "sheetFile": "sf-house-01.html",
+        "sheetPngFile": "sf-house-01-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 6.4,
+          "footprintDepthM": 15,
+          "fullFloors": 2,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.9,
+          "eaveHeightM": 7.0,
+          "roofRiseM": 2.88,
+          "totalHeightM": 9.88,
+          "porchDepthM": 2.7,
+          "setbackM": 0.8,
+          "lotFrontageM": 6.4,
+          "stairRiserCount": 6,
+          "stairRiserM": 0.15,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#A5B6AE",
+            "trimHex": "#E4D2B3",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#A5B6AE",
+                "linearRGB": [
+                  0.376262,
+                  0.467784,
+                  0.423268
+                ],
+                "linearLuminance": 0.445112,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#E4D2B3",
+                "linearRGB": [
+                  0.775822,
+                  0.64448,
+                  0.450786
+                ],
+                "linearLuminance": 0.658418,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 8,
+          "gradeDegrees": 4.5739,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              1.6
+            ],
+            [
+              50,
+              4.0
+            ],
+            [
+              100,
+              8
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Narrow Victorian/Queen Anne house with two full living floors above raised basement, tall projecting bay, asymmetrical steep front gable, three restrained complementary paint colours. Selective broad cornice/bracket masses, not lace ornament. Not a literal copy of the famous row.",
+        "roof": {
+          "form": "steep gable plus bay",
+          "construction": "steep gable plus bay",
+          "representativePitchDeg": 42,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      },
+      {
+        "id": "sf-house-02",
+        "name": "Edwardian flats",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-02.png",
+        "sheetFile": "sf-house-02.html",
+        "sheetPngFile": "sf-house-02-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 7.6,
+          "footprintDepthM": 18,
+          "fullFloors": 3,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.65,
+          "eaveHeightM": 9.8,
+          "roofRiseM": 0.35,
+          "totalHeightM": 10.15,
+          "porchDepthM": 0.9,
+          "setbackM": 0.8,
+          "lotFrontageM": 7.6,
+          "stairRiserCount": 4,
+          "stairRiserM": 0.1625,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#C2BBA5",
+            "trimHex": "#DAD3C2",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C2BBA5",
+                "linearRGB": [
+                  0.539479,
+                  0.496933,
+                  0.376262
+                ],
+                "linearLuminance": 0.497266,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DAD3C2",
+                "linearRGB": [
+                  0.701102,
+                  0.651406,
+                  0.539479
+                ],
+                "linearLuminance": 0.65389,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 10,
+          "gradeDegrees": 5.7106,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              2.0
+            ],
+            [
+              50,
+              5.0
+            ],
+            [
+              100,
+              10
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Three full flat floors, stacked shallow rounded/squared bay rhythm and paired flat entries, restrained broad cornice. A narrow attached urban apartment frontage; no turret or gingerbread.",
+        "roof": {
+          "form": "low roof behind cornice",
+          "construction": "low roof behind cornice",
+          "representativePitchDeg": 2,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      },
+      {
+        "id": "sf-house-03",
+        "name": "Marina-style stucco over garage",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-03.png",
+        "sheetFile": "sf-house-03.html",
+        "sheetPngFile": "sf-house-03-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 7.5,
+          "footprintDepthM": 17,
+          "fullFloors": 3,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.25,
+          "eaveHeightM": 9.4,
+          "roofRiseM": 0.35,
+          "totalHeightM": 9.75,
+          "porchDepthM": 0.8,
+          "setbackM": 0.3,
+          "lotFrontageM": 7.5,
+          "stairRiserCount": 2,
+          "stairRiserM": 0.125,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#D8C9AD",
+            "trimHex": "#E2D7BF",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#D8C9AD",
+                "linearRGB": [
+                  0.686685,
+                  0.584078,
+                  0.417885
+                ],
+                "linearLuminance": 0.593893,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#E2D7BF",
+                "linearRGB": [
+                  0.760525,
+                  0.679542,
+                  0.520996
+                ],
+                "linearLuminance": 0.685312,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 1,
+          "gradeDegrees": 0.5729,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.2
+            ],
+            [
+              50,
+              0.5
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Garage level plus two living floors, smooth warm cream stucco, broad bay window group, restrained curving parapet/arched entry, tiny warm terracotta roof-cap cue. Physically level Marina street; do not place every SF family on steep hill.",
+        "roof": {
+          "form": "flat parapet with shallow tile cap",
+          "construction": "flat parapet with shallow tile cap",
+          "representativePitchDeg": 2,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      },
+      {
+        "id": "sf-house-04",
+        "name": "Sunset District row house",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-04.png",
+        "sheetFile": "sf-house-04.html",
+        "sheetPngFile": "sf-house-04-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 7.6,
+          "footprintDepthM": 16,
+          "fullFloors": 2,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.2,
+          "eaveHeightM": 6.3,
+          "roofRiseM": 0.35,
+          "totalHeightM": 6.65,
+          "porchDepthM": 0.7,
+          "setbackM": 0.3,
+          "lotFrontageM": 7.6,
+          "stairRiserCount": 2,
+          "stairRiserM": 0.1,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#C8B8A4",
+            "trimHex": "#DFD4C0",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C8B8A4",
+                "linearRGB": [
+                  0.57758,
+                  0.47932,
+                  0.371238
+                ],
+                "linearLuminance": 0.492407,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DFD4C0",
+                "linearRGB": [
+                  0.73791,
+                  0.658375,
+                  0.527115
+                ],
+                "linearLuminance": 0.665807,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 5,
+          "gradeDegrees": 2.8624,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              1.0
+            ],
+            [
+              50,
+              2.5
+            ],
+            [
+              100,
+              5
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Postwar attached stucco house, garage and entry at lower floor, ONE main living floor above, broad horizontal front window, simple flat/low-pitch roof, near-zero front setback. Continuous row stepping with slope, very little lawn.",
+        "roof": {
+          "form": "low roof behind simple parapet",
+          "construction": "low roof behind simple parapet",
+          "representativePitchDeg": 2,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      },
+      {
+        "id": "sf-house-05",
+        "name": "Oakland Craftsman",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-05.png",
+        "sheetFile": "sf-house-05.html",
+        "sheetPngFile": "sf-house-05-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 10.5,
+          "footprintDepthM": 13,
+          "fullFloors": 1,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.65,
+          "eaveHeightM": 3.7,
+          "roofRiseM": 2.45,
+          "totalHeightM": 6.15,
+          "porchDepthM": 2.6,
+          "setbackM": 4,
+          "lotFrontageM": 16,
+          "stairRiserCount": 4,
+          "stairRiserM": 0.1625,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#879D88",
+            "trimHex": "#DACBB1",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#879D88",
+                "linearRGB": [
+                  0.242281,
+                  0.337164,
+                  0.246201
+                ],
+                "linearLuminance": 0.310424,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DACBB1",
+                "linearRGB": [
+                  0.701102,
+                  0.597202,
+                  0.439657
+                ],
+                "linearLuminance": 0.607916,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 3,
+          "gradeDegrees": 1.7184,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.6
+            ],
+            [
+              50,
+              1.5
+            ],
+            [
+              100,
+              3
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Oakland detached wood-frame Craftsman with broad real usable porch, low front gable, slender/tapered supports on masonry piers, garden beds and a real yard. Oakland form distinct from San Francisco attached bay-front houses.",
+        "roof": {
+          "form": "front gable and broad eaves",
+          "construction": "front gable and broad eaves",
+          "representativePitchDeg": 25,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      },
+      {
+        "id": "sf-house-06",
+        "name": "Modern Bay Area mid-rise",
+        "kind": "archetype",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-house-06.png",
+        "sheetFile": "sf-house-06.html",
+        "sheetPngFile": "sf-house-06-sheet.png",
+        "dimensionsProposal": {
+          "footprintWidthM": 22,
+          "footprintDepthM": 30,
+          "fullFloors": 6,
+          "floorToFloorM": 3.05,
+          "foundationAboveGradeM": 0.15,
+          "eaveHeightM": 18.45,
+          "roofRiseM": 0.35,
+          "totalHeightM": 18.8,
+          "porchDepthM": 1.0,
+          "setbackM": 0.3,
+          "lotFrontageM": 22,
+          "stairRiserCount": 1,
+          "stairRiserM": 0.15,
+          "stairTreadM": 0.28,
+          "primaryEdgeBevelM": 0.025,
+          "trimEdgeBevelM": 0.008
+        },
+        "palette": [
+          {
+            "wallHex": "#B9BBAF",
+            "trimHex": "#D9D5C7",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#B9BBAF",
+                "linearRGB": [
+                  0.48515,
+                  0.496933,
+                  0.42869
+                ],
+                "linearLuminance": 0.489501,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#D9D5C7",
+                "linearRGB": [
+                  0.693872,
+                  0.665387,
+                  0.571125
+                ],
+                "linearLuminance": 0.664637,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 2,
+          "gradeDegrees": 1.1458,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.4
+            ],
+            [
+              50,
+              1.0
+            ],
+            [
+              100,
+              2
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Six-storey contemporary apartment mid-rise, real repetitive window rhythm, recessed balconies in a few broad grouped voids, muted off-white stucco/metal-like matte planes, active ground-floor entrances. No mirrored glass curtain wall.",
+        "roof": {
+          "form": "flat roof and restrained parapet",
+          "construction": "flat roof and restrained parapet",
+          "representativePitchDeg": 2,
+          "riseRule": "Pitched envelope uses half-width \u00d7 tan(pitch); parapet0.35m. Authored envelope; real mapped geometry overrides."
+        }
+      }
+    ],
+    "districts": [
+      {
+        "id": "sf-district-01",
+        "name": "Pacific Heights / Alamo Square slope families",
+        "kind": "district",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-district-01.png",
+        "sheetFile": "sf-district-01.html",
+        "sheetPngFile": "sf-district-01-sheet.png",
+        "dimensionsProposal": {
+          "typicalHeroBuildingHeightM": 9,
+          "laneWidthM": 3.1,
+          "sidewalkWidthM": 2.4,
+          "cameraStreetHeightM": 1.65,
+          "cameraAerialHeightM": 80,
+          "farViewDistanceM": 100
+        },
+        "palette": [
+          {
+            "wallHex": "#A5B6AE",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#A5B6AE",
+                "linearRGB": [
+                  0.376262,
+                  0.467784,
+                  0.423268
+                ],
+                "linearLuminance": 0.445112,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 12,
+          "gradeDegrees": 6.8428,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              2.4
+            ],
+            [
+              50,
+              6.0
+            ],
+            [
+              100,
+              12
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Two separate district character examples, NOT the same intersection. Victorian and Edwardian bay-front rows, clearly sloping street and level floor bands stepping uphill, small planted frontage. Pacific Heights and Alamo Square are separately named areas; show one plausible Alamo Square-like block in three views, no invented common landmark vista."
+      },
+      {
+        "id": "sf-district-02",
+        "name": "Mission mixed blocks",
+        "kind": "district",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-district-02.png",
+        "sheetFile": "sf-district-02.html",
+        "sheetPngFile": "sf-district-02-sheet.png",
+        "dimensionsProposal": {
+          "typicalHeroBuildingHeightM": 10,
+          "laneWidthM": 3.1,
+          "sidewalkWidthM": 2.4,
+          "cameraStreetHeightM": 1.65,
+          "cameraAerialHeightM": 80,
+          "farViewDistanceM": 100
+        },
+        "palette": [
+          {
+            "wallHex": "#C4B399",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C4B399",
+                "linearRGB": [
+                  0.552011,
+                  0.450786,
+                  0.318547
+                ],
+                "linearLuminance": 0.462759,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 2,
+          "gradeDegrees": 1.1458,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.4
+            ],
+            [
+              50,
+              1.0
+            ],
+            [
+              100,
+              2
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Fine-grained attached two/three-storey Edwardian flats mixed with low plain commercial fronts and garage openings; relatively level wider urban grid, selective street trees and restrained stucco colours. Blank storefronts, no murals, real signs, brands or festival dressing."
+      },
+      {
+        "id": "sf-district-03",
+        "name": "SoMa / downtown tower fabric",
+        "kind": "district",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-district-03.png",
+        "sheetFile": "sf-district-03.html",
+        "sheetPngFile": "sf-district-03-sheet.png",
+        "dimensionsProposal": {
+          "typicalHeroBuildingHeightM": 70,
+          "laneWidthM": 3.1,
+          "sidewalkWidthM": 2.4,
+          "cameraStreetHeightM": 1.65,
+          "cameraAerialHeightM": 80,
+          "farViewDistanceM": 100
+        },
+        "palette": [
+          {
+            "wallHex": "#B6B8B2",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#B6B8B2",
+                "linearRGB": [
+                  0.467784,
+                  0.47932,
+                  0.445201
+                ],
+                "linearLuminance": 0.474404,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 1,
+          "gradeDegrees": 0.5729,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.2
+            ],
+            [
+              50,
+              0.5
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Broader streets and lower brick warehouse blocks beneath genuinely tall contemporary tower masses, mixed office/residential canyon, limited street trees. Matte flat glazing; stepped heights and real structural proportions. No transplanted NYC/Chicago tower silhouette."
+      },
+      {
+        "id": "sf-district-04",
+        "name": "Embarcadero waterfront",
+        "kind": "district",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-district-04.png",
+        "sheetFile": "sf-district-04.html",
+        "sheetPngFile": "sf-district-04-sheet.png",
+        "dimensionsProposal": {
+          "typicalHeroBuildingHeightM": 16,
+          "laneWidthM": 3.1,
+          "sidewalkWidthM": 4,
+          "cameraStreetHeightM": 1.65,
+          "cameraAerialHeightM": 80,
+          "farViewDistanceM": 100
+        },
+        "palette": [
+          {
+            "wallHex": "#C5BDAA",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C5BDAA",
+                "linearRGB": [
+                  0.55834,
+                  0.508881,
+                  0.401978
+                ],
+                "linearLuminance": 0.511678,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 0.5,
+          "gradeDegrees": 0.2865,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.1
+            ],
+            [
+              50,
+              0.25
+            ],
+            [
+              100,
+              0.5
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Broad low-gradient waterfront boulevard and promenade, plain pier/warehouse structures, calm broad bay water, rail corridor with generic unbranded single-car electric streetcar and actual-style overhead power wires. Downtown taller masses inland. Bay Bridge only as distant generic silhouette to geographically plausible southeast viewpoint; Golden Gate NOT inserted in same vista."
+      }
+    ],
+    "supplementalBoards": [
+      {
+        "id": "sf-steep-geometry",
+        "name": "Steep-street geometry / 21% witness",
+        "kind": "infrastructure",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-steep-geometry.png",
+        "sheetFile": "sf-steep-geometry.html",
+        "sheetPngFile": "sf-steep-geometry-sheet.png",
+        "dimensionsProposal": {
+          "gradePercent": 21,
+          "gradeDegrees": 11.8598,
+          "risePer100mM": 21,
+          "laneWidthM": 3.1,
+          "curbHeightM": 0.15,
+          "cableTrackGaugeMProposal": 1.067
+        },
+        "palette": [
+          {
+            "wallHex": "#BDB9A8",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#BDB9A8",
+                "linearRGB": [
+                  0.508881,
+                  0.48515,
+                  0.391572
+                ],
+                "linearLuminance": 0.483439,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Mapped hill profile and vertical building silhouette."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Stepped foundations, level floors and road / curb grades."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Real equal-riser stairs and cable-car track grade; no tilt of whole houses."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 21,
+          "gradeDegrees": 11.8598,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              4.2
+            ],
+            [
+              50,
+              10.5
+            ],
+            [
+              100,
+              21
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Use a generic San Francisco Hyde-route-like steep block with21PERCENT longitudinal grade: 21m rise per100m run, angle11.86degrees, level-floor buildings step uphill, road and curb follow terrain, intersections resolve with smooth vertical crest transitions. Generic cable car on rails and central cable slot, no overhead trolley wire. Do NOT apply21% to all SF streets."
+      },
+      {
+        "id": "sf-cable-car",
+        "name": "Generic cable car",
+        "kind": "infrastructure",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-cable-car.png",
+        "sheetFile": "sf-cable-car.html",
+        "sheetPngFile": "sf-cable-car-sheet.png",
+        "dimensionsProposal": {
+          "lengthM": 8.8,
+          "widthM": 2.4,
+          "heightM": 3.4,
+          "trackGaugeMProposal": 1.067
+        },
+        "palette": [
+          {
+            "wallHex": "#BDB9A8",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#BDB9A8",
+                "linearRGB": [
+                  0.508881,
+                  0.48515,
+                  0.391572
+                ],
+                "linearLuminance": 0.483439,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Correct-scale vehicle silhouette and track alignment."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Open-end / enclosed grip-cab massing; underground cable route."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Simple roof, end platforms and grip slot; no trolley wire."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 1,
+          "gradeDegrees": 0.5729,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.2
+            ],
+            [
+              50,
+              0.5
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Real proportion single cable car8.8m long2.4m wide3.4m high, partly open seating ends and central enclosed grip cabin, low bogies, darkwood/cream generic finish, empty seats. Track center underground cable slot and narrow gauge rail. NO overhead pole, pantograph, motorized bus shape, official livery, fleet numbers or logos."
+      },
+      {
+        "id": "sf-streetcar",
+        "name": "Generic electric streetcar",
+        "kind": "infrastructure",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-streetcar.png",
+        "sheetFile": "sf-streetcar.html",
+        "sheetPngFile": "sf-streetcar-sheet.png",
+        "dimensionsProposal": {
+          "lengthM": 14.3,
+          "widthM": 2.55,
+          "heightM": 3.4,
+          "trackGaugeMProposal": 1.435
+        },
+        "palette": [
+          {
+            "wallHex": "#BDB9A8",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#BDB9A8",
+                "linearRGB": [
+                  0.508881,
+                  0.48515,
+                  0.391572
+                ],
+                "linearLuminance": 0.483439,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Correct-scale enclosed rail vehicle silhouette."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Body / window band, mapped tracks and overhead power system."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Trolley pole and simple wire only when above2px; no cable slot."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 1,
+          "gradeDegrees": 0.5729,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.2
+            ],
+            [
+              50,
+              0.5
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Real proportion single electric streetcar14.3m long2.55m wide3.4m high, gently rounded rectangular steel body, regular window rhythm, two real bogies, overhead trolley pole and wire, no cable slot, matte cream/gray-green generic palette. No official livery, fleet numbers or branding; empty vehicle."
+      },
+      {
+        "id": "sf-marine-layer",
+        "name": "Overhead marine layer / low stratus",
+        "kind": "weather",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-marine-layer.png",
+        "sheetFile": "sf-marine-layer.html",
+        "sheetPngFile": "sf-marine-layer-sheet.png",
+        "dimensionsProposal": {
+          "cloudBaseMSLM": 120,
+          "cloudTopMSLM": 350,
+          "streetElevationMSLM": 20,
+          "contrastVisibilityM": 2000
+        },
+        "palette": [
+          {
+            "wallHex": "#C1CACD",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C1CACD",
+                "linearRGB": [
+                  0.533276,
+                  0.590619,
+                  0.610496
+                ],
+                "linearLuminance": 0.579863,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Broad overcast sky and depth contrast; maintain map silhouettes."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Consistent layer height and path-length attenuation across cameras."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Soft cloud ceiling and restrained diffuse shading; no surface microdetail."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 2,
+          "gradeDegrees": 1.1458,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.4
+            ],
+            [
+              50,
+              1.0
+            ],
+            [
+              100,
+              2
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Same Mission-like streetblock under a continuous soft low-stratus cloud deck, cool diffuse sky fill, directSunRelativeClear0.25, exposure+0.15EV REPLACES clear+0.35EV; clear local foreground air and2km illustrative horizontal visibility. Cloud base120m above sea level and top350m MSL, NOT a ground-hugging smoke blanket. Street z=20m MSL remains below cloud with reduced sun; aerial80m above street also below cloud. Hills can meet cloud in far view; do not hide everynear house."
+      },
+      {
+        "id": "sf-surface-fog",
+        "name": "Marine fog reaching the street",
+        "kind": "weather",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-surface-fog.png",
+        "sheetFile": "sf-surface-fog.html",
+        "sheetPngFile": "sf-surface-fog-sheet.png",
+        "dimensionsProposal": {
+          "cloudBaseMSLM": 0,
+          "cloudTopMSLM": 200,
+          "streetElevationMSLM": 20,
+          "contrastVisibilityM": 220
+        },
+        "palette": [
+          {
+            "wallHex": "#C1CACD",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#C1CACD",
+                "linearRGB": [
+                  0.533276,
+                  0.590619,
+                  0.610496
+                ],
+                "linearLuminance": 0.579863,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Readable nearby ground and fading far silhouettes."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Terrain-intersecting fog and weather-consistent street / aerial depth."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "One physical extinction pass, soft lighting; no extra saturation fade."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 2,
+          "gradeDegrees": 1.1458,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.4
+            ],
+            [
+              50,
+              1.0
+            ],
+            [
+              100,
+              2
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Same coastal SF block in a cool neutral sea fog bank that intersects street/shore, near5m clear, illustrative contrast visibility220m and extinction0.01393363848164647 per m; broad fog-color#C1CACD, directSunRelativeClear0.15, exposure+0.15EV replacesclear+0.35EV. Foreground geometry legible; progressively pale and softened distant buildings, aerial same physical foglayer200m MSL top, not arbitrarilyclear aerial. No warm shafts, purple tint, smoke wisps, glowing outlines or sunrise changes. Marine fog depth is not2.5m ground fog."
+      },
+      {
+        "id": "sf-bridge-silhouettes",
+        "name": "Bridge far silhouettes / separate sightlines",
+        "kind": "landmarks",
+        "metro": "San Francisco Bay Area",
+        "imageFile": "sf-bridge-silhouettes.png",
+        "sheetFile": "sf-bridge-silhouettes.html",
+        "sheetPngFile": "sf-bridge-silhouettes-sheet.png",
+        "dimensionsProposal": {
+          "goldenGateMainSpanM": 1280,
+          "goldenGateTowerHeightAboveWaterM": 227,
+          "genericVisibilityRangeM": 3000,
+          "bayBridgeWestEachMainSpanM": 704.088,
+          "bayBridgeEastPylonHeightM": 160.02,
+          "bayBridgeWestSuspensionTowerCount": 4,
+          "bayBridgeWestDeckLevels": 2,
+          "bayBridgeEastPrimaryPylonCount": 1,
+          "bayBridgeEastDeckLevels": 1
+        },
+        "palette": [
+          {
+            "wallHex": "#A55F48",
+            "trimHex": "#DDD3BD",
+            "roofHex": "#62625D",
+            "glassHex": "#425A68",
+            "surfaceValues": {
+              "wall": {
+                "hex": "#A55F48",
+                "linearRGB": [
+                  0.376262,
+                  0.114435,
+                  0.064803
+                ],
+                "linearLuminance": 0.166516,
+                "roughness01": 0.86
+              },
+              "trim": {
+                "hex": "#DDD3BD",
+                "linearRGB": [
+                  0.723055,
+                  0.651406,
+                  0.508881
+                ],
+                "linearLuminance": 0.656348,
+                "roughness01": 0.8
+              },
+              "roof": {
+                "hex": "#62625D",
+                "linearRGB": [
+                  0.122139,
+                  0.122139,
+                  0.109462
+                ],
+                "linearLuminance": 0.121223,
+                "roughness01": 0.9
+              },
+              "glass": {
+                "hex": "#425A68",
+                "linearRGB": [
+                  0.05448,
+                  0.102242,
+                  0.138432
+                ],
+                "linearLuminance": 0.094701,
+                "roughness01": 0.5
+              }
+            }
+          }
+        ],
+        "mustBeExact": [
+          "Positions and sightlines come from the map.",
+          "Mapped footprint, height, grade, real floor count and usable access geometry."
+        ],
+        "canSimplify": [
+          "Broad matte colour planes and selected silhouette details; no microtexture.",
+          "Details below2 drawable pixels disappear, never grow to fake scale."
+        ],
+        "detailTiers": [
+          {
+            "projectedObjectHeightPx": "<6",
+            "keep": "Tower / deck silhouette; mapped bearing and atmospheric contrast."
+          },
+          {
+            "projectedObjectHeightPx": "6\u201320",
+            "keep": "Main cable envelope and separate western/eastern span types."
+          },
+          {
+            "projectedObjectHeightPx": ">20",
+            "keep": "Portal or single-pylon shape and broad deck layering; sub2px hangers drop."
+          }
+        ],
+        "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+        "terrain": {
+          "gradePercentProposal": 0,
+          "gradeDegrees": 0.0,
+          "profileLocalM": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              0.0
+            ],
+            [
+              50,
+              0.0
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+        },
+        "signatureElements": "Three separate geographically isolated far-view studies: Golden Gate suspension silhouette; Bay Bridge western double-deck suspension silhouette; Bay Bridge eastern single-pylon asymmetric span silhouette.",
+        "dimensionEvidence": {
+          "westSpan": "2310ft each of two main spans; bridge builder source",
+          "eastPylon": "525ft; MTC construction account",
+          "sources": [
+            "https://americanbridge.net/san-francisco-oakland-bay-bridge/",
+            "https://mtc.ca.gov/news/bay-bridge-uses-google-earth-showcase-iconic-east-span-construction-process"
+          ],
+          "otherDimensions": "Mapped model inputs; no invented survey dimensions."
+        }
+      }
+    ],
+    "blockPaintover": {
+      "id": "sf-block",
+      "name": "SF sloping residential block paint-over",
+      "kind": "paintover",
+      "metro": "San Francisco Bay Area",
+      "imageFile": "sf-block.png",
+      "sheetFile": "sf-block.html",
+      "sheetPngFile": "sf-block-sheet.png",
+      "dimensionsProposal": {
+        "cameraHeightM": 1.65,
+        "laneWidthM": 3.1,
+        "sidewalkWidthM": 2.4,
+        "gradePercentProposal": 12
+      },
+      "palette": [
+        {
+          "wallHex": "#A5B6AE",
+          "trimHex": "#DDD3BD",
+          "roofHex": "#62625D",
+          "glassHex": "#425A68",
+          "surfaceValues": {
+            "wall": {
+              "hex": "#A5B6AE",
+              "linearRGB": [
+                0.376262,
+                0.467784,
+                0.423268
+              ],
+              "linearLuminance": 0.445112,
+              "roughness01": 0.86
+            },
+            "trim": {
+              "hex": "#DDD3BD",
+              "linearRGB": [
+                0.723055,
+                0.651406,
+                0.508881
+              ],
+              "linearLuminance": 0.656348,
+              "roughness01": 0.8
+            },
+            "roof": {
+              "hex": "#62625D",
+              "linearRGB": [
+                0.122139,
+                0.122139,
+                0.109462
+              ],
+              "linearLuminance": 0.121223,
+              "roughness01": 0.9
+            },
+            "glass": {
+              "hex": "#425A68",
+              "linearRGB": [
+                0.05448,
+                0.102242,
+                0.138432
+              ],
+              "linearLuminance": 0.094701,
+              "roughness01": 0.5
+            }
+          }
+        }
+      ],
+      "mustBeExact": [
+        "Positions and sightlines come from the map.",
+        "Mapped footprint, height, grade, real floor count and usable access geometry."
+      ],
+      "canSimplify": [
+        "Broad matte colour planes and selected silhouette details; no microtexture.",
+        "Details below2 drawable pixels disappear, never grow to fake scale."
+      ],
+      "detailTiers": [
+        {
+          "projectedObjectHeightPx": "<6",
+          "keep": "Roof and volume silhouette; wall/roof contrast; continuous row rhythm."
+        },
+        {
+          "projectedObjectHeightPx": "6\u201320",
+          "keep": "Porch/bay/entry shadow, foundation separation and primary openings."
+        },
+        {
+          "projectedObjectHeightPx": ">20",
+          "keep": "Broad trim, real stairs, window rhythm and supported dormers; features below2px drop."
+        }
+      ],
+      "evidenceStatus": "Authored dimensional/palette/camera proposals; scope-limited typology evidence. Not a surveyed scene.",
+      "terrain": {
+        "gradePercentProposal": 12,
+        "gradeDegrees": 6.8428,
+        "profileLocalM": [
+          [
+            0,
+            0
+          ],
+          [
+            20,
+            2.4
+          ],
+          [
+            50,
+            6.0
+          ],
+          [
+            100,
+            12
+          ]
+        ],
+        "production": "Replace illustrative profile with mapped/surveyed DEM samples; keep floors level, walls vertical, road/curbs conform, foundation/stairs step."
+      },
+      "signatureElements": "Sloped street with level-floor Victorian / Edwardian rows; stepped entries and compact frontage",
+      "sourceImagePath": "~/Desktop/world-engine/.claude/worktrees/p3-lookloop/.build/lookloop/runs/20261007-062707/raw/lakeview-postcard.png",
+      "sourceStatus": "Existing WorldEngine camera composition framework, not a captured SF block; terrain and architecture adapted."
+    },
+    "streetCharacter": {
+      "note": "Stepped lot foundations and entries on hills; narrow attached frontages and bay-window rhythm. Concrete sidewalks, small tree pits, selective planted front gardens. Oakland Craftsman has distinct detached yard/porch grain. Coastal exposure and mapped species govern trees; no palm default. Utilities and rail/cable routes from mapped geometry only.",
+      "trees": [
+        "London plane (candidate)",
+        "Brisbane box (candidate)",
+        "coast live oak (candidate Oakland/yard)"
+      ],
+      "treeEvidence": "Illustrative candidates; no citywide abundance claim.",
+      "sidewalkWidthMProposal": 2.4,
+      "curbHeightMProposal": 0.15,
+      "sidewalkHex": "#BCB9AF",
+      "overheadWires": "Actual mapped overhead electric streetcar wires only; cable cars use underground cable and no trolley wire."
+    },
+    "weatherStates": [
+      {
+        "id": "clear",
+        "source": "sharedLighting unchanged"
+      },
+      {
+        "id": "marine-layer",
+        "cloudBaseMSLMProposal": 120,
+        "cloudTopMSLMProposal": 350,
+        "streetElevationMSLMProposal": 20,
+        "cloudCoverage01": 0.95,
+        "horizontalContrastVisibilityMProposal": 2000,
+        "nearClearM": 5,
+        "extinctionPerM": 0.0015016201872451083,
+        "fogHex": "#C1CACD",
+        "directSunRelativeClear": 0.25,
+        "exposureRelativeEV": 0.15,
+        "status": "Authored review scenario; cloud observations/model layers replace heights and attenuation."
+      },
+      {
+        "id": "surface-fog",
+        "cloudBaseMSLMProposal": 0,
+        "cloudTopMSLMProposal": 200,
+        "streetElevationMSLMProposal": 20,
+        "horizontalContrastVisibilityMProposal": 220,
+        "nearClearM": 5,
+        "extinctionPerM": 0.01393363848164647,
+        "fogHex": "#C1CACD",
+        "directSunRelativeClear": 0.15,
+        "exposureRelativeEV": 0.15,
+        "status": "Authored marine-layer extension; no shallow ground-fog substitution."
+      }
+    ],
+    "slopeWitness": {
+      "gradePercent": 21,
+      "gradeDegrees": 11.8598,
+      "locationScope": "Hyde between Bay and Francisco, historic SFMTA route specification; not Alamo Square or Pacific Heights survey",
+      "source": "https://archives.sfmta.com/cms/rhomemu/genmuinfo.htm",
+      "profileLocalM": [
+        [
+          0,
+          0
+        ],
+        [
+          20,
+          4.2
+        ],
+        [
+          50,
+          10.5
+        ],
+        [
+          100,
+          21
+        ]
+      ],
+      "status": "Published historic grade witness; contemporary block profile and exact elevation datum require mapped/surveyed data."
+    },
+    "sourceUrls": [
+      "https://sfplanning.org/project/sf-histories-historic-context-statements",
+      "https://sfplanning.org/es/node/432",
+      "https://sfplanning.s3.amazonaws.com/commissions/hpcpackets/2013.1334U.pdf",
+      "https://commissions.sfplanning.org/cpcpackets/2019-014071DRP.pdf",
+      "https://sfplanning.org/fil/node/1544",
+      "https://generalplan.sfplanning.org/NE_Waterfront.htm",
+      "https://www.sfmta.com/getting-around/muni/historic-streetcars",
+      "https://archives.sfmta.com/cms/rhomemu/genmuinfo.htm",
+      "https://www.weather.gov/media/sgx/marine/BoatersWeatherBooklet.pdf",
+      "https://www.goldengate.org/bridge/history-research/statistics-data/design-construction-stats/"
+    ]
+  },
+  "fogReference": {
+    "model": "exponential contrast fade",
+    "nearClearM": 5,
+    "contrastThreshold": 0.05,
+    "formula": "sigma=ln(20)/(V-5); tau=sigma*max(0,d-5); T=exp(-tau); Cout=T*Csurface+(1-T)*Cfog",
+    "VMeaning": "Distance at which an ideal high-contrast object retains5% of its original contrast in this authored homogeneous model. Not a meteorological definition, fog end, guaranteed human seeing distance, or device depth precision.",
+    "ordering": "Surface lighting/contact/wetness -> one fog application in linear light -> shared exposure/grade/tone map. Apply no independent distance saturation/contrast fade or blur.",
+    "liveVisibility": "When valid weather visibility exists, use it as V. For V<=5m set nearClearM=min(5,0.1V) and sigma=ln(20)/max(0.01,V-nearClearM); valid visibility must be positive. Preserve raw observation separately; do not clamp densefog to60m. Reporting-limited high values remain lower bounds. Missing visibility plus explicitfog may use authoredmoderate220m fallback flaggedassumed; morning alone never selectsfog.",
+    "infiniteRay": "Sky uses path through supplied layer to exit, not infinite distance blindly; cap optical depth at12 before exponent.",
+    "weatherCompatibility": "Proposes replacing the weather-v1 stylized25/220 street and100/600 aerial fog start/end pair with one extinction policy. Do not multiply or apply both. Changes near-clear band to5m from legacy10m floor. Legacy adapter may keep existing fallback but cannot claim exact exponential parity.",
+    "modeConsistency": "Same environmental sigma/colour/layer across modes. Aerial rays above/shallowly through layer differ by physical path length, never arbitrary camera-specific larger visibility.",
+    "transition": {
+      "fogSeconds": 20,
+      "lightSeconds": 12,
+      "method": "smoothstep from frozen displayed endpoints; blend optical depth/sigma and linear colours once; retarget from current state"
+    },
+    "layers": {
+      "tier": "bounded analytic optional extension",
+      "baseReference": "supplied ground/lake surface elevation; all demo heights assumptions",
+      "profile": "w(h)=1 for0<=h<=H-taper; linear decrease to0 across upper taper;0 aboveH. Belowground ignored. tau=sigma*integral w(h(s))ds over ray from nearClearM onward; T=exp(-tau). Linear height along ray allows exact piecewise polynomial integration, no raymarch. Scene horizontal domain supplied; clip layer to domain, not camera.",
+      "domain": "Baseline broad horizontal layer for flat testregion. Maximumone layer/domain; use existing loaded extent with boundaries beyondview, no hard visible box. Local lake-only density requires supplied domain and smooth boundary extinction; if unavailable use uniformlayer and flag it. Do not infer local densefog from OSMwater alone.",
+      "skyAndWater": "Use same integrated extinction for terrain/water/buildings/sky-to-layerexit. Aerial roofs/crowns abovetop are not whitened by opaque fog sheet. Water can receive stronger apparentveil through long shallow rays, not independent whiteoverlay.",
+      "terrainLimitation": "A single horizontal analytic layer is appropriate only to flat supplied testregions. Hilly terrain needs validated regional layers or uniformdistance fallback; no per-fragment terrain-following density solve required.",
+      "noFogCards": true,
+      "no3DNoise": true,
+      "noRaymarch": true
+    }
+  },
+  "weatherOrdering": "State lighting/exposure replaces clear fixture; surface shading => one integrated fog optical depth in linear light => shared exposure/tone-map. Never stack additional distance fades. Overhead stratus is not shallow street fog."
+}

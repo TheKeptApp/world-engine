@@ -1,0 +1,628 @@
+{
+  "schema": "worldengine.land-cover-seasonal.v1",
+  "status": "Authored sRGB art swatches, not sampled satellite pixels or observed phenology",
+  "inheritedBaseDay": {
+    "grass": "#73865B",
+    "forest": "#49664C",
+    "cropland": "#9C9E68",
+    "dry_plains": "#B49A60",
+    "bare_rock": "#A49781",
+    "urban": "#99988D",
+    "snow_ice": "#E6E9E3",
+    "wetland": "#668278"
+  },
+  "inheritedWater": {
+    "lake": "#477E99",
+    "ocean": "#285F80"
+  },
+  "inheritedNight": {
+    "grass": "#4D6048",
+    "forest": "#304A40",
+    "cropland": "#646B4D",
+    "dry_plains": "#756F53",
+    "bare_rock": "#626664",
+    "urban": "#626B68",
+    "snow_ice": "#AEB8C3",
+    "wetland": "#35514A"
+  },
+  "policy": {
+    "colourSpace": "sRGB swatches decode to linear RGB before blending; encode once at output",
+    "formula": "C_linear = sum(fraction_i * srgbToLinear(palette_i)); fractions >= 0 and sum = 1 after area-weighted reprojection",
+    "seasonBlend": "Interpolate corresponding class colours in linear RGB using local phenology state; calendar only fallback. Crop stage and water state have separate masks.",
+    "snowOverlay": "Base class fractions*(1-snowFraction) plus snow_ice*snowFraction; snowFraction from actual supported coverage, not all winter ground",
+    "unknownData": "Neutral inherited class palette; do not invent species, irrigation, crop type or shoreline changes",
+    "resolution": "Area-weighted land-cover fractions in equal-area space before reprojection; blend ecotones by coverage, not state/metro boundaries",
+    "continents": "Same palettes/fractions at region and continent, coarser polygons; no separate vivid continent tint",
+    "wetness": "Weather material response applies once after seasonal base colour; no albedo shadow bake",
+    "night": "Use unchanged street-to-space night appearance palette/state as the documented fallback; do not multiply day seasonal colours by arbitrary night tint or add duplicate exposure",
+    "minimumFeaturePolicy": "Under 6 drawable pixels aggregate/cull; preserve source water connectivity until unresolved, never widen roads or rivers artificially"
+  },
+  "regions": {
+    "01-desert-southwest": {
+      "name": "Desert Southwest \u2014 Phoenix / Las Vegas / Tucson",
+      "seasons": {
+        "spring": {
+          "grass": "#7C895D",
+          "forest": "#536A50",
+          "cropland": "#899365",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#8B8860",
+          "forest": "#536A50",
+          "cropland": "#879563",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#858363",
+          "forest": "#536A50",
+          "cropland": "#B4A077",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#84856C",
+          "forest": "#536A50",
+          "cropland": "#92956B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B3A28A",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: small local green-up and restrained flowers; desert base remains visible",
+        "summer": "Summer: dry exposed ground; monsoon response for Sonoran locations when supported",
+        "autumn": "Autumn: shrubs mostly muted green, riparian leaf change locally",
+        "winter": "Winter: basin remains exposed; snow only from elevation and weather"
+      }
+    },
+    "02-pacific-northwest": {
+      "name": "Pacific Northwest \u2014 forest and coast",
+      "seasons": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#89976A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#829064",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#8B8F68",
+          "forest": "#526A4E",
+          "cropland": "#ADA079",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#77816A",
+          "forest": "#49664C",
+          "cropland": "#8C8B72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: deciduous leaf-out; conifer mass remains dark green",
+        "summer": "Summer: evergreen forest; dry grass locally at valley edges",
+        "autumn": "Autumn: deciduous pockets ochre, evergreen stays green",
+        "winter": "Winter: lower-elevation forest remains green; leaf-off pockets, upland snow by observation"
+      }
+    },
+    "03-california-coast": {
+      "name": "California \u2014 coast and hills",
+      "seasons": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#8C9964",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#B49A60",
+          "forest": "#526D50",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#AB9864",
+          "forest": "#566C50",
+          "cropland": "#AF9D71",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#798963",
+          "forest": "#49664C",
+          "cropland": "#8C956C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: rain-responsive green hills and restrained local bloom",
+        "summer": "Summer: rainfed grass straw; oak/chaparral muted green; irrigated fields can remain green",
+        "autumn": "Autumn: dry hills until rains; crop-specific harvest",
+        "winter": "Winter: wet-season green-up when observed; no sea-level snow default"
+      }
+    },
+    "04-rocky-front-range": {
+      "name": "Rocky Mountains / Front Range",
+      "seasons": {
+        "spring": {
+          "grass": "#7D8C66",
+          "forest": "#49664C",
+          "cropland": "#8C956A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#9B9463",
+          "forest": "#586E4E",
+          "cropland": "#AE9E70",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#9B947C",
+          "forest": "#49664C",
+          "cropland": "#9F967E",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: staggered leaf-out/snowmelt by elevation",
+        "summer": "Summer: green alpine meadow and pine, drier plains grass",
+        "autumn": "Autumn: localized aspen gold; conifers stable; plains straw",
+        "winter": "Winter: mountain snow coverage from altitude/weather; valley snow intermittent"
+      }
+    },
+    "05-great-plains": {
+      "name": "Great Plains \u2014 farmland",
+      "seasons": {
+        "spring": {
+          "grass": "#7F9166",
+          "forest": "#49664C",
+          "cropland": "#958A72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#859164",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#AD9C70",
+          "forest": "#626E51",
+          "cropland": "#B09E74",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#A3977C",
+          "forest": "#716F60",
+          "cropland": "#A0927C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: bare/planting fields, local prairie green-up",
+        "summer": "Summer: crop-specific green or mature cereal gold; pasture reacts to rain",
+        "autumn": "Autumn: harvested stubble and muted grass; leaf change in corridors",
+        "winter": "Winter: dormant prairie, exposed soil/stubble, snow only when observed"
+      }
+    },
+    "06-midwest": {
+      "name": "Midwest \u2014 farm and small town",
+      "seasons": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#617A54",
+          "cropland": "#998D74",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#9E9867",
+          "forest": "#8D8156",
+          "cropland": "#AE9C72",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "winter": {
+          "grass": "#9C967E",
+          "forest": "#827C6C",
+          "cropland": "#9D927C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: bare planting ground, leaf-out and patchy green pasture",
+        "summer": "Summer: green crops and broadleaf shade; hay cuts form clean patches",
+        "autumn": "Autumn: crop harvest/stubble and muted broadleaf ochre/rust",
+        "winter": "Winter: leaf-off groves and dormant fields; conditional snow/ice"
+      }
+    },
+    "07-southeast": {
+      "name": "Southeast \u2014 forest and swamp",
+      "seasons": {
+        "spring": {
+          "grass": "#73865B",
+          "forest": "#4E6C4D",
+          "cropland": "#8F9866",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#929263",
+          "forest": "#65724F",
+          "cropland": "#A99B70",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#74846B"
+        },
+        "winter": {
+          "grass": "#949078",
+          "forest": "#5E7055",
+          "cropland": "#9B947C",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#778271"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: hardwood leaf-out, persistent pine greens",
+        "summer": "Summer: dense muted green canopy; wet/dry state follows water data",
+        "autumn": "Autumn: partial hardwood ochre, pine stays green",
+        "winter": "Winter: mixed evergreen and leaf-off hardwood; no blanket snow default"
+      }
+    },
+    "08-florida": {
+      "name": "Florida \u2014 coast and Everglades",
+      "seasons": {
+        "spring": {
+          "grass": "#839166",
+          "forest": "#49664C",
+          "cropland": "#92996A",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7B8F70"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#7A8D62",
+          "forest": "#49664C",
+          "cropland": "#A49B6B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#6A8575"
+        },
+        "winter": {
+          "grass": "#879267",
+          "forest": "#4D6A4E",
+          "cropland": "#949A6B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7B8D72"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: late dry-season state in southern wetland; mature greens remain",
+        "summer": "Summer: wet-season freshwater expansion where observed",
+        "autumn": "Autumn: wet-season recession timing depends on current water data",
+        "winter": "Winter: dry-season recession; no leaf-off or snowy Everglades default"
+      }
+    },
+    "09-northeast": {
+      "name": "Northeast \u2014 forest and small town",
+      "seasons": {
+        "spring": {
+          "grass": "#7E9167",
+          "forest": "#647D59",
+          "cropland": "#8E956E",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#A19669",
+          "forest": "#967F55",
+          "cropland": "#AE9E75",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7A826B"
+        },
+        "winter": {
+          "grass": "#9A947E",
+          "forest": "#807C6C",
+          "cropland": "#9C927B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#A49781",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#7A847B"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: delayed leaf-out at elevation, muted fresh greens",
+        "summer": "Summer: continuous mixed forest greens and hay meadow",
+        "autumn": "Autumn: broadleaf gold/rust patches, evergreen pockets unchanged",
+        "winter": "Winter: leaf-off deciduous crowns, dark evergreen, weather-controlled snow/ice"
+      }
+    },
+    "10-gulf-coast": {
+      "name": "Gulf Coast",
+      "seasons": {
+        "spring": {
+          "grass": "#7D9065",
+          "forest": "#4D6B4E",
+          "cropland": "#92986B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#748970"
+        },
+        "summer": {
+          "grass": "#73865B",
+          "forest": "#49664C",
+          "cropland": "#9C9E68",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#668278"
+        },
+        "autumn": {
+          "grass": "#A0966B",
+          "forest": "#5A7050",
+          "cropland": "#AD9C71",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#90916D"
+        },
+        "winter": {
+          "grass": "#A0967B",
+          "forest": "#5D7157",
+          "cropland": "#A0957B",
+          "dry_plains": "#B49A60",
+          "bare_rock": "#B4AC92",
+          "urban": "#99988D",
+          "snow_ice": "#E6E9E3",
+          "wetland": "#959276"
+        }
+      },
+      "water": {
+        "lake": "#477E99",
+        "ocean": "#285F80"
+      },
+      "stateDescriptions": {
+        "spring": "Spring: marsh/prairie green-up, evergreen tree mass stable",
+        "summer": "Summer: crop/wetland greens, rice flooding only at supported stage",
+        "autumn": "Autumn: straw marsh patches and crop harvest, mixed tree response",
+        "winter": "Winter: dormant marsh/pasture and mixed evergreen/leaf-off; no automatic snow"
+      }
+    }
+  },
+  "cropStageColoursProposal": {
+    "bare": "#96846F",
+    "emergent": "#87936B",
+    "green": "#7F955E",
+    "ripe_cereal": "#B7A16A",
+    "harvested_stubble": "#AA9876",
+    "dormant_pasture": "#A3977C"
+  },
+  "nearMaterialColoursProposal": {
+    "bark": "#716659",
+    "conifer": "#49664C",
+    "fresh_broadleaf": "#6F8758",
+    "mature_broadleaf": "#49664C",
+    "autumn_gold": "#B49A60",
+    "autumn_rust": "#9D7652",
+    "leaf_off_wood": "#827C6C",
+    "marsh_dormant": "#959276",
+    "beach_sand": "#C6BDA5",
+    "dry_wash": "#B3A28A",
+    "soil": "#96846F"
+  },
+  "cropStagePolicy": "Per crop/elevation/water mask: bare -> emergent -> green -> ripe (only appropriate crop, e.g. cereal) -> harvested stubble. Different crops may be harvested green; winter crops may stay green in calendar winter. Seasonal regional cropland hex is an aggregate fallback, never a crop calendar.",
+  "dataSelectionPolicy": {
+    "order": [
+      "Source terrain/hydrography/land use",
+      "Mapped habitat/ecoregion/local species",
+      "Observed crop/phenology/water/snow state",
+      "Regional fallback proposal"
+    ],
+    "noGlobalRegionalCoverageAssumption": true,
+    "noInventedIndividuals": true,
+    "fieldGeometry": "Preserve observed polygons, mapped pivot shape and drainage; do not stamp a grid or circle from region name",
+    "smallTownPlacement": "Only source settlement/building footprint; proposed facade family never creates houses in wilderness",
+    "wetlands": "Use freshwater/saline/hydroperiod masks; flooding overrides broad calendar colour",
+    "dateFallback": "Calendar seasons only when local phenology unavailable; identify fallback as inferred"
+  }
+}
