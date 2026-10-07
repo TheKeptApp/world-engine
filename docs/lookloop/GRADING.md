@@ -38,6 +38,14 @@ Apply it to these criteria:
 
 Snow on trees is a weather overlay on upward-facing boughs, never white foliage or an opaque snowball crown; score it under `palette` and `adRainReadable` when wet.
 
+## P. Paint-over targets (owner, 6 Oct 2026; docs/proposals/paintover-v1/)
+
+Six views have a ChatGPT paint-over of their own camera: `ordinary-street`, `evanston-street`, `showcase-03`, `showcase-06`, `v2-06` and `lakeview-street`. The paint-over is listed as the view's last target. It is the closest thing to an exact appearance target: it starts from the same capture, so compare like for like (crown shading, ground families, contact pockets, wet sheen, sky, haze) and name in the fixes what still separates the frame from it. The pack's README and `paintover-values.json` give the authored values per view.
+
+Limits, from the pack: the capture's camera, roads, footprints, shoreline and object inventory govern geometry; the paint-over's small silhouette, window and leaf differences are not targets; the rain puddle in `showcase-03`'s paint-over keeps a slightly rimmed edge that is a known artefact (the target is a flush sky reflection). Generated grain is not a texture requirement (section S still applies).
+
+Scoring does not change: grade the frame against GRADING.md as usual. `finish` also reports **paint-over parity** = the view's /50 ÷ the paint-over's own blind /50 (calibrated by Opus, `calibrate.py --paintover`), beside the gate and never part of it. Concept parity stays the gate. Paint-over parity uses the same Opus calibration as concept parity, so Sonnet routine runs read it high (calibration.md); use it for change between runs.
+
 ## Inputs
 
 For view `<id>` in run directory `<run>`:
@@ -61,7 +69,7 @@ For view `<id>` in run directory `<run>`:
      - 10 always for stills, because motion needs video.
    - Give one short reason per score that names what you saw.
 4. Score the three art-direction criteria (table B), 1–5, or `null` where marked not applicable.
-5. Apply the style target (section S), the vegetation reference (section V) and the strictness rules (section C). They outrank any instinct to be kind.
+5. Apply the style target (section S), the vegetation reference (section V), the paint-over target where the view has one (section P) and the strictness rules (section C). They outrank any instinct to be kind.
 6. List hard-gate flags (section D) that you can actually see. Do not guess.
 7. Compute the totals (section E).
 8. Run the look-fix-v1 checks (section H).

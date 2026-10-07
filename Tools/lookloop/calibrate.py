@@ -3,6 +3,8 @@
 
   Tools/lookloop/calibrate.py <run-dir>            build the calibration run (frames = concept images)
   Tools/lookloop/calibrate.py --report <run-dir>   summarise the grades into docs/lookloop/calibration.md
+  Tools/lookloop/calibrate.py --paintover <run-dir>        build a run of the paintover-v1 images only (frames po-NN)
+  Tools/lookloop/calibrate.py --merge-paintover <run-dir>  add their blind /50 to docs/lookloop/calibration-scores.json
 
 Each concept image that is a target in views.json becomes a neutral view `cal-NN` in
 Tools/lookloop/calibration.json with the metadata of the view that uses it (time, weather, camera,
@@ -15,6 +17,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MANIFEST = os.path.join(ROOT, "Tools/lookloop/calibration.json")
+PO_MANIFEST = os.path.join(ROOT, "Tools/lookloop/calibration-paintover.json")
 V2 = ["silhouettes", "palette", "light", "softnessAO", "groundRichness", "characterReadability",
       "depthFog", "houseVariety", "geography", "motion"]
 AD = ["adGroundRich", "adRainReadable", "adRegional"]
@@ -46,7 +49,7 @@ def regions_entries():
     return out
 
 
-def build_manifest():
+def build_manifest(paintover=False):
     views = {v["id"]: v for v in json.load(open(os.path.join(ROOT, "Tools/lookloop/views.json")))["views"]}
     def from_view(vid, img, dog, **over):
         v = views[vid]
@@ -55,6 +58,14 @@ def build_manifest():
         e.update(over)
         return e
     V, X = "docs/proposals/visual-v2/images/", "docs/proposals/experience-v1/images/"
+    if paintover:
+        # paintover-v1 (owner, 6 Oct 2026): each paint-over graded blind with its own view's metadata.
+        entries = [from_view(vid, v["paintover"], bool(v.get("character"))) for vid, v in views.items() if v.get("paintover")]
+        cal = [dict(e, id=f"po-{i:02d}", group="calibration", title=f"Calibration frame po-{i:02d}: {e['camera'].split(',')[0]}",
+                    targets=[], na=[10] if e["character"] else [6, 10]) for i, e in enumerate(entries, start=1)]
+        json.dump({"about": "Paint-over calibration (calibrate.py --paintover): each paintover-v1 image graded blind with the "
+                   "metadata of its view. Generated; do not edit by hand.", "views": cal}, open(PO_MANIFEST, "w"), indent=1)
+        return cal
     entries = [
         from_view("v2-01", V + "01-autumn-golden-hour.png", True),
         from_view("v2-01", V + "09-data-grounded-street.png", True, usedBy="visual-v2 09 (same moment and camera as v2-01)"),
@@ -79,16 +90,34 @@ def build_manifest():
     return cal
 
 
-def build(run):
-    cal = build_manifest()
+def build(run, paintover=False):
+    cal = build_manifest(paintover)
     os.makedirs(os.path.join(run, "raw"), exist_ok=True)
     for c in cal:
         shutil.copy(os.path.join(ROOT, c["source"]), os.path.join(run, "raw", f"{c['id']}.png"))
     meta = json.load(open(os.path.join(run, "run.json")))
     meta.update(manifest="Tools/lookloop/calibration.json", reused=[])
     json.dump(meta, open(os.path.join(run, "run.json"), "w"), indent=1)
-    subprocess.run([sys.executable, os.path.join(ROOT, "Tools/lookloop/analyze.py"), run, "--manifest", MANIFEST], check=True)
-    print(f"calibration run: {len(cal)} concept images -> {run}")
+    meta["manifest"] = os.path.relpath(PO_MANIFEST if paintover else MANIFEST, ROOT)
+    json.dump(meta, open(os.path.join(run, "run.json"), "w"), indent=1)
+    subprocess.run([sys.executable, os.path.join(ROOT, "Tools/lookloop/analyze.py"), run, "--manifest",
+                    PO_MANIFEST if paintover else MANIFEST], check=True)
+    print(f"calibration run: {len(cal)} {'paint-over' if paintover else 'concept'} images -> {run}")
+
+
+def merge_paintover(run):
+    """Blind /50 of each paint-over into calibration-scores.json, keyed by image path like the concepts."""
+    from grade import recompute
+    cp = os.path.join(ROOT, "docs/lookloop/calibration-scores.json")
+    data = json.load(open(cp))
+    for c in json.load(open(PO_MANIFEST))["views"]:
+        g = json.load(open(os.path.join(run, "grades", f"{c['id']}.json")))
+        g["hardGateFlags"] = [f for f in g.get("hardGateFlags", []) if f != "osm-credit-missing"]
+        g = recompute(g, c)
+        data["scores"][c["source"]] = {"v2Score50": g["v2Score50"], "adMean": g["adMean"], "calId": c["id"],
+                                       "run": os.path.basename(run), "grader": g.get("grader")}
+        print(f"{c['id']} {c['usedBy']}: {g['v2Score50']}/50  ad {g['adMean']}")
+    json.dump(data, open(cp, "w"), indent=1)
 
 
 def report(run):
@@ -140,5 +169,9 @@ def report(run):
 if __name__ == "__main__":
     if sys.argv[1] == "--report":
         report(os.path.abspath(sys.argv[2]))
+    elif sys.argv[1] == "--paintover":
+        build(os.path.abspath(sys.argv[2]), paintover=True)
+    elif sys.argv[1] == "--merge-paintover":
+        merge_paintover(os.path.abspath(sys.argv[2]))
     else:
         build(os.path.abspath(sys.argv[1]))
