@@ -53,3 +53,17 @@ From ChatGPT's data-layers research (`docs/research-gpt/data-layers-research-v1/
 - **PROPOSED — snow states need weather history:** how much snow lies on the ground depends on snowfall over the last 1–3 days and on melt, not just today's weather. A future P1 data task supplies that history to the snow states.
 - **Hosting estimate (hypothetical, not a plan):** Cloudflare R2 storage and reads about $1.35–70 a month for 10k–1M monthly users, under the research's assumptions (100 GB stored, 200 origin requests and 100 MB per user a month, no edge caching; delivery, compute, live APIs and taxes excluded).
 
+
+## After the look gate: "alive" and AI layers — PROPOSED (R decides)
+
+Nothing in this section is decided. Owners are the proposed lanes.
+
+1. **PROPOSED — responsiveness** (5A): 60 fps held while moving; area streaming with prefetch ahead of the camera; instant relaunch to the last view; smooth time scrubbing.
+2. **PROPOSED — ambient life layer** (5A rendering, P2 generators, L1 live data): rules on the device, no runtime AI. Wind in trees, clouds moving with the live wind, traffic, birds, dusk lights. Everything labelled simulated.
+3. **PROPOSED — NPCs:** varied daily routines (dog walkers, joggers, school runs, porch sitters, game-day crowds near stadiums) written with AI offline at build time and run by simple rules on the phone. Live on-device AI only for optional interaction (for example tapping an NPC), on newer phones only. NPCs are always labelled simulated and never represent real people; any crowd sized from real data shows its source.
+4. **PROPOSED — local area feed** (server side, cached per area, not per user):
+   - a) Phase 1, official open data: road closures, permits, 311, city events, school closings, NWS alerts.
+   - b) Phase 2, news: headline and source link only; AI summaries only where licensing allows; no scraping. Lawyer question: `docs/research/licensing.md` Q48.
+   - c) No crime mapping or crime heat overlays; safety appears only as official alerts.
+   - Every item shows its source and time, and a "summary" label when AI-written.
+5. **PROPOSED — on-device AI, optional extra:** plain-language map questions, a "your block" weather brief, one-line alert summaries, using Apple's on-device Foundation Models (iOS 26, iPhone 15 Pro and newer only) with a non-AI fallback. AI text is never shown as observed data. Ships with the weather-for-your-block app, not the engine core.

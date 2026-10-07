@@ -468,6 +468,10 @@ Everything below is paraphrased.
 
 47. Some landmark owners register a building's appearance as a trademark (the research's "trademark triage" column). Does modelling such a building in a commercial app or licensed world package need permission, and does that change for app icons, marketing images or postcards?
 
+**Local area news feed** (added 2026-10-07; roadmap PROPOSED item 4b)
+
+48. News in a local feed: may we show headlines with a source link, and may we show AI-written summaries of news articles, and under what terms (publisher licences, fair use, aggregation rules)? The proposal shows headline plus link only, summaries only where licensing allows, and no scraping.
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?

@@ -4,6 +4,7 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **PROPOSED (R decides) — after the look gate: "alive" and AI layers:** responsiveness (5A), ambient life layer (rules on device, labelled simulated), NPCs (routines written offline by AI, run by rules; live on-device AI only for optional interaction on newer phones; always labelled simulated), local area feed (official open data first, then news headline + link; no crime mapping), optional on-device AI in the weather-for-your-block app with a non-AI fallback. Applied: `docs/roadmap.md` (PROPOSED), licensing Q48.
 - **house-contrast-v1 sharedLighting is the DAYTIME LIGHTING MASTER:** where it conflicts with older paintover values (sky, sun, shadow tint, exposure, ground colours), house-contrast-v1 wins. Applied: INDEX.md, registry, `compile_mocks.py` precedence, `docs/lookloop/daytime-master-changes.md`, views.json (four hero mocks).
 - **Absolute user paths stripped from pack text:** existing committed pack text now uses ~/ instead of /Users/<name>/; standing: stripped automatically when a pack is filed. Old mascots-v1 drafts in R's checkout backed up to iCloud (.prev) and removed so main's versions apply. Applied: docs/proposals and docs/research-gpt text (30 files), `Tools/lookloop/ingest_drop.py`.
 - **house-contrast-v1 and lake-winter-v1 R approved** (binding visual targets). Applied: STATUS.md in each, INDEX.md, registry.
