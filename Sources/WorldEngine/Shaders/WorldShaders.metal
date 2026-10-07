@@ -45,7 +45,7 @@ struct Globals {
     half3 airColor; float airCap; float airStart; float airD50; float fogWeight; float fogFloor;
     // look.json wet ground (texels 30–33): asphalt and walk darken/roughness/puddles, lawn darken,
     // paving gloss, light-rain response, puddle start/base/ripples, puddle reflection, rain intensity.
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -83,6 +83,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.airStart = float(t28.r); g.airD50 = max(float(t28.g), float(t28.r) + 1.0); g.fogWeight = float(t28.b); g.fogFloor = float(t28.a);
     g.wetA = float4(tex.read(uint2(30, 1))); g.wetB = float4(tex.read(uint2(31, 1)));
     g.wetC = float4(tex.read(uint2(32, 1))); g.wetD = float4(tex.read(uint2(33, 1)));
+    g.water = float4(tex.read(uint2(34, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -547,6 +548,23 @@ void worldWaterSurface(realitykit::surface_parameters params)
     su.base = paletteColor(tex, paint, float3(0));
     float ripple = valueNoise(wp.xz * 0.05 + float2(time * 0.02, time * 0.013));
     su.base *= half(0.95 + 0.08 * ripple);
+    // Water takes its colour mostly from the sky it reflects (look.json water): more under cloud,
+    // and its saturation drops with cover, so a lake under rain reads slate, not pool-blue.
+    float3 v = normalize(g.camera - wp);
+    float3 r = reflect(-v, float3(0, 1, 0));
+    half3 sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5)));
+    float cover = clamp(g.cloudCover, 0.0, 1.0);
+    half k = half(mix(g.water.x, g.water.y, cover));
+    su.base = mix(su.base, sky * 0.9h, k);
+    half lum = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
+    su.base = mix(half3(lum), su.base, half(mix(1.0, g.water.z, cover)));
+    // Rain rings on open water while it rains (look.json water.rainRipples).
+    if (g.wetD.z > 0.01) {
+        float2 cell = floor(wp.xz / 0.8), f = fract(wp.xz / 0.8) - 0.5;
+        float tt = fract(time * 0.8 + hash12(cell * 1.3 + 2.0));
+        float ring = abs(length(f - (float2(hash12(cell + 5.0), hash12(cell + 9.0)) - 0.5) * 0.5) - tt * 0.4);
+        su.emissive += sky * half((1.0 - smoothstep(0.0, 0.04, ring)) * (1.0 - tt) * g.water.w * g.wetD.z);
+    }
     su.emissive = half3(0.0h); su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
     su.weathered = false;
     if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring

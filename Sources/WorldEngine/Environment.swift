@@ -154,6 +154,9 @@ extension World {
             g.wetC = SIMD4(Float(wet.lightRainResponse), Float(wet.puddleStart), Float(wet.puddleBase), Float(wet.ripples))
             let raining = state == .rain || state == .thunderstorm ? Float(min(1, max(0.3, env.state.intensity01 ?? 0.5))) : 0
             g.wetD = SIMD4(Float(wet.puddleReflect.first ?? 0.35), Float(wet.puddleReflect.last ?? 0.7), raining, 0)
+            if let water = Self.lookSpec?.water {
+                g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
+            }
         }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
