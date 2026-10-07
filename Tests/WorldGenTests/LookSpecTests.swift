@@ -7,5 +7,6 @@ struct LookSpecTests {
     @Test func decodes() throws {
         let look = try StyleLibrary.look()
         #expect(look.water.overcastReflectGain > 0 && look.water.overcastReflectGain <= 1)
+        #expect(look.sky.cloudEdgeOvercast >= look.sky.cloudEdgeClear)
     }
 }
