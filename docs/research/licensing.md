@@ -472,6 +472,13 @@ Everything below is paraphrased.
 
 48. News in a local feed: may we show headlines with a source link, and may we show AI-written summaries of news articles, and under what terms (publisher licences, fair use, aggregation rules)? The proposal shows headline plus link only, summaries only where licensing allows, and no scraping.
 
+**Creator kit and community corrections** (added 2026-10-07; roadmap PROPOSED, creator kit)
+
+49. User content ownership and licence: who owns a customer's overlays and parts-kit builds, what licence do they grant us (hosting, sharing, embedding, promotion of corrections into the base map), and how does that interact with ODbL when an overlay is drawn on or derived from OSM data (is a shared build a Produced Work, a Derivative Database, or neither, and does a promoted correction have to be shared back under ODbL)?
+50. Contributor warranties: what must a contributor warrant (they have the right to submit it, it is accurate to their knowledge, it is not copied from a restricted source such as Google imagery), and how far can we rely on that warranty when promoting a fact into the base map?
+51. Takedown and DMCA: what notice-and-takedown process (DMCA agent registration, counter-notice, repeat-infringer policy) do we need for shared and embedded user builds, and does it differ for overlays versus promoted base-map facts?
+52. Logos and trademarks in user builds: may users place team, university, sponsor or business logos and colours in a private or shared build; what must we filter or remove; and what does an official partner build (licensed logos and colours) need contractually?
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?

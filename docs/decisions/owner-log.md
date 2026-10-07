@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **Creator kit as lead wedge candidate (PROPOSED):** ready-made real-place view + Style B parts kit + live shareable embed; paid tiers; first segment race/event organizers; two-layer trust model protecting the base map; community corrections through the same promotion pipeline; official partner builds with licensed logos. After the look gate and streaming; demand research (creator-kit-demand-v1) now. Applied: `docs/roadmap.md`; licensing Q49–Q52.
+
 - **Mock closeness at the mock's own conditions:** heroes get clear mid-afternoon twins for §M closeness; golden-hour views are scored on parity only; every approved mock has a view at its time and weather (night-fog states on their source cameras; rain-v1 recorded, pending approval). Re-baseline the afternoon heroes on the next run; watch v2-06. Applied: `Tools/lookloop/views.json`, GRADING.md §M.
 - **Desktop checkout follows main (standing):** at the start of every P3 session bring `~/Desktop/world-engine` up to date with main and report blockers. Applied: P3 handoff.
 
