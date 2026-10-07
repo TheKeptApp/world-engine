@@ -12,7 +12,7 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Tuple
 
-from . import cta, rtd, tiles
+from . import cta, ctabus, rtd, tiles
 from .fetch import FetchError, FetchResult, USER_AGENT, http_get
 from .gtfsrt import DecodeError, decode_feed
 from .salt import DailySalt
@@ -75,7 +75,19 @@ class CtaSource:
         return cta.normalise(body, salt, now, max_age)
 
 
-SOURCES = {"rtd": RtdSource, "cta": CtaSource}
+class CtaBusSource:
+    """CTA Bus Tracker: JSON, route names come with the combined body, no shapes yet (motion null)."""
+    name = ctabus.SOURCE
+    attribution = ctabus.ATTRIBUTION
+    needs_routes = False
+    snapshot_file = "snapshot-ctabus.json"
+
+    @staticmethod
+    def normalise(body: bytes, routes, salt, now: float, max_age: float) -> rtd.Normalised:
+        return ctabus.normalise(body, salt, now, max_age)
+
+
+SOURCES = {"rtd": RtdSource, "cta": CtaSource, "ctabus": CtaBusSource}
 
 
 @dataclass(frozen=True)
@@ -140,6 +152,8 @@ class Relay:
         self.clock = clock
         if fetch is None and source is CtaSource:
             fetch = cta.fetcher(cfg.user_agent, cfg.timeout)
+        if fetch is None and source is CtaBusSource:
+            fetch = ctabus.fetcher(cfg.user_agent, cfg.timeout, clock=clock)
         self._fetch = fetch or (lambda etag, lm: http_get(cfg.feed_url, cfg.user_agent, etag, lm, cfg.timeout))
         self._routes_fetch = routes_fetch or (lambda: rtd.fetch_routes(cfg.routes_url, cfg.user_agent, clock))
         # Shapes (for smoothing) are optional: without a fetcher vehicles are served unsmoothed (motion null).
