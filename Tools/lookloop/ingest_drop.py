@@ -11,11 +11,12 @@ docs/research-gpt/<pack>/ (Tools/lookloop/drop-map.json overrides the destinatio
 - Text files (md, json, csv, txt, html, prompts, SVG up to 1 MB) are copied into this checkout for commit.
 - Images (png, jpg, jpeg, zip, SVG over 1 MB) are gitignored: they are copied into the owner's checkout
   (~/Desktop/world-engine, where the images live) and this one, then backup_design_images.sh copies them to iCloud.
+Text files are filed with absolute user paths (/Users/<name>/) replaced by ~/ (owner, 7 Oct 2026).
 Nothing in the drop folder is ever changed or deleted. A destination file that already exists with different
 content is reported and left alone, never overwritten. The caller commits, updates docs/design-registry.md
 and runs the backup.
 """
-import filecmp, json, os, shutil, subprocess, sys
+import filecmp, json, os, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -33,12 +34,21 @@ def kind(path):
     return "text" if ext in TEXT else "other"
 
 
+USER_PATH = re.compile(rb"/Users/[^/\s\"'`<>]+/")
+
+
+def scrub(data):
+    """Owner rule (7 Oct 2026): absolute user paths in pack text become ~/ when filed."""
+    return USER_PATH.sub(b"~/", data)
+
+
 def same(a, b):
-    """Equal, ignoring CRLF (git stores text with LF)."""
+    """Equal, ignoring CRLF (git stores text with LF) and the user-path scrub."""
     if filecmp.cmp(a, b, shallow=False):
         return True
     try:
-        return open(a, "rb").read().replace(b"\r\n", b"\n") == open(b, "rb").read().replace(b"\r\n", b"\n")
+        norm = lambda p: scrub(open(p, "rb").read().replace(b"\r\n", b"\n"))
+        return norm(a) == norm(b)
     except OSError:
         return False
 
@@ -76,7 +86,10 @@ def main():
         print(f"{state:9} {k:5} {pack}: {os.path.relpath(f, DROP)} -> {d}")
         if apply and state == "new":
             os.makedirs(os.path.dirname(d), exist_ok=True)
-            shutil.copy2(f, d)
+            if k == "text":
+                open(d, "wb").write(scrub(open(f, "rb").read()))
+            else:
+                shutil.copy2(f, d)
     # Owner rule: SVGs over 1 MB are named in .gitignore (PNG, JPG and ZIP under docs/proposals already are).
     big = sorted({os.path.relpath(d, ROOT) for _, k, f, d, _ in rows if d and d.startswith(ROOT + os.sep)
                   and k == "image" and f.lower().endswith(".svg")})

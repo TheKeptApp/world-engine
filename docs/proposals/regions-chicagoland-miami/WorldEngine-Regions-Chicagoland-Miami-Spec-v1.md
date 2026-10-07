@@ -327,43 +327,43 @@ The images below are linked to local final files; manifests identify their fixtu
 
 **01-northshore-golden** — concept [J]; fixture `01-northshore-golden`.
 
-![01-northshore-golden](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png)
+![01-northshore-golden](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/01-northshore-golden.png)
 
 **02-northshore-rain** — concept [J]; fixture `02-northshore-rain`.
 
-![02-northshore-rain](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png)
+![02-northshore-rain](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/02-northshore-rain.png)
 
 **03-northshore-fall** — concept [J]; fixture `03-northshore-fall`.
 
-![03-northshore-fall](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png)
+![03-northshore-fall](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/03-northshore-fall.png)
 
 **04-northshore-snow** — concept [J]; fixture `04-northshore-snow`.
 
-![04-northshore-snow](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png)
+![04-northshore-snow](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png)
 
 **05-chicago-three-flat** — concept [J]; fixture `05-chicago-three-flat`.
 
-![05-chicago-three-flat](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png)
+![05-chicago-three-flat](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/05-chicago-three-flat.png)
 
 **06-chicago-alley-snow** — concept [J]; fixture `06-chicago-alley-snow`.
 
-![06-chicago-alley-snow](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png)
+![06-chicago-alley-snow](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/06-chicago-alley-snow.png)
 
 **07-chicago-boulevard-fall** — concept [J]; fixture `07-chicago-boulevard-fall`.
 
-![07-chicago-boulevard-fall](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/07-chicago-boulevard-fall.png)
+![07-chicago-boulevard-fall](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/07-chicago-boulevard-fall.png)
 
 **08-downtown-aerial** — concept [J]; fixture `08-downtown-aerial`.
 
-![08-downtown-aerial](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/08-downtown-aerial.png)
+![08-downtown-aerial](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/08-downtown-aerial.png)
 
 **09-coral-gables** — concept [J]; fixture `09-coral-gables`.
 
-![09-coral-gables](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/09-coral-gables.png)
+![09-coral-gables](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/09-coral-gables.png)
 
 **10-miami-shores-storm** — concept [J]; fixture `10-miami-shores-storm`.
 
-![10-miami-shores-storm](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/10-miami-shores-storm.png)
+![10-miami-shores-storm](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/images/10-miami-shores-storm.png)
 
 ## 14. Performance and acceptance
 
@@ -403,15 +403,15 @@ Further unresolved implementation choices: exact primitive/mesh representation a
 
 Every entry below was reviewed **2026-10-05**. Local source verification establishes what the current file says, not that a proposal target has been measured. External citations support the narrowly stated vocabulary/phenomenon; numerical art tuning remains [J]. `sources.json` preserves scope and retrieval limitations, including the two search-index-only documents. No private-residence addresses from source inventories are reproduced.
 
-- **DESIGN** — [This proposal and owner scope](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/WorldEngine-Regions-Chicagoland-Miami-Spec-v1.md). All chosen weights, dimensions, colors, dates, cameras, approximate bounds and performance allocations are review assumptions, not surveys. Phase 5B scope confirmed by owner.
-- **LOCAL-SCHEMA** — [StyleProfile and RegionCatalog Codable v2](/Users/robwoodbury/Desktop/world-engine/Sources/WorldGen/StyleProfile.swift). Local source read; actual decoder contract, no standalone JSON Schema found.
-- **LOCAL-GEN** — [BuildingGenerator](/Users/robwoodbury/Desktop/world-engine/Sources/WorldGen/BuildingGenerator.swift). Local source read; basic roof forms and block dispatch limitations.
-- **LOCAL-SOLAR** — [SolarPosition](/Users/robwoodbury/Desktop/world-engine/Sources/WorldGeo/SolarPosition.swift). Local NOAA-style geometric solar model; source accuracy comment is not an independent measurement.
-- **LOCAL-REGIONS** — [Regional profiles v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/regions-v1/WorldEngine-Regional-Profiles-v1.md). Existing profile conventions and proposed-additions envelope.
-- **LOCAL-V2** — [Visual v2](/Users/robwoodbury/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md). Style, camera conventions and performance ceilings.
-- **LOCAL-WEATHER** — [Weather v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md). Weather tint/fog/particles/accumulation rules; targets are proposal assumptions.
-- **LOCAL-SKY** — [Sky and seasons v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md). Continuous phenology and sun/moon conventions.
-- **LOCAL-EXPERIENCE** — [Experience v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/experience-v1/WorldEngine-Experience-Spec-v1.md). Character-free cameras and concept manifest conventions.
+- **DESIGN** — [This proposal and owner scope](~/Desktop/world-engine/docs/proposals/regions-chicagoland-miami/WorldEngine-Regions-Chicagoland-Miami-Spec-v1.md). All chosen weights, dimensions, colors, dates, cameras, approximate bounds and performance allocations are review assumptions, not surveys. Phase 5B scope confirmed by owner.
+- **LOCAL-SCHEMA** — [StyleProfile and RegionCatalog Codable v2](~/Desktop/world-engine/Sources/WorldGen/StyleProfile.swift). Local source read; actual decoder contract, no standalone JSON Schema found.
+- **LOCAL-GEN** — [BuildingGenerator](~/Desktop/world-engine/Sources/WorldGen/BuildingGenerator.swift). Local source read; basic roof forms and block dispatch limitations.
+- **LOCAL-SOLAR** — [SolarPosition](~/Desktop/world-engine/Sources/WorldGeo/SolarPosition.swift). Local NOAA-style geometric solar model; source accuracy comment is not an independent measurement.
+- **LOCAL-REGIONS** — [Regional profiles v1](~/Desktop/world-engine/docs/proposals/regions-v1/WorldEngine-Regional-Profiles-v1.md). Existing profile conventions and proposed-additions envelope.
+- **LOCAL-V2** — [Visual v2](~/Desktop/world-engine/docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md). Style, camera conventions and performance ceilings.
+- **LOCAL-WEATHER** — [Weather v1](~/Desktop/world-engine/docs/proposals/weather-v1/WorldEngine-Weather-Spec-v1.md). Weather tint/fog/particles/accumulation rules; targets are proposal assumptions.
+- **LOCAL-SKY** — [Sky and seasons v1](~/Desktop/world-engine/docs/proposals/sky-seasons-v1/WorldEngine-Sky-Seasons-Spec-v1.md). Continuous phenology and sun/moon conventions.
+- **LOCAL-EXPERIENCE** — [Experience v1](~/Desktop/world-engine/docs/proposals/experience-v1/WorldEngine-Experience-Spec-v1.md). Character-free cameras and concept manifest conventions.
 - **EV-ARCH** — [Evanston landmark inventory](https://www.cityofevanston.org/Documents/Departments/Community%20Development/Planning%20and%20Zoning/Historic%20Preservation/Evanston%20Landmarks/EvanstonLandmarksInventory_Complete.pdf?t=202601161453210). Examples establish vocabulary, not stock frequencies; private residence addresses excluded.
 - **EV-TREES** — [Evanston tree preservation guidance](https://www.cityofevanston.org/Documents/Departments/Public%20Works/Services/Forestry%20and%20Tree%20Preservation/Tree%20Preservation%20Permits/PvtTreePres2026.pdf?t=202602091708540). Species vocabulary, not a sampled canopy mixture.
 - **WIN-FORM** — [Winnetka residential design handbook in meeting packet](https://www.villageofwinnetka.org/AgendaCenter/ViewFile/Agenda/_01122021-239). Search-indexed handbook material; full-file retrieval unavailable in this review. No numerical stock claims.

@@ -1,0 +1,13 @@
+# Lighting conflict register
+
+7 October 2026. Authored hero preset; prior packs read only, not modified.
+
+| Existing file/state | Conflict | Resolution |
+|---|---|---|
+| docs/proposals/paintover-v1/paintover-values.json | Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only. | Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values. |
+| docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md §2.2 | Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane. | This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio. |
+| docs/proposals/rain-v1/rain-values.json | Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy. | Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun. |
+| night-fog-v1/night-fog-values.json | Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth. | Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared. |
+| Existing house-contrast paintoverValidation metadata | Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing. | Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured. |
+
+Preserve shared house geometry and base materials across states. Replace day/night/weather illumination at the environment-state level. Apply weather wetness once and exposure once. The hero fixture is for design review; solar/time data governs production.

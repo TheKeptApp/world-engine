@@ -155,6 +155,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/sky-01-golden-water.png",
      "label": "look-fix-v1 sky-01-golden-water (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/01-water-that-reads.png",
+     "label": "approved mock lake-winter-v1 01 water that reads (R approved 2026-10-07; judge lake water colour, bands and reflection at 20-100 m)"
     }
    ],
    "na": [
@@ -169,7 +173,8 @@
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
    "area": "sloans-lake",
-   "core": true
+   "core": true,
+   "mock": "docs/proposals/lake-winter-v1/01-water-that-reads.png"
   },
   {
    "id": "showcase-02",
@@ -391,6 +396,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/lighting-10-snow.png",
      "label": "look-fix-v1 lighting-10-snow (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+     "label": "approved mock lake-winter-v1 04 snow on trees (R approved 2026-10-07; judge snow on boughs and fresh snow)"
     }
    ],
    "na": [
@@ -404,7 +413,8 @@
     "shadowBearingDeg": 0.0,
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
-   "area": "sloans-lake"
+   "area": "sloans-lake",
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
   },
   {
    "id": "showcase-08",
@@ -424,6 +434,10 @@
     {
      "path": "docs/proposals/experience-v1/images/08-morning-after-snow.png",
      "label": "experience-v1 08"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/05-old-snow.png",
+     "label": "approved mock lake-winter-v1 05 old snow (R approved 2026-10-07; judge aged snow, lawn showing through, melt)"
     }
    ],
    "na": [
@@ -437,7 +451,8 @@
     "shadowBearingDeg": 308.4,
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
-   "area": "sloans-lake"
+   "area": "sloans-lake",
+   "mock": "docs/proposals/lake-winter-v1/05-old-snow.png"
   },
   {
    "id": "showcase-09",
@@ -545,6 +560,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/aerial-02-continuation-snow.png",
      "label": "look-fix-v1 aerial-02-continuation-snow (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/03-ice-that-reads.png",
+     "label": "approved mock lake-winter-v1 03 ice that reads (R approved 2026-10-07; judge lake ice and snow cover from the air)"
     }
    ],
    "na": [
@@ -558,7 +577,8 @@
     "shadowBearingDeg": 308.4,
     "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift); proposal fixtures where given"
    },
-   "area": "sloans-lake"
+   "area": "sloans-lake",
+   "mock": "docs/proposals/lake-winter-v1/03-ice-that-reads.png"
   },
   {
    "id": "ordinary-trail",
@@ -639,6 +659,10 @@
     {
      "path": "docs/proposals/paintover-v1/images/ordinary-street-paintover.png",
      "label": "paintover-v1 ordinary-street (paint-over of this camera; exact appearance target; geometry from the capture governs; rain-puddle rim is a known artefact, not a target)"
+    },
+    {
+     "path": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+     "label": "approved mock house-contrast-v1 denver-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -653,7 +677,8 @@
    },
    "area": "sloans-lake",
    "paintover": "docs/proposals/paintover-v1/images/ordinary-street-paintover.png",
-   "core": true
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png"
   },
   {
    "id": "light-rain-street",
@@ -728,6 +753,10 @@
     {
      "path": "docs/proposals/look-fix-v1/images/ground-01-north-shore-clear.png",
      "label": "look-fix-v1 ground-01-north-shore-clear (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+     "label": "approved mock house-contrast-v1 wilmette-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -744,7 +773,8 @@
     "-weatherspec",
     "label=clear,cloud=0.12"
    ],
-   "core": true
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png"
   },
   {
    "id": "wilmette-street-rain",
@@ -864,6 +894,10 @@
     {
      "path": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png",
      "label": "regions 04 North Shore snow"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+     "label": "approved mock lake-winter-v1 04 snow on trees (R approved 2026-10-07; judge snow on trees and ground snow)"
     }
    ],
    "na": [
@@ -879,7 +913,8 @@
     "2026-01-15T18:00:00Z",
     "-weatherspec",
     "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
-   ]
+   ],
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
   },
   {
    "id": "wilmette-aerial",
@@ -1095,6 +1130,10 @@
     {
      "path": "docs/proposals/regions-chicagoland-miami/images/04-northshore-snow.png",
      "label": "regions 04 North Shore snow"
+    },
+    {
+     "path": "docs/proposals/lake-winter-v1/04-snow-on-trees.png",
+     "label": "approved mock lake-winter-v1 04 snow on trees (R approved 2026-10-07; judge snow on trees and ground snow)"
     }
    ],
    "na": [
@@ -1110,7 +1149,8 @@
     "2026-01-15T18:00:00Z",
     "-weatherspec",
     "label=snow,intensity=0.65,cloud=1,rate=0.845,wetness=0.25,swe=6,visibility=1800"
-   ]
+   ],
+   "mock": "docs/proposals/lake-winter-v1/04-snow-on-trees.png"
   },
   {
    "id": "evanston-aerial",
@@ -1190,13 +1230,18 @@
     {
      "path": "docs/proposals/look-fix-v1/images/ground-04-lakeview-clear.png",
      "label": "look-fix-v1 ground-04-lakeview-clear (appearance reference; not calibrated)"
+    },
+    {
+     "path": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+     "label": "approved mock house-contrast-v1 postcard-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
     6,
     10
    ],
-   "core": true
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/postcard-hero.png"
   },
   {
    "id": "lakeview-street",
@@ -1231,6 +1276,10 @@
     {
      "path": "docs/proposals/paintover-v1/images/lakeview-street-paintover.png",
      "label": "paintover-v1 lakeview-street (paint-over of this camera; exact appearance target; geometry from the capture governs; rain-puddle rim is a known artefact, not a target)"
+    },
+    {
+     "path": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+     "label": "approved mock house-contrast-v1 lakeview-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
     }
    ],
    "na": [
@@ -1248,7 +1297,8 @@
     "label=clear,cloud=0.12"
    ],
    "paintover": "docs/proposals/paintover-v1/images/lakeview-street-paintover.png",
-   "core": true
+   "core": true,
+   "mock": "docs/proposals/house-contrast-v1/images/lakeview-hero.png"
   },
   {
    "id": "lakeview-alley",
