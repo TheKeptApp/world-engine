@@ -1,0 +1,428 @@
+{
+  "method": "Built-in image generation with local reference image and targeted edits",
+  "assets": [
+    {
+      "id": "01-pizza-slice",
+      "slug": "pizza-slice",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7bddf01e-b591-44be-94d6-96967b9dd2d8.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-6369ff29-589f-473d-a5d5-728143e6e115.png",
+      "file": "images/01-pizza-slice.png",
+      "sha256": "f0243bae88ffc8082f15e63181ceb05761de427b2a9cd3184e668864e87fe81c",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-6369ff29-589f-473d-a5d5-728143e6e115.png"
+    },
+    {
+      "id": "02-bodega",
+      "slug": "bodega",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-70d55c4b-9cfb-4528-b993-32339085bdc4.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-843961ab-860a-4721-88d3-55fa29b8b28a.png",
+      "file": "images/02-bodega.png",
+      "sha256": "585d0ea8885456fd0054e9f7f7507663341385a377a093ab49b1433df2bad77f",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-843961ab-860a-4721-88d3-55fa29b8b28a.png"
+    },
+    {
+      "id": "03-laundromat",
+      "slug": "laundromat",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-83001dba-6538-4b55-bb49-74ba8c75cf12.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-8cab9753-ef10-420a-b1a8-0f51ac1d36fc.png",
+      "file": "images/03-laundromat.png",
+      "sha256": "caa4de5c81e6600c63346c0741703064e24447712891bbd445c6d52ddb55eb03",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-8cab9753-ef10-420a-b1a8-0f51ac1d36fc.png"
+    },
+    {
+      "id": "04-newsstand",
+      "slug": "newsstand",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-79ae2aba-9805-4248-9eb6-0d854eaece89.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-06bff6bd-82e5-48a8-a6ee-bf17c225ea3c.png",
+      "file": "images/04-newsstand.png",
+      "sha256": "53d9f4747d19e90d3602c6f55526a48796414c2608fb13935ce0c4c4ff8fc684",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-06bff6bd-82e5-48a8-a6ee-bf17c225ea3c.png"
+    },
+    {
+      "id": "05-diner",
+      "slug": "diner",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-c0dcb57a-3f25-49da-9f3b-331dbb229a23.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7141fbe0-5566-4807-8ee7-e09c74ed8f88.png",
+      "file": "images/05-diner.png",
+      "sha256": "e32deb1d4a42a12d99a7693fd9e7f0c9a58c0936aab12052b0ae422d407aaa48",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7141fbe0-5566-4807-8ee7-e09c74ed8f88.png"
+    },
+    {
+      "id": "06-chinatown-produce",
+      "slug": "chinatown-produce",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-f7e70e28-43c9-4d81-b169-1e1a31f4f747.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-ca366a37-f9ad-4ba1-a457-cdd4c41597bb.png",
+      "file": "images/06-chinatown-produce.png",
+      "sha256": "703889a5f052f98ed8e75ba7cfd912cdc9770c7cba47230d1896347f263085df",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-ca366a37-f9ad-4ba1-a457-cdd4c41597bb.png"
+    },
+    {
+      "id": "07-food-cart",
+      "slug": "food-cart",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-2c9ba2b7-c5cd-485b-a1ad-f219ba920214.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-4d8ec322-8fc0-420b-be5a-d3f5bff22113.png",
+      "file": "images/07-food-cart.png",
+      "sha256": "3d96173400f97fc51e8400a28050f4cc91ad8c47d4d6c6a46810d7fb749cb2c6",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-4d8ec322-8fc0-420b-be5a-d3f5bff22113.png"
+    },
+    {
+      "id": "08-hot-dog-cart",
+      "slug": "hot-dog-cart",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-499e0cb4-4a21-4656-9a53-f98dff965f39.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-00dd14ec-af14-429d-8d97-c3be9444bd21.png",
+      "file": "images/08-hot-dog-cart.png",
+      "sha256": "4e2a0938a6dfefabff843b3e66e4f173945394177f5ce7fbed25ade3cdd3e199",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-00dd14ec-af14-429d-8d97-c3be9444bd21.png"
+    },
+    {
+      "id": "09-fruit-stand",
+      "slug": "fruit-stand",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-908b46d0-df7e-4618-9bd9-69d7c4b76e50.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-2d684033-38f3-41e9-a17f-ae1d0e578861.png",
+      "file": "images/09-fruit-stand.png",
+      "sha256": "cb6e80e40f5291bfdf368db486d991afe1f2dee48e0cb7c12d9645e19891d299",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-2d684033-38f3-41e9-a17f-ae1d0e578861.png"
+    },
+    {
+      "id": "10-christmas-trees",
+      "slug": "christmas-trees",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-0b4bf40f-7195-4aaf-8147-dae20abcb31d.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-92484714-e14c-4cb3-adf7-5aa5aa21fbde.png",
+      "file": "images/10-christmas-trees.png",
+      "sha256": "c2765e0e45a1e0835debe39572c2528bd3290720927225e2b23fbb408d9f3a6e",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-92484714-e14c-4cb3-adf7-5aa5aa21fbde.png"
+    },
+    {
+      "id": "11-mail-carrier",
+      "slug": "mail-carrier",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-02b7038f-e4ed-41c9-b93f-fe28cfb0d458.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-b58c5da3-54c2-4854-b600-fbd44386a89d.png",
+      "file": "images/11-mail-carrier.png",
+      "sha256": "d85060cc45492d0b03cda17e98553a208d7dd76fccfa71edec1a30284a8cbaed",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-b58c5da3-54c2-4854-b600-fbd44386a89d.png"
+    },
+    {
+      "id": "12-delivery-ebikes",
+      "slug": "delivery-ebikes",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-667b9b27-54c4-49af-ad8c-30b232586986.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-fb66416b-4377-4d58-8a6f-e87d86ef8766.png",
+      "file": "images/12-delivery-ebikes.png",
+      "sha256": "0cebb477eb49a1e471127c7da48a528295c13c30d351773622ceed0fa0ba13dc",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-fb66416b-4377-4d58-8a6f-e87d86ef8766.png"
+    },
+    {
+      "id": "13-sanitation",
+      "slug": "sanitation",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-28f9bb19-34aa-4901-b2bf-9dc6244a7a88.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-bd0d2a7c-aee2-47be-933f-04fd4cebd2b2.png",
+      "file": "images/13-sanitation.png",
+      "sha256": "cfb236d1e98e8479cf9a85727dc3c3091859152cbdd97f438cb34aba30b6ff0b",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-bd0d2a7c-aee2-47be-933f-04fd4cebd2b2.png"
+    },
+    {
+      "id": "14-doorman",
+      "slug": "doorman",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-86fe7156-88e6-4fb5-b894-652ffdc64111.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-1be9027c-e52a-4e80-8eda-02cae808fcb5.png",
+      "file": "images/14-doorman.png",
+      "sha256": "4d9a14b93ba2d7844c9bde8afcada93161ab910fc1a7db4e1a47f71c26a25d18",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-57b4e081-722e-4254-9884-0d7ef5ed5b3e.png"
+    },
+    {
+      "id": "15-construction",
+      "slug": "construction",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-d2885fff-9e5c-4370-b407-f548c2f4a19d.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-983154e8-8885-4c30-972d-5af3d63c5ba9.png",
+      "file": "images/15-construction.png",
+      "sha256": "2dad19eb1d80bd626b567d279495eea2ae81a692628c1e69b429ce02123345f5",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-983154e8-8885-4c30-972d-5af3d63c5ba9.png"
+    },
+    {
+      "id": "16-yellow-taxi",
+      "slug": "yellow-taxi",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-0a55514e-5c42-49c0-ac57-c5785bc43c19.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-3c5596ae-74ea-4c05-bd9a-6a7c396c6d14.png",
+      "file": "images/16-yellow-taxi.png",
+      "sha256": "53fab2e4c1255138792ced6a843272a468a522fef89702a5cdea11fe64719c97",
+      "dimensionsPx": [
+        2172,
+        724
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-3c5596ae-74ea-4c05-bd9a-6a7c396c6d14.png"
+    },
+    {
+      "id": "17-city-bus",
+      "slug": "city-bus",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-ea77031e-68ac-415f-8923-8ae4ae5bbb8e.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-966cbfb5-c46c-4521-9893-2e7d14ebf6eb.png",
+      "file": "images/17-city-bus.png",
+      "sha256": "f7d887cd9e075333c5c37ddd3a01b02bf227dfbb87aaf04f46b18d5ff88ad3b4",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-966cbfb5-c46c-4521-9893-2e7d14ebf6eb.png"
+    },
+    {
+      "id": "18-box-trucks",
+      "slug": "box-trucks",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-522eb3c2-b4ee-484d-b3cd-923829d3d250.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-e0676b60-86bd-4779-a119-8454cc91f79a.png",
+      "file": "images/18-box-trucks.png",
+      "sha256": "82aca88ba52f96b02385cd449d1a00e0c27adc83d23a754e96ec295ce6ccd228",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-e0676b60-86bd-4779-a119-8454cc91f79a.png"
+    },
+    {
+      "id": "19-ice-cream-truck",
+      "slug": "ice-cream-truck",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-2f97a87f-72ad-4f0a-801a-3330cf62fcd9.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-45b67090-d9cb-4144-9aae-e52e88bb51a3.png",
+      "file": "images/19-ice-cream-truck.png",
+      "sha256": "9ca37bfab10bda68a1b5e56a5f13d1d5c23f55373babca9f209408f565a98697",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-45b67090-d9cb-4144-9aae-e52e88bb51a3.png"
+    },
+    {
+      "id": "20-fire-engine",
+      "slug": "fire-engine",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-4f6761b8-917e-4f9d-b509-36309e4cea87.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-86765534-ecad-421b-a500-38f805e77f5d.png",
+      "file": "images/20-fire-engine.png",
+      "sha256": "78aa36d6c2804688f106c54c17e6d50cd66375d34aa11025c3dda43eabd66b82",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-86765534-ecad-421b-a500-38f805e77f5d.png"
+    },
+    {
+      "id": "21-ambulance",
+      "slug": "ambulance",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-ec1ed96a-592d-44f4-80fd-0e16aaaebd87.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7d49d346-859f-41a7-bf96-e129bf25b2a2.png",
+      "file": "images/21-ambulance.png",
+      "sha256": "36f41408659f8b4efd32db0f79754da897c05a07dbfda656d38e33fb9a31f05b",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7d49d346-859f-41a7-bf96-e129bf25b2a2.png"
+    },
+    {
+      "id": "22-horse-carriage",
+      "slug": "horse-carriage",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-1c17dc20-ea4f-4c94-8675-196d0cb7d9b9.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-c0090f6c-9e7b-4624-81de-63e6cc4486f2.png",
+      "file": "images/22-horse-carriage.png",
+      "sha256": "6f033e2b4c1ce2dacf8a5b3e1ae534c90ae6f024dddd3071a4cf7f00b050e7df",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-c0090f6c-9e7b-4624-81de-63e6cc4486f2.png"
+    },
+    {
+      "id": "23-pedicab",
+      "slug": "pedicab",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-dda54cbf-2a4b-4f6b-81c1-e460331e5de2.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-3a0c0545-58e7-4d28-8236-690f63853c89.png",
+      "file": "images/23-pedicab.png",
+      "sha256": "4380ebd60ead0db4366bc9249d0bdccec516961d90c4eb8632a457762ae307a6",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-3a0c0545-58e7-4d28-8236-690f63853c89.png"
+    },
+    {
+      "id": "24-trash-night",
+      "slug": "trash-night",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-3fd450fa-b164-4cf7-9700-686754fd0483.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-6282bda8-bf20-49a7-be1d-295d18cae611.png",
+      "file": "images/24-trash-night.png",
+      "sha256": "77ca07c50c61d7e482770b04f3a94b1a06c880f77cdbee8807ef05616e72d7c0",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-6282bda8-bf20-49a7-be1d-295d18cae611.png"
+    },
+    {
+      "id": "25-morning-commute",
+      "slug": "morning-commute",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-899b2715-ecab-45a2-85f7-bd52b2f63d7c.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7b452602-4222-4efa-ad1a-c99379c60789.png",
+      "file": "images/25-morning-commute.png",
+      "sha256": "c6a4771fe2c7903b15fd0f9b0781429cb1b215633c18e5a874a949cc5d469604",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7b452602-4222-4efa-ad1a-c99379c60789.png"
+    },
+    {
+      "id": "26-lunch-queues",
+      "slug": "lunch-queues",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-bed157a7-b8ea-40e2-bc33-6b07d7d4b45c.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-e64ca23e-f9d8-4807-b38f-1b16c55a52ad.png",
+      "file": "images/26-lunch-queues.png",
+      "sha256": "8a242c637ad90f1aa19b385eb427aa11556b9553170a2bc069691599b3f6a976",
+      "dimensionsPx": [
+        1807,
+        870
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-e64ca23e-f9d8-4807-b38f-1b16c55a52ad.png"
+    },
+    {
+      "id": "27-stoop-evening",
+      "slug": "stoop-evening",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-76c0b87d-3a18-4b20-a7db-301dc697ea43.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-5b4c25ae-1a3f-4d05-9a06-ffe36e39ed4f.png",
+      "file": "images/27-stoop-evening.png",
+      "sha256": "8612c1aec52c9fcca4c482e46f5de733e0c17739555adccf99af905b5734962c",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-5b4c25ae-1a3f-4d05-9a06-ffe36e39ed4f.png"
+    },
+    {
+      "id": "28-street-sweeper",
+      "slug": "street-sweeper",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-d0d1b72a-01ac-4a5b-8ffc-ddd9798f9836.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-116be798-d552-4036-8f2d-9ef2caccd8c7.png",
+      "file": "images/28-street-sweeper.png",
+      "sha256": "bcf138206472d20504dde09eeaaf5b9a6a6a7e963d5c8b837018ba8d62dffcdd",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-116be798-d552-4036-8f2d-9ef2caccd8c7.png"
+    },
+    {
+      "id": "29-snow-plow",
+      "slug": "snow-plow",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-54a16a3c-e655-4016-98df-2b351d30850f.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-927aae67-e03a-4dc4-89bf-d9789b65e7af.png",
+      "file": "images/29-snow-plow.png",
+      "sha256": "ba8031821c078905bf5b6df8e3a1c66f55dcf918a01ca3e6e3228f2445b8667d",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-927aae67-e03a-4dc4-89bf-d9789b65e7af.png"
+    },
+    {
+      "id": "30-window-ac",
+      "slug": "window-ac",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-d9fb480a-c287-40ab-90ac-864c5bad3507.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-d93c0b94-706e-49b9-adad-92c34b0fb5e5.png",
+      "file": "images/30-window-ac.png",
+      "sha256": "1c78cb91e0844d8d8ad7a1f205b95ceed88eb54c10b07b511af5f6dcdc8f3d06",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-d93c0b94-706e-49b9-adad-92c34b0fb5e5.png"
+    },
+    {
+      "id": "31-commuter-ferry",
+      "slug": "commuter-ferry",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-f20eee68-274b-4932-8f95-7005ad7d0bd4.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-bcd0236c-7c81-4b68-a16e-579327e9f717.png",
+      "file": "images/31-commuter-ferry.png",
+      "sha256": "0ed10b7508ca50d255e57b6cef685aae662ff053f9eb08d19d67a951fbcc5239",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-bcd0236c-7c81-4b68-a16e-579327e9f717.png"
+    },
+    {
+      "id": "32-rowboats",
+      "slug": "rowboats",
+      "originalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-7c718b31-1571-4f21-944b-67f877f631b3.png",
+      "cleanupFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-fa770800-9ab6-4cb3-be55-d454953dba95.png",
+      "file": "images/32-rowboats.png",
+      "sha256": "3cc4aab4f0727db0e3317288cb3c564569ded6ab2ccf5d0fe5e8dd0600527953",
+      "dimensionsPx": [
+        1774,
+        887
+      ],
+      "finalFile": "~/.codex/generated_images/01a11793-bdb2-70b1-9c86-a483c32b121a/exec-fa770800-9ab6-4cb3-be55-d454953dba95.png"
+    }
+  ],
+  "referenceInputs": [
+    "~/Desktop/worldengine-gpt-drop/nyc-hero-v1/images/15-street-surfaces.png"
+  ],
+  "review": {
+    "scope": "Visual review of triptychs for subject coverage and generic appearance; layouts checked separately",
+    "scale": "Authored metric targets, raster perspective not metrologically verified"
+  }
+}

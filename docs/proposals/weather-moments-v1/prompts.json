@@ -106,6 +106,35 @@
       "moments": [
         "gulf-sunset"
       ]
+    },
+    {
+      "id": "nyc",
+      "name": "New York City",
+      "rows": [
+        "Snow day on brownstone stoops",
+        "Summer thunderstorm down an avenue canyon",
+        "Rainy night \u00b7 wet patches and warm windows",
+        "Winter low sun through the canyon"
+      ],
+      "file": "images/nyc.png",
+      "moments": [
+        "nyc-snow",
+        "nyc-thunder",
+        "nyc-rain-night",
+        "nyc-winter-sun"
+      ],
+      "imageSizePx": [
+        1190,
+        1322
+      ],
+      "fullPrompt": "Use case: stylized-concept. Create a premium rich Style B NYC weather comparison BOARD with EXACTLY FOUR ROWS and TWO COLUMNS, eight equally sized LANDSCAPE panels. Narrow ivory separators, no captions/text. Overall near-square portrait board; each panel approximately 1.8:1. Each row LEFT comparison, RIGHT hero; precisely same camera, buildings, street geometry, trees and lens WITHIN row, only weather/time changes.\nInput images 1 snow brownstones, 2 Midtown canyon, 3 rainy brownstones are ARCHETYPE and MATERIAL REFERENCES ONLY; ignore their triptych layout. Match real-scale attached NYC architecture, brownstone stoops, black iron railings/cornices, 8\u201315 floor prewar masonry, tall restrained glass/stone avenue canyon; rich matte simplified surfaces, soft coherent real light, never cartoon/toy/painterly.\nROW1: street-level oblique Brooklyn brownstone stoops with bare trees. LEFT dry cold overcast winter day; RIGHT same stoops with fresh soft snow on treads, rails, cornices, tree branches and curb banks, sparse falling flakes, shoveled narrow sidewalk gaps. Brownstone retains warm natural stone.\nROW2: slightly raised street-level long Manhattan avenue canyon, stone prewar and glass podium buildings, green summer trees. LEFT humid blue partly cloudy afternoon; RIGHT broad dark rolling thunderstorm shelf visible advancing along avenue, distant localized rain shaft, softly modeled clouds, readable foreground, lightly damp patches. No lightning damage, no flooding.\nROW3: street-level tenement/brownstone corner with fire escapes. LEFT dry ordinary afternoon; RIGHT same place rainy night: cool readable fill, sparse warm windows, small warm streetlight pools, wet-patch reflections broken up by rough asphalt, NOT entire mirror road. Fine rain atmospheric cue, geometry intact.\nROW4: street-level Manhattan canyon with bare winter street trees. LEFT dry neutral winter midday with mostly shaded lower canyon; RIGHT same geometry low winter sun entering down street, long coherent diagonal shadows, warm lit upper masonry and narrow ground light corridor, cool neutral shadows. Not summer Manhattanhenge, no global orange wash, no snow needed.\nAbsolutely NO people, characters, animals, dogs, logos, agency insignia, brand names, signage, letters/numerals, license plates, murals, public art, UI, watermark or host content. Prefer empty streets without vehicles. No distinctive landmark towers, generic skyline only. No elevated subway in Manhattan. Keep TRUE SCALE and architectural richness. Preserve row alignment and equal panels; no alternate view columns.",
+      "inputImages": [
+        "26-snow-stoops.png",
+        "12-midtown-canyon.png",
+        "25-rainy-night.png",
+        "24-winter-low-sun.png"
+      ],
+      "method": "built-in image_gen"
     }
   ],
   "tool": "built-in image_gen",

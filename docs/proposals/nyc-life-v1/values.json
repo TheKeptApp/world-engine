@@ -1,0 +1,2268 @@
+{
+  "schema": "worldengine.nyc-life.values.v1",
+  "version": "1.0.0",
+  "date": "2026-10-07",
+  "status": "Authored visual/animation proposal; not surveyed, live or engine-verified",
+  "units": {
+    "length": "metre",
+    "speed": "metre per second",
+    "time": "local illustrative wall-clock hour; no UTC mapping",
+    "count": "Expected simultaneous visible instances, not hourly throughput"
+  },
+  "countConvention": {
+    "blockFaceLengthM": 150,
+    "scope": "One relevant street edge and its adjacent carriageway; use waterfront landing reach or lake-bank reach for water scenes",
+    "fractions": "Fractional expected occupancy can be sampled to integer instances; do not draw fractional objects",
+    "seasonBaseline": "Summer ordinary-day baseline except explicit conditional winter scenes",
+    "combination": "Do not sum every sheet into one block. Select compatible contexts and activity scenarios first; cap crowd density and reserve circulation space. Single-frame depiction count is separate from density presets.",
+    "shopPresence": "Counts mean physical storefront/kiosk/stall presence even when closed; open state and customer activity are separate.",
+    "groupCounts": "Crew/rig counts include their component people/vehicle once; do not spawn the components again from another profile.",
+    "unverified": "All counts are scene-authoring choices, not empirical averages or a claim of current practice."
+  },
+  "contexts": {
+    "avenue": {
+      "streetRef": "nyc-hero-v1/values.json#/streets/avenue",
+      "rightOfWayM": 30.48
+    },
+    "side_street": {
+      "streetRef": "nyc-hero-v1/values.json#/streets/sideStreet",
+      "rightOfWayM": 18.288
+    },
+    "park_edge": {
+      "description": "Public street along a park boundary; rigs remain at curb or appropriate paths"
+    },
+    "waterfront": {
+      "description": "Landing and adjacent river reach; boats remain on water"
+    },
+    "park_lake": {
+      "description": "Managed lake and shoreline, illustrative boating state"
+    }
+  },
+  "humanScale": {
+    "adultHeightM": {
+      "default": 1.72,
+      "range": [
+        1.55,
+        1.9
+      ]
+    },
+    "walkingSpeedMps": {
+      "default": 1.35,
+      "range": [
+        0.8,
+        1.8
+      ]
+    },
+    "facePolicy": "Medium-distance side/back views; no detailed or identifiable facial features. Ordinary diverse generic adults; no real-person likenesses."
+  },
+  "motionPresets": {
+    "static": {
+      "default": 0,
+      "range": [
+        0,
+        0
+      ]
+    },
+    "standing": {
+      "default": 0,
+      "range": [
+        0,
+        0.3
+      ]
+    },
+    "seated": {
+      "default": 0,
+      "range": [
+        0,
+        0
+      ]
+    },
+    "walking": {
+      "default": 1.35,
+      "range": [
+        0.8,
+        1.8
+      ]
+    },
+    "riding": {
+      "default": 4.5,
+      "range": [
+        2,
+        6
+      ]
+    },
+    "driving": {
+      "default": 6,
+      "range": [
+        0,
+        12
+      ]
+    },
+    "carriage": {
+      "default": 1.8,
+      "range": [
+        0.8,
+        2.8
+      ]
+    },
+    "pedicab": {
+      "default": 2.5,
+      "range": [
+        1,
+        4
+      ]
+    },
+    "sweeping": {
+      "default": 1.5,
+      "range": [
+        0.5,
+        2.5
+      ]
+    },
+    "plowing": {
+      "default": 3,
+      "range": [
+        1,
+        5
+      ]
+    },
+    "ferry": {
+      "default": 8,
+      "range": [
+        0,
+        12
+      ]
+    },
+    "rowing": {
+      "default": 1,
+      "range": [
+        0.3,
+        1.8
+      ]
+    }
+  },
+  "lightingReference": {
+    "path": "../nyc-hero-v1/values.json",
+    "clearDayReference": {
+      "id": "shared_clear_midafternoon_hero_v1",
+      "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+      "appliesTo": [
+        "lakeview",
+        "denver",
+        "wilmette",
+        "postcard"
+      ],
+      "anchor": {
+        "requestedApprovedPaintoverNumber": 5,
+        "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+        "workingColorAnchor": "images/denver-paintover.png",
+        "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+        "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+        "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+      },
+      "sky": {
+        "gradient": [
+          {
+            "elevationDeg": 90,
+            "hex": "#73A5CC"
+          },
+          {
+            "elevationDeg": 30,
+            "hex": "#A2C4DC"
+          },
+          {
+            "elevationDeg": 0,
+            "hex": "#DBDCD1"
+          }
+        ],
+        "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+        "warmHorizon": {
+          "maxElevationDeg": 10,
+          "tintHex": "#E5DFCD",
+          "maximumMix01": 0.12
+        },
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "cloudCoverage01": 0.18,
+        "noPurpleLavenderPink": true,
+        "sharedAtmosphere": true,
+        "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+      },
+      "sun": {
+        "colorHex": "#FFE8C6",
+        "directIntensityRelativeClearE0": 1,
+        "elevationDeg": 40,
+        "azimuthDegTrueNorthClockwise": 225,
+        "angularDiameterDeg": 0.53,
+        "keyToSkyFillWitnessRatio": 0.6129032258064516,
+        "skyFillColorHex": "#AEBCCA",
+        "skyFillRelativeDirect": 1.631578947368421,
+        "geometry": {
+          "shadowBearingDeg": 45,
+          "flatGroundShadowLengthPerHeight": 1.19175359259421
+        },
+        "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+        "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+      },
+      "shadows": {
+        "appearanceTintHex": "#7F8F99",
+        "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "strengthPercent": 38,
+        "filterDrawablePx": [
+          1,
+          2
+        ],
+        "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+        "addedAmbientVisibilityFloor": 0.65,
+        "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+        "noYellowRimLightOutline": true
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+        "applyOnce": true,
+        "perViewExposureOverridesAllowed": false,
+        "contrastSlope": 1.06,
+        "linearLuminancePivot": 0.18,
+        "saturationFactor": 1.08,
+        "additionalWarmthPercent": 0,
+        "additionalWarmthDiagonalRGB": [
+          1,
+          1,
+          1
+        ],
+        "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+      },
+      "ground": {
+        "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+        "asphalt": {
+          "hex": "#626A70",
+          "roughness": 0.82
+        },
+        "concrete": {
+          "hex": "#C5C0B3",
+          "roughness": 0.82
+        },
+        "lawn": {
+          "hex": "#73865B",
+          "roughness": 0.92
+        },
+        "curbHex": "#B9B7AD",
+        "wetness01": 0,
+        "puddles": false,
+        "noLavenderOrTanCast": true
+      },
+      "postcard": {
+        "trees": {
+          "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+          "barkHex": "#716659",
+          "crownGreensHex": [
+            "#49664C",
+            "#6F8758",
+            "#879466"
+          ],
+          "earlyAutumnHex": "#B49A60",
+          "earlyAutumnAreaTargetMax01": 0.15,
+          "archetypes": [
+            "irregular broad lobed",
+            "upright oval",
+            "open vase"
+          ],
+          "lobesPerCrown": [
+            5,
+            9
+          ],
+          "noIdenticalBallClusters": true,
+          "noIndividualLeafGeometry": true
+        },
+        "dressing": {
+          "parkedCarsTargetCount": 3,
+          "carColorsHex": [
+            "#5D6D78",
+            "#C7C2B4",
+            "#656C71"
+          ],
+          "unbranded": true,
+          "observedOrLive": false,
+          "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+          "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+          "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+        }
+      },
+      "performance": {
+        "additionalGlobalPasses": 0,
+        "additionalShadowMaps": 0,
+        "additionalDaytimeLights": 0,
+        "retainExistingBuildingBudget": true,
+        "dressingMustFitExistingNearGeometryBudget": true,
+        "noDeviceBenchmark": true
+      },
+      "compatibility": [
+        {
+          "source": "docs/proposals/paintover-v1/paintover-values.json",
+          "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+          "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+        },
+        {
+          "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+          "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+          "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+        },
+        {
+          "source": "docs/proposals/rain-v1/rain-values.json",
+          "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+          "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+        },
+        {
+          "source": "night-fog-v1/night-fog-values.json",
+          "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+          "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+        },
+        {
+          "source": "Existing house-contrast paintoverValidation metadata",
+          "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+          "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+        }
+      ]
+    },
+    "winter": "Hero winter-low-sun family replaces clear-day sun",
+    "snow": "Hero soft overcast snow state",
+    "night": "Hero night lighting family, with wetness only when rain is active",
+    "status": "Visual match; exact generated bearings/exposure unmeasured"
+  },
+  "genericAppearance": {
+    "people": "Natural fabrics and proportion, no uniform insignia or branded clothing",
+    "vehicles": "Original generic shell proportions; no brands, readable plates, route labels, destination text, agency insignia or recognizable emblems",
+    "shops": "Blank awnings and fascia; unlabeled packaging, abstract magazine covers, no menus or prices"
+  },
+  "exceptions": {
+    "horse": "Allowed only harnessed to the requested carriage, not led or walked; no other animals"
+  },
+  "detailTiers": {
+    "near": "Silhouette, garment folds, cart mechanisms, wheels, washer doors and ordinary tools; faces remain indistinct",
+    "mid": "Human posture, vehicle class, storefront opening and life clusters",
+    "far": "Small coherent activity clusters, vehicle color/mass and block rhythm; no detailed faces or signage"
+  },
+  "objects": [
+    {
+      "id": "pizza-slice",
+      "name": "Pizza by the slice",
+      "sheet": "sheets/01-pizza-slice.html",
+      "primaryObjectSizeM": {
+        "length": 5,
+        "width": 8,
+        "height": 3.6
+      },
+      "sizeMeaning": "Facade width / shop depth / interior height",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "storefront",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.5
+        },
+        "summer": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.5
+        },
+        "autumn": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.5
+        },
+        "winter": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.5
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 2,
+      "artDirection": "A 5m-wide generic slice shop beneath a tenement. Plain muted red awning, blank fascia, pizza trays visible through glass, a small walk-up serving window, two customers and a worker. No lettering, menus or pizza logos.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 0,
+        "12:00": 2,
+        "18:00": 3,
+        "23:00": 1
+      }
+    },
+    {
+      "id": "bodega",
+      "name": "Bodega / corner deli",
+      "sheet": "sheets/02-bodega.html",
+      "primaryObjectSizeM": {
+        "length": 6,
+        "width": 8,
+        "height": 3.6
+      },
+      "sizeMeaning": "Facade width / shop depth / interior height",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "storefront",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.8,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.8
+        },
+        "summer": {
+          "06:00": 0.8,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.8
+        },
+        "autumn": {
+          "06:00": 0.8,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.8
+        },
+        "winter": {
+          "06:00": 0.8,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.8
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "A corner deli with 6m front, plain forest-green awning, open doorway, exterior crates and flowers, shelves visible inside, three customers; two street frontages, brick tenement above. No words, prices, posters or branded packaging.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 1,
+        "12:00": 4,
+        "18:00": 5,
+        "23:00": 2
+      }
+    },
+    {
+      "id": "laundromat",
+      "name": "Laundromat",
+      "sheet": "sheets/03-laundromat.html",
+      "primaryObjectSizeM": {
+        "length": 7,
+        "width": 10,
+        "height": 3.4
+      },
+      "sizeMeaning": "Facade width / shop depth / interior height",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "storefront",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.4,
+          "12:00": 0.4,
+          "18:00": 0.4,
+          "23:00": 0.4
+        },
+        "summer": {
+          "06:00": 0.4,
+          "12:00": 0.4,
+          "18:00": 0.4,
+          "23:00": 0.4
+        },
+        "autumn": {
+          "06:00": 0.4,
+          "12:00": 0.4,
+          "18:00": 0.4,
+          "23:00": 0.4
+        },
+        "winter": {
+          "06:00": 0.4,
+          "12:00": 0.4,
+          "18:00": 0.4,
+          "23:00": 0.4
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 2,
+      "artDirection": "A 7m storefront beneath walk-ups. Plain blue-gray awning and large windows reveal stainless round-door washers in a row, folding counter and two customers carrying laundry sacks. No lettering or machine logos.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 0,
+        "12:00": 3,
+        "18:00": 4,
+        "23:00": 1
+      }
+    },
+    {
+      "id": "newsstand",
+      "name": "Newsstand",
+      "sheet": "sheets/04-newsstand.html",
+      "primaryObjectSizeM": {
+        "length": 2.5,
+        "width": 1.8,
+        "height": 2.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "kiosk",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "summer": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "autumn": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "winter": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 2,
+      "artDirection": "A 2.5m sidewalk newsstand kiosk on a Manhattan avenue, open display shelves of magazines with abstract color blocks only, closed blank fascia, one vendor and two customers. Maintain clear pedestrian path; no readable covers or lettering.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 1,
+        "12:00": 3,
+        "18:00": 2,
+        "23:00": 0
+      }
+    },
+    {
+      "id": "diner",
+      "name": "Diner",
+      "sheet": "sheets/05-diner.html",
+      "primaryObjectSizeM": {
+        "length": 9,
+        "width": 12,
+        "height": 3.6
+      },
+      "sizeMeaning": "Facade width / shop depth / interior height",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "storefront",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "summer": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "autumn": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        },
+        "winter": {
+          "06:00": 0.3,
+          "12:00": 0.3,
+          "18:00": 0.3,
+          "23:00": 0.3
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 4,
+      "artDirection": "A 9m-wide generic neighborhood diner at street level with restrained stainless trim, broad windows, booths and stools inside, plain cream awning, four diners seen from behind. No names, menus, neon words or logos.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 2,
+        "12:00": 5,
+        "18:00": 6,
+        "23:00": 2
+      }
+    },
+    {
+      "id": "chinatown-produce",
+      "name": "Chinatown produce stalls",
+      "sheet": "sheets/06-chinatown-produce.html",
+      "primaryObjectSizeM": {
+        "length": 6,
+        "width": 2,
+        "height": 2.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "stall cluster",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 1,
+          "12:00": 1,
+          "18:00": 1,
+          "23:00": 1
+        },
+        "summer": {
+          "06:00": 1,
+          "12:00": 1,
+          "18:00": 1,
+          "23:00": 1
+        },
+        "autumn": {
+          "06:00": 1,
+          "12:00": 1,
+          "18:00": 1,
+          "23:00": 1
+        },
+        "winter": {
+          "06:00": 1,
+          "12:00": 1,
+          "18:00": 1,
+          "23:00": 1
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 6,
+      "artDirection": "Lower Manhattan Chinatown street, narrow brick tenement and fire escapes, dense but orderly curbside produce crates with leafy greens, citrus and dragonfruit, simple dark-green canopy. Four shoppers and two workers; unlabeled crates and blank walls. No Chinese or English characters, banners, prices or murals.",
+      "expectedCustomersPerActiveLocationByHour": {
+        "06:00": 0,
+        "12:00": 6,
+        "18:00": 4,
+        "23:00": 0
+      }
+    },
+    {
+      "id": "food-cart",
+      "name": "Food cart",
+      "sheet": "sheets/07-food-cart.html",
+      "primaryObjectSizeM": {
+        "length": 1.8,
+        "width": 1,
+        "height": 2.25
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "cart",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.1,
+          "12:00": 0.8,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0.1,
+          "12:00": 0.8,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.1,
+          "12:00": 0.8,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.085,
+          "12:00": 0.68,
+          "18:00": 0.34,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 5,
+      "artDirection": "Stainless street-food cart with plain blue canopy, cooking hood and neutral containers. One vendor and four customers, office avenue corner, 1.8m wide cart on sidewalk without blocking subway stairs. No logos, writing or branded condiments."
+    },
+    {
+      "id": "hot-dog-cart",
+      "name": "Hot dog cart",
+      "sheet": "sheets/08-hot-dog-cart.html",
+      "primaryObjectSizeM": {
+        "length": 1.5,
+        "width": 0.85,
+        "height": 2.4
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "cart",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.05,
+          "12:00": 0.5,
+          "18:00": 0.3,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0.05,
+          "12:00": 0.5,
+          "18:00": 0.3,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.05,
+          "12:00": 0.5,
+          "18:00": 0.3,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.043,
+          "12:00": 0.425,
+          "18:00": 0.255,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 4,
+      "artDirection": "Small stainless hot dog cart with a plain yellow-and-red umbrella, steam pans and anonymous water bottles. Vendor behind cart and three waiting adults with faces turned away. NYC street corner, no lettering or umbrella branding."
+    },
+    {
+      "id": "fruit-stand",
+      "name": "Fruit stand",
+      "sheet": "sheets/09-fruit-stand.html",
+      "primaryObjectSizeM": {
+        "length": 2.5,
+        "width": 1.2,
+        "height": 2.4
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "stand",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.1,
+          "12:00": 0.6,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0.1,
+          "12:00": 0.6,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.1,
+          "12:00": 0.6,
+          "18:00": 0.4,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.085,
+          "12:00": 0.51,
+          "18:00": 0.34,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 4,
+      "artDirection": "A sidewalk fruit stand with tiered crates, plain muted green umbrella, seasonal apples and oranges. One seller and three shoppers. All cartons, bags and fascia blank, realistic fruit scale and 1.8m clear walking channel."
+    },
+    {
+      "id": "christmas-trees",
+      "name": "Christmas-tree seller",
+      "sheet": "sheets/10-christmas-trees.html",
+      "primaryObjectSizeM": {
+        "length": 10,
+        "width": 2,
+        "height": 3
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [
+        "travel lane"
+      ],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "seller installation",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0,
+          "12:00": 0.3,
+          "18:00": 0.5,
+          "23:00": 0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Active only 25 November\u201324 December; zero outside that calendar window. Winter profile is conditional on that window.",
+      "depictedPeoplePerTriptychSceneApprox": 5,
+      "artDirection": "December sidewalk tree seller alongside brownstone blocks. A 10m-long temporary fenced display of realistic cut conifers 1.5\u20133m tall with simple timber racks, two workers and three bundled customers, twine-wrapped trees. Cool low winter sun matching hero winter lighting; no pets, signs or ornaments."
+    },
+    {
+      "id": "mail-carrier",
+      "name": "Mail carrier + cart",
+      "sheet": "sheets/11-mail-carrier.html",
+      "primaryObjectSizeM": {
+        "length": 0.65,
+        "width": 0.9,
+        "height": 1.1
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "walking",
+        "speedMps": {
+          "default": 1.35,
+          "range": [
+            0.8,
+            1.8
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "carrier with cart",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0,
+          "12:00": 0.2,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0.2,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0,
+          "12:00": 0.2,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.17,
+          "18:00": 0.043,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 1,
+      "artDirection": "Generic mail carrier in plain muted blue-gray shirt and trousers, wheeled canvas mail cart, small shoulder satchel; seen side/back view walking an attached brownstone sidewalk. NO eagle, patches, insignia, badges, agency branding, readable envelope addresses or detailed face."
+    },
+    {
+      "id": "delivery-ebikes",
+      "name": "Delivery e-bike riders",
+      "sheet": "sheets/12-delivery-ebikes.html",
+      "primaryObjectSizeM": {
+        "length": 1.85,
+        "width": 0.65,
+        "height": 1.25
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "riding",
+        "speedMps": {
+          "default": 4.5,
+          "range": [
+            2,
+            6
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "rider and e-bike",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.2,
+          "12:00": 1.5,
+          "18:00": 2.5,
+          "23:00": 0.4
+        },
+        "summer": {
+          "06:00": 0.2,
+          "12:00": 1.5,
+          "18:00": 2.5,
+          "23:00": 0.4
+        },
+        "autumn": {
+          "06:00": 0.2,
+          "12:00": 1.5,
+          "18:00": 2.5,
+          "23:00": 0.4
+        },
+        "winter": {
+          "06:00": 0.17,
+          "12:00": 1.275,
+          "18:00": 2.125,
+          "23:00": 0.34
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 1,
+      "artDirection": "Two generic delivery riders in everyday neutral jackets, helmets and plain insulated rear bags, full-size e-bikes traveling a protected avenue bike lane. No platform branding, readable screens or bags, no detailed faces. Hands and wheels realistic, no riding on sidewalk."
+    },
+    {
+      "id": "sanitation",
+      "name": "Sanitation crew + truck",
+      "sheet": "sheets/13-sanitation.html",
+      "primaryObjectSizeM": {
+        "length": 9,
+        "width": 2.5,
+        "height": 3.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 3,
+          "range": [
+            0,
+            6
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "truck with crew",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0.05,
+          "23:00": 0.2
+        },
+        "summer": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0.05,
+          "23:00": 0.2
+        },
+        "autumn": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0.05,
+          "23:00": 0.2
+        },
+        "winter": {
+          "06:00": 0.128,
+          "12:00": 0.017,
+          "18:00": 0.043,
+          "23:00": 0.17
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Conditional on a selected collection/sweeping pass. No actual route, day or alternate-side schedule is encoded.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "A full-size 9m rear-loading refuse truck with plain off-white cab and green body, no text/insignia; three generic sanitation workers in unmarked workwear collecting tied bags at a curb. Side street, truck stationary with believable rear-loading mechanism and safe spacing. No agency marks or detailed faces."
+    },
+    {
+      "id": "doorman",
+      "name": "Doorman",
+      "sheet": "sheets/14-doorman.html",
+      "primaryObjectSizeM": {
+        "length": 0.6,
+        "width": 0.45,
+        "height": 1.78
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "standing",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0.3
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "worker",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.3
+        },
+        "summer": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.3
+        },
+        "autumn": {
+          "06:00": 0.5,
+          "12:00": 0.5,
+          "18:00": 0.5,
+          "23:00": 0.3
+        },
+        "winter": {
+          "06:00": 0.425,
+          "12:00": 0.425,
+          "18:00": 0.425,
+          "23:00": 0.255
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 1,
+      "artDirection": "Generic doorman in plain charcoal tailored uniform with an unmarked cap beside a recessed UWS prewar apartment entrance, helping an arriving resident. Restrained realistic human proportions, rear/side faces without detail, no insignia, names or facade plaques."
+    },
+    {
+      "id": "construction",
+      "name": "Construction crew under shed",
+      "sheet": "sheets/15-construction.html",
+      "primaryObjectSizeM": {
+        "length": 8,
+        "width": 3,
+        "height": 2.8
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "standing",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0.3
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "crew work zone",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.1,
+          "12:00": 0.4,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0.1,
+          "12:00": 0.4,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.1,
+          "12:00": 0.4,
+          "18:00": 0.05,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.085,
+          "12:00": 0.34,
+          "18:00": 0.043,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "Three generic construction workers in unmarked helmets and neutral high-visibility vests under a real-scale NYC sidewalk shed. Tools, a short ladder and materials within a cordoned work area leaving a clear walking channel. No contractor logos, signs, faces in detail or public art."
+    },
+    {
+      "id": "yellow-taxi",
+      "name": "Yellow taxi",
+      "sheet": "sheets/16-yellow-taxi.html",
+      "primaryObjectSizeM": {
+        "length": 4.8,
+        "width": 1.85,
+        "height": 1.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 6,
+          "range": [
+            0,
+            12
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.5,
+          "12:00": 2,
+          "18:00": 2.5,
+          "23:00": 0.8
+        },
+        "summer": {
+          "06:00": 0.5,
+          "12:00": 2,
+          "18:00": 2.5,
+          "23:00": 0.8
+        },
+        "autumn": {
+          "06:00": 0.5,
+          "12:00": 2,
+          "18:00": 2.5,
+          "23:00": 0.8
+        },
+        "winter": {
+          "06:00": 0.425,
+          "12:00": 1.7,
+          "18:00": 2.125,
+          "23:00": 0.68
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 2,
+      "artDirection": "Generic full-size yellow sedan taxi 4.8m long, no recognizable brand grille, no writing, no roof ad, no badges, no medallion graphics, no license text. Small blank roof light only. Avenue curb pickup with one passenger seen from behind, realistic suspension/wheels."
+    },
+    {
+      "id": "city-bus",
+      "name": "City bus",
+      "sheet": "sheets/17-city-bus.html",
+      "primaryObjectSizeM": {
+        "length": 12,
+        "width": 2.55,
+        "height": 3.2
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 5,
+          "range": [
+            0,
+            10
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.3,
+          "12:00": 0.5,
+          "18:00": 0.6,
+          "23:00": 0.2
+        },
+        "summer": {
+          "06:00": 0.3,
+          "12:00": 0.5,
+          "18:00": 0.6,
+          "23:00": 0.2
+        },
+        "autumn": {
+          "06:00": 0.3,
+          "12:00": 0.5,
+          "18:00": 0.6,
+          "23:00": 0.2
+        },
+        "winter": {
+          "06:00": 0.255,
+          "12:00": 0.425,
+          "18:00": 0.51,
+          "23:00": 0.17
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 5,
+      "artDirection": "A full-size 12m low-floor city bus in plain off-white and blue-gray generic livery on a Manhattan avenue. Blank dark destination panel, no route number, text, roundel or agency insignia. One door open and five passengers waiting on sidewalk, no detailed faces."
+    },
+    {
+      "id": "box-trucks",
+      "name": "Double-parked box trucks",
+      "sheet": "sheets/18-box-trucks.html",
+      "primaryObjectSizeM": {
+        "length": 7,
+        "width": 2.4,
+        "height": 3.3
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            8
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.2,
+          "12:00": 0.8,
+          "18:00": 0.2,
+          "23:00": 0.05
+        },
+        "summer": {
+          "06:00": 0.2,
+          "12:00": 0.8,
+          "18:00": 0.2,
+          "23:00": 0.05
+        },
+        "autumn": {
+          "06:00": 0.2,
+          "12:00": 0.8,
+          "18:00": 0.2,
+          "23:00": 0.05
+        },
+        "winter": {
+          "06:00": 0.17,
+          "12:00": 0.68,
+          "18:00": 0.17,
+          "23:00": 0.043
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 1,
+      "artDirection": "Two generic full-size 7m white box trucks double-parked beside a curbside parked van during loading. NYC avenue, boxes and rear lift gate with worker; all panels and number plates blank, no brands. Show the real obstruction within carriageway, do not place trucks inside bike lane or on sidewalk."
+    },
+    {
+      "id": "ice-cream-truck",
+      "name": "Ice-cream truck",
+      "sheet": "sheets/19-ice-cream-truck.html",
+      "primaryObjectSizeM": {
+        "length": 6,
+        "width": 2.25,
+        "height": 2.8
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "park_edge"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 6,
+          "range": [
+            0,
+            12
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.0,
+          "12:00": 0.225,
+          "18:00": 0.45,
+          "23:00": 0.0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0.3,
+          "18:00": 0.6,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.0,
+          "12:00": 0.24,
+          "18:00": 0.48,
+          "23:00": 0.0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.015,
+          "18:00": 0.03,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "A full-size 6m generic pale cream ice-cream van on a park-edge curb, open side serving hatch, a simple freezer counter and three customers. Completely blank body without words, cartoon mascots, menus or brand stripes; no detailed faces."
+    },
+    {
+      "id": "fire-engine",
+      "name": "Fire engine",
+      "sheet": "sheets/20-fire-engine.html",
+      "primaryObjectSizeM": {
+        "length": 10,
+        "width": 2.5,
+        "height": 3.3
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 6,
+          "range": [
+            0,
+            12
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.01,
+          "12:00": 0.02,
+          "18:00": 0.02,
+          "23:00": 0.01
+        },
+        "summer": {
+          "06:00": 0.01,
+          "12:00": 0.02,
+          "18:00": 0.02,
+          "23:00": 0.01
+        },
+        "autumn": {
+          "06:00": 0.01,
+          "12:00": 0.02,
+          "18:00": 0.02,
+          "23:00": 0.01
+        },
+        "winter": {
+          "06:00": 0.009,
+          "12:00": 0.017,
+          "18:00": 0.017,
+          "23:00": 0.009
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Optional rare passing/parked response vehicle; not a live dispatch or inference about incidents.",
+      "depictedPeoplePerTriptychSceneApprox": 0,
+      "artDirection": "Generic full-size red fire engine 10m long on a NYC avenue. Real hose compartments, ladder and pump fittings, small neutral emergency lamps, plain red body and dark cab glass. NO insignia, shields, numbers, words, agency marks, readable plates or recognizable manufacturer."
+    },
+    {
+      "id": "ambulance",
+      "name": "Ambulance",
+      "sheet": "sheets/21-ambulance.html",
+      "primaryObjectSizeM": {
+        "length": 6.6,
+        "width": 2.35,
+        "height": 2.9
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "driving",
+        "speedMps": {
+          "default": 6,
+          "range": [
+            0,
+            12
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.02,
+          "12:00": 0.03,
+          "18:00": 0.03,
+          "23:00": 0.02
+        },
+        "summer": {
+          "06:00": 0.02,
+          "12:00": 0.03,
+          "18:00": 0.03,
+          "23:00": 0.02
+        },
+        "autumn": {
+          "06:00": 0.02,
+          "12:00": 0.03,
+          "18:00": 0.03,
+          "23:00": 0.02
+        },
+        "winter": {
+          "06:00": 0.017,
+          "12:00": 0.025,
+          "18:00": 0.025,
+          "23:00": 0.017
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Optional rare passing/parked response vehicle; not a live dispatch or inference about incidents.",
+      "depictedPeoplePerTriptychSceneApprox": 0,
+      "artDirection": "Generic full-size 6.6m box ambulance on a Manhattan street, plain white body with a restrained solid red horizontal band and small emergency lamps. No cross, star-of-life, text, numbers, insignia or manufacturer identity. Natural proportions and realistic vehicle wheels."
+    },
+    {
+      "id": "horse-carriage",
+      "name": "Horse carriage",
+      "sheet": "sheets/22-horse-carriage.html",
+      "primaryObjectSizeM": {
+        "length": 6.5,
+        "width": 1.8,
+        "height": 2.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "park_edge"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "carriage",
+        "speedMps": {
+          "default": 1.8,
+          "range": [
+            0.8,
+            2.8
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "horse-carriage rig",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.0,
+          "12:00": 0.375,
+          "18:00": 0.6,
+          "23:00": 0.0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0.5,
+          "18:00": 0.8,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.0,
+          "12:00": 0.4,
+          "18:00": 0.64,
+          "23:00": 0.0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.025,
+          "18:00": 0.04,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "A generic horse-drawn carriage at a New York park edge, one realistic adult horse HITched to carriage shafts and harness, two seated guests and driver. The requested carriage horse is the ONLY animal exception; no dogs, pets or animals walked on leads. Plain dark carriage without signs or logos, no detailed human faces. Total rig length 6.5m, realistic horse and wheel anatomy."
+    },
+    {
+      "id": "pedicab",
+      "name": "Pedicab",
+      "sheet": "sheets/23-pedicab.html",
+      "primaryObjectSizeM": {
+        "length": 2.8,
+        "width": 1.2,
+        "height": 2
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "park_edge"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "pedicab",
+        "speedMps": {
+          "default": 2.5,
+          "range": [
+            1,
+            4
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "pedicab rig",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.0,
+          "12:00": 0.6,
+          "18:00": 0.9,
+          "23:00": 0.0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0.8,
+          "18:00": 1.2,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.0,
+          "12:00": 0.64,
+          "18:00": 0.96,
+          "23:00": 0.0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.04,
+          "18:00": 0.06,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "Generic full-size three-wheel pedicab at a park edge, 2.8m long with plain dark-green canopy, one pedaling adult and two seated guests, correct rear passenger axle and realistic cycle frame. No ads, numbers, writing, logos, detailed faces or animals."
+    },
+    {
+      "id": "trash-night",
+      "name": "Pickup-night curbside bags",
+      "sheet": "sheets/24-trash-night.html",
+      "primaryObjectSizeM": {
+        "length": 0.55,
+        "width": 0.45,
+        "height": 0.65
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "bag",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 6,
+          "12:00": 0,
+          "18:00": 5,
+          "23:00": 16
+        },
+        "summer": {
+          "06:00": 6,
+          "12:00": 0,
+          "18:00": 5,
+          "23:00": 16
+        },
+        "autumn": {
+          "06:00": 6,
+          "12:00": 0,
+          "18:00": 5,
+          "23:00": 16
+        },
+        "winter": {
+          "06:00": 5.1,
+          "12:00": 0.0,
+          "18:00": 4.25,
+          "23:00": 13.6
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Loose tied-bag illustration is conditional on a selected collection/put-out scenario. It is not a citywide pickup schedule or a claim about current container rules.",
+      "depictedPeoplePerTriptychSceneApprox": 0,
+      "artDirection": "Late evening on a NYC residential side street, tied black refuse bags in compact groups at the curb outside attached tenements, a few generic residents seen from behind. Night lighting exactly in the hero rainy-night family but dry pavement: warm lamps, quiet windows and readable matte masonry. Bags are 0.65m tall, not giant piles; no labels or dumped public art."
+    },
+    {
+      "id": "morning-commute",
+      "name": "Morning subway commute",
+      "sheet": "sheets/25-morning-commute.html",
+      "primaryObjectSizeM": {
+        "length": 4,
+        "width": 3,
+        "height": 1.1
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "walking",
+        "speedMps": {
+          "default": 1.35,
+          "range": [
+            0.8,
+            1.8
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "person",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 12,
+          "12:00": 6,
+          "18:00": 18,
+          "23:00": 3
+        },
+        "summer": {
+          "06:00": 12,
+          "12:00": 6,
+          "18:00": 18,
+          "23:00": 3
+        },
+        "autumn": {
+          "06:00": 12,
+          "12:00": 6,
+          "18:00": 18,
+          "23:00": 3
+        },
+        "winter": {
+          "06:00": 10.2,
+          "12:00": 5.1,
+          "18:00": 15.3,
+          "23:00": 2.55
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 18,
+      "artDirection": "Morning avenue subway entrance with generic green railings and below-grade stairs, a believable crowd of about 18 adult commuters entering and passing, varied neutral clothing, no face detail. Keep clear flows and real-scale 1.8m stair opening. Soft morning light, blank kiosk/fascia, no transit roundels, route labels or signage."
+    },
+    {
+      "id": "lunch-queues",
+      "name": "Lunch queues at carts",
+      "sheet": "sheets/26-lunch-queues.html",
+      "primaryObjectSizeM": {
+        "length": 12,
+        "width": 2,
+        "height": 2.4
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "standing",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0.3
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "person in queue",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0,
+          "12:00": 14,
+          "18:00": 4,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 14,
+          "18:00": 4,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0,
+          "12:00": 14,
+          "18:00": 4,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 11.9,
+          "18:00": 3.4,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 14,
+      "artDirection": "Manhattan office avenue at noon: two generic stainless food carts with plain umbrellas and two queues totaling about 14 adults, orderly queue along curb, clear pedestrian path. No face detail, logos, readable signs or branded clothing. Midday canyon shadows with sunlight at cross-street openings, consistent with hero midday sheet."
+    },
+    {
+      "id": "stoop-evening",
+      "name": "Evening stoop sitting",
+      "sheet": "sheets/27-stoop-evening.html",
+      "primaryObjectSizeM": {
+        "length": 6.1,
+        "width": 3.1,
+        "height": 1.7
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "seated",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "seated person",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0,
+          "12:00": 0,
+          "18:00": 6,
+          "23:00": 0.2
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 0,
+          "18:00": 6,
+          "23:00": 0.2
+        },
+        "autumn": {
+          "06:00": 0,
+          "12:00": 0,
+          "18:00": 6,
+          "23:00": 0.2
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.0,
+          "18:00": 5.1,
+          "23:00": 0.17
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 6,
+      "artDirection": "Warm early-evening Brooklyn brownstone row. Six generic neighbors sit on stoops and lower steps, chatting in relaxed realistic poses. Side/back views avoid detailed faces; keep rails, areaways and scale intact. Soft golden late-day sun from hero family, no dogs, brands, lettering, public art or app content."
+    },
+    {
+      "id": "street-sweeper",
+      "name": "Alternate-side street sweeper",
+      "sheet": "sheets/28-street-sweeper.html",
+      "primaryObjectSizeM": {
+        "length": 5,
+        "width": 2,
+        "height": 2.6
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "sweeping",
+        "speedMps": {
+          "default": 1.5,
+          "range": [
+            0.5,
+            2.5
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0,
+          "23:00": 0
+        },
+        "summer": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.15,
+          "12:00": 0.02,
+          "18:00": 0,
+          "23:00": 0
+        },
+        "winter": {
+          "06:00": 0.128,
+          "12:00": 0.017,
+          "18:00": 0.0,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Conditional on a selected collection/sweeping pass. No actual route, day or alternate-side schedule is encoded.",
+      "depictedPeoplePerTriptychSceneApprox": 0,
+      "artDirection": "Compact generic 5m street sweeper on a NYC side street with one curb visibly free of parked cars, rotary brushes reaching gutter and realistic collection body. Plain gray/green body, no agency markings, text or arrows. Two distant pedestrians; no faces in detail. Clear morning soft light."
+    },
+    {
+      "id": "snow-plow",
+      "name": "Snow plow + salt spreader",
+      "sheet": "sheets/29-snow-plow.html",
+      "primaryObjectSizeM": {
+        "length": 9,
+        "width": 2.8,
+        "height": 3.5
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "avenue"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "plowing",
+        "speedMps": {
+          "default": 3,
+          "range": [
+            1,
+            5
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vehicle",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0.0
+        },
+        "summer": {
+          "06:00": 0.0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0.0
+        },
+        "autumn": {
+          "06:00": 0.0,
+          "12:00": 0.0,
+          "18:00": 0.0,
+          "23:00": 0.0
+        },
+        "winter": {
+          "06:00": 0.2,
+          "12:00": 0.1,
+          "18:00": 0.1,
+          "23:00": 0.15
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Winter profile applies only during a snow-clearing operation; zero when operation is inactive.",
+      "depictedPeoplePerTriptychSceneApprox": 0,
+      "artDirection": "Generic winter maintenance truck with a front snow plow and rear salt hopper, full rig length 9m, realistic blade clearing a snow-covered NYC avenue. Snow banks at curb, cleared travel lane, ordinary bare street trees. Plain orange/gray body without agency logos or text. Overcast snow light matching NYC hero snow sheet; no animals."
+    },
+    {
+      "id": "window-ac",
+      "name": "Summer window AC units",
+      "sheet": "sheets/30-window-ac.html",
+      "primaryObjectSizeM": {
+        "length": 0.6,
+        "width": 0.45,
+        "height": 0.4
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "side_street"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "static",
+        "speedMps": {
+          "default": 0,
+          "range": [
+            0,
+            0
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "AC unit",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 8.0,
+          "12:00": 8.0,
+          "18:00": 8.0,
+          "23:00": 8.0
+        },
+        "summer": {
+          "06:00": 20,
+          "12:00": 20,
+          "18:00": 20,
+          "23:00": 20
+        },
+        "autumn": {
+          "06:00": 13.0,
+          "12:00": 13.0,
+          "18:00": 13.0,
+          "23:00": 13.0
+        },
+        "winter": {
+          "06:00": 2.0,
+          "12:00": 2.0,
+          "18:00": 2.0,
+          "23:00": 2.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Visible installed units, not operating count. Some remain installed in winter; cooling-state behavior is a separate authored toggle.",
+      "depictedPeoplePerTriptychSceneApprox": 3,
+      "artDirection": "Summer Manhattan tenement facades showing physically credible window-mounted air conditioners 0.6m wide projecting 0.45m, supported beneath sash windows with neat brackets, never floating. Street-level shows a row of units and three distant residents, aerial and far show scattered repetition across inhabited blocks. Rich matte brick, normal summer sunlight and leafy tree pits, no appliance brands or readable text."
+    },
+    {
+      "id": "commuter-ferry",
+      "name": "Commuter ferry",
+      "sheet": "sheets/31-commuter-ferry.html",
+      "primaryObjectSizeM": {
+        "length": 30,
+        "width": 9,
+        "height": 8
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "waterfront"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "ferry",
+        "speedMps": {
+          "default": 8,
+          "range": [
+            0,
+            12
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "vessel",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.5,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.1
+        },
+        "summer": {
+          "06:00": 0.5,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.1
+        },
+        "autumn": {
+          "06:00": 0.5,
+          "12:00": 0.8,
+          "18:00": 0.8,
+          "23:00": 0.1
+        },
+        "winter": {
+          "06:00": 0.425,
+          "12:00": 0.68,
+          "18:00": 0.68,
+          "23:00": 0.085
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 8,
+      "artDirection": "Generic 30m passenger commuter ferry at an East River landing, white and dark-gray vessel with modest neutral accent, two decks and realistic cabin glazing, about eight anonymous passengers boarding a gangway. No operator name, flag emblem, logos, numbers or readable signs. Real water scale and generic skyline with no literal landmark tower."
+    },
+    {
+      "id": "rowboats",
+      "name": "Park-lake rowboats",
+      "sheet": "sheets/32-rowboats.html",
+      "primaryObjectSizeM": {
+        "length": 4.3,
+        "width": 1.4,
+        "height": 0.55
+      },
+      "sizeMeaning": "Bounding envelope in local axes; rig/zone rather than a single person where applicable",
+      "allowedContexts": [
+        "park_lake"
+      ],
+      "avoidContexts": [],
+      "motion": {
+        "type": "rowing",
+        "speedMps": {
+          "default": 1,
+          "range": [
+            0.3,
+            1.8
+          ]
+        },
+        "stationaryStateMps": 0
+      },
+      "countUnit": "boat",
+      "expectedVisibleCountsPer150MBlockFaceBySeasonAndHour": {
+        "spring": {
+          "06:00": 0.0,
+          "12:00": 2.25,
+          "18:00": 1.5,
+          "23:00": 0.0
+        },
+        "summer": {
+          "06:00": 0,
+          "12:00": 3,
+          "18:00": 2,
+          "23:00": 0
+        },
+        "autumn": {
+          "06:00": 0.0,
+          "12:00": 2.4,
+          "18:00": 1.6,
+          "23:00": 0.0
+        },
+        "winter": {
+          "06:00": 0.0,
+          "12:00": 0.15,
+          "18:00": 0.1,
+          "23:00": 0.0
+        }
+      },
+      "countStatus": "UNVERIFIED authored illustrative density preset, not measured NYC frequency",
+      "activationCondition": "Ordinary illustrative activity snapshot, not an observation or timetable.",
+      "depictedPeoplePerTriptychSceneApprox": 5,
+      "artDirection": "Three generic 4.3m wooden rowboats on a naturalistic New York park lake, one or two adult rowers/guests per boat, realistic oars and soft ripples. Leafy park banks and a distant generic NYC apartment skyline, no faces in detail, names, logos, animals, sculpture or public art. Match hero clear-day soft natural light."
+    }
+  ],
+  "supportingObjectSizesM": {
+    "produceCrate": [
+      0.6,
+      0.4,
+      0.3
+    ],
+    "washer": [
+      0.7,
+      0.8,
+      0.95
+    ],
+    "mailCart": [
+      0.65,
+      0.9,
+      1.1
+    ],
+    "insulatedDeliveryBag": [
+      0.45,
+      0.4,
+      0.5
+    ],
+    "constructionHelmet": [
+      0.28,
+      0.24,
+      0.18
+    ],
+    "taxiRoofLight": [
+      0.35,
+      0.18,
+      0.12
+    ],
+    "carriageHorseBodyEnvelope": [
+      2.6,
+      0.7,
+      1.7
+    ],
+    "rowboatOarLengthM": 2.2
+  }
+}
