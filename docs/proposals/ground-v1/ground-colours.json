@@ -15131,5 +15131,949 @@
       "mowingStripeStrengthMultiplier": 0.65,
       "stripeEffectiveTargetAmplitudePercent": 1.95
     }
-  ]
+  ],
+  "brickAndCobblestoneAddendum": {
+    "id": "chicago-brick-and-stone-v1",
+    "date": "2026-10-06",
+    "status": "authored proposal; all numerical values are assumptions",
+    "materials": [
+      {
+        "id": "chicago-road-red-brick",
+        "neutralDryAlbedo": "#9B6753",
+        "dryAppearanceReferences": {
+          "midday": {
+            "body": "#9B6753",
+            "highlight": "#B38D7A",
+            "shadow": "#74554F"
+          },
+          "goldenHour": {
+            "body": "#A26747",
+            "highlight": "#B78E74",
+            "shadow": "#79554A"
+          }
+        },
+        "states": {
+          "dry": {
+            "substrateAlbedo": "#9B6753",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.82,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#9B6753",
+                "highlight": "#B38D7A",
+                "shadow": "#74554F"
+              },
+              "goldenHour": {
+                "body": "#A26747",
+                "highlight": "#B78E74",
+                "shadow": "#79554A"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "light-rain": {
+            "substrateAlbedo": "#94624F",
+            "targetSubstrateDeltaYPercent": -10,
+            "roundedHexDeltaYPercent": -9.8176,
+            "roughness": 0.62,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#94624F",
+                "highlight": "#AE8B78",
+                "shadow": "#70524E"
+              },
+              "goldenHour": {
+                "body": "#9C6444",
+                "highlight": "#B38C73",
+                "shadow": "#755348"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "soaked": {
+            "substrateAlbedo": "#905F4D",
+            "targetSubstrateDeltaYPercent": -15,
+            "roundedHexDeltaYPercent": -15.2892,
+            "roughness": 0.55,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#905F4D",
+                "highlight": "#AB8977",
+                "shadow": "#6D514D"
+              },
+              "goldenHour": {
+                "body": "#986143",
+                "highlight": "#B18A72",
+                "shadow": "#735248"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": true,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-fresh": {
+            "substrateAlbedo": "#9B6753",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.82,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#9B6753",
+                "highlight": "#B38D7A",
+                "shadow": "#74554F"
+              },
+              "goldenHour": {
+                "body": "#A26747",
+                "highlight": "#B78E74",
+                "shadow": "#79554A"
+              }
+            },
+            "overlay": {
+              "hex": "#E3E8E7",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#E3E8E7",
+                  "highlight": "#E8E9E4",
+                  "shadow": "#A7ACAE"
+                },
+                "goldenHour": {
+                  "body": "#E3D3B9",
+                  "highlight": "#E8D9BF",
+                  "shadow": "#A79E8E"
+                }
+              }
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-trodden": {
+            "substrateAlbedo": "#9B6753",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.82,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#9B6753",
+                "highlight": "#B38D7A",
+                "shadow": "#74554F"
+              },
+              "goldenHour": {
+                "body": "#A26747",
+                "highlight": "#B78E74",
+                "shadow": "#79554A"
+              }
+            },
+            "overlay": {
+              "hex": "#BCCBD0",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#BCCBD0",
+                  "highlight": "#CAD2D1",
+                  "shadow": "#8B989E"
+                },
+                "goldenHour": {
+                  "body": "#BFBAA7",
+                  "highlight": "#CDC5B1",
+                  "shadow": "#8E8C82"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -27.3842
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "snow-plowed": {
+            "substrateAlbedo": "#9B6753",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.82,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#9B6753",
+                "highlight": "#B38D7A",
+                "shadow": "#74554F"
+              },
+              "goldenHour": {
+                "body": "#A26747",
+                "highlight": "#B78E74",
+                "shadow": "#79554A"
+              }
+            },
+            "overlay": {
+              "hex": "#D5D6CD",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#D5D6CD",
+                  "highlight": "#DDDBCF",
+                  "shadow": "#9DA09C"
+                },
+                "goldenHour": {
+                  "body": "#D6C4A4",
+                  "highlight": "#DECDAF",
+                  "shadow": "#9E9380"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -16.4967
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "fall-leaves": {
+            "substrateAlbedo": "#9B6753",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.82,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#9B6753",
+                "highlight": "#B38D7A",
+                "shadow": "#74554F"
+              },
+              "goldenHour": {
+                "body": "#A26747",
+                "highlight": "#B78E74",
+                "shadow": "#79554A"
+              }
+            },
+            "overlay": {
+              "family": [
+                {
+                  "hex": "#C19A4E",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#C19A4E",
+                      "highlight": "#CEAE77",
+                      "shadow": "#8F764D"
+                    },
+                    "goldenHour": {
+                      "body": "#C49143",
+                      "highlight": "#D0A772",
+                      "shadow": "#917048"
+                    }
+                  }
+                },
+                {
+                  "hex": "#A56440",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#A56440",
+                      "highlight": "#BA8C71",
+                      "shadow": "#7B5347"
+                    },
+                    "goldenHour": {
+                      "body": "#AB653A",
+                      "highlight": "#BE8C6E",
+                      "shadow": "#7F5444"
+                    }
+                  }
+                }
+              ],
+              "meaning": "Coverage independent of substrate"
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          }
+        },
+        "regionalUse": "Mapped or independently evidenced paving only; not a regional default.",
+        "featureTones": {
+          "joint": {
+            "hex": "#91604D",
+            "targetDeltaYPercent": -14,
+            "roundedHexDeltaYPercent": -13.7177
+          },
+          "unit-dark": {
+            "hex": "#996652",
+            "targetDeltaYPercent": -3,
+            "roundedHexDeltaYPercent": -2.3671
+          },
+          "unit-light": {
+            "hex": "#9D6854",
+            "targetDeltaYPercent": 3,
+            "roundedHexDeltaYPercent": 2.4011
+          },
+          "broad-dark": {
+            "hex": "#976551",
+            "targetDeltaYPercent": -5,
+            "roundedHexDeltaYPercent": -4.7002
+          },
+          "broad-light": {
+            "hex": "#9E6955",
+            "targetDeltaYPercent": 5,
+            "roundedHexDeltaYPercent": 4.2475
+          }
+        },
+        "construction": {
+          "status": "design assumptions",
+          "unitDimensionsMetres": [
+            0.2,
+            0.1
+          ],
+          "dimensionMeaning": "length/width",
+          "jointWidthMetres": [
+            0.008,
+            0.015
+          ],
+          "broadPatchDiameterMetres": [
+            1.5,
+            4
+          ],
+          "geometryPerUnit": false
+        }
+      },
+      {
+        "id": "chicago-road-stone-setts",
+        "neutralDryAlbedo": "#8B8981",
+        "dryAppearanceReferences": {
+          "midday": {
+            "body": "#8B8981",
+            "highlight": "#A8A295",
+            "shadow": "#696B6A"
+          },
+          "goldenHour": {
+            "body": "#948269",
+            "highlight": "#AE9E86",
+            "shadow": "#70675B"
+          }
+        },
+        "states": {
+          "dry": {
+            "substrateAlbedo": "#8B8981",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.86,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B8981",
+                "highlight": "#A8A295",
+                "shadow": "#696B6A"
+              },
+              "goldenHour": {
+                "body": "#948269",
+                "highlight": "#AE9E86",
+                "shadow": "#70675B"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "light-rain": {
+            "substrateAlbedo": "#84837B",
+            "targetSubstrateDeltaYPercent": -10,
+            "roundedHexDeltaYPercent": -9.6016,
+            "roughness": 0.62,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#84837B",
+                "highlight": "#A49E91",
+                "shadow": "#656766"
+              },
+              "goldenHour": {
+                "body": "#8E7E65",
+                "highlight": "#AA9B83",
+                "shadow": "#6C6359"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "soaked": {
+            "substrateAlbedo": "#817F78",
+            "targetSubstrateDeltaYPercent": -15,
+            "roundedHexDeltaYPercent": -15.0743,
+            "roughness": 0.55,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#817F78",
+                "highlight": "#A29C8F",
+                "shadow": "#636464"
+              },
+              "goldenHour": {
+                "body": "#8C7A62",
+                "highlight": "#A99982",
+                "shadow": "#6A6158"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": true,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-fresh": {
+            "substrateAlbedo": "#8B8981",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.86,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B8981",
+                "highlight": "#A8A295",
+                "shadow": "#696B6A"
+              },
+              "goldenHour": {
+                "body": "#948269",
+                "highlight": "#AE9E86",
+                "shadow": "#70675B"
+              }
+            },
+            "overlay": {
+              "hex": "#E3E8E7",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#E3E8E7",
+                  "highlight": "#E8E9E4",
+                  "shadow": "#A7ACAE"
+                },
+                "goldenHour": {
+                  "body": "#E3D3B9",
+                  "highlight": "#E8D9BF",
+                  "shadow": "#A79E8E"
+                }
+              }
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-trodden": {
+            "substrateAlbedo": "#8B8981",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.86,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B8981",
+                "highlight": "#A8A295",
+                "shadow": "#696B6A"
+              },
+              "goldenHour": {
+                "body": "#948269",
+                "highlight": "#AE9E86",
+                "shadow": "#70675B"
+              }
+            },
+            "overlay": {
+              "hex": "#BCCBD0",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#BCCBD0",
+                  "highlight": "#CAD2D1",
+                  "shadow": "#8B989E"
+                },
+                "goldenHour": {
+                  "body": "#BFBAA7",
+                  "highlight": "#CDC5B1",
+                  "shadow": "#8E8C82"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -27.3842
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "snow-plowed": {
+            "substrateAlbedo": "#8B8981",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.86,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B8981",
+                "highlight": "#A8A295",
+                "shadow": "#696B6A"
+              },
+              "goldenHour": {
+                "body": "#948269",
+                "highlight": "#AE9E86",
+                "shadow": "#70675B"
+              }
+            },
+            "overlay": {
+              "hex": "#D5D6CD",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#D5D6CD",
+                  "highlight": "#DDDBCF",
+                  "shadow": "#9DA09C"
+                },
+                "goldenHour": {
+                  "body": "#D6C4A4",
+                  "highlight": "#DECDAF",
+                  "shadow": "#9E9380"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -16.4967
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "fall-leaves": {
+            "substrateAlbedo": "#8B8981",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.86,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B8981",
+                "highlight": "#A8A295",
+                "shadow": "#696B6A"
+              },
+              "goldenHour": {
+                "body": "#948269",
+                "highlight": "#AE9E86",
+                "shadow": "#70675B"
+              }
+            },
+            "overlay": {
+              "family": [
+                {
+                  "hex": "#C19A4E",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#C19A4E",
+                      "highlight": "#CEAE77",
+                      "shadow": "#8F764D"
+                    },
+                    "goldenHour": {
+                      "body": "#C49143",
+                      "highlight": "#D0A772",
+                      "shadow": "#917048"
+                    }
+                  }
+                },
+                {
+                  "hex": "#A56440",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#A56440",
+                      "highlight": "#BA8C71",
+                      "shadow": "#7B5347"
+                    },
+                    "goldenHour": {
+                      "body": "#AB653A",
+                      "highlight": "#BE8C6E",
+                      "shadow": "#7F5444"
+                    }
+                  }
+                }
+              ],
+              "meaning": "Coverage independent of substrate"
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          }
+        },
+        "regionalUse": "Mapped or independently evidenced paving only; not a regional default.",
+        "featureTones": {
+          "joint": {
+            "hex": "#807E77",
+            "targetDeltaYPercent": -16,
+            "roundedHexDeltaYPercent": -16.5128
+          },
+          "unit-dark": {
+            "hex": "#88867F",
+            "targetDeltaYPercent": -4,
+            "roundedHexDeltaYPercent": -4.6005
+          },
+          "unit-light": {
+            "hex": "#8E8B83",
+            "targetDeltaYPercent": 4,
+            "roundedHexDeltaYPercent": 3.5627
+          },
+          "broad-dark": {
+            "hex": "#88867E",
+            "targetDeltaYPercent": -5,
+            "roundedHexDeltaYPercent": -4.7044
+          },
+          "broad-light": {
+            "hex": "#8E8C84",
+            "targetDeltaYPercent": 5,
+            "roundedHexDeltaYPercent": 4.8372
+          }
+        },
+        "construction": {
+          "status": "design assumptions",
+          "unitDimensionsMetres": [
+            0.2,
+            0.15
+          ],
+          "dimensionMeaning": "length/width",
+          "jointWidthMetres": [
+            0.01,
+            0.025
+          ],
+          "broadPatchDiameterMetres": [
+            1.5,
+            4
+          ],
+          "geometryPerUnit": false
+        }
+      },
+      {
+        "id": "chicago-road-rounded-cobble",
+        "neutralDryAlbedo": "#929084",
+        "dryAppearanceReferences": {
+          "midday": {
+            "body": "#929084",
+            "highlight": "#ADA797",
+            "shadow": "#6E6F6B"
+          },
+          "goldenHour": {
+            "body": "#9A886B",
+            "highlight": "#B2A287",
+            "shadow": "#746A5D"
+          }
+        },
+        "states": {
+          "dry": {
+            "substrateAlbedo": "#929084",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.88,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#929084",
+                "highlight": "#ADA797",
+                "shadow": "#6E6F6B"
+              },
+              "goldenHour": {
+                "body": "#9A886B",
+                "highlight": "#B2A287",
+                "shadow": "#746A5D"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "light-rain": {
+            "substrateAlbedo": "#8B897E",
+            "targetSubstrateDeltaYPercent": -10,
+            "roundedHexDeltaYPercent": -10.2325,
+            "roughness": 0.62,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#8B897E",
+                "highlight": "#A8A293",
+                "shadow": "#696B68"
+              },
+              "goldenHour": {
+                "body": "#948267",
+                "highlight": "#AE9E85",
+                "shadow": "#70675A"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "soaked": {
+            "substrateAlbedo": "#88867A",
+            "targetSubstrateDeltaYPercent": -15,
+            "roundedHexDeltaYPercent": -14.5504,
+            "roughness": 0.55,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#88867A",
+                "highlight": "#A6A091",
+                "shadow": "#676965"
+              },
+              "goldenHour": {
+                "body": "#928064",
+                "highlight": "#AC9C83",
+                "shadow": "#6E6558"
+              }
+            },
+            "overlay": null,
+            "puddleEligibility": true,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-fresh": {
+            "substrateAlbedo": "#929084",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.88,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#929084",
+                "highlight": "#ADA797",
+                "shadow": "#6E6F6B"
+              },
+              "goldenHour": {
+                "body": "#9A886B",
+                "highlight": "#B2A287",
+                "shadow": "#746A5D"
+              }
+            },
+            "overlay": {
+              "hex": "#E3E8E7",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#E3E8E7",
+                  "highlight": "#E8E9E4",
+                  "shadow": "#A7ACAE"
+                },
+                "goldenHour": {
+                  "body": "#E3D3B9",
+                  "highlight": "#E8D9BF",
+                  "shadow": "#A79E8E"
+                }
+              }
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          },
+          "snow-trodden": {
+            "substrateAlbedo": "#929084",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.88,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#929084",
+                "highlight": "#ADA797",
+                "shadow": "#6E6F6B"
+              },
+              "goldenHour": {
+                "body": "#9A886B",
+                "highlight": "#B2A287",
+                "shadow": "#746A5D"
+              }
+            },
+            "overlay": {
+              "hex": "#BCCBD0",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#BCCBD0",
+                  "highlight": "#CAD2D1",
+                  "shadow": "#8B989E"
+                },
+                "goldenHour": {
+                  "body": "#BFBAA7",
+                  "highlight": "#CDC5B1",
+                  "shadow": "#8E8C82"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -27.3842
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "snow-plowed": {
+            "substrateAlbedo": "#929084",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.88,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#929084",
+                "highlight": "#ADA797",
+                "shadow": "#6E6F6B"
+              },
+              "goldenHour": {
+                "body": "#9A886B",
+                "highlight": "#B2A287",
+                "shadow": "#746A5D"
+              }
+            },
+            "overlay": {
+              "hex": "#D5D6CD",
+              "appearanceReferences": {
+                "midday": {
+                  "body": "#D5D6CD",
+                  "highlight": "#DDDBCF",
+                  "shadow": "#9DA09C"
+                },
+                "goldenHour": {
+                  "body": "#D6C4A4",
+                  "highlight": "#DECDAF",
+                  "shadow": "#9E9380"
+                }
+              },
+              "luminanceReference": "snow-fresh",
+              "roundedHexDeltaYPercent": -16.4967
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": true
+          },
+          "fall-leaves": {
+            "substrateAlbedo": "#929084",
+            "targetSubstrateDeltaYPercent": 0,
+            "roundedHexDeltaYPercent": 0.0,
+            "roughness": 0.88,
+            "appearanceReferences": {
+              "midday": {
+                "body": "#929084",
+                "highlight": "#ADA797",
+                "shadow": "#6E6F6B"
+              },
+              "goldenHour": {
+                "body": "#9A886B",
+                "highlight": "#B2A287",
+                "shadow": "#746A5D"
+              }
+            },
+            "overlay": {
+              "family": [
+                {
+                  "hex": "#C19A4E",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#C19A4E",
+                      "highlight": "#CEAE77",
+                      "shadow": "#8F764D"
+                    },
+                    "goldenHour": {
+                      "body": "#C49143",
+                      "highlight": "#D0A772",
+                      "shadow": "#917048"
+                    }
+                  }
+                },
+                {
+                  "hex": "#A56440",
+                  "appearanceReferences": {
+                    "midday": {
+                      "body": "#A56440",
+                      "highlight": "#BA8C71",
+                      "shadow": "#7B5347"
+                    },
+                    "goldenHour": {
+                      "body": "#AB653A",
+                      "highlight": "#BE8C6E",
+                      "shadow": "#7F5444"
+                    }
+                  }
+                }
+              ],
+              "meaning": "Coverage independent of substrate"
+            },
+            "puddleEligibility": false,
+            "defaultEnabled": true,
+            "requiresAdditionalInput": false
+          }
+        },
+        "regionalUse": "Mapped or independently evidenced paving only; not a regional default.",
+        "featureTones": {
+          "joint": {
+            "hex": "#858378",
+            "targetDeltaYPercent": -18,
+            "roundedHexDeltaYPercent": -18.57
+          },
+          "unit-dark": {
+            "hex": "#8F8D82",
+            "targetDeltaYPercent": -4,
+            "roundedHexDeltaYPercent": -4.4091
+          },
+          "unit-light": {
+            "hex": "#959386",
+            "targetDeltaYPercent": 4,
+            "roundedHexDeltaYPercent": 4.526
+          },
+          "broad-dark": {
+            "hex": "#8F8D81",
+            "targetDeltaYPercent": -5,
+            "roundedHexDeltaYPercent": -4.5055
+          },
+          "broad-light": {
+            "hex": "#959387",
+            "targetDeltaYPercent": 5,
+            "roundedHexDeltaYPercent": 4.6272
+          }
+        },
+        "construction": {
+          "status": "design assumptions",
+          "unitDimensionsMetres": [
+            0.1,
+            0.18
+          ],
+          "dimensionMeaning": "diameter range",
+          "jointWidthMetres": [
+            0.01,
+            0.025
+          ],
+          "broadPatchDiameterMetres": [
+            1.5,
+            4
+          ],
+          "geometryPerUnit": false
+        }
+      }
+    ],
+    "phoneLOD": {
+      "columnsMetres": [
+        5,
+        20,
+        40
+      ],
+      "aerial": "Use projected unit size, not altitude alone.",
+      "jointAndUnitFade": "t=clamp((projectedUnitWidthPx-1.5)/1.5,0,1); amplitude=t*t*(3-2*t)",
+      "combinedNonJointVariationClampPercent": [
+        -7,
+        7
+      ],
+      "filtering": "Mipmapped authored masks or derivative-filtered procedural patterns; never force subpixel joints to 1 px."
+    },
+    "weather": {
+      "wetFeatures": "Feature delta percentages apply to wet substrate; do not reuse dry feature hex.",
+      "snow": "Coverage independent of substrate; hide covered joints. Trodden/plowed require supplied history.",
+      "wetLeaves": "Combine wet substrate with leaf overlay; named fall-leaves state is a dry baseline.",
+      "puddles": "Supported depressions only; no per-joint mirrors."
+    },
+    "performance": {
+      "newBudget": false,
+      "surfaceSharedMs": 0.25,
+      "wetSharedMs": 0.35,
+      "nearGeometrySharedMs": 0.35,
+      "perPaverTriangles": 0,
+      "perPaverDraws": 0,
+      "optionalMasksWithinExistingMiB": 4,
+      "sceneTriangles": 400000,
+      "shadowTriangles": 150000,
+      "draws": 100,
+      "GPUCeilingMs": 10
+    },
+    "claims": [
+      {
+        "status": "verified",
+        "claim": "Chicago historic brick and granite paving documented; remaining extent not precisely surveyed in report.",
+        "source": "https://www.preservationchicago.org/brick-paved-streets-and-alleys/",
+        "published": "2018-03-04",
+        "checked": "2026-10-06"
+      },
+      {
+        "status": "assumption",
+        "claim": "Rounded cobble variant does not establish prevalence in Chicago."
+      }
+    ]
+  }
 }
