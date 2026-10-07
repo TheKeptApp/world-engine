@@ -713,7 +713,8 @@ public struct BuildingGenerator: Sendable {
                 m.bakeAO(from: start) { _, nn in nn.y < -0.5 ? 0.7 : 1 }
                 if let st = details?.stoop {
                     addStair(c, top: p + dir * doorS + n * 1.2, dir: dir, n: n, width: stoopStair, height: F, cheeks: st.cheeks == true,
-                             paint: detailPaint(c, st.steps), cheekPaint: detailPaint(c, st.cheekColour ?? st.steps), into: &m)
+                             paint: detailPaint(c, st.steps), cheekPaint: detailPaint(c, st.cheekColour ?? st.steps),
+                             rails: railPaint(c, st.rails), into: &m)
                 } else if near {
                     addSteps(at: p + dir * doorS + n * 1.2, dir: dir, n: n, width: 1.2, height: F, foundation: c.foundation, into: &m)
                 }

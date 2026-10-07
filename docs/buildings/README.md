@@ -488,9 +488,25 @@ card crowns have more sky holes than the pack's solid-crown targets.
     - **Chicago** (`chicago-dense-north`): brickBungalow = chicago-01, brickStackedFacade = chicago-02,
       frameCottage = chicago-03, new foursquare = chicago-04 (front-range foursquare shape fields; dormer 1, chance
       0.75), new ranch = chicago-05 (minAspect 1.3 so the sheet's 12.4 × 8.7 m footprint qualifies). greystoneFacade
-      and victorianRow are not pack archetypes and keep their weights. Lakeview mix (BuildingAreaTests): flats 607
-      (was 480), cottage 244 (300), bungalow 87 (34), foursquare 17, ranch 12, greystone 273 (337), Victorian row
-      362 (451). Conformance (archetypes): Chicago 73/73.
+      and victorianRow are not pack archetypes and keep their weights. `small` = `@archetypes:1` (one-storey
+      archetypes only, as before). Lakeview mix (BuildingAreaTests): flats 601 (was 480), cottage 249 (300), bungalow
+      94 (34), foursquare 11, ranch 12, greystone 273 (337), Victorian row 362 (451). Entries (after P3's first
+      closeness score): stoop hand rails (house-details `stoop.rails`: dark on bungalow and flats, trim on the cottage;
+      near only, about 50 triangles), a column portico on half of the flats, a rail on the foursquare porch.
+      Conformance (archetypes): Chicago 73/73.
+    - **Denver** (`front-range`): foursquare = denver-01, bungalow = denver-02, new minimalTraditional = denver-03
+      (side gable with a small front entry gable, close eaves, stoop), ranch = denver-04 (minAspect 1.6 → 1.3 so the
+      sheet's 14.5 × 9.5 m footprint qualifies), new splitLevel = denver-05, modern and duplex = denver-06 (duplex
+      `archetypeShare` 0: only for shared walls). cottage (Victorian) is not a Denver pack archetype and left the mix,
+      so every Denver house gets an archetype (the ordinary-street near house, way 572424182, 1 level, 93 m²
+      rectangle, now denver-03-minimal at confidence 0.42; it was cottage). Split-level: rectangular footprints
+      (rectangularity ≥ 0.9, one roof rectangle, no height tag, levels absent or 2, ≥ 9 m frontage) are cut across
+      the frontage into a two-storey block (45 % of the frontage, `splitMainShare`; lower garage door) and a one-storey
+      wing (entry), each with its own roof, eaves at the pack's buildingPartsProposal heights (6.05 m, 3.25 m); other
+      footprints stay one volume. Sloan's Lake mix: bungalow 301 (391), minimal 114, ranch 81 (89), split-level 83,
+      foursquare 44 (60), modern 199 (205), cottage 0 (77). Conformance (archetypes): Denver 91/91.
+    - Flat roofs drop sliver cap triangles (< 5 cm²) on near-collinear footprint vertices (an inverted sliver showed
+      up on way 572247762 once it became flat-roofed infill).
     - **Detail tiers** (sheets: < 6 px silhouette + wall/roof colour; 6–20 px porch/bay/carport/entry voids; > 20 px
       dormers, openings, broad trim), on the reference phone frame (565 px tall, 50° vertical FOV; look.json
       `tierFrameHeightPx`, `tierFovDegrees`), by the sheet's total height: 20 px at 144 m (Chicago ranch) to 306 m
@@ -504,3 +520,13 @@ card crowns have more sky holes than the pack's solid-crown targets.
       sheets [bungalow](archetypes/chicago-01-bungalow-side-by-side.jpg),
       [flats](archetypes/chicago-02-flats-side-by-side.jpg), [cottage](archetypes/chicago-03-cottage-side-by-side.jpg),
       [foursquare](archetypes/chicago-04-foursquare-side-by-side.jpg), [ranch](archetypes/chicago-05-ranch-side-by-side.jpg).
+      [Denver block](archetypes/denver-block-side-by-side.jpg), sheets [square](archetypes/denver-01-square-side-by-side.jpg),
+      [bungalow](archetypes/denver-02-bungalow-side-by-side.jpg), [minimal](archetypes/denver-03-minimal-side-by-side.jpg),
+      [ranch](archetypes/denver-04-ranch-side-by-side.jpg), [split-level](archetypes/denver-05-split-side-by-side.jpg),
+      [infill](archetypes/denver-06-infill-side-by-side.jpg).
+    - Known gaps: dormers only on gable/long-side slopes; the hip-end dormer of the Chicago bungalow and the centred
+      dormer on the foursquare/Denver Square pyramidal hip are not drawn (dormer geometry needs a hip-face variant);
+      two-/three-flats default to 2 storeys where levels are unmapped (P1's measured floor groups); the split-level's
+      1.4 m entry landing and the raised-ranch exposed basement (terrain) are not built; swatches are used as albedo
+      although the pack calls them sRGB appearance targets (P3: near Lakeview wall #955C33 vs mock #A4745A; grade not
+      yet merged).

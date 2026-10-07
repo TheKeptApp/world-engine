@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions. House details (house-details-v1, docs/buildings/README.md decision 37): details = per-family porches (posts, rails, brackets, porch roof), stoops (width, cheek walls, stone), trim colour endpoints (3 linear-light steps per house), eave overhang, fascia, corner boards/chamfers, relief casings, frieze, shutters, cornice-cap bevel. pack names the house-details-v1 family the recipe follows. Archetypes (house-archetypes-v1, P2 2026-10-07): foursquare carries the sheets' one small centred dormer (dormerChance is a judgment). Archetype types take colours, pitch, floor-to-floor, foundation and porch depth from the pack by key (Profiles/mock-values.json), not from this file.",
+  "comment": "House family grammar, keyed by profile house type IDs (regions-chicagoland-miami spec \u00a73-\u00a75, \u00a712). Profiles choose families, weights, pitches, eaves and colors; this file says how each family is assembled. aspect = street frontage width / depth (soft preference). All values are design judgments [J], not measurements. OSM tags always win. Complex-roof rates (crossGable, sideCrossGable) tuned toward P1's lidar pilot (South Evanston: ~45% of houses complex). toneFloors: a guard, not a correction (docs/m3/tone-targets.md, look-fix \u00a71-\u00a72.4): base roofs never darker than #303942 (Y8 56), walls at or above Y8 80; gains stay 1 so palettes are not lifted to compensate for rendering. Every current profile colour already meets both floors, so no hex changes. Side walls (gap 5): chimneyBreast = chance the family's chimney stands on a long side wall facing open ground as a masonry breast (families whose roof chimney is central/broad keep it on the roof); gangwayWindows = window stacks on side walls facing a 1-3 m gap; sideBays = dress mapped side-wall protrusions. House details (house-details-v1, docs/buildings/README.md decision 37): details = per-family porches (posts, rails, brackets, porch roof), stoops (width, cheek walls, stone), trim colour endpoints (3 linear-light steps per house), eave overhang, fascia, corner boards/chamfers, relief casings, frieze, shutters, cornice-cap bevel. pack names the house-details-v1 family the recipe follows. Archetypes (house-archetypes-v1, P2 2026-10-07): foursquare carries the sheets' one small centred dormer (dormerChance is a judgment). Archetype types take colours, pitch, floor-to-floor, foundation and porch depth from the pack by key (Profiles/mock-values.json), not from this file. minimalTraditional (denver-03-minimal: side gable, small front entry gable, close eaves) and splitLevel (denver-05-split) are archetype families; their grammar values are judgments from the sheets. Entries per archetype sheet (P2 2026-10-07, after P3's first closeness score): stoop rails dark on the brick bungalow and two-/three-flat, trim on the worker cottage; a small column portico on half of the flats (sheet artwork); foursquare porch rail.",
   "toneFloors": {
     "roofGain": 1.0,
     "wallGain": 1.0,
@@ -466,7 +466,8 @@
           ],
           "cheeks": true,
           "steps": "trim",
-          "cheekColour": "wall"
+          "cheekColour": "wall",
+          "rails": "dark"
         }
       }
     },
@@ -503,7 +504,9 @@
         "mappedBays": true,
         "sideRhythm": true,
         "gangwayWindows": true,
-        "sideBays": true
+        "sideBays": true,
+        "entry": "portico",
+        "entryChance": 0.5
       },
       "details": {
         "pack": "two_flat",
@@ -520,7 +523,8 @@
           ],
           "cheeks": true,
           "steps": "trim",
-          "cheekColour": "wall"
+          "cheekColour": "wall",
+          "rails": "dark"
         }
       }
     },
@@ -644,7 +648,8 @@
           "width": [
             1.1,
             1.3
-          ]
+          ],
+          "rails": "trim"
         }
       }
     },
@@ -849,7 +854,8 @@
             0.8,
             1.0
           ],
-          "roof": "hip"
+          "roof": "hip",
+          "rail": true
         },
         "stoop": {
           "width": [
@@ -958,6 +964,87 @@
           "width": [
             1.1,
             1.3
+          ]
+        }
+      }
+    },
+    "minimalTraditional": {
+      "aspect": [
+        0.8,
+        1.6
+      ],
+      "roof": {
+        "ridge": "alongFront",
+        "crossGable": 0.6,
+        "crossGableWidth": [
+          0.18,
+          0.28
+        ],
+        "chimney": 0.3,
+        "chimneyPlacement": "end"
+      },
+      "facade": {
+        "groupedWindows": true,
+        "mappedBays": true,
+        "sideRhythm": true,
+        "gangwayWindows": true,
+        "sideBays": true
+      },
+      "details": {
+        "pack": "denver_ranch (nearest pack family; minimal traditional is not a house-details-v1 family)",
+        "trim": [
+          "#E6CA8E",
+          "#F9E4B8"
+        ],
+        "eave": [
+          0.15,
+          0.3
+        ],
+        "corners": "chamfer",
+        "foundation": [
+          0.3,
+          0.5
+        ],
+        "stoop": {
+          "width": [
+            1.2,
+            1.5
+          ]
+        }
+      }
+    },
+    "splitLevel": {
+      "aspect": [
+        1.0,
+        1.9
+      ],
+      "roof": {
+        "ridge": "alongFront",
+        "chimney": 0.35,
+        "chimneyPlacement": "end"
+      },
+      "facade": {
+        "groupedWindows": true,
+        "mappedBays": true,
+        "sideRhythm": true,
+        "gangwayWindows": true,
+        "sideBays": true
+      },
+      "details": {
+        "pack": "denver_ranch (nearest pack family; split-level is not a house-details-v1 family)",
+        "trim": [
+          "#E6CA8E",
+          "#F9E4B8"
+        ],
+        "eave": [
+          0.35,
+          0.6
+        ],
+        "corners": "chamfer",
+        "stoop": {
+          "width": [
+            1.2,
+            1.5
           ]
         }
       }

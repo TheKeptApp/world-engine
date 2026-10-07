@@ -36,7 +36,7 @@ struct ArchetypeTests {
     }
 
     /// Every Chicago and Denver archetype has an engine house type in its metro's profile.
-    @Test(arguments: ["chicago"])
+    @Test(arguments: ["chicago", "denver"])
     func everyMetroArchetypeHasAHouseType(_ metro: String) throws {
         let types = try Self.rawTypes(Self.metroProfiles[metro]!)
         let ids = HouseArchetype.bundled.keys.filter { $0.hasPrefix(metro + "-") }
@@ -45,7 +45,7 @@ struct ArchetypeTests {
     }
 
     /// The profile JSON copies (read by review tools) equal the values the engine reads by key.
-    @Test(arguments: ["chicago-dense-north"])
+    @Test(arguments: ["chicago-dense-north", "front-range"])
     func profileMirrorsMatchTheMockValues(_ profile: String) throws {
         let raw = try Self.rawTypes(profile)
         let resolved = try StyleLibrary.profile(id: profile).houseTypes
@@ -62,6 +62,13 @@ struct ArchetypeTests {
 
     /// "@archetypes" weights split by the pack's fallback mix (generatorWeightPctProposal).
     @Test func archetypeGroupsSplitByThePackMix() throws {
+        let gen = try Self.generator("front-range")
+        let out = gen.expandWeights(["@archetypes": 90, "cottage": 10]) { _ in true }
+        #expect(abs(out.reduce(0) { $0 + $1.1 } - 100) < 1e-9)
+        let w = Dictionary(out.map { ($0.0.id, $0.1) }, uniquingKeysWith: +)
+        #expect(w["duplex"] == nil, "duplex has archetypeShare 0")
+        let pct = { (id: String) in try #require(HouseArchetype.named(gen.profile.houseType(id)?.archetype)).weightPct }
+        #expect(abs(w["bungalow"]! / w["ranch"]! - (try pct("bungalow")) / (try pct("ranch"))) < 1e-9)
         // Measured floor-group totals stay (Chicago unknown).
         let chi = try Self.generator("chicago-dense-north")
         let rules = try #require(chi.profile.typeRules["unknown"])
@@ -70,7 +77,7 @@ struct ArchetypeTests {
         #expect(abs(one - rules["@archetypes:1"]!) < 1e-9)
     }
 
-    @Test(arguments: ["chicago-dense-north"])
+    @Test(arguments: ["chicago-dense-north", "front-range"])
     func housesGetAnInferredArchetypeAndAVariant(_ profile: String) throws {
         let gen = try Self.generator(profile)
         var palette = Palette(base: try StyleLibrary.baseColors())
@@ -122,13 +129,38 @@ struct ArchetypeTests {
         }
     }
 
+    /// Split-level (denver-05-split): two-storey block plus one-storey wing on exactly the mapped footprint.
+    @Test func splitLevelHasTwoHeights() throws {
+        let gen = try Self.generator("front-range")
+        var palette = Palette(base: try StyleLibrary.baseColors())
+        let split = try #require(gen.profile.houseTypes.first { $0.archetype == "denver-05-split" })
+        let a = try #require(HouseArchetype.named("denver-05-split"))
+        var made = 0
+        for id in Int64(1)...Int64(10) {
+            let b = testBuilding(82_000 + id, Self.rect(0, 0, 14, 10))
+            let shape = FootprintAnalysis(b.footprint)
+            let choice = HouseChoice(type: split, situation: "test", archetype: a.id, confidence: 0.2, evidence: ["footprint"])
+            guard let g = gen.splitLevel(b, shape: shape, archetype: a, choice: choice, palette: &palette, lod: .near) else { continue }
+            made += 1
+            #expect(g.splitLevel && g.archetype == "denver-05-split" && g.floors == 2)
+            #expect(abs(g.eaveHeight - a.parts[0].eaveHeight) < 0.01, "main eave \(g.eaveHeight)")
+            #expect(g.entry != nil)
+            let xs = g.mesh.positions.map { Double($0.x) }, zs = g.mesh.positions.map { Double(-$0.z) }
+            #expect(xs.min()! > -1.5 && xs.max()! < 15.5 && zs.min()! > -2.5 && zs.max()! < 11.5)
+            // Wall tops at both eave heights.
+            let ys = Set(g.mesh.positions.indices.filter { abs(g.mesh.normals[$0].y) < 0.1 }.map { (Double(g.mesh.positions[$0].y) * 100).rounded() / 100 })
+            #expect(ys.contains { abs($0 - a.parts[1].eaveHeight) < 0.02 }, "wing eave")
+        }
+        #expect(made == 10)
+    }
+
     /// Far tier keeps porch and entry voids for archetype houses.
     @Test func farTierKeepsEntryVoids() throws {
-        let gen = try Self.generator("chicago-dense-north")
+        let gen = try Self.generator("front-range")
         var palette = Palette(base: try StyleLibrary.baseColors())
         var withVoid = 0
         for id in Int64(1)...Int64(30) {
-            let b = testBuilding(83_000 + id, Self.rect(0, 0, 7, 15))
+            let b = testBuilding(83_000 + id, Self.rect(0, 0, 10, 12))
             let g = gen.generate(b, palette: &palette, lod: .far)
             guard g.archetype != nil else { continue }
             let front = g.mesh.positions.indices.filter { g.mesh.normals[$0].z > 0.9 && g.mesh.positions[$0].z > 0.03 }
@@ -140,7 +172,7 @@ struct ArchetypeTests {
     /// Detail tiers (px) onto distances for the reference phone frame (docs/buildings/README.md "Archetypes").
     @Test func tierDistancesAreDocumented() {
         let t = BuildingGenerator.archetypeTuning
-        for id in ["chicago-05-ranch", "chicago-02-flats", "chicago-01-bungalow"] {
+        for id in ["chicago-05-ranch", "chicago-02-flats", "denver-01-square"] {
             let a = HouseArchetype.named(id)!
             let d = a.tierDistances(frameHeightPx: t.tierFrameHeightPx, fovDegrees: t.tierFovDegrees)
             #expect(d.near > 100 && d.far > d.near * 3, "\(id) \(d)")
