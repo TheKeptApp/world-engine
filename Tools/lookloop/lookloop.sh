@@ -69,6 +69,12 @@ for i in ids:
            f"against the approved infrastructure-kit-v1 sheets {', '.join(views[i]['infraSheets'])} (if not in this checkout, use ~/Desktop/world-engine/ plus the same path) "
            f"and include \"infraGap\" with the same shape as mockGap (mock = the sheet that fits best, closeness 1-5, at most 3 gaps; "
            f"1 = the feature is missing). " if views.get(i, {}).get("infraSheets") else "")
+        + (f"Also compare the look against the R-approved style-b-calibration-v2 frame {views[i]['calibration']} (binding look target, R 2026-10-07; "
+           f"if it is not in this checkout use ~/Desktop/world-engine/ plus the same path). It is a painted still with its own camera and content, and "
+           f"the packs keep wall and roof hue, so judge look only: sky, light direction and softness, shadow colour and depth, saturation, ground "
+           f"colours and surfaces, foliage colour and shading, matte materials; not layout, objects or wall hue. Include \"calGap\" with the shape of mockGap "
+           f"plus \"aspects\": {{\"sky\", \"light\", \"saturation\", \"ground\", \"foliage\", \"materials\"}}, each 1-5 (mock = the frame, closeness 1-5, at most 3 gaps). "
+           if views.get(i, {}).get("calibration") else "")
         + f"Write only the "
         f"JSON object of section G to {rel}/grades/{i}.json (set \"grader\" to your model id), then reply \"done\".")
 open(os.path.join(run, "reviewers.md"), "w").write("\n".join(lines) + "\n")

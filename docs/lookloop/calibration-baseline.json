@@ -1,0 +1,79 @@
+{
+ "about": "Calibration v2 baseline (docs/lookloop/calibration-baseline.md): Sonnet reviewer calGap results for run 20261007-164728 (engine debec74) against style-b-calibration-v2 frames. Look only; the frames have their own camera and content.",
+ "run": "20261007-164728",
+ "engine": "debec74",
+ "views": {
+  "lakeview-postcard-afternoon": {
+   "grader": "claude-sonnet-5-5",
+   "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+   "closeness": 3,
+   "aspects": {
+    "sky": 3,
+    "light": 2,
+    "saturation": 3,
+    "ground": 3,
+    "foliage": 2,
+    "materials": 3
+   },
+   "gaps": [
+    "Light/shade: shadows are far deeper and less soft than the calibration (shade about 0.6 of lit luminance, muted lilac-grey, soft dappled bands). The road tree shadow is one dark teal-navy blob (~#335064 vs lit road ~#798488, about 0.33 of lit); shaded building faces (~#673519 vs lit ~#BC693C, about 0.26) and shaded crowns (~#275729) go near-black and saturated with no cool fill; lit ground has no warm sun-patch / cool-shade modulation.",
+    "Foliage: crowns are smooth two-tone balls. Sunlit crowns are a fair lime match (~#96A85A vs ~#959D41) but shaded crowns are a deep cool green (~#275729, hue ~122) against the calibration's warm olive shade (~#4F5A35, hue ~78), and there is no soft leaf-level light/colour variation, so trees read as flat toy blobs rather than warm-lit foliage masses.",
+    "Ground and sky palette: lit parkway lawn (~#82A15B) is far lighter and mintier than the calibration's olive-yellow grass (~#50643C to ~#6B7A3C) and shaded yard lawn turns cool deep green (~#33623E); road is flat teal-grey (#798488, hue ~195) vs violet-slate (#6A7081, hue ~230) with no sun-patch variation; sidewalk is pale neutral (#E6DFCF) vs warm peach-cream (#EDD1BA); sky leans cyan with a darker zenith (#3DA3D2 to #5AACD4) vs periwinkle (#70ACED to #79B2EE), with flat grey polygon clouds."
+   ]
+  },
+  "lakeview-street-afternoon": {
+   "grader": "claude-sonnet-5-5",
+   "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+   "closeness": 3,
+   "aspects": {
+    "sky": 3,
+    "light": 3,
+    "saturation": 3,
+    "ground": 3,
+    "foliage": 3,
+    "materials": 4
+   },
+   "gaps": [
+    "Ground (sidewalk, lawn, road): all three read too light and too clean. Sunlit sidewalk is near-white neutral (#E6E3D8, sat 0.06) vs the calibration's warm peach-cream (about #ECD0B8, sat 0.21) with cool lilac shade (#818391); lawn is a pale light yellow-green (mean #91B170, value 0.71) vs deeper olive-green (#677038 shaded, #8B8F38 lit); lit road is a light teal-grey (#839198, hue 202) vs deep slate with a violet lean (#6B7182, hue 225, about 40% lower luminance).",
+    "Light colour and atmosphere: no warm-key / cool-shade temperature split. Lit surfaces are neutral (sidewalk blue/red 0.94 vs about 0.80 in the calibration) and fully shaded asphalt (cross street at left) is a saturated steel blue (#48677D, sat 0.42) vs the calibration's low-chroma slate-lilac shade (#6B7182, sat 0.18). Sky is cyan-leaning (hue ~197 vs ~211) and the far end stays crisp and saturated (far trees sat 0.41 vs 0.11) instead of fading to warm pale haze.",
+    "Foliage crowns: flat narrow-range olive (value 0.32-0.50, hue ~78) with no sunlit lime-yellow glints; the calibration spans deep olive shade to bright lime highlights (value up to 0.76, hue ~55-68), so the engine crowns read flatter, slightly greener and without sun glow."
+   ]
+  },
+  "ordinary-street-afternoon": {
+   "grader": "claude-sonnet-5-5",
+   "mock": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png",
+   "closeness": 3,
+   "aspects": {
+    "sky": 3,
+    "light": 3,
+    "saturation": 3,
+    "ground": 3,
+    "foliage": 3,
+    "materials": 4
+   },
+   "gaps": [
+    "Lawn (ground, about 45% of the frame): vivid yellow-green, lit about #7B9744 to #92A25D (chroma C* 38-46), vs the calibration's muted sage-olive #73865B (C* 26). About 1.5-1.8x too saturated and slightly bright, flat fill with only a smeared shadow, so the whole frame reads candy-bright instead of restrained and soft.",
+    "Cast shadows and sun colour (lawn, road, sidewalk): shadows are wide smeared gradients, not the calibration's crisp-soft dappled streaks (building shadow on the lawn ramps over about 110 px, 19% of frame height; calibration edges are about 10 px, under 1.5%), with no leaf-dapple pattern. Road shadow goes deep saturated navy-teal (#2C485C, about 0.35 of lit, chroma about 3x the lit road) and lawn shade goes deep green, vs the calibration's lighter lavender-grey sky-filled shade (#797D8D). The sunlit sidewalk is paler and near-neutral (L* 85, b* 9 vs the path's 77 and 17), so the warm-sun against cool-shade contrast is weaker.",
+    "Tree crowns (and sky): autumn hue aside, crowns are pegged at full saturation (blue channel 0 in both light and shade) with one smooth top-to-bottom gradient, no cool sky fill and no layered lit/shade clumps, and mid-distance crowns and houses stay as vivid as near ones (little distance haze), vs the calibration's warm-lit olive layers that mute with distance. Minor: sky leans cyan (hue about 200 vs 210 degrees) with thin flat grey wisps instead of warm-lit puffy cumulus."
+   ]
+  },
+  "wilmette-street-afternoon": {
+   "grader": "claude-sonnet-5-5",
+   "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+   "closeness": 3,
+   "aspects": {
+    "sky": 3,
+    "light": 2,
+    "saturation": 3,
+    "ground": 3,
+    "foliage": 2,
+    "materials": 3
+   },
+   "gaps": [
+    "Light/shadow depth and colour: shadows are about one stop too deep and too blue-saturated (road in tree shadow ~#2C485C vs lit road ~#6C797E, shadow/lit linear luminance ~0.30; shaded house walls and canopy undersides similar), where the calibration keeps ~0.6 and a soft grey-blue ~#7F8F99 (road shade ~#666F81 under warm lit ~#968E8D); sunlit road and sidewalk also read neutral-cool instead of the calibration's warm peach-cream, so the warm-sun / cool-shade split and soft ambient fill are missing.",
+    "Foliage colour and shading: tree crowns are a cool pure green (hue ~88, lit ~#709142) with crushed near-black saturated undersides (~#0B2300) and no bright sunlit tips, while the calibration foliage is warm olive-gold (hue ~67, shade ~#3D4423 rising to sunlit ~#BDB03D) with soft, shallow shadows; crowns read darker, cooler and heavier.",
+    "Sky and lawn palette: the sky is deeper, cyan-leaning and more saturated (zenith ~#419ECD, S68 vs calibration ~#73ADED, S51; low sky ~#81B2CD vs hazy ~#B4D3EE; tiny flat clouds vs big warm-lit cumulus), and the large lawn is a flat saturated game-green (~#618944) versus the calibration's muted warm yellow-olive grass (pack lawn ~#73865B); lighten and warm the lawn, soften the sky, add horizon haze."
+   ]
+  }
+ }
+}

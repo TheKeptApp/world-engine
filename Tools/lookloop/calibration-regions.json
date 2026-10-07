@@ -1,0 +1,33 @@
+{
+  "about": "Sample boxes (fractions of the frame) for calibration_colours.py: the same surface in a look-loop frame and in a style-b-calibration-v2 frame. The calibration frames are painted stills with their OWN camera and content, so each frame has its own boxes; the engine boxes come from regions.json. Absolute dE is therefore a surface-class distance, not a same-camera one: judge the direction of a move between runs. 'mask' keeps only pixels of that class inside the box (brick = sunlit terracotta). The pack owns lighting, exposure, saturation and matte materials; wall albedo stays with the packs (R, 2026-10-07), so wall is shown for reference only.",
+  "frames": {
+    "01-lakeview": {
+      "path": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+      "regions": {
+        "sky": [0.40, 0.0, 1.0, 0.22],
+        "road": [0.62, 0.80, 0.98, 0.97],
+        "sidewalk": [0.02, 0.855, 0.30, 0.93],
+        "parkway lawn": [0.46, 0.797, 0.65, 0.822],
+        "crowns": [0.0, 0.0, 0.40, 0.13],
+        "wall": {"box": [0.0, 0.20, 0.65, 0.70], "mask": "brick"}
+      }
+    },
+    "06-sloans": {
+      "path": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png",
+      "regions": {
+        "sky": [0.0, 0.0, 0.40, 0.20],
+        "sidewalk": [0.05, 0.92, 0.55, 0.985]
+      }
+    }
+  },
+  "pairs": {
+    "lakeview-street-afternoon": {"frame": "01-lakeview", "surfaces": ["sky", "road", "sidewalk", "parkway lawn", "crowns", "wall"]},
+    "lakeview-postcard-afternoon": {"frame": "01-lakeview", "surfaces": ["sky", "road", "sidewalk", "parkway lawn", "crowns", "wall"]},
+    "wilmette-street-afternoon": {"frame": "01-lakeview", "surfaces": ["sky", "road", "sidewalk", "parkway lawn", "crowns"]},
+    "ordinary-street-afternoon": {"frame": "06-sloans", "surfaces": ["sky", "sidewalk"]}
+  },
+  "notes": {
+    "wilmette-street-afternoon": "The pack has no Wilmette frame; the Chicago frame is the nearest regional look. Its walls are profile colours, not calibration content.",
+    "ordinary-street-afternoon": "06-sloans is a lakeside path (autumn engine frame, green-season calibration): only sky and the concrete path are comparable."
+  }
+}
