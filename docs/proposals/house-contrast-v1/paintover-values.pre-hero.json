@@ -1,0 +1,180 @@
+{
+  "schema": "worldengine.paintover.house-contrast.proposal.v1",
+  "date": "2026-10-07",
+  "status": "authored_appearance_targets_with_generated_paintovers",
+  "definitions": {
+    "hex": "sRGB display appearance swatches under unchanged daylight; not material albedo or measured source pixels",
+    "relativeBrightness": "linear Rec.709 luminance Y, normalized to the wall of the same house type = 1",
+    "linearLuminance": "sRGB decoded to linear RGB, Y=0.2126R+0.7152G+0.0722B",
+    "shadowPolicy": "Appearance targets, not additional multiply layers. Preserve source sunlight and fill; reconcile with existing AO (fill-only visibility floor 0.65).",
+    "palettePolicy": "Representative variants, not universal Chicago colors; preserve observed material identity and mapped tags."
+  },
+  "houseTypes": {
+    "chicago_three_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#98664F",
+          "linearLuminance": 0.1674,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DBC8A7",
+          "linearLuminance": 0.5916,
+          "relativeBrightness": 3.533
+        },
+        "soffit": {
+          "hex": "#51463E",
+          "linearLuminance": 0.0648,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#493C35",
+          "linearLuminance": 0.0491,
+          "relativeBrightness": 0.293
+        },
+        "porch_shadow": {
+          "hex": "#3E3733",
+          "linearLuminance": 0.04,
+          "relativeBrightness": 0.239
+        },
+        "window_glass_day": {
+          "hex": "#405766",
+          "linearLuminance": 0.0887,
+          "relativeBrightness": 0.53
+        },
+        "roof": {
+          "hex": "#554E49",
+          "linearLuminance": 0.0786,
+          "relativeBrightness": 0.47
+        }
+      }
+    },
+    "chicago_two_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A77960",
+          "linearLuminance": 0.2273,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E2D2B7",
+          "linearLuminance": 0.6568,
+          "relativeBrightness": 2.889
+        },
+        "soffit": {
+          "hex": "#554A40",
+          "linearLuminance": 0.072,
+          "relativeBrightness": 0.317
+        },
+        "eave_shadow": {
+          "hex": "#4B4037",
+          "linearLuminance": 0.0544,
+          "relativeBrightness": 0.239
+        },
+        "porch_shadow": {
+          "hex": "#403934",
+          "linearLuminance": 0.0426,
+          "relativeBrightness": 0.188
+        },
+        "window_glass_day": {
+          "hex": "#425A68",
+          "linearLuminance": 0.0947,
+          "relativeBrightness": 0.417
+        },
+        "roof": {
+          "hex": "#58514A",
+          "linearLuminance": 0.0845,
+          "relativeBrightness": 0.372
+        }
+      }
+    },
+    "workers_cottage": {
+      "wallMaterial": "siding",
+      "surfaces": {
+        "wall": {
+          "hex": "#B9B9A4",
+          "linearLuminance": 0.4769,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#F1E4CA",
+          "linearLuminance": 0.7845,
+          "relativeBrightness": 1.645
+        },
+        "soffit": {
+          "hex": "#5F6258",
+          "linearLuminance": 0.1187,
+          "relativeBrightness": 0.249
+        },
+        "eave_shadow": {
+          "hex": "#52574F",
+          "linearLuminance": 0.0917,
+          "relativeBrightness": 0.192
+        },
+        "porch_shadow": {
+          "hex": "#454C47",
+          "linearLuminance": 0.0689,
+          "relativeBrightness": 0.144
+        },
+        "window_glass_day": {
+          "hex": "#465D6B",
+          "linearLuminance": 0.1019,
+          "relativeBrightness": 0.214
+        },
+        "roof": {
+          "hex": "#60615A",
+          "linearLuminance": 0.1177,
+          "relativeBrightness": 0.247
+        }
+      }
+    },
+    "chicago_bungalow": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A57450",
+          "linearLuminance": 0.2107,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DECBAB",
+          "linearLuminance": 0.6118,
+          "relativeBrightness": 2.904
+        },
+        "soffit": {
+          "hex": "#565046",
+          "linearLuminance": 0.0816,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#4B443B",
+          "linearLuminance": 0.0595,
+          "relativeBrightness": 0.282
+        },
+        "porch_shadow": {
+          "hex": "#403D36",
+          "linearLuminance": 0.0469,
+          "relativeBrightness": 0.223
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.429
+        },
+        "roof": {
+          "hex": "#5B5A52",
+          "linearLuminance": 0.1015,
+          "relativeBrightness": 0.482
+        }
+      }
+    }
+  },
+  "paintoverValidation": {
+    "swatchesChanged": false,
+    "reason": "Generated outputs use locally lit variants; original numeric swatches remain authored targets, not sampled pixel values.",
+    "sourceCapture": "20261007-062707",
+    "incidentalTexturePolicy": "Fine brick/siding courses in generated images are not minimum requirements."
+  }
+}

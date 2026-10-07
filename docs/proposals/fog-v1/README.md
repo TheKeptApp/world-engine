@@ -8,7 +8,7 @@ Proposal, 2026-10-06. [Open the phone gallery](index.html). Final images are in 
 
 **Authored assumptions [A]:** every density anchor, color, strength, layer height, demo wetness, visual evaluation and performance subdivision below. **Verified principles [V]:** exponential extinction; radiation fog forming near the surface and commonly dissipating under sunlight; lake/advection fog forming when moist warm air moves over colder water. See [sources.md](sources.md), checked 2026-10-06. Neither sources nor images establish a measured local event.
 
-**Repository constraints [R]:** Style B smooth organic crowns, quiet ground families, bounded contact darkening, one material fog term, existing visual-v2 GPU buckets. Read-only anchors: [look-fix-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md), [rain-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/rain-v1/README.md), [paintover-v1](/Users/robwoodbury/Desktop/world-engine/docs/proposals/paintover-v1/README.md). No engine implementation changed.
+**Repository constraints [R]:** Style B smooth organic crowns, quiet ground families, bounded contact darkening, one material fog term, existing visual-v2 GPU buckets. Read-only anchors: [look-fix-v1](~/Desktop/world-engine/docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md), [rain-v1](~/Desktop/world-engine/docs/proposals/rain-v1/README.md), [paintover-v1](~/Desktop/world-engine/docs/proposals/paintover-v1/README.md). No engine implementation changed.
 
 ## 1. Density and distance [A]
 

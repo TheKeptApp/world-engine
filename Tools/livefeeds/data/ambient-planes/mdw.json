@@ -1,6 +1,6 @@
 {
  "schema": "worldengine.ambient-planes-area/1",
- "note": "Runway geometry from the FAA NASR 28-day subscription, cycle effective 2026-10-01 (APT_RWY_END.csv, APT_RWY.csv in 01_Oct_2026_APT_CSV.zip), a U.S. federal government work (public domain, 17 U.S.C. 105). threshold = the landing threshold (the displaced threshold where NASR gives one, else the runway end); headingTrueDeg = NASR true alignment (whole degrees); lengthM = NASR runway length. FLOWS AND MODEL NOT SET: Midway's arrival/departure flows are not in docs/research/ambient-planes.md and need the owner's choice (docs/live-world/planes.md); until then this area is not simulated.",
+ "note": "Runway geometry from the FAA NASR 28-day subscription, cycle effective 2026-10-01 (APT_RWY_END.csv, APT_RWY.csv in 01_Oct_2026_APT_CSV.zip), a U.S. federal government work (public domain, 17 U.S.C. 105). threshold = the landing threshold (the displaced threshold where NASR gives one, else the runway end); headingTrueDeg = NASR true alignment (whole degrees); lengthM = NASR runway length. Flows (owner decision 2026-10-07): one per landing direction, chosen from live wind by flowSelection (least crosswind, tailwind at most 5 kt, the longer arrival runway preferred); runways under 1,500 m (13R/31L, 1,176 m) are not used for the simulated airliners. Calm: flow 31 on the longest pair (13L/31R). The model block copies ORD's values: assumptions, not measured for Midway. Illustrative, not live.",
  "aircraftMode": "ambient",
  "airport": "MDW",
  "timeZone": "America/Chicago",
@@ -96,5 +96,132 @@
    "nasrRunway": "13L/31R"
   }
  ],
- "attribution": "Runway data: FAA NASR (public domain)"
+ "attribution": "Runway data: FAA NASR (public domain)",
+ "flowSelection": {
+  "rule": "leastCrosswind",
+  "tailwindLimitKt": 5,
+  "preferLongerRunway": true,
+  "tieCrosswindKt": 1,
+  "calmKt": 4,
+  "minRunwayLengthM": 1500
+ },
+ "defaultFlow": "31",
+ "flows": {
+  "04": {
+   "landingHeadingTrueDeg": 43.0,
+   "arrivals": [
+    "04R"
+   ],
+   "departures": [
+    "04L"
+   ]
+  },
+  "13": {
+   "landingHeadingTrueDeg": 134.0,
+   "arrivals": [
+    "13L"
+   ],
+   "departures": [
+    "13L"
+   ]
+  },
+  "22": {
+   "landingHeadingTrueDeg": 223.0,
+   "arrivals": [
+    "22L"
+   ],
+   "departures": [
+    "22R"
+   ]
+  },
+  "31": {
+   "landingHeadingTrueDeg": 314.0,
+   "arrivals": [
+    "31R"
+   ],
+   "departures": [
+    "31R"
+   ]
+  }
+ },
+ "model": {
+  "corridorNm": 12,
+  "glideDeg": 3.0,
+  "thresholdCrossingM": 15,
+  "slotSeconds": 150,
+  "jitterSeconds": 25,
+  "arrivalPeak": 0.6,
+  "departurePeak": 0.4,
+  "mediumShare": 0.7,
+  "approachKt": {
+   "medium": [
+    140,
+    150
+   ],
+   "heavy": [
+    150,
+    160
+   ]
+  },
+  "corridorStartKt": 185,
+  "speedChangeStartNm": 6,
+  "touchdownM": 300,
+  "rolloutM": 1700,
+  "rolloutEndKt": 30,
+  "dissolveSeconds": 3,
+  "departure": {
+   "rotateKt": 150,
+   "rollM": [
+    1800,
+    2400
+   ],
+   "rollMarginM": 800,
+   "climbKt": 170,
+   "climbTan": 0.1051,
+   "ceilingM": 3000,
+   "beyondRunwayNm": 12,
+   "fadeInSeconds": 3
+  },
+  "fadeNm": 1.5,
+  "hullVariants": 3,
+  "departureQuietHours": [
+   22,
+   5
+  ],
+  "hourlyMultiplier": [
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.08,
+   0.25,
+   0.6,
+   0.85,
+   1.0,
+   0.9,
+   0.75,
+   0.7,
+   0.75,
+   0.8,
+   0.8,
+   0.85,
+   0.95,
+   1.0,
+   0.95,
+   0.9,
+   0.75,
+   0.55,
+   0.35,
+   0.2
+  ],
+  "windMinKt": 4,
+  "windSwitchMarginKt": 2
+ },
+ "attributionEntry": {
+  "source": "ambient-faa",
+  "text": "Illustrative air traffic, not live. Runway data: FAA NASR (public domain).",
+  "url": "https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/",
+  "live": false,
+  "required": true
+ }
 }

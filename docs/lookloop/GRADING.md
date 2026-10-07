@@ -38,6 +38,18 @@ Apply it to these criteria:
 
 Snow on trees is a weather overlay on upward-facing boughs, never white foliage or an opaque snowball crown; score it under `palette` and `adRainReadable` when wet.
 
+## M. Approved mocks are the target (owner, 7 Oct 2026)
+
+Packs R approved in ChatGPT are the exact visual direction (`docs/proposals/INDEX.md`, status "R approved – binding target"). Where a view has a matching approved mock (same feature area and, as far as possible, the same region, season, weather and time of day), it is listed in the view's targets with a label starting "approved mock". Grade the frame as usual, then compare it with that mock and add to the JSON:
+
+```json
+"mockGap": {"mock": "docs/proposals/<pack>/images/<file>", "closeness": 1-5, "gaps": ["what still separates the frame from the mock, most important first (max 3)"]}
+```
+
+`closeness` is how near the frame is to the mock in what the mock is about (5 = indistinguishable at phone size in that feature, 1 = the feature is missing). Geometry, camera and object inventory still come from the capture; judge the mock's look (colour, light, materials, weather, vegetation, density), not its exact layout. A view without a matching approved mock omits `mockGap`. The report lists the gap per view next to concept parity.
+
+**Merge gate (owner, 7 Oct 2026):** every visual merge is scored on closeness to its mock on the views it targets. P3 flags any merge that does not raise mean `closeness` on those views, or that arrives without the pre-merge phone-size side-by-side (render vs mock, values used, remaining gaps) that CLAUDE.md requires.
+
 ## P. Paint-over targets (owner, 6 Oct 2026; docs/proposals/paintover-v1/)
 
 Six views have a ChatGPT paint-over of their own camera: `ordinary-street`, `evanston-street`, `showcase-03`, `showcase-06`, `v2-06` and `lakeview-street`. The paint-over is listed as the view's last target. It is the closest thing to an exact appearance target: it starts from the same capture, so compare like for like (crown shading, ground families, contact pockets, wet sheen, sky, haze) and name in the fixes what still separates the frame from it. The pack's README and `paintover-values.json` give the authored values per view.
@@ -45,6 +57,18 @@ Six views have a ChatGPT paint-over of their own camera: `ordinary-street`, `eva
 Limits, from the pack: the capture's camera, roads, footprints, shoreline and object inventory govern geometry; the paint-over's small silhouette, window and leaf differences are not targets; the rain puddle in `showcase-03`'s paint-over keeps a slightly rimmed edge that is a known artefact (the target is a flush sky reflection). Generated grain is not a texture requirement (section S still applies).
 
 Scoring does not change: grade the frame against GRADING.md as usual. `finish` also reports **paint-over parity** = the view's /50 ÷ the paint-over's own blind /50 (calibrated by Opus, `calibrate.py --paintover`), beside the gate and never part of it. Concept parity stays the gate. Paint-over parity uses the same Opus calibration as concept parity, so Sonnet routine runs read it high (calibration.md); use it for change between runs.
+
+## N. Grader noise and what counts as a real change — PROPOSED (owner decides; measured 7 Oct 2026)
+
+**Measured, no new grading:** routine Sonnet grades of views a merge could not reach, across three consecutive-run pairs (house details 1/3 on non-North-Shore views, house details 2/3 on non-Lakeview views, 5A wet paving and overcast clouds on dry clear views): 63 view pairs. The change in a view's parity between two runs had a standard deviation of 4.2 points (about 2.9 points of noise in a single grade); 90 % of changes were within 6 points and 95 % within 8; 20 of 63 moved by more than 3 points; the largest were 15 and 12 (showcase-10, the noisiest view: −15 then +12). The mean shift across the untouched views of one pair ranged from −1.2 to +1.7 points; the full-set mean parity moved within 80.3–82.1 % over seven runs in which most merges had no measurable effect.
+
+**Proposed rule:**
+1. A single view counts as a real change only if it moves **more than 8 parity points**, or more than 5 points in the same direction in **two consecutive runs**, **and** the reviewer's reasons change in a way the merge could cause.
+2. The mean counts as real only if it moves **more than 2 points on the full set** (29 views) or **more than 2.5 points on the core set** (13 views; mean noise ≈ 4.2/√13 ≈ 1.2).
+3. A change concentrated in the views the merge targets (for example a region's views) counts at **more than 4 points** on that group's mean, again with matching reviewer reasons (the Sloan's Lake lemon-yellow regression and its fix both met this).
+4. The current "> 3 points" regression flag stays as a list to re-check, not as a finding: about a third of untouched views cross it by chance.
+
+**Core set (owner, 7 Oct 2026):** each merge is scored with Sonnet on the 13 views marked `core` in `Tools/lookloop/views.json` (`lookloop.sh run --core`): ordinary-street, evanston-street, evanston-street-rain, wilmette-street, wilmette-street-fall, wilmette-aerial, lakeview-street, lakeview-postcard, showcase-01, showcase-03, showcase-06, v2-01, v2-06 (all six paint-over views, the three regions, rain, smoke, fall and two aerials). The full set runs only for gate checks. Core runs are compared with core views of the previous run, never with full-set means.
 
 ## Inputs
 

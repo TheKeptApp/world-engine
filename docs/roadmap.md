@@ -50,5 +50,6 @@ From ChatGPT's data-layers research (`docs/research-gpt/data-layers-research-v1/
 - **PROPOSED — top layers, in priority order:** crop type, phenology, water, terrain, tides, building footprints, places, park amenities.
 - **PROPOSED — rights order:** our own apps use a layer first; licensed or redistributed products include it only after its rights are confirmed (`docs/research/licensing.md` §16, Q44–Q46).
 - **PROPOSED — water:** USGS legacy water services retire in February 2027, so any water layer uses the new USGS APIs from day one.
+- **PROPOSED — snow states need weather history:** how much snow lies on the ground depends on snowfall over the last 1–3 days and on melt, not just today's weather. A future P1 data task supplies that history to the snow states.
 - **Hosting estimate (hypothetical, not a plan):** Cloudflare R2 storage and reads about $1.35–70 a month for 10k–1M monthly users, under the research's assumptions (100 GB stored, 200 origin requests and 100 MB per user a month, no edge caching; delivery, compute, live APIs and taxes excluded).
 

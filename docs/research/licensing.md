@@ -464,6 +464,10 @@ Everything below is paraphrased.
 45. eBird and iNaturalist: eBird raw data needs approval for commercial use and its modelled Status and Trends products currently exclude commercial applications; iNaturalist defaults to non-commercial licences. Does any permission we could obtain cover derived scenes and licensing to other apps?
 46. Overture per-theme licences: which obligations (ODbL share-alike, CDLA-Permissive-2.0, attribution) attach to each theme we use, and how are they carried into generated scenes and downstream databases?
 
+**Landmarks** (added 2026-10-07; §17)
+
+47. Some landmark owners register a building's appearance as a trademark (the research's "trademark triage" column). Does modelling such a building in a commercial app or licensed world package need permission, and does that change for app icons, marketing images or postcards?
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?
@@ -639,6 +643,7 @@ checked from a normal connection before release. Status values as in §1.
 | **LW11** | OpenStreetMap runway geometry (ORD, DEN), copied from `docs/research/ambient-planes.md` table 2.3 into `Tools/livefeeds/data/ambient-planes/*.json` | Planes: simulated approach and departure corridors | ODbL 1.0 (a small derived database; same handling and lawyer question as the world package, ambient-planes §6). No flight data, so no aircraft-feed licence applies | `ambient`: "Illustrative air traffic, not live. Runway geometry © OpenStreetMap contributors." (`live: false`, `required: true`) | Done |
 | **LW12** | adsb.lol live ADS-B | Planes: evaluated only, not used | ODbL; production users asked to contact the operator (live-feeds §3, rows LA4). Not re-read this pass (host denied by the session's network policy) | Would be the adsb.lol ODbL credit | Not used: needs the operator's written permission and the owner's ODbL decision |
 | **LW13** | FAA NASR 28-day subscription (`APT_RWY.csv`, `APT_RWY_END.csv`: runway ends, coordinates, headings, thresholds), U.S. government work | Planes: Midway (MDW) runways for simulated traffic, instead of OSM/Overpass (owner decision 2026-10-07) | Public domain (17 U.S.C. 105, U.S. federal government work); no attribution required, courtesy credit "FAA NASR" | None required | **Fetched 2026-10-07 by P1** (from the Mac, which reaches nfdc.faa.gov): `https://nfdc.faa.gov/webContent/28DaySub/extra/01_Oct_2026_APT_CSV.zip` (cycle effective 2026-10-01, 8.0 MB, SHA-256 `aba48ea877f2…` in the file), linked from the FAA NASR Subscription page; MDW rows only → `Tools/livefeeds/data/ambient-planes/mdw.json` (runways only; flows pending the owner). The earlier cloud session was denied by its network policy; no mirror used |
+| **LW14** | National Weather Service API (`api.weather.gov`: `/alerts/active`, `/zones/…`) | Weather alerts layer (`docs/live-world/alerts.md`): official alerts in force for Chicago, Denver and Miami | Public domain unless noted otherwise; may be used for any lawful purpose if not claimed as one's own or misrepresented (https://www.weather.gov/disclaimer, read 2026-10-07). API guidance: a User-Agent with contact details (configured, never in the repo) | `nws`: "Weather alerts: National Weather Service (weather.gov). Official text, unaltered." (`required: true`) | Done 2026-10-07 (P1); verified |
 
 ## 15. OSM-derived vs independent layers (owner rule, 2026-10-06)
 
@@ -719,4 +724,15 @@ Source: `docs/research-gpt/data-layers-research-v1/`. Nothing here has been chec
 | **DL3** | Overture is not one licence: record the licence per theme, never treat it as blanket | Any Overture theme | Per-theme licence, attribution and share-alike recorded with the layer's provenance (Q46; see also V1/O12) | To do | research README, verify-first item 2 |
 | **DL4** | No copying from Google Places or Google Pollen | Places, pollen | Never ingest, cache or copy Google POI or pollen data into our layers | Decided (rule) | research README, verify-first item 13 |
 | **DL5** | eBird and iNaturalist carry commercial-use restrictions | Bird and wildlife layers | **Own-app research only** until cleared in writing (Q45) | N/A yet | research README, verify-first items 7–8 |
+
+## 17. Landmarks (added 2026-10-07; owner rules, research unverified)
+
+Sources: owner decisions of 2026-10-06/07 (`docs/roadmap.md`, `docs/decisions/owner-log.md`), `docs/proposals/landmarks-v1/`, `docs/research-gpt/landmarks-research-v1/` (100 destinations, unverified apart from coordinates).
+
+| # | Obligation | Applies to | How we comply | Status | Source |
+|---|---|---|---|---|---|
+| **LM1** | Public artworks are reference only: Cloud Gate ("the Bean"), the Chicago Picasso and any other sculpture or artwork are not built into the engine or any product without written permission from the rights holder | Landmark pack, any city | Excluded from models; may appear only in internal reference images; the pack's "user exception" note for the Bean is overridden | Decided (rule) | owner decision 2026-10-07; landmarks-v1 README |
+| **LM2** | No team, university or sponsor logos or names on models (stadiums, campuses, arenas) | Landmark pack | Buildings modelled without logos, wordmarks, sponsor names or readable signage; names appear only as identifiers in data, never on geometry | Decided (rule) | owner decision 2026-10-06; landmarks-v1 legal guardrails |
+| **LM3** | Building designs may carry architectural-work or trademark protection (distinctive towers and stadiums) | Hero and tuned landmark models | Building exteriors visible from public places are generally modelled; any trademark claim on a building's appearance goes to a lawyer before a product ships (Q47) | Needs lawyer | landmarks-research-v1 trademark triage |
+
 

@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorldEngine lake + winter review</title><style>
+:root{--phone:390px;color:#19392E;background:#F5F1E7;font-family:system-ui,sans-serif}body{margin:0}
+header,section{padding:20px}header{max-width:1060px;margin:auto}h1{font-size:32px}h2{font-size:24px}
+a{color:#19392E}button{padding:10px 16px;border:1px solid #19392E;background:#fff;color:#19392E;cursor:pointer;font:inherit}
+button[aria-pressed=true]{background:#19392E;color:#fff}
+.phone-grid{display:flex;flex-wrap:wrap;gap:24px;padding:0;max-width:1060px;margin:auto}
+.phone{width:var(--phone);flex:none;margin:0}.phone figcaption{padding:12px 8px}.crop{width:var(--phone);position:relative;overflow:hidden;background:#19392E}
+.crop img{position:absolute;max-width:none;height:auto}.full{max-width:1060px;margin:36px auto}.full img{width:100%;height:auto}
+table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:10px;border-bottom:1px solid #c6cdc6;font-size:14px}.swatch{display:inline-block;width:30px;height:20px;vertical-align:middle;margin-right:8px;border:1px solid #8d998f}
+.note{font-size:14px}.exact{max-width:1060px;margin:auto;overflow:auto}.exact img{width:100%;min-width:680px}
+</style><header><h1>Lake water + winter gaps</h1><p>Broad shapes, time-correct light and exact shared values. Read the scene before its caption.</p>
+<p><a href="README.md">Cost + weather-history guide</a> · <a href="lake-winter-values.json">Exact JSON</a> · <a href="verification.md">Checks and limits</a> · <a href="prompts.json">Prompts</a></p>
+<p><button aria-pressed="true" onclick="size(390,this)">390 CSS px</button> <button aria-pressed="false" onclick="size(320,this)">320 CSS px</button></p>
+<p class="note">Scene width stays exact; on a narrow screen scroll horizontally if needed. These are poster crops, not calibrated engine frames. No renderer/device test is claimed.</p></header><div class="phone-grid">
+<figure class="phone"><div class="crop" style="aspect-ratio:483/493"><img src="06-phone-readability-targets.png" alt="Lake day" style="width:212.00828157%;left:-3.51966874%;top:-30.62880325%"></div><figcaption><strong>Lake day</strong><br><span class="swatch" style="background:#477C8D"></span>#477C8D · r0.28 · sheen0.55<br><small>Exact prescription: sloans_lake_clear_wind_10</small></figcaption></figure>
+<figure class="phone"><div class="crop" style="aspect-ratio:484/493"><img src="06-phone-readability-targets.png" alt="Lake golden hour" style="width:211.57024793%;left:-107.85123967%;top:-30.62880325%"></div><figcaption><strong>Lake golden hour</strong><br><span class="swatch" style="background:#477884"></span>#477884 · r0.28 · sheen0.55<br><small>Exact prescription: sloans_lake_golden_hour_wind_10</small></figcaption></figure>
+<figure class="phone"><div class="crop" style="aspect-ratio:483/517"><img src="06-phone-readability-targets.png" alt="Frozen lake aerial" style="width:212.00828157%;left:-3.51966874%;top:-163.82978723%"></div><figcaption><strong>Frozen lake aerial</strong><br><span class="swatch" style="background:#E4E9EB"></span>#E4E9EB · r0.9 · sheen0.01<br><small>Exact prescription: snow_on_ice</small></figcaption></figure>
+<figure class="phone"><div class="crop" style="aspect-ratio:484/517"><img src="06-phone-readability-targets.png" alt="Old-snow street" style="width:211.57024793%;left:-107.85123967%;top:-163.82978723%"></div><figcaption><strong>Old-snow street</strong><br><span class="swatch" style="background:#A5A698"></span>#A5A698 · r0.88 · sheen0.02<br><small>Exact prescription: dirty_snow</small></figcaption></figure>
+</div><section class="exact"><h2>Exact materials</h2><table><tr><th>State</th><th>Hex / linear change</th><th>Sheen / roughness</th></tr>
+<tr><td>sloans_lake_clear_wind_0</td><td><span class="swatch" style="background:#477C8D"></span>#477C8D · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>sloans_lake_clear_wind_10</td><td><span class="swatch" style="background:#477C8D"></span>#477C8D · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>sloans_lake_clear_wind_25</td><td><span class="swatch" style="background:#477C8D"></span>#477C8D · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>sloans_lake_overcast_wind_0</td><td><span class="swatch" style="background:#718C9A"></span>#718C9A · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>sloans_lake_overcast_wind_10</td><td><span class="swatch" style="background:#718C9A"></span>#718C9A · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>sloans_lake_overcast_wind_25</td><td><span class="swatch" style="background:#718C9A"></span>#718C9A · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>sloans_lake_golden_hour_wind_0</td><td><span class="swatch" style="background:#477884"></span>#477884 · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>sloans_lake_golden_hour_wind_10</td><td><span class="swatch" style="background:#477884"></span>#477884 · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>sloans_lake_golden_hour_wind_25</td><td><span class="swatch" style="background:#477884"></span>#477884 · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>sloans_lake_night_wind_0</td><td><span class="swatch" style="background:#243D5A"></span>#243D5A · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>sloans_lake_night_wind_10</td><td><span class="swatch" style="background:#243D5A"></span>#243D5A · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>sloans_lake_night_wind_25</td><td><span class="swatch" style="background:#243D5A"></span>#243D5A · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>lake_michigan_clear_wind_0</td><td><span class="swatch" style="background:#315F7F"></span>#315F7F · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>lake_michigan_clear_wind_10</td><td><span class="swatch" style="background:#315F7F"></span>#315F7F · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>lake_michigan_clear_wind_25</td><td><span class="swatch" style="background:#315F7F"></span>#315F7F · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>lake_michigan_overcast_wind_0</td><td><span class="swatch" style="background:#627E91"></span>#627E91 · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>lake_michigan_overcast_wind_10</td><td><span class="swatch" style="background:#627E91"></span>#627E91 · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>lake_michigan_overcast_wind_25</td><td><span class="swatch" style="background:#627E91"></span>#627E91 · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>lake_michigan_golden_hour_wind_0</td><td><span class="swatch" style="background:#355F79"></span>#355F79 · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>lake_michigan_golden_hour_wind_10</td><td><span class="swatch" style="background:#355F79"></span>#355F79 · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>lake_michigan_golden_hour_wind_25</td><td><span class="swatch" style="background:#355F79"></span>#355F79 · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>lake_michigan_night_wind_0</td><td><span class="swatch" style="background:#1D304B"></span>#1D304B · −0%Y</td><td>0.55 / 0.18</td></tr>
+<tr><td>lake_michigan_night_wind_10</td><td><span class="swatch" style="background:#1D304B"></span>#1D304B · −0%Y</td><td>0.55 / 0.28</td></tr>
+<tr><td>lake_michigan_night_wind_25</td><td><span class="swatch" style="background:#1D304B"></span>#1D304B · −0%Y</td><td>0.55 / 0.4</td></tr>
+<tr><td>ice</td><td><span class="swatch" style="background:#91ADBA"></span>#91ADBA · −0%Y</td><td>0.18 / 0.32</td></tr>
+<tr><td>snow_on_ice</td><td><span class="swatch" style="background:#E4E9EB"></span>#E4E9EB · −0%Y</td><td>0.01 / 0.9</td></tr>
+<tr><td>branch_snow</td><td><span class="swatch" style="background:#E4E9EB"></span>#E4E9EB · −0%Y</td><td>0.01 / 0.9</td></tr>
+<tr><td>clean_bank</td><td><span class="swatch" style="background:#DDE2E3"></span>#DDE2E3 · −0%Y</td><td>0.01 / 0.9</td></tr>
+<tr><td>dirty_snow</td><td><span class="swatch" style="background:#A5A698"></span>#A5A698 · −0%Y</td><td>0.02 / 0.88</td></tr>
+<tr><td>dirty_bank_base</td><td><span class="swatch" style="background:#91958D"></span>#91958D · −0%Y</td><td>0.01 / 0.9</td></tr>
+<tr><td>slush</td><td><span class="swatch" style="background:#858E93"></span>#858E93 · −0%Y</td><td>0.32 / 0.3</td></tr>
+</table><h2>Deterministic charts</h2><img src="07-exact-water-values.svg" alt="Exact water swatches"><img src="08-exact-winter-values.svg" alt="Exact winter swatches"></section>
+<section class="full"><h2>WATER THAT READS</h2><a href="01-water-that-reads.png"><img src="01-water-that-reads.png" alt="WATER THAT READS"></a></section>
+<section class="full"><h2>BIG LAKE VS CITY LAKE</h2><a href="02-big-lake-vs-city-lake.png"><img src="02-big-lake-vs-city-lake.png" alt="BIG LAKE VS CITY LAKE"></a></section>
+<section class="full"><h2>ICE THAT READS</h2><a href="03-ice-that-reads.png"><img src="03-ice-that-reads.png" alt="ICE THAT READS"></a></section>
+<section class="full"><h2>SNOW ON TREES</h2><a href="04-snow-on-trees.png"><img src="04-snow-on-trees.png" alt="SNOW ON TREES"></a></section>
+<section class="full"><h2>OLD SNOW</h2><a href="05-old-snow.png"><img src="05-old-snow.png" alt="OLD SNOW"></a></section>
+<section class="full"><h2>PHONE READABILITY TARGETS</h2><a href="06-phone-readability-targets.png"><img src="06-phone-readability-targets.png" alt="PHONE READABILITY TARGETS"></a></section>
+<script>function size(n,b){document.documentElement.style.setProperty("--phone",n+"px");document.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));}</script></html>

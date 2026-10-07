@@ -1,0 +1,227 @@
+{
+  "schema_version": "design-proposal-1",
+  "date": "2026-10-07",
+  "proposal_only": true,
+  "all_mock_data": "synthetic",
+  "working_name": "Blocklight",
+  "names": [
+    {
+      "name": "Blocklight",
+      "image": "images/09-name-blocklight.png",
+      "description": "A pale buff miniature roof and one warm sun arc, with a broad teal ground shadow; focus on daylight moving across your own block.",
+      "palette": [
+        "#2E6866",
+        "#F2BC63"
+      ],
+      "availability": "not checked"
+    },
+    {
+      "name": "Nearcast",
+      "image": "images/10-name-nearcast.png",
+      "description": "Three simple stepped teal house/roof masses under one soft slate cloud; one bold rain drop, generous negative space; local weather made tangible.",
+      "palette": [
+        "#547A86",
+        "#D9E5E8"
+      ],
+      "availability": "not checked"
+    },
+    {
+      "name": "Porchcast",
+      "image": "images/11-name-porchcast.png",
+      "description": "One simple porch roof silhouette frames a warm horizon and a single blue raindrop; approachable everyday planning, no people.",
+      "palette": [
+        "#BC805B",
+        "#294D64"
+      ],
+      "availability": "not checked"
+    }
+  ],
+  "palette": {
+    "background": "#F6F3EA",
+    "ink": "#23344C",
+    "primary": "#2E6866",
+    "forecast_badge": "#D9E7E5",
+    "observed_badge": "#E3E7EB",
+    "simulation_badge": "#2E6866",
+    "stale_badge": "#E9DCC1",
+    "warning": "#A93226"
+  },
+  "typography": {
+    "body_pt": 17,
+    "badge_min_pt": 12,
+    "min_hit_target_pt": 44,
+    "dynamic_type": true,
+    "source_labels_colour_independent": true,
+    "status": "proposal; generated pixels are not native point measurements"
+  },
+  "classification": {
+    "observed": "timestamped station/sensor measurement, never automatically at home",
+    "forecast": "provider estimate, including WeatherKit current estimate",
+    "simulated": "computed/illustrative scene or derived value",
+    "unknown": "unavailable, never zero",
+    "warning": "forecast with separate official-message status; demo warning simulated",
+    "stale": "supplement original category; never a new data kind"
+  },
+  "provenance_record": {
+    "required_fields": [
+      "kind",
+      "source",
+      "valid_time_or_interval",
+      "source_timestamp",
+      "retrieved_at",
+      "spatial_scope",
+      "freshness",
+      "is_demo",
+      "units"
+    ],
+    "observation_extra": [
+      "station_id",
+      "observation_time"
+    ],
+    "simulation_extra": [
+      "input_kinds",
+      "history_known",
+      "assumptions"
+    ]
+  },
+  "freshness_proposal_minutes": {
+    "area_refresh": 15,
+    "current_estimate_stale": 30,
+    "station_observation_stale": 90,
+    "older_forecast_indicator": 180,
+    "warning_poll_visible": 1,
+    "warning_stale": 5,
+    "provider_expiry_overrides": true,
+    "failed_fetch_means": "unknown warning status; no false all-clear",
+    "old_observation_download": "does not reset observation age"
+  },
+  "privacy": {
+    "exact_home_device_only": true,
+    "home_selection_cloud_backup": false,
+    "external_exact_home_requests": false,
+    "coarse_weather_grid_km": 5,
+    "house_and_alert_matching": "on device",
+    "analytics_coordinates": false,
+    "external_address_geocoding": false,
+    "home_scene_sharing_v1": false,
+    "account_needed_for_core": false,
+    "approximate_area_disclosure": "possible via coarse requests and IP; not anonymity",
+    "policy_toggle": false
+  },
+  "tiers": {
+    "free": [
+      "one local block",
+      "current estimates",
+      "24-hour scrub",
+      "weather/night world states",
+      "supported warnings and notifications",
+      "provenance/freshness",
+      "privacy/accessibility"
+    ],
+    "paid": [
+      "extended supported forecast playback",
+      "side-by-side times",
+      "local planning slots",
+      "additional local places",
+      "optional widgets"
+    ],
+    "pricing": "unselected, validate demand",
+    "warnings_paywalled": false
+  },
+  "attribution": {
+    "apple": {
+      "mockup": "plain text placement placeholder; no logo",
+      "production": "official WeatherAttribution mark + returned legal link",
+      "placement": "persistent strip below weather/world and outside sheets",
+      "source": "https://developer.apple.com/weatherkit/",
+      "checked": "2026-10-07"
+    },
+    "osm": {
+      "text": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright",
+      "placement": "persistent when mapped world visible",
+      "checked": "2026-10-07"
+    },
+    "nws": {
+      "text": "National Weather Service",
+      "placement": "warning issuer + official link; observation detail; Sources",
+      "source": "https://www.weather.gov/documentation/services-web-api",
+      "checked": "2026-10-07",
+      "api_feed_proposal": "direct NWS regional/zone feed; preserve official message",
+      "weatherkit_alternative": "also preserve supplied Apple alert details link and issuing agency name"
+    }
+  },
+  "motion": {
+    "reduce_motion": true,
+    "hold_geometry_fixed": true,
+    "forecast_readouts": "provider records; no visual interpolation as numeric truth",
+    "pause_at_missing_hours": true,
+    "alert_pauses_playback": true
+  },
+  "performance": {
+    "gpu_ms_target": 10,
+    "fps_target": 60,
+    "device": "iPhone 13-class",
+    "new_reflection_passes": 0,
+    "background_continuous_render": false,
+    "status": "existing target, unmeasured"
+  },
+  "screens": [
+    {
+      "id": "01-home",
+      "title": "Home block",
+      "image": "images/01-home.png",
+      "interaction": "Open to one local house; street/aerial toggle; four-hour rail; nearby station observation is secondary and explicitly different from the area forecast.",
+      "acceptance": "Every visible numeric weather value has its own source badge. Station details must include observation time and station identity in the expanded Sources view."
+    },
+    {
+      "id": "02-hour-scrub",
+      "title": "Hour scrub",
+      "image": "images/02-hour-scrub.png",
+      "interaction": "Drag or play; the selected valid time is pinned while the same world geometry stays fixed; stop at the available forecast horizon.",
+      "acceptance": "Interpolation is visual only. Readouts snap to actual valid-hour records. No interpolation presented as an observation; missing intervals are grey/unavailable."
+    },
+    {
+      "id": "03-alert",
+      "title": "NWS warning example",
+      "image": "images/03-alert.png",
+      "interaction": "Warning sheet takes priority over the world and playback; official issuer, validity, original text and official source link.",
+      "acceptance": "This screen is a SIMULATED warning example. Production warning is FORECAST · official warning, not proof the hazardous event is observed at the home."
+    },
+    {
+      "id": "04-rain",
+      "title": "Rain forecast",
+      "image": "images/04-rain.png",
+      "interaction": "Grey light, wet broad pavement planes and restrained streaks; area precipitation rate remains readable.",
+      "acceptance": "Wetness is simulated from history. Precipitation probability differs from rate; no deterministic raindrop arrival at the house."
+    },
+    {
+      "id": "05-snow",
+      "title": "Snow forecast",
+      "image": "images/05-snow.png",
+      "interaction": "Cold light, bare trees, exposed pavement and uneven snow appearance; distinguish forecast snowfall from estimated ground cover.",
+      "acceptance": "Missing accumulation history yields unknown ground coverage. Demo art is illustrative; production should neutralize unsupported coverage rather than initialize a blanket."
+    },
+    {
+      "id": "06-fog",
+      "title": "Fog forecast",
+      "image": "images/06-fog.png",
+      "interaction": "Distance contrast fades while near house and controls stay sharp.",
+      "acceptance": "Area visibility forecast is not a measured sight distance on the user’s street; do not obscure the text with world fog."
+    },
+    {
+      "id": "07-night",
+      "title": "Night and simulated lights",
+      "image": "images/07-night.png",
+      "interaction": "Quiet blue sky, restrained warm lamps/windows, coherent light pools and simulated shadows.",
+      "acceptance": "Lights do not reveal residents’ activity or smart-home telemetry. Reduce city star density; solar/moon models, geometry and weather govern production light."
+    },
+    {
+      "id": "08-settings-stale",
+      "title": "Settings and stale preview",
+      "image": "images/08-settings-stale.png",
+      "interaction": "Persistent local-home policy; units, motion, notification preferences, deletion and source links; stale example is prominent.",
+      "acceptance": "Mandatory local home storage is not a toggle. Warning permissions are optional; declining does not hide in-app warnings. Refresh never makes stale data live without a new valid fetch."
+    }
+  ]
+}

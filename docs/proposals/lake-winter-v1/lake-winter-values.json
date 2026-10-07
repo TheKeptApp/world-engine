@@ -1,0 +1,1680 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-10-07",
+  "style": "B",
+  "status": "proposal_only",
+  "claimPolicy": "All numeric appearance values are authored assumptions. Verified sources support principles only. Images are conceptual references, not measured shader output, surveyed geography, calibrated camera renders or device results.",
+  "units": {
+    "distance": "metres",
+    "time": "seconds",
+    "wind": "km/h",
+    "coverage": "eligible area percent, not opacity",
+    "darkening": "percent linear RGB / luminance reduction relative to baseColourHex",
+    "screen": "CSS px at 390x844; second review at 320x693",
+    "roughness": "perceptual roughness 0..1, adapter calibration required",
+    "sheen": "effective maximum reflected-sky blend weight at grazing view 0..1, not metallic or raw specular"
+  },
+  "compatibility": {
+    "referenceSchema": "rain-v1/rain-values.json schemaVersion1.0; preserves states[].surfaceValues[] darkeningPercent, linearBaseMultiplier, roughness, sheenStrength",
+    "ownership": "Replace one material policy; never multiply additional weather/ground darkening. Inherit weather lighting/fog once. Snow masks suppress water/ice/ground sheen where opaque.",
+    "palettePrecedence": "Mapped bathymetry/shoreline and live sky win; authored defaults only when their input is unavailable and an explicit demo state is selected.",
+    "productionStatus": "Renderer-neutral proposal data, not installed or validated against a production loader. New lake fields require adapter support."
+  },
+  "poster": {
+    "backgroundHex": "#F5F1E7",
+    "inkHex": "#19392E",
+    "fontFamily": "system-ui, sans-serif"
+  },
+  "states": [
+    {
+      "id": "sloans_lake_clear_wind_0",
+      "skyState": "clear",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477C8D",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477C8D",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_clear_wind_10",
+      "skyState": "clear",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477C8D",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477C8D",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_clear_wind_25",
+      "skyState": "clear",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477C8D",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477C8D",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_overcast_wind_0",
+      "skyState": "overcast",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#718C9A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#718C9A",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_overcast_wind_10",
+      "skyState": "overcast",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#718C9A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#718C9A",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_overcast_wind_25",
+      "skyState": "overcast",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#718C9A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#718C9A",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_golden_hour_wind_0",
+      "skyState": "golden_hour",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477884",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477884",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_golden_hour_wind_10",
+      "skyState": "golden_hour",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477884",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477884",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_golden_hour_wind_25",
+      "skyState": "golden_hour",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#477884",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#477884",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_night_wind_0",
+      "skyState": "night",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#243D5A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#243D5A",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_night_wind_10",
+      "skyState": "night",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#243D5A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#243D5A",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "sloans_lake_night_wind_25",
+      "skyState": "night",
+      "lakeProfile": "sloans_lake",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#243D5A",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#243D5A",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_clear_wind_0",
+      "skyState": "clear",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#315F7F",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#315F7F",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_clear_wind_10",
+      "skyState": "clear",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#315F7F",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#315F7F",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_clear_wind_25",
+      "skyState": "clear",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#315F7F",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#315F7F",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_overcast_wind_0",
+      "skyState": "overcast",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#627E91",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#627E91",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_overcast_wind_10",
+      "skyState": "overcast",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#627E91",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#627E91",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_overcast_wind_25",
+      "skyState": "overcast",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#627E91",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#627E91",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_golden_hour_wind_0",
+      "skyState": "golden_hour",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#355F79",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#355F79",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_golden_hour_wind_10",
+      "skyState": "golden_hour",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#355F79",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#355F79",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_golden_hour_wind_25",
+      "skyState": "golden_hour",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#355F79",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#355F79",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_night_wind_0",
+      "skyState": "night",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 0,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#1D304B",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#1D304B",
+          "roughness": 0.18,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_night_wind_10",
+      "skyState": "night",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 10,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#1D304B",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#1D304B",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "lake_michigan_night_wind_25",
+      "skyState": "night",
+      "lakeProfile": "lake_michigan",
+      "windKmh": 25,
+      "surfaceValues": [
+        {
+          "surface": "water",
+          "baseColourHex": "#1D304B",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#1D304B",
+          "roughness": 0.4,
+          "sheenStrength": 0.55
+        }
+      ],
+      "reflectionNormalStrength": 0.12,
+      "reflectionGrazingStrength": 0.55
+    },
+    {
+      "id": "ice",
+      "surfaceValues": [
+        {
+          "surface": "ice",
+          "baseColourHex": "#91ADBA",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#91ADBA",
+          "roughness": 0.32,
+          "sheenStrength": 0.18
+        }
+      ]
+    },
+    {
+      "id": "snow_on_ice",
+      "surfaceValues": [
+        {
+          "surface": "snow_on_ice",
+          "baseColourHex": "#E4E9EB",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#E4E9EB",
+          "roughness": 0.9,
+          "sheenStrength": 0.01
+        }
+      ]
+    },
+    {
+      "id": "branch_snow",
+      "surfaceValues": [
+        {
+          "surface": "branch_snow",
+          "baseColourHex": "#E4E9EB",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#E4E9EB",
+          "roughness": 0.9,
+          "sheenStrength": 0.01
+        }
+      ]
+    },
+    {
+      "id": "clean_bank",
+      "surfaceValues": [
+        {
+          "surface": "clean_bank",
+          "baseColourHex": "#DDE2E3",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#DDE2E3",
+          "roughness": 0.9,
+          "sheenStrength": 0.01,
+          "comparisonColourHex": "#E4E9EB",
+          "linearLuminanceChangePercent": -6.7588
+        }
+      ]
+    },
+    {
+      "id": "dirty_snow",
+      "surfaceValues": [
+        {
+          "surface": "dirty_snow",
+          "baseColourHex": "#A5A698",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#A5A698",
+          "roughness": 0.88,
+          "sheenStrength": 0.02,
+          "comparisonColourHex": "#E4E9EB",
+          "linearLuminanceChangePercent": -53.5239
+        }
+      ]
+    },
+    {
+      "id": "dirty_bank_base",
+      "surfaceValues": [
+        {
+          "surface": "dirty_bank_base",
+          "baseColourHex": "#91958D",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#91958D",
+          "roughness": 0.9,
+          "sheenStrength": 0.01,
+          "comparisonColourHex": "#E4E9EB",
+          "linearLuminanceChangePercent": -63.5536
+        }
+      ]
+    },
+    {
+      "id": "slush",
+      "surfaceValues": [
+        {
+          "surface": "slush",
+          "baseColourHex": "#858E93",
+          "darkeningPercent": 0,
+          "linearBaseMultiplier": 1.0,
+          "resultHex": "#858E93",
+          "roughness": 0.3,
+          "sheenStrength": 0.32,
+          "comparisonColourHex": "#E4E9EB",
+          "linearLuminanceChangePercent": -67.2661
+        }
+      ]
+    }
+  ],
+  "materialFormula": {
+    "base": "Cbase_linear = decodeSRGB(baseColourHex); Cdark_linear = Cbase_linear * linearBaseMultiplier; resultHex = encodeSRGB(Cdark_linear), rounded to nearest 8-bit channel.",
+    "sheen": "Cfinal_linear=(1-k)*Cshaded_linear+k*Csky_reflected_linear; water k=(0.12+(0.55-0.12)*(1-abs(dot(N,V)))^5)*exposureMask*aerialScale. Use sky evaluated in reflected direction, not a uniform colour.",
+    "iceAndSlush": "k=sheenStrength*(1-abs(dot(N,V)))^3*exposureMask*aerialScale. Snow same proxy with its own small sheen.",
+    "roughness": "Apply to reflection lobe/normal filtering; do not also add an uncalibrated physical specular pass. Proxy OR calibrated BRDF, not both.",
+    "colourDelta": "linearLuminanceChangePercent compares decoded resultHex to comparisonColourHex using Y=.2126R+.7152G+.0722B. Dirty/slush hue changes are authored replacements, not achievable by a single grey multiplier.",
+    "coverage": "All ice/snow/branch percentages describe opaque eligible areas. No translucent white overlay. One stable world-space mask; no new random placement each frame."
+  },
+  "water": {
+    "skyStates": {
+      "clear": {
+        "reflectionColourHex": "#8FBDD7",
+        "sunElevationDegrees": 35,
+        "sunAzimuthDegrees": 230
+      },
+      "overcast": {
+        "reflectionColourHex": "#8F9FAA",
+        "sunElevationDegrees": 35,
+        "sunAzimuthDegrees": 230
+      },
+      "golden_hour": {
+        "reflectionColourHex": "#E7BA79",
+        "sunElevationDegrees": 8,
+        "sunAzimuthDegrees": 230
+      },
+      "night": {
+        "reflectionColourHex": "#24314B",
+        "sunElevationDegrees": -12,
+        "sunAzimuthDegrees": 230
+      }
+    },
+    "windStates": {
+      "0": {
+        "windKmh": 0,
+        "roughness": 0.18,
+        "normalAmplitude": 0
+      },
+      "10": {
+        "windKmh": 10,
+        "roughness": 0.28,
+        "normalAmplitude": 0.08
+      },
+      "25": {
+        "windKmh": 25,
+        "roughness": 0.4,
+        "normalAmplitude": 0.16
+      }
+    },
+    "profiles": {
+      "sloans_lake": {
+        "shallowColourHex": "#668C82",
+        "shallowBlendWidthM": 2,
+        "farShoreVisible": true,
+        "defaultWindDurationHours": 3,
+        "waveByWindKmh": {
+          "0": {
+            "wavelengthM": 0,
+            "amplitudeM": 0,
+            "phaseSpeedMps": 0
+          },
+          "10": {
+            "wavelengthM": 0.8,
+            "amplitudeM": 0.025,
+            "phaseSpeedMps": 0.6
+          },
+          "25": {
+            "wavelengthM": 1.6,
+            "amplitudeM": 0.07,
+            "phaseSpeedMps": 1.0
+          }
+        }
+      },
+      "lake_michigan": {
+        "shallowColourHex": "#557F83",
+        "shallowBlendWidthM": 4,
+        "farShoreVisible": false,
+        "defaultWindDurationHours": 3,
+        "waveByWindKmh": {
+          "0": {
+            "wavelengthM": 0,
+            "amplitudeM": 0,
+            "phaseSpeedMps": 0
+          },
+          "10": {
+            "wavelengthM": 3,
+            "amplitudeM": 0.1,
+            "phaseSpeedMps": 1.4
+          },
+          "25": {
+            "wavelengthM": 6,
+            "amplitudeM": 0.25,
+            "phaseSpeedMps": 2.0
+          }
+        }
+      }
+    },
+    "wavePolicy": "Amplitude is half peak-to-trough height. Profiles are look fixtures, not wave forecasts. Actual wind direction, duration, fetch, depth and observed waves override. Wind0 fixture has no leftover swell; live state can retain swell history.",
+    "shoreline": {
+      "darkeningWidthM": 0.6,
+      "darkeningPercent": 12,
+      "linearBaseMultiplier": 0.88,
+      "transitionWidthM": 0.4,
+      "exampleSurfaceValues": [
+        {
+          "surface": "water_shore_band",
+          "baseColourHex": "#477C8D",
+          "darkeningPercent": 12,
+          "linearBaseMultiplier": 0.88,
+          "resultHex": "#437585",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "application": "Water-side band only. Smoothstep from shore inward: shade multiplier=0.88+0.12*smoothstep(0,0.60,distanceToShore). Independent shore geometry remains fixed. Shallow-colour weight=1-smoothstep(0,shallowBlendWidthM,distanceToShore). No extra land darkening.",
+      "edge": "Separate 0.40m material transition into existing wet bank, clipped to mapped terrain intersection. No black border, alpha water overlay or shoreline relocation."
+    },
+    "reflection": {
+      "normalStrength": 0.12,
+      "grazingStrength": 0.55,
+      "grazingExponent": 5,
+      "aerialScale": 0.65,
+      "metallic": 0,
+      "waterIOR": 1.333,
+      "physicalF0": 0.02037,
+      "policy": "These stylized blend coefficients are not measured Fresnel. No white brightness floor at night. Reuse sky environment; no planar mirrors, SSR, extra captures or per-ripple lights."
+    },
+    "haze": {
+      "fixtureExtinctionPerM": 0.0008,
+      "transmittanceFormula": "exp(-0.0008 * cameraPathLengthM)",
+      "policy": "One shared weather haze term. Longer sight lines get more haze naturally; no separate lake fog multiplier. Live fog overrides fixture."
+    },
+    "lod": {
+      "minimumProjectedWaveWidthCssPx": 1.5,
+      "normalDetailFadeStartM": 35,
+      "normalDetailFadeEndM": 100,
+      "aerialNormalAmplitudeScale": 0.5,
+      "farPolicy": "Fade subpixel normals, retain mean roughness and broad reflected sky. Never enlarge world-space wavelengths to force visibility. Wind0 means no wave oscillation."
+    }
+  },
+  "ice": {
+    "colourHex": "#91ADBA",
+    "roughness": 0.32,
+    "sheenStrength": 0.18,
+    "openWaterEdgeTransitionM": 0.3,
+    "snowColourHex": "#E4E9EB",
+    "snowShadowTintHex": "#C3CDD6",
+    "snowRoughness": 0.9,
+    "snowSheenStrength": 0.01,
+    "snowThicknessM": 0.03,
+    "states": {
+      "partly_frozen": {
+        "iceCoveragePercent": 55,
+        "snowOnIceCoveragePercent": 0
+      },
+      "fully_frozen": {
+        "iceCoveragePercent": 100,
+        "snowOnIceCoveragePercent": 0
+      },
+      "snow_on_ice": {
+        "iceCoveragePercent": 100,
+        "snowOnIceCoveragePercent": 85
+      }
+    },
+    "policy": "Coverage fixtures depict Sloan city lake only. Never apply fully_frozen fixture to all Lake Michigan from air temperature. Freeze disables waves only inside ice mask; open water remains animated. No crack/photo texture. Snow coverage denominator is ice area, not full lake area."
+  },
+  "branchSnow": {
+    "colourHex": "#E4E9EB",
+    "shadowTintHex": "#C3CDD6",
+    "roughness": 0.9,
+    "sheenStrength": 0.01,
+    "thicknessM": 0.035,
+    "eligibleSurface": "Upward-facing structural branch/crown tops; normal dot up >=0.35. Denominator is this eligible area, not whole tree silhouette.",
+    "freshCoveragePercent": {
+      "bare_deciduous": 35,
+      "evergreen": 65
+    },
+    "day2WindMeltCoveragePercent": {
+      "bare_deciduous": 12,
+      "evergreen": 25
+    },
+    "exposedBranchColourHex": "#625A4E",
+    "evergreenInteriorHex": "#193E2C",
+    "day2FixtureHistory": {
+      "hoursSinceSnowfall": 48,
+      "peakWindKmh": 25,
+      "hoursAboveFreezing": 4
+    },
+    "lod": {
+      "nearRangeM": 5,
+      "midRangeM": 20,
+      "nearMaxCapsPerTree": 12,
+      "midMaxCapsPerTree": 5,
+      "aerialMaxLobesPerTree": 3,
+      "minCapLengthM": 0.35,
+      "maxVisibleCappedTrees": 24
+    },
+    "policy": "Fresh and day2 are seeded comparison fixtures. Clock age alone never sheds snow. Wind exposure, melt, canopy type and new snowfall update area mask. Merge structural snow strips at range; no leaf/needle/twig geometry."
+  },
+  "oldSnow": {
+    "dirtySnowColourHex": "#A5A698",
+    "dirtyBankBaseColourHex": "#91958D",
+    "slushColourHex": "#858E93",
+    "cleanLawnSnowColourHex": "#DDE2E3",
+    "shadowTintHex": "#C3CDD6",
+    "dirtySnowRoughness": 0.88,
+    "dirtySnowSheenStrength": 0.02,
+    "slushRoughness": 0.3,
+    "slushSheenStrength": 0.32,
+    "curbSlushWidthM": 0.35,
+    "curbSlushThicknessM": 0.025,
+    "curbPersistenceDistanceM": 0.8,
+    "dirtyBaseHeightFraction": 0.2,
+    "bankEdgeSoftnessM": 0.1,
+    "states": {
+      "day2": {
+        "daysSinceSnowfall": 2,
+        "lawnSnowCoveragePercent": 90,
+        "bankHeightM": 0.3,
+        "bankWidthM": 0.6,
+        "bankColourState": "clean_bank",
+        "curbSlushWidthM": 0,
+        "fixturePositiveDegreeHours": 0
+      },
+      "day5": {
+        "daysSinceSnowfall": 5,
+        "lawnSnowCoveragePercent": 55,
+        "bankHeightM": 0.3,
+        "bankWidthM": 0.6,
+        "plowedPileHeightM": 0.45,
+        "bankColourState": "dirty_snow",
+        "curbSlushWidthM": 0.35,
+        "fixturePositiveDegreeHours": 24
+      },
+      "thaw": {
+        "daysSinceSnowfall": 6,
+        "lawnSnowCoveragePercent": 20,
+        "bankHeightM": 0.15,
+        "bankWidthM": 0.45,
+        "plowedPileHeightM": 0.3,
+        "bankColourState": "dirty_snow",
+        "curbSlushWidthM": 0.35,
+        "fixturePositiveDegreeHours": 48
+      }
+    },
+    "persistence": "When supplied snow depth outside the 0.80m curb zone falls below0.01m, retain only supplied remaining bank/slush inside eligible curb zone until reservoir is zero. Distance is maximum support strip, not duration. Do not invent snow along every curb.",
+    "policy": "Traffic/plow contamination affects pile base, not clean lawn uniformly. Snow depth, thaw/solar exposure and reservoir govern melt; days only select artwork fixtures. Existing clear corridors, crossings and ramps clip banks and slush."
+  },
+  "weatherHistory": {
+    "water": [
+      "Current sky/sun/cloud/exposure",
+      "Wind speed and direction history for last3hours",
+      "Fetch/depth/shore geometry or explicit look fixture; observed waves if available"
+    ],
+    "ice": [
+      "Observed or supplied ice concentration/geometry and lake surface water temperature",
+      "Air temperature time series and cumulative freezing degree-hours (sum(max(0,-TairC)*hours)) as context",
+      "Wind/mixing, bathymetry and multi-day water thermal history; no universal cold-hour threshold"
+    ],
+    "branchSnow": [
+      "Snowfall water equivalent and event end time",
+      "Retained crown snow load and canopy type",
+      "Wind exposure/gust history, positive-degree-hours, solar exposure and new snowfall"
+    ],
+    "oldSnow": [
+      "Retained snow depth/coverage",
+      "Days since snowfall, cumulative positive-degree-hours and rain-on-snow",
+      "Solar/shade exposure and dirt/traffic state",
+      "Explicit clearing/plowing timestamps, retained displaced-bank volume and curb drainage"
+    ],
+    "missingHistory": "Unknown stays unknown. Preserve last supplied state if valid; otherwise do not infer ice/banks/snow from season or present weather code. Explicit demo fixtures are labelled."
+  },
+  "representation": {
+    "lowCost": [
+      "Opaque water/ice/snow material replacements",
+      "Existing sky sampling and world-space broad masks",
+      "Single inherited haze term"
+    ],
+    "mediumCost": [
+      "Two analytic world-stable wave components in shared water shader",
+      "Branch/crown caps batched as opaque geometry",
+      "Simple existing bank ridge geometry with basal colour band"
+    ],
+    "highCost": [
+      "Data ingestion for observed ice geometry and lake thermal state",
+      "Mapped bathymetry/fetch and weather-driven wave simulation",
+      "Snow retention/melt and displaced-volume history system"
+    ],
+    "budget": {
+      "verifiedRainReferenceGpuCeilingMs": 10,
+      "verifiedContentBudgetMs": 7.9,
+      "reserveMs": 2.1,
+      "nearGeometryBucketMs": 0.35,
+      "surfacePatternBucketMs": 0.25,
+      "wetLocalBucketMs": 0.35
+    },
+    "budgetPolicy": "All additions share existing buckets, never independent additive allocations. No new timing claims. Measure combined rain-v1 plus lake/winter on device before adoption.",
+    "degradeOrder": [
+      "Subpixel wave normals and optional near glint modulation",
+      "Distant branch strips merged into5/3cap LOD",
+      "Optional near ice edge/cap geometry",
+      "Keep broad water/ice/snow area and route geometry"
+    ],
+    "bankLimits": {
+      "maxSections": 8,
+      "maxTriangles": 2000,
+      "policy": "Share inherited near geometry budget; retained volume/clear-corridor input wins."
+    }
+  },
+  "sources": [
+    {
+      "url": "https://www.weather.gov/fgf/lake_info_help",
+      "status": "verified_principle",
+      "supports": "Smaller sheltered lakes have less fetch and generally smaller waves. Numerical wave profiles in this pack are authored."
+    },
+    {
+      "url": "https://glerl.noaa.gov/data/ice/",
+      "status": "verified_principle",
+      "supports": "NOAA ice studies use thermal structure, surface water temperature and regional weather; ice cover is observed/modeled, not inferred from one current air temperature."
+    },
+    {
+      "reference": "rain-v1/rain-values.json",
+      "status": "reference_read",
+      "supports": "Linear-light darkening, sheen convention, exact inherited snow palette and budgets."
+    },
+    {
+      "reference": "rain-v1/images/07-exact-wetness.svg",
+      "status": "reference_read",
+      "supports": "Cream/forest poster and exact hex + linear change + sheen/roughness swatch format."
+    }
+  ],
+  "boards": [
+    {
+      "id": "01-water-that-reads",
+      "title": "WATER THAT READS",
+      "file": "01-water-that-reads.png",
+      "panels": [
+        {
+          "id": "calm_20",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_0",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "breezy_20",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "golden_hour_20",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_golden_hour_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "golden_hour"
+        },
+        {
+          "id": "calm_100",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 100,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_0",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "breezy_100",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 100,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "golden_hour_100",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 100,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_golden_hour_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "golden_hour"
+        },
+        {
+          "id": "calm_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_0",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "breezy_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "clear"
+        },
+        {
+          "id": "golden_hour_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_golden_hour_wind_10",
+          "profile": "sloans_lake",
+          "shoreline": "water.shoreline",
+          "skyState": "golden_hour"
+        }
+      ]
+    },
+    {
+      "id": "02-big-lake-vs-city-lake",
+      "title": "BIG LAKE VS CITY LAKE",
+      "file": "02-big-lake-vs-city-lake.png",
+      "panels": [
+        {
+          "id": "sloans_lake_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 100,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "skyState": "clear",
+          "haze": "water.haze"
+        },
+        {
+          "id": "sloans_lake_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "skyState": "clear",
+          "haze": "water.haze"
+        },
+        {
+          "id": "lake_michigan_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 100,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "lake_michigan_clear_wind_10",
+          "profile": "lake_michigan",
+          "skyState": "clear",
+          "haze": "water.haze"
+        },
+        {
+          "id": "lake_michigan_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "lake_michigan_clear_wind_10",
+          "profile": "lake_michigan",
+          "skyState": "clear",
+          "haze": "water.haze"
+        }
+      ]
+    },
+    {
+      "id": "03-ice-that-reads",
+      "title": "ICE THAT READS",
+      "file": "03-ice-that-reads.png",
+      "panels": [
+        {
+          "id": "partly_frozen_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "partly_frozen",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        },
+        {
+          "id": "fully_frozen_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "fully_frozen",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        },
+        {
+          "id": "snow_on_ice_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "snow_on_ice",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        },
+        {
+          "id": "partly_frozen_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "partly_frozen",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        },
+        {
+          "id": "fully_frozen_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "fully_frozen",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        },
+        {
+          "id": "snow_on_ice_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "snow_on_ice",
+          "iceParameters": "ice",
+          "openWaterState": "sloans_lake_clear_wind_10",
+          "skyState": "clear"
+        }
+      ]
+    },
+    {
+      "id": "04-snow-on-trees",
+      "title": "SNOW ON TREES",
+      "file": "04-snow-on-trees.png",
+      "panels": [
+        {
+          "id": "fresh_5",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 5,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "fresh",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        },
+        {
+          "id": "day2WindMelt_5",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 5,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "day2WindMelt",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        },
+        {
+          "id": "fresh_20",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "fresh",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        },
+        {
+          "id": "day2WindMelt_20",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "day2WindMelt",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        },
+        {
+          "id": "fresh_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "fresh",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        },
+        {
+          "id": "day2WindMelt_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "branchSnowState": "day2WindMelt",
+          "parameters": "branchSnow",
+          "skyState": "clear",
+          "treeTypes": [
+            "bare_deciduous",
+            "evergreen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-old-snow",
+      "title": "OLD SNOW",
+      "file": "05-old-snow.png",
+      "panels": [
+        {
+          "id": "day2",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "day2",
+          "parameters": "oldSnow",
+          "skyState": "clear",
+          "sceneReference": "rain-v1/images/05-snow-phone-stages.png"
+        },
+        {
+          "id": "day5",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "day5",
+          "parameters": "oldSnow",
+          "skyState": "clear",
+          "sceneReference": "rain-v1/images/05-snow-phone-stages.png"
+        },
+        {
+          "id": "thaw",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "thaw",
+          "parameters": "oldSnow",
+          "skyState": "clear",
+          "sceneReference": "rain-v1/images/05-snow-phone-stages.png"
+        },
+        {
+          "id": "lawn",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 5,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "thaw",
+          "parameters": "oldSnow",
+          "surfaceState": "clean_bank"
+        },
+        {
+          "id": "plowed_pile",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 5,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "day5",
+          "parameters": "oldSnow",
+          "surfaceState": "dirty_snow"
+        },
+        {
+          "id": "curb_slush",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 5,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "thaw",
+          "parameters": "oldSnow",
+          "surfaceState": "slush"
+        }
+      ]
+    },
+    {
+      "id": "06-phone-readability-targets",
+      "title": "PHONE READABILITY TARGETS",
+      "file": "06-phone-readability-targets.png",
+      "panels": [
+        {
+          "id": "lake_day",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_clear_wind_10",
+          "profile": "sloans_lake",
+          "skyState": "clear"
+        },
+        {
+          "id": "lake_golden_hour",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "waterState": "sloans_lake_golden_hour_wind_10",
+          "profile": "sloans_lake",
+          "skyState": "golden_hour"
+        },
+        {
+          "id": "frozen_lake_aerial",
+          "camera": {
+            "view": "aerial",
+            "featureDistanceM": null,
+            "cameraHeightM": 150,
+            "pitchDegrees": 55,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "iceState": "snow_on_ice",
+          "parameters": "ice",
+          "skyState": "clear"
+        },
+        {
+          "id": "old_snow_street",
+          "camera": {
+            "view": "street",
+            "featureDistanceM": 20,
+            "cameraHeightM": 1.65,
+            "pitchDegrees": 0,
+            "verticalFovDegrees": 55,
+            "viewportCssPx": [
+              390,
+              844
+            ],
+            "calibration": "authored camera fixture; generated art is not a calibrated render"
+          },
+          "oldSnowState": "thaw",
+          "parameters": "oldSnow",
+          "skyState": "clear"
+        }
+      ]
+    }
+  ],
+  "review": {
+    "phoneWidthsCssPx": [
+      390,
+      320
+    ],
+    "summaryBoard": "06-phone-readability-targets.png",
+    "sceneCropsPixels": [
+      {
+        "title": "Lake day",
+        "x": 17,
+        "y": 151,
+        "width": 483,
+        "height": 493
+      },
+      {
+        "title": "Lake golden hour",
+        "x": 522,
+        "y": 151,
+        "width": 484,
+        "height": 493
+      },
+      {
+        "title": "Frozen lake aerial",
+        "x": 17,
+        "y": 847,
+        "width": 483,
+        "height": 517
+      },
+      {
+        "title": "Old-snow street",
+        "x": 522,
+        "y": 847,
+        "width": 484,
+        "height": 517
+      }
+    ],
+    "policy": "CSS crop only; source bitmap unchanged. Pixel boxes specify presentation, not calibrated physical camera."
+  }
+}

@@ -1,0 +1,369 @@
+{
+  "schema": "worldengine.paintover.house-contrast.proposal.v1",
+  "date": "2026-10-07",
+  "status": "authored_hero_lighting_and_preserved_house_values_not_engine_verified",
+  "definitions": {
+    "hex": "sRGB display appearance swatches under unchanged daylight; not material albedo or measured source pixels",
+    "relativeBrightness": "linear Rec.709 luminance Y, normalized to the wall of the same house type = 1",
+    "linearLuminance": "sRGB decoded to linear RGB, Y=0.2126R+0.7152G+0.0722B",
+    "shadowPolicy": "Appearance targets, not additional multiply layers. Preserve source sunlight and fill; reconcile with existing AO (fill-only visibility floor 0.65).",
+    "palettePolicy": "Representative variants, not universal Chicago colors; preserve observed material identity and mapped tags."
+  },
+  "houseTypes": {
+    "chicago_three_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#98664F",
+          "linearLuminance": 0.1674,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DBC8A7",
+          "linearLuminance": 0.5916,
+          "relativeBrightness": 3.533
+        },
+        "soffit": {
+          "hex": "#51463E",
+          "linearLuminance": 0.0648,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#493C35",
+          "linearLuminance": 0.0491,
+          "relativeBrightness": 0.293
+        },
+        "porch_shadow": {
+          "hex": "#3E3733",
+          "linearLuminance": 0.04,
+          "relativeBrightness": 0.239
+        },
+        "window_glass_day": {
+          "hex": "#405766",
+          "linearLuminance": 0.0887,
+          "relativeBrightness": 0.53
+        },
+        "roof": {
+          "hex": "#554E49",
+          "linearLuminance": 0.0786,
+          "relativeBrightness": 0.47
+        }
+      }
+    },
+    "chicago_two_flat": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A77960",
+          "linearLuminance": 0.2273,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#E2D2B7",
+          "linearLuminance": 0.6568,
+          "relativeBrightness": 2.889
+        },
+        "soffit": {
+          "hex": "#554A40",
+          "linearLuminance": 0.072,
+          "relativeBrightness": 0.317
+        },
+        "eave_shadow": {
+          "hex": "#4B4037",
+          "linearLuminance": 0.0544,
+          "relativeBrightness": 0.239
+        },
+        "porch_shadow": {
+          "hex": "#403934",
+          "linearLuminance": 0.0426,
+          "relativeBrightness": 0.188
+        },
+        "window_glass_day": {
+          "hex": "#425A68",
+          "linearLuminance": 0.0947,
+          "relativeBrightness": 0.417
+        },
+        "roof": {
+          "hex": "#58514A",
+          "linearLuminance": 0.0845,
+          "relativeBrightness": 0.372
+        }
+      }
+    },
+    "workers_cottage": {
+      "wallMaterial": "siding",
+      "surfaces": {
+        "wall": {
+          "hex": "#B9B9A4",
+          "linearLuminance": 0.4769,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#F1E4CA",
+          "linearLuminance": 0.7845,
+          "relativeBrightness": 1.645
+        },
+        "soffit": {
+          "hex": "#5F6258",
+          "linearLuminance": 0.1187,
+          "relativeBrightness": 0.249
+        },
+        "eave_shadow": {
+          "hex": "#52574F",
+          "linearLuminance": 0.0917,
+          "relativeBrightness": 0.192
+        },
+        "porch_shadow": {
+          "hex": "#454C47",
+          "linearLuminance": 0.0689,
+          "relativeBrightness": 0.144
+        },
+        "window_glass_day": {
+          "hex": "#465D6B",
+          "linearLuminance": 0.1019,
+          "relativeBrightness": 0.214
+        },
+        "roof": {
+          "hex": "#60615A",
+          "linearLuminance": 0.1177,
+          "relativeBrightness": 0.247
+        }
+      }
+    },
+    "chicago_bungalow": {
+      "wallMaterial": "brick",
+      "surfaces": {
+        "wall": {
+          "hex": "#A57450",
+          "linearLuminance": 0.2107,
+          "relativeBrightness": 1.0
+        },
+        "trim": {
+          "hex": "#DECBAB",
+          "linearLuminance": 0.6118,
+          "relativeBrightness": 2.904
+        },
+        "soffit": {
+          "hex": "#565046",
+          "linearLuminance": 0.0816,
+          "relativeBrightness": 0.387
+        },
+        "eave_shadow": {
+          "hex": "#4B443B",
+          "linearLuminance": 0.0595,
+          "relativeBrightness": 0.282
+        },
+        "porch_shadow": {
+          "hex": "#403D36",
+          "linearLuminance": 0.0469,
+          "relativeBrightness": 0.223
+        },
+        "window_glass_day": {
+          "hex": "#405867",
+          "linearLuminance": 0.0905,
+          "relativeBrightness": 0.429
+        },
+        "roof": {
+          "hex": "#5B5A52",
+          "linearLuminance": 0.1015,
+          "relativeBrightness": 0.482
+        }
+      }
+    }
+  },
+  "paintoverValidation": {
+    "heroFiles": "images/*-hero.png",
+    "houseValuesPreserved": true,
+    "priorValidation": "paintover-values.pre-hero.json",
+    "lightingIntentionallyChanged": true,
+    "cameraAndArchitecture": "broad visual invariants, not pixel-exact geometry proof",
+    "ephemerisVerified": false,
+    "phoneDeviceBenchmark": false,
+    "approvedReference5Identity": "unresolved; explicit Denver/blue-afternoon brief used"
+  },
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md §2.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "revision": "shared-hero-2026-10-07"
+}

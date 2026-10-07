@@ -1,0 +1,46 @@
+{
+ "schema": "worldengine.alerts-areas/1",
+ "note": "Areas the NWS alerts layer serves (data, not code). bbox = [south, west, north, east], the metro extents of the light-pollution grids in data/radiance/*-2025.json; states = the NWS area codes requested for it (Chicago's box reaches into Indiana).",
+ "areas": [
+  {
+   "id": "chicago",
+   "timezone": "America/Chicago",
+   "bbox": [
+    41.1875,
+    -88.5542,
+    42.5292,
+    -86.9208
+   ],
+   "states": [
+    "IL",
+    "IN"
+   ]
+  },
+  {
+   "id": "denver",
+   "timezone": "America/Denver",
+   "bbox": [
+    38.95,
+    -106.1875,
+    40.75,
+    -103.9625
+   ],
+   "states": [
+    "CO"
+   ]
+  },
+  {
+   "id": "miami",
+   "timezone": "America/New_York",
+   "bbox": [
+    25.1,
+    -80.95,
+    26.45,
+    -79.6
+   ],
+   "states": [
+    "FL"
+   ]
+  }
+ ]
+}
