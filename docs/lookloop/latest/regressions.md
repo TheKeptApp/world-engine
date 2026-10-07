@@ -1,3 +1,5 @@
+**Owner rule (> 3 parity points, same rubric, 96fd68a vs a2c818b):** showcase-01 93 → 80 % · showcase-08 88 → 73 % · v2-01 81 → 70 % · showcase-11 68 → 61 % · showcase-10 69 → 65 %. Commit: `96fd68a` (P2 tree stack, species/season colours by region). **Likely real, not noise:** all five are Sloan's Lake (Denver) views, and the reviewers' palette reasons change from "coherent gold/orange/russet crowns" to "single saturated lemon yellow, no russet/orange differentiation" (palette 3 → 2 on showcase-01 and v2-01). Points at the Denver autumn crown colours from vegetation-colours.json; North Shore views do not drop. Reported to P2.
+
 **Owner rule (> 3 parity points, same rubric, a2c818b vs c25b6dc):** showcase-10 78 → 69 % · light-rain-street 79 → 72 % · showcase-01 98 → 93 %. Commit: `a2c818b` (P2 walk clearance). showcase-10 is an aerial and showcase-01 a lake-trail view without walk-side generated trees, so clearance cannot reach them; light-rain-street's reviewer cites dry-looking ground under rain, not trees. Treated as grader noise; re-check after the tree stack.
 
 # Look loop: regressions

@@ -249,12 +249,20 @@ def main():
     open(os.path.join(run, "summary.md"), "w").write("\n".join(md) + "\n")
 
     if publish and meta.get("fingerprints"):
-        # Fingerprints as of grading time: GRADING.md may change between plan and finish.
-        from plan import fingerprints
-        m = json.load(open(os.path.join(ROOT, "Tools/lookloop/views.json")))
-        active = [v for v in m["views"] if v["id"] in meta["fingerprints"]]
-        meta["fingerprints"].update(fingerprints(active, m["commonArgs"]))
-        json.dump(meta, open(os.path.join(run, "run.json"), "w"), indent=1)
+        # Fingerprints as of grading time: GRADING.md may change between plan and finish. Only when the
+        # rendered code is still what was captured; otherwise a checkout moved on since capture (6 Oct 2026:
+        # finishing a2c818b's run at a later HEAD stamped its frames with that HEAD and hid the next change).
+        from plan import fingerprints, git
+        render = ("Sources", "Apps/WorldLab", "Package.swift", "Data/areas")
+        moved = meta.get("commit") and any(git("rev-parse", f"{meta['commit']}:{p}").strip() != git("rev-parse", f"HEAD:{p}").strip()
+                                           for p in render)
+        if moved:
+            print(f"finish: checkout moved past {meta['commit']} in rendered code; keeping capture-time fingerprints")
+        else:
+            m = json.load(open(os.path.join(ROOT, "Tools/lookloop/views.json")))
+            active = [v for v in m["views"] if v["id"] in meta["fingerprints"]]
+            meta["fingerprints"].update(fingerprints(active, m["commonArgs"]))
+            json.dump(meta, open(os.path.join(run, "run.json"), "w"), indent=1)
     if publish:
         if os.path.isdir(LATEST):
             shutil.rmtree(LATEST)
