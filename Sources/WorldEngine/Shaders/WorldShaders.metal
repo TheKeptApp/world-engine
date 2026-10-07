@@ -235,7 +235,9 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
         // Wet ground (lighting bible §3.1): darker paving, a restrained sky sheen, sky-only puddles
         // on flat paving; walls get half. Accumulated wetness W, not the rain rate, drives it all.
         float exposure = mix(0.5, 1.0, smoothstep(0.3, 0.8, n.y));
-        half wet = half(g.wetness * exposure);
+        // Any rain reads wet: light rain (W 0.65) darkens at ~3/4 of the soaked strength, soaked at full
+        // (owner: light rain at least 15–20% on paths and roads at phone size).
+        half wet = half((0.5 + 0.5 * smoothstep(0.3, 0.9, g.wetness)) * min(1.0, g.wetness / 0.3) * exposure);
         // Diffuse reduction at full W: asphalt and walks set their own (below); grass 8% (§3.1
         // 6–10%); other ground, stone and walls the weather profile's value.
         half darken = su.wetDarkening >= 0.0h ? su.wetDarkening : (su.roughness > 0.9h ? 0.06h : half(g.wetDarkening));
