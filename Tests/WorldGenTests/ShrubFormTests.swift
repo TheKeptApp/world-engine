@@ -88,7 +88,8 @@ struct ShrubFormTests {
                 let m = PropLibrary.mesh(kind, variant: v, lod: lod, palette: palette)
                 #expect(!m.isEmpty)
                 // Variants 0 and 1 keep their own (unchanged) meshes; the caps hold for the new forms.
-                if v >= 2 { #expect(m.triangleCount <= caps[lod], "\(kind) \(v) \(lod): \(m.triangleCount)") }
+                // Hedge sections are 2 m long (vegetation-v1 1.5–3 m sections): near cap 110, i.e. ~55 per metre.
+                if v >= 2 { #expect(m.triangleCount <= (v == 5 && lod == 0 ? 110 : caps[lod]), "\(kind) \(v) \(lod): \(m.triangleCount)") }
                 #expect(GeometryCheck.windingErrors(m).isEmpty, "\(kind) \(v) \(lod)")
                 #expect(GeometryCheck.finite(m))
                 #expect(m.paints.count == m.positions.count && m.extras.count == m.positions.count)
@@ -120,7 +121,7 @@ struct ShrubFormTests {
             // Sits on the ground: a flat-ish bottom a few centimetres below y = 0.
             #expect(b.min.y < 0 && b.min.y > -0.06, "\(kind) \(v) bottom \(b.min.y)")
             if v == 5 {
-                #expect(abs(size.x - 1.0) <= 0.05, "hedge length \(size.x)")
+                #expect(abs(size.x - 2.0) <= 0.08, "hedge length \(size.x)")
             }
             if [2, 6, 7].contains(v) {
                 // Low perennial/cushion: 0.25–0.55 × 0.4–0.9 m.
@@ -177,12 +178,13 @@ struct ShrubFormTests {
         }
     }
 
-    /// The hedge segment's ends are flat-ish and full width, so segments every 0.9–1 m read as one row;
-    /// its top is uneven by up to about ±0.08 m along the long sides.
+    /// The hedge section (2 m) has flat-ish full-width ends, so sections every 1.95 m read as one
+    /// envelope; its crest rises and dips along the long sides (vegetation-v1: irregular crest).
     @Test func hedgeSegmentJoins() throws {
         let palette = try Self.palette()
         let m = PropLibrary.mesh(.bush, variant: 5, lod: 0, palette: palette)
-        let endPoints = m.positions.filter { $0.x > 0.42 && $0.y > 0.05 }
+        let endPoints = m.positions.filter { $0.x > 0.9 && $0.y > 0.05 }
+        #expect((m.positions.map(\.x).max() ?? 0) > 0.98, "section reaches its 1 m half length")
         let endWidth = (endPoints.map(\.z).max() ?? 0) - (endPoints.map(\.z).min() ?? 0)
         #expect(endWidth > 0.45, "end width \(endWidth)")
         let sideTop = m.positions.filter { abs($0.z) > 0.2 && $0.y > 0.6 }.map(\.y)

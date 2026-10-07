@@ -1,6 +1,6 @@
 # Why the yards merge didn't register (P2, 2026-10-06)
 
-Contact sheet: [yards-visibility.png](yards-visibility.png). It shows P3's in-app frames (1005 × 565, phone size)
+Contact sheet: [yards-visibility.jpg](yards-visibility.jpg). It shows P3's in-app frames (1005 × 565, phone size)
 for the 8 ground-heavy views: gate ccb5f77 on the left, yards ad2ebfc on the right
 (`.build/lookloop/runs/20261006-124042` and `…-132418` in the p3-lookloop worktree).
 
