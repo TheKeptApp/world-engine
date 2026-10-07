@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-06
 
+- **paintover-v1 landed** (users 5A, P2, P3). The originals govern geometry; the rain-puddle rim in showcase-03 is a documented artefact. The six views are also scored against their own paint-over (paint-over parity, beside the gate). Applied: `docs/design-registry.md`; GRADING.md §P; `Tools/lookloop` (views.json targets, calibrate.py --paintover, grade.py, finish.py); iCloud backup.
+- **Paint-over input frames:** six full-resolution look-loop frames for ChatGPT paint-overs in `docs/lookloop/paintover-input/` (local-only; README committed). Applied: `.gitignore`; that README.
 - **Local look-loop frames:** keep only the ccb5f77 baseline (run 20261006-124042 and its re-grade copies) and the last 3 runs; older frames are deleted (regenerable, not design images); grades and text stay. First prune recovered 487 MB. Applied: `.build/lookloop/runs/` (local only).
 - **Candidate NASA layers for later:** VIIRS land surface phenology (real leaf-out and fall-colour timing), NSIDC daily snow cover, NASADEM global elevation, GPM IMERG rainfall. Applied: not yet (candidates).
 - **Suomi NPP delivery ends 2 Nov 2026:** Black Marble night lights use the existing archive years; future night lights come from the NOAA-20/21 equivalents. Applied: night-lights data plan.

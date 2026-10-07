@@ -7,6 +7,7 @@
 #       --all: every view without declaring a gate.
 #   Tools/lookloop/lookloop.sh finish <run-dir>   merge grades, regression guard, publish latest/, scoreboard row
 #   Tools/lookloop/lookloop.sh calibrate          grade the concept images themselves (see docs/lookloop/calibration.md)
+#   Tools/lookloop/lookloop.sh calibrate-paintover  grade the paintover-v1 images blind (paint-over parity)
 # Runs live in .build/lookloop/runs/<stamp>/ (git-ignored history); docs/lookloop/latest/ and scoreboard.md go into git.
 # Env: SKIP_BUILD=1, SETTLE, LOAD_TIMEOUT, LOOKLOOP_SIM (see capture.sh).
 set -euo pipefail
@@ -107,6 +108,15 @@ case "$cmd" in
     n=$(reviewer_prompts "$run" opus Tools/lookloop/calibration.json)
     echo "REVIEWERS: spawn $n opus sub-agent(s) in parallel, one per line of $rel/reviewers.md;"
     echo "then run: python3 Tools/lookloop/calibrate.py --report $rel"
+    exit 3
+    ;;
+  calibrate-paintover)
+    run=$(new_run calibration)
+    rel="${run#"$ROOT"/}"
+    python3 "$TOOLS/calibrate.py" --paintover "$run"
+    n=$(reviewer_prompts "$run" opus Tools/lookloop/calibration-paintover.json)
+    echo "REVIEWERS: spawn $n opus sub-agent(s) in parallel, one per line of $rel/reviewers.md;"
+    echo "then run: python3 Tools/lookloop/calibrate.py --merge-paintover $rel"
     exit 3
     ;;
   finish) python3 "$TOOLS/finish.py" "$(cd "$1" && pwd)" "${@:2}" ;;
