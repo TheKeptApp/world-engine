@@ -13,7 +13,7 @@ buildingviz --area DIR --profile ID --out out.png
   [--center LAT,LON | --local X,Y] [--radius 60] [--lod near|mid|far|skyline]
   [--yaw 210] [--pitch 35] [--dist 90] [--fov 40] [--width 1600] [--height 900]
   [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1] [--crown-style solid|leafCards|puffs] [--leaf-cards] [--eye-height 1.7]
-buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...] [--ids 6]
+buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...,sheet:ARCHETYPE] [--ids 6] [--type HOUSE_TYPE]
   [--local X,Y] (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50;
   --local aims at one cell: footprints start at x = 25 × column, y = −48 × row)
 Camera: yaw = compass direction the camera looks toward (0 north, 90 east), pitch = degrees down,
@@ -110,6 +110,8 @@ let clock = ContinuousClock()
 let genStart = clock.now
 var gen = BuildingGenerator(profile: profile, context: StreetContext(features))
 gen.obstacles = PolygonIndex(features.buildings.map(\.footprint))
+// --type ID: every house takes this profile house type (archetype sheet comparisons).
+gen.forcedHouseType = opts["type"]
 
 // --scene: the whole generated world (zones, ground, yards, trees, props) instead of buildings only.
 let isScene = flags.contains("scene") && !isGallery

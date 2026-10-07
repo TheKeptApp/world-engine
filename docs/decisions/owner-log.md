@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-07
 
+- **Storage audit (R, urgent: 245 GB System Data, 6 GB free):** measure and classify first (SAFE / NEEDS R / NEVER), then delete only the pre-approved SAFE list (DerivedData, unavailable simulators, runtimes but the newest, DeviceSupport older than the phone's iOS, package-manager caches, Time Machine local snapshots, merged clean worktrees with no heavy lock); never another lane's lock or unmerged work, never `docs/proposals` or mock images, never print keys. Applied: `docs/tracking/storage-report.md`; 17.9 GB removed, free space 4.3 → 19.3 GB; the rest listed for R.
+
 - **Licensing path (PROPOSED):** 5–7 engine-licensing deals (~$150–200k/yr per the teardown; Shadowmap a partner); after the look gate: streaming core + three.js web viewer, then a MapLibre GL JS custom-layer SDK, then an embeddable viewer, then coverage; prerequisites listed. Applied: `docs/roadmap.md`; creator-kit-demand-v1 filed (research, unverified).
 
 - **house-archetypes-v1 R approved, binding:** 16 archetypes (Chicago 5, Denver 6, Miami 5), boards and block paint-overs. Compiled into mock-values.json per archetype with the pack's proposal labels; house-contrast-v1 stays the daytime lighting master (the pack's copied sharedLighting is not compiled). Scoring: Chicago block on the Lakeview afternoon views, Denver block on ordinary-street-afternoon; Miami registered, no view until a Miami test area. Conformance: profile house colours and pitches within each archetype's variants. Applied: INDEX.md, STATUS.md, views.json, GRADING §M, conformance.py.

@@ -153,7 +153,13 @@ enum Roofs {
     /// the walls extended by the caller).
     static func flatWithParapet(_ footprint: Polygon2D, z: Double, parapet: Double, roof: Paint, wall: Paint, into m: inout MeshBuffers) {
         m.paint = roof
-        if let cap = Triangulator.cap(footprint, y: z) {
+        if var cap = Triangulator.cap(footprint, y: z) {
+            // Drop sliver triangles (under 5 cm²) along near-collinear footprint vertices: their winding is noise.
+            var kept: [UInt32] = []
+            for t in 0..<cap.triangleCount where simd_length(cap.faceCross(t)) > 1e-3 {
+                kept += cap.indices[t * 3 ..< t * 3 + 3]
+            }
+            cap.indices = kept
             let start = m.positions.count
             m.append(cap)
             m.repaint(from: start, roof)

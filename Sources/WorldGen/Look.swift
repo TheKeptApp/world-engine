@@ -1,7 +1,7 @@
 import Foundation
 
 /// Renderer-neutral look values beyond the lighting bible and the rain pack (`Profiles/look.json`):
-/// water, sky and wet paving. Both renderers read them; see docs/look-spec-changes.md.
+/// water, sky, wet paving and shadow range. Both renderers read them; see docs/look-spec-changes.md.
 public struct LookSpec: Codable, Sendable {
     public struct Water: Codable, Sendable {
         /// How much of the water's colour is the reflected sky, clear and overcast (blended by cover).
@@ -77,10 +77,35 @@ public struct LookSpec: Codable, Sendable {
             return values(id == "flat" ? (floors >= 3 ? "chicago_three_flat" : "chicago_two_flat") : id)
         }
     }
+    /// Sun shadow coverage from the camera (RealityKit fits its cascades inside it): normal and
+    /// below `lowSunBelowDeg` of sun elevation, when shadows grow long.
+    public struct Shadows: Codable, Sendable {
+        public var rangeM: Double
+        public var lowSunRangeM: Double
+        public var lowSunBelowDeg: Double
+        /// Beyond the range, lawns and paths darken under the canopy map shifted along the sun by a
+        /// typical crown's shadow (`blobCrownHeightM`), by `blobStrength` in full direct sun.
+        public var blobStrength: Double
+        public var blobCrownHeightM: Double
+    }
+    /// Engine calibration for the daytime master (not look values: those come from mock-values.json):
+    /// key and fill multipliers that bring a neutral patch's shadow/lit ratio to the master's.
+    public struct DaytimeMasterCalibration: Codable, Sendable {
+        public var key: Double
+        public var fill: Double
+        /// The master's "+0.35 EV once" realised as the auto-exposure target: the four approved heroes'
+        /// measured mean display brightness (Y8, 16:9 picture area). A gain on top of our auto exposure
+        /// overshot the heroes by ~15 Y8 (they brighten far less than 0.35 EV over the captures).
+        public var exposureTargetY8: Double
+    }
+    public var daytimeMaster: DaytimeMasterCalibration
     public var water: Water
     public var sky: Sky
+    public var shadows: Shadows
     public var wetPaving: WetPaving
     public var houseContrast: HouseContrast?
+    /// House archetype choice and tier tuning (house-archetypes-v1 mapping values the pack does not give).
+    public var archetypes: ArchetypeTuning?
 
     /// The bundled look values (nil if the file is missing).
     public static let bundled: LookSpec? = try? StyleLibrary.look()

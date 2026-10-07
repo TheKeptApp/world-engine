@@ -88,6 +88,9 @@ extension HouseFamilyGrammar {
         public var steps: String?
         /// Cheek wall colour: foundation | trim | wall (default: the step colour).
         public var cheekColour: String?
+        /// Hand rails both sides of the stair (near): trim | dark (the door colour) | nil (none). house-archetypes-v1
+        /// sheets: dark metal rails on Chicago bungalow and flat stoops, painted rails on worker cottages.
+        public var rails: String?
     }
 }
 
@@ -127,7 +130,7 @@ extension BuildingGenerator {
     @discardableResult
     // swiftlint:disable:next function_parameter_count
     func addStair(_ c: BuildContext, top: LocalPoint, dir: LocalPoint, n: LocalPoint, width: Double, height: Double,
-                  cheeks: Bool, paint: Paint, cheekPaint: Paint? = nil, into m: inout MeshBuffers) -> Double {
+                  cheeks: Bool, paint: Paint, cheekPaint: Paint? = nil, rails: Paint? = nil, into m: inout MeshBuffers) -> Double {
         guard height > 0.12 else { return 0 }
         let count = max(1, Int((height / 0.18).rounded()))
         let rise = height / Double(count + 1)
@@ -158,6 +161,23 @@ extension BuildingGenerator {
                     m.addCleanFace([q(si, 0, height), q(si, tEnd, 0), q(si, tEnd, zEnd), q(si, 0, zTop)], facing: D(dir * -sx))
                     m.addCleanFace([q(si, 0, zTop), q(si, tEnd, zEnd), q(so, tEnd, zEnd), q(so, 0, zTop)], facing: sceneUp + D(n))
                     m.addCleanFace([q(si, tEnd, 0), q(so, tEnd, 0), q(so, tEnd, zEnd), q(si, tEnd, zEnd)], facing: D(n))
+                }
+            }
+            if let rp = rails {
+                // Hand rails: a post at the top and the foot, a sloped rail 0.9 m over the nosings (on the cheek tops
+                // when there are cheeks).
+                m.paint = rp
+                let off = cheeks ? hw + 0.12 : hw - 0.05
+                let tEnd = max(0.3, run - 0.1)
+                for sx in [-1.0, 1.0] {
+                    let s0 = sx * off
+                    let zt = height + 0.9, zf = rise + 0.9
+                    addPrism(at: top + dir * s0 + n * 0.05, u: dir, half: 0.03, z0: height, z1: zt, into: &m)
+                    addPrism(at: top + dir * s0 + n * tEnd, u: dir, half: 0.03, z0: 0, z1: zf, into: &m)
+                    let a = s0 - 0.03, b = s0 + 0.03
+                    m.addCleanFace([q(a, 0.05, zt), q(b, 0.05, zt), q(b, tEnd, zf), q(a, tEnd, zf)], facing: sceneUp + D(n))
+                    m.addCleanFace([q(a, 0.05, zt - 0.05), q(a, 0.05, zt), q(a, tEnd, zf), q(a, tEnd, zf - 0.05)], facing: D(dir * -1))
+                    m.addCleanFace([q(b, 0.05, zt), q(b, 0.05, zt - 0.05), q(b, tEnd, zf - 0.05), q(b, tEnd, zf)], facing: D(dir))
                 }
             }
         } else if c.lod == .mid, count >= 3 {
@@ -352,7 +372,8 @@ extension BuildingGenerator {
         if risers > 0 {
             let stoop = c.grammar.details?.stoop
             addStair(c, top: p + dir * doorS + n * depth, dir: dir, n: n, width: stairW, height: F, cheeks: stoop?.cheeks == true,
-                     paint: detailPaint(c, stoop?.steps), cheekPaint: detailPaint(c, stoop?.cheekColour ?? stoop?.steps), into: &m)
+                     paint: detailPaint(c, stoop?.steps), cheekPaint: detailPaint(c, stoop?.cheekColour ?? stoop?.steps),
+                     rails: railPaint(c, stoop?.rails), into: &m)
         }
         return PorchLayout(s0: s0, s1: s1, depth: depth, stairS: doorS, stairW: stairW)
     }
@@ -373,6 +394,15 @@ extension BuildingGenerator {
     }
 
     /// A named detail colour: trim | wall | foundation (default).
+    /// Stair rail paint: trim, or dark (the door colour); nil = no rails.
+    func railPaint(_ c: BuildContext, _ name: String?) -> Paint? {
+        switch name {
+        case "trim": c.trim
+        case "dark": c.door
+        default: nil
+        }
+    }
+
     func detailPaint(_ c: BuildContext, _ name: String?) -> Paint {
         switch name {
         case "trim": c.trim

@@ -46,7 +46,7 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -86,6 +86,9 @@ Globals readGlobals(texture2d<half> tex) {
     g.wetC = float4(tex.read(uint2(32, 1))); g.wetD = float4(tex.read(uint2(33, 1)));
     g.water = float4(tex.read(uint2(34, 1))); g.wetE = float4(tex.read(uint2(35, 1)));
     g.waterB = float4(tex.read(uint2(36, 1)));
+    g.blobShadow = float4(tex.read(uint2(37, 1)));
+    g.skyMid = float4(tex.read(uint2(39, 1))); g.skyWarm = float4(tex.read(uint2(40, 1)));
+    g.skyStops = float4(tex.read(uint2(41, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -374,6 +377,17 @@ void worldStaticSurface(realitykit::surface_parameters params)
         float2 cuv = (wp.xz - g.canopyOrigin) / g.canopySize;
         constexpr sampler cs(filter::linear, address::clamp_to_zero);
         float canopy = float(params.textures().base_color().sample(cs, cuv).r);
+        // Far crown shadows (look.json shadows): past the sun's shadow map, the canopy map shifted
+        // toward the sun by a typical crown's shadow length, faded in over the map's last 15%.
+        if (g.blobShadow.y > 0.001) {
+            float far = smoothstep(g.blobShadow.x * 0.85, g.blobShadow.x, dist);
+            if (far > 0.0) {
+                float3 s = normalize(g.sunDir);
+                float2 suv = (wp.xz + s.xz * (g.blobShadow.z / max(s.y, 0.08)) - g.canopyOrigin) / g.canopySize;
+                float shade = float(params.textures().base_color().sample(cs, suv).r);
+                su.base *= half(1.0 - g.blobShadow.y * far * smoothstep(0.15, 0.6, shade));
+            }
+        }
         float litter = g.leafLitter * canopy;
         if (litter > 0.01) {
             float near = 1.0 - smoothstep(25.0, 60.0, dist);
@@ -576,6 +590,16 @@ void worldSkySurface(realitykit::surface_parameters params)
     float time = params.uniforms().time();
     float3 top = float3(g.skyTop), horizon = float3(g.skyHorizon);
     float3 c = mix(horizon, top, pow(clamp(d.y / 0.85, 0.0, 1.0), 0.5));
+    // Daytime master (mock-values.json): horizon → mid stop → zenith, linear in elevation, with a
+    // faint warm tint low on the horizon; blended in by the master weight (skyMid.w).
+    if (g.skyMid.w > 0.001) {
+        float e = asin(clamp(d.y, 0.0, 1.0)) * 180.0 / M_PI_F;
+        float midE = max(g.skyStops.x, 1.0);
+        float3 mid = float3(g.skyMid.rgb);
+        float3 m3 = e < midE ? mix(horizon, mid, e / midE) : mix(mid, top, (e - midE) / (90.0 - midE));
+        m3 = mix(m3, float3(g.skyWarm.rgb), g.skyWarm.w * (1.0 - smoothstep(0.0, max(g.skyStops.y, 0.1), e)));
+        c = mix(c, m3, g.skyMid.w);
+    }
     // Haze: the last few degrees take the atmosphere's colour and amount at the far end of the
     // world (4 km), so distant geometry blends into the sky.
     float4 far = atmosphere(g, 4000.0);

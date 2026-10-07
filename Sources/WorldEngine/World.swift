@@ -383,7 +383,7 @@ public final class World {
         if !options.diagnostics.contains("noShadows"), lighting.sunIntensity > 0.01 {
             var shadow = DirectionalLightComponent.Shadow()
             shadow.shadowProjection = .automatic(maximumDistance: shadowDistance)
-            shadow.depthBias = 1.5
+            shadow.depthBias = Self.shadowBias(range: shadowDistance)
             sunEntity.components.set(shadow)
             let sun = SIMD2(lighting.sunDirection.x, lighting.sunDirection.z)
             let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
@@ -628,11 +628,15 @@ public final class World {
     public internal(set) var exposureTarget: Float = 0.54
     /// Post-process saturation multiplier for the current light and weather (set by `apply`).
     public internal(set) var gradeSaturation: Float = 1
+    /// The approved mock's colour grade for the current light and weather (daytime master, mock-values.json).
+    public internal(set) var gradeLook: GradeTable.Look = .neutral
     /// The lighting bible (generated from look-fix-v1) and its per-state grade with our tuning.
     static let lightingBible = try? StyleLibrary.lightingBible()
     static let gradeTable = try? StyleLibrary.grade()
     /// Renderer-neutral look values beyond the bible (`Profiles/look.json`).
     static let lookSpec = try? StyleLibrary.look()
+    /// The daytime lighting master (house-contrast-v1 sharedLighting, from mock-values.json).
+    static let daytimeMaster = try? StyleLibrary.daytimeMaster()
     /// The rain pack (generated from docs/proposals/rain-v1).
     static let rainBible = try? StyleLibrary.rainBible()
 
@@ -663,12 +667,13 @@ public final class World {
         }
     }
 
-    /// How far from the camera the sun casts shadows (m). 60 m: the lighting bible keeps 60–80 m of
-    /// local coverage (look-fix-v1 §2.3), and the owner's decision 2 shortens the range first when
-    /// the phone's GPU time is above 8 ms (street view ~9.1 ms at full clock). The shadow map's
-    /// texels then cover 25% less ground, which also sharpens the jagged wall-base shadows.
+    /// How far from the camera the sun casts shadows (m): look.json `shadows.rangeM` (owner, 7 Oct:
+    /// crown shadows must reach the lawns, 120 m; was 60 m under the earlier 8 ms GPU rule).
     /// GPU attribution measures other ranges with `setShadowDistance(_:)`.
-    var shadowDistance: Float = 60
+    var shadowDistance = Float(World.lookSpec?.shadows.rangeM ?? 60)
+    /// Shadow depth bias: 1.5 was tuned at 60 m; a longer range has coarser texels, so the bias grows
+    /// with it (linearly, as postcards always did) to keep acne off lawns and walls.
+    static func shadowBias(range: Float) -> Float { 1.5 * max(1, range / 60) }
     /// The shadow range last given to the sun (`apply` widens it at low sun).
     var appliedShadowRange: Float = 0
 

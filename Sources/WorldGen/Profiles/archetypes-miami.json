@@ -1,0 +1,99 @@
+{
+  "comment": "house-archetypes-v1 (R approved 2026-10-07) Miami archetypes as engine house types: DATA ONLY, NOT USED. There is no Miami region profile or test area yet; a future Miami profile copies these houseTypes and adds seasons, trees, typeRules (with '@archetypes') and thresholds. archetype, colors (wall/trim/roof from colourVariations), roof, pitch, perFloor and porch.depth mirror the shared mock values (the engine resolves them by key: StyleProfile.HouseType.resolvingArchetype); doors are the default profile's (the pack has none); floors, porch style/likelihood/frontage, windows and door positions are P2 judgments from the sheets. Key is not 'houseTypes' so profile tooling does not take this file for a profile.",
+  "metro": "Miami",
+  "status": "data only, not used",
+  "archetypeHouseTypes": [
+    {
+      "id": "masonryRanch",
+      "floors": [1],
+      "perFloor": [2.8, 2.8],
+      "roof": { "gabled": 0, "hipped": 1, "flat": 0 },
+      "pitch": [12.0, 24.0],
+      "overhang": [0.4, 0.7],
+      "porch": { "likelihood": 0.5, "depth": [1.1, 1.1], "frontage": [0.15, 0.3], "style": "entry" },
+      "windows": { "bay": [2.8, 3.3], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
+      "door": [0.35, 0.5],
+      "colors": [
+        ["#E4DDD0", "#F1EADF", "#5A7373", "#75716A"],
+        ["#F0E8D9", "#F1EADF", "#82634E", "#75716A"],
+        ["#D7CEC0", "#F1EADF", "#5A7373", "#75716A"],
+        ["#D8C7AD", "#F1EADF", "#82634E", "#75716A"]
+      ],
+      "minAspect": 1.2,
+      "archetype": "miami-01-ranch"
+    },
+    {
+      "id": "mediterraneanRevival",
+      "floors": [2, 1],
+      "perFloor": [3, 3],
+      "roof": { "gabled": 0, "hipped": 1, "flat": 0 },
+      "pitch": [10.0, 22.0],
+      "overhang": [0.3, 0.6],
+      "porch": { "likelihood": 0.6, "depth": [1.8, 1.8], "frontage": [0.3, 0.5], "style": "covered" },
+      "windows": { "bay": [2.8, 3.3], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
+      "door": [0.4, 0.6],
+      "colors": [
+        ["#EEE0C6", "#C7BBA5", "#5A7373", "#A75E43"],
+        ["#DCC8A8", "#C7BBA5", "#82634E", "#A75E43"],
+        ["#E3D2B3", "#C7BBA5", "#5A7373", "#A75E43"],
+        ["#E0D6C2", "#C7BBA5", "#82634E", "#A75E43"]
+      ],
+      "archetype": "miami-02-mediterranean"
+    },
+    {
+      "id": "woodCottage",
+      "floors": [1],
+      "perFloor": [2.8, 2.8],
+      "roof": { "gabled": 1, "hipped": 0, "flat": 0 },
+      "pitch": [22.0, 35.0],
+      "overhang": [0.3, 0.6],
+      "porch": { "likelihood": 0.85, "depth": [2.1, 2.1], "frontage": [0.7, 1.0], "style": "covered" },
+      "windows": { "bay": [2.8, 3.3], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
+      "door": [0.35, 0.5],
+      "colors": [
+        ["#E5DFC9", "#F2EADA", "#5A7373", "#A8ABA6"],
+        ["#B8C9BE", "#F2EADA", "#82634E", "#A8ABA6"],
+        ["#D4D5CC", "#F2EADA", "#5A7373", "#A8ABA6"],
+        ["#CBD4C6", "#F2EADA", "#82634E", "#A8ABA6"]
+      ],
+      "archetype": "miami-03-cottage"
+    },
+    {
+      "id": "mimoLowRise",
+      "floors": [2],
+      "perFloor": [3, 3],
+      "roof": { "gabled": 0, "hipped": 0, "flat": 1 },
+      "pitch": [0.0, 5.0],
+      "overhang": [0.05, 0.15],
+      "porch": { "likelihood": 0.8, "depth": [2, 2], "frontage": [0.6, 0.9], "style": "canopy" },
+      "windows": { "bay": [2.8, 3.3], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
+      "door": [0.2, 0.5, 0.8],
+      "colors": [
+        ["#EDEBE0", "#9BBFC0", "#5A7373", "#B9BBB3"],
+        ["#D9E1DF", "#9BBFC0", "#82634E", "#B9BBB3"],
+        ["#9BBFC0", "#9BBFC0", "#5A7373", "#B9BBB3"],
+        ["#D8B29A", "#9BBFC0", "#82634E", "#B9BBB3"]
+      ],
+      "parapet": [0.25, 0.4],
+      "archetype": "miami-04-mimo"
+    },
+    {
+      "id": "stuccoSuburban",
+      "floors": [2],
+      "perFloor": [2.9, 2.9],
+      "roof": { "gabled": 0, "hipped": 1, "flat": 0 },
+      "pitch": [18.0, 30.0],
+      "overhang": [0.3, 0.6],
+      "porch": { "likelihood": 0.4, "depth": [1, 1], "frontage": [0.15, 0.3], "style": "entry" },
+      "windows": { "bay": [2.8, 3.3], "width": [0.9, 1.2], "height": [1.2, 1.5], "broad": null },
+      "door": [0.4, 0.6],
+      "colors": [
+        ["#E7D8BE", "#F1E9D9", "#5A7373", "#987052"],
+        ["#CDBDA4", "#F1E9D9", "#82634E", "#987052"],
+        ["#EEE8DA", "#F1E9D9", "#5A7373", "#987052"],
+        ["#D6C4AA", "#F1E9D9", "#82634E", "#987052"]
+      ],
+      "archetype": "miami-05-suburban"
+    }
+  ]
+}

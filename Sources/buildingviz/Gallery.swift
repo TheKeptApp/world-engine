@@ -2,6 +2,7 @@ import Foundation
 import simd
 import WorldGeo
 import WorldMap
+import WorldGen
 
 /// Synthetic footprints for `--gallery` (same shapes as Tests/WorldGenTests/BuildingGeometryTests.swift).
 enum Gallery {
@@ -60,7 +61,9 @@ enum Gallery {
         let width = Double(columns) * spacing + 60
         var wayID: Int64 = 9_000_000
         for (r, name) in shapes.enumerated() {
-            guard let ring = footprints.first(where: { $0.0 == name })?.1 else {
+            // "sheet:<archetype id>": the archetype sheet's footprint (house-archetypes-v1 width x depth).
+            let sheet = name.hasPrefix("sheet:") ? HouseArchetype.named(String(name.dropFirst(6))).map { rect(0, 0, $0.footprintWidth, $0.footprintDepth) } : nil
+            guard let ring = sheet ?? footprints.first(where: { $0.0 == name })?.1 else {
                 throw NSError(domain: "buildingviz", code: 3, userInfo: [NSLocalizedDescriptionKey: "unknown shape \(name)"])
             }
             let oy = -Double(r) * rowSpacing
