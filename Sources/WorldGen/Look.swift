@@ -11,6 +11,8 @@ public struct LookSpec: Codable, Sendable {
         public var overcastSaturation: Double
         /// Ripple ring strength on open water while it rains.
         public var rainRipples: Double
+        /// Brightness of the reflected sky under full overcast (a storm lake reads dark slate, not light grey).
+        public var overcastReflectGain: Double
     }
     public var water: Water
 }
