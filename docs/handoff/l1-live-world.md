@@ -46,8 +46,7 @@ Linux; every other target needs Apple frameworks.
 
 1. Confirm the new hosts; install Swift (setup script) and run `swift test --filter LiveSkyTests`; fix whatever the
    first compile finds (LiveSky was written without a compiler).
-2. Build the star catalogue to 6.5 (`build_star_catalog.py OUT --count all --missing-bv null`) and the compact
-   sky-only file (< 1 MB) with a loader in LiveSky.
+2. ~~Star catalogue to 6.5~~ done 2026-10-07 (docs/live-world/sky.md section 4: 8,306 stars, 286 KB binary, `StarCatalog.nakedEye()`).
 3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways.
 4. Relay endpoint serving cached elements to phones (OMM JSON), CTA Bus Tracker adapter.
 

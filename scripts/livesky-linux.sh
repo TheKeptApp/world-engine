@@ -17,13 +17,15 @@ cp -R "$ROOT/Tests/LiveSkyTests" "$WORK/Tests/"
 # The sky vector tests read the shared star catalogue by repo-relative path.
 mkdir -p "$WORK/Sources/WorldEnvironment/Catalog"
 cp "$ROOT"/Sources/WorldEnvironment/Catalog/stars-*.json "$WORK/Sources/WorldEnvironment/Catalog/"
+mkdir -p "$WORK/Tools/livefeeds/data/sky"
+cp "$ROOT"/Tools/livefeeds/data/sky/stars-*.json "$WORK/Tools/livefeeds/data/sky/"
 cat >"$WORK/Package.swift" <<'PKG'
 // swift-tools-version:6.2
 import PackageDescription
 let package = Package(
     name: "LiveSkyLinux",
     targets: [
-        .target(name: "LiveSky"),
+        .target(name: "LiveSky", resources: [.copy("Resources")]),
         .testTarget(name: "LiveSkyTests", dependencies: ["LiveSky"], resources: [.copy("Fixtures")]),
     ]
 )

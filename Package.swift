@@ -27,7 +27,7 @@ let package = Package(
         .target(name: "WorldEnvironment", dependencies: ["WorldGeo", "WorldMap", "WorldGen"], resources: [.copy("Catalog")]),
         // Pure Swift, no dependencies, no simd: sidereal time, Sun/Moon/planets, stars, limiting magnitude,
         // SGP4 and satellite passes. Port of Tools/livefeeds (the reference); validated by shared test vectors.
-        .target(name: "LiveSky"),
+        .target(name: "LiveSky", resources: [.copy("Resources")]),
         // Shared world package (glTF + JSON) for renderers other than RealityKit (macOS tooling).
         .target(name: "WorldPackage", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
         // macOS command-line tool: fetch area data, print stats, draw debug maps, export packages.
