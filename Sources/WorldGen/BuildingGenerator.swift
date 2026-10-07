@@ -105,6 +105,8 @@ public struct BuildingGenerator: Sendable {
     public var families: HouseFamilyLibrary = .bundled
     /// Other buildings' footprints: keeps rear porches out of neighbors. Nil = no such details.
     public var obstacles: PolygonIndex?
+    /// Phone-size house contrast values (`look.json` houseContrast).
+    static var contrast: LookSpec.HouseContrast? { LookSpec.bundled?.houseContrast }
 
     /// Combined optional roof detail per near building (regions spec §4 table).
     public static let optionalRoofCap = 200
@@ -239,14 +241,23 @@ public struct BuildingGenerator: Sendable {
         // The profile's light trim stays the gable / stucco panel colour; the family trim colour
         // (house-details-v1) takes casings, fascia, soffits, corner boards and porch posts.
         let panelHex = tuple[1]
+        // House contrast (house-contrast-v1) type: trim, roof, glass, soffit, porch-underside and eave-band values.
+        // Storeys aren't final yet here: mapped levels, else the family's first floor count.
+        let contrastType = details != nil ? Self.contrast?.type(family: g.family, floors: b.levels.map { Int($0.rounded()) } ?? type?.floors.first ?? 2) : nil
         if let range = details?.trim, let hex = HouseDetailColours.pick(range, ref: b.ref, salt: "trim-colour") { tuple[1] = hex }
+        // house-contrast-v1 defines trim and roof per house type: they replace the family ranges (owner 7 Oct).
+        // Mapped roof:colour still wins.
+        if let t = contrastType {
+            tuple[1] = t.trim
+            if b.tags["roof:colour"].flatMap(Self.hexColor) == nil { tuple[3] = t.roof }
+        }
         g.colors = tuple
         let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03)))
         let trim = Paint(slot: palette.slot(hex: tuple[1]))
         let doorPaint = Paint(slot: palette.slot(hex: tuple[2]))
         let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04)))
         let foundation = Paint(slot: palette.named("foundation"))
-        let glass = Paint(slot: palette.named("windowDay"), flags: .glass)
+        let glass = Paint(slot: contrastType.map { palette.slot(hex: $0.glass) } ?? palette.named("windowDay"), flags: .glass)
         var sideWall: Paint?
         if let sides = facade.sideWall, !sides.isEmpty, b.tags["building:colour"] == nil {
             var sr = b.ref.random("side-wall")
@@ -377,13 +388,13 @@ public struct BuildingGenerator: Sendable {
             }
             let z0 = near ? F : 0
             if let envelope {
-                envelope.emitWalls(wallRing, base: z0, bandTop: near ? H - 0.7 : H, fallbackTop: H, wall: paintFor,
+                envelope.emitWalls(wallRing, base: z0, bandTop: near ? H - (Self.contrast?.eaveBandHeight ?? 0.7) : H, fallbackTop: H, wall: paintFor,
                                    gableFrom: H, gablePaint: gablePaint, into: &m)
             } else {
                 let top = H + parapet
                 if near, top - z0 > 1.2 {
-                    addWalls(wallRing, z0: z0, z1: top - 0.7, paint: paintFor, into: &m)
-                    addWalls(wallRing, z0: top - 0.7, z1: top, paint: paintFor, into: &m)
+                    addWalls(wallRing, z0: z0, z1: top - (Self.contrast?.eaveBandHeight ?? 0.7), paint: paintFor, into: &m)
+                    addWalls(wallRing, z0: top - (Self.contrast?.eaveBandHeight ?? 0.7), z1: top, paint: paintFor, into: &m)
                 } else {
                     addWalls(wallRing, z0: z0, z1: top, paint: paintFor, into: &m)
                 }
@@ -419,6 +430,17 @@ public struct BuildingGenerator: Sendable {
         }
         // Soffits (down-facing) sit in the eave shadow; parapet insides get mild occlusion.
         m.bakeAO(from: roofStart) { _, n in n.y < -0.5 ? 0.7 : 1 }
+        // Phone-size contrast (P3 / owner: geometry detail doesn't read, value does). Baked AO only
+        // dims ambient light, so detail families also darken the base colour where shade lives:
+        // soffits, and a band on the wall top under eaves and cornices. House-details families only.
+        if let t = contrastType, let hc = Self.contrast, near {
+            let top = pitched ? H : H + parapet
+            for i in 0..<roofStart where abs(m.normals[i].y) < 0.3 {
+                let y = Double(m.positions[i].y)
+                guard y > top - hc.eaveBandHeight - 0.05, y < top + 0.05 else { continue }
+                m.paints[i].y *= Float(1 - (1 - t.eaveShadow) * smoothstep(top - hc.eaveBandHeight, top, y))
+            }
+        }
         // The crossing gable's own fragments count against the optional roof budget.
         var optional = 0
         if let plan, let cg = plan.crossGable, let envelope {
@@ -448,6 +470,15 @@ public struct BuildingGenerator: Sendable {
         g.optionalRoofTriangles = optional
         if g.entry == nil, let e = g.frontEdge, role == .house || role == .block {
             g.entry = entryPoint(b, type: type, facade: facade, ring: ring, edge: e)
+        }
+        // House contrast: every down-facing face in the type's soffit colour (roof, dormer and bay soffits,
+        // casing heads), porch undersides (below the eave by a storey) in its porch-shadow colour.
+        if let t = contrastType, lod != .far {
+            let soffit = Float(palette.slot(hex: t.soffit)), porch = Float(palette.slot(hex: t.porchShadow))
+            for i in 0..<m.positions.count where m.normals[i].y < -0.5 {
+                m.paints[i].x = Double(m.positions[i].y) < H - 1.5 ? porch : soffit
+                m.paints[i].y = 1
+            }
         }
         g.mesh = m
         return g

@@ -27,9 +27,40 @@ public struct LookSpec: Codable, Sendable {
         public var darkenMax: Double
         public var surfaces: [String]
     }
+    /// Phone-size house contrast (generator; owner 7 Oct): house-contrast-v1 swatches per house type, baked
+    /// into the base colour of house-details families, because ambient AO alone doesn't show in sun.
+    public struct HouseContrast: Codable, Sendable, Equatable {
+        public struct HouseType: Codable, Sendable, Equatable {
+            /// Trim, roof, soffit and porch-underside colours (sRGB, the pack's swatches).
+            public var trim: String
+            public var roof: String
+            public var soffit: String
+            public var porchShadow: String
+            /// Daytime window glass (dark, so openings read at phone size; night lighting keys off the glass flag).
+            public var glass: String
+            /// Eave/cornice shadow brightness relative to the wall (wall = 1).
+            public var eaveShadow: Double
+        }
+        public var source: String?
+        /// Height (m) of the wall band under eaves and cornices that fades to `eaveShadow`.
+        public var eaveBandHeight: Double
+        public var types: [String: HouseType]
+        /// Family ID → type ID; "flat" = chicago_two_flat below three storeys, chicago_three_flat from three.
+        public var families: [String: String]
+
+        public func type(family: String?, floors: Int) -> HouseType? {
+            guard let f = family, let id = families[f] else { return nil }
+            if id == "flat" { return types[floors >= 3 ? "chicago_three_flat" : "chicago_two_flat"] }
+            return types[id]
+        }
+    }
     public var water: Water
     public var sky: Sky
     public var wetPaving: WetPaving
+    public var houseContrast: HouseContrast?
+
+    /// The bundled look values (nil if the file is missing).
+    public static let bundled: LookSpec? = try? StyleLibrary.look()
 }
 
 extension StyleLibrary {

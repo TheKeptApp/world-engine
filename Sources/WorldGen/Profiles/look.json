@@ -15,6 +15,75 @@
     "comment": "Departure from rain-v1 (owner's phone check, 7 Oct): the pack's paving darkening x3.8, so steady rain darkens concrete ~38% and asphalt ~42%, light rain ~30%.",
     "darkenScale": 3.8,
     "darkenMax": 0.5,
-    "surfaces": ["concrete", "asphalt"]
+    "surfaces": [
+      "concrete",
+      "asphalt"
+    ]
+  },
+  "houseContrast": {
+    "comment": "Generator (P2), house-details families: house-contrast-v1 per house type (R approved, binding), values identical to Resources/look/mock-values.json (keys in mockKeys; a unit test fails on drift): trim, roof and daytime window glass colours; soffit and porch-underside colours on down-facing faces; the eave/cornice shadow band fading to eave_shadow.relativeBrightness (wall = 1) at the eave line or parapet top. Walls stay observed/profile colours. Families map to the pack's four types by type and wall material (P2 mapping, docs/buildings/README.md); brickStackedFacade picks two- or three-flat by storeys. eaveBandHeight is the existing near wall band (geometry), not a pack value.",
+    "source": "docs/proposals/house-contrast-v1/paintover-values.json",
+    "eaveBandHeight": 0.7,
+    "types": {
+      "chicago_three_flat": {
+        "trim": "#DBC8A7",
+        "soffit": "#51463E",
+        "porchShadow": "#3E3733",
+        "eaveShadow": 0.293,
+        "glass": "#405766",
+        "roof": "#554E49"
+      },
+      "chicago_two_flat": {
+        "trim": "#E2D2B7",
+        "soffit": "#554A40",
+        "porchShadow": "#403934",
+        "eaveShadow": 0.239,
+        "glass": "#425A68",
+        "roof": "#58514A"
+      },
+      "workers_cottage": {
+        "trim": "#F1E4CA",
+        "soffit": "#5F6258",
+        "porchShadow": "#454C47",
+        "eaveShadow": 0.192,
+        "glass": "#465D6B",
+        "roof": "#60615A"
+      },
+      "chicago_bungalow": {
+        "trim": "#DECBAB",
+        "soffit": "#565046",
+        "porchShadow": "#403D36",
+        "eaveShadow": 0.282,
+        "glass": "#405867",
+        "roof": "#5B5A52"
+      }
+    },
+    "families": {
+      "brickStackedFacade": "flat",
+      "greystoneFacade": "chicago_three_flat",
+      "sixFlat": "chicago_three_flat",
+      "courtyardMass": "chicago_three_flat",
+      "cornerMixedUse": "chicago_three_flat",
+      "brickBungalow": "chicago_bungalow",
+      "tudor": "chicago_bungalow",
+      "prairie": "chicago_bungalow",
+      "midCentury": "chicago_bungalow",
+      "frameCottage": "workers_cottage",
+      "colonial": "workers_cottage",
+      "queenAnne": "workers_cottage",
+      "shingleStyle": "workers_cottage",
+      "victorianRow": "chicago_two_flat"
+    },
+    "mockKeys": {
+      "type": "house-contrast-v1/houseTypes.<type>.surfaces.<surface>.hex",
+      "eaveShadow": "house-contrast-v1/houseTypes.<type>.surfaces.eave_shadow.relativeBrightness",
+      "fields": {
+        "trim": "trim",
+        "soffit": "soffit",
+        "porchShadow": "porch_shadow",
+        "glass": "window_glass_day",
+        "roof": "roof"
+      }
+    }
   }
 }
