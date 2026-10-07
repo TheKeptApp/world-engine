@@ -456,6 +456,8 @@ public final class World {
     static let gradeTable = try? StyleLibrary.grade()
     /// Renderer-neutral look values beyond the bible (`Profiles/look.json`).
     static let lookSpec = try? StyleLibrary.look()
+    /// The rain pack (generated from docs/proposals/rain-v1).
+    static let rainBible = try? StyleLibrary.rainBible()
 
     /// Runtime multipliers on the resolved light and grade, for tuning the look on a device
     /// (WorldLab `-tune`). Identity by default: the shipped look lives in the profiles.
