@@ -3,11 +3,10 @@ import simd
 import WorldGeo
 import WorldMap
 
-/// Road paint values from infrastructure-kit-v1 (roads-08 lane-marking library, roads-09 crosswalk
-/// library, lane widths of roads-01/05/06). Each value is read by its compiled mock key
-/// ("infrastructure-kit-v1/<json path>") from the bundled shared mock values (`Profiles/mock-values.json`)
-/// when the pack is compiled there, else from look.json's `infrastructure` copy of the pack JSON (pending R's
-/// approval, P3 7 Oct; a test keeps every copy equal to the pack). Switching to mock values only = drop the copy.
+/// Road paint look from infrastructure-kit-v1 (R approved, binding): roads-08 lane-marking library and
+/// roads-09 crosswalk library, read by key from the bundled shared mock values (`Profiles/mock-values.json`,
+/// compiled by Tools/lookloop/compile_mocks.py). Geometry (lane widths) is not taken from the kit: R's rule,
+/// street-geometry-rules-v1 owns geometry (`LookSpec.MarkingTuning`). Nil when a key is missing: no paint.
 public struct MarkingValues: Sendable, Equatable {
     /// roads-08: line width, dash and gap, gap between double lines, stop-bar width (m); paint colours.
     public var lineWidth: Double
@@ -23,60 +22,44 @@ public struct MarkingValues: Sendable, Equatable {
     public var stripeGap: Double
     public var transverseLineWidth: Double
     public var crossingWhite: String
-    /// Lane widths for lane counts the tags don't give: highway (roads-01), arterial (roads-05) and the
-    /// residential travel lane (roads-06; the narrowest lane a tagged bike lane may leave).
-    public var highwayLaneWidth: Double
-    public var arterialLaneWidth: Double
-    public var minLaneWidth: Double
 
-    /// Every key read (compiled mock-values key = pack + JSON path), with the asset id at that path.
-    public static let keys: [(key: String, asset: String)] = [
-        ("infrastructure-kit-v1/assets[7].dimensionsM.lineWidth", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].dimensionsM.dashLength", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].dimensionsM.dashGap", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].dimensionsM.doubleLineGap", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].dimensionsM.stopBarWidth", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].palette[0].secondaryHex", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[7].palette[0].accentHex", "roads-08-markings"),
-        ("infrastructure-kit-v1/assets[8].dimensionsM.crossingWidthAlongRoad", "roads-09-crosswalks"),
-        ("infrastructure-kit-v1/assets[8].dimensionsM.stripeWidth", "roads-09-crosswalks"),
-        ("infrastructure-kit-v1/assets[8].dimensionsM.stripeGap", "roads-09-crosswalks"),
-        ("infrastructure-kit-v1/assets[8].dimensionsM.transverseLineWidth", "roads-09-crosswalks"),
-        ("infrastructure-kit-v1/assets[8].palette[0].secondaryHex", "roads-09-crosswalks"),
-        ("infrastructure-kit-v1/assets[0].dimensionsM.laneWidth", "roads-01-highway"),
-        ("infrastructure-kit-v1/assets[4].dimensionsM.laneWidth", "roads-05-arterial"),
-        ("infrastructure-kit-v1/assets[5].dimensionsM.travelLaneWidth", "roads-06-residential"),
-    ]
+    static let prefix = "style-b/infrastructure/assets."
+    /// Every mock key read, in `init(mock:)` order.
+    public static let keys: [String] = [
+        "roads-08-markings.dimensionsM.lineWidth", "roads-08-markings.dimensionsM.dashLength",
+        "roads-08-markings.dimensionsM.dashGap", "roads-08-markings.dimensionsM.doubleLineGap",
+        "roads-08-markings.dimensionsM.stopBarWidth",
+        "roads-08-markings.palette.Base.secondaryHex", "roads-08-markings.palette.Base.accentHex",
+        "roads-09-crosswalks.dimensionsM.crossingWidthAlongRoad", "roads-09-crosswalks.dimensionsM.stripeWidth",
+        "roads-09-crosswalks.dimensionsM.stripeGap", "roads-09-crosswalks.dimensionsM.transverseLineWidth",
+        "roads-09-crosswalks.palette.Base.secondaryHex",
+    ].map { prefix + $0 }
 
-    /// Values from the mock values where the key is compiled, else from the look.json copy.
-    public init?(mock m: MockValues?, copy: LookSpec.InfrastructureCopy?) {
-        func n(_ i: Int) -> Double? { let k = Self.keys[i].key; return m?.number(k) ?? copy?.number(k) }
-        func s(_ i: Int) -> String? { let k = Self.keys[i].key; return m?.string(k) ?? copy?.string(k) }
+    public init?(mock m: MockValues?) {
+        guard let m else { return nil }
+        func n(_ i: Int) -> Double? { m.number(Self.keys[i]) }
+        func s(_ i: Int) -> String? { m.string(Self.keys[i]) }
         guard let lw = n(0), let dl = n(1), let dg = n(2), let dbl = n(3), let sb = n(4), let white = s(5), let yellow = s(6),
-              let cw = n(7), let sw = n(8), let sg = n(9), let tw = n(10), let cwhite = s(11),
-              let hl = n(12), let al = n(13), let rl = n(14) else { return nil }
+              let cw = n(7), let sw = n(8), let sg = n(9), let tw = n(10), let cwhite = s(11) else { return nil }
         self.init(lineWidth: lw, dashLength: dl, dashGap: dg, doubleLineGap: dbl, stopBarWidth: sb, white: white, yellow: yellow,
-                  crossingWidth: cw, stripeWidth: sw, stripeGap: sg, transverseLineWidth: tw, crossingWhite: cwhite,
-                  highwayLaneWidth: hl, arterialLaneWidth: al, minLaneWidth: rl)
+                  crossingWidth: cw, stripeWidth: sw, stripeGap: sg, transverseLineWidth: tw, crossingWhite: cwhite)
     }
 
     public init(lineWidth: Double, dashLength: Double, dashGap: Double, doubleLineGap: Double, stopBarWidth: Double,
                 white: String, yellow: String, crossingWidth: Double, stripeWidth: Double, stripeGap: Double,
-                transverseLineWidth: Double, crossingWhite: String, highwayLaneWidth: Double, arterialLaneWidth: Double,
-                minLaneWidth: Double) {
+                transverseLineWidth: Double, crossingWhite: String) {
         self.lineWidth = lineWidth; self.dashLength = dashLength; self.dashGap = dashGap; self.doubleLineGap = doubleLineGap
         self.stopBarWidth = stopBarWidth; self.white = white; self.yellow = yellow; self.crossingWidth = crossingWidth
         self.stripeWidth = stripeWidth; self.stripeGap = stripeGap; self.transverseLineWidth = transverseLineWidth
-        self.crossingWhite = crossingWhite; self.highwayLaneWidth = highwayLaneWidth; self.arterialLaneWidth = arterialLaneWidth
-        self.minLaneWidth = minLaneWidth
+        self.crossingWhite = crossingWhite
     }
 
-    /// Keys not yet compiled into the mock values.
+    /// Keys missing from the mock values.
     public static func missing(in m: MockValues?) -> [String] {
-        keys.map(\.key).filter { m?.number($0) == nil && m?.string($0) == nil }
+        keys.filter { m?.number($0) == nil && m?.string($0) == nil }
     }
 
-    public static let bundled: MarkingValues? = MarkingValues(mock: MockValues.bundled, copy: LookSpec.bundled?.infrastructure)
+    public static let bundled: MarkingValues? = MarkingValues(mock: MockValues.bundled)
 }
 
 /// One painted mark: a flat ribbon `width` wide along `line`, at `GroundLayer.marking`.
@@ -142,9 +125,9 @@ public struct LaneLayout: Sendable, Equatable {
 }
 
 /// Lane markings and crosswalks from OSM tags (infrastructure-kit-v1 roads-08/09; street-geometry-rules-v1
-/// US rows): arterials (motorway…secondary) painted by default; collectors (tertiary) only where `lanes`
-/// says they are marked; local streets, alleys and service roads never unless `lane_markings=yes`
-/// (`lane_markings=no` always wins). Crosswalks only at mapped crossings whose tags evidence paint
+/// US rows), only where mapped (R, 7 Oct): through roads (motorway…tertiary) with a mapped lane count;
+/// local streets, alleys and service roads never unless `lane_markings=yes` (`lane_markings=no` always wins);
+/// tagged bike lanes on any road. No per-class default paint on untagged roads. Crosswalks only at mapped crossings whose tags evidence paint
 /// (never at every junction or signal). Deterministic: wear is seeded per feature.
 public struct RoadMarkings: Sendable {
     public var features: MapFeatures
@@ -226,7 +209,7 @@ public struct RoadMarkings: Sendable {
         }
 
         let total = count("lanes")
-        let laneWidth = cls == .highway ? values.highwayLaneWidth : values.arterialLaneWidth
+        let laneWidth = cls == .highway ? tuning.highwayLaneWidthM : tuning.arterialLaneWidthM
         func lanes(travel: Double) -> (f: Int, b: Int, c: Int, inferred: Bool) {
             if oneway != 0 {
                 let n = total ?? turnCount("turn:lanes")
@@ -256,13 +239,13 @@ public struct RoadMarkings: Sendable {
         var conflict = false
         // street-geometry-rules-v1 §5: when tagged parts don't fit, inferred (untagged) parking goes first,
         // then the optional paint; the measured envelope (road width) never changes.
-        for side in ["right", "left"] where l - r < Double(slots(plan)) * values.minLaneWidth {
+        for side in ["right", "left"] where l - r < Double(slots(plan)) * tuning.minLaneWidthM {
             if side == "right", parkR.parked, !parkR.tagged { parkR.parked = false }
             if side == "left", parkL.parked, !parkL.tagged { parkL.parked = false }
             (r, l) = extents()
             plan = lanes(travel: l - r)
         }
-        if (bikeR || bikeL), l - r < Double(slots(plan)) * values.minLaneWidth {
+        if (bikeR || bikeL), l - r < Double(slots(plan)) * tuning.minLaneWidthM {
             bikeR = false; bikeL = false; conflict = true
             (r, l) = extents()
             plan = lanes(travel: l - r)
@@ -273,9 +256,13 @@ public struct RoadMarkings: Sendable {
         case "no": longitudinal = false
         case "yes": longitudinal = true
         default:
+            // Only where mapped (R, 7 Oct): a lane count (`lanes`, `lanes:forward/backward`, `turn:lanes*`) on a
+            // through road. Local streets stay unmarked (street-geometry-rules-v1 US residential: no longitudinal
+            // markings; OSM `lanes` there counts traffic flows, not paint); alleys/service roads never.
+            let mapped = total != nil || ["lanes:forward", "lanes:backward", "turn:lanes", "turn:lanes:forward", "turn:lanes:backward"]
+                .contains { t[$0] != nil }
             switch cls {
-            case .highway, .arterial: longitudinal = true
-            case .collector: longitudinal = total != nil
+            case .highway, .arterial, .collector: longitudinal = mapped
             case .local, .service: longitudinal = false
             }
         }

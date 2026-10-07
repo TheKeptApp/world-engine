@@ -100,31 +100,11 @@ public struct LookSpec: Codable, Sendable {
         public var stopBarSetbackM: Double
         /// A tagged on-road bike lane's width (m).
         public var bikeLaneWidthM: Double
-    }
-    /// Pack values copied from infrastructure-kit-v1 until it is compiled into mock-values.json (P3, 7 Oct):
-    /// each entry's `source` is its compiled mock key ("<pack>/<json path>"); mock values win when present.
-    public struct InfrastructureCopy: Codable, Sendable, Equatable {
-        public struct Entry: Codable, Sendable, Equatable {
-            public var source: String
-            public var number: Double?
-            public var string: String?
-
-            enum CodingKeys: String, CodingKey { case source, value }
-            public init(from decoder: Decoder) throws {
-                let c = try decoder.container(keyedBy: CodingKeys.self)
-                source = try c.decode(String.self, forKey: .source)
-                number = try? c.decode(Double.self, forKey: .value)
-                string = number == nil ? try c.decode(String.self, forKey: .value) : nil
-            }
-            public func encode(to encoder: Encoder) throws {
-                var c = encoder.container(keyedBy: CodingKeys.self)
-                try c.encode(source, forKey: .source)
-                if let number { try c.encode(number, forKey: .value) } else { try c.encode(string, forKey: .value) }
-            }
-        }
-        public var entries: [Entry]
-        public func number(_ key: String) -> Double? { entries.first { $0.source == key }?.number }
-        public func string(_ key: String) -> String? { entries.first { $0.source == key }?.string }
+        /// Lane widths (street-geometry-rules-v1, US; geometry is not the kit's) for lane counts the tags don't
+        /// give (motorway/trunk, arterial) and the narrowest lane a tagged bike lane may leave (residential).
+        public var highwayLaneWidthM: Double
+        public var arterialLaneWidthM: Double
+        public var minLaneWidthM: Double
     }
     public var daytimeMaster: DaytimeMasterCalibration
     public var water: Water
@@ -135,7 +115,6 @@ public struct LookSpec: Codable, Sendable {
     /// House archetype choice and tier tuning (house-archetypes-v1 mapping values the pack does not give).
     public var archetypes: ArchetypeTuning?
     public var markings: MarkingTuning?
-    public var infrastructure: InfrastructureCopy?
 
     /// The bundled look values (nil if the file is missing).
     public static let bundled: LookSpec? = try? StyleLibrary.look()

@@ -39,42 +39,25 @@ struct RoadMarkingsTests {
 
     // MARK: - Values
 
-    /// Every look.json copy equals the pack JSON at its key path, and every key the loader reads is copied.
-    @Test func lookCopyEqualsThePack() throws {
+    /// Every key read is compiled into the shared mock values and equals the pack JSON (by asset id).
+    @Test func valuesAreTheCompiledPackValues() throws {
+        #expect(MarkingValues.missing(in: MockValues.bundled).isEmpty, "\(MarkingValues.missing(in: MockValues.bundled))")
         let pack = try JSONSerialization.jsonObject(with: Data(contentsOf: Self.root
-            .appendingPathComponent("docs/proposals/infrastructure-kit-v1/infrastructure-values.json")))
-        func at(_ path: String) -> Any? {
-            var o: Any? = pack
-            let scanner = path.replacingOccurrences(of: "[", with: ".[").split(separator: ".")
-            for part in scanner {
-                if part.hasPrefix("[") { o = (o as? [Any]).flatMap { a in Int(part.dropFirst().dropLast()).flatMap { $0 < a.count ? a[$0] : nil } } }
-                else { o = (o as? [String: Any])?[String(part)] }
+            .appendingPathComponent("docs/proposals/infrastructure-kit-v1/infrastructure-values.json"))) as! [String: Any]
+        let assets = pack["assets"] as! [[String: Any]]
+        let m = try #require(MockValues.bundled)
+        for key in MarkingValues.keys {
+            let parts = key.dropFirst("style-b/infrastructure/assets.".count).split(separator: ".").map(String.init)
+            let asset = try #require(assets.first { $0["id"] as? String == parts[0] })
+            let v: Any?
+            if parts[1] == "palette" {
+                v = (asset["palette"] as! [[String: Any]]).first { $0["name"] as? String == parts[2] }?[parts[3]]
+            } else {
+                v = (asset[parts[1]] as? [String: Any])?[parts[2]]
             }
-            return o
+            if let n = m.number(key) { #expect((v as? NSNumber)?.doubleValue == n, "\(key)") } else { #expect(v as? String == m.string(key), "\(key)") }
         }
-        let copy = try #require(LookSpec.bundled?.infrastructure)
-        #expect(!copy.entries.isEmpty)
-        for e in copy.entries {
-            #expect(e.source.hasPrefix("infrastructure-kit-v1/"))
-            let v = at(String(e.source.dropFirst("infrastructure-kit-v1/".count)))
-            if let n = e.number { #expect((v as? NSNumber)?.doubleValue == n, "\(e.source)") }
-            else { #expect(v as? String == e.string, "\(e.source)") }
-        }
-        for k in MarkingValues.keys {
-            #expect(copy.entries.contains { $0.source == k.key }, "\(k.key) not copied")
-            // The asset at that index is the one the key is meant for.
-            let assetPath = k.key.dropFirst("infrastructure-kit-v1/".count).split(separator: "]")[0] + "].id"
-            #expect(at(String(assetPath)) as? String == k.asset, "\(k.key)")
-        }
-    }
-
-    /// A compiled mock value wins over the look.json copy.
-    @Test func mockValuesWinOverTheCopy() throws {
-        let key = MarkingValues.keys[0].key
-        let mock = MockValues(strings: [:], numbers: [key: 0.2])
-        let v = try #require(MarkingValues(mock: mock, copy: LookSpec.bundled?.infrastructure))
-        #expect(v.lineWidth == 0.2)
-        #expect(MarkingValues(mock: mock, copy: nil) == nil)
+        #expect(MarkingValues(mock: MockValues(strings: [:], numbers: [:])) == nil)
     }
 
     // MARK: - Lane lines
@@ -104,11 +87,21 @@ struct RoadMarkingsTests {
         #expect(Set(out.marks.filter { $0.role == .laneDivider }.map { ($0.line[0].y * 100).rounded() }).count == 2)
     }
 
-    @Test func untaggedArterialLaneCountIsInferredFromWidth() {
-        let r = Self.road(1, .secondary, Self.eastWest, width: 14, tags: ["parking:both": "no"])
+    @Test func untaggedArterialsStayUnpainted() {
+        #expect(Self.build(roads: [Self.road(1, .secondary, Self.eastWest, width: 14)]).marks.isEmpty)
+        #expect(Self.build(roads: [Self.road(1, .primary, Self.eastWest, width: 14)]).marks.isEmpty)
+    }
+
+    @Test func laneMarkingsYesWithoutACountInfersItFromWidth() {
+        let r = Self.road(1, .secondary, Self.eastWest, width: 14, tags: ["parking:both": "no", "lane_markings": "yes"])
         let out = Self.build(roads: [r])
         #expect(out.marks.contains { $0.role == .centre && $0.inferred })
-        // 14 m / 3.3 m lanes: two per direction.
+        // 14 m / 3.35 m lanes: two per direction.
+        #expect(Set(out.marks.filter { $0.role == .laneDivider }.map { ($0.line[0].y * 100).rounded() }).count == 2)
+    }
+
+    @Test func turnLanesCountTheLanes() {
+        let out = Self.build(roads: [Self.road(1, .secondary, Self.eastWest, width: 10, tags: ["oneway": "yes", "turn:lanes": "left|through|through"])])
         #expect(Set(out.marks.filter { $0.role == .laneDivider }.map { ($0.line[0].y * 100).rounded() }).count == 2)
     }
 
@@ -131,12 +124,14 @@ struct RoadMarkingsTests {
     }
 
     @Test func linesStopAtJunctions() {
-        let main = Self.road(1, .primary, Self.eastWest, tags: ["lanes": "2"])
+        let main = Self.road(1, .primary, [LocalPoint(-100, 0), LocalPoint(0, 0), LocalPoint(100, 0)], tags: ["lanes": "2"])
         let side = Self.road(2, .residential, [LocalPoint(0, 0), LocalPoint(0, 80)])
         let out = Self.build(roads: [main, side])
         #expect(!out.marks.isEmpty)
         let r = side.width / 2
-        #expect(out.marks.filter { $0.source == main.ref }.allSatisfy { m in m.line.allSatisfy { abs($0.x) >= r - 1e-6 } })
+        let mine = out.marks.filter { $0.source == main.ref }
+        #expect(mine.allSatisfy { m in m.line.allSatisfy { abs($0.x) >= r - 1e-6 } && (m.line.allSatisfy { $0.x > 0 } || m.line.allSatisfy { $0.x < 0 }) })
+        #expect(mine.contains { m in m.line.contains { $0.x > 0 } } && mine.contains { m in m.line.contains { $0.x < 0 } })
     }
 
     // MARK: - Crosswalks
@@ -192,7 +187,7 @@ struct RoadMarkingsTests {
     }
 
     @Test func signalisedCrossingAtAJunctionGetsAStopBarOnTheApproachOnly() {
-        let main = Self.road(1, .primary, Self.eastWest, tags: ["lanes": "2", "parking:both": "no"])
+        let main = Self.road(1, .primary, [LocalPoint(-100, 0), LocalPoint(0, 0), LocalPoint(100, 0)], tags: ["lanes": "2", "parking:both": "no"])
         let side = Self.road(2, .residential, [LocalPoint(0, 0), LocalPoint(0, 100)])
         // Crossing on the main road's west leg, just outside the junction.
         let cw = Self.crossing(10, [LocalPoint(-8, -10), LocalPoint(-8, 10)], tags: ["crossing": "traffic_signals", "crossing:markings": "zebra"])
