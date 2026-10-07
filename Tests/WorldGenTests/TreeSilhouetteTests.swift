@@ -30,8 +30,18 @@ struct TreeSilhouetteTests {
     static func palette() throws -> Palette { Palette(base: try StyleLibrary.baseColors()) }
 
     static func mesh(_ kind: PropKind, lod: Int) throws -> MeshBuffers {
-        PropLibrary.mesh(kind, variant: 0, lod: lod, palette: try palette())
+        PropLibrary.mesh(kind, variant: 0, lod: lod, palette: try palette(), leafCards: true)
     }
+
+    /// The solid lobe crown a level's leaf cards stand in for (same skeleton and trunk): the reference
+    /// outline for branch containment and the far crown.
+    static func solid(_ kind: PropKind, lod: Int) throws -> MeshBuffers {
+        var rng = StableRandom(kind.rawValue.hashValueStable, 0, salt: "prop")
+        return PropLibrary.deciduous(kind, lod: lod, palette: try palette(), rng: &rng, cards: false)
+    }
+
+    /// Whether vertex `v` belongs to a leaf card.
+    static func isCard(_ m: MeshBuffers, vertex v: Int) -> Bool { Int(m.paints[v].z + 0.5) & Int(Paint.Flags.leafCard.rawValue) != 0 }
 
     static func part(_ m: MeshBuffers, vertex v: Int) -> Part {
         let sway = m.paints[v].w
@@ -141,13 +151,14 @@ struct TreeSilhouetteTests {
         let trunkTop = PropLibrary.lobes(kind).trunkTop + 0.08
         for lod in 0..<4 {
             let m = try Self.mesh(kind, lod: lod)
-            let crown = Self.pieces(m, Self.triangles(m, .crown))
+            let ref = lod < 2 ? try Self.solid(kind, lod: lod) : m
+            let crown = Self.pieces(ref, Self.triangles(ref, .crown))
             #expect(crown.count == [PropLibrary.lobes(kind).lobes.count, 2, 2, 1][lod], "\(kind) lod \(lod): \(crown.count) crown pieces")
             var outside: [SIMD3<Float>] = []
             for v in 0..<m.vertexCount {
                 let p = m.positions[v]
                 guard Self.part(m, vertex: v) == .branch || (Self.part(m, vertex: v) == .trunk && p.y > trunkTop) else { continue }
-                if !crown.contains(where: { Self.inside(m, $0, p) }) && !crown.contains(where: { Self.under(m, $0, p) }) { outside.append(p) }
+                if !crown.contains(where: { Self.inside(ref, $0, p) }) && !crown.contains(where: { Self.under(ref, $0, p) }) { outside.append(p) }
             }
             #expect(outside.isEmpty, "\(kind) lod \(lod): \(outside.count) branch vertices outside the crown, first \(String(describing: outside.first))")
         }
@@ -175,9 +186,9 @@ struct TreeSilhouetteTests {
     @Test(arguments: kinds)
     func paintsAndLeafThresholds(_ kind: PropKind) throws {
         let palette = try Self.palette()
-        let bark = Float(palette.named("bark")), leaves = Float(palette.named("deciduous1"))
+        let bark = Float(palette.named("bark")), crownPaint = PropLibrary.crownPaint(kind, palette: palette), leaves = Float(crownPaint.slot)
         for lod in 0..<4 {
-            let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette)
+            let m = PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette, leafCards: true)
             var wrong = 0
             for v in 0..<m.vertexCount {
                 let paint = m.paints[v], extra = m.extras[v]
@@ -185,9 +196,12 @@ struct TreeSilhouetteTests {
                 case .trunk: if paint.x != bark || paint.z != 0 || paint.w != 0 || extra.y != 0 { wrong += 1 }
                 case .branch: if paint.x != bark || paint.z != 0 || paint.w != Float(0.3) || extra.y != 0 || abs(extra.x - 0.75) > 1e-6 { wrong += 1 }
                 case .crown:
-                    let flags = Float(Paint.Flags.variant4.rawValue)
+                    let card = lod < 2
+                    let flags = Float(crownPaint.flags.union(card ? .leafCard : []).rawValue)
                     let shade = lod == 3 ? PropLibrary.skylineShade : 1
-                    if paint.x != leaves || paint.z != flags || paint.y != shade || (lod == 3 ? extra.y != 0.5 : !(extra.y > 0.1 && extra.y <= 1)) { wrong += 1 }
+                    let shadeOK = card ? paint.y >= 0.94 && paint.y <= 1.05 : paint.y == shade
+                    if paint.x != leaves || paint.z != flags || !shadeOK || (lod == 3 ? extra.y != 0.5 : !(extra.y > 0.1 && extra.y <= 1))
+                        || (card && (extra.z != 0 || m.uvs.count != m.vertexCount)) { wrong += 1 }
                 }
             }
             #expect(wrong == 0, "\(kind) lod \(lod): \(wrong) vertices with unexpected paint or leaf threshold")
@@ -210,7 +224,10 @@ struct TreeSilhouetteTests {
             for v in 0..<m.vertexCount where Self.part(m, vertex: v) == p { lo = simd_min(lo, m.positions[v]); hi = simd_max(hi, m.positions[v]) }
             return (lo, hi)
         }
-        let bare = extent(.branch), leafy = extent(.crown)
+        let ref = try Self.solid(kind, lod: 0)
+        var leafy = (lo: SIMD3<Float>(repeating: .infinity), hi: SIMD3<Float>(repeating: -.infinity))
+        for v in 0..<ref.vertexCount where Self.part(ref, vertex: v) == .crown { leafy.lo = simd_min(leafy.lo, ref.positions[v]); leafy.hi = simd_max(leafy.hi, ref.positions[v]) }
+        let bare = extent(.branch)
         let width = (bare.hi - bare.lo) / (leafy.hi - leafy.lo)
         #expect(width.x >= 0.65 && width.z >= 0.65, "\(kind): bare crown spans \(width.x) × \(width.z) of the leafy one")
         #expect(bare.hi.y >= 0.85 * leafy.hi.y, "\(kind): bare crown reaches \(bare.hi.y / leafy.hi.y) of the leafy top")
@@ -222,7 +239,7 @@ struct TreeSilhouetteTests {
     /// the mid crown covers, so the switch keeps the outline.
     @Test(arguments: kinds)
     func farCrownKeepsTheMidOutline(_ kind: PropKind) throws {
-        let far = try Self.mesh(kind, lod: 2), mid = try Self.mesh(kind, lod: 1)
+        let far = try Self.mesh(kind, lod: 2), mid = try Self.solid(kind, lod: 1)
         let farCrown = Self.triangles(far, .crown), midCrown = Self.triangles(mid, .crown)
         let farLobes = Self.pieces(far, farCrown), midLobes = Self.pieces(mid, midCrown)
         #expect(farLobes.count == 2 && midLobes.count == 2)
@@ -325,12 +342,12 @@ struct TreeSilhouetteTests {
 
     /// Pixels a side view at `yaw` (orthographic, 1.2 tree heights across; or the view from above)
     /// shows of `tris`; `paint` also colours them into `pixels`.
-    static func coverage(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160,
+    static func coverage(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160, atlas: LeafAtlas? = nil,
                          paint: (color: SIMD3<UInt8>, pixels: UnsafeMutableBufferPointer<SIMD3<UInt8>>)? = nil) -> Int {
-        mask(m, tris, yaw: yaw, fromAbove: fromAbove, size: size, paint: paint).filter { $0 }.count
+        mask(m, tris, yaw: yaw, fromAbove: fromAbove, size: size, atlas: atlas, paint: paint).filter { $0 }.count
     }
 
-    static func mask(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160,
+    static func mask(_ m: MeshBuffers, _ tris: [Int], yaw: Float = 0, fromAbove: Bool = false, size: Int = 160, atlas: LeafAtlas? = nil,
                      paint: (color: SIMD3<UInt8>, pixels: UnsafeMutableBufferPointer<SIMD3<UInt8>>)? = nil) -> [Bool] {
         var covered = [Bool](repeating: false, count: size * size)
         let scale = Float(size) / 1.2
@@ -351,6 +368,13 @@ struct TreeSilhouetteTests {
                     let w0 = ((b.x - p.x) * (c.y - p.y) - (b.y - p.y) * (c.x - p.x)) / area
                     let w1 = ((c.x - p.x) * (a.y - p.y) - (c.y - p.y) * (a.x - p.x)) / area
                     guard w0 >= 0, w1 >= 0, w0 + w1 <= 1 else { continue }
+                    if let atlas, m.uvs.count == m.vertexCount, isCard(m, vertex: Int(m.indices[t * 3])) {
+                        let ua: SIMD2<Float> = m.uvs[Int(m.indices[t * 3])], ub: SIMD2<Float> = m.uvs[Int(m.indices[t * 3 + 1])]
+                        let uc: SIMD2<Float> = m.uvs[Int(m.indices[t * 3 + 2])]
+                        let w2: Float = 1 - w0 - w1
+                        let uv: SIMD2<Float> = ua * w0 + ub * w1 + uc * w2
+                        guard atlas.coverage(uv) >= 0.5 else { continue }
+                    }
                     covered[y * size + x] = true
                     if let paint { paint.pixels[y * size + x] = paint.color }
                 }
@@ -375,7 +399,7 @@ struct TreeSilhouetteTests {
                 pixels.withUnsafeMutableBufferPointer { buffer in
                     for part in [Part.trunk, .branch] + (c.bare ? [] : [.crown]) {
                         let color: SIMD3<UInt8> = part == .crown ? SIMD3(96, 140, 80) : SIMD3(92, 70, 52)
-                        _ = Self.coverage(m, Self.triangles(m, part), yaw: c.yaw, size: cell * ss, paint: (color, buffer))
+                        _ = Self.coverage(m, Self.triangles(m, part), yaw: c.yaw, size: cell * ss, atlas: PropLibrary.leafAtlas, paint: (color, buffer))
                     }
                 }
                 // Box-filter the supersampled cell into the sheet.

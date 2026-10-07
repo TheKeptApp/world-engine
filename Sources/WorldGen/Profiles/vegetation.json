@@ -1,0 +1,226 @@
+{
+  "comment": "Tree species families and their regions (look-fix-v1 §5, vegetation-v1). Colours are vegetation-v1 vegetation-colours.json neutralCrownAlbedo per season (spring, summer, peak-fall as autumn, winter); a bare winter crown (null) takes the family's branch body colour, so leaf drop blends toward bare wood, never grey foliage. form = the crown archetype the family is drawn with (broad, oval, spreading, conifer). A region fills the scene palette's crown slots (deciduous1-9, conifer1-2) and bark from its families; crownColors gives each crown form the consecutive slots its trees pick from per instance (count 1, 2 or 4; a repeated family weights it). seasonal-palette.json keeps the chicago region as its defaults (tested). genusForms: OSM genus (or the first word of species/taxon) -> crown form for mapped trees; species entries override their genus. Real tags win over profile crown weights. Weeping willow (vegetation-v1 addendum) is form weeping, slot deciduous9, picked by Salix tags or the profile prior (trees.weeping); denver reuses it for tagged Salix. Not covered: Miami (no region profile yet), elm and honey locust drawn with the oak's spreading form.",
+  "species": {
+    "chicago-oak": {
+      "form": "spreading",
+      "colours": [
+        "#748B46",
+        "#58753C",
+        "#A55835",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-maple": {
+      "form": "broad",
+      "colours": [
+        "#91A552",
+        "#638044",
+        "#CE763C",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-elm": {
+      "form": "spreading",
+      "colours": [
+        "#83A056",
+        "#5C8147",
+        "#BCAE4D",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-linden": {
+      "form": "oval",
+      "colours": [
+        "#8FA559",
+        "#658147",
+        "#C6B24E",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-honey-locust": {
+      "form": "spreading",
+      "colours": [
+        "#A4AE60",
+        "#768E50",
+        "#D2B95C",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-spruce": {
+      "form": "conifer",
+      "colours": [
+        "#567A61",
+        "#476851",
+        "#4D6C53",
+        "#45634F"
+      ],
+      "branches": "#796B57"
+    },
+    "denver-cottonwood": {
+      "form": "spreading",
+      "colours": [
+        "#91A558",
+        "#668744",
+        "#C8AC46",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "denver-ash": {
+      "form": "oval",
+      "colours": [
+        "#91A15A",
+        "#66824B",
+        "#BFA547",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "denver-blue-spruce": {
+      "form": "conifer",
+      "colours": [
+        "#71958C",
+        "#62867E",
+        "#678B83",
+        "#597C77"
+      ],
+      "branches": "#796B57"
+    },
+    "denver-aspen": {
+      "form": "oval",
+      "colours": [
+        "#A0B263",
+        "#79924C",
+        "#D4B44C",
+        "#C9C6B5"
+      ],
+      "branches": "#C9C6B5"
+    },
+    "denver-crabapple": {
+      "form": "broad",
+      "colours": [
+        "#8B9B59",
+        "#687C44",
+        "#AF843E",
+        "#796B57"
+      ],
+      "branches": "#796B57"
+    },
+    "chicago-weeping-willow": {
+      "form": "weeping",
+      "colours": [
+        "#91A46A",
+        "#7A9160",
+        "#B3AD5C",
+        "#7A7159"
+      ],
+      "branches": "#7A7159"
+    }
+  },
+  "regions": {
+    "chicago": {
+      "profiles": [
+        "evanston",
+        "wilmette",
+        "chicago-dense-north",
+        "default"
+      ],
+      "slots": {
+        "deciduous1": "chicago-linden",
+        "deciduous2": "chicago-maple",
+        "deciduous3": "chicago-oak",
+        "deciduous4": "chicago-elm",
+        "deciduous5": "chicago-oak",
+        "deciduous6": "chicago-elm",
+        "deciduous7": "chicago-honey-locust",
+        "deciduous8": "chicago-oak",
+        "conifer1": "chicago-spruce",
+        "conifer2": "chicago-spruce",
+        "deciduous9": "chicago-weeping-willow"
+      },
+      "bark": "chicago-oak",
+      "crownColors": {
+        "broad": {
+          "first": "deciduous2",
+          "count": 1
+        },
+        "oval": {
+          "first": "deciduous1",
+          "count": 1
+        },
+        "spreading": {
+          "first": "deciduous5",
+          "count": 4
+        },
+        "weeping": {
+          "first": "deciduous9",
+          "count": 1
+        }
+      }
+    },
+    "denver": {
+      "profiles": [
+        "front-range"
+      ],
+      "slots": {
+        "deciduous1": "denver-ash",
+        "deciduous2": "denver-crabapple",
+        "deciduous3": "denver-aspen",
+        "deciduous4": "denver-ash",
+        "deciduous5": "denver-cottonwood",
+        "deciduous6": "denver-cottonwood",
+        "deciduous7": "denver-cottonwood",
+        "deciduous8": "denver-cottonwood",
+        "conifer1": "denver-blue-spruce",
+        "conifer2": "denver-blue-spruce",
+        "deciduous9": "chicago-weeping-willow"
+      },
+      "bark": "denver-cottonwood",
+      "crownColors": {
+        "broad": {
+          "first": "deciduous1",
+          "count": 2
+        },
+        "oval": {
+          "first": "deciduous3",
+          "count": 2
+        },
+        "spreading": {
+          "first": "deciduous5",
+          "count": 1
+        },
+        "weeping": {
+          "first": "deciduous9",
+          "count": 1
+        }
+      }
+    }
+  },
+  "genusForms": {
+    "Quercus": "spreading",
+    "Ulmus": "spreading",
+    "Gleditsia": "spreading",
+    "Populus": "spreading",
+    "Celtis": "spreading",
+    "Acer": "broad",
+    "Malus": "broad",
+    "Prunus": "broad",
+    "Pyrus": "broad",
+    "Tilia": "oval",
+    "Fraxinus": "oval",
+    "Ginkgo": "oval",
+    "Picea": "conifer",
+    "Pinus": "conifer",
+    "Abies": "conifer",
+    "Thuja": "conifer",
+    "Juniperus": "conifer",
+    "Tsuga": "conifer",
+    "Populus tremuloides": "oval",
+    "Salix": "weeping"
+  }
+}

@@ -6,8 +6,10 @@ import WorldMesh
 /// Instanced prop kinds. Each (kind, variant) is one mesh per detail level, drawn many times.
 public enum PropKind: String, Sendable, CaseIterable, Codable {
     case treeBroad, treeOval, treeSpreading, conifer, lamp, bench, bush, flowerBush, tuft
+    /// Weeping willow (vegetation-v1 addendum): joined upper lobes over hanging curtains.
+    case treeWeeping
 
-    public var isTree: Bool { [.treeBroad, .treeOval, .treeSpreading, .conifer].contains(self) }
+    public var isTree: Bool { [.treeBroad, .treeOval, .treeSpreading, .conifer, .treeWeeping].contains(self) }
     public var isFoliage: Bool { ![.lamp, .bench].contains(self) }
 }
 
@@ -21,6 +23,7 @@ public struct PropLibrary: Sendable {
     /// (1 m along local +X).
     public static let variants: [PropKind: Int] = [
         .treeBroad: 1, .treeOval: 1, .treeSpreading: 1, .conifer: 1, .lamp: 1, .bench: 1, .bush: 8, .flowerBush: 8, .tuft: 2,
+        .treeWeeping: 1,
     ]
 
     /// Detail levels per kind, chosen at render time: trees and bushes have near (0), mid (1), far (2) and
@@ -49,6 +52,15 @@ public struct PropLibrary: Sendable {
     /// asymmetric top and notches between lobes (they drop their leaves first).
     public static func lobes(_ kind: PropKind) -> (trunkTop: Float, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
         switch kind {
+        case .treeWeeping:
+            // Weeping willow (vegetation-v1 addendum: 7–10 joined upper lobes, 15–22% sky holes): a
+            // broad, low dome of unequal lobes, as wide as the tree is tall; curtains hang from its rim
+            // (`willowCurtains`).
+            return (0.42, [0, 0.76, 0], [0.42, 0.18, 0.42], [
+                ([0.04, 0.84, 0.02], 0.16), ([-0.21, 0.76, 0.06], 0.14), ([0.23, 0.75, -0.05], 0.13),
+                ([0.02, 0.74, 0.25], 0.12), ([-0.05, 0.73, -0.25], 0.12),
+                ([0.2, 0.81, 0.19], 0.09), ([-0.2, 0.82, -0.18], 0.09),
+            ])
         case .treeOval:
             // Upright oval (linden: tapered oval, 5–8 lobes): a column of offset lobes, a high shoulder
             // on each side, a narrower waist and a low lobe over the fork.
@@ -76,13 +88,36 @@ public struct PropLibrary: Sendable {
 
     /// Mesh for a prop variant. Trees and lamps are unit height (scale by instance); benches,
     /// bushes and tufts are real size.
-    public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette) -> MeshBuffers {
+    /// How deciduous (and willow) crowns are built at near and mid detail; far and skyline are the same
+    /// in every style. Prototypes for the owner's style check, default `.solid` (main renders
+    /// unchanged): `.leafCards` = alpha-tested leaf cards (`Paint.Flags.leafCard`, needs the card
+    /// material), `.puffs` = clusters of smooth rounded puffs on a flared trunk with scaffold limbs.
+    public enum CrownStyle: String, Sendable, CaseIterable {
+        case solid, leafCards, puffs
+    }
+
+    /// The default crown style: `WORLDENGINE_CROWN_STYLE=solid|leafCards|puffs` (or the older
+    /// `WORLDENGINE_LEAF_CARDS=1`), else `.solid`. Per call: `mesh(…, style:)`; buildingviz `--crown-style`.
+    public static let crownStyle: CrownStyle = {
+        let env = ProcessInfo.processInfo.environment
+        if let s = env["WORLDENGINE_CROWN_STYLE"].flatMap(CrownStyle.init(rawValue:)) { return s }
+        return env["WORLDENGINE_LEAF_CARDS"] == "1" ? .leafCards : .solid
+    }()
+
+    /// Whether the default crown style is leaf cards.
+    public static var leafCards: Bool { crownStyle == .leafCards }
+
+    public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette, leafCards: Bool) -> MeshBuffers {
+        mesh(kind, variant: variant, lod: lod, palette: palette, style: leafCards ? .leafCards : .solid)
+    }
+
+    public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette, style: CrownStyle = PropLibrary.crownStyle) -> MeshBuffers {
         var rng = StableRandom(kind.rawValue.hashValueStable, UInt64(variant), salt: "prop")
         switch kind {
-        case .treeBroad, .treeOval, .treeSpreading:
-            return deciduous(kind, lod: lod, palette: palette, rng: &rng)
+        case .treeBroad, .treeOval, .treeSpreading, .treeWeeping:
+            return deciduous(kind, lod: lod, palette: palette, rng: &rng, style: style)
         case .conifer:
-            return conifer(lod: lod, palette: palette, rng: &rng)
+            return conifer(lod: lod, palette: palette, rng: &rng, cards: style == .leafCards, smooth: style == .puffs)
         case .lamp:
             var m = MeshBuffers()
             m.paint = Paint(slot: palette.named("metal"))
@@ -472,12 +507,18 @@ public struct PropLibrary: Sendable {
     /// with the same trunk and three winter spikes (`farSmallLobe` follows this value).
     public static let treeTriangleBudget = (mid: 200, far: 52)
 
-    static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
+    /// A deciduous tree in a crown style (near and mid; far and skyline are the same in every style).
+    static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom, cards: Bool = false) -> MeshBuffers {
+        deciduous(kind, lod: lod, palette: palette, rng: &rng, style: cards ? .leafCards : .solid)
+    }
+
+    static func deciduous(_ kind: PropKind, lod: Int, palette: Palette, rng: inout StableRandom, style: CrownStyle) -> MeshBuffers {
+        let cards = style == .leafCards
         let shape = lobes(kind)
         // Trunk radius (unit height): stout enough that a crown doesn't read as a lollipop on a pole
         // (vegetation-v1: thick oak fork, stout trunks); about a tenth of the crown's width across.
-        let trunkR: Float = kind == .treeSpreading ? 0.03 : kind == .treeOval ? 0.024 : 0.026
-        if lod == 3 { return skylineTree(shape, palette: palette, trunkRadius: trunkR) }
+        let trunkR: Float = kind == .treeSpreading || kind == .treeWeeping ? 0.03 : kind == .treeOval ? 0.024 : 0.026
+        if lod == 3 { return skylineTree(shape, palette: palette, trunkRadius: trunkR, kind: kind) }
         // Branches: hidden inside the leafy crown, they carry the bare winter silhouette (sky-seasons
         // §5.3: foliage is removed lobe by lobe while branches remain; visual v2: meaningful winter
         // silhouettes). Every detail level draws from one skeleton, so the bare outline holds across
@@ -487,28 +528,41 @@ public struct PropLibrary: Sendable {
         var split = rng
         var branchRng = StableRandom(seed: split.next())
         let skeleton = bareSkeleton(shape, style: BranchStyle.of(kind), trunkRadius: trunkR, rng: &branchRng)
-        if lod == 2 { return farTree(shape, skeleton: skeleton, trunkRadius: trunkR, palette: palette) }
+        if lod == 2 { return farTree(shape, skeleton: skeleton, trunkRadius: trunkR, palette: palette, kind: kind) }
+        if style == .puffs { return puffTree(kind, shape: shape, lod: lod, trunkRadius: trunkR, palette: palette, rng: &rng) }
 
         var m = MeshBuffers()
-        // Trunk: thin, bark-colored; AO darker where it enters the crown.
+        // Trunk: thin, bark-colored; AO darker at the ground and where it enters the crown.
         m.paint = Paint(slot: palette.named("bark"))
         let trunkSides = lod == 0 ? 7 : 5
-        addCylinder(&m, radius: trunkR, z0: 0, z1: shape.trunkTop + 0.08, sides: trunkSides, smooth: true, cap: false)
+        // Near: rings where trunk AO changes (the ground contact and the fork); mid keeps one segment
+        // (its triangle budget), the AO then shading along it from contact to fork.
+        let rings: [Float] = lod == 0 ? [0, trunkBaseAOHeight, shape.trunkTop - 0.12, shape.trunkTop + 0.08] : [0, shape.trunkTop + 0.08]
+        for (z0, z1) in zip(rings, rings.dropFirst()) {
+            addCylinder(&m, radius: trunkR, z0: z0, z1: z1, sides: trunkSides, smooth: true, cap: false)
+        }
         m.bakeAO(from: 0) { p, _ in trunkAO(p, shape) }
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
         let branchStart = m.positions.count
         addBareBranches(&m, skeleton, lod: lod, trunkSides: trunkSides, within: crownEnvelope(shape, lod: lod))
         m.bakeAO(from: branchStart) { _, _ in 0.8 }
         if lod == 0 { addBranchStubs(&m, shape, trunkRadius: trunkR, rng: &rng) }
-        // Crown: one color family per tree (the shader picks deciduous1…4 per instance); lobes
+        // Crown: one colour per tree, from its form's family (`crownPaint`, picked per instance by the
+        // shader); lobes
         // share a softened ellipsoid normal so the crown reads as one sculpted mass. Each lobe's
         // vertices carry a stable leaf threshold in extra.y: the lobe shows while the tree's leaf
         // fraction is at or above it, so autumn thins crowns lobe by lobe. Near lobes are lumpy
         // geodesic spheres (the largest ones finer while the near budget allows); mid detail keeps
         // the top lobe and the first side lobe at 1.25×, its side lobe a 48-triangle cube sphere.
-        m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        if cards {
+            addLeafCrown(&m, kind: kind, shape: shape, lod: lod, leaves: leaves, rng: &rng)
+            return m
+        }
+        m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let lobes = lod == 0 ? shape.lobes : midLobes(shape)
-        let fine = lod == 0 ? fineLobes(lobes, room: nearTriangleBudget - m.triangleCount) : []
+        let curtains = kind == .treeWeeping ? willowCurtains(lod: lod) : []
+        let fine = lod == 0 ? fineLobes(lobes, room: nearTriangleBudget - m.triangleCount - curtains.reduce(0) { $0 + $1.triangles }) : []
         let start = m.positions.count
         for (k, (c, r)) in lobes.enumerated() {
             let lobeStart = m.positions.count
@@ -526,9 +580,257 @@ public struct PropLibrary: Sendable {
                 m.normals[i] = blendedCrownNormal(m.normals[i], crown: simd_normalize(q / shape.radii))
             }
         }
+        addCurtains(&m, curtains)
         // Overlap AO against the modelled lobe radii (mid lobes are drawn 1.25× larger).
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: Array(shape.lobes.prefix(lobes.count)))
         return m
+    }
+
+    // MARK: - Puff crowns
+
+    /// Crown style `.puffs` (owner's mock and paintover-v1: clusters of smooth rounded puffs,
+    /// soft-shaded and darker inside, on a thick trunk with a modest root flare that splits into
+    /// scaffold limbs). Near: a lumpy
+    /// geodesic puff (80 triangles) per lobe plus smaller rim puffs (20) filling the rest of
+    /// `nearTriangleBudget`, so the outline scallops; mid (≤ 250): the top lobe's puff and small puffs
+    /// for the others. Puff normals are each puff's own sphere normals (shared vertices, no facets in
+    /// shading); AO (extra.x) darkens faces toward the crown centre, inner puffs and undersides. Each
+    /// puff keeps its lobe's leaf threshold. Willows keep their curtains.
+    static func puffTree(_ kind: PropKind, shape: TreeShape, lod: Int, trunkRadius trunkR: Float, palette: Palette,
+                         rng: inout StableRandom) -> MeshBuffers {
+        var m = MeshBuffers()
+        // Trunk with a root flare, up to the fork.
+        m.paint = Paint(slot: palette.named("bark"))
+        let fork = shape.trunkTop - 0.02
+        // Root flare (paintover-v1: radius up to 1.15 × the trunk over about 0.12 m, 0.008 of a 15 m tree).
+        let heights: [Float] = lod == 0 ? [0, 0.004, 0.008, fork * 0.55, fork] : [0, 0.008, fork]
+        let flare: [Float] = lod == 0 ? [1.15, 1.06, 1.0, 0.97, 0.92] : [1.15, 1.0, 0.92]
+        addBranch(&m, heights.map { SIMD3<Float>(0, $0, 0) }, radii: flare.map { trunkR * $0 }, sides: lod == 0 ? 8 : 4)
+        for i in 0..<m.positions.count { m.extras[i].x = trunkAO(m.positions[i], shape) }
+        // Scaffold limbs from the fork into the top lobe and the major side lobes (2–4 visible).
+        m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
+        let limbs = Array(([0] + Array(1...min(BranchStyle.of(kind).limbs, shape.lobes.count - 1))).prefix(lod == 0 ? 5 : 3))
+        let base = SIMD3<Float>(0, fork - 0.01, 0)
+        for k in limbs {
+            let (c, r) = shape.lobes[k]
+            let end = c - SIMD3(0, r * 0.25, 0)
+            let side = SIMD3<Float>(Float(rng.range(-0.02, 0.02)), 0, Float(rng.range(-0.02, 0.02)))
+            let bend = base + (end - base) * 0.5 + SIMD3(0, k == 0 ? 0 : -0.03, 0) + side
+            let w: Float = k == 0 ? 0.8 : 0.7
+            addBranch(&m, [base, bend, end], radii: [trunkR * w, trunkR * w * 0.72, trunkR * w * 0.45], sides: lod == 0 ? 6 : 3)
+        }
+        // Puffs.
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
+        let curtains = kind == .treeWeeping ? willowCurtains(lod: lod) : []
+        var puffs: [(center: SIMD3<Float>, radius: Float, lobe: Int, fine: Bool)] = []
+        // Mid keeps the five main lobes (its 250 budget).
+        for (k, (c, r)) in shape.lobes.enumerated() where lod == 0 || k < 5 {
+            puffs.append((c, r * (lod == 0 ? 0.88 : 1.0), k, lod == 0 || k == 0))
+        }
+        let big = puffs.reduce(0) { $0 + ($1.fine ? 80 : 20) }
+        let room = (lod == 0 ? nearTriangleBudget : 250) - m.triangleCount - big - curtains.reduce(0) { $0 + $1.triangles }
+        let small = max(0, min(lod == 0 ? 12 : 3, room / 20))
+        for j in 0..<small {
+            // A rim puff on a lobe's upper or outer side, half the lobe's size.
+            let k = j % shape.lobes.count
+            let (c, r) = shape.lobes[k]
+            var u = SIMD3<Float>(Float(rng.range(-1, 1)), Float(rng.range(-0.2, 1)), Float(rng.range(-1, 1)))
+            let away = c - shape.crown
+            if simd_length(away) > 1e-3 { u += simd_normalize(SIMD3(away.x, 0, away.z)) * 0.7 }
+            u = simd_length(u) > 1e-4 ? simd_normalize(u) : SIMD3(0, 1, 0)
+            puffs.append((c + SIMD3(u.x, u.y * 0.92, u.z) * (r * 0.72), r * Float(rng.range(0.42, 0.55)), k, false))
+        }
+        let spread = max(shape.radii.x, shape.radii.z)
+        for p in puffs {
+            let start = m.positions.count
+            if p.fine {
+                addLumpyLobe(&m, center: p.center, radius: p.radius, frequency: 2, rng: &rng)
+            } else {
+                addEllipsoid(&m, center: p.center, radii: SIMD3(p.radius, p.radius * 0.92, p.radius), octahedron: false)
+            }
+            let threshold = lobeThreshold(p.lobe, of: shape.lobes.count)
+            let inner = simd_length(SIMD2(p.center.x - shape.crown.x, p.center.z - shape.crown.z)) / spread
+            for i in start..<m.positions.count {
+                let n = m.normals[i]
+                let out = simd_normalize(m.positions[i] - shape.crown)
+                let facing = Float(smoothstep(-0.7, 0.6, Double(simd_dot(n, out))))
+                // paintover-v1: interior ambient reduction 25 %, the rest of the light/mid/dark range
+                // from the sun and fill (no painted stripes).
+                var ao = (0.75 + 0.25 * facing) * (0.9 + 0.1 * min(1, inner * 1.6))
+                ao = min(ao, 1 - 0.25 * Float(smoothstep(0.2, 0.9, Double(-n.y))))
+                m.extras[i].x = ao
+                m.extras[i].y = threshold
+            }
+        }
+        addCurtains(&m, curtains)
+        return m
+    }
+
+    // MARK: - Leaf cards
+
+    /// The leaf-card atlas (R8 coverage, 4 × 4 cells), generated once.
+    public static let leafAtlas = LeafAtlas.generate()
+
+    /// Leaf cards per tree at near and mid detail (vegetation-v1 crown construction; overdraw kept
+    /// low: near 40–60, mid 12–20). Willows add hanging strand cards.
+    public static let leafCardCounts = (near: 56, mid: 20)
+    static let willowStrandCards = (near: 10, mid: 4)
+
+    /// Atlas row for a crown form: lindens and willows small-leaf, the rest broadleaf clusters.
+    static func leafFamily(_ kind: PropKind) -> LeafAtlas.Family {
+        kind == .treeOval || kind == .treeWeeping ? .smallLeaf : kind == .conifer ? .needles : .broadleaf
+    }
+
+    /// One leaf card: a quad (two triangles; the card material draws both faces) facing `facing`,
+    /// `half` its half size, turned `roll` in its plane; textured with an atlas cell; normals bent out
+    /// from the crown centre (`bent`) so the card shades with the crown's volume from either side.
+    static func addCard(_ m: inout MeshBuffers, center: SIMD3<Float>, facing: SIMD3<Float>, half: SIMD2<Float>, roll: Float,
+                        cell: (min: SIMD2<Float>, max: SIMD2<Float>), bent: SIMD3<Float>) {
+        let helper: SIMD3<Float> = abs(facing.y) > 0.9 ? [1, 0, 0] : [0, 1, 0]
+        let a0 = simd_normalize(simd_cross(helper, facing)), b0 = simd_cross(facing, a0)
+        let a = a0 * cos(roll) + b0 * sin(roll), b = simd_cross(facing, a)
+        // Corners counter-clockwise seen from the front; v grows downward in the atlas, so the top
+        // edge (+b) takes the cell's min v.
+        let corners: [(SIMD3<Float>, SIMD2<Float>)] = [
+            (center - a * half.x - b * half.y, SIMD2(cell.min.x, cell.max.y)),
+            (center + a * half.x - b * half.y, SIMD2(cell.max.x, cell.max.y)),
+            (center + a * half.x + b * half.y, SIMD2(cell.max.x, cell.min.y)),
+            (center - a * half.x + b * half.y, SIMD2(cell.min.x, cell.min.y)),
+        ]
+        let front = corners.map { m.addVertex($0.0, normal: bent, uv: $0.1) }
+        m.addTriangle(front[0], front[1], front[2])
+        m.addTriangle(front[0], front[2], front[3])
+    }
+
+    /// A crown of leaf cards over the archetype's lobes (near: all lobes, `leafCardCounts.near` cards of
+    /// 0.8–1.1 × the lobe radius (half size); mid: `leafCardCounts.mid` larger cards): cards per lobe in proportion to
+    /// its surface, mostly in the lobe's outer shell and facing out from the crown, so lobes read as
+    /// clustered masses with sky gaps between them and branches showing through. Per card: the lobe's
+    /// leaf threshold (extra.y), AO darker inside the crown (extra.x), a random value (extra.w), a
+    /// little shade jitter. Willows add hanging strand cards around the rim.
+    static func addLeafCrown(_ m: inout MeshBuffers, kind: PropKind, shape: TreeShape, lod: Int, leaves: (slot: Int, flags: Paint.Flags),
+                             rng: inout StableRandom) {
+        let start = m.positions.count
+        let total = lod == 0 ? leafCardCounts.near : leafCardCounts.mid
+        let area = shape.lobes.reduce(Float(0)) { $0 + $1.1 * $1.1 }
+        let family = leafFamily(kind)
+        var placed = 0
+        for (k, (c, r)) in shape.lobes.enumerated() {
+            let n = k == shape.lobes.count - 1 ? total - placed : max(1, Int((Float(total) * r * r / area).rounded()))
+            placed += n
+            let threshold = lobeThreshold(k, of: shape.lobes.count)
+            for _ in 0..<max(0, n) {
+                // A direction on the lobe, biased away from the crown centre and up.
+                var u = SIMD3<Float>(Float(rng.range(-1, 1)), Float(rng.range(-0.8, 1)), Float(rng.range(-1, 1)))
+                let away = c - shape.crown
+                if simd_length(away) > 1e-3 { u += simd_normalize(away) * 0.6 }
+                u = simd_length(u) > 1e-4 ? simd_normalize(u) : SIMD3(0, 1, 0)
+                let depth = Float(rng.range(0.5, 0.95))
+                let p = c + SIMD3(u.x, u.y * 0.92, u.z) * (r * depth)
+                let out = simd_normalize((p - shape.crown) / (shape.radii * shape.radii))
+                // Facing out from the crown with a broad random tilt, so cards near the outline still
+                // show some face (edge-on cards at the rim read as a thin, see-through crown).
+                let tilt = SIMD3<Float>(Float(rng.range(-0.5, 0.5)), Float(rng.range(-0.3, 0.5)), Float(rng.range(-0.5, 0.5)))
+                let facing = simd_normalize(u * 0.5 + out * 0.4 + tilt)
+                let size = r * Float(lod == 0 ? rng.range(0.8, 1.1) : rng.range(1.05, 1.4))
+                m.paint = Paint(slot: leaves.slot, shade: Float(rng.range(0.94, 1.05)), flags: leaves.flags.union(.leafCard), sway: 1)
+                m.extra = SIMD4(0.72 + 0.28 * Float(smoothstep(0.5, 0.95, Double(depth))), threshold, 0, Float(rng.unit()))
+                addCard(&m, center: p, facing: facing, half: SIMD2(repeating: size), roll: Float(rng.range(0, 2 * .pi)),
+                        cell: LeafAtlas.cell(family, variant: Int(rng.next() % 4)), bent: out)
+            }
+        }
+        if kind == .treeWeeping { addStrandCards(&m, lod: lod, leaves: leaves, rng: &rng) }
+        m.extra = SIMD4(1, 0, 0, 0)
+        bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: [])
+    }
+
+    /// Willow strand cards (vegetation-v1 addendum: 6–10 tapered hanging groups, 2–4 at medium
+    /// distance): vertical cards hanging from the dome's rim, facing out, uneven lengths and gaps;
+    /// leaf threshold 0.95 (they thin first in autumn).
+    static func addStrandCards(_ m: inout MeshBuffers, lod: Int, leaves: (slot: Int, flags: Paint.Flags), rng: inout StableRandom) {
+        let count = lod == 0 ? willowStrandCards.near : willowStrandCards.mid
+        let phase = Float(rng.range(0, 2 * .pi))
+        for k in 0..<count {
+            let a = phase + Float(k) / Float(count) * 2 * .pi + Float(rng.range(-0.2, 0.2))
+            let out = SIMD3<Float>(cos(a), 0, sin(a))
+            let length = Float(rng.range(0.3, 0.42)), width = Float(rng.range(0.09, 0.12)) * (lod == 0 ? 1 : 1.4)
+            let top = Float(rng.range(0.74, 0.79)), reach = Float(rng.range(0.28, 0.34))
+            let center = out * (reach + 0.03) + SIMD3(0, top - length / 2, 0)
+            let facing = simd_normalize(out + SIMD3(0, 0.1, 0))
+            m.paint = Paint(slot: leaves.slot, shade: Float(rng.range(0.94, 1.05)), flags: leaves.flags.union(.leafCard), sway: 1)
+            m.extra = SIMD4(0.9, 0.95, 0, Float(rng.unit()))
+            addCard(&m, center: center, facing: facing, half: SIMD2(width, length / 2), roll: 0,
+                    cell: LeafAtlas.cell(.strands, variant: Int(rng.next() % 4)), bent: simd_normalize(out + SIMD3(0, -0.2, 0)))
+        }
+    }
+
+    /// One hanging willow curtain: a tapered, slightly flattened cone hanging from the crown's rim.
+    struct Curtain {
+        /// Direction around the trunk (radians), distance of the curtain's axis from the trunk at the
+        /// top, top height, length, tangential half-width and radial half-depth at the top.
+        var angle: Float, reach: Float, top: Float, length: Float, width: Float, depth: Float
+        /// Sides around, and rings counting the tip (2 = a plain hanging cone).
+        var sides: Int, rings: Int
+        var triangles: Int { sides * 2 * (rings - 2) + sides }
+    }
+
+    /// Willow curtains per detail level (vegetation-v1 addendum: 6–10 tapered hanging groups, 2–4 at
+    /// medium distance, uneven lengths and gaps): near 6 five-sided curtains with a bend ring, mid 3
+    /// four-sided, far 4 three-sided spikes; their tops sit inside the rim lobes. Fixed per archetype
+    /// (instances vary by yaw and stretch), so no season or distance switch rerolls them.
+    static func willowCurtains(lod: Int) -> [Curtain] {
+        var r = StableRandom(PropKind.treeWeeping.rawValue.hashValueStable, 7, salt: "curtains")
+        let count = [6, 3, 4, 0][min(lod, 3)]
+        let sides = [5, 4, 3, 3][min(lod, 3)], rings = lod == 0 ? 3 : 2
+        let phase = Float(r.range(0, 2 * .pi))
+        return (0..<count).map { k in
+            let a = phase + Float(k) / Float(count) * 2 * .pi + Float(r.range(-0.25, 0.25))
+            let grow: Float = lod == 0 ? 1 : 1.25
+            return Curtain(angle: a, reach: Float(r.range(0.27, 0.33)), top: Float(r.range(0.72, 0.76)), length: Float(r.range(0.3, 0.42)),
+                           width: Float(r.range(0.14, 0.17)) * grow, depth: 0.05 * grow, sides: sides, rings: rings)
+        }
+    }
+
+    /// Adds curtains with the crown's paint: thresholds 0.95 (their leaves go first in autumn), normals
+    /// out from each curtain's own axis (so they shade as hanging folds).
+    static func addCurtains(_ m: inout MeshBuffers, _ curtains: [Curtain]) {
+        for c in curtains {
+            let start = m.positions.count
+            let out = SIMD3<Float>(cos(c.angle), 0, sin(c.angle)), side = SIMD3<Float>(-sin(c.angle), 0, cos(c.angle))
+            func axis(_ t: Float) -> SIMD3<Float> {
+                // Hangs a little outward as it falls, like drooping branchlets.
+                out * (c.reach + 0.06 * t * t) + SIMD3(0, c.top - c.length * t, 0)
+            }
+            var rings: [[UInt32]] = []
+            for j in 0..<(c.rings - 1) {
+                let t = Float(j) / Float(c.rings - 1)
+                let taper = 1 - 0.55 * t
+                rings.append((0..<c.sides).map { s in
+                    let u = Float(s) / Float(c.sides) * 2 * .pi
+                    let d = side * (cos(u) * c.width * taper) + out * (sin(u) * c.depth * taper)
+                    let n = simd_normalize(side * (cos(u) / c.width) + out * (sin(u) / c.depth) + SIMD3(0, -0.15, 0))
+                    return m.addVertex(axis(t) + d, normal: n)
+                })
+            }
+            for j in 1..<rings.count {
+                let a = rings[j - 1], b = rings[j]
+                for s in 0..<c.sides {
+                    let s1 = (s + 1) % c.sides
+                    m.addTriangle(a[s], b[s1], a[s1])
+                    m.addTriangle(a[s], b[s], b[s1])
+                }
+            }
+            // Tapered tip: one vertex per side, each keeping its side's normal.
+            let last = rings[rings.count - 1], tip = axis(1)
+            for s in 0..<c.sides {
+                let s1 = (s + 1) % c.sides
+                let n = simd_normalize(m.normals[Int(last[s])] + m.normals[Int(last[s1])] + SIMD3(0, -0.6, 0))
+                let t = m.addVertex(tip, normal: n)
+                m.addTriangle(last[s], t, last[s1])
+            }
+            for i in start..<m.positions.count { m.extras[i].y = 0.95 }
+        }
     }
 
     /// A crown vertex normal: the lobe's own normal softened toward the crown ellipsoid's, so lobes
@@ -536,6 +838,23 @@ public struct PropLibrary: Sendable {
     /// the normal never turns away from its face.
     static func blendedCrownNormal(_ lobe: SIMD3<Float>, crown: SIMD3<Float>) -> SIMD3<Float> {
         simd_normalize(lobe + crown * max(0, simd_dot(lobe, crown)))
+    }
+
+    /// The crown form key of a deciduous archetype (profile `crownWeights`, `SeasonalPalette.crownColors`).
+    static func crownForm(_ kind: PropKind) -> String {
+        kind == .treeOval ? "oval" : kind == .treeSpreading ? "spreading" : kind == .treeWeeping ? "weeping" : "broad"
+    }
+
+    /// Crown slot and colour-variant flag for a deciduous archetype: its form's colour family from the
+    /// seasonal palette (first slot + 1, 2 or 4 consecutive slots picked per instance by the shader),
+    /// else deciduous1…4. A family that leaves the deciduous slots falls back too.
+    public static func crownPaint(_ kind: PropKind, palette: Palette) -> (slot: Int, flags: Paint.Flags) {
+        let fallback = (palette.named("deciduous1"), Paint.Flags.variant4)
+        guard let family = palette.crownColors[crownForm(kind)], let first = SeasonalPalette.order.firstIndex(of: family.first),
+              [1, 2, 4].contains(family.count), first + family.count <= SeasonalPalette.order.count,
+              SeasonalPalette.order[first..<(first + family.count)].allSatisfy({ $0.hasPrefix("deciduous") })
+        else { return fallback }
+        return (palette.named(family.first), family.count == 4 ? .variant4 : family.count == 2 ? .variant2 : [])
     }
 
     /// Triangle ceiling per deciduous tree at near detail (within `lodDistances[0]`, a few dozen trees).
@@ -633,7 +952,7 @@ public struct PropLibrary: Sendable {
     /// threshold 0.5) and, with `trunk`, the trunk as one vertical card (two triangles back to back, from
     /// the ground into the crown) so distant crowns don't float above the ground; no branches.
     static func skylineTree(_ shape: TreeShape, palette: Palette, trunkRadius: Float, trunk: Bool = skylineTrunk,
-                            shell: CrownShell? = nil) -> MeshBuffers {
+                            shell: CrownShell? = nil, kind: PropKind = .treeBroad) -> MeshBuffers {
         var m = MeshBuffers()
         let shell = shell ?? skylineCrownShell(shape)
         if trunk {
@@ -646,7 +965,8 @@ public struct PropLibrary: Sendable {
             }
             m.bakeAO(from: 0) { p, _ in trunkAO(p, shape) }
         }
-        m.paint = Paint(slot: palette.named("deciduous1"), shade: skylineShade, flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, shade: skylineShade, flags: leaves.flags, sway: 1)
         let start = m.positions.count, base = UInt32(start)
         for (p, n) in zip(shell.corners, shell.normals) { m.addVertex(p, normal: n) }
         for f in shell.faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
@@ -661,10 +981,20 @@ public struct PropLibrary: Sendable {
     /// in the distant band, about 28 px at 400 m on a portrait phone).
     static let skylineTrunk = true
 
-    /// Trunk AO: 0.85, darker where the trunk enters the crown.
+    /// Trunk AO: ground contact `trunkBaseAO` at the base rising to 1 by `trunkBaseAOHeight`
+    /// (vegetation-v1: a restrained 10–20% ambient reduction within about 0.15–0.4 m of the trunk base, no
+    /// black ring; the renderer adds its own darkening near the ground), and darker where the trunk
+    /// enters the crown (×0.55 at the fork).
     static func trunkAO(_ p: SIMD3<Float>, _ shape: TreeShape) -> Float {
-        Float(0.85 - 0.3 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y)))
+        let base = Double(trunkBaseAO) + (1 - Double(trunkBaseAO)) * smoothstep(0, Double(trunkBaseAOHeight), Double(p.y))
+        return Float(base * (1 - 0.45 * smoothstep(Double(shape.trunkTop) - 0.12, Double(shape.trunkTop), Double(p.y))))
     }
+
+    /// Trunk AO at the ground (a 16% reduction).
+    static let trunkBaseAO: Float = 0.84
+    /// Height (share of the unit-height tree) over which trunk AO rises to 1: 0.025 ≈ 0.38 m on a 15 m
+    /// tree (Evanston median), 0.1–0.15 m on young 4–6 m trees.
+    static let trunkBaseAOHeight: Float = 0.025
 
     /// The mid crown's lobes: the top lobe and the first side lobe, 1.25× larger.
     static func midLobes(_ shape: TreeShape) -> [(SIMD3<Float>, Float)] {
@@ -715,7 +1045,8 @@ public struct PropLibrary: Sendable {
     /// the limbs' end forks, then the top branches, as the budget allows (the bare winter outline), each
     /// kept inside a lobe's inscribed sphere.
     static func farTree(_ shape: TreeShape, skeleton: [Bough], trunkRadius: Float, palette: Palette,
-                        large: Polyhedron? = nil, small: Polyhedron? = nil, budget: Int = treeTriangleBudget.far) -> MeshBuffers {
+                        large: Polyhedron? = nil, small: Polyhedron? = nil, budget: Int = treeTriangleBudget.far,
+                        kind: PropKind = .treeBroad) -> MeshBuffers {
         var m = MeshBuffers()
         let lobes = farLobes(shape, large: large, small: small)
         let crown = farEnvelope(lobes)
@@ -728,7 +1059,8 @@ public struct PropLibrary: Sendable {
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
         let crownTriangles = lobes.reduce(0) { $0 + $1.polyhedron.faces.count }
         addBareBranches(&m, skeleton, lod: 2, trunkSides: 3, within: crown, farSpikes: max(0, (budget - crownTriangles - 3) / 3))
-        m.paint = Paint(slot: palette.named("deciduous1"), flags: .variant4, sway: 1)
+        let leaves = crownPaint(kind, palette: palette)
+        m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let start = m.positions.count
         for (k, lobe) in lobes.enumerated() {
             let lobeStart = m.positions.count, base = UInt32(lobeStart)
@@ -740,6 +1072,7 @@ public struct PropLibrary: Sendable {
             for f in lobe.polyhedron.faces { m.addTriangle(base + f.x, base + f.y, base + f.z) }
             for i in lobeStart..<m.positions.count { m.extras[i].y = lobeThreshold(k, of: lobes.count) }
         }
+        if kind == .treeWeeping { addCurtains(&m, willowCurtains(lod: 2)) }
         bakeCrownAO(&m, from: start, crown: shape.crown, radii: shape.radii, lobes: Array(shape.lobes.prefix(lobes.count)))
         return m
     }
@@ -796,16 +1129,22 @@ public struct PropLibrary: Sendable {
         return (units, oriented(faces, units))
     }
 
-    /// Crown AO: lower and interior parts darker, lobe overlaps darker (R1).
+    /// Crown AO: lower and interior parts darker, lobe overlaps darker (R1), and each lobe's underside
+    /// (faces turned down) at most `crownUndersideAO`, so lobes read as sitting over shade
+    /// (vegetation-v1: gentle vertex AO in intersections and under the crown, no dark outlines).
     static func bakeCrownAO(_ m: inout MeshBuffers, from start: Int, crown: SIMD3<Float>, radii: SIMD3<Float>, lobes: [(SIMD3<Float>, Float)]) {
         for i in start..<m.positions.count {
             let p = m.positions[i]
             let rel = (p.y - crown.y) / radii.y
             var ao = 0.66 + 0.34 * Float(smoothstep(-1.0, 0.7, Double(rel)))
+            ao = min(ao, 1 - (1 - crownUndersideAO) * Float(smoothstep(0.2, 0.8, Double(-m.normals[i].y))))
             for (c, r) in lobes where simd_distance(p, c) < r * 0.98 { ao *= 0.86 }
             m.extras[i].x = min(m.extras[i].x, ao)
         }
     }
+
+    /// AO on crown lobes' lower faces (normals turned down by more than about 50°).
+    static let crownUndersideAO: Float = 0.75
 
     // MARK: - Bare branches
 
@@ -869,6 +1208,13 @@ public struct PropLibrary: Sendable {
                             stagger: 0.35, outward: 0.3, limbReach: 0.55, limb: 0.6, bow: -0.04,
                             fork: 0.42, tilt: 0.5, rise: 0.4, inner: 0.45, branchReach: 0.88,
                             innerTwigs: 3, endTwigs: 4, spray: 0.55, twigRise: 0.35)
+            case .treeWeeping:
+                // Willow: a broad, uneven scaffold; limbs rise from a low fork and arch out under the
+                // dome; few twigs (the curtains hide the interior).
+                BranchStyle(leaderReach: 0.5, topBranches: 2, topFan: 0.7, topAt: 0.5,
+                            stagger: 0, outward: 0.45, limbReach: 0.62, limb: 0.66, bow: 0.05,
+                            fork: 0.5, tilt: 0.6, rise: 0.1, inner: 0.7, branchReach: 0.88,
+                            innerTwigs: 1, endTwigs: 1, spray: 0.6, twigRise: 0.1, limbs: 4)
             case .treeSpreading:
                 // Vase: limbs from one low fork rise, then flare wide; a short leader.
                 BranchStyle(leaderReach: 0.45, topBranches: 2, topFan: 0.75, topAt: 0.5,
@@ -1214,7 +1560,7 @@ public struct PropLibrary: Sendable {
         return (verts, faces)
     }
 
-    static func conifer(lod: Int, palette: Palette, rng: inout StableRandom) -> MeshBuffers {
+    static func conifer(lod: Int, palette: Palette, rng: inout StableRandom, cards: Bool = false, smooth: Bool = false) -> MeshBuffers {
         var m = MeshBuffers()
         if lod == 3 {
             // Skyline: the far cone alone, no trunk and open underneath (5 triangles).
@@ -1225,10 +1571,20 @@ public struct PropLibrary: Sendable {
         }
         m.paint = Paint(slot: palette.named("bark"))
         addCylinder(&m, radius: 0.018, z0: 0, z1: 0.22, sides: lod == 0 ? 6 : 3, smooth: true, cap: false)
-        m.bakeAO(from: 0) { p, _ in p.y > 0.15 ? 0.6 : 0.85 }
+        m.bakeAO(from: 0) { p, _ in p.y > 0.15 ? 0.6 : trunkBaseAO }
         m.paint = Paint(slot: palette.named("conifer1"), flags: .variant2, sway: 0.5)
         let start = m.positions.count
-        if lod == 0 {
+        if smooth && lod < 2 {
+            // Puff style: more, smoother tiers (12 or 8 sides, smooth normals), staggered and a little
+            // irregular in radius, so the near spire has no big flat polygons.
+            let count = lod == 0 ? 9 : 5
+            for k in 0..<count {
+                let t = Float(k) / Float(count - 1)
+                let z0 = 0.12 + 0.66 * t + Float(rng.range(-0.01, 0.01))
+                let r = (0.27 - 0.21 * t) * Float(rng.range(0.9, 1.06))
+                addCone(&m, radius: r, z0: z0, z1: k == count - 1 ? 1.0 : z0 + 0.24 - 0.08 * t, sides: lod == 0 ? 12 : 8)
+            }
+        } else if lod == 0 {
             // Near: staggered tiers with ragged, drooping rims (branch tips) and apexes a little off the
             // axis, so the spire reads as layered boughs rather than stacked cones.
             // Spruce (vegetation-v1): irregular taper of 7 drooping, staggered tiers with broken lengths.
@@ -1244,6 +1600,7 @@ public struct PropLibrary: Sendable {
                 : [(0.14, 0.58, 0.26), (0.38, 0.8, 0.2), (0.6, 1.0, 0.13)]
             for (z0, z1, r) in tiers { addCone(&m, radius: r, z0: z0, z1: z1, sides: lod == 1 ? 7 : 5) }
         }
+        if cards && lod < 2 { addNeedleCards(&m, lod: lod, palette: palette, rng: &rng) }
         m.bakeAO(from: start) { p, n in n.y < -0.5 ? 0.6 : Float(0.7 + 0.3 * smoothstep(0.1, 0.9, Double(p.y))) }
         return m
     }
@@ -1357,6 +1714,30 @@ public struct PropLibrary: Sendable {
             return m.addVertex(SIMD3(cos(a) * r, y0, sin(a) * r), normal: simd_normalize(SIMD3(cos(a), slope, sin(a))))
         }
         for i in 0..<sides { m.addTriangle(apex, ring[(i + 1) % sides], ring[i]) }
+    }
+
+    /// Needle-spray cards on a spruce (vegetation-v1: irregular drooping tiers): near 32, mid 10, in
+    /// rings down the spire, each card hanging out and a little down from the axis at the tiers'
+    /// edge, so the outline breaks into needle sprays over the solid tiers. Evergreen: leaf
+    /// threshold 0 (never dropped), sway 0.5 like the tiers.
+    static func addNeedleCards(_ m: inout MeshBuffers, lod: Int, palette: Palette, rng: inout StableRandom) {
+        let count = lod == 0 ? 32 : 10
+        let slot = palette.named("conifer1")
+        for k in 0..<count {
+            let t = (Float(k) + 0.5) / Float(count)
+            let y = 0.16 + 0.74 * t + Float(rng.range(-0.02, 0.02))
+            let radius = 0.26 * (1 - 0.82 * t) * Float(rng.range(0.85, 1.05))
+            let a = Float(k) * 2.4 + Float(rng.range(-0.3, 0.3))
+            let out = SIMD3<Float>(cos(a), 0, sin(a))
+            let center = out * (radius * 0.95) + SIMD3(0, y, 0)
+            let facing = simd_normalize(out + SIMD3(0, 0.35, 0) + SIMD3(Float(rng.range(-0.3, 0.3)), 0, Float(rng.range(-0.3, 0.3))))
+            let half = max(0.04, radius * Float(lod == 0 ? rng.range(0.7, 0.9) : rng.range(0.9, 1.1)))
+            m.paint = Paint(slot: slot, shade: Float(rng.range(0.94, 1.05)), flags: [.variant2, .leafCard], sway: 0.5)
+            m.extra = SIMD4(Float(0.7 + 0.3 * smoothstep(0.1, 0.9, Double(y))), 0, 0, Float(rng.unit()))
+            addCard(&m, center: center, facing: facing, half: SIMD2(half, half * 0.8), roll: .pi + Float(rng.range(-0.4, 0.4)),
+                    cell: LeafAtlas.cell(.needles, variant: Int(rng.next() % 4)), bent: simd_normalize(out + SIMD3(0, 0.3, 0)))
+        }
+        m.extra = SIMD4(1, 0, 0, 0)
     }
 
     /// A conifer tier: a cone whose rim alternates `tips` outer branch tips (full radius ±8%, drooping

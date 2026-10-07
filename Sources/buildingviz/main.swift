@@ -12,7 +12,7 @@ let usage = """
 buildingviz --area DIR --profile ID --out out.png
   [--center LAT,LON | --local X,Y] [--radius 60] [--lod near|mid|far|skyline]
   [--yaw 210] [--pitch 35] [--dist 90] [--fov 40] [--width 1600] [--height 900]
-  [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1]
+  [--sun-azimuth 225 --sun-elevation 35] [--ssaa 2] [--roads 1] [--crown-style solid|leafCards|puffs] [--leaf-cards] [--eye-height 1.7]
 buildingviz --gallery --profile ID --out out.png [--shapes rectangle,L,T,...] [--ids 6]
   [--local X,Y] (same camera options; camera auto-fits the grid unless --dist is given; gallery default yaw 0 pitch 50;
   --local aims at one cell: footprints start at x = 25 × column, y = −48 × row)
@@ -34,7 +34,7 @@ do {
         let a = args[i]
         guard a.hasPrefix("--") else { fail("unexpected argument \(a)\n\(usage)") }
         let key = String(a.dropFirst(2))
-        if ["gallery", "help", "scene", "zones", "mix"].contains(key) { flags.insert(key); i += 1; continue }
+        if ["gallery", "help", "scene", "zones", "mix", "leaf-cards"].contains(key) { flags.insert(key); i += 1; continue }
         guard i + 1 < args.count else { fail("missing value for \(a)") }
         opts[key] = args[i + 1]
         i += 2
@@ -150,6 +150,14 @@ if flags.contains("mix"), let s = sceneBuild?.scene {
     exit(0)
 }
 
+// Crown style for trees (solid default, leafCards, puffs).
+var crownStyle = PropLibrary.crownStyle
+if let s = opts["crown-style"] {
+    guard let style = PropLibrary.CrownStyle(rawValue: s) else { fail("--crown-style must be solid|leafCards|puffs") }
+    crownStyle = style
+}
+if flags.contains("leaf-cards") { crownStyle = .leafCards }
+
 // MARK: - Assemble scene
 
 var scene = Scene()
@@ -173,7 +181,15 @@ addQuad(gc + SIMD3(-extent, 0, extent), gc + SIMD3(extent, 0, extent), gc + SIMD
 if let build = sceneBuild {
     let pal = build.scene.palette
     let reach = Float(radius * 2.5)
-    func addMesh(_ m: MeshBuffers, transform: simd_float4x4? = nil, cull: Bool) {
+    /// The shaders' hash12 (WorldShaders.metal), for per-instance colour variants (`paletteSlot`).
+    func hash12(_ p: SIMD2<Float>) -> Float {
+        func fract(_ v: Float) -> Float { v - v.rounded(.down) }
+        var p3 = SIMD3<Float>(fract(p.x * 0.1031), fract(p.y * 0.1031), fract(p.x * 0.1031))
+        p3 += simd_dot(p3, SIMD3(p3.y, p3.z, p3.x) + 33.33)
+        return fract((p3.x + p3.y) * p3.z)
+    }
+    func addMesh(_ m: MeshBuffers, transform: simd_float4x4? = nil, cull: Bool, smooth: Bool = false) {
+        let origin = transform.map { SIMD2<Float>($0.columns.3.x, $0.columns.3.z) } ?? .zero
         var k = 0
         while k + 2 < m.indices.count {
             let i0 = Int(m.indices[k]), i1 = Int(m.indices[k + 1]), i2 = Int(m.indices[k + 2])
@@ -186,17 +202,42 @@ if let build = sceneBuild {
             let mid = (a + b + c) / 3
             if simd_length(SIMD2(mid.x - target.x, mid.z - target.z)) > reach { continue }
             let p0 = m.paints[i0]
-            let slot = min(max(0, Int(p0.x)), pal.colors.count - 1)
+            var slot = Int(p0.x)
+            let flags = Int(p0.z + 0.5)
+            if flags & 32 != 0 { slot += Int(hash12(origin * 0.173) * 3.999) }
+            if flags & 64 != 0 { slot += Int(hash12(origin * 0.211) * 1.999) }
+            slot = min(max(0, slot), pal.colors.count - 1)
+            var uv: (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>)? = nil, normal: SIMD3<Float>? = nil
+            if flags & 512 != 0, m.uvs.count == m.positions.count {
+                uv = (m.uvs[i0], m.uvs[i1], m.uvs[i2])
+                if let t = transform {
+                    let n = t * SIMD4(m.normals[i0], 0)
+                    normal = simd_normalize(SIMD3(n.x, n.y, n.z))
+                } else { normal = m.normals[i0] }
+            }
             let ao = (m.extras[i0].x + m.extras[i1].x + m.extras[i2].x) / 3
-            scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull))
+            var vn: (SIMD3<Float>, SIMD3<Float>, SIMD3<Float>)? = nil
+            if smooth, uv == nil {
+                func tn(_ n: SIMD3<Float>) -> SIMD3<Float> {
+                    guard let t = transform else { return n }
+                    let rot = simd_float3x3(SIMD3(t.columns.0.x, t.columns.0.y, t.columns.0.z), SIMD3(t.columns.1.x, t.columns.1.y, t.columns.1.z),
+                                            SIMD3(t.columns.2.x, t.columns.2.y, t.columns.2.z))
+                    return simd_normalize(rot.inverse.transpose * n)
+                }
+                vn = (tn(m.normals[i0]), tn(m.normals[i1]), tn(m.normals[i2]))
+            }
+            scene.tris.append(.init(a: a, b: b, c: c, color: pal.colors[slot], shade: p0.y, ao: ao, glass: (Int(p0.z) & 1) != 0, cull: cull && uv == nil,
+                                    uv: uv, normal: normal, vertexNormals: vn,
+                                    vertexAO: smooth ? SIMD3(m.extras[i0].x, m.extras[i1].x, m.extras[i2].x) : nil))
         }
     }
+    scene.atlas = PropLibrary.leafAtlas
     for chunk in build.scene.chunks { addMesh(chunk.staticMesh, cull: true); addMesh(chunk.waterMesh, cull: true) }
     var propMeshes: [String: MeshBuffers] = [:]
     for inst in build.scene.instances where simd_length(LocalPoint(inst.x, inst.y) - centerLocal) < Double(reach) {
         let key = "\(inst.kind.rawValue)-\(inst.variant)"
-        if propMeshes[key] == nil { propMeshes[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: 0, palette: pal) }
-        addMesh(propMeshes[key]!, transform: inst.transform, cull: true)
+        if propMeshes[key] == nil { propMeshes[key] = PropLibrary.mesh(inst.kind, variant: inst.variant, lod: 0, palette: pal, style: crownStyle) }
+        addMesh(propMeshes[key]!, transform: inst.transform, cull: true, smooth: true)
     }
     let st = build.scene.stats
     print("scene: profile \(build.profile.id) lots \(st["lots"] ?? 0) walks \(st["walks"] ?? 0) driveways \(st["driveways"] ?? 0) beds \(st["beds"] ?? 0) shrubs \(st["shrubs"] ?? 0) hedgeSegments \(st["hedgeSegments"] ?? 0) yardTrees \(st["yardTrees"] ?? 0) streetTrees \(st["streetTrees"] ?? 0) yardMillis \(st["yardMillis"] ?? 0) [raster \(st["yardMsRaster"] ?? 0) assign \(st["yardMsAssign"] ?? 0) lots \(st["yardMsLots"] ?? 0) street \(st["yardMsStreet"] ?? 0)] instances \(build.scene.instances.count)")
@@ -264,8 +305,13 @@ if isGallery, opts["dist"] == nil {
     let depthSpan = hy * sin(pitchDeg * .pi / 180) + 8 * cos(pitchDeg * .pi / 180)
     dist = Float(max(depthSpan / tanV, hx / (tanV * aspect)) * 1.08)
 }
-let camera = Camera(target: target, yaw: Float(num("yaw", yawDefault)), pitch: Float(num("pitch", pitchDefault)),
+var camera = Camera(target: target, yaw: Float(num("yaw", yawDefault)), pitch: Float(num("pitch", pitchDefault)),
                     distance: dist, fovDegrees: fov)
+// --eye-height H: a street-level camera standing at the centre, H m above the ground, looking along
+// yaw/pitch (the target moves `dist` ahead of the eye).
+if opts["eye-height"] != nil {
+    camera.target = LocalFrame.scenePosition(centerLocal, y: num("eye-height", 1.7)) + camera.forward * dist
+}
 let az = Float(num("sun-azimuth", 225)) * .pi / 180, el = Float(num("sun-elevation", 35)) * .pi / 180
 let sun = SIMD3<Float>(sin(az) * cos(el), sin(el), -cos(az) * cos(el))
 let width = Int(num("width", isGallery ? galleryWidthDefault : 1600)), height = Int(num("height", isGallery ? galleryHeightDefault : 900))

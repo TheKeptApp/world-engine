@@ -29,8 +29,11 @@ private func building(_ id: Int64, _ ring: Ring, type: String = "house", tags ex
 }
 
 /// Every triangle's winding agrees with its vertex normals (no inside-out faces).
+/// Leaf cards (`Paint.Flags.leafCard`) are exempt: quads drawn from both sides, normals bent out from
+/// the crown centre on both sides.
 private func windingConsistent(_ m: MeshBuffers) -> Bool {
     for t in 0..<m.triangleCount {
+        if Int(m.paints[Int(m.indices[t * 3])].z + 0.5) & Int(Paint.Flags.leafCard.rawValue) != 0 { continue }
         let face = m.faceCross(t)
         guard simd_length(face) > 1e-7 else { continue }
         let n = m.normals[Int(m.indices[t * 3])] + m.normals[Int(m.indices[t * 3 + 1])] + m.normals[Int(m.indices[t * 3 + 2])]

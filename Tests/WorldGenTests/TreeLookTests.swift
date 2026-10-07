@@ -48,11 +48,11 @@ struct PropTreeLookTests {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
         let size = 160
-        let above = Self.outline(TreeSilhouetteTests.mask(m, crown, fromAbove: true, size: size), size: size).radii
+        let above = Self.outline(TreeSilhouetteTests.mask(m, crown, fromAbove: true, size: size, atlas: PropLibrary.leafAtlas), size: size).radii
         let plan = (above.max()! - above.min()!) / above.max()!
         var side: [Float] = []
         for k in 0..<4 {
-            let mask = TreeSilhouetteTests.mask(m, crown, yaw: Float(k) * .pi / 4, size: size)
+            let mask = TreeSilhouetteTests.mask(m, crown, yaw: Float(k) * .pi / 4, size: size, atlas: PropLibrary.leafAtlas)
             var lo = SIMD2<Int>(size, size), hi = SIMD2<Int>(0, 0)
             for y in 0..<size { for x in 0..<size where mask[y * size + x] { lo = simd_min(lo, SIMD2(x, y)); hi = simd_max(hi, SIMD2(x, y)) } }
             let half = SIMD2<Float>(Float(hi.x - lo.x), Float(hi.y - lo.y)) / 2
@@ -102,7 +102,7 @@ struct PropTreeLookTests {
     func crownHasSkyHoles(_ kind: PropKind, _ target: Float) throws {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
-        let shares = (0..<4).map { Self.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160), size: 160) }
+        let shares = (0..<4).map { Self.holeShare(TreeSilhouetteTests.mask(m, crown, yaw: Float($0) * .pi / 4, size: 160, atlas: PropLibrary.leafAtlas), size: 160) }
         let mean = shares.reduce(0, +) / 4
         print("SKYHOLES \(kind.rawValue) \(shares.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", mean)) target \(target)")
         #expect(mean >= 0.6 * target, "\(kind): sky holes \(mean) of the outline, target \(target)")
@@ -133,5 +133,38 @@ struct PropTreeLookTests {
                 && simd_length(SIMD2(m.positions[v].x, m.positions[v].z)) > 0.05
         }
         #expect(!low.isEmpty, "\(kind): no branch stubs below the fork")
+    }
+}
+
+/// Crown style `.puffs` (style-check prototype): within the near/mid budgets, a flared trunk with
+/// scaffold limbs, smooth puff normals, darker inside; far and skyline as the solid style.
+@Suite("Puff crowns")
+struct PuffCrownTests {
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .treeWeeping])
+    func puffTreesFitAndShadeInside(_ kind: PropKind) throws {
+        let palette = try TreeSilhouetteTests.palette()
+        let meshes = (0..<4).map { PropLibrary.mesh(kind, variant: 0, lod: $0, palette: palette, style: .puffs) }
+        print("TREELOD puffs \(kind.rawValue) \(meshes.map(\.triangleCount))")
+        #expect(meshes[0].triangleCount <= PropLibrary.nearTriangleBudget && meshes[1].triangleCount <= 250, "\(meshes.map(\.triangleCount))")
+        for lod in 2..<4 { #expect(meshes[lod] == PropLibrary.mesh(kind, variant: 0, lod: lod, palette: palette, style: .solid)) }
+        let m = meshes[0]
+        // Root flare: the trunk is wider at the ground than a little way up.
+        func trunkRadius(near y: Float) -> Float {
+            (0..<m.vertexCount).filter { TreeSilhouetteTests.part(m, vertex: $0) == .trunk && abs(m.positions[$0].y - y) < 0.002 }
+                .map { simd_length(SIMD2(m.positions[$0].x, m.positions[$0].z)) }.max() ?? 0
+        }
+        #expect(trunkRadius(near: 0) >= 1.1 * trunkRadius(near: 0.008), "\(kind): no root flare")
+        // Scaffold limbs (bark, sway 0.3) reach into the crown.
+        #expect((0..<m.vertexCount).contains { TreeSilhouetteTests.part(m, vertex: $0) == .branch && m.positions[$0].y > PropLibrary.lobes(kind).trunkTop + 0.1 })
+        // Darker inside: crown faces turned toward the crown centre have lower AO than those facing out.
+        let shape = PropLibrary.lobes(kind)
+        var inward: [Float] = [], outward: [Float] = []
+        for v in 0..<m.vertexCount where TreeSilhouetteTests.part(m, vertex: v) == .crown && !(kind == .treeWeeping && m.extras[v].y == 0.95) {
+            let d = simd_dot(m.normals[v], simd_normalize(m.positions[v] - shape.crown))
+            if d < -0.3 { inward.append(m.extras[v].x) } else if d > 0.3 { outward.append(m.extras[v].x) }
+        }
+        let mean = { (a: [Float]) in a.reduce(0, +) / Float(max(a.count, 1)) }
+        print("PUFFAO \(kind.rawValue) inward \(mean(inward)) outward \(mean(outward))")
+        #expect(mean(inward) + 0.1 < mean(outward), "\(kind): inside not darker")
     }
 }

@@ -3,6 +3,7 @@ import simd
 import CoreGraphics
 import ImageIO
 import UniformTypeIdentifiers
+import WorldGen
 
 /// Orbit camera. `yaw` is the compass direction the camera looks toward (0 = north, 90 = east),
 /// `pitch` is degrees down from horizontal. Scene axes: x east, y up, z = -north.
@@ -25,6 +26,12 @@ struct ScreenTriangle {
     var x0: Double, y0: Double, x1: Double, y1: Double, x2: Double, y2: Double
     var iz0: Double, iz1: Double, iz2: Double
     var color: SIMD3<Float>
+    /// Smooth (Gouraud) shading: colours at the second and third corners (`color` is the first's).
+    var smooth = false
+    var color1 = SIMD3<Float>.zero, color2 = SIMD3<Float>.zero
+    /// Alpha-tested (leaf card): texture coordinates per corner, divided by depth (perspective-correct).
+    var cutout = false
+    var uz0 = SIMD2<Double>.zero, uz1 = SIMD2<Double>.zero, uz2 = SIMD2<Double>.zero
 }
 
 /// Collects world-space triangles, then projects, clips, bins and rasterizes them.
@@ -37,8 +44,17 @@ struct Scene {
         var ao: Float
         var glass: Bool
         var cull: Bool
+        /// Leaf card: atlas texture coordinates per corner (alpha-tested at 0.5 against `Scene.atlas`)
+        /// and the card's bent normal for lighting.
+        var uv: (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>)? = nil
+        var normal: SIMD3<Float>? = nil
+        /// Smooth shading: vertex normals and AO per corner (props), lit per corner and interpolated.
+        var vertexNormals: (SIMD3<Float>, SIMD3<Float>, SIMD3<Float>)? = nil
+        var vertexAO: SIMD3<Float>? = nil
     }
     var tris: [Tri] = []
+    /// Coverage atlas for alpha-tested triangles.
+    var atlas: LeafAtlas? = nil
 }
 
 struct SceneRenderer {
@@ -82,7 +98,7 @@ struct SceneRenderer {
             // Back-face culling on the geometric (winding) normal.
             if t.cull, simd_dot(n, t.a - camPos) >= 0 { continue }
             // Flat shading.
-            let diffuse = max(0, simd_dot(n, sunDirection))
+            let diffuse = max(0, simd_dot(t.normal ?? n, sunDirection))
             var color: SIMD3<Float>
             if t.glass {
                 color = SIMD3<Float>(0.16, 0.21, 0.27) * (0.6 + 0.4 * diffuse)
@@ -90,34 +106,49 @@ struct SceneRenderer {
                 color = t.color * t.shade * (0.45 + 0.55 * diffuse) * (0.55 + 0.45 * t.ao)
             }
             color = simd_clamp(color, SIMD3(repeating: 0), SIMD3(repeating: 1))
+            var corner: [SIMD3<Float>]? = nil
+            if let vn = t.vertexNormals, !t.glass {
+                let ao = t.vertexAO ?? SIMD3(repeating: t.ao)
+                corner = [vn.0, vn.1, vn.2].enumerated().map { i, n in
+                    let d = max(0, simd_dot(simd_normalize(n), sunDirection))
+                    return simd_clamp(t.color * t.shade * (0.45 + 0.55 * d) * (0.55 + 0.45 * ao[i]), SIMD3(repeating: 0), SIMD3(repeating: 1))
+                }
+            }
 
             let ca = toCam(t.a), cb = toCam(t.b), cc = toCam(t.c)
+            let uvs = t.uv.map { [SIMD2<Double>($0.0), SIMD2<Double>($0.1), SIMD2<Double>($0.2)] }
             if ca.z >= near && cb.z >= near && cc.z >= near {
-                emit(ca, cb, cc)
+                emit(ca, cb, cc, uvs?[0] ?? .zero, uvs?[1] ?? .zero, uvs?[2] ?? .zero, corner ?? [color, color, color])
             } else if ca.z < near && cb.z < near && cc.z < near {
                 continue
             } else {
                 // Sutherland-Hodgman against z = near.
-                let poly = [ca, cb, cc]
-                var out: [SIMD3<Double>] = []
+                let poly = [ca, cb, cc], puv = uvs ?? [.zero, .zero, .zero], pc = corner ?? [color, color, color]
+                var out: [SIMD3<Double>] = [], outUV: [SIMD2<Double>] = [], outC: [SIMD3<Float>] = []
                 for i in 0..<3 {
                     let p = poly[i], q = poly[(i + 1) % 3]
                     let pin = p.z >= near, qin = q.z >= near
-                    if pin { out.append(p) }
+                    if pin { out.append(p); outUV.append(puv[i]); outC.append(pc[i]) }
                     if pin != qin {
                         let s = (near - p.z) / (q.z - p.z)
                         out.append(p + (q - p) * s)
+                        outUV.append(puv[i] + (puv[(i + 1) % 3] - puv[i]) * s)
+                        outC.append(pc[i] + (pc[(i + 1) % 3] - pc[i]) * Float(s))
                     }
                 }
                 if out.count >= 3 {
-                    for i in 1..<(out.count - 1) { emit(out[0], out[i], out[i + 1]) }
+                    for i in 1..<(out.count - 1) {
+                        emit(out[0], out[i], out[i + 1], outUV[0], outUV[i], outUV[i + 1], [outC[0], outC[i], outC[i + 1]])
+                    }
                 }
             }
 
-            func emit(_ a: SIMD3<Double>, _ b: SIMD3<Double>, _ c: SIMD3<Double>) {
+            func emit(_ a: SIMD3<Double>, _ b: SIMD3<Double>, _ c: SIMD3<Double>,
+                      _ ua: SIMD2<Double>, _ ub: SIMD2<Double>, _ uc: SIMD2<Double>, _ cs: [SIMD3<Float>]) {
                 let (x0, y0, i0) = project(a), (x1, y1, i1) = project(b), (x2, y2, i2) = project(c)
                 screen.append(ScreenTriangle(x0: x0, y0: y0, x1: x1, y1: y1, x2: x2, y2: y2,
-                                             iz0: i0, iz1: i1, iz2: i2, color: color))
+                                             iz0: i0, iz1: i1, iz2: i2, color: cs[0], smooth: corner != nil, color1: cs[1], color2: cs[2],
+                                             cutout: uvs != nil && scene.atlas != nil, uz0: ua * i0, uz1: ub * i1, uz2: uc * i2))
             }
         }
 
@@ -149,7 +180,7 @@ struct SceneRenderer {
                     binned.withUnsafeBufferPointer { bbuf in
                         let ctx = RasterContext(color: cbuf.baseAddress!, depth: dbuf.baseAddress!,
                                                 tris: sbuf.baseAddress!, bins: bbuf.baseAddress!, counts: counts,
-                                                W: W, H: H, bandH: bandH)
+                                                W: W, H: H, bandH: bandH, atlas: scene.atlas)
                         DispatchQueue.concurrentPerform(iterations: bands) { band in ctx.rasterize(band: band) }
                     }
                 }
@@ -183,6 +214,7 @@ struct RasterContext: @unchecked Sendable {
     var W: Int
     var H: Int
     var bandH: Int
+    var atlas: LeafAtlas?
 
     func rasterize(band: Int) {
         let yMin = band * bandH, yMax = min(H, yMin + bandH)
@@ -217,9 +249,13 @@ struct RasterContext: @unchecked Sendable {
                     if w0 < eps || w1 < eps || w2 < eps { continue }
                     let iz = Float(w0 * iz0 + w1 * iz1 + w2 * iz2)
                     let idx = y * W + x
+                    if t.cutout, iz > depth[idx], let atlas {
+                        let uv = (t.uz0 * w0 + t.uz1 * w1 + t.uz2 * w2) / Double(iz)
+                        if atlas.coverage(SIMD2<Float>(uv)) < 0.5 { continue }
+                    }
                     if iz > depth[idx] {
                         depth[idx] = iz
-                        color[idx] = t.color
+                        color[idx] = t.smooth ? t.color * Float(w0) + t.color1 * Float(w1) + t.color2 * Float(w2) : t.color
                     }
                 }
             }
