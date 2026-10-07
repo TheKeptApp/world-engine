@@ -31,6 +31,12 @@ Last checked: 2026-10-06 22:30 (P3).
 | live-world-v1 | `docs/proposals/live-world-v1/` | 2026-10-06 | Style-B live objects: rail vehicles (CTA, Metra-inspired, RTD-inspired), elevated rail and portals, planes and other live layers; styling in `live-style.json` | **landed** (reference) | 5A (render), L1 (contracts) | Landed 2026-10-06 (committed unedited, 15 MB). Not yet a P3 grading reference. |
 | paintover-v1 | `docs/proposals/paintover-v1/` | 2026-10-06 | ChatGPT paint-overs of six look-loop frames from `393ed1e` (ordinary-street, evanston-street, showcase-03 Sloan's Lake rain, showcase-06 smoke, v2-06 golden-hour aerial, lakeview-street): original + paint-over + phone comparison + numbered callouts per view; authored grade values in `paintover-values.json` | **landed** (in use) | 5A, P2, P3 | The originals (the captures) govern geometry: camera, roads, footprints, shoreline, object inventory; small silhouette/window/leaf differences are not targets. One documented artefact: the rain puddle in showcase-03 keeps a slightly rimmed edge (target is a flush sky reflection). P3: per-view paint-over target and paint-over parity (GRADING.md §P), calibrated blind by Opus. Text committed; 6 PNG paint-overs, 6 originals and 12 SVGs (all over 1 MB) local-only, backed up. |
 
+## Research (text, not design packs)
+
+| Research | Folder | Date | Covers | Status | Users | Notes |
+|---|---|---|---|---|---|---|
+| transit-feeds-top20 | `docs/research-gpt/` (`transit-feeds-top20.csv`, `README.md`) | 2026-10-06 | 32 US agencies: realtime feed, key/access, commercial use, redistribution, caching, attribution, rate limits, static GTFS URL, each with official citations; "unclear" where unknown | **landed** (reference; written by ChatGPT, committed unedited) | L1 (live world), P1 | P3 spot-checked 8 rows (2 verified, 4 corrected, 2 unclear: Metra 403, MBTA licence PDF unread); results in `docs/data-sources/metro-transit.csv`; lawyer questions Q33–Q38 in `docs/research/licensing.md`. No key values recorded. CTA and Pace are not in this list (covered in `docs/research/live-feeds.md`). |
+
 ## External packs (other projects, listed by path only)
 
 Listed at the owner's request, by path only; P3 does not read or use them. Paths to be confirmed by the owner (this repo's rules forbid looking inside other repos to find them).
@@ -62,3 +68,4 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-06 19:25: iCloud image backup started (150 files, 329 MB); rain-v1 arriving (3 images, pending).
 - 2026-10-06 20:00: verified local vs iCloud after 5A's move: nothing missing from ground-v1 or vegetation-v1; restored the two visual-v2 ZIPs locally from iCloud (gitignored); addenda landed (brick/stone, willow); rain-v1 landed; backup updated, keeping the earlier rain-v1 01 image as `.prev-2026-10-06`. Per pack local/iCloud: experience 11/11, ground 15/15, live-world 11/11, look-fix 21/21, postcards 45/45, rain 7/7, regions-chicagoland-miami 10/10, regions-v1 6/6, vegetation 11/11, visual-v1 11/11, visual-v2 11/11 (345 MB).
 - 2026-10-06 22:30: paintover-v1 landed (text committed unedited; 24 images local-only and backed up to iCloud, 39 MB; its 12 SVGs are all over 1 MB and gitignored). Users 5A, P2, P3; P3 adds paint-over parity (GRADING.md §P).
+- 2026-10-06 22:55: research section added; transit-feeds-top20 (ChatGPT research, 32 agencies) committed and spot-checked (8 rows).
