@@ -121,6 +121,43 @@ def http_get(url: str, user_agent: str = USER_AGENT, etag: Optional[str] = None,
         raise _network_error(e)
 
 
+def http_get_headers(url: str, user_agent: Optional[str], last_modified: Optional[str] = None, accept: Optional[str] = None,
+                     timeout: float = DEFAULT_TIMEOUT, max_bytes: int = MAX_BODY_BYTES):
+    """Like http_get, plus an Accept header, returning (FetchResult, response headers) so the caller can honour
+    Cache-Control / Expires. user_agent must be given (APIs that ask for a contact address get one)."""
+    if not user_agent:
+        raise FetchError("no User-Agent configured")
+    headers: Dict[str, str] = {"User-Agent": user_agent, "Accept-Encoding": "gzip"}
+    if accept:
+        headers["Accept"] = accept
+    if last_modified:
+        headers["If-Modified-Since"] = last_modified
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.build_opener(urllib.request.HTTPSHandler(context=ssl_context())).open(req, timeout=timeout) as resp:
+            raw = resp.read(max_bytes + 1)
+            if len(raw) > max_bytes:
+                raise FetchError("response larger than %d bytes" % max_bytes, resp.status)
+            body = raw
+            if resp.headers.get("Content-Encoding", "").lower() == "gzip":
+                try:
+                    body = gzip.decompress(raw)
+                except (OSError, EOFError) as e:
+                    raise FetchError("bad gzip body: %s" % e, resp.status)
+            return (FetchResult(resp.status, body, resp.headers.get("ETag"), resp.headers.get("Last-Modified"), len(raw)),
+                    dict(resp.headers.items()))
+    except urllib.error.HTTPError as e:
+        try:
+            if e.code == 304:
+                return (FetchResult(304, None, e.headers.get("ETag"), e.headers.get("Last-Modified") or last_modified, 0),
+                        dict(e.headers.items()))
+            raise FetchError("HTTP %d" % e.code, e.code, _retry_after(e.headers))
+        finally:
+            e.close()
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        raise _network_error(e)
+
+
 def open_stream(url: str, user_agent: str = USER_AGENT, timeout: float = DEFAULT_TIMEOUT):
     """Open a streaming response (redirects followed). Caller closes it. No gzip, no size cap:
     the caller reads only what it needs."""
