@@ -100,13 +100,14 @@ extension World {
         light.intensity = L.sunIntensity * direct * L.exposure * Self.sunLux
         sunEntity.components.set(light)
         if !options.diagnostics.contains("noShadows"), L.sunIntensity * direct > 0.01 {
-            // Low sun casts long shadows (at 6.5° a 10 m tree's shadow is 88 m long), so the range opens
-            // from 60 m to the bible's upper 80 m below 15° of sun (look-fix §2.3: 60–80 m coverage).
-            let range = elevation < 15 ? max(shadowDistance, 80) : shadowDistance
+            // Range from look.json shadows (owner: crown shadows must reach the lawns); low sun casts
+            // long shadows (at 6.5° a 10 m tree's shadow is 88 m long).
+            let spec = Self.lookSpec?.shadows
+            let range = elevation < (spec?.lowSunBelowDeg ?? 15) ? max(shadowDistance, Float(spec?.lowSunRangeM ?? 80)) : shadowDistance
             var shadow = sunEntity.components[DirectionalLightComponent.Shadow.self] ?? DirectionalLightComponent.Shadow()
-            if shadow.depthBias != 1.5 || appliedShadowRange != range {
+            if shadow.depthBias != Self.shadowBias(range: range) || appliedShadowRange != range {
                 shadow.shadowProjection = .automatic(maximumDistance: range)
-                shadow.depthBias = 1.5
+                shadow.depthBias = Self.shadowBias(range: range)
                 sunEntity.components.set(shadow)
                 appliedShadowRange = range
             }
@@ -115,7 +116,10 @@ extension World {
             let sun = SIMD2<Float>(Float(env.light.sunDirection.x), Float(env.light.sunDirection.z))
             let away = simd_length(sun) > 1e-4 ? -simd_normalize(sun) : SIMD2<Float>(0, 0)
             shadowCast = SIMD3(away.x, away.y, Float(1 / tan(max(elevation, 3) * .pi / 180)))
+            // Far crown shadows take over where the shadow map ends, as strong as the direct sun is.
+            if let spec { shaderGlobals.blobShadow = SIMD4(range, Float(spec.blobStrength) * min(1, direct), Float(spec.blobCrownHeightM), 0) }
         } else {
+            shaderGlobals.blobShadow.y = 0
             sunEntity.components.remove(DirectionalLightComponent.Shadow.self)
             shadowCast = nil
         }
