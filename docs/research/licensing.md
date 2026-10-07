@@ -458,6 +458,12 @@ Everything below is paraphrased.
 42. OpenSky: the research row says for-profit use, including testing, needs a written licence; the terms page was blocked during the check. Confirm before any use, including prototypes.
 43. FlightAware AeroAPI Standard ($100/month minimum, "Business and B2C"): does it allow a live map-style display of overhead aircraft to app users, and may our relay fan one feed out to many users? (See also Q26.)
 
+**Data layers** (added 2026-10-07; `docs/research-gpt/data-layers-research-v1/`, unverified until the post-Friday spot-check; rows DL1–DL5 in §16; questions only)
+
+44. Municipal open data (Chicago, Denver, Miami): do the portal terms and per-dataset disclaimers allow commercial use and redistribution of the geometry we derive (street trees, building age, sidewalks) inside world packages, licensed products and white-label apps? The research says Denver's and Miami's item disclaimers do not establish onward rights.
+45. eBird and iNaturalist: eBird raw data needs approval for commercial use and its modelled Status and Trends products currently exclude commercial applications; iNaturalist defaults to non-commercial licences. Does any permission we could obtain cover derived scenes and licensing to other apps?
+46. Overture per-theme licences: which obligations (ODbL share-alike, CDLA-Permissive-2.0, attribution) attach to each theme we use, and how are they carried into generated scenes and downstream databases?
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?
@@ -701,3 +707,16 @@ the **first public package or licensee**, and **after the lawyer review**:
       lawyer's answer on aggregates over OSM-defined areas (§15 item 4).
 - [ ] Confirm the separately licensed classification of `independent/*` in `LICENSE-DATA.md` and world.json
       `independentLayers` matches the final licence.
+
+## 16. Data layers (added 2026-10-07; from ChatGPT research, unverified)
+
+Source: `docs/research-gpt/data-layers-research-v1/`. Nothing here has been checked against the providers yet; the spot-check runs after the Friday reset (registry research row). Status values as in §1.
+
+| # | Obligation | Applies to | How we comply | Status | Source |
+|---|---|---|---|---|---|
+| **DL1** | Municipal open-data redistribution rights (Chicago, Denver, Miami) are not established by portal disclaimers | Any city layer in a world package or licensed product | Own-app use first; no redistribution until dataset-specific rights are confirmed (Q44) | Needs lawyer | research README, verify-first item 1 |
+| **DL2** | Census notice wherever Census API data shows: "This product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau." | Any view showing Census API data | Show the notice verbatim in the detail card or credits whenever such data is on screen | To do (when used) | Census API terms (to verify) |
+| **DL3** | Overture is not one licence: record the licence per theme, never treat it as blanket | Any Overture theme | Per-theme licence, attribution and share-alike recorded with the layer's provenance (Q46; see also V1/O12) | To do | research README, verify-first item 2 |
+| **DL4** | No copying from Google Places or Google Pollen | Places, pollen | Never ingest, cache or copy Google POI or pollen data into our layers | Decided (rule) | research README, verify-first item 13 |
+| **DL5** | eBird and iNaturalist carry commercial-use restrictions | Bird and wildlife layers | **Own-app research only** until cleared in writing (Q45) | N/A yet | research README, verify-first items 7–8 |
+

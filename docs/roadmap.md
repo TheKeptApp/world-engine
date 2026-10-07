@@ -42,3 +42,13 @@ Landmarks first, then general coverage.
 - Everything in the engine is agent-built and owned; no marketplace assets.
 - ChatGPT does design, research and draft code, delivered only to the drop folder (`~/Desktop/worldengine-gpt-drop/`).
 - A Claude lane reviews, tests and commits all code. ChatGPT research is spot-checked before use.
+
+## Data layers — PROPOSED (R decides)
+
+From ChatGPT's data-layers research (`docs/research-gpt/data-layers-research-v1/`), not yet verified. Nothing here is decided.
+
+- **PROPOSED — top layers, in priority order:** crop type, phenology, water, terrain, tides, building footprints, places, park amenities.
+- **PROPOSED — rights order:** our own apps use a layer first; licensed or redistributed products include it only after its rights are confirmed (`docs/research/licensing.md` §16, Q44–Q46).
+- **PROPOSED — water:** USGS legacy water services retire in February 2027, so any water layer uses the new USGS APIs from day one.
+- **Hosting estimate (hypothetical, not a plan):** Cloudflare R2 storage and reads about $1.35–70 a month for 10k–1M monthly users, under the research's assumptions (100 GB stored, 200 origin requests and 100 MB per user a month, no edge caching; delivery, compute, live APIs and taxes excluded).
+
