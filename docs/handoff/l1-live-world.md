@@ -37,6 +37,10 @@ first time; two test fixes: Julian-date comparisons now allow 4 ulps of the valu
 2.46e6), and the Linux runner copies the star catalogue the sky test reads. Still open: OMM epochs with a time-zone
 offset are not parsed; result structs have only internal initialisers.
 
+**P1 fix (2026-10-07, owner-approved):** `SatelliteVectorTests.parsedElements` compared OMM parsed via JSON `Data` with
+exact struct equality and failed on macOS (eccentricity 0.0006703000000000001 vs 0.0006703 after the round trip). It now
+checks the Data path field by field with `checkElements` (the vector tolerances). Test only; the maths is unchanged.
+
 ### Building LiveSky in a cloud session (no Mac)
 
 `scripts/livesky-linux.sh [build|test]` does everything: starts `dockerd` if needed, pulls `swift:6.2-noble` once
