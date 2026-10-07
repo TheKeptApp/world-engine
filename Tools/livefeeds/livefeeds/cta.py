@@ -6,7 +6,7 @@ steps; they are still `observed` (CTA's measurement, passed through).
 
 Key: read from the environment variable CTA_TRAIN_API_KEY when the request is made. It is never logged, never
 put in an error message, a response, the cache or the repository: every error text that leaves this module is
-built here without the URL. Bus Tracker (CTA_BUS_API_KEY) comes later.
+built here without the URL. Buses (Bus Tracker, CTA_BUS_API_KEY) are in ctabus.py.
 
 Terms: CTA Developer License Agreement (live-feeds.md 2.3). Credit "Data provided by Chicago Transit Authority"
 (one of CTA's suggested lines). Run numbers are salted like every other vehicle id (live-feeds.md 8.9).
@@ -40,9 +40,9 @@ ROUTES = {"Red": "Red", "Blue": "Blue", "Brn": "Brown", "G": "Green", "Org": "Or
 _BY_LOWER = {k.lower(): k for k in ROUTES}
 
 # Train Tracker error codes. Key and quota problems will not fix themselves on a retry: they are reported with an
-# HTTP-like status so the relay backs off for 15 minutes (relay.HARD_ERRORS). Codes from the ttdocs error table as
-# remembered (101 invalid key, 102 daily limit exceeded); the docs page could not be re-read here (transitchicago.com
-# is denied by the cloud network policy). Any other non-zero code is a normal error with the usual backoff.
+# HTTP-like status so the relay backs off for 15 minutes (relay.HARD_ERRORS). From the ttdocs error table (re-read
+# 2026-10-07): 101 invalid API key, 102 maximum daily usage exceeded (default limit 100,000 transactions a day).
+# Any other non-zero code is a normal error with the usual backoff.
 HARD_CODES = {"101": 403, "102": 403}
 
 try:

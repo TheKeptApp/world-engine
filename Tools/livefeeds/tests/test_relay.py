@@ -317,7 +317,7 @@ class AreasTests(unittest.TestCase):
         self.assertEqual(areas[0].timezone, "America/Denver")
         self.assertEqual(areas[0].feeds, ("rtd",))
         self.assertEqual(areas[1].timezone, "America/Chicago")
-        self.assertEqual(areas[1].feeds, ("cta",))
+        self.assertEqual(areas[1].feeds, ("cta", "ctabus"))
 
 
 if __name__ == "__main__":

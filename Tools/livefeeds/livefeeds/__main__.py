@@ -17,7 +17,7 @@ import os
 import sys
 import time
 
-from . import cta, rtd, tiles
+from . import cta, ctabus, rtd, tiles
 from .relay import SOURCES, Config, Relay, MIN_POLL_INTERVAL, load_areas
 from .server import etag_for, make_server, vehicles_payload
 
@@ -78,7 +78,7 @@ def cmd_once(args) -> int:
     if snap is None:
         print("no data: %s" % relay.last_error)
         return 1
-    print("feed: %s" % (cfg.feed_url if relay.source.name == "rtd" else cta.POSITIONS_URL))
+    print("feed: %s" % {"rtd": cfg.feed_url, "cta": cta.POSITIONS_URL}.get(relay.source.name, ctabus.API_BASE))
     print("payload: %d bytes on the wire (this run, all requests: %d); routes table: %d routes, "
           "%d bytes downloaded for it" % (snap.wire_bytes, st["bytes"], len(relay._routes or ()), st["routesBytes"]))
     ts = datetime.datetime.fromtimestamp(snap.feed_timestamp, datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
@@ -187,9 +187,10 @@ def main(argv=None) -> int:
         sp.add_argument("--cache-dir", help="cache directory (default $LIVEFEEDS_CACHE or Tools/livefeeds/.cache)")
         sp.add_argument("--areas", default=os.path.join(HERE, "areas.json"), help="areas allowlist (data)")
         sp.add_argument("--feed", choices=sorted(SOURCES), default="rtd",
-                        help="upstream feed: rtd (Denver, no key) or cta (Chicago 'L' trains, needs CTA_TRAIN_API_KEY)")
+                        help="upstream feed: rtd (Denver, no key) cta (Chicago 'L' trains, needs CTA_TRAIN_API_KEY) or "
+                             "ctabus (Chicago buses, needs CTA_BUS_API_KEY)")
 
-    s = sub.add_parser("serve", help="poll one feed (RTD or CTA) and serve /v1/vehicles")
+    s = sub.add_parser("serve", help="poll one feed (RTD, CTA trains or CTA buses) and serve /v1/vehicles")
     common(s)
     s.add_argument("--host", default="127.0.0.1")
     s.add_argument("--port", type=int, default=8765, help="0 picks a free port")

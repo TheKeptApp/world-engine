@@ -50,7 +50,7 @@ Linux; every other target needs Apple frameworks.
    first compile finds (LiveSky was written without a compiler).
 2. ~~Star catalogue to 6.5~~ done 2026-10-07 (docs/live-world/sky.md section 4: 8,306 stars, 286 KB binary, `StarCatalog.nakedEye()`).
 3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways.
-4. Relay endpoint serving cached elements to phones (OMM JSON), CTA Bus Tracker adapter.
+4. Relay endpoint serving cached elements to phones (OMM JSON). ~~CTA Bus Tracker adapter~~ done 2026-10-07 (transit.md).
 
 ## Blocked (and why)
 
