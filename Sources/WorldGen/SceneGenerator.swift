@@ -190,7 +190,7 @@ public struct SceneGenerator: Sendable {
     }
 
     public func generate() -> GeneratedScene {
-        let dressed = VegetationLibrary.bundled.applying(to: Self.withLawnEndpoints(seasonal, profileID: profile.id), profileID: profile.id)
+        let dressed = MockDaytime.applying(VegetationLibrary.bundled.applying(to: Self.withLawnEndpoints(seasonal, profileID: profile.id), profileID: profile.id))
         var palette = startPalette ?? Palette(seasonal: dressed, season: season, base: baseColors)
         let context = StreetContext(features)
         let buildingIndex = PolygonIndex(features.buildings.map(\.footprint))
