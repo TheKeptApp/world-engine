@@ -147,4 +147,6 @@ Heavy lock (owner, 6 Oct 2026): priority 5A > P2 > P3 > P1 (FoodZen paused). P3 
 
 Daily sheet: each evening `python3 Tools/lookloop/daily.py` writes `docs/lookloop/daily/YYYY-MM-DD.png`, six key views (ordinary-street, light-rain-street, showcase-06 smoke, wilmette-street-snow, lakeview-postcard, v2-06 aerial) at the ccb5f77 baseline (`daily/baseline-ccb5f77/`) beside the latest published run, at phone width.
 
+Committed: scoreboard, summary, regressions, grades and the daily before/after sheet. Frames, contact sheets and the overview stay local (gitignored); plan.py reuse and daily.py read them locally.
+
 Commit size guard (owner, 6 Oct 2026): before every push, run `Tools/lookloop/commit_size.sh` (default range origin/main..HEAD). It lists commits that add more than 20 MB; report them before pushing. See `docs/repo-size.md`.

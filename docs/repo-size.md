@@ -19,3 +19,7 @@ Rewriting history to shrink `.git` (git filter-repo / lfs migrate) would need ev
 ## 20 MB commit guard
 
 From now on P3 runs `Tools/lookloop/commit_size.sh` before every push; it lists any commit that adds more than 20 MB of new or changed files and P3 reports it before pushing. Run on history: 11 commits are over 20 MB, the largest 104 MB (first proposals), 95 MB (postcards-widgets-v1) and 62 MB (5A device logs). Today's `bd24937` (ground-v1 + live-world-v1 packs, 32 MB) was over the limit and went out before this guard existed.
+
+## Owner decision (2026-10-06)
+
+No Git LFS. Design-pack images are gitignored from now on and stay local; README, JSON and prompts are committed; the two visual-v2 review ZIPs are removed from the current files; look-loop frames and sheets are local-only. No history rewrite. See `docs/decisions/owner-log.md`.

@@ -4,13 +4,15 @@ The single list of every WorldEngine design pack, its status and which lanes use
 
 Status: **reference** (read for direction, not tracked), **in use** (lanes build or grade against it), **superseded** (kept for history), **pending** (announced, not yet in the repo). Lanes: 5A (light, weather, sky, post), P2 (buildings, yards, ground, vegetation placement), P3 (look loop and grading), L1, NJ.
 
-Last checked: 2026-10-06 18:40 (P3).
+Last checked: 2026-10-06 19:10 (P3).
+
+**Images are local-only from 2026-10-06:** new pack images (PNG, JPG, ZIP, SVG over 1 MB) live in R's local checkout and are gitignored; each pack's README, JSON and prompts are committed. Images committed before then remain in git history.
 
 ## Packs in this repo
 
 | Pack | Folder | Date | Covers | Status | Lanes | Open notes and gaps |
 |---|---|---|---|---|---|---|
-| visual-v2 | `docs/proposals/visual-v2/` | 2026-10-05 | The visual spec: nine target images, richness parameters, Baseline/Target/Stretch ladder, camera and light fixtures, 10 ms budget, ten-criterion rubric (§8.3) | in use | 5A, P2, P3 | Source of truth for the rubric (GRADING.md §A) and budgets. Its concept images enlarge the dog and oversize the sun disk; graded as faults. |
+| visual-v2 | `docs/proposals/visual-v2/` | 2026-10-05 | The visual spec: nine target images, richness parameters, Baseline/Target/Stretch ladder, camera and light fixtures, 10 ms budget, ten-criterion rubric (§8.3) | in use | 5A, P2, P3 | Source of truth for the rubric (GRADING.md §A) and budgets. Its concept images enlarge the dog and oversize the sun disk; graded as faults. The two duplicate review ZIPs were removed from the current files on 2026-10-06 (the pack README still links one; history keeps both). |
 | visual-v1 | `docs/proposals/visual-v1/` | 2026-10-05 | First spec and five concept images; original-resolution drafts | superseded | — | Historical baseline, superseded by visual-v2. |
 | experience-v1 | `docs/proposals/experience-v1/` | 2026-10-05 | Eleven weather and time-of-day concepts (golden hour, overcast, rain, storm, fog, smoke, snow, night, aerial rain and snow) | in use | 5A, P3 | Calibrated parity targets for the showcase views. |
 | regions-chicagoland-miami | `docs/proposals/regions-chicagoland-miami/` | 2026-10-05 | North Shore (golden, rain, fall, snow) and Chicago (three-flat, alley snow) concepts; regional cues | in use | P2, P3 | Concepts 03, 04 and 06 are the style anchors (see decisions). Miami concepts not yet used by any view. |
@@ -52,3 +54,4 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-06: registry created; seeded with every folder in `docs/proposals/`, the two pending packs and three external packs.
 - 2026-10-06 18:00: ground-v1 appeared in the main checkout (uncommitted); row filled in, still pending. No other pack folders changed.
 - 2026-10-06 18:40: ground-v1 and live-world-v1 landed (committed unedited); statuses, contents, users and gaps set per owner. NJ paused note added.
+- 2026-10-06 19:10: image files made local-only (gitignored); visual-v2 review ZIPs removed from the current files.
