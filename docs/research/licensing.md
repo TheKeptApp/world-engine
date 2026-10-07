@@ -739,4 +739,13 @@ Sources: owner decisions of 2026-10-06/07 (`docs/roadmap.md`, `docs/decisions/ow
 | **LM2** | No team, university or sponsor logos or names on models (stadiums, campuses, arenas) | Landmark pack | Buildings modelled without logos, wordmarks, sponsor names or readable signage; names appear only as identifiers in data, never on geometry | Decided (rule) | owner decision 2026-10-06; landmarks-v1 legal guardrails |
 | **LM3** | Building designs may carry architectural-work or trademark protection (distinctive towers and stadiums) | Hero and tuned landmark models | Building exteriors visible from public places are generally modelled; any trademark claim on a building's appearance goes to a lawyer before a product ships (Q47) | Needs lawyer | landmarks-research-v1 trademark triage |
 
+## 18. Weather data sources (added 2026-10-07; owner decisions, research unverified)
+
+Sources: owner decisions 2026-10-07 (`docs/decisions/owner-log.md`); `docs/research-gpt/hyperlocal-weather-v1/` (unverified, not yet spot-checked); existing WeatherKit rows W1–W4 in §1.
+
+| # | Obligation | Applies to | How we comply | Status | Source |
+|---|---|---|---|---|---|
+| **WX1** | WeatherKit data may not become a database: no persistent or derived weather database, no original-form resale or bulk feed; cache only temporarily for performance; keep Apple's credit and legal link | Our consumer apps that add WeatherKit | WeatherKit is a per-app, display-only add-on; nothing from it is stored as history or fed into engine core weather, world packages or derived layers | Decided (rule); verify retention wording before shipping | owner decision 2026-10-07; research README (Apple row); W1–W4 |
+| **WX2** | WeatherKit data never passes to the World State API or any third party (each licensee would need its own Apple access) | World State API, white-label | The API serves only public NOAA/NWS-derived weather and our own sun/shadow; premium forecasts for API customers come from a vendor whose licence allows redistribution, only on request | Decided (rule) | owner decision 2026-10-07; licensing summary (white-label) |
+| **WX3** | NOAA/NWS data is generally public domain, but the NWS data policy lists third-party exceptions (some products contain data owned by others, e.g. proprietary lightning fields); derived products must not imply NOAA endorsement | Engine core weather (NWS alerts, MRMS, NOHRSC, SNODAS) and the ground-state layer | Use only fields covered by the public-domain policy; exclude third-party fields; label derived states "estimated" with source and time; no endorsement wording. Check each product's exceptions before use | To do (per-product check) | [NWS data policy](https://www.weather.gov/disclaimer) (as cited by the research, verified there) |
 
