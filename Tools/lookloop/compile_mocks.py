@@ -21,6 +21,9 @@ infrastructure-kit-v1 (R approved 2026-10-07, all 48 sheets) is compiled under t
 street-geometry-rules-v1 owns street geometry (carriageway, lane and sidewalk widths by country and class); the kit
 owns look (markings, materials, colours, bridge, rail and airport styling). The kit's street cross-section keys carry
 "supersededFor": "geometry" and are listed as a resolved conflict (US residential carriageway: kit 10.2 m, rules 10.6 m).
+foliage-seasons-v1 (R approved 2026-10-07) compiles under "style-b/foliage" (species and cities by id, regional plantings by key) and
+style-b-calibration-v2 (R approved 2026-10-07: packs own content, calibration v2 owns look and replaces the old Lakeview street as the
+look-gate target) under "style-b/look" (its sharedLook block only). Neither compiles its copied sharedLighting.
 R-approved corrections in Tools/lookloop/mock-corrections.json are applied last (owner rule, R 2026-10-07:
 images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
 "original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
@@ -111,7 +114,8 @@ def flatten(obj, path=""):
 
 
 INFRA_PACK, INFRA_PREFIX = "infrastructure-kit-v1", "style-b/infrastructure"
-KEY_PREFIX = {INFRA_PACK: INFRA_PREFIX}  # compiled key prefix per pack (default: the pack name)
+FOLIAGE_PACK, LOOK_PACK = "foliage-seasons-v1", "style-b-calibration-v2"
+KEY_PREFIX = {INFRA_PACK: INFRA_PREFIX, FOLIAGE_PACK: "style-b/foliage", LOOK_PACK: "style-b/look"}  # compiled key prefix per pack (default: the pack name)
 GEOMETRY_OWNER = "street-geometry-rules-v1"
 GEOMETRY_RULES = "docs/research-gpt/street-geometry-rules-v1/rules.csv"
 # The kit's street cross-section keys (Roads sheets 01, 02, 05, 06, 07, 08); markings, crosswalk, bridge and soundwall keys stay the kit's.
@@ -138,6 +142,37 @@ def infra_view(data):
         a["palette"] = {p["name"]: {k: v for k, v in p.items() if k != "name"} for p in a.get("palette", [])}
         assets[a["id"]] = a
     return {"assets": assets, "lodPolicy": data.get("lodPolicy", {})}
+
+
+def foliage_view(data):
+    """Foliage by species id and city id; the copied sharedLighting and the illustration notes are not compiled."""
+    out = {k: v for k, v in data.items() if k not in ("sharedLighting", "illustrationLimits", "species", "cities")}
+    out["species"] = {x["id"]: x for x in data.get("species", [])}
+    out["cities"] = {x["id"]: x for x in data.get("cities", [])}
+    return out
+
+
+def look_view(data):
+    """The calibration pack's shared look (lighting, materials, people and vehicles); scenes and notes are not compiled."""
+    return data.get("sharedLook", {})
+
+
+def look_conflicts(entries):
+    """Differences between the calibration look and the daytime master (house-contrast-v1 sharedLighting): listed for R, the master stays the numeric baseline."""
+    pairs = [("lighting.sky.zenithHex", "sharedLighting.sky.gradient[0].hex"), ("lighting.sky.midHex", "sharedLighting.sky.gradient[2].hex"),
+             ("lighting.sky.horizonHex", "sharedLighting.sky.gradient[3].hex"), ("lighting.sun.hex", "sharedLighting.sun.colorHex"),
+             ("lighting.exposure.relativeEV", "sharedLighting.exposure.relativeEV"), ("lighting.exposure.saturation", "sharedLighting.exposure.saturationFactor"),
+             ("lighting.shadow.appearanceHex", "sharedLighting.shadows.appearanceTintHex")]
+    out = []
+    for a, b in pairs:
+        ka, kb = f"style-b/look/{a}", f"{MASTER_PACK}/{b}"
+        if ka in entries and kb in entries and entries[ka]["value"] != entries[kb]["value"]:
+            out.append({"parameter": f"look {a.split('.', 1)[1]}", "resolved": "daytime master (house-contrast-v1) is the numeric baseline; calibration v2 owns look (R, 2026-10-07)",
+                        "definitions": [{"key": kb, "pack": MASTER_PACK, "value": entries[kb]["value"], "source": entries[kb]["source"], "state": "daytime-master",
+                                        "resolved": "master value (numeric baseline)"},
+                                       {"key": ka, "pack": LOOK_PACK, "value": entries[ka]["value"], "source": entries[ka]["source"], "state": "day",
+                                        "resolved": "calibration look value, from its own frames (R: images beat JSON)"}]})
+    return out
 
 
 def geometry_conflict(entries, root):
@@ -259,6 +294,7 @@ def build(root=ROOT):
         if isinstance(data.get("date"), str):
             dates.append(data["date"])
         rows = (flatten_labelled(arch_view(data)) if pack == ARCH_PACK else flatten_labelled(infra_view(data)) if pack == INFRA_PACK
+                else flatten_labelled(foliage_view(data)) if pack == FOLIAGE_PACK else flatten_labelled(look_view(data)) if pack == LOOK_PACK
                 else ((p, v, None) for p, v in flatten(data)))
         prefix = KEY_PREFIX.get(pack, pack)
         for path, value, label in rows:
@@ -282,12 +318,13 @@ def build(root=ROOT):
             (pre and e["key"].startswith(pre)) or e["key"] in c["set"])}
         for k in old:
             del entries[k]
+        kp = KEY_PREFIX.get(pack, pack)
         for path, value in c["set"].items():
             entry = {"value": value, "pack": pack, "key": path, "source": src, "correction": c["id"],
-                     "original": old[f"{pack}/{path}"]["value"] if f"{pack}/{path}" in old else None}
+                     "original": old[f"{kp}/{path}"]["value"] if f"{kp}/{path}" in old else None}
             if pack == MASTER_PACK and path.startswith(MASTER_PREFIX):
                 entry["role"] = "daytime-master"
-            entries[f"{pack}/{path}"] = entry
+            entries[f"{kp}/{path}"] = entry
         c["originalValues"] = {e["key"]: e["value"] for e in old.values()}
     return {
         "corrections": corrections,
@@ -297,8 +334,8 @@ def build(root=ROOT):
         "approvedPacks": [p for p, _ in packs],
         "precedence": [{"id": "street-geometry-owner", "decided": "R, 2026-10-07",
                         "statement": f"{GEOMETRY_OWNER} owns street geometry (carriageway, lane, sidewalk widths by country and class); the infrastructure kit owns look (markings, materials, colours, bridge, rail and airport styling). Keys marked supersededFor=geometry are not geometry sources. Images beat JSON applies to look, not measurements."}],
-        "conflicts": (find_conflicts({k: e for k, e in entries.items() if e["pack"] not in (ARCH_PACK, INFRA_PACK)})
-                      + archetype_conflicts(entries) + geometry_conflict(entries, root)),
+        "conflicts": (find_conflicts({k: e for k, e in entries.items() if e["pack"] not in (ARCH_PACK, INFRA_PACK, FOLIAGE_PACK, LOOK_PACK)})
+                      + archetype_conflicts(entries) + geometry_conflict(entries, root) + look_conflicts(entries)),
         "entries": entries,
     }
 
