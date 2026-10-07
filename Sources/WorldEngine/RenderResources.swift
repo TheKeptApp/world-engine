@@ -99,7 +99,9 @@ public struct ShaderGlobals: Sendable, Equatable {
     /// weight; warm horizon tint + its maximum mix; x = mid stop elevation, y = warm horizon top (deg).
     public var skyMid = SIMD4<Float>(0, 0, 0, 0)
     public var skyWarm = SIMD4<Float>(0, 0, 0, 0)
-    public var skyStops = SIMD4<Float>(30, 10, 0, 0)
+    public var skyStops = SIMD4<Float>(30, 10, 30, 0)
+    /// Second middle sky stop (texel 42): linear rgb; its elevation is skyStops.z.
+    public var skyMid2 = SIMD4<Float>(0, 0, 0, 0)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -251,7 +253,8 @@ final class RenderResources {
         p[w + 37] = SIMD4(h(g.blobShadow.x), h(g.blobShadow.y), h(g.blobShadow.z), 0)
         p[w + 39] = SIMD4(h(g.skyMid.x), h(g.skyMid.y), h(g.skyMid.z), h(g.skyMid.w))
         p[w + 40] = SIMD4(h(g.skyWarm.x), h(g.skyWarm.y), h(g.skyWarm.z), h(g.skyWarm.w))
-        p[w + 41] = SIMD4(h(g.skyStops.x), h(g.skyStops.y), 0, 0)
+        p[w + 41] = SIMD4(h(g.skyStops.x), h(g.skyStops.y), h(g.skyStops.z), 0)
+        p[w + 42] = SIMD4(h(g.skyMid2.x), h(g.skyMid2.y), h(g.skyMid2.z), 0)
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
