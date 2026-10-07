@@ -66,6 +66,16 @@ Filed from the drop folder; none has a STATUS.md, so none is a binding target ye
 | Event site-map import and parts schema | event-sitemap-ai-v1 | `~/Desktop/world-engine/docs/proposals/event-sitemap-ai-v1/` (18 images) | `docs/proposals/event-sitemap-ai-v1/parametric-schema/examples/catalog.json` | pending R approval |
 | Three-city demo storyboard (90/30/15 s) | demo-storyboard-v1 | `~/Desktop/world-engine/docs/proposals/demo-storyboard-v1/` (2 images) | `docs/proposals/demo-storyboard-v1/shots.json` | pending R approval |
 
+## New packs filed 7 Oct 2026 – pending R approval
+
+Filed from the drop folder; none has a STATUS.md, so none is a binding target yet. Research packs (no images) are listed in the registry (`docs/design-registry.md`, Research).
+
+| Feature | Pack | Images (owner's checkout) | Values JSON (repo) | Status |
+|---|---|---|---|---|
+| NYC hero scenes, Style B | nyc-hero-v1 | `~/Desktop/world-engine/docs/proposals/nyc-hero-v1/` (61 images) | `docs/proposals/nyc-hero-v1/values.json` | pending R approval |
+| Chicago and Denver city life, Style B | chicago-denver-life-v1 | `~/Desktop/world-engine/docs/proposals/chicago-denver-life-v1/` (9 images) | `docs/proposals/chicago-denver-life-v1/values.json` | pending R approval |
+| SF city life studies, Style B | sf-life-v1 | `~/Desktop/world-engine/docs/proposals/sf-life-v1/` (52 images) | `docs/proposals/sf-life-v1/sf-life-values.json` | pending R approval |
+
 ## Past packs – R to confirm
 
 Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of them binding; R confirms in one reply. "Evidence" is what the registry and owner log record about R approving or using the pack.

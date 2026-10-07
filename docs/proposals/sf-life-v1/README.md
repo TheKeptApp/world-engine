@@ -17,7 +17,7 @@ People use natural near-photoreal anatomy, posture, proportions and light with a
 
 ## Numbers and evidence
 
-Dimensions and most speeds are **authored render/animation targets**, not surveyed fleet specifications. The cable-car cruise target is approximately 15.3 km/h, based on the Cable Car Museum's 9.5 mph description; speed is 0 at a stop, and 15.3 is not a journey-average speed. Generic trolleybus12.2×2.55×3.5m, coach13×2.55×3.6m, streetcar14.3×2.55×3.4m and ferry38×10m are selected plausible classes, not replicas of real models. Ship250×38m and10m sailboat proportions keep true scale; actual marine clearance/routes override. The wire targets5.5m above local road,30m support spacing,0.6m paired-contact separation and8m poles are **UNVERIFIED authoring numbers**, not SFMTA safety/engineering specifications.
+Dimensions and most speeds are **authored render/animation targets**, not surveyed fleet specifications. The cable-car cruise target is approximately 15.3 km/h, based on the Cable Car Museum's 9.5 mph description; speed is 0 at a stop, and 15.3 is not a journey-average speed. Generic trolleybus 12.2 × 2.55 × 3.5 m, coach 13 × 2.55 × 3.6 m, streetcar 14.3 × 2.55 × 3.4 m and ferry 38 × 10 m are selected plausible classes, not replicas of real models. Ship 250 × 38 m and 10 m sailboat proportions keep true scale; actual marine clearance/routes override. The wire targets 5.5 m above local road, 30 m support spacing, 0.6 m paired-contact separation and 8 m poles are **UNVERIFIED authoring numbers**, not SFMTA safety/engineering specifications.
 
 All 24 local-hour envelopes, weekend/season multipliers and visible-subject caps are **UNVERIFIED activity priors**. They create typical-looking life without claiming to know actual people, traffic or fleet positions. Urban units are concurrent subjects per eligible 100 m block face; ferry/shipping counts use a 1 km water-view window; sea lions use one visible 12 × 6 m mapped dock. Riders, crew, vendors and stalls have separate count fields. Do not confuse concurrent counts with trips/hour or apply marine counts to street faces. Apply mapped site existence/service/event hours first, then an observed/licensed operational feed if available, then hour/weekend/season/weather fallback, round once and clamp. No eligible location means count 0. Markets require an active schedule. Sea-lion abundance varies substantially; the winter/summer multipliers are illustrative, not a census or guaranteed seasonal rule.
 
@@ -35,6 +35,8 @@ The default fog-horn clip is original authored ambience 2.5 s with a 120 s minim
 | High | Paired trolley contact wires with switches/crossing frogs and trolley-pole contact | Actual overhead topology; road-relative clearances; antialiased wire LOD |
 | High | Turntable rotation with two pushing workers, rider boarding and close human hand contact | Terminal pad geometry, episodic animation and synchronized hand/foot contact |
 
+The wheel-curbing study adds a close 3–5 m witness view; other urban street studies use 15–20 m framing.
+
 Below 6 projected pixels, keep correct-scale silhouettes/masses; 6–20 px keep body posture and vehicle identity; above 20 px keep simple connections/turned wheels/props, while faces remain anonymous. Drop sub-2 px small details rather than inflate people or cars. Wire visibility has its own antialiased 0.6 px fade threshold; never thicken all wires into a cartoon cable net. These are image/readability checks, not phone GPU benchmarks.
 
 ## Placement details that matter
@@ -46,3 +48,5 @@ Downhill parallel-parking study turns wheels toward curb. Uphill with a curb req
 Parklet deck is in the parking lane beyond the curb, leaving a 2 m clear sidewalk and real entry. These are visual dimensions, not a permit-compliance design. Scooter corrals preserve walking space. Lanterns are text-free decorative props on a mapped Chinatown street, not invented costume/folk-art stereotypes. Workers represent ordinary city routines, with no personal identity or actual employer inferred.
 
 [Primary sources](sources.md) distinguish documented mechanisms/locations from authored numerical targets. [Verification](verification.json) records phone-width, image/link and lighting checks plus the visual audit. No renderer integration, live-data hookup or device performance benchmark is claimed. No git; nothing was written to repository docs/proposals.
+
+Phone layout: all 29 HTML pages passed at 320 and 390 CSS pixels. Preview captures: [gallery](phone-gallery-preview.png) and [cable-car study](phone-study-preview.png).
