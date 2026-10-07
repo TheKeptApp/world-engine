@@ -92,3 +92,10 @@ Re-run calibration (`lookloop.sh calibrate`, then 22 Opus reviewers) after any c
 R locked the look target as "rich stylized" (docs/decisions/style-target.md). GRADING.md §S now grades photoreal concepts fully on colour, light, atmosphere and weather without penalizing missing photo detail, weighs `palette`, `light` and `depthFog` 1.5 in `v2Score50`, and makes regions concepts 03, 04 and 06 the colour and mood anchors. Opus re-graded all 22 concepts: mean 35.2 → 35.5/50; the anchors 03 fall 36.2 → 36.3, 04 snow 38.8 → 41.6, 06 Chicago alley 38.8 → 41.6.
 
 Opus re-grade of the ccb5f77 gate frames under §S: parity 76.3 → 73.2 % (−3.1), ordinary-day 75.3 → 78.0 % (+2.7), v2 26.9 → 26.3, art direction 2.23 → 2.3, gate passes 0 → 0. Of the −3.1, −1.5 comes from re-grading the frames (colour, light and haze now weigh more, and those are where the frames are weakest: teal cast, flat light, floating aerials) and −1.6 from the higher concept scores. **This is a grader change, not a render change.**
+
+## Paint-over calibration (paintover-v1, 6 Oct 2026)
+
+Run `20261006-222320`, blind Opus grading of the six paint-overs with their own view's metadata (`calibrate.py --paintover`): v2-06 31.6 · showcase-03 28.9 · showcase-06 29.5 · ordinary-street 32.4 · evanston-street 30.0 · lakeview-street 34.7 (mean 31.2/50; concept mean 35.5). They score barely above the frames they were painted from, because they keep the capture's geometry by design (the same lollipop crowns, lawns and plantings), and the rubric's silhouette, ground and house criteria cap them. Paint-over parity on the latest routine run (`c25b6dc`, Sonnet) is **92 %** (v2-06 73, showcase-03 100, showcase-06 102, ordinary-street 96, evanston-street 100, lakeview-street 83).
+
+Read it with two cautions. (1) Sonnet grades about 7 points above Opus on this rubric, so a routine Sonnet run reads well over 100 % of an Opus-calibrated paint-over that it has not matched; paint-over parity is comparable run to run, and is exact only in Opus gate runs. (2) Reaching 100 % does not mean the frame matches the paint-over; the reviewer's fixes against the paint-over target (GRADING.md §P) carry the detail.
+

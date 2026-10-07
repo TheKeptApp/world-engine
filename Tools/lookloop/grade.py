@@ -40,7 +40,13 @@ def concept_score(view, scores):
     return entry["v2Score50"] if entry and entry.get("v2Score50") else None
 
 
-def recompute(g, view, concept=None):
+def paintover_score(view, scores):
+    """Calibrated /50 of the view's own paint-over (paintover-v1), if it has one."""
+    entry = scores.get(view.get("paintover") or "")
+    return entry["v2Score50"] if entry and entry.get("v2Score50") else None
+
+
+def recompute(g, view, concept=None, paintover=None):
     """Totals and the gate are recomputed from the scores, so arithmetic slips never reach the scoreboard.
 
     Gate (owner decision, 6 Oct 2026): concept parity >= 100 % of the view's calibrated target concept
@@ -69,6 +75,9 @@ def recompute(g, view, concept=None):
     g["longTerm40"] = bool(v2) and g["v2Score50"] >= 40
     g["conceptScore50"] = concept
     g["parity"] = int(half_up(100 * g["v2Score50"] / concept, 0)) if concept and v2 else None
+    # Paint-over parity (owner, 6 Oct 2026): the same /50 against the view's own paint-over; reported, never gated.
+    g["paintoverScore50"] = paintover
+    g["paintoverParity"] = int(half_up(100 * g["v2Score50"] / paintover, 0)) if paintover and v2 else None
     g["gateBasis"] = "parity" if g["parity"] is not None else "40/50 (no calibrated concept)"
     g["gatePass"] = g["v2Floors"] and (g["parity"] >= 100 if g["parity"] is not None else g["longTerm40"])
     g["adPass"] = bool(ad) and min(ad) >= 3

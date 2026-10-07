@@ -4,11 +4,11 @@ The single list of every WorldEngine design pack, its status and which lanes use
 
 Status: **reference** (read for direction, not tracked), **in use** (lanes build or grade against it), **superseded** (kept for history), **pending** (announced, not yet in the repo). Lanes: 5A (light, weather, sky, post), P2 (buildings, yards, ground, vegetation placement), P3 (look loop and grading), L1, NJ.
 
-Last checked: 2026-10-06 20:00 (P3).
+Last checked: 2026-10-06 22:30 (P3).
 
 **Images are local-only from 2026-10-06:** new pack images (PNG, JPG, ZIP, SVG over 1 MB) live in R's local checkout and are gitignored; each pack's README, JSON and prompts are committed. Images committed before then remain in git history.
 
-**iCloud backup:** P3 copies every pack's images (PNG, JPG, ZIP, SVG) to `iCloud Drive/WorldEngine-Design-Backup/proposals/` with `Tools/lookloop/backup_design_images.sh` (copy only, never deletes), on every watch and whenever a pack lands. First copy 2026-10-06: 150 files, 329 MB. Look-loop frames are not backed up (regenerable).
+**iCloud backup:** P3 copies every pack's images (PNG, JPG, ZIP, SVG) to `iCloud Drive/WorldEngine-Design-Backup/proposals/` with `Tools/lookloop/backup_design_images.sh` (copy only, never deletes), on every watch and whenever a pack lands. First copy 2026-10-06: 150 files, 329 MB; after paintover-v1: 184 files, 384 MB. Look-loop frames are not backed up (regenerable).
 
 ## Packs in this repo
 
@@ -29,6 +29,7 @@ Last checked: 2026-10-06 20:00 (P3).
 | rain-v1 | `docs/proposals/rain-v1/` | 2026-10-06 | Style-B rain readability: wetness states, puddle stain vs water, rain at phone distance, dusk/night rain, snow phone stages, phone rain/snow acceptance; values in `rain-values.json`; `verification.md`, `index.html` | **landed** (reference) | 5A, P3 | Landed 2026-10-06 (text committed; 7 images local-only, backed up). Not yet a P3 grading reference. |
 | ground-v1 | `docs/proposals/ground-v1/` | 2026-10-06 | Style-B ground construction: lawn tone, pavement rhythm, worn edges, soft contact shade, restrained weather response; colours in `ground-colours.json`; reference images | **landed** (reference) | P2, 5A | Landed 2026-10-06 (committed unedited, 17 MB). Brick-streets and stone-paving addendum landed 2026-10-06 (`ADDENDUM-Brick-Streets-and-Stone-Paving.md`, 3 images) — closes the Chicago brick/cobblestone gap. Not yet a P3 grading reference. |
 | live-world-v1 | `docs/proposals/live-world-v1/` | 2026-10-06 | Style-B live objects: rail vehicles (CTA, Metra-inspired, RTD-inspired), elevated rail and portals, planes and other live layers; styling in `live-style.json` | **landed** (reference) | 5A (render), L1 (contracts) | Landed 2026-10-06 (committed unedited, 15 MB). Not yet a P3 grading reference. |
+| paintover-v1 | `docs/proposals/paintover-v1/` | 2026-10-06 | ChatGPT paint-overs of six look-loop frames from `393ed1e` (ordinary-street, evanston-street, showcase-03 Sloan's Lake rain, showcase-06 smoke, v2-06 golden-hour aerial, lakeview-street): original + paint-over + phone comparison + numbered callouts per view; authored grade values in `paintover-values.json` | **landed** (in use) | 5A, P2, P3 | The originals (the captures) govern geometry: camera, roads, footprints, shoreline, object inventory; small silhouette/window/leaf differences are not targets. One documented artefact: the rain puddle in showcase-03 keeps a slightly rimmed edge (target is a flush sky reflection). P3: per-view paint-over target and paint-over parity (GRADING.md §P), calibrated blind by Opus. Text committed; 6 PNG paint-overs, 6 originals and 12 SVGs (all over 1 MB) local-only, backed up. |
 
 ## External packs (other projects, listed by path only)
 
@@ -60,3 +61,4 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-06 19:10: image files made local-only (gitignored); visual-v2 review ZIPs removed from the current files.
 - 2026-10-06 19:25: iCloud image backup started (150 files, 329 MB); rain-v1 arriving (3 images, pending).
 - 2026-10-06 20:00: verified local vs iCloud after 5A's move: nothing missing from ground-v1 or vegetation-v1; restored the two visual-v2 ZIPs locally from iCloud (gitignored); addenda landed (brick/stone, willow); rain-v1 landed; backup updated, keeping the earlier rain-v1 01 image as `.prev-2026-10-06`. Per pack local/iCloud: experience 11/11, ground 15/15, live-world 11/11, look-fix 21/21, postcards 45/45, rain 7/7, regions-chicagoland-miami 10/10, regions-v1 6/6, vegetation 11/11, visual-v1 11/11, visual-v2 11/11 (345 MB).
+- 2026-10-06 22:30: paintover-v1 landed (text committed unedited; 24 images local-only and backed up to iCloud, 39 MB; its 12 SVGs are all over 1 MB and gitignored). Users 5A, P2, P3; P3 adds paint-over parity (GRADING.md §P).
