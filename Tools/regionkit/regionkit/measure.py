@@ -594,7 +594,7 @@ def summarize(cells, template):
     fe = [b for b in H if b.get("front_edge") is not None]
     broad = [b for b in fe if b["broad_front"]]
     out["setback"] = {
-        "definition": "Footprint boundary to the nearest street centreline (residential, living_street, unclassified, tertiary, secondary, primary; within 60 m) minus half the carriageway (width tag, else lanes x 3.3 m, else the engine's RoadRules default per class: residential/unclassified 6 m, living_street 5, tertiary 8, secondary 10, primary 12). Negative = footprint overlaps the assumed carriageway (mapping/width error).",
+        "definition": "Footprint boundary to the nearest street centreline (residential, living_street, unclassified, tertiary, secondary, primary; within 60 m) minus half the carriageway (the engine's RoadRules.width as of main 4b979d4: width tag, else lanes x 3.3 m with at least 4.5 m travel width plus 2.3 m per parked side on residential/tertiary/unclassified/secondary streets, else the class default: residential 8 m, unclassified 6, living_street 5, tertiary 8, secondary 10, primary 12, narrowed by 2.3 m per side tagged without parking; the sidewalk clamp is not applied). Negative = footprint overlaps the assumed carriageway (mapping/width error).",
         "housesMeasured": len(sb), "housesTotal": len(H), "coverage": stats.share(len(sb), len(H)),
         "facadeToCurbM": stats.dist([s["facade_to_curb_m"] for s in sb]),
         "centrelineM": stats.dist([s["centerline_m"] for s in sb]),

@@ -106,7 +106,12 @@ class RoofsColoursRoads(unittest.TestCase):
         self.assertIsNone(rules.engine_hex("dark grey"))
 
     def test_road_width(self):
-        self.assertEqual(rules.road_width("residential", {}), (6.0, "default"))
+        # RoadRules (main 4b979d4): parked cars on both sides unless tagged otherwise.
+        self.assertEqual(rules.road_width("residential", {}), (8.0, "default"))
+        self.assertAlmostEqual(rules.road_width("residential", {"lanes": "1"})[0], 4.5 + 2 * 2.3)
+        self.assertAlmostEqual(rules.road_width("residential", {"parking:right": "no"})[0], 8 - 2.3)
+        self.assertEqual(rules.road_width("residential", {"parking:both": "no"}), (4.5, "default"))
+        self.assertEqual(rules.parking_sides({"parking:lane:both": "separate"}), 0)
         self.assertEqual(rules.road_width("primary", {"lanes": "4"}), (4 * 3.3, "lanes"))
         self.assertEqual(rules.road_width("residential", {"width": "9 m", "lanes": "2"}), (9.0, "width"))
         self.assertEqual(rules.highway_kind("primary_link"), "primary")

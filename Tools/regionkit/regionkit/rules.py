@@ -210,12 +210,27 @@ def engine_hex(v):
 
 # --- roads -----------------------------------------------------------------------------------
 LANE_WIDTH = 3.3
-DEFAULT_WIDTHS = {"motorway": 14, "trunk": 13, "primary": 12, "secondary": 10, "tertiary": 8, "residential": 6,
+DEFAULT_WIDTHS = {"motorway": 14, "trunk": 13, "primary": 12, "secondary": 10, "tertiary": 8, "residential": 8,
                   "unclassified": 6, "living_street": 5, "road": 6, "busway": 6, "service": 4, "track": 3,
                   "pedestrian": 4, "cycleway": 2.5, "footway": 2, "path": 2, "bridleway": 2.5, "steps": 2,
                   "corridor": 2, "other": 3}
 VEHICULAR = {"motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential",
              "living_street", "service", "road", "busway", "track"}
+# RoadRules (Sources/WorldMap/Rules.swift, P2 main 4b979d4): carriageways include parked cars.
+PARKING_KINDS = {"residential", "tertiary", "unclassified", "secondary"}
+PARKING_LANE_WIDTH = 2.3
+MIN_TRAVEL_WIDTH = 4.5
+NO_CARRIAGEWAY_PARKING = {"no", "none", "no_parking", "no_stopping", "no_standing", "fire_lane",
+                          "separate", "street_side", "on_kerb", "shoulder"}
+
+
+def parking_sides(tags):
+    """RoadRules.parkingSides: sides (0-2) with parked cars in the carriageway; untagged sides count as parked."""
+    def side(s):
+        v = (tags.get("parking:%s" % s) or tags.get("parking:both") or tags.get("parking:lane:%s" % s)
+             or tags.get("parking:lane:both") or tags.get("parking:lane"))
+        return v is None or v not in NO_CARRIAGEWAY_PARKING
+    return int(side("left")) + int(side("right"))
 
 
 def highway_kind(tag):
@@ -224,15 +239,25 @@ def highway_kind(tag):
 
 
 def road_width(kind, tags):
-    """RoadRules.width: `width` tag (<= 60 m), else lanes x 3.3 m for vehicle roads, else a class default."""
+    """RoadRules.width: `width` tag (<= 60 m); else lanes x 3.3 m (at least 4.5 m travel width on parking streets)
+    plus 2.3 m per parked side; else the class default, narrowed by 2.3 m per side tagged without parking (never
+    below 4.5 m). Not ported: RoadRules.clampedToSidewalks (it needs the sidewalk geometry pass), so on streets with
+    mapped sidewalks closer than this width the engine draws them narrower than this value."""
     w = parse_length(tags.get("width")) if tags.get("width") else None
-    if w is not None and w <= 60:
+    if w is not None and 0 < w <= 60:
         return w, "width"
+    sides = parking_sides(tags) if kind in PARKING_KINDS else 0
     if kind in VEHICULAR:
         lanes = parse_int(tags.get("lanes"))
         if lanes is not None and 0 < lanes < 12:
-            return lanes * LANE_WIDTH, "lanes"
-    return float(DEFAULT_WIDTHS.get(kind, 3)), "default"
+            travel = lanes * LANE_WIDTH
+            if kind in PARKING_KINDS:
+                travel = max(travel, MIN_TRAVEL_WIDTH)
+            return travel + sides * PARKING_LANE_WIDTH, "lanes"
+    base = float(DEFAULT_WIDTHS.get(kind, 3))
+    if kind not in PARKING_KINDS or sides == 2:
+        return base, "default"
+    return max(min(base, MIN_TRAVEL_WIDTH), base - (2 - sides) * PARKING_LANE_WIDTH), "default"
 
 
 def is_street(kind, tags):
