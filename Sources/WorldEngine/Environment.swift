@@ -172,6 +172,9 @@ extension World {
             g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
             g.waterB.x = Float(water.overcastReflectGain)
         }
+        if let sky = Self.lookSpec?.sky {
+            g.waterB.y = Float(sky.cloudEdgeClear); g.waterB.z = Float(sky.cloudEdgeOvercast)
+        }
         // The bible's per-state fill (grade.json `fill`, `groundFill`) on top of the time key's.
         let gradeFill = Float(grade?.fill ?? 1), gradeGround = Float(grade?.groundFill ?? 1)
         g.fillSky = tinted(lin(L.ambientSky)) * Float(env.light.fillSky) * Self.fillScale * L.exposure * skyFillGain * lowSunFill

@@ -554,8 +554,10 @@ float cloudAt(Globals g, float3 d, float time) {
     float c = clamp(g.cloudCover, 0.0, 1.0);
     // Overcast closes to a full deck; partial cover keeps soft edges. The threshold is the noise
     // quantile for the cover (computed on the CPU), so 25% cover shows about a quarter cloud.
+    // Edges soften as the deck closes (look.json sky), so a gap in overcast never reads as a cut-out.
     float t = g.cloudThreshold;
-    float cover = smoothstep(t - 0.05, t + 0.05, n) * smoothstep(0.0, 0.12, d.y);
+    float e = mix(g.waterB.y, g.waterB.z, smoothstep(0.5, 1.0, c));
+    float cover = smoothstep(t - e, t + e, n) * smoothstep(0.0, 0.12, d.y);
     return max(cover, smoothstep(0.85, 1.0, c) * smoothstep(0.0, 0.08, d.y));
 }
 
@@ -615,7 +617,7 @@ void worldSkySurface(realitykit::surface_parameters params)
     float2 q2 = d.xz / max(d.y + 0.18, 0.18) * 3.1 + g.windDir * time * 0.006;
     float billow = valueNoise(q2) * 0.6 + valueNoise(q2 * 2.7 + 3.3) * 0.4;
     float3 cc = float3(g.cloudColor) * (0.78 + 0.34 * billow) * (0.88 + 0.22 * smoothstep(0.0, 0.5, d.y))
-              + float3(g.sunDisk) * silver * 0.35;
+              + float3(g.sunDisk) * silver * 0.35 * (1.0 - smoothstep(0.5, 1.0, clamp(g.cloudCover, 0.0, 1.0)));
     c = mix(c, cc, cloud);
     auto s = params.surface();
     // Unlit material: RealityKit shows the emissive colour (the base colour is ignored).
