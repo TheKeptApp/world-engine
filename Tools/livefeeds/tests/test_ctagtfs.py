@@ -137,6 +137,10 @@ class StopsEndpointTest(unittest.TestCase):
         try:
             base = "http://127.0.0.1:%d" % server.server_address[1]
             doc = json.loads(urllib.request.urlopen(base + "/v1/stops?bbox=41.84,-87.64,41.86,-87.62", timeout=5).read())
+            polls = relay.poll_count()
+            health = json.loads(urllib.request.urlopen(base + "/healthz", timeout=5).read())
+            self.assertTrue(health["ok"])
+            self.assertEqual(relay.poll_count(), polls)                  # liveness never wakes the poller
         finally:
             server.shutdown()
             server.server_close()

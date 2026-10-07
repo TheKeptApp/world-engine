@@ -4,6 +4,7 @@
     GET /v1/vehicles?tiles=14/x0/y0/x1/y1    the canonical form of the same request (shares cache entries)
     GET /v1/shapes?ids=A,B                   route shapes named by vehicles' motion.shapeId (max 50)
     GET /v1/stops?bbox=S,W,N,E               stops and stations in the box (CTA static GTFS; max 500, 4 x 4 tiles)
+    GET /healthz                             liveness: 200 while the process serves (no upstream call)
     GET /v1/status                           relay health: states, counts, ages, counters (no client data)
 
 Every JSON response carries `schema` and the `attribution` block. Nothing about clients is logged
@@ -153,6 +154,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._vehicles(parse_qs(parts.query), send_body)
         if parts.path == "/v1/shapes":
             return self._shapes(parse_qs(parts.query), send_body)
+        if parts.path == "/healthz":
+            # Liveness only: never wakes the poller and never calls upstream. Upstream health is in /v1/status.
+            return self._send(200, {"schema": SCHEMA, "ok": True, "attribution": [self.relay.source.attribution]},
+                              send_body, "no-store")
         if parts.path == "/v1/stops":
             return self._stops(parse_qs(parts.query), send_body)
         if parts.path == "/v1/status":

@@ -53,6 +53,19 @@ Linux; every other target needs Apple frameworks.
    licensing LW13) still blocked (table below).
 4. Relay endpoint serving cached elements to phones (OMM JSON). ~~CTA Bus Tracker adapter~~ done 2026-10-07 (transit.md).
 
+## Session 5 (2026-10-07): CTA shapes, NWS, deploy
+
+- **CTA static GTFS: done.** Shapes and stops (`livefeeds/ctagtfs.py`); trains and buses snapped with inferred
+  speed, `/v1/stops` (transit.md, CTA static GTFS row). Live: trains 73/74, buses 751/768 by pattern.
+- **NWS alerts: blocked.** `api.weather.gov` is denied by the network policy (proxy 403 on CONNECT). Nothing built;
+  allow the host to continue. Plan when allowed: `/alerts/active?area=IL,CO,FL` filtered to each area's box
+  (polygon, else affected-zone geometry, cached), conditional requests with `If-Modified-Since`, polled no faster than
+  the response's `Cache-Control`/`Expires` (NWS asks for a User-Agent with contact details: needs a real contact
+  address from R, via an environment variable, not in the repo); text passed through verbatim (headline, description,
+  instruction) with the official `@id` link; `basis: "observed"`, `official: true`.
+- **Deploy-ready relay: done, not deployed.** `Tools/livefeeds/Dockerfile`, `/healthz`, env-var config,
+  docs/live-world/deploy.md (Cloud Run and Firebase sketches). R decides hosting.
+
 ## Black Marble: baked 2026-10-07
 
 Chicago, Denver and Miami 2025 grids in `Tools/livefeeds/data/radiance/` (docs/live-world/sky.md section 3, bake steps,
@@ -66,6 +79,7 @@ transitchicago.com, download.swift.org, Docker Hub. **Still blocked:**
 
 | Host | Needed for | Symptom |
 |---|---|---|
+| `api.weather.gov` | NWS alerts layer | proxy 403 (policy), 2026-10-07 |
 | FAA: `nfdc.faa.gov` (NASR 28-day subscription CSVs), or `services6.arcgis.com` (FAA ArcGIS runways layer) | Midway (MDW) runways: owner chose FAA public-domain data over Overpass (2026-10-07) | proxy 403 (policy) on nfdc, www.faa.gov, aeronav.faa.gov, services6.arcgis.com, adds-faa.opendata.arcgis.com |
 | `overpass-api.de` | No longer needed for MDW | 6 tries over about 15 minutes, all reset during the TLS handshake (`ws_closed_mid_exchange` at the agent proxy), even on `/api/status`. That is the egress path, not Overpass rate limiting (which answers HTTP 429). Stopped retrying. |
 | `iss-sts.hqmce.nasa.gov` | Spot the Station pass list: www.nasa.gov/spot-the-station now embeds its finder from this host in an iframe | proxy 403 (policy) |
