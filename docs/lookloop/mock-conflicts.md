@@ -41,3 +41,5 @@ overcast values are different states, not conflicts. Conflicts without the maste
 | sun elevation fixture (deg) | `lake-winter-v1/water.skyStates.night.sunElevationDegrees` | `-12` | other state | `docs/proposals/lake-winter-v1/lake-winter-values.json` | different state |
 | sun elevation fixture (deg) | `lake-winter-v1/water.skyStates.overcast.sunElevationDegrees` | `35` | other state | `docs/proposals/lake-winter-v1/lake-winter-values.json` | different state |
 | sun elevation fixture (deg) | `night-fog-v1/states[2].time.elevationExampleDeg` | `5` | other state | `docs/proposals/night-fog-v1/night-fog-values.json` | different state |
+| US residential carriageway width (m) | `style-b/infrastructure/assets.roads-06-residential.dimensionsM.carriagewayWidth` | `10.2` | day | `docs/proposals/infrastructure-kit-v1/infrastructure-values.json` | superseded for geometry; the kit keeps look |
+| US residential carriageway width (m) | `street-geometry-rules-v1/us_residential_v1.carriageway_default_m` | `10.6` | day | `docs/research-gpt/street-geometry-rules-v1/rules.csv` | owns street geometry (research CSV, not compiled) |
