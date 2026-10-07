@@ -17,13 +17,28 @@ Sources and licences: `docs/research/licensing.md` section 14, rows LW1-LW12.
 
 ## Blocked (and why)
 
-- **Network policy of the cloud environment** denied: celestrak.org, ssd.jpl.nasa.gov, ladsweb.modaps.eosdis.nasa.gov and
-  blackmarble.gsfc.nasa.gov, cdsarc.cds.unistra.fr, open-data.rtd-denver.com, www.rtd-denver.com, overpass-api.de,
-  spotthestation.nasa.gov, heavens-above.com, api.adsb.lol, transitchicago.com. Nothing was fetched around a block.
-  Consequences: no light-pollution grid baked (sky assumes a dark site and says so); no comparison with published ISS
-  pass times; CelesTrak and Black Marble terms not re-read; RTD shapes never downloaded for real; no MDW runways.
-- **CTA**: key `CTA_TRAIN_API_KEY` is set in the environment but only visible from a new session; `CTA_BUS_API_KEY`
-  is still to come. CTA's purpose clause still needs a written answer (live-feeds.md blocker 2).
+Hosts re-checked 2026-10-07 from the cloud session. **Still blocked: add these to the environment's allowed domains**
+(environment settings, Network access):
+
+| Host | Needed for |
+|---|---|
+| `overpass-api.de` | Midway (MDW) runways for ambient planes; any OSM query (front page answers, `/api/interpreter` is reset) |
+| `heasarc.gsfc.nasa.gov` | Yale Bright Star Catalogue (BSC5) for the 6.5-magnitude star catalogue |
+| `www.pas.rochester.edu` | IAU star-name list (same build) |
+| `cdsarc.cds.unistra.fr` | BSC5 ReadMe (to confirm the shared-V rule) |
+| `blackmarble.gsfc.nasa.gov` | NASA Black Marble pages and terms |
+| `urs.earthdata.nasa.gov` | Earthdata login, needed to download Black Marble from LAADS (also needs an `EARTHDATA_TOKEN` secret) |
+| `www.nasa.gov` | Spot the Station published ISS pass times (spotthestation.nasa.gov now redirects there) |
+| `heavens-above.com` | Second source of published ISS pass times |
+| `www.transitchicago.com` (and `transitchicago.com`) | CTA terms, Train Tracker docs (error codes), Bus Tracker docs |
+| `api.adsb.lol` | Live ADS-B (not being built; only for re-reading its terms) |
+| `download.swift.org` | Swift toolchain for Linux, to compile and test `LiveSky` in the cloud (alternatively install Swift in the setup script) |
+
+Now reachable: `celestrak.org` (terms read, LW7), `ssd.jpl.nasa.gov`, `ladsweb.modaps.eosdis.nasa.gov` (data needs an
+Earthdata token), `lapi.transitchicago.com` (CTA adapter built), `www.rtd-denver.com`, `open-data.rtd-denver.com`.
+
+- **CTA**: `CTA_TRAIN_API_KEY` visible and in use; `CTA_BUS_API_KEY` still to come. CTA's purpose clause still needs a
+  written answer (live-feeds.md blocker 2).
 - **Live aircraft**: needs the adsb.lol operator's written permission and the owner's ODbL share-alike decision.
 
 ## Next steps

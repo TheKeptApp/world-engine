@@ -234,6 +234,10 @@ def main(argv=None) -> int:
     t.add_argument("--pretty", action="store_true")
     t.set_defaults(func=cmd_sats)
 
+    x = sub.add_parser("vectors", help="write the shared test vectors for the Swift port (LiveSky)")
+    x.add_argument("out", nargs="?", help="default Tests/LiveSkyTests/Fixtures/live-sky-vectors.json")
+    x.set_defaults(func=lambda a: __import__("livefeeds.vectors", fromlist=["main"]).main([a.out] if a.out else []))
+
     a = sub.add_parser("planes", help="print simulated ambient aircraft (not live) for an instant")
     a.add_argument("--time", help="ISO 8601 instant (default now)")
     a.add_argument("--areas", default="ord,den", help="area files in data/ambient-planes/ (comma-separated)")
