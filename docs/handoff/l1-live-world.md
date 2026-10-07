@@ -49,27 +49,21 @@ Linux; every other target needs Apple frameworks.
 1. Confirm the new hosts; install Swift (setup script) and run `swift test --filter LiveSkyTests`; fix whatever the
    first compile finds (LiveSky was written without a compiler).
 2. ~~Star catalogue to 6.5~~ done 2026-10-07 (docs/live-world/sky.md section 4: 8,306 stars, 286 KB binary, `StarCatalog.nakedEye()`).
-3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways.
+3. Black Marble grids (needs `EARTHDATA_TOKEN`), ISS passes against Spot the Station / Heavens-Above, MDW runways: all
+   still blocked (table below).
 4. Relay endpoint serving cached elements to phones (OMM JSON). ~~CTA Bus Tracker adapter~~ done 2026-10-07 (transit.md).
 
 ## Blocked (and why)
 
-Hosts re-checked 2026-10-07 from the cloud session. **Still blocked: add these to the environment's allowed domains**
-(environment settings, Network access):
+Re-checked 2026-10-07 (session 3). Reachable now: heasarc, rochester, cdsarc, blackmarble, urs.earthdata, www.nasa.gov,
+transitchicago.com, download.swift.org, Docker Hub. **Still blocked:**
 
-| Host | Needed for |
-|---|---|
-| `overpass-api.de` | Midway (MDW) runways for ambient planes; any OSM query (front page answers, `/api/interpreter` is reset) |
-| `heasarc.gsfc.nasa.gov` | Yale Bright Star Catalogue (BSC5) for the 6.5-magnitude star catalogue |
-| `www.pas.rochester.edu` | IAU star-name list (same build) |
-| `cdsarc.cds.unistra.fr` | BSC5 ReadMe (to confirm the shared-V rule) |
-| `blackmarble.gsfc.nasa.gov` | NASA Black Marble pages and terms |
-| `urs.earthdata.nasa.gov` | Earthdata login, needed to download Black Marble from LAADS (also needs an `EARTHDATA_TOKEN` secret) |
-| `www.nasa.gov` | Spot the Station published ISS pass times (spotthestation.nasa.gov now redirects there) |
-| `heavens-above.com` | Second source of published ISS pass times |
-| `www.transitchicago.com` (and `transitchicago.com`) | CTA terms, Train Tracker docs (error codes), Bus Tracker docs |
-| `api.adsb.lol` | Live ADS-B (not being built; only for re-reading its terms) |
-| `download.swift.org` | Swift toolchain for Linux, to compile and test `LiveSky` in the cloud (alternatively install Swift in the setup script) |
+| Host | Needed for | Symptom |
+|---|---|---|
+| `overpass-api.de` | Midway (MDW) runways | 6 tries over about 15 minutes, all reset during the TLS handshake (`ws_closed_mid_exchange` at the agent proxy), even on `/api/status`. That is the egress path, not Overpass rate limiting (which answers HTTP 429). Stopped retrying. |
+| `iss-sts.hqmce.nasa.gov` | Spot the Station pass list: www.nasa.gov/spot-the-station now embeds its finder from this host in an iframe | proxy 403 (policy) |
+| `heavens-above.com` | Second published ISS pass source | connection reset |
+| `EARTHDATA_TOKEN` (secret) | Black Marble download | not set, so skipped |
 
 Now reachable: `celestrak.org` (terms read, LW7), `ssd.jpl.nasa.gov`, `ladsweb.modaps.eosdis.nasa.gov` (data needs an
 Earthdata token), `lapi.transitchicago.com` (CTA adapter built), `www.rtd-denver.com`, `open-data.rtd-denver.com`.
