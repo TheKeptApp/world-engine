@@ -8,6 +8,11 @@ public struct RainBible: Codable, Sendable {
         public var darken: Double
         public var roughness: Double
         public var sheen: Double
+        public init(darken: Double, roughness: Double, sheen: Double) {
+            self.darken = darken
+            self.roughness = roughness
+            self.sheen = sheen
+        }
         func mixed(_ b: Surface, _ t: Double) -> Surface {
             Surface(darken: darken + (b.darken - darken) * t, roughness: roughness + (b.roughness - roughness) * t,
                     sheen: sheen + (b.sheen - sheen) * t)
