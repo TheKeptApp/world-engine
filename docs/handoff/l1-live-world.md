@@ -78,10 +78,10 @@ downtown Chicago is too high) against sky-quality-meter readings, and wire the g
 
 **MDW runways done (P1, 2026-10-07):** `Tools/livefeeds/data/ambient-planes/mdw.json` from FAA NASR cycle 2026-10-01
 (`APT_RWY_END.csv`, `APT_RWY.csv`; public domain; licensing row LW13): 4 runways, 8 ends (04L/22R, 04R/22L, 13L/31R,
-13R/31L) with landing thresholds (displaced where NASR gives one), true alignment and length. **No `flows`, `defaultFlow` or
-`model` yet**: Midway's flows need the owner's choice (planes.md), so `load_area("mdw")` loads but `Airport` will not
-simulate it until those are added. The snapshot's global `ATTRIBUTION` names OpenStreetMap runways; MDW's are FAA (the
-file's own `attribution`), so the credit line needs a per-area source when MDW is switched on.
+13R/31L) with landing thresholds (displaced where NASR gives one), true alignment and length. Flows added the same day
+(owner decision): `flowSelection` in the file (least crosswind, tailwind ≤ 5 kt, longer runway on near ties; code:
+`choose_flow_by_rule`, used only by areas that declare it, so ORD/DEN are unchanged), per-area `attributionEntry` in the
+snapshot (FAA credit, still illustrative / not live). Tests: `MidwayFlowRuleTests`.
 Seen on the Mac while checking: `tests/test_vectors.py` fails, because the committed `live-sky-vectors.json` differs from
 a Mac rebuild in the last digits (e.g. …7097778 vs …7097769), presumably Linux vs macOS libm. Left alone (L1's).
 

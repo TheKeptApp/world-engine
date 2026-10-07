@@ -151,5 +151,44 @@ class TrafficTests(unittest.TestCase):
         self.assertAlmostEqual(A.multiplier(table, 0.0), (table[23] + table[0]) / 2)
 
 
+class MidwayFlowRuleTests(unittest.TestCase):
+    """MDW: runway pair chosen from live wind by the area file's flowSelection rule (owner decision 2026-10-07)."""
+
+    def setUp(self):
+        self.mdw = A.load_area("mdw")
+
+    def test_calm_and_missing_wind_use_the_default(self):
+        self.assertEqual(A.choose_flow(self.mdw, None, None), "31")
+        self.assertEqual(A.choose_flow(self.mdw, 130.0, 3 * A.KT), "31")
+
+    def test_least_crosswind_wins(self):
+        self.assertEqual(A.choose_flow(self.mdw, 310.0, 15 * A.KT), "31")
+        self.assertEqual(A.choose_flow(self.mdw, 130.0, 15 * A.KT), "13")
+        self.assertEqual(A.choose_flow(self.mdw, 40.0, 15 * A.KT), "04")
+        self.assertEqual(A.choose_flow(self.mdw, 220.0, 10 * A.KT), "22")
+
+    def test_near_tie_prefers_the_longer_runway(self):
+        # From 090 at 10 kt: flow 13 has 6.9 kt crosswind, flow 04 has 7.3 kt; within 1 kt, 13L (1,988 m) beats 04R (1,964 m).
+        self.assertEqual(A.choose_flow(self.mdw, 90.0, 10 * A.KT), "13")
+
+    def test_tailwind_limit(self):
+        # From 180 at 20 kt: flow 22 has 14.1 kt crosswind and 14.1 kt headwind; flow 13 has 14.1 kt crosswind with a
+        # headwind; both 04 and 31 have more than 5 kt of tailwind and are never chosen.
+        for wind in range(0, 360, 10):
+            f = A.choose_flow(self.mdw, float(wind), 20 * A.KT)
+            heading = self.mdw["flows"][f]["landingHeadingTrueDeg"]
+            tail = -20 * math.cos(math.radians(wind - heading))
+            self.assertLessEqual(tail, 5.0 + 1e-9, (wind, f))
+
+    def test_illustrative_label_and_faa_credit(self):
+        snap = A.snapshot([self.mdw], EXAMPLE_T, wind=(310.0, 12 * A.KT))
+        self.assertFalse(snap["live"])
+        self.assertEqual(snap["flows"]["MDW"], "31")
+        self.assertEqual([a["source"] for a in snap["attribution"]], ["ambient-faa"])
+        self.assertTrue(all(a["live"] is False for a in snap["attribution"]))
+        both = A.snapshot([A.load_area("ord"), self.mdw], EXAMPLE_T)
+        self.assertEqual([a["source"] for a in both["attribution"]], ["ambient", "ambient-faa"])
+
+
 if __name__ == "__main__":
     unittest.main()

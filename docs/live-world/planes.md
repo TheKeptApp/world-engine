@@ -19,8 +19,11 @@ specification's hysteresis rule, or the default flow without wind.
 and lengths from OpenStreetMap, copied from the specification's table 2.3 with its base timestamps; flows;
 model parameters). Each carries `aircraftMode` (`off` stops the generator).
 
-**Midway (MDW): runways only (P1, 2026-10-07).** `data/ambient-planes/mdw.json` holds the runway table from FAA NASR
-(cycle 2026-10-01, public domain, licensing LW13); flows and model are not set yet (owner's choice). Earlier note: the brief names O'Hare, Midway and DEN; the specification covers ORD and DEN only,
+**Midway (MDW) (P1, 2026-10-07).** `data/ambient-planes/mdw.json`: runway table from FAA NASR (cycle 2026-10-01, public
+domain, licensing LW13), four flows (04, 13, 22, 31) and a `flowSelection` rule in the file (owner decision): below 4 kt
+the default 31; otherwise no flow with more than 5 kt tailwind, least crosswind, and within 1 kt the longer arrival
+runway. 13R/31L (1,176 m) is not used. The model copies ORD's assumptions. Credit: the file's `attributionEntry`
+("Illustrative air traffic, not live. Runway data: FAA NASR (public domain)."). Earlier note: the brief names O'Hare, Midway and DEN; the specification covers ORD and DEN only,
 and deriving Midway's runway table needs one Overpass query, which this cloud session's network policy denies.
 With network access: run the specification's section 2.1 query for MDW, add `mdw.json` in the same schema
 (flows for Midway are not in the specification and would need the owner's choice).
