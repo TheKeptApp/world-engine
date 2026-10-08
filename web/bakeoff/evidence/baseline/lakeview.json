@@ -218,11 +218,20 @@
     "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
   },
   "backend": "WebGL2",
+  "gpuTimer": {
+    "available": true,
+    "samples": 975,
+    "meanMs": 3.1683275600000003,
+    "p95Ms": 6.330874,
+    "maxMs": 6.837083,
+    "disjointEvents": 0,
+    "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+  },
   "drawCalls": 150,
   "triangles": 523960,
-  "fps": 99.87980652380922,
-  "sampleDurationMs": 9771.744999999999,
-  "p95FrameMs": 10.520000000000437,
+  "fps": 99.98197046434251,
+  "sampleDurationMs": 9761.759999999998,
+  "p95FrameMs": 11.409999999999854,
   "samples": 976,
   "viewport": [
     0.5,
@@ -245,7 +254,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "7e369c3e29b290e0ce0d0ff432d881f4052bd807a78d0e4c37a8d33e8bc92bee",
+  "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
   "resolved": {
     "policy": {
       "look": {
@@ -377,7 +386,18 @@
         ]
       },
       "directIntensity": 3.141592653589793,
-      "ambientIntensity": 5.1257564348044,
+      "ambientIntensity": 5.090866371455596,
+      "witness": {
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "directY": 1.7277450851088725,
+        "fillY": 2.8189525072828974,
+        "ratio": 0.6200000000000001,
+        "source": "style-b-calibration-v2/sharedLook.lighting.shadow.neutralWitnessShadowToLitLinearY"
+      },
       "sky": {
         "zenithHex": "#7AAFE2",
         "midHex": "#8FBAE7",
@@ -507,7 +527,7 @@
         "applyOnce": true
       },
       "hazeExtinctionPerM": 0.000149786614,
-      "season": "summer",
+      "date": "2026-10-08",
       "wind": {
         "windKmh": 10,
         "roughness": 0.28,
@@ -521,19 +541,36 @@
     },
     "fixture": {
       "status": "Simulated calibration fixture, not live weather or observed phenology",
-      "phenophase": "summer",
-      "exportSeasonIndex": 1,
       "windKmh": 10,
       "windFromDegrees": 225,
       "skyState": "clear",
-      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation.",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
       "atmosphereSeason": "summer",
       "timeOfDay": "day",
       "summitsObscured": false,
-      "atmosphereLayers": []
+      "atmosphereLayers": [],
+      "date": "2026-10-08"
+    },
+    "seasonal": {
+      "date": "2026-10-08",
+      "dayOfYear": 281,
+      "source": "Sources/WorldEnvironment/Phenology.swift/denverDemo,chicagoland,resolve(dayOfYear:)",
+      "dataKind": "climatological_art_prior; calendar explicitly requested by R",
+      "weights": [
+        0,
+        0.5277650764619215,
+        0.4722349235380785,
+        0
+      ],
+      "leafFraction": 1,
+      "colourProgress": 0.4722349235380785,
+      "exportSeasonIndex": 1
+    },
+    "facades": {
+      "count": 0
     },
     "species": {}
   },
-  "capturedUTC": "2026-10-08T06:22:43.991Z",
+  "capturedUTC": "2026-10-08T07:03:22.221Z",
   "errors": []
 }

@@ -1,0 +1,76 @@
+{
+  "sloans": {
+    "gpuTimer": {
+      "available": true,
+      "samples": 975,
+      "meanMs": 2.0795815558974358,
+      "p95Ms": 3.224999,
+      "maxMs": 4.638499,
+      "disjointEvents": 0,
+      "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+    },
+    "drawCalls": 170,
+    "triangles": 592332,
+    "fps": 99.8793976740176,
+    "p95FrameMs": 11.359999999999673,
+    "viewport": [
+      0.6666666666666666,
+      390,
+      585
+    ],
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+    "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
+    "totals": {
+      "main": {
+        "triangles": 347177,
+        "draws": 99
+      },
+      "shadow": {
+        "triangles": 245154,
+        "draws": 70
+      },
+      "post": {
+        "triangles": 1,
+        "draws": 1
+      }
+    },
+    "floorPass": false
+  },
+  "lakeview": {
+    "gpuTimer": {
+      "available": true,
+      "samples": 662,
+      "meanMs": 1.9950448217522665,
+      "p95Ms": 3.184958,
+      "maxMs": 4.399249,
+      "disjointEvents": 0,
+      "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+    },
+    "drawCalls": 237,
+    "triangles": 587897,
+    "fps": 85.55135529323243,
+    "p95FrameMs": 20.00500000000102,
+    "viewport": [
+      0.5,
+      390,
+      780
+    ],
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+    "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
+    "totals": {
+      "main": {
+        "triangles": 265310,
+        "draws": 81
+      },
+      "shadow": {
+        "triangles": 322586,
+        "draws": 155
+      },
+      "post": {
+        "triangles": 1,
+        "draws": 1
+      }
+    },
+    "floorPass": false
+  }
+}

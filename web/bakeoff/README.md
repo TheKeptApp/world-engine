@@ -39,3 +39,11 @@ Open http://127.0.0.1:8782/. For an isolated checkout, set `WORLDENGINE_ASSETS` 
 With the preview running, validate using `HEAVY_AGENT='Astra A2' TIERS=hero,standard,floor scripts/heavy.sh 'A2 verification' bash web/bakeoff/verify.sh`. Installed headed Chrome and the bundled Playwright runtime are used; `PLAYWRIGHT_ROOT` can select another existing runtime. `verify.sh` forces Sloan then Lakeview. `freeze.mjs` hashes all look inputs before/after every capture and aborts on changes. `score.py` runs the unmodified `Tools/lookloop/region_colours.py` computation with calibration-v2 frames/boxes, plus `compare_runs.py`; no art grades are invented.
 
 The existing-viewer control shares the fixed camera but retains its original materials, lighting and post; it is not the historical iOS calibration baseline. Source credits remain visible outside ground sampling boxes. Wider untouched hold-outs and independent art review remain prerequisites for production adoption.
+
+## Overnight round, 8 October
+
+Latest ordered work and rejected/accepted decisions: [overnight log](evidence/overnight-log.md).
+Sources, pack keys, inferred inputs and limitations: [overnight sources](OVERNIGHT-SOURCES.md).
+Actual all-pass laptop/tier cost: [laptop budget](LAPTOP-BUDGET.md).
+Run `TIERS=hero,standard,floor bash scripts/heavy.sh 'A2 verification' bash web/bakeoff/verify.sh` from the repository root; the script resolves ignored assets from the primary checkout and enforces the 8 GB guard. After capture, `python3 web/bakeoff/laptop-report.py` regenerates the cost report.
+The branch merge keeps this work isolated; neither production web files nor P2/5A sources are modified. This experiment has not passed the iOS parity/look gate.

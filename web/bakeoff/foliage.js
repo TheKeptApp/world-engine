@@ -1,17 +1,8 @@
 import * as T from 'three/webgpu';
 import {mergeGeometries,mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
-import {stableRandom} from './stable-random.js';
+import {speciesFor} from './species-policy.js';
 // All shape numbers are P2 fcda086/Props.swift, compiled in data/p2-crowns.json.
 const v=a=>new T.Vector3(...a);
-const form=k=>/Pyramidal|Upright|Oval/.test(k)?'oval':/Vase|Open|Spreading/.test(k)?'spreading':k==='conifer'?'conifer':'broad';
-export function speciesFor(inst,kind,pack,region,data){
- const f=data.foliageSeasons,known=pack.species.find(s=>s.id===inst.species);if(known)return known;
- const ids=[...new Set(pack.cities.find(c=>c.id===region).mix.map(m=>f.species[m.id]?m.id:f.nearest[m.id]).filter(Boolean))];
- let pool=ids.filter(id=>form(f.species[id].kind||'')===form(kind));
- if(!pool.length&&kind==='conifer'){const row=data.vegetation[data.vegetationRegions[region].slots.conifer1];return {id:region+'-generic-conifer',crownKind:'conifer',evergreen:true,bark:row.branches,seasonColours:{summer:row.colours[1]}};}
- if(!pool.length)throw Error('No P2 species fallback for '+region+'/'+kind);
- const rng=stableRandom(inst.id,0),id=pool[Math.floor(rng()*pool.length)];return pack.species.find(s=>s.id===id);
-}
 function colour(g,c){g.setAttribute('color',new T.BufferAttribute(new Float32Array(g.attributes.position.count*3).fill(0),3));for(let i=0;i<g.attributes.position.count;i++)g.attributes.color.setXYZ(i,c.r,c.g,c.b);return g;}
 function limb(a,b,r,c,sides){const delta=b.clone().sub(a),g=new T.CylinderGeometry(r*.45,r,delta.length(),sides,1,true);g.applyQuaternion(new T.Quaternion().setFromUnitVectors(v([0,1,0]),delta.normalize()));g.translate(...a.clone().add(b).multiplyScalar(.5).toArray());return colour(g,c);}
 function cubeSphere(){const g=new T.BoxGeometry(2,2,2,2,2,2),p=g.attributes.position,n=g.attributes.normal;for(let i=0;i<p.count;i++){const u=v([p.getX(i),p.getY(i),p.getZ(i)]).normalize();p.setXYZ(i,...u.toArray());n.setXYZ(i,...u.toArray());}return g;}

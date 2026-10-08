@@ -20,25 +20,33 @@
         "draws": 1,
         "triangles": 1984
       },
+      "shadow/facade details": {
+        "draws": 6,
+        "triangles": 26292
+      },
       "shadow/opaque world": {
         "draws": 87,
         "triangles": 237617
       },
       "shadow/foliage": {
-        "draws": 39,
-        "triangles": 84660
+        "draws": 62,
+        "triangles": 58677
+      },
+      "main/facade details": {
+        "draws": 4,
+        "triangles": 19812
       },
       "main/opaque world": {
         "draws": 47,
         "triangles": 212186
       },
-      "main/foliage": {
-        "draws": 18,
-        "triangles": 44368
-      },
       "main/tufts": {
         "draws": 1,
         "triangles": 3600
+      },
+      "main/foliage": {
+        "draws": 28,
+        "triangles": 27728
       },
       "post/sky/composite": {
         "draws": 1,
@@ -127,12 +135,21 @@
     "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
   },
   "backend": "WebGL2",
-  "drawCalls": 194,
-  "triangles": 584416,
-  "fps": 95.36433945890273,
-  "sampleDurationMs": 9961.795,
-  "p95FrameMs": 10.979999999999563,
-  "samples": 950,
+  "gpuTimer": {
+    "available": true,
+    "samples": 663,
+    "meanMs": 2.0107647888386118,
+    "p95Ms": 3.689708,
+    "maxMs": 6.418333,
+    "disjointEvents": 0,
+    "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+  },
+  "drawCalls": 237,
+  "triangles": 587897,
+  "fps": 85.20012277029738,
+  "sampleDurationMs": 9741.77,
+  "p95FrameMs": 20.0049999999992,
+  "samples": 830,
   "viewport": [
     0.5,
     390,
@@ -154,7 +171,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "7e369c3e29b290e0ce0d0ff432d881f4052bd807a78d0e4c37a8d33e8bc92bee",
+  "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
   "resolved": {
     "policy": {
       "look": {
@@ -286,7 +303,18 @@
         ]
       },
       "directIntensity": 3.141592653589793,
-      "ambientIntensity": 5.1257564348044,
+      "ambientIntensity": 5.090866371455596,
+      "witness": {
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "directY": 1.7277450851088725,
+        "fillY": 2.8189525072828974,
+        "ratio": 0.6200000000000001,
+        "source": "style-b-calibration-v2/sharedLook.lighting.shadow.neutralWitnessShadowToLitLinearY"
+      },
       "sky": {
         "zenithHex": "#7AAFE2",
         "midHex": "#8FBAE7",
@@ -416,7 +444,7 @@
         "applyOnce": true
       },
       "hazeExtinctionPerM": 0.000149786614,
-      "season": "summer",
+      "date": "2026-10-08",
       "wind": {
         "windKmh": 10,
         "roughness": 0.28,
@@ -430,244 +458,640 @@
     },
     "fixture": {
       "status": "Simulated calibration fixture, not live weather or observed phenology",
-      "phenophase": "summer",
-      "exportSeasonIndex": 1,
       "windKmh": 10,
       "windFromDegrees": 225,
       "skyState": "clear",
-      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation.",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
       "atmosphereSeason": "summer",
       "timeOfDay": "day",
       "summitsObscured": false,
-      "atmosphereLayers": []
+      "atmosphereLayers": [],
+      "date": "2026-10-08"
+    },
+    "seasonal": {
+      "date": "2026-10-08",
+      "dayOfYear": 281,
+      "source": "Sources/WorldEnvironment/Phenology.swift/denverDemo,chicagoland,resolve(dayOfYear:)",
+      "dataKind": "climatological_art_prior; calendar explicitly requested by R",
+      "weights": [
+        0,
+        0.5277650764619215,
+        0.4722349235380785,
+        0
+      ],
+      "leafFraction": 1,
+      "colourProgress": 0.4722349235380785,
+      "exportSeasonIndex": 1
+    },
+    "facades": {
+      "count": 852,
+      "report": {
+        "buildings": 849,
+        "tiers": {
+          "near": 337,
+          "middle": 512,
+          "far": 0
+        },
+        "features": {
+          "bays": 156,
+          "stoops": 783,
+          "cornices": 849,
+          "fences": 29
+        },
+        "source": "facade-detail-v1/content,lod; export grammar + OSM footprints; inferred additions, not surveyed facade inventory"
+      }
     },
     "species": {
-      "conifer/0/-1,-1": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/-1,-1/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 5
       },
-      "conifer/0/-1,-2": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/-1,-2/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "conifer/0/-1,0": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/-1,0/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 3
       },
-      "conifer/0/-2,0": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/-2,0/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
       },
-      "conifer/0/0,-1": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/0,-1/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
       },
-      "conifer/0/0,-2": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/0,-2/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
       },
-      "conifer/0/0,0": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/0,0/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "conifer/0/0,1": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/0,1/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "conifer/0/1,0": {
-        "species": "magnolia_grandiflora",
-        "silhouette": "oval"
+      "conifer/0/1,0/chicago-generic-conifer": {
+        "species": "chicago-generic-conifer",
+        "silhouette": "conifer",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
       },
-      "treeBroad/0/-1,-1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-1,-2": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-1,0": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-1,1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-2,-1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-2,-2": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-2,0": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/-2,1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/0,-1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/0,-2": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/0,0": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/0,1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/1,-1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/1,-2": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/1,0": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeBroad/0/1,1": {
-        "species": "gleditsia_triacanthos",
-        "silhouette": "spreading"
-      },
-      "treeOval/0/-1,-1": {
+      "treeBroad/0/-1,-1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 106
       },
-      "treeOval/0/-1,-2": {
+      "treeBroad/0/-1,-2/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 24
       },
-      "treeOval/0/-1,0": {
+      "treeBroad/0/-1,0/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 106
       },
-      "treeOval/0/-1,1": {
+      "treeBroad/0/-1,1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 31
       },
-      "treeOval/0/-2,-1": {
+      "treeBroad/0/-2,-1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 16
       },
-      "treeOval/0/-2,0": {
+      "treeBroad/0/-2,-2/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 3
       },
-      "treeOval/0/-2,1": {
+      "treeBroad/0/-2,0/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 19
       },
-      "treeOval/0/0,-1": {
+      "treeBroad/0/-2,1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
       },
-      "treeOval/0/0,-2": {
+      "treeBroad/0/0,-1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 101
       },
-      "treeOval/0/0,0": {
+      "treeBroad/0/0,-2/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 24
       },
-      "treeOval/0/0,1": {
+      "treeBroad/0/0,0/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 113
       },
-      "treeOval/0/1,-1": {
+      "treeBroad/0/0,1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 21
       },
-      "treeOval/0/1,-2": {
+      "treeBroad/0/1,-1/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 19
       },
-      "treeOval/0/1,0": {
+      "treeBroad/0/1,-2/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
       },
-      "treeOval/0/1,1": {
+      "treeBroad/0/1,0/acer_platanoides": {
         "species": "acer_platanoides",
-        "silhouette": "rounded"
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 19
       },
-      "treeSpreading/0/-1,-1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeBroad/0/1,1/acer_platanoides": {
+        "species": "acer_platanoides",
+        "silhouette": "treeRounded",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "treeSpreading/0/-1,-2": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,-1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 47
       },
-      "treeSpreading/0/-1,0": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,-1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 41
       },
-      "treeSpreading/0/-1,1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,-2/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 11
       },
-      "treeSpreading/0/-2,-1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,-2/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 16
       },
-      "treeSpreading/0/-2,-2": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,0/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 50
       },
-      "treeSpreading/0/-2,0": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,0/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 42
       },
-      "treeSpreading/0/-2,1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 6
       },
-      "treeSpreading/0/0,-1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-1,1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 11
       },
-      "treeSpreading/0/0,-2": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,-1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 8
       },
-      "treeSpreading/0/0,0": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,-1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 6
       },
-      "treeSpreading/0/0,1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,0/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 9
       },
-      "treeSpreading/0/1,-1": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,0/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 6
       },
-      "treeSpreading/0/1,-2": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "treeSpreading/0/1,0": {
-        "species": "acer_saccharinum",
-        "silhouette": "spreading"
+      "treeOval/0/-2,1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       },
-      "treeSpreading/0/1,1": {
+      "treeOval/0/0,-1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 51
+      },
+      "treeOval/0/0,-1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 39
+      },
+      "treeOval/0/0,-2/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 16
+      },
+      "treeOval/0/0,-2/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 17
+      },
+      "treeOval/0/0,0/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 53
+      },
+      "treeOval/0/0,0/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 46
+      },
+      "treeOval/0/0,1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 8
+      },
+      "treeOval/0/0,1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 9
+      },
+      "treeOval/0/1,-1/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 11
+      },
+      "treeOval/0/1,-1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 12
+      },
+      "treeOval/0/1,-2/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeOval/0/1,-2/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
+      },
+      "treeOval/0/1,0/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
+      },
+      "treeOval/0/1,0/tilia_cordata": {
+        "species": "tilia_cordata",
+        "silhouette": "treePyramidal",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
+      },
+      "treeOval/0/1,1/fraxinus_pennsylvanica": {
+        "species": "fraxinus_pennsylvanica",
+        "silhouette": "treeUpright",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/-1,-1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 30
+      },
+      "treeSpreading/0/-1,-1/acer_saccharinum": {
         "species": "acer_saccharinum",
-        "silhouette": "spreading"
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 35
+      },
+      "treeSpreading/0/-1,-1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 32
+      },
+      "treeSpreading/0/-1,-2/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 10
+      },
+      "treeSpreading/0/-1,-2/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 15
+      },
+      "treeSpreading/0/-1,-2/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 19
+      },
+      "treeSpreading/0/-1,0/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 28
+      },
+      "treeSpreading/0/-1,0/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 33
+      },
+      "treeSpreading/0/-1,0/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 34
+      },
+      "treeSpreading/0/-1,1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 9
+      },
+      "treeSpreading/0/-1,1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 12
+      },
+      "treeSpreading/0/-1,1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 10
+      },
+      "treeSpreading/0/-2,-1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 6
+      },
+      "treeSpreading/0/-2,-1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
+      },
+      "treeSpreading/0/-2,-2/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/-2,0/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 3
+      },
+      "treeSpreading/0/-2,0/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 5
+      },
+      "treeSpreading/0/-2,0/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
+      },
+      "treeSpreading/0/-2,1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/-2,1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 3
+      },
+      "treeSpreading/0/-2,1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/0,-1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 38
+      },
+      "treeSpreading/0/0,-1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 46
+      },
+      "treeSpreading/0/0,-1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 46
+      },
+      "treeSpreading/0/0,-2/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
+      },
+      "treeSpreading/0/0,-2/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 16
+      },
+      "treeSpreading/0/0,-2/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 9
+      },
+      "treeSpreading/0/0,0/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 41
+      },
+      "treeSpreading/0/0,0/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 37
+      },
+      "treeSpreading/0/0,0/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 32
+      },
+      "treeSpreading/0/0,1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 9
+      },
+      "treeSpreading/0/0,1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 15
+      },
+      "treeSpreading/0/0,1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
+      },
+      "treeSpreading/0/1,-1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 10
+      },
+      "treeSpreading/0/1,-1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
+      },
+      "treeSpreading/0/1,-1/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 7
+      },
+      "treeSpreading/0/1,-2/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/1,-2/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
+      },
+      "treeSpreading/0/1,-2/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 2
+      },
+      "treeSpreading/0/1,0/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
+      },
+      "treeSpreading/0/1,0/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 6
+      },
+      "treeSpreading/0/1,0/ulmus_americana": {
+        "species": "ulmus_americana",
+        "silhouette": "treeVase",
+        "source": "P2 inferred city/form fallback",
+        "count": 4
+      },
+      "treeSpreading/0/1,1/acer_saccharinum": {
+        "species": "acer_saccharinum",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
+      },
+      "treeSpreading/0/1,1/gleditsia_triacanthos": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "treeOpen",
+        "source": "P2 inferred city/form fallback",
+        "count": 1
       }
     }
   },
-  "capturedUTC": "2026-10-08T06:23:00.667Z",
+  "capturedUTC": "2026-10-08T07:03:38.238Z",
   "errors": []
 }

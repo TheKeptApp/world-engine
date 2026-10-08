@@ -27,3 +27,11 @@ assert.equal(facadeFamily('chicago',{family:'unknown'},pack),null);
 assert.equal(detailTier(10,10,780,47,pack.lod),'near');
 assert.equal(detailTier(10,10000,780,47,pack.lod),'far');
 console.log('PASS: family/era provenance, mapped colour priority, distance tiers');
+
+const {speciesFor}=await import('./species-policy.js');
+const foliage=JSON.parse(await readFile(`${process.env.WORLDENGINE_ASSETS}/docs/proposals/foliage-seasons-v1/foliage-values.json`));
+for(const [region,path]of [['chicago','web/bakeoff/generated/lakeview-sheil-park/instances.json'],['denver',`${process.env.WORLDENGINE_ASSETS}/Generated/package/sloans-lake/instances.json`]]){
+ const instances=JSON.parse(await readFile(path)).instances.filter(i=>i.kind.startsWith('tree')||i.kind==='conifer');
+ for(const inst of instances){const species=speciesFor(inst,inst.kind,foliage,region,data);assert.ok(species?.id);assert.deepEqual(species,speciesFor(inst,inst.kind,foliage,region,data));if(inst.species)assert.equal(species.id,inst.species);}
+}
+console.log('PASS: every exported tree resolves reproducibly; mapped/export species wins; generic conifers supported');
