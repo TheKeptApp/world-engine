@@ -14,10 +14,11 @@ struct DaytimeMasterTests {
         // Stops by elevation (P3 may sample more from the heroes): horizon at 0°, zenith at 90°.
         #expect(master.sky.stops.count >= 3)
         #expect(master.sky.stops.first!.elevation == 0 && master.sky.stops.last!.elevation == 90)
-        let zenith = (0..<8).first { mv.number(p + "sky.gradient[\($0)].elevationDeg") == 90 }!
-        #expect(master.sky.stops.last!.hex == (try mv.requireHex(p + "sky.gradient[\(zenith)].hex")))
+        // style-b-calibration-v2 owns look where it has a value (owner, 7 Oct).
+        #expect(master.sky.stops.last!.hex == (try mv.requireHex("style-b/look/lighting.sky.zenithHex")))
+        #expect(master.sky.stops.first!.hex == (try mv.requireHex("style-b/look/lighting.sky.horizonHex")))
         #expect(master.sunColorHex == (try mv.requireHex(p + "sun.colorHex")))
-        #expect(master.skyFillHex == (try mv.requireHex(p + "sun.skyFillColorHex")))
+        #expect(master.skyFillHex == (try mv.requireHex("style-b/look/lighting.sky.fillHex")))
         #expect(abs(master.shadowStrength - (try mv.requireNumber(p + "shadows.strengthPercent")) / 100) < 1e-12)
         #expect(master.grade.exposureEV == (try mv.requireNumber(p + "exposure.relativeEV")))
         #expect(master.grade.contrast == (try mv.requireNumber(p + "exposure.contrastSlope")))

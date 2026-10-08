@@ -42,6 +42,10 @@ R-approved corrections in Tools/lookloop/mock-corrections.json are applied last 
 images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
 "original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
 
+The full file is Resources/look/mock-values.json (tools, reference). The engine bundles a slim copy,
+Sources/WorldGen/Profiles/mock-values.json, with only the key prefixes listed in Tools/lookloop/bundle-prefixes.json
+(R, 8 Oct 2026); a lane that starts reading a new prefix adds it there.
+
 Usage: python3 Tools/lookloop/compile_mocks.py [--check]
 """
 import json
@@ -54,6 +58,7 @@ INDEX = ROOT / "docs/proposals/INDEX.md"
 OUT = ROOT / "Resources/look/mock-values.json"
 # Byte-identical bundled copy so the WorldGen target can load it (P2, 7 Oct 2026); generated, never hand-edited.
 BUNDLE = ROOT / "Sources/WorldGen/Profiles/mock-values.json"
+BUNDLE_PREFIXES = "Tools/lookloop/bundle-prefixes.json"
 CORRECTIONS = "Tools/lookloop/mock-corrections.json"
 CONFLICTS_MD = ROOT / "docs/lookloop/mock-conflicts.md"
 
@@ -572,6 +577,18 @@ def render(doc):
     return json.dumps(doc, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
 
 
+def bundle_doc(doc, root=ROOT):
+    """The copy the engine bundles (R, 8 Oct 2026): only the entries under the prefixes it reads (Tools/lookloop/bundle-prefixes.json).
+    Without that file the bundled copy is the full file."""
+    path = root / BUNDLE_PREFIXES
+    if not path.exists():
+        return doc
+    prefixes = json.loads(path.read_text())["prefixes"]
+    keep = {k: e for k, e in doc["entries"].items() if any(k == p or k.startswith(p + "/") for p in prefixes)}
+    return dict(doc, entries=keep, bundle={"prefixes": prefixes, "entries": len(keep), "of": len(doc["entries"]),
+                                           "note": "Slim copy for the app; the full file is Resources/look/mock-values.json."})
+
+
 def render_conflicts_md(doc):
     lines = [
         "# Mock value conflicts between approved packs",
@@ -597,16 +614,17 @@ def render_conflicts_md(doc):
 def main(argv):
     doc = build()
     text, md = render(doc), render_conflicts_md(doc)
+    slim = render(bundle_doc(doc))
     if "--check" in argv:
-        ok = OUT.exists() and OUT.read_text() == text and BUNDLE.exists() and BUNDLE.read_text() == text and CONFLICTS_MD.exists() and CONFLICTS_MD.read_text() == md
+        ok = OUT.exists() and OUT.read_text() == text and BUNDLE.exists() and BUNDLE.read_text() == slim and CONFLICTS_MD.exists() and CONFLICTS_MD.read_text() == md
         print("mock-values.json up to date" if ok else "mock-values.json is STALE: run Tools/lookloop/compile_mocks.py")
         return 0 if ok else 1
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(text)
-    BUNDLE.write_text(text)
+    BUNDLE.write_text(slim)
     CONFLICTS_MD.write_text(md)
     print(f"wrote {OUT.relative_to(ROOT)}: {len(doc['entries'])} entries from {', '.join(doc['approvedPacks'])}; "
-          f"{len(doc['conflicts'])} conflicts")
+          f"{len(doc['conflicts'])} conflicts; bundled copy {BUNDLE.relative_to(ROOT)}: {len(json.loads(slim)['entries'])} entries, {len(slim) / 1048576:.2f} MB")
     return 0
 
 
