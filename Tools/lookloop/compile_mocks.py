@@ -589,7 +589,76 @@ def bundle_doc(doc, root=ROOT):
                                            "note": "Slim copy for the app; the full file is Resources/look/mock-values.json."})
 
 
-def render_conflicts_md(doc):
+
+def approved_status_overrides(root=ROOT):
+    """Report-only precedence from explicitly approved STATUS + source override lists.
+
+    This does not broaden engine compilation eligibility or change compiled values.
+    Approval must be the leading status declaration, never a quoted approval lower
+    in a pending/rejected document. JSON's historical status cannot override STATUS.
+    """
+    records = []
+    for status in sorted((root / "docs/proposals").glob("*/STATUS.md")):
+        text = status.read_text()
+        declaration = next((line.strip().replace("**", "") for line in text.splitlines()
+                            if line.strip() and not line.startswith("#")), "")
+        if not re.match(r"^(?:Status:\s*)?(?:R approved|APPROVED by R)\b", declaration, re.I):
+            continue
+        for source in sorted(status.parent.glob("*.json")):
+            data = json.loads(source.read_text())
+            if not isinstance(data, dict) or not isinstance(data.get("overrides"), list):
+                continue
+            for override in data["overrides"]:
+                if not isinstance(override, dict) or not isinstance(override.get("pack"), str):
+                    continue
+                paths = override.get("paths")
+                if not isinstance(paths, list) or not paths or not all(isinstance(p, str) for p in paths):
+                    continue
+                records.append({"owner": status.parent.name, "prior": override["pack"],
+                                "paths": paths, "scope": override.get("scope", "Scope as declared in source"),
+                                "status": str(status.relative_to(root)), "source": str(source.relative_to(root)),
+                                "approval": declaration, "definition": data.get("definition", {})})
+    return records
+
+
+def pointer_matches(key, pointer):
+    """Match a JSON-pointer prefix; '*' matches one segment, not an entire subtree."""
+    if not pointer.startswith("/"):
+        return False
+    key = key.split("/", 1)[-1]
+    parts = re.sub(r"\[([^]]+)\]", r".\1", key).split(".")
+    pattern = [p.replace("~1", "/").replace("~0", "~") for p in pointer[1:].split("/")]
+    return len(parts) >= len(pattern) and all(a == "*" or a == b for a, b in zip(pattern, parts))
+
+
+def source_resolution(definition, records):
+    """Exact selectors supersede fields; prose selectors stay explicitly scoped.
+
+    Never turn a prose selector into an invented machine path or a whole-pack win.
+    Existing resolutions remain unchanged outside explicit pointer matches.
+    """
+    exact, scoped = [], []
+    for record in records:
+        if definition["pack"] != record["prior"]:
+            continue
+        source = f"{record['owner']} ({record['status']}; {record['source']}#/overrides)"
+        if any(pointer_matches(definition["key"], path) for path in record["paths"]):
+            exact.append(f"Superseded field by approved {source}. {record['scope']}")
+        elif any(not path.startswith("/") for path in record["paths"]):
+            scoped.append(f"Approved scoped rule from {source}: {', '.join(record['paths'])}. "
+                          f"{record['scope']} Applicability is limited to that scope; other fields remain unresolved.")
+    if exact:
+        # If more than one approved pack claims the field, display all, not an arbitrary winner.
+        return ("Multiple approved claims; precedence review required: " if len(exact) > 1 else "") + "; ".join(exact)
+    return definition.get("resolved") or "; ".join(scoped) or "pending (R decides)"
+
+
+def markdown_cell(value):
+    return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def render_conflicts_md(doc, root=ROOT):
+    records = approved_status_overrides(root)
     lines = [
         "# Mock value conflicts between approved packs",
         "",
@@ -597,7 +666,8 @@ def render_conflicts_md(doc):
         "parameter differently, both are kept. Matching is by leaf parameter name across packs plus the named",
         "same-meaning groups in `SEMANTIC`. Precedence (R, 2026-10-07): house-contrast-v1 `sharedLighting` is the",
         "daytime lighting master; it wins over other packs' clear-daytime values. Night / blue-hour / fog / golden /",
-        "overcast values are different states, not conflicts. Conflicts without the master stay pending for R.",
+        "overcast values are different states, not conflicts. Later approved field-level source overrides are reported below;",
+        "unresolved fields remain pending. Historical values are retained; this report does not claim engine integration.",
         "",
         "| Parameter | Mock key | Value | State | Source | Resolution |",
         "|---|---|---|---|---|---|",
@@ -605,10 +675,28 @@ def render_conflicts_md(doc):
     for c in doc["conflicts"]:
         for d in c["definitions"]:
             lines.append(f'| {c["parameter"]} | `{d["key"]}` | `{json.dumps(d["value"])}` | {d["state"]} | '
-                         f'`{d["source"]}` | {d.get("resolved", "pending (R decides)")} |')
+                         f'`{d["source"]}` | {markdown_cell(source_resolution(d, records))} |')
     if not doc["conflicts"]:
         lines.append("| (none found) | | | | | |")
-    return "\n".join(lines) + "\n"
+    if records:
+        lines += ["", "## Approved source resolutions", "",
+                  "These declarations apply only to the listed fields. Preserved scope is binding; prose selectors",
+                  "are reported as scoped rules, never expanded into whole-pack replacements.", ""]
+        for owner in sorted({r["owner"] for r in records}):
+            group = [r for r in records if r["owner"] == owner]
+            first = group[0]
+            lines += [f"### {owner}", "", first["approval"], "",
+                      f"Approval source: `{first['status']}`. Value source: `{first['source']}`.", ""]
+            if first["definition"]:
+                lines += ["Source definition (verbatim data):", "", "```json",
+                          json.dumps(first["definition"], indent=2, ensure_ascii=False), "```", ""]
+            lines += ["| Prior pack | Fields overridden | Scope / preserved fields |",
+                      "|---|---|---|"]
+            for record in group:
+                lines.append("| " + " | ".join(markdown_cell(v) for v in
+                             (record["prior"], ", ".join(record["paths"]), record["scope"])) + " |")
+            lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def main(argv):

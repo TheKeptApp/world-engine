@@ -2,6 +2,7 @@
 # Runs one heavy job (Xcode/Swift build, full test suite, Simulator run, look loop) under the Mac's
 # shared turn-taking lock, ~/.agent-heavy-lock (owner's shared Mac rules, 2026-10-06):
 #   - first waits up to 10 minutes for a 1-minute load under 25 (without holding the lock);
+#   - refuses to start if load is still at/above the limit after that wait;
 #   - then waits while anyone holds the lock (checks every 60 s): a lock counts as held whenever
 #     its owner file names a running PID or names none we can read;
 #   - takes it with an atomic mkdir and writes an owner file (project, agent, PID, job, start);
@@ -10,7 +11,7 @@
 # abandoned: the job proceeds without touching it, and says so on stderr ("HEAVY abandoned lock")
 # for the owner's report. Another session's lock is never written into or removed.
 #   scripts/heavy.sh "job description" command [args...]
-# Env: HEAVY_AGENT (default "WorldEngine P0"), HEAVY_LOAD (25), HEAVY_LOAD_WAIT seconds (600).
+# Env: HEAVY_AGENT (default "WorldEngine P0"), HEAVY_LOAD (25 maximum), HEAVY_LOAD_WAIT seconds (600).
 set -uo pipefail
 LOCK="$HOME/.agent-heavy-lock"
 JOB="${1:?job description}"; shift
@@ -34,11 +35,29 @@ release() { [ "$MINE" = 1 ] && [ "$(owner_pid)" = "$$" ] && rm -rf "$LOCK"; MINE
 trap 'release' EXIT
 trap 'release; exit 130' INT TERM
 
+# Fail closed on invalid settings/readings. A stricter local limit is allowed,
+# but the owner's ceiling of 25 cannot be raised by an environment override.
+if ! [[ "$LOADWAIT" =~ ^[0-9]+$ ]] || ! [[ "$MAXLOAD" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+  echo "HEAVY refused: invalid load gate settings" >&2
+  exit 1
+fi
+MAXLOAD=$(awk -v limit="$MAXLOAD" 'BEGIN { print (limit < 25 ? limit : 25) }')
+load_under_limit() {
+  CURRENT_LOAD=$(sysctl -n vm.loadavg 2>/dev/null | awk '
+    NF == 5 && $1 == "{" && $5 == "}" && $2 ~ /^[0-9]+([.][0-9]+)?$/ { print $2; valid=1 }
+    END { if (!valid) exit 1 }') || { CURRENT_LOAD=unavailable; return 1; }
+  awk -v load="$CURRENT_LOAD" -v limit="$MAXLOAD" 'BEGIN { exit !(load < limit) }'
+}
+refuse_load() {
+  echo "HEAVY refused: $JOB (1-minute load $CURRENT_LOAD; requires under $MAXLOAD; waited ${waited}s for load); job not started" >&2
+  exit 1
+}
 waited=0
 while [ "$waited" -lt "$LOADWAIT" ]; do
-  [ "$(sysctl -n vm.loadavg | awk '{print int($2)}')" -lt "$MAXLOAD" ] && break
+  load_under_limit && break
   sleep 30; waited=$((waited + 30))
 done
+load_under_limit || refuse_load
 
 while :; do
   if mkdir "$LOCK" 2>/dev/null; then
@@ -58,7 +77,10 @@ while :; do
   echo "HEAVY waiting: lock held ($(cat "$LOCK"/* 2>/dev/null | tr '\n' ' ' | cut -c1-160))" >&2
   sleep 60
 done
-echo "HEAVY start: $JOB (load $(sysctl -n vm.loadavg | awk '{print $2}'), waited ${waited}s for load)" >&2
+# Load may rise while waiting for another lane. The existing EXIT trap releases
+# only our own lock if this final check refuses the job.
+load_under_limit || refuse_load
+echo "HEAVY start: $JOB (load $CURRENT_LOAD, waited ${waited}s for load)" >&2
 "$@"
 status=$?
 release

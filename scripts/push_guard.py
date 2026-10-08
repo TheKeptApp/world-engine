@@ -82,8 +82,9 @@ def mock_check(commit, cwd=None):
             doc = cm.build(root)
             expected = {'Resources/look/mock-values.json': cm.render(doc),
                         'Sources/WorldGen/Profiles/mock-values.json': cm.render(cm.bundle_doc(doc, root)),
-                        'docs/lookloop/mock-conflicts.md': cm.render_conflicts_md(doc)}
-            return [] if all((root / p).read_text() == value for p, value in expected.items()) else ['stale mock-values']
+                        'docs/lookloop/mock-conflicts.md': cm.render_conflicts_md(doc, root)}
+            return [f'stale generated file: {p}' for p, value in expected.items()
+                    if not (root / p).exists() or (root / p).read_text() != value]
     except Exception:
         return ['mock-values freshness check failed (missing or invalid committed inputs)']
 

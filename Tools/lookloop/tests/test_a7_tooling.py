@@ -108,6 +108,7 @@ class GuardTests(unittest.TestCase):
     def test_committed_mock_freshness_and_stale_output(self):
         self.assertEqual(guard.mock_check('HEAD', ROOT), [])
         original_git = guard.git
+        stale_path = 'Resources/look/mock-values.json'
         def stale(*args, **kwargs):
             data = original_git(*args, **kwargs)
             if args[0] != 'archive':
@@ -116,12 +117,15 @@ class GuardTests(unittest.TestCase):
             with tarfile.open(fileobj=io.BytesIO(data)) as source, tarfile.open(fileobj=output, mode='w') as dest:
                 for member in source:
                     stream = source.extractfile(member) if member.isfile() else None
-                    if member.name == 'Resources/look/mock-values.json':
+                    if member.name == stale_path:
                         stream = io.BytesIO(b'{}'); member.size = 2
                     dest.addfile(member, stream)
             return output.getvalue()
-        with patch.object(guard, 'git', side_effect=stale):
-            self.assertEqual(guard.mock_check('HEAD', ROOT), ['stale mock-values'])
+        for stale_path in ['Resources/look/mock-values.json',
+                           'Sources/WorldGen/Profiles/mock-values.json',
+                           'docs/lookloop/mock-conflicts.md']:
+            with self.subTest(path=stale_path), patch.object(guard, 'git', side_effect=stale):
+                self.assertEqual(guard.mock_check('HEAD', ROOT), [f'stale generated file: {stale_path}'])
 
     def test_intermediate_blob_and_deletion(self):
         with tempfile.TemporaryDirectory() as td:
