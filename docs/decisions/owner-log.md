@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Close generated haze filing (R):** pull A7 `df81ad8`, confirm generated mock-conflicts freshness and approved haze-visibility-v1 5% MOR with local-fog exclusions, and file separately with guard enabled; no script edits. A3 verified the already-landed report and recorded closure in handoffs and lane reviews. No renderer integration or look score claimed.
+
 - **Land independent stale-status filings now (R):** file A8 `48a6ec0`, A9 `ed9a43f`, A10 `19a627c`, and A11 `9cdc184`; mark old weekend shadow failure stale against A2’s 5,008 / 67,190 ledger (below 150k; native unproven) and colour-box dE wording diagnostic only. A10 hero/standard budgets are provisional guesses, floor unchanged; Lakeview ~414k / 400k remains open; HUD requires `-debughud`, no switch. A11 web export/app build remain RED for public release: placeholder ODbL offer, credits draft not wired. Applied in lane reviews, handoffs, A1 tracker, weekend brief and scoreboard. Leave generated mock-conflicts unchanged; A7 generator fix is a separate pending follow-up, then A3 pulls/regenerates and lands it with the guard enabled.
 
 - **Generalization panel (R):** document 8–10 varied US blocks including the planned four, unchanged-pipeline failure-only smoke (no look scores), random unseen spot-checks after big merges under the existing rubric, and reject-rule integration. Filed ten proposed slots in docs/lookloop/generalization-panel.md with scoped GREEN evidence and explicit missing block-clearance gates; no new downloads or completed-test claim.

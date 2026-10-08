@@ -168,3 +168,9 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 | Date | From → to | Item | Status / next step |
 |---|---|---|---|
 | 2026-10-08 | A3 → A7 → A3 | Generated haze supersession | A7 received exact failure: only `docs/lookloop/mock-conflicts.md` differs from compiler output in blocked `06d9dfb`; both generated JSON files match. Existing haze STATUS/INDEX already records the 5% MOR override, but compiler approval parsing and conflict rendering do not carry it through. R directs independent filings to land now, with generated file unchanged. After A7 reports the fix, A3 pulls/regenerates and lands the haze status separately; guard stays enabled, no script edits by A3. |
+
+## Generated haze status closed — A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / evidence |
+|---|---|---|---|
+| 2026-10-08 | A7 → A3 → A2 / 5A | `df81ad8` source-driven haze resolution | **FILED / freshness confirmed.** A7 already landed the regenerated [mock-conflicts report](../lookloop/mock-conflicts.md) on main. A3 pulled it and ran `python3 -B Tools/lookloop/compile_mocks.py --check`: PASS. Approved haze-visibility-v1 uses 5% MOR and recomputes legacy 2% equivalents; scoped overrides preserve weather-moments localLayerExtinctionPerM unless independently recalibrated, night-fog ground fog 0.035/m and spatial layers/patches. Darkness alone does not raise extinction. Earlier generator-blocked status above is historical and closed. No script, source-pack or renderer changes by A3; no integration or visual pass claimed. |

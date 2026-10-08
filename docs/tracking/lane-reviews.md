@@ -10,3 +10,7 @@ Documentation filing only; no captures, new scores, benchmarks or implementation
 | A11 — `9cdc184`, [licence inventory](../legal/data-licence-inventory-v1.md), [credits draft](../legal/credits-draft.md) | **Web export and app build RED for public release**: the ODbL derivative-database offer is a placeholder. **Credits draft not wired** into either build. This files A11’s release-readiness finding, not new legal clearance. | A1 and release owners must provide a working offer and verify required notices/credits in each distributed artifact. Draft text and source helpers do not establish delivery or a signed-app check. |
 
 Newer A2 shadow ledger: Sloan's 5,008 / Lakeview 67,190, both below 150k in captured web evidence. Native still unproven. A3 visual grades remain the appearance authority; colour-box diagnostics cannot replace them.
+
+## Haze report follow-up closed — 8 Oct 2026
+
+A7 `df81ad8` landed the source-driven [mock-conflicts report](../lookloop/mock-conflicts.md). A3 verified exact generator freshness and the approved haze-visibility-v1 5% MOR resolution, with local-fog exclusions preserved. The earlier pending-generator note in A8's filing is historical. This confirms documentation freshness only; consumer migration and visual acceptance remain separate.
