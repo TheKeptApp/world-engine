@@ -141,3 +141,7 @@ The six terrain binaries and web ZIP remain local and gitignored; they are exclu
 | `Data/areas/west-highland/elevation/qa.json` | `2db601b7a4d16128b71f438f453f561bf69479aabe35f2608235b825bb3ddd1d` |
 
 Historical handoff prefix repair only: docs/tracking/handoffs.md lines 190 and 192 in each flagged version 1772510, f05dfff and f2ec2bb; the personal home-directory prefix was replaced by `~`, with every other byte unchanged. The guard itself is unchanged.
+
+## Read-only house-shortcut census and tunnel status — 8 October
+
+Five-area census saved in docs/data/house-shortcut-census.md and Data/quality/house-shortcut-census.json with input/source hashes. Retained shortcut houses: Sloan 6/1399, Lakeview 1431/2823, Wilmette 780/1259, West Highland 1/2495, Greenville Downtown 118/681; garage overrides and footprint totals are explicit. Existing loader/classifier executed unchanged under heavy lock (load 6.89); no rendering. Tunnel surface guard and unsupported-feature diagnostics remain specified, not implemented on inspected main. No code changes.
