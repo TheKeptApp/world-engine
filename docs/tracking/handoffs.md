@@ -290,3 +290,10 @@ Used: foliage-exp1-spec.md Mask / Exact candidate math / Cost and stop condition
 ### A3 — A8 restart recheck applied (8 October 2026)
 
 Applied [165d5e1 recheck](../review/restart-recheck-2026-10-08.md) §§2–8, preserving its original file/line citations: restart-5A:3,25,31,33 / STATE:9,26 ownership; restart-P2:3,31,33,41,43 coordination; both restarts:23 capture and evidence; spec:1,15–23,39,45,81,83 superseded owner/mode/files/order/mask/web status; STATE:14 versus 18,32–48 historical failure versus 3/3 readiness. Both restart files now start with the batch-1-only instruction. 5A reviews A10 after A3 scoring (keep/reject/pending), then water, then existing-generator budget. P2 preserves controls and waits for both comparisons before thinning. Native strict-pixel failure remains pending/unmerged; web 4210f1d/c3dbacf remains default-off with pixels/scores pending. No code, captures or scores changed.
+
+
+### A10 — separate-build variant / amended gate stop (8 October 2026)
+
+R approved and spec records separate build-time variants with shipping source byte-identical to main, amended non-mask ≤1/255 gate and baseline-repeat zero. Branch `astra/a10-foliage-build-variant`, head `9c4b054`, compiles; arithmetic/generated-mask and five capture CLI tests pass. Baseline-repeat and remove are max/mean 0 for all seven categories; layered skyline at full leaf has max 2/255 and fails. Both equivalent flow layouts fail. All category maximum/mean measurements and shipping SHA-256 are in [evidence](../research/foliage-exp1-native-variant-stop.md). No Sloan’s capture, A3 score or native code integration. Additional branch files are the variant generator, native/mac build scripts, capture worker/tests, WorldLab batch-pose/provenance parsing and focused native tests; no RenderResources or runtime uniforms changed. Heavy jobs use load <25 and release their locks.
+
+Used: foliage-exp1-spec.md Approved native build-variant / pixel gate amendment; execution/ao.md Authority; weekend-brief.md §0. Mock: style-b-calibration-v2/frames/06-sloans.png. Deviation: layered skyline max 2/255 fails amended gate; captures and native code merge stopped.
