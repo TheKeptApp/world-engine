@@ -35,6 +35,10 @@ let package = Package(
         // macOS command-line debug renderer for generated buildings (CPU rasterizer, no RealityKit).
         .executableTarget(name: "buildingviz", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen"]),
 
+        // Tests the app's inspection-camera math without importing the app or changing the engine.
+        .target(name: "WorldLabCamera", dependencies: ["WorldGen", "WorldGeo"], path: "Apps/WorldLab/Sources",
+                exclude: ["ContentView.swift", "Demo.swift", "DogCoat.metal", "EnvironmentController.swift", "ExperienceOverlay.swift", "InspectionGestures.swift", "LocalServer.swift", "Metrics.swift", "PostcardExport.swift", "ViewDiagnostics.swift", "WeatherKitProbe.swift", "WebScreen.swift", "WorldLabApp.swift"], sources: ["InspectionCamera.swift"]),
+        .testTarget(name: "WorldLabCameraTests", dependencies: ["WorldLabCamera", "WorldGen", "WorldGeo"]),
         .testTarget(name: "WorldGeoTests", dependencies: ["WorldGeo"]),
         .testTarget(
             name: "WorldMapTests",

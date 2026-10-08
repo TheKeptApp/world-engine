@@ -1,6 +1,7 @@
 import CoreGraphics
 import RealityKit
 import SwiftUI
+import UIKit
 import WorldEngine
 
 /// WorldLab root: a launcher (renderer switch, free walk, 10-minute test run) or, with launch
@@ -86,6 +87,8 @@ struct RealityKitScreen: View {
     @State private var showControls = true
     @State private var multisampling = true
     @State private var postcardSheet = false
+    @State private var inspection: InspectionCamera?
+    @State private var showCameraDebug = false
 
     /// The experience UI (strip, scrubber, mode bar) shows outside presets, tests and showcase shots.
     private var experienceUI: Bool { options.preset == nil && !testRun && !options.metrics && options.showcase == nil && options.hud }
@@ -95,7 +98,7 @@ struct RealityKitScreen: View {
             Color.black.ignoresSafeArea()
             if let world, let camera {
                 framed {
-                    var view = WorldView(world: world, camera: camera, gesturesEnabled: options.preset == nil && options.showcase == nil,
+                    var view = WorldView(world: world, camera: camera, gesturesEnabled: inspection == nil && options.preset == nil && options.showcase == nil,
                                          post: options.diagnostics.contains("noPost") ? nil : post,
                                          settings: options.renderSettings, renderState: render, isPaused: hostPaused) { dt in
                         let postMs = post.recentGPUms(1).last
@@ -103,7 +106,24 @@ struct RealityKitScreen: View {
                         test?.frame(dt: dt, gpuMs: render.gpuFrameMs, postMs: postMs)
                     }
                     let _ = view.multisampling = multisampling
-                    view
+                    view.overlay {
+                        if inspection != nil {
+                            InspectionGestures(
+                                orbit: { delta in changeInspection(world: world, camera: camera) { $0.orbit(by: delta, ground: groundClearance(world)) } },
+                                pan: { delta, height in changeInspection(world: world, camera: camera) { $0.pan(by: delta, viewportHeight: height, ground: groundClearance(world)) } },
+                                zoom: { scale in changeInspection(world: world, camera: camera) { $0.zoom(by: scale, ground: groundClearance(world)) } })
+                        }
+                    }
+                }
+                if showCameraDebug, let inspection {
+                    let ground = groundClearance(world)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(String(format: "Camera alt %.2f m · heading %.2f° · pitch %.2f°", inspection.altitude(ground: ground), inspection.heading, inspection.pitch))
+                        Text(inspection.launchArgument(frame: world.frame, ground: ground))
+                        Text("lat, lon, AGL m, heading°, pitch down°")
+                    }
+                    .font(.system(size: 11, design: .monospaced)).foregroundStyle(.white)
+                    .padding(8).background(.black.opacity(0.65)).padding(.top, 92).allowsHitTesting(false)
                 }
                 if options.hud && (!experienceUI || options.debugHUD) { HUD(metrics: metrics, world: world, test: test, render: render) }
                 if experienceUI, let env {
@@ -400,7 +420,10 @@ struct RealityKitScreen: View {
             Spacer()
             if showControls {
                 HStack(spacing: 8) {
-                    Picker("Mode", selection: $mode) {
+                    Picker("Mode", selection: Binding(get: { mode }, set: { next in
+                        mode = next
+                        apply(mode: next, world: world, camera: camera, env: env)
+                    })) {
                         Text("Postcard").tag("postcard")
                         Text("Aerial").tag("aerial")
                         Text("Explore").tag("explore")
@@ -428,6 +451,18 @@ struct RealityKitScreen: View {
                             }
                         }
                         Button(showControls ? "Clean view" : "Show controls") { showControls.toggle() }
+                        Button("Reset view") {
+                            mode = "aerial"
+                            startInspection(world: world, camera: camera, from: defaultInspectionPose(world: world))
+                        }
+                        Menu("Debug") {
+                            Toggle("Camera pose", isOn: $showCameraDebug)
+                            if let inspection {
+                                Button("Copy camera launch argument") {
+                                    UIPasteboard.general.string = "-inspectionpose " + inspection.launchArgument(frame: world.frame, ground: groundClearance(world))
+                                }
+                            }
+                        }
                         Button("Export postcard") { postcardSheet = true }
                     } label: {
                         Image(systemName: "ellipsis.circle").font(.title2)
@@ -445,27 +480,28 @@ struct RealityKitScreen: View {
             }
         }
         .sheet(isPresented: $postcardSheet) { PostcardExportSheet(source: postcardSource) }
-        .onChange(of: mode) { _, m in apply(mode: m, world: world, camera: camera, env: env) }
         .onChange(of: characterChoice) { _, c in Task { await setCharacter(c, world: world, camera: camera) } }
     }
 
     private func select(preset p: EnvironmentController.Preset, env: EnvironmentController, world: World, camera: WorldCamera) {
+        inspection = nil
         env.select(p)
         if let cam = p.camera, let pose = showcasePose(cam, world: world) {
             mode = cam == "aerial" ? "aerial" : "postcard"
             camera.mode = .postcard(pose)
+            if cam == "aerial" { startInspection(world: world, camera: camera, from: pose) }
         }
     }
 
     private func apply(mode m: String, world: World, camera: WorldCamera, env: EnvironmentController) {
         env.aerial = m == "aerial"
+        inspection = nil
         switch m {
         case "aerial":
-            if camera.aerial == nil { camera.aerial = world.makeAerialRig() }
-            camera.mode = .aerial
+            startInspection(world: world, camera: camera, from: defaultInspectionPose(world: world))
         case "explore":
-            camera.explore = world.makeExploreRig(from: currentPostcard(world: world))
-            camera.mode = .explore
+            // Explore is also a free inspection camera; the same altitude safety applies.
+            startInspection(world: world, camera: camera, from: currentPostcard(world: world))
         case "route":
             if let demo { camera.route = world.makeRouteRig(route: demo.routeCoordinates, loop: true) }
             camera.mode = .route
@@ -475,6 +511,45 @@ struct RealityKitScreen: View {
             camera.mode = .postcard(currentPostcard(world: world))
         }
         env.resolve()
+    }
+
+    private func defaultInspectionPose(world: World) -> CameraPose {
+        world.makeAerialRig()?.pose ?? currentPostcard(world: world)
+    }
+
+    /// Existing rendered terrain is flat. Use a conservative upper bound of each ground mesh,
+    /// including the existing curb-height allowance; no collision/shader changes.
+    private func groundClearance(_ world: World) -> (SIMD2<Double>) -> Double {
+        var surfaces: [BoundingBox] = []
+        func visit(_ entity: Entity) {
+            if entity.name.hasSuffix(" ground") || entity.name == "Boundary ground" {
+                let bounds = entity.visualBounds(relativeTo: nil)
+                if !bounds.isEmpty { surfaces.append(bounds) }
+            }
+            for child in entity.children { visit(child) }
+        }
+        visit(world.rootEntity)
+        return { p in
+            surfaces.filter { Double($0.min.x) <= p.x && p.x <= Double($0.max.x) && Double($0.min.z) <= -p.y && -p.y <= Double($0.max.z) }
+                .map { Double($0.max.y) }.max() ?? 0
+        }
+    }
+
+    private func startInspection(world: World, camera: WorldCamera, from pose: CameraPose) {
+        inspection = InspectionCamera(pose: pose, defaultPose: defaultInspectionPose(world: world), bounds: world.manifest.localBounds, ground: groundClearance(world))
+        camera.transitionSeconds = 0
+        camera.moveInput = .zero; camera.turnInput = 0
+        if let inspection { camera.mode = .postcard(inspection.pose) }
+    }
+
+    private func changeInspection(world: World, camera: WorldCamera, change: (inout InspectionCamera) -> Void) {
+        guard var next = inspection else { return }
+        change(&next)
+        inspection = next
+        camera.transitionSeconds = 0
+        camera.mode = .postcard(next.pose)
+        camera.userDidInteract()
+        print("CAMERA -inspectionpose \(next.launchArgument(frame: world.frame, ground: groundClearance(world)))")
     }
 
     private func currentPostcard(world: World) -> CameraPose {
@@ -516,6 +591,9 @@ struct RealityKitScreen: View {
 
     private func load() async {
         do {
+            if let text = options.inspectionPose, InspectionCamera.Input(text) == nil {
+                throw NSError(domain: "WorldLab", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid -inspectionpose: expected lat,lon,alt,heading,pitch; pitch 5–85° down"])
+            }
             guard var demo = try DemoConfig.load().forArea(options.area) else {
                 self.error = "Unknown area \(options.area ?? "") (demo.json areas)"
                 return
@@ -589,6 +667,17 @@ struct RealityKitScreen: View {
             camera = cam
             env = e
             if let m = options.mode { apply(mode: m, world: w, camera: cam, env: e) }
+            showCameraDebug = options.cameraDebug
+            if let text = options.inspectionPose {
+                guard let input = InspectionCamera.Input(text) else {
+                    throw NSError(domain: "WorldLab", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid -inspectionpose: expected lat,lon,alt,heading,pitch; pitch 5–85° down"])
+                }
+                mode = "aerial"
+                e.aerial = true
+                e.resolve()
+                startInspection(world: w, camera: cam, from: defaultInspectionPose(world: w))
+                changeInspection(world: w, camera: cam) { $0.set(input, frame: w.frame, ground: groundClearance(w)) }
+            }
             try? await Task.sleep(for: .milliseconds(600))
             cam.transitionSeconds = 1.2
         } catch {

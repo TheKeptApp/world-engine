@@ -144,6 +144,9 @@ struct LaunchOptions {
     var weather: String?
     /// `-debughud`: keep the performance HUD under the experience UI.
     var debugHUD = false
+    /// `-inspectionpose lat,lon,alt,heading,pitch`: AGL metres, degrees clockwise from north / down.
+    var inspectionPose: String?
+    var cameraDebug = false
     /// `-snapshot SECONDS`: SECONDS after the world is on screen, save a PNG of the RealityKit view to the
     /// app's Documents (`snapshot-realitykit-<name>.png`) and print `SNAPSHOT saved <file>`. For device
     /// screenshots (scripts/device_snapshots.sh). The web renderer has its own `-snapshot` (WebScreen).
@@ -198,6 +201,8 @@ struct LaunchOptions {
         showcase = value("-showcase")
         weather = value("-weather")
         debugHUD = args.contains("-debughud")
+        inspectionPose = value("-inspectionpose")
+        cameraDebug = args.contains("-cameradebug")
         snapshotSeconds = value("-snapshot").flatMap(Double.init)
         snapshotName = value("-snapshotname")
         if value("-snapshotsource") == "compositor" { snapshotSource = .compositor }

@@ -244,3 +244,10 @@ Arithmetic suite passed under `scripts/heavy.sh`, admitted load 14.77, disk guar
 A3 after capture repair: use `MODES=candidate TIERS=standard FOLIAGE_EXP1=off`, then remove/layered via the spec capture workflow; Sloan's then Lakeview unchanged. Outputs route to `web/bakeoff/evidence/foliage-exp1/<mode>/<tier>/`, with mode provenance and hold-out proof. Archive each run. Legacy baseline remains separate and unchanged; do not use old `verify.sh`/`score.py` legacy candidate paths for experiment scoring. Verify GPU default-off pixel identity against control and layered compilation before blind scoring. No approval of native parity or performance inferred from arithmetic.
 
 Used: docs/research/foliage-exp1-spec.md, Exact candidate math / Web AO adapter / Cost and stop conditions. Mock: style-b-calibration-v2/frames/06-sloans.png and frames/01-lakeview.png. Deviation: no captures per R; off proof is structural, rendered pixels and shader response pending A3.
+
+
+### A10 → A3: WorldLab inspection camera (8 October 2026)
+
+R requested app-only free-camera controls and reproducible poses. Aerial/Explore consume `InspectionCamera` through the existing postcard API; one-finger orbit, two-finger pan, pinch, 8–1,500 m clearance, Reset view, Debug → Camera pose (off by default), copy launch argument, and `-inspectionpose lat,lon,alt,heading,pitch`. Rendering/shaders/budgets/tile inputs unchanged. See [experience-inspection §1–3](../experience-inspection.md) for conventions, capture recipe and local files. Seven focused tests (including seven invalid-input cases), simulator build, three Sloan’s zoom screenshots and same-pose repeated-frame check (≤1/255 RGB difference) pass under heavy lock. No device install, A3 score, or web parity claim. Earlier harness timeout was corrected by reading simulator-local log paths. Main advanced with A7 capture/preflight tooling during the task; rebased and camera checks rerun before merge.
+
+Used: docs/experience-inspection.md §1–3 (R’s A10 request). Mock: docs/proposals/style-b-calibration-v2/frames/06-sloans.png (unchanged-world reference). Deviation: controls per R; simulator evidence only, no visual scoring.

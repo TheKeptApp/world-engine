@@ -18,7 +18,7 @@
 | A7 | Generator source-status fix `df81ad8` landed; mock-conflicts freshness verified. Heavy wrapper enforces <25; never bypass guard. |
 | A8 | Integration audit `bcfc8aa` informs ledger; code presence is not a score gain. |
 | A9 | No independent height-reference candidate GREEN; licences unresolved. |
-| A10 | `44183ef`: native raw-area generator cannot load adaptive tiles; native new-tile measurements unavailable. Floor overage open; hero/standard provisional. |
+| A10 | WorldLab inspection controls integrated in this implementation commit: pinch, two-finger pan, orbit, reset, opt-in debug pose and launch pose. Simulator build/tests and Sloan’s 40/150/600 m captures pass; repeated launch preserves pose (≤1/255 RGB difference). No render/tile/budget changes or phone install; native adaptive reader and floor overage remain open. [Evidence](../experience-inspection.md#3-verification-evidence). |
 | A11 | Release RED: working ODbL offer missing/placeholder; credits draft not wired. |
 | A12 | Builder research only; events-first hypothesis, five conversations and implementation not started. Own-logo private projects allowed; manual plan underlay first, AI proposals/user approval second. |
 | Other lanes | Current assignment/status unknown in audited repo; obtain a filed handoff before assuming ownership. |
