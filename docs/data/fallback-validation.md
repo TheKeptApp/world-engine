@@ -34,4 +34,19 @@ The 27.65 and 3.46 values are medians of non-noise return density over building 
 
 All three rungs retain their existing settings. Reference SHA, OSM SHA, rung configuration, building population and individual full-density reference heights must match the saved baseline. Vegetation-overlap labels are frozen from that baseline, so thinning cannot relabel difficult cases out of the stratum. Each rung reports absolute median/p90, signed mean bias and null count/rate against the same eligible population. No averaging between rungs, bias subtraction, new promotion or inferred export. Overture and OSM source tables are not lidar point clouds: their unchanged predictions are controls, not sparse-lidar accuracy evidence.
 
-Random thinning tests density sensitivity only; it does not reproduce Denver flight geometry, occlusion, vegetation season or unclassified returns. The reference is still uncalibrated grade D from the same lidar family. An independent check would use surveyed roof surfaces and ground elevations, matched to the same height statistic and footprint, with verified vegetation-overlap labels; include both observed and currently null buildings, and verify GREEN rights before loading. Results remain pending the shared heavy lock; A4 files/server/lock are untouched.
+Random thinning tests density sensitivity only; it does not reproduce Denver flight geometry, occlusion, vegetation season or unclassified returns. The reference is still uncalibrated grade D from the same lidar family. An independent check would use surveyed roof surfaces and ground elevations, matched to the same height statistic and footprint, with verified vegetation-overlap labels; include both observed and currently null buildings, and verify GREEN rights before loading. The queued experiment subsequently completed under the owned heavy lock after A4 released it; A4 files/server/lock were untouched.
+
+### Sparse results (completed)
+
+Achieved median 3.4891 non-noise returns/m² over the original building footprints, from fixed retention 3.5/27.65. Same 2,618 full-density observed references and 2,579 frozen vegetation-overlap labels.
+
+| Rung | Stratum | N | Median absolute m | p90 absolute m | Signed mean bias m | Null rate |
+|---|---|---:|---:|---:|---:|---:|
+| DSM−DTM | all | 2616 | 0.1384 | 2.3270 | +0.7659 | 2/2618 (0.0764%) |
+| DSM−DTM | overlap | 2577 | 0.1418 | 2.3854 | +0.7777 | 2/2579 (0.0775%) |
+| Vetted Overture | all | 2045 | 1.0930 | 2.9700 | −0.9653 | 573/2618 (21.8869%) |
+| Vetted Overture | overlap | 2024 | 1.1000 | 2.9700 | −0.9705 | 555/2579 (21.5200%) |
+| Roof-aware OSM levels | all | 0 | — | — | — | 2618/2618 (100%) |
+| Roof-aware OSM levels | overlap | 0 | — | — | — | 2579/2579 (100%) |
+
+DSM−DTM remains computationally viable at the thinned density, with only two nulls, but is **not established as usable for export**: +0.77 m mean bias remains, including +0.78 m in the overlap proxy. Reduced error after thinning does not establish improved truth: the surface upper quantile and canopy sampling change while the reference is shared-family grade-D lidar. Independent roof-and-ground survey with verified canopy labels is still needed. Overture/OSM are unchanged controls. No rung averaging, bias correction or promotion. Full per-building output: Data/quality/lakeview-sparse-fallback-validation.json.

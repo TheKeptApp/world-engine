@@ -15,7 +15,7 @@ OSM extract fetched using `out body`, with attribution and ODbL retained. No tag
 
 All four use identical height/roof methods and identical QA policies. West Highland: 225 flat, 72 gable, 41 hip, 136 other and 2,022 unknown roofs. QA flags 140 small/implausible footprints and the missing heights, with zero broken invariants. Classifications and ridge direction are inferred from lidar support, not confirmed physical forms. Quality grades are not acceptance probabilities.
 
-The unchanged terrain pipeline saves native 1 m USGS CO_DRCOG_2020_B20 elevation, NAVD88 metres, plus the 100 m halo. Distance bands use mountain-terrain-v1/values.json#demByDistance: 10 m samples at 250 m–2 km, 30 m at 2–20 km, 60 m at 20–50 km, 120 m at 50–100 km, 240 m at 100–200 km. Native clips are unresampled; distant sample spacing is distinct from source resolution. Each band retains min/max envelopes. The existing pipeline writes bands relative to each area's centre; West Highland is not a shifted Sloan raster. Extraction reports 100% coverage; final read-back result is in elevation/qa.json.
+The unchanged terrain pipeline saves native 1 m USGS CO_DRCOG_2020_B20 elevation, NAVD88 metres, plus the 100 m halo. Distance bands use mountain-terrain-v1/values.json#demByDistance: 10 m samples at 250 m–2 km, 30 m at 2–20 km, 60 m at 20–50 km, 120 m at 50–100 km, 240 m at 100–200 km. Native clips are unresampled; distant sample spacing is distinct from source resolution. Each band retains min/max envelopes. The existing pipeline writes bands relative to each area's centre; West Highland is not a shifted Sloan raster. Read-back is now present in elevation/qa.json: PASS_WITH_GAPS, 1,440,000/1,441,200 native mask cells (99.9167%), one edge row flagged; every distance band 100%, no invariant errors. Per-clip extraction completeness is not the same as requested-rectangle coverage; the earlier extraction-only 100% figure overstated the latter.
 
 ## Web bundle and ownership
 
@@ -25,4 +25,8 @@ The standard mesh still uses existing generator rules. P2 owns reading the lidar
 
 ## Proposed fixed camera for A3
 
-Proposed ID `west-highland-aerial-north-01`: target the area centre (39.764, −105.04) at scene y=0; eye at (39.759946, −105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. This is an authored north-facing overview proposed before any capture or scoring, with no visual tuning; camera heights are relative to the current scene plane, not NAVD88. A3 must confirm/freeze it before scored comparisons. Keep the existing shared atmosphere fixture and record it with the capture. No camera or look code was changed.
+Proposed ID `west-highland-aerial-north-01`: target the area centre (39.764, −105.04) at scene y=0; eye at (39.759946, −105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. This is an authored north-facing overview proposed before any capture or scoring, with no visual tuning; camera heights are relative to the current scene plane, not NAVD88. A3 subsequently confirmed and froze this camera unchanged in docs/lookloop/west-highland-capture-contract.json (main 55e6aed), before scored comparisons. Keep the existing shared atmosphere fixture and record it with the capture. No camera or look code was changed.
+
+## Delivered local artifact
+
+`Generated/west-highland-web-2026-10-08/world/world.json` and `Generated/west-highland-web-2026-10-08.zip` now exist in the A1 worktree. ZIP: 90,374,679 bytes; SHA256 `8dedc53b98d8914425cc5290a3bfe69754c42a37023192a9d3b94fc04d1482c0`. All bundle payload hashes, JSON reads, observed-sidecar equality and ZIP CRC verified. Outputs are local, git-ignored artifacts, not hosted. The checked-in elevation/qa.json is PASS_WITH_GAPS as described above.

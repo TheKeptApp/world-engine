@@ -94,3 +94,9 @@ A1 cancelled only its own waiting wrapper after confirming A4 deliberately holds
 ## Sparse-density ladder test — R, 8 October
 
 General validator extended with deterministic thinning and null-rate reporting. Predeclared retention 3.5/27.65, stable EPT-node/record hash, identical ground/surface thinning. Full-density height references and vegetation-overlap strata frozen; no rung settings changed and no promotion. The sparse comparison is queued beneath scripts/heavy.sh behind A4's active human-capture lock, as R requested. Results, tests, final West terrain QA, export and merge await lock access; no A4 files touched.
+
+## Lock-free completion — 8 October
+
+Sparse-density experiment completed under the owned heavy lock: achieved 3.4891 returns/m² median; full-density reference and vegetation-overlap groups unchanged. See docs/data/fallback-validation.md for all rung errors and null rates; no promotion or bias correction. West Highland final read-back exists at Data/areas/west-highland/elevation/qa.json: PASS_WITH_GAPS, native mask 99.9167% (one edge row missing), all five distance bands 100%, no invariant errors. Initial per-clip 100% was not proof of requested-rectangle coverage.
+
+Web bundle now exists at Generated/west-highland-web-2026-10-08 and its ZIP (90,374,679 bytes, SHA256 8dedc53b98d8914425cc5290a3bfe69754c42a37023192a9d3b94fc04d1482c0). Payload hashes, JSON parsing, unchanged observed sidecars and ZIP CRC pass. Load admission 5.44; 137 lidar tests (3 skipped), 16 terrain tests, 4 QA tests and 69 Swift map/package tests pass. Bundled observations remain separate from generated mesh. Earlier missing-export and pending-read-back notes are historical, not current delivery claims.

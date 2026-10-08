@@ -1,0 +1,54 @@
+{
+  "format": "worldengine-elevation-qa/1",
+  "area": "west-highland",
+  "metadataSHA256": "8832474be897540a543fe9faf4dff26d988e2824931dae386a0d99560f0740e2",
+  "status": "PASS_WITH_GAPS",
+  "errors": [],
+  "flags": [
+    "native_1m_coverage_gap"
+  ],
+  "nativeCoverage": {
+    "coveredCells": 1440000,
+    "requestedCells": 1441200,
+    "validFraction": 0.9991673605328892,
+    "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+  },
+  "artifacts": [
+    {
+      "file": "native-1m-0.tif",
+      "validFraction": 1.0,
+      "minimumM": 1635.6435546875,
+      "maximumM": 1669.00439453125
+    },
+    {
+      "file": "band-250-2000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1607.1318359375,
+      "maximumM": 1672.8724365234375
+    },
+    {
+      "file": "band-2000-20000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1518.3154296875,
+      "maximumM": 2399.251220703125
+    },
+    {
+      "file": "band-20000-50000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1442.2012939453125,
+      "maximumM": 3759.9609375
+    },
+    {
+      "file": "band-50000-100000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1340.397705078125,
+      "maximumM": 4347.06787109375
+    },
+    {
+      "file": "band-100000-200000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1167.5167236328125,
+      "maximumM": 4395.91552734375
+    }
+  ]
+}
