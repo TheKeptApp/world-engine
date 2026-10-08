@@ -123,3 +123,9 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 | Date | From → to | Item | Status |
 |---|---|---|---|
 | 2026-10-08 | A3 → data/generator/renderer lanes | Architecture and city onboarding | [Architecture](../architecture.md) and [add-a-city runbook](../runbooks/add-a-city.md) filed from existing contracts and A5/A1 evidence. No new readiness or ingestion claims. A7 ownership remains conditional on R explicitly saying “yes A7”; no lane-map change made. |
+
+## Generalization panel — R, 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A3 → A1 / render lanes | [Ten-block variety panel](../lookloop/generalization-panel.md) | Docs-only proposal; fixed panel, failure-only smoke, unseen blind checks and reject-rule connection filed. GREEN source evidence is scoped; West Highland and expansion block readiness remain unconfirmed. No data downloads. A1 must clear/freeze missing inputs before running them. |

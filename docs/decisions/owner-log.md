@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Generalization panel (R):** document 8–10 varied US blocks including the planned four, unchanged-pipeline failure-only smoke (no look scores), random unseen spot-checks after big merges under the existing rubric, and reject-rule integration. Filed ten proposed slots in docs/lookloop/generalization-panel.md with scoped GREEN evidence and explicit missing block-clearance gates; no new downloads or completed-test claim.
+
 - **Architecture and add-a-city documentation (R):** document data → package → renderers, layer ownership and hold-outs; city workflow references A5 country-readiness-v1 and A1's pipeline without new claims. A7 assignment is conditional on R saying “yes A7”: only then mirror Tools/lookloop/ and scripts/ ownership (scripts only, no render/look code; P3 retains rubric design) in AGENTS.md and CLAUDE.md. No such approval recorded in this request; existing ownership remains unchanged.
 
 - **Before porting Astra values (R):** 5A/P2 must confirm a cited pack key or repo file, check RealityKit units (web light units/tone mapping are not transplantable), render once and compare with A3’s score, and stop/log a handoff if anything cannot be traced; do not guess. Applied at the top of docs/tracking/weekend-brief.md with a handoffs.md pointer.
