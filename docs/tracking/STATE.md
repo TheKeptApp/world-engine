@@ -15,7 +15,7 @@
 | A4 | Owns web package/streaming; branch `8afbd1` remains unmerged. [Latest A8 review](../review/a4-streaming-review-2026-10-08.md): upload FAIL 5.8/4.8 ms vs 0.5 ms, buffer lifetime gap; CPU ledger is not GPU residency, atomic coverage visual proof pending. |
 | A5 | Foliage exp1 spec `8e4b713`: web arithmetic implementation ready, native execution pending; country/source research not ingestion approval. |
 | A6 | Separate live-sky API/demo; not graded bakeoff integration. Only recorded sky phase scope approved. |
-| A7 | Generator source-status fix `df81ad8` landed; mock-conflicts freshness verified. Heavy wrapper enforces <25; never bypass guard. |
+| A7 | Native preflight `a2881d1` and simulator-log fix `3472354` landed. Fresh-worktree one-command capture and three-run reliability proof in progress; this is tooling evidence, not a visual grade. Heavy wrapper enforces <25; evidence guard blocks after the ledger landed. |
 | A8 | Integration audit `bcfc8aa` informs ledger; code presence is not a score gain. |
 | A9 | No independent height-reference candidate GREEN; licences unresolved. |
 | A10 | `44183ef`: native raw-area generator cannot load adaptive tiles; native new-tile measurements unavailable. Floor overage open; hero/standard provisional. |
@@ -28,3 +28,9 @@
 **Open decisions / blocked evidence:** independent height rights; public/pilot ODbL offer and upload rights/takedown/retention (Q62–Q63); events-market hypothesis pending five conversations; pending sky-cloud/street-ground/crown-silhouettes approvals; parked brand/Southern decisions remain with R. No assumed launch/rights clearance. West Highland package delivery does not yet provide bakeoff scene/mount or score; retain its frozen camera and separate data-poor cohort. [Lawyer list](../research/licensing.md), [owner log](../decisions/owner-log.md).
 
 **Execution:** A2 arithmetic suite completed under heavy lock at load 14.77; own lock released. No browser/server/capture or scoring run. Before builds/captures use `scripts/heavy.sh`, load <25, ≥8 GB free; never modify another lock. Browser failures are not renderer crashes; restore an authorized route, no driver bypass. Updates to renderer consumption, ledger row and mock citation belong in the same build commit. End each build report with `Used: <doc §>. Mock: <file/frame>. Deviation: <none or why>` then `Tracker update:`.
+
+### Native capture — one command (A7)
+
+From the fresh worktree root, run `scripts/capture-native.sh`. It acquires the heavy lock and enforces load <25 itself: **do not wrap it in another heavy invocation**. It checks inputs and free disk, generates the ignored assets, builds WorldLab, installs that worktree's app, launches the frozen `ordinary-street-afternoon` view from `docs/lookloop/a3-capture-contract.json`, collects and verifies the PNG, and prints its absolute output path on stdout. Build/capture progress is on stderr; `pipeline.log`, launch output, frame logs, `capture.tsv`, and timings/hashes in `native-capture.json` stay beside the frame under `.build/lookloop/native-<unique ID>/`.
+
+Optional: `scripts/capture-native.sh --view ordinary-street-afternoon --output /tmp/worldengine-native-run` (output must not exist). The command reuses the single booted simulator or selects the dedicated LookLoop simulator; multiple booted simulators stop the run. It does not borrow another checkout's generated assets, use a local install stamp, run a warm-up view, reboot automatically, or turn a missing frame into success. Failure prints the evidence directory and exits nonzero. For prerequisite producers, see [weekend-brief §0](weekend-brief.md#0-establish-reliable-tests-branches-and-hud-first). This is capture readiness only; A3 grading and visual acceptance remain separate.

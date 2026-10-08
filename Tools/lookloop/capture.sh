@@ -47,7 +47,10 @@ try: sys.exit(subprocess.run(sys.argv[2:], timeout=float(sys.argv[1])).returncod
 except subprocess.TimeoutExpired: sys.exit(124)' "$@"; }
 
 # One dedicated Simulator, kept booted between views and runs (never a second one).
-UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/' || true)
+UDID="${LOOKLOOP_UDID:-}"
+if [ -z "$UDID" ]; then
+  UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/' || true)
+fi
 if [ -z "$UDID" ]; then
   RT=$(xcrun simctl list runtimes available | grep -E '^iOS 26' | tail -1 | sed -E 's/.* - (com\.apple[^ ]+).*/\1/')
   UDID=$(xcrun simctl create "$SIM" com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro "$RT")
@@ -55,38 +58,16 @@ if [ -z "$UDID" ]; then
 fi
 if ! xcrun simctl list devices | grep -F "($UDID) (Booted)" >/dev/null; then
   xcrun simctl boot "$UDID" 2>/dev/null || true
-  xcrun simctl bootstatus "$UDID" -b >/dev/null
 fi
+limit 300 xcrun simctl bootstatus "$UDID" -b
 # Fixed status bar and appearance: identical frames run to run.
 xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
 xcrun simctl ui "$UDID" appearance light >/dev/null 2>&1 || true
-# Install only when the build changed (stamp: the app executable's size and modification time).
-STAMP="$ROOT/.build/lookloop/installed-$UDID"
-NOW=$(stat -f '%z %m' "$APP/WorldLab")
-if [ "$(cat "$STAMP" 2>/dev/null)" != "$NOW" ] || ! xcrun simctl get_app_container "$UDID" "$BUNDLE" >/dev/null 2>&1; then
-  xcrun simctl install "$UDID" "$APP"
-  mkdir -p "$(dirname "$STAMP")"; echo "$NOW" > "$STAMP"
-  # SpringBoard can refuse launches for minutes while it registers a fresh install, and a degraded
-  # Simulator can hang them: probe with a time limit; if it never launches, reboot this one Simulator once.
-  probe() {
-    for _ in $(seq 1 18); do
-      if limit 20 xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE" >/dev/null 2>&1; then
-        limit 20 xcrun simctl terminate "$UDID" "$BUNDLE" >/dev/null 2>&1 || true; return 0; fi
-      sleep 5
-    done
-    return 1
-  }
-  echo "install: waiting until WorldLab is launchable"
-  if ! probe; then
-    echo "capture: WorldLab not launchable for 3 min; rebooting $SIM once"
-    limit 120 xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
-    xcrun simctl boot "$UDID" 2>/dev/null || true
-    limit 300 xcrun simctl bootstatus "$UDID" -b >/dev/null
-    xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
-    xcrun simctl install "$UDID" "$APP"
-    probe || { echo "capture: WorldLab still not launchable after a reboot; stopping (see the Simulator)"; exit 2; }
-  fi
-fi
+# Install this worktree's build every time: another worktree can replace the
+# shared bundle without changing our local stamp. Launch only the requested view,
+# with diagnostics in batch.py; no unobserved warm-up launches or automatic reboot.
+limit 120 xcrun simctl install "$UDID" "$APP"
+echo "install: exit=0 ($UDID)"
 
 COMMON=$(python3 -c "import json;print(' '.join(json.load(open('$VIEWS'))['commonArgs']))")
 
