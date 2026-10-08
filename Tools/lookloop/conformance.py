@@ -144,6 +144,11 @@ def daytime_overrides():
         add([k], seasons, path)
     for ks, seasons, path in re.findall(r'for key in \[([^\]]+)\] \{ set\(key, seasons: \[([\d, ]+)\], m\.string\(prefix \+ "([^"]+)"\)\) \}', src):
         add(re.findall(r'"(\w+)"', ks), seasons, path)
+    # set("lawn", seasons: [1], lawn) where `lawn` was bound by `if let lawn = m.string(prefix + "...")`
+    bound = dict(re.findall(r'if let (\w+) = m\.string\(prefix \+ "([^"]+)"\)', src))
+    for k, seasons, name in re.findall(r'set\("(\w+)", seasons: \[([\d, ]+)\], (\w+)\)', src):
+        if name in bound:
+            add([k], seasons, bound[name])
     crown = re.search(r'set\(key, seasons: \[([\d, ]+)\], green\)', src)
     return out, ([int(n) for n in re.findall(r"\d+", crown.group(1))] if crown and "crownGreensHex" in src else None)
 

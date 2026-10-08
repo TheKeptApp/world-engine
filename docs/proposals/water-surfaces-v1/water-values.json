@@ -1,0 +1,1306 @@
+{
+  "schema": "worldengine.water-surfaces.v1",
+  "date": "2026-10-07",
+  "status": "research/design proposal; no implementation, live fetch integration or device benchmark",
+  "units": {
+    "hex": "artist-selected sRGB body/material colours, not measured bitmap pixels",
+    "waves": "metres and seconds; wind m/s; angles degrees true north",
+    "roughness": "artistic PBR-normalized 0..1, not measured surface roughness"
+  },
+  "sharedLighting": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "bibleLightingSnapshot": {
+    "id": "shared_clear_midafternoon_hero_v1",
+    "status": "authored_reference_target_not_pixel_sampled_or_renderer_calibrated",
+    "appliesTo": [
+      "lakeview",
+      "denver",
+      "wilmette",
+      "postcard"
+    ],
+    "anchor": {
+      "requestedApprovedPaintoverNumber": 5,
+      "approvedFileIdentity": "UNRESOLVED: no unambiguous approval/file mapping found; clarification requested",
+      "workingColorAnchor": "images/denver-paintover.png",
+      "supportingClearAfternoonReference": "~/Desktop/world-engine/docs/proposals/look-fix-v1/images/lighting-03-ordinary-1530.png",
+      "doNotUseAsAfternoon": "lighting-05-blue-hour.png",
+      "instructionPriority": "User's explicit blue-sky mid-afternoon description and Denver balance take precedence over contradictory file numbering"
+    },
+    "sky": {
+      "gradient": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "interpolation": "Linear RGB; elevation above world horizon, not screen height",
+      "warmHorizon": {
+        "maxElevationDeg": 10,
+        "tintHex": "#E5DFCD",
+        "maximumMix01": 0.12
+      },
+      "cloudLitHex": "#F0F2EF",
+      "cloudShadeHex": "#CAD6DE",
+      "cloudCoverage01": 0.18,
+      "noPurpleLavenderPink": true,
+      "sharedAtmosphere": true,
+      "cloudPolicy": "One clear partly cloudy preset; projected clouds differ with camera direction, not per-view color grades"
+    },
+    "sun": {
+      "colorHex": "#FFE8C6",
+      "directIntensityRelativeClearE0": 1,
+      "elevationDeg": 40,
+      "azimuthDegTrueNorthClockwise": 225,
+      "angularDiameterDeg": 0.53,
+      "keyToSkyFillWitnessRatio": 0.6129032258064516,
+      "skyFillColorHex": "#AEBCCA",
+      "skyFillRelativeDirect": 1.631578947368421,
+      "geometry": {
+        "shadowBearingDeg": 45,
+        "flatGroundShadowLengthPerHeight": 1.19175359259421
+      },
+      "fixturePolicy": "One illustrative art-review fixture in world coordinates. No timestamp/location or camera headings have been validated from images. Production live/recap solar model overrides fixture elevation/azimuth; never falsify real weather/time to enforce hero lighting.",
+      "fillCalibration": "On the same neutral diagnostic plane, normalized lit contributions are direct=.38 and diffuse fill=.62, giving shadow/lit=.62 before AO. These are contribution ratios, not renderer-specific environment intensity units. Calibrate against E0; directIntensityRelativeClearE0=1 retains the clear-state sun scale."
+    },
+    "shadows": {
+      "appearanceTintHex": "#7F8F99",
+      "tintRole": "Cool-neutral gray-blue appearance cue, not a purple overlay on every surface or a replacement albedo",
+      "neutralWitnessShadowToLitLinearY": 0.62,
+      "strengthPercent": 38,
+      "filterDrawablePx": [
+        1,
+        2
+      ],
+      "softEdgePolicy": "Existing filtered directional shadows with moderate penumbra; preserve dark geometric recesses. No additional shadow map/light/pass.",
+      "addedAmbientVisibilityFloor": 0.65,
+      "occlusionMerge": "min(existingVisibility,newVisibility); don't multiply repeated contact AO",
+      "noYellowRimLightOutline": true
+    },
+    "exposure": {
+      "relativeEV": 0.35,
+      "linearGain": 1.2745606273192622,
+      "reference": "Frozen clear-day E0 from existing paintover-v1 ordinary-street, not absolute camera EV/lux",
+      "applyOnce": true,
+      "perViewExposureOverridesAllowed": false,
+      "contrastSlope": 1.06,
+      "linearLuminancePivot": 0.18,
+      "saturationFactor": 1.08,
+      "additionalWarmthPercent": 0,
+      "additionalWarmthDiagonalRGB": [
+        1,
+        1,
+        1
+      ],
+      "toneMapPolicy": "Use one renderer tone mapper/white balance across views. Warm sun is lighting; no extra yellow/sepia post-grade."
+    },
+    "ground": {
+      "colorRole": "Dry neutral reference/base swatches, not fixed lit/shadow pixels",
+      "asphalt": {
+        "hex": "#626A70",
+        "roughness": 0.82
+      },
+      "concrete": {
+        "hex": "#C5C0B3",
+        "roughness": 0.82
+      },
+      "lawn": {
+        "hex": "#73865B",
+        "roughness": 0.92
+      },
+      "curbHex": "#B9B7AD",
+      "wetness01": 0,
+      "puddles": false,
+      "noLavenderOrTanCast": true
+    },
+    "postcard": {
+      "trees": {
+        "positionPolicy": "Keep existing trunk bases and approximate crown envelopes",
+        "barkHex": "#716659",
+        "crownGreensHex": [
+          "#49664C",
+          "#6F8758",
+          "#879466"
+        ],
+        "earlyAutumnHex": "#B49A60",
+        "earlyAutumnAreaTargetMax01": 0.15,
+        "archetypes": [
+          "irregular broad lobed",
+          "upright oval",
+          "open vase"
+        ],
+        "lobesPerCrown": [
+          5,
+          9
+        ],
+        "noIdenticalBallClusters": true,
+        "noIndividualLeafGeometry": true
+      },
+      "dressing": {
+        "parkedCarsTargetCount": 3,
+        "carColorsHex": [
+          "#5D6D78",
+          "#C7C2B4",
+          "#656C71"
+        ],
+        "unbranded": true,
+        "observedOrLive": false,
+        "placement": "Illustrative inferred curbside dressing; road-side of curb only, clear sidewalks and drive accesses",
+        "lamps": "A few generic unlit posts in parkway; no extra daytime lights",
+        "treePits": "Small earth/mulch pits at existing parkway trunks only; not authorization to move trees or pave lawns"
+      }
+    },
+    "performance": {
+      "additionalGlobalPasses": 0,
+      "additionalShadowMaps": 0,
+      "additionalDaytimeLights": 0,
+      "retainExistingBuildingBudget": true,
+      "dressingMustFitExistingNearGeometryBudget": true,
+      "noDeviceBenchmark": true
+    },
+    "compatibility": [
+      {
+        "source": "docs/proposals/paintover-v1/paintover-values.json",
+        "conflict": "Per-frame grades vary: ordinary +.35 EV vs Lakeview +.20 EV and golden palettes. New shared hero block supersedes those per-frame day grades for these four references only.",
+        "resolution": "Use ordinary +.35 EV/1.06 contrast/1.08 saturation once; remove old warmth grade (4%) because warm light tint now supplies warmth. Preserve houseTypes values."
+      },
+      {
+        "source": "docs/proposals/look-fix-v1/LOOK-FIX-SPEC.md \u00a72.2",
+        "conflict": "Ordinary 15:30 uses +.10 EV and #99AFE0 fill. Hero uses +.35 EV referenced to paintover-v1 E0 and neutralized #AEBCCA fill; no renderer equivalence proven. The old 2.2 key:fill witness ratio also conflicts with a .62 shadow/lit witness ratio if both mean contributions on the same plane.",
+        "resolution": "This is an explicitly versioned hero review preset, not a silent rewrite of time-of-day keys. Calibrate E0 and witness patch before adopting in engine. For the shared hero witness use direct .38 / fill .62, hence key:fill .612903. Do not also apply the legacy 2.2 contribution ratio."
+      },
+      {
+        "source": "docs/proposals/rain-v1/rain-values.json",
+        "conflict": "Hero dry ground/wetness=0 is inapplicable to rain. Rain's per-surface darkening and roughness changes must not be stacked with another wetness policy.",
+        "resolution": "Keep dry palette as base. When rain active, rain-v1 materialFormula overrides dry roughness; apply its single darkening multiplier (max12%) once, then weather-state light/sky override hero clear sun."
+      },
+      {
+        "source": "night-fog-v1/night-fog-values.json",
+        "conflict": "Hero directSun=1/blue sky/+.35 EV cannot coexist with blue-hour directSun=0/+ .20EV, night directSun=0/+ .35EV or morning-fog reduced direct sun/optical depth.",
+        "resolution": "Hero is one clear daytime state only. At night/blue-hour/fog use named state lighting, exposure and atmosphere as replacements, not summed EV or hero sun beneath fog/night. House geometry/base palette remains shared."
+      },
+      {
+        "source": "Existing house-contrast paintoverValidation metadata",
+        "conflict": "Earlier validation said source lighting direction remained close. This revision intentionally changes lighting, ground color balance and postcard vegetation/dressing.",
+        "resolution": "Supersede earlier validation for new hero files; originals remain intact. Generated shadow bearings and exact hex pixels are illustrative, not measured."
+      }
+    ]
+  },
+  "precedence": {
+    "base": "Current house-contrast sharedLighting inherited exactly; Bible defines realism. Weather/time endpoint overrides only specified fields. No duplicate EV, wet darkening, AO or fog.",
+    "bibleEarlierLightingDifference": "Bible embeds an earlier sharedLighting snapshot; current house-contrast hero object is base per user brief. No earlier warm grade reintroduced.",
+    "live": "actual observations/time override illustrative fixture; solar and weather remain physically coherent"
+  },
+  "inheritedLakeWinterWater": {
+    "skyStates": {
+      "clear": {
+        "reflectionColourHex": "#8FBDD7",
+        "sunElevationDegrees": 35,
+        "sunAzimuthDegrees": 230
+      },
+      "overcast": {
+        "reflectionColourHex": "#8F9FAA",
+        "sunElevationDegrees": 35,
+        "sunAzimuthDegrees": 230
+      },
+      "golden_hour": {
+        "reflectionColourHex": "#E7BA79",
+        "sunElevationDegrees": 8,
+        "sunAzimuthDegrees": 230
+      },
+      "night": {
+        "reflectionColourHex": "#24314B",
+        "sunElevationDegrees": -12,
+        "sunAzimuthDegrees": 230
+      }
+    },
+    "windStates": {
+      "0": {
+        "windKmh": 0,
+        "roughness": 0.18,
+        "normalAmplitude": 0
+      },
+      "10": {
+        "windKmh": 10,
+        "roughness": 0.28,
+        "normalAmplitude": 0.08
+      },
+      "25": {
+        "windKmh": 25,
+        "roughness": 0.4,
+        "normalAmplitude": 0.16
+      }
+    },
+    "profiles": {
+      "sloans_lake": {
+        "shallowColourHex": "#668C82",
+        "shallowBlendWidthM": 2,
+        "farShoreVisible": true,
+        "defaultWindDurationHours": 3,
+        "waveByWindKmh": {
+          "0": {
+            "wavelengthM": 0,
+            "amplitudeM": 0,
+            "phaseSpeedMps": 0
+          },
+          "10": {
+            "wavelengthM": 0.8,
+            "amplitudeM": 0.025,
+            "phaseSpeedMps": 0.6
+          },
+          "25": {
+            "wavelengthM": 1.6,
+            "amplitudeM": 0.07,
+            "phaseSpeedMps": 1.0
+          }
+        }
+      },
+      "lake_michigan": {
+        "shallowColourHex": "#557F83",
+        "shallowBlendWidthM": 4,
+        "farShoreVisible": false,
+        "defaultWindDurationHours": 3,
+        "waveByWindKmh": {
+          "0": {
+            "wavelengthM": 0,
+            "amplitudeM": 0,
+            "phaseSpeedMps": 0
+          },
+          "10": {
+            "wavelengthM": 3,
+            "amplitudeM": 0.1,
+            "phaseSpeedMps": 1.4
+          },
+          "25": {
+            "wavelengthM": 6,
+            "amplitudeM": 0.25,
+            "phaseSpeedMps": 2.0
+          }
+        }
+      }
+    },
+    "wavePolicy": "Amplitude is half peak-to-trough height. Profiles are look fixtures, not wave forecasts. Actual wind direction, duration, fetch, depth and observed waves override. Wind0 fixture has no leftover swell; live state can retain swell history.",
+    "shoreline": {
+      "darkeningWidthM": 0.6,
+      "darkeningPercent": 12,
+      "linearBaseMultiplier": 0.88,
+      "transitionWidthM": 0.4,
+      "exampleSurfaceValues": [
+        {
+          "surface": "water_shore_band",
+          "baseColourHex": "#477C8D",
+          "darkeningPercent": 12,
+          "linearBaseMultiplier": 0.88,
+          "resultHex": "#437585",
+          "roughness": 0.28,
+          "sheenStrength": 0.55
+        }
+      ],
+      "application": "Water-side band only. Smoothstep from shore inward: shade multiplier=0.88+0.12*smoothstep(0,0.60,distanceToShore). Independent shore geometry remains fixed. Shallow-colour weight=1-smoothstep(0,shallowBlendWidthM,distanceToShore). No extra land darkening.",
+      "edge": "Separate 0.40m material transition into existing wet bank, clipped to mapped terrain intersection. No black border, alpha water overlay or shoreline relocation."
+    },
+    "reflection": {
+      "normalStrength": 0.12,
+      "grazingStrength": 0.55,
+      "grazingExponent": 5,
+      "aerialScale": 0.65,
+      "metallic": 0,
+      "waterIOR": 1.333,
+      "physicalF0": 0.02037,
+      "policy": "These stylized blend coefficients are not measured Fresnel. No white brightness floor at night. Reuse sky environment; no planar mirrors, SSR, extra captures or per-ripple lights."
+    },
+    "haze": {
+      "fixtureExtinctionPerM": 0.0008,
+      "transmittanceFormula": "exp(-0.0008 * cameraPathLengthM)",
+      "policy": "One shared weather haze term. Longer sight lines get more haze naturally; no separate lake fog multiplier. Live fog overrides fixture."
+    },
+    "lod": {
+      "minimumProjectedWaveWidthCssPx": 1.5,
+      "normalDetailFadeStartM": 35,
+      "normalDetailFadeEndM": 100,
+      "aerialNormalAmplitudeScale": 0.5,
+      "farPolicy": "Fade subpixel normals, retain mean roughness and broad reflected sky. Never enlarge world-space wavelengths to force visibility. Wind0 means no wave oscillation."
+    }
+  },
+  "sourceInputs": [
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/weather-moments-v1/values.json",
+      "sha256": "98b5342bd9bf772f9e111d0f3435b1aa94c5b94a46048d419806b023d5e5a50e"
+    },
+    {
+      "path": "~/Desktop/worldengine-gpt-drop/style-b-bible-v1/bible-values.json",
+      "sha256": "31b51e3a552280dae30da33119622e270d5240c0e3ab4ad08c6f6aeb31028a2e"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "michigan",
+      "name": "Lake Michigan \u00b7 Chicago",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#477C8D",
+          "shallowColourHex": "#557F83",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.082,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#477C8D",
+          "shallowColourHex": "#557F83",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.999,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#617986",
+          "shallowColourHex": "#5B7C84",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 1.8,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter conditional nearshore ice shelves only in a sustained-cold scenario, open water beyond; never blanket frozen lake",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 4,
+      "fetchMFixture": 20000,
+      "windDurationSFixture": 10800,
+      "renderHsCapM": 1.8,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "ndbc",
+        "nws",
+        "glerl",
+        "tides"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "river",
+      "name": "Chicago River",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#55756C",
+          "shallowColourHex": "#6A8071",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.032,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#55756C",
+          "shallowColourHex": "#6A8071",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.113,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#586D69",
+          "shallowColourHex": "#62786D",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 0.18,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter open flowing channel, bare trees, tiny conditional ice at sheltered margins only, no frozen bridge-to-bridge river",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 3,
+      "fetchMFixture": 250,
+      "windDurationSFixture": 3600,
+      "renderHsCapM": 0.18,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "nws"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "sloan",
+      "name": "Sloan\u2019s Lake \u00b7 Denver",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#477C8D",
+          "shallowColourHex": "#668C82",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.082,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#477C8D",
+          "shallowColourHex": "#668C82",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.35,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#667C80",
+          "shallowColourHex": "#668581",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 0.35,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter dormant grass and bare trees, cold-history-supported patchy sheltered ice example, central open water, no alpine glacial lake",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 2,
+      "fetchMFixture": 1000,
+      "windDurationSFixture": 7200,
+      "renderHsCapM": 0.35,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "nws"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "miami",
+      "name": "Miami ocean",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#285F80",
+          "shallowColourHex": "#71A9A1",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.082,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#285F80",
+          "shallowColourHex": "#71A9A1",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.999,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#647F88",
+          "shallowColourHex": "#6B9896",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 2.5,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter subtropical greens, NO snow or ice, beach still sand, lower winter sun only illustrative",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 3,
+      "fetchMFixture": 50000,
+      "windDurationSFixture": 21600,
+      "renderHsCapM": 2.5,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "ndbc",
+        "nws",
+        "tides"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "sf",
+      "name": "San Francisco bay",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#517778",
+          "shallowColourHex": "#778D81",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.082,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#517778",
+          "shallowColourHex": "#778D81",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.65,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#75868B",
+          "shallowColourHex": "#768A86",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 0.65,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter rain-season muted banks, no snow or sea ice, marine fog is an independent event not a season switch",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 3,
+      "fetchMFixture": 3000,
+      "windDurationSFixture": 7200,
+      "renderHsCapM": 0.65,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "ndbc",
+        "nws",
+        "tides"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "nyc",
+      "name": "New York harbour",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#486F7D",
+          "shallowColourHex": "#6D8078",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.082,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#486F7D",
+          "shallowColourHex": "#6D8078",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.5,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#687D84",
+          "shallowColourHex": "#6B7F7E",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 0.5,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter open saline harbour with bare waterfront trees, no assumed sea freeze or icebergs",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 3,
+      "fetchMFixture": 2000,
+      "windDurationSFixture": 7200,
+      "renderHsCapM": 0.5,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "ndbc",
+        "nws",
+        "tides"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    },
+    {
+      "id": "canal",
+      "name": "Netherlands canal preview",
+      "colourConditions": {
+        "calm": {
+          "windMpsFixture": 2,
+          "waterBodyColourHex": "#586F60",
+          "shallowColourHex": "#788573",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.28,
+          "inferredWindOnlyHsMFixture": 0.022,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "breezy": {
+          "windMpsFixture": 7,
+          "waterBodyColourHex": "#586F60",
+          "shallowColourHex": "#788573",
+          "skyReflectionHex": "#8FBDD7",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.4,
+          "inferredWindOnlyHsMFixture": 0.078,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        },
+        "storm": {
+          "windMpsFixture": 15,
+          "waterBodyColourHex": "#68756F",
+          "shallowColourHex": "#717E71",
+          "skyReflectionHex": "#8F9FAA",
+          "foamHex": "#D7E0DD",
+          "roughness": 0.55,
+          "inferredWindOnlyHsMFixture": 0.12,
+          "iceFractionFixture": 0,
+          "status": "authored art/model fixture, not observed location/time values"
+        }
+      },
+      "summer": {
+        "surfaceOverrides": "none; actual light/weather governs"
+      },
+      "winter": {
+        "surfaceOverrides": "none unless supported ice/snow masks; no blue seasonal grade",
+        "conditionalIceIllustration": "winter bare bank trees, open canal default, tiny sheltered ice example only if cold supported",
+        "defaultIceFraction": 0
+      },
+      "colourEvidence": "regional palette is an authored hypothesis, not sampled water quality or surveyed bathymetry",
+      "shoreBlendWidthM": 3,
+      "fetchMFixture": 120,
+      "windDurationSFixture": 3600,
+      "renderHsCapM": 0.12,
+      "capMeaning": "visual resource cap, not maximum real wave height; record raw observed Hs separately and disclose capped depiction",
+      "swell": "independent observed/modelled spectrum; calm wind can still have incoming swell",
+      "depthStatus": "unknown until bathymetry acquired; distance-to-shore band is artistic fallback, never physical depth",
+      "liveInputs": [
+        "rws",
+        "rws-water"
+      ],
+      "liveScope": "candidate source family only; station/product coverage and local representativeness unverified"
+    }
+  ],
+  "shorelines": {
+    "seawall": {
+      "materialHex": "#AAA99F",
+      "wetHex": "#A09F95",
+      "heightMProposal": [
+        1,
+        3
+      ],
+      "contactFoamWidthM": [
+        0.05,
+        0.4
+      ],
+      "detail": "large structural edges; no dense concrete noise"
+    },
+    "riprap": {
+      "materialHex": "#8A8B83",
+      "wetHex": "#81827A",
+      "stoneDiameterMProposal": [
+        0.3,
+        1.2
+      ],
+      "contactFoamWidthM": [
+        0.05,
+        0.6
+      ],
+      "detail": "merge distant stones; keep bank silhouette"
+    },
+    "beach": {
+      "materialHex": "#C6BDA5",
+      "wetHex": "#BAB19B",
+      "slopeDegreesProposal": [
+        2,
+        8
+      ],
+      "contactFoamWidthM": [
+        0.1,
+        2
+      ],
+      "detail": "broad wet-sand and shallow-bottom masks, no grain geometry"
+    },
+    "marsh": {
+      "materialHex": "#668278",
+      "wetHex": "#607A71",
+      "reedHeightMProposal": [
+        0.5,
+        1.8
+      ],
+      "contactFoamWidthM": [
+        0,
+        0.12
+      ],
+      "detail": "opaque reed clusters; winter dormant straw #959276; no universal green marsh"
+    },
+    "marina": {
+      "materialHex": "#857A68",
+      "wetHex": "#7D7362",
+      "dockWidthMProposal": [
+        1.2,
+        2.4
+      ],
+      "contactFoamWidthM": [
+        0,
+        0.15
+      ],
+      "detail": "pilings and dock silhouette; broad matte timber, no photographic grain"
+    }
+  },
+  "colourModel": {
+    "verifiedMechanisms": [
+      "water absorption changes spectrum with path length",
+      "dissolved organic matter and suspended sediment/algae change colour",
+      "sky/reflected sun affect surface appearance, viewing angle changes their weight"
+    ],
+    "sources": [
+      "colour-noaa",
+      "colour-usgs",
+      "gpu"
+    ],
+    "proposal": "C_body=mix(C_deep,C_bottomContribution, exp(-K_water*depth)); only if depth and attenuation supported; otherwise profile shallow band flagged inferred. Add broad environment reflection once using view normal and roughness. K_water is water-column absorption/turbidity, NOT a second atmospheric fog. Do not bake sun colour or sky gradient into albedo and add it again. No exact sediment-to-hex calibration claimed.",
+    "sunAngle": "use actual sun vector; broken glint aligned with view/sun, no sun-following solid stripe; low sun increases path/glint geometry, not automatic orange base water",
+    "sediment": "independent supported turbidity/runoff input; rain code alone does not turn every river brown",
+    "sandbar": "requires shallow/bottom mask; illustrated Miami bank is inferred, not live bathymetry"
+  },
+  "waveModelProposal": {
+    "windConvention": "source direction is FROM clockwise true north; propagation TO=(FROM+180) mod 360; wave MWD uses same from convention; current directions parsed separately by source metadata",
+    "inputPriority": [
+      "representative quality-controlled Hs/period/direction observation or forecast for correct time",
+      "supported wave model with spatial mapping",
+      "wind/fetch/duration visual heuristic labelled simulated"
+    ],
+    "fallbackFormula": "Hs_visual=min(profileCap,0.20*U^2/9.81 * sqrt(min(1,F/max(1,100*U^2))) * min(1,D/7200)); U>=0 m/s, F>=0 metres, D>=0 seconds",
+    "formulaStatus": "authored fetch/duration limiter, NOT a calibrated wave forecast; missing fetch/duration use explicit profile fixture, never observed label",
+    "filter": "U_smooth approaches U with 120 s time constant; Hs/period blend over 180 s, valid swell retained; raw events/alerts preserved independently",
+    "period": "use representative measured DPD when available; fallback T=clamp(0.8+0.20*U,1,5) seconds for open water, 0.6\u20131.8 s for canals/river; authored bounds",
+    "dispersion": "omega=2*pi/T; solve omega^2=g*k*tanh(k*h) when depth h known. Deep approximation lambda=g*T^2/(2*pi) only for deep regime; unknown depth uses artistic lambda bounded to mesh, labelled inferred. No current Doppler solver v1.",
+    "fourWaveWeights": [
+      0.62,
+      0.45,
+      0.32,
+      0.23
+    ],
+    "amplitudeFormula": "Ai=(Hs_visual/4)*sqrt(2)*wi/sqrt(sum(wj^2)); sine variance then gives Hs=4*sqrt(sum(Ai^2)/2). This is spectral significant-height normalization, not Hs as one wave crest amplitude.",
+    "heightFormula": "eta(x,t)=sum(Ai*sin(ki*dot(di,x)-omega_i*t+phi_i)); deterministic phases per stable water-body ID; normal from analytic gradient",
+    "mesh": "only geometry wavelengths >=4 vertex spacings; smaller waves normal-only, fade below 1.5 projected pixels; never enlarge waves to force visibility",
+    "fetch": "compute upwind open-water ray clipped to shoreline/banks, with shelter mask; world polygons fixed; fetch source-derived if available otherwise inferred",
+    "duration": "retain wind-vector history; reset/reduce effective duration after large bearing change; unknown history means unknown duration",
+    "wakes": "separate supported moving vessel track or explicitly simulated wake source; seeded finite ribbon, amplitudes .02\u2013.15 m authored, decay 10\u201345 s; clip to water, no fake live boats",
+    "iceDamping": "Ai*=1-iceCoverageLocal; stationary shelf has no oscillation; broken floes stretch, not rigid full-lake sheet"
+  },
+  "foamRulesProposal": {
+    "colourHex": "#D7E0DD",
+    "deepWaterCoverageCaps01": {
+      "calm": 0.005,
+      "breezy": 0.02,
+      "storm": 0.08
+    },
+    "activation": "crest steepness/observed breaking plus edge interaction; wind condition alone insufficient; use smoothstep(.10,.16,localHeightOverWavelength) as art-only crest cue",
+    "shoreFoam": "signed shore distance mask, phase-broken irregular segments; exclude vertical shoreline blanket stripe; beach breaker from shallow supported/inferred band",
+    "shelf": "do not confuse white foam with stationary ice; foam disappears/advects, ice persists by history",
+    "fadeSeconds": [
+      2,
+      6
+    ],
+    "normalisedIntensityCap": 0.75,
+    "performance": "material mask in same water draw, sparse optional short splash pool <=64 near-camera particles; no all-surface white noise"
+  },
+  "reflectionLimits": {
+    "metallic": 0,
+    "waterIORReference": 1.333,
+    "physicalF0Reference": 0.02037,
+    "styleCoefficientsInherited": {
+      "normalStrength": 0.12,
+      "grazingStrength": 0.55,
+      "grazingExponent": 5,
+      "aerialScale": 0.65,
+      "metallic": 0,
+      "waterIOR": 1.333,
+      "physicalF0": 0.02037,
+      "policy": "These stylized blend coefficients are not measured Fresnel. No white brightness floor at night. Reuse sky environment; no planar mirrors, SSR, extra captures or per-ripple lights."
+    },
+    "baseline": "reuse inherited stylized normal/grazing coefficients, not additive to a second PBR lobe; one chosen shading path",
+    "minimumRoughness": 0.28,
+    "nearBlendCap": 0.45,
+    "aerialBlendCap": 0.3,
+    "farBlendCap": 0.25,
+    "limiter": "R= min(capByTier, inheritedNormal+(inheritedGrazing-inheritedNormal)*(1-dot(N,V))^5); replace inherited aerial multiplier with tier cap, do not apply both",
+    "planarMirror": false,
+    "screenSpaceReflection": false,
+    "perFrameReflectionCapture": false,
+    "environment": "reuse coarse shared prefiltered sky; optional broad building reflection masks under river/piers, no sharp duplicate facades",
+    "glint": "sparse restrained broad sun highlight, no emissive white floor, no mirror at night"
+  },
+  "atmosphereAndExposure": {
+    "formula": "T=exp(-integral(sigma_air ds)); homogeneous simplification exp(-sigma_air*cameraDistance); L_after=T*L_water+(1-T)*L_air; one shared extinction integration for water and other geometry",
+    "ownership": "renderer selects material or shared post owner, never both. Layered SF marine fog integrates one spatial sigma field, no extra bay haze overlay.",
+    "fixtureExtinctionPerM": 0.0008,
+    "exposure": "apply shared weather/time exposure once after shading and atmospheric integration; no second EV in water material, no duplicated warmth, contrast or saturation",
+    "wetShore": "reuse inherited water-side .6 m darkening band max12%; one land wetness owner, never stack shoreline and rain multipliers",
+    "night": "actual low-light environment, no minimum water luminance; warm reflections limited to eligible supported lights"
+  },
+  "iceRules": {
+    "default": "coverage unknown/null until supported; illustration ice is conditional demo, never observation",
+    "enable": "fresh spatial ice observation/model plus complete cold/water-temperature history where available; for unsurveyed local shelves require supported local evidence or explicit inferred/demo mode. Air below zero or falling snow alone insufficient.",
+    "history": "retain hourly thermal context and daily GLERL concentrations for Lake Michigan; no universal FDD-to-shelf geometry conversion",
+    "coverage": "use spatial source concentration, not lake-wide percentage spread uniformly; coarse cells cannot establish a specific seawall shelf",
+    "waterTemperature": "surface water evidence constrains plausibility; saline freeze threshold depends on salinity, do not use freshwater rule in sea/harbour",
+    "fallback": "missing history remains unknown, default visible open water with unknown label; last supported ice can persist marked stale, not silently melt by month",
+    "shelves": "stationary opaque matte fragmented nearshore geometry, .2\u20131 m visual thickness only if supported/inferred; no claim of real ice thickness or safe access",
+    "colours": {
+      "ice": "#91ADBA",
+      "snowOnIce": "#E6E9E3",
+      "fracture": "#6D8997"
+    },
+    "roughnessProposal": 0.55,
+    "snowOnIce": "separate supported snow reservoir; snow never creates ice",
+    "geometryBudget": "<=2000 triangles included in water envelope; far area mask, no moving shelf/wave double layer",
+    "melt": "observed/history-backed gradual coverage update over hours/days; do not melt during a UI condition switch"
+  },
+  "livePolicy": {
+    "modes": [
+      "observed",
+      "forecast",
+      "history",
+      "simulated",
+      "demo",
+      "unknown"
+    ],
+    "requiredMetadata": [
+      "provider",
+      "station/product",
+      "timestampUTC",
+      "validAt",
+      "issuedAt",
+      "retrievedAt",
+      "age",
+      "units",
+      "QC",
+      "coordinates/footprint",
+      "spatialResolution",
+      "datum",
+      "status",
+      "rawValue",
+      "renderValue",
+      "modelVersion"
+    ],
+    "selection": "same water basin, shelter and exposure; nearest buoy is not automatically representative; never extrapolate ocean waves into canals or Sloan lake",
+    "cacheProposal": "server cache per station/product/water body; observations request 15 min, daily ice request 6 h, forecasts per issuer cadence; respect source cache headers and limits, coalesce requests; refresh never faster merely because camera moves",
+    "expiryProposal": "station observation >2 h stale, daily ice >36 h stale, forecast outside valid interval stale; adapter may shorten based on product metadata; these thresholds authored",
+    "cost": "documented public feeds avoid subscription charge, but bandwidth/compute/storage not free; NDBC current route not endpoint-tested",
+    "tide": "use source UTC, metric units and named vertical datum; tie level to world datum once; unknown datum means no absolute vertical motion; tide prediction labelled forecast, observation labelled observed",
+    "localLevel": "Great Lakes water-level observations/seiche context; no ocean tide copied into Chicago River/Sloan; Dutch managed canal levels require local source, not nearby sea tides",
+    "recap": "store raw support/provenance plus final fractions, phases/modelVersion and datum; replay timestamp deterministically; distinguish later archive lookup from recorded observation"
+  },
+  "performanceProposal": {
+    "waterEnvelopeTriangles": 12000,
+    "shoreIceIncludedTriangles": 2000,
+    "drawsIncludingOptionalFoamIce": 6,
+    "gpuWaterTargetMs": 0.8,
+    "status": "allocation target carved out of scene allowance; unbenchmarked A16/phone, not a measured pass",
+    "near": "up to4 geometric sine terms +2 normal terms; shared material, clipped opaque surface, no refractive screen copy",
+    "aerial": "2 terms, coarser mesh, foam mask only; same water colours and wind inputs",
+    "far": "flat mesh, mean roughness/body colour, no normals or wakes; preserve real extent and shared extinction",
+    "fillRate": "water may cover most screen: opaque single pass, avoid stacked translucent sheets, FFT/SSR/reflection camera excluded from v1",
+    "memoryProposalMiB": 4,
+    "resources": "one small authored mask atlas plus mesh; no remote photo texture; count actual allocations, mipmaps and transient targets in device validation",
+    "precision": "camera-relative vertex positions; evaluate phases from stable split world origin/modular tile offset to survive rebasing, not raw float planet coordinates",
+    "reuse": "same profile/seed/input schema in RealityKit Metal CustomMaterial and three.js adapter; no claim current repo supports all hooks"
+  },
+  "sources": [
+    {
+      "id": "colour-noaa",
+      "title": "NOAA: why the ocean is blue",
+      "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+      "verified": "water absorbs red wavelengths; suspended particles influence appearance",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "colour-usgs",
+      "title": "USGS Water Color",
+      "url": "https://www.usgs.gov/water-science-school/science/water-color",
+      "verified": "dissolved organic material and suspended sediment/algae influence colour",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "ndbc",
+      "title": "NDBC measurement descriptions",
+      "url": "https://www.ndbc.noaa.gov/faq/measdes.shtml",
+      "verified": "search-index documentation verifies WSPD m/s, WVHT significant height, DPD seconds and directions from true north",
+      "accessNote": "direct fetch returned 403; no bypass; indexed documentation read, adapter and live endpoint not tested",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "ndbc-access",
+      "title": "NDBC real-time access",
+      "url": "https://www.ndbc.noaa.gov/faq/rt_data_access.shtml",
+      "verified": "indexed access documentation located",
+      "accessNote": "direct fetch 403; exact current delivery route and cadence must be verified before implementation",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "wave-growth",
+      "title": "NWS wind-wave growth analysis",
+      "url": "https://www.weather.gov/media/wrh/online_publications/TAs/ta0306.pdf",
+      "verified": "wind speed, fetch and duration affect wave growth; distant swell contributes independently",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "glerl",
+      "title": "GLERL Great Lakes ice cover",
+      "url": "https://www.glerl.noaa.gov/data/ice/",
+      "verified": "daily GLSEA temperature/ice products; history since 1973; ice charts available in grid/shapefile/image forms; missing cloud-free temperature retrieval uses prior-map smoothing",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "tides",
+      "title": "CO-OPS Data Retrieval API",
+      "url": "https://api.tidesandcurrents.noaa.gov/api/prod/",
+      "verified": "observed water levels and tide/current predictions; required units/datum/time-zone parameters and request-span limits",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "tides-free",
+      "title": "CO-OPS free API access",
+      "url": "https://tidesandcurrents.noaa.gov/cms/wp-content/uploads/2025/07/The-Current-July-31-2025.pdf",
+      "verified": "official publication identifies free access to data APIs",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "lakes-level",
+      "title": "NOAA Great Lakes tides",
+      "url": "https://oceanservice.noaa.gov/facts/gltides.html",
+      "verified": "Great Lakes tides are small relative to weather-driven level fluctuations; seiches matter",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "nws",
+      "title": "NWS API documentation",
+      "url": "https://www.weather.gov/documentation/services-web-api",
+      "verified": "open data free to use; forecasts/station observations; cache and rate-limit design required",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "rws",
+      "title": "Rijkswaterstaat open data",
+      "url": "https://www.rijkswaterstaat.nl/zakelijk/open-data",
+      "verified": "open reuse described; per-dataset terms must still be checked",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "rws-water",
+      "title": "Rijkswaterstaat data discovery",
+      "url": "https://rijkswaterstaatdata.nl/data-zoeken/",
+      "verified": "Waterinfo/WaterWebservices provide water height, wind, waves, temperature, tides and currents; not every urban canal monitored",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "gpu",
+      "title": "GPU Gems: Effective Water Simulation",
+      "url": "https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models",
+      "verified": "geometric wave sums plus finer normal detail used in Uru; not a current phone benchmark",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "apple",
+      "title": "Apple WWDC21 advanced RealityKit rendering",
+      "url": "https://developer.apple.com/videos/play/wwdc2021/10075/",
+      "verified": "geometry modifier and surface shader hooks; exact current engine integration untested",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "three",
+      "title": "three.js ShaderMaterial",
+      "url": "https://threejs.org/docs/pages/ShaderMaterial.html",
+      "verified": "custom shader/uniform path for WebGLRenderer; WebGPU needs an equivalent node/material adapter",
+      "checkedOn": "2026-10-07"
+    },
+    {
+      "id": "rights",
+      "title": "NOAA education reuse FAQ",
+      "url": "https://www.noaa.gov/office-education/outreach-communication/faq",
+      "verified": "NOAA data broadly public domain; third-party supplied products need provenance/terms review",
+      "checkedOn": "2026-10-07"
+    }
+  ],
+  "waterRulePrecedence": {
+    "status": "proposal",
+    "active": "waveModelProposal and reflectionLimits control this pack; inheritedLakeWinterWater wind tables are retained historical fixtures, not a second active wave system. Current sharedLighting controls the sun, overriding historical water fixture sun angles.",
+    "reflection": "Choose the capped art environment blend OR renderer PBR response, never add both. Do not also multiply inherited aerialScale after applying aerial cap.",
+    "ice": "iceRules supersedes any calendar/default ice inference; winter sheet art is conditional demo only."
+  },
+  "screenDetailTiersProposal": {
+    "near": "shore blocks, piles and contact band only when >=4 projected pixels; normals fade below 1.5px wavelength",
+    "aerial": "two geometric wave terms; simplified fixed shore silhouettes; broken foam survives only above 2px",
+    "far": "flat mean surface, no per-wave or wake detail; shore becomes extent/colour band",
+    "transition": "smoothstep across 20% projected-size overlap; retain mean water extent, no LOD wave-size inflation",
+    "status": "proposal; measure actual phone shimmer and transition cost"
+  }
+}

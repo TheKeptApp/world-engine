@@ -1,0 +1,549 @@
+{
+  "schema": "worldengine.terrain-slope.design.v1",
+  "date": "2026-10-07",
+  "status": "Design proposal; not surveyed geometry, structural guidance or measured performance",
+  "units": {
+    "length": "metres",
+    "grade": "percent rise / horizontal run",
+    "angles": "degrees"
+  },
+  "evidenceRule": "All authored numeric settings below are assumptions unless an evidence record explicitly marks them verified.",
+  "look": {
+    "source": "../style-b-calibration-v2/values.json#/sharedLook",
+    "inheritExactly": true,
+    "perCityOverrides": false
+  },
+  "gradeBands": [
+    {
+      "id": "gentle",
+      "minInclusive": 0,
+      "maxExclusive": 5,
+      "fixture": 3,
+      "foundationExposedGuideM": [
+        0.15,
+        0.6
+      ]
+    },
+    {
+      "id": "moderate",
+      "minInclusive": 5,
+      "maxExclusive": 15,
+      "fixture": 10,
+      "foundationExposedGuideM": [
+        0.6,
+        1.8
+      ]
+    },
+    {
+      "id": "steep",
+      "minInclusive": 15,
+      "maxInclusive": 30,
+      "fixture": 22,
+      "foundationExposedGuideM": [
+        1.8,
+        3.6
+      ],
+      "policy": "Flag deep exposure for split-level/terraced treatment; never claim new streets at this grade meet local standards."
+    }
+  ],
+  "foundation": {
+    "floorTiltDeg": 0,
+    "footprintSampleSpacingM": 2,
+    "includeVerticesEntrancesGarage": true,
+    "stepRiseTargetM": 0.4,
+    "stepRiseGuideM": [
+      0.3,
+      0.6
+    ],
+    "padModificationMaxOutsideFootprintM": 1,
+    "confidence": "judgment unless surveyed",
+    "automaticExposureReviewThresholdM": 3,
+    "formula": "exposure(s)=floorBaseZ-groundZ(s); resolve negative exposure locally, never tilt floor",
+    "example": {
+      "alongSlopeFootprintM": 12,
+      "gradePercent": 22,
+      "terrainHeightDifferenceM": 2.64
+    }
+  },
+  "retaining": {
+    "ordinaryGuideM": [
+      0.6,
+      1.8
+    ],
+    "reviewThresholdM": 2,
+    "thicknessGuideM": [
+      0.25,
+      0.45
+    ],
+    "terraceRatherThanSingleTallWall": true,
+    "structuralDesign": false
+  },
+  "stairs": {
+    "riserTargetM": 0.16,
+    "treadTargetM": 0.3,
+    "widthTargetM": 1.5,
+    "risersPerFlightTarget": 8,
+    "landingLengthTargetM": 1.5,
+    "handrailHeightTargetM": 0.9,
+    "uniformRisers": true,
+    "actualRiserRule": "choose integer N to keep totalRise/N within selected valid range; each flight uniform; mapped stairs override inference",
+    "coveredAdaEvidence": {
+      "source": "ADA-STAIRS",
+      "riserRangeM": [
+        0.1016,
+        0.1778
+      ],
+      "treadMinM": 0.2794,
+      "status": "verified imperial conversion; applicable scope required"
+    },
+    "accessibleRouteClaim": false
+  },
+  "road": {
+    "crownTargetPercent": 2,
+    "curbHeightTargetM": 0.1524,
+    "sidewalkCrossSlopeTargetPercent": 2,
+    "profileSampleSpacingM": 2,
+    "profileFitWindowM": [
+      10,
+      20
+    ],
+    "bridgeTunnelPolicy": "Do not drape onto bare earth; mapped deck/profile overrides; unresolved deck flagged.",
+    "parkingBayAngle": "Use mapped layout, never infer bay angle from grade alone."
+  },
+  "mesh": {
+    "tileEdgeM": 64,
+    "screenErrorDrawablePx": {
+      "near": 1,
+      "far": 2
+    },
+    "hysteresisFraction": 0.2,
+    "borderPolicy": "shared vertices or stitched edge; skirts only hidden outside traversable surface",
+    "anchors": "full-resolution canonical ground independent of visual LOD",
+    "sceneTerrainTriangleTarget": 40000,
+    "terrainDrawTarget": 12,
+    "foundationTriangleTargetPerNearHouse": 80,
+    "wallTriangleTargetPerSegment": 12,
+    "stairsTriangleTargetPerFlight": 120,
+    "projectedDetailTiers": [
+      {
+        "minPx": 48,
+        "detail": "foundation steps, landings, rails, major wall joints"
+      },
+      {
+        "minPx": 16,
+        "maxPx": 48,
+        "detail": "foundation outline, stair ramp silhouette with landing breaks; no small joints"
+      },
+      {
+        "minPx": 0,
+        "maxPx": 16,
+        "detail": "terrain/body/roof and retaining silhouette only"
+      }
+    ],
+    "performanceStatus": "assumption; profile on iPhone 13 class hardware"
+  },
+  "budget": {
+    "fpsTarget": 60,
+    "totalGpuCeilingMs": 10,
+    "baselineWorldGroundBucketMs": 4.25,
+    "nearGeometryBucketMs": 0.35,
+    "mainTriangleCeiling": 400000,
+    "mainDrawCeiling": 100,
+    "shadowTriangleCeiling": 150000,
+    "reservation": "Terrain replaces flat ground inside baseline; foundation/stair additions share near geometry and total ceilings. No extra bucket.",
+    "status": "verified repository visual-v2 targets; not measured"
+  },
+  "camera": {
+    "coordinateFrame": "local ENU; +X east,+Y north,+Z up",
+    "street": {
+      "eyeAboveLocalGroundM": 1.65,
+      "targetDistanceM": 18,
+      "verticalFovDeg": 48
+    },
+    "aerial": {
+      "heightAboveBlockCentreM": 65,
+      "downwardPitchDeg": 45,
+      "verticalFovDeg": 42
+    },
+    "far": {
+      "heightAboveLocalGroundM": 25,
+      "targetDistanceM": 120,
+      "verticalFovDeg": 36
+    },
+    "conceptLimitation": "These are reproducible future-engine camera targets; generated panels do not certify camera matrices or grade."
+  },
+  "scenes": [
+    {
+      "id": "01-gentle",
+      "name": "Gentle block \u00b7 3%",
+      "grade": 3,
+      "place": "Seattle",
+      "description": "Seattle Craftsman wood houses and conifers on gently rising residential street, 3% longitudinal slope, low 0.3m exposed foundations, shallow entry steps, 2% street crown. Keep floors and roof ridges level.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/01-gentle.png",
+      "sheet": "01-gentle.html"
+    },
+    {
+      "id": "02-moderate",
+      "name": "Moderate block \u00b7 10%",
+      "grade": 10,
+      "place": "San Francisco",
+      "description": "San Francisco compact Victorian bay-front houses on 10% uphill street, each house stepped separately up the block, level floors, uphill shallow foundation and downhill exposed 1.2m foundation for 12m along-slope footprint, alternating elevated porch entries and garage-at-grade lower level; bay visible only distant, no Chicago landmarks.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/02-moderate.png",
+      "sheet": "02-moderate.html"
+    },
+    {
+      "id": "03-steep",
+      "name": "Steep block \u00b7 22%",
+      "grade": 22,
+      "place": "Los Angeles hills",
+      "description": "Los Angeles hillside contemporary stucco and wood houses along steep 22% street, level floor slabs, terraced pads, 2.64m downhill foundation difference across12m footprint, split-level entries, lower garages reached from street, retaining walls and separate stairs, dry chaparral and oak hills, do not tilt buildings.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/03-steep.png",
+      "sheet": "03-steep.html"
+    },
+    {
+      "id": "04-corner",
+      "name": "Steep corner lot",
+      "grade": 20,
+      "place": "San Francisco",
+      "description": "San Francisco bay-front corner house at intersection with main street20% longitudinal grade and side street6%, garage at downhill side-street level, main entry reached from uphill street via stairs, level floor bands, clearly stepped perimeter foundations, localized intersection transition, no folded road or cliff at curb, stairs and retaining wall wrapping corner.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/04-corner.png",
+      "sheet": "04-corner.html"
+    },
+    {
+      "id": "05-stair-street",
+      "name": "Stair street",
+      "grade": 28,
+      "place": "Pittsburgh",
+      "description": "Pittsburgh hillside public stair street between brick houses, pedestrian-only continuous broad concrete stair flights with landings every8risers, uniform .16m risers and .30m treads, two simple continuous handrails, walking route running beside stepped retaining walls and level terraced houses, no vehicle road pretending to climb stairs, leafy steep river valley far view.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/05-stair-street.png",
+      "sheet": "05-stair-street.html"
+    },
+    {
+      "id": "06-retaining",
+      "name": "Retaining-wall street",
+      "grade": 10,
+      "place": "Kansas City",
+      "description": "Kansas City hillside shirtwaist wood-over-brick houses with stone base piers, uphill raised lawns and 1.2m limestone retaining walls fronting sidewalk, stair breaks to porches, variable 0.6\u20131.8m walls but smooth level tops in terraces, rolling hills, broad deciduous canopy, road10% downhill, each house floor level.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/06-retaining.png",
+      "sheet": "06-retaining.html"
+    },
+    {
+      "id": "07-canyon",
+      "name": "Canyon edge",
+      "grade": 8,
+      "place": "San Diego",
+      "description": "San Diego mesa edge Spanish revival stucco houses terraced alongside8%street, lower side reveals deep natural canyon with dry chaparral and coastal scrub, each floor level, small retaining wall supports actual house pad, untouched steep natural ravine slopes distinct from road slope, broad matte terrain shapes, no invented house overhang or floating foundation, distant coast subtle.",
+      "status": "assumption; fictional illustrative block",
+      "image": "images/07-canyon.png",
+      "sheet": "07-canyon.html"
+    }
+  ],
+  "coverage": [
+    {
+      "city": "San Francisco",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    },
+    {
+      "city": "Seattle",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    },
+    {
+      "city": "Pittsburgh",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    },
+    {
+      "city": "Kansas City",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    },
+    {
+      "city": "San Diego",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    },
+    {
+      "city": "Los Angeles",
+      "status": "unverified complete 1 m coverage",
+      "gate": "Query exact test polygon against TNM 1 m product footprints, inspect gaps, acquisition dates, quality and vertical datum before building."
+    }
+  ],
+  "sources": [
+    {
+      "id": "USGS-1M",
+      "url": "https://www.usgs.gov/publications/1-meter-digital-elevation-model-specification",
+      "status": "Verified",
+      "claim": "2015 specification: bare-earth hydroflattened 1 m cells; 10 km square blocks with 6 m overlap. Resolution is not accuracy.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "USGS-LICENSE",
+      "url": "https://pubs.usgs.gov/tm/11b9/tm11B9.pdf",
+      "status": "Verified",
+      "claim": "All 3DEP products are public domain. A separate third-party ancillary dataset needs its own license review.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "USGS-QUALITY",
+      "url": "https://www.usgs.gov/3d-elevation-program/topographic-data-quality-levels-qls",
+      "status": "Verified",
+      "claim": "QL2 target: 10 cm RMSEz, 1 m DEM, nominal pulse spacing <=0.71 m. Check each project's quality metadata.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "USGS-DATUM",
+      "url": "https://www.usgs.gov/faqs/what-projection-horizontal-datum-vertical-datum-and-resolution-a-usgs-digital-elevation-model",
+      "status": "Verified",
+      "claim": "1 m DEM uses UTM; preserve actual horizontal and vertical datum from tile metadata.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "USGS-ACCESS",
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/docs",
+      "status": "Verified",
+      "claim": "Official catalog API for product metadata and footprint queries; six-city complete 1 m coverage not verified in this pack.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-INCLINE",
+      "url": "https://wiki.openstreetmap.org/wiki/Key:incline",
+      "status": "Verified",
+      "claim": "Incline may be percentage, explicit degrees or qualitative up/down; sign follows way direction. Qualitative tags do not provide a numeric grade.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-LICENSE",
+      "url": "https://www.openstreetmap.org/copyright",
+      "status": "Verified",
+      "claim": "OSM is ODbL, with attribution and applicable database share-alike requirements; public-domain DEM does not erase OSM obligations.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "SEATTLE-GRADE",
+      "url": "https://streetsillustrated.seattle.gov/design-standards/roadway-construction/grading/",
+      "status": "Verified",
+      "claim": "Design maxima: principal/commercial 9%, collector/minor 10%, residential access/alleys 17%; usual crown and sidewalk cross slope 2%, curb 6 inches. These are design criteria, not observed city maxima.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "SEATTLE-WALL",
+      "url": "https://streetsillustrated.seattle.gov/design-standards/structures/",
+      "status": "Verified",
+      "claim": "Retaining structures support grade differences where allowable ground slopes are exceeded. Project approval and design remain necessary.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "LA-GRADE",
+      "url": "https://completestreetdesignmanual.engineering.lacity.gov/e-300-roadway-design-controls-and-criteria/e-390-grade-design-policy/e-391-design-details",
+      "status": "Verified",
+      "claim": "LA manual preferred street grade <=6%; major highway desirable 6%, absolute 7%; other streets normally 15%. Applicability and exceptions require project review.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "SD-STREET",
+      "url": "https://www.sandiego.gov/sites/default/files/2024-12/sdmu-full-print.pdf",
+      "status": "Verified (indexed official text)",
+      "claim": "2024 Street Design Manual: typical crowned streets use 2% cross slope. Full current maximum grade table not verified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "KC-STREET",
+      "url": "https://www.kcmo.gov/city-hall/departments/public-works/public-works-design-construction-standards",
+      "status": "Verified",
+      "claim": "City identifies adopted public works/design standards. No existing maximum street-grade record verified here.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "SF-PARK",
+      "url": "https://www.sfmta.com/getting-around/drive-park/how-avoid-parking-tickets",
+      "status": "Verified",
+      "claim": "Curb wheels on perceptible grades; uphill with curb turn away, downhill toward curb. This is wheel orientation, not permission to rotate parking bays to arbitrary angles.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PITTSBURGH-STEPS",
+      "url": "https://www.pittsburghpa.gov/Business-Development/Mobility-and-Infrastructure/Plans/City-Steps",
+      "status": "Verified",
+      "claim": "Public stair streets are a real part of Pittsburgh's mobility network. Individual dimensions and condition need mapping/survey.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "ADA-STAIRS",
+      "url": "https://www.access-board.gov/ada/guides/chapter-5-stairways/",
+      "status": "Verified",
+      "claim": "Covered stair flights: uniform risers 4\u20137 inches, uniform treads at least 11 inches. Scope matters; this is not a universal survey of residential stairs.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "ADA-ROUTE",
+      "url": "https://www.access-board.gov/ada/guides/chapter-4-accessible-routes/",
+      "status": "Verified",
+      "claim": "Stairs alone are not an accessible route. Generated scenes must not label a stair-only route accessible.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "CESIUM-LOD",
+      "url": "https://cesium.com/learn/cesiumjs/ref-doc/Globe.html",
+      "status": "Verified",
+      "claim": "Screen-space error governs terrain refinement (default 2); terrain depth tests/LOD can affect surface objects, shadows add cost. A map-engine reference, not a measured WorldEngine budget.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "THREE-LOD",
+      "url": "https://threejs.org/docs/pages/LOD.html",
+      "status": "Verified",
+      "claim": "three.js supplies distance-based LOD; screen-error selection and stable anchoring proposed here need application logic.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "THREE-MESH",
+      "url": "https://threejs.org/docs/pages/BufferGeometry.html",
+      "status": "Verified",
+      "claim": "Indexed vertex geometry is supported by BufferGeometry.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "REALITY-MESH",
+      "url": "https://developer.apple.com/documentation/realitykit/lowlevelmesh",
+      "status": "Verified",
+      "claim": "RealityKit LowLevelMesh supports custom vertex formats and CPU/compute updates; MeshDescriptor is a simpler alternative. Prefer baked static meshes here.",
+      "checked": "2026-10-07"
+    }
+  ],
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  }
+}

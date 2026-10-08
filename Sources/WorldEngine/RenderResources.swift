@@ -102,6 +102,21 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var skyStops = SIMD4<Float>(30, 10, 30, 0)
     /// Second middle sky stop (texel 42): linear rgb; its elevation is skyStops.z.
     public var skyMid2 = SIMD4<Float>(0, 0, 0, 0)
+    /// Patchy wet sheen (texel 43): noise scale m, sheen low, high, gloss roughness factor.
+    public var wetSheen = SIMD4<Float>(3, 1, 1, 1)
+    /// Lake water (texels 44–50; lake-winter-v1 + water-surfaces-v1 via mock-values.json): per profile
+    /// (0, 1) shallow colour (linear) + blend width; per profile wave amplitude, wavelength, speed at the
+    /// current wind; reflection (grazing strength, exponent, normal strength, aerial scale); shoreline
+    /// (darkening multiplier, width, transition, F0); the four wave-term weights. lakeOn.x = 1 when loaded.
+    public var lakeShallow0 = SIMD4<Float>(0, 0, 0, 0)
+    public var lakeShallow1 = SIMD4<Float>(0, 0, 0, 0)
+    public var lakeWave0 = SIMD4<Float>(0, 1, 0, 0)
+    public var lakeWave1 = SIMD4<Float>(0, 1, 0, 0)
+    public var lakeReflect = SIMD4<Float>(0, 5, 0, 1)
+    public var lakeShore = SIMD4<Float>(1, 0, 0.01, 0)
+    public var lakeWeights = SIMD4<Float>(0, 0, 0, 0)
+    /// Lake ripple LOD (texel 51): detail fade start, end (m), aerial scale, normal amplitude at the wind.
+    public var lakeLOD = SIMD4<Float>(35, 100, 0.5, 0)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -255,6 +270,10 @@ final class RenderResources {
         p[w + 40] = SIMD4(h(g.skyWarm.x), h(g.skyWarm.y), h(g.skyWarm.z), h(g.skyWarm.w))
         p[w + 41] = SIMD4(h(g.skyStops.x), h(g.skyStops.y), h(g.skyStops.z), 0)
         p[w + 42] = SIMD4(h(g.skyMid2.x), h(g.skyMid2.y), h(g.skyMid2.z), 0)
+        p[w + 43] = SIMD4(h(g.wetSheen.x), h(g.wetSheen.y), h(g.wetSheen.z), h(g.wetSheen.w))
+        for (i, v) in [g.lakeShallow0, g.lakeShallow1, g.lakeWave0, g.lakeWave1, g.lakeReflect, g.lakeShore, g.lakeWeights, g.lakeLOD].enumerated() {
+            p[w + 44 + i] = SIMD4(h(v.x), h(v.y), h(v.z), h(v.w))
+        }
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)

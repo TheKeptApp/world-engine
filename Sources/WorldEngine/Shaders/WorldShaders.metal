@@ -46,7 +46,8 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops; float4 skyMid2;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops; float4 skyMid2; float4 wetSheen;
+    float4 lakeShallow0; float4 lakeShallow1; float4 lakeWave0; float4 lakeWave1; float4 lakeReflect; float4 lakeShore; float4 lakeWeights; float4 lakeLOD;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -89,6 +90,11 @@ Globals readGlobals(texture2d<half> tex) {
     g.blobShadow = float4(tex.read(uint2(37, 1)));
     g.skyMid = float4(tex.read(uint2(39, 1))); g.skyWarm = float4(tex.read(uint2(40, 1)));
     g.skyStops = float4(tex.read(uint2(41, 1))); g.skyMid2 = float4(tex.read(uint2(42, 1)));
+    g.wetSheen = float4(tex.read(uint2(43, 1)));
+    g.lakeShallow0 = float4(tex.read(uint2(44, 1))); g.lakeShallow1 = float4(tex.read(uint2(45, 1)));
+    g.lakeWave0 = float4(tex.read(uint2(46, 1))); g.lakeWave1 = float4(tex.read(uint2(47, 1)));
+    g.lakeReflect = float4(tex.read(uint2(48, 1))); g.lakeShore = float4(tex.read(uint2(49, 1)));
+    g.lakeWeights = float4(tex.read(uint2(50, 1))); g.lakeLOD = float4(tex.read(uint2(51, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -252,8 +258,11 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float3 r = reflect(-v, n);
             half3 sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5)));
             su.base *= half(1.0 - row.x * exposure);
-            su.roughness = min(su.roughness, half(row.y));
-            half k = half(row.z * pow(1.0 - nv, 3.0) * exposure);
+            // Patchy sheen (look.json wetSheen): glossy and matte patches at rain-v1's mask scale, the
+            // pack's sheen on average, so wet reads at phone size without darkening past the pack.
+            float patch = smoothstep(0.35, 0.65, valueNoise(wp.xz / max(g.wetSheen.x, 0.5) + 23.7));
+            su.roughness = min(su.roughness, half(row.y * mix(1.0, g.wetSheen.w, patch)));
+            half k = half(row.z * mix(g.wetSheen.y, g.wetSheen.z, patch) * pow(1.0 - nv, 3.0) * exposure);
             su.base *= 1.0h - k;
             su.emissive += sky * k;
             if (su.surfaceClass > 0 && n.y > 0.95 && g.wetA.w > 0.0) {
@@ -530,20 +539,79 @@ void worldWaterSurface(realitykit::surface_parameters params)
     float time = params.uniforms().time();
     Surface su;
     su.base = paletteColor(tex, paint, float3(0));
-    float ripple = valueNoise(wp.xz * 0.05 + float2(time * 0.02, time * 0.013));
-    su.base *= half(0.95 + 0.08 * ripple);
-    // Water takes its colour mostly from the sky it reflects (look.json water): more under cloud,
-    // and its saturation drops with cover, so a lake under rain reads slate, not pool-blue.
     float3 v = normalize(g.camera - wp);
-    float3 r = reflect(-v, float3(0, 1, 0));
-    half3 sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5)));
     float cover = clamp(g.cloudCover, 0.0, 1.0);
-    half k = half(mix(g.water.x, g.water.y, cover));
-    // Under cloud the reflected sky dims to look.json overcastReflectGain: a storm lake is dark slate.
-    su.base = mix(su.base, sky * half(mix(0.9, g.waterB.x, cover)), k);
-    half lum = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
-    su.base = mix(half3(lum), su.base, half(mix(1.0, g.water.z, cover)));
-    su.emissive = half3(0.0h);
+    half3 sky;
+    float fres;
+    float3 rr;
+    if (g.lakeReflect.x > 0.0) {
+        // Lake water (lake-winter-v1 colour, shoreline and reflection; water-surfaces-v1 four wave terms),
+        // values from mock-values.json. extra.z = metres from the shore (open water 1000), extra.w = profile.
+        float4 extra = params.geometry().uv3();
+        bool p1 = extra.w > 0.5;
+        float4 shallow = p1 ? g.lakeShallow1 : g.lakeShallow0;
+        float4 wave = p1 ? g.lakeWave1 : g.lakeWave0;
+        float shore = extra.z;
+        if (shallow.w > 0.0) { su.base = mix(half3(shallow.rgb), su.base, half(smoothstep(0.0, shallow.w, shore))); }
+        float edge = 1.0 - smoothstep(g.lakeShore.y, g.lakeShore.y + max(g.lakeShore.z, 0.01), shore);
+        su.base *= half(mix(1.0, g.lakeShore.x, edge));
+        // Wind ripples: four terms around the wind, wavelengths 1, 0.71, 0.53, 0.37 of the profile's,
+        // weighted by water-surfaces-v1; tilt = the pack's normal amplitude at this wind, fading with
+        // distance (35–100 m) and halved from the air.
+        float2 wd = g.windDir;
+        float2 gsum = float2(0.0);
+        float wsum = 0.0;
+        const float scale[4] = {1.0, 0.71, 0.53, 0.37};
+        const float turn[4] = {0.0, 0.45, -0.38, 0.9};
+        for (int i = 0; i < 4; i++) {
+            float wt = g.lakeWeights[i];
+            float L = max(wave.y * scale[i], 0.05);
+            float2 dir = float2(wd.x * cos(turn[i]) - wd.y * sin(turn[i]), wd.x * sin(turn[i]) + wd.y * cos(turn[i]));
+            float k = 2.0 * M_PI_F / L;
+            float ph = k * dot(dir, wp.xz) - k * wave.z * time + float(i) * 1.7;
+            gsum += dir * (wt * cos(ph));
+            wsum += wt;
+        }
+        float dist = length(g.camera - wp);
+        float fade = 1.0 - smoothstep(g.lakeLOD.x, g.lakeLOD.y, dist);
+        float aerialN = mix(1.0, g.lakeLOD.z, smoothstep(30.0, 120.0, g.camera.y));
+        float tilt = g.lakeLOD.w * mix(0.35, 1.0, fade) * aerialN;
+        // Calm water keeps a faint broken texture (owner: soft broken reflections, never a mirror).
+        float2 nn = gsum / max(wsum, 1e-3) * tilt
+                  + (float2(valueNoise(wp.xz * 0.9 + time * 0.05), valueNoise(wp.xz * 0.9 + 7.0 - time * 0.04)) - 0.5) * 0.03 * aerialN;
+        float3 n = normalize(float3(-nn.x, 1.0, -nn.y));
+        rr = reflect(-v, n);
+        float nv = clamp(abs(dot(n, v)), 0.0, 1.0);
+        // Sky blend: the pack's 0.12 looking down rising to 0.55 at grazing (exponent 5); aerial scaled.
+        float aerial = mix(1.0, g.lakeReflect.w, smoothstep(30.0, 120.0, g.camera.y));
+        fres = (g.lakeReflect.z + (g.lakeReflect.x - g.lakeReflect.z) * pow(1.0 - nv, g.lakeReflect.y)) * aerial;
+        float e = asin(clamp(rr.y, 0.0, 1.0)) * 180.0 / M_PI_F;
+        float3 skyc = mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(rr.y / 0.85, 0.0, 1.0), 0.5));
+        if (g.skyMid.w > 0.001) {
+            float midE = max(g.skyStops.x, 1.0), mid2E = clamp(g.skyStops.z, midE, 89.0);
+            float3 m3 = e < midE ? mix(float3(g.skyHorizon), float3(g.skyMid.rgb), e / midE)
+                      : e < mid2E ? mix(float3(g.skyMid.rgb), float3(g.skyMid2.rgb), (e - midE) / max(mid2E - midE, 1e-3))
+                      : mix(float3(g.skyMid2.rgb), float3(g.skyTop), (e - mid2E) / (90.0 - mid2E));
+            skyc = mix(skyc, m3, g.skyMid.w);
+        }
+        sky = half3(skyc);
+        su.base *= half(1.0 - fres);
+        // Sun glint on the ripples (strongest with a low clear sun).
+        float3 sd = normalize(g.sunDir);
+        float glint = pow(max(dot(rr, sd), 0.0), 600.0) * fres * 6.0 * (1.0 - cover) * step(0.0, sd.y);
+        su.emissive = sky * half(fres) + g.sunDisk * half(glint);
+    } else {
+        float ripple = valueNoise(wp.xz * 0.05 + float2(time * 0.02, time * 0.013));
+        su.base *= half(0.95 + 0.08 * ripple);
+        rr = reflect(-v, float3(0, 1, 0));
+        sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(rr.y, 0.0, 1.0), 0.5)));
+        half k = half(mix(g.water.x, g.water.y, cover));
+        su.base = mix(su.base, sky * half(mix(0.9, g.waterB.x, cover)), k);
+        half lum = dot(su.base, half3(0.2126h, 0.7152h, 0.0722h));
+        su.base = mix(half3(lum), su.base, half(mix(1.0, g.water.z, cover)));
+        su.emissive = half3(0.0h);
+        fres = 0.0;
+    }
     // Rain rings on open water while it rains (look.json water.rainRipples).
     if (g.wetE.w > 0.01) {
         float2 cell = floor(wp.xz / 0.8), f = fract(wp.xz / 0.8) - 0.5;
@@ -552,6 +620,8 @@ void worldWaterSurface(realitykit::surface_parameters params)
         su.emissive += sky * half((1.0 - smoothstep(0.0, 0.04, ring)) * (1.0 - tt) * g.water.w * g.wetE.w);
     }
     su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
+    // Lake roughness by wind (lake-winter-v1 water.windStates), same for both profiles.
+    if (g.lakeReflect.x > 0.0) { su.roughness = half(max(g.lakeWave0.w, 0.05)); }
     su.weathered = false;
     if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring
     finish(params, g, su, wp);

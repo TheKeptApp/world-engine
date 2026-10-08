@@ -35,6 +35,30 @@
       "id": "winter",
       "path": "~/Desktop/worldengine-gpt-drop/lake-winter-v1/lake-winter-values.json",
       "sha256": "6adab5bfbd90dc134df06d53544d8dda46731cdebf4c3d83d10b893eeac2bbc4"
+    },
+    {
+      "id": "nyc-26-snow-stoops",
+      "path": "~/Desktop/worldengine-gpt-drop/nyc-hero-v1/images/26-snow-stoops.png",
+      "sha256": "0678183f3e495ee47936bc595df85c1c282eef74a380a218de4cc936ad105b43",
+      "role": "archetype/lighting visual reference; not metric survey"
+    },
+    {
+      "id": "nyc-12-midtown-canyon",
+      "path": "~/Desktop/worldengine-gpt-drop/nyc-hero-v1/images/12-midtown-canyon.png",
+      "sha256": "84e37591df3533ae74fe56f691d9ac55cb4a225cce5b39dc7380916587fcef97",
+      "role": "archetype/lighting visual reference; not metric survey"
+    },
+    {
+      "id": "nyc-25-rainy-night",
+      "path": "~/Desktop/worldengine-gpt-drop/nyc-hero-v1/images/25-rainy-night.png",
+      "sha256": "73945e21b8bc3a565e8ccddb9ddc77cf40af1c36042f5cac6e7007b15ab8c69a",
+      "role": "archetype/lighting visual reference; not metric survey"
+    },
+    {
+      "id": "nyc-24-winter-low-sun",
+      "path": "~/Desktop/worldengine-gpt-drop/nyc-hero-v1/images/24-winter-low-sun.png",
+      "sha256": "e1ad4970ace06f0cf4440b56782878223fd2d31f88361a0a18ff618303db8215",
+      "role": "archetype/lighting visual reference; not metric survey"
     }
   ],
   "precedence": {
@@ -1784,6 +1808,27 @@
       "imageSizePx": [
         2167,
         725
+      ]
+    },
+    {
+      "id": "nyc",
+      "name": "New York City",
+      "rows": [
+        "Snow day on brownstone stoops",
+        "Summer thunderstorm down an avenue canyon",
+        "Rainy night \u00b7 wet patches and warm windows",
+        "Winter low sun through the canyon"
+      ],
+      "file": "images/nyc.png",
+      "moments": [
+        "nyc-snow",
+        "nyc-thunder",
+        "nyc-rain-night",
+        "nyc-winter-sun"
+      ],
+      "imageSizePx": [
+        1190,
+        1322
       ]
     }
   ],
@@ -5307,6 +5352,844 @@
         "season": "snow and foliage remain until temperature/wind/history supports change"
       },
       "panelAspectRatio": 1.4944827586206897
+    },
+    {
+      "id": "nyc-snow",
+      "title": "Snow day on brownstone stoops",
+      "region": "New York City",
+      "asset": "images/nyc.png",
+      "boardRow": 0,
+      "boardRows": 4,
+      "camera": {
+        "id": "nyc-1",
+        "heightM": 1.65,
+        "verticalFovDeg": 55,
+        "pitchDeg": 0,
+        "headingDegTrueNorthFixture": 0,
+        "lock": [
+          "position",
+          "lens",
+          "heading",
+          "pitch",
+          "buildings",
+          "tree_trunks",
+          "terrain",
+          "shoreline"
+        ],
+        "status": "authored unsurveyed viewpoint; approximate within-row matching; heading not recovered from pixels"
+      },
+      "before": {
+        "sky": {
+          "zenithHex": "#96A9B6",
+          "horizonHex": "#C9D2D4",
+          "cloudLitHex": "#D9DFDF",
+          "cloudShadeHex": "#A2B0B8",
+          "cloudCoverage01": 0.95,
+          "cloudDensity01": 1,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#FFE8C6",
+          "directIntensityRelativeClearE0": 0.08,
+          "diffuseFillRelativeClearE0": 0.65,
+          "solarElevationDegFixture": 20,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0,
+          "rainMaterialState": "dry",
+          "surfaceRowsRef": "inherited.rain.states#dry",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#BDD0D9",
+          "sigmaPerM": 0.0005,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 7824,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "none",
+          "hex": "#B8CAD6",
+          "intensity01": 0,
+          "particlePoolCount": 0,
+          "densityParticlesPerM3": 0.0,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        },
+        "snowCover": {
+          "freshHex": "#E4E9EB",
+          "shadowHex": "#C3CDD6",
+          "groundEligibleCoverage01": 0,
+          "history": "authored prior trace snow comparison",
+          "noAutoLakeFreeze": true
+        }
+      },
+      "after": {
+        "sky": {
+          "zenithHex": "#879BAE",
+          "horizonHex": "#C7D1D6",
+          "cloudLitHex": "#DAE2E6",
+          "cloudShadeHex": "#8C9CA9",
+          "cloudCoverage01": 0.98,
+          "cloudDensity01": 1,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#E5E9E5",
+          "directIntensityRelativeClearE0": 0.08,
+          "diffuseFillRelativeClearE0": 0.65,
+          "solarElevationDegFixture": 20,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0.45,
+          "rainMaterialState": "light_rain",
+          "surfaceRowsRef": "inherited.rain.states#light_rain",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 1,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#B9C7D0",
+          "sigmaPerM": 0.0012,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 3260,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "snow",
+          "hex": "#E4E9EB",
+          "intensity01": 0.25,
+          "particlePoolCount": 68,
+          "densityParticlesPerM3": 0.003777777777777778,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        },
+        "snowCover": {
+          "freshHex": "#E4E9EB",
+          "shadowHex": "#C3CDD6",
+          "groundEligibleCoverage01": 0.55,
+          "greenCanopyTopCoverage01": 0,
+          "leafOutIndependent": true,
+          "noAutoLakeFreeze": true,
+          "accumulationSource": "authored prior snowfall history, not inferred from current flakes",
+          "bankGeneration": false,
+          "stoopTreadCoverage01": 0.8,
+          "railTopCoverage01": 0.65
+        }
+      },
+      "liveDrivers": [
+        "radar",
+        "nws",
+        "metar",
+        "snow-history"
+      ],
+      "liveBinding": [
+        {
+          "source": "radar",
+          "fields": "georeferenced precipitation rate/type and storm movement; hail product candidate only",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "nws",
+          "fields": "present weather / cloud cover / wind / temperature / dew point / visibility when available; alerts provide event context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "metar",
+          "fields": "visibility / low cloud base / weather codes / wind / temperature-dewpoint spread",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "snow-history",
+          "fields": "snow depth / snowfall history / melt-temperature and wind history",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        }
+      ],
+      "transition": {
+        "demoDurationS": 20,
+        "mode": "authored_two_endpoints_not_event_prediction",
+        "skyLightInterpolation": "linear RGB and coherent solar state",
+        "precipitationSeconds": 5,
+        "fogSeconds": 20,
+        "wetness": "independent weather-history reservoir; never dry road immediately when rain stops",
+        "season": "snow and foliage remain until temperature/wind/history supports change"
+      },
+      "panelAspectRatio": 1.800302571860817,
+      "archetypeReference": "nyc-hero-v1"
+    },
+    {
+      "id": "nyc-thunder",
+      "title": "Summer thunderstorm down an avenue canyon",
+      "region": "New York City",
+      "asset": "images/nyc.png",
+      "boardRow": 1,
+      "boardRows": 4,
+      "camera": {
+        "id": "nyc-2",
+        "heightM": 1.65,
+        "verticalFovDeg": 55,
+        "pitchDeg": 0,
+        "headingDegTrueNorthFixture": 0,
+        "lock": [
+          "position",
+          "lens",
+          "heading",
+          "pitch",
+          "buildings",
+          "tree_trunks",
+          "terrain",
+          "shoreline"
+        ],
+        "status": "authored unsurveyed viewpoint; approximate within-row matching; heading not recovered from pixels"
+      },
+      "before": {
+        "sky": {
+          "zenithHex": "#73A5CC",
+          "horizonHex": "#DBDCD1",
+          "cloudLitHex": "#F0F2EF",
+          "cloudShadeHex": "#CAD6DE",
+          "cloudCoverage01": 0.18,
+          "cloudDensity01": 0.22999999999999998,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#FFE8C6",
+          "directIntensityRelativeClearE0": 1,
+          "diffuseFillRelativeClearE0": 1,
+          "solarElevationDegFixture": 40,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0,
+          "rainMaterialState": "dry",
+          "surfaceRowsRef": "inherited.rain.states#dry",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#BDD0D9",
+          "sigmaPerM": 0.0005,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 7824,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "none",
+          "hex": "#B8CAD6",
+          "intensity01": 0,
+          "particlePoolCount": 0,
+          "densityParticlesPerM3": 0.0,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        }
+      },
+      "after": {
+        "sky": {
+          "zenithHex": "#506A81",
+          "horizonHex": "#A3B4BF",
+          "cloudLitHex": "#B5C4CF",
+          "cloudShadeHex": "#465769",
+          "cloudCoverage01": 0.85,
+          "cloudDensity01": 0.9,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#E8E4D8",
+          "directIntensityRelativeClearE0": 0.18,
+          "diffuseFillRelativeClearE0": 0.65,
+          "solarElevationDegFixture": 30,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0.2,
+          "rainMaterialState": "damp",
+          "surfaceRowsRef": "inherited.rain.states#damp",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#9EAEBB",
+          "sigmaPerM": 0.002,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 1956,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "rain",
+          "hex": "#B8CAD6",
+          "intensity01": 0.15,
+          "particlePoolCount": 90,
+          "densityParticlesPerM3": 0.005,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        }
+      },
+      "liveDrivers": [
+        "radar",
+        "nws",
+        "goes",
+        "metar"
+      ],
+      "liveBinding": [
+        {
+          "source": "radar",
+          "fields": "georeferenced precipitation rate/type and storm movement; hail product candidate only",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "nws",
+          "fields": "present weather / cloud cover / wind / temperature / dew point / visibility when available; alerts provide event context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "goes",
+          "fields": "regional cloud coverage and motion context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "metar",
+          "fields": "visibility / low cloud base / weather codes / wind / temperature-dewpoint spread",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        }
+      ],
+      "transition": {
+        "demoDurationS": 20,
+        "mode": "authored_two_endpoints_not_event_prediction",
+        "skyLightInterpolation": "linear RGB and coherent solar state",
+        "precipitationSeconds": 5,
+        "fogSeconds": 20,
+        "wetness": "independent weather-history reservoir; never dry road immediately when rain stops",
+        "season": "snow and foliage remain until temperature/wind/history supports change"
+      },
+      "panelAspectRatio": 1.800302571860817,
+      "archetypeReference": "nyc-hero-v1"
+    },
+    {
+      "id": "nyc-rain-night",
+      "title": "Rainy night \u00b7 wet patches and warm windows",
+      "region": "New York City",
+      "asset": "images/nyc.png",
+      "boardRow": 2,
+      "boardRows": 4,
+      "camera": {
+        "id": "nyc-3",
+        "heightM": 1.65,
+        "verticalFovDeg": 55,
+        "pitchDeg": 0,
+        "headingDegTrueNorthFixture": 0,
+        "lock": [
+          "position",
+          "lens",
+          "heading",
+          "pitch",
+          "buildings",
+          "tree_trunks",
+          "terrain",
+          "shoreline"
+        ],
+        "status": "authored unsurveyed viewpoint; approximate within-row matching; heading not recovered from pixels"
+      },
+      "before": {
+        "sky": {
+          "zenithHex": "#73A5CC",
+          "horizonHex": "#DBDCD1",
+          "cloudLitHex": "#F0F2EF",
+          "cloudShadeHex": "#CAD6DE",
+          "cloudCoverage01": 0.18,
+          "cloudDensity01": 0.22999999999999998,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#FFE8C6",
+          "directIntensityRelativeClearE0": 1,
+          "diffuseFillRelativeClearE0": 1,
+          "solarElevationDegFixture": 40,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0,
+          "rainMaterialState": "dry",
+          "surfaceRowsRef": "inherited.rain.states#dry",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#BDD0D9",
+          "sigmaPerM": 0.0005,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 7824,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "none",
+          "hex": "#B8CAD6",
+          "intensity01": 0,
+          "particlePoolCount": 0,
+          "densityParticlesPerM3": 0.0,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        }
+      },
+      "after": {
+        "sky": {
+          "zenithHex": "#15243C",
+          "horizonHex": "#344255",
+          "cloudLitHex": "#3A4E62",
+          "cloudShadeHex": "#243854",
+          "cloudCoverage01": 0.2,
+          "cloudDensity01": 0.25,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#FFE8C6",
+          "directIntensityRelativeClearE0": 0,
+          "diffuseFillRelativeClearE0": 0.3,
+          "solarElevationDegFixture": -16,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#475568",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0.65,
+          "rainMaterialState": "steady_rain",
+          "surfaceRowsRef": "inherited.rain.states#steady_rain",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 3,
+          "noMirrorRoad": true,
+          "reflectionPolicy": "stable eligible wet patches only; rough asphalt interrupts reflections"
+        },
+        "fog": {
+          "hex": "#475568",
+          "sigmaPerM": 0.002,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 1956,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "rain",
+          "hex": "#B8CAD6",
+          "intensity01": 0.35,
+          "particlePoolCount": 95,
+          "densityParticlesPerM3": 0.005277777777777778,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 1,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0.22,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true,
+          "accent": {
+            "amberHex": "#F3B96F",
+            "coralHex": "#EAAE98",
+            "turquoiseHex": "#8ECBC4",
+            "maxSurfaceAdditiveRelativeNoon": 0.12,
+            "signageText": false,
+            "fixtureInventoryVerified": false
+          }
+        }
+      },
+      "liveDrivers": [
+        "solar",
+        "nws",
+        "metar"
+      ],
+      "liveBinding": [
+        {
+          "source": "solar",
+          "fields": "computed sun elevation/azimuth for actual location/time",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "nws",
+          "fields": "present weather / cloud cover / wind / temperature / dew point / visibility when available; alerts provide event context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "metar",
+          "fields": "visibility / low cloud base / weather codes / wind / temperature-dewpoint spread",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        }
+      ],
+      "transition": {
+        "demoDurationS": 20,
+        "mode": "authored_two_endpoints_not_event_prediction",
+        "skyLightInterpolation": "linear RGB and coherent solar state",
+        "precipitationSeconds": 5,
+        "fogSeconds": 20,
+        "wetness": "independent weather-history reservoir; never dry road immediately when rain stops",
+        "season": "snow and foliage remain until temperature/wind/history supports change"
+      },
+      "panelAspectRatio": 1.800302571860817,
+      "archetypeReference": "nyc-hero-v1"
+    },
+    {
+      "id": "nyc-winter-sun",
+      "title": "Winter low sun through the canyon",
+      "region": "New York City",
+      "asset": "images/nyc.png",
+      "boardRow": 3,
+      "boardRows": 4,
+      "camera": {
+        "id": "nyc-4",
+        "heightM": 1.65,
+        "verticalFovDeg": 55,
+        "pitchDeg": 0,
+        "headingDegTrueNorthFixture": 225,
+        "lock": [
+          "position",
+          "lens",
+          "heading",
+          "pitch",
+          "buildings",
+          "tree_trunks",
+          "terrain",
+          "shoreline"
+        ],
+        "status": "authored unsurveyed viewpoint; approximate within-row matching; heading not recovered from pixels"
+      },
+      "before": {
+        "sky": {
+          "zenithHex": "#73A5CC",
+          "horizonHex": "#DBDCD1",
+          "cloudLitHex": "#F0F2EF",
+          "cloudShadeHex": "#CAD6DE",
+          "cloudCoverage01": 0.18,
+          "cloudDensity01": 0.22999999999999998,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#FFE8C6",
+          "directIntensityRelativeClearE0": 1,
+          "diffuseFillRelativeClearE0": 1,
+          "solarElevationDegFixture": 25,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0,
+          "rainMaterialState": "dry",
+          "surfaceRowsRef": "inherited.rain.states#dry",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#BDD0D9",
+          "sigmaPerM": 0.0005,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 7824,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "none",
+          "hex": "#B8CAD6",
+          "intensity01": 0,
+          "particlePoolCount": 0,
+          "densityParticlesPerM3": 0.0,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        }
+      },
+      "after": {
+        "sky": {
+          "zenithHex": "#73A5CC",
+          "horizonHex": "#DBDCD1",
+          "cloudLitHex": "#F0F2EF",
+          "cloudShadeHex": "#CAD6DE",
+          "cloudCoverage01": 0.12,
+          "cloudDensity01": 0.12,
+          "densityMeaning": "artistic cloud volume opacity/occupancy, not measured liquid water",
+          "style": "broad softly shaded forms; no photo texture"
+        },
+        "light": {
+          "sunHex": "#F3D0A0",
+          "directIntensityRelativeClearE0": 0.7,
+          "diffuseFillRelativeClearE0": 1,
+          "solarElevationDegFixture": 8,
+          "solarAzimuthDegFixture": 225,
+          "exposureRelativeEV": 0.35,
+          "contrastSlope": 1.06,
+          "saturationFactor": 1.08,
+          "additionalWarmthPercent": 0,
+          "ambientHex": "#AEBCCA",
+          "ephemerisVerified": false
+        },
+        "surface": {
+          "wetness01": 0,
+          "rainMaterialState": "dry",
+          "surfaceRowsRef": "inherited.rain.states#dry",
+          "puddlesObserved": false,
+          "puddleMaxEligibleCoveragePercent": 0,
+          "noMirrorRoad": true
+        },
+        "fog": {
+          "hex": "#BDD0D9",
+          "sigmaPerM": 0.0005,
+          "opticalDepthRule": "T=exp(-integral(sigma ds)); one shared terrain/water/sky extinction term",
+          "visibilityEquivalentM": 7824,
+          "visibilityMeaning": "homogeneous contrast-threshold approximation, not a station observation",
+          "layerTopM": null,
+          "clearNearM": 0,
+          "localLayerExtinctionPerM": 0,
+          "densityStatus": "authored_target"
+        },
+        "precipitation": {
+          "kind": "none",
+          "hex": "#B8CAD6",
+          "intensity01": 0,
+          "particlePoolCount": 0,
+          "densityParticlesPerM3": 0.0,
+          "volumeM": [
+            30,
+            20,
+            30
+          ],
+          "densityMeaning": "artistic camera-local seeded pool density, NOT meteorological precipitation concentration",
+          "rateMmPerHourObservation": null,
+          "hailRepresentation": null
+        },
+        "nightLights": {
+          "onFactor": 0,
+          "warmHex": "#F3D0A0",
+          "streetlightHex": "#F0DDC0",
+          "windowsLitShare": 0,
+          "haloMaxBlend": 0.08,
+          "windowBloomMax": 0.035,
+          "localizedOnly": true
+        },
+        "canyonLight": {
+          "policy": "geometry occludes low solar source; upper walls and narrow street corridor lit, coherent long shadows",
+          "alignment": "authored fixture; not a dated Manhattanhenge prediction"
+        }
+      },
+      "liveDrivers": [
+        "solar",
+        "nws",
+        "goes"
+      ],
+      "liveBinding": [
+        {
+          "source": "solar",
+          "fields": "computed sun elevation/azimuth for actual location/time",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "nws",
+          "fields": "present weather / cloud cover / wind / temperature / dew point / visibility when available; alerts provide event context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        },
+        {
+          "source": "goes",
+          "fields": "regional cloud coverage and motion context",
+          "status": "proposed_adapter_not_connected",
+          "missingPolicy": "omit unsupported feature or use explicitly labelled authored preset; never promote forecast to observed"
+        }
+      ],
+      "transition": {
+        "demoDurationS": 20,
+        "mode": "authored_two_endpoints_not_event_prediction",
+        "skyLightInterpolation": "linear RGB and coherent solar state",
+        "precipitationSeconds": 5,
+        "fogSeconds": 20,
+        "wetness": "independent weather-history reservoir; never dry road immediately when rain stops",
+        "season": "snow and foliage remain until temperature/wind/history supports change"
+      },
+      "panelAspectRatio": 1.800302571860817,
+      "archetypeReference": "nyc-hero-v1"
     }
   ],
   "liveStatePolicy": {

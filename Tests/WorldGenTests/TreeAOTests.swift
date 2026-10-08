@@ -9,7 +9,7 @@ import Testing
 /// crown undersides gently shaded.
 @Suite("Tree AO")
 struct TreeAOTests {
-    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .conifer])
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .conifer] + TreeSilhouetteTests.speciesKinds)
     func trunkBaseIsDarker(_ kind: PropKind) throws {
         for lod in 0..<(kind == .conifer ? 3 : 4) {
             let m = try TreeSilhouetteTests.mesh(kind, lod: lod)
@@ -27,7 +27,7 @@ struct TreeAOTests {
         }
     }
 
-    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading])
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading] + TreeSilhouetteTests.speciesKinds)
     func crownUndersidesAreShaded(_ kind: PropKind) throws {
         for lod in 0..<3 {
             let m = try TreeSilhouetteTests.mesh(kind, lod: lod)

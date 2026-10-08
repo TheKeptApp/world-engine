@@ -1,6 +1,6 @@
 # Weather + night moments · Style B v1
 
-17 hero moments, 34 before/after views, eight regional image boards. Open index.html locally; it works offline with no weather requests, trackers or external fonts. Images live in images/. values.json contains every endpoint and source binding.
+21 hero moments, 42 before/after views, nine regional image boards. Open index.html locally; it works offline with no weather requests, trackers or external fonts. Images live in images/. values.json contains every endpoint and source binding.
 
 The approved Style B Bible calibration establishes grounded real proportions, restrained surfaces and soft coherent light. Current house-contrast-v1 sharedLighting is copied unchanged as the clear-day base; its earlier anchor-number uncertainty remains in the inherited object. Weather and actual time override the fixture rather than imposing daylight on night scenes. Night/fog, rain and lake/winter material values are copied from the supplied packs. rain-v1 was found in the filed docs at docs/proposals/rain-v1.
 
@@ -35,9 +35,13 @@ The per-moment liveBinding array identifies controls and missing-data behaviour.
 
 values.json: inherited reference objects, numeric endpoint targets, cameras, live controls and source-status manifest.
 index.html: responsive offline gallery and state controls.
-images/: eight original generated comparison boards.
+images/: nine original generated comparison boards.
 prompts.json: full prompt set, built-in image_gen provenance.
 
 All numerical weather appearance values are authored targets. No live event, rendering cost, physical colour match or device performance is claimed. Existing references were read only. No git.
 
 Validation: gallery inspected at 1440, 390 and 320px widths, with no horizontal overflow or page errors; pair/before/after controls and value disclosures passed. See verification.md. Numeric appearance targets and generated image pixels remain distinct.
+
+## NYC addition
+
+Four pairs match NYC hero archetypes: snowy brownstone stoops, an approaching avenue thunderstorm, rainy tenement night with broken wet-patch reflections, and winter low sun through a masonry canyon. Bare winter trees stay bare in snow/low-sun rows. Materials, street geometry and camera are approximately stable within each pair. Empty streets retain the original no-people/no-animals/no-signage rules. Numeric endpoints are authored, not sampled from pixels. Low-sun alignment is an illustrative canyon fixture, not a verified date or solar bearing. All earlier regional images remain unchanged.

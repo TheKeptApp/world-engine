@@ -667,6 +667,8 @@ public final class World {
     static let lookSpec = try? StyleLibrary.look()
     /// The daytime lighting master (house-contrast-v1 sharedLighting, from mock-values.json).
     static let daytimeMaster = try? StyleLibrary.daytimeMaster()
+    /// Lake water values (lake-winter-v1, water-surfaces-v1 mechanics).
+    static let lakeWater = try? StyleLibrary.lakeWater()
     /// The rain pack (generated from docs/proposals/rain-v1).
     static let rainBible = try? StyleLibrary.rainBible()
 

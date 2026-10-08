@@ -21,6 +21,10 @@ The current phase (5A light, weather and sky; P2 buildings, yards and vegetation
   2. Tuned generators: a generator adjusted for one specific landmark.
   3. Type generators: stadiums, campuses, airports, hospitals, malls.
 
+## Wave 2 landmarks (R approved 2026-10-07; PROPOSED order)
+
+`docs/proposals/landmarks-style-b-v2/`: 65 landmark studies and 13 skyline far-views over 13 metros (New York, Los Angeles, San Francisco, Seattle, Boston, Washington, Philadelphia, Atlanta, Dallas-Fort Worth, Houston, Austin, Nashville, Phoenix). Approved for look, topology, must-be-exact requirements and detail tiers; dimensions unverified except four heights; skylines are concept only, never sightlines. **Build order later: San Francisco and New York landmarks first**, after P2's infrastructure stages and the v1 shells (Wrigley, Bahá'í, Empower). P1 verifies the 15-item list first (`sources.md`, "Verify first"); the trademark and architectural-rights check before any marketing use is on the lawyer list (`docs/research/licensing.md` Q53).
+
 ## First flagship app: home personalization
 
 - On-device-only house personalization: colour, roof, door, car and yard.
@@ -72,7 +76,7 @@ Nothing in this section is decided. Owners are the proposed lanes.
 
 ## Creator kit — PROPOSED (R's lead wedge candidate; pending creator-kit-demand-v1 research)
 
-Nothing in this section is decided. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
+Nothing in this section is decided, except the UX direction: **R approved `creator-kit-ux-v3` on 2026-10-08** (Easy + Pro, supersedes v2) with the **Builder phase after the engine look gate**. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
 
 1. **PROPOSED — creator kit:** non-technical users start from a ready-made view of their real place, add detail from a Style B parts kit, and share or embed a live view (weather, sun, time).
    - Paid tiers: free private builds; per event; per site monthly; business tier. Prices to be set from the research.

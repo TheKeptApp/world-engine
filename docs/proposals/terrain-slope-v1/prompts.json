@@ -1,0 +1,84 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-07",
+  "lookAnchor": "style-b-calibration-v2",
+  "jobs": [
+    {
+      "id": "01-gentle",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. Seattle Craftsman wood houses and conifers on gently rising residential street, 3% longitudinal slope, low 0.3m exposed foundations, shallow entry steps, 2% street crown. Keep floors and roof ridges level. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": "Edit this three-panel terrain sheet. Seattle: replace all bay, island, San Francisco skyline with inland rolling wooded Seattle neighborhood, Craftsman houses and conifers. Make street gently 3% sloping. Preserve three panels street, 45-degree aerial, far and grade/foundation logic. Floors horizontal. Match existing matte simplified Style B calibration v2, no photographic textures. No people, vehicles, labels or logos. Remove every Alcatraz-like island and SF landmark. Terrain-contact clear.",
+      "reason": "Removed leaked SF geography from other cities",
+      "finalFile": "images/01-gentle.png"
+    },
+    {
+      "id": "02-moderate",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. San Francisco compact Victorian bay-front houses on 10% uphill street, each house stepped separately up the block, level floors, uphill shallow foundation and downhill exposed 1.2m foundation for 12m along-slope footprint, alternating elevated porch entries and garage-at-grade lower level; bay visible only distant, no Chicago landmarks. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": null,
+      "reason": null,
+      "finalFile": "images/02-moderate.png"
+    },
+    {
+      "id": "03-steep",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. Los Angeles hillside contemporary stucco and wood houses along steep 22% street, level floor slabs, terraced pads, 2.64m downhill foundation difference across12m footprint, split-level entries, lower garages reached from street, retaining walls and separate stairs, dry chaparral and oak hills, do not tilt buildings. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": "Edit this three-panel terrain sheet. Los Angeles hills: replace all bay, island, water, San Francisco skyline with dry chaparral hills and inland distant city. Contemporary stucco hillside houses. Preserve three panels street, 45-degree aerial, far and grade/foundation logic. Floors horizontal. Match existing matte simplified Style B calibration v2, no photographic textures. No people, vehicles, labels or logos. Remove every Alcatraz-like island and SF landmark. Terrain-contact clear.",
+      "reason": "Removed leaked SF geography from other cities",
+      "finalFile": "images/03-steep.png"
+    },
+    {
+      "id": "04-corner",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. San Francisco bay-front corner house at intersection with main street20% longitudinal grade and side street6%, garage at downhill side-street level, main entry reached from uphill street via stairs, level floor bands, clearly stepped perimeter foundations, localized intersection transition, no folded road or cliff at curb, stairs and retaining wall wrapping corner. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": null,
+      "reason": null,
+      "finalFile": "images/04-corner.png"
+    },
+    {
+      "id": "05-stair-street",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. Pittsburgh hillside public stair street between brick houses, pedestrian-only continuous broad concrete stair flights with landings every8risers, uniform .16m risers and .30m treads, two simple continuous handrails, walking route running beside stepped retaining walls and level terraced houses, no vehicle road pretending to climb stairs, leafy steep river valley far view. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": "Edit this three-panel terrain sheet. Pittsburgh: replace all bay, island, ocean and San Francisco houses with brick hillside houses, wooded inland river valley. Public concrete stair flights with landings and handrails. Preserve three panels street, 45-degree aerial, far and grade/foundation logic. Floors horizontal. Match existing matte simplified Style B calibration v2, no photographic textures. No people, vehicles, labels or logos. Remove every Alcatraz-like island and SF landmark. Terrain-contact clear.",
+      "reason": "Removed leaked SF geography from other cities",
+      "finalFile": "images/05-stair-street.png"
+    },
+    {
+      "id": "06-retaining",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. Kansas City hillside shirtwaist wood-over-brick houses with stone base piers, uphill raised lawns and 1.2m limestone retaining walls fronting sidewalk, stair breaks to porches, variable 0.6\u20131.8m walls but smooth level tops in terraces, rolling hills, broad deciduous canopy, road10% downhill, each house floor level. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": "Edit this three-panel terrain sheet. Kansas City: replace all bay, island, ocean and San Francisco skyline with inland rolling leafy residential hills. Wood-over-brick shirtwaist houses with limestone retaining walls. Preserve three panels street, 45-degree aerial, far and grade/foundation logic. Floors horizontal. Match existing matte simplified Style B calibration v2, no photographic textures. No people, vehicles, labels or logos. Remove every Alcatraz-like island and SF landmark. Terrain-contact clear.",
+      "reason": "Removed leaked SF geography from other cities",
+      "finalFile": "images/06-retaining.png"
+    },
+    {
+      "id": "07-canyon",
+      "initialPrompt": "Use case: stylized-concept. Generate a three-panel WorldEngine terrain design sheet, wide landscape, three equally sized panels left STREET at1.65m eye height looking across slope, middle AERIAL looking45 degrees down at same block, right FAR looking across terrain from120m. Same fictional block and coherent topography in all panels. San Diego mesa edge Spanish revival stucco houses terraced alongside8%street, lower side reveals deep natural canyon with dry chaparral and coastal scrub, each floor level, small retaining wall supports actual house pad, untouched steep natural ravine slopes distinct from road slope, broad matte terrain shapes, no invented house overhang or floating foundation, distant coast subtle. Match references exactly for style-b-calibration-v2 look only, not geography: true human-scale proportions, simplified broad matte surfaces, no photo textures/grain, no microleaf detail, irregular lobed tree crowns, soft real midafternoon40degree sun warm neutral #FFE8C6 and cool sky fill, restrained saturation, sky #73A5CC to #DBDCD1. Show grade through road, stepped terraces and vertical foundations; floor bands remain horizontal. No text or labels in artwork, no logos signage people characters dogs vehicles murals app UI. Numeric parameters are design intentions, not survey. Make slopes and terrain contact legible on a phone.",
+      "references": [
+        "../style-b-calibration-v2/frames/04-san-francisco.png",
+        "../style-b-calibration-v2/frames/07-new-orleans.png"
+      ],
+      "correctiveEdit": "Edit this three-panel terrain sheet. San Diego: replace all bay, island, ocean and skyline with dry natural canyon, chaparral, mesa and inland hills. Spanish stucco houses on stable pads. Preserve three panels street, 45-degree aerial, far and grade/foundation logic. Floors horizontal. Match existing matte simplified Style B calibration v2, no photographic textures. No people, vehicles, labels or logos. Remove every Alcatraz-like island and SF landmark. Terrain-contact clear.",
+      "reason": "Removed leaked SF geography from other cities",
+      "finalFile": "images/07-canyon.png"
+    }
+  ]
+}

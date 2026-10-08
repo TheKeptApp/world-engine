@@ -65,18 +65,18 @@ def main():
     def gap(g, key):
         return (g.get(key) or {}).get("closeness")
 
-    print(f"{'view':30s} {'changed':>8s} {'/50':>13s} {'parity':>9s} {'mock':>6s} {'arch':>6s}  house/silh/ground")
+    print(f"{'view':30s} {'changed':>8s} {'/50':>13s} {'parity':>9s} {'mock':>6s} {'arch':>6s} {'cal':>6s}  house/silh/ground")
     rows = []
     for vid in sorted(set(ga) & set(gb)):
         a, b = ga[vid], gb[vid]
         ch = changed_share(old, new, vid)
         r = dict(vid=vid, ch=ch, s=(a.get("v2Score50"), b.get("v2Score50")), p=(parity(a, vid), parity(b, vid)),
-                 m=(gap(a, "mockGap"), gap(b, "mockGap")), ar=(gap(a, "archetypeGap"), gap(b, "archetypeGap")))
+                 m=(gap(a, "mockGap"), gap(b, "mockGap")), ar=(gap(a, "archetypeGap"), gap(b, "archetypeGap")), cal=(gap(a, "calGap"), gap(b, "calGap")))
         rows.append(r)
         f = lambda t: f"{t[0]}->{t[1]}"
         hs = "/".join(f"{crit(a, k)}->{crit(b, k)}" for k in ("houseVariety", "silhouettes", "groundRichness"))
         flag = "  (same frame)" if ch is not None and ch < finish.FRAME_FRAC else ""
-        print(f"{vid:30s} {'-' if ch is None else format(ch, '.1%'):>8s} {f(r['s']):>13s} {f(r['p']):>9s} {f(r['m']):>6s} {f(r['ar']):>6s}  {hs}{flag}")
+        print(f"{vid:30s} {'-' if ch is None else format(ch, '.1%'):>8s} {f(r['s']):>13s} {f(r['p']):>9s} {f(r['m']):>6s} {f(r['ar']):>6s} {f(r['cal']):>6s}  {hs}{flag}")
 
     def stats(sel, label):
         ds = [r["s"][1] - r["s"][0] for r in sel if None not in r["s"]]
@@ -92,6 +92,9 @@ def main():
     both = [r for r in rows if None not in r["p"]]
     if both:
         print(f"core parity mean over {len(both)} common views: {st.mean(r['p'][0] for r in both):.1f} -> {st.mean(r['p'][1] for r in both):.1f}")
+    ck = [r for r in rows if None not in r["cal"]]
+    if ck:
+        print(f"calibration closeness mean over {len(ck)} views: {st.mean(r['cal'][0] for r in ck):.2f} -> {st.mean(r['cal'][1] for r in ck):.2f}")
     mk = [r for r in rows if None not in r["m"]]
     if mk:
         print(f"mock closeness mean over {len(mk)} views: {st.mean(r['m'][0] for r in mk):.2f} -> {st.mean(r['m'][1] for r in mk):.2f}")

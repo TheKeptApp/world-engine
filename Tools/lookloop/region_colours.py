@@ -7,7 +7,8 @@ The 1-5 mock closeness is too coarse to show a merge that moves a surface part o
 for each hero view in Tools/lookloop/regions.json it takes the median colour of fixed boxes (wall, road, sidewalk,
 lawns, crowns, sky) in the frame and in the mock, and prints dE to the mock, with the dE of the older runs after the
 arrow. Lower is closer. dE <= 5 is the conformance tolerance for a colour. Frames are lit pixels, mocks are paintings:
-judge the direction of a move, not the absolute figure. Env LOOKLOOP_RUNS overrides the runs folder.
+judge the direction of a move, not the absolute figure. The wall row mixes albedo with shade: in most views the wall in
+its box faces away from the sun (Tools/lookloop/wall_variants.py says which wall, archetype and variant, and whether it is lit). Env LOOKLOOP_RUNS overrides the runs folder.
 """
 import json
 import os
@@ -63,7 +64,8 @@ def main():
             shown = " <- ".join("-" if c is None else f"{c[2]:5.1f}" for c in cells)
             mockhex = first[1] if first else "-"
             hexes = " ".join("-" if c is None else c[0] for c in cells)
-            print(f"  {name:13s} {shown:>26s}   frame {hexes}   mock {mockhex}")
+            print(f"  {name:13s} {shown:>26s}   frame {hexes}   mock {mockhex}"
+                  + ("   (the wall box often faces away from the sun while the mock paints it lit: wall_variants.py)" if name == "wall" else ""))
             kind = "lawn" if name.endswith("lawn") else name
             by_kind.setdefault(kind, []).append(cells)
     print(f"\nmean dE to the mocks by surface, over the hero views ({' <- '.join(stamps)}):")

@@ -1,0 +1,55 @@
+{
+  "schema": "creator-kit.ux.v3",
+  "decisionDate": "2026-10-07",
+  "modeArchitecture": {
+    "easy": "Eight guided steps, phone and desktop",
+    "pro": "Dedicated precision workspace on desktop",
+    "sharedModel": "A single plan, common part ids and units; mode is only presentation",
+    "guest": "Read-only version snapshot, never the working editor"
+  },
+  "units": "metres",
+  "snapIntervalsM": [
+    0.1,
+    0.25,
+    0.5,
+    1
+  ],
+  "defaultSnapM": 0.5,
+  "serviceEnvelope": "width + 2 * margin; depth + 2 * margin; illustrative editable supplier allowance",
+  "easyLabels": [
+    "Find my place",
+    "Yes, use this place",
+    "Suggest my layout",
+    "Use this layout",
+    "Move",
+    "Remove",
+    "Looks good",
+    "Review my plan",
+    "Save & share"
+  ],
+  "viewportsChecked": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "clearDayFixture": "world-look-values.json#/sharedLook",
+  "forecasts": "Example data only. Future event dates use scenarios until forecast horizon is available. Forecast UI must distinguish issue time, valid time, location and uncertainty.",
+  "placeRegistration": "Upload -> detect anchors -> manual confirm three points and known distance -> accept. No guessed map alignment automatically accepted. Base map stays locked.",
+  "share": "Create immutable layout snapshot; changes require new shared version. Event time versus now are distinct.",
+  "export": "Pro shows JSON, parts list, version snapshots. Production scoped PDF/CAD/georeferenced exports represented only.",
+  "segments": [
+    "races",
+    "weddings",
+    "concerts",
+    "experiential marketing",
+    "stadiums/venues",
+    "brands"
+  ],
+  "touchTargets": {
+    "primaryMinPx": 46,
+    "mobileAuxiliaryMinPx": 44,
+    "desktopStepNavigationPx": 32
+  },
+  "eventTimezone": "Derived from the real location and stored on the plan; all event-time sun/forecast views use it."
+}

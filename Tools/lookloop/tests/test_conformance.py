@@ -103,6 +103,25 @@ def test_daytime_overrides():
     assert ("lawn", 0) not in ov and crown == [0, 1]
 
 
+def test_daytime_overrides_bound_variable():
+    """P2's eb9c557 binds the master lawn to a variable before setting the surfaces (set("lawn", seasons: [1], lawn))."""
+    import tempfile
+    src = r'''static let prefix = "p/s."
+        if let lawn = m.string(prefix + "ground.lawn.hex") {
+            set("lawn", seasons: [1], lawn)
+            set("lawnA", seasons: [1], lawn)
+        }'''
+    with tempfile.TemporaryDirectory() as d:
+        f = Path(d) / "M.swift"
+        f.write_text(src)
+        old, cf.DAYTIME_SRC = cf.DAYTIME_SRC, f
+        try:
+            ov, _ = cf.daytime_overrides()
+        finally:
+            cf.DAYTIME_SRC = old
+    assert ov[("lawn", 1)] == "p/s.ground.lawn.hex" and ov[("lawnA", 1)] == "p/s.ground.lawn.hex", ov
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

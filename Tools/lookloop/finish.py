@@ -56,6 +56,28 @@ def regressions(prev, grades, reused, views):
 
 
 FRAME_TOL, FRAME_FRAC = 12, 0.005
+# Look gate (R, 2026-10-07; replaces the concept-parity gate, which is still reported beside it): every calibrated hero at
+# calibration closeness >= 4 and every aspect >= 3 (GRADING.md section M, "Calibration look").
+CAL_ASPECTS = ["sky", "light", "saturation", "ground", "foliage", "materials"]
+LOOK_CLOSENESS, LOOK_ASPECT = 4, 3
+
+
+def look_gate(rows, views):
+    """(status, per-hero detail, heroes missing a calGap). status: PASS, FAIL or NOT EVALUATED (a calibrated hero has no calGap)."""
+    heroes = [v for v, w in views.items() if w.get("calibration")]
+    got = {vid: g["calGap"] for vid, g, _, _ in rows if g and isinstance(g.get("calGap"), dict)}
+    detail = {}
+    for h in heroes:
+        c = got.get(h)
+        if not c:
+            continue
+        asp = c.get("aspects") or {}
+        low = [a for a in CAL_ASPECTS if not isinstance(asp.get(a), (int, float)) or asp[a] < LOOK_ASPECT]
+        ok = isinstance(c.get("closeness"), (int, float)) and c["closeness"] >= LOOK_CLOSENESS and not low
+        detail[h] = {"closeness": c.get("closeness"), "aspects": asp, "aspectsBelow3": low, "pass": ok}
+    missing = [h for h in heroes if h not in detail]
+    status = "NOT EVALUATED" if missing or not heroes else "PASS" if all(d["pass"] for d in detail.values()) else "FAIL"
+    return status, detail, missing
 
 
 def frame_unchanged(run, prev_stamp, vid):
@@ -145,6 +167,8 @@ def main():
     passes = sum(1 for g in scored if g["gatePass"])
     adpasses = sum(1 for g in scored if g.get("adPass"))
     gate5b = sum(1 for g in scored if g.get("gate5B"))
+    lg_status, lg_detail, lg_missing = look_gate(rows, views)
+    lg_pass = sum(1 for d in lg_detail.values() if d["pass"])
     worst = min(scored, key=lambda g: (g.get("parity") if g.get("parity") is not None else 999, g["v2Score50"])) if scored else None
     ordinary = [g["v2Score50"] for g in scored if views[g["view"]]["group"] == "ordinary"]
     fixes = collections.Counter()
@@ -157,7 +181,7 @@ def main():
 
     out = {
         "run": meta, "views": {vid: {"grade": g, "signals": signals[vid]} for vid, g, _, _ in rows},
-        "aggregate": {"meanConceptParity": mean_parity, "paintoverParity": po_parity, "meanPaintoverParity": mean_po, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
+        "aggregate": {"lookGate": {"status": lg_status, "heroes": lg_detail, "missing": lg_missing}, "meanConceptParity": mean_parity, "paintoverParity": po_parity, "meanPaintoverParity": mean_po, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
                       "meanV2Score50": mean50, "conceptParity": parity, "meanArtDirection": meanAD, "gatePasses": passes, "graded": len(scored),
                       "captured": len(captured), "failedGrades": failed, "placeholders": placeholders,
                       "criterionMeans": {k: round(sum(v) / len(v), 2) for k, v in crit.items()},
@@ -203,6 +227,21 @@ def main():
     json.dump(out, open(os.path.join(run, "grades.json"), "w"), indent=1)
 
     when = meta.get("started", datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+    cal_aspects = {}
+    for _, g, _, _ in rows:
+        if g and isinstance(g.get("calGap"), dict):
+            for k, v in (g["calGap"].get("aspects") or {}).items():
+                if isinstance(v, (int, float)):
+                    cal_aspects.setdefault(k, []).append(v)
+    cal_means = ", ".join(f"{k} {sum(v) / len(v):.1f}" for k, v in cal_aspects.items())
+    lg_line = (f"## Look gate (R, 7 Oct 2026): **{lg_status}**  ·  {lg_pass} of {len(lg_detail) + len(lg_missing)} calibrated heroes pass "
+               f"(closeness ≥ {LOOK_CLOSENESS} and every aspect ≥ {LOOK_ASPECT})"
+               + (f"  ·  aspects below {LOOK_ASPECT}: " + "; ".join(f"{h} {', '.join(d['aspectsBelow3'])}" for h, d in lg_detail.items() if d["aspectsBelow3"])
+                  if any(d["aspectsBelow3"] for d in lg_detail.values()) else "")
+               + (f"  ·  no calGap for: {', '.join(lg_missing)}" if lg_missing else ""))
+    lg_table = ["| Hero | Closeness | " + " | ".join(CAL_ASPECTS) + " | Result |", "|---|---|" + "---|" * len(CAL_ASPECTS) + "---|"]
+    for h, d in lg_detail.items():
+        lg_table.append(f"| {h} | {d['closeness']} | " + " | ".join(str(d['aspects'].get(a, '–')) for a in CAL_ASPECTS) + f" | {'pass' if d['pass'] else 'fail'} |")
     md = [f"# Look loop: latest run", "",
           f"Run {when} · engine `{meta.get('engineCommit', '-')}`{' + uncommitted changes' if meta.get('dirtyEngineFiles') else ''} · checkout `{meta.get('commit', git('rev-parse', '--short', 'HEAD'))}` on `{meta.get('branch', git('branch', '--show-current'))}`"
           f" · {len(captured)} views ({len(captured) - len(reused & set(captured))} rendered, {len(reused & set(captured))} unchanged and reused), {len(scored)} graded"
@@ -213,7 +252,8 @@ def main():
           + (" · **gate run**" if meta.get("gate") else ""), "",
           f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'}"
           + (f" (+{len(variance)} on views whose frame did not change: grader variance)" if variance else "") + " ([regressions.md](regressions.md)).", "",
-          f"## Concept parity {fmt(mean_parity)}%  ·  gate passes {passes}/{len(scored)}  ·  end-of-5B gate {gate5b}/{len(scored)}", "",
+          lg_line, "", *lg_table, "",
+          f"## Concept parity {fmt(mean_parity)}%  ·  old gate passes {passes}/{len(scored)}  ·  old end-of-5B gate {gate5b}/{len(scored)} (reported beside the look gate; no longer the gate)", "",
           f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
           + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
           ("Approved-mock closeness (GRADING.md §M, 1–5): " + ", ".join(f"{vid} {g['mockGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("mockGap"), dict)) + "."
@@ -222,6 +262,9 @@ def main():
            if any(g and isinstance(g.get("archetypeGap"), dict) for _, g, _, _ in rows) else "House-archetype closeness: not graded in this run."), "",
           ("Infrastructure closeness (infrastructure-kit-v1 road sheets: markings, crosswalks, curbs, paving look, 1–5): " + ", ".join(f"{vid} {g['infraGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("infraGap"), dict)) + "."
            if any(g and isinstance(g.get("infraGap"), dict) for _, g, _, _ in rows) else "Infrastructure closeness: not graded in this run."), "",
+          ("Calibration closeness (style-b-calibration-v2 frames, look only, 1–5): " + ", ".join(f"{vid} {g['calGap'].get('closeness')}" for vid, g, _, _ in rows if g and isinstance(g.get("calGap"), dict)) + "."
+           + (f" Aspect means: {cal_means}." if cal_means else "")
+           if any(g and isinstance(g.get("calGap"), dict) for _, g, _, _ in rows) else "Calibration closeness: not graded in this run."), "",
           (f"Paint-over parity {fmt(mean_po)}% (paintover-v1, beside the gate; view /50 ÷ its own paint-over's calibrated /50): "
            + ", ".join(f"{v} {p}%" for v, p in sorted(po_parity.items())) + "." if po_parity else
            "Paint-over parity: not available (paint-overs not calibrated yet)."), "",
@@ -322,7 +365,7 @@ def main():
         fms = sorted(p.get("frameMsMedian") for _, _, p, _ in rows if p.get("frameMsMedian"))
         open(board, "a").write(
             f"| {when} | `{meta.get('engineCommit', meta.get('commit', '-'))}`{'+dirty' if meta.get('dirtyEngineFiles') else ''} | {meta.get('branch', '-')} | {len(scored)}/{len(captured)}{f' ({len(reused & set(captured))} reused)' if reused & set(captured) else ''} | "
-            f"**{fmt(mean_parity)}%** | {passes} (5B {gate5b}) | {fmt(ordinary_parity)}% | {fmt(mean50)} | {fmt(meanAD)} | "
+            f"**{fmt(mean_parity)}%** | {passes} (5B {gate5b}); look {lg_status.lower()} {lg_pass}/{len(lg_detail) + len(lg_missing)} | {fmt(ordinary_parity)}% | {fmt(mean50)} | {fmt(meanAD)} | "
             f"{f'{worst['view']} {worst.get('parity')}%' if worst else '–'} | {f'{tris[len(tris) // 2] // 1000}k' if tris else '–'} | "
             f"{fms[len(fms) // 2] if fms else '–'} | {fmt(meta.get('minutes'))} | {', '.join(sorted({g.get('grader', '?') for vid, g in grades.items() if vid not in reused})) or 'all reused'}{' (gate)' if meta.get('gate') else ''} | {len(flags)} |\n")
         print(f"published {LATEST} and appended a scoreboard row")

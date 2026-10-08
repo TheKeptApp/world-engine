@@ -1,0 +1,1561 @@
+{
+  "schema": "worldengine.road-signs-signals/1",
+  "date": "2026-10-07",
+  "status": "research and visual design proposal; not a road engineering standard or navigation aid",
+  "units": {
+    "geometry": "metres",
+    "hex": "sRGB authored albedo; emissive lamp swatches are not photometric specifications"
+  },
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "inheritance": "style-b-calibration-v2 sharedLook copied unchanged; lighting/time/weather replaces clear fixture, exposure once",
+  "colours": {
+    "red": "#B83A35",
+    "white": "#E9E9DE",
+    "black": "#242A2D",
+    "guideGreen": "#35674E",
+    "guideBlue": "#315F91",
+    "warningYellow": "#D6AF43",
+    "schoolFluorescent": "#C3CD54",
+    "poleGrey": "#7D878B",
+    "signalHousingYellow": "#C2A044",
+    "lampRed": "#EF4B3E",
+    "lampAmber": "#F0B647",
+    "lampGreen": "#58B97B",
+    "pedWalkWhite": "#ECEFE6",
+    "pedStopOrange": "#E9A14A",
+    "inactiveLens": "#283433",
+    "asphalt": "#626A70",
+    "roadWhite": "#E3E2D8",
+    "roadYellow": "#CDB45D"
+  },
+  "colourStatus": "all hexes proposals; official colours are classes, not these sampled/certified hex values",
+  "verifiedAnchors": [
+    {
+      "country": "uk",
+      "signPedestrianClearanceRecommendedM": 2.3,
+      "signPedestrianClearanceMinimumM": 2.1,
+      "source": "https://assets.publishing.service.gov.uk/media/5c78f895e5274a0ebfec719b/traffic-signs-manual-chapter-03.pdf",
+      "status": "verified indexed official Chapter 3; selected fixture remains proposal"
+    },
+    {
+      "country": "uk",
+      "vehicleSignalFootwayMinimumM": 2.1,
+      "pedestrianSignalUndersideRangeM": [
+        2.1,
+        2.6
+      ],
+      "signalStopLineWidthsM": [
+        0.2,
+        0.3
+      ],
+      "source": "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/851465/dft-traffic-signs-manual-chapter-6.pdf",
+      "status": "verified Chapter 6 \u00a7\u00a73.3.4\u20135,4.2"
+    },
+    {
+      "country": "japan",
+      "roadsideSignBaselineM": 1.8,
+      "pedestrianConstrainedSignClearanceM": 2.5,
+      "overheadSignBaselineM": 5.0,
+      "overheadExceptionalM": 4.7,
+      "source": "https://www.mlit.go.jp/road/sign/annai/setting02.htm",
+      "status": "verified MLIT sign guidance, not traffic-light dimensions"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "us",
+      "name": "United States",
+      "scope": "country baseline proposal; local/site variants required",
+      "drivingSide": "right",
+      "signPlacementSideRelativeToApproach": "right",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "rectangle",
+          "widthM": 0.6,
+          "heightM": 0.75,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#242A2D"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#35674E",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "pentagon",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#C3CD54",
+          "borderHex": "#242A2D"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#35674E",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#C2A044",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.3,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "whiteWalkOrangeHand",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.2,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white ladder/zebra baseline with local variants",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "siteSpecific",
+        "centreLineHex": "#CDB45D",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#F2F1E7",
+          "#252A2D"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "rectangle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://mutcd.fhwa.dot.gov/kno_11th_Editionr1.htm",
+        "https://mutcd.fhwa.dot.gov/"
+      ],
+      "description": "yellow or dark vertical signal heads on grey mast arms; secondary short post-mounted vertical heads; inset separate horizontal head arranged red-left amber-middle green-right. Red octagonal stop, inverted white/red yield triangle, white rectangular speed plate. Green blank street-name blade and green rectangular highway guide board. White walking-person and orange raised-hand pedestrian displays. White ladder crosswalk and solid white stop bar. Fluorescent yellow-green pentagonal school sign with small black child silhouettes. White crossbuck, red flashing lamps, red-white rail gate."
+    },
+    {
+      "id": "canada",
+      "name": "Canada \u00b7 Ontario baseline",
+      "scope": "Ontario example, province-specific overrides required",
+      "drivingSide": "right",
+      "signPlacementSideRelativeToApproach": "right",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "rectangle",
+          "widthM": 0.6,
+          "heightM": 0.75,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#242A2D"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#35674E",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "pentagon",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#C3CD54",
+          "borderHex": "#242A2D"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#35674E",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#C2A044",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.3,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "whiteWalkOrangeHand",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.2,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white ladder/zebra baseline with local variants",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "siteSpecific",
+        "centreLineHex": "#CDB45D",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "rectangle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.tac-atc.ca/en/knowledge-centre/technical-resources-search/publications/ptm-mutcdc21-e/",
+        "https://www.library.mto.gov.on.ca/SydneyPLUS/Sydney/Portal/default.aspx?component=AAAAIY&record=d5777174-8f0a-4720-8dd6-476b859b3682",
+        "https://www.ontario.ca/document/official-mto-drivers-handbook/traffic-signs-and-lights"
+      ],
+      "description": "yellow vertical signal heads on mast arms and posts; separate horizontal optional head with red-left amber-middle green-right. Red octagonal stop, white/red inverted yield, white rectangular speed plate; green blank street blade and green guide board. White walk and orange hand pedestrian heads, ladder crosswalk and stop bar. Fluorescent yellow-green school silhouette sign, white crossbuck and red-white rail gate. Do not claim one province is all Canada."
+    },
+    {
+      "id": "uk",
+      "name": "United Kingdom \u00b7 GB baseline",
+      "scope": "Great Britain baseline; Northern Ireland/local variants verify-first",
+      "drivingSide": "left",
+      "signPlacementSideRelativeToApproach": "left",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "circle",
+          "widthM": 0.6,
+          "heightM": 0.6,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#E9E9DE",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "uprightTriangle",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#315F91",
+          "variantHexes": [
+            "#35674E",
+            "#E9E9DE"
+          ],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#242A2D",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.2,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "redStandingGreenWalking",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.3,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white studs at signal crossing; separate zebra/amber beacon variant",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.2,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "doubleDashed",
+        "centreLineHex": "#E3E2D8",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "circle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.gov.uk/government/publications/traffic-signs-manual",
+        "https://www.gov.uk/guidance/the-highway-code/traffic-signs",
+        "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/851465/dft-traffic-signs-manual-chapter-6.pdf",
+        "https://assets.publishing.service.gov.uk/media/5c78f895e5274a0ebfec719b/traffic-signs-manual-chapter-03.pdf"
+      ],
+      "description": "mostly black vertical signal heads on near-side posts, optional taller cantilever overhead head inset; red top amber middle green bottom. Red octagonal stop, inverted red-border white give-way triangle, red-ring white circular speed sign. White blank street-name plaque. Blue motorway board, green primary-route board, white local guide board. Red standing and green walking pedestrian displays. Signal-controlled crossing uses white crossing studs, separate zebra inset with black-white beacon posts and amber globes. Solid stop bar and double dashed give-way line. Red-border upright triangular school warning. Rail crossing two red lamps and small amber lamp plus red-white gate."
+    },
+    {
+      "id": "netherlands",
+      "name": "Netherlands",
+      "scope": "country baseline proposal; local/site variants required",
+      "drivingSide": "right",
+      "signPlacementSideRelativeToApproach": "right",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "circle",
+          "widthM": 0.6,
+          "heightM": 0.6,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#315F91",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "uprightTriangle",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#315F91",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#242A2D",
+        "poleHex": "#7D878B",
+        "poleBanding": "blackWhite",
+        "lensDiameterM": 0.2,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "redStandingGreenWalking",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.2,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white ladder/zebra baseline with local variants",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "sharkTeeth",
+        "centreLineHex": "#E3E2D8",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "circle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.rijksoverheid.nl/vraag-en-antwoord/verkeersveiligheid/welke-verkeersborden-en-verkeersregels-gelden-in-nederland",
+        "https://wetten.overheid.nl/BWBR0004825/",
+        "https://www.rijkswaterstaat.nl/wegen/wegbeheer/wegbeheer-in-nederland/nationale-bewegwijzeringsdienst"
+      ],
+      "description": "black vertical signals on black-white banded poles, overhead cantilever variant inset; red top amber middle green bottom. Red octagonal stop, inverted red-border white yield, red-ring white circular speed. Blue blank street-name blade, blue highway guide board. Red standing and green walking pedestrian displays, white zebra crossing, solid stop line and give-way shark teeth. Upright red-border white school warning triangle. White crossbuck with red edging and red-white crossing gate."
+    },
+    {
+      "id": "mexico",
+      "name": "Mexico",
+      "scope": "country baseline proposal; local/site variants required",
+      "drivingSide": "right",
+      "signPlacementSideRelativeToApproach": "right",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "squareWithRedCircle",
+          "widthM": 0.6,
+          "heightM": 0.6,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#35674E",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "diamond",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#D6AF43",
+          "borderHex": "#242A2D"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#35674E",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#242A2D",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.2,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "redStandingGreenWalking",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.2,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white ladder/zebra baseline with local variants",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "siteSpecific",
+        "centreLineHex": "#CDB45D",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#F2F1E7",
+          "#252A2D"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "squareWithRedCircle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.dof.gob.mx/2024/SICT/manual_de_senalizacion_carreteras.pdf",
+        "https://sidof.segob.gob.mx/notas/5734040",
+        "https://sidof.segob.gob.mx/notas/docFuente/5702233"
+      ],
+      "description": "black or yellow vertical heads on posts and grey mast arms, separate horizontal red-left amber-middle green-right variant. Red octagonal stop, red-border inverted white yield, square white speed plate with red circular ring. Blank local street-name plate and green rectangular highway guide. Red standing and green walking pedestrian display. White zebra and solid white stop line. Yellow diamond school warning with simple black pictogram. Generic crossbuck and red-white barrier gate."
+    },
+    {
+      "id": "australia",
+      "name": "Australia \u00b7 Queensland baseline",
+      "scope": "Queensland example, state overrides required",
+      "drivingSide": "left",
+      "signPlacementSideRelativeToApproach": "left",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "octagon",
+          "widthM": 0.75,
+          "heightM": 0.75,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "yield/give-way"
+        },
+        "speed": {
+          "shape": "circle",
+          "widthM": 0.6,
+          "heightM": 0.6,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#35674E",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "rectangleWithSchoolWarningPanel",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#C3CD54",
+          "borderHex": "#242A2D"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#35674E",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "vertical",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#242A2D",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.2,
+        "threeLensHeadSizeM": [
+          0.38,
+          1.05,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "redStandingGreenWalking",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.2,
+        "signUndersideRuralM": 1.5,
+        "overheadGuideUndersideM": 5.5,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white parallel crossing boundary lines; separate zebra variant",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "siteSpecific",
+        "centreLineHex": "#E3E2D8",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gatePalette": [
+          "#E9E9DE",
+          "#B83A35"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "circle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.tmr.qld.gov.au/_/media/busind/techstdpubs/traffic-management/manual-of-uniform-traffic-control-devices/mutcd-part-2-traffic-control-devices-for-general-use.pdf?extension=pdf&rev=5de1d97d72964284bb846da3347a69c4&size=1318000",
+        "https://www.qld.gov.au/transport/safety/signs/regulatory",
+        "https://www.tmr.qld.gov.au/business-industry/Technical-standards-publications/Standard-drawings-roads/Electrical-and-ITS",
+        "https://www.qld.gov.au/transport/safety/rules/road/left"
+      ],
+      "description": "black vertical signal heads on grey roadside posts and mast arms; optional horizontal head separately on catalogue, red-left amber-middle green-right. Red octagonal stop, red-border inverted white give-way triangle, red-ring circular white speed sign. Green or white blank street blade and green highway guide. Red standing and green walking pedestrian heads. White signal crossing boundary marks with separate zebra inset. Solid stop bar and dashed give-way line. Fluorescent yellow-green school warning sign with simple black child silhouettes. White crossbuck, red flashing lights, red-white barrier."
+    },
+    {
+      "id": "japan",
+      "name": "Japan",
+      "scope": "country baseline proposal; local/site variants required",
+      "drivingSide": "left",
+      "signPlacementSideRelativeToApproach": "left",
+      "placementStatus": "authored baseline; duplicates/medians/overhead and local legal placements need site data",
+      "lookRef": "#/sharedLook",
+      "signs": {
+        "stop": {
+          "shape": "invertedTriangle",
+          "widthM": 0.6,
+          "heightM": 0.52,
+          "faceHex": "#B83A35",
+          "borderHex": "#E9E9DE"
+        },
+        "yieldOrSlow": {
+          "shape": "invertedTriangle",
+          "widthM": 0.75,
+          "heightM": 0.65,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35",
+          "semantic": "slow, not equivalent to yield"
+        },
+        "speed": {
+          "shape": "circle",
+          "widthM": 0.6,
+          "heightM": 0.6,
+          "faceHex": "#E9E9DE",
+          "borderHex": "#B83A35"
+        },
+        "streetName": {
+          "shape": "horizontalBladeOrPlaque",
+          "sizeM": [
+            0.9,
+            0.2
+          ],
+          "faceHex": "#315F91",
+          "status": "generic municipal choice, not national requirement"
+        },
+        "school": {
+          "shape": "diamond",
+          "sizeM": [
+            0.75,
+            0.75
+          ],
+          "faceHex": "#D6AF43",
+          "borderHex": "#242A2D"
+        },
+        "highwayGuide": {
+          "shape": "rectangle",
+          "sizeM": [
+            3.2,
+            1.6
+          ],
+          "faceHex": "#35674E",
+          "variantHexes": [],
+          "note": "blank; sample size not national minimum"
+        }
+      },
+      "signal": {
+        "defaultOrientation": "horizontal",
+        "verticalOrderTopToBottom": [
+          "red",
+          "amber",
+          "green"
+        ],
+        "horizontalOrderLeftToRight": [
+          "green",
+          "amber",
+          "red"
+        ],
+        "mastArmAndPostVariants": true,
+        "horizontalVariantStatus": "Japan baseline; US/Canada option. UK/NL/Mexico/Australia horizontal options require local verification; never generate solely to fill a variant quota.",
+        "housingHex": "#242A2D",
+        "poleHex": "#7D878B",
+        "poleBanding": null,
+        "lensDiameterM": 0.3,
+        "threeLensHeadSizeM": [
+          1.05,
+          0.38,
+          0.28
+        ],
+        "visorDepthM": 0.16,
+        "pedestrianHeadSizeM": [
+          0.3,
+          0.45,
+          0.18
+        ],
+        "pedestrianAspect": "redStandingGreenWalking",
+        "activeLampCount": 1,
+        "dimensionStatus": "all physical assembly sizes authored; no manufacturer drawing claimed"
+      },
+      "mounting": {
+        "signUndersideUrbanM": 2.5,
+        "signUndersideRuralM": 1.8,
+        "overheadGuideUndersideM": 5.0,
+        "vehicleHeadUndersidePostM": 2.3,
+        "vehicleHeadUndersideOverRoadM": 5.2,
+        "pedestrianHeadUndersideM": 2.2,
+        "poleOutsideCurbOffsetM": 0.35,
+        "sourceStatus": "proposal unless listed under verifiedAnchors; sign and signal underside are separate datums"
+      },
+      "spacing": {
+        "rule": "place at approach sightlines and intersection corners, not a repeating pole-spacing grid",
+        "twoCornerPolesSampleSpanM": [
+          8,
+          18
+        ],
+        "mastArmReachM": [
+          4,
+          10
+        ],
+        "minimumDecorativePostSeparationM": 1.0,
+        "status": "art fixture/site-derived layout, not national engineering guidance"
+      },
+      "markings": {
+        "crosswalk": "white ladder/zebra baseline with local variants",
+        "crosswalkTravelDepthM": 3,
+        "stripeWidthM": 0.5,
+        "stripeGapM": 0.5,
+        "stopLineWidthM": 0.3,
+        "stopLineColourHex": "#E3E2D8",
+        "stopLineBeforeCrosswalkM": 1.2,
+        "yieldMarking": "siteSpecific",
+        "centreLineHex": "#E3E2D8",
+        "status": "authored dimensions; UK stop-line width anchored to official \u00a74.2. Never place stop line as yield treatment automatically."
+      },
+      "rail": {
+        "crossbuckPalette": [
+          "#D6AF43",
+          "#242A2D"
+        ],
+        "gatePalette": [
+          "#D6AF43",
+          "#242A2D"
+        ],
+        "gateHeightM": 1.0,
+        "armLengthM": [
+          3,
+          6
+        ],
+        "redLampDiameterM": 0.2,
+        "status": "generic proposed hardware; UK uses wig-wag warning panel, not US crossbuck as default; local gate/span/safety details unverified"
+      },
+      "schoolZone": {
+        "warningOnlyDoesNotSetSpeed": true,
+        "restrictedSpeedPlate": {
+          "shape": "circle",
+          "supplementSizeM": [
+            0.6,
+            0.3
+          ]
+        },
+        "beaconOptional": true,
+        "activation": "unknown unless sourced; demo clock explicitly simulated, no inferred real school schedule"
+      },
+      "evidenceStatus": {
+        "manualIdentity": "verified with source links",
+        "numericGeometry": "proposal unless verifiedAnchors",
+        "shapeColourFamilies": "manual-informed; detailed regional variants and regulatory completeness unverified",
+        "hexPalette": "authored approximate albedo, not certified retroreflective chromaticity",
+        "lampOrder": "design convention proposal, verify exact local signal assemblies before map deployment"
+      },
+      "sources": [
+        "https://www.npa.go.jp/english/bureau/traffic/traffic-light_english.pdf",
+        "https://www.mlit.go.jp/road/sign/sign/index.htm",
+        "https://www.mlit.go.jp/road/sign/annai/setting02.htm"
+      ],
+      "description": "horizontal vehicle head on grey cantilever arm with GREEN at LEFT, AMBER middle, RED at RIGHT; separate vertical snow-region variant red top amber middle green bottom. Japan stop is red INVERTED TRIANGLE with white border NOT octagon. Slow/give-way-like reference is inverted white triangle with red border, not universal equivalent yield control. Red-ring white circular speed plate. Blue blank local guide plate and green expressway guide board. Red standing and green walking pedestrian displays. White zebra, white stop bar. Yellow diamond school/children warning. Yellow-black rail crossbuck and yellow-black gate, two red warning lamps. All Japanese signs blank, no pseudo-kanji."
+    }
+  ],
+  "renderPolicy": {
+    "signText": "none: no real names, letters, numbers, pseudo-writing or brands. Generic shape-only depiction intentionally omits mandatory real-world legends.",
+    "placement": "mapped positions/orientations win; generated assets labelled inferred with stable ID seed. Never relocate mapped objects. No automatic traffic-signal placement based only on a national profile.",
+    "signalState": "simulation unless actual supported feed. No conflicting greens; dark fixture when unknown. One active lamp in ordinary illustrative head; UK red+amber is a distinct legal transition and not modeled as green.",
+    "projectedSizeTiersPx": {
+      "near": [
+        24,
+        null
+      ],
+      "mid": [
+        8,
+        24
+      ],
+      "far": [
+        2,
+        8
+      ],
+      "cull": [
+        0,
+        2
+      ]
+    },
+    "tierDetails": [
+      "near: visor, black backplate, thin border and generic pictogram",
+      "mid: silhouette, colour group and one lamp; remove bolts/mesh pictograms",
+      "far: actual-scale coloured plate and head; never enlarge sign/lamp to force reading",
+      "cull ambient inferred sign below2px; mapped critical inventory remains data even when not drawn"
+    ],
+    "fades": "20% projected-size overlap, geometric LOD morph/fade without stacked alpha panels",
+    "material": "Matte .68 painted metal inherited; bounded broad retroreflection only if a light is supported, no chrome or emissive signs.",
+    "emission": "lamp emissive area only, no point light per signal; no bloom enlargement; exposure once",
+    "budgetProposal": {
+      "activeNearAssemblies": 40,
+      "trianglesTotal": 16000,
+      "drawBatchesMax": 4,
+      "atlasMiBMax": 1,
+      "gpuTargetMs": 0.25,
+      "status": "unbenchmarked allocation inside existing scene budget, not additional entitlement"
+    },
+    "performance": "instance poles/heads, common opaque palette atlas; crosswalk decals in road material; no unique texture per name, no coplanar z-fighting. Shadow-cull fine visors at distance."
+  },
+  "sources": {
+    "us": [
+      [
+        "FHWA current MUTCD \u2014 11th Edition with Revision 1, December 2025",
+        "https://mutcd.fhwa.dot.gov/kno_11th_Editionr1.htm",
+        "Verified publication identity; full current PDF exceeded browser size limit. Shape families supported by indexed official text; detailed current dimensions remain verify-first."
+      ],
+      [
+        "FHWA MUTCD",
+        "https://mutcd.fhwa.dot.gov/",
+        "Verified Revision 1 effective March 5, 2026."
+      ]
+    ],
+    "canada": [
+      [
+        "TAC MUTCDC Sixth Edition (2021)",
+        "https://www.tac-atc.ca/en/knowledge-centre/technical-resources-search/publications/ptm-mutcdc21-e/",
+        "Verified official national reference identity. Paid full text not accessed; do not claim its dimensions verified."
+      ],
+      [
+        "Ontario MTO Book 5 regulatory signs",
+        "https://www.library.mto.gov.on.ca/SydneyPLUS/Sydney/Portal/default.aspx?component=AAAAIY&record=d5777174-8f0a-4720-8dd6-476b859b3682",
+        "Verified official catalogue: December 2021 book, pattern files updated November 2023."
+      ],
+      [
+        "Ontario signs and lights",
+        "https://www.ontario.ca/document/official-mto-drivers-handbook/traffic-signs-and-lights",
+        "Official handbook indexed. Individual signs/lights pages returned 403; no bypass. Ontario baseline is not a pan-Canadian inventory."
+      ]
+    ],
+    "uk": [
+      [
+        "DfT Traffic Signs Manual",
+        "https://www.gov.uk/government/publications/traffic-signs-manual",
+        "Verified chapters 3 regulatory, 4 warning, 5 markings, 6 traffic control and 7 design."
+      ],
+      [
+        "Highway Code sign families",
+        "https://www.gov.uk/guidance/the-highway-code/traffic-signs",
+        "Verified red-ring speed, stop/give-way, school warnings and blue motorway / green primary route / white local direction families."
+      ],
+      [
+        "Chapter 6 Traffic Control (2019)",
+        "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/851465/dft-traffic-signs-manual-chapter-6.pdf",
+        "Verified \u00a7\u00a73.3.4\u20135: minimum 2.1 m signal underside above footway; 2.3 m recommended where cyclists present; pedestrian head underside 2.1\u20132.6 m. \u00a74.2: signal stop-line width 0.2 or 0.3 m; urban normally 0.2 m."
+      ],
+      [
+        "Chapter 3 Regulatory Signs (2019)",
+        "https://assets.publishing.service.gov.uk/media/5c78f895e5274a0ebfec719b/traffic-signs-manual-chapter-03.pdf",
+        "Official indexed \u00a71.9: signs over pedestrian areas 2.3 m recommended, 2.1 m absolute minimum. Numeric selection in this pack is an art fixture."
+      ]
+    ],
+    "netherlands": [
+      [
+        "Rijksoverheid \u2014 RVV 1990 and sign annex",
+        "https://www.rijksoverheid.nl/vraag-en-antwoord/verkeersveiligheid/welke-verkeersborden-en-verkeersregels-gelden-in-nederland",
+        "Verified authority points to RVV 1990 annex. Linked legal text returned 429; detailed annex geometry not independently verified."
+      ],
+      [
+        "RVV 1990 official annex",
+        "https://wetten.overheid.nl/BWBR0004825/",
+        "Verify-first; direct fetch 429, no bypass."
+      ],
+      [
+        "Rijkswaterstaat NBd",
+        "https://www.rijkswaterstaat.nl/wegen/wegbeheer/wegbeheer-in-nederland/nationale-bewegwijzeringsdienst",
+        "Verified blue/white vehicle guide signs and red/white bicycle guidance. Local street blade, striped posts and shark-teeth dimensions are proposed/unverified, not an annex quotation."
+      ]
+    ],
+    "mexico": [
+      [
+        "SICT/SEDATU Manual 2023, issued July 19, 2024",
+        "https://www.dof.gob.mx/2024/SICT/manual_de_senalizacion_carreteras.pdf",
+        "Official indexed \u00a7III.3: most regulatory boards square, exceptions include octagonal stop and downward equilateral yield. Direct PDF fetch 502; numeric drawing tables not verified."
+      ],
+      [
+        "Issuing agreement",
+        "https://sidof.segob.gob.mx/notas/5734040",
+        "Verified issue date and official manual identity."
+      ],
+      [
+        "NOM-034-SCT2/SEDATU-2022",
+        "https://sidof.segob.gob.mx/notas/docFuente/5702233",
+        "Verified official text: stop octagon, white regulatory background/red perimeter/black symbols with exceptions. Speed is a square plate carrying a red circle, not a free circular European plate."
+      ]
+    ],
+    "australia": [
+      [
+        "Queensland MUTCD Part 2 (November 2025)",
+        "https://www.tmr.qld.gov.au/_/media/busind/techstdpubs/traffic-management/manual-of-uniform-traffic-control-devices/mutcd-part-2-traffic-control-devices-for-general-use.pdf?extension=pdf&rev=5de1d97d72964284bb846da3347a69c4&size=1318000",
+        "Verified official supplement reference. AS 1742 is the underlying series; Queensland amendments are not all-Australia rules. Full AS texts not accessed."
+      ],
+      [
+        "Queensland regulatory signs",
+        "https://www.qld.gov.au/transport/safety/signs/regulatory",
+        "Verified stop/give-way/speed and school-zone categories; dimensions proposed."
+      ],
+      [
+        "Queensland signal standard drawings",
+        "https://www.tmr.qld.gov.au/business-industry/Technical-standards-publications/Standard-drawings-roads/Electrical-and-ITS",
+        "Verified official drawing catalogue includes traffic signal lantern aiming. Detailed head dimensions/placement not read."
+      ],
+      [
+        "Queensland keeping left",
+        "https://www.qld.gov.au/transport/safety/rules/road/left",
+        "Verified left-driving context; road-side layout selection is a proposed fixture."
+      ]
+    ],
+    "japan": [
+      [
+        "NPA Traffic Lights and Road Signs",
+        "https://www.npa.go.jp/english/bureau/traffic/traffic-light_english.pdf",
+        "Verified official sign/signal reference; stop and slow are distinct controls. Blank slow sign is not a universal imported yield sign."
+      ],
+      [
+        "MLIT road signs / installation standards",
+        "https://www.mlit.go.jp/road/sign/sign/index.htm",
+        "Verified official signs and installation-standard catalogue; no exhaustive product specification checked."
+      ],
+      [
+        "MLIT mounting method",
+        "https://www.mlit.go.jp/road/sign/annai/setting02.htm",
+        "Verified sign baseline 1.8 m; pedestrian clearance context can require 2.5 m or more; overhead sign baseline 5.0 m, exceptional 4.7 m. This is sign clearance, not a signal-head specification."
+      ]
+    ]
+  }
+}

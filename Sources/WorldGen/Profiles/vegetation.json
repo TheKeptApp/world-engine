@@ -9,7 +9,8 @@
         "#A55835",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "quercus_palustris"
     },
     "chicago-maple": {
       "form": "broad",
@@ -19,7 +20,8 @@
         "#CE763C",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "acer_platanoides"
     },
     "chicago-elm": {
       "form": "spreading",
@@ -29,7 +31,8 @@
         "#BCAE4D",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "ulmus_americana"
     },
     "chicago-linden": {
       "form": "oval",
@@ -39,7 +42,8 @@
         "#C6B24E",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "tilia_cordata"
     },
     "chicago-honey-locust": {
       "form": "spreading",
@@ -49,7 +53,8 @@
         "#D2B95C",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "gleditsia_triacanthos"
     },
     "chicago-spruce": {
       "form": "conifer",
@@ -69,7 +74,8 @@
         "#C8AC46",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "populus_deltoides"
     },
     "denver-ash": {
       "form": "oval",
@@ -79,7 +85,8 @@
         "#BFA547",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "fraxinus_pennsylvanica"
     },
     "denver-blue-spruce": {
       "form": "conifer",
@@ -89,7 +96,8 @@
         "#678B83",
         "#597C77"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "picea_pungens"
     },
     "denver-aspen": {
       "form": "oval",
@@ -99,7 +107,8 @@
         "#D4B44C",
         "#C9C6B5"
       ],
-      "branches": "#C9C6B5"
+      "branches": "#C9C6B5",
+      "packSpecies": "populus_tremuloides"
     },
     "denver-crabapple": {
       "form": "broad",
@@ -109,7 +118,8 @@
         "#AF843E",
         "#796B57"
       ],
-      "branches": "#796B57"
+      "branches": "#796B57",
+      "packSpecies": "malus_ornamental"
     },
     "chicago-weeping-willow": {
       "form": "weeping",
@@ -222,5 +232,147 @@
     "Tsuga": "conifer",
     "Populus tremuloides": "oval",
     "Salix": "weeping"
+  },
+  "foliageSeasons": {
+    "comment": "foliage-seasons-v1 (R approved and binding 2026-10-07). Pack values (summer albedo, height, spread, evergreen, city mixes) are read by key from Profiles/mock-values.json (prefix style-b/foliage/, species and cities by id); this block holds only P2's choices. species.kind: the crown silhouette each described species is drawn with (mapping of the pack's crown descriptions to Props.swift silhouettes: treeRounded dense rounded, treePyramidal pyramidal oval, treeVase vase, treeOpen open wide airy, treeUpright upright oval, conifer; null = no silhouette fits (palms, evergreen broadleaves): mapped trees then keep their genus form). nearest: city-mix species the pack names but does not describe -> nearest described species (by crown habit and genus). mixes: the pack city whose mix (style-b/foliage/cities.<city>.mix[i].id) the profiles' inferred trees draw from; the pack gives no abundances, so a tree draws its crown form from the profile's crownWeights (unchanged) and then a mix species of that colour family with equal odds.",
+    "prefix": "style-b/foliage/",
+    "species": {
+      "gleditsia_triacanthos": {
+        "kind": "treeOpen"
+      },
+      "platanus_x_acerifolia": {
+        "kind": "treeOpen"
+      },
+      "acer_rubrum": {
+        "kind": "treeUpright"
+      },
+      "acer_saccharinum": {
+        "kind": "treeOpen"
+      },
+      "acer_platanoides": {
+        "kind": "treeRounded"
+      },
+      "quercus_palustris": {
+        "kind": "treePyramidal"
+      },
+      "quercus_virginiana": {
+        "kind": null
+      },
+      "lagerstroemia_indica": {
+        "kind": "treeVase"
+      },
+      "fraxinus_pennsylvanica": {
+        "kind": "treeUpright"
+      },
+      "tilia_cordata": {
+        "kind": "treePyramidal"
+      },
+      "ulmus_americana": {
+        "kind": "treeVase"
+      },
+      "ginkgo_biloba": {
+        "kind": "treePyramidal"
+      },
+      "populus_deltoides": {
+        "kind": "treeVase"
+      },
+      "pinus_ponderosa": {
+        "kind": "conifer"
+      },
+      "picea_pungens": {
+        "kind": "conifer"
+      },
+      "populus_tremuloides": {
+        "kind": "treeUpright"
+      },
+      "malus_ornamental": {
+        "kind": "treeRounded"
+      },
+      "pyrus_calleryana_bradford": {
+        "kind": "treePyramidal"
+      },
+      "magnolia_grandiflora": {
+        "kind": null
+      },
+      "roystonea_regia": {
+        "kind": null
+      },
+      "syagrus_romanzoffiana": {
+        "kind": null
+      },
+      "sabal_palmetto": {
+        "kind": null
+      },
+      "washingtonia_robusta": {
+        "kind": null
+      },
+      "phoenix_dactylifera": {
+        "kind": null
+      },
+      "prosopis_velutina": {
+        "kind": null
+      },
+      "parkinsonia_florida": {
+        "kind": null
+      },
+      "pseudotsuga_menziesii": {
+        "kind": "conifer"
+      },
+      "thuja_plicata": {
+        "kind": "conifer"
+      },
+      "acer_macrophyllum": {
+        "kind": "treeRounded"
+      },
+      "prunus_serrulata": {
+        "kind": "treeVase"
+      },
+      "acer_saccharum": {
+        "kind": "treeRounded"
+      },
+      "zelkova_serrata": {
+        "kind": "treeVase"
+      }
+    },
+    "nearest": {
+      "bursera_simaruba": "quercus_virginiana",
+      "carpinus_betulus": "tilia_cordata",
+      "carya_illinoinensis": "quercus_palustris",
+      "celtis_occidentalis": "ulmus_americana",
+      "coccoloba_uvifera": "quercus_virginiana",
+      "conocarpus_erectus": "quercus_virginiana",
+      "cupressus_sempervirens": "thuja_plicata",
+      "diospyros_texana": "prosopis_velutina",
+      "ficus_microcarpa": "quercus_virginiana",
+      "gymnocladus_dioicus": "gleditsia_triacanthos",
+      "juniperus_ashei": "thuja_plicata",
+      "liquidambar_styraciflua": "quercus_palustris",
+      "liriodendron_tulipifera": "tilia_cordata",
+      "lophostemon_confertus": "magnolia_grandiflora",
+      "metrosideros_excelsa": "magnolia_grandiflora",
+      "neltuma_glandulosa": "prosopis_velutina",
+      "parkinsonia_praecox": "parkinsonia_florida",
+      "pinus_taeda": "pinus_ponderosa",
+      "quercus_alba": "quercus_palustris",
+      "quercus_rubra": "quercus_palustris",
+      "tristaniopsis_laurina": "magnolia_grandiflora",
+      "ulmus_crassifolia": "ulmus_americana",
+      "ulmus_parvifolia": "ulmus_americana",
+      "washingtonia_filifera": "washingtonia_robusta"
+    },
+    "mixes": {
+      "chicago": {
+        "city": "chicago",
+        "profiles": [
+          "chicago-dense-north"
+        ]
+      },
+      "denver": {
+        "city": "denver",
+        "profiles": [
+          "front-range"
+        ]
+      }
+    }
   }
 }
