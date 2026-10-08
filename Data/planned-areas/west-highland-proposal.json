@@ -1,6 +1,6 @@
 {
   "id": "west-highland-proposal",
-  "status": "PROPOSED_WAITING_FOR_R",
+  "status": "APPROVED",
   "center": {
     "latitude": 39.764,
     "longitude": -105.04
@@ -34,8 +34,21 @@
     "1": 2757572,
     "2": 1327458
   },
-  "limitation": "10 m cell occupancy in the proposed rectangle, not building-height acceptance or 1 m continuous surface coverage. Raw survey read only to evaluate this proposal; no production manifest, heights, roof or DEM output created.",
-  "processingStatus": "HOLD",
-  "approvalRequired": "R must approve this rectangle before production area preparation",
-  "neighborhoodBoundaryReference": "https://www.westhighlandneighborhood.org/wp-content/uploads/2021/05/WHNA-Bylaws-2008.pdf"
+  "limitation": "Proposal-time survey coverage: 10 m cell occupancy, not building-height acceptance or 1 m continuous surface coverage. Production processing was subsequently authorized by R on 8 October; outputs live under Data/areas/west-highland.",
+  "processingStatus": "AUTHORIZED",
+  "neighborhoodBoundaryReference": "https://www.westhighlandneighborhood.org/wp-content/uploads/2021/05/WHNA-Bylaws-2008.pdf",
+  "approval": "R, 8 October 2026: approved exact proposed 1 km rectangle",
+  "areas": [
+    {
+      "id": "west-highland",
+      "name": "West Highland, Denver",
+      "bounds": {
+        "south": 39.75949671668853,
+        "north": 39.768503283311475,
+        "west": -105.04583518358649,
+        "east": -105.03416481641352
+      },
+      "processingStatus": "AUTHORIZED"
+    }
+  ]
 }

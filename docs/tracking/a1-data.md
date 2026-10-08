@@ -69,3 +69,14 @@ A8 `48a6ec0` is [filed in lane reviews](lane-reviews.md): West Highland elevatio
 ## Merge and diagnosis — 8 October
 
 Merged and pushed to main: 8dcd910. Both handoff entries preserved add-only; main advanced during verification, so rebase and all relevant tests were repeated. 143 tests passed, 3 skipped. Height-null diagnosis and West Highland rectangle are now proposals only: see docs/data/height-null-diagnosis.md, Data/quality/height-null-diagnosis.json and Data/planned-areas/west-highland-proposal.json. Every existing building has non-noise lidar and supported same-survey ground. Primary Sloan rejection: 876 below the 80% planar support rule, plus 104 below 15 m², 11 sparse elevated candidates, 1 spatial-support failure. West Highland proposal: 1 km square matching Lakeview; 100% return-cell coverage at 10 m, 98.93% ground-cell coverage, no production area created. Await R on rectangle and generic inferred fallback; no fallback applied.
+
+## West Highland approved run — 8 October 2026
+
+R approved the proposed 1 km square and GREEN-only inferred fallback ladder, with Lakeview error review required before any export use. The exact bounds and 100 m halo are saved in Data/planned-areas/west-highland-proposal.json. Existing observations remain untouched; no fallback rung is selected. The Lakeview validation table was shown to R before export work; acceptance limits are pending. Mac 2 is unavailable; local run, disk 80 GiB at start.
+
+| Area | Step | Coverage | Quality / gaps | Licence |
+|---|---|---|---|---|
+| west-highland | heights | 19.1% | 476/2496 accepted; 2020 null; same-survey ground; planar class-1 candidates, all D | GREEN |
+| west-highland | roofs | 19.0% | 474/2496; 2022 null; 225 flat, 72 gable, 41 hip, 136 other; inferred forms, all D | GREEN |
+| west-highland | DEM extraction | 100.0% reported | Native 1 m plus 100 m halo and unchanged 10/30/60/120/240 m distance bands through 200 km; read-back QA pending | GREEN |
+| west-highland | building QA | 19.1% heights / 19.0% roofs | PASS_WITH_GAPS; 2020 missing heights; 140 small/implausible footprints; zero invariant errors | GREEN |
