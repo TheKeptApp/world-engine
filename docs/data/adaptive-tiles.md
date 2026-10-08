@@ -27,11 +27,11 @@ Triangles are assigned whole, never clipped, simplified, moved or regenerated. T
 
 ## Verification and local handoff
 
-The exact original input packages are A4's Sloan 48-tile export in the primary checkout's Generated/package/sloans-lake and Lakeview 25-tile export in web/stream/generated/lakeview-sheil-park. A4 source files are read-only. Outputs are in the A1 worktree's Generated/adaptive/{sloans-lake,lakeview-sheil-park}; no existing package is overwritten and no A4 file is edited.
+The exact original input packages are A4's Sloan 48-tile export in the primary checkout's Generated/package/sloans-lake and Lakeview 25-tile export in web/stream/generated/lakeview-sheil-park. A4 source files are read-only. Verified outputs are in the A1 worktree's Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}; no existing package is overwritten and no A4 file is edited.
 
 `Tools/regionkit/qa/adaptive_package.py` independently decodes every GLB, validates every manifest digest, checks scene feature ranges and child bounds, and compares per-parent/per-LOD multisets of triangle material, origin and all vertex bytes. It checks both byte limits and verifies non-chunk files are unchanged. Repeat packing is checked byte-for-byte. Results are saved in Data/quality/adaptive-tile-packing.json after completion. Focused Swift tests cover deterministic splits, exact channels/triangles, coincident centroids, explicit empty LODs and impossible budgets. No look or water artifact fix is claimed.
 
-### Exporter-reported before/after (independent full audit queued)
+### Independently audited before/after (full packages)
 
 | Area | LOD | Tiles before → after | Files above 2 MiB before → after | Largest GLB after | Worst two decoded tiles before → after |
 |---|---:|---:|---:|---:|---:|
@@ -40,10 +40,14 @@ The exact original input packages are A4's Sloan 48-tile export in the primary c
 | Lakeview | 0 | 25 → 114 | 25 → 0 | 2,094,388 B | 17,332,572 → 4,176,512 B |
 | Lakeview | 1 | 25 → 114 | 0 → 0 | 398,956 B | 2,595,662 → 766,250 B |
 
-Exporter triangle totals are unchanged: Sloan 451,997 / 133,249 (LOD0/1); Lakeview 1,370,373 / 164,560. These are package totals, not simultaneous visible triangles or a whole-view performance pass. New upload-part primitive arrays cannot exceed their bounded whole GLB files. All three focused packer tests pass. The independent full-data triangle/channel/feature audit and repeat packing are queued behind A4's newly started human long-flight server (10:22:46); do not claim them passed yet. No A4 file was changed. Rebase separately stopped on an add-only conflict in docs/tracking/a1-data.md, outside R's existing handoffs.md exception; rebase was safely aborted pending R's approval to retain all entries.
+Independent triangle totals are unchanged: Sloan 451,997 / 133,249 (LOD0/1); Lakeview 1,370,373 / 164,560. These are package totals, not simultaneous visible triangles or a whole-view performance pass. All 73 map/package tests passed, including four packer tests. Independent full-package triangle/channel/feature audits and byte-identical repeat packing passed for both areas after A4 released the lock. No A4 file was changed. Merge remains stopped by contradictory current delivery wording in the tracker; R's conditional additive-only approval does not permit silently revising that wording.
 
 ### Alignment to A4 939d04f
 
 R explicitly requested the decoded targets. The new implementation checks leaf and primitive decoded bytes separately, publishes their costs, and adds bounded coarse replacement payloads and immutable building-cell ownership. The conservative whole-file cap remains. Updated Swift tests exercise primitive caps independently of file-size caps, coarse triangle preservation, replacement-group membership and ownership invariance under different split budgets. Updated full-data audit checks the same costs and parent coarse triangle multiset; it also computes the worst two leaves using each leaf's maximum LOD decoded cost.
 
-Updated verification is queued behind A4's still-active human long-flight lock. The table above belongs to the preceding packed outputs; do not label the new metadata/coarse-coverage revision verified until Data/quality/adaptive-tile-packing.json records targetCommit 939d04f and PASS for both areas. Its new output directories will be Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}. No A4 file was edited.
+Verification completed successfully under the heavy wrapper (load admission 4.67; disk above 8 GB). Data/quality/adaptive-tile-packing.json records targetCommit 939d04f and PASS for both complete areas. Outputs are Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}. The independent audit also verified all 48 Sloan and 25 Lakeview coarse replacement payloads exactly preserve original LOD1 coverage.
+
+### Claim reconciliation — R review, 8 October
+
+A4's original Lakeview LOD0 export has 25 tiles; its largest two decoded attribute/index-array payloads sum to 17,332,572 bytes (`web/stream/tile-packer.md`). The earlier A1 packed output has 114 leaves; its exporter-reported largest pair is 4,176,512 bytes. These use the same measure but different partitions of the complete source package: the smaller figure is from the new packer, not a new memory definition or a partial source export. Neither figure measures total CPU/GPU residency. The independent audit has now traversed every original and packed GLB in both areas and verified exact triangle/channel preservation. It reproduces both figures, including the 4,176,512-byte worst pair when allowing each leaf its largest LOD. This passes the 16,777,216-byte decoded queue target; all leaves and primitive parts also meet their separate targets. It does not certify viewer residency, GPU uploads or frame time.

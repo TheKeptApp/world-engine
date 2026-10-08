@@ -91,7 +91,6 @@ public enum AdaptiveTilePacker {
         var decoded = 0, triangles = 0, vertices = 0
         var parts: [[String: Any]] = []
         var lo = [Double](repeating: .infinity, count: 3), hi = [Double](repeating: -.infinity, count: 3)
-        var parts: [[String: Any]]
         var ranges: [String: [Int: [[Int]]]] = [:]
         func append(_ bytes: Data, _ metadata: [String: Any], target: Int) -> Int {
             while bin.count % 4 != 0 { bin.append(0) }

@@ -110,3 +110,13 @@ Rebase on current main stopped at add-only a1-data.md conflict (A1 history versu
 ## A4 exact target alignment — R, 8 October
 
 Read web/stream/targets.md at 939d04f. Packer now explicitly enforces ≤8 MiB decoded per independent leaf and ≤2 MiB decoded per primitive, in addition to the conservative 2 MiB whole-file cap. Package index includes per-LOD GLB/decoded bytes and per-part decoded costs; bounded parent coarse payloads and atomic replacement groups preserve coverage, with stable 100 m building-cell ownership beneath the original 200 m ground grid. Updated unit and full-data audits are queued behind A4's active lock; prior 48→76 / 25→114 results are not a completed verification of this new metadata/coarse revision. No A4 files or look values changed. Existing a1-data.md merge-conflict approval remains pending; no merge claimed.
+
+## Conditional conflict approval and claim check — R / A1, 8 October
+
+R permits retaining both sides of a1-data.md only when purely additive and non-contradictory. At origin/main 239d813 both diffs are additive, but main's “Current delivery clarification” says West Highland is NOT delivered yet, whereas A1 records the completed local QA and bundle. Merge stopped: retaining both as current claims would contradict R's condition; no wording or history changed to bypass it. Handoffs.md retains its separate add-only approval.
+
+Lakeview 17,332,572 bytes is the original 25-tile worst decoded pair; 4,176,512 bytes is the earlier new-packer 114-leaf worst decoded pair, same attribute/index-array measure. It is not an independent pass. A4's lock cleared; the queued compile found a duplicate declaration, now removed. Full verification restarted under the heavy wrapper after the load/disk gate; results pending. No A4 files, look values or generator code changed.
+
+## Full adaptive package audit complete — A1, 8 October
+
+73 map/package tests pass after the compile correction. Independent audits pass for ALL original and packed Sloan/Lakeview GLBs, scene joins, hashes, triangle attributes and coarse replacement coverage; repeat exports are byte-identical. Sloan 48→76 leaves, worst two decoded 10,399,800→3,756,466 bytes; Lakeview 25→114, 17,332,572→4,176,512 bytes. Same attribute/index-array measure, new partitions of the full sources. Every decoded leaf ≤8 MiB and primitive part ≤2 MiB; worst two ≤16 MiB. Evidence: Data/quality/adaptive-tile-packing.json; verified outputs: Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}. These supersede pending-audit statements above, not viewer performance limits. Lock released normally. Merge still stopped by the contradictory tracker delivery claims under R's conditional approval.
