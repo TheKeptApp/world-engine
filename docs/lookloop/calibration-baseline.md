@@ -54,8 +54,9 @@ The packs own wall albedo, so walls are not part of the look score. Measured sep
 |---|---|---|---|---|---|
 | 16:47 baseline | `debec74` | not yet a gate | 3, 3, 3, 3 | 3.0, 2.5, 3.0, 3.0, 2.5, 3.5 | 14.5 / 10.7 / 15.0 / 19.0 / 19.6 |
 | 18:49 (P2 wall weights) | `c49ecb0` | **FAIL 0 of 4** (approved gate) | 3, 3, 3, 3 | 3.0, 2.8, 2.8, 2.8, 2.8, 3.5 | 14.4 / 10.4 / 14.9 / 18.7 / 19.2 |
+| 20:53 (5A wet ground + water shader) | `20d3ae9` | **FAIL 0 of 4** (hero frames unchanged, grades carried) | 3, 3, 3, 3 | 3.0, 2.8, 2.8, 2.8, 2.8, 3.5 | 14.4 / 10.4 / 14.9 / 18.7 / 19.2 |
 
-On the 18:49 run the weakest aspects were light and foliage on the postcard and saturation and ground on Wilmette. The Wilmette frame is pixel-identical to the baseline, yet its low aspects flipped, so one aspect point on one view is inside the grader's about +/-1 noise: read the gate across runs, and expect a routine PASS to need R's Opus confirmation.
+On the 18:49 run the weakest aspects were light and foliage on the postcard and saturation and ground on Wilmette. The Wilmette frame is pixel-identical to the baseline, yet its low aspects flipped, so one aspect point on one view is inside the grader's about +/-1 noise: read the gate across runs, and expect a routine PASS to need R's Opus confirmation. On the 20:53 run the four hero frames were pixel-identical to 18:49 (0.0 to 0.04 % of pixels), because 5A's wet-ground and water changes do not reach clear afternoon views, so their grades and surface dE are carried unchanged.
 
 ## Look gate (R approved 2026-10-07)
 
