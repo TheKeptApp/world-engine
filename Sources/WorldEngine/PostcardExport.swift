@@ -140,7 +140,8 @@ final class OffscreenSession {
         var info = PostcardRenderInfo()
         let vHalf = widestVerticalFOV / 2 * .pi / 180, hHalf = widestHorizontalFOV / 2 * .pi / 180
         let planes = World.postcardFrustum(eye: e, target: t, verticalFOV: widestVerticalFOV, aspect: tan(hHalf) / tan(vHalf))
-        world.applyQuality(quality, root: copy.root, copies: copy.copies, eye: e, planes: planes, info: &info)
+        world.applyQuality(quality, root: copy.root, copies: copy.copies, eye: e, planes: planes,
+                           verticalFOV: widestVerticalFOV, info: &info)
         if quality.finalGrade {
             let state = world.postcardLightState
             info.gradeState = state

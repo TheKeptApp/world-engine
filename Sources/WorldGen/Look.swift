@@ -99,6 +99,13 @@ public struct LookSpec: Codable, Sendable {
         public var exposureTargetY8: Double
     }
     public var daytimeMaster: DaytimeMasterCalibration
+    /// Projected-size building LOD (owner 7 Oct, with P2's house-archetypes-v1 detail tiers read from
+    /// mock-values.json): the frame height the tiers were measured on and the near band (3D metres).
+    public struct BuildingLODSpec: Codable, Sendable {
+        public var frameHeightPx: Double
+        public var nearDistanceM: Double
+    }
+    public var buildingLOD: BuildingLODSpec?
     public var water: Water
     public var sky: Sky
     public var shadows: Shadows

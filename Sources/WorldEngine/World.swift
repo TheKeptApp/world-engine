@@ -551,14 +551,44 @@ public final class World {
         simd_distance(p, LocalPoint(min(max(p.x, r.min.x), r.max.x), min(max(p.y, r.min.y), r.max.y)))
     }
 
-    /// Enables one LOD per building cell: `BuildingLOD.forDistance` of the camera's distance to the
-    /// cell, or the nearest coarser level the cell has (context cells have far and skyline only).
+    /// 3D distance from the eye to a cell (its ground rectangle up to `top`): an aerial eye high
+    /// above a cell is far from it, which the horizontal distance missed (buildings below an aerial
+    /// camera took their nearest LOD).
+    static func distance3D(eye: SIMD3<Float>, to r: Rect2D, top: Double) -> Double {
+        let flat = distance(LocalPoint(Double(eye.x), Double(-eye.z)), to: r)
+        let y = Double(eye.y), dy = y > top ? y - top : y < 0 ? -y : 0
+        return (flat * flat + dy * dy).squareRoot()
+    }
+
+    /// A building cell's LOD from the eye: by projected size where look.json buildingLOD and the
+    /// house-archetypes-v1 tiers are present, else by 3D distance on the fixed bands.
+    func buildingLOD(eye: SIMD3<Float>, cell: BuildingCellState, verticalFOV fov: Double) -> BuildingLOD {
+        let top = Double(cell.bounds?.max.y ?? 10)
+        let d = Self.distance3D(eye: eye, to: cell.rect, top: top)
+        guard let t = Self.buildingTiers else { return BuildingLOD.forDistance(d) }
+        return BuildingLOD.forProjection(distance: d, heightM: top, verticalFOVDegrees: fov, frameHeightPx: t.frameHeightPx,
+                                         nearDistance: t.nearDistance, midMinPx: t.midMinPx, farMinPx: t.farMinPx)
+    }
+
+    /// Projected-size building LOD settings: look.json buildingLOD (frame, near band) and the
+    /// house-archetypes-v1 detail tiers from mock-values.json (20 px windows, 6 px voids). Off on the
+    /// floor tier (owner, 8 Oct: option A, fixed 150/600 m bands by 3D distance; +10–55k triangles in
+    /// view broke 400k); a hero tier may enable it once measured on device (docs/tracking/handoffs.md).
+    static let buildingTiers: (frameHeightPx: Double, nearDistance: Double, midMinPx: Double, farMinPx: Double)? = {
+        guard let spec = lookSpec?.buildingLOD, let m = MockValues.bundled,
+              let mid = m.number("house-archetypes-v1/archetypes.chicago-01-bungalow.detailTiers[2].buildingHeightPx.minExclusive"),
+              let far = m.number("house-archetypes-v1/archetypes.chicago-01-bungalow.detailTiers[1].buildingHeightPx.minInclusive")
+        else { return nil }
+        return (spec.frameHeightPx, spec.nearDistanceM, mid, far)
+    }()
+
+    /// Enables one LOD per building cell: `buildingLOD(eye:cell:verticalFOV:)` (projected size from the
+    /// 3D eye distance), or the nearest coarser level the cell has (context cells have far and skyline only).
     /// Where every cell of a tile wants the same mid, far or skyline level, the tile's merged entity
     /// draws them instead (the same meshes; larger tiles first).
-    private func updateBuildingLODs(camera c: SIMD2<Float>) {
+    private func updateBuildingLODs(eye: SIMD3<Float>, verticalFOV fov: Double) {
         var tris = 0
-        let p = LocalPoint(Double(c.x), Double(-c.y))
-        let want = buildingCells.map { BuildingLOD.forDistance(Self.distance(p, to: $0.rect)) }
+        let want = buildingCells.map { buildingLOD(eye: eye, cell: $0, verticalFOV: fov) }
         var tiled = [Bool](repeating: false, count: buildingCells.count)
         for t in buildingTiles.indices {
             let tile = buildingTiles[t]
@@ -836,7 +866,7 @@ public final class World {
         lodCenter = camera
         lodView = view
         lodAspect = viewAspect
-        updateBuildingLODs(camera: SIMD2(camera.x, camera.z))
+        updateBuildingLODs(eye: camera, verticalFOV: Double(fov))
         updateContextLODs(camera: camera)
         let cut = Self.cutZoneMeters
         let edges = PropLibrary.lodDistances.map(Float.init)  // near→mid, mid→far, far→skyline

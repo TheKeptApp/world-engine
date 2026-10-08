@@ -168,7 +168,7 @@ extension World {
     /// tufts over the visible lawn edges, the sun's shadow reaching the farthest caster in frame.
     /// `copies` maps the live world's entities to their copies; only copies change.
     func applyQuality(_ q: PostcardQuality, root: Entity, copies: [ObjectIdentifier: Entity], eye: SIMD3<Float>,
-                      planes: [SIMD4<Float>], info: inout PostcardRenderInfo) {
+                      planes: [SIMD4<Float>], verticalFOV: Double = 50, info: inout PostcardRenderInfo) {
         let camera = SIMD2(eye.x, eye.z)
         var farthest: Float = 0
         func inFrame(_ b: BoundingBox) -> Bool { Self.intersects(b, planes) }
@@ -217,12 +217,11 @@ extension World {
         // Building cells: the finest level the cell has (near where it has one) when in frame. A
         // merged far tile (`BuildingTileState`) hands its cells back first, at their own levels.
         if q.nearDetail {
-            let p = LocalPoint(Double(eye.x), Double(-eye.z))
             for tile in buildingTiles where tile.active != nil {
                 for level in tile.levels { copies[ObjectIdentifier(level.entity)]?.isEnabled = false }
                 for i in tile.cells {
                     let levels = buildingCells[i].levels
-                    let want = BuildingLOD.forDistance(Self.distance(p, to: buildingCells[i].rect))
+                    let want = buildingLOD(eye: eye, cell: buildingCells[i], verticalFOV: verticalFOV)
                     let pick = levels.firstIndex { $0.lod >= want } ?? (levels.count - 1)
                     for (j, level) in levels.enumerated() { copies[ObjectIdentifier(level.entity)]?.isEnabled = j == pick }
                 }

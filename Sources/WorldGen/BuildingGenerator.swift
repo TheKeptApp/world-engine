@@ -25,6 +25,18 @@ public enum BuildingLOD: Int, Sendable, Codable, CaseIterable, Comparable {
 
     public static func < (a: BuildingLOD, b: BuildingLOD) -> Bool { a.rawValue < b.rawValue }
 
+    /// The LOD by projected size (house-archetypes-v1 detail tiers, owner 7 Oct): near within
+    /// `nearDistance` (3D, metres), then mid while the tallest building is at least `midMinPx` tall on a
+    /// `frameHeightPx` frame at the camera's vertical field of view, far while at least `farMinPx`,
+    /// skyline below. Windows and porch voids stay while they still read, not to fixed distances.
+    public static func forProjection(distance d: Double, heightM h: Double, verticalFOVDegrees fov: Double,
+                                     frameHeightPx: Double, nearDistance: Double, midMinPx: Double, farMinPx: Double) -> BuildingLOD {
+        if d < nearDistance { return .near }
+        let focal = frameHeightPx / 2 / tan(max(fov, 1) * .pi / 360)
+        let px = max(h, 0) / max(d, 0.1) * focal
+        return px > midMinPx ? .mid : px >= farMinPx ? .far : .skyline
+    }
+
     /// The LOD for a camera distance in meters.
     public static func forDistance(_ d: Double) -> BuildingLOD {
         d < 50 ? .near : d < 150 ? .mid : d < 600 ? .far : .skyline
