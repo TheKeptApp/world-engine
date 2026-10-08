@@ -307,8 +307,11 @@ def http(url, work, area, kind, method="GET"):
                 body = r.read()
             work.ledger_add(area, kind, url, len(body))
             return body
-        except urllib.error.HTTPError:
-            raise
+        except urllib.error.HTTPError as e:
+            if e.code not in (408, 429, 500, 502, 503, 504) or attempt == 3:
+                raise
+            log(f"retry temporary HTTP {e.code}: {url}")
+            time.sleep(2 + 4 * attempt)
         except Exception as e:  # transient network errors
             if attempt == 3:
                 raise

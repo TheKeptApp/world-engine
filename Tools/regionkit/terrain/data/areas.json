@@ -29,12 +29,34 @@
       "qualityLevel": "QL2",
       "verticalAccuracy": "ASPRS 2014 10-cm RMSEz vertical accuracy class (vendor metadata 312020336_USGS_DRCOG_Lidar_QL2_ClassifiedPointCloud.xml); tested values not read",
       "metadataURL": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/CO_DRCOG_2_2020/USGS_LPC_CO_DRCOG_2020_B20_w0495n4399.xml"
+    },
+    "savannah-2019": {
+      "id": "usgs-3dep-sc-savannah-peedee-2-2019",
+      "title": "USGS 3DEP SC_SavannahPeeDee_2019_B19 (delivery SC_SavannahPeeDee_2_2019)",
+      "eptRoot": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/SC_SavannahPeeDee_2_2019/",
+      "tnmProject": "SC_SavannahPeeDee_2019_B19",
+      "collected": "2020-01-05 to 2020-01-22",
+      "collectedSource": "Source tile FGDC begdate/enddate",
+      "metadataURL": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/SC_SavannahPeeDee_2_2019/USGS_LPC_SC_SavannahPeeDee_2019_B19_11507958_10.xml"
     }
   },
   "licenseURL": "https://www.usgs.gov/faqs/what-are-terms-uselicensing-map-services-and-data-national-map",
   "areas": [
-    {"id": "evanston-south", "source": "cook-2017"},
-    {"id": "lakeview-sheil-park", "source": "cook-2017"},
-    {"id": "sloans-lake", "source": "drcog-2-2020"}
+    {
+      "id": "evanston-south",
+      "source": "cook-2017"
+    },
+    {
+      "id": "lakeview-sheil-park",
+      "source": "cook-2017"
+    },
+    {
+      "id": "sloans-lake",
+      "source": "drcog-2-2020"
+    },
+    {
+      "id": "greenville-downtown",
+      "source": "savannah-2019"
+    }
   ]
 }

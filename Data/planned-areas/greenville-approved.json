@@ -3,7 +3,7 @@
   "approvedBy": "R",
   "approvedOn": "2026-10-08",
   "crs": "EPSG:4326",
-  "processingStatus": "HOLD \u2014 do not process until R authorizes",
+  "processingStatus": "Per-area authorization below; original rectangles and 100 m buffer unchanged",
   "processingBufferMeters": 100,
   "areas": [
     {
@@ -14,7 +14,8 @@
         "west": -82.409,
         "north": 34.856,
         "east": -82.395
-      }
+      },
+      "processingStatus": "AUTHORIZED"
     },
     {
       "id": "greer-burgiss-hills",
@@ -24,7 +25,9 @@
         "west": -82.264,
         "north": 34.954,
         "east": -82.251
-      }
+      },
+      "processingStatus": "HOLD"
     }
-  ]
+  ],
+  "authorization": "R, 8 Oct GENERAL PIPELINES: Downtown hold-out processing authorized; Greer remains on hold."
 }
