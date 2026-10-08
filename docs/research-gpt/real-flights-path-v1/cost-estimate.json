@@ -1,0 +1,78 @@
+{
+  "checked": "2026-10-07",
+  "status": "assumption estimate, not a provider quote",
+  "basis": {
+    "users": "monthly active users",
+    "minutesPerUserPerMonth": 10,
+    "updateSeconds": 5,
+    "payloadBytes": 2000,
+    "bytesPerUserMonth": 240000,
+    "upstream": "pooled by approved region, not per user",
+    "stationWatts": 8,
+    "electricityUSDkWh": 0.15,
+    "monthlyElectricityUSD": 0.876,
+    "feedFee": "adsb.lol published free API; negotiated production fee/support unknown",
+    "excludes": [
+      "labor",
+      "legal review",
+      "tax",
+      "SLA",
+      "paid gate data",
+      "global receiver rollout"
+    ]
+  },
+  "scenarios": [
+    {
+      "mau": 1000,
+      "egressDecimalGB": 0.24,
+      "computeUSD": [
+        6,
+        12
+      ],
+      "operationsReserveUSD": [
+        0,
+        10
+      ],
+      "totalMonthlyUSD": [
+        7,
+        23
+      ]
+    },
+    {
+      "mau": 100000,
+      "egressDecimalGB": 24,
+      "computeUSD": [
+        24,
+        96
+      ],
+      "operationsReserveUSD": [
+        10,
+        50
+      ],
+      "totalMonthlyUSD": [
+        35,
+        147
+      ]
+    },
+    {
+      "mau": 1000000,
+      "egressDecimalGB": 240,
+      "computeUSD": [
+        192,
+        576
+      ],
+      "operationsReserveUSD": [
+        50,
+        200
+      ],
+      "totalMonthlyUSD": [
+        243,
+        777
+      ]
+    }
+  ],
+  "sensitivity": "20 KB payload multiplies egress by 10; 60 minutes/user multiplies by 6; both together by 60. 1M baseline then 14.4 TB/month. Concurrency and region counts require load testing.",
+  "swim": "Published data fee zero; integration, approval, LADD operations and surface validation costs unquoted. Not included in launch totals.",
+  "cloudSource": "https://www.digitalocean.com/pricing/droplets",
+  "pricingStatus": "verified unit prices; VM counts and reserves assumed"
+}

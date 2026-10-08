@@ -8,7 +8,26 @@ People look for their own house first, then for famous places. Work is ordered t
 
 ## Now: the look gate
 
-The current phase (5A light, weather and sky; P2 buildings, yards and vegetation; P3 look loop) runs until the look gate passes (concept parity ≥ 100 % on the v2 floors; full Opus gate when a routine run reaches 92 %). See `docs/lookloop/README.md`.
+The current phase (5A light, weather and sky; P2 buildings, yards and vegetation; P3 look loop) runs until the **look gate** passes (R, 2026-10-07): all four afternoon heroes at calibration closeness 4 or more and every aspect (sky, light, saturation, ground, foliage, materials) 3 or more. A routine run that passes triggers one full Opus confirmation run (R, 2026-10-08). See `docs/lookloop/README.md` and `docs/lookloop/calibration-baseline.md`.
+
+## Decided scope (R, 2026-10-08)
+
+- **Launch countries:** Canada, UK, Netherlands, Mexico, Australia, Japan (Australia, the UK and Japan drive on the left).
+- **Test locations:** Chicago, Denver, Greenville SC.
+- **Hero markets:** San Francisco and New York.
+- **Engine capability:** terrain, slope and mountains (terrain-slope-v1, mountain-terrain-v1).
+- **Builder:** Easy and Pro (creator-kit-ux-v3); Builder phase after the engine look gate.
+- **Device tiers:** hero, standard, floor.
+- **Live flights are ON at launch**, from the adsb.lol hosted feed (ODbL; coordinate with the operator before building). The flight database layer is kept separate; airliners only, no tail numbers; LADD and PIA aircraft are suppressed; a lawyer opinion comes before launch (`docs/research/licensing.md` Q54, §20); airport gates later via a paid feed or FAA SWIM. Estimated cost about $7-25 a month at 1k monthly users and $35-150 at 100k (the research's estimate, not a quote).
+- **Real mode** is a future idea, not scheduled.
+
+## Milestones (order, not dates; P3's ordering from R's decisions, R can change it)
+
+1. **Engine look gate** (now): the four heroes at closeness 4 or more, every aspect 3 or more, confirmed by an Opus run.
+2. **After the look gate:** Builder phase (Easy and Pro; venues and campuses parts, `venues-campuses-v1`), the ambient life layer (life packs, `regional-car-mix-v1` for P2's ambient vehicles; one actor pool, events off unless verified), and streaming.
+3. **Engine capability:** terrain, slope and mountains. The mountain pack's r2 fixes and hiking trails reached the drop folder after R's 8 Oct note; R has not reviewed them yet.
+4. **Launch:** the six countries, live flights on, hero markets San Francisco and New York, test locations Chicago, Denver and Greenville SC; device tiers hero, standard and floor.
+5. **Later:** airport gates, real mode, coverage growth. City kit status per city: `docs/proposals/master-trackers-v1/coverage-by-country-Cities.csv` (the city-kit checklist; `coverage-by-country-Countries.csv` has the country rows).
 
 ## Phase 3: live world + landmarks (right after the look gate)
 

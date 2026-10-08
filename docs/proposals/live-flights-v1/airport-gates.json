@@ -1,0 +1,211 @@
+{
+  "checked": "2026-10-07",
+  "license": "ODbL; \u00a9 OpenStreetMap contributors",
+  "method": "Count returned objects with exact aeroway gate or parking_position, including refs; no guaranteed active-gate denominator; ways returned by API may extend outside bbox. Closed/future/duplicate gate semantics not manually validated.",
+  "airports": [
+    {
+      "airport": "ORD",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-87.915,41.972,-87.892,41.991",
+      "bboxWestSouthEastNorth": [
+        -87.915,
+        41.972,
+        -87.892,
+        41.991
+      ],
+      "extractScope": "terminal-area bounding box",
+      "rawFile": "osm-ord-raw.osm",
+      "rawSha256": "4b1ede50b4085621f0dba0dcf5b5ce5787594f53dc6bedfb6f72002d7baa9ce3",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 216,
+        "objectsWithRef": 208,
+        "uniqueRefs": 208,
+        "missingRef": 8,
+        "nodeObjects": 216,
+        "wayObjects": 0,
+        "duplicateRefObjects": 0
+      },
+      "parking_position": {
+        "objects": 202,
+        "objectsWithRef": 201,
+        "uniqueRefs": 201,
+        "missingRef": 1,
+        "nodeObjects": 0,
+        "wayObjects": 202,
+        "duplicateRefObjects": 0
+      }
+    },
+    {
+      "airport": "MDW",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-87.755,41.779,-87.743,41.791",
+      "bboxWestSouthEastNorth": [
+        -87.755,
+        41.779,
+        -87.743,
+        41.791
+      ],
+      "extractScope": "terminal-area bounding box",
+      "rawFile": "osm-mdw-raw.osm",
+      "rawSha256": "9b230ae67ad7a8aab9508be082cbdf95fb8d91b944a7571926d5c9a1f622b5e2",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 42,
+        "objectsWithRef": 42,
+        "uniqueRefs": 42,
+        "missingRef": 0,
+        "nodeObjects": 42,
+        "wayObjects": 0,
+        "duplicateRefObjects": 0
+      },
+      "parking_position": {
+        "objects": 36,
+        "objectsWithRef": 30,
+        "uniqueRefs": 30,
+        "missingRef": 6,
+        "nodeObjects": 0,
+        "wayObjects": 36,
+        "duplicateRefObjects": 0
+      }
+    },
+    {
+      "airport": "DEN",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-104.71,39.83,-104.65,39.91",
+      "bboxWestSouthEastNorth": [
+        -104.71,
+        39.83,
+        -104.65,
+        39.91
+      ],
+      "extractScope": "broad airport bounding box",
+      "rawFile": "osm-den-raw.osm",
+      "rawSha256": "36da50446cd7105093a4be47cc73e43a95cc50d9f7f749f58f42973a43e1d3ec",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 177,
+        "objectsWithRef": 176,
+        "uniqueRefs": 176,
+        "missingRef": 1,
+        "nodeObjects": 177,
+        "wayObjects": 0,
+        "duplicateRefObjects": 0
+      },
+      "parking_position": {
+        "objects": 260,
+        "objectsWithRef": 237,
+        "uniqueRefs": 236,
+        "missingRef": 23,
+        "nodeObjects": 0,
+        "wayObjects": 260,
+        "duplicateRefObjects": 1
+      }
+    },
+    {
+      "airport": "GSP",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-82.23,34.875,-82.2,34.915",
+      "bboxWestSouthEastNorth": [
+        -82.23,
+        34.875,
+        -82.2,
+        34.915
+      ],
+      "extractScope": "broad airport bounding box",
+      "rawFile": "osm-gsp-raw.osm",
+      "rawSha256": "7e4bb96d020a3b75c6eab678e254bd6030006282231be2733f40c2706a9e51dc",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 13,
+        "objectsWithRef": 13,
+        "uniqueRefs": 13,
+        "missingRef": 0,
+        "nodeObjects": 13,
+        "wayObjects": 0,
+        "duplicateRefObjects": 0
+      },
+      "parking_position": {
+        "objects": 22,
+        "objectsWithRef": 14,
+        "uniqueRefs": 14,
+        "missingRef": 8,
+        "nodeObjects": 0,
+        "wayObjects": 22,
+        "duplicateRefObjects": 0
+      }
+    },
+    {
+      "airport": "JFK",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-73.801,40.636,-73.763,40.656",
+      "bboxWestSouthEastNorth": [
+        -73.801,
+        40.636,
+        -73.763,
+        40.656
+      ],
+      "extractScope": "terminal-area bounding box",
+      "rawFile": "osm-jfk-raw.osm",
+      "rawSha256": "8b6bda1ca943c9a6151d7850d7dd2777ff8f4a76ec9854cc202dc9f28a06b3d3",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 137,
+        "objectsWithRef": 136,
+        "uniqueRefs": 122,
+        "missingRef": 1,
+        "nodeObjects": 137,
+        "wayObjects": 0,
+        "duplicateRefObjects": 14
+      },
+      "parking_position": {
+        "objects": 254,
+        "objectsWithRef": 235,
+        "uniqueRefs": 192,
+        "missingRef": 19,
+        "nodeObjects": 22,
+        "wayObjects": 232,
+        "duplicateRefObjects": 43
+      }
+    },
+    {
+      "airport": "SFO",
+      "status": "measured response inventory; completeness unverified",
+      "retrieved": "2026-10-07",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-122.398,37.607,-122.375,37.627",
+      "bboxWestSouthEastNorth": [
+        -122.398,
+        37.607,
+        -122.375,
+        37.627
+      ],
+      "extractScope": "terminal-area bounding box",
+      "rawFile": "osm-sfo-raw.osm",
+      "rawSha256": "d1f55b572df516ecc8780c8719b5ed3dcf9b61f28f90caefdc6e42930de40ade",
+      "completenessPercent": null,
+      "gate": {
+        "objects": 121,
+        "objectsWithRef": 119,
+        "uniqueRefs": 109,
+        "missingRef": 2,
+        "nodeObjects": 121,
+        "wayObjects": 0,
+        "duplicateRefObjects": 10
+      },
+      "parking_position": {
+        "objects": 214,
+        "objectsWithRef": 115,
+        "uniqueRefs": 107,
+        "missingRef": 99,
+        "nodeObjects": 2,
+        "wayObjects": 212,
+        "duplicateRefObjects": 8
+      }
+    }
+  ]
+}
