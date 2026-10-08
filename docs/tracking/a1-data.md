@@ -80,3 +80,11 @@ R approved the proposed 1 km square and GREEN-only inferred fallback ladder, wit
 | west-highland | roofs | 19.0% | 474/2496; 2022 null; 225 flat, 72 gable, 41 hip, 136 other; inferred forms, all D | GREEN |
 | west-highland | DEM extraction | 100.0% reported | Native 1 m plus 100 m halo and unchanged 10/30/60/120/240 m distance bands through 200 km; read-back QA pending | GREEN |
 | west-highland | building QA | 19.1% heights / 19.0% roofs | PASS_WITH_GAPS; 2020 missing heights; 140 small/implausible footprints; zero invariant errors | GREEN |
+
+## Fallback review and final verification queue — 8 October
+
+The Lakeview table was shown to R before any export. DSM–DTM: n=2618, median absolute 0.28 m, p90 absolute 2.92 m, signed mean bias +0.99 m; vegetation-overlap proxy n=2579, 0.30/2.99/+1.01 m. Vetted Overture: n=2045, 1.09/2.97/−0.97 m; overlap n=2024, 1.10/2.97/−0.97 m. Roof-aware OSM levels: n=0. See docs/data/fallback-validation.md for no-overlap strata and the wall-only diagnostic. These are shared-survey agreement results against grade-D observations; actual tree-overhang accuracy is unconfirmed. No rung accepted, inferred export disabled, observed nulls unchanged.
+
+Initial locked checks: 134 lidar tests (3 skipped), 16 terrain tests, 4 building-QA tests; 69 Swift map/package tests passed. Identical building QA passes with gaps for Sloan, Lakeview, Greenville and West Highland; zero invariant errors. All-area comparison tests confirm identical methods. West Highland terrain extraction reports 100% native/band coverage, with final read-back pending. Source/config/data and the general bundle command are saved in small commits; disk remains 79 GiB.
+
+Main advanced to 62a71cd; rebase succeeded without conflicts. Final rebased tests, West terrain read-back and web bundle export are queued behind A4's live human-operated validation server. A4 reports it will retain the lock until R supplies browser-flight results. No other lane lock was touched; no export or merge is claimed. P2/5A/A3 handoff and untuned camera proposal are recorded. No render/look/generator code was changed.
