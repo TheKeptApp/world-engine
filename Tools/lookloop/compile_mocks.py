@@ -184,6 +184,12 @@ GENERIC_PACKS = {
     "regional-car-mix-v1": ("style-b/car-mix", ()),
     "mexico-australia-v1": ("style-b/mexico-australia", ()),
     "mountain-terrain-v1": ("style-b/mountain-terrain", ("slopeRules",)),
+    # R approved 8 Oct 2026 (second batch): country style packs and the seasonal life pack.
+    "uk-style-b-v1": ("style-b/uk", ()),
+    "netherlands-style-b-v1": ("style-b/netherlands", ("dataPlan", "inherits", "dimensionStatus", "weather")),  # weather presets are 5A's / weather-moments-v1's
+    "canada-style-b-v2": ("style-b/canada", ("reference", "signals_reference", "supersedes", "snowbank_rules")),  # fixed snowbank heights; the approved weather rules are history-driven
+    "seasonal-holiday-life-v1": ("style-b/life-seasonal", ("nightLighting", "detailTiers", "lookInheritanceRule", "provenanceCalibrationStatus",
+                                                         "validation", "continuity", "jobs")),
 }
 # Packs compiled by a view of their own; kept out of the generic leaf-name conflict search.
 OWN_PACKS = (ARCH_PACK, INFRA_PACK, FOLIAGE_PACK, LOOK_PACK, WATER_PACK, SIGNS_PACK, TERRAIN_PACK, GREENVILLE_PACK, *GENERIC_PACKS)
@@ -197,18 +203,24 @@ GENERIC_LEAF_DROP = {"image", "imageFile", "sheet", "sheetFile", "sheetPngFile",
                      "panelIndex", "board", "boardRow", "boardRows", "description", "name", "title"}
 GENERIC_GATES = {"chicago-denver-life-v1": [("gameDay", "events-off-unless-verified")], "nyc-life-v1": [("gameDay", "events-off-unless-verified")],
                  "sf-life-v1": [("gameDay", "events-off-unless-verified")],
-                 # arrived in the drop folder after R's 8 Oct note ("v1.1 fixes and hiking trails pending"); R has not reviewed them
-                 "mountain-terrain-v1": [("trails", "pending-R-review"), ("skiRevision", "pending-R-review")]}
+                 "netherlands-style-b-v1": [("kingsDay", "events-off-unless-verified")],
+                 "seasonal-holiday-life-v1": [("scenes", "events-off-unless-verified")]}
 
 
 # Derived or plot data, dropped whatever its type (hex colours stay; the linear-RGB copies and profile coordinate arrays only bloat the bundle).
 GENERIC_DROP_ANY = {"linearRGB", "linearRgb", "linearLuminance", "profileLocalM", "sourceUrls"}
 # Look values and prose inside a pack's own records, dropped at any depth for that pack only: style-b-calibration-v2 owns roughness, detail tiers and faces;
 # the lake pack owns water roughness (R, 2026-10-08). sf-life-v1 scenes keep their dimensions, speeds, grades, activity envelopes and counts.
+# Country style packs: street geometry belongs to street-geometry-rules-v1 and signs, signals and markings to road-signs-signals-v1 (R, 7 Oct 2026).
+COUNTRY_GEOMETRY = {"uk-style-b-v1": r"^streets\[\d+\]\.", "netherlands-style-b-v1": r"^(streetWidths_m\.|canals\.width_m|bridges[.\[][^.]*\.?deckWidth_m)", "canada-style-b-v2": r"^street_profiles_m\."}
+COUNTRY_SIGNALS = {"netherlands-style-b-v1": r"^signals\.", "canada-style-b-v2": r"^signals_rules"}
 GENERIC_NESTED_DROP = {"sf-life-v1": {"surfaceValues", "detailTiers", "mustBeExact", "canSimplify", "signatureElements", "evidenceStatus", "views", "facePolicy"},
                        "us-metros-wave2-v1": {"surfaceValues"},  # per-house roughness (wall 0.86, glass 0.5) against calibration v2's 0.82 and 0.28
                        "weather-moments-v1": {"exposureRelativeEV", "contrastSlope", "saturationFactor"},  # copies of the daytime master's exposure on every endpoint
-                       "mountain-terrain-v1": {"scatterHex"}}  # the pale JSON horizon stop; haze takes the corrected sky horizon colour
+                       "mountain-terrain-v1": {"scatterHex"},
+                       "netherlands-style-b-v1": {"water"},  # canals.water #617E86 clashes with water-surfaces-v1's canal colour; the lake pack and calibration v2 own water colour
+                       # `share` disagrees with percentResidentialBuildings in 18 of 50 US scenes (the README table matches the latter); sampleState is an authored scenario, not a rule
+                       "seasonal-holiday-life-v1": {"share", "sampleState"}}  # the pale JSON horizon stop; haze takes the corrected sky horizon colour
 
 
 def drop_named(obj, names):
@@ -454,17 +466,18 @@ def precedence(packs, root):
     if SIGNS_PACK in names:
         out.append({"id": "signs-signals-markings-owner", "decided": "R, 2026-10-07",
                     "statement": f"{SIGNS_PACK} governs signs and signals everywhere and all road markings outside the US; {INFRA_PACK} governs US lane markings and crosswalks. "
-                                 "Keys marked supersededFor=us-markings are not sources for US markings; keys marked governs=us-markings are."})
+                                 "Keys marked supersededFor=us-markings are not sources for US markings; keys marked governs=us-markings are. "
+                                 "Keys marked supersededFor=signs-signals (country style packs' own signal rules) are not sources either."})
     if WATER_PACK in names:
         out.append({"id": "water-colour-and-mechanics-owner", "decided": "R, 2026-10-07",
                     "statement": f"{LAKE_PACK} and style-b-calibration-v2 own water colour (Lake Michigan stays the #315F7F family); {WATER_PACK} is approved for mechanics only: "
                                  "wave terms, foam, shore types, ice gating, live inputs and budget. Its colour, reflection/roughness, exposure and ice colour keys are not compiled; "
                                  "lake-winter-v1 wave tables carry supersededFor=wave-mechanics."})
-    if any(p in names for p in ("chicago-denver-life-v1", "nyc-life-v1", "sf-life-v1")):
+    if any(p in names for p in ("chicago-denver-life-v1", "nyc-life-v1", "sf-life-v1", "seasonal-holiday-life-v1")):
         out.append({"id": "life-rules", "decided": "R, 2026-10-08",
-                    "statement": "chicago-denver-life-v1, nyc-life-v1 and sf-life-v1: content approved, look owned by style-b-calibration-v2. Life rules are binding: one actor pool, "
+                    "statement": "chicago-denver-life-v1, nyc-life-v1, sf-life-v1 and seasonal-holiday-life-v1: content approved, look owned by style-b-calibration-v2. Life rules are binding: one actor pool, "
                                  "and events (game-day crowds, festival tents, opened hydrants, markets, plows, seasonal sellers and the like) stay OFF unless a verified schedule, event or history, "
-                                 "or a labelled demo, enables them. Counts are per 100 m of one side (Chicago-Denver, SF) and per 150 m (NYC): one unit is needed before the pools merge. "
+                                 "or a labelled demo, enables them (every seasonal-holiday-life-v1 scene is gated this way). Counts are per 100 m of one side (Chicago-Denver, SF), per 150 m (NYC) and a percent of residential building frontages (seasonal-holiday-life-v1): one unit is needed before the pools merge. "
                                  "Their copied lighting blocks, material roughness, water roughness, detail tiers and face policies are not compiled (calibration v2 and the lake pack own them)."})
     if "nyc-hero-v1" in names and "weather-moments-v1" in names:
         out.append({"id": "nyc-light-states", "decided": "pending R",
@@ -477,7 +490,8 @@ def precedence(packs, root):
     if "mountain-terrain-v1" in names:
         out.append({"id": "mountain-palettes", "decided": "pending R",
                     "statement": "mountain-terrain-v1 aspen and conifer colours differ from foliage-seasons-v1, its snow differs from lake-winter-v1, and its palettes are keyed by calendar season where "
-                                 "foliage-seasons-v1 turns the calendar switch off. No precedence is set; all are compiled under their own prefixes. Its slope rules are a copy of terrain-slope-v1 and are not compiled."})
+                                 "foliage-seasons-v1 turns the calendar switch off. No precedence is set; all are compiled under their own prefixes. Its slope rules are a copy of terrain-slope-v1 and are not compiled. "
+                                 "R's 8 Oct approvals list names mountains, so the r2 fixes and the hiking trails are treated as approved."})
     return out
 
 
@@ -504,6 +518,12 @@ def build(root=ROOT):
             if pack == INFRA_PACK and GEOMETRY_KEYS.match(path):
                 entry["supersededFor"] = "geometry"
                 entry["geometryOwner"] = GEOMETRY_OWNER
+            if pack in COUNTRY_GEOMETRY and re.match(COUNTRY_GEOMETRY[pack], path):
+                entry["supersededFor"] = "geometry"
+                entry["geometryOwner"] = GEOMETRY_OWNER
+            if pack in COUNTRY_SIGNALS and re.match(COUNTRY_SIGNALS[pack], path):
+                entry["supersededFor"] = "signs-signals"
+                entry["signsOwner"] = SIGNS_PACK
             for gate_prefix, gate in GENERIC_GATES.get(pack, ()):
                 if path.startswith(gate_prefix + "."):
                     entry["gatedBy"] = gate
