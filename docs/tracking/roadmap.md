@@ -20,3 +20,7 @@ A2 5c72bad: Sloan's 2/5 and Lakeview 2/5, unchanged from the web baseline; pair 
 ## West Highland decision — R / A3, 8 Oct 2026
 
 West Highland camera `west-highland-aerial-north-01` confirmed unchanged and frozen (8 Oct): target (39.764, -105.04), scene y=0 m; eye (39.759946, -105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. Shared atmosphere contract must accompany capture. R reports 19.1% height / 19.0% roof-form coverage, versus Lakeview heights 93.5% and Sloan's 29.1%. Separate data-poor hold-out; score/capture pending. A1 sparse-density test pending; ladder NOT PROMOTED. Earlier camera-pending notes are historical; source/package delivery must still be evidenced. [Frozen contract and cohort note](../lookloop/west-highland-holdout.md).
+
+## A3 web evidence update — 8 Oct 2026
+
+[4127a32-series saved-frame review](../lookloop/web-4127a32.md): Sloan’s and Lakeview remain closeness 2/5 with all six aspects unchanged; map look gate remains open. Fresh captures blocked by browser connection failure; West Highland data-poor hold-out pending scene/package delivery and capture. This is no Builder/jobs-game promotion and no full hold-out clearance.

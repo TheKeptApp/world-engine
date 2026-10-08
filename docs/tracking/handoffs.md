@@ -174,3 +174,10 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 | Date | From → to | Item | Status / evidence |
 |---|---|---|---|
 | 2026-10-08 | A7 → A3 → A2 / 5A | `df81ad8` source-driven haze resolution | **FILED / freshness confirmed.** A7 already landed the regenerated [mock-conflicts report](../lookloop/mock-conflicts.md) on main. A3 pulled it and ran `python3 -B Tools/lookloop/compile_mocks.py --check`: PASS. Approved haze-visibility-v1 uses 5% MOR and recomputes legacy 2% equivalents; scoped overrides preserve weather-moments localLayerExtinctionPerM unless independently recalibrated, night-fog ground fog 0.035/m and spatial layers/patches. Darkness alone does not raise extinction. Earlier generator-blocked status above is historical and closed. No script, source-pack or renderer changes by A3; no integration or visual pass claimed. |
+
+## Web scoring attempt — A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A3 → R / A2 | [4127a32-series visual review](../lookloop/web-4127a32.md) | Saved standard-tier Sloan’s/Lakeview captures reviewed: closeness 2/2, all six aspects unchanged from web baseline; no gain, pair FAIL. Fresh capture blocked by browser connection failure before navigation. No bypass, no render/look edits; resume fresh capture when tooling recovers and heavy lock is free. |
+| 2026-10-08 | A3 → A1 / A2 | West Highland frozen hold-out | Data-poor cohort stays pending: current bake-off has no West Highland scene/server mount; tracker has no completed read-back/web bundle delivery. Supply capture-ready package/scene with frozen camera/fixture, then A3 scores; no inferred grade or ladder promotion. |

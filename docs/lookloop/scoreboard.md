@@ -220,3 +220,11 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | View | Cohort | Sloan's score | hold-out score | Status |
 |---|---|---|---|---|
 | west-highland-aerial-north-01 | Data-poor: 19.1% heights, 19.0% roof forms (R report) | No new comparison | Pending capture/scoring | [Camera/fixture frozen](west-highland-holdout.md); sparse-density test pending; ladder NOT PROMOTED. |
+
+## Web 4127a32 series — A3 saved-capture review, 8 Oct 2026
+
+| Renderer / evidence | Sloan's score | hold-out score | Decision |
+|---|---|---|---|
+| web / 4127a32 series, main f6de893 | Baseline 2 → 2; sky/light/saturation/ground/foliage/materials 3/2/2/2/2/2 → same | Lakeview 2 → 2; 3/2/2/2/2/3 → same. West Highland data-poor: all pending | Saved pair FAIL 0/2; no gain flag; reject condition not triggered for the pair. Fresh captures blocked, full hold-out clearance pending. |
+
+[Review and provenance](web-4127a32.md). Saved A2 captures graded, no new render claimed; browser connection unavailable. West Highland scene/export delivery remains pending. ΔE ignored.
