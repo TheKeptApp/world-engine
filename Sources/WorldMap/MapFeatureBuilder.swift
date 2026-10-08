@@ -279,6 +279,7 @@ public struct MapFeatureBuilder: Sendable {
         if t["barrier"] == "bollard" { return .bollard }
         if t["man_made"] == "flagpole" { return .flagpole }
         if t["playground"] != nil { return .playgroundEquipment }
+        if t["highway"] == "crossing" { return .crossing }
         return nil
     }
 

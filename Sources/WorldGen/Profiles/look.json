@@ -98,5 +98,23 @@
         1
       ]
     }
+  },
+  "wetPaving": {
+    "comment": "Departure from rain-v1 (owner's phone check, 7 Oct): the pack's paving darkening x3.8, so steady rain darkens concrete ~38% and asphalt ~42%, light rain ~30%.",
+    "darkenScale": 3.8,
+    "darkenMax": 0.5,
+    "surfaces": [
+      "concrete",
+      "asphalt"
+    ]
+  },
+  "markings": {
+    "comment": "Road paint (P2, infrastructure stage 1): only values infrastructure-kit-v1 does not give; its line widths, dashes, crosswalk bars and colours are read by key (style-b/infrastructure/assets.roads-08-markings.*, roads-09-crosswalks.*) from Profiles/mock-values.json (RoadMarkings.swift, MarkingValues). wearShadeMax: authored (the pack gives no wear value), each dash/line piece/bar darkens by a seeded 0..12%. stopBarSetbackM: MUTCD 11th ed. (stop line at least 4 ft / 1.2 m in advance of the nearest crosswalk line); the pack names a stop-bar offset but gives no number. bikeLaneWidthM: docs/research-gpt/street-geometry-rules-v1 rules.csv, us_arterial cycle_optional_width_m. Lane widths (geometry belongs to street-geometry-rules-v1, R 7 Oct; the kit's lane widths are superseded for geometry): rules.csv lane_default_m, us_motorway 3.66, us_arterial 3.35, us_residential 3.05; used only to count lanes the tags don't give and to fit tagged bike lanes, never to change a road's width.",
+    "wearShadeMax": 0.12,
+    "stopBarSetbackM": 1.2,
+    "bikeLaneWidthM": 1.8,
+    "highwayLaneWidthM": 3.66,
+    "arterialLaneWidthM": 3.35,
+    "minLaneWidthM": 3.05
   }
 }

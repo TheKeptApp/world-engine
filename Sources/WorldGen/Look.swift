@@ -91,6 +91,20 @@ public struct LookSpec: Codable, Sendable {
         /// overshot the heroes by ~15 Y8 (they brighten far less than 0.35 EV over the captures).
         public var exposureTargetY8: Double
     }
+    /// Road paint values infrastructure-kit-v1 does not give (its values are in `MarkingValues`).
+    public struct MarkingTuning: Codable, Sendable, Equatable {
+        /// Seeded wear: each dash, line piece or bar darkens by up to this share.
+        public var wearShadeMax: Double
+        /// Stop bar ahead of the near crosswalk edge (m).
+        public var stopBarSetbackM: Double
+        /// A tagged on-road bike lane's width (m).
+        public var bikeLaneWidthM: Double
+        /// Lane widths (street-geometry-rules-v1, US; geometry is not the kit's) for lane counts the tags don't
+        /// give (motorway/trunk, arterial) and the narrowest lane a tagged bike lane may leave (residential).
+        public var highwayLaneWidthM: Double
+        public var arterialLaneWidthM: Double
+        public var minLaneWidthM: Double
+    }
     public var daytimeMaster: DaytimeMasterCalibration
     /// Patchy wet sheen on rain-v1's sheen (owner 7 Oct): noise scale, sheen range, gloss roughness.
     public struct WetSheen: Codable, Sendable {
@@ -106,6 +120,7 @@ public struct LookSpec: Codable, Sendable {
     public var houseContrast: HouseContrast?
     /// House archetype choice and tier tuning (house-archetypes-v1 mapping values the pack does not give).
     public var archetypes: ArchetypeTuning?
+    public var markings: MarkingTuning?
 
     /// The bundled look values (nil if the file is missing).
     public static let bundled: LookSpec? = try? StyleLibrary.look()
