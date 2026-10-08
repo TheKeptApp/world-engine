@@ -141,7 +141,7 @@ Still needed:
 | 5A | GPU frame time from the default RealityView host | Simulator frame time is vsync-capped; on device, Metal System Trace only |
 
 
-Gate (R, 7 Oct 2026): the **look gate** replaces the concept-parity gate: pass = all four afternoon heroes at calibration closeness ≥ 4 and every aspect ≥ 3 (GRADING.md §M, "Calibration look"). Run the full Opus `--gate` when a routine Sonnet run passes it; the gate counts as passed only when the Opus run agrees (P3's mapping of the old trigger, which was mean parity ≥ 92 %; R can change it). Concept parity is still reported beside the look gate. Under the §S rubric Sonnet scored 7.0 parity points above Opus on the same frames (ccb5f77: 80.2 vs 73.2), so read milestones from Opus gate rows only. See scoreboard.md.
+Gate (R, 7 Oct 2026): the **look gate** replaces the concept-parity gate: pass = all four afternoon heroes at calibration closeness ≥ 4 and every aspect ≥ 3 (GRADING.md §M, "Calibration look"). Run the full Opus `--gate` when a routine Sonnet run passes it; the gate counts as passed only when the Opus run agrees (R confirmed 2026-10-08; the old trigger was mean parity ≥ 92 %). Concept parity is still reported beside the look gate. Under the §S rubric Sonnet scored 7.0 parity points above Opus on the same frames (ccb5f77: 80.2 vs 73.2), so read milestones from Opus gate rows only. See scoreboard.md.
 
 Heavy lock (owner, 6 Oct 2026): priority 5A > P2 > P3 > P1 (FoodZen paused). P3 holds `~/.agent-heavy-lock` only while capturing frames (build, Simulator, capture, analysis) and releases it before any grading; grading needs no lock.
 

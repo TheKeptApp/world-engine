@@ -2,9 +2,16 @@
 
 The single list of R's decisions, newest first, one line each: date, decision, where it is applied. Maintained by P3; every owner decision passed to P3 is added here and mentioned in P3's next report. Pack-specific decisions are also cross-listed in `docs/design-registry.md`.
 
+## 2026-10-08
+
+- **Water roughness (R):** keep the lake pack's values (roughness floor 0.18, ice roughness 0.32); water-surfaces-v1 is mechanics only. Applied: water-surfaces-v1 STATUS.md.
+- **creator-kit-ux-v3 APPROVED (R), supersedes v2:** Builder phase after the engine look gate; refreshed to the latest re-export, all 37 re-exported screens replaced (old ones kept as `.prev` in iCloud, nothing deleted). App design, not engine: its UI values are not compiled into `mock-values.json`. Applied: creator-kit-ux-v3 STATUS.md; INDEX and registry (creator-kit-ux-v1 marked superseded); roadmap creator kit section.
+- **Opus confirmation run on a routine look-gate PASS: confirmed (R).** Applied: GRADING.md §M, README, owner log (7 Oct look gate entry).
+- **Standing request (R):** after P2's wall merge, score it and report look-gate status per hero (pass or fail, weakest aspect) in at most 8 lines. Applied: core run queued behind the heavy lock.
+
 ## 2026-10-07
 
-- **Look gate APPROVED (R, 7 Oct, evening):** pass = all four afternoon heroes at calibration closeness 4 or more and every aspect (sky, light, saturation, ground, foliage, materials) 3 or more. It replaces the old concept-parity gate, which is still reported beside it. Applied: GRADING.md §M and README; `finish.py` prints "Look gate"; the full Opus confirmation now starts when a routine run passes (P3 mapping of the earlier trigger, R can change it).
+- **Look gate APPROVED (R, 7 Oct, evening):** pass = all four afternoon heroes at calibration closeness 4 or more and every aspect (sky, light, saturation, ground, foliage, materials) 3 or more. It replaces the old concept-parity gate, which is still reported beside it. Applied: GRADING.md §M and README; `finish.py` prints "Look gate"; the full Opus confirmation starts when a routine run passes (confirmed by R, 8 Oct).
 - **Washington Monument 169.3 m and Lincoln Memorial 30.2 m accepted as verified (R):** official figures; P1 confirms with lidar. The seven tracker name and alias matches are correct. Applied: monuments tracker (`Height verified` 6 records), landmarks-style-b-v2 STATUS.md; P1 asked to confirm with lidar.
 - **The 15 regenerated images replaced (R):** 14 sf-life-v1 and 1 us-metros-wave3-v1 now carry ChatGPT's newer versions; the old ones are kept as `.prev` in iCloud (`WorldEngine-Design-Backup/proposals/<pack>/<file>.prev`); nothing deleted. Applied: `Tools/lookloop/ingest_drop.py --replace-images`.
 - **Water: colour and mechanics split (R):** the approved lake pack and style-b-calibration-v2 own water COLOUR (Lake Michigan stays the #315F7F family); water-surfaces-v1 is approved for MECHANICS only (wave terms, foam, shore types, ice gating, live inputs, budget). Applied: water-surfaces-v1 STATUS.md; values compiled under `style-b/water` without colour, reflection/roughness, exposure and ice colour keys; lake-winter-v1 wave tables marked superseded for mechanics. Not named by R, so lake-winter-v1 stays authoritative: roughness floor 0.18 and ice roughness 0.32.

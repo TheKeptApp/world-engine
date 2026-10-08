@@ -76,7 +76,7 @@ Nothing in this section is decided. Owners are the proposed lanes.
 
 ## Creator kit — PROPOSED (R's lead wedge candidate; pending creator-kit-demand-v1 research)
 
-Nothing in this section is decided. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
+Nothing in this section is decided, except the UX direction: **R approved `creator-kit-ux-v3` on 2026-10-08** (Easy + Pro, supersedes v2) with the **Builder phase after the engine look gate**. Order: after the look gate and streaming; demand research now (ChatGPT, `creator-kit-demand-v1`).
 
 1. **PROPOSED — creator kit:** non-technical users start from a ready-made view of their real place, add detail from a Style B parts kit, and share or embed a live view (weather, sun, time).
    - Paid tiers: free private builds; per event; per site monthly; business tier. Prices to be set from the research.

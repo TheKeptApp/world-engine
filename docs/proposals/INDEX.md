@@ -22,6 +22,7 @@ The README, values JSON and prompts are committed, so they are readable from any
 | Road signs and signals, seven countries, and all road markings outside the US (US lane markings and crosswalks stay with infrastructure-kit-v1) | road-signs-signals-v1 | `~/Desktop/world-engine/docs/proposals/road-signs-signals-v1/` (11 images) | `docs/proposals/road-signs-signals-v1/road-signs-values.json` | **R approved – binding target** (7 Oct 2026) |
 | Terrain and slope: floors level, buildings never tilt, foundations from the footprint, preserve breaklines, never drape bridges | terrain-slope-v1 | `~/Desktop/world-engine/docs/proposals/terrain-slope-v1/` (16 images) | `docs/proposals/terrain-slope-v1/values.json` | **R approved – binding target** (7 Oct 2026) |
 | Greenville, SC (R's test location 3): six archetypes, four districts, trees, terrain, seasonal lawns, weather (look from style-b-calibration-v2) | greenville-sc-v1 | `~/Desktop/world-engine/docs/proposals/greenville-sc-v1/` (40 images) | `docs/proposals/greenville-sc-v1/values.json` | **R approved – binding target** (7 Oct 2026) |
+| Creator kit UX, Easy + Pro (app design; supersedes v2; Builder phase after the engine look gate) | creator-kit-ux-v3 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v3/` (56 images) | `design-values.json` (app UI tokens; not compiled into the engine) | **R approved – binding target** (8 Oct 2026) |
 | Style B look calibration: lighting, exposure, saturation, matte materials, distance detail (the look-gate target; replaces the old Lakeview street) | style-b-calibration-v2 | `~/Desktop/world-engine/docs/proposals/style-b-calibration-v2/` (frames, 8 comparison sheets) | `docs/proposals/style-b-calibration-v2/values.json` | **R approved – binding target** (7 Oct 2026; packs own content, this owns look) |
 | Landmark models, 13 more US metros (look, topology, must-be-exact, detail tiers; dimensions unverified except 4 heights; skylines concept only) | landmarks-style-b-v2 | `~/Desktop/world-engine/docs/proposals/landmarks-style-b-v2/` (157 images) | landmarks-values.json (not compiled: dimensions unverified) | **R approved – binding target** for look, topology, must-be-exact and detail tiers (7 Oct 2026) |
 | Night and fog | night-fog-v1 | `~/Desktop/world-engine/docs/proposals/night-fog-v1/images/` | `docs/proposals/night-fog-v1/night-fog-values.json` | **R approved – binding target** |
@@ -67,7 +68,7 @@ Filed from the drop folder; none has a STATUS.md, so none is a binding target ye
 | Ambient life: traffic, people, wildlife, effects | ambient-life-kit-v1 | `~/Desktop/world-engine/docs/proposals/ambient-life-kit-v1/` (3 images) | `docs/proposals/ambient-life-kit-v1/ambient-life-values.json` | pending R approval |
 | Style B rule and realism levels | style-b-bible-v1 | `~/Desktop/world-engine/docs/proposals/style-b-bible-v1/` (5 images) | `docs/proposals/style-b-bible-v1/bible-values.json` | pending R approval |
 | Street-to-space zoom ladder | street-to-space-v1 | `~/Desktop/world-engine/docs/proposals/street-to-space-v1/` (17 images) | `docs/proposals/street-to-space-v1/values.json` | pending R approval |
-| Creator kit editor UX (web, v2) | creator-kit-ux-v1 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v1/` (34 images) | `docs/proposals/creator-kit-ux-v1/v2/design-tokens.json` | pending R approval |
+| Creator kit editor UX (web, v2) | creator-kit-ux-v1 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v1/` (34 images) | `docs/proposals/creator-kit-ux-v1/v2/design-tokens.json` | superseded by creator-kit-ux-v3 (R, 8 Oct 2026) |
 | Event site-map import and parts schema | event-sitemap-ai-v1 | `~/Desktop/world-engine/docs/proposals/event-sitemap-ai-v1/` (18 images) | `docs/proposals/event-sitemap-ai-v1/parametric-schema/examples/catalog.json` | pending R approval |
 | Three-city demo storyboard (90/30/15 s) | demo-storyboard-v1 | `~/Desktop/world-engine/docs/proposals/demo-storyboard-v1/` (2 images) | `docs/proposals/demo-storyboard-v1/shots.json` | pending R approval |
 
@@ -88,7 +89,6 @@ Filed from the drop folder; none has a STATUS.md, so none is a binding target ye
 | Feature | Pack | Images (owner's checkout) | Values JSON (repo) | Status |
 |---|---|---|---|---|
 | NYC city life, Style B | nyc-life-v1 | `~/Desktop/world-engine/docs/proposals/nyc-life-v1/` (32 images) | `docs/proposals/nyc-life-v1/values.json` | pending R approval |
-| Creator kit UX v3 (Easy + Pro) | creator-kit-ux-v3 | `~/Desktop/world-engine/docs/proposals/creator-kit-ux-v3/` (45 images) | `docs/proposals/creator-kit-ux-v3/design-values.json` | **on hold: R reviews it first** (7 Oct 2026) |
 
 ## Past packs – R to confirm
 
