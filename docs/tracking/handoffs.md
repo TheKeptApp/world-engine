@@ -147,3 +147,9 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 |---|---|---|---|
 | 2026-10-08 | A1 / R → A3 / capture lanes | [West Highland hold-out](../lookloop/west-highland-holdout.md) | Proposed camera confirmed unchanged before scored comparison; frozen camera/shared fixture contract must be saved with capture. Separate data-poor cohort: 19.1% heights, 19.0% roofs. No capture/score claimed. |
 | 2026-10-08 | A1 → A3 | Sparse-density test | PENDING; ladder NOT PROMOTED. Supply test definition, coverage/count/source QA and unchanged-method evidence. |
+
+## Contributor onboarding — R, 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A3 → all contributors | [Lane onboarding](../CONTRIBUTING-lanes.md) | Ownership/scope, session notes, standing rules, prompt template, Sonnet/Opus guidance, external-input locations and Mac requirements filed. Shared versioned pack store proposed only; no movement/upload. Missing artifacts and A7 formal ownership uncertainty remain explicit. |

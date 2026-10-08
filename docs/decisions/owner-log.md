@@ -143,3 +143,7 @@ R approved facade-detail-v2 and facade-detail-v2b; file add-only. Far-LOD albedo
 ## Addendum — 8 Oct 2026: West Highland hold-out
 
 R requested confirmation/freeze of A1's pre-capture west-highland-aerial-north-01 proposal, shared atmosphere capture record, separate data-poor scoring (19.1% height / 19.0% roof coverage; Lakeview heights 93.5%, Sloan's 29.1%), and pending sparse-density test with no ladder promotion. A3 confirmed the exact proposed camera without adjustment; contract and tracker addenda filed. No render or new coverage measurement performed.
+
+## Addendum — 8 Oct 2026: contributor onboarding
+
+R requests a repo-based lane guide for another Claude plan or a human: 5A/P2/P3/A1–A11, session start/state notes, standing rules, copy-paste prompt, Sonnet default and Opus for render, external inputs/shared versioning proposal, and Xcode/Mac boundaries. Filed in docs/CONTRIBUTING-lanes.md. No assets moved, sharing service created, lane ownership transferred or implementation changed.
