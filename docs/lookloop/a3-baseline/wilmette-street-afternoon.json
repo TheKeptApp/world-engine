@@ -1,0 +1,31 @@
+{
+  "view": "wilmette-street-afternoon",
+  "grader": "A3-Codex",
+  "scope": "calibration look only; no legacy /50 or parity re-grade",
+  "calGap": {
+    "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+    "closeness": 3,
+    "aspects": {
+      "sky": 3,
+      "light": 3,
+      "saturation": 3,
+      "ground": 3,
+      "foliage": 2,
+      "materials": 3
+    },
+    "gaps": [
+      "Smooth ball-like crown lobes and dark undersides dominate; crown shading lacks the target’s layered softness, without requiring leaf detail.",
+      "Sunlit gables, shaded walls and road shadows are coherent; light remains broad and flatter than the target.",
+      "Lawn tone bands, concrete seams and continuous hedges establish basic ground variation; lawn transitions remain rectangular."
+    ]
+  },
+  "aspectReasons": {
+    "sky": "The sky is a muted grey-blue with soft white streaks, visibly less luminous and blue than the regional calibration.",
+    "light": "Sunlit gables, shaded walls and road shadows are coherent; light remains broad and flatter than the target.",
+    "saturation": "House and ground families are restrained, though crown shadows read heavy olive and some shrubs are pale cyan-green.",
+    "ground": "Lawn tone bands, concrete seams and continuous hedges establish basic ground variation; lawn transitions remain rectangular.",
+    "foliage": "Smooth ball-like crown lobes and dark undersides dominate; crown shading lacks the target’s layered softness, without requiring leaf detail.",
+    "materials": "Matte wall and roof surfaces are coherent but flat; glazing has little tonal response and contact depth is weak."
+  },
+  "vsPrevious": "New A3 baseline after Claude P3; no cross-grader gain/regression attribution."
+}

@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "grader": "A3-Codex",
+  "rubric": "GRADING.md section M, calibration look; section N frame/noise control",
+  "scope": "four calibrated afternoon heroes; not a full-core parity run",
+  "commonArgs": [
+    "-renderer",
+    "realitykit",
+    "-hud",
+    "off",
+    "-frame16x9",
+    "-rendertrace"
+  ],
+  "views": [
+    {
+      "id": "ordinary-street-afternoon",
+      "group": "ordinary",
+      "title": "Ordinary afternoon, W 23rd Ave street (v2 camera, Luna) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+      "args": [
+        "-preset",
+        "v2-01",
+        "-weather",
+        "clear",
+        "-date",
+        "2026-10-15T20:30:00Z"
+      ],
+      "utc": "2026-10-15T20:30:00Z",
+      "local": "2026-10-15 14:30 MDT",
+      "weather": "clear, cloud 0.05",
+      "season": "autumn",
+      "character": true,
+      "wet": false,
+      "targets": [
+        {
+          "path": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+          "label": "approved mock house-contrast-v1 denver-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+        },
+        {
+          "path": "docs/proposals/house-archetypes-v1/denver-block.png",
+          "label": "approved mock house-archetypes-v1 denver-block (R approved 2026-10-07; block paint-over, same camera as the paint-over; judge house forms, materials, palette variety, porches, garages and yards, not lighting)"
+        }
+      ],
+      "camera": "v2 street (W 23rd Ave), heading 270 (west), pitch down 16.5, vFOV 50",
+      "sun": {
+        "elevationDeg": 35.8,
+        "azimuthDeg": 212.4,
+        "shadowBearingDeg": 32.4,
+        "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+      },
+      "area": "sloans-lake",
+      "core": true,
+      "mock": "docs/proposals/house-contrast-v1/images/denver-hero.png",
+      "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+      "scoreOn": "mock closeness only (no calibrated concept for this moment)",
+      "archetypeMock": "docs/proposals/house-archetypes-v1/denver-block.png",
+      "archetypeSheets": [
+        "docs/proposals/house-archetypes-v1/denver-01-square-sheet.png",
+        "docs/proposals/house-archetypes-v1/denver-02-bungalow-sheet.png",
+        "docs/proposals/house-archetypes-v1/denver-03-minimal-sheet.png",
+        "docs/proposals/house-archetypes-v1/denver-04-ranch-sheet.png",
+        "docs/proposals/house-archetypes-v1/denver-05-split-sheet.png",
+        "docs/proposals/house-archetypes-v1/denver-06-infill-sheet.png"
+      ],
+      "infraSheets": [
+        "docs/proposals/infrastructure-kit-v1/roads-06-residential.png",
+        "docs/proposals/infrastructure-kit-v1/roads-08-markings.png",
+        "docs/proposals/infrastructure-kit-v1/roads-09-crosswalks.png"
+      ],
+      "calibration": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png"
+    },
+    {
+      "id": "wilmette-street-afternoon",
+      "group": "region",
+      "title": "Wilmette, Highland Ave looking east, (regions 01) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+      "area": "wilmette-vattmann-park",
+      "profile": "wilmette",
+      "focus": null,
+      "weatherPreset": "clear",
+      "utc": "2026-09-15T19:56:00Z",
+      "local": "2026-09-15 14:56 CDT",
+      "weather": "label=clear, cloud=0.12",
+      "season": "late summer",
+      "character": false,
+      "wet": false,
+      "camera": "wilmette-vattmann-park named camera 'northshore-postcard' (WorldLab demo.json): eye 1.65 m at 42.074933,-87.719996, heading 90, pitch down 3, vFOV 50. Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+      "sun": {
+        "elevationDeg": 41.1,
+        "azimuthDeg": 225.4,
+        "shadowBearingDeg": 45.4,
+        "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+      },
+      "targets": [
+        {
+          "path": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+          "label": "approved mock house-contrast-v1 wilmette-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+        }
+      ],
+      "args": [
+        "-area",
+        "wilmette-vattmann-park",
+        "-camera",
+        "northshore-postcard",
+        "-date",
+        "2026-09-15T19:56:00Z",
+        "-weatherspec",
+        "label=clear,cloud=0.12"
+      ],
+      "core": true,
+      "mock": "docs/proposals/house-contrast-v1/images/wilmette-hero.png",
+      "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+      "scoreOn": "mock closeness only (no calibrated concept for this moment)",
+      "infraSheets": [
+        "docs/proposals/infrastructure-kit-v1/roads-06-residential.png",
+        "docs/proposals/infrastructure-kit-v1/roads-08-markings.png",
+        "docs/proposals/infrastructure-kit-v1/roads-09-crosswalks.png"
+      ],
+      "calibration": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png"
+    },
+    {
+      "id": "lakeview-postcard-afternoon",
+      "group": "region",
+      "title": "Lakeview, W Roscoe St looking east, (regions 05 composition) \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+      "area": "lakeview-sheil-park",
+      "args": [
+        "-area",
+        "lakeview-sheil-park",
+        "-camera",
+        "lakeview-postcard",
+        "-date",
+        "2026-09-15T19:55:00Z",
+        "-weatherspec",
+        "label=clear,cloud=0.12"
+      ],
+      "utc": "2026-09-15T19:55:00Z",
+      "local": "2026-09-15 14:55 CDT",
+      "weather": "label=clear, cloud=0.12",
+      "season": "late summer",
+      "character": false,
+      "wet": false,
+      "camera": "lakeview-sheil-park named camera 'lakeview-postcard' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.6632, heading 90, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking east (regions lakeview-postcard composition)",
+      "sun": {
+        "elevationDeg": 41.3,
+        "azimuthDeg": 225.3,
+        "shadowBearingDeg": 45.3,
+        "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+      },
+      "targets": [
+        {
+          "path": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+          "label": "approved mock house-contrast-v1 postcard-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+        },
+        {
+          "path": "docs/proposals/house-archetypes-v1/chicago-block.png",
+          "label": "approved mock house-archetypes-v1 chicago-block (R approved 2026-10-07; block paint-over, same camera as the paint-over; judge house forms, materials, palette variety, porches, garages and yards, not lighting)"
+        }
+      ],
+      "core": true,
+      "mock": "docs/proposals/house-contrast-v1/images/postcard-hero.png",
+      "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+      "scoreOn": "mock closeness only (no calibrated concept for this moment)",
+      "archetypeMock": "docs/proposals/house-archetypes-v1/chicago-block.png",
+      "archetypeSheets": [
+        "docs/proposals/house-archetypes-v1/chicago-01-bungalow-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-02-flats-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-03-cottage-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-04-foursquare-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-05-ranch-sheet.png"
+      ],
+      "infraSheets": [
+        "docs/proposals/infrastructure-kit-v1/roads-05-arterial.png",
+        "docs/proposals/infrastructure-kit-v1/roads-06-residential.png",
+        "docs/proposals/infrastructure-kit-v1/roads-08-markings.png",
+        "docs/proposals/infrastructure-kit-v1/roads-09-crosswalks.png"
+      ],
+      "calibration": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png"
+    },
+    {
+      "id": "lakeview-street-afternoon",
+      "group": "region",
+      "title": "Lakeview, W Roscoe St looking west \u2014 clear mid-afternoon to match its approved mock (\u00a7M closeness)",
+      "area": "lakeview-sheil-park",
+      "profile": "chicago-dense-north",
+      "focus": "41.9415,-87.6690,41.9480,-87.6585",
+      "weatherPreset": "clear",
+      "utc": "2026-09-15T19:55:00Z",
+      "local": "2026-09-15 14:55 CDT",
+      "weather": "label=clear, cloud=0.12",
+      "season": "late summer",
+      "character": false,
+      "wet": false,
+      "camera": "lakeview-sheil-park named camera 'roscoe-street' (WorldLab demo.json): eye 1.65 m at 41.943402,-87.66075, heading 270, pitch down 3, vFOV 50. West Roscoe Street, south sidewalk, looking west (P2 lakeview-street)",
+      "sun": {
+        "elevationDeg": 41.3,
+        "azimuthDeg": 225.3,
+        "shadowBearingDeg": 45.3,
+        "source": "NOAA equations (as Sources/WorldGeo/SolarPosition.swift)"
+      },
+      "targets": [
+        {
+          "path": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+          "label": "approved mock house-contrast-v1 lakeview-hero \u2014 DAYTIME LIGHTING MASTER (R approved 2026-10-07; one shared afternoon; supersedes the earlier house-contrast paint-over; judge light, sky, shadow tint, exposure, ground and house contrast)"
+        },
+        {
+          "path": "docs/proposals/house-archetypes-v1/chicago-block.png",
+          "label": "approved mock house-archetypes-v1 chicago-block (R approved 2026-10-07; block paint-over, paint-over is on the Lakeview postcard camera; judge houses, not composition; judge house forms, materials, palette variety, porches, garages and yards, not lighting)"
+        }
+      ],
+      "args": [
+        "-area",
+        "lakeview-sheil-park",
+        "-camera",
+        "roscoe-street",
+        "-date",
+        "2026-09-15T19:55:00Z",
+        "-weatherspec",
+        "label=clear,cloud=0.12"
+      ],
+      "core": true,
+      "mock": "docs/proposals/house-contrast-v1/images/lakeview-hero.png",
+      "mockConditions": "house-contrast-v1: one shared clear mid-afternoon (sharedLighting sun 40\u00b0 elevation, azimuth 225\u00b0, blue sky, white clouds)",
+      "scoreOn": "mock closeness only (no calibrated concept for this moment)",
+      "archetypeMock": "docs/proposals/house-archetypes-v1/chicago-block.png",
+      "archetypeSheets": [
+        "docs/proposals/house-archetypes-v1/chicago-01-bungalow-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-02-flats-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-03-cottage-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-04-foursquare-sheet.png",
+        "docs/proposals/house-archetypes-v1/chicago-05-ranch-sheet.png"
+      ],
+      "infraSheets": [
+        "docs/proposals/infrastructure-kit-v1/roads-05-arterial.png",
+        "docs/proposals/infrastructure-kit-v1/roads-06-residential.png",
+        "docs/proposals/infrastructure-kit-v1/roads-08-markings.png",
+        "docs/proposals/infrastructure-kit-v1/roads-09-crosswalks.png"
+      ],
+      "calibration": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png"
+    }
+  ],
+  "pendingHoldouts": [
+    {
+      "area": "West Highland, Denver",
+      "status": "proposed; no dedicated main area extract/camera; not scored"
+    },
+    {
+      "area": "Greenville Downtown",
+      "status": "deferred until data exists; not scored"
+    }
+  ]
+}

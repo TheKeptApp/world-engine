@@ -1,0 +1,31 @@
+{
+  "view": "ordinary-street-afternoon",
+  "grader": "A3-Codex",
+  "scope": "calibration look only; no legacy /50 or parity re-grade",
+  "calGap": {
+    "mock": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png",
+    "closeness": 3,
+    "aspects": {
+      "sky": 3,
+      "light": 3,
+      "saturation": 3,
+      "ground": 3,
+      "foliage": 2,
+      "materials": 3
+    },
+    "gaps": [
+      "Large angular crown masses have broad flat light/shade areas rather than layered, soft crown shading; individual leaves are not required.",
+      "The shaded frontage and lit sidewalk read coherently, but broad, flat shade lacks the target’s soft directional modelling.",
+      "Concrete seams and broad lawn tone changes read, but the ground still separates into flat strips with abrupt edges."
+    ]
+  },
+  "aspectReasons": {
+    "sky": "The small visible sky strip is blue but more muted than the calibration; limited sky coverage lowers confidence.",
+    "light": "The shaded frontage and lit sidewalk read coherently, but broad, flat shade lacks the target’s soft directional modelling.",
+    "saturation": "The lawn, paving and walls stay restrained. Autumn orange is treated as season-driven, not penalized for differing from the green-season target.",
+    "ground": "Concrete seams and broad lawn tone changes read, but the ground still separates into flat strips with abrupt edges.",
+    "foliage": "Large angular crown masses have broad flat light/shade areas rather than layered, soft crown shading; individual leaves are not required.",
+    "materials": "Walls and paving read matte, but surface response and contact modelling are simple; absent fine texture is not a fault."
+  },
+  "vsPrevious": "New A3 baseline after Claude P3; no cross-grader gain/regression attribution."
+}

@@ -31,11 +31,17 @@ Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes
 - **P0 (5A):** light, weather, sky and the renderer (`Sources/WorldEngine/`, `Sources/WorldEnvironment/`, `Sources/LiveSky/`, the look data in `Sources/WorldGen/Profiles/look.json` and `Look.swift`, shaders). **Water (code, shader and values wiring) is 5A's alone, Opus only; Astra may build water only inside his own `web/bakeoff/` folder.**
 - **P1:** data and back end (`Tools/regionkit/`, `Tools/livefeeds/`, `Data/`, `Sources/WorldMap/`, `Sources/WorldPackage/`, `Sources/worldbake/`, `Sources/WorldGeo/`, `docs/research/`, `docs/data-sources/`, `docs/data-licensing.md`).
 - **P2:** buildings, yards and vegetation (the generators in `Sources/WorldGen/`, `Sources/buildingviz/`, `docs/buildings/`).
-- **P3:** paused (R, 8 Oct 2026); retains ownership of the look loop (`Tools/lookloop/`, `docs/lookloop/`). Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage).
-- **Astra (GPT coding agent) is on trial with lanes A1 (data and back end: the P1 area), A2 (the web look bake-off, `web/bakeoff/` only; water allowed only there) and A3 (the only filing lane, including trackers, docs only; handoff log `docs/tracking/handoffs.md`; P3 is paused and does not file packs)** (R, 8 Oct 2026). Astra may not edit render or look code (the 5A and P2 areas) without a logged handoff, and **never edits the iOS water code or the water shader** (water only inside his own bake-off folder).
+- **P3:** paused (R, 8 Oct 2026); look capture, scoring and reporting pass to A3 (R, 8 Oct 2026). Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage).
+- **Astra (GPT coding agent) is on trial with lanes A1 (data and back end: the P1 area), A2 (the web look bake-off, `web/bakeoff/` only; water allowed only there) and A3 (the only filing lane, including trackers, plus look capture/scoring/reporting; no engine code; handoff log `docs/tracking/handoffs.md`; P3 is paused and does not file packs)** (R, 8 Oct 2026). Astra may not edit render or look code (the 5A and P2 areas) without a logged handoff, and **never edits the iOS water code or the water shader** (water only inside his own bake-off folder).
 - If unsure which lane owns a file, ask P3 before editing it.
 
 ## Shared Mac, data and reporting rules (mirrored in AGENTS.md)
+
+### A3 look-scoring takeover (R, 8 Oct 2026)
+
+A3 now owns look capture, scoring and reporting; Claude P3 is paused. Re-score current main as the A3 baseline and explicitly record the grader change from Claude P3; do not interpret cross-grader score movement as engine improvement. Preserve GRADING.md §M closeness and §N noise controls. The look gate remains all four heroes ≥4/5 with every aspect ≥3; the existing full confirmation requirement remains.
+
+After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched hold-outs Lakeview, Wilmette and one other Denver neighbourhood, adding Greenville Downtown once data exists. Freeze area/view IDs and conditions before comparisons, without tuning. Log Sloan's score and each hold-out score in the scoreboard and trackers; reject-flag any merge that raises Sloan's while lowering a hold-out. Missing captures/data stay pending and cannot prove a pass. Updates follow R's requests or lane reports; no unattended recurring automation or auto-merges. See docs/lookloop/a3-baseline.md for the baseline and Denver proposal.
 
 ### RULE — NO BLOCK-SPECIFIC FIXES (R, 8 Oct)
 
@@ -50,6 +56,6 @@ Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes
 - **No raw data until it is GREEN** for our use (`docs/research-gpt/metro-data-coverage-v1/`, `docs/data-licensing.md`): use rule-based generation labelled "inferred". **Stale data is never shown as live**; every live or observed value shows its age, and missing data never silently becomes live.
 - No logos, brands, readable signs, murals or public art, dogs or other animals, or host-app content in anything generated (an exception needs R's ruling).
 - **Build in silence:** nothing is deployed, published, posted, emailed or sent outside this Mac and the repo, and there is no customer or third-party contact; the only outward step is a merge to main.
-- **Cite packs:** every value or rule taken from a pack names the pack and key. **Report stage changes to P3** (any merge that changes what is rendered or loaded) so the look loop scores it.
+- **Cite packs:** every value or rule taken from a pack names the pack and key. **Report stage changes to A3** (any merge that changes what is rendered or loaded) so the look loop scores it.
 - Ask R before installing anything on his phone. Work on a branch or worktree, pass the tests for your area before merging, and stop and report on any merge conflict.
 - Reports are at most 15 lines and list everything touched. **Merge to main when done** (fetch, rebase on `origin/main`, test, `Tools/lookloop/commit_size.sh`, push; never force-push). **If main moved while you were merging, say so** in the report, rebase again and re-run what your change touches.

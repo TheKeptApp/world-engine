@@ -1,8 +1,12 @@
 # Owner decision log
 
-The single list of R's decisions, newest first, one line each: date, decision, where it is applied. Maintained by P3; every owner decision passed to P3 is added here and mentioned in P3's next report. Pack-specific decisions are also cross-listed in `docs/design-registry.md`.
+The single list of R's decisions, newest first, one line each: date, decision, where it is applied. Maintained by A3; every owner decision passed to A3 is added here and mentioned in A3's next report. Pack-specific decisions are also cross-listed in `docs/design-registry.md`.
 
 ## 2026-10-08
+
+- **A3 merge resolution and foliage handoff (R):** preserve both handoff-log additions, add-only in date order, finish the merge and file the baseline. Foliage 2/5 in all 4 views, Lakeview saturation 2/5. Needs ONE general rule: layered/softer crown shading + region-driven greens. Owners: P2 (crowns), 5A (colour). Waiting for Claude restart. Applied in docs/tracking/handoffs.md and the look-gate tracker.
+
+- **A3 takes over look scoring (R, 8 Oct):** P3 paused; A3 re-scores current main first and records the Claude P3 → A3 grader change. Keep §M calibration closeness and §N noise controls; pass requires all four heroes ≥4/5 and every aspect ≥3. Score Sloan's plus untouched Lakeview, Wilmette and another Denver neighbourhood after every 5A/P2/A2 look merge; add Greenville when data exists. Log individual scores, reject-flag Sloan's gains paired with hold-out losses. Baseline, frozen views and data limitations: docs/lookloop/a3-baseline.md. Mirrored ownership in AGENTS.md/CLAUDE.md; no engine edits or scheduled automation.
 
 - **No block-specific fixes (R, 8 Oct):** look, data and generator changes must generalize through data/region; Sloan's Lake is the test, not the product. After every look merge, render/score untouched Lakeview, another Denver neighbourhood (not Sloan's Lake), and Greenville Downtown with no tuning; log Sloan's score and hold-out score, rejecting Sloan's gains that lower hold-outs. Pipelines run unchanged across areas and report hold-out coverage/quality. Every new mock exception needs R's written approval. Applied verbatim in the shared rules of AGENTS.md and CLAUDE.md; scoreboard columns added, historical paired scores marked not recorded; A3 logs both after each look merge from lane evidence. Capture/scoring and legacy row-writer follow-ups are in docs/tracking/handoffs.md.
 

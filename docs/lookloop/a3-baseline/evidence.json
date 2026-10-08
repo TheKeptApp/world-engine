@@ -1,0 +1,162 @@
+{
+  "run": {
+    "stamp": "20261007-225009",
+    "started": "2026-10-07 22:50",
+    "t0": 1791435010.0528488,
+    "kind": "routine",
+    "gate": false,
+    "commit": "0b9d255",
+    "engineCommit": "1c44e94",
+    "branch": "main",
+    "dirtyEngineFiles": 0,
+    "gradingSha": "8451185ec780",
+    "fingerprints": {
+      "ordinary-street-afternoon": "71c4b12519bfc4145b34",
+      "wilmette-street-afternoon": "d0087f296aec919c8714",
+      "lakeview-postcard-afternoon": "5d15a7c9478f91edac04",
+      "lakeview-street-afternoon": "9601aa7b121580819445"
+    },
+    "captured": [
+      "ordinary-street-afternoon",
+      "wilmette-street-afternoon",
+      "lakeview-postcard-afternoon",
+      "lakeview-street-afternoon"
+    ],
+    "reused": [],
+    "forced": true,
+    "frameSource": "in-app capture (WorldLab -viewlist, Documents/views); UI screenshots with the OSM credit in ui/"
+  },
+  "grader": "A3-Codex",
+  "previousGrader": "Claude P3",
+  "scope": "four calibrated afternoon heroes; six aspects; not full-core /50 or parity",
+  "lookGate": {
+    "status": "FAIL",
+    "heroes": {
+      "ordinary-street-afternoon": {
+        "closeness": 3,
+        "aspects": {
+          "sky": 3,
+          "light": 3,
+          "saturation": 3,
+          "ground": 3,
+          "foliage": 2,
+          "materials": 3
+        },
+        "aspectsBelow3": [
+          "foliage"
+        ],
+        "pass": false
+      },
+      "wilmette-street-afternoon": {
+        "closeness": 3,
+        "aspects": {
+          "sky": 3,
+          "light": 3,
+          "saturation": 3,
+          "ground": 3,
+          "foliage": 2,
+          "materials": 3
+        },
+        "aspectsBelow3": [
+          "foliage"
+        ],
+        "pass": false
+      },
+      "lakeview-postcard-afternoon": {
+        "closeness": 3,
+        "aspects": {
+          "sky": 3,
+          "light": 3,
+          "saturation": 2,
+          "ground": 3,
+          "foliage": 2,
+          "materials": 3
+        },
+        "aspectsBelow3": [
+          "saturation",
+          "foliage"
+        ],
+        "pass": false
+      },
+      "lakeview-street-afternoon": {
+        "closeness": 3,
+        "aspects": {
+          "sky": 3,
+          "light": 3,
+          "saturation": 2,
+          "ground": 3,
+          "foliage": 2,
+          "materials": 3
+        },
+        "aspectsBelow3": [
+          "saturation",
+          "foliage"
+        ],
+        "pass": false
+      }
+    },
+    "missing": []
+  },
+  "rawFrames": {
+    "ordinary-street-afternoon": {
+      "path": "/Users/robwoodbury/Desktop/world-engine/.build/lookloop/runs/20261007-225009/raw/ordinary-street-afternoon.png",
+      "sha256": "36a50ad2c5dbbf8089ebd448c7404f537f12ca469e3497753b81e1faed4e7348",
+      "size": [
+        1005,
+        565
+      ]
+    },
+    "wilmette-street-afternoon": {
+      "path": "/Users/robwoodbury/Desktop/world-engine/.build/lookloop/runs/20261007-225009/raw/wilmette-street-afternoon.png",
+      "sha256": "cc8893e22849cc5f76800abd08eb9d649fb3707bb6595580df06861af77c5d6f",
+      "size": [
+        1005,
+        565
+      ]
+    },
+    "lakeview-postcard-afternoon": {
+      "path": "/Users/robwoodbury/Desktop/world-engine/.build/lookloop/runs/20261007-225009/raw/lakeview-postcard-afternoon.png",
+      "sha256": "5ed92e59b3d3b268cc1bce64ee067fc17fa68be2bed92db89700a13e4aea975a",
+      "size": [
+        1005,
+        565
+      ]
+    },
+    "lakeview-street-afternoon": {
+      "path": "/Users/robwoodbury/Desktop/world-engine/.build/lookloop/runs/20261007-225009/raw/lakeview-street-afternoon.png",
+      "sha256": "71c1ceb784f595b1b9096c0c56690cb74b4e455ca6a36f78d2bacef67eeced83",
+      "size": [
+        1005,
+        565
+      ]
+    }
+  },
+  "calibrationTargets": {
+    "docs/proposals/style-b-calibration-v2/frames/06-sloans.png": "e17e3150b0cd36d66cc47ed8c342cf414437056ab1a930fa4cd34a704cec2a60",
+    "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png": "afb414115361d92751b40bbcbd04d5a4edae7637b06947356338187a1c72f5c6"
+  },
+  "valueInputs": {
+    "Sources/WorldGen/Profiles/look.json": "50f53e2afb42b09ff9342c515b5e492fd486eef81039acd484c345e07aa22d93",
+    "Sources/WorldGen/Look.swift": "b7d1ee62a38c061d01975885dc3933c6c325de4b9d4a028fc72ce7332988ce08",
+    "Resources/look/mock-values.json": "38806a36908bb760d7bc3c1e76d1ec0fbbca07bdbf3f778ebbe1f231f6f6cab5",
+    "Sources/WorldGen/Profiles/mock-values.json": "33c322f37fdbf6ea7363fb37a3b2e8af298b153002e5c4f64b87d6d7f4689296"
+  },
+  "renderTrees": {
+    "Sources": "8456d414140407584cb39c5be375e2a70d3345c2",
+    "Apps/WorldLab": "e9b5d11695f73e0390c14414596afe1eb3f5c6c7",
+    "Data/areas": "7764956998c3170e1c16e6c54752447ce80e9189",
+    "Package.swift": "23d387a3f501037ef229fe0840381928f5774d99"
+  },
+  "engineChangesDuringCapture": [],
+  "deferredHoldouts": {
+    "West Highland, Denver": "proposed; dedicated area and frozen camera absent",
+    "Greenville Downtown": "deferred until data exists"
+  },
+  "comparisonPolicy": "No engine gain/loss attributed to cross-grader score deltas.",
+  "reviewedPhoneComparisons": {
+    "lakeview-street-afternoon.jpg": "99170cfdf4035a61cb22d257c8939904af92c2a310f64b1df619356928104fa4",
+    "wilmette-street-afternoon.jpg": "54306dab6bd110a9780ae87bc05b1da4c33b04dafe325f0dd4aa062bb60f7f5a",
+    "ordinary-street-afternoon.jpg": "f51e90a3a12bc693d31d10ba38e027fa052f457028fc6c516140c37dc135e0de",
+    "lakeview-postcard-afternoon.jpg": "7d465ea5e95a196e7867986aa4660b6b99be6bae02b518a3a11bc3e3270a5ee1"
+  }
+}

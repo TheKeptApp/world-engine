@@ -68,3 +68,7 @@ All four heroes at calibration closeness 4 or more and every aspect 3 or more. I
 - The calibration frames are generated paintings, and the surface boxes sit on different geometry in each image (a surface-class comparison). Road and sidewalk boxes include cast shadows in both images.
 - Shadow ratios and per-surface hexes quoted from the reviewers were sampled by them from the frames and are approximate.
 - Frames are Simulator captures; use the figures for change between runs, not as device performance.
+
+## A3 grader handoff — R, 8 Oct 2026
+
+The historical P3 measurements above are retained. The new current-main calibration reference is [A3 baseline](a3-baseline.md): main `0b9d255`, fresh run `20261007-225009`, A3 replacing Claude P3. Four closeness scores 3/5; look gate FAIL 0/4. Do not treat cross-grader score movements as engine gains or regressions.

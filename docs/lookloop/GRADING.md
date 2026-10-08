@@ -8,6 +8,8 @@ Reviewer models:
 
 Every reviewer works the same way, so scores are comparable run to run. When the grader model changes between two runs, read the regression guard with that in mind.
 
+**A3 takeover (R, 8 Oct 2026):** A3 now performs look scoring; Claude P3 is paused. The Sonnet/Opus assignments above describe the historical setup. The first A3 run establishes a new current-main calibration baseline under §M (four heroes, six aspects); it does not claim a new full-core /50 or parity result. Keep grader identity and rubric version with every run; compare subsequent merge deltas against the A3 baseline, not historical Claude grades. The existing full confirmation requirement remains if the look gate passes. See [A3 baseline and paired hold-out protocol](a3-baseline.md).
+
 Sources (read-only): visual-v2 §8.3 rubric (`docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md`), experience-v1 §2 per-image guidance, regions-chicagoland-miami §3, §5, §6 and §14, and the owner's art direction (Phase 5 and P3 prompts).
 
 ## S. Style target (R decision, 6 Oct 2026; docs/decisions/style-target.md)
@@ -48,7 +50,7 @@ Packs R approved in ChatGPT are the exact visual direction (`docs/proposals/INDE
 
 `closeness` is how near the frame is to the mock in what the mock is about (5 = indistinguishable at phone size in that feature, 1 = the feature is missing). Geometry, camera and object inventory still come from the capture; judge the mock's look (colour, light, materials, weather, vegetation, density), not its exact layout. A view without a matching approved mock omits `mockGap`. The report lists the gap per view next to concept parity.
 
-**Merge gate (owner, 7 Oct 2026):** every visual merge is scored on closeness to its mock on the views it targets. P3 flags any merge that does not raise mean `closeness` on those views, or that arrives without the pre-merge phone-size side-by-side (render vs mock, values used, remaining gaps) that CLAUDE.md requires.
+**Merge gate (owner, 7 Oct 2026):** every visual merge is scored on closeness to its mock on the views it targets. A3 flags any merge that does not raise mean `closeness` on those views, or that arrives without the pre-merge phone-size side-by-side (render vs mock, values used, remaining gaps) that CLAUDE.md requires.
 
 **Matched conditions (owner, 7 Oct 2026):** closeness is scored only on a view captured at the mock's own time of day and weather (`mockConditions` in `Tools/lookloop/views.json`). house-contrast-v1 heroes are clear mid-afternoon (sun 40°, azimuth 225°), so `lakeview-street`, `lakeview-postcard`, `wilmette-street` and `ordinary-street` have `-afternoon` twins that carry the mock; the golden-hour originals are scored on parity only. night-fog-v1 was painted over the `showcase-01`, `lakeview-street` and `wilmette-street` cameras, so each has `-blue-hour`, `-night` and `-morning-fog` twins on that camera. lake-winter-v1 mocks stay on the winter views already in their states. rain-v1 is pre-rule (R to confirm): its conditions are recorded as `mockPending` and get no closeness score until R approves it.
 

@@ -1,5 +1,7 @@
 # Look loop
 
+**Current scoring owner (R, 8 Oct 2026): A3; Claude P3 is paused.** Start with [A3 baseline and hold-out protocol](a3-baseline.md), the post-handoff comparison reference. The gate is §M calibration closeness ≥4 on all four afternoon heroes and every aspect ≥3, plus the existing full confirmation; historical concept-parity instructions below do not replace it. A3 records Sloan's and individual Lakeview/Wilmette/second-Denver hold-outs after look merges; Greenville joins when data exists. The current A3 baseline covers calibration only, not a full-core parity run. No scheduled automation or auto-merges.
+
 **Gate (owner decision, 6 Oct 2026).** A view passes when both hold:
 - its **concept parity** is **≥ 100 %**: its v2 /50 divided by the calibrated /50 of its target concept;
 - **v2's per-criterion floors** are met: no §8.3 score below 3, geography ≥ 4, character ≥ 4, no hard-gate flags.

@@ -1,6 +1,6 @@
 # Look-loop scoreboard
 
-One row per run (`/lookloop`, or `Tools/lookloop/lookloop.sh run`), newest last. Views counts graded/captured and how many were reused unchanged; Regressions counts flags from the guard (latest/regressions.md). **Parity** (first) is the mean concept parity: each view's /50 as a share of its target concept's calibrated /50; the gate is parity ≥ 100 % plus v2's per-criterion floors (milestones: ≥ 85 % at the end of 5A's wrap, ≥ 100 % by the end of 5B). Mean /50 is the v2 §8.3 score, kept as the long-term goal (40); AD is the art-direction mean (ground richness, rain readability, regional signature). Simulator frame time and triangles are for change tracking only, not device performance.
+One row per run (`/lookloop`, or `Tools/lookloop/lookloop.sh run`), newest last. Views counts graded/captured and how many were reused unchanged; Regressions counts flags from the guard (latest/regressions.md). **Parity** (first) is the mean concept parity: each view's /50 as a share of its target concept's calibrated /50; these are historical parity measures. The current look gate is calibration closeness ≥4 on all four heroes, with every aspect ≥3 (GRADING.md §M); the A3 takeover baseline is the newest row below. Mean /50 is the v2 §8.3 score, kept as the long-term goal (40); AD is the art-direction mean (ground richness, rain readability, regional signature). Simulator frame time and triangles are for change tracking only, not device performance.
 
 Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their stored grades (the 01:02 row was graded before the GRADING.md tuning, see calibration.md).
 
@@ -173,14 +173,22 @@ Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their s
 
 ## Required paired scores after every look merge — R, 8 Oct 2026
 
-The **Sloan's score** and **hold-out score** columns above are mandatory after every merge that changes look. A3 records them from the capture/scoring lane's report, tied to the merged commit and run evidence; no unattended automation is scheduled. This documentation-only merge does not change look and requires no new render.
+The **Sloan's score** and **hold-out score** columns above are mandatory after every merge that changes look. A3 now captures, scores and records them (R scoring takeover, 8 Oct), tied to the merged commit and run evidence; no unattended automation is scheduled. The A3 takeover baseline is a fresh calibration-only review, with no new full-core parity claim.
 
 - Sloan's score: the Sloan's Lake result with its rubric/scale and evidence link.
-- Hold-out score: report Lakeview (Chicago), the fixed other Denver neighbourhood (not Sloan's Lake), and Greenville Downtown separately in that cell, using the same rubric and capture conditions. Keep their before/after results visible; a combined average must not hide a hold-out regression.
-- The capture lane must name and freeze the other Denver neighbourhood, block/view IDs and comparison conditions before the next test. That selection and a complete paired baseline are not yet recorded here; do not invent a location or a score.
-- Render and score all three untouched hold-outs with **NO tuning**. Report Sloan's and hold-out results together. Reject a merge that raises Sloan's but lowers the hold-outs; missing evidence is pending, never a pass.
+- Hold-out score: report Lakeview (Chicago), Wilmette, the fixed other Denver neighbourhood (not Sloan's Lake), and Greenville Downtown once data exists separately in that cell, using the same rubric and capture conditions. Keep their before/after results visible; a combined average must not hide a hold-out regression.
+- A3 must name and freeze the other Denver neighbourhood, block/view IDs and comparison conditions before the next test. West Highland is proposed; no dedicated extract exists on main. Its score remains pending until data and a fixed camera exist; see a3-baseline.md.
+- Render and score all available untouched hold-outs with **NO tuning**. Report Sloan's and hold-out results together. Reject a merge that raises Sloan's but lowers the hold-outs; missing evidence is pending, never a pass.
 - Reuse the matching run row for the merge, adding the merge SHA and links to the supporting report; if no run exists yet, add a dated row for the merge with both new score cells marked `pending — capture/scoring required`. Replace pending only with measured results. Do not convert historical group means or earlier hero scores into this new paired test.
 - For data-pipeline merges, the lane report must also give hold-out coverage/quality alongside Sloan's, with area IDs, source versions and the unchanged pipeline/configuration. Link that evidence in the row or adjacent merge note; do not claim visual scores for data checks alone.
-- `Tools/lookloop/finish.py` currently emits the legacy 15-column row. Until its code owner updates it, A3 completes both new columns after each published run and records the paired evidence after every look merge. The script is unchanged in this docs-only lane; the handoff is in `docs/tracking/handoffs.md`.
+- `Tools/lookloop/finish.py` currently emits the legacy 15-column row. A3 completes both new columns after each published run and records the paired evidence after every look merge. The script is unchanged by this scoring/reporting task; the handoff is in `docs/tracking/handoffs.md`.
 
 Historical rows marked `not recorded (pre-rule)` retain all original measurements. That label means this paired hold-out protocol was not recorded, not that a block scored zero or passed.
+
+## A3 takeover baseline — R, 8 Oct 2026
+
+Fresh current-main calibration review; historical Claude full-core reports are retained above. [Evidence and protocol](a3-baseline.md).
+
+| Date | Engine | Branch | Views | Parity | Gate passes | Ordinary parity | Mean /50 | AD /5 | Worst view | Median tris | Median frame ms | Run min | Grader | Regressions | Sloan's score | hold-out score |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-10-07 22:50 (R 8 Oct) | `1c44e94` / main `0b9d255` | main | 4/4 calibration only | not re-graded | **look FAIL 0/4** | not re-graded | not re-graded | not re-graded | foliage 2/5, all heroes | not reported | not reported | 6.5 capture | A3-Codex (new baseline) | baseline; cross-grader deltas not causal | [3/5; foliage 2](a3-baseline.md) | Lakeview street 3/5; postcard 3/5; Wilmette 3/5 (all min aspect 2); West Highland proposed/pending; Greenville deferred |

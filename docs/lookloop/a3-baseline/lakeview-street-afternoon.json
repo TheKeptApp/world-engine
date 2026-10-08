@@ -1,0 +1,31 @@
+{
+  "view": "lakeview-street-afternoon",
+  "grader": "A3-Codex",
+  "scope": "calibration look only; no legacy /50 or parity re-grade",
+  "calGap": {
+    "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+    "closeness": 3,
+    "aspects": {
+      "sky": 3,
+      "light": 3,
+      "saturation": 2,
+      "ground": 3,
+      "foliage": 2,
+      "materials": 3
+    },
+    "gaps": [
+      "Large dark green crown blobs have hard, simple light/shade transitions; the missing quality is layered crown modelling, not leaf texture.",
+      "Crown greens are strongly saturated and the lawn shifts toward pale mint, unlike the restrained olive-green calibration family.",
+      "Sidewalk, planted strip and lawn tones are readable; broad flat patches and abrupt transitions still dominate the foreground."
+    ]
+  },
+  "aspectReasons": {
+    "sky": "Visible blue sky and white cloud patches establish the right family but have a paler, more cyan read than the target.",
+    "light": "The wall and pavement have a coherent lit/shaded division, but the blue shadow block and flat wall response lack soft modelling.",
+    "saturation": "Crown greens are strongly saturated and the lawn shifts toward pale mint, unlike the restrained olive-green calibration family.",
+    "ground": "Sidewalk, planted strip and lawn tones are readable; broad flat patches and abrupt transitions still dominate the foreground.",
+    "foliage": "Large dark green crown blobs have hard, simple light/shade transitions; the missing quality is layered crown modelling, not leaf texture.",
+    "materials": "Matte walls and pavement are plausible at phone size, but window and wall planes have little material response or contact depth."
+  },
+  "vsPrevious": "New A3 baseline after Claude P3; no cross-grader gain/regression attribution."
+}

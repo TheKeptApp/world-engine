@@ -1,0 +1,31 @@
+{
+  "view": "lakeview-postcard-afternoon",
+  "grader": "A3-Codex",
+  "scope": "calibration look only; no legacy /50 or parity re-grade",
+  "calGap": {
+    "mock": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+    "closeness": 3,
+    "aspects": {
+      "sky": 3,
+      "light": 3,
+      "saturation": 2,
+      "ground": 3,
+      "foliage": 2,
+      "materials": 3
+    },
+    "gaps": [
+      "Discrete ball-like lobes with isolated bright patches and dark undersides dominate rather than soft interlocking crown shading.",
+      "Vivid green crown highlights and near-black green undersides overpower the muted calibration foliage; lawn strips are also too bright green.",
+      "Paving, lawn strips and entry areas are separated clearly, but the expansive road and lawn patches remain flat and softly banded."
+    ]
+  },
+  "aspectReasons": {
+    "sky": "The sky stays blue with soft clouds, but the cyan cast and simple cloud bands differ visibly from calibration.",
+    "light": "Sun and broad cast shadows read coherently, but facade modelling and crown shadow softness remain simplified.",
+    "saturation": "Vivid green crown highlights and near-black green undersides overpower the muted calibration foliage; lawn strips are also too bright green.",
+    "ground": "Paving, lawn strips and entry areas are separated clearly, but the expansive road and lawn patches remain flat and softly banded.",
+    "foliage": "Discrete ball-like lobes with isolated bright patches and dark undersides dominate rather than soft interlocking crown shading.",
+    "materials": "Walls, roofs and paving read matte; flat glazing and low contact depth leave the scene short of the target’s material response."
+  },
+  "vsPrevious": "New A3 baseline after Claude P3; no cross-grader gain/regression attribution."
+}

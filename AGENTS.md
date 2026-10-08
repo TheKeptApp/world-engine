@@ -19,14 +19,14 @@ WorldEngine is a true-scale, stylized real-world 3D engine: an iPhone app (Reali
 | **P0 (5A)** | Light, weather, sky and the renderer: `Sources/WorldEngine/`, `Sources/WorldEnvironment/`, `Sources/LiveSky/`, the look data (`Sources/WorldGen/Profiles/look.json`, `Look.swift`), shaders. **Water (the water code, the water shader and the water values wiring) is 5A's alone, Opus only; Astra may build water only inside his own `web/bakeoff/` folder.** |
 | **P1** | Data and back end: `Tools/regionkit/`, `Tools/livefeeds/`, `Data/`, `Sources/WorldMap/`, `Sources/WorldPackage/`, `Sources/worldbake/`, `Sources/WorldGeo/`, `docs/research/`, `docs/data-sources/`, `docs/data-licensing.md`. |
 | **P2** | Buildings, yards and vegetation: the generators in `Sources/WorldGen/`, `Sources/buildingviz/`, `docs/buildings/`. |
-| **P3** | Paused (R, 8 Oct 2026); retains ownership of the look loop: `Tools/lookloop/`, `docs/lookloop/`. Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage). |
+| **P3** | Paused (R, 8 Oct 2026); look capture, scoring and reporting pass to A3 (R, 8 Oct 2026). Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage). |
 
 If you are not sure which lane owns a file, ask before you edit it (`git log -- <file>` shows who last changed it).
 
 **Astra's lanes (R, 8 Oct 2026; Astra is on trial):**
 - **A1 (Astra): data and back end**, the P1 area above (OSM and Overture, lidar heights and roofs, assessor data, terrain and DEM, licences, QA). Astra may commit and merge to main there under the rules below.
 - **A2 (Astra): the web look bake-off**, in `web/bakeoff/` only (three.js); water is allowed only inside that folder, never in the iOS water code or shader.
-- **A3 (Astra): the only filing lane, including trackers**, docs only and no code: ChatGPT's packs, the trackers, INDEX, the registry, pack usage, the roadmap, the owner log and the handoff log (`docs/tracking/handoffs.md`). A3 took filing over from P3 on 8 Oct 2026 to save usage; P3 is paused and does not file packs.
+- **A3 (Astra): the only filing lane, including trackers, plus look capture/scoring/reporting**, no engine code: ChatGPT's packs, the trackers, INDEX, the registry, pack usage, the roadmap, the owner log and the handoff log (`docs/tracking/handoffs.md`). A3 took filing over from P3 on 8 Oct 2026 to save usage; P3 is paused and does not file packs.
 - Astra may **not** edit render or look code (the 5A and P2 areas) without a logged handoff: write the file, the change and the reason to `docs/tracking/handoffs.md` (A3 keeps it) and wait for the owner of that area to agree; then edit exactly those files.
 - **Water: 5A owns it, Opus only. Astra never edits the iOS water code, the water shader or the water values in the compiled mock values.** Astra may build water only inside his own bake-off folder, `web/bakeoff/` (R, 8 Oct 2026).
 - The trial ends or widens only by R's decision.
@@ -34,6 +34,12 @@ If you are not sure which lane owns a file, ask before you edit it (`git log -- 
 Other GPT roles are different: ChatGPT design chats write packs to `~/Desktop/worldengine-gpt-drop/` only, never run git, and A3 files what they deliver. This replaces the older line that no GPT agent may run git, for Astra's lanes only.
 
 ## Binding rules (mirroring `CLAUDE.md`)
+
+### A3 look-scoring takeover (R, 8 Oct 2026)
+
+A3 now owns look capture, scoring and reporting; Claude P3 is paused. Re-score current main as the A3 baseline and explicitly record the grader change from Claude P3; do not interpret cross-grader score movement as engine improvement. Preserve GRADING.md §M closeness and §N noise controls. The look gate remains all four heroes ≥4/5 with every aspect ≥3; the existing full confirmation requirement remains.
+
+After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched hold-outs Lakeview, Wilmette and one other Denver neighbourhood, adding Greenville Downtown once data exists. Freeze area/view IDs and conditions before comparisons, without tuning. Log Sloan's score and each hold-out score in the scoreboard and trackers; reject-flag any merge that raises Sloan's while lowering a hold-out. Missing captures/data stay pending and cannot prove a pass. Updates follow R's requests or lane reports; no unattended recurring automation or auto-merges. See docs/lookloop/a3-baseline.md for the baseline and Denver proposal.
 
 ### RULE — NO BLOCK-SPECIFIC FIXES (R, 8 Oct)
 
@@ -72,7 +78,7 @@ Other GPT roles are different: ChatGPT design chats write packs to `~/Desktop/wo
 - `style-b-calibration-v2` owns the look (lighting, exposure, saturation, matte materials, detail by distance); packs own content. Images beat JSON for look; data owns measurements.
 - Never invent a value that a mock's JSON already defines.
 - Every pre-merge report includes a phone-size side-by-side (render vs mock), the values used, and the remaining gaps. Score with `Tools/lookloop/region_colours.py` and `compare_runs.py`; a merge must raise mock closeness or say why it does not.
-- Report stage changes to P3 (the look loop): whenever a merge changes what is rendered or loaded (frames, mock values, area data, profiles), message P3 with the commit and the views you expect to move, so the look loop scores it.
+- Report stage changes to A3 (the look loop): whenever a merge changes what is rendered or loaded (frames, mock values, area data, profiles), report the commit to A3 and the views you expect to move, so the look loop scores it.
 - No logos, brands, readable signs, murals or public art, dogs or other animals, or host-app content in anything generated. (The host's character reaches the engine as an `Entity`; it is not engine content.) An exception needs R's ruling.
 
 **Data**

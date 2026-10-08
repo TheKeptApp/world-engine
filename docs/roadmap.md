@@ -1,6 +1,6 @@
 # WorldEngine roadmap
 
-Owner direction as decided; details and dates live in each lane's plan. Every change here is also in `docs/decisions/owner-log.md`. Maintained by P3 on the owner's instruction.
+Owner direction as decided; details and dates live in each lane's plan. Every change here is also in `docs/decisions/owner-log.md`. Maintained by A3 on the owner's instruction; P3 is paused.
 
 ## Principle: home + landmarks first (owner, 2026-10-06)
 
@@ -8,7 +8,13 @@ People look for their own house first, then for famous places. Work is ordered t
 
 ## Now: the look gate
 
-The current phase (5A light, weather and sky; P2 buildings, yards and vegetation; P3 look loop) runs until the **look gate** passes (R, 2026-10-07): all four afternoon heroes at calibration closeness 4 or more and every aspect (sky, light, saturation, ground, foliage, materials) 3 or more. A routine run that passes triggers one full Opus confirmation run (R, 2026-10-08). See `docs/lookloop/README.md` and `docs/lookloop/calibration-baseline.md`.
+The current phase (5A light, weather and sky; P2 buildings, yards and vegetation; A3 look loop) runs until the **look gate** passes (R, 2026-10-07): all four afternoon heroes at calibration closeness 4 or more and every aspect (sky, light, saturation, ground, foliage, materials) 3 or more. A routine run that passes triggers one full Opus confirmation run (R, 2026-10-08). See `docs/lookloop/README.md` and `docs/lookloop/calibration-baseline.md`.
+
+A3 re-establishes the current-main baseline after the grader handoff from Claude P3, then records Sloan's and individual untuned hold-out results after 5A/P2/A2 look merges. Lakeview and Wilmette are ready; the second Denver area and Greenville require suitable capture data. See [A3 baseline](lookloop/a3-baseline.md). No recurring automation or auto-merges.
+
+**A3 baseline:** current-main capture `0b9d255` / `20261007-225009`, look gate FAIL 0/4; all four heroes 3/5, foliage 2 throughout and Lakeview saturation 2. Grader changed from Claude P3 to A3; historical score deltas are not engine progress claims. Full paired coverage remains pending the second Denver area.
+
+**Next look work (R, 8 Oct):** one general rule for layered/softer crown shading and region-driven greens; P2 owns crowns and 5A owns colour. Waiting for Claude restart.
 
 ## Decided scope (R, 2026-10-08)
 

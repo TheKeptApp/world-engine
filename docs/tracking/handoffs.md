@@ -51,3 +51,16 @@ Prepared data: `Data/areas/sloans-lake/building-heights.json` and `building-roof
 - Done: aerial LOD suite passed except the known Lakeview budget (414k > 400k, P2's); exposure suite 374/374 under the old script; no-silent-skips not yet run.
 - Unfinished: LOD rerun on current main (stopped while queued); exposure hold-out renders (Sloan's + Lakeview, before/after) and A3 score; proposal 2 (key/fill solved on a neutral patch) not started; autumn hue jitter (5a-tree-hue) unmerged.
 - Next step: run 5a-no-silent-skips' full suite, merge it; rerun 5a-aerial-lod and merge if only the Lakeview budget fails; hold-out-render 5a-exposure-general, merge if Sloan's and Lakeview both hold, ask A3 to score; then proposal 2.
+
+## Look-scoring takeover — R, 8 Oct 2026
+
+| Date | From → to | Item | Status / evidence / next step |
+|---|---|---|---|
+| 2026-10-08 | R / paused P3 → A3 | Look capture, calibration scoring and reporting | Accepted. A3 establishes a new baseline from current main before grading later changes. Historical P3 scores remain intact. See ../lookloop/a3-baseline.md. |
+| 2026-10-08 | A3 → A1 | Second Denver hold-out data | Proposed West Highland. Main contains only Sloan's Lake as a dedicated Denver area; broad context data is not a validated neighbourhood capture. Prepare an area with the unchanged pipeline and report coverage/quality; camera must be frozen before look testing. Recorded handoff, not a claim that another lane has been messaged. |
+| 2026-10-08 | A3 → A1 | Greenville Downtown hold-out | Deferred until data exists (R). No score, no pass inferred. |
+| 2026-10-08 | 5A / P2 / A2 → A3 | Every subsequent look merge | Provide merge SHA, affected views and before/after evidence; A3 scores Sloan's plus individual untuned hold-outs and records reject flags. A2 needs its own renderer-specific baseline and matched conditions; iOS scores do not establish web performance. No recurring automation or auto-merges. |
+| 2026-10-08 | A3 → A3 | Paired scoreboard columns | Manually maintain both columns after scoring; finish.py still emits 15 fields. Preserve individual hold-out results, missing-data states and grader identity. |
+| 2026-10-08 | A3 → R / look lanes | Current-main A3 baseline | Completed fresh run `20261007-225009` on main `0b9d255`: 3/5 closeness on all four heroes, FAIL 0/4. Foliage 2 throughout; Lakeview saturation 2. New grader baseline, not a cross-grader regression claim. Full paired clearance pending Denver/Greenville data. Evidence: ../lookloop/a3-baseline.md. |
+| 2026-10-08 | A2 → A3 | Web bake-off merge `9b7403e` | Main advanced with isolated web/bakeoff work. iOS baseline inputs unchanged; separate A3 web/hold-out scoring remains pending, no web pass inferred from the iOS baseline. |
+| 2026-10-08 | R / A3 → P2, 5A | Foliage gap | Foliage 2/5 in all 4 views, Lakeview saturation 2/5. Needs ONE general rule: layered/softer crown shading + region-driven greens. Owners: P2 (crowns), 5A (colour). Waiting for Claude restart. |
