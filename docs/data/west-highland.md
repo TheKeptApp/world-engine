@@ -32,3 +32,18 @@ Proposed ID `west-highland-aerial-north-01`: target the area centre (39.764, −
 `Generated/west-highland-web-2026-10-08/world/world.json` and `Generated/west-highland-web-2026-10-08.zip` now exist in the A1 worktree. ZIP: 90,374,679 bytes; SHA256 `8dedc53b98d8914425cc5290a3bfe69754c42a37023192a9d3b94fc04d1482c0`. All bundle payload hashes, JSON reads, observed-sidecar equality and ZIP CRC verified. Outputs are local, git-ignored artifacts, not hosted. The checked-in elevation/qa.json is PASS_WITH_GAPS as described above.
 
 Coverage denominators above belong to the observed-sidecar footprint reader, not the generated mesh population. No crosswalk between those populations is delivered here; do not transfer those percentages to rendered buildings. A8’s earlier absent-artifact finding was correct at the time; the explicit local paths and verified hashes above establish the later delivery. Independent height-reference rights remain unresolved (A9); no new reference source was loaded.
+
+## Local terrain and bundle hashes — R-approved guard repair, 8 October
+
+The six terrain binaries and web ZIP remain local and gitignored; they are excluded from all unpublished A1 commits. Regenerate terrain with the unchanged regionkit terrain pipeline and the West Highland area manifest; source URLs, survey, bounds, CRS, datum and processing parameters remain in the elevation metadata. Regenerate the bundle with export_observed_bundle.py using the recipe above. Hashes below identify the exact delivered bytes; qa.json remains tracked.
+
+| Local artifact | SHA-256 |
+|---|---|
+| `Data/areas/west-highland/elevation/band-100000-200000m.npz` | `4d0f2e04012fb679852f6f5c623c50055edc075bee62406660b162dc0b06665b` |
+| `Data/areas/west-highland/elevation/band-2000-20000m.npz` | `5cac71b0f4e3c8ae7a0d7d7ec282a892cf7872e653b263b2c3d93616d5651907` |
+| `Data/areas/west-highland/elevation/band-20000-50000m.npz` | `3d1ecc7d01348dc42ce28c15d933826576fa24559ca6ba5f43e9028e0acf8065` |
+| `Data/areas/west-highland/elevation/band-250-2000m.npz` | `cefbb7e5d62f5292a585808115cc638af9e8310fda7c32a9d7fda298eb5fcb9a` |
+| `Data/areas/west-highland/elevation/band-50000-100000m.npz` | `eb16d64ca866253623a43c18a204d7399be87147323e5266f2d3194562a4c17d` |
+| `Data/areas/west-highland/elevation/native-1m-0.tif` | `ee72a6b001a8669e2646b00099f38cdff80c2a5cdac525b6d5824bdd77cf0288` |
+| `Generated/west-highland-web-2026-10-08.zip` | `8dedc53b98d8914425cc5290a3bfe69754c42a37023192a9d3b94fc04d1482c0` |
+| `Data/areas/west-highland/elevation/qa.json` | `2db601b7a4d16128b71f438f453f561bf69479aabe35f2608235b825bb3ddd1d` |
