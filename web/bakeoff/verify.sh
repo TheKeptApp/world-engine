@@ -4,6 +4,9 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
 cd "$ROOT"
+# Resolve shared ignored exports/assets from the primary checkout, never copy them.
+export WORLDENGINE_ASSETS="${WORLDENGINE_ASSETS:-$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")}"
+python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 8_000_000_000, "STOP: less than 8 GB free"'
 mkdir -p "$HERE/evidence"
 for source in "$HERE"/*.js "$HERE"/*.mjs; do node --check "$source"; done
 node "$HERE/policy.test.mjs"
