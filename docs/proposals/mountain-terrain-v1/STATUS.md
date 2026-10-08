@@ -1,6 +1,6 @@
 # Status
 
-**R approved – 2026-10-08.** Approved (v1). The r2 fixes and the hiking trails reached the drop folder after R's note and are not yet reviewed by R.
+**R approved – 2026-10-08.** Approved (R's 8 Oct approvals list names mountains): v1 plus the r2 fixes (Sloan's Lake far-view correction, ski area re-render) and the hiking trails.
 
 **Owner lane:** P1, 5A, P0. **Phase:** Engine capability: terrain, slope and mountains.
 
@@ -21,4 +21,4 @@ Flags for R:
 - Snow and rock vs approved packs: snow #F1F3ED (roughness 0.87, shadow #ACBFD0) against lake-winter-v1 snow #E4E9EB (0.9, shadow #C3CDD6) and the Rocky Front Range snow_ice #E6E9E3 in foliage-seasons-v1; granite #9C958A against that region's bare_rock #A49781.
 - Wet surfaces vs R's 8 Oct water rule (the lake pack's values stand, roughness floor 0.18) and rain-v1: trails shallowPuddle has roughness 0.22 and sky reflection 0.35, and trail mud multiplies dry albedo by 0.72 (28% darker, mask up to 0.7) against rain-v1's 12% weather-darkening cap.
 
-Compiled into `mock-values.json` under `style-b/mountain-terrain` (the copied look or lighting block is not compiled: look is owned by `style-b-calibration-v2`). The `trails` and `skiRevision` keys carry `gatedBy: pending-R-review`; `slopeRules` (a copy of terrain-slope-v1) and `haze.scatterHex` are not compiled.
+Compiled into `mock-values.json` under `style-b/mountain-terrain` (the copied look or lighting block is not compiled: look is owned by `style-b-calibration-v2`). `slopeRules` (a copy of terrain-slope-v1) and `haze.scatterHex` are not compiled; the r2 and trail keys are compiled as approved (R's 8 Oct approvals list names mountains).

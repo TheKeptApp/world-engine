@@ -16,9 +16,20 @@ Maintained by P3 (R's full filing pass, 8 Oct 2026). Owner lane is the lane that
 | venues-campuses-v1 | Builder, P2 | Builder phase (after the engine look gate) | Venue, event and campus parts for the Builder; not engine content. |
 | regional-car-mix-v1 | P2 | Ambient vehicles, after the look gate | Regional vehicle mixes, plates, densities and hour profiles for P2's ambient vehicles. |
 | mexico-australia-v1 | P2, P1 | Launch countries Mexico and Australia | Mexico (Mexico City, Guadalajara) and Australia (Sydney, Melbourne) archetypes, districts, trees, streets and lawns; Australia drives on the left. |
-| mountain-terrain-v1 | P1, 5A, P0 | Engine capability: terrain, slope and mountains | Front Range mountain terrain, elevation bands, snow history, DEM by distance, haze and LOD. |
+| mountain-terrain-v1 | P1, 5A, P0 | Engine capability: terrain, slope and mountains | Front Range mountain terrain, elevation bands, snow history, DEM by distance, haze, LOD and hiking trails. |
 | creator-kit-ux-v3 | Builder | Builder phase, after the engine look gate | Easy and Pro creator kit UX (app design, not engine). |
 | greenville-sc-v1 | P1, P2 | Test location 3 | Greenville, SC regional content for R's third test location. |
+| metro-data-coverage-v1 | P1 | Data release (P1 import order) | Per-metro data coverage; P1 import order: New York and Amsterdam are the best next; only GREEN datasets are loaded; red flags listed in the pack. |
+| live-flights-v1 | L1, P1 | Launch (live flights are ON at launch) | Live flight design and airport audit; adsb.lol hosted feed, airliners only. |
+| real-flights-path-v1 | L1 | Launch (live flights) | The adsb.lol path to real flights: pooled backend, airliners only, no actual gate assignments. |
+| uk-style-b-v1 | P2, P1 | Launch country UK (left-hand traffic), after the look gate | UK archetypes, districts, streets, trees and lawns; the UK drives on the left. |
+| netherlands-style-b-v1 | P2, P1 | Launch country Netherlands, after the look gate | Netherlands archetypes, districts, streets with cycling infrastructure, trees and seasons. |
+| canada-style-b-v2 | P2, P1 | Launch country Canada, after the look gate | Toronto, Vancouver and Montreal archetypes, districts, trees, snow and street details; supersedes canada-style-b-v1. |
+| seasonal-holiday-life-v1 | P2, 5A, L1 | Ambient life layer, after the look gate | Seasonal and holiday street life: actors, props and decorations; one actor pool; holiday events only when verified. |
+| race-organizer-ops-v1 | Builder | Builder phase (after the engine look gate) | Race organiser operations rules and layouts for the Builder; not engine content. |
+| builder-event-templates-v1 | Builder | Builder phase (after the engine look gate) | Event templates (festival, market and similar) for the Builder; not engine content. |
+| neighborhood-product-v1 | owner, Builder | Product design (app, not engine) | The jobs game product study (jobs-game/); app design, not engine. |
+| licensing-demo-v1 | owner | B2B licensing demo (web), after the look gate | Internal B2B licensing demo design: landing page, SDK snippets, pricing placeholders and customer examples; not engine content. |
 
 ## Approved by R on 7 Oct 2026
 
@@ -40,9 +51,6 @@ Maintained by P3 (R's full filing pass, 8 Oct 2026). Owner lane is the lane that
 
 | Pack | Owner lane | Phase | What it is used for |
 |---|---|---|---|
-| metro-data-coverage-v1 | P1 | Data release (P1 import order) | Per-metro data coverage; P1 import order: New York and Amsterdam are the best next; red flags listed in the pack. |
-| live-flights-v1 | L1, P1 | Launch (live flights are ON at launch) | Live flight design and airport audit; adsb.lol hosted feed, airliners only. |
-| real-flights-path-v1 | L1 | Launch (live flights) | Receiver path and permission research for real flights. |
 | mobile-rendering-v1 | 5A, P0 | After the look gate (streaming, device tiers hero / standard / floor) | Mobile rendering research; streaming-design.md and compatibility.md. |
 | strategic-research-v1 | owner | Strategy | Strategic and data research. |
 | data-layers-research-v1 | P1 | Data release | Data layers research (crop, water, terrain, tides, footprints). |
@@ -55,7 +63,7 @@ Maintained by P3 (R's full filing pass, 8 Oct 2026). Owner lane is the lane that
 | street-geometry-rules-v1 | P1, P2 | Look gate and city kits (street geometry owner, R 7 Oct) | Street geometry rules by country and class. |
 | country-shortlist-v1 | owner | Launch countries (decided: Canada, UK, Netherlands, Mexico, Australia, Japan) | Country shortlist research. |
 | japan-showcase-v1 | P2, owner | Launch country Japan | Japan showcase research. |
-| canada-style-b-v1 | P2 | Launch country Canada | Canada Style B sheets (Toronto, Vancouver). |
+| canada-style-b-v1 | P2 | Launch country Canada; superseded by canada-style-b-v2 (approved 8 Oct 2026) | Canada Style B sheets (Toronto, Vancouver). Superseded by canada-style-b-v2 (approved 8 Oct 2026). |
 | japan-infrastructure-kit-v1 | P2 | Launch country Japan | Japan infrastructure kit. |
 | metro-onboarding-v1 | P1 | City-kit checklist (onboarding) | Metro onboarding boxes, datasets and block mix; feeds the city-kit checklist. |
 | live-layers-catalog-v1 | L1 | Live layers | Live layers catalog. |

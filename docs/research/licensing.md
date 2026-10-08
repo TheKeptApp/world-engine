@@ -491,6 +491,15 @@ Everything below is paraphrased.
 
 55. Name and trademark clearance for "Somewhere" (pending: R is deciding the name; nothing about it is filed in the repo).
 
+**Product, Builder and licensing demo** (added 2026-10-08 by P3 from the summaries of the second approvals batch; R can strike any)
+
+56. Children's privacy and age gate for the jobs game (neighborhood-product-v1, `jobs-game/`), and privacy law (GDPR, CCPA) for its opt-in contribution relay: what must the app collect, store and disclose, and from what age may it be played?
+57. Paid cosmetics, seasonal passes and sponsored packs in the jobs game: consumer-protection and app-store rules for what may be sold and how it is labelled.
+58. Safety and liability when a game sends people to real public places (the jobs game's real-world jobs); the pack itself asks for legal and privacy review.
+59. Name clearance for "Common Ground" and "Gather" (the product names in neighborhood-product-v1); unrelated to the "Somewhere" check in Q55.
+60. Liability wording for AI-proposed event layouts (Builder: race-organizer-ops-v1 and builder-event-templates-v1). Their rule sources cover the UK, the US and a few US localities only, so the layouts need a stated scope for R's other launch countries.
+61. B2B licensing terms for the licensing demo (licensing-demo-v1): SLA wording and usage-metered pricing; the vendor price figures in its research page are the pack's own claims and are not checked.
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?

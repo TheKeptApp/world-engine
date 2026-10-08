@@ -1,0 +1,25 @@
+# Status
+
+**R approved – 2026-10-08.** Approved: the jobs game study (jobs-game/). The parent Common Ground study is not named in R's list and stays pending.
+
+**Owner lane:** owner, Builder. **Phase:** Product design (app, not engine).
+
+ChatGPT product study for a neighborhood app: five concepts (Common Ground, Gather and three more), a six-product competitor scan, a privacy contract and a 90-day plan, plus a jobs-game lead concept with 13 jobs. 24 mock phone screens, all with synthetic data.
+
+Binding rules from the pack:
+- Privacy contract: no background GPS, individual tracking, home pin, people map, heatmap, resident data or location-based attendance. Players choose a broad area by hand. Any home location is stored on the device only, kept out of backups, analytics, logs, invitations and server requests.
+- Sharing is off by default; the app must work without it. Opt-in sends only a challenge ID and an anonymous token through an unlinkable relay. Results are weekly and delayed, for a broad district with at least 30 contributors, in coarse bands (30 to 49, 50 to 99, 100+). Below that, show no counts.
+- Weather honesty: show the source, time and forecast horizon. A forecast never starts a job (it may only say 'may be available'). A snow job needs observed new snowfall in the district (1 cm proposed). Unknown data freezes a labeled snapshot or switches to labeled practice; synthetic states are never shown as observed.
+- Adults only (18+ declaration), no AR dependence, no children, school grounds, dogs or pets. Money buys cosmetics only: no paid power, weather bypass, co-op weight, loot boxes, energy timers or streak debt. Coins have no cash value. Free assists never cut rewards.
+- The game is in-game only. Customers and stops are fictional and anonymous; no real residents, merchants, occupancy or municipal service status. Never imply permission or service at a real property. Plans and renders are drafts, never permission; windows never show interiors or people.
+- Look comes from style-b-calibration-v2 unchanged. Art is labeled 'AI concept artwork, not engine footage'. Cleared snow, mown stripes and leaf litter persist per player and event on the device, deduplicated by event version, with no repeat pay for repeat feeds.
+
+Authored or unverified: (1) All product judgement is hypothesis: repeat use, willingness to pay, example rewards (120, 90, 200 credits) and gates like 40% week-2 return. No user research or revenue evidence. The competitor scan is a desk review of 6 products; its 'borrow' and 'avoid' notes are interpretation. (2) The privacy design (anonymous tokens, 30-contributor threshold, differential privacy) is a requirement, not built or proven. Epsilon, budget and threat model are unverified; the pack asks for an adversarial review first. An 18+ declaration is not real age verification. (3) No data feed or engine work exists. Snow (NOAA NOHRSC, SNODAS), leaf-drop and dawn triggers are proposals; 'example live' states are illustrative; masks, plow physics and performance are not built. Phone checks test layout and navigation in a headless browser only. (4) Art: 3 new AI scenes (snow plow, mowing, paper route) are visually reviewed only, with no camera data and no measured match to calibration-v2. Route diagrams are schematic. The 'Common Ground' and 'Gather' names and the 13-job catalogue are untested ideas.
+
+Flags for R:
+- Engine stays generic (CLAUDE.md): this is app, game and service design (saves, credits, cosmetic shop, sharing relay, invitations). The jobs game also expects 'persistent masks' (cleared snow, mown stripes) from the engine, which is user state the engine must not own. Masks could only arrive as plain inputs held by the host app, as home personalization does. Needs R's decision before any engine hook.
+- Roadmap fit: the pack says 'priority 3, after Builder', but R's roadmap has no neighborhood game, and Builder is Easy + Pro with race villages as the lead use case (creator-kit-ux-v3). Gather (consumer public-place planning with invitation previews) would add a second Builder audience. The 6 Oct owner log records an earlier 'Neighborhood' project as paused; unclear if this pack is its next export.
+- chicago-denver-life-v1 (R approved 8 Oct, binding) keeps plows, salt trucks, snow piles, garbage trucks and events OFF until a verified schedule, event or history, or a labeled demo, switches them on, with one shared actor pool. The jobs game's plow, garbage day, ice-cream truck and fictional schedules would need a clearly labeled game-only mode set by the host app. Unclear who wins.
+- Not on the lawyer list (Q1 to Q55): age gate and children's privacy, privacy law for the opt-in contribution relay (GDPR, CCPA), paid cosmetics and seasonal passes, sponsored packs, safety and liability when a game sends people to real public places, and name clearance for 'Common Ground' and 'Gather'. Q52 covers logos only. The pack itself asks for legal and privacy review.
+
+Not compiled into `mock-values.json`: this content is for the Builder phase, and the engine stays generic (CLAUDE.md).

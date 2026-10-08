@@ -1,0 +1,24 @@
+# Status
+
+**R approved – 2026-10-08.** Approved; the UK drives on the left.
+
+**Owner lane:** P2, P1. **Phase:** Launch country UK (left-hand traffic), after the look gate.
+
+Style B regional pack for the UK launch country: 28 sheets covering nine building archetypes (London, Manchester, Edinburgh), six district boards, two block paint-overs, four city systems, trees, four-season lawns and five weather and night views, with authored unverified targets and a data-source note.
+
+Binding rules from the pack:
+- Traffic drives LEFT in all views. Generic vehicles carry blank plates and no TfL marks or branding; zebra crossings have amber Belisha spheres on black-and-white striped poles; post boxes carry no royal cipher; the Underground entrance is a plain canopy with no roundel.
+- style-b-calibration-v2 owns light, colour and material response; sharedLook is copied exactly with its source hash and inherited approval status. Regional palettes and geometry are authored. Weather and night replace the daytime light fixture; exposure and wetness apply once.
+- Every number is an UNVERIFIED modelling target, not a city average, planning limit or measured parcel. Storeys exclude basements and roof rooms. The tree mix is an illustrative specimen-count mix of three species, not canopy share. Turf colour varies with rain and irrigation; winter turf may carry frost, not automatic snow.
+- No readable scene signage, logos, real murals or public art, people, dogs or animals, and no app or host content. Landmarks are generic shells. Images are visual studies, not engine meshes or surveyed places; pixels do not certify dimensions or camera angles.
+- Data rules: England-only terrain (not Scotland); OS OpenData is not MasterMap; OSM completeness is unestablished, so never call a dense map complete; Met Office DataHub allows application display but not raw redistribution; TfL feeds need attribution and service terms; no live feeds or datasets are in the scenes.
+
+Authored or unverified: (1) All archetype storeys, floor heights, lot widths, street widths, tree heights, crowns and mix shares, plus wall, trim, roof and lawn hex colours, are authored UNVERIFIED targets (each archetype says 'UNVERIFIED target'), not measured and not planning limits. (2) The research note is a desk review dated 7 Oct 2026. Terrain, OS, TfL, Met Office and GLA tree terms cite primary pages but were not re-checked here. Unverified by the pack: Edinburgh lidar, OSM completeness, MasterMap terms, Manchester and Edinburgh transit licences. (3) The images are AI-generated (built-in generation, then edits against one look reference frame). Cameras and geometry are approximate, the two block sources are generated clay blocks, and nothing is an engine render, mesh or measured scale. (4) The 62 browser checks test layout only (overflow, missing images, page errors). The look values are inherited from calibration-v2, not newly certified. No performance, mesh or live-data test exists.
+
+Flags for R:
+- Sky copy: sharedLook lighting.sky (zenith #73A5CC, mid #A2C4DC, horizon #DBDCD1) equals calibration-v2's uncorrected JSON. Calibration-v2 STATUS.md (R approved 7 Oct) corrects it from its frames to #7AAFE2, #8FBAE7, #A0C8F2, and the UK images show a clear blue sky. The pack still says look 'approval pending'. Do not compile this pack's sharedLook.
+- Street geometry: R's rule makes street-geometry-rules-v1 the geometry source. Its UK rows: residential carriageway 5 m, collector 6 m, arterial 7 m, sidewalks 2, 2 and 2.5 m, no parking allocation. This pack: terrace local 6 m with 2 m pavements, Georgian square 8 m with 3 m, urban avenue 14 m with 4 m, plus right-of-way totals the rules lack. Rules win; the avenue's matching class is unclear.
+- Markings: road-signs-signals-v1 (R approved) owns non-US markings (UK centre line white #E3E2D8, stripes 0.5 m by 0.5 m, zebra with amber beacon posts, which the pack matches). street-geometry-rules-v1 allows yellow kerb lines only when evidenced and expects zig-zags at zebras. The UK images draw double yellow kerb lines on most streets, and uk-20's zebra shows no zig-zags (by eye). Treat drawn markings as illustrative.
+- Trees versus foliage-seasons-v1 (binding): lime 20 m is above its Littleleaf linden 15.2-18.3 m (crown 12 m fits 10.7-15.2 m); London plane 24 m fits 21.3-30.5 m but the 18 m crown is just under 18.3-22.9 m; horse chestnut is not among its 32 species, so it has no approved season colours or crown. foliage-seasons-v1 wins where it has the species.
+
+Compiled into `mock-values.json` under `style-b/uk` (the copied look or lighting block is not compiled: look is owned by `style-b-calibration-v2`). The `streets` widths carry `supersededFor: geometry` (street-geometry-rules-v1 owns street geometry); the copied look block is not compiled.

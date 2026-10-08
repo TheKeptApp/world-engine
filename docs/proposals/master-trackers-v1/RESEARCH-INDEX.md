@@ -89,7 +89,7 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 
 ### metro-data-coverage-v1
 
-- Date: 2026-10-07 · Type: research · Status: **research-unverified** · Style: style-b
+- Date: 2026-10-07 · Type: research · Status: **approved-binding** · Style: style-b
 - Summary: Per-metro data coverage; P1 import order: New York and Amsterdam are the best next; red flags listed in the pack.
 - Key findings: 
 - README/spec: [README.md](~/Desktop/worldengine-gpt-drop/metro-data-coverage-v1/README.md)
@@ -139,7 +139,7 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 
 ### live-flights-v1
 
-- Date: 2026-10-07 · Type: design · Status: **concept** · Style: style-b
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
 - Summary: ChatGPT research and three mocks for showing licensed real aircraft in the 3D world: provider rights and cost comparison, gate inventories for six airports from OpenStreetMap, privacy rules and a phased plan. It recommends a paid FlightAware contract and neve…
 - Key findings: Feed choice: recommends a scoped FlightAware Firehose contract as the first production bid, AeroAPI only as a prototype after written 3D-display approval, Cirium as fallback. adsb.lol, adsb.fi, Airplanes.live and FAA SWIM are never evaluated as feeds. R chose the adsb.lol hosted feed.
 - README/spec: [README.md](~/Desktop/worldengine-gpt-drop/live-flights-v1/README.md)
@@ -149,7 +149,7 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 
 ### real-flights-path-v1
 
-- Date: 2026-10-07 · Type: research · Status: **research-unverified** · Style: style-b
+- Date: 2026-10-07 · Type: research · Status: **approved-binding** · Style: style-b
 - Summary: ChatGPT research on a low-cost route to real aircraft: one Denver ADS-B receiver for proof, then the adsb.lol feed (ODbL) through a pooled backend, FAA SWIM surface data later, and no actual gate assignments.
 - Key findings: Sequencing: the pack puts a seven-day Denver receiver proof first, treats adsb.lol as a limited commercial phase with no SLA, and adds receiver redundancy or a licensed fallback in phase 3. R's decision says live flights on at launch via adsb.lol and mentions no receiver or fallback.
 - README/spec: [README.md](~/Desktop/worldengine-gpt-drop/real-flights-path-v1/README.md)
@@ -630,6 +630,16 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 - Filed copy: [docs/proposals/landmarks-style-b-v2/](docs/proposals/landmarks-style-b-v2/)
 - R decision (8 Oct 2026): approved7; owner lane P2, P1; phase Landmarks after the infrastructure stages and the v1 shells (SF and NYC first)
 
+### seasonal-holiday-life-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: 54 AI-generated scene pairs (street plus 45-degree aerial) and a data file for seasonal and holiday street life: ten states on each of five US blocks (Chicago, Denver, Greenville, New York, San Francisco) plus four regional celebrations, with proposed decorat…
+- Key findings: Events: 33 of 54 scenes have no calendarOnlyActivation flag. The 28 holiday scenes (Halloween 1 Oct to 7 Nov with actors 31 Oct, harvest, winter lights 20 Nov to 6 Jan, New Year, July 4, Dia de Muertos, Australia Christmas, Kings Day) switch on by proposed date windows, and the gallery says calenda…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/seasonal-holiday-life-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/seasonal-holiday-life-v1/index.html); [values.json](~/Desktop/worldengine-gpt-drop/seasonal-holiday-life-v1/values.json); [sources.md](~/Desktop/worldengine-gpt-drop/seasonal-holiday-life-v1/sources.md)
+- Filed copy: [docs/proposals/seasonal-holiday-life-v1/](docs/proposals/seasonal-holiday-life-v1/)
+- R decision (8 Oct 2026): Content approved; look is owned by style-b-calibration-v2; life rules are binding: one actor pool, events off unless verified.; owner lane P2, 5A, L1; phase Ambient life layer, after the look gate
+
 ## Countries & cities
 
 ### canada-style-b-v1
@@ -788,6 +798,36 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 - Filed copy: [docs/proposals/greenville-sc-v1/](docs/proposals/greenville-sc-v1/)
 - R decision (8 Oct 2026): Approved; R's test location 3.; owner lane P1, P2; phase Test location 3
 
+### uk-style-b-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: Style B regional pack for the UK launch country: 28 sheets covering nine building archetypes (London, Manchester, Edinburgh), six district boards, two block paint-overs, four city systems, trees, four-season lawns and five weather and night views, with author…
+- Key findings: Sky copy: sharedLook lighting.sky (zenith #73A5CC, mid #A2C4DC, horizon #DBDCD1) equals calibration-v2's uncorrected JSON. Calibration-v2 STATUS.md (R approved 7 Oct) corrects it from its frames to #7AAFE2, #8FBAE7, #A0C8F2, and the UK images show a clear blue sky. The pack still says look 'approva…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/uk-style-b-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/uk-style-b-v1/index.html); [values.json](~/Desktop/worldengine-gpt-drop/uk-style-b-v1/values.json); [research.md](~/Desktop/worldengine-gpt-drop/uk-style-b-v1/research.md)
+- Filed copy: [docs/proposals/uk-style-b-v1/](docs/proposals/uk-style-b-v1/)
+- R decision (8 Oct 2026): Approved; the UK drives on the left.; owner lane P2, P1; phase Launch country UK (left-hand traffic), after the look gate
+
+### netherlands-style-b-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: Style B design pack for the Netherlands launch country: Amsterdam, Rotterdam, Utrecht and Leidsche Rijn. 18 source boards: 28 building studies, 16 district boards, 4 block paint-overs and 6 shared sheets (canals, cycling, trams, trees, weather, night, Kings D…
+- Key findings: Look: sharedLook copies calibration-v2's uncorrected JSON (sky #73A5CC, #A2C4DC, #DBDCD1). Calibration-v2 STATUS.md (R approved 7 Oct) corrects it to #7AAFE2, #8FBAE7, #A0C8F2 from its frames. Do not compile this pack's sharedLook. The weather and night presets (sky hex, sun, wetness, fog) are auth…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/index.html); [values.json](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/values.json); [research.md](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/research.md); [sources.md](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/sources.md); [verification.md](~/Desktop/worldengine-gpt-drop/netherlands-style-b-v1/verification.md)
+- Filed copy: [docs/proposals/netherlands-style-b-v1/](docs/proposals/netherlands-style-b-v1/)
+- R decision (8 Oct 2026): Approved.; owner lane P2, P1; phase Launch country Netherlands, after the look gate
+
+### canada-style-b-v2
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: Style B design pack for the Canada launch country; it replaces canada-style-b-v1's visual concepts. 16 boards: 11 building types, 6 district boards, 2 block paint-overs, transit, street details, seasons and lawns, weather moments and a night strip, for Toront…
+- Key findings: Look: sharedLook equals calibration-v2's uncorrected JSON (sky #73A5CC, #A2C4DC, #DBDCD1); calibration-v2 STATUS.md corrects it to #7AAFE2, #8FBAE7, #A0C8F2. Do not compile this pack's sharedLook. The night strip look belongs to night-fog-v1 (approved). Autumn reds and yellows on the sheet match fo…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/canada-style-b-v2/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/canada-style-b-v2/index.html); [values.json](~/Desktop/worldengine-gpt-drop/canada-style-b-v2/values.json); [research.md](~/Desktop/worldengine-gpt-drop/canada-style-b-v2/research.md); [sources.md](~/Desktop/worldengine-gpt-drop/canada-style-b-v2/sources.md)
+- Filed copy: [docs/proposals/canada-style-b-v2/](docs/proposals/canada-style-b-v2/)
+- R decision (8 Oct 2026): Approved; supersedes canada-style-b-v1.; owner lane P2, P1; phase Launch country Canada, after the look gate
+
 ## Demo & product
 
 ### creator-kit-ux-v1
@@ -847,6 +887,46 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 - Main files: [index.html](~/Desktop/worldengine-gpt-drop/creator-kit-ux-v3/index.html); [design-values.json](~/Desktop/worldengine-gpt-drop/creator-kit-ux-v3/design-values.json); [world-look-values.json](~/Desktop/worldengine-gpt-drop/creator-kit-ux-v3/world-look-values.json)
 - Filed copy: [docs/proposals/creator-kit-ux-v3/](docs/proposals/creator-kit-ux-v3/)
 - R decision (8 Oct 2026): Approved (supersedes v2).; owner lane Builder; phase Builder phase, after the engine look gate
+
+### race-organizer-ops-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: ChatGPT research and rules for how Builder AI should propose a race village: 29 rules, three size profiles (500, 2,000 and 10,000 runners), checklists for seven race types, and six concept images for Denver, Chicago and Greenville SC. Every layout stays an un…
+- Key findings: Look: look-values.json is an exact copy of style-b-calibration-v2 sharedLook, so its sky stops (#73A5CC, #A2C4DC, #DBDCD1) are the pale JSON values that R's images-beat-JSON rule corrected to #7AAFE2, #8FBAE7, #A0C8F2. Calibration-v2 owns look and wins; do not compile this pack's look block.
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/race-organizer-ops-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/race-organizer-ops-v1/index.html); [look-values.json](~/Desktop/worldengine-gpt-drop/race-organizer-ops-v1/look-values.json); [research.md](~/Desktop/worldengine-gpt-drop/race-organizer-ops-v1/research.md); [sources.md](~/Desktop/worldengine-gpt-drop/race-organizer-ops-v1/sources.md)
+- Filed copy: [docs/proposals/race-organizer-ops-v1/](docs/proposals/race-organizer-ops-v1/)
+- R decision (8 Oct 2026): Approved for the Builder phase.; owner lane Builder; phase Builder phase (after the engine look gate)
+
+### builder-event-templates-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: Builder planning proposal: five event templates (outdoor wedding, concert/festival, game-day activation, experiential activation, corporate/community), each with rules for 100, 500, 2,000 and 10,000 guests, one shared rules file with 17 sources, 26 added part…
+- Key findings: Sky copy: visual-values.json sharedLook sky (zenith #73A5CC, mid #A2C4DC, horizon #DBDCD1), flagged 'inherited_without_changes', is calibration-v2's uncorrected JSON. Calibration-v2 STATUS.md (R approved 7 Oct) corrects it from its frames to #7AAFE2, #8FBAE7, #A0C8F2 (images beat JSON), and the boa…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/builder-event-templates-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/builder-event-templates-v1/index.html); [visual-values.json](~/Desktop/worldengine-gpt-drop/builder-event-templates-v1/visual-values.json); [sources.md](~/Desktop/worldengine-gpt-drop/builder-event-templates-v1/sources.md)
+- Filed copy: [docs/proposals/builder-event-templates-v1/](docs/proposals/builder-event-templates-v1/)
+- R decision (8 Oct 2026): Approved for the Builder phase.; owner lane Builder; phase Builder phase (after the engine look gate)
+
+### neighborhood-product-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: ChatGPT product study for a neighborhood app: five concepts (Common Ground, Gather and three more), a six-product competitor scan, a privacy contract and a 90-day plan, plus a jobs-game lead concept with 13 jobs. 24 mock phone screens, all with synthetic data.
+- Key findings: Engine stays generic (CLAUDE.md): this is app, game and service design (saves, credits, cosmetic shop, sharing relay, invitations). The jobs game also expects 'persistent masks' (cleared snow, mown stripes) from the engine, which is user state the engine must not own. Masks could only arrive as pla…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/neighborhood-product-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/neighborhood-product-v1/index.html); [values.json](~/Desktop/worldengine-gpt-drop/neighborhood-product-v1/values.json)
+- Filed copy: [docs/proposals/neighborhood-product-v1/](docs/proposals/neighborhood-product-v1/)
+- R decision (8 Oct 2026): Approved: the jobs game study (jobs-game/). The parent Common Ground study is not named in R's list and stays pending.; owner lane owner, Builder; phase Product design (app, not engine)
+
+### licensing-demo-v1
+
+- Date: 2026-10-07 · Type: design · Status: **approved-binding** · Style: style-b
+- Summary: An internal B2B web mock for licensing WorldEngine to other businesses: a landing page with a three.js Denver-style scene, four fictional customer pages, an embed builder with iframe, SDK and MapLibre snippets, price-placeholder tiers, and a research page on…
+- Key findings: Look: the three.js scene colours (sky #A2C4DC, fog #DBDCD1) and style-b-values.json are the pale pre-correction values; R's images-beat-JSON rule corrected the sky to #7AAFE2, #8FBAE7, #A0C8F2. The box-building scene also looks far from the Style B frames shown on the same page. Calibration-v2 owns…
+- README/spec: [README.md](~/Desktop/worldengine-gpt-drop/licensing-demo-v1/README.md)
+- Main files: [index.html](~/Desktop/worldengine-gpt-drop/licensing-demo-v1/index.html); [sources.md](~/Desktop/worldengine-gpt-drop/licensing-demo-v1/sources.md)
+- Filed copy: [docs/proposals/licensing-demo-v1/](docs/proposals/licensing-demo-v1/)
+- R decision (8 Oct 2026): Approved as the B2B licensing demo design.; owner lane owner; phase B2B licensing demo (web), after the look gate
 
 ## Pending and supporting filed records
 
