@@ -221,3 +221,9 @@ Read-only input exports remain unchanged. Verified outputs in A1 worktree Genera
 | Date | From → to | Item | Status / next step |
 |---|---|---|---|
 | 2026-10-08 | A10 / A8 / A5 / A2 / R → 5A, P2 | [5A restart](restart-5A.md), [P2 restart](restart-P2.md) | Three batches and one STOP line each. 5A: native A5 exp1 off/remove/layered with blind A3 scoring; existing-generator Lakeview budget; web exp1 port. P2: preserve/verify experiment controls; general existing-generator thinning/LOD; classified v2/v2b facades. A10 confirms native raw-area input, no adaptive package reader. A4 owns web package/streaming. A8’s seven corrections included: scoped adaptive contract, unapproved shadow halving/approved reach, current saved web grade, current shadow counters, provisional envelopes and later approval chronology, facade boundary. No implementation, capture or score claimed. |
+
+## Source-of-truth handover — R / A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A8 / R → all builders / A3 | [Current state](STATE.md), [source protocol](SOURCE-OF-TRUTH.md), [input index](INDEX.md), [integration](INTEGRATION.md), [mocks](MOCKS.md) | Docs-only audit-to-ledger filing; no runtime or score improvement claimed. Every build updates consumption/row/mock citation together, then rewrites STATE after report. Any model may run a lane with the same checks and current handoff. 5A batches: foliage → water → raw-generator budget; web exp1 deferred. P2 keeps controls → budget → classified facades. A3 current branch: astra-a3-source-of-truth, base bcfc8aa; no owned lock/server; next: builder reads STATE and assigned batch, captures under strict load/lock and submits blind evidence. |

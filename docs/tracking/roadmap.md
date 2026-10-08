@@ -1,5 +1,7 @@
 # Map-only order — R, 8 October 2026
 
+Current handover and next batches: [STATE.md](STATE.md). The snapshot is rewritten after each report; sections below retain decision/evidence history. Latest 5A order is foliage → water → existing-generator budget, per [restart-5A](restart-5A.md).
+
 This is the current execution order; broader launch scope remains in [the project roadmap](../roadmap.md).
 
 1. **Sloan's gate:** map appearance first, §M closeness ≥4/5 and every aspect ≥3. Web baseline `08e2cce` is 2/5, FAIL; iOS has its own baseline. No Builder or jobs-game work advances this gate.

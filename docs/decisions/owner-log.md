@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Repository source of truth and model-neutral routing (R):** current state → input index → integration ledger → feature sources/mocks; builders update consumption and mock citations in the same commit, STATE after each report, and handoff before changing models. Same checks/ownership for every model; pending packs never used. Native restart order is foliage experiment, water, then existing-generator budget; web exp1 port deferred beyond these three batches. Filed SOURCE-OF-TRUTH, STATE, INTEGRATION and MOCKS, extended INDEX/routing/restarts, mirrored shared rule. No new build or score.
+
 - **Bind build reports to evidence (R):** every build report must include `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` immediately before `Tracker update:`; missing evidence line means incomplete. Applied in CONTRIBUTING-lanes and mirrored in AGENTS/CLAUDE with reviewed fingerprints; feature INDEX links existing evidence and unknowns, and every 5A/P2 restart batch names research and mock frames. No build or score claimed.
 
 - **Private Builder brand assets (R):** users may upload their own logos and brand assets into private projects; the engine ships no brands. This is the private-project exception, not permission to bundle brands in the engine or publish/share assets without rights. Supersedes A12 `dd0af9a`'s pending owner decision on private uploads; rights, sharing, takedown and retention remain counsel questions Q62. Implementation not started.

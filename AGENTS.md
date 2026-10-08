@@ -118,3 +118,11 @@ After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched ho
 ## Build report evidence — shared rule (R, 8 Oct 2026)
 
 Every build report must end with an evidence line immediately before `Tracker update:`: `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` A build report without this line is incomplete.
+
+## Source-of-truth and routing — shared rule (R, 8 Oct 2026)
+
+The repository is the only source of truth. Read docs/tracking/STATE.md, INDEX.md, INTEGRATION.md, then the relevant feature row and MOCKS.md entry. Follow docs/tracking/SOURCE-OF-TRUTH.md. Pending/unapproved packs are never used. A feature is done only when a renderer file consumes it and INTEGRATION.md records that consumption; visual/performance/rights gates still apply. Builders update the ledger row and input/mock citations in the same implementation commit; rewrite STATE after every report, keeping history in handoffs.
+
+Any lane can be run by any model; model choice changes none of the checks or lane/file ownership. Before a model switch, the lane state note in docs/tracking/handoffs.md must be current. This later instruction supersedes earlier model-specific routing restrictions, including render/water model requirements; native water remains 5A-owned and A2 remains web/bakeoff-only.
+
+Every build report must end with `Used: <doc §>. Mock: <file/frame>. Deviation: <none or why>` immediately before `Tracker update:`. Without that evidence line it is incomplete.
