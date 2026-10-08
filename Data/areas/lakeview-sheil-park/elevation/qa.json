@@ -1,0 +1,52 @@
+{
+  "format": "worldengine-elevation-qa/1",
+  "area": "lakeview-sheil-park",
+  "metadataSHA256": "f530e43bda3cae1834c2b6f12eae6e40b1f4bbddbdf83469fa94089d8f0a6f95",
+  "status": "PASS",
+  "errors": [],
+  "flags": [],
+  "nativeCoverage": {
+    "coveredCells": 1440000,
+    "requestedCells": 1440000,
+    "validFraction": 1.0,
+    "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+  },
+  "artifacts": [
+    {
+      "file": "native-1m-0.tif",
+      "validFraction": 1.0,
+      "minimumM": 179.7005615234375,
+      "maximumM": 185.36253356933594
+    },
+    {
+      "file": "band-250-2000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 175.59564208984375,
+      "maximumM": 186.9050750732422
+    },
+    {
+      "file": "band-2000-20000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 166.64002990722656,
+      "maximumM": 212.51893615722656
+    },
+    {
+      "file": "band-20000-50000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 77.15513610839844,
+      "maximumM": 292.6346435546875
+    },
+    {
+      "file": "band-50000-100000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 109.39693450927734,
+      "maximumM": 361.70843505859375
+    },
+    {
+      "file": "band-100000-200000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 90.75178527832031,
+      "maximumM": 411.7042541503906
+    }
+  ]
+}

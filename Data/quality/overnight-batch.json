@@ -1,0 +1,118 @@
+{
+  "format": "worldengine-data-batch/1",
+  "status": "PARTIAL_BLOCKED",
+  "areas": [
+    "sloans-lake",
+    "lakeview-sheil-park",
+    "west-highland"
+  ],
+  "steps": [
+    {
+      "area": "sloans-lake",
+      "step": "heights",
+      "coverage": "29.1%",
+      "quality": "407/1399; 992 null; all D, uncalibrated; 2020-05-26 to 2020-06-12",
+      "licence": "GREEN"
+    },
+    {
+      "area": "sloans-lake",
+      "step": "roofs",
+      "coverage": "29.1%",
+      "quality": "407/1399; 992 null; inferred classification, all D",
+      "licence": "GREEN"
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "step": "heights",
+      "coverage": "93.5%",
+      "quality": "2618/2799; 181 null; all D, uncalibrated; 2017-04-16 to 2017-05-07",
+      "licence": "GREEN"
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "step": "roofs",
+      "coverage": "91.6%",
+      "quality": "2563/2799; 236 null; inferred classification, all D",
+      "licence": "GREEN"
+    },
+    {
+      "area": "west-highland",
+      "step": "heights",
+      "coverage": "N/A",
+      "quality": "BLOCKED: fixed area boundary and manifest missing",
+      "licence": "NOT LOADED"
+    },
+    {
+      "area": "west-highland",
+      "step": "roofs",
+      "coverage": "N/A",
+      "quality": "BLOCKED: fixed area boundary and manifest missing",
+      "licence": "NOT LOADED"
+    },
+    {
+      "area": "all",
+      "step": "lidar-tests",
+      "coverage": "N/A",
+      "quality": "PASS; 126 tests, 3 skipped",
+      "licence": "GREEN"
+    },
+    {
+      "area": "all",
+      "step": "terrain-tests",
+      "coverage": "N/A",
+      "quality": "PASS; 16 tests, 0 skipped",
+      "licence": "GREEN"
+    },
+    {
+      "area": "all",
+      "step": "qa-tests",
+      "coverage": "N/A",
+      "quality": "PASS; 4 tests, 0 skipped",
+      "licence": "GREEN"
+    },
+    {
+      "area": "sloans-lake",
+      "step": "dem",
+      "coverage": "100.0%",
+      "quality": "PASS; saved native 1 m + distance bands fully read-back verified; 0 errors",
+      "licence": "GREEN"
+    },
+    {
+      "area": "sloans-lake",
+      "step": "building-qa",
+      "coverage": "see heights/roofs",
+      "quality": "PASS_WITH_GAPS; flags {\"footprint_implausible_or_below_method_size\": 104, \"height_missing\": 992}; errors {}",
+      "licence": "GREEN"
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "step": "dem",
+      "coverage": "100.0%",
+      "quality": "PASS; saved native 1 m + distance bands fully read-back verified; 0 errors",
+      "licence": "GREEN"
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "step": "building-qa",
+      "coverage": "see heights/roofs",
+      "quality": "PASS_WITH_GAPS; flags {\"footprint_implausible_or_below_method_size\": 4, \"height_missing\": 181}; errors {}",
+      "licence": "GREEN"
+    },
+    {
+      "area": "west-highland",
+      "step": "dem",
+      "coverage": "N/A",
+      "quality": "BLOCKED: fixed area boundary and manifest missing",
+      "licence": "NOT LOADED"
+    },
+    {
+      "area": "west-highland",
+      "step": "building-qa",
+      "coverage": "N/A",
+      "quality": "BLOCKED: fixed area boundary and manifest missing",
+      "licence": "NOT LOADED"
+    }
+  ],
+  "qualityNote": "Coverage denominators are mapped OSM building footprints, not independently surveyed completeness. Heights are derived measurements, roof forms inferred classifications; grade D until independent validation. Missing values stay null. DEM packages reused after read-back QA. West Highland has no fixed boundary/manifest.",
+  "mergeStatus": "Handoff conflict resolved add-only with R approval; rebased tests pass; integration ready"
+}

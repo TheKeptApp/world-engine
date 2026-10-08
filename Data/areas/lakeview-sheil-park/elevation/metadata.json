@@ -1,0 +1,777 @@
+{
+  "format": "worldengine-elevation/1",
+  "area": "lakeview-sheil-park",
+  "horizontalCRS": "EPSG:26916",
+  "verticalDatum": "NAVD88",
+  "verticalCRS": "EPSG:5703",
+  "verticalUnits": "metre",
+  "license": "US Government Public Domain",
+  "licenseStatus": "GREEN",
+  "sourceEvidence": [
+    "https://data.usgs.gov/datacatalog/data/USGS:77ae0551-c61e-4979-aedd-d797abdcde0e",
+    "https://data.usgs.gov/datacatalog/data/USGS:3a81321b-c153-416f-98b7-cc8e5f0e17c3",
+    "https://data.usgs.gov/datacatalog/data/USGS:35f9c4d4-b113-4c8d-8691-47c428c29a5b"
+  ],
+  "checkedOn": "2026-10-08",
+  "ellipsoidTransformApplied": false,
+  "geoidModel": null,
+  "nodata": -9999.0,
+  "policy": "docs/proposals/mountain-terrain-v1/values.json#demByDistance",
+  "nativeProject": "IL_4_County_QL1_LiDAR_2016_B16",
+  "nativeBufferMeters": 100,
+  "maximumDistanceM": 200000,
+  "nativeClips": [
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/IL_4_County_QL1_LiDAR_2016_B16/TIFF/USGS_1M_16_x44y465_IL_4_County_QL1_LiDAR_2016_B16.tif",
+      "title": "USGS 1 Meter 16 x44y465 IL_4_County_QL1_LiDAR_2016_B16",
+      "publicationDate": "2024-11-18",
+      "acquisitionDate": null,
+      "metadataURL": "https://www.sciencebase.gov/catalog/item/673d5328d34e6b795de6b65f",
+      "horizontalCRS": "EPSG:26916",
+      "nativePixelSize": [
+        1.0,
+        1.0
+      ],
+      "nativePixelUnits": "metre",
+      "verticalDatum": "NAVD88",
+      "verticalUnits": "metre",
+      "file": "native-1m-0.tif",
+      "sha256": "8143ff6e7d2c7e056c79d3adb6541bc2661d74ef1453a9360a4a0910ac5e481d",
+      "shape": [
+        1201,
+        1201
+      ],
+      "transform": [
+        1.0,
+        0.0,
+        444393.99971097824,
+        0.0,
+        -1.0,
+        4644557.000348864,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "validFraction": 1.0,
+      "resampling": "none"
+    }
+  ],
+  "bands": [
+    {
+      "file": "band-250-2000m.npz",
+      "sha256": "5ba11076f93ff96417d62eb554f098c3b5b128afd18ec7e80d1a2e0f033945ad",
+      "rangeM": [
+        250,
+        2000
+      ],
+      "sampleSpacingM": 10,
+      "shape": [
+        400,
+        400
+      ],
+      "transform": [
+        10.0,
+        0.0,
+        442994.54032874375,
+        0.0,
+        -10.0,
+        4645956.982080478,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w088/USGS_13_n42w088_20260902.tif",
+          "title": "USGS 1/3 Arc Second n42w088 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a28891ba49b6f9d27908e",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            9.25925927753796e-05,
+            9.259259269219641e-05
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        }
+      ],
+      "resampling": "nearest native elevation; min/max aggregated from full native pixels (no overview)",
+      "coveredCells": 123700,
+      "requestedCells": 123700,
+      "validFraction": 1.0,
+      "minElevationM": 175.59564208984375,
+      "maxElevationM": 186.9050750732422
+    },
+    {
+      "file": "band-2000-20000m.npz",
+      "sha256": "598bfbfe3b15fddce418fe6394ec1a9901c000d7cb61b8765746ee4a638cac8d",
+      "rangeM": [
+        2000,
+        20000
+      ],
+      "sampleSpacingM": 30,
+      "shape": [
+        1334,
+        1334
+      ],
+      "transform": [
+        30.0,
+        0.0,
+        424994.54032874375,
+        0.0,
+        -30.0,
+        4663956.982080478,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w088/USGS_1_n42w088_20260902.tif",
+          "title": "USGS 1 Arc Second n42w088 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287f1ba49b6f9d27905a",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w088/USGS_1_n43w088_20241107.tif",
+          "title": "USGS 1 Arc Second n43w088 20241107",
+          "publicationDate": "2024-11-07",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/672ed2aad34ea9e4508933a1",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        }
+      ],
+      "resampling": "nearest native elevation; min/max aggregated from full native pixels (no overview)",
+      "coveredCells": 1382293,
+      "requestedCells": 1382293,
+      "validFraction": 1.0,
+      "minElevationM": 166.8589630126953,
+      "maxElevationM": 212.51893615722656
+    },
+    {
+      "file": "band-20000-50000m.npz",
+      "sha256": "ae1ea684da9914b3fc036dd8a50399f8e2c883520f97e2929079b7e99940a0d1",
+      "rangeM": [
+        20000,
+        50000
+      ],
+      "sampleSpacingM": 60,
+      "shape": [
+        1667,
+        1667
+      ],
+      "transform": [
+        60.0,
+        0.0,
+        394994.54032874375,
+        0.0,
+        -60.0,
+        4693956.982080478,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w088/USGS_1_n42w088_20260902.tif",
+          "title": "USGS 1 Arc Second n42w088 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287f1ba49b6f9d27905a",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w089/USGS_1_n42w089_20260902.tif",
+          "title": "USGS 1 Arc Second n42w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287e1ba49b6f9d279058",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w088/USGS_1_n43w088_20241107.tif",
+          "title": "USGS 1 Arc Second n43w088 20241107",
+          "publicationDate": "2024-11-07",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/672ed2aad34ea9e4508933a1",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w089/USGS_1_n43w089_20260902.tif",
+          "title": "USGS 1 Arc Second n43w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287d1ba49b6f9d279054",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        }
+      ],
+      "resampling": "nearest native elevation; min/max aggregated from full native pixels (no overview)",
+      "coveredCells": 1832612,
+      "requestedCells": 1832612,
+      "validFraction": 1.0,
+      "minElevationM": 77.15513610839844,
+      "maxElevationM": 292.6346435546875
+    },
+    {
+      "file": "band-50000-100000m.npz",
+      "sha256": "c35bad4369f71555857a77d5a3068ceeb677d6bb3037622270f8872c4220d33e",
+      "rangeM": [
+        50000,
+        100000
+      ],
+      "sampleSpacingM": 120,
+      "shape": [
+        1667,
+        1667
+      ],
+      "transform": [
+        120.0,
+        0.0,
+        344994.54032874375,
+        0.0,
+        -120.0,
+        4743956.982080478,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w087/USGS_1_n42w087_20210617.tif",
+          "title": "USGS 1 Arc Second n42w087 20210617",
+          "publicationDate": "2021-11-16",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/60d2c03cd34e8409865288ca",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w088/USGS_1_n42w088_20260902.tif",
+          "title": "USGS 1 Arc Second n42w088 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287f1ba49b6f9d27905a",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w089/USGS_1_n42w089_20260902.tif",
+          "title": "USGS 1 Arc Second n42w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287e1ba49b6f9d279058",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w087/USGS_1_n43w087_20190308.tif",
+          "title": "USGS 1 arc-second n43w087 1 x 1 degree",
+          "publicationDate": "2019-03-08",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/5df04f1ae4b02caea0f4fbab",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w088/USGS_1_n43w088_20241107.tif",
+          "title": "USGS 1 Arc Second n43w088 20241107",
+          "publicationDate": "2024-11-07",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/672ed2aad34ea9e4508933a1",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w089/USGS_1_n43w089_20260902.tif",
+          "title": "USGS 1 Arc Second n43w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287d1ba49b6f9d279054",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        }
+      ],
+      "resampling": "nearest native elevation; min/max aggregated from full native pixels (no overview)",
+      "coveredCells": 1636256,
+      "requestedCells": 1636256,
+      "validFraction": 1.0,
+      "minElevationM": 109.39693450927734,
+      "maxElevationM": 361.70843505859375
+    },
+    {
+      "file": "band-100000-200000m.npz",
+      "sha256": "5b70513c4fcce9eb98698c342068e844f01badf76827a1e978ad2a5325f72bb2",
+      "rangeM": [
+        100000,
+        200000
+      ],
+      "sampleSpacingM": 240,
+      "shape": [
+        1667,
+        1667
+      ],
+      "transform": [
+        240.0,
+        0.0,
+        244994.54032874375,
+        0.0,
+        -240.0,
+        4843956.982080478,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w086/USGS_1_n41w086_20260528.tif",
+          "title": "USGS 1 Arc Second n41w086 20260528",
+          "publicationDate": "2026-05-28",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a18f57eb66b018274cec842",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w087/USGS_1_n41w087_20260528.tif",
+          "title": "USGS 1 Arc Second n41w087 20260528",
+          "publicationDate": "2026-05-28",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a18f57db66b018274cec83e",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w088/USGS_1_n41w088_20260323.tif",
+          "title": "USGS 1 Arc Second n41w088 20260323",
+          "publicationDate": "2026-03-23",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/69c49586b66b016badda31fa",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w089/USGS_1_n41w089_20260902.tif",
+          "title": "USGS 1 Arc Second n41w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a28801ba49b6f9d279062",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w090/USGS_1_n41w090_20260902.tif",
+          "title": "USGS 1 Arc Second n41w090 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a28801ba49b6f9d279060",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n41w091/USGS_1_n41w091_20260902.tif",
+          "title": "USGS 1 Arc Second n41w091 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a28801ba49b6f9d27905e",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w086/USGS_1_n42w086_20210617.tif",
+          "title": "USGS 1 Arc Second n42w086 20210617",
+          "publicationDate": "2021-11-16",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/60d2c03dd34e8409865288cc",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w087/USGS_1_n42w087_20210617.tif",
+          "title": "USGS 1 Arc Second n42w087 20210617",
+          "publicationDate": "2021-11-16",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/60d2c03cd34e8409865288ca",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w088/USGS_1_n42w088_20260902.tif",
+          "title": "USGS 1 Arc Second n42w088 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287f1ba49b6f9d27905a",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w089/USGS_1_n42w089_20260902.tif",
+          "title": "USGS 1 Arc Second n42w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287e1ba49b6f9d279058",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w090/USGS_1_n42w090_20260902.tif",
+          "title": "USGS 1 Arc Second n42w090 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287e1ba49b6f9d279056",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n42w091/USGS_1_n42w091_20240104.tif",
+          "title": "USGS 1 Arc Second n42w091 20240104",
+          "publicationDate": "2024-01-04",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/65979b57d34e3265ab158f80",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w086/USGS_1_n43w086_20191107.tif",
+          "title": "USGS 1 arc-second n43w086 1 x 1 degree",
+          "publicationDate": "2019-11-07",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/5df04f1ae4b02caea0f4fba9",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.0002777777777870039,
+            0.0002777777777870039
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w087/USGS_1_n43w087_20190308.tif",
+          "title": "USGS 1 arc-second n43w087 1 x 1 degree",
+          "publicationDate": "2019-03-08",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/5df04f1ae4b02caea0f4fbab",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w088/USGS_1_n43w088_20241107.tif",
+          "title": "USGS 1 Arc Second n43w088 20241107",
+          "publicationDate": "2024-11-07",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/672ed2aad34ea9e4508933a1",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w089/USGS_1_n43w089_20260902.tif",
+          "title": "USGS 1 Arc Second n43w089 20260902",
+          "publicationDate": "2026-09-02",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/6a9a287d1ba49b6f9d279054",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w090/USGS_1_n43w090_20260210.tif",
+          "title": "USGS 1 Arc Second n43w090 20260210",
+          "publicationDate": "2026-02-10",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/698def7eb66b01f8cb40ec28",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n43w091/USGS_1_n43w091_20240625.tif",
+          "title": "USGS 1 Arc Second n43w091 20240625",
+          "publicationDate": "2024-06-25",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/667cf21ed34ef010cb6d13bf",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.000277777777786999
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w086/USGS_1_n44w086_20190716.tif",
+          "title": "USGS 1 arc-second n44w086 1 x 1 degree",
+          "publicationDate": "2019-07-16",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/5df04f2ce4b02caea0f4fc25",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777778000000013,
+            0.00027777778000000013
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w087/USGS_1_n44w087_20190308.tif",
+          "title": "USGS 1 arc-second n44w087 1 x 1 degree",
+          "publicationDate": "2019-03-08",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/5df04f2ce4b02caea0f4fc27",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.0002777777779114974,
+            0.0002777777779114974
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w088/USGS_1_n44w088_20240604.tif",
+          "title": "USGS 1 Arc Second n44w088 20240604",
+          "publicationDate": "2024-06-04",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/666099c7d34e16b8573d1419",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.00027777777803598015,
+            0.00027777777803599587
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w089/USGS_1_n44w089_20260210.tif",
+          "title": "USGS 1 Arc Second n44w089 20260210",
+          "publicationDate": "2026-02-10",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/698def7db66b01f8cb40ec25",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.00027777777803599587
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w090/USGS_1_n44w090_20260210.tif",
+          "title": "USGS 1 Arc Second n44w090 20260210",
+          "publicationDate": "2026-02-10",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/698def75b66b01f8cb40ec23",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.00027777777803599587
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/historical/n44w091/USGS_1_n44w091_20260210.tif",
+          "title": "USGS 1 Arc Second n44w091 20260210",
+          "publicationDate": "2026-02-10",
+          "acquisitionDate": null,
+          "metadataURL": "https://www.sciencebase.gov/catalog/item/698def5fb66b01f8cb40ec21",
+          "horizontalCRS": "EPSG:4269",
+          "nativePixelSize": [
+            0.000277777777786999,
+            0.00027777777803599587
+          ],
+          "nativePixelUnits": "degree",
+          "verticalDatum": "NAVD88",
+          "verticalUnits": "metre"
+        }
+      ],
+      "resampling": "nearest native elevation; min/max aggregated from full native pixels (no overview)",
+      "coveredCells": 1636256,
+      "requestedCells": 1636256,
+      "validFraction": 1.0,
+      "minElevationM": 94.52420806884766,
+      "maxElevationM": 411.7042541503906
+    }
+  ],
+  "limitations": "Orthometric elevations, not WGS84 ellipsoid heights. Publication dates are not acquisition dates. No current-survey or positional-accuracy claim; source-native ridge maxima are retained per output cell. No shoreline/road flattening or renderer changes."
+}
