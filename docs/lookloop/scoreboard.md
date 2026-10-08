@@ -228,3 +228,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | web / 4127a32 series, main f6de893 | Baseline 2 → 2; sky/light/saturation/ground/foliage/materials 3/2/2/2/2/2 → same | Lakeview 2 → 2; 3/2/2/2/2/3 → same. West Highland data-poor: all pending | Saved pair FAIL 0/2; no gain flag; reject condition not triggered for the pair. Fresh captures blocked, full hold-out clearance pending. |
 
 [Review and provenance](web-4127a32.md). Saved A2 captures graded, no new render claimed; browser connection unavailable. West Highland scene/export delivery remains pending. ΔE ignored.
+
+## A3 native foliage exp1 — supplied nine frames, 8 Oct 2026
+
+| Capture build | Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|---|
+| ec14fed; provenance 3f347f1 | 40/150/600 m inspection, baseline/remove/layered | All nine: foliage 2, overall 2 | Pending; none run | No gain; layered 600 m outer ground/road coverage mismatch. Historical street-hero 3 unchanged; not a four-hero gate. [Blind review](foliage-exp1-native-scores.md) |

@@ -6,7 +6,7 @@ Inventory of every visual file found in the filed proposal/research-pack trees i
 
 ## M-CAL-SLOANS
 
-File: `docs/proposals/style-b-calibration-v2/frames/06-sloans.png`. Sloan’s lake afternoon look calibration: foliage, water, ground, AO, sky, shadows, haze; geometry/layout is not a target. Citing build/evidence: native `0b9d255` / A3 baseline; web `4127a32` saved series. Latest: native closeness 3 (foliage 2), web 2 (sky 3, other aspects 2), FAIL. Sources: [native](../lookloop/a3-baseline.md), [web](../lookloop/web-4127a32.md).
+File: `docs/proposals/style-b-calibration-v2/frames/06-sloans.png`. Sloan’s lake afternoon look calibration: foliage, water, ground, AO, sky, shadows, haze; geometry/layout is not a target. Citing build/evidence: native `0b9d255` / A3 baseline; web `4127a32` saved series. Latest: native closeness 3 (foliage 2), web 2 (sky 3, other aspects 2), FAIL. Sources: [native](../lookloop/a3-baseline.md), [web](../lookloop/web-4127a32.md). Later [native exp1 inspection review](../lookloop/foliage-exp1-native-scores.md), build ec14fed: all nine foliage 2/overall 2, no gain; distinct inspection camera, historical hero score unchanged; 600 m coverage confound.
 
 A10 native foliage exp1 citing build `ec14fed`: same approved 06-sloans reference, nine Simulator inspection frames and FINAL category proof in [evidence](../research/foliage-exp1-native-final-evidence.md). Default-off optional variant consumes the spec, not a new mock; no A3 score or hold-out result yet.
 
