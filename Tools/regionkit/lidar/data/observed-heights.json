@@ -1,0 +1,30 @@
+{
+  "defaultArea": "sloans-lake",
+  "authorizedAreas": [
+    "sloans-lake"
+  ],
+  "authorization": "R, 8 Oct: Sloan's Lake first; Greenville and Lakeview deferred. Greenville must not be processed.",
+  "marginMeters": 25,
+  "maxBytesPerArea": 200000000,
+  "sources": {
+    "usgs-3dep-co-drcog-2-2020": {
+      "licenseStatus": "GREEN",
+      "license": "US Government Public Domain",
+      "licenseEvidence": "https://registry.opendata.aws/usgs-lidar/",
+      "licenseCheckedOn": "2026-10-08",
+      "verticalCRS": "EPSG:5703",
+      "verticalDatum": "NAVD88",
+      "verticalUnits": "metre",
+      "verticalEvidence": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/CO_DRCOG_2_2020/USGS_LPC_CO_DRCOG_2020_B20_w0495n4399.xml",
+      "verticalEvidenceNote": "EPT carries horizontal CRS only; vertical CRS/units verified from source tile FGDC metadata."
+    }
+  },
+  "parametersSource": "heights.json (groundRing, footprintErosion, cover, topPercentile, eaveBand); grade gates from building-heights-v1 Confidence and product labels",
+  "marginReason": "25 m extraction halo exceeds 15 m ground ring; no per-building tuning",
+  "unclassifiedRoof": {
+    "enabled": true,
+    "minimumPlanarPointShare": 0.8,
+    "maximumPitchDeg": 75,
+    "note": "Conservative general candidate filter, authored before inspecting derived heights; not calibrated. Uses existing params.json normals/regionGrow tolerances. Class 1 fallback only when the survey has no class 6."
+  }
+}
