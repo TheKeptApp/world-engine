@@ -329,8 +329,37 @@ struct RealityKitScreen: View {
                   o.inspectionPose == nil || InspectionCamera.Input(o.inspectionPose!) != nil else {
                 print("VIEWS failed: invalid foliage mode or inspection pose for \(spec.id)"); fflush(nil); return
             }
+            defer { if o.sceneReady { post.captureFrames.end() } }
+            var captureSignature: String?
+            var captureSize: String?
             await applyView(o, world: world, camera: camera, env: env, demo: demo)
             try? await Task.sleep(for: .seconds(options.viewSettle))
+            if o.sceneReady {
+                do {
+                    guard !options.diagnostics.contains("noPost"), !spec.args.contains("-capturequality") else {
+                        throw NSError(domain: "SceneReady", code: 4, userInfo: [NSLocalizedDescriptionKey: "SCENEREADY requires the Metal frame completion observer; noPost and offscreen capturequality are unsupported"])
+                    }
+                    try await world.awaitCaptureSceneCompletion()
+                    post.captureFrames.begin()
+                    let deadline = Date().addingTimeInterval(30)
+                    while post.captureFrames.proof() == nil {
+                        try Task.checkCancellation()
+                        if let failure = post.captureFrames.failure { throw NSError(domain: "SceneReady", code: 5, userInfo: [NSLocalizedDescriptionKey: failure]) }
+                        if Date() >= deadline { throw NSError(domain: "SceneReady", code: 6, userInfo: [NSLocalizedDescriptionKey: "Stable submitted frames timed out (paused, unattached or moving view)"]) }
+                        try await Task.sleep(for: .milliseconds(20))
+                    }
+                    guard let proof = post.captureFrames.proof() else {
+                        throw NSError(domain: "SceneReady", code: 7, userInfo: [NSLocalizedDescriptionKey: "Scene changed at readiness boundary"])
+                    }
+                    captureSignature = proof.signature
+                    captureSize = "\(proof.width)x\(proof.height)"
+                    let signature = Data(proof.signature.utf8).base64EncodedString()
+                    print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
+                } catch {
+                    post.captureFrames.end()
+                    print("VIEWS failed: SCENEREADY id=\(spec.id): \(error)"); fflush(nil); return
+                }
+            }
             print("VIEWREADY id=\(spec.id)"); fflush(nil)
             if options.viewHold > 0 { try? await Task.sleep(for: .seconds(options.viewHold)) }
             let file = dir.appendingPathComponent("\(spec.id).png")
@@ -344,6 +373,9 @@ struct RealityKitScreen: View {
                 shot = await capturePNG().map { (data: $0.data, size: $0.size, source: "\($0.source)") }
             }
             guard let shot else { print("VIEWSHOT id=\(spec.id) failed: no image"); fflush(nil); continue }
+            if o.sceneReady, (post.captureFrames.proof()?.signature != captureSignature || shot.size != captureSize) {
+                print("VIEWS failed: scene changed during capture id=\(spec.id)"); fflush(nil); return
+            }
             do { try shot.data.write(to: file, options: .atomic) } catch {
                 print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
             }

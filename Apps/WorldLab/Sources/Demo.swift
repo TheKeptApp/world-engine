@@ -175,6 +175,7 @@ struct LaunchOptions {
     var viewList: [ViewSpec]?
     /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
     var viewSettle: Double = 4
+    var sceneReady = false
     /// `-viewhold SECONDS`: wait this long after `VIEWREADY` before capturing and moving on, so an
     /// outside screenshot (simctl io, with the letterbox and the OSM credit) lands on the same view.
     var viewHold: Double = 0
@@ -219,6 +220,7 @@ struct LaunchOptions {
         let listData = value("-viewlist").flatMap { FileManager.default.contents(atPath: $0) }
             ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
         viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
+        sceneReady = args.contains("-sceneready")
         viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
         viewHold = value("-viewhold").flatMap(Double.init) ?? 0
     }

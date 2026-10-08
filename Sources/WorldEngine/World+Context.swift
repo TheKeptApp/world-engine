@@ -36,6 +36,7 @@ struct ContextRuntime {
 extension World {
     func startContext(areaDirectory: URL) {
         guard !options.diagnostics.contains("noContext"), !manifest.contextSources.isEmpty else { return }
+        captureSceneState = .pending
         let manifest = manifest, palette = scene.palette, profile = scene.profile
         // An explicit profile overrides every building (as in the detailed world); otherwise
         // buildings take the zone profile at their location.
@@ -46,13 +47,19 @@ extension World {
                 built = try ContextRing.build(areaDirectory: areaDirectory, manifest: manifest, palette: palette, profile: profile,
                                               zonesByLocation: byLocation)
             } catch {
+                await self?.contextCaptureFailed(String(describing: error))
                 print("CONTEXT failed: \(error)")
                 return
             }
-            guard let built, !Task.isCancelled else { return }
+            guard let built, !Task.isCancelled else {
+                await self?.contextCaptureFailed("Context build cancelled or returned no scene")
+                return
+            }
             await self?.attachContext(built.scene, parseSeconds: built.parseSeconds, generateSeconds: built.generateSeconds)
         }
     }
+
+    func contextCaptureFailed(_ reason: String) { captureSceneState = .failed(reason) }
 
     func attachContext(_ ring: ContextScene, parseSeconds: Double, generateSeconds: Double) async {
         // The ring's buildings may have added colours; slots of the detailed world are unchanged.
@@ -120,6 +127,7 @@ extension World {
         let cam = lodCenter ?? SIMD3(0, 1.65, 0)
         updateContextLODs(camera: cam)
         recount()
+        captureSceneState = .ready
         print(String(format: "CONTEXT cells=%d parse=%.2fs generate=%.2fs triangles=%@", cells.count, parseSeconds, generateSeconds,
                      ContextLOD.allCases.map { "\($0)=\(ring.stats["triangles.\($0)"] ?? 0)" }.joined(separator: ",")
                          + ",water=\(ring.water.triangleCount)"))

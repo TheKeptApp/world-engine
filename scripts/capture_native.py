@@ -78,8 +78,8 @@ def context_expected(root, view):
                and 'all' not in source.get('layers', []) for source in manifest['sources'])
 
 
-def verify_scene_readiness(run, view_id, require_context):
-    """CPU attachment proof only; does not claim GPU completion or equal paired coverage."""
+def verify_scene_readiness(run, view_id, require_context, require_scene_ready=False):
+    """Require the opt-in Metal-completion handshake; CPU-only mode audits old artifacts."""
     matched = []
     for path in sorted((run / 'logs').glob('_launch-*.log')):
         lines = path.read_text(errors='replace').splitlines()
@@ -95,14 +95,29 @@ def verify_scene_readiness(run, view_id, require_context):
                 raise ValueError('scene not ready: context attachment must precede VIEWREADY, not just the saved-image log')
             if any(line.startswith('CONTEXT failed:') for line in before) and require_context:
                 raise ValueError('scene not ready: context loading failed')
-            if require_context and not any(line.startswith('VIEW t=') for line in before[completions[-1] + 1:]):
+            signals = [line for line in before if line.startswith(f'SCENEREADY id={view_id} ')]
+            proof = None
+            if require_scene_ready:
+                if len(signals) != 1:
+                    raise ValueError('scene not ready: missing or ambiguous SCENEREADY')
+                proof = dict(field.split('=', 1) for field in signals[0].split()[1:])
+                if proof.get('context') != ('ready' if require_context else 'not-required'):
+                    raise ValueError('scene not ready: unexpected context state')
+                if int(proof.get('gpuCompleted', '0')) < 3 or int(proof.get('stableFrames', '0')) < 3:
+                    raise ValueError('scene not ready: insufficient completed stable frames')
+                if not re.fullmatch(r'[1-9]\d*x[1-9]\d*', proof.get('size', '')) or not proof.get('signature'):
+                    raise ValueError('scene not ready: missing drawable or scene signature')
+                signal_index = before.index(signals[0])
+                if not ready or signal_index >= ready[-1] or (require_context and signal_index <= completions[-1]):
+                    raise ValueError('scene not ready: SCENEREADY ordering is invalid')
+            if require_context and not require_scene_ready and not any(line.startswith('VIEW t=') for line in before[completions[-1] + 1:]):
                 raise ValueError('scene not ready: no post-attachment view update before VIEWSHOT')
             drawsplit = re.search(r'drawsplit\[([^]]+)\]', lines[shot])
             cost = re.search(r' triangles=(\d+) draws=(\d+) ', lines[shot])
             if not drawsplit or not cost:
                 raise ValueError('capture lacks scene coverage counters')
             matched.append(dict(contextRequired=require_context, contextAttachedBeforeCapture=bool(completions),
-                                gpuCompletionProved=False, triangles=int(cost[1]), draws=int(cost[2]),
+                                gpuCompletionProved=proof is not None, sceneReady=proof, triangles=int(cost[1]), draws=int(cost[2]),
                                 drawsplit=drawsplit[1], launchLog=str(path), shotLine=shot + 1))
     if len(matched) != 1:
         raise ValueError('capture lacks one unambiguous launch-log VIEWSHOT')
@@ -144,6 +159,7 @@ def main():
     created_run = False
     try:
         view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1)
+        view["args"] = view["args"] + ["-sceneready"]
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
         run.mkdir(parents=True, exist_ok=False)  # never accept frames from an earlier run
@@ -167,7 +183,7 @@ def main():
                 timings[label + 'Seconds'] = round(time.monotonic() - t, 2)
         frame, size, digest = verify_frame(run, args.view)
         timings['totalSeconds'] = round(time.monotonic() - started, 2)
-        readiness = verify_scene_readiness(run, args.view, context_expected(ROOT, view))
+        readiness = verify_scene_readiness(run, args.view, context_expected(ROOT, view), require_scene_ready=True)
         report = dict(timings, sceneReadiness=readiness, crashes=crash_evidence(started_wall), view=args.view, args=view['args'], frame=str(frame), size=size, sha256=digest,
                       commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip())
         if args.foliageexp1 is not None:
