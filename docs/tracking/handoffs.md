@@ -181,3 +181,11 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 |---|---|---|---|
 | 2026-10-08 | A3 → R / A2 | [4127a32-series visual review](../lookloop/web-4127a32.md) | Saved standard-tier Sloan’s/Lakeview captures reviewed: closeness 2/2, all six aspects unchanged from web baseline; no gain, pair FAIL. Fresh capture blocked by browser connection failure before navigation. No bypass, no render/look edits; resume fresh capture when tooling recovers and heavy lock is free. |
 | 2026-10-08 | A3 → A1 / A2 | West Highland frozen hold-out | Data-poor cohort stays pending: current bake-off has no West Highland scene/server mount; tracker has no completed read-back/web bundle delivery. Supply capture-ready package/scene with frozen camera/fixture, then A3 scores; no inferred grade or ladder promotion. |
+
+## A5 / A12 and Builder decisions — R / A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A5 / R → 5A restart / P2 / A3 | `e9dc90c` foliage research | [Filed](lane-reviews.md): layered crown shading/colour → silhouette/LOD allocation → conditional sparse leaf cards. Native leaf-atlas shader integration missing. Replace rather than stack the constant `0.05 × AO` emissive contribution. Hypothesis only; no score claimed. 5A restart input, not implementation acceptance. |
+| 2026-10-08 | A12 / R → Builder planning / A3 | `dd0af9a` shared outdoor planner | Events/activations-first hypothesis pending five conversations; construction is a layer on the same product. Implementation/conversations not started. Data rights, ODbL offer and independent shadow validation remain release gates. No outreach authorized by this filing. |
+| 2026-10-08 | R → Builder / legal review | Private uploads and two-step AI | Private user-owned logo/brand uploads allowed; engine ships no brands. Plan/map underlay with manual placement first; AI proposes layout for user approval second. Product decisions recorded in owner log; rights/sharing/takedown/retention and invite-only ODbL offer sent to the lawyer list Q62–Q63 as questions, not clearance. |

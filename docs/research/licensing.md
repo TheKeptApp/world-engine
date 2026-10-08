@@ -500,6 +500,12 @@ Everything below is paraphrased.
 60. Liability wording for AI-proposed event layouts (Builder: race-organizer-ops-v1 and builder-event-templates-v1). Their rule sources cover the UK, the US and a few US localities only, so the layouts need a stated scope for R's other launch countries.
 61. B2B licensing terms for the licensing demo (licensing-demo-v1): SLA wording and usage-metered pricing; the vendor price figures in its research page are the pack's own claims and are not checked.
 
+
+**Builder private uploads and pilot distribution** (added 2026-10-08; R / A3, A12 filing)
+
+62. R allows users to upload their own logos and brand assets into private Builder projects; the engine ships no brands. What rights representations and processing licences are required for logos, brand assets and uploaded plans/maps, including third-party imagery and architectural drawings? What separate permissions are needed for invited viewers, share links and image/PDF exports? Specify complaint/takedown and dispute procedures, revocation, retention/deletion periods for originals, derived layouts, versions and backups. Cover the decided manual-underlay-first, AI-layout-proposal-second workflow: provider processing, training reuse and user approval must not be presumed licensed by upload. Cross-reference Q52 (marks) and Q60 (AI-layout liability). This records product direction, not legal clearance or a sharing permission grant.
+63. Does an invite-only Builder pilot using OSM/Overture-derived context constitute Public Use or Conveying that requires an ODbL derivative-database offer, including when access is free, paid, restricted by link or under NDA? Assess browser-delivered geometry, private overlays and exported plans separately; identify recipients, required offer content/access and restrictions. Cross-reference Q1–Q6 and the [data licence inventory](../legal/data-licence-inventory-v1.md). Until resolved, retain the working-offer release gate; do not assume invite-only means exempt.
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?
@@ -804,7 +810,7 @@ Source: R's decision of 2026-10-08, `docs/research-gpt/real-flights-path-v1/` an
 
 ## Proposed lawyer review agenda — R, 8 Oct 2026
 
-Open questions for counsel, not legal conclusions or changes to existing source clearances. This agenda adds to the earlier questions and decisions; it does not resolve or replace them. The user-contribution/access policies in [architecture](../architecture.md) are all proposed.
+Open questions for counsel, not legal conclusions or changes to existing source clearances. This agenda adds to the earlier questions and decisions; it does not resolve or replace them. The user-contribution/access policies in [architecture](../architecture.md) remain proposed except for R’s later private-project logo/brand upload decision recorded in the owner log; that decision is not legal clearance. Structured base-map contributions and private Builder uploads are separate scopes.
 
 | Topic | Questions to resolve / scope |
 |---|---|
@@ -816,3 +822,8 @@ Open questions for counsel, not legal conclusions or changes to existing source 
 | ADS-B | Carry forward Q54 and the existing launch privacy/filtering obligations; assess feed terms, ODbL handling, airliners-only/no tail numbers, LADD/PIA suppression and pre-launch counsel opinion. This entry grants no new operational approval. |
 | “Somewhere” trademark | Carry forward the name-clearance question (Q55); filing this agenda does not approve the name, brand pack or trademark use. |
 | Sensitive-site depiction | Review which sites require restrictions, acceptable exterior representation, rights/security/privacy obligations, allowlist exclusions and complaint/removal process. Proposed exterior-only access is not itself legal clearance. |
+
+
+### Builder follow-up — R / A3, 8 Oct 2026
+
+Carry Q62–Q63 into counsel's agenda: user-uploaded logos/brand assets and plans/maps (rights, sharing/export, takedown, retention and AI processing), and whether the invite-only pilot requires the ODbL offer. The earlier structured-contribution “no media uploads” proposal is not a prohibition on R's newly allowed private Builder assets; engine-distributed content remains unbranded. No answer or release clearance is inferred from filing these questions.

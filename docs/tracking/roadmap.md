@@ -24,3 +24,10 @@ West Highland camera `west-highland-aerial-north-01` confirmed unchanged and fro
 ## A3 web evidence update — 8 Oct 2026
 
 [4127a32-series saved-frame review](../lookloop/web-4127a32.md): Sloan’s and Lakeview remain closeness 2/5 with all six aspects unchanged; map look gate remains open. Fresh captures blocked by browser connection failure; West Highland data-poor hold-out pending scene/package delivery and capture. This is no Builder/jobs-game promotion and no full hold-out clearance.
+
+## A5 / A12 research and R's Builder direction — 8 Oct 2026
+
+- **5A restart input:** A5 `e9dc90c`, [foliage-rendering-v1](../research/foliage-rendering-v1.md): layered crown shading/colour first, silhouette/LOD allocation second, conditional sparse leaf cards third. Native has no leaf-atlas shader path yet; replace rather than stack the constant `0.05 × AO` emissive term. Hypothesis only; scores and look gates unchanged.
+- **Builder discovery:** A12 `dd0af9a`, [builder-mvp-v1](../research/builder-mvp-v1.md): one shared outdoor site planner with a construction layer. Events and activations first is a hypothesis pending five customer conversations, not a launch commitment. Implementation/conversations not started; existing execution order remains unchanged.
+- **R-decided product sequence:** manual placement with an uploaded plan/map as underlay first; AI proposes layouts for user approval second. Users may upload their own logos/brand assets into private projects; engine ships no brands. These newer decisions supersede the report's pending private-logo decision and blanket AI exclusion, without claiming delivery.
+- **Release gates remain:** data rights, working ODbL offer and independent shadow validation. [Lawyer questions Q62–Q63](../research/licensing.md) cover upload rights/sharing/takedown/retention and whether an invite-only pilot requires the offer; no exemption assumed.
