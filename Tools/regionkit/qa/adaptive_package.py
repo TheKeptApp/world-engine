@@ -23,7 +23,7 @@ def glb(path):
         assert not v.get('byteStride') and not a.get('sparse')
         start=v.get('byteOffset',0)+a.get('byteOffset',0);b=binary[start:start+a['count']*width];assert len(b)==a['count']*width
         return b,width,fmt
-    signatures=Counter();decoded=0;maxpart=0;triangles=0;feature_values={};allbounds=[]
+    signatures=Counter();decoded=0;maxpart=0;triangles=0;feature_values={};allbounds=[];parts=[]
     for node in j['nodes']:
         origin=node.get('translation',[0,0,0])
         for p in j['meshes'][node['mesh']]['primitives']:
@@ -33,10 +33,11 @@ def glb(path):
             vertices={i:b''.join(attrs[k][0][i*attrs[k][1]:(i+1)*attrs[k][1]] for k in sorted(attrs)) for i in set(indices)}
             for t in range(0,len(indices),3):signatures[hashlib.sha256(prefix+b''.join(vertices[i] for i in indices[t:t+3])).digest()]+=1
             triangles+=len(indices)//3
+            parts.append({'primitiveIndex':len(parts),'material':name,'decodedBytes':partbytes,'triangles':len(indices)//3,'vertices':len(attrs['POSITION'][0])//attrs['POSITION'][1]})
             fb,_,fmt=attrs['_FEATURE'];feature_values[name]=[v[0] for v in struct.iter_unpack('<'+fmt,fb)]
             pb,_,_=attrs['POSITION']
             allbounds.extend(tuple(pv[a]+origin[a] for a in range(3)) for pv in struct.iter_unpack('<fff',pb))
-    return {'signatures':signatures,'decoded':decoded,'maxPart':maxpart,'triangles':triangles,'features':feature_values,'bytes':len(data),'points':allbounds}
+    return {'signatures':signatures,'decoded':decoded,'maxPart':maxpart,'triangles':triangles,'features':feature_values,'bytes':len(data),'points':allbounds,'parts':parts}
 
 
 def audit(source,packed):
@@ -64,7 +65,9 @@ def audit(source,packed):
                             assert len(values[start:start+count])==count and all(v==f['index'] for v in values[start:start+count])
                 if root==packed:
                     assert (lod in c['emptyLODs'])==(m['triangles']==0)
-                    assert m['decoded']==c['decodedBytes'][lod] and m['decoded']<=budget['twoTileDecodedQueueBytes']//2
+                    assert m['decoded']==c['decodedBytes'][lod] and m['decoded']<=min(budget['leafDecodedBytes'],budget['twoTileDecodedQueueBytes']//2)
+                    assert m['parts']==c['parts'][lod] and m['bytes']==c['glbBytes'][lod]
+                    assert m['maxPart']<=budget['primitiveDecodedBytes']
                     assert m['bytes']<=budget['uploadBytes'] and m['maxPart']<=budget['uploadBytes']
                     for p in m['points']:assert all(c['bounds'][0][a]-1e-7<=p[a]<=c['bounds'][1][a]+1e-7 for a in range(3))
                 rows.append({'id':c['id'],'lod':lod,'bytes':m['bytes'],'decoded':m['decoded'],'part':m['maxPart'],'triangles':m['triangles']})
@@ -72,9 +75,30 @@ def audit(source,packed):
             r=[v for v in rows if v['lod']==lod];decoded=sorted((v['decoded'] for v in r),reverse=True)
             summaries.append({'stage':'before' if root==source else 'after','lod':lod,'tiles':len(r),'triangles':sum(v['triangles'] for v in r),'maxGLBBytes':max(v['bytes'] for v in r),'maxDecodedPartBytes':max(v['part'] for v in r),'tilesOver2MiB':sum(v['part']>budget['uploadBytes'] for v in r),'worstTwoTileDecodedBytes':sum(decoded[:2]),'emptyTiles':sum(v['triangles']==0 for v in r)})
     assert before==after,'Triangle/material/channel/feature multiset changed'
+    groups=new['replacementGroups'];assert {g['id'] for g in groups}==set(parents)
+    memberships=[];coarse_count=0;max_coarse_part=0
+    for g in groups:
+        actual=[c['id'] for c in new['chunks'] if c['parentID']==g['id']]
+        assert g['children']==actual;memberships+=actual;signatures=Counter()
+        for part in g['coarsePayloads']:
+            m=glb(packed/part['file']);signatures.update(m['signatures']);coarse_count+=1
+            assert m['decoded']==part['decodedBytes']<=budget['leafDecodedBytes']
+            assert m['parts']==part['parts'] and m['bytes']==part['glbBytes']
+            assert m['maxPart']<=budget['primitiveDecodedBytes'];max_coarse_part=max(max_coarse_part,m['maxPart'])
+            assert m['triangles']==part['triangles'] and (m['triangles']==0)==part['empty']
+            scene=json.loads((packed/part['scene']).read_text())
+            for f in scene['features']:
+                for material,key in [('worldStatic','static'),('worldWater','water')]:
+                    values=m['features'].get(material,[])
+                    for start,count in f['lod1'][key]:assert len(values[start:start+count])==count and all(v==f['index'] for v in values[start:start+count])
+        assert signatures==before[(g['id'],1)],'Parent coarse coverage differs from original LOD1'
+    assert len(memberships)==len(set(memberships))==len(new['chunks'])
+    assert new['featureOwnership']['buildingCellMeters']==100
+    any_two=sorted((max(c['decodedBytes']) for c in new['chunks']),reverse=True)[:2]
+    assert sum(any_two)<=budget['twoTileDecodedQueueBytes']
     for path,meta in old['files'].items():
         if not path.startswith('chunks/'):assert new['files'][path]==meta,'Non-geometry file changed: '+path
-    return {'area':old['area']['id'],'sourceWorldSHA256':O.sha(source/'world.json'),'packedWorldSHA256':O.sha(packed/'world.json'),'status':'PASS','triangleAttributeMultisetsIdentical':True,'sceneFeatureJoinsVerified':True,'appearanceFilesUnchanged':True,'metrics':summaries,'memoryScope':'Decoded attribute/index arrays only, not total CPU/GPU residency or frame time'}
+    return {'area':old['area']['id'],'sourceWorldSHA256':O.sha(source/'world.json'),'packedWorldSHA256':O.sha(packed/'world.json'),'status':'PASS','triangleAttributeMultisetsIdentical':True,'sceneFeatureJoinsVerified':True,'appearanceFilesUnchanged':True,'coarseReplacementGeometryIdentical':True,'coarsePayloads':coarse_count,'maxCoarsePrimitiveDecodedBytes':max_coarse_part,'worstTwoLeavesAnyLODBytes':sum(any_two),'metrics':summaries,'memoryScope':'Decoded attribute/index arrays only, not total CPU/GPU residency or frame time'}
 
 
 if __name__=='__main__':

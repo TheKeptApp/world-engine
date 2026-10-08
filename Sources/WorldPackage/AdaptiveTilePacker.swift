@@ -7,6 +7,8 @@ public enum AdaptiveTilePacker {
     public struct Budget: Sendable {
         public var uploadBytes = 2 * 1_048_576
         public var queueBytes = 16 * 1_048_576
+        public var decodedLeafBytes = 8 * 1_048_576
+        public var primitiveBytes = 2 * 1_048_576
         public init() {}
     }
     enum Failure: Error { case invalid(String) }
@@ -78,6 +80,7 @@ public enum AdaptiveTilePacker {
         var triangles: Int
         var vertices: Int
         var bounds: [[Double]]
+        var parts: [[String: Any]]
         var ranges: [String: [Int: [[Int]]]]
     }
     struct Leaf { var suffix: String; var lods: [Encoded] }
@@ -86,7 +89,9 @@ public enum AdaptiveTilePacker {
     static func encode(_ mesh: Mesh, _ selections: [[Int]]) throws -> Encoded {
         var bin = Data(), views: [[String: Any]] = [], accessors: [[String: Any]] = [], primitives: [[String: Any]] = []
         var decoded = 0, triangles = 0, vertices = 0
+        var parts: [[String: Any]] = []
         var lo = [Double](repeating: .infinity, count: 3), hi = [Double](repeating: -.infinity, count: 3)
+        var parts: [[String: Any]]
         var ranges: [String: [Int: [[Int]]]] = [:]
         func append(_ bytes: Data, _ metadata: [String: Any], target: Int) -> Int {
             while bin.count % 4 != 0 { bin.append(0) }
@@ -96,7 +101,7 @@ public enum AdaptiveTilePacker {
             accessors.append(a); return accessors.count - 1
         }
         for (pi, selected) in selections.enumerated() where !selected.isEmpty {
-            let p = mesh.primitives[pi]
+            let p = mesh.primitives[pi], decodedStart = decoded
             var oldVertices: [Int] = [], mapping: [UInt32: UInt32] = [:], indices: [UInt32] = []
             for t in selected { for old in p.indices[(t * 3)..<(t * 3 + 3)] {
                 if mapping[old] == nil { mapping[old] = UInt32(oldVertices.count); oldVertices.append(Int(old)) }
@@ -135,6 +140,8 @@ public enum AdaptiveTilePacker {
             let bytes = indices.withUnsafeBufferPointer { Data(buffer: $0) }
             let idx = append(bytes, ["componentType": 5125, "count": indices.count, "type": "SCALAR"], target: 34963)
             var prim = p.meta; prim["attributes"] = attrs; prim["indices"] = idx; primitives.append(prim)
+            parts.append(["primitiveIndex": primitives.count - 1, "material": p.material,
+                          "decodedBytes": decoded - decodedStart, "triangles": indices.count / 3, "vertices": oldVertices.count])
             triangles += indices.count / 3; vertices += oldVertices.count
         }
         while bin.count % 4 != 0 { bin.append(0) }
@@ -148,17 +155,17 @@ public enum AdaptiveTilePacker {
         u32(0x46546c67); u32(2); u32(28 + header.count + bin.count)
         u32(header.count); u32(0x4e4f534a); data.append(header); u32(bin.count); u32(0x004e4942); data.append(bin)
         return Encoded(data: data, decoded: decoded, triangles: triangles, vertices: vertices,
-                       bounds: vertices == 0 ? [] : [lo, hi], ranges: ranges)
+                       bounds: vertices == 0 ? [] : [lo, hi], parts: parts, ranges: ranges)
     }
 
     /// Stable median split along the widest centroid axis; ties use other axis, LOD, primitive, triangle.
     /// Whole triangles stay unchanged, so bounds may overlap. Empty LODs are explicit, never zero-byte errors.
     static func split(_ meshes: [Mesh], budget: Budget) throws -> [Leaf] {
-        guard budget.uploadBytes > 0, budget.queueBytes > 0 else { throw Failure.invalid("Invalid budget") }
+        guard budget.uploadBytes > 0, budget.queueBytes > 0, budget.decodedLeafBytes > 0, budget.primitiveBytes > 0 else { throw Failure.invalid("Invalid budget") }
         struct Ref { var lod: Int; var primitive: Int; var triangle: Int; var x: Double; var z: Double }
         func visit(_ selection: [[[Int]]], suffix: String) throws -> [Leaf] {
             let encoded = try zip(meshes, selection).map { try encode($0, $1) }
-            if encoded.allSatisfy({ $0.data.count <= budget.uploadBytes && $0.decoded <= budget.queueBytes / 2 }) {
+            if encoded.allSatisfy({ $0.data.count <= budget.uploadBytes && $0.decoded <= min(budget.decodedLeafBytes, budget.queueBytes / 2) && $0.parts.allSatisfy { ($0["decodedBytes"] as! Int) <= budget.primitiveBytes } }) {
                 return [Leaf(suffix: suffix, lods: encoded)]
             }
             var refs: [Ref] = []
@@ -195,6 +202,8 @@ public enum AdaptiveTilePacker {
         guard world["schema"] as? String == "worldengine.package/1", world["tileLayout"] == nil else { throw Failure.invalid("Expected unpacked package/1") }
         let original = world["chunks"] as! [[String: Any]], oldFiles = world["files"] as! [String: [String: Any]]
         var hashes: [String: Any] = [:], chunks: [[String: Any]] = [], before: [[String: Any]] = [], after: [[String: Any]] = []
+        var groups: [[String: Any]] = []
+        var buildingBounds: [String: [Double]] = [:], buildingParents: [String: Set<String>] = [:]
         func read(_ path: String) throws -> Data {
             guard !path.hasPrefix("/"), !path.split(separator: "/").contains(".."), let expected = oldFiles[path] else { throw Failure.invalid("Unindexed path") }
             let data = try Data(contentsOf: source.appendingPathComponent(path))
@@ -217,6 +226,21 @@ public enum AdaptiveTilePacker {
                 let e = try encode(meshes[l], meshes[l].selection)
                 before.append(["id": id, "lod": l, "glbBytes": data[l].count, "decodedBytes": e.decoded, "triangles": e.triangles])
             }
+            // Immutable logical ownership is separate from adaptive payload membership.
+            let buildingIDs = Dictionary(uniqueKeysWithValues: (scene["features"] as! [[String: Any]]).filter { $0["kind"] as? String == "building" }.map { ($0["index"] as! Int, $0["id"] as! String) })
+            for primitive in meshes[0].primitives {
+                let feature = primitive.attributes["_FEATURE"]!
+                for vertex in Set(primitive.indices).sorted() {
+                    let v = Int(vertex)
+                    let fi = feature.bytes.withUnsafeBytes { raw in feature.width == 2 ? Int(raw.loadUnaligned(fromByteOffset: v * 2, as: UInt16.self)) : Int(raw.loadUnaligned(fromByteOffset: v * 4, as: UInt32.self)) }
+                    guard let ref = buildingIDs[fi] else { continue }
+                    let x = Double(primitive.positions[v * 3]) + meshes[0].origin[0], north = -(Double(primitive.positions[v * 3 + 2]) + meshes[0].origin[2])
+                    let old = buildingBounds[ref] ?? [x, north, x, north]
+                    buildingBounds[ref] = [min(old[0], x), min(old[1], north), max(old[2], x), max(old[3], north)]
+                    buildingParents[ref, default: []].insert(id)
+                }
+            }
+            var childIDs: [String] = [], childBoxes: [[[Double]]] = []
             for leaf in try split(meshes, budget: budget) {
                 let childID = leaf.suffix.isEmpty ? id : id + "." + leaf.suffix, base = "chunks/" + childID
                 var child = parent, childScene = scene, features = scene["features"] as! [[String: Any]]
@@ -234,25 +258,56 @@ public enum AdaptiveTilePacker {
                 child["id"] = childID; child["parentID"] = id; child["bounds"] = box; child["lods"] = lodPaths
                 child["scene"] = base + "/scene.json"; child["triangles"] = leaf.lods.map(\.triangles)
                 child["decodedBytes"] = leaf.lods.map(\.decoded)
+                child["parts"] = leaf.lods.map(\.parts)
+                child["glbBytes"] = leaf.lods.map { $0.data.count }
                 child["emptyLODs"] = leaf.lods.indices.filter { leaf.lods[$0].triangles == 0 }
                 childScene["chunk"] = childID; childScene["parentID"] = id; childScene["features"] = features
                 childScene["vertices"] = leaf.lods.map(\.vertices); childScene["triangles"] = leaf.lods.map(\.triangles)
                 childScene["bounds"] = box
                 if !box.isEmpty { childScene["rect"] = [box[0][0], -box[1][2], box[1][0], -box[0][2]] }
                 try write(WorldPackage.json(childScene, pretty: false), base + "/scene.json"); chunks.append(child)
+                childIDs.append(childID); if !box.isEmpty { childBoxes.append(box) }
             }
+            // Retain source LOD1 as bounded coarse coverage until ALL child replacements are ready.
+            var coarse: [[String: Any]] = []
+            for leaf in try split([meshes[1]], budget: budget) {
+                let e = leaf.lods[0], base = "chunks/" + id + ".coarse" + leaf.suffix
+                var parentScene = scene, features = scene["features"] as! [[String: Any]]
+                for i in features.indices {
+                    let fi = features[i]["index"] as! Int
+                    features[i]["lod0"] = ["static": [[Int]](), "water": [[Int]]()]
+                    features[i]["lod1"] = ["static": e.ranges["worldStatic"]?[fi] ?? [], "water": e.ranges["worldWater"]?[fi] ?? []]
+                }
+                parentScene["features"] = features; parentScene["vertices"] = [0, e.vertices]; parentScene["triangles"] = [0, e.triangles]
+                parentScene["bounds"] = e.bounds
+                try write(e.data, base + "/lod1.glb"); try write(WorldPackage.json(parentScene, pretty: false), base + "/scene.json")
+                coarse.append(["file": base + "/lod1.glb", "scene": base + "/scene.json", "sourceLOD": 1,
+                               "decodedBytes": e.decoded, "glbBytes": e.data.count, "parts": e.parts,
+                               "triangles": e.triangles, "bounds": e.bounds, "empty": e.triangles == 0])
+            }
+            let groupBounds: [[Double]] = childBoxes.isEmpty ? [] : [(0..<3).map { a in childBoxes.map { $0[0][a] }.min()! }, (0..<3).map { a in childBoxes.map { $0[1][a] }.max()! }]
+            groups.append(["id": id, "parentIndex": parent["index"]!, "bounds": groupBounds, "children": childIDs,
+                           "coarsePayloads": coarse, "switchRule": "Keep all parent coarse payloads until every required child LOD is ready; atomically replace the group. Never draw parent and child geometry together."])
+        }
+        var ownership: [String: Any] = [:]
+        for ref in buildingBounds.keys.sorted() {
+            let box = buildingBounds[ref]!
+            ownership[ref] = ["buildingCell": [Int(floor((box[0] + box[2]) / 200)), Int(floor((box[1] + box[3]) / 200))],
+                              "sourceParents": buildingParents[ref]!.sorted()]
         }
         let report: [String: Any] = ["format": "worldengine-adaptive-tiles/1", "sourceWorldSHA256": digest(sourceData),
-            "uploadBytes": budget.uploadBytes, "twoTileDecodedQueueBytes": budget.queueBytes,
-            "budgetSource": "docs/research-gpt/mobile-rendering-v1/streaming-design.md#7",
+            "uploadBytes": budget.uploadBytes, "primitiveDecodedBytes": budget.primitiveBytes, "leafDecodedBytes": budget.decodedLeafBytes, "twoTileDecodedQueueBytes": budget.queueBytes,
+            "budgetSource": "web/stream/targets.md at A4 939d04f; mobile-rendering-v1/streaming-design.md section 7",
             "before": before, "after": after, "beforeTiles": original.count, "afterTiles": chunks.count,
             "memoryScope": "Decoded vertex/index arrays only; excludes retained world, worker copies, JS objects, GPU and textures"]
         world["chunks"] = chunks; world["files"] = hashes; world["tilePacking"] = report
+        world["replacementGroups"] = groups
+        world["featureOwnership"] = ["buildingCellMeters": 100, "frame": "package local east/north, origin 0,0", "rule": "floor of source LOD0 feature bounding-box centre / 100 m; stable across payload splits", "buildings": ownership]
         world["tileLayout"] = ["type": "adaptive-budget-bvh/1", "parentChunkSizeM": world["chunkSize"] ?? NSNull(),
                                "indexMeaning": "Parent grid index; not unique. Use id and actual bounds, which can overlap.",
-                               "emptyLODMeaning": "emptyLODs are valid empty coverage; skip GLB decode/draw for that LOD"]
+                               "emptyLODMeaning": "emptyLODs are valid empty coverage; skip GLB decode/draw for that LOD", "replacement": "Atomic parent coverage groups; see replacementGroups"]
         var capabilities = world["capabilities"] as! [String: Any]
-        capabilities["required"] = (capabilities["required"] as! [String]) + ["adaptive-budget-bvh/1 bounds, IDs and emptyLODs"]
+        capabilities["required"] = (capabilities["required"] as! [String]) + ["adaptive-budget-bvh/1 bounds, IDs, emptyLODs and atomic replacementGroups"]
         world["capabilities"] = capabilities
         try WorldPackage.json(world).write(to: output.appendingPathComponent("world.json"))
         return report

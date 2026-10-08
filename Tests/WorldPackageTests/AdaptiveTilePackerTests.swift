@@ -71,4 +71,48 @@ struct AdaptiveTilePackerTests {
         var budget = AdaptiveTilePacker.Budget(); budget.uploadBytes = 1
         #expect(throws: (any Error).self) { try AdaptiveTilePacker.split([mesh], budget: budget) }
     }
+    @Test func decodedPartIndexAndCoarseReplacementAndOwnership() throws {
+        let fm = FileManager.default, root = fm.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? fm.removeItem(at: root) }
+        let source = root.appendingPathComponent("source"), target = root.appendingPathComponent("target")
+        try fm.createDirectory(at: source, withIntermediateDirectories: true)
+        let data = try [fixture(triangles: 150), fixture(triangles: 40)]
+        let encoded = try data.map { bytes in let mesh = try AdaptiveTilePacker.Mesh(bytes); return try AdaptiveTilePacker.encode(mesh, mesh.selection) }
+        var files: [String: Any] = [:]
+        func write(_ bytes: Data, _ path: String) throws {
+            let url = source.appendingPathComponent(path)
+            try fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try bytes.write(to: url); files[path] = ["bytes": bytes.count, "sha256": AdaptiveTilePacker.digest(bytes)]
+        }
+        let features: [[String: Any]] = (0..<4).map { i in
+            ["index": i, "id": "way/\(i)", "kind": "building",
+             "lod0": ["static": encoded[0].ranges["worldStatic"]![i]!, "water": [[Int]]()],
+             "lod1": ["static": encoded[1].ranges["worldStatic"]![i]!, "water": [[Int]]()]]
+        }
+        try write(data[0], "chunks/0_0/lod0.glb"); try write(data[1], "chunks/0_0/lod1.glb")
+        try write(WorldPackage.json(["features": features, "origin": [100, 0, -200]]), "chunks/0_0/scene.json")
+        let chunk: [String: Any] = ["id": "0_0", "index": [0, 0], "lods": ["chunks/0_0/lod0.glb", "chunks/0_0/lod1.glb"], "scene": "chunks/0_0/scene.json", "triangles": [150, 40]]
+        let manifest: [String: Any] = ["schema": "worldengine.package/1", "chunkSize": 200, "chunks": [chunk], "files": files, "capabilities": ["required": [String]()]]
+        try WorldPackage.json(manifest).write(to: source.appendingPathComponent("world.json"))
+        var budget = AdaptiveTilePacker.Budget(); budget.uploadBytes = 100000; budget.primitiveBytes = 2500; budget.decodedLeafBytes = 3000
+        _ = try AdaptiveTilePacker.pack(source: source, to: target, budget: budget)
+        let output = try JSONSerialization.jsonObject(with: Data(contentsOf: target.appendingPathComponent("world.json"))) as! [String: Any]
+        let children = output["chunks"] as! [[String: Any]], groups = output["replacementGroups"] as! [[String: Any]]
+        #expect(groups.count == 1); #expect(groups[0]["children"] as? [String] == children.map { $0["id"] as! String })
+        for c in children {
+            #expect((c["decodedBytes"] as! [Int]).allSatisfy { $0 <= 3000 })
+            #expect((c["parts"] as! [[[String: Any]]]).flatMap { $0 }.allSatisfy { ($0["decodedBytes"] as! Int) <= 2500 })
+        }
+        let coarse = groups[0]["coarsePayloads"] as! [[String: Any]]
+        let signatures = try coarse.flatMap { part in
+            #expect((part["parts"] as! [[String: Any]]).allSatisfy { ($0["decodedBytes"] as! Int) <= 2500 })
+            return try triangleSignatures(Data(contentsOf: target.appendingPathComponent(part["file"] as! String)))
+        }.sorted()
+        #expect(signatures == (try triangleSignatures(data[1])))
+        let other = root.appendingPathComponent("other"); budget.primitiveBytes = 3500
+        _ = try AdaptiveTilePacker.pack(source: source, to: other, budget: budget)
+        let changed = try JSONSerialization.jsonObject(with: Data(contentsOf: other.appendingPathComponent("world.json"))) as! [String: Any]
+        #expect(try WorldPackage.json(output["featureOwnership"]!) == WorldPackage.json(changed["featureOwnership"]!))
+    }
+
 }
