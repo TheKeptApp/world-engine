@@ -16,7 +16,7 @@
 - Signing: the team ID lives in `.local/team_id` (git-ignored), never in `project.yml`.
 - `docs/proposals/` is written by ChatGPT: read-only input. Never edit it. The visual source of truth is `docs/proposals/visual-v2/WorldEngine-Visual-Spec-Proposal-v2.md` (VISUAL_DIRECTION.md is kept consistent with it).
 - `~/Desktop/worldengine-handoff/dog/` may be read (DogWell dog exports); never write there.
-- `AGENTS.md` mirrors every rule in this file for Astra (a GPT coding agent, lane P1 on trial), who reads AGENTS.md instead. **Any rule change here updates `AGENTS.md` in the same commit, and the other way round** (R, 8 Oct 2026). If the two disagree, this file wins.
+- `AGENTS.md` mirrors every rule in this file for Astra (a GPT coding agent, on trial in lanes A1 to A3), who reads AGENTS.md instead. **Any rule change here updates `AGENTS.md` in the same commit, and the other way round** (R, 8 Oct 2026). If the two disagree, this file wins.
 
 ## Visual work builds to approved mocks
 
@@ -28,17 +28,17 @@ Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes
 
 ## Lanes and ownership (mirrored in AGENTS.md)
 
-- **P0 (5A):** light, weather, sky and the renderer (`Sources/WorldEngine/`, `Sources/WorldEnvironment/`, `Sources/LiveSky/`, the look data in `Sources/WorldGen/Profiles/look.json` and `Look.swift`, shaders). **Water (code, shader and values wiring) is 5A's alone, Opus only.**
+- **P0 (5A):** light, weather, sky and the renderer (`Sources/WorldEngine/`, `Sources/WorldEnvironment/`, `Sources/LiveSky/`, the look data in `Sources/WorldGen/Profiles/look.json` and `Look.swift`, shaders). **Water (code, shader and values wiring) is 5A's alone, Opus only; Astra may build water only inside his own `web/bakeoff/` folder.**
 - **P1:** data and back end (`Tools/regionkit/`, `Tools/livefeeds/`, `Data/`, `Sources/WorldMap/`, `Sources/WorldPackage/`, `Sources/worldbake/`, `Sources/WorldGeo/`, `docs/research/`, `docs/data-sources/`, `docs/data-licensing.md`).
 - **P2:** buildings, yards and vegetation (the generators in `Sources/WorldGen/`, `Sources/buildingviz/`, `docs/buildings/`).
-- **P3:** the look loop and the paperwork (`Tools/lookloop/`, `docs/lookloop/`, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`); files ChatGPT's packs and logs every handoff.
-- **Astra (GPT coding agent) is P1 only, during the trial (R, 8 Oct 2026).** Astra may not edit render or look code (the 5A and P2 areas) without a handoff logged by P3 in `docs/decisions/owner-log.md`, and **never edits water code or the water shader** (no handoff exists for that).
+- **P3:** the look loop (`Tools/lookloop/`, `docs/lookloop/`). Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage).
+- **Astra (GPT coding agent) is on trial with lanes A1 (data and back end: the P1 area), A2 (the web look bake-off, `web/bakeoff/` only) and A3 (filing, docs only; handoff log `docs/tracking/handoffs.md`)** (R, 8 Oct 2026). Astra may not edit render or look code (the 5A and P2 areas) without a logged handoff, and **never edits the iOS water code or the water shader** (water only inside his own bake-off folder).
 - If unsure which lane owns a file, ask P3 before editing it.
 
 ## Shared Mac, data and reporting rules (mirrored in AGENTS.md)
 
-- **Heavy jobs take turns** (Xcode/Swift builds, full test suites, Simulator runs, the look loop): run them as `scripts/heavy.sh "what it is" command…`. **Never delete, edit or "clean up" another lane's lock** (`~/.agent-heavy-lock`) or its owner file, even if it looks stuck; report an abandoned lock to P3. Priority 5A > P2 > P3 > P1; one heavy job at a time; at most one booted Simulator per session.
-- **Disk guard:** keep at least 8 GB free; under 8 GB, pause heavy work and report. Never delete files you did not create to make room. Images stay out of git; no file over 50 MB is committed.
+- **Heavy jobs take turns** (Xcode/Swift builds, full test suites, Simulator runs, the look loop): run them as `scripts/heavy.sh "what it is" command…`. **Never delete, edit or "clean up" another lane's lock** (`~/.agent-heavy-lock`) or its owner file, even if it looks stuck; report an abandoned lock to R. Priority 5A > P2 > P3 > P1; one heavy job at a time; at most one booted Simulator per session.
+- **Disk guard:** keep at least 8 GB free; under 8 GB, pause heavy work and report to R. Never delete files you did not create to make room. Images stay out of git; no file over 50 MB is committed.
 - Never print, log or commit keys, tokens or credentials.
 - **No raw data until it is GREEN** for our use (`docs/research-gpt/metro-data-coverage-v1/`, `docs/data-licensing.md`): use rule-based generation labelled "inferred". **Stale data is never shown as live**; every live or observed value shows its age, and missing data never silently becomes live.
 - No logos, brands, readable signs, murals or public art, dogs or other animals, or host-app content in anything generated (an exception needs R's ruling).

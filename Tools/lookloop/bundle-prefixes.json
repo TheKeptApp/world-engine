@@ -1,0 +1,12 @@
+{
+  "comment": "Key prefixes the engine reads from its bundled copy, Sources/WorldGen/Profiles/mock-values.json (R, 8 Oct 2026: the engine bundle only includes keys the engine uses; the full file stays as the reference). Tools/lookloop/compile_mocks.py writes the FULL file to Resources/look/mock-values.json for the tools and only these prefixes into the bundled copy, so the app does not ship and parse the whole 8+ MB file at load. Proposed by 5A (P0). A lane that starts reading a new prefix adds it here in the same commit; the engine's requireNumber and requireHex fail loudly on a missing key. Remove this file and the bundled copy becomes the full file again.",
+  "prefixes": [
+    "house-contrast-v1",
+    "lake-winter-v1",
+    "house-archetypes-v1",
+    "night-fog-v1",
+    "style-b/look",
+    "style-b/water",
+    "style-b/foliage"
+  ]
+}
