@@ -1,17 +1,52 @@
 # A6: fixture-only live sky state
 
-**Partial implementation — phase policy pending owner clarification.** Solar, lunar
-and visibility helpers are tested. `getSkyState` and the slider are not complete;
-`build-demo.mjs` and `demo-template.html` are preparation only and cannot yet build.
-No merge to main until the phase policy, interface and demo are complete.
+**Complete A6 module; fixture-only demo.** R approved the phase ranges for A6 only
+on 8 October 2026; see `docs/decisions/owner-log.md`, “Sky phase ranges”. This
+approval does not extend to other lanes or the entire reference pack.
 
-Decision requested: `sky-seasons-v1`, §2.1 defines golden [−4°, +6°] and blue
-[−6°, −4°], but INDEX marks it reference-only with no approval recorded. The approved
-`night-fog-v1` key `states[id=night].time.maxElevationDeg` is −12°; its blue-hour
-fixture `states[id=blue-hour].time` explicitly has no fixed solar elevation.
-Proposed A6 convention: day >6°, golden [−4°,6°], blue [−6°,−4°), night <−6°
-with a separate twilight flag for (−12°,−6°). This is a proposal, not an approved
-pack rule. Await owner confirmation before implementing or merging it.
+Phase convention: `sky-seasons-v1` §2.1 supplies golden [−4°, +6°] and blue
+[−6°, −4°]. For a single-valued API, golden owns the shared −4° endpoint:
+day >6°, golden [−4°,6°], blue [−6°,−4°), night <−6°.
+The four-state `night` label includes twilight; `twilight` is true only between
+−12° and −6°. `fullNight` uses the approved `night-fog-v1` key
+`states[id=night].time.maxElevationDeg` (≤−12°). Phase is driven by the Sun,
+not moon phase or cloud cover. Lunar illumination and horizon state are separate.
+
+## Public API and demo
+
+```js
+import {getSkyState} from './web/live/sky-state.mjs';
+const state = getSkyState({
+  lat: 39.7494, lon: -105.0445, time: '2026-06-21T12:00:00-06:00',
+  region: 'front-range', weatherState: 'clear'
+}); // demo: a string weather state is an authored fixture
+```
+
+Returns `sun` (azimuthDeg, elevationDeg, direction), `moon` (direction,
+illuminatedFraction, waxing, aboveHorizon), `phase` (`day | goldenHour | blueHour |
+night`), `twilight`, `fullNight`, `directSunAboveHorizon`, `airlight`
+(linearRGB, hex, space), `extinctionPerM`, `label` (`live | stale | demo`) and
+`visibility` (basis, ages, status, season, state, estimated and expiry flags).
+The optional observation schema is documented below. No weather input is silently
+fabricated. Missing required region/weather state throws; missing visibility uses
+an explicitly estimated fallback and cannot be live.
+
+A2/Builder: use `sun.direction` to place a directional source; cast rays in the
+opposite direction. Below the geometric horizon set direct sunlight to zero.
+Sun direction does not depend on weather, region, viewport or the camera.
+Atmospheric extinction and airlight are separate inputs, not extra exposure or
+shadow colouring. Existing renderer occlusion/terrain must determine actual shadows.
+For a level plane, an unoccluded vertical object's shadow length is height/tan(elevation);
+this becomes ill-conditioned near the horizon. Refraction, terrain, buildings,
+survey accuracy and civil-time entry can dominate a shadow-study error; this module
+is not survey-grade. Reference errors below are numerical comparisons, not a
+site-specific shadow guarantee.
+
+Open `web/live/index.html` directly in a browser: a standalone, inline-module
+Sloan’s Lake slider (21 June 2026, MDT), always labelled DEMO. No server or network
+is required. `node web/live/build-demo.mjs` regenerates it after source changes.
+`createSkyState({clock})` provides deterministic test-clock injection; integration
+should use `getSkyState` with its real clock. Never inject slider time as the live clock.
 
 Small, dependency-free ES modules for a map viewer. No fetch, geolocation,
 provider credentials, runtime packages, renderer changes or network access.
@@ -135,7 +170,8 @@ The original JSON's historical pending label is superseded by its approved STATU
 
 ## Tests
 
-From repository root: `node --test web/live/*.test.mjs` (Node 18+).
-No installation, dependency lockfile, heavy lock or network is required.
+From repository root: `HEAVY_AGENT=A6 bash scripts/heavy.sh "A6 live sky tests" node --test web/live/*.test.mjs` (Node 18+).
+R requested the heavy wrapper for merge-readiness verification. No installation,
+dependency lockfile or network is required.
 Python is needed only to intentionally regenerate the independent solar fixture;
 ordinary tests consume frozen JSON. No baseline is refreshed by the test runner.
