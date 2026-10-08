@@ -113,6 +113,12 @@ public struct BuildingGenerator: Sendable {
     public var obstacles: PolygonIndex?
     /// Phone-size house contrast values (`look.json` houseContrast).
     static var contrast: LookSpec.HouseContrast? { LookSpec.bundled?.houseContrast }
+    /// Archetype id → colour variant weights (look.json archetypes.variantWeights).
+    static let variantWeights: [String: [Double]] = {
+        guard let data = try? StyleLibrary.data("look"), let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let a = json["archetypes"] as? [String: Any], let w = a["variantWeights"] as? [String: Any] else { return [:] }
+        return w.compactMapValues { ($0 as? [NSNumber])?.map(\.doubleValue) }
+    }()
 
     /// Combined optional roof detail per near building (regions spec §4 table).
     public static let optionalRoofCap = 200
@@ -255,7 +261,12 @@ public struct BuildingGenerator: Sendable {
         default: type?.colors ?? profile.houseTypes[0].colors
         }
         var cr = b.ref.random("palette")
-        g.colorSet = Int(cr.next() % UInt64(max(1, tuples.count)))
+        // Archetype variants may carry weights (look.json archetypes.variantWeights); default equal.
+        if let id = archetype?.id, let w = Self.variantWeights[id], w.count == tuples.count, w.reduce(0, +) > 0 {
+            g.colorSet = cr.pick(Array(tuples.indices)) { w[$0] }
+        } else {
+            g.colorSet = Int(cr.next() % UInt64(max(1, tuples.count)))
+        }
         var tuple = tuples[g.colorSet]
         // Archetype palettes are approved values: the tone floors (a guard for profile colours) leave them alone.
         if let floors = families.toneFloors, archetype == nil {
