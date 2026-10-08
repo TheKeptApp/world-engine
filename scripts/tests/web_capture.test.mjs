@@ -37,3 +37,23 @@ test('expectedDifferent only exempts foliage between distinct modes',()=>{
  assert.throws(()=>verifyCoverage([{...a,metrics:{triangles:3,drawCalls:1}}],{expectedDifferent:true}),/Missing/);
  assert.equal(modeQueries({matrix:true,crown:'off,on'}).length,6);
 });
+test('frozen web contract agrees with saved pair metadata, not native views',async()=>{
+ const {readFile}=await import('node:fs/promises');
+ const contract=JSON.parse(await readFile(new URL('../web_capture_contract.json',import.meta.url)));
+ const grades=JSON.parse(await readFile(new URL('../../docs/lookloop/web-4127a32/grades.json',import.meta.url)));
+ for(const [scene,config] of Object.entries(contract.scenes)){
+  const capture=grades.views[scene].capture;
+  assert.deepEqual(contract.fixture,capture.resolved.fixture);
+  assert.equal(config.camera.fov,capture.camera.fov);
+  assert.deepEqual([config.viewport.width,config.viewport.height],capture.viewport.slice(1));
+ }
+});
+test('owned server replays frozen JSON without editing renderer files',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'web-contract-test-'));let server;
+ try{
+  server=await startCaptureServer(root,{'/fixture.json':{date:'2026-10-08'}});
+  assert.deepEqual(await(await fetch(server.origin+'/fixture.json')).json(),{date:'2026-10-08'});
+  assert.equal((await fetch(server.origin+'/favicon.ico')).status,204);
+  assert.deepEqual(server.failures,[]);
+ }finally{if(server)await server.close();await rm(root,{recursive:true});}
+});
