@@ -79,3 +79,98 @@ extension StyleLibrary {
         try DaytimeMaster(mockValues())
     }
 }
+
+/// Lake water (owner 7 Oct): lake-winter-v1 owns colour, shoreline and reflection; water-surfaces-v1
+/// (style-b/water) owns the wave mechanics (its four-term weights). Read by key from mock-values.json.
+public struct LakeWater: Sendable {
+    public struct Wave: Sendable { public var amplitudeM: Double; public var wavelengthM: Double; public var speedMps: Double }
+    public struct Profile: Sendable {
+        public var shallowHex: String
+        public var shallowBlendWidthM: Double
+        /// Wave by wind speed (km/h), ascending.
+        public var waves: [(windKmh: Double, wave: Wave)]
+
+        /// The wave at a wind speed, interpolated between the pack's rows (held past the last).
+        public func wave(windKmh w: Double) -> Wave {
+            guard let first = waves.first else { return Wave(amplitudeM: 0, wavelengthM: 1, speedMps: 0) }
+            if w <= first.windKmh { return first.wave }
+            for (a, b) in zip(waves, waves.dropFirst()) where w <= b.windKmh {
+                let t = (w - a.windKmh) / max(b.windKmh - a.windKmh, 1e-6)
+                func mix(_ x: Double, _ y: Double) -> Double { x + (y - x) * t }
+                return Wave(amplitudeM: mix(a.wave.amplitudeM, b.wave.amplitudeM), wavelengthM: mix(a.wave.wavelengthM, b.wave.wavelengthM),
+                            speedMps: mix(a.wave.speedMps, b.wave.speedMps))
+            }
+            return waves.last!.wave
+        }
+    }
+    /// By P2's shore-profile order (look.json water.shoreProfiles.order; the index in water-mesh extra.w).
+    public var profiles: [Profile]
+    public var shoreDarkenMultiplier: Double
+    public var shoreDarkenWidthM: Double
+    public var shoreTransitionWidthM: Double
+    public var grazingStrength: Double
+    public var grazingExponent: Double
+    public var f0: Double
+    /// Sky blend looking straight down (lake-winter-v1 water.reflection.normalStrength; 0.12 → grazing 0.55).
+    public var normalStrength: Double
+    public var aerialScale: Double
+    public var waveWeights: [Double]
+    /// Water roughness by wind speed (km/h), ascending (lake-winter-v1 water.windStates).
+    public var roughnessByWind: [(windKmh: Double, roughness: Double)]
+    /// Ripple normal amplitude by wind speed (km/h) (lake-winter-v1 water.windStates.*.normalAmplitude).
+    public var normalAmplitudeByWind: [(windKmh: Double, roughness: Double)]
+    /// Ripple detail fades between these distances (m); aerial views scale it.
+    public var detailFadeStartM: Double
+    public var detailFadeEndM: Double
+    public var aerialNormalScale: Double
+
+    /// Roughness at a wind speed, interpolated (held past the ends).
+    public func roughness(windKmh w: Double) -> Double { Self.interpolate(roughnessByWind, w) ?? 0.28 }
+
+    /// Ripple normal amplitude at a wind speed (km/h).
+    public func normalAmplitude(windKmh w: Double) -> Double { Self.interpolate(normalAmplitudeByWind, w) ?? 0 }
+
+    static func interpolate(_ rows: [(windKmh: Double, roughness: Double)], _ w: Double) -> Double? {
+        guard let first = rows.first else { return nil }
+        if w <= first.windKmh { return first.roughness }
+        for (a, b) in zip(rows, rows.dropFirst()) where w <= b.windKmh {
+            return a.roughness + (b.roughness - a.roughness) * (w - a.windKmh) / max(b.windKmh - a.windKmh, 1e-6)
+        }
+        return rows.last!.roughness
+    }
+
+    public init(_ m: MockValues, order: [String]) throws {
+        let p = "lake-winter-v1/water."
+        func n(_ k: String) throws -> Double { try m.requireNumber(p + k) }
+        profiles = try order.map { id in
+            let winds = [0.0, 10, 25, 40, 60].filter { m.number(p + "profiles.\(id).waveByWindKmh.\(Int($0)).amplitudeM") != nil }
+            return Profile(shallowHex: try m.requireHex(p + "profiles.\(id).shallowColourHex"),
+                           shallowBlendWidthM: try n("profiles.\(id).shallowBlendWidthM"),
+                           waves: try winds.map { w in
+                               let k = "profiles.\(id).waveByWindKmh.\(Int(w))."
+                               return (w, Wave(amplitudeM: try n(k + "amplitudeM"), wavelengthM: try n(k + "wavelengthM"), speedMps: try n(k + "phaseSpeedMps")))
+                           })
+        }
+        shoreDarkenMultiplier = try n("shoreline.linearBaseMultiplier")
+        shoreDarkenWidthM = try n("shoreline.darkeningWidthM")
+        shoreTransitionWidthM = try n("shoreline.transitionWidthM")
+        grazingStrength = try n("reflection.grazingStrength")
+        grazingExponent = try n("reflection.grazingExponent")
+        f0 = try n("reflection.physicalF0")
+        normalStrength = try n("reflection.normalStrength")
+        aerialScale = try n("reflection.aerialScale")
+        waveWeights = (0..<4).compactMap { m.number("style-b/water/waveModelProposal.fourWaveWeights[\($0)]") }
+        roughnessByWind = [0.0, 10, 25, 40, 60].compactMap { w in m.number(p + "windStates.\(Int(w)).roughness").map { (w, $0) } }
+        normalAmplitudeByWind = [0.0, 10, 25, 40, 60].compactMap { w in m.number(p + "windStates.\(Int(w)).normalAmplitude").map { (w, $0) } }
+        detailFadeStartM = try n("lod.normalDetailFadeStartM")
+        detailFadeEndM = try n("lod.normalDetailFadeEndM")
+        aerialNormalScale = try n("lod.aerialNormalAmplitudeScale")
+    }
+}
+
+extension StyleLibrary {
+    /// Lake water values for P2's shore-profile order.
+    public static func lakeWater() throws -> LakeWater {
+        try LakeWater(mockValues(), order: LookSpec.bundled?.water.shoreProfiles?.order ?? ["lake_michigan", "sloans_lake"])
+    }
+}
