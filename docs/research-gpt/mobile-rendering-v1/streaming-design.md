@@ -112,6 +112,8 @@ Every value is an assumed starter. At walking speeds, the minimum margin intenti
 
 ## 7. Residency, queues and memory
 
+**Approved desktop Chrome amendment — R, 9 October 2026:** validate with about 20 other Chrome tabs and normal apps; record tab count and max load per flight/control. Staged whole-step upload p99 ≤0.5 ms, max ≤2 ms; renderer-side upload peak reported and attributed separately; resident geometry ≤48 MiB. Load <5 is optional reference only. Native ledger assumptions below remain unchanged. See [approved desktop criteria](../../design/streaming-design.md#7-residency-queues-and-memory).
+
 **Proposed A16 trial ceiling: 256 MiB logical streamed-content allowance**, not a proven safe iOS memory limit and not 256 MiB added on top of the current eager world. It replaces that world's comparable allocations. Native unified memory must not be confused with independent physical CPU/GPU pools; count logical ownership conservatively and confirm actual process footprint. Global app/UI/host character, framebuffer/shadow/post targets and OS/driver overhead need separate measured room.
 
 | Ledger component | Proposed allowance |
@@ -128,7 +130,7 @@ Pin shared resources, a compact coarse coverage set, active near collision and v
 
 Evict obsolete speculative work → inactive decoded details → offscreen fine tiles → finer visible details after parents are ready. On memory warning/critical heat, lower the dynamic allowance and turn off speculative prefetch; no promise that the initial ceiling is safe. Maintain last-known coarse content offline. Disk cache starts at a proposed 512 MiB cap (compressed bytes), user-clearable and versioned; available storage can lower it. Derived per-tile cost estimates guide admission before downloads, with actual allocation telemetry correcting them.
 
-Proposed queues: at most 4 network requests, 2 decoders, and 1 main-actor upload/attachment operation per frame. Limit each upload payload part to roughly 2 MiB; target ≤0.5 ms measured main-thread upload/attachment work per frame, but do not claim Task.yield enforces it. A single long upload cannot be preempted by yielding afterward; exporter split or staged mesh upload is required. Cap decoded queued bytes at 16 MiB within staging. Hash/version/epoch-check every result; cancelled or old-camera results may enter disk cache but cannot attach as current content. Use measured dependency scheduling rather than unbounded Promise.all or city-wide generated arrays.
+Proposed queues: at most 4 network requests, 2 decoders, and 1 main-actor upload/attachment operation per frame. Limit each upload payload part to roughly 2 MiB; the original native proposal targets ≤0.5 ms measured main-thread upload/attachment work per frame (desktop Chrome now uses the approved staged p99/max amendment above), but do not claim Task.yield enforces it. A single long upload cannot be preempted by yielding afterward; exporter split or staged mesh upload is required. Cap decoded queued bytes at 16 MiB within staging. Hash/version/epoch-check every result; cancelled or old-camera results may enter disk cache but cannot attach as current content. Use measured dependency scheduling rather than unbounded Promise.all or city-wide generated arrays.
 
 ## 8. Coarse-first useful launch
 
@@ -233,6 +235,8 @@ Terrain height is a separate precision issue: SRTM uses EGM96 orthometric height
 
 ## 15. Seamless refinement and atmosphere
 
+**Approved desktop Chrome amendment — R, 9 October 2026:** compiles after startup 0 and completed detail groups >0 for every streaming flight; retain atomic coarse/outgoing coverage until complete replacement. Pair every flight with uploads-disabled control under the same realistic profile; no visible-hole requirement is waived. See [approved refinement criteria](../../design/streaming-design.md#15-seamless-refinement-and-useful-detail).
+
 **Proposed visual contract:** no visible holes, duplicated houses, sudden silhouette swaps or exposure jumps during a continuous zoom. Parent coverage stays until all required replacement parts are ready. Under poor networking, hold a coarser valid surface rather than revealing empty fine tiles. Admission limits apply to both representations during every transition.
 
 Terrain vertices geomorph from the parent's sampled height to the child over 0.3–0.8 s; matching edge samples and bounded skirts prevent cracks. Carry the morph through normals and adjoining tiles. Never use a skirt as a substitute for correct street/collision height. Land-cover textures blend in linear colour over the same interval. Urban aggregates transition over 0.8–1.5 s using stable world-seeded complementary coverage/dither, with geometry fading out before its projected detail becomes unreadable. Prefer opaque coverage transitions over blended stacks of every tree/building. Depth and shadow handling for dither in the native material path must be proven; otherwise use compatible mesh morphs and subpixel detail removal, then review captures before accepting the transition.
@@ -263,6 +267,8 @@ Satellite positions are **computed from dated elements**, not live observed posi
 At orbit altitude, disable the ground-observer skyglow kernel; star visibility follows exposure, sun/bright Earth glare and occultation. Retain existing computational/provenance labels. Proposed cheap caps: 256 bright star points and 64 selected satellite points initially, with no satellite models or trails required. Higher-density stars are later assets with their own rights/performance review.
 
 ## 17. A16 budgets and shared three.js implementation
+
+**Approved desktop Chrome amendment — R, 9 October 2026:** frame p99 ≤20 ms; intervals >33.33 ms ≤0.1%; staged whole-step p99 ≤0.5 ms/max ≤2 ms; compiles 0; streaming detail groups >0; resident geometry ≤48 MiB; renderer upload peak attributed. About 20 other Chrome tabs, normal apps, paired controls and tab count/max load per flight are required. Load <5 is optional reference, not validity. M1 Max results do not prove mid-range laptop behavior; lower-tier testing comes later. These desktop criteria do not change the native A16 assumptions below. See [approved desktop qualification](../../design/streaming-design.md#17-desktop-frame-timing-and-qualification-limits).
 
 **Assumptions to validate on a warm A16, 60 fps:** counts below sum near and far main-view submissions, including surface, clouds, atmosphere and sky. They do not hide a second globe pass outside the budget. Shadow submissions are reported separately, along with actual total passes/GPU time. Existing counters are estimates (§5 and compatibility.md); expand their scope before using them to certify these targets.
 
