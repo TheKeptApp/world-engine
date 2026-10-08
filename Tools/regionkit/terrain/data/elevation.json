@@ -1,0 +1,29 @@
+{
+  "defaultArea": "sloans-lake",
+  "authorizedAreas": [
+    "sloans-lake",
+    "lakeview-sheil-park",
+    "greenville-downtown"
+  ],
+  "nativeBufferMeters": 100,
+  "maximumDistanceM": 200000,
+  "maximumNativeReadBytes": 100000000,
+  "licenseStatus": "GREEN",
+  "license": "US Government Public Domain",
+  "verticalDatum": "NAVD88",
+  "verticalUnits": "metre",
+  "verticalCRS": "EPSG:5703",
+  "checkedOn": "2026-10-08",
+  "sourceEvidence": [
+    "https://data.usgs.gov/datacatalog/data/USGS:77ae0551-c61e-4979-aedd-d797abdcde0e",
+    "https://data.usgs.gov/datacatalog/data/USGS:3a81321b-c153-416f-98b7-cc8e5f0e17c3",
+    "https://data.usgs.gov/datacatalog/data/USGS:35f9c4d4-b113-4c8d-8691-47c428c29a5b"
+  ],
+  "distancePolicy": "docs/proposals/mountain-terrain-v1/values.json#demByDistance",
+  "notes": "One CONUS source-family pipeline, identical distance policy, budgets and 100 m native halo for each authorized area. Area-specific entries select verified surveys only. Native resolution is distinct from output spacing.",
+  "nativeProjects": {
+    "sloans-lake": "CO_DRCOG_2020_B20",
+    "lakeview-sheil-park": "IL_4_County_QL1_LiDAR_2016_B16",
+    "greenville-downtown": "SC_SavannahPeeDee_2019_B19"
+  }
+}
