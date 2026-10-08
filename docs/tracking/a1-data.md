@@ -47,3 +47,7 @@ Merge: the earlier terrain rebase conflicted with A3’s handoff filing and was 
 P2: building-heights.json and building-roofs.json remain the same measured/derived contracts. 5A: elevation/metadata.json indexes native NAVD88 metre clips and the distance bands; datum reconciliation and rendering remain with 5A. No visual acceptance is claimed. Earlier assessor, full-GERS and Greenville follow-ups were outside this overnight batch.
 
 Verification used the existing Python 3.14 lidar environment plus the existing rasterio site-packages, without installation; all checks ran directly beneath scripts/heavy.sh. The initially queued DEM check was consolidated into one owned-lock job; other lane locks were untouched.
+
+## Integration stopped
+
+Main advanced to b012b71. Rebase stopped on a content conflict in docs/tracking/handoffs.md (A3 facade handoff versus the earlier A1 terrain handoff). No resolution or push attempted. Rebase aborted safely to preserve all completed batch files on astra-a1-overnight-data. 146 tests ran successfully under the owned heavy lock, with 3 skipped; no check failures. Disk remained above 8 GB. West Highland stays blocked on its missing fixed rectangle/manifest.
