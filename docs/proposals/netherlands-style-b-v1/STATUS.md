@@ -1,0 +1,25 @@
+# Status
+
+**R approved – 2026-10-08.** Approved.
+
+**Owner lane:** P2, P1. **Phase:** Launch country Netherlands, after the look gate.
+
+Style B design pack for the Netherlands launch country: Amsterdam, Rotterdam, Utrecht and Leidsche Rijn. 18 source boards: 28 building studies, 16 district boards, 4 block paint-overs and 6 shared sheets (canals, cycling, trams, trees, weather, night, Kings Day). Numbers are authored and unverified.
+
+Binding rules from the pack:
+- Driving side is RIGHT. Trams, ferries and cycle paths are separate mapped networks. Signals come from the road-signs-signals-v1 Dutch page. Live signal state stays unknown unless a verified feed says otherwise; never assume green. The red stop on the sheet is an illustration.
+- style-b-calibration-v2 owns light and materials; the look block here is only a copy. Storeys, frontage and lot widths, street and canal widths and the tree mix are authored UNVERIFIED fallbacks, not standards. Replace them with local measurements and inventories.
+- Real map data wins. Order: measured width, then mapped geometry or local profile, then this pack. Never read a missing width tag as a wide US road. Do not assume bike or moped access from red colour alone. Do not draw a red lane where a separate cycleway is mapped.
+- Data rules: AHN5 must not inherit AHN4's CC0 label. Amsterdam tree data has no confirmed reuse licence. Check GVB and NS in the aggregate GTFS. KNMI's new warning feeds are TEST data until the planned 2 Nov 2026 switch; never show them as live alerts. 3DBAG needs its credit (CC BY 4.0).
+- No characters, dogs, logos, readable signs, real murals or public art. Night views have no motor vehicles. Kings Day is temporary orange bunting, cloth and boats, with no logos, crowds or permanent orange facades. Images are concepts, not surveyed models or engine renders.
+- A BAG mooring record is not houseboat hull geometry. Utrecht's lower wharf and upper street keep separate heights. Use AHN DTM (ground), not DSM, and keep RD/NAP (EPSG:7415) consistent with 3DBAG.
+
+Authored or unverified: (1) Every number is an authored fallback: storeys, frontage and lot widths, street, cycle, canal and bridge widths, tree mix (elm 35%, plane 25%, linden 25%, other 15%), weather presets and colours. None is measured; the file marks them UNVERIFIED. (2) Licences were read on 7 Oct 2026 and nothing was ingested. Open: AHN5 licence version, Amsterdam tree terms, current GVB and NS GTFS inclusion and dates, OSM completeness per city, exact KNMI product IDs, BAG snapshot, KNMI switch date. (3) Images are AI-generated concepts with approximate cameras. Block paint-overs start from authored neutral massing, not engine output. No engine build, device or speed test. The phone check covered gallery layout only, at 320, 390 and 1280 px. (4) prompts.json names the Style B Bible calibration street (Chicago) as the look reference, not calibration-v2's own frame. Only licence and release facts (3DBAG v2025.09.03, KNMI deprecation notice dated 5 Oct 2026) are sourced.
+
+Flags for R:
+- Look: sharedLook copies calibration-v2's uncorrected JSON (sky #73A5CC, #A2C4DC, #DBDCD1). Calibration-v2 STATUS.md (R approved 7 Oct) corrects it to #7AAFE2, #8FBAE7, #A0C8F2 from its frames. Do not compile this pack's sharedLook. The weather and night presets (sky hex, sun, wetness, fog) are authored look values; approved weather-moments-v1 and night-fog-v1 own those states. fogDensity has no unit; night-fog-v1 uses haze per metre.
+- Street geometry: street-geometry-rules-v1 (NL rows) wins. Pack streetWidths_m against rules: residential 4.8-6 vs 4.8; collector 6-7 vs 6.0; sidewalk 1.5-3 vs 1.8 or 2.1; separator 0.3-1 vs 0.5; parking 1.8-2.2 vs 2.0; curb 0.08-0.15 vs 0.125. One-way cycle track 2-2.5 agrees. Two-way track, canalOneWay, canal and bridge widths have no rule row: unclear.
+- Water colour: canals.water #617E86 has no owner. water-surfaces-v1 gives its Netherlands canal preview #586F60 (colour not approved, not compiled). R: the lake pack and calibration-v2 own water colour; water-surfaces-v1 is mechanics only. Compile neither canal colour; storm waves can use water-surfaces-v1 mechanics.
+- Signals, trees, events: road-signs-signals-v1 defines no cycle signal head and no cycle-surface colour (pack: #A66150); the sheets draw both, so treat as drawn only. foliage-seasons-v1 has no Dutch elm; American elm, London plane and Littleleaf linden all fall #D6B342, while the sheet runs yellow to orange; it wins. Kings Day is an event: off unless verified; the pack gives no trigger.
+
+Compiled into `mock-values.json` under `style-b/netherlands` (the copied look or lighting block is not compiled: look is owned by `style-b-calibration-v2`). The `streetWidths_m`, `canals.width_m` and bridge deck width keys carry `supersededFor: geometry` and `signals` carries `supersededFor: signs-signals` (street-geometry-rules-v1 and road-signs-signals-v1 own them); `kingsDay` carries `gatedBy: events-off-unless-verified`; the `weather` presets and `canals.water` colour are not compiled (5A, weather-moments-v1, the lake pack and calibration v2 own them).

@@ -1,0 +1,1287 @@
+{
+  "schema": "worldengine.mountain-terrain.design.v1",
+  "date": "2026-10-07",
+  "status": "Authoring targets, not engine-validated; source facts identified separately",
+  "units": {
+    "length": "m",
+    "elevation": "orthometric metres; normalize input tile vertical datum",
+    "extinction": "m^-1",
+    "colour": "sRGB hex; decode to linear before blending"
+  },
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "slopeRules": {
+    "foundation": {
+      "floorTiltDeg": 0,
+      "footprintSampleSpacingM": 2,
+      "includeVerticesEntrancesGarage": true,
+      "stepRiseTargetM": 0.4,
+      "stepRiseGuideM": [
+        0.3,
+        0.6
+      ],
+      "padModificationMaxOutsideFootprintM": 1,
+      "confidence": "judgment unless surveyed",
+      "automaticExposureReviewThresholdM": 3,
+      "formula": "exposure(s)=floorBaseZ-groundZ(s); resolve negative exposure locally, never tilt floor",
+      "example": {
+        "alongSlopeFootprintM": 12,
+        "gradePercent": 22,
+        "terrainHeightDifferenceM": 2.64
+      }
+    },
+    "retaining": {
+      "ordinaryGuideM": [
+        0.6,
+        1.8
+      ],
+      "reviewThresholdM": 2,
+      "thicknessGuideM": [
+        0.25,
+        0.45
+      ],
+      "terraceRatherThanSingleTallWall": true,
+      "structuralDesign": false
+    },
+    "stairs": {
+      "riserTargetM": 0.16,
+      "treadTargetM": 0.3,
+      "widthTargetM": 1.5,
+      "risersPerFlightTarget": 8,
+      "landingLengthTargetM": 1.5,
+      "handrailHeightTargetM": 0.9,
+      "uniformRisers": true,
+      "actualRiserRule": "choose integer N to keep totalRise/N within selected valid range; each flight uniform; mapped stairs override inference",
+      "coveredAdaEvidence": {
+        "source": "ADA-STAIRS",
+        "riserRangeM": [
+          0.1016,
+          0.1778
+        ],
+        "treadMinM": 0.2794,
+        "status": "verified imperial conversion; applicable scope required"
+      },
+      "accessibleRouteClaim": false
+    },
+    "road": {
+      "crownTargetPercent": 2,
+      "curbHeightTargetM": 0.1524,
+      "sidewalkCrossSlopeTargetPercent": 2,
+      "profileSampleSpacingM": 2,
+      "profileFitWindowM": [
+        10,
+        20
+      ],
+      "bridgeTunnelPolicy": "Do not drape onto bare earth; mapped deck/profile overrides; unresolved deck flagged.",
+      "parkingBayAngle": "Use mapped layout, never infer bay angle from grade alone."
+    }
+  },
+  "geography": {
+    "positionsAndSightlines": "From map and DEM; concept artwork is not georegistered",
+    "verticalExaggeration": 1,
+    "coordinateFrame": "local ENU; curved Earth for distant terrain; preserve source CRS and geoid transformation",
+    "buildingFloorTiltDeg": 0,
+    "snowlineByMonth": false,
+    "sloansLakeViews": {
+      "west": {
+        "cameraSide": "east of lake",
+        "headingDeg": 270,
+        "sequence": [
+          "lake",
+          "west-side low-rise neighbourhoods",
+          "foothills",
+          "Front Range"
+        ],
+        "downtownSkylineAllowed": false
+      },
+      "east": {
+        "cameraSide": "west of lake",
+        "headingDeg": 90,
+        "sequence": [
+          "lake",
+          "east-side neighbourhoods",
+          "downtown Denver",
+          "flat eastern plains/sky"
+        ],
+        "mountainBackdropAllowed": false
+      },
+      "headingIsCompositionGuide": true,
+      "exactCameraAndSkylineBearing": "Resolve from map+DEM; do not place peaks behind an east-facing downtown view."
+    }
+  },
+  "elevationBands": [
+    {
+      "id": "foothills",
+      "guideM": [
+        1650,
+        2400
+      ],
+      "status": "unverified regional authoring guide; landcover overrides"
+    },
+    {
+      "id": "montane",
+      "guideM": [
+        2400,
+        2900
+      ],
+      "status": "unverified regional authoring guide"
+    },
+    {
+      "id": "subalpine",
+      "guideM": [
+        2900,
+        3353
+      ],
+      "status": "unverified regional authoring guide"
+    },
+    {
+      "id": "treelineEcotone",
+      "guideM": [
+        3352.8,
+        3505.2
+      ],
+      "status": "verified NPS RMNP 11000\u201311500ft depending exposure; not universal Front Range boundary"
+    },
+    {
+      "id": "alpine",
+      "guideM": [
+        3505.2,
+        4400
+      ],
+      "status": "authoring guide; actual terrain/vegetation overrides"
+    }
+  ],
+  "landcoverRule": "Rock, scree and snow are masks controlled by geology, slope, exposure and history, not mandatory altitude stripes; general kit replaces regional bands.",
+  "palettes": {
+    "spring": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#83905B",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "summer": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#76844D",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "autumn": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#AE8957",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "winter": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#897E6D",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    }
+  },
+  "snowHistory": {
+    "source": "SNODAS daily ~1km depth/SWE and melt; NOHRSC cover analysis; optional clear-sky satellite cover",
+    "monthAllowedAsSnowInput": false,
+    "inputHistoryDays": 30,
+    "freshEventWindowHours": 72,
+    "sourceAgeSoftHours": 36,
+    "sourceAgeHardHours": 72,
+    "unknownPolicy": "After hard age keep last mask as stale with timestamp; never claim current cover; cold air alone does not create snow",
+    "precedence": [
+      "recent valid observed snow-cover mask",
+      "regional depth/SWE constrained cover prior",
+      "history-driven uncertain snow model"
+    ],
+    "snowline": "Report transition elevation by aspect from current mask, not a single permanent contour; null if no reliable cover",
+    "depthCoverageVisualTransfer": {
+      "zeroCoverageAtDepthM": 0.005,
+      "fullCoverageGuideDepthM": 0.15,
+      "formula": "smoothstep(0.005,0.15,depthM); visual heuristic not observed subcell snow fraction"
+    },
+    "fallbackMelt": {
+      "formula": "SWE_next=max(0,SWE_prev + snowfallSWE - max(T_C,0)*degreeDayMmPerCPerDay*dtDays/1000)",
+      "degreeDayMmPerCPerDay": 3,
+      "status": "unverified fallback heuristic, not hydrologic forecast; solar, rain and wind need calibrated model"
+    },
+    "aspectRetentionGuide": {
+      "north": 1.2,
+      "south": 0.8,
+      "status": "unverified visual redistribution weights; conserve regional SWE; no invented precision"
+    },
+    "snowfieldRules": [
+      "Use observed/history mask intersect terrain; retain sheltered hollows when supported",
+      "Wind-scoured ribs may remain bare; slope alone does not decide snow absence",
+      "Ski grooming/snowmaking only from operator data; otherwise maintenance state unknown"
+    ],
+    "uncertaintyScaleM": 1000
+  },
+  "demByDistance": [
+    {
+      "rangeM": [
+        0,
+        250
+      ],
+      "source": "3DEP 1m where available",
+      "fallback": "3DEP ~10m; flag uncertain cuts/pads, never fabricate surveyed detail",
+      "meshSampleGuideM": 1,
+      "screenErrorPx": 1
+    },
+    {
+      "rangeM": [
+        250,
+        2000
+      ],
+      "source": "3DEP ~10m",
+      "meshSampleGuideM": 10,
+      "screenErrorPx": 1
+    },
+    {
+      "rangeM": [
+        2000,
+        20000
+      ],
+      "source": "3DEP ~10m/30m",
+      "meshSampleGuideM": 30,
+      "screenErrorPx": 1.5
+    },
+    {
+      "rangeM": [
+        20000,
+        50000
+      ],
+      "source": "3DEP ~30m; downsample conservatively",
+      "meshSampleGuideM": 60,
+      "screenErrorPx": 2
+    },
+    {
+      "rangeM": [
+        50000,
+        100000
+      ],
+      "source": "3DEP ~30m preferred; GMTED2010 7.5arcsec ~230m N/S fallback",
+      "meshSampleGuideM": 120,
+      "fallbackSampleGuideM": 230,
+      "screenErrorPx": 2,
+      "rule": "Fallback cannot recover finer source resolution; preserve peak/ridge extrema separately"
+    },
+    {
+      "rangeM": [
+        100000,
+        200000
+      ],
+      "source": "3DEP coarse derived horizon; GMTED2010 fallback",
+      "meshSampleGuideM": 240,
+      "screenErrorPx": 2
+    }
+  ],
+  "lod": {
+    "selection": "Projected geometric error governs; distance bands are guides, use drawable pixels",
+    "hysteresisFraction": 0.2,
+    "morphSeconds": 0.3,
+    "keep": [
+      "silhouette extrema",
+      "drainage basins",
+      "road cuts/fills",
+      "shoreline",
+      "stable canonical anchors"
+    ],
+    "clipmap": "Nested regular grids with stitched/morphed boundaries; separate local cliff/cut meshes for overhangs",
+    "horizonImpostor": {
+      "beginGuideDistanceM": 50000,
+      "azimuthSampleDeg": 0.1,
+      "depthLayers": 3,
+      "rebuildWhenObserverMovesM": 250,
+      "heightChangeTriggerM": 10,
+      "status": "unverified design heuristic; rebuild sooner if ridge error exceeds2px",
+      "policy": "DEM-derived depth-bearing horizon; weather shading recalculated, no baked photo; blend into heightfield; no nearby occlusion/parallax cheats"
+    },
+    "performance": "No extra budget beyond terrain-slope-v1; iPhone GPU and streaming unverified"
+  },
+  "haze": {
+    "formula": "T=exp(-betaPerM*distanceM); outLinear=terrainLinear*T+skyScatterLinear*(1-T)",
+    "applyOnce": true,
+    "scatterHex": "#DBDCD1",
+    "profiles": [
+      {
+        "id": "clear",
+        "betaPerM": 1e-05,
+        "transmittance": {
+          "20000": 0.8187,
+          "50000": 0.6065,
+          "100000": 0.3679
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      },
+      {
+        "id": "summerHaze",
+        "betaPerM": 2.5e-05,
+        "transmittance": {
+          "20000": 0.6065,
+          "50000": 0.2865,
+          "100000": 0.0821
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      },
+      {
+        "id": "storm",
+        "betaPerM": 5e-05,
+        "transmittance": {
+          "20000": 0.3679,
+          "50000": 0.0821,
+          "100000": 0.0067
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      }
+    ],
+    "earthCurvature": "Use geocentric positions or curved terrain. Flat-Earth horizon invalid at100km; approximate drop d^2/(2R) only for diagnostic, not visibility solver",
+    "earthRadiusM": 6371000,
+    "refraction": "Default geometric rays; weather-dependent refraction unverified"
+  },
+  "cameras": {
+    "streetEyeM": 1.65,
+    "streetVerticalFovDeg": 48,
+    "aerialPitchDeg": 45,
+    "aerialHeightAboveGroundM": 180,
+    "farVerticalFovDeg": 36,
+    "distanceComparison": "Same FOV, actual distance, no scale inflation; target relative relief2000m above observer",
+    "angleReliefDeg": {
+      "20000": 5.711,
+      "50000": 2.291,
+      "100000": 1.146
+    }
+  },
+  "dimensions": {
+    "foothillStreetGradePercent": [
+      8,
+      15
+    ],
+    "canyonRoadGradeGuidePercent": [
+      4,
+      8
+    ],
+    "pavementWidthM": 7,
+    "hairpinOuterRadiusGuideM": 20,
+    "rockCutBevelGuideM": [
+      0.1,
+      0.3
+    ],
+    "skiRunWidthGuideM": [
+      25,
+      60
+    ],
+    "liftTowerHeightGuideM": [
+      8,
+      14
+    ],
+    "snowEdgeBlendM": [
+      1,
+      3
+    ],
+    "lakeShallowEdgeWidthM": [
+      1,
+      4
+    ],
+    "lakeShoreBlendM": 1,
+    "status": "Illustrative authoring numbers, not road/lift engineering criteria"
+  },
+  "detailTiers": [
+    {
+      "projectedPx": [
+        48,
+        null
+      ],
+      "model": "Major crags, selected boulders, trunks, structural retaining geometry; no grain"
+    },
+    {
+      "projectedPx": [
+        16,
+        48
+      ],
+      "model": "Rock mass planes and tree groups; merge scree; broad snow shapes"
+    },
+    {
+      "projectedPx": [
+        2,
+        16
+      ],
+      "model": "Silhouette and broad landcover/snow masks only; no individual trees"
+    },
+    {
+      "projectedPx": [
+        0,
+        2
+      ],
+      "model": "Merge/cull small features; preserve ridge contour rather than surface detail"
+    }
+  ],
+  "sources": [
+    {
+      "id": "USGS-3DEP",
+      "url": "https://www.usgs.gov/3d-elevation-program/about-3dep-products-services",
+      "status": "verified product description; local tile coverage unverified"
+    },
+    {
+      "id": "USGS-GMTED",
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-multi-resolution-terrain-elevation",
+      "status": "verified product description"
+    },
+    {
+      "id": "SNODAS",
+      "url": "https://nsidc.org/data/g02158/versions/1",
+      "status": "verified daily1km product; live access/latency unverified"
+    },
+    {
+      "id": "NPS-TREELINE",
+      "url": "https://www.nps.gov/romo/learn/nature/alpine_tundra_ecosystem.htm",
+      "status": "verified RMNP regional exposure-dependent guide"
+    },
+    {
+      "id": "GPU-CLIPMAPS",
+      "url": "https://developer.nvidia.com/gpugems/gpugems2/part-i-geometric-complexity/chapter-2-terrain-rendering-using-gpu-based-geometry",
+      "status": "verified method reference; mobile implementation unverified"
+    },
+    {
+      "id": "OSM-PATH",
+      "url": "https://wiki.openstreetmap.org/wiki/Tag:highway%3Dpath",
+      "status": "Verified tag documentation; Colorado occurrence/completeness unverified",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-FOOTWAY",
+      "url": "https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway",
+      "status": "Verified tag documentation",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-TRACK",
+      "url": "https://wiki.openstreetmap.org/wiki/Tag:highway%3Dtrack",
+      "status": "Verified tag documentation",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-SAC",
+      "url": "https://wiki.openstreetmap.org/wiki/Key:sac_scale",
+      "status": "Verified difficulty documentation; current site ratings not audited",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-SURFACE",
+      "url": "https://wiki.openstreetmap.org/wiki/Key:surface",
+      "status": "Verified tag documentation; not a transient weather observation",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-VISIBILITY",
+      "url": "https://wiki.openstreetmap.org/wiki/Key:trail_visibility",
+      "status": "Verified tag documentation; not difficulty",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-WIDTH",
+      "url": "https://wiki.openstreetmap.org/wiki/Key:width",
+      "status": "Verified default metre unit; local widths unverified",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-LICENCE",
+      "url": "https://www.openstreetmap.org/copyright",
+      "status": "Verified ODbL/attribution description; specific engine distribution requires licence evaluation",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "OSM-TSI",
+      "url": "https://wiki.openstreetmap.org/wiki/Organised_Editing/Activities/Trails_Stewardship_Initiative",
+      "status": "Verified initiative; does not certify Colorado completeness",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "USFS-TRAILS",
+      "url": "https://catalog.data.gov/dataset/national-forest-system-trails-feature-layer",
+      "status": "Verified official catalog lists CC BY4.0; direct XML metadata failed; acquired layer snapshot unverified",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NPS-DATA",
+      "url": "https://www.nps.gov/subjects/gisandmapping/tools-and-data.htm",
+      "status": "Verified data inventory; local trail completeness/latency unverified",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NPS-LICENCE",
+      "url": "https://www.nps.gov/disclaimer.htm/index.htm",
+      "status": "Verified NPS-created/owned information generally public domain unless indicated otherwise; dataset exceptions must be inspected",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "ALLTRAILS",
+      "url": "https://www.alltrails.com/terms",
+      "status": "Verified proprietary product/personal non-commercial licence; excluded as data",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "COTREX",
+      "url": "https://trails.colorado.gov/about",
+      "status": "Verified manager-collaborative reference; underlying extract/reuse licence unverified; no data imported",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NPS-MONTANE",
+      "url": "https://www.nps.gov/romo/learn/nature/montane_ecosystem.htm",
+      "status": "Verified approximate RMNP5600\u20139500ft context; kit intervals/site landcover remain guides",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NPS-SUBALPINE",
+      "url": "https://www.nps.gov/romo/learn/nature/subalpine_ecosystem.htm",
+      "status": "Verified RMNP9000\u201311000ft context; exposure/landcover vary",
+      "checked": "2026-10-07"
+    }
+  ],
+  "revision": "r2 + hiking trails v1",
+  "trails": {
+    "status": "Exact authoring targets, UNVERIFIED local dimensions/material parameters; mapped measurements and land-manager data override. Not trail construction or accessibility specifications.",
+    "geometry": {
+      "widthSourcePriority": [
+        "measured width or land-manager tread field",
+        "valid OSM width with unit conversion and source/confidence",
+        "OSM est_width marked estimated",
+        "trail-type authoring guide labelled inferred"
+      ],
+      "noWidthInflationForPhone": true,
+      "centerlineFromMap": true,
+      "terrainFromDEM": true,
+      "drapeOnlyAtGrade": true,
+      "bridgeDeckSeparateFromBareEarth": true,
+      "gradeVerticalExaggeration": 1,
+      "sampleSpacingNearM": 0.5,
+      "sampleSpacingMidM": 2,
+      "maxLateralMoveForVisualFitM": 0.2,
+      "lateralMoveRequiresConfidence": true,
+      "mappedSwitchbackAnchorsFixed": true,
+      "cutFillRule": "Cut uphill bank and support downhill tread edge where mapped/observed; do not tilt bridges, buildings or step landings. Unknown engineering remains flagged.",
+      "edgeWear": {
+        "blendGuideM": [
+          0.04,
+          0.16
+        ],
+        "widthVariationFraction": 0.08,
+        "variationWavelengthM": [
+          8,
+          20
+        ],
+        "wornMarginMaxM": 0.2,
+        "persistentErosionNeedsObservedEvidence": true,
+        "policy": "Broad smooth nonperiodic margins; no bootprint/gravel noise and no new social shortcuts."
+      }
+    },
+    "byType": {
+      "foothills": {
+        "treadWidthTargetM": 1.2,
+        "treadWidthGuideM": [
+          0.8,
+          1.8
+        ],
+        "surfaceFamily": "dirt",
+        "surfaceHex": "#B49675",
+        "roughness": 0.92,
+        "edgeBlendM": 0.1,
+        "elevationGuideM": [
+          1650,
+          2400
+        ],
+        "erosionBarIntervalGuideM": [
+          20,
+          40
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "forest": {
+        "treadWidthTargetM": 1.0,
+        "treadWidthGuideM": [
+          0.6,
+          1.5
+        ],
+        "surfaceFamily": "ground",
+        "surfaceHex": "#947D61",
+        "roughness": 0.92,
+        "edgeBlendM": 0.08,
+        "elevationGuideM": [
+          2000,
+          2900
+        ],
+        "erosionBarIntervalGuideM": [
+          15,
+          30
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "aspen": {
+        "treadWidthTargetM": 1.1,
+        "treadWidthGuideM": [
+          0.7,
+          1.6
+        ],
+        "surfaceFamily": "ground",
+        "surfaceHex": "#AD9574",
+        "roughness": 0.92,
+        "edgeBlendM": 0.1,
+        "elevationGuideM": [
+          2100,
+          3200
+        ],
+        "erosionBarIntervalGuideM": [
+          15,
+          30
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "alpine": {
+        "treadWidthTargetM": 0.75,
+        "treadWidthGuideM": [
+          0.4,
+          1.1
+        ],
+        "surfaceFamily": "rockGravel",
+        "surfaceHex": "#9C958A",
+        "roughness": 0.92,
+        "edgeBlendM": 0.06,
+        "elevationGuideM": [
+          3353,
+          4400
+        ],
+        "erosionBarIntervalGuideM": [
+          15,
+          35
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "creekCrossing": {
+        "treadWidthTargetM": 2.0,
+        "treadWidthGuideM": [
+          1.2,
+          2.5
+        ],
+        "surfaceFamily": "wood",
+        "surfaceHex": "#9A886B",
+        "roughness": 0.82,
+        "edgeBlendM": 0.06,
+        "elevationGuideM": [
+          1800,
+          3200
+        ],
+        "erosionBarIntervalGuideM": null,
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "switchback": {
+        "treadWidthTargetM": 1.0,
+        "treadWidthGuideM": [
+          0.6,
+          1.4
+        ],
+        "surfaceFamily": "dirt",
+        "surfaceHex": "#AA8C69",
+        "roughness": 0.92,
+        "edgeBlendM": 0.08,
+        "elevationGuideM": [
+          1700,
+          3353
+        ],
+        "erosionBarIntervalGuideM": [
+          8,
+          18
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      },
+      "trailheadConnector": {
+        "treadWidthTargetM": 1.8,
+        "treadWidthGuideM": [
+          1.2,
+          2.5
+        ],
+        "surfaceFamily": "compacted",
+        "surfaceHex": "#A59883",
+        "roughness": 0.92,
+        "edgeBlendM": 0.12,
+        "elevationGuideM": [
+          1650,
+          3000
+        ],
+        "erosionBarIntervalGuideM": [
+          20,
+          40
+        ],
+        "status": "UNVERIFIED authoring guide; measured tags/manager record override; no automatic structure spawning"
+      }
+    },
+    "surfaces": {
+      "dirt": {
+        "hex": "#B49675",
+        "roughness": 0.92
+      },
+      "forestGround": {
+        "hex": "#947D61",
+        "roughness": 0.94
+      },
+      "compactedGravel": {
+        "hex": "#A59883",
+        "roughness": 0.9
+      },
+      "sandstone": {
+        "hex": "#B07857",
+        "roughness": 0.88
+      },
+      "graniteTalus": {
+        "hex": "#9C958A",
+        "roughness": 0.92
+      },
+      "wood": {
+        "hex": "#9A886B",
+        "roughness": 0.82
+      },
+      "mud": {
+        "hex": "#705E4B",
+        "roughness": 0.55,
+        "sheen01": 0.08
+      },
+      "shallowPuddle": {
+        "baseHex": "#687F8B",
+        "roughness": 0.22,
+        "skyReflectionStrength01": 0.35,
+        "depthGuideM": [
+          0.005,
+          0.03
+        ]
+      },
+      "snow": {
+        "hex": "#F1F3ED",
+        "shadowAppearanceHex": "#ACBFD0",
+        "roughness": 0.87
+      }
+    },
+    "structures": {
+      "autoSpawnFromSpacing": false,
+      "policy": "These are authoring placeholders for evidenced structures, not inferred infrastructure on every OSM path.",
+      "steps": {
+        "uniformBuiltRiserTargetM": 0.14,
+        "builtTreadTargetM": 0.3,
+        "builtFlightRisersGuide": [
+          4,
+          8
+        ],
+        "landingLengthGuideM": 1,
+        "naturalRockStepIntervalGuideM": [
+          0.5,
+          1.5
+        ],
+        "naturalRockStepRiseGuideM": [
+          0.08,
+          0.2
+        ],
+        "actualCountAndRiseFromSite": true,
+        "accessibleRouteClaim": false
+      },
+      "erosionBar": {
+        "exposedHeightGuideM": [
+          0.03,
+          0.06
+        ],
+        "widthBeyondTreadEachSideM": 0.15,
+        "angleToTrailDeg": [
+          45,
+          60
+        ],
+        "outletLengthGuideM": 0.4,
+        "placement": "Mapped/observed maintenance structure, outlet toward actual downhill drainage, never a high barrier across tread. Spacing byType is an unverified guide, not a prescription."
+      },
+      "roots": {
+        "visibleHeightGuideM": [
+          0.03,
+          0.08
+        ],
+        "selectedIntervalGuideM": [
+          8,
+          20
+        ],
+        "autoSpawnUnverifiedRoots": false
+      },
+      "cairns": {
+        "heightGuideM": [
+          0.25,
+          0.55
+        ],
+        "stonesPerCluster": [
+          3,
+          5
+        ],
+        "minimumProjectedPx": 8,
+        "autoSpawn": false,
+        "placement": "Only known maintained route cairns; never create wayfinding claims from alpine elevation or repeat along each path."
+      },
+      "bridge": {
+        "spanGuideM": 6,
+        "deckWidthM": 2,
+        "railHeightGuideM": 1.1,
+        "deckThicknessGuideM": 0.18,
+        "plankGroupWidthM": 0.6,
+        "positionFromMappedCrossing": true,
+        "engineeringStatus": "unverified illustrative geometry; real surveyed dimensions override"
+      },
+      "boardwalk": {
+        "widthM": 1.8,
+        "deckHeightAboveGroundGuideM": [
+          0.15,
+          0.35
+        ],
+        "segmentLengthM": 2
+      },
+      "signboard": {
+        "panelWidthM": 1.4,
+        "panelHeightM": 1,
+        "topHeightM": 2.1,
+        "posts": 2,
+        "textPolicy": "No text, logos, insignia, pseudo maps or safety claims in visual kit"
+      },
+      "parking": {
+        "bayGuideM": [
+          5.5,
+          2.6
+        ],
+        "shownBays": 6,
+        "shownCars": 4,
+        "policy": "Only mapped legal pad and existing access road; generic blank-plate vehicles, no clearing new parking in vegetation."
+      }
+    },
+    "vegetationByElevation": [
+      {
+        "id": "foothills",
+        "guideM": [
+          1650,
+          2400
+        ],
+        "plants": [
+          "Gambel/scrub oak where landcover supports it",
+          "ponderosa pine",
+          "juniper",
+          "dry grass mats"
+        ],
+        "status": "UNVERIFIED Front Range authoring interval; actual geology/aspect/landcover override",
+        "crownHex": "#637B47",
+        "groundHex": "#8C9460"
+      },
+      {
+        "id": "montane",
+        "guideM": [
+          2000,
+          2896
+        ],
+        "plants": [
+          "ponderosa pine on drier exposures",
+          "Douglas-fir on cooler exposures",
+          "lodgepole pine",
+          "aspen in moist/appropriate stands"
+        ],
+        "status": "RMNP NPS montane context approx1707\u20132896m verified; selected kit interval is an unverified guide, not every Front Range site",
+        "coniferHex": "#3F604D",
+        "aspenSummerHex": "#789948",
+        "aspenFallHex": "#D9AC3F",
+        "aspenTrunkHex": "#DEDAC9"
+      },
+      {
+        "id": "subalpine",
+        "guideM": [
+          2743.2,
+          3352.8
+        ],
+        "plants": [
+          "Engelmann spruce",
+          "subalpine fir",
+          "lodgepole pine on appropriate disturbed sites",
+          "limber pine"
+        ],
+        "status": "NPS RMNP9000\u201311000ft interval verified, exposure and disturbance vary",
+        "coniferHex": "#3A5A4B",
+        "groundHex": "#71805A"
+      },
+      {
+        "id": "treelineEcotone",
+        "guideM": [
+          3352.8,
+          3505.2
+        ],
+        "plants": [
+          "patchy wind-shaped krummholz",
+          "low tundra mats"
+        ],
+        "status": "NPS RMNP11000\u201311500ft exposure-dependent guide verified; spatial cover remains local",
+        "krummholzHex": "#49624E"
+      },
+      {
+        "id": "alpine",
+        "guideM": [
+          3352.8,
+          4400
+        ],
+        "plants": [
+          "low sedge/grass tundra mats",
+          "dwarf shrubs where observed",
+          "talus and rock gaps"
+        ],
+        "status": "Above local observed treeline, not a fixed stripe; lower bound overlaps ecotone",
+        "summerHex": "#76844D",
+        "dormantHex": "#AE8957",
+        "snowDoesNotFollowPhenology": true
+      }
+    ],
+    "vegetationRules": {
+      "elevationIntervalsMayOverlap": true,
+      "riparianOverridesElevation": true,
+      "aspenGoldRequiresPhenology": true,
+      "aspenWinterLeaflessWhenSupported": true,
+      "noTreesAboveObservedLocalTreeline": true,
+      "grassBladesOrLeafMicrogeometry": false,
+      "sourceStatus": "Species and RMNP zonation cited; exact Front Range distribution, stand density and local dates unverified"
+    },
+    "states": {
+      "drySummer": {
+        "treadHex": "#B49675",
+        "roughness": 0.92,
+        "sheen01": 0,
+        "input": "No supported snow; low soil moisture. Summer phenology is separate from soil wetness."
+      },
+      "muddyAfterRain": {
+        "inputHours": 72,
+        "rainGateMmPast24h": 5,
+        "soilWetnessGate01": 0.45,
+        "soilWetnessBucketCapacityMm": 25,
+        "infiltrationDrainMmPerHourGuide": 0.6,
+        "solarDryMmPerHourGuide": 0.2,
+        "unverifiedHeuristicFormula": "bucket_next=clamp(bucket_prev+rainMm+snowmeltMm-(drainMmPerHour+solarDryMmPerHour)*dtHours,0,25); wetness01=bucket/25. Local soil calibration required.",
+        "linearDryAlbedoMultiplier": 0.72,
+        "maxMudMask01": 0.7,
+        "roughness": 0.55,
+        "sheen01": 0.08,
+        "softEdgeBlendM": 0.12,
+        "puddlePlacement": "Only mapped/modelled low points and drainage; require observed/supporting wet travel or soil moisture. No uniform dark stripe; exclude exposed rock and raised bridge deck.",
+        "freezeSuppression": "If supported soil temperature<=0C and surface frozen, suppress liquid mud/puddle sheen; frozen state unknown if no soil evidence.",
+        "status": "UNVERIFIED visual heuristic, not a current measured soil condition or hydrologic forecast"
+      },
+      "snowOnTrail": {
+        "requiresSnowData": true,
+        "allowedSources": [
+          "valid NOHRSC/SNODAS snow analysis",
+          "valid local land-manager observation",
+          "valid georeferenced satellite snow-cover mask"
+        ],
+        "sourceResolutionGuideM": 1000,
+        "coverageSubcellUncertainty": true,
+        "monthAllowed": false,
+        "coldTemperatureAloneAllowed": false,
+        "freshnessSoftHours": 36,
+        "freshnessHardHours": 72,
+        "depthCoverageGuideM": [
+          0.005,
+          0.15
+        ],
+        "edgeBlendM": 0.15,
+        "visualCapDepthGuideM": [
+          0.01,
+          0.2
+        ],
+        "stalePolicy": "Keep last mask only as explicitly stale with timestamp; unknown if absent. Never label current trail as snowy from month or elevation alone.",
+        "clearTrailNeedsMaintenanceHistory": true,
+        "bridgeSnowUsesSameEvidence": true,
+        "sceneStatus": "Illustrative snow-supported rendering scenario, NOT actual snow measurements retrieved for the pictured fictional trail"
+      },
+      "goldenHour": {
+        "sunElevationDeg": 12,
+        "exampleSunAzimuthDeg": 255,
+        "physicalSunFromPlaceTime": true,
+        "exposureEVUnchanged": 0.35,
+        "saturationUnchanged": 1.08,
+        "sunHexUnchanged": "#FFE8C6",
+        "policy": "Geometry shadows follow event place/time; do not double-warm grade or alter snow mask merely because light changes."
+      }
+    },
+    "osm": {
+      "highways": [
+        "path",
+        "footway",
+        "track"
+      ],
+      "readTags": [
+        "sac_scale",
+        "surface",
+        "trail_visibility",
+        "width",
+        "est_width",
+        "incline",
+        "bridge",
+        "steps",
+        "access",
+        "foot",
+        "informal",
+        "operator",
+        "seasonal",
+        "opening_hours",
+        "smoothness"
+      ],
+      "widthDefaultUnit": "metres; parse explicit imperial/other units; reject invalid nonpositive values and retain raw tag provenance",
+      "missingTagValue": null,
+      "missingSacScaleMeansEasy": false,
+      "pathMeansPhysicalVisibleTread": false,
+      "trackMeansWideWalkingPath": false,
+      "bridgeOverridesDrape": true,
+      "separateVisibilityAndDifficulty": true,
+      "trailVisibilityNo": "No manufactured continuous visible tread; render only evidenced intermittent portions/markers.",
+      "closedAccess": "Do not offer as public race/walking route; styling and public accessibility are distinct.",
+      "sourceProvenanceRequired": true,
+      "ColoradoCompletenessPercent": null,
+      "ColoradoCompletenessStatus": "UNVERIFIED; no statewide extract-to-authoritative-network audit performed."
+    },
+    "phoneTiers": [
+      {
+        "projectedWidthPx": [
+          12,
+          null
+        ],
+        "model": "Broad tread edges, selected evidenced root/stone/step/drainage geometry; no gravel noise."
+      },
+      {
+        "projectedWidthPx": [
+          4,
+          12
+        ],
+        "model": "Tread strip, broad mud/snow groups; suppress small roots and plank seams."
+      },
+      {
+        "projectedWidthPx": [
+          1,
+          4
+        ],
+        "model": "Natural-width antialiased strip only if genuinely visible; markers merged/cull."
+      },
+      {
+        "projectedWidthPx": [
+          0,
+          1
+        ],
+        "model": "Cull physical tread; separate optional approved course overlay may show route semantically, never widen physical trail."
+      }
+    ],
+    "raceOverlay": {
+      "layerId": "private_event_overlay",
+      "separateFromVerifiedBase": true,
+      "routeFromApprovedExistingTrails": true,
+      "flagHex": "#D58B43",
+      "flagSizeM": [
+        0.18,
+        0.22
+      ],
+      "stakeHeightM": 0.55,
+      "flagIntervalGuideM": [
+        30,
+        50
+      ],
+      "flagsAtJunctionsNeedApprovedCourse": true,
+      "canopyFootprintM": [
+        3,
+        3
+      ],
+      "canopyPeakHeightM": 3,
+      "canopyHex": "#F0EEE4",
+      "tableSizeM": [
+        1.8,
+        0.75,
+        0.74
+      ],
+      "shownTables": 2,
+      "existingClearingGuideM": [
+        3,
+        5
+      ],
+      "tentServiceEnvelopeM": 1,
+      "clearThroughTrailWidthM": 1.2,
+      "serviceEnvelopeMustFitExistingPad": true,
+      "policy": "Private/versioned overlay has event time, owner approval and expiry; never overwrite map, widen trail, block bridges or fabricate land-manager permission. Placements need site verification.",
+      "versionsRequired": true,
+      "eventTimeSunShadow": true,
+      "eventWeatherHistory": true,
+      "textLogos": false
+    }
+  },
+  "skiRevision": {
+    "activeSheet": "07-ski-area-r2.html",
+    "streetPanelSource": "images/07-ski-area.png panel0 unchanged",
+    "aerialFar": "calibration-v2 volumetric revision, original run/lift/lodge layout retained",
+    "status": "Concept art; operator maintenance/current snow remains unknown"
+  }
+}

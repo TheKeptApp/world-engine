@@ -1,0 +1,587 @@
+{
+  "schema": "worldengine.mountain-terrain.design.v1",
+  "date": "2026-10-07",
+  "status": "Authoring targets, not engine-validated; source facts identified separately",
+  "units": {
+    "length": "m",
+    "elevation": "orthometric metres; normalize input tile vertical datum",
+    "extinction": "m^-1",
+    "colour": "sRGB hex; decode to linear before blending"
+  },
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "slopeRules": {
+    "foundation": {
+      "floorTiltDeg": 0,
+      "footprintSampleSpacingM": 2,
+      "includeVerticesEntrancesGarage": true,
+      "stepRiseTargetM": 0.4,
+      "stepRiseGuideM": [
+        0.3,
+        0.6
+      ],
+      "padModificationMaxOutsideFootprintM": 1,
+      "confidence": "judgment unless surveyed",
+      "automaticExposureReviewThresholdM": 3,
+      "formula": "exposure(s)=floorBaseZ-groundZ(s); resolve negative exposure locally, never tilt floor",
+      "example": {
+        "alongSlopeFootprintM": 12,
+        "gradePercent": 22,
+        "terrainHeightDifferenceM": 2.64
+      }
+    },
+    "retaining": {
+      "ordinaryGuideM": [
+        0.6,
+        1.8
+      ],
+      "reviewThresholdM": 2,
+      "thicknessGuideM": [
+        0.25,
+        0.45
+      ],
+      "terraceRatherThanSingleTallWall": true,
+      "structuralDesign": false
+    },
+    "stairs": {
+      "riserTargetM": 0.16,
+      "treadTargetM": 0.3,
+      "widthTargetM": 1.5,
+      "risersPerFlightTarget": 8,
+      "landingLengthTargetM": 1.5,
+      "handrailHeightTargetM": 0.9,
+      "uniformRisers": true,
+      "actualRiserRule": "choose integer N to keep totalRise/N within selected valid range; each flight uniform; mapped stairs override inference",
+      "coveredAdaEvidence": {
+        "source": "ADA-STAIRS",
+        "riserRangeM": [
+          0.1016,
+          0.1778
+        ],
+        "treadMinM": 0.2794,
+        "status": "verified imperial conversion; applicable scope required"
+      },
+      "accessibleRouteClaim": false
+    },
+    "road": {
+      "crownTargetPercent": 2,
+      "curbHeightTargetM": 0.1524,
+      "sidewalkCrossSlopeTargetPercent": 2,
+      "profileSampleSpacingM": 2,
+      "profileFitWindowM": [
+        10,
+        20
+      ],
+      "bridgeTunnelPolicy": "Do not drape onto bare earth; mapped deck/profile overrides; unresolved deck flagged.",
+      "parkingBayAngle": "Use mapped layout, never infer bay angle from grade alone."
+    }
+  },
+  "geography": {
+    "positionsAndSightlines": "From map and DEM; concept artwork is not georegistered",
+    "verticalExaggeration": 1,
+    "coordinateFrame": "local ENU; curved Earth for distant terrain; preserve source CRS and geoid transformation",
+    "buildingFloorTiltDeg": 0,
+    "snowlineByMonth": false
+  },
+  "elevationBands": [
+    {
+      "id": "foothills",
+      "guideM": [
+        1650,
+        2400
+      ],
+      "status": "unverified regional authoring guide; landcover overrides"
+    },
+    {
+      "id": "montane",
+      "guideM": [
+        2400,
+        2900
+      ],
+      "status": "unverified regional authoring guide"
+    },
+    {
+      "id": "subalpine",
+      "guideM": [
+        2900,
+        3353
+      ],
+      "status": "unverified regional authoring guide"
+    },
+    {
+      "id": "treelineEcotone",
+      "guideM": [
+        3352.8,
+        3505.2
+      ],
+      "status": "verified NPS RMNP 11000\u201311500ft depending exposure; not universal Front Range boundary"
+    },
+    {
+      "id": "alpine",
+      "guideM": [
+        3505.2,
+        4400
+      ],
+      "status": "authoring guide; actual terrain/vegetation overrides"
+    }
+  ],
+  "landcoverRule": "Rock, scree and snow are masks controlled by geology, slope, exposure and history, not mandatory altitude stripes; general kit replaces regional bands.",
+  "palettes": {
+    "spring": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#83905B",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "summer": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#76844D",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "autumn": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#AE8957",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    },
+    "winter": {
+      "graniteHex": "#9C958A",
+      "sandstoneHex": "#B07857",
+      "screeHex": "#8E887E",
+      "tundraHex": "#897E6D",
+      "coniferHex": "#3F604D",
+      "snowHex": "#F1F3ED",
+      "snowShadowAppearanceHex": "#ACBFD0",
+      "roughness": {
+        "rock": 0.88,
+        "scree": 0.92,
+        "tundra": 0.92,
+        "snow": 0.87
+      },
+      "linearAlbedoMultiplier": 1,
+      "rule": "Rock hue stable across seasons; weather/light change appearance; tundra palette uses observed phenology/history, not snow month preset"
+    }
+  },
+  "snowHistory": {
+    "source": "SNODAS daily ~1km depth/SWE and melt; NOHRSC cover analysis; optional clear-sky satellite cover",
+    "monthAllowedAsSnowInput": false,
+    "inputHistoryDays": 30,
+    "freshEventWindowHours": 72,
+    "sourceAgeSoftHours": 36,
+    "sourceAgeHardHours": 72,
+    "unknownPolicy": "After hard age keep last mask as stale with timestamp; never claim current cover; cold air alone does not create snow",
+    "precedence": [
+      "recent valid observed snow-cover mask",
+      "regional depth/SWE constrained cover prior",
+      "history-driven uncertain snow model"
+    ],
+    "snowline": "Report transition elevation by aspect from current mask, not a single permanent contour; null if no reliable cover",
+    "depthCoverageVisualTransfer": {
+      "zeroCoverageAtDepthM": 0.005,
+      "fullCoverageGuideDepthM": 0.15,
+      "formula": "smoothstep(0.005,0.15,depthM); visual heuristic not observed subcell snow fraction"
+    },
+    "fallbackMelt": {
+      "formula": "SWE_next=max(0,SWE_prev + snowfallSWE - max(T_C,0)*degreeDayMmPerCPerDay*dtDays/1000)",
+      "degreeDayMmPerCPerDay": 3,
+      "status": "unverified fallback heuristic, not hydrologic forecast; solar, rain and wind need calibrated model"
+    },
+    "aspectRetentionGuide": {
+      "north": 1.2,
+      "south": 0.8,
+      "status": "unverified visual redistribution weights; conserve regional SWE; no invented precision"
+    },
+    "snowfieldRules": [
+      "Use observed/history mask intersect terrain; retain sheltered hollows when supported",
+      "Wind-scoured ribs may remain bare; slope alone does not decide snow absence",
+      "Ski grooming/snowmaking only from operator data; otherwise maintenance state unknown"
+    ],
+    "uncertaintyScaleM": 1000
+  },
+  "demByDistance": [
+    {
+      "rangeM": [
+        0,
+        250
+      ],
+      "source": "3DEP 1m where available",
+      "fallback": "3DEP ~10m; flag uncertain cuts/pads, never fabricate surveyed detail",
+      "meshSampleGuideM": 1,
+      "screenErrorPx": 1
+    },
+    {
+      "rangeM": [
+        250,
+        2000
+      ],
+      "source": "3DEP ~10m",
+      "meshSampleGuideM": 10,
+      "screenErrorPx": 1
+    },
+    {
+      "rangeM": [
+        2000,
+        20000
+      ],
+      "source": "3DEP ~10m/30m",
+      "meshSampleGuideM": 30,
+      "screenErrorPx": 1.5
+    },
+    {
+      "rangeM": [
+        20000,
+        50000
+      ],
+      "source": "3DEP ~30m; downsample conservatively",
+      "meshSampleGuideM": 60,
+      "screenErrorPx": 2
+    },
+    {
+      "rangeM": [
+        50000,
+        100000
+      ],
+      "source": "3DEP ~30m preferred; GMTED2010 7.5arcsec ~230m N/S fallback",
+      "meshSampleGuideM": 120,
+      "fallbackSampleGuideM": 230,
+      "screenErrorPx": 2,
+      "rule": "Fallback cannot recover finer source resolution; preserve peak/ridge extrema separately"
+    },
+    {
+      "rangeM": [
+        100000,
+        200000
+      ],
+      "source": "3DEP coarse derived horizon; GMTED2010 fallback",
+      "meshSampleGuideM": 240,
+      "screenErrorPx": 2
+    }
+  ],
+  "lod": {
+    "selection": "Projected geometric error governs; distance bands are guides, use drawable pixels",
+    "hysteresisFraction": 0.2,
+    "morphSeconds": 0.3,
+    "keep": [
+      "silhouette extrema",
+      "drainage basins",
+      "road cuts/fills",
+      "shoreline",
+      "stable canonical anchors"
+    ],
+    "clipmap": "Nested regular grids with stitched/morphed boundaries; separate local cliff/cut meshes for overhangs",
+    "horizonImpostor": {
+      "beginGuideDistanceM": 50000,
+      "azimuthSampleDeg": 0.1,
+      "depthLayers": 3,
+      "rebuildWhenObserverMovesM": 250,
+      "heightChangeTriggerM": 10,
+      "status": "unverified design heuristic; rebuild sooner if ridge error exceeds2px",
+      "policy": "DEM-derived depth-bearing horizon; weather shading recalculated, no baked photo; blend into heightfield; no nearby occlusion/parallax cheats"
+    },
+    "performance": "No extra budget beyond terrain-slope-v1; iPhone GPU and streaming unverified"
+  },
+  "haze": {
+    "formula": "T=exp(-betaPerM*distanceM); outLinear=terrainLinear*T+skyScatterLinear*(1-T)",
+    "applyOnce": true,
+    "scatterHex": "#DBDCD1",
+    "profiles": [
+      {
+        "id": "clear",
+        "betaPerM": 1e-05,
+        "transmittance": {
+          "20000": 0.8187,
+          "50000": 0.6065,
+          "100000": 0.3679
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      },
+      {
+        "id": "summerHaze",
+        "betaPerM": 2.5e-05,
+        "transmittance": {
+          "20000": 0.6065,
+          "50000": 0.2865,
+          "100000": 0.0821
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      },
+      {
+        "id": "storm",
+        "betaPerM": 5e-05,
+        "transmittance": {
+          "20000": 0.3679,
+          "50000": 0.0821,
+          "100000": 0.0067
+        },
+        "status": "unverified artistic target; actual visibility/air-quality should drive extinction"
+      }
+    ],
+    "earthCurvature": "Use geocentric positions or curved terrain. Flat-Earth horizon invalid at100km; approximate drop d^2/(2R) only for diagnostic, not visibility solver",
+    "earthRadiusM": 6371000,
+    "refraction": "Default geometric rays; weather-dependent refraction unverified"
+  },
+  "cameras": {
+    "streetEyeM": 1.65,
+    "streetVerticalFovDeg": 48,
+    "aerialPitchDeg": 45,
+    "aerialHeightAboveGroundM": 180,
+    "farVerticalFovDeg": 36,
+    "distanceComparison": "Same FOV, actual distance, no scale inflation; target relative relief2000m above observer",
+    "angleReliefDeg": {
+      "20000": 5.711,
+      "50000": 2.291,
+      "100000": 1.146
+    }
+  },
+  "dimensions": {
+    "foothillStreetGradePercent": [
+      8,
+      15
+    ],
+    "canyonRoadGradeGuidePercent": [
+      4,
+      8
+    ],
+    "pavementWidthM": 7,
+    "hairpinOuterRadiusGuideM": 20,
+    "rockCutBevelGuideM": [
+      0.1,
+      0.3
+    ],
+    "skiRunWidthGuideM": [
+      25,
+      60
+    ],
+    "liftTowerHeightGuideM": [
+      8,
+      14
+    ],
+    "snowEdgeBlendM": [
+      1,
+      3
+    ],
+    "lakeShallowEdgeWidthM": [
+      1,
+      4
+    ],
+    "lakeShoreBlendM": 1,
+    "status": "Illustrative authoring numbers, not road/lift engineering criteria"
+  },
+  "detailTiers": [
+    {
+      "projectedPx": [
+        48,
+        null
+      ],
+      "model": "Major crags, selected boulders, trunks, structural retaining geometry; no grain"
+    },
+    {
+      "projectedPx": [
+        16,
+        48
+      ],
+      "model": "Rock mass planes and tree groups; merge scree; broad snow shapes"
+    },
+    {
+      "projectedPx": [
+        2,
+        16
+      ],
+      "model": "Silhouette and broad landcover/snow masks only; no individual trees"
+    },
+    {
+      "projectedPx": [
+        0,
+        2
+      ],
+      "model": "Merge/cull small features; preserve ridge contour rather than surface detail"
+    }
+  ],
+  "sources": [
+    {
+      "id": "USGS-3DEP",
+      "url": "https://www.usgs.gov/3d-elevation-program/about-3dep-products-services",
+      "status": "verified product description; local tile coverage unverified"
+    },
+    {
+      "id": "USGS-GMTED",
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-multi-resolution-terrain-elevation",
+      "status": "verified product description"
+    },
+    {
+      "id": "SNODAS",
+      "url": "https://nsidc.org/data/g02158/versions/1",
+      "status": "verified daily1km product; live access/latency unverified"
+    },
+    {
+      "id": "NPS-TREELINE",
+      "url": "https://www.nps.gov/romo/learn/nature/alpine_tundra_ecosystem.htm",
+      "status": "verified RMNP regional exposure-dependent guide"
+    },
+    {
+      "id": "GPU-CLIPMAPS",
+      "url": "https://developer.nvidia.com/gpugems/gpugems2/part-i-geometric-complexity/chapter-2-terrain-rendering-using-gpu-based-geometry",
+      "status": "verified method reference; mobile implementation unverified"
+    }
+  ]
+}

@@ -64,6 +64,23 @@ public struct DaytimeMaster: Sendable, Equatable {
         shadowStrength = try n("shadows.strengthPercent") / 100
         grade = GradeTable.Look(exposureEV: try n("exposure.relativeEV"), contrast: try n("exposure.contrastSlope"),
                                 saturation: try n("exposure.saturationFactor"), warmth: try n("exposure.additionalWarmthPercent") / 100)
+        // style-b-calibration-v2 owns look (owner, 7 Oct): its shared values win where present. Its sky
+        // has three stops without elevations (P3 sampled them from the frames); the mid stop keeps the
+        // master's 30°. It has no warm-horizon key, so the master's stays.
+        let c = "style-b/look/lighting."
+        if let zen = m.string(c + "sky.zenithHex"), let mid = m.string(c + "sky.midHex"), let hor = m.string(c + "sky.horizonHex") {
+            sky.stops = [(0, hor), (30, mid), (90, zen)]
+        }
+        if let s = m.string(c + "sky.cloudLitHex") { sky.cloudLitHex = s }
+        if let s = m.string(c + "sky.cloudShadeHex") { sky.cloudShadeHex = s }
+        if let s = m.string(c + "sun.hex") { sunColorHex = s }
+        if let s = m.string(c + "sky.fillHex") { skyFillHex = s }
+        if let s = m.string(c + "shadow.appearanceHex") { shadowTintHex = s }
+        if let r = m.number(c + "shadow.neutralWitnessShadowToLitLinearY") { shadowStrength = 1 - r }
+        if let ev = m.number(c + "exposure.relativeEV"), let con = m.number(c + "exposure.contrast"),
+           let sat = m.number(c + "exposure.saturation"), let warm = m.number(c + "exposure.additionalWarmth") {
+            grade = GradeTable.Look(exposureEV: ev, contrast: con, saturation: sat, warmth: warm)
+        }
     }
 }
 

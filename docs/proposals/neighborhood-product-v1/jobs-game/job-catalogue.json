@@ -1,0 +1,83 @@
+{
+  "status": "authored unverified gameplay rules",
+  "jobs": [
+    {
+      "job": "Snow plow",
+      "eligibilityAndSeasons": "Only after a non-forecast snowfall event: positive recent snowfall estimate/observation with matching accumulation evidence and source quality. Prototype threshold proposal \u22651 cm new snowfall in the district; validate against local data. Usually cold season, never calendar-only.",
+      "timeAndWeather": "Any daylight/evening session; actual place/time light. Fresh snow adds a layer; melt reduces residual.",
+      "taskPersistenceFallback": "Clear connected road-lane masks, soft windrow, cleared road persists per player/event. Unknown feed: no new live job; existing snapshot labeled. Observed-event replay is separate practice."
+    },
+    {
+      "job": "Shoveling",
+      "eligibilityAndSeasons": "Same snow event, valid front-walk masks, retained snow; no homeowner/customer inference.",
+      "timeAndWeather": "Snow hardness is a game approximation tied to temperature/history, labeled modeled.",
+      "taskPersistenceFallback": "Sweep a walk mask clean; persist per event. No actual doorway target, resident presence or service claim."
+    },
+    {
+      "job": "Lawn mowing",
+      "eligibilityAndSeasons": "Active growth state, valid turf mask, height above authored threshold. Denver and Chicago typically warm growing-season context, adjusted by species, temperature/moisture.",
+      "timeAndWeather": "Real rain increases modeled growth only when moisture-limited and unfrozen; cap growth, pause in dormancy/snow/saturated-state scenarios. Unknown irrigation never claimed.",
+      "taskPersistenceFallback": "Mow stripes and reduce local grass height. Stripe mask persists until modeled regrowth fades it. Off-season: another job, not forced green lawns."
+    },
+    {
+      "job": "Leaf raking",
+      "eligibilityAndSeasons": "Modeled/observed leaf-drop increment from mapped species/proxy using foliage-seasons-v1 provenance; deciduous leaf fractions declining and litter sufficient. Common in autumn, possible drought shedding; not fixed October.",
+      "timeAndWeather": "Wind moves modeled litter; wet leaves have a slower cozy action, not payout penalty.",
+      "taskPersistenceFallback": "Gather litter into heap/bag, persist cleared masks until further leaf drop. Unknown species/state: inferred label or suppress; evergreen turnover handled separately."
+    },
+    {
+      "job": "Leaf blowing",
+      "eligibilityAndSeasons": "Same litter trigger; use optional quiet electric generic tool.",
+      "timeAndWeather": "Wind affects direction; rain suggests raking instead. No simulation of local noise rules as facts.",
+      "taskPersistenceFallback": "Guide litter into collection zone; never into roads or water. Same persistent litter state, no duplicate rewards with raking."
+    },
+    {
+      "job": "Paper route",
+      "eligibilityAndSeasons": "Daily round unlock at local civil dawn, computed from place/date. Year-round; no actual subscriptions or household deliveries.",
+      "timeAndWeather": "Early-morning solar light; later play uses captured dawn recap. Snow/rain change visuals and gentle handling; free assist available.",
+      "taskPersistenceFallback": "Bike or walk in-game, toss blank papers to generated front-walk points. Stop complete once/day; no public exact target history. Later recap retains the same round, not duplicate payout."
+    },
+    {
+      "job": "Pizza / food delivery",
+      "eligibilityAndSeasons": "Fictional evening round, proposed local 17:00\u201321:00 unlock; no real merchants or household orders. Year-round.",
+      "timeAndWeather": "Real rain increases steering/handling complexity and visibility effects, without hard timers or punitive ratings.",
+      "taskPersistenceFallback": "Deliver to generic curb/front-walk points, never inside homes. Completion flags local/day; later evening recap."
+    },
+    {
+      "job": "Holiday lights",
+      "eligibilityAndSeasons": "December calendar chapter; invented customer request, not observation of actual decorations.",
+      "timeAndWeather": "Real dusk preview, snow/wind change appearance; no roof climbing gameplay.",
+      "taskPersistenceFallback": "Attach generic light strands to safe low fictional fa\u00e7ade anchors. Persist for chapter, remove after season. No occupancy signal, names, school/team branding or religious assumption for every home."
+    },
+    {
+      "job": "Sprinkler fixing",
+      "eligibilityAndSeasons": "Growing season and plausible unfrozen turf. Fault is seeded fiction, never inferred from utility data or a real broken system.",
+      "timeAndWeather": "Rain defers watering animation; frozen ground suppresses job. Drought restrictions are not inferred from weather alone.",
+      "taskPersistenceFallback": "Rotate/connect a generic sprinkler component; persist repair flag until new fictional scenario. Unknown irrigation labeled; no water-use claim."
+    },
+    {
+      "job": "Sidewalk chalk / lemonade stand",
+      "eligibilityAndSeasons": "Warm/daylight public-space theme, dry-surface modeled state; customers fictional and absent. No real retail/permit claim.",
+      "timeAndWeather": "Rain washes chalk over time and suppresses new chalk jobs; warm days unlock stand arrangement.",
+      "taskPersistenceFallback": "Draw simple non-branded patterns or arrange a stand; local decal fades after modeled rain. No resident interaction, children or real commerce."
+    },
+    {
+      "job": "Garbage day",
+      "eligibilityAndSeasons": "Curated public municipal collection calendar only if independently verified/licensed; otherwise explicitly fictional weekly game schedule. Year-round.",
+      "timeAndWeather": "Dawn/daylight; snow changes path visuals. No observation of bins, household waste or occupancy.",
+      "taskPersistenceFallback": "Roll generic bins to generated game collection zone; reset after the fictional/verified schedule event. No real address-specific municipal service status."
+    },
+    {
+      "job": "Window washing",
+      "eligibilityAndSeasons": "Fictional maintenance cadence, daylight, nonfreezing/dry modeled conditions. No dirt/occupancy inference from actual building imagery.",
+      "timeAndWeather": "Rain/wind can defer; always ground-level, no ladders or high-rise access.",
+      "taskPersistenceFallback": "Wipe a matte surface mask; persist a cleaned appearance until next seeded scenario. Windows remain opaque/stylized, never reveal interiors or people."
+    },
+    {
+      "job": "Ice cream truck route",
+      "eligibilityAndSeasons": "Warm-season daytime round, curated public street loop; no actual vendor/customer demand.",
+      "timeAndWeather": "Warm conditions unlock; severe weather suppresses new live scenarios. No crowd or heat-vulnerability targeting.",
+      "taskPersistenceFallback": "Drive generic truck, stop at anonymous public game stops and complete serving minigame without customer identities. Local daily flags, free steering assist."
+    }
+  ]
+}

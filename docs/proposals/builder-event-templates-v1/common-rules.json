@@ -1,0 +1,649 @@
+{
+  "schema": "worldengine.builder-event-rules.v1",
+  "status": "proposal; no safety certification or engine implementation",
+  "checked_date": "2026-10-07",
+  "units": "metres, square metres, kW, kVA, people/minute, seconds, m/s",
+  "reference_jurisdiction": null,
+  "claim_statuses": [
+    "verified_reference",
+    "assumption",
+    "unverified_site_value"
+  ],
+  "source_register": [
+    {
+      "id": "R01",
+      "title": "HSE venue and site design",
+      "url": "https://www.hse.gov.uk/event-safety/venue-site-design.htm",
+      "status": "verified guidance",
+      "scope": "UK event guidance; not US code",
+      "summary": "Capacity depends on layout, audience, exits and activities; ground/anchoring/underground services and wind exposure require assessment.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R02",
+      "title": "HSE crowd controls inside venue",
+      "url": "https://www.hse.gov.uk/event-safety/crowd-management-control-inside.htm",
+      "status": "verified guidance",
+      "scope": "UK event guidance",
+      "summary": "Keep attractions/queues out of circulation routes and avoid crowd pinch points and stage surges.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R03",
+      "title": "2024 IBC Chapter 10 table 1004.5",
+      "url": "https://codes.iccsafe.org/content/IBC2024V2.0/chapter-10-means-of-egress",
+      "status": "verified official indexed excerpt; subsequent direct fetch failed",
+      "scope": "Model-code reference only; local adoption/amendments unverified",
+      "summary": "5 net ft\u00b2 standing; 7 net chairs only; 15 net tables/chairs. These calculate design occupant load, not a safe crowd-density standard.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R04",
+      "title": "Seattle Fire tent assembly permit conditions",
+      "url": "https://www.seattle.gov/documents/departments/fire/business/permitcond_3201.pdf",
+      "status": "verified official indexed table; direct reader internal error",
+      "scope": "Seattle example permit conditions; local applicability unverified",
+      "summary": "Tent exit count/width table and 100 ft travel-distance reference. Not a generic site exit certificate.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R05",
+      "title": "2024 NC Fire Code Chapter 31",
+      "url": "https://codes.iccsafe.org/content/NCFC2024V1.0/chapter-31-tents-temporary-special-event-structures-and-other-membrane-structures",
+      "status": "verified official indexed excerpt",
+      "scope": "North Carolina code edition example; local applicability unverified",
+      "summary": "Tent aggregate width reference 0.2 inch per occupant and distributed exits within 100 ft travel.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R06",
+      "title": "US Access Board ADA Chapter 4",
+      "url": "https://www.access-board.gov/ada/chapter/ch04/",
+      "status": "verified standard",
+      "scope": "US ADA technical standard; application/scoping requires review",
+      "summary": "Accessible route 36 in minimum; walking slope <=1:20 and cross slope <=1:48; ramp rules separate.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R07",
+      "title": "US Access Board ADA Chapter 2",
+      "url": "https://www.access-board.gov/ada/chapter/ch02/",
+      "status": "verified standard",
+      "scope": "US ADA scoping; fixed seating and portable-toilet clauses have distinct scope",
+      "summary": "Portable clustered toilet exception uses 5%; fixed-seat wheelchair table and assistive-listening requirements are not interchangeable with loose-chair planning.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R08",
+      "title": "San Diego special event planning guide",
+      "url": "https://www.sandiego.gov/sites/default/files/legacy/specialevents/pdf/planningguide.pdf",
+      "status": "verified municipal guide; PDF pp23,28,44 as printed",
+      "scope": "San Diego local example; other local rules unverified",
+      "summary": "10% accessible restroom/sink facilities, at least one per location; public handwash additional to food-provider sinks; generators >=20 ft from tents and guarded from public.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R09",
+      "title": "CDC generator safety",
+      "url": "https://www.cdc.gov/natural-disasters/psa-toolkit/use-a-generator-safely.html",
+      "status": "verified guidance; page reviewed August 2026",
+      "scope": "CO guidance; not electrical sizing",
+      "summary": "Keep combustion generators outside at least 20 ft from doors/windows/vents.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R10",
+      "title": "HSE electrical safety",
+      "url": "https://www.hse.gov.uk/event-safety/electrical-safety.htm",
+      "status": "verified guidance",
+      "scope": "UK technical guidance; US electrical rules separately required",
+      "summary": "Competent electrical design; segregated generator intake/enclosure; wet-environment suitability and cable protection.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R11",
+      "title": "OSHA occupational noise",
+      "url": "https://www.osha.gov/noise",
+      "status": "verified standard summary",
+      "scope": "US occupational exposure; not city noise permit or audience loudness target",
+      "summary": "90 dBA eight-hour PEL, 5 dBA exchange; general-industry hearing conservation at85 dBA eight-hour TWA.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R12",
+      "title": "NWS lightning sports",
+      "url": "https://www.weather.gov/safety/lightning-sports",
+      "status": "verified guidance",
+      "scope": "Outdoor activity weather guidance",
+      "summary": "Named weather monitor, stop/shelter/resume plan; wait at least30 minutes after last thunder.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R13",
+      "title": "NWS lightning outdoors",
+      "url": "https://www.weather.gov/safety/lightning-outdoors",
+      "status": "verified guidance",
+      "scope": "Outdoor lightning safety",
+      "summary": "Tents and picnic shelters are not safe lightning refuges; substantial buildings or enclosed hard-topped vehicles are options.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R14",
+      "title": "NWS Event Ready Guide",
+      "url": "https://www.weather.gov/media/crh/eventready/Event_Ready_Guide.pdf",
+      "status": "verified official guide excerpt",
+      "scope": "Event preparedness",
+      "summary": "Determine warning, clearance and sheltering time; obtain facility wind thresholds; shelter suitability/capacity requires specialist review.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R15",
+      "title": "NWS WBGT vs Heat Index",
+      "url": "https://www.weather.gov/ict/WBGT",
+      "status": "verified guidance",
+      "scope": "Heat-stress indicator; no single universal shutdown threshold",
+      "summary": "WBGT accounts for heat, humidity, wind, cloud and sun; activity/acclimatization influence response.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R16",
+      "title": "HSE temporary structures",
+      "url": "https://www.hse.gov.uk/event-safety/temporary-demountable-structures.htm",
+      "status": "verified guidance",
+      "scope": "Temporary demountable structure procurement/design guidance",
+      "summary": "Supplier/competent structural design and installed configuration determine load/anchoring/wind limits.",
+      "checked_date": "2026-10-07"
+    },
+    {
+      "id": "R17",
+      "title": "HSE crowd management controls",
+      "url": "https://www.hse.gov.uk/event-safety/crowd-management-controls.htm",
+      "status": "verified guidance",
+      "scope": "UK event guidance",
+      "summary": "Arrival, onsite circulation and departure are separate crowd-management phases.",
+      "checked_date": "2026-10-07"
+    }
+  ],
+  "input_contract": {
+    "G": "Peak simultaneously present GUESTS, not tickets sold or visits over a day",
+    "S": "Actual peak staff/crew/vendors; example only uses ceil(0.10*G)",
+    "N": "G+S+other people present, reconciled by zone/time",
+    "code_design_occupant_load": "Authority-approved load based on applicable occupancy rules. Never silently replace it with expected turnout. Null until reviewed.",
+    "event_location": "Site boundary, latitude/longitude, time zone, measured entrances and surveyed slopes",
+    "peak_arrival_fraction": 0.25,
+    "peak_arrival_window_min": 30,
+    "planning_duration_hours": 4,
+    "alcohol": false,
+    "existing_toilet_credit": "Zero unless access, capacity, hours and permission are confirmed",
+    "weather": "Issue/valid time, freshness, observational vs forecast vs simulated provenance"
+  },
+  "crowd": {
+    "operational_density_target": {
+      "id": "standing_target",
+      "value": 1.0,
+      "unit": "people/m\u00b2 usable standing area",
+      "status": "assumption",
+      "source_ids": [
+        "R01",
+        "R02"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "review_threshold": {
+      "id": "density_review",
+      "value": 1.5,
+      "unit": "people/m\u00b2",
+      "status": "assumption",
+      "source_ids": [
+        "R02"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "stop_admission_threshold": {
+      "id": "density_stop",
+      "value": 2.0,
+      "unit": "people/m\u00b2; proposal trigger, not a universal safe limit",
+      "status": "assumption",
+      "source_ids": [
+        "R02"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "response": "Any surge, distress, blocked exit or barrier pressure can require intervention below numerical thresholds. Capacity requires competent plan review.",
+    "exclude_from_usable_area": [
+      "stage",
+      "FOH",
+      "vendor queues",
+      "toilets",
+      "barriers",
+      "anchoring envelopes",
+      "water bodies",
+      "vehicle zones",
+      "egress routes"
+    ],
+    "code_occupant_load_factors": {
+      "standing_m2_per_person": 0.4645152,
+      "chairs_only_m2_per_person": 0.65032128,
+      "tables_chairs_m2_per_person": 1.3935456,
+      "status": "verified_reference",
+      "sources": [
+        "R03"
+      ],
+      "scope": "Code design-load inputs where locally adopted; not operational crowd-density limits"
+    }
+  },
+  "egress": {
+    "reference_nonstair_width_m_per_person": {
+      "id": "egress_width_reference",
+      "value": 0.00508,
+      "unit": "m/person (0.2 in)",
+      "status": "verified_reference",
+      "source_ids": [
+        "R05"
+      ],
+      "scope": "Tent reference in named code; local outdoor-site applicability unverified",
+      "checked_date": "2026-10-07"
+    },
+    "tent_reference_table": {
+      "status": "verified_reference",
+      "sources": [
+        "R04"
+      ],
+      "scope": "Tent-specific local reference; membrane structures may differ; counts do not alone certify capacity",
+      "bands": [
+        {
+          "min_occupants": 10,
+          "max_occupants": 199,
+          "exits": 2,
+          "each_min_clear_width_m": 1.8288
+        },
+        {
+          "min_occupants": 200,
+          "max_occupants": 499,
+          "exits": 3,
+          "each_min_clear_width_m": 1.8288
+        },
+        {
+          "min_occupants": 500,
+          "max_occupants": 999,
+          "exits": 4,
+          "each_min_clear_width_m": 2.4384
+        },
+        {
+          "min_occupants": 1000,
+          "max_occupants": 1999,
+          "exits": 5,
+          "each_min_clear_width_m": 3.048
+        },
+        {
+          "min_occupants": 2000,
+          "max_occupants": 2999,
+          "exits": 6,
+          "each_min_clear_width_m": 3.048
+        },
+        {
+          "min_occupants": 3001,
+          "max_occupants": null,
+          "exits": 7,
+          "each_min_clear_width_m": 3.048
+        }
+      ],
+      "occupants_3000": "Exact table boundary ambiguous as printed (Over3000); require adopted-code clarification; do not interpolate silently"
+    },
+    "tent_travel_reference_m": {
+      "id": "tent_travel",
+      "value": 30.48,
+      "unit": "m",
+      "status": "verified_reference",
+      "source_ids": [
+        "R04",
+        "R05"
+      ],
+      "scope": "Actual walking route inside tent, not straight-line radius",
+      "checked_date": "2026-10-07"
+    },
+    "site_exit_target": "Assumption: at least K independent distributed gates; sized provisionally using declared N. Check remaining clear capacity after widest gate loss; this is a planning robustness test, not universal code.",
+    "site_gate_counts_by_G": {
+      "100": 2,
+      "500": 4,
+      "2000": 6,
+      "10000": 12
+    },
+    "gate_min_target_m": 3.0,
+    "formula": "w=ceil_to_0.25m(max(3, N*0.00508/(K-1))); total=K*w; remaining_after_largest_gate_loss=(K-1)*w",
+    "calculation_status": "Preliminary declared-population illustration only. Final design_occupant_load and downstream network unknown. No automatic PASS.",
+    "must_check": [
+      "actual/code occupant load",
+      "travel distances/dead ends",
+      "exit separation and distribution",
+      "gate hardware, opening direction, no ticket checks on exit",
+      "downstream paths/refuges/transport",
+      "accessible evacuation",
+      "emergency lighting independently powered",
+      "evacuation/sheltering model and rehearsed operating plan"
+    ],
+    "estimated_clearance_time": "Detection+decision+notification+premovement+max(travel, queue/discharge)+assistance time; flow rate and bottlenecks need competent input, no fixed persons/m/s assumption supplied"
+  },
+  "clearances": {
+    "public_main_spine_m": {
+      "id": "main_spine",
+      "value": 3.0,
+      "unit": "m clear",
+      "status": "assumption",
+      "source_ids": [
+        "R01",
+        "R02"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "secondary_accessible_route_m": {
+      "id": "accessible_target",
+      "value": 1.8,
+      "unit": "m clear",
+      "status": "assumption",
+      "source_ids": [
+        "R06"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "route_technical_min_m": {
+      "id": "route_min",
+      "value": 0.9144,
+      "unit": "m (36in)",
+      "status": "verified_reference",
+      "source_ids": [
+        "R06"
+      ],
+      "scope": "ADA technical minimum; not adequate crowd-egress design by itself",
+      "checked_date": "2026-10-07"
+    },
+    "passing_space": {
+      "id": "passing_space",
+      "value": [
+        1.524,
+        1.524,
+        60.96
+      ],
+      "unit": "m width/depth/max interval if route <1.524m",
+      "status": "verified_reference",
+      "source_ids": [
+        "R06"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "walk_slope_max": {
+      "id": "walk_slope",
+      "value": 0.05,
+      "unit": "ratio; steeper requires ramp review",
+      "status": "verified_reference",
+      "source_ids": [
+        "R06"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "cross_slope_max": {
+      "id": "cross_slope",
+      "value": 0.020833333333333332,
+      "unit": "ratio",
+      "status": "verified_reference",
+      "source_ids": [
+        "R06"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "service_fire_lane": {
+      "id": "fire_lane",
+      "value": 6.096,
+      "unit": "m",
+      "status": "verified_reference",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "San Diego example; local fire access width, turning, overhead clearance and surface load must be provided",
+      "checked_date": "2026-10-07"
+    },
+    "tent_separation_target": {
+      "id": "tent_separation",
+      "value": 6.1,
+      "unit": "m clear before guy/ballast allowances are confirmed",
+      "status": "assumption",
+      "source_ids": [
+        "R01",
+        "R08"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "generator_to_tent": {
+      "id": "generator_tent",
+      "value": 6.096,
+      "unit": "m",
+      "status": "verified_reference",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "San Diego example; other adopted rules and supplier distances override",
+      "checked_date": "2026-10-07"
+    },
+    "generator_to_opening": {
+      "id": "generator_opening",
+      "value": 6.096,
+      "unit": "m minimum",
+      "status": "verified_reference",
+      "source_ids": [
+        "R09"
+      ],
+      "scope": "CO guidance: outdoors, away from doors/windows/vents; wind/terrain can require more",
+      "checked_date": "2026-10-07"
+    },
+    "power_public_fence_offset": {
+      "id": "power_fence",
+      "value": 0.9144,
+      "unit": "m",
+      "status": "verified_reference",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "San Diego example around combustion source; equipment/vendor envelope may be larger",
+      "checked_date": "2026-10-07"
+    },
+    "cooking_public_buffer_target": {
+      "id": "cooking_public",
+      "value": 3.0,
+      "unit": "m",
+      "status": "assumption",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "toilets_food_buffer_target": {
+      "id": "toilet_food",
+      "value": 10.0,
+      "unit": "m",
+      "status": "assumption",
+      "source_ids": [],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "anchoring_envelope": "Supplier footprint of ballast, guys, stakes and trip guards, then clear circulation envelope; unknown envelope cannot be marked clear"
+  },
+  "sanitation": {
+    "toilet_ratio": {
+      "id": "toilet_ratio",
+      "value": 75,
+      "unit": "people per toilet; <=4h, no alcohol draft",
+      "status": "assumption",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "alcohol_or_longer_event_multiplier": {
+      "id": "toilet_multiplier",
+      "value": 1.5,
+      "unit": "multiplier; supplier/health authority must replace",
+      "status": "assumption",
+      "source_ids": [],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "formula": "T=max(2,ceil(N/75*duration_alcohol_multiplier)); distribute into B=ceil(T/12) banks (assumption). Accessible units=max(B,ceil(0.10*T)) with at least one per bank. Accessible units are included in T, not additional.",
+    "accessible_share": {
+      "id": "accessible_toilet_share",
+      "value": 0.1,
+      "unit": "fraction + >=1/bank",
+      "status": "verified_reference",
+      "source_ids": [
+        "R08"
+      ],
+      "scope": "San Diego local requirement; selected as proposal default everywhere. ADA portable-cluster exception5% has different scope; local stricter value prevails.",
+      "checked_date": "2026-10-07"
+    },
+    "handwash": "H=max(B,ceil(T/4)); H_accessible=max(B,ceil(0.10*H)); public sinks do not replace separate food-service sinks. H ratio is assumption.",
+    "bank_distribution": "Keep every bank connected by firm/stable slip-resistant route; 0.02 cross-slope local sanitation example; queue kept out of egress; service pump access isolated.",
+    "existing_facilities_credit": 0,
+    "status": "Ratios are illustrative planning allowances; peak use, gender mix, duration, alcohol, service interval and health department requirements can change counts"
+  },
+  "queue": {
+    "peak_arrival_fraction": {
+      "id": "arrival_peak",
+      "value": 0.25,
+      "unit": "G fraction /30minutes",
+      "status": "assumption",
+      "source_ids": [],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "lane_service_rate": {
+      "id": "lane_service",
+      "value": 4.0,
+      "unit": "people/min per check-in lane",
+      "status": "assumption",
+      "source_ids": [],
+      "scope": "Proposal default; site-specific authority review required",
+      "checked_date": "2026-10-07"
+    },
+    "utilization_target": 0.8,
+    "lane_count_formula": "ceil((G*0.25/30)/(service_rate*0.8)); minimum1",
+    "holding_capacity_formula": "ceil(G*0.15); total holding area=capacity*1.0m\u00b2/person (assumptions)",
+    "lane_clear_target_m": 1.5,
+    "turn_space_target_m": 1.8,
+    "bypass_route_m": 1.8,
+    "rule": "Admission gates and queues cannot consume independent exit capacity; accessible queue route achieves same service, not segregated poorer experience; stop admission before holding capacity/spillback is exceeded",
+    "status": "Arrival and service measurements needed; no queue wait guarantee"
+  },
+  "power": {
+    "sizing": "List each load, voltage/phases, kW, power factor, starting/surge demand, simultaneity and operating hours; load schedule is required, not watts-per-guest",
+    "formula": "illustrative running_kW=sum(part_count*example_running_kW); provisional_kVA=running_kW/(0.8PF*0.8loading); actual vendor generator must also meet starting currents, derating and redundancy",
+    "example_power_factor": 0.8,
+    "example_max_loading_fraction": 0.8,
+    "status": "assumption; no generator model/amperage/fuel selected",
+    "required": [
+      "competent electrician design",
+      "locally appropriate GFCI/RCD and wet-rated distribution",
+      "grounding/bonding based on system design; not automatic ground-rod rule",
+      "cable capacity/voltage drop and protected routes",
+      "separate emergency egress lighting supply",
+      "public exclusion and refuelling plan",
+      "verified combustion exhaust clearances; battery/shore power preferred where feasible"
+    ]
+  },
+  "noise": {
+    "worker_reference": {
+      "eight_hour_PEL_dBA": 90,
+      "exchange_dBA": 5,
+      "general_industry_hearing_conservation_TWA_dBA": 85,
+      "status": "verified_reference",
+      "sources": [
+        "R11"
+      ],
+      "scope": "OSHA occupational scope, not audience target or city noise limit"
+    },
+    "city_boundary_limit_dBA": null,
+    "curfew_local_time": null,
+    "rule": "Aim speaker energy into intended audience and away from noise-sensitive boundaries; FOH measurements, audience/worker exposure and boundary measurements separate. Buildings/wind/low frequencies invalidate a simple distance circle.",
+    "inverse_square_preview": "Free-field point-source comparison only: deltaLp=-20log10(r2/r1), no absolute safe contour; line arrays, reflections and weather require acoustic model/measurement",
+    "status": "Local noise permit values unverified; no automatic compliance indication"
+  },
+  "weather": {
+    "rain_plan": "Accessible wet-weather surfaces + drainage + electrical protection; covered plan must have its own occupancy and exits. A tent is a comfort rain plan only within approved wind/weather operating conditions, not a severe-weather/ lightning shelter.",
+    "wind": {
+      "manufacturer_operating_limit_m_s": null,
+      "gust_limit_m_s": null,
+      "measurement_height_m": null,
+      "averaging_period_s": null,
+      "trigger_basis": null,
+      "ballast_kg_per_leg": null,
+      "anchor_pullout_capacity_kN": null,
+      "installer_signoff": null,
+      "status": "unverified_site_value; do not populate generic wind/ballast numbers",
+      "stop_rule": "Operational action thresholds below the installed configuration limit must allow time to close/dismantle/evacuate; selected supplier/engineer plan defines them; adding sidewalls changes loads."
+    },
+    "lightning": {
+      "resume_after_last_thunder_min": 30,
+      "status": "verified_reference",
+      "sources": [
+        "R12",
+        "R13"
+      ],
+      "trigger": "Thunder/lightning observed => stop and move to safe refuge; earlier detection buffer must be based on warning+clearance+shelter time, configured with weather lead",
+      "distance_km": null,
+      "refuge": "Capacity-confirmed substantial buildings or enclosed hard-topped vehicles; tents are never credited",
+      "all_persons_shelter_capacity_required": "N",
+      "no_safe_refuge": "Do not approve opening/continuation without an actionable cancellation/early-clearance plan"
+    },
+    "heat": {
+      "metric": "WBGT where available; heat index clearly labelled if substituted",
+      "review_WBGT_C": null,
+      "stop_WBGT_C": null,
+      "status": "unverified_site_value; site medical/weather lead defines activity/population thresholds",
+      "measures": [
+        "water refill points",
+        "shade/ventilation",
+        "cool recovery space",
+        "rest breaks/staff rotation",
+        "accessible cooling and medical access"
+      ],
+      "sources": [
+        "R15"
+      ]
+    },
+    "sun": {
+      "position": "Engine solar model using location, event date/time/timezone; do not use calibration sun as event sun",
+      "photo_target_elevation_deg": [
+        15,
+        35
+      ],
+      "photo_target_status": "assumption/art preference; photographer approval",
+      "shadow_length_formula": "length=h/tan(sun_elevation); use only elevation>0; obstruction/ray test required",
+      "orientation": "Photo backdrop/subject relative to sun evaluated per session; ceremony guests avoid direct glare; stage orientation balances sun/glare against acoustic/site/egress constraints; never a universal east/west rule"
+    },
+    "provenance": "Observed/forecast/simulated; retain issue time and valid time; stale never labelled live; beyond forecast horizon use named scenarios"
+  },
+  "review_states": [
+    "proposal",
+    "needs_site_data",
+    "needs_supplier",
+    "needs_authority",
+    "reviewed_for_named_scope"
+  ],
+  "approval_rule": "No all-clear/safe/certified label from geometry heuristics. Every review has person/scope/date, selected code edition, installation/configuration and expiry. Immutable client snapshot records unresolved items.",
+  "source_priority": [
+    "applicable law/AHJ conditions",
+    "site and supplier engineered constraints",
+    "verified scoped references",
+    "proposal convenience defaults"
+  ],
+  "large_event_rule": "2000/10000 cases are multiple zones with local service banks and independent routes; no linear enlargement of one tent/one queue/one gate."
+}

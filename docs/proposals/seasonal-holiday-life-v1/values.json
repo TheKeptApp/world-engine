@@ -1,0 +1,3837 @@
+{
+  "schema": "worldengine.seasonal-holiday-life.v1",
+  "created": "2026-10-07",
+  "status": "Art-direction proposals with cited event dates; not surveyed residential behavior, renderer implementation or property-level observations",
+  "lookSource": "../style-b-calibration-v2/values.json#/sharedLook",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "lookInheritanceRule": "Packs own content; calibration v2 owns look. No per-city grade. Live time/weather replace clear-day fixture; exposure/wetness applied once. User requested matching this calibration; original status retained in provenance.",
+  "provenanceCalibrationStatus": "calibration proposal; approval pending; authored values, not measured image pixels",
+  "cities": [
+    {
+      "id": "chicago",
+      "name": "Chicago",
+      "tz": "America/Chicago",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "spring": [
+        "03-15",
+        "05-31"
+      ],
+      "summer": [
+        "05-15",
+        "09-15"
+      ],
+      "autumn": [
+        "09-15",
+        "12-15"
+      ],
+      "school": "cps",
+      "firstDay": "2026-08-24"
+    },
+    {
+      "id": "denver",
+      "name": "Denver",
+      "tz": "America/Denver",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "spring": [
+        "03-01",
+        "06-15"
+      ],
+      "summer": [
+        "05-15",
+        "09-15"
+      ],
+      "autumn": [
+        "09-01",
+        "12-01"
+      ],
+      "school": "dps",
+      "firstDay": null
+    },
+    {
+      "id": "greenville",
+      "name": "Greenville SC",
+      "tz": "America/New_York",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "spring": [
+        "02-15",
+        "05-15"
+      ],
+      "summer": [
+        "05-01",
+        "09-30"
+      ],
+      "autumn": [
+        "09-15",
+        "12-31"
+      ],
+      "school": "gcs",
+      "firstDay": "2026-08-11"
+    },
+    {
+      "id": "nyc",
+      "name": "NYC",
+      "tz": "America/New_York",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "spring": [
+        "03-01",
+        "05-31"
+      ],
+      "summer": [
+        "05-15",
+        "09-15"
+      ],
+      "autumn": [
+        "09-15",
+        "12-15"
+      ],
+      "school": "nycschool",
+      "firstDay": "2026-09-10"
+    },
+    {
+      "id": "sf",
+      "name": "SF",
+      "tz": "America/Los_Angeles",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "spring": [
+        "01-15",
+        "06-15"
+      ],
+      "summer": [
+        "05-01",
+        "10-31"
+      ],
+      "autumn": [
+        "09-01",
+        "01-31"
+      ],
+      "school": "sfusd",
+      "firstDay": "2026-08-17"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "chicago-spring",
+      "name": "Spring planting + blossoms",
+      "kind": "environment_plus_activity",
+      "share": 20,
+      "types": [
+        "small planters",
+        "new soil in eligible beds",
+        "species-specific blossom crowns"
+      ],
+      "job": [
+        "plant",
+        "mow"
+      ],
+      "look": "Show light new green leaf-out on deciduous trees, blossoms only on one or two plausible ornamental flowering trees, modest planting pots and soil on a few eligible frontages. Do not turn every tree pink. Evergreen crowns remain green.",
+      "time": "clear_day",
+      "gate": "local species phenophase + observed heat accumulation + soil workable + freeze risk acceptable; date range only a soft search hint",
+      "sources": [
+        "phenology"
+      ],
+      "phase": "spring",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-spring.png",
+      "sheet": "chicago-spring.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 20,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "03-15",
+          "05-31"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "chicago-summer",
+      "name": "Summer yard life + block party",
+      "kind": "activity",
+      "share": 15,
+      "types": [
+        "one private shallow kids pool",
+        "one small lemonade stand with no text",
+        "folding block-party tables",
+        "sprinkler fixture only when allowed"
+      ],
+      "job": [
+        "mow",
+        "water"
+      ],
+      "look": "Green or drought-stressed vegetation according to sample weather. One small shallow pool inside an eligible private yard or patio, a modest lemonade table with blank cups and no sign, and one short locally authorized block-party gathering with folding tables. Sparse generic adults and children in safe private/pedestrian space; no brands or faces. Do not fill every yard or road with events.",
+      "time": "clear_day",
+      "gate": "warm dry safe local weather + eligible private space + current water restrictions + actual permitted street-closure event for a party; no calendar-only activation",
+      "sources": [
+        "water",
+        "watersummer",
+        "grass"
+      ],
+      "phase": "summer",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-summer.png",
+      "sheet": "chicago-summer.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "05-15",
+          "09-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.denverwater.org/drought",
+        "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+        "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "chicago-school",
+      "name": "Back to school",
+      "kind": "activity",
+      "share": 0,
+      "types": [
+        "plain backpacks",
+        "small groups walking to school",
+        "one generic unmarked school bus where a mapped route warrants it"
+      ],
+      "job": [],
+      "look": "Keep late-summer foliage. A few children with generic backpacks and accompanying adults walking safely on the sidewalk, no school logos, readable text or invented school building. No decorative overlay on houses and no autumn leaf switch.",
+      "time": "morning",
+      "gate": "selected district/school first day and term weekdays, local commute time, mapped access; not a fixed nationwide September start",
+      "sources": [
+        "cps"
+      ],
+      "phase": "school",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-school.png",
+      "sheet": "chicago-school.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": "2026-08-24",
+        "displayRule": "selected_school_first_day - 7 days to +14 days; commute actors on actual school days",
+        "source": "https://www.cps.edu/sites/back-to-school/",
+        "peakStatus": "VERIFIED 2026-27 district first day"
+      },
+      "sourceUrls": [
+        "https://www.cps.edu/sites/back-to-school/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "morning"
+      }
+    },
+    {
+      "id": "chicago-autumn",
+      "name": "Autumn leaves + leaf piles",
+      "kind": "environment_plus_activity",
+      "share": 15,
+      "types": [
+        "selective amber/russet foliage",
+        "small leaf piles",
+        "plain paper leaf bags"
+      ],
+      "job": [
+        "rake"
+      ],
+      "look": "A varied mix of green, amber, muted rusty deciduous crowns and some bare branches. Evergreen trees stay green. Modest fallen leaves and two gathered leaf piles or plain yard-waste bags on eligible frontages; not every sidewalk buried.",
+      "time": "clear_day",
+      "gate": "species-specific observed leaf-color/fall state + wind/precipitation deposition + substrate; the month cannot create leaves",
+      "sources": [
+        "phenology",
+        "ukautumn"
+      ],
+      "phase": "autumn",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-autumn.png",
+      "sheet": "chicago-autumn.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "09-15",
+          "12-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring",
+        "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "chicago-halloween",
+      "name": "Halloween + trick-or-treat dusk",
+      "kind": "holiday",
+      "share": 35,
+      "types": [
+        "pumpkins",
+        "plain paper bat shapes",
+        "generic cloth ghosts",
+        "small warm porch lamps"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "Dusk with restrained warm porch lamps at only selected homes. Three pumpkins or simple cloth/paper decorations at about one third of visible residential frontages; the rest ordinary. A small accompanied trick-or-treat group, generic costumes without branded characters, no dogs, no text. Foliage still follows city-specific phenology; do not force bare trees or snow.",
+      "time": "dusk",
+      "gate": "local Oct 31 event; decorations ramp Oct 01-31 and clear Nov 01-07; trick-or-treat actors only Oct 31 or verified local alternative",
+      "sources": [],
+      "phase": "halloween",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-halloween.png",
+      "sheet": "chicago-halloween.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 40,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "10-01",
+          "11-07"
+        ],
+        "peak": "10-31",
+        "actorDates": [
+          "10-31"
+        ],
+        "rampRule": "start 25% of target on Oct 01; reach target Oct 20; remove quickly Nov 01-07"
+      },
+      "sourceUrls": [],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "chicago-harvest",
+      "name": "Thanksgiving / harvest",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "plain gourds",
+        "small dried plant bundles",
+        "muted harvest planters"
+      ],
+      "job": [
+        "rake",
+        "tidy"
+      ],
+      "look": "Sparse gourds and modest harvest planters on one or two frontages. No giant turkey inflatables, religious symbolism, branded food, readable signs or every-house decorations. Actual foliage/weather may be green, fallen-leaf or bare according to city conditions; no automatic snow.",
+      "time": "clear_day",
+      "gate": "US Thanksgiving fourth Thursday November; harvest display Nov 01 through holiday+3 days; remove Halloween cutout pumpkins, generic uncarved gourds may persist",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "harvest",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-harvest.png",
+      "sheet": "chicago-harvest.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "Nov 01 to Thanksgiving+3 days",
+        "peakRule": "fourth Thursday November"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "chicago-lights",
+      "name": "Winter holiday lights",
+      "kind": "holiday",
+      "share": 40,
+      "types": [
+        "small warm white string lights",
+        "some muted mixed-colour strings",
+        "generic plain wreaths",
+        "window light accents"
+      ],
+      "job": [
+        "hang_lights",
+        "remove_lights"
+      ],
+      "look": "Blue-sky dusk/early night, visible realistic houses not crushed blacks. Modest roof-edge strings or window lights on only about 40 percent of residential frontages; vary warm white, restrained multicolour and unlit plain wreaths, several completely undecorated houses. No religious symbols, Santa brands, snowflake snowfall assumption, all-house outlining or stadium floodlights. Bare/green trees and ground snow reflect actual city weather; this sample has no new snowfall.",
+      "time": "night",
+      "gate": "regional chosen display Nov 20-Jan 06; actual holiday Dec 25 is not universal participation; no inferred household religion",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "lights",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-lights.png",
+      "sheet": "chicago-lights.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 45,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": [
+          "12-15",
+          "12-31"
+        ],
+        "crossesYear": true,
+        "rampRule": "20% of target Nov 20; 70% Dec 01; full target Dec 15; taper Jan 01-06"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "chicago-newyear",
+      "name": "New Year",
+      "kind": "holiday",
+      "share": 8,
+      "types": [
+        "few neutral metallic streamers",
+        "one small gathering",
+        "residual winter light strings within their own window"
+      ],
+      "job": [
+        "remove_lights",
+        "tidy"
+      ],
+      "look": "Early night New Year study, a single sparse private gathering and tiny neutral metallic streamers on at most one frontage. Some pre-existing holiday lights may remain only at their previous locations, no giant firework spectacle or universal house decoration. No readable year numbers or banners.",
+      "time": "night",
+      "gate": "Dec 31 evening-Jan 01 celebration; optional cleanup through Jan 03; retained strings keep separate Jan 06 end date",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "newyear",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-newyear.png",
+      "sheet": "chicago-newyear.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "12-31",
+          "01-03"
+        ],
+        "peak": null,
+        "crossesYear": true,
+        "peakRule": "local Dec 31 18:00-Jan 01 02:00; quiet cleanup after sunrise"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "chicago-snow",
+      "name": "Snow day / observed-weather fallback",
+      "kind": "environment_plus_activity",
+      "share": 8,
+      "types": [
+        "patchy or continuous observed snow depth",
+        "one snowman if packing snow exists",
+        "one plain sled on eligible gentle private slope",
+        "mixed cleared/uncleared walks"
+      ],
+      "job": [
+        "shovel"
+      ],
+      "look": "Conditional verified snow event example: modest 8-12 cm settled snow, slightly bare or dormant vegetation, mixed shoveled and unshoveled walks, one small plain snowman and one plain sled only on an eligible safe private gentle slope. Snowmen have no branding or religious decor. No sled in active traffic or on steep icy SF road. Deposition/melt and plowed road variation, not white paint everywhere.",
+      "time": "overcast_day",
+      "gate": "confirmed current local ground snow depth; snowman requires moist packing snow; sled requires safe mapped terrain. Any date is possible if data supports it. If missing data, use no-snow fallback.",
+      "sources": [
+        "snow",
+        "sfclimate",
+        "gspclimate"
+      ],
+      "phase": "snow",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-snow.png",
+      "sheet": "chicago-snow.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "any date with observed current depth; no calendar window",
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.nohrsc.noaa.gov/help/",
+        "https://www.weather.gov/mtr/sfd_climate",
+        "https://www.weather.gov/gsp/climate_local"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 10,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "overcast_day"
+      }
+    },
+    {
+      "id": "chicago-july4",
+      "name": "Fourth of July",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "small generic striped-and-star flags",
+        "subdued red-white-blue paper bunting",
+        "one picnic table"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "A few small generic striped/star flags and subtle red-white-blue bunting on only one or two frontages, plain summer picnic setup on private space. No team or sponsor marks, readable text, military display, giant flags, every-house flags or fireworks. Summer greenery/weather stays data-driven.",
+      "time": "clear_day",
+      "gate": "US display Jun 28-Jul 06, peak Jul 04; actual celebration date is Jul 04 even if government work holiday shifts",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "july4",
+      "region": "Chicago",
+      "regionId": "chicago",
+      "baseImage": "chicago-base.png",
+      "image": "chicago-july4.png",
+      "sheet": "chicago-july4.html",
+      "streetType": "urban_flats",
+      "notes": "Brick two/three-flats, stoops and narrow lawns. Leaves belong to mapped deciduous trees. Snowpack is storm/depth-driven; shoveled frontage is a synthetic state, not known household behavior.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "06-28",
+          "07-06"
+        ],
+        "peak": "07-04"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "denver-spring",
+      "name": "Spring planting + blossoms",
+      "kind": "environment_plus_activity",
+      "share": 20,
+      "types": [
+        "small planters",
+        "new soil in eligible beds",
+        "species-specific blossom crowns"
+      ],
+      "job": [
+        "plant",
+        "mow"
+      ],
+      "look": "Show light new green leaf-out on deciduous trees, blossoms only on one or two plausible ornamental flowering trees, modest planting pots and soil on a few eligible frontages. Do not turn every tree pink. Evergreen crowns remain green.",
+      "time": "clear_day",
+      "gate": "local species phenophase + observed heat accumulation + soil workable + freeze risk acceptable; date range only a soft search hint",
+      "sources": [
+        "phenology"
+      ],
+      "phase": "spring",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-spring.png",
+      "sheet": "denver-spring.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 20,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "03-01",
+          "06-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "denver-summer",
+      "name": "Summer yard life + block party",
+      "kind": "activity",
+      "share": 15,
+      "types": [
+        "one private shallow kids pool",
+        "one small lemonade stand with no text",
+        "folding block-party tables",
+        "sprinkler fixture only when allowed"
+      ],
+      "job": [
+        "mow",
+        "water"
+      ],
+      "look": "Green or drought-stressed vegetation according to sample weather. One small shallow pool inside an eligible private yard or patio, a modest lemonade table with blank cups and no sign, and one short locally authorized block-party gathering with folding tables. Sparse generic adults and children in safe private/pedestrian space; no brands or faces. Do not fill every yard or road with events. This clear-day example shows sprinkler hardware OFF, xeric beds and slightly dry grass. No active spray: a policy-cleared irrigation example would require its own eligible day/time and current restrictions.",
+      "time": "clear_day",
+      "gate": "warm dry safe local weather + eligible private space + current water restrictions + actual permitted street-closure event for a party; no calendar-only activation",
+      "sources": [
+        "water",
+        "watersummer",
+        "grass"
+      ],
+      "phase": "summer",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-summer.png",
+      "sheet": "denver-summer.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "05-15",
+          "09-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.denverwater.org/drought",
+        "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+        "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "denver-school",
+      "name": "Back to school",
+      "kind": "activity",
+      "share": 0,
+      "types": [
+        "plain backpacks",
+        "small groups walking to school",
+        "one generic unmarked school bus where a mapped route warrants it"
+      ],
+      "job": [],
+      "look": "Keep late-summer foliage. A few children with generic backpacks and accompanying adults walking safely on the sidewalk, no school logos, readable text or invented school building. No decorative overlay on houses and no autumn leaf switch.",
+      "time": "morning",
+      "gate": "selected district/school first day and term weekdays, local commute time, mapped access; not a fixed nationwide September start",
+      "sources": [
+        "dps"
+      ],
+      "phase": "school",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-school.png",
+      "sheet": "denver-school.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "selected_school_first_day - 7 days to +14 days; commute actors on actual school days",
+        "source": "https://newlon.dpsk12.org/o/dps/page/calendars",
+        "peakStatus": "UNCLEAR district-wide first day; exact selected-school calendar required"
+      },
+      "sourceUrls": [
+        "https://newlon.dpsk12.org/o/dps/page/calendars"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "morning"
+      }
+    },
+    {
+      "id": "denver-autumn",
+      "name": "Autumn leaves + leaf piles",
+      "kind": "environment_plus_activity",
+      "share": 15,
+      "types": [
+        "selective amber/russet foliage",
+        "small leaf piles",
+        "plain paper leaf bags"
+      ],
+      "job": [
+        "rake"
+      ],
+      "look": "A varied mix of green, amber, muted rusty deciduous crowns and some bare branches. Evergreen trees stay green. Modest fallen leaves and two gathered leaf piles or plain yard-waste bags on eligible frontages; not every sidewalk buried.",
+      "time": "clear_day",
+      "gate": "species-specific observed leaf-color/fall state + wind/precipitation deposition + substrate; the month cannot create leaves",
+      "sources": [
+        "phenology",
+        "ukautumn"
+      ],
+      "phase": "autumn",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-autumn.png",
+      "sheet": "denver-autumn.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "09-01",
+          "12-01"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring",
+        "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "denver-halloween",
+      "name": "Halloween + trick-or-treat dusk",
+      "kind": "holiday",
+      "share": 35,
+      "types": [
+        "pumpkins",
+        "plain paper bat shapes",
+        "generic cloth ghosts",
+        "small warm porch lamps"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "Dusk with restrained warm porch lamps at only selected homes. Three pumpkins or simple cloth/paper decorations at about one third of visible residential frontages; the rest ordinary. A small accompanied trick-or-treat group, generic costumes without branded characters, no dogs, no text. Foliage still follows city-specific phenology; do not force bare trees or snow.",
+      "time": "dusk",
+      "gate": "local Oct 31 event; decorations ramp Oct 01-31 and clear Nov 01-07; trick-or-treat actors only Oct 31 or verified local alternative",
+      "sources": [],
+      "phase": "halloween",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-halloween.png",
+      "sheet": "denver-halloween.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 35,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "10-01",
+          "11-07"
+        ],
+        "peak": "10-31",
+        "actorDates": [
+          "10-31"
+        ],
+        "rampRule": "start 25% of target on Oct 01; reach target Oct 20; remove quickly Nov 01-07"
+      },
+      "sourceUrls": [],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "denver-harvest",
+      "name": "Thanksgiving / harvest",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "plain gourds",
+        "small dried plant bundles",
+        "muted harvest planters"
+      ],
+      "job": [
+        "rake",
+        "tidy"
+      ],
+      "look": "Sparse gourds and modest harvest planters on one or two frontages. No giant turkey inflatables, religious symbolism, branded food, readable signs or every-house decorations. Actual foliage/weather may be green, fallen-leaf or bare according to city conditions; no automatic snow.",
+      "time": "clear_day",
+      "gate": "US Thanksgiving fourth Thursday November; harvest display Nov 01 through holiday+3 days; remove Halloween cutout pumpkins, generic uncarved gourds may persist",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "harvest",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-harvest.png",
+      "sheet": "denver-harvest.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "Nov 01 to Thanksgiving+3 days",
+        "peakRule": "fourth Thursday November"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "denver-lights",
+      "name": "Winter holiday lights",
+      "kind": "holiday",
+      "share": 40,
+      "types": [
+        "small warm white string lights",
+        "some muted mixed-colour strings",
+        "generic plain wreaths",
+        "window light accents"
+      ],
+      "job": [
+        "hang_lights",
+        "remove_lights"
+      ],
+      "look": "Blue-sky dusk/early night, visible realistic houses not crushed blacks. Modest roof-edge strings or window lights on only about 40 percent of residential frontages; vary warm white, restrained multicolour and unlit plain wreaths, several completely undecorated houses. No religious symbols, Santa brands, snowflake snowfall assumption, all-house outlining or stadium floodlights. Bare/green trees and ground snow reflect actual city weather; this sample has no new snowfall.",
+      "time": "night",
+      "gate": "regional chosen display Nov 20-Jan 06; actual holiday Dec 25 is not universal participation; no inferred household religion",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "lights",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-lights.png",
+      "sheet": "denver-lights.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 40,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": [
+          "12-15",
+          "12-31"
+        ],
+        "crossesYear": true,
+        "rampRule": "20% of target Nov 20; 70% Dec 01; full target Dec 15; taper Jan 01-06"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "denver-newyear",
+      "name": "New Year",
+      "kind": "holiday",
+      "share": 8,
+      "types": [
+        "few neutral metallic streamers",
+        "one small gathering",
+        "residual winter light strings within their own window"
+      ],
+      "job": [
+        "remove_lights",
+        "tidy"
+      ],
+      "look": "Early night New Year study, a single sparse private gathering and tiny neutral metallic streamers on at most one frontage. Some pre-existing holiday lights may remain only at their previous locations, no giant firework spectacle or universal house decoration. No readable year numbers or banners.",
+      "time": "night",
+      "gate": "Dec 31 evening-Jan 01 celebration; optional cleanup through Jan 03; retained strings keep separate Jan 06 end date",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "newyear",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-newyear.png",
+      "sheet": "denver-newyear.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "12-31",
+          "01-03"
+        ],
+        "peak": null,
+        "crossesYear": true,
+        "peakRule": "local Dec 31 18:00-Jan 01 02:00; quiet cleanup after sunrise"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "denver-snow",
+      "name": "Snow day / observed-weather fallback",
+      "kind": "environment_plus_activity",
+      "share": 8,
+      "types": [
+        "patchy or continuous observed snow depth",
+        "one snowman if packing snow exists",
+        "one plain sled on eligible gentle private slope",
+        "mixed cleared/uncleared walks"
+      ],
+      "job": [
+        "shovel"
+      ],
+      "look": "Conditional verified snow event example: modest 8-12 cm settled snow, slightly bare or dormant vegetation, mixed shoveled and unshoveled walks, one small plain snowman and one plain sled only on an eligible safe private gentle slope. Snowmen have no branding or religious decor. No sled in active traffic or on steep icy SF road. Deposition/melt and plowed road variation, not white paint everywhere.",
+      "time": "overcast_day",
+      "gate": "confirmed current local ground snow depth; snowman requires moist packing snow; sled requires safe mapped terrain. Any date is possible if data supports it. If missing data, use no-snow fallback.",
+      "sources": [
+        "snow",
+        "sfclimate",
+        "gspclimate"
+      ],
+      "phase": "snow",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-snow.png",
+      "sheet": "denver-snow.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "any date with observed current depth; no calendar window",
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.nohrsc.noaa.gov/help/",
+        "https://www.weather.gov/mtr/sfd_climate",
+        "https://www.weather.gov/gsp/climate_local"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 10,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "overcast_day"
+      }
+    },
+    {
+      "id": "denver-july4",
+      "name": "Fourth of July",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "small generic striped-and-star flags",
+        "subdued red-white-blue paper bunting",
+        "one picnic table"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "A few small generic striped/star flags and subtle red-white-blue bunting on only one or two frontages, plain summer picnic setup on private space. No team or sponsor marks, readable text, military display, giant flags, every-house flags or fireworks. Summer greenery/weather stays data-driven.",
+      "time": "clear_day",
+      "gate": "US display Jun 28-Jul 06, peak Jul 04; actual celebration date is Jul 04 even if government work holiday shifts",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "july4",
+      "region": "Denver",
+      "regionId": "denver",
+      "baseImage": "denver-base.png",
+      "image": "denver-july4.png",
+      "sheet": "denver-july4.html",
+      "streetType": "detached_yards",
+      "notes": "Bungalows and a Denver Square, lawn/xeric mixture. Sunny exposed snow can disappear while shaded remnants persist. Irrigation policy is a hard gate.",
+      "percentResidentialBuildings": 20,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "06-28",
+          "07-06"
+        ],
+        "peak": "07-04"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "greenville-spring",
+      "name": "Spring planting + blossoms",
+      "kind": "environment_plus_activity",
+      "share": 20,
+      "types": [
+        "small planters",
+        "new soil in eligible beds",
+        "species-specific blossom crowns"
+      ],
+      "job": [
+        "plant",
+        "mow"
+      ],
+      "look": "Show light new green leaf-out on deciduous trees, blossoms only on one or two plausible ornamental flowering trees, modest planting pots and soil on a few eligible frontages. Do not turn every tree pink. Evergreen crowns remain green.",
+      "time": "clear_day",
+      "gate": "local species phenophase + observed heat accumulation + soil workable + freeze risk acceptable; date range only a soft search hint",
+      "sources": [
+        "phenology"
+      ],
+      "phase": "spring",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-spring.png",
+      "sheet": "greenville-spring.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 20,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "02-15",
+          "05-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "greenville-summer",
+      "name": "Summer yard life + block party",
+      "kind": "activity",
+      "share": 15,
+      "types": [
+        "one private shallow kids pool",
+        "one small lemonade stand with no text",
+        "folding block-party tables",
+        "sprinkler fixture only when allowed"
+      ],
+      "job": [
+        "mow",
+        "water"
+      ],
+      "look": "Green or drought-stressed vegetation according to sample weather. One small shallow pool inside an eligible private yard or patio, a modest lemonade table with blank cups and no sign, and one short locally authorized block-party gathering with folding tables. Sparse generic adults and children in safe private/pedestrian space; no brands or faces. Do not fill every yard or road with events.",
+      "time": "clear_day",
+      "gate": "warm dry safe local weather + eligible private space + current water restrictions + actual permitted street-closure event for a party; no calendar-only activation",
+      "sources": [
+        "water",
+        "watersummer",
+        "grass"
+      ],
+      "phase": "summer",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-summer.png",
+      "sheet": "greenville-summer.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "05-01",
+          "09-30"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.denverwater.org/drought",
+        "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+        "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "greenville-school",
+      "name": "Back to school",
+      "kind": "activity",
+      "share": 0,
+      "types": [
+        "plain backpacks",
+        "small groups walking to school",
+        "one generic unmarked school bus where a mapped route warrants it"
+      ],
+      "job": [],
+      "look": "Keep late-summer foliage. A few children with generic backpacks and accompanying adults walking safely on the sidewalk, no school logos, readable text or invented school building. No decorative overlay on houses and no autumn leaf switch.",
+      "time": "morning",
+      "gate": "selected district/school first day and term weekdays, local commute time, mapped access; not a fixed nationwide September start",
+      "sources": [
+        "gcs"
+      ],
+      "phase": "school",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-school.png",
+      "sheet": "greenville-school.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": "2026-08-11",
+        "displayRule": "selected_school_first_day - 7 days to +14 days; commute actors on actual school days",
+        "source": "https://www.greenville.k12.sc.us/News/main.asp?titleid=2412calendar",
+        "peakStatus": "VERIFIED 2026-27 district first day"
+      },
+      "sourceUrls": [
+        "https://www.greenville.k12.sc.us/News/main.asp?titleid=2412calendar"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "morning"
+      }
+    },
+    {
+      "id": "greenville-autumn",
+      "name": "Autumn leaves + leaf piles",
+      "kind": "environment_plus_activity",
+      "share": 15,
+      "types": [
+        "selective amber/russet foliage",
+        "small leaf piles",
+        "plain paper leaf bags"
+      ],
+      "job": [
+        "rake"
+      ],
+      "look": "A varied mix of green, amber, muted rusty deciduous crowns and some bare branches. Evergreen trees stay green. Modest fallen leaves and two gathered leaf piles or plain yard-waste bags on eligible frontages; not every sidewalk buried.",
+      "time": "clear_day",
+      "gate": "species-specific observed leaf-color/fall state + wind/precipitation deposition + substrate; the month cannot create leaves",
+      "sources": [
+        "phenology",
+        "ukautumn"
+      ],
+      "phase": "autumn",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-autumn.png",
+      "sheet": "greenville-autumn.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "09-15",
+          "12-31"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring",
+        "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "greenville-halloween",
+      "name": "Halloween + trick-or-treat dusk",
+      "kind": "holiday",
+      "share": 35,
+      "types": [
+        "pumpkins",
+        "plain paper bat shapes",
+        "generic cloth ghosts",
+        "small warm porch lamps"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "Dusk with restrained warm porch lamps at only selected homes. Three pumpkins or simple cloth/paper decorations at about one third of visible residential frontages; the rest ordinary. A small accompanied trick-or-treat group, generic costumes without branded characters, no dogs, no text. Foliage still follows city-specific phenology; do not force bare trees or snow.",
+      "time": "dusk",
+      "gate": "local Oct 31 event; decorations ramp Oct 01-31 and clear Nov 01-07; trick-or-treat actors only Oct 31 or verified local alternative",
+      "sources": [],
+      "phase": "halloween",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-halloween.png",
+      "sheet": "greenville-halloween.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 35,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "10-01",
+          "11-07"
+        ],
+        "peak": "10-31",
+        "actorDates": [
+          "10-31"
+        ],
+        "rampRule": "start 25% of target on Oct 01; reach target Oct 20; remove quickly Nov 01-07"
+      },
+      "sourceUrls": [],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "greenville-harvest",
+      "name": "Thanksgiving / harvest",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "plain gourds",
+        "small dried plant bundles",
+        "muted harvest planters"
+      ],
+      "job": [
+        "rake",
+        "tidy"
+      ],
+      "look": "Sparse gourds and modest harvest planters on one or two frontages. No giant turkey inflatables, religious symbolism, branded food, readable signs or every-house decorations. Actual foliage/weather may be green, fallen-leaf or bare according to city conditions; no automatic snow.",
+      "time": "clear_day",
+      "gate": "US Thanksgiving fourth Thursday November; harvest display Nov 01 through holiday+3 days; remove Halloween cutout pumpkins, generic uncarved gourds may persist",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "harvest",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-harvest.png",
+      "sheet": "greenville-harvest.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "Nov 01 to Thanksgiving+3 days",
+        "peakRule": "fourth Thursday November"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "greenville-lights",
+      "name": "Winter holiday lights",
+      "kind": "holiday",
+      "share": 40,
+      "types": [
+        "small warm white string lights",
+        "some muted mixed-colour strings",
+        "generic plain wreaths",
+        "window light accents"
+      ],
+      "job": [
+        "hang_lights",
+        "remove_lights"
+      ],
+      "look": "Blue-sky dusk/early night, visible realistic houses not crushed blacks. Modest roof-edge strings or window lights on only about 40 percent of residential frontages; vary warm white, restrained multicolour and unlit plain wreaths, several completely undecorated houses. No religious symbols, Santa brands, snowflake snowfall assumption, all-house outlining or stadium floodlights. Bare/green trees and ground snow reflect actual city weather; this sample has no new snowfall. No snow, mixed evergreen/leafless hardwoods and possibly tan dormant warm-season lawns.",
+      "time": "night",
+      "gate": "regional chosen display Nov 20-Jan 06; actual holiday Dec 25 is not universal participation; no inferred household religion",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "lights",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-lights.png",
+      "sheet": "greenville-lights.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 45,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": [
+          "12-15",
+          "12-31"
+        ],
+        "crossesYear": true,
+        "rampRule": "20% of target Nov 20; 70% Dec 01; full target Dec 15; taper Jan 01-06"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "greenville-newyear",
+      "name": "New Year",
+      "kind": "holiday",
+      "share": 8,
+      "types": [
+        "few neutral metallic streamers",
+        "one small gathering",
+        "residual winter light strings within their own window"
+      ],
+      "job": [
+        "remove_lights",
+        "tidy"
+      ],
+      "look": "Early night New Year study, a single sparse private gathering and tiny neutral metallic streamers on at most one frontage. Some pre-existing holiday lights may remain only at their previous locations, no giant firework spectacle or universal house decoration. No readable year numbers or banners. No snow, mixed evergreen/leafless hardwoods and possibly tan dormant warm-season lawns.",
+      "time": "night",
+      "gate": "Dec 31 evening-Jan 01 celebration; optional cleanup through Jan 03; retained strings keep separate Jan 06 end date",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "newyear",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-newyear.png",
+      "sheet": "greenville-newyear.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "12-31",
+          "01-03"
+        ],
+        "peak": null,
+        "crossesYear": true,
+        "peakRule": "local Dec 31 18:00-Jan 01 02:00; quiet cleanup after sunrise"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "greenville-snow",
+      "name": "Snow day / observed-weather fallback",
+      "kind": "environment_plus_activity",
+      "share": 8,
+      "types": [
+        "patchy or continuous observed snow depth",
+        "one snowman if packing snow exists",
+        "one plain sled on eligible gentle private slope",
+        "mixed cleared/uncleared walks"
+      ],
+      "job": [
+        "shovel"
+      ],
+      "look": "Conditional verified snow event example: modest 8-12 cm settled snow, slightly bare or dormant vegetation, mixed shoveled and unshoveled walks, one small plain snowman and one plain sled only on an eligible safe private gentle slope. Snowmen have no branding or religious decor. No sled in active traffic or on steep icy SF road. Deposition/melt and plowed road variation, not white paint everywhere.",
+      "time": "overcast_day",
+      "gate": "confirmed current local ground snow depth; snowman requires moist packing snow; sled requires safe mapped terrain. Any date is possible if data supports it. If missing data, use no-snow fallback.",
+      "sources": [
+        "snow",
+        "sfclimate",
+        "gspclimate"
+      ],
+      "phase": "snow",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-snow.png",
+      "sheet": "greenville-snow.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "any date with observed current depth; no calendar window",
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.nohrsc.noaa.gov/help/",
+        "https://www.weather.gov/mtr/sfd_climate",
+        "https://www.weather.gov/gsp/climate_local"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 10,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "overcast_day"
+      }
+    },
+    {
+      "id": "greenville-july4",
+      "name": "Fourth of July",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "small generic striped-and-star flags",
+        "subdued red-white-blue paper bunting",
+        "one picnic table"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "A few small generic striped/star flags and subtle red-white-blue bunting on only one or two frontages, plain summer picnic setup on private space. No team or sponsor marks, readable text, military display, giant flags, every-house flags or fireworks. Summer greenery/weather stays data-driven.",
+      "time": "clear_day",
+      "gate": "US display Jun 28-Jul 06, peak Jul 04; actual celebration date is Jul 04 even if government work holiday shifts",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "july4",
+      "region": "Greenville SC",
+      "regionId": "greenville",
+      "baseImage": "greenville-base.png",
+      "image": "greenville-july4.png",
+      "sheet": "greenville-july4.html",
+      "streetType": "detached_yards",
+      "notes": "Porches, gabled cottages/ranch houses, deciduous and evergreen trees mixed. Warm-season turf can be dormant without snow. Snow sheet is a conditional storm example, never a winter default.",
+      "percentResidentialBuildings": 20,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "06-28",
+          "07-06"
+        ],
+        "peak": "07-04"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "nyc-spring",
+      "name": "Spring planting + blossoms",
+      "kind": "environment_plus_activity",
+      "share": 20,
+      "types": [
+        "small planters",
+        "new soil in eligible beds",
+        "species-specific blossom crowns"
+      ],
+      "job": [
+        "plant",
+        "mow"
+      ],
+      "look": "Show light new green leaf-out on deciduous trees, blossoms only on one or two plausible ornamental flowering trees, modest planting pots and soil on a few eligible frontages. Do not turn every tree pink. Evergreen crowns remain green.",
+      "time": "clear_day",
+      "gate": "local species phenophase + observed heat accumulation + soil workable + freeze risk acceptable; date range only a soft search hint",
+      "sources": [
+        "phenology"
+      ],
+      "phase": "spring",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-spring.png",
+      "sheet": "nyc-spring.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "03-01",
+          "05-31"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "nyc-summer",
+      "name": "Summer yard life + block party",
+      "kind": "activity",
+      "share": 15,
+      "types": [
+        "one private shallow kids pool",
+        "one small lemonade stand with no text",
+        "folding block-party tables",
+        "sprinkler fixture only when allowed"
+      ],
+      "job": [
+        "mow",
+        "water"
+      ],
+      "look": "Green or drought-stressed vegetation according to sample weather. One small shallow pool inside an eligible private yard or patio, a modest lemonade table with blank cups and no sign, and one short locally authorized block-party gathering with folding tables. Sparse generic adults and children in safe private/pedestrian space; no brands or faces. Do not fill every yard or road with events. Do NOT invent front lawns, sidewalk pools or spray sprinklers: any pool sits in one private REAR patio only. The small front table cannot obstruct the footway. A block party is a selected authorized event, not default traffic closure.",
+      "time": "clear_day",
+      "gate": "warm dry safe local weather + eligible private space + current water restrictions + actual permitted street-closure event for a party; no calendar-only activation",
+      "sources": [
+        "water",
+        "watersummer",
+        "grass"
+      ],
+      "phase": "summer",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-summer.png",
+      "sheet": "nyc-summer.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "05-15",
+          "09-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.denverwater.org/drought",
+        "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+        "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "nyc-school",
+      "name": "Back to school",
+      "kind": "activity",
+      "share": 0,
+      "types": [
+        "plain backpacks",
+        "small groups walking to school",
+        "one generic unmarked school bus where a mapped route warrants it"
+      ],
+      "job": [],
+      "look": "Keep late-summer foliage. A few children with generic backpacks and accompanying adults walking safely on the sidewalk, no school logos, readable text or invented school building. No decorative overlay on houses and no autumn leaf switch.",
+      "time": "morning",
+      "gate": "selected district/school first day and term weekdays, local commute time, mapped access; not a fixed nationwide September start",
+      "sources": [
+        "nycschool"
+      ],
+      "phase": "school",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-school.png",
+      "sheet": "nyc-school.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": "2026-09-10",
+        "displayRule": "selected_school_first_day - 7 days to +14 days; commute actors on actual school days",
+        "source": "https://www.schools.nyc.gov/school-year/back-to-school",
+        "peakStatus": "VERIFIED 2026-27 district first day"
+      },
+      "sourceUrls": [
+        "https://www.schools.nyc.gov/school-year/back-to-school"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "morning"
+      }
+    },
+    {
+      "id": "nyc-autumn",
+      "name": "Autumn leaves + leaf piles",
+      "kind": "environment_plus_activity",
+      "share": 15,
+      "types": [
+        "selective amber/russet foliage",
+        "small leaf piles",
+        "plain paper leaf bags"
+      ],
+      "job": [
+        "rake"
+      ],
+      "look": "A varied mix of green, amber, muted rusty deciduous crowns and some bare branches. Evergreen trees stay green. Modest fallen leaves and two gathered leaf piles or plain yard-waste bags on eligible frontages; not every sidewalk buried.",
+      "time": "clear_day",
+      "gate": "species-specific observed leaf-color/fall state + wind/precipitation deposition + substrate; the month cannot create leaves",
+      "sources": [
+        "phenology",
+        "ukautumn"
+      ],
+      "phase": "autumn",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-autumn.png",
+      "sheet": "nyc-autumn.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 10,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "09-15",
+          "12-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring",
+        "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "nyc-halloween",
+      "name": "Halloween + trick-or-treat dusk",
+      "kind": "holiday",
+      "share": 35,
+      "types": [
+        "pumpkins",
+        "plain paper bat shapes",
+        "generic cloth ghosts",
+        "small warm porch lamps"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "Dusk with restrained warm porch lamps at only selected homes. Three pumpkins or simple cloth/paper decorations at about one third of visible residential frontages; the rest ordinary. A small accompanied trick-or-treat group, generic costumes without branded characters, no dogs, no text. Foliage still follows city-specific phenology; do not force bare trees or snow.",
+      "time": "dusk",
+      "gate": "local Oct 31 event; decorations ramp Oct 01-31 and clear Nov 01-07; trick-or-treat actors only Oct 31 or verified local alternative",
+      "sources": [],
+      "phase": "halloween",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-halloween.png",
+      "sheet": "nyc-halloween.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 25,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "10-01",
+          "11-07"
+        ],
+        "peak": "10-31",
+        "actorDates": [
+          "10-31"
+        ],
+        "rampRule": "start 25% of target on Oct 01; reach target Oct 20; remove quickly Nov 01-07"
+      },
+      "sourceUrls": [],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "nyc-harvest",
+      "name": "Thanksgiving / harvest",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "plain gourds",
+        "small dried plant bundles",
+        "muted harvest planters"
+      ],
+      "job": [
+        "rake",
+        "tidy"
+      ],
+      "look": "Sparse gourds and modest harvest planters on one or two frontages. No giant turkey inflatables, religious symbolism, branded food, readable signs or every-house decorations. Actual foliage/weather may be green, fallen-leaf or bare according to city conditions; no automatic snow.",
+      "time": "clear_day",
+      "gate": "US Thanksgiving fourth Thursday November; harvest display Nov 01 through holiday+3 days; remove Halloween cutout pumpkins, generic uncarved gourds may persist",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "harvest",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-harvest.png",
+      "sheet": "nyc-harvest.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "Nov 01 to Thanksgiving+3 days",
+        "peakRule": "fourth Thursday November"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "nyc-lights",
+      "name": "Winter holiday lights",
+      "kind": "holiday",
+      "share": 40,
+      "types": [
+        "small warm white string lights",
+        "some muted mixed-colour strings",
+        "generic plain wreaths",
+        "window light accents"
+      ],
+      "job": [
+        "hang_lights",
+        "remove_lights"
+      ],
+      "look": "Blue-sky dusk/early night, visible realistic houses not crushed blacks. Modest roof-edge strings or window lights on only about 40 percent of residential frontages; vary warm white, restrained multicolour and unlit plain wreaths, several completely undecorated houses. No religious symbols, Santa brands, snowflake snowfall assumption, all-house outlining or stadium floodlights. Bare/green trees and ground snow reflect actual city weather; this sample has no new snowfall.",
+      "time": "night",
+      "gate": "regional chosen display Nov 20-Jan 06; actual holiday Dec 25 is not universal participation; no inferred household religion",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "lights",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-lights.png",
+      "sheet": "nyc-lights.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 30,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": [
+          "12-15",
+          "12-31"
+        ],
+        "crossesYear": true,
+        "rampRule": "20% of target Nov 20; 70% Dec 01; full target Dec 15; taper Jan 01-06"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "nyc-newyear",
+      "name": "New Year",
+      "kind": "holiday",
+      "share": 8,
+      "types": [
+        "few neutral metallic streamers",
+        "one small gathering",
+        "residual winter light strings within their own window"
+      ],
+      "job": [
+        "remove_lights",
+        "tidy"
+      ],
+      "look": "Early night New Year study, a single sparse private gathering and tiny neutral metallic streamers on at most one frontage. Some pre-existing holiday lights may remain only at their previous locations, no giant firework spectacle or universal house decoration. No readable year numbers or banners.",
+      "time": "night",
+      "gate": "Dec 31 evening-Jan 01 celebration; optional cleanup through Jan 03; retained strings keep separate Jan 06 end date",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "newyear",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-newyear.png",
+      "sheet": "nyc-newyear.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "12-31",
+          "01-03"
+        ],
+        "peak": null,
+        "crossesYear": true,
+        "peakRule": "local Dec 31 18:00-Jan 01 02:00; quiet cleanup after sunrise"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "nyc-snow",
+      "name": "Snow day / observed-weather fallback",
+      "kind": "environment_plus_activity",
+      "share": 8,
+      "types": [
+        "patchy or continuous observed snow depth",
+        "one snowman if packing snow exists",
+        "one plain sled on eligible gentle private slope",
+        "mixed cleared/uncleared walks"
+      ],
+      "job": [
+        "shovel"
+      ],
+      "look": "Conditional verified snow event example: modest 8-12 cm settled snow, slightly bare or dormant vegetation, mixed shoveled and unshoveled walks, one small plain snowman and one plain sled only on an eligible safe private gentle slope. Snowmen have no branding or religious decor. No sled in active traffic or on steep icy SF road. Deposition/melt and plowed road variation, not white paint everywhere.",
+      "time": "overcast_day",
+      "gate": "confirmed current local ground snow depth; snowman requires moist packing snow; sled requires safe mapped terrain. Any date is possible if data supports it. If missing data, use no-snow fallback.",
+      "sources": [
+        "snow",
+        "sfclimate",
+        "gspclimate"
+      ],
+      "phase": "snow",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-snow.png",
+      "sheet": "nyc-snow.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "any date with observed current depth; no calendar window",
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.nohrsc.noaa.gov/help/",
+        "https://www.weather.gov/mtr/sfd_climate",
+        "https://www.weather.gov/gsp/climate_local"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 10,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "overcast_day"
+      }
+    },
+    {
+      "id": "nyc-july4",
+      "name": "Fourth of July",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "small generic striped-and-star flags",
+        "subdued red-white-blue paper bunting",
+        "one picnic table"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "A few small generic striped/star flags and subtle red-white-blue bunting on only one or two frontages, plain summer picnic setup on private space. No team or sponsor marks, readable text, military display, giant flags, every-house flags or fireworks. Summer greenery/weather stays data-driven.",
+      "time": "clear_day",
+      "gate": "US display Jun 28-Jul 06, peak Jul 04; actual celebration date is Jul 04 even if government work holiday shifts",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "july4",
+      "region": "NYC",
+      "regionId": "nyc",
+      "baseImage": "nyc-base.png",
+      "image": "nyc-july4.png",
+      "sheet": "nyc-july4.html",
+      "streetType": "rowhouse_stoops",
+      "notes": "Brooklyn brownstones, high stoops and narrow forecourts. No invented suburban lawns or public-sidewalk pools. Small private rear gardens/terraces can carry yard props.",
+      "percentResidentialBuildings": 10,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "06-28",
+          "07-06"
+        ],
+        "peak": "07-04"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "sf-spring",
+      "name": "Spring planting + blossoms",
+      "kind": "environment_plus_activity",
+      "share": 20,
+      "types": [
+        "small planters",
+        "new soil in eligible beds",
+        "species-specific blossom crowns"
+      ],
+      "job": [
+        "plant",
+        "mow"
+      ],
+      "look": "Show light new green leaf-out on deciduous trees, blossoms only on one or two plausible ornamental flowering trees, modest planting pots and soil on a few eligible frontages. Do not turn every tree pink. Evergreen crowns remain green.",
+      "time": "clear_day",
+      "gate": "local species phenophase + observed heat accumulation + soil workable + freeze risk acceptable; date range only a soft search hint",
+      "sources": [
+        "phenology"
+      ],
+      "phase": "spring",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-spring.png",
+      "sheet": "sf-spring.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "01-15",
+          "06-15"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "sf-summer",
+      "name": "Summer yard life + block party",
+      "kind": "activity",
+      "share": 15,
+      "types": [
+        "one private shallow kids pool",
+        "one small lemonade stand with no text",
+        "folding block-party tables",
+        "sprinkler fixture only when allowed"
+      ],
+      "job": [
+        "mow",
+        "water"
+      ],
+      "look": "Green or drought-stressed vegetation according to sample weather. One small shallow pool inside an eligible private yard or patio, a modest lemonade table with blank cups and no sign, and one short locally authorized block-party gathering with folding tables. Sparse generic adults and children in safe private/pedestrian space; no brands or faces. Do not fill every yard or road with events. Do NOT invent front lawns, sidewalk pools or spray sprinklers: any pool sits in one private REAR patio only. The small front table cannot obstruct the footway. A block party is a selected authorized event, not default traffic closure.",
+      "time": "clear_day",
+      "gate": "warm dry safe local weather + eligible private space + current water restrictions + actual permitted street-closure event for a party; no calendar-only activation",
+      "sources": [
+        "water",
+        "watersummer",
+        "grass"
+      ],
+      "phase": "summer",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-summer.png",
+      "sheet": "sf-summer.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 6,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "05-01",
+          "10-31"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.denverwater.org/drought",
+        "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+        "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "sf-school",
+      "name": "Back to school",
+      "kind": "activity",
+      "share": 0,
+      "types": [
+        "plain backpacks",
+        "small groups walking to school",
+        "one generic unmarked school bus where a mapped route warrants it"
+      ],
+      "job": [],
+      "look": "Keep late-summer foliage. A few children with generic backpacks and accompanying adults walking safely on the sidewalk, no school logos, readable text or invented school building. No decorative overlay on houses and no autumn leaf switch.",
+      "time": "morning",
+      "gate": "selected district/school first day and term weekdays, local commute time, mapped access; not a fixed nationwide September start",
+      "sources": [
+        "sfusd"
+      ],
+      "phase": "school",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-school.png",
+      "sheet": "sf-school.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": "2026-08-17",
+        "displayRule": "selected_school_first_day - 7 days to +14 days; commute actors on actual school days",
+        "source": "https://www.sfusd.edu/schools/back-school-2026-27",
+        "peakStatus": "VERIFIED 2026-27 district first day"
+      },
+      "sourceUrls": [
+        "https://www.sfusd.edu/schools/back-school-2026-27"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "morning"
+      }
+    },
+    {
+      "id": "sf-autumn",
+      "name": "Autumn leaves + leaf piles",
+      "kind": "environment_plus_activity",
+      "share": 15,
+      "types": [
+        "selective amber/russet foliage",
+        "small leaf piles",
+        "plain paper leaf bags"
+      ],
+      "job": [
+        "rake"
+      ],
+      "look": "A varied mix of green, amber, muted rusty deciduous crowns and some bare branches. Evergreen trees stay green. Modest fallen leaves and two gathered leaf piles or plain yard-waste bags on eligible frontages; not every sidewalk buried. SF keeps evergreen vegetation and selective deciduous change, modest moist ground if appropriate; no city-wide bare tree treatment, no automatic snow.",
+      "time": "clear_day",
+      "gate": "species-specific observed leaf-color/fall state + wind/precipitation deposition + substrate; the month cannot create leaves",
+      "sources": [
+        "phenology",
+        "ukautumn"
+      ],
+      "phase": "autumn",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-autumn.png",
+      "sheet": "sf-autumn.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "09-01",
+          "01-31"
+        ],
+        "peak": null,
+        "calendarOnlyActivation": false,
+        "crossesYear": true
+      },
+      "sourceUrls": [
+        "https://usanpn.org/data/maps/spring",
+        "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "sf-halloween",
+      "name": "Halloween + trick-or-treat dusk",
+      "kind": "holiday",
+      "share": 35,
+      "types": [
+        "pumpkins",
+        "plain paper bat shapes",
+        "generic cloth ghosts",
+        "small warm porch lamps"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "Dusk with restrained warm porch lamps at only selected homes. Three pumpkins or simple cloth/paper decorations at about one third of visible residential frontages; the rest ordinary. A small accompanied trick-or-treat group, generic costumes without branded characters, no dogs, no text. Foliage still follows city-specific phenology; do not force bare trees or snow. SF keeps evergreen vegetation and selective deciduous change, modest moist ground if appropriate; no city-wide bare tree treatment, no automatic snow.",
+      "time": "dusk",
+      "gate": "local Oct 31 event; decorations ramp Oct 01-31 and clear Nov 01-07; trick-or-treat actors only Oct 31 or verified local alternative",
+      "sources": [],
+      "phase": "halloween",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-halloween.png",
+      "sheet": "sf-halloween.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 25,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "10-01",
+          "11-07"
+        ],
+        "peak": "10-31",
+        "actorDates": [
+          "10-31"
+        ],
+        "rampRule": "start 25% of target on Oct 01; reach target Oct 20; remove quickly Nov 01-07"
+      },
+      "sourceUrls": [],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "sf-harvest",
+      "name": "Thanksgiving / harvest",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "plain gourds",
+        "small dried plant bundles",
+        "muted harvest planters"
+      ],
+      "job": [
+        "rake",
+        "tidy"
+      ],
+      "look": "Sparse gourds and modest harvest planters on one or two frontages. No giant turkey inflatables, religious symbolism, branded food, readable signs or every-house decorations. Actual foliage/weather may be green, fallen-leaf or bare according to city conditions; no automatic snow. SF keeps evergreen vegetation and selective deciduous change, modest moist ground if appropriate; no city-wide bare tree treatment, no automatic snow.",
+      "time": "clear_day",
+      "gate": "US Thanksgiving fourth Thursday November; harvest display Nov 01 through holiday+3 days; remove Halloween cutout pumpkins, generic uncarved gourds may persist",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "harvest",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-harvest.png",
+      "sheet": "sf-harvest.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 15,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "Nov 01 to Thanksgiving+3 days",
+        "peakRule": "fourth Thursday November"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "sf-lights",
+      "name": "Winter holiday lights",
+      "kind": "holiday",
+      "share": 40,
+      "types": [
+        "small warm white string lights",
+        "some muted mixed-colour strings",
+        "generic plain wreaths",
+        "window light accents"
+      ],
+      "job": [
+        "hang_lights",
+        "remove_lights"
+      ],
+      "look": "Blue-sky dusk/early night, visible realistic houses not crushed blacks. Modest roof-edge strings or window lights on only about 40 percent of residential frontages; vary warm white, restrained multicolour and unlit plain wreaths, several completely undecorated houses. No religious symbols, Santa brands, snowflake snowfall assumption, all-house outlining or stadium floodlights. Bare/green trees and ground snow reflect actual city weather; this sample has no new snowfall. SF keeps evergreen vegetation and selective deciduous change, modest moist ground if appropriate; no city-wide bare tree treatment, no automatic snow.",
+      "time": "night",
+      "gate": "regional chosen display Nov 20-Jan 06; actual holiday Dec 25 is not universal participation; no inferred household religion",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "lights",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-lights.png",
+      "sheet": "sf-lights.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 30,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": [
+          "12-15",
+          "12-31"
+        ],
+        "crossesYear": true,
+        "rampRule": "20% of target Nov 20; 70% Dec 01; full target Dec 15; taper Jan 01-06"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "sf-newyear",
+      "name": "New Year",
+      "kind": "holiday",
+      "share": 8,
+      "types": [
+        "few neutral metallic streamers",
+        "one small gathering",
+        "residual winter light strings within their own window"
+      ],
+      "job": [
+        "remove_lights",
+        "tidy"
+      ],
+      "look": "Early night New Year study, a single sparse private gathering and tiny neutral metallic streamers on at most one frontage. Some pre-existing holiday lights may remain only at their previous locations, no giant firework spectacle or universal house decoration. No readable year numbers or banners. SF keeps evergreen vegetation and selective deciduous change, modest moist ground if appropriate; no city-wide bare tree treatment, no automatic snow.",
+      "time": "night",
+      "gate": "Dec 31 evening-Jan 01 celebration; optional cleanup through Jan 03; retained strings keep separate Jan 06 end date",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "newyear",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-newyear.png",
+      "sheet": "sf-newyear.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "12-31",
+          "01-03"
+        ],
+        "peak": null,
+        "crossesYear": true,
+        "peakRule": "local Dec 31 18:00-Jan 01 02:00; quiet cleanup after sunrise"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "night"
+      }
+    },
+    {
+      "id": "sf-snow",
+      "name": "Snow day / observed-weather fallback",
+      "kind": "environment_plus_activity",
+      "share": 8,
+      "types": [
+        "patchy or continuous observed snow depth",
+        "one snowman if packing snow exists",
+        "one plain sled on eligible gentle private slope",
+        "mixed cleared/uncleared walks"
+      ],
+      "job": [
+        "shovel"
+      ],
+      "look": "SF default NO-SNOW wet winter day fallback: preserve unchanged sloped Victorian block and all tree positions, grey sky, gently wet sidewalk/road broad matte darkening, some green evergreen trees and partial bare deciduous branches, absolutely no snow, snowman, ice or sled. No festive decoration. This is the correct fallback when local snow depth is absent or zero.",
+      "time": "overcast_day",
+      "gate": "confirmed current local ground snow depth; snowman requires moist packing snow; sled requires safe mapped terrain. Any date is possible if data supports it. If missing data, use no-snow fallback.",
+      "sources": [
+        "snow",
+        "sfclimate",
+        "gspclimate"
+      ],
+      "phase": "snow",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-snow.png",
+      "sheet": "sf-snow.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists. SF snow props remain disabled without independently verified local ground depth. The sheet deliberately shows the fallback.",
+      "percentResidentialBuildings": 0,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": null,
+        "peak": null,
+        "displayRule": "any date with observed current depth; no calendar window",
+        "calendarOnlyActivation": false
+      },
+      "sourceUrls": [
+        "https://www.nohrsc.noaa.gov/help/",
+        "https://www.weather.gov/mtr/sfd_climate",
+        "https://www.weather.gov/gsp/climate_local"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "overcast_day"
+      }
+    },
+    {
+      "id": "sf-july4",
+      "name": "Fourth of July",
+      "kind": "holiday",
+      "share": 15,
+      "types": [
+        "small generic striped-and-star flags",
+        "subdued red-white-blue paper bunting",
+        "one picnic table"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "look": "A few small generic striped/star flags and subtle red-white-blue bunting on only one or two frontages, plain summer picnic setup on private space. No team or sponsor marks, readable text, military display, giant flags, every-house flags or fireworks. Summer greenery/weather stays data-driven.",
+      "time": "clear_day",
+      "gate": "US display Jun 28-Jul 06, peak Jul 04; actual celebration date is Jul 04 even if government work holiday shifts",
+      "sources": [
+        "holidays"
+      ],
+      "phase": "july4",
+      "region": "SF",
+      "regionId": "sf",
+      "baseImage": "sf-base.png",
+      "image": "sf-july4.png",
+      "sheet": "sf-july4.html",
+      "streetType": "steep_rowhouse",
+      "notes": "Sloping bay-front Victorian block, compact stoops and planting pockets. Evergreen/deciduous mix and species-specific leaf change. Snow-day sheet uses a no-snow wet-day fallback unless verified local snow depth exists.",
+      "percentResidentialBuildings": 8,
+      "shareStatus": "PROPOSAL: conservative art-direction target, not surveyed prevalence; persistent seed; affected buildings counted once",
+      "percentMeaning": "Decoration/prop-bearing exterior share; snow/leaf canopy coverage is a separate environmental state. Back-to-school house decoration share is 0. Pool/stand/party rates are separate rare subtypes.",
+      "windows": {
+        "status": "PROPOSAL display envelope, except cited event dates; weather/phenology gates take priority",
+        "display": [
+          "06-28",
+          "07-06"
+        ],
+        "peak": "07-04"
+      },
+      "sourceUrls": [
+        "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "mexico-muertos",
+      "phase": "muertos",
+      "regionId": "mexico",
+      "region": "Mexico / highland town example",
+      "name": "Día de Muertos / local, respectful display",
+      "percentResidentialBuildings": 20,
+      "windows": {
+        "display": [
+          "10-27",
+          "11-03"
+        ],
+        "peak": [
+          "11-01",
+          "11-02"
+        ],
+        "status": "PROPOSAL display envelope; cultural timing supported by UNESCO"
+      },
+      "time": "dusk",
+      "gate": "verified local/community calendar and chosen participating cosmetic frontages; no inference about actual residents",
+      "types": [
+        "marigold flower pots/petal accents",
+        "plain perforated paper bunting",
+        "small candle-like warm LEDs"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "sources": [
+        "mexico"
+      ],
+      "look": "Two-panel street eye-level plus identical 45-degree aerial of a modest Mexican highland residential lane: low one/two-storey plaster houses, muted ochre/cream/warm rose walls, plain tiled or flat roofs, compact courtyard spaces. Respectful Día de Muertos flower displays at only one or two frontages, marigold orange pots and restrained flower-petal accents, plain generic perforated paper bunting, small candle-like warm LEDs. No skull cartoons, skeleton replicas, personal portraits, cemetery spectacle, religious figures, real art replicas, logos or text. Not a Halloween costume party. Dusk but surfaces remain legible; local seasonal green vegetation, no invented autumn or snow. Separate local cultural opt-in example, not all Mexican homes.",
+      "image": "mexico-muertos.png",
+      "sheet": "mexico-muertos.html",
+      "streetType": "regional_example",
+      "baseImage": null,
+      "shareStatus": "PROPOSAL, not measured prevalence",
+      "notes": "Cultural and geographic example; site-specific community practices and mapped geometry require confirmation.",
+      "sourceUrls": [
+        "https://ich.unesco.org/en/RL/dia-de-muertos-the-indigenous-festivity-dedicated-to-the-dead-00054"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "dusk"
+      }
+    },
+    {
+      "id": "australia-summer-christmas",
+      "phase": "summer_christmas",
+      "regionId": "australia",
+      "region": "Australia / temperate suburb example",
+      "name": "Christmas in summer / Australia",
+      "percentResidentialBuildings": 35,
+      "windows": {
+        "display": [
+          "11-20",
+          "01-06"
+        ],
+        "peak": "12-25",
+        "crossesYear": true,
+        "status": "PROPOSAL display envelope; southern summer timing supported by BOM"
+      },
+      "time": "late_summer_day",
+      "gate": "local weather/soil moisture and local holiday participation; Australia not uniform tropical/temperate climate",
+      "types": [
+        "sparse roof-edge light strings unlit in daylight",
+        "plain wreaths",
+        "shaded outdoor table"
+      ],
+      "job": [
+        "hang_lights",
+        "mow",
+        "remove_lights"
+      ],
+      "sources": [
+        "australia"
+      ],
+      "look": "Two-panel eye-level street plus identical 45-degree aerial of a quiet temperate Australian suburb, low brick and pale weatherboard houses, simple shallow hipped roofs, verandahs, eucalyptus street trees, mixed green and dry lawn depending soil moisture. December warm-weather Christmas example, just about a third of houses with generic unlit roof-edge strings/plain wreaths, shaded backyard outdoor dining table, one private small pool if eligible. Daylight, no snow, no autumn-bare European canopy, no snowman, no northern-winter wardrobe or giant Santa. No religious symbols, brands, readable text or dogs. Retain realistic proportions and the calibration material response.",
+      "image": "australia-summer-christmas.png",
+      "sheet": "australia-summer-christmas.html",
+      "streetType": "regional_example",
+      "baseImage": null,
+      "shareStatus": "PROPOSAL, not measured prevalence",
+      "notes": "Cultural and geographic example; site-specific community practices and mapped geometry require confirmation.",
+      "sourceUrls": [
+        "https://www.bom.gov.au/news-and-media/solstices-equinoxes-and-the-seasons"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "late_summer_day"
+      }
+    },
+    {
+      "id": "nl-kingsday",
+      "phase": "kingsday",
+      "regionId": "nl",
+      "region": "Netherlands / residential lane example",
+      "name": "Kings Day / sparse orange accents",
+      "percentResidentialBuildings": 30,
+      "windows": {
+        "displayRule": "actual Kings Day -2 days through +1 day",
+        "peakRule": "Apr 27; Apr 26 if Apr 27 is Sunday",
+        "status": "VERIFIED date rule; display envelope PROPOSAL"
+      },
+      "time": "clear_day",
+      "gate": "local date rule and selected neighborhood event; no automatic road closure or canal party",
+      "types": [
+        "plain orange paper bunting",
+        "orange planter ribbon",
+        "small permitted swap-sale tables"
+      ],
+      "job": [
+        "setup",
+        "tidy"
+      ],
+      "sources": [
+        "nl",
+        "nlcalendar"
+      ],
+      "look": "Two-panel eye-level street and identical 45-degree aerial of a Dutch compact brick residential lane: narrow two/three-storey brick rowhouses, steep gable tiled roofs, small planted thresholds, simple cycle stands. Spring vegetation only on appropriate trees, roughly a third of frontages with small plain orange bunting or ribbons. One modest curbside permitted swap-sale table with blank objects, no readable pricing or logos. No royal portraits, crowns, symbols or elaborate parade; not every house decorated. No invented huge canal unless the mapped scene requires it. Daylight calibration.",
+      "image": "nl-kingsday.png",
+      "sheet": "nl-kingsday.html",
+      "streetType": "regional_example",
+      "baseImage": null,
+      "shareStatus": "PROPOSAL, not measured prevalence",
+      "notes": "Cultural and geographic example; site-specific community practices and mapped geometry require confirmation.",
+      "sourceUrls": [
+        "https://www.royal-house.nl/topics/monarchy/king%E2%80%99s-day",
+        "https://www.government.nl/faq/work/public-holidays-in-the-netherlands"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    },
+    {
+      "id": "japan-hanami",
+      "phase": "hanami",
+      "regionId": "japan",
+      "region": "Japan / park-edge neighborhood example",
+      "name": "Hanami / actual blossom state",
+      "percentResidentialBuildings": 0,
+      "windows": {
+        "candidate": [
+          "03-01",
+          "05-31"
+        ],
+        "displayRule": "local flowering-tree bloom onset through petal fall; candidate month only hint",
+        "calendarOnlyActivation": false,
+        "status": "weather/species-controlled; country-wide forecast envelope only"
+      },
+      "time": "clear_day",
+      "gate": "verified local cherry tree species and flowering phenophase, park eligibility and local rules",
+      "types": [
+        "sakura blossom crowns",
+        "two small picnic mats on permitted park ground",
+        "modest fallen petals"
+      ],
+      "job": [
+        "tidy"
+      ],
+      "sources": [
+        "japan"
+      ],
+      "look": "Two-panel eye-level street and identical 45-degree aerial of a Japanese residential lane beside a small neighborhood park: low neutral plaster and wood houses, tiled shallow gables, compact walls and gardens, no temple replica. Only the small cluster of mapped-style cherry trees along park edge has pale pink blossoms; ordinary street trees are green/new leaf and evergreen vegetation persists. Two modest picnic mats with a few generic non-identifying adults and children in park, no house decoration. No every-tree pink transformation, giant lantern parade, brands, readable signs, dogs or faces. Genuine local bloom event, not every April day.",
+      "image": "japan-hanami.png",
+      "sheet": "japan-hanami.html",
+      "streetType": "regional_example",
+      "baseImage": null,
+      "shareStatus": "PROPOSAL, not measured prevalence",
+      "notes": "Cultural and geographic example; site-specific community practices and mapped geometry require confirmation.",
+      "sourceUrls": [
+        "https://www.japan.travel/en/see-and-do/cherry-blossom-forecast/"
+      ],
+      "sampleState": {
+        "status": "AUTHORED qualifying scenario, not current live observation",
+        "conditions": "Weather/phenology and scene inputs must be replaced by timestamped real regional data before live activation.",
+        "snowDepthCm": 0,
+        "irrigationPermission": "disabled or unknown; sprinkler hardware not active in this illustration",
+        "localSunState": "clear_day"
+      }
+    }
+  ],
+  "sources": {
+    "phenology": {
+      "url": "https://usanpn.org/data/maps/spring",
+      "fact": "USA-NPN first leaf/bloom indices use recent temperature; a regional spring index is not a species-specific tree observation."
+    },
+    "snow": {
+      "url": "https://www.nohrsc.noaa.gov/help/",
+      "fact": "Snow analyses include depth, temperature and melt, drawing on observations and modeled conditions; snowfall accumulation is not equivalent to current ground depth."
+    },
+    "holidays": {
+      "url": "https://www.opm.gov/frequently-asked-questions/pay-and-leave-faq/pay-administration/what-are-federal-holidays/?os=v",
+      "fact": "US New Year January 1; Independence Day July 4; Thanksgiving fourth Thursday in November; Christmas December 25. Work-observed dates do not shift exterior celebration dates."
+    },
+    "cps": {
+      "url": "https://www.cps.edu/sites/back-to-school/",
+      "fact": "CPS K-12 first day for 2026-27 is August 24, 2026; calendar must be refreshed yearly."
+    },
+    "dps": {
+      "url": "https://newlon.dpsk12.org/o/dps/page/calendars",
+      "fact": "DPS publishes school-year calendars. A district-wide first day was not verified here; use selected school calendar, not one school as a district proxy."
+    },
+    "gcs": {
+      "url": "https://www.greenville.k12.sc.us/News/main.asp?titleid=2412calendar",
+      "fact": "Greenville County Schools 2026-27 student first day is August 11, 2026."
+    },
+    "nycschool": {
+      "url": "https://www.schools.nyc.gov/school-year/back-to-school",
+      "fact": "NYC public school 2026-27 first day is September 10, 2026. Other school systems can differ."
+    },
+    "sfusd": {
+      "url": "https://www.sfusd.edu/schools/back-school-2026-27",
+      "fact": "SFUSD 2026-27 first day is August 17, 2026."
+    },
+    "sfclimate": {
+      "url": "https://www.weather.gov/mtr/sfd_climate",
+      "fact": "Official downtown SF climate reference; do not extrapolate a fixed snow or leaf calendar to individual blocks."
+    },
+    "gspclimate": {
+      "url": "https://www.weather.gov/gsp/climate_local",
+      "fact": "NWS local climate tables include Greenville-Spartanburg snowfall/temperature resources; climate normals are not live event triggers."
+    },
+    "water": {
+      "url": "https://www.denverwater.org/drought",
+      "fact": "As checked 2026-10-07, Denver Water prohibits lawn watering and spray irrigation beginning October 1 until further action. This takes priority over older routine summer guidance."
+    },
+    "watersummer": {
+      "url": "https://www.denverwater.org/tap/get-facts-summer-watering-rules-run-may-1-oct-1",
+      "fact": "Routine summer lawn watering excludes 10 a.m.-6 p.m.; 2026 drought policy can be stricter. Query current policy before activation."
+    },
+    "mow": {
+      "url": "https://hgic.clemson.edu/factsheet/mowing-lawns/",
+      "fact": "Species-specific cutting heights; remove no more than one third of grass height per mowing. Growth, not month, supplies the task."
+    },
+    "grass": {
+      "url": "https://hgic.clemson.edu/factsheet/turfgrasses-for-the-carolinas/",
+      "fact": "Grass choice and mowing response depend on site conditions and grass type; avoid mowing wet turf."
+    },
+    "canada": {
+      "url": "https://www.canada.ca/en/library-archives/services/public/visit/holiday-closures.html",
+      "fact": "Canada Day July 1; Thanksgiving second Monday in October. Country holiday dates are not evidence for decoration prevalence."
+    },
+    "uk": {
+      "url": "https://www.gov.uk/school-term-holiday-dates",
+      "fact": "Use the local council/school to resolve term and holiday dates; one UK-wide school-start date is inappropriate."
+    },
+    "ukautumn": {
+      "url": "https://weather.metoffice.gov.uk/learn-about/weather/seasons/autumn",
+      "fact": "UK autumn includes changing leaves and unsettled weather. This is context, not a per-tree phenology observation."
+    },
+    "nl": {
+      "url": "https://www.royal-house.nl/topics/monarchy/king%E2%80%99s-day",
+      "fact": "Kings Day is April 27, moved to the previous day when April 27 is Sunday."
+    },
+    "nlcalendar": {
+      "url": "https://www.government.nl/faq/work/public-holidays-in-the-netherlands",
+      "fact": "Government lists official annual Dutch holiday dates; 2026 Kings Day is April 27."
+    },
+    "mexico": {
+      "url": "https://ich.unesco.org/en/RL/dia-de-muertos-the-indigenous-festivity-dedicated-to-the-dead-00054",
+      "fact": "Día de Muertos festivities occur at the end of October/beginning of November; documented practices include flower petals, candles and offerings. Practices vary by community."
+    },
+    "australia": {
+      "url": "https://www.bom.gov.au/news-and-media/solstices-equinoxes-and-the-seasons",
+      "fact": "Southern temperate Australia summer is December-February. Northern tropics use wet/dry regimes; hemisphere alone is not a climate classification."
+    },
+    "japan": {
+      "url": "https://www.japan.travel/en/see-and-do/cherry-blossom-forecast/",
+      "fact": "Bloom progresses by location from roughly March to May; forecasts change with weather. Hanami requires actual local blossom state, not an April-wide overlay."
+    }
+  },
+  "internationalNotes": {
+    "canada": {
+      "name": "Canada",
+      "notes": "No single Canadian season: choose local climate/species; coastal rain is not prairie snow. Thanksgiving is second Monday October; Canada Day July 1, not July 4. Halloween Oct 31 and optional varied late-Nov/Dec lights; no inferred beliefs. School starts from province/district calendars.",
+      "sources": [
+        "canada"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "halloween": {
+          "enabled": true,
+          "displayRule": "opt-in local Halloween, Oct 01-Nov 07 display, Oct 31 actors; otherwise disabled",
+          "percentResidentialBuildingsProposal": 35
+        },
+        "harvest": {
+          "enabled": true,
+          "displayRule": "Oct 01 through second Monday October +3 days",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "national_day": {
+          "enabled": true,
+          "display": [
+            "06-27",
+            "07-03"
+          ],
+          "peak": "07-01",
+          "percentResidentialBuildingsProposal": 12,
+          "types": [
+            "plain red-white geometric bunting, no logos"
+          ]
+        }
+      }
+    },
+    "uk": {
+      "name": "UK",
+      "notes": "Species and wet/dry weather decide foliage and turf tasks. Local councils/schools decide terms; England/Wales, Scotland and Northern Ireland can differ. No US Thanksgiving or July 4 default. Sparse Halloween and optional varied Dec lights; community-confirmed events only.",
+      "sources": [
+        "uk",
+        "ukautumn"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "halloween": {
+          "enabled": true,
+          "displayRule": "opt-in local Halloween, Oct 01-Nov 07 display, Oct 31 actors; otherwise disabled",
+          "percentResidentialBuildingsProposal": 35
+        },
+        "harvest": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        }
+      }
+    },
+    "nl": {
+      "name": "Netherlands",
+      "notes": "Local weather and tree species govern leaf/snow. Kings Day exception handled explicitly. No US Thanksgiving/July 4 default. Generic winter lights cannot be used to infer household religion; local Dec events require local calendars.",
+      "sources": [
+        "nl",
+        "nlcalendar"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "halloween": {
+          "enabled": true,
+          "displayRule": "opt-in local Halloween, Oct 01-Nov 07 display, Oct 31 actors; otherwise disabled",
+          "percentResidentialBuildingsProposal": 35
+        },
+        "harvest": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "kingsday": {
+          "enabled": true,
+          "windows": {
+            "displayRule": "actual Kings Day -2 days through +1 day",
+            "peakRule": "Apr 27; Apr 26 if Apr 27 is Sunday",
+            "status": "VERIFIED date rule; display envelope PROPOSAL"
+          },
+          "percentResidentialBuildingsProposal": 30,
+          "types": [
+            "plain orange paper bunting",
+            "orange planter ribbon",
+            "small permitted swap-sale tables"
+          ],
+          "gate": "local date rule and selected neighborhood event; no automatic road closure or canal party"
+        }
+      }
+    },
+    "mexico": {
+      "name": "Mexico",
+      "notes": "Climate varies strongly by elevation/latitude; wet/dry dynamics can replace four-season assumptions. Día de Muertos is a locally specific tradition with flower/offerings context, never a whole-country caricature. No US Thanksgiving/July 4 default.",
+      "sources": [
+        "mexico"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "halloween": {
+          "enabled": false,
+          "displayRule": "Only enable with verified local event; never substitute for Día de Muertos",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "harvest": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "muertos": {
+          "enabled": true,
+          "windows": {
+            "display": [
+              "10-27",
+              "11-03"
+            ],
+            "peak": [
+              "11-01",
+              "11-02"
+            ],
+            "status": "PROPOSAL display envelope; cultural timing supported by UNESCO"
+          },
+          "percentResidentialBuildingsProposal": 20,
+          "types": [
+            "marigold flower pots/petal accents",
+            "plain perforated paper bunting",
+            "small candle-like warm LEDs"
+          ],
+          "gate": "verified local/community calendar and chosen participating cosmetic frontages; no inference about actual residents"
+        }
+      }
+    },
+    "australia": {
+      "name": "Australia",
+      "notes": "Temperate southern seasons reverse northern timing; northern wet/dry climates need another model. Christmas summer illustration applies to a temperate suburb, not every Australian place. No automatic snowy holiday ground or leaf change by hemisphere alone.",
+      "sources": [
+        "australia"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20,
+          "candidateDisplay": [
+            "09-01",
+            "11-30"
+          ]
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15,
+          "candidateDisplay": [
+            "12-01",
+            "02-28"
+          ]
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15,
+          "candidateDisplay": [
+            "03-01",
+            "05-31"
+          ]
+        },
+        "halloween": {
+          "enabled": true,
+          "displayRule": "opt-in local Halloween, Oct 01-Nov 07 display, Oct 31 actors; otherwise disabled",
+          "percentResidentialBuildingsProposal": 35
+        },
+        "harvest": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "summer_christmas": {
+          "enabled": true,
+          "windows": {
+            "display": [
+              "11-20",
+              "01-06"
+            ],
+            "peak": "12-25",
+            "crossesYear": true,
+            "status": "PROPOSAL display envelope; southern summer timing supported by BOM"
+          },
+          "percentResidentialBuildingsProposal": 35,
+          "types": [
+            "sparse roof-edge light strings unlit in daylight",
+            "plain wreaths",
+            "shaded outdoor table"
+          ],
+          "gate": "local weather/soil moisture and local holiday participation; Australia not uniform tropical/temperate climate"
+        }
+      }
+    },
+    "japan": {
+      "name": "Japan",
+      "notes": "Bloom and leaf fall are species/local-weather driven, with strong geographic progression. Hanami is a permitted blossom-viewing activity in suitable parks, not household decoration. School calendars and local holiday customs must be checked; no US holiday overlay.",
+      "sources": [
+        "japan"
+      ],
+      "phaseRules": {
+        "spring": {
+          "enabled": true,
+          "displayRule": "local observed species phenophase; no country calendar gate",
+          "percentResidentialBuildingsProposal": 20
+        },
+        "summer": {
+          "enabled": true,
+          "displayRule": "local warm safe weather plus land eligibility and water policy",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "school": {
+          "enabled": true,
+          "displayRule": "selected local school first day -7 through +14 days; commute on actual term weekdays",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "autumn": {
+          "enabled": true,
+          "displayRule": "local observed species leaf-color/fall; no country calendar gate",
+          "percentResidentialBuildingsProposal": 15
+        },
+        "halloween": {
+          "enabled": false,
+          "displayRule": "Local verified event only, not a generic house-wide default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "harvest": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "lights": {
+          "enabled": true,
+          "displayRule": "optional varied display Nov 20-Jan 06; local dates and preferences override",
+          "percentResidentialBuildingsProposal": 40
+        },
+        "newyear": {
+          "enabled": true,
+          "displayRule": "Dec 31-Jan 03 local Gregorian New Year only; other New Years are separate opt-in calendars",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "snow": {
+          "enabled": true,
+          "displayRule": "any date with confirmed local depth and appropriate substrate; zero/unknown = no-snow fallback",
+          "percentResidentialBuildingsProposal": 8
+        },
+        "july4": {
+          "enabled": false,
+          "displayRule": "No US event overlay by default",
+          "percentResidentialBuildingsProposal": 0
+        },
+        "hanami": {
+          "enabled": true,
+          "windows": {
+            "candidate": [
+              "03-01",
+              "05-31"
+            ],
+            "displayRule": "local flowering-tree bloom onset through petal fall; candidate month only hint",
+            "calendarOnlyActivation": false,
+            "status": "weather/species-controlled; country-wide forecast envelope only"
+          },
+          "percentResidentialBuildingsProposal": 0,
+          "types": [
+            "sakura blossom crowns",
+            "two small picnic mats on permitted park ground",
+            "modest fallen petals"
+          ],
+          "gate": "verified local cherry tree species and flowering phenophase, park eligibility and local rules"
+        }
+      }
+    }
+  },
+  "participation": {
+    "unit": "residential building exterior/frontage, not household/person. A multiunit building counts once.",
+    "percentStatus": "All decoration/activity percentages are PROPOSALS; no empirical prevalence survey used.",
+    "method": "Deterministic cosmetic seed derived from persistent mapped building ID + event ID, no individual demographics, culture or beliefs. Different event seeds; retain a property style profile without implying actual behavior.",
+    "activation": "fraction ramps within local display windows; apply street eligibility and date/weather gates; seed and completed jobs persist through the event, not daily reshuffling",
+    "streetTypeMultiplier": {
+      "detached_yards": 1,
+      "urban_flats": 0.9,
+      "rowhouse_stoops": 0.65,
+      "steep_rowhouse": 0.65,
+      "courtyard_apartments": 0.4,
+      "mixed_use": 0.25,
+      "commercial_only": 0,
+      "highway": 0
+    },
+    "citySharesInterpretation": "Displayed city shares are target representative-block shares AFTER city typology adjustment. Multipliers apply only when moving to another street type; do not multiply the city target twice.",
+    "microBlockRounding": "At 8-10 frontages, use at most 1-4 decorated frontages depending phase; stochastic rounding over many blocks approaches target. Samples show sparse events, not measured proportions.",
+    "summerRareSubtypeRatesPer100EligibleFrontages": {
+      "activeSprinklers": 3,
+      "privateKidsPools": 2,
+      "lemonadeStands": 1
+    },
+    "blockParty": {
+      "requiresVerifiedPermitOrAuthoredEvent": true,
+      "defaultWithoutEvent": false,
+      "maxEventsPerBlockAtOnce": 1,
+      "status": "Event presence not inferred from houses"
+    },
+    "defaultReligiousIconography": false
+  },
+  "environmentStateMachine": {
+    "snow": {
+      "input": "latest current snow depth/cover + precipitation type + temperatures + sun/shade + melt state; timestamp/confidence",
+      "onsetDepthCmProposal": 0.5,
+      "propDepthCmProposal": 5,
+      "snowmanDepthCmProposal": 8,
+      "snowmanTemperatureCProposal": [
+        -2,
+        2
+      ],
+      "snowmanPackingMoistureRequired": true,
+      "unknownFallback": "no new snow props; current cover only when supported; do not synthesize Christmas snow",
+      "melt": "incremental mass/energy proxy retaining sheltered patches; snowDepth never set by month",
+      "sled": "mapped safe low slope/private or authorized park; no road/steep street/ice hazard",
+      "shoveledState": "synthetic authored activity/Neighborhood Jobs state; never claim property-level observations from NOAA grids"
+    },
+    "leaves": {
+      "input": "species/deciduous class + local observation/model phenophase + recent temperature/precipitation + wind",
+      "evergreen": "never force autumn bare or pink blossom",
+      "unknownSpecies": "conservative mixed neutral canopy; no blanket cherry bloom",
+      "groundLeaves": "deposit from actual leaf-fall state and wind; rake clears only selected tasks; keep retained planting-bed leaf habitat",
+      "calendarRole": "candidate range only, not activation"
+    },
+    "grass": {
+      "input": "grass type + soil moisture + growing state + heat/drought stress",
+      "dormancy": "allowed tan/dry ground without snow; evergreens retain green",
+      "mow": "growth height and appropriate dry substrate, never weekly winter default"
+    },
+    "missingInputs": "Keep neutral plausible state or clearly label authored scenario; do not substitute calendar-only snow/leaf states"
+  },
+  "nightLighting": {
+    "status": "PROPOSAL renderer-independent starting values, not measurements",
+    "colourHex": {
+      "warmWhite": "#FFD6A0",
+      "coolWhite": "#CEDFFF",
+      "red": "#D55346",
+      "green": "#4D9B79",
+      "amber": "#D2B859",
+      "blue": "#4B74BA"
+    },
+    "warmWhiteShare": 0.7,
+    "mixedColourShare": 0.2,
+    "coolWhiteShare": 0.1,
+    "stringLengthM": [
+      4,
+      18
+    ],
+    "bulbSpacingM": [
+      0.2,
+      0.4
+    ],
+    "bulbNominalLumens": [
+      1,
+      4
+    ],
+    "wholeStringLumensCap": 160,
+    "materialEmissiveRelativeToWhiteWitness": [
+      0.15,
+      0.45
+    ],
+    "surfaceSpillLuxCapAt1m": 2,
+    "ambientPolicy": "local sun/sky determine dusk/night, sky fill keeps broad surfaces readable, no per-city orange/blue grade",
+    "activeAfterSunElevationDeg": -3,
+    "activeUntilLocalTime": "23:00",
+    "newYearExceptionUntil": "01:30 Jan 01",
+    "turnOffInDaylight": true,
+    "strobe": false,
+    "bloomRadiusPhonePxCap": 1.5,
+    "doNotApplyBothPhotometricAndRelativeBoosts": true
+  },
+  "dimensionsMProposals": {
+    "pumpkinDiameter": [
+      0.18,
+      0.35
+    ],
+    "planterDiameter": [
+      0.25,
+      0.55
+    ],
+    "leafPileHeight": [
+      0.1,
+      0.4
+    ],
+    "kidsPoolDiameter": [
+      1.2,
+      2
+    ],
+    "kidsPoolDepth": [
+      0.15,
+      0.3
+    ],
+    "standWidth": [
+      0.8,
+      1.2
+    ],
+    "tableWidth": [
+      1.2,
+      1.8
+    ],
+    "snowmanHeight": [
+      0.7,
+      1.3
+    ],
+    "sledLength": [
+      0.8,
+      1.2
+    ],
+    "paperBuntingDrop": [
+      0.1,
+      0.2
+    ],
+    "flagWidth": [
+      0.25,
+      0.6
+    ],
+    "status": "Art-direction proportions, not surveyed products"
+  },
+  "detailTiers": [
+    {
+      "px": "<6",
+      "retain": "regional silhouette, snow/foliage state, a tiny sparse warm light cluster; cull standalone decorations/actors",
+      "omit": "pumpkin faces, bags, individual bulbs, pool clutter"
+    },
+    {
+      "px": "6-20",
+      "retain": "grouped porch props, leaf pile/pool void, warm strings as a few points; real scale",
+      "omit": "readable details, tiny faces, bulb wiring"
+    },
+    {
+      "px": ">20",
+      "retain": "plain gourd/pool/snowman geometry, a few leaf/petal shapes, sparse generic people",
+      "omit": "brands, identifying faces, text, religious-only symbols unless separately requested"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "hang_lights",
+      "name": "Hang lights",
+      "trigger": "local chosen display opens, selected frontage opted in, not installed, dry/unfrozen access, daylight/safe weather; equipment/access checked",
+      "completion": "store installed style/date; removal becomes a separate job after display end",
+      "gates": [
+        "no household belief inference",
+        "do not spawn during strong wind/ice/storm",
+        "accessible geometry"
+      ],
+      "dateRole": "candidate window only",
+      "status": "PROPOSAL task rules"
+    },
+    {
+      "id": "rake",
+      "name": "Rake leaves",
+      "trigger": "actual simulated/observed local leaf deposition covers about >20% of eligible path/lawn OR selected leaf pile cleanup; tree phenophase alone insufficient",
+      "completion": "reduce local loose leaves, gather selective pile/bags according to local collection rules; retain selected bed leaves",
+      "gates": [
+        "dry/safe surface",
+        "local collection/storage rules",
+        "no automatic every-yard cleanup"
+      ],
+      "thresholdStatus": "20% is a tuning proposal, not ecological/legal standard"
+    },
+    {
+      "id": "shovel",
+      "name": "Shovel snow",
+      "trigger": "new observed ground accumulation >=2 cm on a selected uncleared walk OR safe snow-clearing task; positive snowfall forecast can queue, not render completion",
+      "completion": "mark mapped walk cleared, move snow within eligible property; preserve drains/accessible route",
+      "gates": [
+        "current snow exists",
+        "no ice/storm danger task",
+        "local clearing deadlines checked separately"
+      ],
+      "thresholdStatus": "2 cm gameplay tuning; local legal deadlines unclear until jurisdiction verified"
+    },
+    {
+      "id": "mow",
+      "name": "Mow lawn",
+      "trigger": "living turf actively growing and height >=1.5 x grass-specific target, safe dry unfrozen ground and no heat/drought stress",
+      "completion": "remove <=one third of current height per cut; suppress job on gravel/xeriscape/paved frontage",
+      "gates": [
+        "mapped turf only",
+        "appropriate grass type",
+        "dry surface"
+      ],
+      "source": "https://hgic.clemson.edu/factsheet/mowing-lawns/",
+      "thresholdStatus": "one-third rule primary-source guidance; target height chosen by species/site"
+    },
+    {
+      "id": "remove_lights",
+      "name": "Take lights down",
+      "trigger": "chosen display ended + dry safe daylight + previously installed strings exist",
+      "completion": "remove only previously installed set; no new religious/cultural inference",
+      "status": "PROPOSAL"
+    },
+    {
+      "id": "tidy",
+      "name": "Event cleanup",
+      "trigger": "verified/authored event ended and props or modeled debris remain",
+      "completion": "remove owned props and eligible debris, leave actual plants/seasonal foliage intact",
+      "status": "PROPOSAL"
+    },
+    {
+      "id": "plant",
+      "name": "Plant seasonal beds",
+      "trigger": "chosen eligible planting task; soil workable, correct plant/species planting range and frost risk reviewed; no calendar-only bloom",
+      "completion": "new plant/bed state persists; flowers follow phenology",
+      "status": "PROPOSAL"
+    },
+    {
+      "id": "setup",
+      "name": "Set up a small event",
+      "trigger": "verified/authored event, available eligible private/public space and local permission",
+      "completion": "install selected generic props only, cleanup after event",
+      "status": "PROPOSAL"
+    },
+    {
+      "id": "water",
+      "name": "Water eligible plants",
+      "trigger": "soil moisture deficit and active growth, current local water policy explicitly permits method/day/time; unknown policy disables activity",
+      "completion": "update simulated soil moisture, no overspray on path/road",
+      "status": "PROPOSAL"
+    }
+  ],
+  "continuity": {
+    "rule": "All 10 states for each US city edit the same paired base block. Preserve roofs, frontages, tree trunks, curb and street grade; only season/activity/time changes.",
+    "limitation": "Image-generation camera/content continuity is visually constrained, not engine-proven. 45 degree aerial is an authoring target, not measured camera matrix. Base blocks are generic city-type proposals without real addresses."
+  },
+  "validation": {
+    "status": "passed_document_and_browser_checks",
+    "sceneCount": 54,
+    "pairedViews": 108,
+    "phoneViewportPx": 390,
+    "phoneHorizontalOverflow": false,
+    "desktopViewportPx": 1440,
+    "allSceneImagesDecoded": 54,
+    "browserErrors": [],
+    "visualReview": "Street/aerial scenes reviewed; targeted corrections made for decoration density, snow-free holiday nights and invented skyline towers. Generative camera/geometry identity remains unverified.",
+    "pdf": "60 pages, 54 embedded images, selectable text and attached rules/source files; representative pages rendered and reviewed.",
+    "limitations": "Phone check is browser viewport/layout review, not an iPhone RealityKit performance or device thermal test. Illustrations are authored scenarios; no live weather state is claimed."
+  }
+}

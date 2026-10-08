@@ -483,6 +483,23 @@ Everything below is paraphrased.
 
 53. Before any marketing use of the 65 wave-2 landmarks (landmarks-style-b-v2: New York, Los Angeles, San Francisco, Seattle, Boston, Washington, Philadelphia, Atlanta, Dallas-Fort Worth, Houston, Austin, Nashville, Phoenix): which of these buildings and structures carry registered trademarks, trade dress or architectural-works claims (17 USC 120 limits copyright in buildings visible from public places, not trademark), and what do stores, ads, videos, app icons and the creator kit need to avoid or license? Sheets have no logos, signage or figurative art; the Statue of Liberty is reference only.
 
+**Live flights at launch** (added 2026-10-08; R's decision)
+
+54. ADS-B commercial display opinion, before launch: written advice on showing live airliner positions from the adsb.lol hosted feed (ODbL) in a commercial app. Is our relay's cached track store a Derivative Database that must be offered under the ODbL, and is the 3D scene a Produced Work (see Q25, Q39)? Does the operator's request that production users get in touch need a written arrangement? What do we owe on LADD and PIA aircraft, on tail numbers and on non-airliners, given we send phones airliners only and no registration or ICAO address? Is public commercial redistribution of received ADS-B data lawful under 18 USC 2511 and 47 USC 605 (receive-only, no transmitter; neither statute is an ADS-B-specific ruling; `docs/research-gpt/real-flights-path-v1/`), and what LADD duties bind an independent receiver? Later airport gates via a paid feed or FAA SWIM need their own opinion.
+
+**Brand** (added 2026-10-08; pending R's decision)
+
+55. Name and trademark clearance for "Somewhere" (pending: R is deciding the name; nothing about it is filed in the repo).
+
+**Product, Builder and licensing demo** (added 2026-10-08 by P3 from the summaries of the second approvals batch; R can strike any)
+
+56. Children's privacy and age gate for the jobs game (neighborhood-product-v1, `jobs-game/`), and privacy law (GDPR, CCPA) for its opt-in contribution relay: what must the app collect, store and disclose, and from what age may it be played?
+57. Paid cosmetics, seasonal passes and sponsored packs in the jobs game: consumer-protection and app-store rules for what may be sold and how it is labelled.
+58. Safety and liability when a game sends people to real public places (the jobs game's real-world jobs); the pack itself asks for legal and privacy review.
+59. Name clearance for "Common Ground" and "Gather" (the product names in neighborhood-product-v1); unrelated to the "Somewhere" check in Q55.
+60. Liability wording for AI-proposed event layouts (Builder: race-organizer-ops-v1 and builder-event-templates-v1). Their rule sources cover the UK, the US and a few US localities only, so the layouts need a stated scope for R's other launch countries.
+61. B2B licensing terms for the licensing demo (licensing-demo-v1): SLA wording and usage-metered pricing; the vendor price figures in its research page are the pack's own claims and are not checked.
+
 **Measured profile values** (added 2026-10-06)
 
 32. Our regional profiles carry aggregate weights measured from OSM (for example the chicago-dense-north `typeRules`, derived from `building:levels` on 1,756 principal houses), and are licensed separately from the ODbL data part. Is such a profile a Produced Work, an insubstantial extraction, or part of the Derivative Database (and so ODbL)?
@@ -771,3 +788,16 @@ Sources: `docs/research-gpt/data-licence-check-v1/` (ChatGPT, unverified, not ye
 | **TD2** | Evanston Trees, parkways and parks (EV-01) | CC BY 4.0 (portal terms effective 13 May 2025) | Credit the City of Evanston, link the source and CC BY 4.0, say we modified it, acknowledge the City in derived metadata, preserve original metadata | **Written approval before any automated extraction** (portal Acceptable Use); 2014 collection partly out of date, so not every record is a living tree | GREEN (licence) – automation approval pending | licence-check EV-01; Q-EV-GRANT, Q-EV-AUTO, Q-CC4-ATTR |
 | **TD3** | Miami-Dade Open Data Hub default (MDC-01) | Public domain unless otherwise noted | No mandatory credit in the default dedication; keep source and metadata as good practice | Check each item for an "otherwise noted" exception before loading; the tree items (MDC-02, MDC-03) are RED | GREEN (default only) | licence-check MDC-01; Q-MDC-PD, Q-MDC-GRANT |
 | **TD4** | USA-NPN Nature's Notebook observations (NPN-01) and gridded spring indices (NPN-02) | CC BY 4.0 | Observations: "Data were provided by the USA National Phenology Network and the many participants who contribute to its Nature's Notebook program." plus product citation and access date, CC BY source, licence and modification notice. Gridded products: the raster acknowledgment (terms A.3) and a citation with DOI, date, extent and request URL | Written approval for automated access; spring indices are modelled phenology, not observed dates for each tree | GREEN (licence) – automation confirmation pending | licence-check NPN-01, NPN-02; USA-NPN terms A.1, A.3 |
+
+## 20. Live flights at launch (added 2026-10-08; owner decision)
+
+Source: R's decision of 2026-10-08, `docs/research-gpt/real-flights-path-v1/` and `docs/proposals/live-flights-v1/` (research, unverified); the feed obligations are LA4 and Q25, Q39 above.
+
+| # | Rule | How we comply | Status |
+|---|---|---|---|
+| **LF1** | Live flights are ON at launch, from the adsb.lol hosted feed (ODbL) | Relay between the feed and phones (§12); the operator is contacted before anything is built (LA4) | Decided; contact to do |
+| **LF2** | The flight database layer is kept separate from OSM and from our other data layers | Its own store and licence line; no merge with ODbL-derived map layers beyond what Q54 allows | Decided |
+| **LF3** | Airliners only, no tail numbers; LADD and PIA aircraft are suppressed | Filter in the relay; phones receive no registration or ICAO address (LA10) | Decided |
+| **LF4** | A lawyer opinion comes before launch | Q54 | Needs lawyer |
+| **LF5** | Airport gates come later, via a paid feed or FAA SWIM | Out of scope at launch; not built | Decided (later) |
+| **LF6** | Cost estimate: about $7-25 a month at 1k monthly users, $35-150 at 100k | The research's estimate under its assumptions, not a quote | Estimate |
