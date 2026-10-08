@@ -101,9 +101,20 @@ public final class WorldPostProcess: @unchecked Sendable {
     // saturation and contrast exactly as `composite` applies them, meets the target. That is the
     // look loop's and the lighting bible's whole-frame measure (Y8 / 255). 16 × 16 samples,
     // bisection in log space within [minGain, maxGain], then eased into state[0].
+    // The soft curve g·y / (1 + (g − 1)·y) on luminance, colour scaled by it: hue holds (per channel,
+    // bright blue skies compressed more than green and slid toward cyan; P3, calibration v2).
+    float3 toneOf(float3 x, float g) {
+        float y = dot(x, float3(0.2126, 0.7152, 0.0722));
+        if (y <= 1e-6) { return x * g; }
+        float t = g * y / (1.0 + (g - 1.0) * y);
+        float3 c = x * (t / y);
+        // Past white: blend toward white rather than clipping one channel (keeps hue near white).
+        float mx = max(c.r, max(c.g, c.b));
+        return mx > 1.0 ? mix(c / mx, float3(1.0), saturate((mx - 1.0) / mx)) : c;
+    }
     float3 gradeOf(float3 x, float g, constant P& p) {
         x = lookOf(x, p);
-        float3 c = g * x / (1.0 + (g - 1.0) * x);
+        float3 c = toneOf(x, g);
         float l = dot(c, float3(0.2126, 0.7152, 0.0722));
         c = mix(float3(l), c, p.saturation);
         c = (c - 0.5) * p.contrast + 0.5;
@@ -147,7 +158,7 @@ public final class WorldPostProcess: @unchecked Sendable {
         // The solved gain (exposureSolve) times the mock grade's exposure lift, applied in linear light
         // with a soft curve (g·x / (1 + (g − 1)·x)) so that white stays white.
         float g = (p.autoExposure > 0.5 && state[0] > 0.0 ? pow(state[0], 2.2) : 1.0) * p.lookGain;
-        col = half3(g * x / (1.0 + (g - 1.0) * x));
+        col = half3(toneOf(x, g));
         half luma = dot(col, half3(0.2126h, 0.7152h, 0.0722h));
         col = mix(half3(luma), col, half(p.saturation));
         col = (col - 0.5h) * half(p.contrast) + 0.5h;
