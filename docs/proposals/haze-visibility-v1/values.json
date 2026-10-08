@@ -1,0 +1,5467 @@
+{
+  "schemaVersion": "1.0",
+  "pack": "haze-visibility-v1",
+  "created": "2026-10-07",
+  "status": "design_spec_pending_owner_approval; no engine integration performed",
+  "units": {
+    "visibility": "km",
+    "distance": "m",
+    "extinction": "m^-1",
+    "colours": "sRGB hex; decode to linear before mixing"
+  },
+  "definition": {
+    "visibilityConvention": "meteorological_optical_range_5_percent",
+    "contrastThreshold": 0.05,
+    "constant": 2.995732273553991,
+    "sigmaFormula": "sigmaPerM = -ln(0.05)/(1000*visibilityKm)",
+    "inverseFormula": "visibilityKm = -ln(0.05)/(1000*sigmaPerM)",
+    "transmittance": "T=exp(-tau), tau=integral(sigma(s) ds); homogeneous tau=sigmaPerM*distanceM",
+    "radiance": "CoutLinear=T*ClitLinear+(1-T)*CairLinear for homogeneous constant airlight; layered airlight requires front-to-back radiance integration",
+    "legacy2Percent": "Old weather-moments visibilityEquivalentM uses approximately 3.912/sigma (2% contrast). Recompute from actual sigma with 2.995732/sigma for this pack; never relabel unchanged numbers."
+  },
+  "regions": [
+    {
+      "id": "front-range",
+      "label": "Denver / Colorado Front Range",
+      "locations": [
+        "Denver",
+        "Golden",
+        "Boulder"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 75,
+            "visibilityRangeKm": [
+              50,
+              100
+            ],
+            "extinctionPerM": 3.9943097e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              5.9914645e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 75,
+            "visibilityRangeKm": [
+              50,
+              100
+            ],
+            "extinctionPerM": 3.9943097e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              5.9914645e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 18,
+            "visibilityRangeKm": [
+              13.5,
+              22.5
+            ],
+            "extinctionPerM": 0.000166429571,
+            "extinctionRangePerM": [
+              0.000133143657,
+              0.000221906094
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 90,
+            "visibilityRangeKm": [
+              50,
+              100
+            ],
+            "extinctionPerM": 3.3285914e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              5.9914645e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 85,
+            "visibilityRangeKm": [
+              50,
+              100
+            ],
+            "extinctionPerM": 3.5243909e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              5.9914645e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "great-lakes",
+      "label": "Chicago / Great Lakes",
+      "locations": [
+        "Chicago",
+        "Detroit",
+        "Toronto"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15,
+              25
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 12,
+            "visibilityRangeKm": [
+              9.0,
+              15.0
+            ],
+            "extinctionPerM": 0.000249644356,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.000332859142
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "northeast",
+      "label": "Northeast / Mid-Atlantic",
+      "locations": [
+        "Boston",
+        "Philadelphia",
+        "Washington DC",
+        "NYC",
+        "Montreal"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 12,
+            "visibilityRangeKm": [
+              9.0,
+              15.0
+            ],
+            "extinctionPerM": 0.000249644356,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.000332859142
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "southeast-inland",
+      "label": "Southeast inland",
+      "locations": [
+        "Atlanta",
+        "Greenville SC",
+        "Nashville"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 12,
+            "visibilityRangeKm": [
+              9.0,
+              15.0
+            ],
+            "extinctionPerM": 0.000249644356,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.000332859142
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "southern-plains",
+      "label": "Southern Plains / Hill Country",
+      "locations": [
+        "Dallas\u2013Fort Worth",
+        "Austin"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "gulf-subtropical",
+      "label": "Gulf / subtropical coast",
+      "locations": [
+        "Houston",
+        "Miami"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 18,
+            "visibilityRangeKm": [
+              13.5,
+              22.5
+            ],
+            "extinctionPerM": 0.000166429571,
+            "extinctionRangePerM": [
+              0.000133143657,
+              0.000221906094
+            ]
+          },
+          "humid": {
+            "visibilityKm": 12,
+            "visibilityRangeKm": [
+              9.0,
+              15.0
+            ],
+            "extinctionPerM": 0.000249644356,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.000332859142
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 10,
+            "visibilityRangeKm": [
+              7.5,
+              12.5
+            ],
+            "extinctionPerM": 0.000299573227,
+            "extinctionRangePerM": [
+              0.000239658582,
+              0.00039943097
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 18,
+            "visibilityRangeKm": [
+              13.5,
+              22.5
+            ],
+            "extinctionPerM": 0.000166429571,
+            "extinctionRangePerM": [
+              0.000133143657,
+              0.000221906094
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "pacific-marine",
+      "label": "Pacific marine coast",
+      "locations": [
+        "San Francisco Bay Area",
+        "Seattle",
+        "Vancouver"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 60,
+            "visibilityRangeKm": [
+              45.0,
+              75.0
+            ],
+            "extinctionPerM": 4.9928871e-05,
+            "extinctionRangePerM": [
+              3.9943097e-05,
+              6.6571828e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "arid-southwest",
+      "label": "Arid Southwest / inland California",
+      "locations": [
+        "Phoenix",
+        "Las Vegas",
+        "Los Angeles inland"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 70,
+            "visibilityRangeKm": [
+              52.5,
+              87.5
+            ],
+            "extinctionPerM": 4.2796175e-05,
+            "extinctionRangePerM": [
+              3.423694e-05,
+              5.7061567e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 60,
+            "visibilityRangeKm": [
+              45.0,
+              75.0
+            ],
+            "extinctionPerM": 4.9928871e-05,
+            "extinctionRangePerM": [
+              3.9943097e-05,
+              6.6571828e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 80,
+            "visibilityRangeKm": [
+              60.0,
+              100.0
+            ],
+            "extinctionPerM": 3.7446653e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              4.9928871e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 80,
+            "visibilityRangeKm": [
+              60.0,
+              100.0
+            ],
+            "extinctionPerM": 3.7446653e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              4.9928871e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "uk-maritime",
+      "label": "UK maritime",
+      "locations": [
+        "London",
+        "UK maritime lowlands"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "netherlands-lowland",
+      "label": "Netherlands lowland",
+      "locations": [
+        "Amsterdam",
+        "Netherlands lowlands"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "mexico-highland",
+      "label": "Mexico highland",
+      "locations": [
+        "Mexico City highland; pollution episodes use smoke/hazy inputs"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 60,
+            "visibilityRangeKm": [
+              45.0,
+              75.0
+            ],
+            "extinctionPerM": 4.9928871e-05,
+            "extinctionRangePerM": [
+              3.9943097e-05,
+              6.6571828e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "mexico-coast",
+      "label": "Mexico tropical coast",
+      "locations": [
+        "Mexico tropical coastal locations"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 18,
+            "visibilityRangeKm": [
+              13.5,
+              22.5
+            ],
+            "extinctionPerM": 0.000166429571,
+            "extinctionRangePerM": [
+              0.000133143657,
+              0.000221906094
+            ]
+          },
+          "humid": {
+            "visibilityKm": 12,
+            "visibilityRangeKm": [
+              9.0,
+              15.0
+            ],
+            "extinctionPerM": 0.000249644356,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.000332859142
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 10,
+            "visibilityRangeKm": [
+              7.5,
+              12.5
+            ],
+            "extinctionPerM": 0.000299573227,
+            "extinctionRangePerM": [
+              0.000239658582,
+              0.00039943097
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "australia-temperate",
+      "label": "Australia temperate coast",
+      "locations": [
+        "Sydney",
+        "Melbourne"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 18,
+            "visibilityRangeKm": [
+              13.5,
+              22.5
+            ],
+            "extinctionPerM": 0.000166429571,
+            "extinctionRangePerM": [
+              0.000133143657,
+              0.000221906094
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "australia-arid",
+      "label": "Australia dry interior",
+      "locations": [
+        "Australian dry interior"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 80,
+            "visibilityRangeKm": [
+              60.0,
+              100.0
+            ],
+            "extinctionPerM": 3.7446653e-05,
+            "extinctionRangePerM": [
+              2.9957323e-05,
+              4.9928871e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 70,
+            "visibilityRangeKm": [
+              52.5,
+              87.5
+            ],
+            "extinctionPerM": 4.2796175e-05,
+            "extinctionRangePerM": [
+              3.423694e-05,
+              5.7061567e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 90,
+            "visibilityRangeKm": [
+              67.5,
+              112.5
+            ],
+            "extinctionPerM": 3.3285914e-05,
+            "extinctionRangePerM": [
+              2.6628731e-05,
+              4.4381219e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 90,
+            "visibilityRangeKm": [
+              67.5,
+              112.5
+            ],
+            "extinctionPerM": 3.3285914e-05,
+            "extinctionRangePerM": [
+              2.6628731e-05,
+              4.4381219e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "humid": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "japan-temperate",
+      "label": "Japan temperate urban",
+      "locations": [
+        "Tokyo",
+        "Osaka",
+        "Kyoto"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "humid": {
+            "visibilityKm": 10,
+            "visibilityRangeKm": [
+              7.5,
+              12.5
+            ],
+            "extinctionPerM": 0.000299573227,
+            "extinctionRangePerM": [
+              0.000239658582,
+              0.00039943097
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 45,
+            "visibilityRangeKm": [
+              33.8,
+              56.2
+            ],
+            "extinctionPerM": 6.6571828e-05,
+            "extinctionRangePerM": [
+              5.3304845e-05,
+              8.8631132e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "japan-north",
+      "label": "Japan northern",
+      "locations": [
+        "Sapporo / Hokkaido"
+      ],
+      "status": "authored_fallback_not_verified_climatology",
+      "seasonBasis": "Local meteorological season; southern hemisphere summer DJF, autumn MAM, winter JJA, spring SON. State overrides season; snow never activated by season alone.",
+      "seasons": {
+        "spring": {
+          "clear": {
+            "visibilityKm": 50,
+            "visibilityRangeKm": [
+              37.5,
+              62.5
+            ],
+            "extinctionPerM": 5.9914645e-05,
+            "extinctionRangePerM": [
+              4.7931716e-05,
+              7.9886194e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "summer": {
+          "clear": {
+            "visibilityKm": 40,
+            "visibilityRangeKm": [
+              30.0,
+              50.0
+            ],
+            "extinctionPerM": 7.4893307e-05,
+            "extinctionRangePerM": [
+              5.9914645e-05,
+              9.9857742e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "humid": {
+            "visibilityKm": 15,
+            "visibilityRangeKm": [
+              11.2,
+              18.8
+            ],
+            "extinctionPerM": 0.000199715485,
+            "extinctionRangePerM": [
+              0.000159347461,
+              0.000267476096
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "autumn": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 35,
+            "visibilityRangeKm": [
+              26.2,
+              43.8
+            ],
+            "extinctionPerM": 8.5592351e-05,
+            "extinctionRangePerM": [
+              6.8395714e-05,
+              0.000114340926
+            ]
+          },
+          "humid": {
+            "visibilityKm": 25,
+            "visibilityRangeKm": [
+              18.8,
+              31.2
+            ],
+            "extinctionPerM": 0.000119829291,
+            "extinctionRangePerM": [
+              9.601706e-05,
+              0.000159347461
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        },
+        "winter": {
+          "clear": {
+            "visibilityKm": 55,
+            "visibilityRangeKm": [
+              41.2,
+              68.8
+            ],
+            "extinctionPerM": 5.446786e-05,
+            "extinctionRangePerM": [
+              4.354262e-05,
+              7.2711948e-05
+            ]
+          },
+          "hazy": {
+            "visibilityKm": 30,
+            "visibilityRangeKm": [
+              22.5,
+              37.5
+            ],
+            "extinctionPerM": 9.9857742e-05,
+            "extinctionRangePerM": [
+              7.9886194e-05,
+              0.000133143657
+            ]
+          },
+          "humid": {
+            "visibilityKm": 20,
+            "visibilityRangeKm": [
+              15.0,
+              25.0
+            ],
+            "extinctionPerM": 0.000149786614,
+            "extinctionRangePerM": [
+              0.000119829291,
+              0.000199715485
+            ]
+          },
+          "smoke": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              1,
+              15
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000199715485,
+              0.002995732274
+            ]
+          },
+          "rain": {
+            "visibilityKm": 5,
+            "visibilityRangeKm": [
+              2,
+              10
+            ],
+            "extinctionPerM": 0.000599146455,
+            "extinctionRangePerM": [
+              0.000299573227,
+              0.001497866137
+            ]
+          },
+          "snow": {
+            "visibilityKm": 2,
+            "visibilityRangeKm": [
+              0.5,
+              5
+            ],
+            "extinctionPerM": 0.001497866137,
+            "extinctionRangePerM": [
+              0.000599146455,
+              0.005991464547
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "states": {
+    "clear": "Dry clean atmosphere fallback; cloud cover alone does not imply haze.",
+    "hazy": "Aerosol haze episode, no invented smoke plume.",
+    "humid": "Humid haze fallback, not RH-to-visibility law; humidity alone cannot prove poor visibility.",
+    "smoke": "Verified/adapted smoke or aerosol event; no direct AQI-to-sigma conversion. Defaults shared across regions intentionally because event severity dominates location.",
+    "rain": "Steady falling rain; surface wetness alone does not trigger it. Defaults shared across regions.",
+    "snow": "Falling snow; settled snow alone does not reduce visibility. Defaults shared across regions."
+  },
+  "severityOverrides": {
+    "lightRain": {
+      "visibilityKm": 12,
+      "visibilityRangeKm": [
+        8,
+        20
+      ],
+      "extinctionPerM": 0.000249644356,
+      "extinctionRangePerM": [
+        0.000149786614,
+        0.000374466534
+      ]
+    },
+    "heavyRain": {
+      "visibilityKm": 1.5,
+      "visibilityRangeKm": [
+        0.5,
+        3
+      ],
+      "extinctionPerM": 0.001997154849,
+      "extinctionRangePerM": [
+        0.000998577425,
+        0.005991464547
+      ]
+    },
+    "lightSnow": {
+      "visibilityKm": 8,
+      "visibilityRangeKm": [
+        5,
+        15
+      ],
+      "extinctionPerM": 0.000374466534,
+      "extinctionRangePerM": [
+        0.000199715485,
+        0.000599146455
+      ]
+    },
+    "snowSquall": {
+      "visibilityKm": 0.3,
+      "visibilityRangeKm": [
+        0.1,
+        0.8
+      ],
+      "extinctionPerM": 0.009985774245,
+      "extinctionRangePerM": [
+        0.003744665342,
+        0.029957322736
+      ]
+    },
+    "denseSmoke": {
+      "visibilityKm": 0.8,
+      "visibilityRangeKm": [
+        0.2,
+        2
+      ],
+      "extinctionPerM": 0.003744665342,
+      "extinctionRangePerM": [
+        0.001497866137,
+        0.014978661368
+      ]
+    },
+    "localDenseFog": {
+      "visibilityKm": 0.2,
+      "visibilityRangeKm": [
+        0.05,
+        0.5
+      ],
+      "extinctionPerM": 0.014978661368,
+      "extinctionRangePerM": [
+        0.005991464547,
+        0.059914645471
+      ]
+    }
+  },
+  "selection": {
+    "priority": [
+      "valid uncensored representative visibility observation/model with units and convention",
+      "validated spatial smoke/precipitation/fog extinction adapter",
+      "region + local season + current verified weather state authored fallback"
+    ],
+    "censoredObservation": "10SM means visibility >=16.09344km; 9999 means >=10km. Keep lower-bound flag. Do not force Denver to 16km or extrapolate a precise 100km measurement. Combine with regional prior as an explicitly estimated fallback; if severe current event contradicts it, use representative current event input.",
+    "combinedStates": "One observed total visibility already includes aerosols/precipitation: replace total sigma, never add same contributors again. Without a total observation use the minimum candidate fallback visibility (maximum sigma), an authored conservative approximation, not additive physics. Add only independently calibrated component extinction.",
+    "seasonDoesNotTriggerWeather": true,
+    "smokeAQI": "No universal PM2.5/AQI conversion: particle size, humidity and composition vary.",
+    "staleData": {
+      "softAgeMinutes": 60,
+      "hardAgeMinutes": 180,
+      "status": "authored freshness policy, source cadence may override",
+      "rule": "Expired observations lose live status; use fresh model/event if available else marked estimated region/state fallback. Never silently clear a known smoke/fog/squall alert; expired event uses conservative event fallback marked uncertain until resolved."
+    },
+    "renderTransitionSeconds": 10,
+    "transitionSpace": "interpolate extinction (optical depth), not visibility distance; severe validated low visibility snaps within 1s",
+    "invalidVisibility": "Reject null/nonfinite/<=0; do not clamp bad inputs into clear weather. Valid values outside preset ranges remain valid."
+  },
+  "airlight": {
+    "stateDayHex": {
+      "clear": "#BDD0D9",
+      "hazy": "#C3CED4",
+      "humid": "#CCD2CD",
+      "smoke": "#B1AA9A",
+      "rain": "#A1ADB0",
+      "snow": "#B9C7D0"
+    },
+    "timeHex": {
+      "blueHour": "#8294AE",
+      "night": "#475568",
+      "goldenHour": "#C4C3B6"
+    },
+    "timeMix": {
+      "day": 0,
+      "blueHour": 1,
+      "night": 1,
+      "goldenHour": 0.35
+    },
+    "mix": "Decode day and time hex; mix in linear light using timeMix. Prefer physically lit directional sky/horizon radiance when supported. These are authored palette fallbacks, not spectral scattering data.",
+    "distanceTint": "Distance changes T only; no additional distance desaturation or second fog grade. At tau .1 mix9.52%, tau .5 mix39.35%, tau1 mix63.21%, tau3 mix95.02%. Silhouettes approach actual directional airlight, not saturated blue or white. Night lighting changes airlight, not sigma just because it is dark.",
+    "preserveCalibration": "Exposure, matte materials, saturation and warm direct sunlight remain calibration-v2. No local lamps added to global airlight."
+  },
+  "mountains": {
+    "retainRule": "Require real map/DEM position and unoccluded curved-earth sightline; cloud/stratus may cut off summits. Compute linear luminance horizon contrast C0=abs(Ymountain-Yair)/max(Yair,0.001); retainedContrast=C0*T. Keep silhouette when retainedContrast>=0.05 and projected height>=2px. Simplify internal detail below 0.10 contrast; fade/cull geometry below0.03, with smooth transition across0.03\u20130.05. Thresholds are phone authoring targets, not guaranteed human visual acuity.",
+    "nominalContrast": 0.5,
+    "retainContrast": 0.05,
+    "cullContrast": 0.03,
+    "internalDetailContrast": 0.1,
+    "minProjectedHeightPx": 2,
+    "important": "MOR is not a hard clip plane. A mountain may be obscured closer than MOR because initial contrast is lower than a black test target. Peaks above a boundary haze layer can remain visible; integrate actual ray through layers rather than applying ground visibility uniformly to every altitude.",
+    "nominalMaxDistance": "dMax=ln(C0/0.05)/sigma; for C0=.5 dMax=.7686*V (same distance units)",
+    "geography": "Sloan lake west view has Front Range; east downtown view has no mountains behind downtown. Never invent mountain positions.",
+    "earthRadiusM": 6371000,
+    "curvature": "Use geocentric terrain/rays for20\u2013100km; no flat-earth horizon. Refraction off unless validated model.",
+    "lod": "20km relief/major folds;50km silhouette + large lit planes;100km simplified horizon. Actual projected size and contrast decide, not arbitrary mountain boost.",
+    "examples": [
+      {
+        "visibilityKm": 20,
+        "extinctionPerM": 0.000149786614,
+        "distanceKm": 20,
+        "transmittance": 0.05,
+        "retainedContrastForC0Half": 0.025
+      },
+      {
+        "visibilityKm": 20,
+        "extinctionPerM": 0.000149786614,
+        "distanceKm": 50,
+        "transmittance": 0.000559,
+        "retainedContrastForC0Half": 0.00028
+      },
+      {
+        "visibilityKm": 20,
+        "extinctionPerM": 0.000149786614,
+        "distanceKm": 100,
+        "transmittance": 0.0,
+        "retainedContrastForC0Half": 0.0
+      },
+      {
+        "visibilityKm": 50,
+        "extinctionPerM": 5.9914645e-05,
+        "distanceKm": 20,
+        "transmittance": 0.301709,
+        "retainedContrastForC0Half": 0.150854
+      },
+      {
+        "visibilityKm": 50,
+        "extinctionPerM": 5.9914645e-05,
+        "distanceKm": 50,
+        "transmittance": 0.05,
+        "retainedContrastForC0Half": 0.025
+      },
+      {
+        "visibilityKm": 50,
+        "extinctionPerM": 5.9914645e-05,
+        "distanceKm": 100,
+        "transmittance": 0.0025,
+        "retainedContrastForC0Half": 0.00125
+      },
+      {
+        "visibilityKm": 75,
+        "extinctionPerM": 3.9943097e-05,
+        "distanceKm": 20,
+        "transmittance": 0.449841,
+        "retainedContrastForC0Half": 0.22492
+      },
+      {
+        "visibilityKm": 75,
+        "extinctionPerM": 3.9943097e-05,
+        "distanceKm": 50,
+        "transmittance": 0.135721,
+        "retainedContrastForC0Half": 0.06786
+      },
+      {
+        "visibilityKm": 75,
+        "extinctionPerM": 3.9943097e-05,
+        "distanceKm": 100,
+        "transmittance": 0.01842,
+        "retainedContrastForC0Half": 0.00921
+      },
+      {
+        "visibilityKm": 100,
+        "extinctionPerM": 2.9957323e-05,
+        "distanceKm": 20,
+        "transmittance": 0.54928,
+        "retainedContrastForC0Half": 0.27464
+      },
+      {
+        "visibilityKm": 100,
+        "extinctionPerM": 2.9957323e-05,
+        "distanceKm": 50,
+        "transmittance": 0.223607,
+        "retainedContrastForC0Half": 0.111803
+      },
+      {
+        "visibilityKm": 100,
+        "extinctionPerM": 2.9957323e-05,
+        "distanceKm": 100,
+        "transmittance": 0.05,
+        "retainedContrastForC0Half": 0.025
+      }
+    ]
+  },
+  "integration": {
+    "applyOnce": true,
+    "sharedWorldTerm": "Same view-ray optical depth for land, water, buildings, trees and terrain. Atmosphere-rendered sky/reflections must not receive duplicate atmospheric passes.",
+    "noNearClearBubble": true,
+    "localFog": "Preserve night-fog/marine-fog layer bounds, patch masks and densitites. Base sigma from this pack; add local sigma only for physically traversed local layer. If observation already represents that local layer, fit layer plus background to total rather than adding observation and layer twice.",
+    "layerColour": "Single final homogeneous mix only if airlight is common; otherwise integrate each segment front to back with its airlight. Optical-depth-weighted colour alone is not exact for layered media.",
+    "regionalSeasonRanges": "All ranges describe scenario authoring envelopes, not percentiles, observations or prevalence. Uniform event defaults are deliberate conditional fallbacks. Use local data for mountain-valley inversions, SF marine fog, wildfire layers, tropical wet/dry seasons and location variation."
+  },
+  "overrides": [
+    {
+      "pack": "lake-winter-v1",
+      "paths": [
+        "/water/haze/fixtureExtinctionPerM",
+        "/water/haze/transmittanceFormula"
+      ],
+      "legacySigmaPerM": 0.0008,
+      "legacyMORkm": 3.7446653419424885,
+      "scope": "Replace background haze only; preserve water colours (#315F7F Lake Michigan), waves, ice, shore and snow mechanics."
+    },
+    {
+      "pack": "weather-moments-v1",
+      "paths": [
+        "/inherited/winter/water/haze",
+        "/moments/*/before/fog/sigmaPerM",
+        "/moments/*/after/fog/sigmaPerM",
+        "/moments/*/*/fog/visibilityEquivalentM",
+        "/inherited/night/*/haze"
+      ],
+      "scope": "Replace homogeneous/background sigma and convert visibility convention; preserve localLayerExtinctionPerM unless independently recalibrated. Moment palette/time stays; use this pack airlight as general fallback.",
+      "momentMigration": [
+        {
+          "momentId": "chi-squall",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.008,
+          "replacement": {
+            "region": "great-lakes",
+            "afterState": "snow",
+            "severity": "snowSquall"
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "chi-thunder",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.002,
+          "replacement": {
+            "region": "great-lakes",
+            "afterState": "rain",
+            "severity": "heavyRain"
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "chi-blue",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0015,
+          "replacement": {
+            "region": "great-lakes",
+            "afterState": "clear",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "den-spring",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.004,
+          "replacement": {
+            "region": "front-range",
+            "afterState": "snow",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "den-alpenglow",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.00035,
+          "replacement": {
+            "region": "front-range",
+            "afterState": "clear",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "den-hail",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0015,
+          "replacement": {
+            "region": "front-range",
+            "afterState": "rain",
+            "severity": "heavyRain"
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "mia-rainbow",
+          "legacyBeforeSigmaPerM": 0.005,
+          "legacyAfterSigmaPerM": 0.0018,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "mia-band",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.002,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "mia-night",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.002,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "sf-fog",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.008,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "sf-gold",
+          "legacyBeforeSigmaPerM": 0.008,
+          "legacyAfterSigmaPerM": 0.004,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "sea-drizzle",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.003,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "sea-clear",
+          "legacyBeforeSigmaPerM": 0.003,
+          "legacyAfterSigmaPerM": 0.00015,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "phx-monsoon",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0005,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "phx-night",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0003,
+          "replacement": "Resolve actual region and weather state; retain local marine/ground fog geometry. Do not inherit old global sigma.",
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "ne-autumn",
+          "legacyBeforeSigmaPerM": 0.0008,
+          "legacyAfterSigmaPerM": 0.0008,
+          "replacement": {
+            "region": "northeast",
+            "afterState": "humid",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "gulf-sunset",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0012,
+          "replacement": {
+            "region": "gulf-subtropical",
+            "afterState": "humid",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "nyc-snow",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0012,
+          "replacement": {
+            "region": "northeast",
+            "afterState": "snow",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "nyc-thunder",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.002,
+          "replacement": {
+            "region": "northeast",
+            "afterState": "rain",
+            "severity": "heavyRain"
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "nyc-rain-night",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.002,
+          "replacement": {
+            "region": "northeast",
+            "afterState": "rain",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        },
+        {
+          "momentId": "nyc-winter-sun",
+          "legacyBeforeSigmaPerM": 0.0005,
+          "legacyAfterSigmaPerM": 0.0005,
+          "replacement": {
+            "region": "northeast",
+            "afterState": "clear",
+            "severity": null
+          },
+          "beforePolicy": "Resolve before-weather state independently; no universal 0.0005/m clear baseline.",
+          "preserve": "Lighting, time, sky, actors, wetness, snow history and local layer geometry."
+        }
+      ]
+    },
+    {
+      "pack": "mountain-terrain-v1",
+      "paths": [
+        "/haze/profiles"
+      ],
+      "scope": "Replace old clear1e-5 / summerHaze2.5e-5 / storm5e-5 background presets. Preserve DEM/LOD, geocentric geometry, snow rules and terrain materials."
+    },
+    {
+      "pack": "night-fog-v1",
+      "paths": [
+        "background haze coefficients in fixtures"
+      ],
+      "scope": "Replace far/background haze, preserving ground fog .035/m and spatial layer/patch rules. Blue hour/night alone never raises extinction."
+    }
+  ],
+  "sources": [
+    {
+      "id": "wmo-mor",
+      "url": "https://www.weather.gov/media/epz/mesonet/CWOP-WMO8.pdf",
+      "supports": "WMO Guide No.8 (2008), Part I ch9: MOR uses 5% transmission; homogeneous extinction conversion. Mathematical definition, not regional climatology."
+    },
+    {
+      "id": "nws-asos",
+      "url": "https://www.weather.gov/asos/Visibility.html",
+      "supports": "ASOS METAR 10SM is a censored upper reporting bin, not an exact clear-day visibility."
+    }
+  ],
+  "reviewedInputs": [
+    "world-engine/docs/proposals/INDEX.md",
+    "drop folder listing",
+    "lake-winter-v1/lake-winter-values.json",
+    "weather-moments-v1/values.json",
+    "mountain-terrain-v1/values.json",
+    "night-fog-v1/night-fog-values.json",
+    "style-b-calibration-v2/values.json"
+  ]
+}

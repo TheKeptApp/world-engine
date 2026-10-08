@@ -114,3 +114,9 @@ Already in the owner's checkout (gitignored, left in place):
 | 52.4 | `docs/proposals/water-surfaces-v1/water-surfaces-v1.zip` |
 | 15.7 | `docs/proposals/weather-block-design-v1/weather-block-design-v1-all.zip` |
 | 14.8 | `docs/proposals/road-signs-signals-v1/road-signs-signals-v1.zip` |
+
+## Haze visibility — R approval, 8 Oct 2026
+
+| Pack | Status | Owner lane | Phase | Usage / precedence |
+|---|---|---|---|---|
+| [haze-visibility-v1](proposals/haze-visibility-v1/STATUS.md) | Approved by R (8 Oct 2026) | A2 now; 5A on restart | Map/look gate now; 5A weather-moments migration on restart | 5% MOR, not 2%; field-level haze overrides for lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Mountain retained contrast ≥0.05 AND projected height ≥2 px; preserve real DEM sightlines and local fog. Integration pending lane evidence. |

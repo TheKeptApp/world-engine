@@ -933,3 +933,12 @@ Dates are pack dates, not survey dates. All 46 drop packs at the read cutoff are
 The older registry mentions regions-northshore-chicago-miami and postcards-widgets-v1; absent readable source folders remain pending, not delivered packs. External controls-research-v1, places-v1 and cast-options-v1 have unconfirmed paths; no other repos were searched.
 
 Status evidence: ~/Desktop/world-engine/docs/design-registry.md; ~/Desktop/world-engine/docs/decisions/owner-log.md; ~/Desktop/world-engine/docs/decisions/style-target.md. Live test-area evidence: ~/Desktop/world-engine/docs/buildings/README.md and ~/Desktop/world-engine/docs/m3/wrap-report.md. No matching named-monument build/acceptance record found.
+
+## A3 addendum — 8 Oct 2026
+
+### haze-visibility-v1
+
+- Status: **approved-binding by R (8 Oct 2026)**; authored regional envelopes remain unverified.
+- Filed source: [README](../haze-visibility-v1/README.md), [values](../haze-visibility-v1/values.json), [STATUS](../haze-visibility-v1/STATUS.md).
+- Scope: 5% MOR, not 2%; named haze fields override lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Mountains require contrast ≥0.05 and projected height ≥2 px with valid sightlines; no geography compensation.
+- Owners/phase: A2 consumes now for map/look gate; 5A migrates weather-moments on restart. Filing is not engine integration.

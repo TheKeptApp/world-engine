@@ -158,3 +158,11 @@ Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of
 | landmarks-v1 | 2026-10-06 | 28 landmark sheets, Chicago and Denver | reference – after the look gate | R: reference, Phase 3; Cloud Gate reference only (2026-10-07) |
 | weather-block-design-v1 | 2026-10-07 | Weather block app UI | pending R approval – app, after look gate | Not engine work; the all-in-one zip stays local (gitignored) |
 | mascots-v1 | 2026-10-07 | App mascots | pending R approval | Not engine work |
+
+## Haze field-level precedence — approved by R, 8 Oct 2026
+
+| Feature | Pack | Images | Values JSON | Status |
+|---|---|---|---|---|
+| Shared regional visibility/background haze; 5% MOR, not 2%; mountains contrast ≥0.05 and projected height ≥2 px | haze-visibility-v1 | None delivered | [values.json](haze-visibility-v1/values.json) | **Approved by R (8 Oct 2026)**; [STATUS](haze-visibility-v1/STATUS.md) |
+
+`haze-visibility-v1` overrides only the haze fields identified in `values.json/overrides` in lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Recompute weather-moments visibility equivalents with 5% MOR. Other content and local fog remain as scoped in STATUS; earlier pack files are retained. A2 consumes now; 5A migrates weather-moments on restart.

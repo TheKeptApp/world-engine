@@ -8,3 +8,7 @@ This is the current execution order; broader launch scope remains in [the projec
 4. **Jobs game:** the lead neighbourhood-product concept, after Builder.
 
 Evidence: [web baseline](../lookloop/web-baseline.md), [paired tracker](look-gate.md), [filed A2 rules](A2-RULES.md), [handoffs](handoffs.md). Update on R's request or lane reports; no recurring automation or auto-merges.
+
+## Current map-gate input — 8 Oct 2026
+
+[haze-visibility-v1](../proposals/haze-visibility-v1/STATUS.md) is approved by R. A2 consumes now; 5A migrates weather-moments on restart. Use 5% MOR and mountain contrast ≥0.05 / projected height ≥2 px. Filing leaves scores unchanged; implementation requires paired look evidence. Map-only order above remains unchanged.

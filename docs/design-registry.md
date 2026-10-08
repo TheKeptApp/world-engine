@@ -164,3 +164,7 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 - 2026-10-07 (evening sweep): drop-folder sweep filed 3 packs (creator-kit-ux-v3, road-signs-signals-v1, terrain-slope-v1); all pending R approval (none has a STATUS.md); each inherits style-b-calibration-v2's sharedLook, so the look is already R-approved and only the content is open.
 - 2026-10-07 (R decisions): water-surfaces-v1 approved for mechanics only, road-signs-signals-v1 and terrain-slope-v1 approved, greenville-sc-v1 filed and approved (R's test location 3), creator-kit-ux-v3 on hold; the 15 regenerated images (14 sf-life-v1, 1 us-metros-wave3-v1) replaced by the newer versions, old ones kept as .prev in iCloud.
 - 2026-10-08 (R decisions): creator-kit-ux-v3 approved (supersedes v2), all 37 re-exported screens replaced (old versions as .prev in iCloud); water-surfaces-v1 stays mechanics only (lake pack roughness 0.18 / 0.32).
+
+## A3 filing — 8 Oct 2026: haze-visibility-v1
+
+**Approved by R (8 Oct 2026)**: [haze-visibility-v1](proposals/haze-visibility-v1/STATUS.md), README and values JSON filed unchanged. A2 consumes now; 5A migrates weather-moments on restart. Field-level background haze precedence over lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1; 5% MOR, not 2%. Mountain retention requires contrast ≥0.05 and projected height ≥2 px. Integration pending lane evidence; regional fallbacks remain unverified.

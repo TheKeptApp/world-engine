@@ -84,3 +84,10 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 | 2026-10-08 | R → all lanes | Map-only order | [Sloan's gate → hold-outs → Builder Easy + Pro → jobs game](roadmap.md). |
 
 **Publication update (8 Oct):** A2 `08e2cce` reached main while this report was being filed. Its captured look inputs are identical to the reviewed baseline. This is the initial A3 web baseline on that merge: Sloan's 2/5, Lakeview 2/5; no comparable pre-merge A3 web score exists, so the reject comparison remains N/A, not a pass.
+
+## Haze visibility — R, 8 Oct 2026
+
+| Date | From → to | Item | Status / evidence / next step |
+|---|---|---|---|
+| 2026-10-08 | R / A3 → A2 | Consume haze-visibility-v1 now | [Approved pack and precedence](../proposals/haze-visibility-v1/STATUS.md) filed. A2 consumes now in web/bakeoff; integration completion pending A2 evidence. Use 5% MOR, not 2%, overriding the named background haze fields in lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Mountains: contrast ≥0.05 AND projected height ≥2 px, with valid DEM sightline. Report merge and paired Sloan's/Lakeview captures to A3. |
+| 2026-10-08 | R / A3 → 5A | Migrate weather-moments on restart | Waiting for 5A restart. Apply values.json/overrides and its 21 moment migrations; recompute visibility equivalents under 5% MOR. Preserve local fog layers and unrelated light, palette, water and event fields. [Source specification](../proposals/haze-visibility-v1/README.md). |
