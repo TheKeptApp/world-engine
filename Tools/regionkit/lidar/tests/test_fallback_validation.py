@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from scipy.spatial import cKDTree
 from shapely.geometry import box
-from fallback_validation import metrics,levels_candidate,dsm_candidate,number
+from fallback_validation import metrics,levels_candidate,dsm_candidate,number,thinning_mask
 class FallbackValidation(unittest.TestCase):
  def test_signed_bias_and_absolute_percentiles(self):
   m=metrics([-3,-2,-1,0,1]);self.assertEqual(m['medianAbsoluteM'],1);self.assertEqual(m['meanBiasM'],-1);self.assertAlmostEqual(m['p90AbsoluteM'],2.6)
@@ -15,3 +15,17 @@ class FallbackValidation(unittest.TestCase):
  def test_dsm_ground_subtraction(self):
   xy=np.array([(x+.5,y+.5) for x in range(6) for y in range(6)]);ground=np.column_stack((xy,np.full(len(xy),100)));surface=np.column_stack((xy,np.full(len(xy),108)));cfg={'erosionM':.1,'minimumSurfacePoints':20,'cellM':1,'groundNeighbours':12,'groundRadiusM':15,'minimumGroundNeighbours':3,'minimumCoverage':.5}
   self.assertAlmostEqual(dsm_candidate(box(0,0,6,6),surface,cKDTree(xy),ground,cfg)[0],8)
+
+class DeterministicThinning(unittest.TestCase):
+ def test_repeat_and_record_identity(self):
+  a=thinning_mask('10-12-34-56',10000,.125)
+  np.testing.assert_array_equal(a,thinning_mask('10-12-34-56',10000,.125))
+  np.testing.assert_array_equal(a[:300],thinning_mask('10-12-34-56',300,.125))
+  self.assertTrue(1000<int(a.sum())<1500)
+ def test_fraction_nested_and_nodes_differ(self):
+  a=thinning_mask('1-0-0-0',2000,.1);b=thinning_mask('1-0-0-0',2000,.2)
+  self.assertFalse(np.any(a&~b));self.assertFalse(np.array_equal(a,thinning_mask('1-1-0-0',2000,.1)))
+ def test_full_density_and_invalid_fraction(self):
+  self.assertTrue(thinning_mask('node',50,1).all())
+  for fraction in [0,-1,1.1,float('nan')]:
+   with self.assertRaises(ValueError):thinning_mask('node',50,fraction)
