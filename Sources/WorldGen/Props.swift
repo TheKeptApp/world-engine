@@ -84,7 +84,7 @@ public struct PropLibrary: Sendable {
         case .treePyramidal:
             // Littleleaf linden (trees-03 row 2: "dense heartlike oval/pyramidal crown, single trunk"):
             // broadest in the lower third, tapering to a narrow pointed top over a central upper mass.
-            return TreeShape(0.3, [0, 0.6, 0], [0.33, 0.36, 0.33], [
+            return TreeShape(0.3, [0, 0.62, 0], [0.32, 0.3, 0.32], [
                 ([0, 0.72, 0.01], 0.19), ([-0.18, 0.5, 0.07], 0.17), ([0.19, 0.48, -0.06], 0.165), ([0.04, 0.49, 0.2], 0.16),
                 ([-0.05, 0.51, -0.19], 0.16), ([0.01, 0.89, -0.02], 0.095), ([0.12, 0.75, 0.1], 0.11),
                 ([-0.12, 0.74, -0.09], 0.11), ([0.24, 0.38, 0.12], 0.09), ([-0.22, 0.38, -0.14], 0.09),
@@ -92,12 +92,12 @@ public struct PropLibrary: Sendable {
         case .treeVase:
             // American elm (trees-03 row 3: "tall broad vase, arching upward/outward main limbs"; cottonwood
             // "large high open vase crown" shares it, narrower): limbs rise from a low fork to an umbrella
-            // of lobes widest near the top, drooping rim tips, open underneath down to the fork.
-            return TreeShape(0.3, [0, 0.74, 0], [0.34, 0.2, 0.34], [
-                ([0, 0.83, 0], 0.16), ([0.21, 0.74, 0.06], 0.14), ([-0.21, 0.76, -0.05], 0.14), ([0.04, 0.73, 0.21], 0.13),
-                ([-0.06, 0.75, -0.21], 0.13), ([0.17, 0.86, -0.15], 0.1), ([-0.16, 0.87, 0.15], 0.1),
-                ([0.27, 0.62, -0.11], 0.075), ([-0.26, 0.63, 0.12], 0.075), ([-0.08, 0.92, -0.06], 0.07),
-            ], mid: 5, midScale: 1.1)
+            // of lobes widest near the top, open underneath down to the fork.
+            return TreeShape(0.3, [0, 0.8, 0], [0.34, 0.17, 0.34], [
+                ([0, 0.86, 0], 0.14), ([0.21, 0.79, 0.06], 0.13), ([-0.21, 0.8, -0.05], 0.13), ([0.04, 0.78, 0.21], 0.125),
+                ([-0.06, 0.79, -0.21], 0.125), ([0.16, 0.9, -0.14], 0.09), ([-0.15, 0.9, 0.14], 0.09),
+                ([0.29, 0.76, -0.12], 0.07), ([-0.28, 0.77, 0.13], 0.07), ([-0.07, 0.94, -0.06], 0.055),
+            ], mid: 5, midScale: 1.1, column: 0.2)
         case .treeOpen:
             // Honeylocust (trees-01 row 1: "open wide oval, airy fine canopy, 7 uneven lobes, visible
             // branching gaps"; silver maple shares it, narrower): small separated lobes spread wide and
@@ -105,12 +105,12 @@ public struct PropLibrary: Sendable {
             return TreeShape(0.37, [0, 0.71, 0], [0.46, 0.2, 0.46], [
                 ([0.02, 0.81, 0], 0.15), ([0.29, 0.7, 0.05], 0.13), ([-0.3, 0.72, -0.06], 0.125), ([0.03, 0.68, 0.3], 0.125),
                 ([-0.07, 0.69, -0.29], 0.125), ([0.21, 0.84, -0.21], 0.09), ([-0.2, 0.85, 0.21], 0.09),
-                ([0.4, 0.61, -0.13], 0.07), ([-0.39, 0.6, 0.15], 0.07), ([0.13, 0.9, 0.13], 0.075),
-            ], mid: 5, midScale: 1.1)
+                ([0.4, 0.69, -0.13], 0.07), ([-0.39, 0.68, 0.15], 0.07), ([0.13, 0.9, 0.13], 0.075),
+            ], mid: 5, midScale: 1.1, column: 0.24)
         case .treeUpright:
             // Green ash (trees-03 row 1: "upright oval open crown with clear opposing branch rhythm"; aspen
             // shares it, narrower): a tall oval of paired lobes up a leader, a small top lobe.
-            return TreeShape(0.33, [0, 0.66, 0], [0.29, 0.32, 0.29], [
+            return TreeShape(0.33, [0, 0.68, 0], [0.29, 0.26, 0.29], [
                 ([0.02, 0.82, 0.01], 0.16), ([-0.17, 0.64, 0.06], 0.15), ([0.17, 0.61, -0.05], 0.14), ([0.02, 0.55, 0.18], 0.13),
                 ([-0.03, 0.57, -0.18], 0.13), ([0.12, 0.76, 0.12], 0.105), ([-0.13, 0.78, -0.11], 0.105),
                 ([0.22, 0.46, 0.07], 0.085), ([-0.2, 0.45, -0.09], 0.085), ([-0.03, 0.93, -0.04], 0.07),
@@ -180,7 +180,7 @@ public struct PropLibrary: Sendable {
     public static func mesh(_ kind: PropKind, variant: Int, lod: Int = 0, palette: Palette, style: CrownStyle = PropLibrary.crownStyle) -> MeshBuffers {
         var rng = StableRandom(kind.rawValue.hashValueStable, UInt64(variant), salt: "prop")
         switch kind {
-        case .treeBroad, .treeOval, .treeSpreading, .treeWeeping:
+        case .treeBroad, .treeOval, .treeSpreading, .treeWeeping, .treeRounded, .treePyramidal, .treeVase, .treeOpen, .treeUpright:
             return deciduous(kind, lod: lod, palette: palette, rng: &rng, style: style)
         case .conifer:
             return conifer(lod: lod, palette: palette, rng: &rng, cards: style == .leafCards, smooth: style == .puffs)
@@ -642,10 +642,14 @@ public struct PropLibrary: Sendable {
             if shape.shellFar {
                 if lod == 0 && lumpy.contains(k) {
                     addLumpyLobe(&m, center: c, radius: r, frequency: 2, rng: &rng)
-                } else if lod == 0 || k == 0 {
+                } else if lod == 0 {
                     addCubeSphere(&m, center: c, radii: SIMD3(r, r * 0.92, r))
                 } else {
-                    addEllipsoid(&m, center: c, radii: SIMD3(r, r * 0.92, r), octahedron: false)
+                    // Mid: radii raised so each low-poly lobe covers its sphere's silhouette (the far
+                    // and skyline shells are wrapped onto the spheres).
+                    let s = k == 0 ? midLobeScales.cube : midLobeScales.icosahedron
+                    if k == 0 { addCubeSphere(&m, center: c, radii: SIMD3(r, r * 0.92, r) * s) }
+                    else { addEllipsoid(&m, center: c, radii: SIMD3(r, r * 0.92, r) * s, octahedron: false) }
                 }
             } else if lod == 1 && k > 0 {
                 addCubeSphere(&m, center: c, radii: SIMD3(r, r * 0.92, r))
@@ -969,6 +973,11 @@ public struct PropLibrary: Sendable {
         return fine
     }
 
+    /// Radius factors for species mid lobes (cube sphere, icosahedron): the square root of how much
+    /// less of a sphere's silhouette each covers.
+    static let midLobeScales: (cube: Float, icosahedron: Float) = (
+        (1 / silhouetteShare(cubeSphere())).squareRoot(), (1 / silhouetteShare(icosahedron())).squareRoot())
+
     /// Species crowns' near lobes drawn as lumpy geodesic spheres (80 triangles) instead of cube spheres
     /// (48): the largest first, while the crown still fits in `room` triangles.
     static func speciesLumpyLobes(_ lobes: [(SIMD3<Float>, Float)], room: Int) -> Set<Int> {
@@ -1204,7 +1213,7 @@ public struct PropLibrary: Sendable {
         addBranch(&m, [.zero, crown.clamp(.zero, toward: top)], radii: [trunkRadius * 1.3, 0], sides: 3)
         for i in 0..<m.positions.count { m.extras[i].x = trunkAO(m.positions[i], shape) }
         m.paint = Paint(slot: palette.named("bark"), sway: 0.3)
-        addBareBranches(&m, skeleton, lod: 2, trunkSides: 3, within: crown, farSpikes: max(0, (budget - shell.faces.count - 3) / 3))
+        addBareBranches(&m, skeleton, lod: 2, trunkSides: 3, within: crown, farSpikes: min(5, max(0, (budget - shell.faces.count - 3) / 3)))
         let leaves = crownPaint(kind, palette: palette)
         m.paint = Paint(slot: leaves.slot, flags: leaves.flags, sway: 1)
         let start = m.positions.count, base = UInt32(start)
@@ -1222,7 +1231,7 @@ public struct PropLibrary: Sendable {
 
     /// Where far branches of a species crown may go: well inside the mid lobes the far shell wraps.
     static func farShellEnvelope(_ shape: TreeShape) -> CrownEnvelope {
-        CrownEnvelope(blobs: midLobes(shape).map { ($0.0, SIMD3(1, 0.92, 1) * ($0.1 * 0.62)) }, margin: 0.97)
+        CrownEnvelope(blobs: midLobes(shape).map { ($0.0, SIMD3(1, 0.92, 1) * ($0.1 * 0.4)) }, margin: 0.97, column: shape.underColumn)
     }
 
     /// Where far branches may go: inside each far lobe's inscribed sphere (or under the crown).
@@ -1307,10 +1316,17 @@ public struct PropLibrary: Sendable {
         public var lobes: [(SIMD3<Float>, Float)]
         public var midCount: Int
         public var midScale: Float
+        /// High crowns (vase, open): radius of the column under the crown, up to `crown.y − 0.3 × radii.y`,
+        /// where limbs may run from the fork up to the lobes (0 = none).
+        public var column: Float
 
-        init(_ trunkTop: Float, _ crown: SIMD3<Float>, _ radii: SIMD3<Float>, _ lobes: [(SIMD3<Float>, Float)], mid: Int = 2, midScale: Float = 1.25) {
-            (self.trunkTop, self.crown, self.radii, self.lobes, self.midCount, self.midScale) = (trunkTop, crown, radii, lobes, mid, midScale)
+        init(_ trunkTop: Float, _ crown: SIMD3<Float>, _ radii: SIMD3<Float>, _ lobes: [(SIMD3<Float>, Float)], mid: Int = 2, midScale: Float = 1.25,
+             column: Float = 0) {
+            (self.trunkTop, self.crown, self.radii, self.lobes, self.midCount, self.midScale, self.column) = (trunkTop, crown, radii, lobes, mid, midScale, column)
         }
+
+        /// The limb column for envelopes, if any.
+        var underColumn: (top: Float, radius: Float)? { column > 0 ? (crown.y - 0.3 * radii.y, column) : nil }
 
         /// Whether the far crown is one shrink-wrapped mass (species crowns) instead of the mid crown's
         /// two lobes as low-poly spheres.
@@ -1392,27 +1408,27 @@ public struct PropLibrary: Sendable {
                 // Elm vase (foliage-seasons-v1: arching upward/outward main limbs): no leader to speak
                 // of; limbs leave one low fork steeply, rising first, then arching out under the umbrella.
                 BranchStyle(leaderReach: 0.35, topBranches: 2, topFan: 0.55, topAt: 0.5,
-                            stagger: 0, outward: 0.45, limbReach: 0.72, limb: 0.62, bow: -0.1,
-                            fork: 0.5, tilt: 0.6, rise: 0.2, inner: 0.55, branchReach: 0.93,
+                            stagger: 0, outward: 0.6, limbReach: 0.8, limb: 0.62, bow: -0.1,
+                            fork: 0.55, tilt: 0.6, rise: 0.2, inner: 0.55, branchReach: 0.95,
                             innerTwigs: 2, endTwigs: 3, spray: 0.6, twigRise: 0.25, limbs: 4)
             case .treeOpen:
                 // Honeylocust: an open scaffold reaching wide and low-angled, fine twigs at the ends.
-                BranchStyle(leaderReach: 0.5, topBranches: 2, topFan: 0.7, topAt: 0.5,
-                            stagger: 0.05, outward: 0.55, limbReach: 0.7, limb: 0.6, bow: 0.04,
-                            fork: 0.5, tilt: 0.6, rise: 0.15, inner: 0.65, branchReach: 0.93,
+                BranchStyle(leaderReach: 0.65, topBranches: 2, topFan: 0.55, topAt: 0.5,
+                            stagger: 0.05, outward: 0.6, limbReach: 0.8, limb: 0.6, bow: 0.04,
+                            fork: 0.55, tilt: 0.6, rise: 0.15, inner: 0.65, branchReach: 0.95,
                             innerTwigs: 2, endTwigs: 3, spray: 0.65, twigRise: 0.2, limbs: 4)
             case .treePyramidal, .treeUpright:
                 // Linden and ash: a leader up the crown, paired limbs leaving it at staggered heights.
                 BranchStyle(leaderReach: 0.7, topBranches: 3, topFan: 0.45, topAt: 0.5,
                             stagger: 0.3, outward: 0.3, limbReach: 0.58, limb: 0.6, bow: -0.02,
                             fork: 0.42, tilt: 0.5, rise: 0.35, inner: 0.5, branchReach: 0.9,
-                            innerTwigs: 2, endTwigs: 3, spray: 0.55, twigRise: 0.3, limbs: 4)
+                            innerTwigs: 2, endTwigs: 2, spray: 0.55, twigRise: 0.3, limbs: 4)
             case .treeRounded:
                 // Norway maple: limbs out from the fork, curving up around a leader into a dense dome.
                 BranchStyle(leaderReach: 0.55, topBranches: 3, topFan: 0.6, topAt: 0.5,
                             stagger: 0.1, outward: 0.35, limbReach: 0.55, limb: 0.62, bow: 0.06,
                             fork: 0.45, tilt: 0.6, rise: 0.25, inner: 0.6, branchReach: 0.88,
-                            innerTwigs: 2, endTwigs: 3, spray: 0.6, twigRise: 0.25, limbs: 4)
+                            innerTwigs: 2, endTwigs: 2, spray: 0.6, twigRise: 0.25, limbs: 4)
             default:
                 // Rounded: limbs from about the fork go out, then curve up around a leader.
                 BranchStyle(leaderReach: 0.55, topBranches: 3, topFan: 0.6, topAt: 0.5,
@@ -1511,8 +1527,11 @@ public struct PropLibrary: Sendable {
     struct CrownEnvelope {
         var blobs: [(center: SIMD3<Float>, radii: SIMD3<Float>)]
         var margin: Float = 0.85
+        /// A column under a high crown (`TreeShape.underColumn`).
+        var column: (top: Float, radius: Float)? = nil
 
         func contains(_ p: SIMD3<Float>) -> Bool {
+            if let c = column, p.y <= c.top, simd_length(SIMD2(p.x, p.z)) <= c.radius { return true }
             for b in blobs where simd_length((p - b.center) / b.radii) <= margin { return true }
             for b in blobs where p.y <= b.center.y && simd_length(SIMD2(p.x - b.center.x, p.z - b.center.z)) <= b.radii.x * margin * 0.9 {
                 return true
@@ -1551,9 +1570,9 @@ public struct PropLibrary: Sendable {
     static func crownEnvelope(_ shape: TreeShape, lod: Int) -> CrownEnvelope {
         func lobe(_ c: SIMD3<Float>, _ r: Float) -> (center: SIMD3<Float>, radii: SIMD3<Float>) { (c, SIMD3(r, r * 0.92, r)) }
         switch lod {
-        case 0: return CrownEnvelope(blobs: shape.lobes.map { lobe($0.0, $0.1) })
+        case 0: return CrownEnvelope(blobs: shape.lobes.map { lobe($0.0, $0.1) }, column: shape.underColumn)
         // Species mid lobes past the top one are icosahedra (faces at 0.79 of the corners' reach).
-        case 1: return CrownEnvelope(blobs: midLobes(shape).map { lobe($0.0, $0.1) }, margin: shape.shellFar ? 0.74 : 0.85)
+        case 1: return CrownEnvelope(blobs: midLobes(shape).map { lobe($0.0, $0.1) }, margin: shape.shellFar ? 0.74 : 0.85, column: shape.underColumn)
         default: return shape.shellFar ? farShellEnvelope(shape) : farEnvelope(farLobes(shape))
         }
     }

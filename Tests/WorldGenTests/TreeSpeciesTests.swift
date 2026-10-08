@@ -42,49 +42,45 @@ struct TreeSpeciesTests {
 
     // MARK: - Values
 
-    /// vegetation.json carries the pack's values unchanged: species summer albedo, height and spread at
-    /// their pack index, the Chicago and Denver mixes in pack order, and a nearest described species for
-    /// every mix species the pack names but does not describe.
-    @Test func copiesEqualThePack() throws {
-        guard let pack = try Self.pack() else { return }
-        let f = Self.foliage
-        let species = try #require(pack["species"] as? [[String: Any]])
-        #expect(f.pack == "foliage-seasons-v1" && f.species.count == species.count)
-        for (id, s) in f.species {
-            let p = species[s.index]
-            #expect(p["id"] as? String == id && p["name"] as? String == s.name && p["scientificName"] as? String == s.scientificName, "\(id)")
-            #expect((p["seasonColours"] as? [String: Any])?["summer"] as? String == s.summer, "\(id) summer")
-            let dims = try #require(p["dimensionsM"] as? [String: Any])
-            #expect(dims["height"] as? [Double] == s.heightM && dims["spread"] as? [Double] == s.spreadM, "\(id) dimensions")
-            #expect(p["evergreen"] as? Bool == s.evergreen, "\(id) evergreen")
-            if let kind = s.kind { #expect(PropKind(rawValue: kind)?.isTree == true, "\(id): \(kind)") }
-        }
-        let cities = try #require(pack["cities"] as? [[String: Any]])
+    /// P2's mapping covers the pack: every described species (by the compiled mock-value keys) has an
+    /// entry, every mix species read from the mock values resolves to a described species with a
+    /// silhouette, and `nearest` covers exactly the mix species the pack names but does not describe.
+    /// Pack values come from the compiled keys and equal the pack JSON.
+    @Test func mappingCoversThePackKeys() throws {
+        let f = Self.foliage, m = try #require(MockValues.bundled)
+        #expect(f.prefix == "style-b/foliage/")
+        for id in f.species.keys { #expect(f.summer(id) != nil && f.dimensions(id) != nil, "\(id): no compiled summer/dimensions") }
         for (name, mix) in f.mixes {
-            let city = cities[mix.cityIndex]
-            #expect(city["id"] as? String == mix.city, "\(name)")
-            #expect((city["mix"] as? [[String: Any]])?.compactMap { $0["id"] as? String } == mix.species, "\(name)")
-            #expect(mix.species.allSatisfy { f.kind($0) != nil }, "\(name): a mix species without a silhouette")
+            let ids = f.mixSpecies(mix)
+            #expect(ids.count == 6 && ids.allSatisfy { f.kind($0) != nil }, "\(name): \(ids)")
+            #expect(m.string("\(f.prefix)cities.\(mix.city).id") == mix.city)
         }
         #expect(Set(f.mixes.values.flatMap(\.profiles)) == Set(Self.mixProfiles))
+        for (id, s) in f.species { if let kind = s.kind { #expect(PropKind(rawValue: kind)?.isTree == true, "\(id): \(kind)") } }
+        #expect(f.nearest.values.allSatisfy { f.species[$0] != nil })
+        guard let pack = try Self.pack() else { return }
+        let species = try #require(pack["species"] as? [[String: Any]])
+        #expect(Set(species.compactMap { $0["id"] as? String }) == Set(f.species.keys))
+        for p in species {
+            let id = try #require(p["id"] as? String)
+            #expect((p["seasonColours"] as? [String: Any])?["summer"] as? String == f.summer(id), "\(id) summer")
+            let dims = try #require(p["dimensionsM"] as? [String: Any])
+            #expect(dims["height"] as? [Double] == f.dimensions(id)?.height && dims["spread"] as? [Double] == f.dimensions(id)?.spread, "\(id)")
+        }
+        let cities = try #require(pack["cities"] as? [[String: Any]])
         let named = Set(cities.flatMap { ($0["mix"] as? [[String: Any]] ?? []).compactMap { $0["id"] as? String } })
         #expect(Set(f.nearest.keys) == named.subtracting(f.species.keys))
-        #expect(f.nearest.values.allSatisfy { f.species[$0] != nil })
         print("NEAREST " + f.nearest.sorted { $0.key < $1.key }.map { "\($0.key)→\($0.value)" }.joined(separator: ", "))
     }
 
-    /// Pack values are read by key from the shared mock values when compiled there (list-index or id
-    /// form), else from the copies.
-    @Test func mockValuesWinOverCopies() throws {
-        let f = Self.foliage, id = "ulmus_americana"
-        let i = try #require(f.species[id]).index
-        let prefix = "foliage-seasons-v1/species[\(i)]."
-        let m = MockValues(strings: [prefix + "seasonColours.summer": "#123456"],
-                           numbers: [prefix + "dimensionsM.height[0]": 10, prefix + "dimensionsM.height[1]": 20])
+    /// Values are read by key (`style-b/foliage/species.<id>.…`).
+    @Test func valuesAreReadByKey() throws {
+        let f = Self.foliage, id = "ulmus_americana", p = "style-b/foliage/species.\(id)."
+        let m = MockValues(strings: [p + "seasonColours.summer": "#123456"],
+                           numbers: [p + "dimensionsM.height[0]": 10, p + "dimensionsM.height[1]": 20, p + "dimensionsM.spread[0]": 5, p + "dimensionsM.spread[1]": 7])
         #expect(f.summer(id, mock: m) == "#123456")
-        #expect(f.dimensions(id, mock: m)?.height == [10, 20] && f.dimensions(id, mock: m)?.spread == f.species[id]?.spreadM)
-        #expect(f.summer(id, mock: MockValues(strings: ["foliage-seasons-v1/species.\(id).seasonColours.summer": "#654321"], numbers: [:])) == "#654321")
-        #expect(f.summer(id, mock: MockValues(strings: [:], numbers: [:])) == f.species[id]?.summer)
+        #expect(f.dimensions(id, mock: m)?.height == [10, 20] && f.dimensions(id, mock: m)?.spread == [5, 7])
+        #expect(f.summer(id, mock: MockValues(strings: [:], numbers: [:])) == nil)
     }
 
     // MARK: - Species pick
@@ -116,7 +112,7 @@ struct TreeSpeciesTests {
         let mix = try #require(f.mix(forProfile: "chicago-dense-north"))
         for inst in (90..<150).compactMap({ Self.instance(scene, $0) }) {
             if inst.kind == .conifer { #expect(inst.species == nil); continue }   // the Chicago mix has no conifer
-            #expect(inst.speciesFrom == .inferred && mix.species.contains(inst.species ?? "") && inst.kind == f.kind(inst.species!))
+            #expect(inst.speciesFrom == .inferred && f.mixSpecies(mix).contains(inst.species ?? "") && inst.kind == f.kind(inst.species!))
         }
         // No mix (Evanston): a tagged elm keeps the genus form, no species.
         let evanston = try Self.scene("evanston", [["species": "Ulmus americana"], [:]])
@@ -136,18 +132,18 @@ struct TreeSpeciesTests {
         #expect(trees.count == n)
         let w = profile.trees.crownWeights, total = w.values.reduce(0, +)
         var expected: [String: Double] = [:]
-        for id in mix.species {
+        for id in f.mixSpecies(mix) {
             let kind = try #require(f.kind(id))
             if kind == .conifer {
-                expected[id, default: 0] += (1 - profile.trees.deciduousShare) / Double(mix.species.filter { f.kind($0) == .conifer }.count)
+                expected[id, default: 0] += (1 - profile.trees.deciduousShare) / Double(f.mixSpecies(mix).filter { f.kind($0) == .conifer }.count)
             } else {
                 let form = PropLibrary.crownForm(kind)
-                let peers = mix.species.filter { f.kind($0).map { $0 != .conifer && PropLibrary.crownForm($0) == form } ?? false }.count
+                let peers = f.mixSpecies(mix).filter { f.kind($0).map { $0 != .conifer && PropLibrary.crownForm($0) == form } ?? false }.count
                 expected[id, default: 0] += profile.trees.deciduousShare * (w[form] ?? 0) / total / Double(peers)
             }
         }
         var line = "MIXSHARE \(profileID)"
-        for id in mix.species {
+        for id in f.mixSpecies(mix) {
             let share = Double(trees.filter { $0.species == id }.count) / Double(n)
             line += " \(id) \(String(format: "%.3f", share)) (exp \(String(format: "%.3f", expected[id] ?? 0)))"
             #expect(abs(share - (expected[id] ?? 0)) <= 0.025, "\(profileID) \(id): \(share) vs \(expected[id] ?? 0)")
@@ -170,10 +166,10 @@ struct TreeSpeciesTests {
         let generated = b.scene.instances.filter { $0.kind.isTree && $0.source.hasPrefix("gen:") }
         #expect(!generated.isEmpty)
         let deciduous = generated.filter { $0.kind != .conifer }
-        #expect(deciduous.allSatisfy { mix.species.contains($0.species ?? "") && $0.speciesFrom == .inferred && $0.kind == f.kind($0.species!) })
+        #expect(deciduous.allSatisfy { f.mixSpecies(mix).contains($0.species ?? "") && $0.speciesFrom == .inferred && $0.kind == f.kind($0.species!) })
         let counts = Dictionary(grouping: deciduous, by: { $0.species! }).mapValues(\.count)
         print("GENSPECIES lakeview \(counts.sorted { $0.key < $1.key }.map { "\($0.key) \($0.value)" }.joined(separator: ", "))")
-        #expect(Set(counts.keys) == Set(mix.species))
+        #expect(Set(counts.keys) == Set(f.mixSpecies(mix)))
     }
 
     // MARK: - Silhouettes
@@ -186,7 +182,7 @@ struct TreeSpeciesTests {
     /// lies within the pack's spread/height range [spread min / height max, spread max / height min].
     @Test func silhouettesMatchThePackProportions() throws {
         let f = Self.foliage
-        for id in Set(f.mixes.values.flatMap(\.species)).sorted() {
+        for id in Set(f.mixes.values.flatMap { f.mixSpecies($0) }).sorted() {
             let kind = try #require(f.kind(id)), m = try Self.solid(kind, lod: 0)
             var lo = SIMD3<Float>(repeating: .infinity), hi = -lo, top: Float = 0
             for v in 0..<m.vertexCount {
@@ -229,23 +225,25 @@ struct TreeSpeciesTests {
         #expect(plan >= 0.15, "\(kind): outline from above varies by only \(plan)")
     }
 
-    /// The silhouettes differ the way the sheets do: vase and open crowns are widest high up, the
-    /// pyramidal crown low down; the open crown is the widest and flattest, the upright the narrowest.
+    /// The silhouettes differ the way the sheets do: vase and open crowns sit high on a clear trunk and
+    /// limbs (crown base above half the height), the pyramidal linden's skirt reaches down to about a
+    /// third; the open crown is the widest for its crown depth, upright and pyramidal crowns narrower
+    /// than the rounded maple's.
     @Test func speciesSilhouettesDiffer() throws {
-        var shapes: [PropKind: (wide: Float, aspect: Float)] = [:]
+        var shapes: [PropKind: (base: Float, aspect: Float)] = [:]
         for kind in TreeSilhouetteTests.speciesKinds {
             let m = try Self.solid(kind, lod: 0), size = 160
             let mask = TreeSilhouetteTests.mask(m, TreeSilhouetteTests.triangles(m, .crown), yaw: 0.3, size: size)
             let rows = (0..<size).map { y in (0..<size).filter { mask[y * size + $0] }.count }
             let filled = rows.indices.filter { rows[$0] > 0 }
             let topRow = filled.first!, bottomRow = filled.last!
-            // Height share (0 = crown base, 1 = top) of the widest rows (mean of rows within 3 % of the widest).
-            let widest = rows.max()!
-            let at = rows.indices.filter { rows[$0] >= widest * 97 / 100 }.map { Float(bottomRow - $0) / Float(bottomRow - topRow) }
-            shapes[kind] = (at.reduce(0, +) / Float(at.count), Float(widest) / Float(bottomRow - topRow))
-            print("SPECIESSHAPE \(kind.rawValue) widest at \(String(format: "%.2f", shapes[kind]!.wide)) width/crown height \(String(format: "%.2f", shapes[kind]!.aspect))")
+            // Mask rows: y = (1.1 - height) × size / 1.2.
+            let base = 1.1 - Float(bottomRow) * 1.2 / Float(size)
+            shapes[kind] = (base, Float(rows.max()!) / Float(bottomRow - topRow))
+            print("SPECIESSHAPE \(kind.rawValue) crown base \(String(format: "%.2f", base)) width/crown depth \(String(format: "%.2f", shapes[kind]!.aspect))")
         }
-        #expect(shapes[.treeVase]!.wide > 0.45 && shapes[.treeOpen]!.wide > 0.4 && shapes[.treePyramidal]!.wide < 0.4)
+        #expect(shapes[.treeVase]!.base > 0.55 && shapes[.treeOpen]!.base > 0.5 && shapes[.treePyramidal]!.base < 0.36)
+        #expect(shapes[.treeVase]!.base > shapes[.treeRounded]!.base + 0.1 && shapes[.treeUpright]!.base < shapes[.treeVase]!.base)
         #expect(shapes[.treeOpen]!.aspect > shapes.filter { $0.key != .treeOpen }.map(\.value.aspect).max()!)
         #expect(shapes[.treeUpright]!.aspect < shapes[.treeRounded]!.aspect && shapes[.treePyramidal]!.aspect < shapes[.treeRounded]!.aspect)
     }

@@ -1,41 +1,31 @@
 import Foundation
+import WorldGeo
 
-/// foliage-seasons-v1 (R approved and binding, 2026-10-07): the pack's described species (crown
-/// silhouette family, summer albedo, botanical height/spread), a nearest-described-species map for
-/// city-mix species the pack names but does not describe, and the city mixes a profile draws its
-/// inferred trees from (`Profiles/vegetation.json` `foliageSeasons`). Pack values are read by key from
-/// the shared mock values (`foliage-seasons-v1/…`) when compiled there; until then from the copies in
-/// vegetation.json (tested equal to the pack JSON).
+/// foliage-seasons-v1 (R approved and binding, 2026-10-07). Pack values are read by key from the shared
+/// mock values (`Profiles/mock-values.json`, prefix `style-b/foliage/`, species and cities by id): summer
+/// albedo, botanical height/spread, evergreen, the city mixes. `Profiles/vegetation.json`
+/// `foliageSeasons` holds only P2's choices: the crown silhouette per described species, a nearest
+/// described species for mix species the pack does not describe, and which profiles draw from which
+/// city's mix.
 public struct FoliageSeasons: Codable, Sendable {
     public struct Species: Codable, Sendable, Equatable {
-        /// Position in the pack's `species` list (mock-value key `species[index]`).
-        public var index: Int
-        public var name: String
-        public var scientificName: String
-        /// Crown silhouette (`PropKind` raw value: a species crown, "conifer", or an older archetype);
-        /// nil when no silhouette fits (palms, evergreen broadleaves): mapped trees then fall back to
-        /// their genus form.
+        /// Crown silhouette (`PropKind` raw value: a species crown or "conifer"); nil when none fits
+        /// (palms, evergreen broadleaves): mapped trees then keep their genus form.
         public var kind: String?
-        public var evergreen: Bool
-        /// Copies of the pack's `seasonColours.summer`, `dimensionsM.height`, `dimensionsM.spread`.
-        public var summer: String
-        public var heightM: [Double]
-        public var spreadM: [Double]
     }
 
     public struct CityMix: Codable, Sendable, Equatable {
-        /// The pack's `cities[cityIndex]` (id `city`).
+        /// The pack city id (`cities.<city>`).
         public var city: String
-        public var cityIndex: Int
-        /// Style profiles whose inferred trees draw from this mix.
+        /// Style profiles whose inferred trees draw from this city's mix.
         public var profiles: [String]
-        /// The pack's six mix species (described ids, in pack order).
-        public var species: [String]
     }
 
-    public var pack: String
+    /// Mock-value key prefix ("style-b/foliage/").
+    public var prefix: String
+    /// Every species the pack describes, by pack id.
     public var species: [String: Species]
-    /// City-mix species the pack does not describe → the nearest described species (P2 choice).
+    /// City-mix species the pack names but does not describe → the nearest described species (P2 choice).
     public var nearest: [String: String]
     public var mixes: [String: CityMix]
 
@@ -46,6 +36,35 @@ public struct FoliageSeasons: Codable, Sendable {
     public func mix(forProfile id: String) -> CityMix? {
         mixes.keys.sorted().compactMap { mixes[$0] }.first { $0.profiles.contains(id) }
     }
+
+    // MARK: - Pack values (mock values)
+
+    /// The pack's mix species for a city, in pack order (`cities.<city>.mix[i].id`), as described
+    /// species (undescribed ones through `nearest`).
+    public func mixSpecies(_ mix: CityMix, mock: MockValues? = .bundled) -> [String] {
+        var out: [String] = []
+        var i = 0
+        while let id = mock?.string("\(prefix)cities.\(mix.city).mix[\(i)].id") {
+            let described: String? = species[id] != nil ? id : nearest[id]
+            if let d = described, !out.contains(d) { out.append(d) }
+            i += 1
+        }
+        return out
+    }
+
+    /// The species' summer crown albedo (`species.<id>.seasonColours.summer`).
+    public func summer(_ id: String, mock: MockValues? = .bundled) -> String? {
+        mock?.string("\(prefix)species.\(id).seasonColours.summer")
+    }
+
+    /// Pack height and spread ranges (metres, `species.<id>.dimensionsM`).
+    public func dimensions(_ id: String, mock: MockValues? = .bundled) -> (height: [Double], spread: [Double])? {
+        func range(_ path: String) -> [Double] { (0..<2).compactMap { mock?.number("\(prefix)species.\(id).dimensionsM.\(path)[\($0)]") } }
+        let h = range("height"), s = range("spread")
+        return h.count == 2 && s.count == 2 ? (h, s) : nil
+    }
+
+    // MARK: - Species pick
 
     /// The described species a binomial names ("Acer platanoides", "Platanus × acerifolia"), directly
     /// or through `nearest`.
@@ -60,13 +79,14 @@ public struct FoliageSeasons: Codable, Sendable {
     /// A mapped tree's species from its tags (`species`, `taxon`, then `genus`): an exact or nearest
     /// described species, else for a genus the mix's species of that genus (seeded pick), else the
     /// pack's described species of that genus. Nil when the tags name none.
-    public func species(tags: [String: String], mix: CityMix?, random r: inout StableRandom) -> String? {
+    public func mappedSpecies(tags: [String: String], mix: CityMix?, random r: inout StableRandom) -> String? {
         let names = [tags["species"], tags["taxon"]].compactMap { $0?.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         for name in names { if let id = described(binomial: name) { return id } }
         let genera = ([tags["genus"]] + names.map { $0.split(separator: " ").first.map(String.init) })
             .compactMap { $0?.trimmingCharacters(in: .whitespaces).lowercased() }.filter { !$0.isEmpty }
+        let pool0 = mix.map { mixSpecies($0) } ?? []
         for genus in genera {
-            let inMix = (mix?.species ?? []).filter { $0.hasPrefix(genus + "_") }
+            let inMix = pool0.filter { $0.hasPrefix(genus + "_") }
             let pool = inMix.isEmpty ? species.keys.filter { $0.hasPrefix(genus + "_") }.sorted() : inMix
             if !pool.isEmpty { return pool[Int(r.next() % UInt64(pool.count))] }
         }
@@ -77,8 +97,8 @@ public struct FoliageSeasons: Codable, Sendable {
     /// (`PropLibrary.crownForm`; "conifer" for conifers). The pack gives no abundances; the profile's
     /// crown-form weights (drawn before) keep each colour family's share, so the autumn mix holds.
     public func inferred(form: String, mix: CityMix, random r: inout StableRandom) -> String? {
-        let pool = mix.species.filter { id in
-            guard let kind = species[id]?.kind.flatMap(PropKind.init(rawValue:)) else { return false }
+        let pool = mixSpecies(mix).filter { id in
+            guard let kind = kind(id) else { return false }
             return form == "conifer" ? kind == .conifer : kind != .conifer && PropLibrary.crownForm(kind) == form
         }
         guard !pool.isEmpty else { return nil }
@@ -88,35 +108,11 @@ public struct FoliageSeasons: Codable, Sendable {
     /// The silhouette a species is drawn with, if one fits.
     public func kind(_ id: String) -> PropKind? { species[id]?.kind.flatMap(PropKind.init(rawValue:)) }
 
-    // MARK: - Pack values (mock values first)
-
-    /// Mock-value keys for a species leaf: the compiler's list-index form and an id-keyed form.
-    func keys(_ id: String, _ path: String) -> [String] {
-        guard let s = species[id] else { return [] }
-        return ["\(pack)/species[\(s.index)].\(path)", "\(pack)/species.\(id).\(path)"]
-    }
-
-    /// The species' summer crown albedo (pack `seasonColours.summer`).
-    public func summer(_ id: String, mock: MockValues? = .bundled) -> String? {
-        for k in keys(id, "seasonColours.summer") { if let v = mock?.string(k) { return v } }
-        return species[id]?.summer
-    }
-
-    /// Pack height and spread ranges (metres).
-    public func dimensions(_ id: String, mock: MockValues? = .bundled) -> (height: [Double], spread: [Double])? {
-        guard let s = species[id] else { return nil }
-        func range(_ path: String, _ copy: [Double]) -> [Double] {
-            let read = (0..<2).compactMap { i in keys(id, "dimensionsM.\(path)[\(i)]").lazy.compactMap { mock?.number($0) }.first }
-            return read.count == 2 ? read : copy
-        }
-        return (range("height", s.heightM), range("spread", s.spreadM))
-    }
-
     /// Width factor for a species drawn with a shared silhouette: its pack spread/height (range
     /// midpoints) over the silhouette's own crown width (unit height), within 0.6–1.2. Instances
     /// multiply their stretch by it.
     public func widthScale(_ id: String) -> Double {
-        guard let kind = kind(id), let d = dimensions(id), d.height.count == 2, d.spread.count == 2 else { return 1 }
+        guard let kind = kind(id), let d = dimensions(id) else { return 1 }
         let target = (d.spread[0] + d.spread[1]) / (d.height[0] + d.height[1])
         return min(1.2, max(0.6, target / Double(PropLibrary.crownWidth(kind))))
     }

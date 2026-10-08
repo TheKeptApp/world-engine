@@ -220,7 +220,7 @@ struct YardTests {
         }
         let lodTris = (0..<3).map { PropLibrary.mesh(.treeBroad, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
         let bushTris = (0..<3).map { PropLibrary.mesh(.bush, variant: 0, lod: $0, palette: b.scene.palette).triangleCount }
-        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) puffTreeTris=\(puffTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris) allTreeDraws=\(allTreeDraws.count) allTreeTris=\(allTreeTris) treeKinds=\(Set(allTreeDraws.map { String($0.split(separator: "-")[0]) }).sorted())")
+        print("VIEWYARDS \(name) generatedTreeTris=\(trees) leafCardTreeTris=\(cardTrees) puffTreeTris=\(puffTrees) treeDraws=\(treeDraws.count) shrubTris=\(shrubs) (hedges \(hedgeTris)) yardGroundTris≈\(yardGround) treeLOD=\(lodTris) bushLOD=\(bushTris) allTreeDraws=\(allTreeDraws.count) rendererTreeBatches=\(Set(allTreeDraws.map { $0.split(separator: "-").prefix(3).joined(separator: "-") }).count) allTreeTris=\(allTreeTris) treeKinds=\(Set(allTreeDraws.map { String($0.split(separator: "-")[0]) }).sorted())")
         #expect(trees + shrubs + yardGround <= 200_000, "\(name)")
     }
 }

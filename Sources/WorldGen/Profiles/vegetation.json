@@ -234,520 +234,104 @@
     "Salix": "weeping"
   },
   "foliageSeasons": {
-    "comment": "foliage-seasons-v1 (R approved and binding 2026-10-07). species: copies of the pack's species[index] seasonColours.summer, dimensionsM.height and dimensionsM.spread (code reads mock-values keys foliage-seasons-v1/species[index].<path> first; TreeSpeciesTests checks the copies against the pack JSON). kind: the crown silhouette each species is drawn with (P2 mapping of the pack's crown descriptions to Props.swift silhouettes: treeRounded dense rounded, treePyramidal pyramidal oval, treeVase vase, treeOpen open wide airy, treeUpright upright oval, conifer; null = no silhouette fits (palms, evergreen broadleaves), mapped trees then keep their genus form). nearest: city-mix species the pack names but does not describe -> nearest described species (P2 choice by crown habit and genus). mixes: the pack's cities[cityIndex].mix for the profiles whose inferred trees draw from it; the pack gives no abundances, so a tree draws its crown form from the profile's crownWeights (unchanged) and then a mix species of that colour family with equal odds.",
-    "pack": "foliage-seasons-v1",
+    "comment": "foliage-seasons-v1 (R approved and binding 2026-10-07). Pack values (summer albedo, height, spread, evergreen, city mixes) are read by key from Profiles/mock-values.json (prefix style-b/foliage/, species and cities by id); this block holds only P2's choices. species.kind: the crown silhouette each described species is drawn with (mapping of the pack's crown descriptions to Props.swift silhouettes: treeRounded dense rounded, treePyramidal pyramidal oval, treeVase vase, treeOpen open wide airy, treeUpright upright oval, conifer; null = no silhouette fits (palms, evergreen broadleaves): mapped trees then keep their genus form). nearest: city-mix species the pack names but does not describe -> nearest described species (by crown habit and genus). mixes: the pack city whose mix (style-b/foliage/cities.<city>.mix[i].id) the profiles' inferred trees draw from; the pack gives no abundances, so a tree draws its crown form from the profile's crownWeights (unchanged) and then a mix species of that colour family with equal odds.",
+    "prefix": "style-b/foliage/",
     "species": {
       "gleditsia_triacanthos": {
-        "index": 0,
-        "name": "Honeylocust",
-        "scientificName": "Gleditsia triacanthos",
-        "kind": "treeOpen",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          18.29,
-          24.38
-        ],
-        "spreadM": [
-          18.29,
-          24.38
-        ]
+        "kind": "treeOpen"
       },
       "platanus_x_acerifolia": {
-        "index": 1,
-        "name": "London plane",
-        "scientificName": "Platanus × acerifolia",
-        "kind": "treeOpen",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          21.34,
-          30.48
-        ],
-        "spreadM": [
-          18.29,
-          22.86
-        ]
+        "kind": "treeOpen"
       },
       "acer_rubrum": {
-        "index": 2,
-        "name": "Red maple",
-        "scientificName": "Acer rubrum",
-        "kind": "treeUpright",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          12.19,
-          36.58
-        ],
-        "spreadM": [
-          9.14,
-          15.24
-        ]
+        "kind": "treeUpright"
       },
       "acer_saccharinum": {
-        "index": 3,
-        "name": "Silver maple",
-        "scientificName": "Acer saccharinum",
-        "kind": "treeOpen",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          24.38
-        ],
-        "spreadM": [
-          12.19,
-          18.29
-        ]
+        "kind": "treeOpen"
       },
       "acer_platanoides": {
-        "index": 4,
-        "name": "Norway maple",
-        "scientificName": "Acer platanoides",
-        "kind": "treeRounded",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          12.19,
-          15.24
-        ],
-        "spreadM": [
-          9.14,
-          15.24
-        ]
+        "kind": "treeRounded"
       },
       "quercus_palustris": {
-        "index": 5,
-        "name": "Pin oak",
-        "scientificName": "Quercus palustris",
-        "kind": "treePyramidal",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          21.34
-        ],
-        "spreadM": [
-          12.19,
-          18.29
-        ]
+        "kind": "treePyramidal"
       },
       "quercus_virginiana": {
-        "index": 6,
-        "name": "Southern live oak",
-        "scientificName": "Quercus virginiana",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#3F6B3E",
-        "heightM": [
-          18.3,
-          24.4
-        ],
-        "spreadM": [
-          18.3,
-          36.6
-        ]
+        "kind": null
       },
       "lagerstroemia_indica": {
-        "index": 7,
-        "name": "Crape myrtle",
-        "scientificName": "Lagerstroemia indica",
-        "kind": "treeVase",
-        "evergreen": false,
-        "summer": "#3F6B3E",
-        "heightM": [
-          1.8,
-          9.1
-        ],
-        "spreadM": [
-          1.8,
-          9.1
-        ]
+        "kind": "treeVase"
       },
       "fraxinus_pennsylvanica": {
-        "index": 8,
-        "name": "Green ash",
-        "scientificName": "Fraxinus pennsylvanica",
-        "kind": "treeUpright",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          21.34
-        ],
-        "spreadM": [
-          10.67,
-          15.24
-        ]
+        "kind": "treeUpright"
       },
       "tilia_cordata": {
-        "index": 9,
-        "name": "Littleleaf linden",
-        "scientificName": "Tilia cordata",
-        "kind": "treePyramidal",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          18.29
-        ],
-        "spreadM": [
-          10.67,
-          15.24
-        ]
+        "kind": "treePyramidal"
       },
       "ulmus_americana": {
-        "index": 10,
-        "name": "American elm",
-        "scientificName": "Ulmus americana",
-        "kind": "treeVase",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          18.29,
-          24.38
-        ],
-        "spreadM": [
-          9.14,
-          18.29
-        ]
+        "kind": "treeVase"
       },
       "ginkgo_biloba": {
-        "index": 11,
-        "name": "Ginkgo",
-        "scientificName": "Ginkgo biloba",
-        "kind": "treePyramidal",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          24.38
-        ],
-        "spreadM": [
-          9.14,
-          12.19
-        ]
+        "kind": "treePyramidal"
       },
       "populus_deltoides": {
-        "index": 12,
-        "name": "Eastern cottonwood",
-        "scientificName": "populus deltoides",
-        "kind": "treeVase",
-        "evergreen": false,
-        "summer": "#49664C",
-        "heightM": [
-          22.86,
-          30.48
-        ],
-        "spreadM": [
-          10.67,
-          18.29
-        ]
+        "kind": "treeVase"
       },
       "pinus_ponderosa": {
-        "index": 13,
-        "name": "Ponderosa pine",
-        "scientificName": "Pinus ponderosa",
-        "kind": "conifer",
-        "evergreen": true,
-        "summer": "#426B48",
-        "heightM": [
-          12,
-          25
-        ],
-        "spreadM": [
-          5,
-          10
-        ]
+        "kind": "conifer"
       },
       "picea_pungens": {
-        "index": 14,
-        "name": "Blue spruce",
-        "scientificName": "picea pungens",
-        "kind": "conifer",
-        "evergreen": true,
-        "summer": "#617A86",
-        "heightM": [
-          9.14,
-          18.29
-        ],
-        "spreadM": [
-          3.05,
-          6.1
-        ]
+        "kind": "conifer"
       },
       "populus_tremuloides": {
-        "index": 15,
-        "name": "Quaking aspen",
-        "scientificName": "populus tremuloides",
-        "kind": "treeUpright",
-        "evergreen": false,
-        "summer": "#49664C",
-        "heightM": [
-          12.19,
-          15.24
-        ],
-        "spreadM": [
-          6.1,
-          9.14
-        ]
+        "kind": "treeUpright"
       },
       "malus_ornamental": {
-        "index": 16,
-        "name": "Ornamental crabapple family",
-        "scientificName": "malus ornamental",
-        "kind": "treeRounded",
-        "evergreen": false,
-        "summer": "#49664C",
-        "heightM": [
-          3,
-          8
-        ],
-        "spreadM": [
-          3,
-          8
-        ]
+        "kind": "treeRounded"
       },
       "pyrus_calleryana_bradford": {
-        "index": 17,
-        "name": "Bradford pear",
-        "scientificName": "pyrus calleryana bradford",
-        "kind": "treePyramidal",
-        "evergreen": false,
-        "summer": "#49664C",
-        "heightM": [
-          9.14,
-          15.24
-        ],
-        "spreadM": [
-          6.1,
-          9.14
-        ]
+        "kind": "treePyramidal"
       },
       "magnolia_grandiflora": {
-        "index": 18,
-        "name": "Southern magnolia",
-        "scientificName": "Magnolia grandiflora",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#3F6B3E",
-        "heightM": [
-          18.3,
-          24.4
-        ],
-        "spreadM": [
-          9.1,
-          15.2
-        ]
+        "kind": null
       },
       "roystonea_regia": {
-        "index": 19,
-        "name": "Royal palm",
-        "scientificName": "Roystonea regia",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#3F6B3E",
-        "heightM": [
-          15.2,
-          21.3
-        ],
-        "spreadM": [
-          6.1,
-          7.6
-        ]
+        "kind": null
       },
       "syagrus_romanzoffiana": {
-        "index": 20,
-        "name": "Queen palm",
-        "scientificName": "Syagrus romanzoffiana",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#49664C",
-        "heightM": [
-          8,
-          20
-        ],
-        "spreadM": [
-          6.1,
-          7.6
-        ]
+        "kind": null
       },
       "sabal_palmetto": {
-        "index": 21,
-        "name": "Sabal palm",
-        "scientificName": "Sabal palmetto",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#3F6B3E",
-        "heightM": [
-          8,
-          20
-        ],
-        "spreadM": [
-          5,
-          12
-        ]
+        "kind": null
       },
       "washingtonia_robusta": {
-        "index": 22,
-        "name": "Washingtonia fan palm",
-        "scientificName": "Washingtonia robusta",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#54834C",
-        "heightM": [
-          21.34,
-          30.48
-        ],
-        "spreadM": [
-          5,
-          12
-        ]
+        "kind": null
       },
       "phoenix_dactylifera": {
-        "index": 23,
-        "name": "Date palm",
-        "scientificName": "Phoenix dactylifera",
-        "kind": null,
-        "evergreen": true,
-        "summer": "#668466",
-        "heightM": [
-          8,
-          20
-        ],
-        "spreadM": [
-          5,
-          12
-        ]
+        "kind": null
       },
       "prosopis_velutina": {
-        "index": 24,
-        "name": "Velvet mesquite",
-        "scientificName": "Prosopis velutina",
-        "kind": null,
-        "evergreen": false,
-        "summer": "#668466",
-        "heightM": [
-          4,
-          12
-        ],
-        "spreadM": [
-          6,
-          12
-        ]
+        "kind": null
       },
       "parkinsonia_florida": {
-        "index": 25,
-        "name": "Blue palo verde",
-        "scientificName": "Parkinsonia florida",
-        "kind": null,
-        "evergreen": false,
-        "summer": "#54834C",
-        "heightM": [
-          6,
-          10
-        ],
-        "spreadM": [
-          8,
-          12
-        ]
+        "kind": null
       },
       "pseudotsuga_menziesii": {
-        "index": 26,
-        "name": "Douglas fir",
-        "scientificName": "Pseudotsuga menziesii",
-        "kind": "conifer",
-        "evergreen": true,
-        "summer": "#426B48",
-        "heightM": [
-          15,
-          35
-        ],
-        "spreadM": [
-          5,
-          10
-        ]
+        "kind": "conifer"
       },
       "thuja_plicata": {
-        "index": 27,
-        "name": "Western red cedar",
-        "scientificName": "Thuja plicata",
-        "kind": "conifer",
-        "evergreen": true,
-        "summer": "#426B48",
-        "heightM": [
-          15,
-          40
-        ],
-        "spreadM": [
-          5,
-          12
-        ]
+        "kind": "conifer"
       },
       "acer_macrophyllum": {
-        "index": 28,
-        "name": "Bigleaf maple",
-        "scientificName": "acer macrophyllum",
-        "kind": "treeRounded",
-        "evergreen": false,
-        "summer": "#49664C",
-        "heightM": [
-          15,
-          23
-        ],
-        "spreadM": [
-          12,
-          20
-        ]
+        "kind": "treeRounded"
       },
       "prunus_serrulata": {
-        "index": 29,
-        "name": "Japanese flowering cherry",
-        "scientificName": "Prunus serrulata",
-        "kind": "treeVase",
-        "evergreen": false,
-        "summer": "#54834C",
-        "heightM": [
-          5,
-          10
-        ],
-        "spreadM": [
-          5,
-          10
-        ]
+        "kind": "treeVase"
       },
       "acer_saccharum": {
-        "index": 30,
-        "name": "Sugar maple",
-        "scientificName": "Acer saccharum",
-        "kind": "treeRounded",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          12.19,
-          36.58
-        ],
-        "spreadM": [
-          9.14,
-          18.29
-        ]
+        "kind": "treeRounded"
       },
       "zelkova_serrata": {
-        "index": 31,
-        "name": "Zelkova",
-        "scientificName": "Zelkova serrata",
-        "kind": "treeVase",
-        "evergreen": false,
-        "summer": "#4F773C",
-        "heightM": [
-          15.24,
-          24.38
-        ],
-        "spreadM": [
-          15.24,
-          24.38
-        ]
+        "kind": "treeVase"
       }
     },
     "nearest": {
@@ -779,32 +363,14 @@
     "mixes": {
       "chicago": {
         "city": "chicago",
-        "cityIndex": 0,
         "profiles": [
           "chicago-dense-north"
-        ],
-        "species": [
-          "gleditsia_triacanthos",
-          "acer_platanoides",
-          "acer_saccharinum",
-          "fraxinus_pennsylvanica",
-          "tilia_cordata",
-          "ulmus_americana"
         ]
       },
       "denver": {
         "city": "denver",
-        "cityIndex": 1,
         "profiles": [
           "front-range"
-        ],
-        "species": [
-          "ulmus_americana",
-          "tilia_cordata",
-          "acer_platanoides",
-          "populus_deltoides",
-          "picea_pungens",
-          "populus_tremuloides"
         ]
       }
     }

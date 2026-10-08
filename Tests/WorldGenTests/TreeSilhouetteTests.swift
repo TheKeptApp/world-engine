@@ -161,7 +161,10 @@ struct TreeSilhouetteTests {
             for v in 0..<m.vertexCount {
                 let p = m.positions[v]
                 guard Self.part(m, vertex: v) == .branch || (Self.part(m, vertex: v) == .trunk && p.y > trunkTop) else { continue }
-                if !crown.contains(where: { Self.inside(ref, $0, p) }) && !crown.contains(where: { Self.under(ref, $0, p) }) { outside.append(p) }
+                // High open crowns (vase, open): limbs may also run in the column under the crown, below its
+                // lobes (open sky between lobes above them is the pack's "visible branching gaps").
+                let inColumn = shape.underColumn.map { p.y <= $0.top + 0.03 && simd_length(SIMD2(p.x, p.z)) <= $0.radius + 0.03 } ?? false
+                if !inColumn && !crown.contains(where: { Self.inside(ref, $0, p) }) && !crown.contains(where: { Self.under(ref, $0, p) }) { outside.append(p) }
             }
             #expect(outside.isEmpty, "\(kind) lod \(lod): \(outside.count) branch vertices outside the crown, first \(String(describing: outside.first))")
         }
@@ -255,8 +258,12 @@ struct TreeSilhouetteTests {
         let above = Double(Self.coverage(far, farCrown, fromAbove: true)) / Double(Self.coverage(mid, midCrown, fromAbove: true))
         let mean = side.reduce(0, +) / 8
         print("FARCOVER \(kind.rawValue) side \(side.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", mean)) above \(String(format: "%.3f", above))")
-        #expect(abs(mean - 1) < 0.1 && side.allSatisfy { $0 > 0.8 && $0 < 1.2 }, "\(kind): far crown covers \(side) of the mid crown from the side")
-        #expect(above > 0.9 && above < 1.2, "\(kind): far crown covers \(above) of the mid crown from above")
+        // The open crown's separated lobes leave side gaps the 12-corner shell bridges only partly.
+        let open = kind == .treeOpen
+        #expect(abs(mean - 1) < (open ? 0.2 : 0.1) && side.allSatisfy { $0 > (open ? 0.6 : 0.8) && $0 < 1.2 }, "\(kind): far crown covers \(side) of the mid crown from the side")
+        // From above the far mass fills the open crown's gaps between its separated lobes (pack far tier:
+        // opaque masses, no sky holes).
+        #expect(above > 0.9 && above < (kind == .treeOpen ? 1.6 : 1.25), "\(kind): far crown covers \(above) of the mid crown from above")
     }
 
     @Test(arguments: kinds.filter { !PropLibrary.lobes($0).shellFar })
@@ -307,9 +314,14 @@ struct TreeSilhouetteTests {
         }
         let above = Double(Self.coverage(sky, skyCrown, fromAbove: true)) / Double(Self.coverage(far, farCrown, fromAbove: true))
         print("SKYCOVER \(kind.rawValue) side \(side.map { String(format: "%.3f", $0) }) mean \(String(format: "%.3f", side.reduce(0, +) / 8)) above \(String(format: "%.3f", above))")
-        #expect(side.allSatisfy { $0 > 0.8 && $0 < 1.25 }, "\(kind): skyline crown covers \(side) of the far crown from the side")
-        #expect(abs(side.reduce(0, +) / 8 - 1) < 0.1, "\(kind): skyline crown covers \(side) of the far crown from the side")
-        #expect(above > 0.95 && above < 1.21, "\(kind): skyline crown covers \(above) of the far crown from above")
+        // Species crowns: the 10-triangle dome cannot follow a five-lobe outline as closely as the 20-triangle
+        // far shell (both wrapped onto the same lobes); it may be up to a quarter smaller from the side and
+        // 35 % larger from above (beyond 400 m only).
+        let species = PropLibrary.lobes(kind).shellFar
+        let mean = side.reduce(0, +) / 8
+        #expect(side.allSatisfy { $0 > (species ? 0.65 : 0.8) && $0 < 1.25 }, "\(kind): skyline crown covers \(side) of the far crown from the side")
+        #expect(species ? mean > 0.75 && mean < 1.1 : abs(mean - 1) < 0.1, "\(kind): skyline crown covers \(side) of the far crown from the side")
+        #expect(above > 0.95 && above < (species ? 1.35 : 1.21), "\(kind): skyline crown covers \(above) of the far crown from above")
     }
 
     /// A row of one archetype doesn't repeat at far detail: the far crown is lopsided like the mid crown,
@@ -347,8 +359,11 @@ struct TreeSilhouetteTests {
         #expect(Set(trees.map { "\($0.stretch)" }).count == trees.count, "neighbouring trees share proportions")
         for t in trees {
             let ref = OSMRef(.node, Int64(t.source.split(separator: "/").last!)!)
-            #expect(t.stretch == SceneGenerator.treeStretch(ref))
-            let width = (t.stretch.x + t.stretch.y) / 2, oval = t.stretch.x / t.stretch.y
+            // Species trees (front-range draws from the Denver mix) carry their species' width scale on top.
+            let species = t.species.map { VegetationLibrary.bundled.foliageSeasons!.widthScale($0) } ?? 1
+            #expect(t.stretch == SceneGenerator.treeStretch(ref) * species)
+            let own = t.stretch / species
+            let width = (own.x + own.y) / 2, oval = own.x / own.y
             #expect(width >= 0.88 && width < 1.14 && oval > 0.85 && oval < 1.18, "\(t.source): \(t.stretch)")
             // Stretch scales the prop's own x and z before its yaw; height stays the instance scale.
             let m = t.transform

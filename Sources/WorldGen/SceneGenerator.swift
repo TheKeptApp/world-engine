@@ -424,7 +424,7 @@ public struct SceneGenerator: Sendable {
             var sr = tree.ref.random("species")
             let leaf = tree.tags["leaf_type"]
             let tagged = VegetationLibrary.bundled.form(tags: tree.tags)
-            let mapped = mix == nil ? nil : foliage?.species(tags: tree.tags, mix: mix, random: &sr)
+            let mapped = mix == nil ? nil : foliage?.mappedSpecies(tags: tree.tags, mix: mix, random: &sr)
             let mappedKind = mapped.flatMap { foliage?.kind($0) }
             let leafConifer = leaf == "needleleaved" ? true : leaf == "broadleaved" ? false : !r.chance(profile.trees.deciduousShare)
             let isConifer = mappedKind.map { $0 == .conifer } ?? tagged.map { $0 == "conifer" } ?? leafConifer
@@ -436,7 +436,7 @@ public struct SceneGenerator: Sendable {
             if isConifer {
                 kind = .conifer
                 conifers += 1
-                if species == nil, let mix, let s = foliage?.inferred(form: "conifer", mix: mix, random: &sr) { (species, from) = (s, .inferred) }
+                if species == nil, let mix, let s = foliage?.inferred(form: "conifer", mix: mix, random: &sr) { species = s; from = .inferred }
             } else {
                 deciduous += 1
                 let drawn = r.pick(crownWeights.keys.sorted()) { crownWeights[$0] ?? 0 }
@@ -445,7 +445,7 @@ public struct SceneGenerator: Sendable {
                 if let k = mappedKind, k != .conifer {
                     kind = k
                 } else if species == nil, tagged == nil, pick != "weeping", let mix, let s = foliage?.inferred(form: pick, mix: mix, random: &sr) {
-                    (species, from) = (s, .inferred)
+                    species = s; from = .inferred
                     kind = foliage?.kind(s) ?? kind
                 }
             }
