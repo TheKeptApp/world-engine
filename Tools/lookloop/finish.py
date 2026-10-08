@@ -11,6 +11,9 @@ import collections, datetime, json, os, shutil, subprocess, sys, time
 
 sys.dont_write_bytecode = True  # no __pycache__ next to the tools (nothing to commit by accident)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from holdouts import report as holdout_report, cells as holdout_cells
+from colour_prescreen import fit, observations, screen
+from pathlib import Path
 from grade import concept_score, paintover_score, recompute  # noqa: E402  (same totals whether reviewers ran headless or in a session)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -116,9 +119,16 @@ def main():
         if os.path.exists(p):
             try:
                 g = json.load(open(p))
-                if "error" in g or "scores" not in g or "artDirection" not in g:
-                    raise ValueError(g.get("error", "not GRADING.md section G"))
-                grades[vid] = recompute(g, views[vid], concept_score(views[vid], concept), paintover_score(views[vid], concept))
+                if "error" in g:
+                    raise ValueError(g["error"])
+                if "scores" in g and "artDirection" in g and not g.get("calibrationOnly"):
+                    grades[vid] = recompute(g, views[vid], concept_score(views[vid], concept), paintover_score(views[vid], concept))
+                elif isinstance(g.get("calGap"), dict):
+                    # A3 calibration-only grades carry no invented legacy /50 or parity.
+                    g.update(scores={}, artDirection={}, v2Score50=None, gatePass=False, calibrationOnly=True)
+                    grades[vid] = g
+                else:
+                    raise ValueError("missing human grade")
                 json.dump(g, open(p, "w"), indent=1)
             except (ValueError, KeyError, TypeError) as e:
                 print(f"  {vid}: grade rejected ({e})")
@@ -144,6 +154,7 @@ def main():
                     crit[k].append(g["artDirection"][k]["score"])
         rows.append((vid, g, perf, vt))
     scored = [g for _, g, _, _ in rows if g]
+    legacy_scored = [g for g in scored if g.get("v2Score50") is not None]
     # Concept parity: the view's /50 as a share of its target concept's calibrated /50 (calibration.md).
     parity = {vid: g["parity"] for vid, g, _, _ in rows if g and g.get("parity") is not None}
     mean_parity = round(sum(parity.values()) / len(parity)) if parity else None
@@ -161,7 +172,7 @@ def main():
     lf_unc = sum(1 for g in scored for v in (g.get("lookFixChecks") or {}).values()
                  if isinstance(v, dict) and v.get("pass") is None and str(v.get("reason", "")).lower().startswith("not checkable"))
     milestones = " · ".join(f"{name} ≥{t}%: {'**met**' if mean_parity is not None and mean_parity >= t else 'not yet'}" for name, t in MILESTONES)
-    mean50 = round(sum(g["v2Score50"] for g in scored) / len(scored), 1) if scored else None
+    mean50 = round(sum(g["v2Score50"] for g in legacy_scored) / len(legacy_scored), 1) if legacy_scored else None
     meanAD = [g["adMean"] for g in scored if g.get("adMean") is not None]
     meanAD = round(sum(meanAD) / len(meanAD), 2) if meanAD else None
     passes = sum(1 for g in scored if g["gatePass"])
@@ -169,8 +180,8 @@ def main():
     gate5b = sum(1 for g in scored if g.get("gate5B"))
     lg_status, lg_detail, lg_missing = look_gate(rows, views)
     lg_pass = sum(1 for d in lg_detail.values() if d["pass"])
-    worst = min(scored, key=lambda g: (g.get("parity") if g.get("parity") is not None else 999, g["v2Score50"])) if scored else None
-    ordinary = [g["v2Score50"] for g in scored if views[g["view"]]["group"] == "ordinary"]
+    worst = min(legacy_scored, key=lambda g: (g.get("parity") if g.get("parity") is not None else 999, g["v2Score50"])) if legacy_scored else None
+    ordinary = [g["v2Score50"] for g in scored if g.get("v2Score50") is not None and views[g["view"]]["group"] == "ordinary"]
     fixes = collections.Counter()
     fix_text = {}
     for g in scored:
@@ -179,7 +190,13 @@ def main():
             fixes[key] += 3 - i
             fix_text.setdefault(key, []).append(f"{g['view']}: {f.get('fix', '')}")
 
+    contract = json.load(open(os.path.join(DOCS, "a3-capture-contract.json")))
+    holdouts = holdout_report(rows, contract)
+    sloans_cell, holdout_cell = holdout_cells(holdouts)
+    colour_fit = fit(observations(Path(DOCS)))
+    colour_screen = {vid: screen(colour_fit, signals[vid], (g or {}).get("grader")) for vid, g, _, _ in rows}
     out = {
+        "holdouts": holdouts, "colourPreScreen": {"fit": colour_fit, "views": colour_screen},
         "run": meta, "views": {vid: {"grade": g, "signals": signals[vid]} for vid, g, _, _ in rows},
         "aggregate": {"lookGate": {"status": lg_status, "heroes": lg_detail, "missing": lg_missing}, "meanConceptParity": mean_parity, "paintoverParity": po_parity, "meanPaintoverParity": mean_po, "gate5BPasses": gate5b, "regionBuildingsGround": region_bg, "lookFixFailed": dict(lf_fail), "ordinaryParity": ordinary_parity, "milestones": milestones,
                       "meanV2Score50": mean50, "conceptParity": parity, "meanArtDirection": meanAD, "gatePasses": passes, "graded": len(scored),
@@ -253,6 +270,14 @@ def main():
           f"Regression guard: {'**' + str(len(flags)) + ' flag(s)**' if flags else 'no regressions'}"
           + (f" (+{len(variance)} on views whose frame did not change: grader variance)" if variance else "") + " ([regressions.md](regressions.md)).", "",
           lg_line, "", *lg_table, "",
+          "## Frozen hold-out scores (human calibration closeness)", "",
+          "| Sloan's score | hold-out score |", "|---|---|",
+          f"| {sloans_cell} | {holdout_cell} |", "",
+          f"Coverage: {holdouts['coverage']}. Missing evidence cannot prove a pass.", "",
+          "## Colour pre-screen — never a grade or gate", "",
+          *[f"- {grader}: {m['n']} samples; fit MAE {m['trainingMAE']:.3f}, RMSE {m['trainingRMSE']:.3f}; "
+            f"leave-view-out MAE {m['leaveViewOutMAE']}; {m['status']}." for grader, m in colour_fit['models'].items()],
+          "Per-view screen results and fit provenance are in grades.json. Human scores and gates are unchanged.", "",
           f"## Concept parity {fmt(mean_parity)}%  ·  old gate passes {passes}/{len(scored)}  ·  old end-of-5B gate {gate5b}/{len(scored)} (reported beside the look gate; no longer the gate)", "",
           f"Milestones: {milestones}. Ordinary-day parity {fmt(ordinary_parity)}%."
           + (f" Region buildings & ground (sil, hse, grd, AD grd; P2 target ≥ 3.5): **{region_bg}**." if region_bg is not None else ""), "",
@@ -283,7 +308,9 @@ def main():
         sc = lambda k, sect="scores": fmt(g[sect].get(k, {}).get("score")) if g else "?"
         tri = perf.get("triangles")
         gate = ("pass" if g["gatePass"] else ("fail (floors)" if not g.get("v2Floors") else "fail")) if g else "?"
-        gate += (" · 5B ✓" if g.get("gate5B") else " · 5B ✗") if g else ""
+        if g and g.get("v2Score50") is None:
+            gate = "not graded (legacy)"
+        gate += (" · 5B ✓" if g.get("gate5B") else " · 5B ✗") if g and not g.get("calibrationOnly") else ""
         md.append(f"| {vid}{' (reused)' if vid in reused else ''} | {f'**{parity[vid]}%**' if vid in parity else '–'} | {gate} | "
                   f"{fmt(g['v2Score50']) if g else '?'} | {fmt(g.get('adMean')) if g else '?'} | " + " | ".join(sc(k) for k in V2[:9]) + " | "
                   + " | ".join(sc(k, "artDirection") for k in AD)
@@ -321,7 +348,7 @@ def main():
     md += ["", "## Per-view summaries", ""]
     for vid, g, _, _ in rows:
         if g:
-            md.append(f"- **{vid}** ({g['v2Score50']}/50): {g.get('summary', '')}"
+            md.append(f"- **{vid}** ({fmt(g['v2Score50'])}/50): {g.get('summary', '')}"
                       + (f" Flags: {', '.join(g['hardGateFlags'])}." if g.get("hardGateFlags") else "")
                       + f" _vs previous: {g.get('vsPrevious', '-')}_")
     if placeholders:
@@ -359,15 +386,15 @@ def main():
                 "# Look-loop scoreboard\n\nOne row per full run (`Tools/lookloop/lookloop.sh run`), newest last. /50 is the mean v2 §8.3 "
                 "score normalised over scorable criteria; AD is the art-direction mean (ground richness, rain readability, regional "
                 "signature). Simulator frame time and triangles are for change tracking only, not device performance.\n\n"
-                "| Date | Engine | Branch | Views | Parity | Gate passes | Ordinary parity | Mean /50 | AD /5 | Worst view | Median tris | Median frame ms | Run min | Grader | Regressions |\n"
-                "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
+                "| Date | Engine | Branch | Views | Parity | Gate passes | Ordinary parity | Mean /50 | AD /5 | Worst view | Median tris | Median frame ms | Run min | Grader | Regressions | Sloan's score | hold-out score |\n"
+                "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n")
         tris = sorted(p.get("triangles") for _, _, p, _ in rows if p.get("triangles"))
         fms = sorted(p.get("frameMsMedian") for _, _, p, _ in rows if p.get("frameMsMedian"))
         open(board, "a").write(
             f"| {when} | `{meta.get('engineCommit', meta.get('commit', '-'))}`{'+dirty' if meta.get('dirtyEngineFiles') else ''} | {meta.get('branch', '-')} | {len(scored)}/{len(captured)}{f' ({len(reused & set(captured))} reused)' if reused & set(captured) else ''} | "
             f"**{fmt(mean_parity)}%** | {passes} (5B {gate5b}); look {lg_status.lower()} {lg_pass}/{len(lg_detail) + len(lg_missing)} | {fmt(ordinary_parity)}% | {fmt(mean50)} | {fmt(meanAD)} | "
             f"{f'{worst['view']} {worst.get('parity')}%' if worst else '–'} | {f'{tris[len(tris) // 2] // 1000}k' if tris else '–'} | "
-            f"{fms[len(fms) // 2] if fms else '–'} | {fmt(meta.get('minutes'))} | {', '.join(sorted({g.get('grader', '?') for vid, g in grades.items() if vid not in reused})) or 'all reused'}{' (gate)' if meta.get('gate') else ''} | {len(flags)} |\n")
+            f"{fms[len(fms) // 2] if fms else '–'} | {fmt(meta.get('minutes'))} | {', '.join(sorted({g.get('grader', '?') for vid, g in grades.items() if vid not in reused})) or 'all reused'}{' (gate)' if meta.get('gate') else ''} | {len(flags)} | {sloans_cell} | {holdout_cell} |\n")
         print(f"published {LATEST} and appended a scoreboard row")
     print(open(os.path.join(run, "regressions.md")).read())
     print(open(os.path.join(run, "summary.md")).read().split("\n## Criterion")[0])

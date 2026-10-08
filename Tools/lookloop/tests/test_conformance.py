@@ -39,10 +39,9 @@ def test_approved_packs():
 def test_exception_parsing():
     md = ("| Mock key | Engine value | Reason | R approval date | Status |\n|---|---|---|---|---|\n"
           "| `p/a.b` | 1 | r | 2026-10-07 | TEMPORARY, R approved 2026-10-07 |\n"
-          "| p/c | 1 | r | | proposed |\n")
+          "| p/c | 1 | r | | proposed |\n"
+          "| p/removed | 1 | r | 2026-10-07 | REMOVED 2026-10-07 |\n")
     assert cf.parse_exceptions(md) == {"p/a.b": "TEMPORARY, R approved 2026-10-07"}
-    real = cf.parse_exceptions(cf.EXCEPTIONS.read_text())
-    assert "rain-v1/wetPathDarkening" in real
 
 
 def test_daytime_master_precedence():

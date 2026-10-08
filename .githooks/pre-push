@@ -1,0 +1,5 @@
+#!/bin/sh
+# Invoked by Git only on push. No scheduler or merge action.
+set -eu
+repo=$(git rev-parse --show-toplevel)
+exec python3 "$repo/scripts/push_guard.py" "$@"

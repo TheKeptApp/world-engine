@@ -1,0 +1,110 @@
+{
+  "kind": "SCREEN ONLY \u2014 never a grade or gate",
+  "feature": "RGB mean distance to first approved mock",
+  "models": {
+    "A3-Codex": {
+      "n": 4,
+      "intercept": 3.0,
+      "slope": 0.0,
+      "trainingMAE": 0.0,
+      "trainingRMSE": 0.0,
+      "leaveViewOutMAE": 0.0,
+      "status": "INSUFFICIENT VARIATION \u2014 no predictive screening",
+      "informative": false,
+      "featureRange": [
+        10.36580918211405,
+        13.479985163196583
+      ],
+      "scoreRange": [
+        3,
+        3
+      ],
+      "sources": [
+        {
+          "run": "20261007-225009",
+          "view": "ordinary-street-afternoon",
+          "grader": "A3-Codex",
+          "x": 12.113628688382354,
+          "y": 3,
+          "source": "a3-baseline/ordinary-street-afternoon.json"
+        },
+        {
+          "run": "20261007-225009",
+          "view": "wilmette-street-afternoon",
+          "grader": "A3-Codex",
+          "x": 12.701968351401279,
+          "y": 3,
+          "source": "a3-baseline/wilmette-street-afternoon.json"
+        },
+        {
+          "run": "20261007-225009",
+          "view": "lakeview-postcard-afternoon",
+          "grader": "A3-Codex",
+          "x": 10.36580918211405,
+          "y": 3,
+          "source": "a3-baseline/lakeview-postcard-afternoon.json"
+        },
+        {
+          "run": "20261007-225009",
+          "view": "lakeview-street-afternoon",
+          "grader": "A3-Codex",
+          "x": 13.479985163196583,
+          "y": 3,
+          "source": "a3-baseline/lakeview-street-afternoon.json"
+        }
+      ]
+    },
+    "claude-sonnet-5-5": {
+      "n": 4,
+      "intercept": 3.0,
+      "slope": 0.0,
+      "trainingMAE": 0.0,
+      "trainingRMSE": 0.0,
+      "leaveViewOutMAE": 0.0,
+      "status": "INSUFFICIENT VARIATION \u2014 no predictive screening",
+      "informative": false,
+      "featureRange": [
+        6.607571414672721,
+        15.331666576077103
+      ],
+      "scoreRange": [
+        3,
+        3
+      ],
+      "sources": [
+        {
+          "run": "20261007-205309",
+          "view": "ordinary-street-afternoon",
+          "grader": "claude-sonnet-5-5",
+          "x": 10.86876257906115,
+          "y": 3,
+          "source": "latest/grades.json"
+        },
+        {
+          "run": "20261007-205309",
+          "view": "wilmette-street-afternoon",
+          "grader": "claude-sonnet-5-5",
+          "x": 15.331666576077103,
+          "y": 3,
+          "source": "latest/grades.json"
+        },
+        {
+          "run": "20261007-205309",
+          "view": "lakeview-postcard-afternoon",
+          "grader": "claude-sonnet-5-5",
+          "x": 6.607571414672721,
+          "y": 3,
+          "source": "latest/grades.json"
+        },
+        {
+          "run": "20261007-205309",
+          "view": "lakeview-street-afternoon",
+          "grader": "claude-sonnet-5-5",
+          "x": 8.883692925805116,
+          "y": 3,
+          "source": "latest/grades.json"
+        }
+      ]
+    }
+  }
+}
