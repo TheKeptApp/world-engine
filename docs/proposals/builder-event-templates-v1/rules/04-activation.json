@@ -1,0 +1,400 @@
+{
+  "id": "04-activation",
+  "name": "Experiential activation",
+  "hero_G": 100,
+  "primary_net_m2_per_guest": 1.5,
+  "duration_h": 4,
+  "module_guest_target": 100,
+  "primary_part": "pavilion",
+  "modules_label": "pavilion clusters",
+  "unit_label": "demo/queue clusters",
+  "areas": [
+    "pavilion",
+    "demo tents",
+    "queue",
+    "shade",
+    "accessible bypass",
+    "staff/restock",
+    "toilets",
+    "power"
+  ],
+  "required": [
+    "generic pavilion",
+    "two demo tents per cluster",
+    "accessible equivalent demo counters",
+    "holding queue with bypass and wheelchair turns",
+    "staff/restock area",
+    "water/shade/toilets/public handwash",
+    "power/load list",
+    "privacy and visitor-flow plan"
+  ],
+  "rules": [
+    "Peak G is concurrent visitors; daily visitors do not size holding areas without dwell/arrival model.",
+    "Pavilion/demo capacity derives from actual exhibit furniture and clear exits, not external roof footprint.",
+    "Queue turns target1.8m and lanes1.5m; all public areas connect via firm paths; ropes/ballast stay out of route.",
+    "Keep staff replenishment movement outside guest queue; no hidden delivery through accessible entry.",
+    "Brand palette consists only of generic material colours, never a copied real company\u2019s identity/trade dress.",
+    "At500/2000/10000 use multiple independent pavilion clusters and schedule arrivals; do not make a single endless switchback."
+  ],
+  "adjacency": [
+    "queue\u2192demo with same-service accessible path",
+    "staff/restock\u2192rear service",
+    "shade\u2192waiting without blocking bypass",
+    "exit\u2192open plaza circulation"
+  ],
+  "special": {
+    "pavilions_formula": "ceil(G/100)",
+    "demo_tents_formula": "2*ceil(G/100)",
+    "staff_tents_formula": "ceil(G/100)",
+    "screening_service_rate_people_min": 4
+  },
+  "zones": [
+    {
+      "id": "pavilion",
+      "center_xz_m": [
+        0,
+        10
+      ],
+      "dimensions_xz_m": [
+        8,
+        8
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "demo1",
+      "center_xz_m": [
+        -12,
+        8
+      ],
+      "dimensions_xz_m": [
+        4,
+        4
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "demo2",
+      "center_xz_m": [
+        -12,
+        18
+      ],
+      "dimensions_xz_m": [
+        4,
+        4
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "queue",
+      "center_xz_m": [
+        0,
+        -3
+      ],
+      "dimensions_xz_m": [
+        10,
+        12
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "shade",
+      "center_xz_m": [
+        14,
+        -2
+      ],
+      "dimensions_xz_m": [
+        6,
+        6
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "staff",
+      "center_xz_m": [
+        0,
+        26
+      ],
+      "dimensions_xz_m": [
+        4,
+        4
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "toilets",
+      "center_xz_m": [
+        22,
+        18
+      ],
+      "dimensions_xz_m": [
+        8,
+        5
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    },
+    {
+      "id": "power",
+      "center_xz_m": [
+        -25,
+        30
+      ],
+      "dimensions_xz_m": [
+        6,
+        6
+      ],
+      "status": "assumption; hero case conceptual arrangement"
+    }
+  ],
+  "part_parameter_overrides": {},
+  "schema": "worldengine.builder-event-template.v1",
+  "status": "proposal",
+  "shared_rules_ref": "../common-rules.json",
+  "visual_ref": "../visual-values.json",
+  "part_library_ref": "../parametric-parts.json",
+  "values_status": "All dimensions/ratios/quantities/orientation in this segment are assumptions unless the shared rule supplies a scoped verified_reference",
+  "cases": [
+    {
+      "G": 100,
+      "example_staff_S": 10,
+      "example_peak_N": 110,
+      "N_status": "assumption until staffing/crew and actual concurrent occupancy entered",
+      "code_design_occupant_load": null,
+      "zones_count": 1,
+      "crowd_primary_usable_m2_target": 150,
+      "area_status": "assumption; excludes service/queue/egress and does not set code occupant load",
+      "indicative_site_area_m2": 424,
+      "site_area_status": "rough land-search allowance only; physical layout/anchors/stages/tailgate/exit dispersal require actual area calculation",
+      "toilets_total_T": 2,
+      "accessible_toilets_included": 1,
+      "restroom_banks_B": 1,
+      "public_handwash_total_H": 1,
+      "accessible_public_handwash_included": 1,
+      "additional_food_handwash": "one per cooking/catering operation provisional; health authority determines quantity",
+      "water_points": 1,
+      "medical_spatial_points": 1,
+      "medical_staffing": null,
+      "queue_lanes": 1,
+      "queue_holding_people": 15,
+      "queue_usable_m2_target": 15,
+      "provisional_site_exit_gates": 2,
+      "each_gate_target_clear_m": 3.0,
+      "aggregate_target_clear_m": 6.0,
+      "remaining_target_after_largest_gate_loss_m": 3.0,
+      "declared_population_width_reference_m": 0.5588,
+      "egress_status": "NEEDS AUTHORITY REVIEW: based on declared N, not code design load; distribution/travel/downstream/clearance time unverified",
+      "wheelchair_spaces_planning_target": 2,
+      "wheelchair_status": "proposal; fixed-seat ADA table used as inclusion reference for seated cases, scope and integrated layouts need review; standing2% is an assumption",
+      "chairs_counts": "regular chairs + wheelchair spaces =G in primary seated cases; companion chairs are included in regular chair count",
+      "running_power_example_kW": 5.9,
+      "provisional_running_kVA_with_allowance": 9.22,
+      "power_status": "illustrative listed-part loads only; food refrigeration/cooking/large audio/etc not supplied; no equipment selection approval",
+      "required_part_quantities": {
+        "wc-standard": 1,
+        "wc-accessible": 1,
+        "handwash": 1,
+        "water-point": 1,
+        "medical-point": 1,
+        "shade-bay": 1,
+        "registration": 1,
+        "waste-point": 2,
+        "exit-gate": 2,
+        "power-compound": 1,
+        "emergency-light": 2,
+        "route-mat": "measured route length required",
+        "safe-refuge": "confirmed capacity >=N required",
+        "pavilion": 1,
+        "service-tent": 3,
+        "queue-bay": 1,
+        "av-package": 1
+      },
+      "rain_covered_capacity": "each covered layout separately checked; do not imply enough roofs from counts",
+      "lightning_refuge_capacity_required_N": 110,
+      "lightning_refuge_verified_capacity": null,
+      "topology": "Small event with distributed routes/services",
+      "review_status": "proposal"
+    },
+    {
+      "G": 500,
+      "example_staff_S": 50,
+      "example_peak_N": 550,
+      "N_status": "assumption until staffing/crew and actual concurrent occupancy entered",
+      "code_design_occupant_load": null,
+      "zones_count": 5,
+      "crowd_primary_usable_m2_target": 750,
+      "area_status": "assumption; excludes service/queue/egress and does not set code occupant load",
+      "indicative_site_area_m2": 1787,
+      "site_area_status": "rough land-search allowance only; physical layout/anchors/stages/tailgate/exit dispersal require actual area calculation",
+      "toilets_total_T": 8,
+      "accessible_toilets_included": 1,
+      "restroom_banks_B": 1,
+      "public_handwash_total_H": 2,
+      "accessible_public_handwash_included": 1,
+      "additional_food_handwash": "one per cooking/catering operation provisional; health authority determines quantity",
+      "water_points": 3,
+      "medical_spatial_points": 1,
+      "medical_staffing": null,
+      "queue_lanes": 2,
+      "queue_holding_people": 75,
+      "queue_usable_m2_target": 75,
+      "provisional_site_exit_gates": 4,
+      "each_gate_target_clear_m": 3.0,
+      "aggregate_target_clear_m": 12.0,
+      "remaining_target_after_largest_gate_loss_m": 9.0,
+      "declared_population_width_reference_m": 2.794,
+      "egress_status": "NEEDS AUTHORITY REVIEW: based on declared N, not code design load; distribution/travel/downstream/clearance time unverified",
+      "wheelchair_spaces_planning_target": 10,
+      "wheelchair_status": "proposal; fixed-seat ADA table used as inclusion reference for seated cases, scope and integrated layouts need review; standing2% is an assumption",
+      "chairs_counts": "regular chairs + wheelchair spaces =G in primary seated cases; companion chairs are included in regular chair count",
+      "running_power_example_kW": 28.4,
+      "provisional_running_kVA_with_allowance": 44.38,
+      "power_status": "illustrative listed-part loads only; food refrigeration/cooking/large audio/etc not supplied; no equipment selection approval",
+      "required_part_quantities": {
+        "wc-standard": 7,
+        "wc-accessible": 1,
+        "handwash": 2,
+        "water-point": 3,
+        "medical-point": 1,
+        "shade-bay": 3,
+        "registration": 2,
+        "waste-point": 3,
+        "exit-gate": 4,
+        "power-compound": 1,
+        "emergency-light": 4,
+        "route-mat": "measured route length required",
+        "safe-refuge": "confirmed capacity >=N required",
+        "pavilion": 5,
+        "service-tent": 15,
+        "queue-bay": 5,
+        "av-package": 5
+      },
+      "rain_covered_capacity": "each covered layout separately checked; do not imply enough roofs from counts",
+      "lightning_refuge_capacity_required_N": 550,
+      "lightning_refuge_verified_capacity": null,
+      "topology": "Small event with distributed routes/services",
+      "review_status": "proposal"
+    },
+    {
+      "G": 2000,
+      "example_staff_S": 200,
+      "example_peak_N": 2200,
+      "N_status": "assumption until staffing/crew and actual concurrent occupancy entered",
+      "code_design_occupant_load": null,
+      "zones_count": 20,
+      "crowd_primary_usable_m2_target": 3000,
+      "area_status": "assumption; excludes service/queue/egress and does not set code occupant load",
+      "indicative_site_area_m2": 7133,
+      "site_area_status": "rough land-search allowance only; physical layout/anchors/stages/tailgate/exit dispersal require actual area calculation",
+      "toilets_total_T": 30,
+      "accessible_toilets_included": 3,
+      "restroom_banks_B": 3,
+      "public_handwash_total_H": 8,
+      "accessible_public_handwash_included": 3,
+      "additional_food_handwash": "one per cooking/catering operation provisional; health authority determines quantity",
+      "water_points": 9,
+      "medical_spatial_points": 3,
+      "medical_staffing": null,
+      "queue_lanes": 6,
+      "queue_holding_people": 300,
+      "queue_usable_m2_target": 300,
+      "provisional_site_exit_gates": 6,
+      "each_gate_target_clear_m": 3.0,
+      "aggregate_target_clear_m": 18.0,
+      "remaining_target_after_largest_gate_loss_m": 15.0,
+      "declared_population_width_reference_m": 11.176,
+      "egress_status": "NEEDS AUTHORITY REVIEW: based on declared N, not code design load; distribution/travel/downstream/clearance time unverified",
+      "wheelchair_spaces_planning_target": 40,
+      "wheelchair_status": "proposal; fixed-seat ADA table used as inclusion reference for seated cases, scope and integrated layouts need review; standing2% is an assumption",
+      "chairs_counts": "regular chairs + wheelchair spaces =G in primary seated cases; companion chairs are included in regular chair count",
+      "running_power_example_kW": 113.2,
+      "provisional_running_kVA_with_allowance": 176.88,
+      "power_status": "illustrative listed-part loads only; food refrigeration/cooking/large audio/etc not supplied; no equipment selection approval",
+      "required_part_quantities": {
+        "wc-standard": 27,
+        "wc-accessible": 3,
+        "handwash": 8,
+        "water-point": 9,
+        "medical-point": 3,
+        "shade-bay": 9,
+        "registration": 6,
+        "waste-point": 9,
+        "exit-gate": 6,
+        "power-compound": 4,
+        "emergency-light": 6,
+        "route-mat": "measured route length required",
+        "safe-refuge": "confirmed capacity >=N required",
+        "pavilion": 20,
+        "service-tent": 60,
+        "queue-bay": 20,
+        "av-package": 20
+      },
+      "rain_covered_capacity": "each covered layout separately checked; do not imply enough roofs from counts",
+      "lightning_refuge_capacity_required_N": 2200,
+      "lightning_refuge_verified_capacity": null,
+      "topology": "Multiple independently serviced districts; no single giant tent or queue",
+      "review_status": "proposal"
+    },
+    {
+      "G": 10000,
+      "example_staff_S": 1000,
+      "example_peak_N": 11000,
+      "N_status": "assumption until staffing/crew and actual concurrent occupancy entered",
+      "code_design_occupant_load": null,
+      "zones_count": 100,
+      "crowd_primary_usable_m2_target": 15000,
+      "area_status": "assumption; excludes service/queue/egress and does not set code occupant load",
+      "indicative_site_area_m2": 35634,
+      "site_area_status": "rough land-search allowance only; physical layout/anchors/stages/tailgate/exit dispersal require actual area calculation",
+      "toilets_total_T": 147,
+      "accessible_toilets_included": 15,
+      "restroom_banks_B": 13,
+      "public_handwash_total_H": 37,
+      "accessible_public_handwash_included": 13,
+      "additional_food_handwash": "one per cooking/catering operation provisional; health authority determines quantity",
+      "water_points": 44,
+      "medical_spatial_points": 11,
+      "medical_staffing": null,
+      "queue_lanes": 27,
+      "queue_holding_people": 1500,
+      "queue_usable_m2_target": 1500,
+      "provisional_site_exit_gates": 12,
+      "each_gate_target_clear_m": 5.25,
+      "aggregate_target_clear_m": 63.0,
+      "remaining_target_after_largest_gate_loss_m": 57.75,
+      "declared_population_width_reference_m": 55.88,
+      "egress_status": "NEEDS AUTHORITY REVIEW: based on declared N, not code design load; distribution/travel/downstream/clearance time unverified",
+      "wheelchair_spaces_planning_target": 200,
+      "wheelchair_status": "proposal; fixed-seat ADA table used as inclusion reference for seated cases, scope and integrated layouts need review; standing2% is an assumption",
+      "chairs_counts": "regular chairs + wheelchair spaces =G in primary seated cases; companion chairs are included in regular chair count",
+      "running_power_example_kW": 564.9,
+      "provisional_running_kVA_with_allowance": 882.66,
+      "power_status": "illustrative listed-part loads only; food refrigeration/cooking/large audio/etc not supplied; no equipment selection approval",
+      "required_part_quantities": {
+        "wc-standard": 132,
+        "wc-accessible": 15,
+        "handwash": 37,
+        "water-point": 44,
+        "medical-point": 11,
+        "shade-bay": 44,
+        "registration": 27,
+        "waste-point": 44,
+        "exit-gate": 12,
+        "power-compound": 20,
+        "emergency-light": 12,
+        "route-mat": "measured route length required",
+        "safe-refuge": "confirmed capacity >=N required",
+        "pavilion": 100,
+        "service-tent": 300,
+        "queue-bay": 100,
+        "av-package": 100
+      },
+      "rain_covered_capacity": "each covered layout separately checked; do not imply enough roofs from counts",
+      "lightning_refuge_capacity_required_N": 11000,
+      "lightning_refuge_verified_capacity": null,
+      "topology": "Multiple independently serviced districts; no single giant tent or queue",
+      "review_status": "proposal"
+    }
+  ],
+  "mock_geometry_status": "illustrative scene pair; not a render of these coordinates, not metre-exact; geometry phase mock uses listed zones but not full object/BOM placement",
+  "coordinate_units": "metres; X east/Z north"
+}

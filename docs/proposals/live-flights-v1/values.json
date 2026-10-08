@@ -1,0 +1,238 @@
+{
+  "schema": "worldengine.live-flights.proposal.v1",
+  "date": "2026-10-07",
+  "status": "Authoring assumptions; not implementation, provider SLA or telemetry",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "aircraftPalette": {
+    "fuselage": "#F1EFE7",
+    "wings": "#C8CBCD",
+    "glass": "#364B59",
+    "tyres": "#30363B",
+    "airlineMarks": false,
+    "tailNumberPaint": false
+  },
+  "freshnessSeconds": {
+    "airborneExtrapolateMax": 10,
+    "airborneStale": 30,
+    "airborneHide": 120,
+    "groundExtrapolateMax": 2,
+    "groundStale": 10,
+    "groundHide": 30
+  },
+  "tiers": [
+    {
+      "projectedLongestPx": [
+        64,
+        null
+      ],
+      "triangleCap": 4000
+    },
+    {
+      "projectedLongestPx": [
+        16,
+        64
+      ],
+      "triangleCap": 800
+    },
+    {
+      "projectedLongestPx": [
+        4,
+        16
+      ],
+      "triangleCap": 120
+    },
+    {
+      "projectedLongestPx": [
+        0,
+        4
+      ],
+      "cull": true
+    }
+  ],
+  "sceneAircraftTriangleTarget": 12000,
+  "sceneAircraftDrawTarget": 8,
+  "groundPoseOrigin": "nose-wheel stop; model-specific centre offset",
+  "coordinateFrame": "local ENU metres; heading degrees clockwise from north",
+  "modelMapStatus": "Representative class dimensions in research.md are assumptions; use licensed actual dimensions for true scale",
+  "proposedRecordFields": [
+    "ephemeralInstanceId",
+    "providerFlightInstanceId (server only unless licensed)",
+    "observedAtUTC",
+    "receivedAtUTC",
+    "sourceKind:observed|estimated|simulated",
+    "latitudeDeg",
+    "longitudeDeg",
+    "altitudeM",
+    "altitudeReference",
+    "groundTrackDeg",
+    "headingDeg if available",
+    "speedMps",
+    "onGround if known",
+    "aircraftClass",
+    "dimensionSource",
+    "privacyEligible",
+    "airportIcao",
+    "terminalNamespace",
+    "rawGateRef",
+    "standId",
+    "gateEvidenceTimestamp",
+    "occupancyEvidence:inBlock|stationarySurface|planned|unknown",
+    "geometryVersion",
+    "confidence",
+    "licenseScope"
+  ],
+  "privacy": {
+    "suppressBlockedBeforeFanout": true,
+    "suppressPIA": true,
+    "ownerLookup": false,
+    "defaultTailDisplay": false
+  },
+  "gates": {
+    "scheduledGateIsOccupancy": false,
+    "passengerGateIsStandPose": false,
+    "unknownStandPolicy": "no parked aircraft asserted",
+    "observedTaxiRequiredForLiveTaxi": true
+  },
+  "cameraTargets": {
+    "approach": {
+      "eyeM": 8,
+      "verticalFovDeg": 48
+    },
+    "taxi": {
+      "eyeM": 18,
+      "verticalFovDeg": 42
+    },
+    "apron": {
+      "eyeM": 25,
+      "verticalFovDeg": 42
+    },
+    "status": "Concept targets, not measured generated camera matrices"
+  }
+}

@@ -1,0 +1,1378 @@
+{
+  "schema": "worldengine.regional-style-b.nl.v1",
+  "checked": "2026-10-07",
+  "status": "design proposal; approval pending",
+  "drivingSide": "RIGHT",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "inherits": "../style-b-calibration-v2/values.json",
+  "units": "metres unless stated",
+  "dimensionStatus": "UNVERIFIED authored visual fallback ranges, not measured or engineering standards",
+  "archetypes": [
+    {
+      "id": "canal-house",
+      "storeys": [
+        3,
+        5
+      ],
+      "frontageWidth_m": [
+        4,
+        8
+      ],
+      "gableTypes": [
+        "neck",
+        "bell",
+        "stepped"
+      ],
+      "brickColours": [
+        "#765043",
+        "#935C4A",
+        "#573E38"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        4,
+        8
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "gabled-row",
+      "storeys": [
+        2,
+        3
+      ],
+      "frontageWidth_m": [
+        4.5,
+        7
+      ],
+      "gableTypes": [
+        "stepped",
+        "triangular"
+      ],
+      "brickColours": [
+        "#8B5343",
+        "#A66A50"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        4.5,
+        7
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "1930s-brick-block",
+      "storeys": [
+        3,
+        5
+      ],
+      "frontageWidth_m": [
+        5,
+        9
+      ],
+      "gableTypes": [
+        "hipped",
+        "triangular"
+      ],
+      "brickColours": [
+        "#804A3C",
+        "#9D6047"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        5,
+        9
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "post-war-flats",
+      "storeys": [
+        4,
+        10
+      ],
+      "frontageWidth_m": [
+        20,
+        70
+      ],
+      "gableTypes": [
+        "flat"
+      ],
+      "brickColours": [
+        "#BBA58A",
+        "#C7C3B5"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        20,
+        70
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "modern-rotterdam-tower",
+      "storeys": [
+        15,
+        40
+      ],
+      "frontageWidth_m": [
+        20,
+        45
+      ],
+      "gableTypes": [
+        "flat"
+      ],
+      "brickColours": [
+        "#A6AAAB",
+        "#73828C"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        20,
+        45
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "vinex-row-house",
+      "storeys": [
+        2,
+        3
+      ],
+      "frontageWidth_m": [
+        5,
+        7
+      ],
+      "gableTypes": [
+        "triangular",
+        "flat",
+        "mono-pitch"
+      ],
+      "brickColours": [
+        "#915844",
+        "#B47F58"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "building frontage, not necessarily legal parcel width",
+      "lotWidth_m": [
+        5,
+        7
+      ],
+      "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry"
+    },
+    {
+      "id": "houseboat",
+      "storeys": [
+        1,
+        2
+      ],
+      "frontageWidth_m": [
+        4,
+        7
+      ],
+      "gableTypes": [
+        "flat",
+        "shallow-pitch"
+      ],
+      "brickColours": [
+        "#C9C7BA",
+        "#655B4C"
+      ],
+      "measurementStatus": "UNVERIFIED",
+      "frontageMeaning": "hull width",
+      "lotWidth_m": null,
+      "lotWidthStatus": "not applicable: use mooring and hull footprint"
+    }
+  ],
+  "cities": [
+    {
+      "id": "amsterdam",
+      "name": "Amsterdam",
+      "districts": [
+        "Canal ring",
+        "Jordaan",
+        "Oost",
+        "Zuid"
+      ],
+      "treeMixStatus": "UNVERIFIED illustrative allocation",
+      "archetypeStudyLabels": [
+        "canal house",
+        "gabled worker row",
+        "1930s brick apartment block",
+        "post-war slab flats",
+        "modern urban mid-rise",
+        "contemporary row house",
+        "houseboat"
+      ],
+      "archetypeVariants": [
+        {
+          "id": "amsterdam-01",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            4,
+            8
+          ],
+          "gableTypes": [
+            "neck",
+            "bell",
+            "stepped"
+          ],
+          "brickColours": [
+            "#765043",
+            "#935C4A",
+            "#573E38"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "canal house",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-02",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            4.5,
+            7
+          ],
+          "gableTypes": [
+            "stepped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#8B5343",
+            "#A66A50"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4.5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "gabled worker row",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-03",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            5,
+            9
+          ],
+          "gableTypes": [
+            "hipped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#804A3C",
+            "#9D6047"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            9
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "1930s brick apartment block",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-04",
+          "storeys": [
+            4,
+            10
+          ],
+          "frontageWidth_m": [
+            20,
+            70
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#BBA58A",
+            "#C7C3B5"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            20,
+            70
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "post-war slab flats",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-05",
+          "storeys": [
+            4,
+            8
+          ],
+          "frontageWidth_m": [
+            12,
+            35
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#A6AAAB",
+            "#73828C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            15,
+            50
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "modern urban mid-rise",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-06",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            7
+          ],
+          "gableTypes": [
+            "triangular",
+            "flat",
+            "mono-pitch"
+          ],
+          "brickColours": [
+            "#915844",
+            "#B47F58"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "contemporary row house",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "amsterdam-07",
+          "storeys": [
+            1,
+            2
+          ],
+          "frontageWidth_m": [
+            4,
+            7
+          ],
+          "gableTypes": [
+            "flat",
+            "shallow-pitch"
+          ],
+          "brickColours": [
+            "#C9C7BA",
+            "#655B4C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "hull width",
+          "lotWidth_m": null,
+          "lotWidthStatus": "not applicable: use mooring and hull footprint",
+          "studyLabel": "houseboat",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        }
+      ]
+    },
+    {
+      "id": "rotterdam",
+      "name": "Rotterdam",
+      "districts": [
+        "Modern centre",
+        "Kralingen",
+        "West residential",
+        "Riverfront"
+      ],
+      "treeMixStatus": "UNVERIFIED illustrative allocation",
+      "archetypeStudyLabels": [
+        "historic narrow canal house retained pocket",
+        "gabled brick row",
+        "1930s Kralingen block",
+        "post-war slab flats",
+        "modern Rotterdam tower",
+        "contemporary row house",
+        "houseboat"
+      ],
+      "archetypeVariants": [
+        {
+          "id": "rotterdam-01",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            4,
+            8
+          ],
+          "gableTypes": [
+            "neck",
+            "bell",
+            "stepped"
+          ],
+          "brickColours": [
+            "#765043",
+            "#935C4A",
+            "#573E38"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "historic narrow canal house retained pocket",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-02",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            4.5,
+            7
+          ],
+          "gableTypes": [
+            "stepped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#8B5343",
+            "#A66A50"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4.5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "gabled brick row",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-03",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            5,
+            9
+          ],
+          "gableTypes": [
+            "hipped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#804A3C",
+            "#9D6047"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            9
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "1930s Kralingen block",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-04",
+          "storeys": [
+            4,
+            10
+          ],
+          "frontageWidth_m": [
+            20,
+            70
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#BBA58A",
+            "#C7C3B5"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            20,
+            70
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "post-war slab flats",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-05",
+          "storeys": [
+            15,
+            40
+          ],
+          "frontageWidth_m": [
+            20,
+            45
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#A6AAAB",
+            "#73828C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            20,
+            45
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "modern Rotterdam tower",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-06",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            7
+          ],
+          "gableTypes": [
+            "triangular",
+            "flat",
+            "mono-pitch"
+          ],
+          "brickColours": [
+            "#915844",
+            "#B47F58"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "contemporary row house",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "rotterdam-07",
+          "storeys": [
+            1,
+            2
+          ],
+          "frontageWidth_m": [
+            4,
+            7
+          ],
+          "gableTypes": [
+            "flat",
+            "shallow-pitch"
+          ],
+          "brickColours": [
+            "#C9C7BA",
+            "#655B4C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "hull width",
+          "lotWidth_m": null,
+          "lotWidthStatus": "not applicable: use mooring and hull footprint",
+          "studyLabel": "houseboat",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        }
+      ]
+    },
+    {
+      "id": "utrecht",
+      "name": "Utrecht",
+      "districts": [
+        "Old centre / Oudegracht",
+        "Old centre lanes",
+        "Eastern 1930s edge",
+        "Station quarter"
+      ],
+      "treeMixStatus": "UNVERIFIED illustrative allocation",
+      "archetypeStudyLabels": [
+        "old-centre canal house with lower wharf",
+        "gabled brick row",
+        "1930s brick block",
+        "post-war slab flats",
+        "modern apartment block",
+        "contemporary row house",
+        "houseboat"
+      ],
+      "archetypeVariants": [
+        {
+          "id": "utrecht-01",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            4,
+            8
+          ],
+          "gableTypes": [
+            "neck",
+            "bell",
+            "stepped"
+          ],
+          "brickColours": [
+            "#765043",
+            "#935C4A",
+            "#573E38"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "old-centre canal house with lower wharf",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-02",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            4.5,
+            7
+          ],
+          "gableTypes": [
+            "stepped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#8B5343",
+            "#A66A50"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            4.5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "gabled brick row",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-03",
+          "storeys": [
+            3,
+            5
+          ],
+          "frontageWidth_m": [
+            5,
+            9
+          ],
+          "gableTypes": [
+            "hipped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#804A3C",
+            "#9D6047"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            9
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "1930s brick block",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-04",
+          "storeys": [
+            4,
+            10
+          ],
+          "frontageWidth_m": [
+            20,
+            70
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#BBA58A",
+            "#C7C3B5"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            20,
+            70
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "post-war slab flats",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-05",
+          "storeys": [
+            4,
+            8
+          ],
+          "frontageWidth_m": [
+            12,
+            35
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#A6AAAB",
+            "#73828C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            15,
+            50
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "modern apartment block",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-06",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            7
+          ],
+          "gableTypes": [
+            "triangular",
+            "flat",
+            "mono-pitch"
+          ],
+          "brickColours": [
+            "#915844",
+            "#B47F58"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            7
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "contemporary row house",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "utrecht-07",
+          "storeys": [
+            1,
+            2
+          ],
+          "frontageWidth_m": [
+            4,
+            7
+          ],
+          "gableTypes": [
+            "flat",
+            "shallow-pitch"
+          ],
+          "brickColours": [
+            "#C9C7BA",
+            "#655B4C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "hull width",
+          "lotWidth_m": null,
+          "lotWidthStatus": "not applicable: use mooring and hull footprint",
+          "studyLabel": "houseboat",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        }
+      ]
+    },
+    {
+      "id": "leidsche-rijn",
+      "name": "Leidsche Rijn \u2014 Vinex",
+      "districts": [
+        "Terwijde",
+        "Langerak",
+        "Parkwijk",
+        "Leidsche Rijn Centre"
+      ],
+      "treeMixStatus": "UNVERIFIED illustrative allocation",
+      "archetypeStudyLabels": [
+        "waterside contemporary townhouse",
+        "gabled Vinex row",
+        "1930s-inspired contemporary brick row",
+        "post-war-era regional reference flats",
+        "modern Vinex apartment block",
+        "Vinex row house",
+        "contemporary houseboat regional reference"
+      ],
+      "archetypeVariants": [
+        {
+          "id": "leidsche-rijn-01",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            8
+          ],
+          "gableTypes": [
+            "flat",
+            "mono-pitch"
+          ],
+          "brickColours": [
+            "#765043",
+            "#935C4A",
+            "#573E38"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "waterside contemporary townhouse",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-02",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            8
+          ],
+          "gableTypes": [
+            "stepped",
+            "triangular"
+          ],
+          "brickColours": [
+            "#8B5343",
+            "#A66A50"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "gabled Vinex row",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-03",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            8
+          ],
+          "gableTypes": [
+            "triangular",
+            "hipped"
+          ],
+          "brickColours": [
+            "#804A3C",
+            "#9D6047"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "1930s-inspired contemporary brick row",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-04",
+          "storeys": [
+            4,
+            10
+          ],
+          "frontageWidth_m": [
+            20,
+            70
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#BBA58A",
+            "#C7C3B5"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            20,
+            70
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "post-war-era regional reference flats",
+          "referenceStatus": "regional reference, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-05",
+          "storeys": [
+            4,
+            8
+          ],
+          "frontageWidth_m": [
+            12,
+            35
+          ],
+          "gableTypes": [
+            "flat"
+          ],
+          "brickColours": [
+            "#A6AAAB",
+            "#73828C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            15,
+            50
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "modern Vinex apartment block",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-06",
+          "storeys": [
+            2,
+            3
+          ],
+          "frontageWidth_m": [
+            5,
+            8
+          ],
+          "gableTypes": [
+            "triangular",
+            "flat",
+            "mono-pitch"
+          ],
+          "brickColours": [
+            "#915844",
+            "#B47F58"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "building frontage, not necessarily legal parcel width",
+          "lotWidth_m": [
+            5,
+            8
+          ],
+          "lotWidthStatus": "UNVERIFIED assumed frontage-based parcel range; replace from cadastral geometry",
+          "studyLabel": "Vinex row house",
+          "referenceStatus": "district-inspired concept, not verified local instance"
+        },
+        {
+          "id": "leidsche-rijn-07",
+          "storeys": [
+            1,
+            2
+          ],
+          "frontageWidth_m": [
+            4,
+            7
+          ],
+          "gableTypes": [
+            "flat",
+            "shallow-pitch"
+          ],
+          "brickColours": [
+            "#C9C7BA",
+            "#655B4C"
+          ],
+          "measurementStatus": "UNVERIFIED",
+          "frontageMeaning": "hull width",
+          "lotWidth_m": null,
+          "lotWidthStatus": "not applicable: use mooring and hull footprint",
+          "studyLabel": "contemporary houseboat regional reference",
+          "referenceStatus": "regional reference, not verified local instance"
+        }
+      ]
+    }
+  ],
+  "canals": {
+    "width_m": {
+      "amsterdam": [
+        20,
+        40
+      ],
+      "jordaan": [
+        10,
+        25
+      ],
+      "utrecht": [
+        12,
+        25
+      ],
+      "rotterdam": [
+        10,
+        30
+      ],
+      "vinex": [
+        6,
+        20
+      ]
+    },
+    "water": "#617E86",
+    "utrechtWharf": "two levels: lower wharf and upper street; preserve independent elevations",
+    "status": "UNVERIFIED approximate design ranges"
+  },
+  "bridges": [
+    {
+      "type": "arched",
+      "deckWidth_m": [
+        3,
+        8
+      ]
+    },
+    {
+      "type": "bascule",
+      "deckWidth_m": [
+        5,
+        12
+      ]
+    }
+  ],
+  "streetWidths_m": {
+    "residentialTwoWay": [
+      4.8,
+      6
+    ],
+    "canalOneWay": [
+      3,
+      4
+    ],
+    "collector": [
+      6,
+      7
+    ],
+    "arterialLane": [
+      3,
+      3.25
+    ],
+    "sidewalk": [
+      1.5,
+      3
+    ],
+    "bikeLane": [
+      1.7,
+      2.2
+    ],
+    "oneWayCycleTrack": [
+      2,
+      2.5
+    ],
+    "twoWayCycleTrack": [
+      3,
+      4
+    ],
+    "separator": [
+      0.3,
+      1
+    ],
+    "parking": [
+      1.8,
+      2.2
+    ],
+    "curbHeight": [
+      0.08,
+      0.15
+    ]
+  },
+  "cycleSurface": "#A66150",
+  "signals": {
+    "reference": "../road-signs-signals-v1/netherlands.html",
+    "values": "../road-signs-signals-v1/road-signs-values.json",
+    "orientation": "mapped approach only",
+    "liveState": "unknown unless verified feed; never infer green",
+    "pole": "striped where mapped or verified",
+    "illustrativeSheetState": "red stop only, all other lenses dark; not live"
+  },
+  "trees": {
+    "mix": {
+      "elm": 0.35,
+      "plane": 0.25,
+      "linden": 0.25,
+      "other": 0.15
+    },
+    "status": "UNVERIFIED design mix, use inventory species when available",
+    "crowns": {
+      "elm": "upright spreading",
+      "plane": "broad irregular lobes",
+      "linden": "rounded heart-shaped canopy"
+    },
+    "lawns": {
+      "spring": "#7A8A60",
+      "summer": "#77815A",
+      "autumn": "#7B8058",
+      "winter": "#8E988C",
+      "frost": "#DCE3DF"
+    }
+  },
+  "weather": {
+    "status": "authored presets, not live readings",
+    "greyDrizzle": {
+      "sky": "#ADBCC6",
+      "sunIntensity": 0.12,
+      "wetness": 0.65,
+      "rainIntensity": 0.25,
+      "fogDensity": 0.12,
+      "wind_m_s": 4
+    },
+    "northSeaStorm": {
+      "sky": "#566774",
+      "sunIntensity": 0.05,
+      "wetness": 0.9,
+      "rainIntensity": 0.7,
+      "fogDensity": 0.2,
+      "wind_m_s": 14
+    },
+    "winterFrost": {
+      "sky": "#AFC2D1",
+      "sunIntensity": 0.6,
+      "wetness": 0.1,
+      "frost": 0.45,
+      "fogDensity": 0.08,
+      "wind_m_s": 2
+    },
+    "goldenEvening": {
+      "sky": "#9FB9CE",
+      "sun": "#E9BB87",
+      "sunIntensity": 0.65,
+      "wetness": 0.05,
+      "fogDensity": 0.04,
+      "wind_m_s": 2
+    },
+    "night": {
+      "sky": "#172C41",
+      "warmLight": "#EBC28B",
+      "sunIntensity": 0,
+      "glow": "soft restrained"
+    }
+  },
+  "kingsDay": {
+    "accent": "#D98536",
+    "application": "temporary plain bunting, cloth and boats; no logos or permanent orange building materials"
+  },
+  "dataPlan": {
+    "3DBAG": "LoD2.2, pin release and tile epoch; join BAG identifiers; no invented surveyed heights",
+    "terrain": "AHN DTM, not DSM; coherent RD/NAP datum",
+    "houseboats": "BAG mooring location is not boat hull geometry",
+    "osmCompleteness": "UNVERIFIED; local tag audit required",
+    "knmiWarnings": "replacement feeds are TEST until planned 2026-11-02 transition; confirm cutover",
+    "coordinateSystem": {
+      "horizontal": "RD New EPSG:28992",
+      "vertical": "NAP EPSG:5709",
+      "compound": "EPSG:7415; inspect each input CRS before transforming"
+    }
+  },
+  "prohibited": [
+    "logos",
+    "readable signage",
+    "real murals",
+    "public art",
+    "dogs",
+    "characters",
+    "host-app content"
+  ],
+  "unverified": [
+    "all fallback dimensions",
+    "tree mix",
+    "citywide OSM tag completeness",
+    "AHN5 formal licence version by product",
+    "current GTFS operator inclusion and freshness",
+    "Amsterdam tree reuse licence",
+    "exact geographic and cross-camera correspondence"
+  ]
+}

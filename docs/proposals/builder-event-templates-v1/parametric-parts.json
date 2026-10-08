@@ -1,0 +1,1039 @@
+{
+  "schema": "worldengine.builder-parts-additions.v1",
+  "status": "proposal additions; does not edit existing library",
+  "units": "metres",
+  "parts": [
+    {
+      "id": "marquee",
+      "label": "Reception / meeting marquee",
+      "dimensions_m": [
+        12,
+        20,
+        5.5
+      ],
+      "parameter_fields": [
+        "width",
+        "length",
+        "eave_height",
+        "ridge_height",
+        "roof_family",
+        "sidewalls",
+        "exit_openings",
+        "anchor_envelope"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 1,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "wind_limit_m_s": null,
+      "ballast_kg": null,
+      "rule": "Each module has own occupant-load/exit review; roofed structures are not lightning shelters"
+    },
+    {
+      "id": "service-tent",
+      "label": "Catering / staff / vendor tent",
+      "dimensions_m": [
+        4,
+        4,
+        3.5
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "height",
+        "use",
+        "cooking",
+        "sidewalls",
+        "anchor_envelope"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0.2,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "pavilion",
+      "label": "Unbranded demo pavilion",
+      "dimensions_m": [
+        8,
+        8,
+        4.5
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "opening_width",
+        "roof_height",
+        "demo_counter",
+        "brand_palette_generic"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 2,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "stage",
+      "label": "Generic stage deck / optional roof",
+      "dimensions_m": [
+        10,
+        6,
+        1
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "deck_height",
+        "roof_structure",
+        "speaker_positions",
+        "accessible_access"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 3,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "roof_suspension_engineering": "required if roof/rigging supplied; no rigging loads assumed"
+    },
+    {
+      "id": "FOH",
+      "label": "Front-of-house island",
+      "dimensions_m": [
+        4,
+        4,
+        3
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "barrier_clearance",
+        "sightline",
+        "bypass"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 2,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "av-package",
+      "label": "Blank screen / PA / control",
+      "dimensions_m": [
+        3,
+        1,
+        2
+      ],
+      "parameter_fields": [
+        "screen_width",
+        "screen_height",
+        "audio_scope",
+        "equipment_load_schedule"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 3,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "chair",
+      "label": "Generic chair",
+      "dimensions_m": [
+        0.5,
+        0.55,
+        0.85
+      ],
+      "parameter_fields": [
+        "seat_width",
+        "row_spacing",
+        "gangways",
+        "securing_method"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "table",
+      "label": "Generic round banquet table",
+      "dimensions_m": [
+        1.8,
+        1.8,
+        0.75
+      ],
+      "parameter_fields": [
+        "diameter",
+        "seats",
+        "chair_envelope"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "example_seats": 8
+    },
+    {
+      "id": "wc-standard",
+      "label": "Portable WC",
+      "dimensions_m": [
+        1.2,
+        1.2,
+        2.3
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "door_swing",
+        "tank/service",
+        "unit_type"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "wc-accessible",
+      "label": "Accessible portable WC",
+      "dimensions_m": [
+        2.3,
+        2.3,
+        2.3
+      ],
+      "parameter_fields": [
+        "supplier_clear_floor",
+        "turning",
+        "door",
+        "threshold",
+        "route",
+        "slope"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "rule": "External box size alone does not prove ADA compliance"
+    },
+    {
+      "id": "handwash",
+      "label": "Public handwash station",
+      "dimensions_m": [
+        1.2,
+        0.8,
+        1.2
+      ],
+      "parameter_fields": [
+        "accessibility",
+        "water",
+        "waste",
+        "taps",
+        "service_frequency"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "water-point",
+      "label": "Drinking-water/refill point",
+      "dimensions_m": [
+        2,
+        2,
+        2
+      ],
+      "parameter_fields": [
+        "flow_capacity",
+        "potable_supply",
+        "queue",
+        "accessible_spout"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "medical-point",
+      "label": "First aid / recovery tent",
+      "dimensions_m": [
+        4,
+        4,
+        3.5
+      ],
+      "parameter_fields": [
+        "staff_plan",
+        "clinical_scope",
+        "ambulance_connection",
+        "privacy"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0.2,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "rule": "Presence/count is spatial placeholder, not medical staffing certification"
+    },
+    {
+      "id": "registration",
+      "label": "Check-in/security station",
+      "dimensions_m": [
+        3,
+        3,
+        3
+      ],
+      "parameter_fields": [
+        "lanes",
+        "service_rate",
+        "screening_scope",
+        "accessible_service",
+        "queue"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0.1,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "queue-bay",
+      "label": "Queue envelope",
+      "dimensions_m": [
+        6,
+        10,
+        0
+      ],
+      "parameter_fields": [
+        "holding_people",
+        "lane_width",
+        "turn_width",
+        "bypass",
+        "entry_exit",
+        "operator_capacity"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "route-mat",
+      "label": "Firm event route",
+      "dimensions_m": [
+        1.8,
+        1,
+        0.02
+      ],
+      "parameter_fields": [
+        "width",
+        "length",
+        "slopes",
+        "surface",
+        "edges",
+        "load_capacity"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "cable-bridge",
+      "label": "Accessible cable crossing",
+      "dimensions_m": [
+        1.8,
+        0.9,
+        0.06
+      ],
+      "parameter_fields": [
+        "slope",
+        "landings",
+        "channel_capacity",
+        "wheelchair_geometry"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "rule": "Conventional steep cable hump cannot be assumed accessible; re-route cables if compatible crossing unavailable"
+    },
+    {
+      "id": "barrier",
+      "label": "Generic managed crowd barrier",
+      "dimensions_m": [
+        2.5,
+        0.5,
+        1.1
+      ],
+      "parameter_fields": [
+        "type",
+        "stability",
+        "gate",
+        "crowd_load_rating",
+        "escape"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "rule": "Stanchions decorative queue tools; never stand in for engineered front-of-stage barrier"
+    },
+    {
+      "id": "exit-gate",
+      "label": "Clear exit opening",
+      "dimensions_m": [
+        3,
+        1,
+        2
+      ],
+      "parameter_fields": [
+        "clear_width",
+        "hardware",
+        "direction",
+        "exit_sign",
+        "lighting",
+        "downstream_path"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "power-compound",
+      "label": "Isolated generator / battery compound",
+      "dimensions_m": [
+        6,
+        6,
+        2
+      ],
+      "parameter_fields": [
+        "power_type",
+        "output_kVA",
+        "voltage",
+        "phases",
+        "exhaust",
+        "fuel",
+        "fence",
+        "supply_route"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "generator_selected": null
+    },
+    {
+      "id": "shade-bay",
+      "label": "Comfort/rest shade",
+      "dimensions_m": [
+        6,
+        6,
+        3.5
+      ],
+      "parameter_fields": [
+        "width",
+        "depth",
+        "airflow",
+        "seating",
+        "anchoring"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "waste-point",
+      "label": "Separated waste collection",
+      "dimensions_m": [
+        2,
+        1,
+        1.2
+      ],
+      "parameter_fields": [
+        "waste_streams",
+        "haul_access",
+        "volume"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "tailgate-bay",
+      "label": "Separated parking/tailgate bay",
+      "dimensions_m": [
+        5,
+        8,
+        0
+      ],
+      "parameter_fields": [
+        "vehicle",
+        "occupants",
+        "cooking",
+        "fire_policy",
+        "buffer",
+        "traffic_direction"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "safe-refuge",
+      "label": "Existing confirmed severe-weather refuge",
+      "dimensions_m": [
+        0,
+        0,
+        0
+      ],
+      "parameter_fields": [
+        "surveyed_polygon",
+        "confirmed_capacity",
+        "accessibility",
+        "travel_time",
+        "hours",
+        "permission"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ],
+      "capacity": null,
+      "rule": "A tent part cannot be assigned this type; geometry alone cannot certify structural shelter safety"
+    },
+    {
+      "id": "ceremony-frame",
+      "label": "Simple nonreligious ceremony frame",
+      "dimensions_m": [
+        3,
+        0.5,
+        2.8
+      ],
+      "parameter_fields": [
+        "width",
+        "height",
+        "decor_load",
+        "anchor_envelope"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    },
+    {
+      "id": "emergency-light",
+      "label": "Independent exit/route light",
+      "dimensions_m": [
+        0.2,
+        0.2,
+        2.2
+      ],
+      "parameter_fields": [
+        "autonomy_hours",
+        "coverage",
+        "weather_rating",
+        "supply_independent"
+      ],
+      "status": "proposal dimensions; not selected supplier product",
+      "anchor_frame": "local X east / Z north; Y up; yaw degrees clockwise from north",
+      "example_running_kW": 0,
+      "service_envelope_m": null,
+      "service_envelope_status": "supplier values required; visual planning margins separate",
+      "provenance": "customer_event_overlay; inferred dimensions until supplier spec",
+      "detail_tier_ref": "visual-values.json#/detail_tiers",
+      "collision_layers": [
+        "physical",
+        "anchor",
+        "public_route",
+        "service",
+        "egress"
+      ],
+      "compliance_fields": [
+        "supplier",
+        "model",
+        "configuration",
+        "wind_plan",
+        "installation_record",
+        "inspection",
+        "code_profile"
+      ]
+    }
+  ],
+  "notes": "Dimensions are authoring prototypes; all load ratings, wind limits, anchor capacities, power ratings and ADA product certification remain supplier fields, never inferred from appearance."
+}

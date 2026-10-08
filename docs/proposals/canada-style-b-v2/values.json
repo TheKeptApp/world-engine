@@ -1,0 +1,467 @@
+{
+  "version": "canada-style-b-v2",
+  "checked_date": "2026-10-07",
+  "supersedes": "canada-style-b-v1 visual concepts",
+  "driving_side": "RIGHT",
+  "status": "Authored concept parameters; UNVERIFIED as measurements or statutory standards. Observed geometry overrides defaults.",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "reference": "../style-b-calibration-v2/values.json",
+  "signals_reference": "../road-signs-signals-v1/road-signs-values.json",
+  "signals_rules": [
+    "Shape-only signs; bilingual sign panels are blank bands",
+    "Ontario baseline requires BC and Qu\u00e9bec overrides",
+    "Illustrative signal lamps in generated boards are not a valid simultaneous live state; implement exclusive red/amber/green states from the shared pack"
+  ],
+  "archetypes": [
+    {
+      "city": "Toronto",
+      "name": "bay-and-gable",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        5,
+        8
+      ],
+      "front_setback_m": [
+        3,
+        6
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Toronto",
+      "name": "semi-detached per unit",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        5,
+        8
+      ],
+      "front_setback_m": [
+        3,
+        6
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Toronto",
+      "name": "Annex",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        7,
+        12
+      ],
+      "front_setback_m": [
+        4,
+        8
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Toronto",
+      "name": "condo",
+      "storeys": [
+        20,
+        50
+      ],
+      "lot_width_m": [
+        35,
+        90
+      ],
+      "front_setback_m": [
+        2,
+        8
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Vancouver",
+      "name": "Special",
+      "storeys": [
+        2,
+        2
+      ],
+      "lot_width_m": [
+        10,
+        15
+      ],
+      "front_setback_m": [
+        4,
+        7
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Vancouver",
+      "name": "character",
+      "storeys": [
+        1,
+        3
+      ],
+      "lot_width_m": [
+        10,
+        15
+      ],
+      "front_setback_m": [
+        4,
+        7
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Vancouver",
+      "name": "West End tower",
+      "storeys": [
+        12,
+        25
+      ],
+      "lot_width_m": [
+        25,
+        60
+      ],
+      "front_setback_m": [
+        6,
+        12
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Vancouver",
+      "name": "laneway",
+      "storeys": [
+        1,
+        2
+      ],
+      "lot_width_m": [
+        10,
+        15
+      ],
+      "front_setback_m": [
+        0.5,
+        2
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Montreal",
+      "name": "plex",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        6,
+        10
+      ],
+      "front_setback_m": [
+        0,
+        3
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Montreal",
+      "name": "Plateau",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        5,
+        9
+      ],
+      "front_setback_m": [
+        0,
+        3
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    },
+    {
+      "city": "Montreal",
+      "name": "row house",
+      "storeys": [
+        2,
+        3
+      ],
+      "lot_width_m": [
+        5,
+        8
+      ],
+      "front_setback_m": [
+        0,
+        2
+      ],
+      "note": "Laneway lot is host lot; its setback is lane-facing. Condo parcel width; podium 3\u20136 storeys. Attics may add roof volume."
+    }
+  ],
+  "palettes": {
+    "brick": [
+      "#9E6752",
+      "#AF775C",
+      "#BF9575"
+    ],
+    "siding": [
+      "#CCC4AF",
+      "#A0AD9A",
+      "#929DA3"
+    ],
+    "roof": [
+      "#5E6264",
+      "#74716B"
+    ],
+    "trim": [
+      "#D2C9B7",
+      "#B6B3A7"
+    ]
+  },
+  "street_profiles_m": {
+    "Toronto_local": {
+      "right_of_way": [
+        18,
+        24
+      ],
+      "carriageway": [
+        6,
+        9
+      ],
+      "sidewalk_each": [
+        1.8,
+        3
+      ]
+    },
+    "Vancouver_local": {
+      "right_of_way": [
+        20,
+        24
+      ],
+      "carriageway": [
+        6,
+        9
+      ],
+      "service_lane": [
+        4,
+        6
+      ]
+    },
+    "Montreal_local": {
+      "right_of_way": [
+        16,
+        24
+      ],
+      "carriageway": [
+        6,
+        10
+      ],
+      "sidewalk_each": [
+        1.7,
+        3
+      ]
+    },
+    "arterial": {
+      "right_of_way": [
+        22,
+        36
+      ],
+      "carriageway": [
+        12,
+        20
+      ],
+      "note": "Tracks, cycleways and medians occupy the total; do not add these ranges independently."
+    }
+  },
+  "tree_mix_fallback_not_inventory": {
+    "Toronto": {
+      "native_maple": 0.25,
+      "Norway_maple": 0.18,
+      "oak": 0.15,
+      "honey_locust": 0.12,
+      "linden": 0.1,
+      "other": 0.2
+    },
+    "Vancouver": {
+      "native_maple": 0.12,
+      "Norway_maple": 0.15,
+      "flowering_cherry": 0.1,
+      "conifer": 0.14,
+      "other": 0.49
+    },
+    "Montreal": {
+      "native_maple": 0.22,
+      "Norway_maple": 0.25,
+      "elm": 0.1,
+      "linden": 0.14,
+      "other": 0.29
+    }
+  },
+  "season_rules": [
+    "Cherry blossom only in localized spring flowering windows; not perpetual pink",
+    "Summer lawns may dry; autumn leaf litter localized; eastern winter dormant lawns under variable snow",
+    "Vancouver ordinary winter often wet with green lawn; snow is an episodic event",
+    "Use observed phenology/weather where available; no fixed national calendar switch"
+  ],
+  "snowbank_rules": {
+    "status": "Authored visual rules, not municipal operating policy",
+    "Toronto_height_m": [
+      0.15,
+      0.6
+    ],
+    "Montreal_height_m": [
+      0.4,
+      1.2
+    ],
+    "Vancouver_episodic_height_m": [
+      0,
+      0.3
+    ],
+    "localized_pile_max_m": 1.8,
+    "clear_path_target_m": 1.5,
+    "mask_out": [
+      "doors",
+      "outdoor stair treads after clearing",
+      "curb ramps",
+      "crosswalk gaps",
+      "transit boarding",
+      "lane access"
+    ],
+    "rules": [
+      "Do not raise all terrain to simulate snow",
+      "Layer banks on curb-edge strips; preserve access breaks",
+      "Snow removal convoy is a fictional staged moment, not live operational telemetry",
+      "Do not infer citywide loading thresholds from one borough procedure"
+    ]
+  }
+}

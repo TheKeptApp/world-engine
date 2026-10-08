@@ -48,9 +48,19 @@ All four reviewers independently named the same three, in this order.
 
 The packs own wall albedo, so walls are not part of the look score. Measured separately (`Tools/lookloop/wall_variants.py`): in three of the four views the wall in the measuring box faces away from the sun, so the engine's lit colour there is shade against a mock that paints it lit. Lakeview street: way/210329013 (3-storey block, albedo #A57450) in shade, lit #8B5827; postcard: chicago-02-flats variant 1 (#92513E, the darkest of four) mostly in shade, lit #671B00-#672D1F, while a sunlit variant 0 (#98664F) reads #BC7343, 14 dE from the calibration brick (#C08964); Wilmette: overture/193d2ed4 tan siding (#AD9274) faces the sun, lit #C1935E = albedo × sun colour (#FFE8C6) × 1.28, so the grade is as designed and the 33.8 dE to the hero mock's grey-green siding is albedo hue; Denver: denver-05-split variant 3 (#C8BBA0) in shade at 0.38 of albedo, neutral. Details went to P2 on 7 Oct.
 
-## Proposed look gate (R decides)
+## Run history against the calibration
 
-Calibration closeness 4 or more on every calibrated view and every aspect 3 or more; mean surface dE to the frames at most 10 for sky, road and sidewalk and at most 12 for lawn and crowns. From this baseline that is: closeness 3.0 → 4 (+1), light 2.5 and foliage 2.5 → 3, sky dE 14.5 → 10, lawn 19.0 → 12. Nothing here changes the concept-parity gate until R fixes the line.
+| Run | Engine | Look gate | Closeness (street, postcard, Wilmette, Denver) | Aspect means (sky, light, sat, ground, foliage, materials) | dE sky / road / sidewalk / lawn / crowns |
+|---|---|---|---|---|---|
+| 16:47 baseline | `debec74` | not yet a gate | 3, 3, 3, 3 | 3.0, 2.5, 3.0, 3.0, 2.5, 3.5 | 14.5 / 10.7 / 15.0 / 19.0 / 19.6 |
+| 18:49 (P2 wall weights) | `c49ecb0` | **FAIL 0 of 4** (approved gate) | 3, 3, 3, 3 | 3.0, 2.8, 2.8, 2.8, 2.8, 3.5 | 14.4 / 10.4 / 14.9 / 18.7 / 19.2 |
+| 20:53 (5A wet ground + water shader) | `20d3ae9` | **FAIL 0 of 4** (hero frames unchanged, grades carried) | 3, 3, 3, 3 | 3.0, 2.8, 2.8, 2.8, 2.8, 3.5 | 14.4 / 10.4 / 14.9 / 18.7 / 19.2 |
+
+On the 18:49 run the weakest aspects were light and foliage on the postcard and saturation and ground on Wilmette. The Wilmette frame is pixel-identical to the baseline, yet its low aspects flipped, so one aspect point on one view is inside the grader's about +/-1 noise: read the gate across runs, and expect a routine PASS to need R's Opus confirmation. On the 20:53 run the four hero frames were pixel-identical to 18:49 (0.0 to 0.04 % of pixels), because 5A's wet-ground and water changes do not reach clear afternoon views, so their grades and surface dE are carried unchanged.
+
+## Look gate (R approved 2026-10-07)
+
+All four heroes at calibration closeness 4 or more and every aspect 3 or more. It replaces the old concept-parity gate (still reported beside it); a routine PASS triggers one Opus confirmation run (R, 2026-10-08). The mean surface-distance figures (sky, road, sidewalk at most 10; lawn and crowns at most 12) are P3's reading aid, not part of the gate. From the baseline that means closeness 3.0 to 4 (+1) and light and foliage 2.5 to 3.
 
 ## Limits of this baseline
 
