@@ -15,7 +15,7 @@ export function resolvePolicy(cal,lake,fixture,correction,haze,climateRegion){
   // haze-visibility-v1 explicitly supersedes lake-winter-v1 background extinction.
   atmosphere,
   hazeExtinctionPerM:atmosphere.sigmaPerM,
-  season:fixture.phenophase,
+  date:fixture.date,
   wind:lake.water.windStates[String(fixture.windKmh)],
   reflectedSky:lake.water.skyStates[fixture.skyState],
  };

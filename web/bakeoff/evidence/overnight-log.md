@@ -11,3 +11,8 @@ Disk guard: 83 GiB available before the first heavy capture (>8 GB). All capture
 Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 16.609379 (+0.000000), lakeview ΔE76 22.258022 (+0.000000).
 Visual: Low pale real DEM ridge visible west of the shore; haze unchanged from approved prior round. Sloan still has regular water bands; Lakeview keeps the same pale crowns.
 Evidence: `overnight/01-haze/`; Hold-out rollback condition did not trigger.
+
+## 02-trees — ACCEPT
+Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 16.609379 (+0.000000), lakeview ΔE76 22.258022 (+0.000000).
+Visual: P2 species forms and branches replace angular generic crowns; October calendar prior turns foliage gold. Lakeview still has coarse near lobes. Fixed-box medians are unchanged: Sloan has no crown box, and Lakeview green-mask medians do not reflect the yellow crown change.
+Evidence: `overnight/02-trees/`; Hold-out rollback condition did not trigger.

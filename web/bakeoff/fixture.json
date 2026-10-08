@@ -1,13 +1,12 @@
 {
   "status": "Simulated calibration fixture, not live weather or observed phenology",
-  "phenophase": "summer",
-  "exportSeasonIndex": 1,
   "windKmh": 10,
   "windFromDegrees": 225,
   "skyState": "clear",
-  "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation.",
+  "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
   "atmosphereSeason": "summer",
   "timeOfDay": "day",
   "summitsObscured": false,
-  "atmosphereLayers": []
+  "atmosphereLayers": [],
+  "date": "2026-10-08"
 }

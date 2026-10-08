@@ -10,6 +10,7 @@ python3 -c 'import shutil; assert shutil.disk_usage(".").free >= 8_000_000_000, 
 mkdir -p "$HERE/evidence"
 for source in "$HERE"/*.js "$HERE"/*.mjs; do node --check "$source"; done
 node "$HERE/policy.test.mjs"
+node "$HERE/overnight.test.mjs"
 node "$HERE/atmosphere.test.mjs"
 node "$HERE/sky-colour.test.mjs"
 SCENES=sloans,lakeview node "$HERE/capture.mjs"
