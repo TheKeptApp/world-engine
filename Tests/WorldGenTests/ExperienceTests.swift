@@ -76,8 +76,9 @@ struct ExperienceCameraTests {
 struct PostcardCompositionTests {
     static let areaDir = RealSceneTests.areaDir
 
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path)))
+    @Test
     func composesValidRepeatablePostcards() throws {
+        guard FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent('manifest.json').path)"); return }
         let date = ISO8601DateFormatter().date(from: "2026-10-15T23:44:01Z")!
         let build = try WorldBuild.generate(areaDirectory: Self.areaDir, recipe: WorldRecipe(date: date))
         let a = ExperienceDefaults.compose(build: build, date: date)

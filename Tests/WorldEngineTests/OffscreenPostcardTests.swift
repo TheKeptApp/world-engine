@@ -110,8 +110,9 @@ struct OffscreenPostcardTests {
         return s
     }
 
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func liveAndMaxQualityRenderAndLeaveTheLiveWorldAlone() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
         // A frame of the live view first, as WorldView would draw it.
@@ -145,8 +146,9 @@ struct OffscreenPostcardTests {
         }
     }
 
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func rainyNightInQualityMode() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.night, weather: SyntheticWeather(label: .rain, cloudFraction: 0.9, precipitationMmPerHour: 2,
                                                                                    wetness: 0.8))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
@@ -173,8 +175,9 @@ struct OffscreenPostcardTests {
 
     /// Shadow fits side by side (bare pictures, for review): RealityKit's automatic fit at the live
     /// 80 m and at quality mode's range, and the fitted orthographic box read as half or full size.
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func shadowFitsForReview() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
         let fit = World.postcardShadowFit
@@ -195,8 +198,9 @@ struct OffscreenPostcardTests {
     }
 
     /// Cost per picture size and supersample factor (Metal memory when the picture is done, time).
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func supersampleCostForReview() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
         let device = MTLCreateSystemDefaultDevice()!
@@ -214,8 +218,9 @@ struct OffscreenPostcardTests {
 
     /// How many settle frames a fresh copy needs: the first frame against one after two settle
     /// frames (prints the differences; the timing budget depends on it).
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func settleFramesForReview() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
         var images: [Int: CGImage] = [:]
@@ -232,8 +237,9 @@ struct OffscreenPostcardTests {
         }
     }
 
-    @Test(.enabled(if: shadersReady, "needs the Mac shader library (scripts/postcard_mac_check.sh)"))
+    @Test
     func theCopyIgnoresLaterChangesToTheLiveWorld() async throws {
+        guard shadersReady else { Issue.record("missing test prerequisite: shadersReady"); return }
         let world = try await Self.world(at: Self.afternoon, weather: SyntheticWeather(label: .clear, cloudFraction: 0.15))
         let pose = try #require(world.postcards.first.map(world.pose(of:)))
         func session() async throws -> OffscreenSession {

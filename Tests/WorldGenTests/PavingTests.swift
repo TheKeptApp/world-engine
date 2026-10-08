@@ -17,7 +17,7 @@ struct PavingTests {
     /// Wilmette has one mapped sett street: its road mesh carries the setts slot, the paving flag and
     /// pattern 2; untagged roads don't.
     @Test func mappedSettStreetIsPaved() throws {
-        guard BuildingAreaTests.has("wilmette-vattmann-park") else { return }
+        guard BuildingAreaTests.has("wilmette-vattmann-park") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('wilmette-vattmann-park')"); return }
         let b = try YardTests.build("wilmette-vattmann-park", "wilmette")
         let sett = b.features.roads.filter { $0.tags["surface"] == "sett" }.map(\.ref.description)
         try #require(!sett.isEmpty)

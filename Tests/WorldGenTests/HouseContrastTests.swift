@@ -57,7 +57,7 @@ struct HouseContrastTests {
     @Test func valuesMatchSharedMockValues() throws {
         let url = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appendingPathComponent("Resources/look/mock-values.json")
-        guard let data = try? Data(contentsOf: url) else { return }
+        guard let data = try? Data(contentsOf: url) else { Issue.record("missing test prerequisite: let data = try? Data(contentsOf: url)"); return }
         let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
         let entries = try #require(json["entries"] as? [String: Any])
         func value(_ key: String) -> Any? {

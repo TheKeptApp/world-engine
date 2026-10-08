@@ -20,7 +20,7 @@ struct YardTests {
 
     @Test(arguments: cases)
     func lotsStayOffStreetsAndTreesOffRoadsAndBuildings(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try Self.build(area, profile)
         let f = b.features
         #expect(b.scene.lots.count > 300, "\(area): \(b.scene.lots.count) lots")
@@ -80,7 +80,7 @@ struct YardTests {
     /// carriageway, and nothing generated grows in it: no generated tree within the carriageway
     /// half-width of any vehicular centreline, and no lot covering the carriageway.
     @Test func lakeviewCarriagewaysStayClear() throws {
-        guard BuildingAreaTests.has("lakeview-sheil-park") else { return }
+        guard BuildingAreaTests.has("lakeview-sheil-park") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('lakeview-sheil-park')"); return }
         let b = try Self.build("lakeview-sheil-park", "chicago-dense-north")
         let f = b.features
         let roscoe = f.roads.filter { ($0.tags["name"] ?? "").contains("Roscoe") && $0.kind == .residential }
@@ -129,7 +129,7 @@ struct YardTests {
     }
 
     @Test func sameAreaSameYards() throws {
-        guard BuildingAreaTests.has("lakeview-sheil-park") else { return }
+        guard BuildingAreaTests.has("lakeview-sheil-park") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('lakeview-sheil-park')"); return }
         let a = try Self.build("lakeview-sheil-park", "chicago-dense-north"), b = try Self.build("lakeview-sheil-park", "chicago-dense-north")
         #expect(a.scene.lots.count == b.scene.lots.count)
         #expect(zip(a.scene.lots, b.scene.lots).allSatisfy { $0.outline == $1.outline && $0.lawnShade == $1.lawnShade && $0.walk == $1.walk })
@@ -137,7 +137,7 @@ struct YardTests {
     }
 
     @Test func zonesPickProfilesPerBuilding() throws {
-        guard BuildingAreaTests.has("evanston-south") else { return }
+        guard BuildingAreaTests.has("evanston-south") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('evanston-south')"); return }
         let manifest = try AreaLoader.loadManifest(BuildingAreaTests.dir("evanston-south"))
         let features = try AreaLoader.loadFeatures(BuildingAreaTests.dir("evanston-south"))
         // A synthetic catalog splitting the area at its centre longitude.
@@ -169,7 +169,7 @@ struct YardTests {
     @Test(arguments: viewCameras.map(\.name))
     func viewBudgetWithYards(_ name: String) throws {
         let cam = Self.viewCameras.first { $0.name == name }!
-        guard BuildingAreaTests.has(cam.area) else { return }
+        guard BuildingAreaTests.has(cam.area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(cam.area)"); return }
         // As in the app: full street detail in a 400 m box around the camera.
         let d = 200.0 / 111_000, dl = d / cos(cam.lat * .pi / 180)
         let b = try Self.build(cam.area, cam.profile, focus: GeoBoundingBox(south: cam.lat - d, west: cam.lon - dl, north: cam.lat + d, east: cam.lon + dl))
@@ -247,7 +247,7 @@ struct RelativeThresholdTests {
 struct CanopyShareTests {
     @Test(arguments: YardTests.cases)
     func canopyShare(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try YardTests.build(area, profile)
         let bounds = b.features.bounds
         let res = 1.0
@@ -275,7 +275,7 @@ struct CanopyShareTests {
 struct LookFixYardTests {
     @Test(arguments: YardTests.cases)
     func lotsStepsCapsBedsAndLitter(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try YardTests.build(area, profile)
         let rules = YardLibrary.bundled.rules(for: profile)
         // Neighbouring lots differ by one or two value steps (4–10 %), never equal.

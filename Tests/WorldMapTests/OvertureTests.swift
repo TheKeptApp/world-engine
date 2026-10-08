@@ -241,7 +241,7 @@ struct OvertureRegressionTests {
     @Test(arguments: ["sloans-lake", "evanston-south"])
     func loaderMatchesPlainBuilder(_ area: String) throws {
         let dir = Self.areasDir.appendingPathComponent(area)
-        guard FileManager.default.fileExists(atPath: dir.appendingPathComponent("manifest.json").path) else { return }
+        guard FileManager.default.fileExists(atPath: dir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: dir.appendingPathComponent('manifest.json').path)"); return }
         let manifest = try AreaLoader.loadManifest(dir)
         guard !manifest.sources.contains(where: { $0.format == OvertureBuildings.format }) else { return }
         let viaLoader = try AreaLoader.loadFeatures(dir)

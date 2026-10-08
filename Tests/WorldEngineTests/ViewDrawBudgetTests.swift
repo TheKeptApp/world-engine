@@ -99,10 +99,10 @@ struct ViewDrawBudgetTests {
     /// applies clear weather (sky dome on), and measures each view in the 16:9 look-loop frame.
     @Test(arguments: ["sloans-lake", "lakeview-sheil-park", "evanston-south", "wilmette-vattmann-park"])
     func drawCallsInView(_ id: String) async throws {
-        guard OffscreenPostcardTests.shadersReady else { return }
+        guard OffscreenPostcardTests.shadersReady else { Issue.record("missing test prerequisite: OffscreenPostcardTests.shadersReady"); return }
         let area = Self.areas.first { $0.id == id }!
         let dir = Self.root.appendingPathComponent(area.id)
-        guard FileManager.default.fileExists(atPath: dir.appendingPathComponent("manifest.json").path) else { return }
+        guard FileManager.default.fileExists(atPath: dir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: dir.appendingPathComponent('manifest.json').path)"); return }
         let date = ISO8601DateFormatter().date(from: area.date)!
         let world = try await World.load(areaDirectory: dir, options: WorldOptions(focus: area.focus, profileID: area.profile, date: date))
         await world.context.task?.value

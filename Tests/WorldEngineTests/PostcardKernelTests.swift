@@ -83,7 +83,8 @@ struct PostcardKernelTests {
         return pass(across, ow, h, ow, horizontal: false).map(Float.init)
     }
 
-    @Test(.enabled(if: hasGPU)) func downsampleKeepsFlatColourAndMatchesTheReference() async throws {
+    @Test func downsampleKeepsFlatColourAndMatchesTheReference() async throws {
+        guard hasGPU else { Issue.record("missing test prerequisite: hasGPU"); return }
         // A flat colour stays itself (weights are normalised).
         let flat = texture(.rgba16Float, 64, 48, [SIMD4<Float>](repeating: SIMD4(0.3, 0.6, 0.9, 1), count: 64 * 48))
         for p in floats(try await downsample(flat, to: 32, 24)) {
@@ -105,7 +106,8 @@ struct PostcardKernelTests {
         }
     }
 
-    @Test(.enabled(if: hasGPU)) func encodeIsPlainSRGBWithoutAGradeAndFollowsTheGradeWithOne() async throws {
+    @Test func encodeIsPlainSRGBWithoutAGradeAndFollowsTheGradeWithOne() async throws {
+        guard hasGPU else { Issue.record("missing test prerequisite: hasGPU"); return }
         let finisher = try PostcardFinisher(device: device)
         let linear: [SIMD4<Float>] = [SIMD4(0, 0, 0, 1), SIMD4(0.5, 0.5, 0.5, 1), SIMD4(1, 1, 1, 1), SIMD4(0.02, 0.2, 0.7, 1),
                                       SIMD4(0.8, 0.3, 0.05, 1), SIMD4(0.001, 0.002, 0.003, 1), SIMD4(0.25, 0.25, 0.25, 1), SIMD4(0.6, 0.6, 0.1, 1)]

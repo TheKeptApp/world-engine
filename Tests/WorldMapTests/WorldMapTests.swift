@@ -258,8 +258,9 @@ struct RealAreaTests {
         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
         .appendingPathComponent("Data/areas/sloans-lake")
 
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path)))
+    @Test
     func loadsWithFewSkips() throws {
+        guard FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent('manifest.json').path)"); return }
         let f = try AreaLoader.loadFeatures(Self.areaDir)
         #expect((1_200...1_700).contains(f.buildings.count))
         #expect(f.points(of: .tree).count > 4_000)

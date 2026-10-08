@@ -282,8 +282,9 @@ struct RealSceneTests {
         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
         .appendingPathComponent("Data/areas/sloans-lake")
 
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path)))
+    @Test
     func generatesTheSloansLakeScene() throws {
+        guard FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent('manifest.json').path)"); return }
         let manifest = try AreaLoader.loadManifest(Self.areaDir)
         let features = try AreaLoader.loadFeatures(Self.areaDir)
         let profile = try StyleLibrary.profile(at: manifest.center)
@@ -309,8 +310,9 @@ struct RealSceneTests {
     }
 
     /// Same inputs → byte-identical geometry and identical placements (one decision owner).
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path)))
+    @Test
     func generationIsDeterministic() throws {
+        guard FileManager.default.fileExists(atPath: areaDir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: areaDir.appendingPathComponent('manifest.json').path)"); return }
         let manifest = try AreaLoader.loadManifest(Self.areaDir)
         let features = try AreaLoader.loadFeatures(Self.areaDir)
         let profile = try StyleLibrary.profile(at: manifest.center)
@@ -372,8 +374,9 @@ struct LightTests {
 
 @Suite("Building distance LODs")
 struct BuildingLODCellTests {
-    @Test(.enabled(if: FileManager.default.fileExists(atPath: RealSceneTests.areaDir.appendingPathComponent("manifest.json").path)))
+    @Test
     func cellsCarryEveryLODAndChunksNoBuildings() throws {
+        guard FileManager.default.fileExists(atPath: RealSceneTests.areaDir.appendingPathComponent("manifest.json").path) else { Issue.record("missing test prerequisite: FileManager.default.fileExists(atPath: RealSceneTests.areaDir.appendingPathComponent('manifest.json').path)"); return }
         let features = try AreaLoader.loadFeatures(RealSceneTests.areaDir)
         let manifest = try AreaLoader.loadManifest(RealSceneTests.areaDir)
         let profile = try StyleLibrary.profile(at: manifest.center)

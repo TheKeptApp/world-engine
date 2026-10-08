@@ -212,8 +212,9 @@ struct RoadMarkingsTests {
     // MARK: - Real area budget
 
     /// Lakeview: paint goes into the existing chunk meshes (no new draws) at a small triangle cost.
-    @Test(.enabled(if: BuildingAreaTests.has("lakeview-sheil-park")))
+    @Test
     func lakeviewPaintStaysInBudget() throws {
+        guard BuildingAreaTests.has("lakeview-sheil-park") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('lakeview-sheil-park')"); return }
         let b = try YardTests.build("lakeview-sheil-park", "chicago-dense-north")
         let s = b.scene.stats
         let tris = try #require(s["markingTriangles"])

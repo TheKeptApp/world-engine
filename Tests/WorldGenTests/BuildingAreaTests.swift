@@ -137,7 +137,7 @@ struct BuildingViewBudgetTests {
     @Test(arguments: cameras.map(\.name))
     func viewFitsTheBuildingShare(_ name: String) throws {
         let cam = Self.cameras.first { $0.name == name }!
-        guard BuildingAreaTests.has(cam.area) else { return }
+        guard BuildingAreaTests.has(cam.area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(cam.area)"); return }
         let manifest = try AreaLoader.loadManifest(BuildingAreaTests.dir(cam.area))
         let features = try AreaLoader.loadFeatures(BuildingAreaTests.dir(cam.area))
         var gen = BuildingGenerator(profile: try StyleLibrary.profile(id: cam.profile), context: StreetContext(features))

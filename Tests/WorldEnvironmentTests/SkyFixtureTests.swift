@@ -39,8 +39,9 @@ struct SkyFixtureTests {
         return acos(max(-1, min(1, c))) / r
     }
 
-    @Test(.enabled(if: SkyFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func sunEventsMatch(_ id: String) throws {
+        guard SkyFixtures.available else { Issue.record("missing test prerequisite: SkyFixtures.available"); return }
         let f = Self.fixture(id)
         let obs = SkyFixtures.observer(f["locationId"] as! String)
         let at = SkyFixtures.date((f["at"] as! [String: Any])["utc"] as! String)
@@ -74,8 +75,9 @@ struct SkyFixtureTests {
         #expect(Self.separation(p.elevation, p.azimuth, sun["elevationDeg"] as! Double, sun["azimuthDeg"] as! Double) <= 0.1, "\(id) sun direction")
     }
 
-    @Test(.enabled(if: SkyFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func moonMatches(_ id: String) throws {
+        guard SkyFixtures.available else { Issue.record("missing test prerequisite: SkyFixtures.available"); return }
         let f = Self.fixture(id)
         let obs = SkyFixtures.observer(f["locationId"] as! String)
         let at = SkyFixtures.date((f["at"] as! [String: Any])["utc"] as! String)
@@ -104,8 +106,9 @@ struct SkyFixtureTests {
         #expect(day.aboveStandardRiseSetHorizonAtDayStart == m["aboveStandardRiseSetHorizonAtDayStart"] as? Bool)
     }
 
-    @Test(.enabled(if: SkyFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func seasonMatches(_ id: String) throws {
+        guard SkyFixtures.available else { Issue.record("missing test prerequisite: SkyFixtures.available"); return }
         let f = Self.fixture(id)
         let obs = SkyFixtures.observer(f["locationId"] as! String)
         let at = SkyFixtures.date((f["at"] as! [String: Any])["utc"] as! String)

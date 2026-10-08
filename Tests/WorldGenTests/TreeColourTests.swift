@@ -30,7 +30,7 @@ struct TreeColourTests {
     /// bare winter crowns the family's branch body colour.
     @Test func speciesColoursAreThePacks() throws {
         let url = Self.root.appendingPathComponent("docs/proposals/vegetation-v1/vegetation-colours.json")
-        guard let data = try? Data(contentsOf: url) else { return }
+        guard let data = try? Data(contentsOf: url) else { Issue.record("missing test prerequisite: let data = try? Data(contentsOf: url)"); return }
         let pack = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
         let trees = try #require(pack["trees"] as? [[String: Any]])
         #expect(!Self.library.species.isEmpty)

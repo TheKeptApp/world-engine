@@ -58,7 +58,7 @@ struct TreeSpeciesTests {
         #expect(Set(f.mixes.values.flatMap(\.profiles)) == Set(Self.mixProfiles))
         for (id, s) in f.species { if let kind = s.kind { #expect(PropKind(rawValue: kind)?.isTree == true, "\(id): \(kind)") } }
         #expect(f.nearest.values.allSatisfy { f.species[$0] != nil })
-        guard let pack = try Self.pack() else { return }
+        guard let pack = try Self.pack() else { Issue.record("missing test prerequisite: let pack = try Self.pack()"); return }
         let species = try #require(pack["species"] as? [[String: Any]])
         #expect(Set(species.compactMap { $0["id"] as? String }) == Set(f.species.keys))
         for p in species {
@@ -160,7 +160,7 @@ struct TreeSpeciesTests {
 
     /// Generated yard, parkway and canopy trees in Lakeview carry Chicago mix species (inferred).
     @Test func generatedTreesDrawFromTheMix() throws {
-        guard BuildingAreaTests.has("lakeview-sheil-park") else { return }
+        guard BuildingAreaTests.has("lakeview-sheil-park") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('lakeview-sheil-park')"); return }
         let b = try YardTests.build("lakeview-sheil-park", "chicago-dense-north")
         let f = Self.foliage, mix = try #require(f.mix(forProfile: "chicago-dense-north"))
         let generated = b.scene.instances.filter { $0.kind.isTree && $0.source.hasPrefix("gen:") }

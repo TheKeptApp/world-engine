@@ -64,8 +64,9 @@ struct WeatherFixtureTests {
 
     static func fixture(_ id: String) -> [String: Any] { fixtures.first { $0["id"] as? String == id }! }
 
-    @Test(.enabled(if: WeatherFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func settledStateMatches(_ id: String) {
+        guard WeatherFixtures.available else { Issue.record("missing test prerequisite: WeatherFixtures.available"); return }
         let f = Self.fixture(id)
         let expected = f["expectedEngineState"] as! [String: Any]
         let r = WeatherClassifier.classify(WeatherFixtures.settledSample(f))
@@ -80,8 +81,9 @@ struct WeatherFixtureTests {
         #expect(primary.wetness01 == nil && primary.snowCover01 == nil && primary.status == .unknownInitialState)
     }
 
-    @Test(.enabled(if: WeatherFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func windAndSunMatch(_ id: String) {
+        guard WeatherFixtures.available else { Issue.record("missing test prerequisite: WeatherFixtures.available"); return }
         let f = Self.fixture(id)
         let expected = f["expectedEngineState"] as! [String: Any]
         let w = expected["wind"] as! [String: Any]
@@ -97,8 +99,9 @@ struct WeatherFixtureTests {
     }
 
     /// The controlled-model reference runs (W=0/S=0 and W=1/S=100) over the 48–72 h histories.
-    @Test(.enabled(if: WeatherFixtures.available), arguments: ids)
+    @Test(arguments: ids)
     func accumulationReferenceRunsMatch(_ id: String) {
+        guard WeatherFixtures.available else { Issue.record("missing test prerequisite: WeatherFixtures.available"); return }
         let f = Self.fixture(id)
         let ref = f["controlledModelReference_assumption"] as! [String: Any]
         let alt = ref["alternativeInitialStateRun"] as! [String: Any]
@@ -131,8 +134,9 @@ struct WeatherFixtureTests {
 
     /// Seeking to an hour boundary reproduces the full integration; a mid-hour seek uses the hour's
     /// share of precipitation and stays between the neighbouring hourly states.
-    @Test(.enabled(if: WeatherFixtures.available))
+    @Test
     func seekingIsDeterministic() {
+        guard WeatherFixtures.available else { Issue.record("missing test prerequisite: WeatherFixtures.available"); return }
         let f = Self.fixture("first-snow")
         let obs = WeatherFixtures.json["hourlyObservations"] as! [String: Any]
         let inputs = WeatherFixtures.history(f, observations: obs).map(MetarAdapter.accumulationInput)

@@ -33,7 +33,7 @@ struct GroundDetailTests {
 
     @Test(arguments: YardTests.cases)
     func lawnsCarryDetailWithinBudget(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try YardTests.build(area, profile)
         let stats = b.scene.stats
         let rules = YardLibrary.bundled.rules(for: profile)
@@ -80,7 +80,7 @@ struct GroundDetailTests {
     /// a shrub beside the walk at the camera read as a boulder).
     @Test(arguments: YardTests.cases)
     func shrubsStandBackFromSidewalks(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try YardTests.build(area, profile)
         let walks = SegmentIndex(b.features.sidewalks.map(\.centerline))
         // Walkway cells are filled 0.8 m either side of the centreline; shrubs clear them by 1.0–1.5 m
@@ -98,7 +98,7 @@ struct GroundDetailTests {
     /// generated conifers stand back from sidewalks by their crown radius.
     @Test(arguments: YardTests.cases)
     func treesClearWalks(_ area: String, _ profile: String) throws {
-        guard BuildingAreaTests.has(area) else { return }
+        guard BuildingAreaTests.has(area) else { Issue.record("missing test prerequisite: BuildingAreaTests.has(area)"); return }
         let b = try YardTests.build(area, profile)
         let walks = SegmentIndex(b.features.sidewalks.map(\.centerline))
         var low: [String] = [], conifers: [String] = []

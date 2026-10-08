@@ -106,8 +106,9 @@ struct PackageTests {
 
     /// Three exports: two identical (determinism) and one in another season (a palette-only edit).
     /// The package must match the generator: same chunks, features, instances, positions ≤ 1 cm.
-    @Test(.enabled(if: hasData), .timeLimit(.minutes(5)))
+    @Test(.timeLimit(.minutes(5)))
     func packageIsDeterministicAndMatchesTheGenerator() throws {
+        guard hasData else { Issue.record("missing test prerequisite: hasData"); return }
         let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("wp-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: tmp) }
         let a = tmp.appendingPathComponent("a"), b = tmp.appendingPathComponent("b"), c = tmp.appendingPathComponent("c")

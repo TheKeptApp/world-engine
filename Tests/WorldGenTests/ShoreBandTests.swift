@@ -26,7 +26,7 @@ struct ShoreBandTests {
     }
 
     @Test func sloansLakeWaterCarriesShoreDistance() throws {
-        guard BuildingAreaTests.has("sloans-lake") else { return }
+        guard BuildingAreaTests.has("sloans-lake") else { Issue.record("missing test prerequisite: BuildingAreaTests.has('sloans-lake')"); return }
         let b = try YardTests.build("sloans-lake", "front-range")
         var shore = 0, inner = 0, open = 0
         for chunk in b.scene.chunks {

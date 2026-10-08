@@ -181,7 +181,7 @@ struct ContextRingTests {
 
     @Test(arguments: areas)
     func ringOfCommittedArea(_ area: String) throws {
-        guard Self.hasContext(area) else { return }
+        guard Self.hasContext(area) else { Issue.record("missing test prerequisite: Self.hasContext(area)"); return }
         let (c, parse, gen) = try Self.generate(area)
         print("BUDGET context \(area) parse=\(String(format: "%.2f", parse))s generate=\(String(format: "%.2f", gen))s cells=\(c.cells.count) stats=\(c.stats.sorted { $0.key < $1.key })")
         #expect(!c.cells.isEmpty)
@@ -279,7 +279,7 @@ struct ContextRingTests {
 
     @Test func generationIsDeterministic() throws {
         let area = "evanston-south"
-        guard Self.hasContext(area) else { return }
+        guard Self.hasContext(area) else { Issue.record("missing test prerequisite: Self.hasContext(area)"); return }
         let (a, _, _) = try Self.generate(area)
         let (b, _, _) = try Self.generate(area)
         #expect(a.cells.count == b.cells.count)
@@ -297,7 +297,7 @@ struct ContextRingTests {
     /// met there, and line ends are unchanged.
     @Test func simplifiedRoadsStayConnected() throws {
         let area = "lakeview-sheil-park"
-        guard Self.hasContext(area) else { return }
+        guard Self.hasContext(area) else { Issue.record("missing test prerequisite: Self.hasContext(area)"); return }
         let d = Self.dir(area)
         let manifest = try AreaLoader.loadManifest(d)
         let doc = try #require(try AreaLoader.loadContextDocument(d, manifest: manifest))

@@ -35,8 +35,9 @@ enum ShowcaseFixtures {
 
 @Suite("Showcase states (docs/proposals/experience-v1)")
 struct ShowcaseFixtureTests {
-    @Test(.enabled(if: ShowcaseFixtures.available), arguments: ShowcaseFixtures.ids)
+    @Test(arguments: ShowcaseFixtures.ids)
     func resolvesLikeTheProposal(_ id: String) throws {
+        guard ShowcaseFixtures.available else { Issue.record("missing test prerequisite: ShowcaseFixtures.available"); return }
         let f = ShowcaseFixtures.fixtures.first { $0["id"] as? String == id }!
         let cameras = ShowcaseFixtures.json["cameras"] as! [String: Any]
         let camera = cameras[f["camera"] as! String] as! [String: Any]
