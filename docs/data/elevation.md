@@ -11,3 +11,13 @@ Rights: the official USGS catalogues linked in `Tools/regionkit/terrain/data/ele
 5A owns loading, vertical-frame reconciliation, terrain meshing, LOD transitions and visual validation. Distance guides are not claimed to satisfy screen-space error automatically. Missing samples stay missing; there is no invented shoreline, building-pad correction, slope-to-height conversion or water-code change. The identical distance policy, native halo and processing limits apply to the hold-outs; only area boundaries and source selection vary.
 
 `audit_elevation.py` and `verify_elevation.py` run under the heavy lock. Read-back checks verify file digests, native metre-resolution rasters, finite values, requested native-rectangle coverage, radial masks, covered-cell counts and minimum/surface/maximum consistency. Coverage gaps are explicit flags with `PASS_WITH_GAPS`; corrupt values, mismatched hashes or broken envelopes fail. A coverage pass is not independent accuracy calibration. The native coverage check warps only a binary mask; saved native elevation clips remain unresampled. HTTP 200 catalogue error payloads and transient HTTP failures are retried within a fixed bound and are never cached as valid empty coverage.
+
+## Verified hold-out comparison
+
+| Area | Native 1 m rectangle + 100 m halo | All distance bands through 200 km | Read-back |
+|---|---:|---:|---|
+| Sloan’s Lake | 100% | 100% | PASS |
+| Lakeview | 100% | 100% | PASS |
+| Greenville Downtown | 100% | 100% | PASS |
+
+`Data/quality/elevation-holdouts.json` records the common-policy comparison. Sixteen terrain tests pass, including source-native peak preservation, incomplete catalogue handling and rejection of false coverage metadata. Raster digests, finite values, band masks and envelopes pass in all three areas. This is not independent elevation-error calibration.

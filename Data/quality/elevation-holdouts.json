@@ -1,0 +1,170 @@
+{
+  "format": "worldengine-elevation-comparison/1",
+  "identicalPolicy": true,
+  "areas": [
+    {
+      "area": "sloans-lake",
+      "nativeCoverage": {
+        "coveredCells": 2520000,
+        "requestedCells": 2520000,
+        "validFraction": 1.0,
+        "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+      },
+      "bandCoverage": [
+        {
+          "rangeM": [
+            250,
+            2000
+          ],
+          "sampleSpacingM": 10,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            2000,
+            20000
+          ],
+          "sampleSpacingM": 30,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            20000,
+            50000
+          ],
+          "sampleSpacingM": 60,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            50000,
+            100000
+          ],
+          "sampleSpacingM": 120,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            100000,
+            200000
+          ],
+          "sampleSpacingM": 240,
+          "validFraction": 1.0
+        }
+      ],
+      "status": "PASS",
+      "errors": [],
+      "flags": []
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "nativeCoverage": {
+        "coveredCells": 1440000,
+        "requestedCells": 1440000,
+        "validFraction": 1.0,
+        "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+      },
+      "bandCoverage": [
+        {
+          "rangeM": [
+            250,
+            2000
+          ],
+          "sampleSpacingM": 10,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            2000,
+            20000
+          ],
+          "sampleSpacingM": 30,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            20000,
+            50000
+          ],
+          "sampleSpacingM": 60,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            50000,
+            100000
+          ],
+          "sampleSpacingM": 120,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            100000,
+            200000
+          ],
+          "sampleSpacingM": 240,
+          "validFraction": 1.0
+        }
+      ],
+      "status": "PASS",
+      "errors": [],
+      "flags": []
+    },
+    {
+      "area": "greenville-downtown",
+      "nativeCoverage": {
+        "coveredCells": 3089366,
+        "requestedCells": 3089366,
+        "validFraction": 1.0,
+        "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+      },
+      "bandCoverage": [
+        {
+          "rangeM": [
+            250,
+            2000
+          ],
+          "sampleSpacingM": 10,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            2000,
+            20000
+          ],
+          "sampleSpacingM": 30,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            20000,
+            50000
+          ],
+          "sampleSpacingM": 60,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            50000,
+            100000
+          ],
+          "sampleSpacingM": 120,
+          "validFraction": 1.0
+        },
+        {
+          "rangeM": [
+            100000,
+            200000
+          ],
+          "sampleSpacingM": 240,
+          "validFraction": 1.0
+        }
+      ],
+      "status": "PASS",
+      "errors": [],
+      "flags": []
+    }
+  ],
+  "status": "PASS",
+  "qualityNote": "Native 1 m local clips; identical coarser source/output resolution by distance. Coverage and internal consistency are verified, not independent elevation accuracy."
+}

@@ -1,0 +1,58 @@
+{
+  "format": "worldengine-elevation-qa/1",
+  "area": "sloans-lake",
+  "metadataSHA256": "de071b16a4133b94ef384c89f29f7c9870f76304cc6eaf2fdc6c17cb16c73b77",
+  "status": "PASS",
+  "errors": [],
+  "flags": [],
+  "nativeCoverage": {
+    "coveredCells": 2520000,
+    "requestedCells": 2520000,
+    "validFraction": 1.0,
+    "scope": "Area rectangle plus configured halo; 1 m coverage mask, persisted elevation clips unresampled"
+  },
+  "artifacts": [
+    {
+      "file": "native-1m-0.tif",
+      "validFraction": 1.0,
+      "minimumM": 1616.24853515625,
+      "maximumM": 1629.4771728515625
+    },
+    {
+      "file": "native-1m-1.tif",
+      "validFraction": 1.0,
+      "minimumM": 1618.18115234375,
+      "maximumM": 1639.886474609375
+    },
+    {
+      "file": "band-250-2000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1587.8011474609375,
+      "maximumM": 1672.8724365234375
+    },
+    {
+      "file": "band-2000-20000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1527.3160400390625,
+      "maximumM": 2399.251220703125
+    },
+    {
+      "file": "band-20000-50000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1446.557861328125,
+      "maximumM": 3858.704833984375
+    },
+    {
+      "file": "band-50000-100000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1342.1326904296875,
+      "maximumM": 4347.26220703125
+    },
+    {
+      "file": "band-100000-200000m.npz",
+      "validFraction": 1.0,
+      "minimumM": 1169.42822265625,
+      "maximumM": 4395.91552734375
+    }
+  ]
+}
