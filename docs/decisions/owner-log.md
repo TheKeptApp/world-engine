@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Architecture and add-a-city documentation (R):** document data → package → renderers, layer ownership and hold-outs; city workflow references A5 country-readiness-v1 and A1's pipeline without new claims. A7 assignment is conditional on R saying “yes A7”: only then mirror Tools/lookloop/ and scripts/ ownership (scripts only, no render/look code; P3 retains rubric design) in AGENTS.md and CLAUDE.md. No such approval recorded in this request; existing ownership remains unchanged.
+
 - **Before porting Astra values (R):** 5A/P2 must confirm a cited pack key or repo file, check RealityKit units (web light units/tone mapping are not transplantable), render once and compare with A3’s score, and stop/log a handoff if anything cannot be traced; do not guess. Applied at the top of docs/tracking/weekend-brief.md with a handoffs.md pointer.
 
 - **Weekend map-only restart brief and HUD (R):** prepare the ordered 5A/P2 handoff with scoring commands, source/pack keys, evidence and exclusions; include fps/tris/draws/mem on R’s iPhone 14 Pro and defer MetalFX until later. Filed in docs/tracking/weekend-brief.md; no code or device installation authorized by this filing.

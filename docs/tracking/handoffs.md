@@ -117,3 +117,9 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 | 2026-10-08 | A3 → 5A, P2 | Ordered map-only restart | [Weekend brief](weekend-brief.md): scoring commands, foliage/sky/MOR, shadow and Lakeview floor, six branch dispositions, later MetalFX. Today's HUD request: fps/tris/draws/mem on R's 14 Pro. Docs only; tests/device proof remain required. |
 
 2026-10-08 — R / A3 → 5A, P2: [Before porting any Astra value](weekend-brief.md#before-porting-any-astra-value): verify source and RealityKit units, render/compare with A3, and stop/log any untraceable value; do not guess.
+
+## Architecture and city runbook — R, 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A3 → data/generator/renderer lanes | Architecture and city onboarding | [Architecture](../architecture.md) and [add-a-city runbook](../runbooks/add-a-city.md) filed from existing contracts and A5/A1 evidence. No new readiness or ingestion claims. A7 ownership remains conditional on R explicitly saying “yes A7”; no lane-map change made. |
