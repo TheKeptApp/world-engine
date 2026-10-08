@@ -1,0 +1,41 @@
+{
+  "id": "west-highland-proposal",
+  "status": "PROPOSED_WAITING_FOR_R",
+  "center": {
+    "latitude": 39.764,
+    "longitude": -105.04
+  },
+  "widthMeters": 1000,
+  "heightMeters": 1000,
+  "source": "drcog-2-2020",
+  "sizeBasis": "Matches Lakeview 1000 x 1000 m; Sloan is 1600 x 1200 m, so there is no single shared size.",
+  "processingBufferMeters": 100,
+  "bounds": {
+    "south": 39.75949671668853,
+    "north": 39.768503283311475,
+    "west": -105.04583518358649,
+    "east": -105.03416481641352
+  },
+  "sourceID": "usgs-3dep-co-drcog-2-2020",
+  "eptRoot": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CO_DRCOG_2_2020/",
+  "surveyDate": "2020-05-26 to 2020-06-12",
+  "licenseStatus": "GREEN",
+  "allHierarchyDepths": true,
+  "nodesRead": 180,
+  "compressedBytes": 54804765,
+  "cellMeters": 10,
+  "occupiedCells": 10000,
+  "totalCells": 10000,
+  "coveragePercent": 100.0,
+  "groundOccupiedCells": 9893,
+  "groundCoveragePercent": 98.93,
+  "meanReturnDensityM2": 4.08503,
+  "pointClasses": {
+    "1": 2757572,
+    "2": 1327458
+  },
+  "limitation": "10 m cell occupancy in the proposed rectangle, not building-height acceptance or 1 m continuous surface coverage. Raw survey read only to evaluate this proposal; no production manifest, heights, roof or DEM output created.",
+  "processingStatus": "HOLD",
+  "approvalRequired": "R must approve this rectangle before production area preparation",
+  "neighborhoodBoundaryReference": "https://www.westhighlandneighborhood.org/wp-content/uploads/2021/05/WHNA-Bylaws-2008.pdf"
+}
