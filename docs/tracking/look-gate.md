@@ -37,3 +37,17 @@ Aspect order: sky/light/saturation/ground/foliage/materials. Append each A2 merg
 ## West Highland decision — R / A3, 8 Oct 2026
 
 West Highland camera `west-highland-aerial-north-01` confirmed unchanged and frozen (8 Oct): target (39.764, -105.04), scene y=0 m; eye (39.759946, -105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. Shared atmosphere contract must accompany capture. R reports 19.1% height / 19.0% roof-form coverage, versus Lakeview heights 93.5% and Sloan's 29.1%. Separate data-poor hold-out; score/capture pending. A1 sparse-density test pending; ladder NOT PROMOTED. Earlier camera-pending notes are historical; source/package delivery must still be evidenced. [Frozen contract and cohort note](../lookloop/west-highland-holdout.md).
+
+## Web 4127a32 series — saved-frame review and capture blocker, 8 Oct 2026
+
+This fills the tracker omission for the review already landed in `efa639b`; it is not a new capture or score. [Report and provenance](../lookloop/web-4127a32.md), [scoreboard](../lookloop/scoreboard.md).
+
+| Renderer / reviewed evidence | Sloan's score | hold-out score | Decision |
+|---|---|---|---|
+| web / 4127a32 series, reviewed main f6de893 | Baseline 2 → 2; aspects 3/2/2/2/2/2 → same | Lakeview 2 → 2; aspects 3/2/2/2/2/3 → same. West Highland data-poor aerial: closeness and all six aspects pending | Saved pair FAIL 0/2; no closeness gain. Reject condition not triggered for this pair; full hold-out clearance pending. Fresh capture BLOCKED. |
+
+Aspect order: sky/light/saturation/ground/foliage/materials. These saved A2 captures match the verified live input manifest; October versus original summer foliage limits causal baseline comparisons. No renderer acceptance or phone-performance pass follows from the audit.
+
+**Failure boundary:** browser tooling failed before navigation with `codex app-server exited before returning initialize`, twice. No renderer page loaded through that attempt, so this is not evidence of a renderer crash. A1's intervening heavy-lock wait ended; A3's provenance audit then passed at load 14.38 (<25), exit 0, and released its own lock. The heavy/load gate is not the unresolved blocker from that attempt.
+
+**Resume requirements:** functioning authorized browser connection; re-check load <25 and take the heavy wrapper for fresh frozen Sloan's/Lakeview captures. West Highland additionally needs its capture-ready package and bake-off scene/server mount, using the existing frozen camera/shared fixture without tuning. Preserve its separate data-poor cohort; no ladder promotion. No alternate driver, new capture, new grade or current Mac-availability claim is made by this documentation follow-up.
