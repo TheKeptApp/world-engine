@@ -38,3 +38,9 @@ Verification for this narrowed change: only these two tracking files and the mir
 ## A1 → P2 — Sloan's Lake survey roofs, 8 October 2026
 
 Prepared data: `Data/areas/sloans-lake/building-heights.json` and `building-roofs.json`; contract: `docs/data/building-roofs.md`. 407/1,399 buildings have accepted candidate roof heights; types: 77 gable, 66 hip, 113 flat, 151 other; 992 missing. All D and uncalibrated. Source is the 2020 USGS survey; ground and roof share that survey, NAVD88 metres. No class-6 points exist locally, so explicitly labelled planar class-1 candidates are used. Treat confidence as support, not probability; retain nulls and keep estimates separate. P2 owns consumer wiring and visual validation. Tests/merge pending; no live engine change claimed. R deferred Lakeview and Greenville; approved Greenville bounds remain HOLD.
+
+### P2 state note (2026-10-08, stopped by R for budget)
+- Branch: p2/yards (pushed); main has all P2 merges through 0bdb88d (infrastructure stage 1). Parked, pushed, unmerged: p2/night-windows (night-fog warm/cool flags, on hold per R).
+- Done: house contrast + gaps, archetypes (conformance 164/164), lake shore band, daytime-master colours, wall variant weights, species crowns (foliage-seasons-v1), lane markings/crosswalks where mapped.
+- Unfinished: water profile per water body by area/fetch (WIP commit on p2/yards, untested); Lakeview street 414k > 400k triangles (ViewDrawBudgetTests, only measured with the Mac shader build: POSTCARD_FILTER=ViewDrawBudgetTests scripts/postcard_mac_check.sh).
+- Next: run that budget test, fix with a general distance/screen-size thinning rule, verify Sloan's + hold-outs; then test and merge the water-profile change.
