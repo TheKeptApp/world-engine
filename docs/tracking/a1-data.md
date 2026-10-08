@@ -51,3 +51,7 @@ Verification used the existing Python 3.14 lidar environment plus the existing r
 ## Integration stopped
 
 Main advanced to b012b71. Rebase stopped on a content conflict in docs/tracking/handoffs.md (A3 facade handoff versus the earlier A1 terrain handoff). No resolution or push attempted. Rebase aborted safely to preserve all completed batch files on astra-a1-overnight-data. 146 tests ran successfully under the owned heavy lock, with 3 skipped; no check failures. Disk remained above 8 GB. West Highland stays blocked on its missing fixed rectangle/manifest.
+
+## R-approved handoff resolution — 8 October
+
+Both 8 October handoff entries retained add-only in date order, as R expressly approved for handoffs.md. Rebase complete; 126 lidar tests (3 skipped), 16 terrain tests and 4 observed QA tests pass under the heavy lock, plus read-back audits of all three saved DEM packages and both overnight building areas. Integration ready; earlier conflict status above is historical. No fallback or West Highland rectangle approved or applied.
