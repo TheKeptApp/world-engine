@@ -1,6 +1,6 @@
 import {installCostLedger,phoneBudget} from './budget.js';
 import * as T from 'three/webgpu';
-import {fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,output,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
+import {mx_noise_float,reflect,fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,output,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
 import {WorldScene} from '/src/world.js';
 import {shorelineField} from './water.js';
 import {Lighting} from '/src/lighting.js';
@@ -66,25 +66,30 @@ async function main(){
   const state=lake.states.find(s=>s.id===config.waterState);
   const waterMaterial=new T.MeshPhysicalNodeMaterial({ior:water.reflectionLimits.waterIORReference});const wp=positionWorld;
   const profileMechanics=water.profiles.find(p=>p.id===config.waterMechanicsProfile);
-  const weights=water.waveModelProposal.fourWaveWeights, energy=Math.sqrt(weights.reduce((a,b)=>a+b*b,0));
+  // Sources/WorldEngine/Shaders/WorldShaders.metal lake four-wave spectrum.
+  // Pack normalAmplitude controls normal-only sub-mesh ripples; no invented swell.
+  const weights=water.waveModelProposal.fourWaveWeights,energy=weights.reduce((a,b)=>a+b,0),scales=[1,.71,.53,.37],turns=[0,.45,-.38,.9];
   let gx=float(0),gz=float(0);
-  weights.forEach((weight,i)=>{const wavelength=wave.wavelengthM*(1+i*.37),k=2*Math.PI/wavelength,angle=(fixture.windFromDegrees+180)*Math.PI/180+i*Math.PI/4,amplitude=profileMechanics.colourConditions.calm.inferredWindOnlyHsMFixture/4*Math.SQRT2*weight/energy;
-   const phase=wp.x.mul(Math.cos(angle)*k).add(wp.z.mul(Math.sin(angle)*k)).sub(now.mul(wave.phaseSpeedMps*k)).add(i*2.39996);
-   const footprint=fwidth(phase).div(2*Math.PI);const fade=float(1).sub(smoothstep(1/lake.water.lod.minimumProjectedWaveWidthCssPx,1,footprint)).mul(float(1).sub(smoothstep(lake.water.lod.normalDetailFadeStartM,lake.water.lod.normalDetailFadeEndM,length(cameraPosition.sub(wp)))));const slope=cos(phase).mul(amplitude*k).mul(fade);gx=gx.add(slope.mul(Math.cos(angle)));gz=gz.add(slope.mul(Math.sin(angle)));});
+  weights.forEach((weight,i)=>{const wavelength=Math.max(.05,wave.wavelengthM*scales[i]),k=2*Math.PI/wavelength,angle=(fixture.windFromDegrees+180)*Math.PI/180+turns[i],dx=Math.sin(angle),dz=-Math.cos(angle);
+   const phase=wp.x.mul(dx*k).add(wp.z.mul(dz*k)).sub(now.mul(wave.phaseSpeedMps*k)).add(i*1.7);
+   const footprint=fwidth(phase).div(2*Math.PI),fade=float(1).sub(smoothstep(1/lake.water.lod.minimumProjectedWaveWidthCssPx,1,footprint)).mul(float(1).sub(smoothstep(lake.water.lod.normalDetailFadeStartM,lake.water.lod.normalDetailFadeEndM,length(cameraPosition.sub(wp)))));
+   const slope=cos(phase).mul(weight/energy*policy.wind.normalAmplitude).mul(fade);gx=gx.add(slope.mul(dx));gz=gz.add(slope.mul(dz));});
+  // P2 water noise coordinates/strength; stable world field breaks coherent bands.
+  gx=gx.add(mx_noise_float(wp.xz.mul(.9).add(now.mul(.05))).mul(.03));
+  gz=gz.add(mx_noise_float(wp.xz.mul(.9).add(7).sub(now.mul(.04))).mul(.03));
   const ripple=gx,waterNormal=normalize(vec3(gx.negate(),1,gz.negate()));
   waterMaterial.normalNode=transformNormalToView(waterNormal);
   // _extra.z is not shore distance. The attached attribute is computed from exported water boundary edges.
   const meshes=[];world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water)meshes.push(o);});
   world.root.updateMatrixWorld(true);const field=shorelineField(meshes);field.texture.name='water shore distance';
-  const shore=texture(field.texture,wp.xz.sub(vec2(...field.min)).div(vec2(...field.span))).r.mul(32);
+  const shore=texture(field.texture,wp.xz.sub(vec2(...field.min)).div(vec2(...field.span))).r;
   const body=mix(rgb(new T.Color(profile.shallowColourHex)),rgb(new T.Color(state.surfaceValues[0].baseColourHex)),smoothstep(0,profile.shallowBlendWidthM,shore));
-  const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,normalWorld))).pow(lake.water.reflection.grazingExponent);
+  const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,waterNormal))).pow(lake.water.reflection.grazingExponent);
   const reflection=mix(float(lake.water.reflection.normalStrength),float(lake.water.reflection.grazingStrength),grazing).min(mix(water.reflectionLimits.nearBlendCap,water.reflectionLimits.farBlendCap,smoothstep(50,180,length(cameraPosition.sub(wp)))));
-  const broken=sin(wp.x.mul(1.7).add(wp.z.mul(2.3)).add(now.mul(.3))).mul(sin(wp.z.mul(3.1).sub(wp.x.mul(2.7)))).mul(.012);
   waterMaterial.colorNode=body.mul(mix(lake.water.shoreline.linearBaseMultiplier,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
   // Already-atmospheric sky reflection bypasses the world fog mix. output.rgb
   // is the once-fogged lit water from NodeMaterial.setupOutput, before the one grade.
-  const reflectedRadiance=rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(policy.reflectedSky.reflectionColourHex).toArray(),L.exposure))).add(broken);
+  const reflectedRadiance=mix(texture(skyTexture,equirectUV(reflect(view.negate(),waterNormal))).rgb,rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(policy.reflectedSky.reflectionColourHex).toArray(),L.exposure))),policy.wind.roughness);
   waterMaterial.outputNode=vec4(mix(output.rgb,reflectedRadiance,reflection),1);
   waterMaterial.roughness=policy.wind.roughness;waterMaterial.metalness=0;
   world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water){o.material=waterMaterial;}});
