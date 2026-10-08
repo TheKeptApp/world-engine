@@ -1,11 +1,13 @@
 {
   "defaultArea": "sloans-lake",
   "authorizedAreas": [
-    "sloans-lake"
+    "sloans-lake",
+    "lakeview-sheil-park",
+    "greenville-downtown"
   ],
-  "authorization": "R, 8 Oct: Sloan's Lake first; Greenville and Lakeview deferred. Greenville must not be processed.",
+  "authorization": "R, 8 Oct GENERAL PIPELINES: Sloan first, then identical pipeline on Lakeview and Greenville Downtown; Greer remains HOLD.",
   "marginMeters": 25,
-  "maxBytesPerArea": 200000000,
+  "maxBytesPerArea": 600000000,
   "sources": {
     "usgs-3dep-co-drcog-2-2020": {
       "licenseStatus": "GREEN",
@@ -17,6 +19,60 @@
       "verticalUnits": "metre",
       "verticalEvidence": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/CO_DRCOG_2_2020/USGS_LPC_CO_DRCOG_2020_B20_w0495n4399.xml",
       "verticalEvidenceNote": "EPT carries horizontal CRS only; vertical CRS/units verified from source tile FGDC metadata."
+    },
+    "usgs-3dep-il-4county-cook-2017": {
+      "licenseStatus": "GREEN",
+      "license": "US Government Public Domain",
+      "licenseEvidence": "https://registry.opendata.aws/usgs-lidar/",
+      "licenseCheckedOn": "2026-10-08",
+      "verticalCRS": "EPSG:5703",
+      "verticalDatum": "NAVD88",
+      "verticalUnits": "metre",
+      "verticalEvidence": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/IL_4County_Cook_2017/USGS_LPC_IL_4_County_QL1_LiDAR_2016_B16_LAS_15759550.xml",
+      "originalVerticalUnits": "US survey foot (source bounds conversion verified)",
+      "verticalEvidenceNote": "Original LAS header min/max Z multiplied by 1200/3937 match the EPT source bounds to <1e-6 m. EPT Z is already metres; no conversion applied. This checks units, not absolute vertical accuracy.",
+      "unitVerification": {
+        "sourceId": "s3://usgs-lidar/Projects/USGS_LPC_IL_4County_Cook_2017_LAS_2019/laz/USGS_LPC_IL_4County_Cook_2017_LAS_15759550_LAS_2019.laz",
+        "eptSourcesURL": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/USGS_LPC_IL_4County_Cook_2017_LAS_2019/ept-sources/list.json",
+        "originalMinMaxZ": [
+          594.96,
+          804.1
+        ],
+        "eptMinMaxZ": [
+          181.34417068834128,
+          245.0901701803402
+        ],
+        "originalToMetres": 0.3048006096012192,
+        "checkedOn": "2026-10-08",
+        "originalLASHeaderURL": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/IL_4_County_QL1_LiDAR_2016_B16/IL_4County_Cook_2017/LAZ/USGS_LPC_IL_4_County_QL1_LiDAR_2016_B16_LAS_15759550.laz"
+      }
+    },
+    "usgs-3dep-sc-savannah-peedee-2-2019": {
+      "licenseStatus": "GREEN",
+      "license": "US Government Public Domain",
+      "licenseEvidence": "https://registry.opendata.aws/usgs-lidar/",
+      "licenseCheckedOn": "2026-10-08",
+      "verticalCRS": "EPSG:5703",
+      "verticalDatum": "NAVD88",
+      "verticalUnits": "metre",
+      "verticalEvidence": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/lidar_point_cloud/laz/SC_SavannahPeeDee_2_2019/USGS_LPC_SC_SavannahPeeDee_2019_B19_11507958_10.xml",
+      "originalVerticalUnits": "US survey foot (source bounds conversion verified)",
+      "verticalEvidenceNote": "Original LAS header min/max Z multiplied by 1200/3937 match the EPT source bounds to <1e-6 m. EPT Z is already metres; no conversion applied. This checks units, not absolute vertical accuracy.",
+      "unitVerification": {
+        "sourceId": "s3://usgs-lidar/Projects/SC_SavannahPeeDee_2019_B19/SC_SavannahPeeDee_2_2019/LAZ/USGS_LPC_SC_SavannahPeeDee_2019_B19_11507958_10.laz",
+        "eptSourcesURL": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/SC_SavannahPeeDee_2_2019/ept-sources/list.json",
+        "originalMinMaxZ": [
+          947.8100000000001,
+          1153.19
+        ],
+        "eptMinMaxZ": [
+          288.89306578613144,
+          351.4930149860298
+        ],
+        "originalToMetres": 0.3048006096012192,
+        "checkedOn": "2026-10-08",
+        "originalLASHeaderURL": "https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/SC_SavannahPeeDee_2019_B19/SC_SavannahPeeDee_2_2019/LAZ/USGS_LPC_SC_SavannahPeeDee_2019_B19_11507958_10.laz"
+      }
     }
   },
   "parametersSource": "heights.json (groundRing, footprintErosion, cover, topPercentile, eaveBand); grade gates from building-heights-v1 Confidence and product labels",
