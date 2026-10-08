@@ -90,7 +90,7 @@ def main():
     parser = argparse.ArgumentParser(description='Fresh-worktree native capture; call scripts/capture-native.sh.')
     parser.add_argument('--view', default='ordinary-street-afternoon')
     parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
-    parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 runtime mode, absent defaults off')
+    parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 build variant, absent defaults off')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
     args = parser.parse_args()
     run = (args.output or ROOT / '.build/lookloop' / f'native-{uuid.uuid4().hex[:12]}').resolve()
@@ -128,6 +128,8 @@ def main():
             logs = '\n'.join(p.read_text(errors='replace') for p in sorted((run / 'logs').glob('_launch-*.log')))
             expected = f'FOLIAGE_EXP1 mode={args.foliageexp1} value={("off", "remove", "layered").index(args.foliageexp1)} defaultConstant=0'
             if expected not in logs: raise ValueError('captured launch did not confirm foliage mode')
+        report['observedCameraLines'] = [line for p in sorted((run / 'logs').glob('_launch-*.log')) for line in p.read_text(errors='replace').splitlines() if line.startswith('CAMERA -inspectionpose ')]
+        if args.inspectionpose and not report['observedCameraLines']: raise ValueError('capture did not report the inspection pose')
         report.update(inspectionPose=args.inspectionpose, foliageExp1=args.foliageexp1 or 'off', defaultConstant=0,
                       shaderSourceSHA256=hashlib.sha256((ROOT / 'Sources/WorldEngine/Shaders/WorldShaders.metal').read_bytes()).hexdigest())
         report['compiledConstant'] = ('off', 'remove', 'layered').index(args.foliageexp1 or 'off')

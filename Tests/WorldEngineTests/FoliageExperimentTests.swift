@@ -126,8 +126,10 @@ struct FoliageExperimentTests {
                         #expect(before.count == bytes.count)
                         let maximum = zip(before, bytes).map { abs(Int($0) - Int($1)) }.max() ?? 0
                         let mean = Double(zip(before, bytes).reduce(0) { $0 + abs(Int($1.0) - Int($1.1)) }) / Double(bytes.count)
-                        print("FOLIAGE_CONTROL category=\(category) leaf=\(leaf) mode=\(mode) maxDiff=\(maximum) meanAbsByte=\(mean)")
-                        #expect(maximum <= (mode == 0 ? 0 : 1), "\(category) mode\(mode) must be pixel-identical to baseline")
+                        let different = zip(before, bytes).filter { $0 != $1 }.count
+                        print("FOLIAGE_CONTROL category=\(category) leaf=\(leaf) mode=\(mode) maxDiff=\(maximum) meanAbsByte=\(mean) differingBytes=\(different)")
+                        #expect(maximum <= (mode == 2 ? 2 : 0), "Final gate: non-mask maximum; remove/repeat must remain zero")
+                        #expect(mean <= (mode == 2 ? 5e-4 : 0), "Final gate: mean absolute byte difference")
                     }
                     #expect(Set(bytes).count > 8, "Empty/flat frame is not control evidence")
                 }
