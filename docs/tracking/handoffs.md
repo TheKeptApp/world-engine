@@ -322,3 +322,7 @@ Crown-silhouettes-v2 approved for every block; foliage research is the shape dir
 ### R / A10 → A3 / P2 / 5A — coverage attribution correction, 9 Oct 2026
 
 R’s 9 Oct correction, relaying A10: the 600 m layered coverage loss was a capture loading race, not a variant defect. Original frames/grades remain unchanged; no repeat capture or new score is claimed. Current STATE/INTEGRATION/MOCKS and both restarts corrected; historical score observations retained with an explicit later correction. Crown-silhouettes-v2 and foliage-seasons-v1 approvals/reconfirmation remain filed; vegetation-v1 unchanged (no STATUS.md). P2 one American elm all-block recipe, whole-scene floor and per-crown-cost stop; 5A review → water → budget; A3 blind before/after and later hold-outs remain unchanged.
+
+### R → A3 / P2 / 5A — vegetation-v1 filing complete, 9 Oct 2026
+
+Created vegetation-v1 STATUS under explicit approval for every block; original README/JSON/images untouched. Proposals INDEX, input/mock/consumption ledgers and STATE updated. Native vegetation profile/Props references remain partial; no direct web file consumer or per-sheet visual acceptance claimed. [Related pack status inventory](foliage-approval-review.md) records approval recommendations without changing other packs. Only vegetation-v1 received a new status in this filing; no additional approval blocks the American elm trial.

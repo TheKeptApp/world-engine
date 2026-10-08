@@ -114,7 +114,7 @@ Authority: [A8 integration audit](../review/integration-audit-2026-10-08.md), pi
 | `docs/proposals/us-metros-wave2-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/us-metros-wave3-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/us-regional-landscapes-v1` | Ground; iOS not started*; web not started* | none |
-| `docs/proposals/vegetation-v1` | Foliage; iOS partial; web partial | `Sources/WorldGen/Foliage.swift`; `Sources/WorldGen/SceneGenerator.swift`; `Sources/WorldGen/Props.swift`; `web/bakeoff/foliage.js` |
+| `docs/proposals/vegetation-v1` | Approved by R, 9 Oct 2026 as foliage target; native partial references; direct web consumption untraced; visual acceptance unknown | `Sources/WorldGen/Profiles/vegetation.json`; `Sources/WorldGen/Props.swift` |
 | `docs/proposals/venues-campuses-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/visual-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/visual-v2` | Shadows; iOS partial; web partial | `web/bakeoff/budget.js` |
@@ -2340,3 +2340,9 @@ Inventory covers tracked textual docs, packs, specs and research (Markdown, JSON
 | [docs/execution/shadows.md](../execution/shadows.md) | Spec-only; proposed change not started; older mechanisms do not prove this brief delivered | none |
 | [docs/execution/haze.md](../execution/haze.md) | Spec-only; proposed change not started; older mechanisms do not prove this brief delivered | none |
 | [docs/execution/facades.md](../execution/facades.md) | Spec-only; proposed change not started; older mechanisms do not prove this brief delivered | none |
+
+## Vegetation approval record
+
+| Input | Status / scope | Consumed by |
+|---|---|---|
+| `docs/proposals/vegetation-v1/STATUS.md` | Approval and verification limits; operational record | none |
