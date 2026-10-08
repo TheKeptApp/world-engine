@@ -2,7 +2,7 @@
 
 ## Decision and scope
 
-Use a small, versioned **semantic registry plus reusable geometry modules**, not a growing collection of individually designed places. Resolve physical building form, current use, site membership and infrastructure independently. A station gets a station classification and only its mapped building/platform geometry; a school football field gets its mapped pitch and any separately mapped stands; a neighborhood bar gets a modest frontage treatment only where its occupied frontage is known. **Unknown never selects a house, a stadium bowl or an invented landmark.** A known former house can retain explicitly mapped house form when its current use is a bar; unknown form cannot acquire that form from size, name or neighborhood.
+Use a small, versioned **semantic registry plus reusable geometry modules**, not a growing collection of individually designed places. Resolve physical building form, current use, site membership and infrastructure independently. A station gets a station classification and only its mapped building/platform geometry; a school football field gets its mapped pitch and any separately mapped stands; a neighborhood bar gets a modest frontage treatment only where its occupied frontage is known. **Unknown never selects a house, a stadium bowl or an invented landmark.** A known former house can retain explicitly mapped house form when its current use is a bar; unknown form cannot acquire that form from size, name or neighborhood alone. Stage 0b below permits explicitly labelled residential-form inference from combined zone, footprint and exclusion evidence; do not remove the existing shortcut wholesale.
 
 Docs only; inspected main `208bf40`, plus [A8 coverage audit](../review/long-tail-feature-coverage-2026-10-08.md) at `e49b2f0`. No implementation, occurrence census, captures or visual score claimed. The 60-entry inventory below is an **estimated high-frequency US shortlist**, balanced across metros, suburbs and small towns, with uncommon but harmful infrastructure retained. It is not a measured national top-60 ranking. Frequency bands are planning hypotheses; do not convert them into generation weights. A future extract census must measure deduplicated physical features, not raw tag counts, and report coverage separately from real-world prevalence.
 
@@ -18,7 +18,7 @@ Precedence, evaluated per semantic axis:
 2. Exact component tags and mapped dimensions outrank broad site context. `building:part` assembly and transport bridge/tunnel modifiers are composed, not discarded by the first successful building match. Height/roof/footprint facts beat pack dimensions. `layer` is ordering, not metres.
 3. Within an axis, a more specific compatible conjunction beats its generic parent: `leisure=pitch + sport=american_football` beats generic pitch; `building=train_station` beats unclassified building. Match count alone is not priority. Publish explicit parent relationships; ties with contradictory evidence fall back and retain a conflict diagnostic.
 4. Current-use tags (`amenity`, `shop`, etc.) select use, not automatic demolition/replacement of known form. A school site does not make every contained structure a school building. A node inside a mixed-use building does not own its whole façade. Associate only explicit memberships or an unambiguous contained building/occupancy relation; ambiguous associations remain unresolved.
-5. Regional residential grammar runs only after explicit residential-form eligibility. `building=residential` is a broad residential mass, not proof of detached house; require a specific house/terrace/bungalow form before using the house-family generator. `building=yes`, missing class, landuse=residential, small area or detached placement do not qualify.
+5. Regional residential grammar runs after explicit form tags **or the combined residential-form eligibility rule in Stage 0b**. `building=residential` remains a broad residential mass, not proof of detached form. Preserve the existing `building=yes` shortcut until the look gate passes; subsequently gate it rather than deleting it. Zone, footprint or name alone cannot establish eligibility. Unknown buildings outside residential zones get B.
 6. Missing module/geometry/approval selects the declared neutral fallback. Private Builder annotations are an explicit overlay and never silently rewrite the shared base. A separately authorized landmark override requires verified identity/geometry and its own approval; the generic registry contains no named landmark entries.
 
 Confidence is evidence provenance, **not a calibrated probability**:
@@ -27,14 +27,14 @@ Confidence is evidence provenance, **not a calibrated probability**:
 |---|---|
 | `tag-certain` | Direct supported semantic tag; “certain” means tag-explicit, not ground-truth certainty. Geometry prerequisites still apply. Conflicting tags suppress bespoke detail. |
 | `tag+name` | A compatible name corroborates an already tag-selected class. It cannot create a class or promote a generic building into a design. Record corroboration separately; it is not stronger than explicit form evidence. |
-| `geometry-inferred` | A tagged candidate has compatible footprint/site geometry; increases confidence in fit only. Cannot infer house, religion, school level, stadium capacity or landmark identity. Untagged geometry may be recorded for review but keeps the unknown fallback. |
+| `geometry-inferred` | A candidate has compatible footprint/site geometry. Stage 0b alone permits residential-form inference from its full zone + footprint + exclusion conjunction, labelled `geometry-inferred` (not tag-certain or observed use). Otherwise geometry only corroborates a tag-selected class; no religion, school level, capacity or landmark inference. |
 | `unknown` | No qualifying class, unresolved conflict or ambiguous association. Plain mapped mass/line/area as appropriate, or diagnostic omission for a point with no geometry. Never house or invented landmark. |
 
 ### Existing edit boundary for a future builder
 
 - `Sources/WorldMap/MapFeatureBuilder.swift`: `classifyWay`, `classifyPolygon`, `buildingType`, `areaKind`, `pointKind`, `lineKind`. Preserve form **and** use rather than letting the building early-return erase site/amenity semantics. Relation handling must not duplicate outline/member geometry.
 - `Sources/WorldMap/MapFeatures.swift`: retain resolved semantic/provenance fields without treating unknown as residential. Proposed registry data location: `Sources/WorldMap/Resources/feature-archetypes.json`; confirm resource packaging in the implementation handoff, not an existing file claim.
-- `Sources/WorldGen/BuildingGenerator.swift`: `role(of:)` currently maps `building=yes` under 250 m² to house; `role(for:)` widens that to profile `hugeArea`, plus inferred garages. Remove both unknown-to-house routes, and gate `part != nil ? .house` in `generate` on proven residential eligibility. Preserve known garages/houses. Do not just change one threshold. Keep mapped roof form even for neutral mass.
+- `Sources/WorldGen/BuildingGenerator.swift`: `role(of:)` currently maps `building=yes` under 250 m² to house; `role(for:)` widens that to profile `hugeArea`, plus inferred garages. Do not remove the shortcut. Stage 0b, blocked until the look gate passes, adds residential-form eligibility to these routes and audits `part != nil ? .house` in `generate`. The census excludes the larger-footprint promotion and split paths: inventory those separately before changing them, rather than assuming the census measures their impact. Preserve existing garage overrides and explicit houses. Keep mapped roof form even for neutral mass.
 - `Sources/WorldGen/SceneGenerator.swift`: use registry dispatch for buildings, sites, lines and points; replace unsupported semantic omission with explicit fallback diagnostics. Audit detached-garage inference and any house splitting upstream so they cannot resurrect unknown houses.
 - `Sources/WorldGen/Context/ContextFeatures.swift`, `ContextRing.swift`: share classification/visibility semantics across core/context; detail can differ, identity cannot. `Sources/WorldPackage/WorldPackage.swift`: record registry version/coverage for baked web parity. Audit regionkit extraction filters identified by A8 before expanding classes; do not assume every source extract already includes them.
 
@@ -54,7 +54,7 @@ Current behavior codes are derived from A8 (not captures): **BH** = generic buil
 
 | # / id / frequency | OSM pattern and wiki evidence | Existing look sheet (or gap) | Neutral fallback | Today (A8) | Smallest first module |
 |---|---|---|---|---|---|
-| 01 `unknown-building` C | [building=yes](https://wiki.openstreetmap.org/wiki/Key:building), no more specific class | No typology; calibration materials only | B | BH; house risk | `NeutralMass`: close both house escapes |
+| 01 `unknown-building` C | [building=yes](https://wiki.openstreetmap.org/wiki/Key:building), no more specific class | No typology; calibration materials only | B | BH; house risk | `ResidentialGate` in 0b; B for ineligible unknowns |
 | 02 `detached-house` C | [building=house/detached/bungalow](https://wiki.openstreetmap.org/wiki/Key:building) | H1 denver-04-ranch; chicago-01-bungalow, region gated | B | Existing house families | `ResidentialGate`, retain known houses |
 | 03 `attached-house` C | [building=terrace/semidetached_house](https://wiki.openstreetmap.org/wiki/Key:building) | H2 nyc-01-brownstone; pending, excluded | B | House grammar, not row proof | `AttachedMass`: preserve shared boundaries |
 | 04 `apartments` C | [building=apartments](https://wiki.openstreetmap.org/wiki/Key:building); residential alone stays broad | H1 chicago-02-flats; H2 nyc-04-midrise gated | B | G block; broad residential can house | `ResidentialBlock`, no detached ornament |
@@ -119,7 +119,7 @@ Current behavior codes are derived from A8 (not captures): **BH** = generic buil
 
 ## 3. Corroboration, never design-by-name
 
-All heuristics below are proposed, uncalibrated and initially diagnostic-only. They may corroborate an independently tag-selected candidate; they cannot create, switch or specialize a design. Record positive evidence without overriding a negative/contradictory tag. Do not copy source names into visible signs.
+Name heuristics below remain proposed, uncalibrated and diagnostic-only; they cannot create, switch or specialize a design. Geometry ordinarily corroborates a tag-selected candidate; the explicit Stage 0b residential conjunction is the sole exception, deferred until the look gate passes. Record positive evidence without overriding a negative/contradictory tag. Do not copy source names into visible signs.
 
 | Hint | Required independent tag | False-positive risk and restriction |
 |---|---|---|
@@ -131,12 +131,12 @@ All heuristics below are proposed, uncalibrated and initially diagnostic-only. T
 | “warehouse”, “storage”, “mill” | Explicit industrial/storage use or building form | High: office conversions, place names; preserve existing mapped form. |
 | Long narrow footprint next to tracks | Tagged platform/station | Medium: warehouse or path; confirms fit, not platform existence. |
 | Rectangular turf or oval around pitch | Tagged pitch/track | High: lawn, pond, school courtyard; no inferred stands or regulation dimensions. |
-| Small detached footprint/front yard | Explicit house form | High: clinic, bar, church, outbuilding; never revives building=yes → house. |
+| Small detached footprint/front yard | Explicit house form or complete Stage 0b eligibility | High: clinic, bar, church, outbuilding; size alone never qualifies; inferred form is labelled. |
 | Repeated attached rectangles | Explicit terrace/semidetached form | Medium: warehouses/garages; preserve topology, not residential use inference. |
 | Large low rectangle + loading-area adjacency | Tagged warehouse/industrial | High: school, supermarket, sports hall; no loading bays without evidence. |
 | Point inside one footprint | Compatible use tag plus reliable association | High in multi-tenant or multi-level sites; containment alone cannot choose whole-building architecture. |
 
-No universal area threshold is specified: the audited 250 m² shortcut demonstrates why size cannot settle use. Fit metrics (aspect ratio, compactness, adjacency) must retain values and uncertainty, with separately reviewed thresholds before enabling confidence changes. Names are untrusted data, never instructions. Normalize Unicode and tokenize with language-aware boundaries; substring “bar” is not a pub signal. Never geocode a name to obtain a new design without an independently licensed, provenance-recorded source.
+Stage 0b preserves the existing [12,250) m² shortcut interval within its combined eligibility test; this is an implementation boundary, not evidence that size settles use. Fit metrics (aspect ratio, compactness, adjacency) must retain values and uncertainty, with separately reviewed thresholds before enabling confidence changes. Names are untrusted data, never instructions. Normalize Unicode and tokenize with language-aware boundaries; substring “bar” is not a pub signal. Never geocode a name to obtain a new design without an independently licensed, provenance-recorded source.
 
 ## 4. Tag coverage and A11 licence questions
 
@@ -162,18 +162,38 @@ External-source conflicts never silently overwrite map geometry or accepted user
 
 | Stage | Why first / smallest output | Acceptance before expansion |
 |---|---|---|
-| 0 — neutral safety (low cost, highest widespread harm) | Shared registry/provenance; close unknown-house shortcuts including split/garage paths; diagnostics. Apply tunnel surface-visibility guard from A8. | All unknown/specific-use synthetic cases below pass; explicit houses unchanged; no unknown rendered as house. Counts preserved except intentionally suppressed underground geometry, recorded. |
+| 0a — tunnel guard + diagnostics; A1, already going | Shared underground visibility guard and unsupported-feature/provenance diagnostics. **No building-role change.** R reports this work underway; the census snapshot itself says not implemented at its inspected SHA. | Tunnel/diagnostic checks; identical building-role counts. Do not claim delivery without A1 implementation evidence. |
+| 0b — residential-form eligibility; **blocked until the look gate passes** | Preserve the shortcut behind the conjunction below; use B for ineligible unknowns. Do not start role edits as part of 0a or remove the shortcut wholesale. | Lakeview, Wilmette and Greenville final house counts each within ±2% of matched baseline; A3 blind grade must not drop on any hold-out. Both gates mandatory. |
 | 1 — reuse mapped masses/surfaces (low–medium) | Form/use/site separation; station, school, pub Frontage/InstitutionMass/StationMass with conservative geometry. Reuse pitch, parking and park caps. | Three worked resolutions, mixed-use/node-only and source-conflict cases pass; no invented bowl/footprint; every omission explained. |
 | 2 — continuity and vertical truth (medium–high) | Shared core/context rail/water/boundary lines; generic bridge deck only with defensible elevations; building-parts assembly. | No at-grade false crossing, duplicate part volume or core/context disappearance; unresolved vertical inputs remain diagnosed. |
 | 3 — repeatable missing structures (medium) | Mapped stands/platforms, shelter roofs, airport pavement, tower/mast and pier modules. | Geometry/data sufficiency and approved look tests per family; memory/triangle/draw ledger; no regulatory or operational claims. |
 | 4 — optional architectural detail (higher) | Approved Builder-phase venue modules and subsequently approved storefront/civic sheets. Maintain same registry. | A3 gains under matched controls, no hold-out regression; rights/approval gates resolved. No landmark proliferation to cover generic gaps. |
 
+### Stage 0b — residential-form eligibility and census guard
+
+Authority: [A1 house-shortcut census](../data/house-shortcut-census.md), filed in `2ffcf68`, using main `e5a0a3e`. Retained shortcut houses: Sloan’s 6 (0.43%), Lakeview 1,431 (50.69%), Wilmette 780 (61.95%), Greenville 118 (17.33%), West Highland 1 (0.04%). **Those percentages use all loaded non-part buildings as denominator, not all houses.** They are not a removal experiment and exclude >250 m² profile promotions and split-house paths. Preserve that distinction when reporting risk.
+
+After the look gate passes, an unclassified `building=yes` may retain residential-form eligibility only when **all** of these hold:
+
+1. Positive residential context: footprint centroid lies in mapped `landuse=residential`, or the existing zone resolver selects an explicitly residential zone profile with recorded provenance. A generic metro/default profile is insufficient. Conflicting commercial/industrial landuse vetoes inference; do not reinterpret a missing zone as residential.
+2. Compatible footprint range: preserve the current static shortcut interval **12 ≤ polygon area <250 m²**. Preserve normal alley/detached-garage overrides after eligibility; count final roles. The existing larger-footprint profile route requires a separately recorded residential-zone-specific range and census before gating it; no arbitrary range expansion to satisfy counts. Split paths likewise require an inventory. All changes remain blocked in 0b.
+3. No other tagged use on the building or a reliably associated occupant/site: conflicting `amenity`, `shop`, `office`, industrial, transport or other non-residential use vetoes inference. Ambiguous mixed use stays B pending review; explicit mapped residential form remains distinct from inferred use.
+4. Not near commercial/industrial evidence: no intersection with such tagged polygons, and no commercial/industrial feature within **20 m footprint-edge distance** (point-to-edge for points). This is an authored initial guard distance, **unverified**, not a census result; include retail/business use tags, not just landuse. Measure sensitivity at 10/20/30 m in the offline eligibility report before implementation; any adopted distance must be one general rule, fixed before hold-out scoring. Missing nearby-tag coverage cannot be treated as verified absence; report it and block acceptance if evidence is insufficient.
+
+Record `confidence=geometry-inferred`, `reason=residential-zone+footprint+no-conflicting-use+proximity-clear`, zone source, area, nearest conflicting feature/distance and coverage status. This is inferred residential **form**, not observed occupancy or tag certainty. If the conjunction fails, classify unknown form with **fallback B**, including every unknown outside a residential zone. Names never qualify or bypass a veto. Known explicitly tagged houses retain their normal path.
+
+Freeze source hashes, loaded extents and generator options. For each of **lakeview-sheil-park, wilmette-vattmann-park, greenville-downtown**, count all final `.house` roles after zone and garage overrides, once per retained non-part building, before versus after. Require `abs(H_after-H_before)/H_before ≤ 0.02` **individually**, not pooled; separately report split-generated house masses, larger-footprint promotions and changed source IDs so totals cannot conceal a path substitution. A zero baseline requires unchanged zero. Census retained-shortcut counts are not these total-house baselines: measure fresh totals. Report Sloan’s and West Highland too.
+
+A3 scores matched before/after blindly on **every hold-out**, with no decline in overall grade or any aspect; missing frames remain pending. Count preservation does not prove visual preservation, and visual preservation does not waive counts. If either gate fails, retain the current role behavior, report the failing classes/evidence, and keep 0b blocked. Do not add block-specific rules, loosen commercial vetoes or relabel buildings just to reach ±2%. The existing full look gate must pass before role implementation starts; these additional acceptance gates apply afterward.
+
 Synthetic acceptance suite to implement later (not run in this docs task):
 
 | Input / setup | Required result |
 |---|---|
-| building=yes, 80 m²; then 249/251 m² and below profile hugeArea | `unknown-building`, B at every size; no porch/house role |
-| building=yes + name=“Station House”; residential landuse around it | Unknown/B; name and landuse cannot select house or station |
+| building=yes, 80/249 m², eligible residential zone, no use/proximity veto | After look gate: inferred residential form, normal garage overrides; not tag-certain |
+| Same footprints outside residential zone, or commercial tag within 20 m | Unknown/B; no house inference |
+| building=yes at 11.9/12/249.9/250/251 m² | Static shortcut only [12,250); larger profile promotion separately inventoried/gated, never silently inferred from this census |
+| building=yes + name=“Station House”; residential landuse around it | Name ignored; house only if full Stage 0b conjunction passes, otherwise B; never station from name |
 | building=yes + amenity=pub, 80 m² | Pub use + neutral form; no house; known footprint only |
 | building=house + amenity=pub | Known house form retained, pub use separate, no invented branded façade |
 | building=apartments with café node inside and multiple tenants | Apartment mass; café metadata only until frontage association is known |
@@ -189,7 +209,7 @@ Synthetic acceptance suite to implement later (not run in this docs task):
 | highway=primary + bridge=yes + layer=1, no height/approach evidence | No metres inferred from layer; unresolved structural fallback/diagnostic |
 | railway=rail + bridge=yes with validated deck geometry | Rail plus deck composed once; no generic road substitution |
 | parent building + mapped building:part/min_height/height | Parts assembled without parent overlap; no forced house role |
-| unknown tiny building near alley / detachedGarages candidate | B; alley/size inference cannot bypass unknown guard |
+| unknown tiny building near alley / detachedGarages candidate | Existing garage override only after eligible residential inference; ineligible unknown stays B, alley alone cannot qualify |
 | amenities contradict each other, or site/node association ambiguous | Conflict retained, neutral form; deterministic result independent of input order |
 | absent module or approved sheet | Declared fallback, unsupported reason; not random house/landmark |
 | same normalized tags/geometry in different cities | Same archetype/module; only authorized regional material/detail data varies |
@@ -199,7 +219,7 @@ Rule tests also cover tokenized values, missing/null/malformed heights, relation
 
 ## 6. Hold-outs, budget and evidence
 
-No rule contains area ID, lat/lon bounds, individual OSM ID, street name, school/team/business name or hand-tuned camera. A locality may select an approved regional style only after semantics resolve; that selector cannot turn unknown into known. Explicit landmark work stays separate. Synthetic fixtures are coordinate-independent and must yield identical identity after translation/rotation.
+No rule contains area ID, lat/lon bounds, individual OSM ID, street name, school/team/business name or hand-tuned camera. A locality may select an approved regional style only after semantics resolve; that selector alone cannot turn unknown into known; the full Stage 0b conjunction may yield explicitly labelled inferred residential form after its gate. Explicit landmark work stays separate. Synthetic fixtures are coordinate-independent and must yield identical identity after translation/rotation.
 
 Freeze before/after on Sloan's and untouched Lakeview/Wilmette, West Highland and Greenville when ready, plus one held-out small-town extract selected **before implementation** with available licensed data. Do not select it because the candidate looks good. Missing school/station/pub examples in a hold-out are coverage gaps, not a pass. Report acquired/classified/generated/exported counts, fallback rates and conflicts per class, plus A3 matched phone frames and all aspect scores for implemented visual modules. Reject focus gains paired with hold-out regressions. A classifier fix can be accepted for correctness without claiming a visual score gain, but its changed appearance still needs A3 review.
 
@@ -207,5 +227,5 @@ Use existing device tiers and stage-specific budgets, not one mesh per registry 
 
 Builder evidence template: `registryVersion=… | base/candidate SHA=… | rules/modules changed=… | synthetic cases passed/failed=… | source/licence manifests=… | fallback/conflict counts=… | core/context/web parity=… | before/after frames+A3=… | hold-outs=… | budgets=… | A11 outstanding=… | keep/reject/pending=…`.
 
-Used: A8 long-tail audit; MapFeatureBuilder classification; BuildingGenerator role paths; OSM wiki conventions linked per row. Mock: named I/V/H sheets above, with approval/phase restrictions; no landmark defaults. Deviation: frequency estimates and proposed modules, not measured coverage or implemented rendering; literal landmarks-v2 absent, located landmarks-style-b-v2 reviewed.
+Used: A1 house-shortcut census (2ffcf68), Stage 0b; A8 long-tail audit; MapFeatureBuilder classification; BuildingGenerator role paths; OSM wiki conventions linked per row. Mock: named I/V/H sheets above, with approval/phase restrictions; no landmark defaults. Deviation: frequency estimates and proposed modules, not measured coverage or implemented rendering; literal landmarks-v2 absent, located landmarks-style-b-v2 reviewed.
 Tracker update:
