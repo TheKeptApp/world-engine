@@ -22,6 +22,22 @@ Native mode selection: one local integer constant in the named surface function,
 
 No changes to `Props.swift`, `RenderResources.swift`, `Environment.swift`, `lighting.js`, `phenology.js`, source packs or export data. Existing crown AO is read from P2; no pending-concept values are imported. Any additional renderer file required by tomorrow's implementation must be named in the handoff before expanding scope.
 
+## Approved native eligibility amendment — 8 October 2026 (R, A10)
+
+R approved retaining the original eligibility predicate and additionally requiring existing deciduous palette slots **3, 4, 5, 6, 24, 25, 26, 27, 28**. Flower-bush petals (`Sources/WorldGen/Props.swift:394,539`) carry `extra=(1,0.9,0,0)` and unflagged flower paint, so the original predicate alone also selected those non-crown controls. Fixed slot identities come from `SeasonalPalette.order` (`Sources/WorldGen/StyleProfile.swift`) and `crownPaint` (`Props.swift`), not appearance or RGB colour.
+
+Exact final native mask, evaluated after leaf-drop and bare-skyline handling, using the existing resolved `slot=paletteSlot(paint,origin)`:
+
+```cpp
+extra.y > 0.0 && extra.z < 0.5 && !su.leafCut &&
+(uint(paint.z + 0.5) & 512u) == 0u &&
+((slot >= 3u && slot <= 6u) || (slot >= 24u && slot <= 28u))
+```
+
+The explicit slot list is `{3,4,5,6,24,25,26,27,28}`. A2 must match **deciduous crown identity**, plus the same live/opaque/non-skyline/non-card conditions, on web; colour similarity does not establish identity. Preserve bushes/flowers, conifers, bark, tufts and skyline/card controls. This amendment changes eligibility only; the candidate math and 0.00 emissive rule remain exact.
+
+R also authorizes launch-argument selection for this native execution (`off/remove/layered`, default off), replacing the older build-only mode selection above, and Sloan’s `-inspectionpose` captures at 40/150/600 m replacing the old street-view order for this requested set. Off-vs-baseline pixel difference must be 0. Bush, conifer and other non-mask category pixel checks must report maximum differences against baseline in all three modes. A3 scores; A10 does not. Hold-outs and other visual gates remain pending until separately captured/scored.
+
 ## Exact candidate math, linear-light material inputs
 
 Definitions: `B` is the existing decoded, seasonally mixed and instance-varied base colour, before weather/atmosphere. `A` is broad crown AO, not shadow-map visibility. `smoothstep(a,b,x)` means `t*t*(3-2*t)` where `t=clamp((x-a)/(b-a),0,1)`.

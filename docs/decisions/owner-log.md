@@ -159,3 +159,8 @@ R requested confirmation/freeze of A1's pre-capture west-highland-aerial-north-0
 ## Addendum — 8 Oct 2026: contributor onboarding
 
 R requests a repo-based lane guide for another Claude plan or a human: 5A/P2/P3/A1–A11, session start/state notes, standing rules, copy-paste prompt, Sonnet default and Opus for render, external inputs/shared versioning proposal, and Xcode/Mac boundaries. Filed in docs/CONTRIBUTING-lanes.md. No assets moved, sharing service created, lane ownership transferred or implementation changed.
+
+
+## Addendum — 8 Oct 2026: native foliage experiment eligibility
+
+R approved the original foliage-exp1 native predicate **plus deciduous palette slots 3–6 or 24–28**. Flower-bush petals (`Props.swift:394,539`) otherwise pass the original mask and must stay controls. The exact predicate/slot list is recorded in the dated foliage-exp1-spec.md amendment for A2 parity. R requires max pixel difference per bush/conifer/other-nonmask category against baseline for off/remove/layered, baseline/off exact zero, and Sloan’s inspection-pose captures at 40/150/600 m. Runtime launch selection is authorized, default off; A3 scores. Wait for load <25 and free heavy lock (never overlap A4/A7); after >10 minutes without admission, stop and identify the lock holder. This records authorization, not a completed build or proof.
