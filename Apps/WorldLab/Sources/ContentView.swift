@@ -325,6 +325,10 @@ struct RealityKitScreen: View {
             if let area = o.area, area != demo.area {
                 print("VIEWSHOT id=\(spec.id) skipped: area \(area) needs its own launch"); fflush(nil); continue
             }
+            guard ["off", "remove", "layered"].contains(o.foliageExperiment),
+                  o.inspectionPose == nil || InspectionCamera.Input(o.inspectionPose!) != nil else {
+                print("VIEWS failed: invalid foliage mode or inspection pose for \(spec.id)"); fflush(nil); return
+            }
             await applyView(o, world: world, camera: camera, env: env, demo: demo)
             try? await Task.sleep(for: .seconds(options.viewSettle))
             print("VIEWREADY id=\(spec.id)"); fflush(nil)
@@ -352,6 +356,8 @@ struct RealityKitScreen: View {
 
     /// Sets one view up in place, as a launch with these options would (same area).
     private func applyView(_ o: LaunchOptions, world: World, camera: WorldCamera, env: EnvironmentController, demo: DemoConfig) async {
+        print("FOLIAGE_EXP1 mode=\(o.foliageExperiment) value=\(["off", "remove", "layered"].firstIndex(of: o.foliageExperiment) ?? 0) defaultConstant=0 buildTimeVariant=true slots=3-6,24-28"); fflush(nil)
+        inspection = nil
         camera.transitionSeconds = 0
         camera.autoRecenter = true
         camera.absoluteYaw = nil
@@ -388,6 +394,12 @@ struct RealityKitScreen: View {
         } else {
             camera.mode = .postcard(currentPostcard(world: world))
         }
+        if let text = o.inspectionPose, let input = InspectionCamera.Input(text) {
+            mode = "aerial"; env.aerial = true
+            startInspection(world: world, camera: camera, from: defaultInspectionPose(world: world))
+            changeInspection(world: world, camera: camera) { $0.set(input, frame: world.frame, ground: groundClearance(world)) }
+        }
+        showCameraDebug = o.cameraDebug
         env.resolve()
     }
 
@@ -591,6 +603,9 @@ struct RealityKitScreen: View {
 
     private func load() async {
         do {
+            guard let foliageMode = ["off", "remove", "layered"].firstIndex(of: options.foliageExperiment) else {
+                throw NSError(domain: "WorldLab", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid -foliageexp1: expected off, remove or layered"])
+            }
             if let text = options.inspectionPose, InspectionCamera.Input(text) == nil {
                 throw NSError(domain: "WorldLab", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid -inspectionpose: expected lat,lon,alt,heading,pitch; pitch 5–85° down"])
             }
@@ -606,6 +621,8 @@ struct RealityKitScreen: View {
             }
             let w = try await World.load(areaDirectory: dir, options: WorldOptions(
                 focus: demo.focusBox, profileID: options.profile ?? demo.defaultProfile, date: options.date(demo), diagnostics: options.diagnostics))
+            print("FOLIAGE_EXP1 mode=\(options.foliageExperiment) value=\(foliageMode) defaultConstant=0 buildTimeVariant=true slots=3-6,24-28")
+            fflush(nil)
             // Presets and test runs walk a character with the street camera (the matched-test
             // setup); the experience opens on a composed postcard with no character. Only the
             // demo's own area has a walking loop.

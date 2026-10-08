@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -21,6 +22,32 @@ def frozen_view(root, view_id):
     if contract['commonArgs'] != current['commonArgs']:
         raise ValueError('capture common arguments differ from the frozen A3 contract')
     return next(v for v in contract['views'] if v['id'] == view_id)
+
+
+def inspection_view(view, pose, mode):
+    """R's 8 Oct A10 capture override; frozen hero defaults remain unchanged when absent."""
+    result = dict(view)
+    args = list(view['args'])
+    if pose is not None:
+        values = [float(v) for v in pose.split(',')]
+        if len(values) != 5 or not all(math.isfinite(v) for v in values):
+            raise ValueError('inspection pose requires five finite values')
+        lat, lon, alt, heading, pitch = values
+        if not (-90 <= lat <= 90 and -180 <= lon <= 180 and 8 <= alt <= 1500 and 5 <= pitch <= 85):
+            raise ValueError('inspection pose outside capture limits')
+        # Capture only: same fixed weather/clock as the requested A10 inspection controls.
+        remove = {'-preset', '-showcase', '-camera', '-mode', '-character', '-weatherspec', '-inspectionpose'}
+        filtered = []
+        i = 0
+        while i < len(args):
+            if args[i] in remove: i += 2
+            else: filtered.append(args[i]); i += 1
+        args = filtered + ['-character', 'none', '-weatherspec', 'label=clear,cloud=0,wind=0', '-inspectionpose', pose]
+    if mode is not None:
+        if mode not in ('off', 'remove', 'layered'): raise ValueError('invalid foliage experiment mode')
+        args += ['-foliageexp1', mode]
+    result['args'] = args
+    return result
 
 
 def verify_frame(run, view_id):
@@ -62,6 +89,8 @@ def crash_evidence(since):
 def main():
     parser = argparse.ArgumentParser(description='Fresh-worktree native capture; call scripts/capture-native.sh.')
     parser.add_argument('--view', default='ordinary-street-afternoon')
+    parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
+    parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 runtime mode, absent defaults off')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
     args = parser.parse_args()
     run = (args.output or ROOT / '.build/lookloop' / f'native-{uuid.uuid4().hex[:12]}').resolve()
@@ -69,7 +98,7 @@ def main():
     started_wall = time.time()
     created_run = False
     try:
-        view = frozen_view(ROOT, args.view)
+        view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1)
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
         run.mkdir(parents=True, exist_ok=False)  # never accept frames from an earlier run
@@ -77,6 +106,7 @@ def main():
         (run / 'views.tsv').write_text(view['id'] + '\t' + ' '.join(view['args']) + '\n')
         timings = {}
         env = dict(os.environ)
+        env["FOLIAGE_EXP1_BUILD"] = args.foliageexp1 or "off"
         for key in ('LOOKLOOP_SIM', 'LOOKLOOP_UDID', 'SKIP_BUILD', 'LOOKLOOP_BATCH'):
             env.pop(key, None)
         with (run / 'pipeline.log').open('w') as log:
@@ -94,6 +124,17 @@ def main():
         timings['totalSeconds'] = round(time.monotonic() - started, 2)
         report = dict(timings, crashes=crash_evidence(started_wall), view=args.view, args=view['args'], frame=str(frame), size=size, sha256=digest,
                       commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip())
+        if args.foliageexp1 is not None:
+            logs = '\n'.join(p.read_text(errors='replace') for p in sorted((run / 'logs').glob('_launch-*.log')))
+            expected = f'FOLIAGE_EXP1 mode={args.foliageexp1} value={("off", "remove", "layered").index(args.foliageexp1)} defaultConstant=0'
+            if expected not in logs: raise ValueError('captured launch did not confirm foliage mode')
+        report.update(inspectionPose=args.inspectionpose, foliageExp1=args.foliageexp1 or 'off', defaultConstant=0,
+                      shaderSourceSHA256=hashlib.sha256((ROOT / 'Sources/WorldEngine/Shaders/WorldShaders.metal').read_bytes()).hexdigest())
+        report['compiledConstant'] = ('off', 'remove', 'layered').index(args.foliageexp1 or 'off')
+        source = ROOT / ('.build/foliage-exp1/current.metal' if report['compiledConstant'] else 'Sources/WorldEngine/Shaders/WorldShaders.metal')
+        report['compiledShaderSourceSHA256'] = hashlib.sha256(source.read_bytes()).hexdigest()
+        app = ROOT / '.build/xcode/Build/Products/Debug-iphonesimulator/WorldLab.app'
+        report['metallibSHA256'] = {str(p.relative_to(app)): hashlib.sha256(p.read_bytes()).hexdigest() for p in app.rglob('default.metallib')}
         (run / 'native-capture.json').write_text(json.dumps(report, indent=2) + '\n')
         print(frame)  # stable stdout contract: the collected frame's absolute path
         return 0

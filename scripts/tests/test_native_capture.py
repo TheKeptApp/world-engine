@@ -23,6 +23,18 @@ class NativeCaptureTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'frozen'):
                 capture.frozen_view(root, view['id'])
 
+    def test_authorized_inspection_override_keeps_clock_and_mode(self):
+        view = capture.frozen_view(ROOT, 'ordinary-street-afternoon')
+        self.assertEqual(capture.inspection_view(view, None, None), view)
+        pose = '39.7511195,-105.0389,40,270,45'
+        changed = capture.inspection_view(view, pose, 'layered')
+        self.assertNotIn('-preset', changed['args'])
+        self.assertIn('2026-10-15T20:30:00Z', changed['args'])
+        self.assertEqual(changed['args'][-4:], ['-inspectionpose', pose, '-foliageexp1', 'layered'])
+        for bad in ['nan,2,40,0,45', '1,2,7,0,45', '1,2,40,0,90', '1,2,3']:
+            with self.assertRaises(ValueError): capture.inspection_view(view, bad, 'off')
+        with self.assertRaises(ValueError): capture.inspection_view(view, pose, 'invalid')
+
     def test_failed_or_stale_frame_cannot_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); (root / 'raw').mkdir()

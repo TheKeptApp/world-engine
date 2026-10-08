@@ -147,6 +147,8 @@ struct LaunchOptions {
     /// `-inspectionpose lat,lon,alt,heading,pitch`: AGL metres, degrees clockwise from north / down.
     var inspectionPose: String?
     var cameraDebug = false
+    /// foliage-exp1-spec approved runtime selection (R, 8 Oct); validated before scene load.
+    var foliageExperiment = "off"
     /// `-snapshot SECONDS`: SECONDS after the world is on screen, save a PNG of the RealityKit view to the
     /// app's Documents (`snapshot-realitykit-<name>.png`) and print `SNAPSHOT saved <file>`. For device
     /// screenshots (scripts/device_snapshots.sh). The web renderer has its own `-snapshot` (WebScreen).
@@ -203,6 +205,7 @@ struct LaunchOptions {
         debugHUD = args.contains("-debughud")
         inspectionPose = value("-inspectionpose")
         cameraDebug = args.contains("-cameradebug")
+        foliageExperiment = value("-foliageexp1") ?? "off"
         snapshotSeconds = value("-snapshot").flatMap(Double.init)
         snapshotName = value("-snapshotname")
         if value("-snapshotsource") == "compositor" { snapshotSource = .compositor }
