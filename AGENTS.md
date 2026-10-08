@@ -19,14 +19,14 @@ WorldEngine is a true-scale, stylized real-world 3D engine: an iPhone app (Reali
 | **P0 (5A)** | Light, weather, sky and the renderer: `Sources/WorldEngine/`, `Sources/WorldEnvironment/`, `Sources/LiveSky/`, the look data (`Sources/WorldGen/Profiles/look.json`, `Look.swift`), shaders. **Water (the water code, the water shader and the water values wiring) is 5A's alone, Opus only; Astra may build water only inside his own `web/bakeoff/` folder.** |
 | **P1** | Data and back end: `Tools/regionkit/`, `Tools/livefeeds/`, `Data/`, `Sources/WorldMap/`, `Sources/WorldPackage/`, `Sources/worldbake/`, `Sources/WorldGeo/`, `docs/research/`, `docs/data-sources/`, `docs/data-licensing.md`. |
 | **P2** | Buildings, yards and vegetation: the generators in `Sources/WorldGen/`, `Sources/buildingviz/`, `docs/buildings/`. |
-| **P3** | The look loop: `Tools/lookloop/`, `docs/lookloop/`. Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage). |
+| **P3** | Paused (R, 8 Oct 2026); retains ownership of the look loop: `Tools/lookloop/`, `docs/lookloop/`. Filing (ChatGPT's packs, the trackers, `docs/proposals/INDEX.md`, `docs/design-registry.md`, `docs/pack-usage.md`, `docs/decisions/owner-log.md`, `docs/roadmap.md`, the handoff log) passes to Astra's lane A3 (R, 8 Oct 2026, to save usage). |
 
 If you are not sure which lane owns a file, ask before you edit it (`git log -- <file>` shows who last changed it).
 
 **Astra's lanes (R, 8 Oct 2026; Astra is on trial):**
-- **A1: data and back end**, the P1 area above (OSM and Overture, lidar heights and roofs, assessor data, terrain and DEM, licences, QA). Astra may commit and merge to main there under the rules below.
-- **A2: the web look bake-off**, in `web/bakeoff/` only (three.js).
-- **A3: filing**, docs only and no code: ChatGPT's packs, the trackers, INDEX, the registry, pack usage, the roadmap, the owner log and the handoff log (`docs/tracking/handoffs.md`). A3 took filing over from P3 on 8 Oct 2026 to save usage.
+- **A1 (Astra): data and back end**, the P1 area above (OSM and Overture, lidar heights and roofs, assessor data, terrain and DEM, licences, QA). Astra may commit and merge to main there under the rules below.
+- **A2 (Astra): the web look bake-off**, in `web/bakeoff/` only (three.js); water is allowed only inside that folder, never in the iOS water code or shader.
+- **A3 (Astra): the only filing lane, including trackers**, docs only and no code: ChatGPT's packs, the trackers, INDEX, the registry, pack usage, the roadmap, the owner log and the handoff log (`docs/tracking/handoffs.md`). A3 took filing over from P3 on 8 Oct 2026 to save usage; P3 is paused and does not file packs.
 - Astra may **not** edit render or look code (the 5A and P2 areas) without a logged handoff: write the file, the change and the reason to `docs/tracking/handoffs.md` (A3 keeps it) and wait for the owner of that area to agree; then edit exactly those files.
 - **Water: 5A owns it, Opus only. Astra never edits the iOS water code, the water shader or the water values in the compiled mock values.** Astra may build water only inside his own bake-off folder, `web/bakeoff/` (R, 8 Oct 2026).
 - The trial ends or widens only by R's decision.
@@ -34,6 +34,13 @@ If you are not sure which lane owns a file, ask before you edit it (`git log -- 
 Other GPT roles are different: ChatGPT design chats write packs to `~/Desktop/worldengine-gpt-drop/` only, never run git, and A3 files what they deliver. This replaces the older line that no GPT agent may run git, for Astra's lanes only.
 
 ## Binding rules (mirroring `CLAUDE.md`)
+
+### RULE — NO BLOCK-SPECIFIC FIXES (R, 8 Oct)
+
+1. Every look, data and generator change must be a general rule driven by data or region (climate, species, era, material, latitude, season), never a hand-tuned value for one place, one building or one camera. Sloan's Lake is the test, not the product.
+2. HOLD-OUT TEST: after every merge that changes look, also render and score the untouched hold-out blocks — Lakeview (Chicago), one other Denver neighbourhood (not Sloan's Lake), Greenville Downtown — with NO tuning. Report both: Sloan's Lake score and hold-out score. A merge that raises Sloan's but lowers the hold-outs is rejected.
+3. Data pipelines must run unchanged on any area; report hold-out coverage/quality alongside Sloan's.
+4. docs/lookloop/mock-exceptions.md stays near empty; every new exception needs R's written approval.
 
 **Scope and privacy**
 - Work only inside this repo. Do not read, modify or reference any other repo (DogWell, Toshi, Stretchy or others).
