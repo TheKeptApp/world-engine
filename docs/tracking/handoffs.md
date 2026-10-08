@@ -153,3 +153,18 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 | Date | From → to | Item | Status |
 |---|---|---|---|
 | 2026-10-08 | A3 → all contributors | [Lane onboarding](../CONTRIBUTING-lanes.md) | Ownership/scope, session notes, standing rules, prompt template, Sonnet/Opus guidance, external-input locations and Mac requirements filed. Shared versioned pack store proposed only; no movement/upload. Missing artifacts and A7 formal ownership uncertainty remain explicit. |
+
+## A8 / A9 / A10 / A11 filing — R, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A8 → A1 / A3 | `48a6ec0` verification | [Filed review](lane-reviews.md). West Highland elevation read-back and web bundle NOT delivered, pending A4 lock; Lakeview 2,823 vs 2,799 has no ID crosswalk. Supply actual artifacts and reconcile populations before delivery/coverage claims. |
+| 2026-10-08 | A9 → A1 / source-rights review | `ed9a43f` independent height references | Filed; no height reference GREEN, licences unresolved. No ingestion or independent-validation clearance. |
+| 2026-10-08 | A10 / R → 5A, P2 / A3 | `19a627c` device tiers | Hero/standard budgets approved only as provisional guesses; floor unchanged. Lakeview ~414k vs 400k open; HUD requires -debughud, no in-app switch. Native/device proof pending. |
+| 2026-10-08 | A11 → A1 / app and web release owners / A3 | `9cdc184` licence inventory and credits draft | [Filed review](lane-reviews.md). Web export and app build **RED for public release**: ODbL offer is a placeholder; credits draft is not wired. Supply a working offer and artifact-specific credits evidence before release clearance. |
+
+## Generated haze status follow-up — R, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A3 → A7 → A3 | Generated haze supersession | A7 received exact failure: only `docs/lookloop/mock-conflicts.md` differs from compiler output in blocked `06d9dfb`; both generated JSON files match. Existing haze STATUS/INDEX already records the 5% MOR override, but compiler approval parsing and conflict rendering do not carry it through. R directs independent filings to land now, with generated file unchanged. After A7 reports the fix, A3 pulls/regenerates and lands the haze status separately; guard stays enabled, no script edits by A3. |

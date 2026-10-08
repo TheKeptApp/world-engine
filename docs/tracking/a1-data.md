@@ -59,3 +59,7 @@ Both 8 October handoff entries retained add-only in date order, as R expressly a
 ## West Highland decision — R / A3, 8 Oct 2026
 
 West Highland camera `west-highland-aerial-north-01` confirmed unchanged and frozen (8 Oct): target (39.764, -105.04), scene y=0 m; eye (39.759946, -105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. Shared atmosphere contract must accompany capture. R reports 19.1% height / 19.0% roof-form coverage, versus Lakeview heights 93.5% and Sloan's 29.1%. Separate data-poor hold-out; score/capture pending. A1 sparse-density test pending; ladder NOT PROMOTED. Earlier camera-pending notes are historical; source/package delivery must still be evidenced. [Frozen contract and cohort note](../lookloop/west-highland-holdout.md).
+
+## Current delivery clarification — R / A8, 8 Oct 2026
+
+A8 `48a6ec0` is [filed in lane reviews](lane-reviews.md): West Highland elevation read-back and web bundle are **NOT delivered yet (pending A4 lock)**. Height/roof sidecars and exporter capability do not establish those deliveries. Lakeview export 2,823 vs observed-height population 2,799 has **no crosswalk**; do not transfer a coverage percentage across populations. A9 `ed9a43f`: no independent height reference is GREEN; reference licences remain unresolved. These notes do not revoke existing source clearances or claim a new data test.

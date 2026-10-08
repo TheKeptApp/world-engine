@@ -1,5 +1,7 @@
 # Look-loop scoreboard
 
+> **Status clarification — R, 8 Oct 2026:** historical colour-box ΔE/dE “progress” wording is **diagnostic only**, describing sampled colours under those capture conditions. It does not establish look improvement, visual acceptance or a correct global correction. **A3's visual §M closeness and six-aspect grades are the score**, with §N noise/fixture controls. Historical rows and wording below are retained; no new capture, grade or acceptance is recorded here.
+
 One row per run (`/lookloop`, or `Tools/lookloop/lookloop.sh run`), newest last. Views counts graded/captured and how many were reused unchanged; Regressions counts flags from the guard (latest/regressions.md). **Parity** (first) is the mean concept parity: each view's /50 as a share of its target concept's calibrated /50; these are historical parity measures. The current look gate is calibration closeness ≥4 on all four heroes, with every aspect ≥3 (GRADING.md §M); the A3 takeover baseline is the newest row below. Mean /50 is the v2 §8.3 score, kept as the long-term goal (40); AD is the art-direction mean (ground richness, rain readability, regional signature). Simulator frame time and triangles are for change tracking only, not device performance.
 
 Rows before 6 Oct 2026 07:30 were re-expressed with the parity gate from their stored grades (the 01:02 row was graded before the GRADING.md tuning, see calibration.md).
