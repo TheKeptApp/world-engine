@@ -86,10 +86,10 @@ public struct LookSpec: Codable, Sendable {
     public struct DaytimeMasterCalibration: Codable, Sendable {
         public var key: Double
         public var fill: Double
-        /// The master's "+0.35 EV once" realised as the auto-exposure target: the four approved heroes'
-        /// measured mean display brightness (Y8, 16:9 picture area). A gain on top of our auto exposure
-        /// overshot the heroes by ~15 Y8 (they brighten far less than 0.35 EV over the captures).
-        public var exposureTargetY8: Double
+        /// One global exposure offset (Y8) on the lighting bible's per-state brightness (owner, 8 Oct:
+        /// general, not fitted to heroes): the calibration frames' mean minus the bible at their sun.
+        /// The master's +0.35 EV is realised once through this target, not as a second gain.
+        public var exposureOffsetY8: Double
     }
     public var daytimeMaster: DaytimeMasterCalibration
     /// Patchy wet sheen on rain-v1's sheen (owner 7 Oct): noise scale, sheen range, gloss roughness.

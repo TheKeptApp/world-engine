@@ -69,11 +69,12 @@ extension World {
         }
         // Daytime master exposure: the heroes' brightness as the auto-exposure target, and the master's
         // EV realised by it (applied once), not as a second gain on top.
+        // One global offset on the bible's per-state brightness (all states, every place; measured once
+        // as the calibration frames' mean minus the bible at their sun). Under the daytime master its
+        // +0.35 EV is realised once by that target, so the grade adds no second lift.
+        if let off = Self.lookSpec?.daytimeMaster.exposureOffsetY8 { exposureTarget += Float(off / 255) }
         let masterExposure = Float(smoothstepD(15, 30, env.light.sunElevationDeg)) * (state == nil || state == .clear ? 1 : Float(1 - weight))
-        if Self.daytimeMaster != nil, let y8 = Self.lookSpec?.daytimeMaster.exposureTargetY8, masterExposure > 0 {
-            exposureTarget += (Float(y8 / 255) + lookTuning.exposureTarget - exposureTarget) * masterExposure
-            gradeLook.exposureEV *= Double(1 - masterExposure)
-        }
+        if Self.daytimeMaster != nil, masterExposure > 0 { gradeLook.exposureEV *= Double(1 - masterExposure) }
         // Weather key:fill (grade.json weather `direct`): the renderer takes away more of the direct
         // sun under cloud, rain and fog than the weather model does, and the sky fill grows as the
         // sun is hidden. Exposure compensation is small now: the solved auto exposure meets each
