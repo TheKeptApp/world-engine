@@ -31,3 +31,18 @@ class RoofEvidence(unittest.TestCase):
         self.assertEqual(r['type'], 'flat')
         self.assertLess(r['pitch_deg'], 1)
         self.assertIsNone(r['ridge_bearing_deg'])
+
+    def test_nearly_north_ridge_wraps_rounded_180_to_zero(self):
+        from shapely.affinity import rotate
+        p = footprint(); points = gable_cloud(p)
+        angle = np.deg2rad(90.04)
+        matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+        points[:, :2] = points[:, :2] @ matrix.T
+        p = rotate(p, 90.04, origin=(0,0))
+        h = O.record_for(p, points, ground_cloud(p), O.H.load_params())
+        h['qa']['roof_selection'] = {'planarPointShare': None}
+        r = R.classify(p, points, h, O.L.load('params.json'))
+        self.assertEqual(r['type'], 'gable')
+        self.assertGreaterEqual(r['ridge_bearing_deg'], 0)
+        self.assertLess(r['ridge_bearing_deg'], 180)
+        self.assertAlmostEqual(r['ridge_bearing_deg'], 0, delta=1)
