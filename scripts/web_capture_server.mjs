@@ -2,7 +2,7 @@
 import {createServer} from 'node:http';
 import {readFile,realpath} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
-export async function startCaptureServer(root) {
+export async function startCaptureServer(root, overrides={}) {
  root=await realpath(root);
  const here=resolve(root,'web/bakeoff');
  const mounts=[['/world/lakeview/',resolve(here,'generated/lakeview-sheil-park')],['/world/sloans/',resolve(root,'Generated/package/sloans-lake')],['/src/',resolve(root,'web/src')],['/vendor/',resolve(root,'web/node_modules/three')],['/packs/',resolve(root,'docs/proposals')],['/',here]];
@@ -10,6 +10,8 @@ export async function startCaptureServer(root) {
  const failures=[];
  const server=createServer(async(req,res)=>{try{
   const path=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+  if(Object.hasOwn(overrides,path)){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(overrides[path]));return;}
+  if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}
   for(const [prefix,base] of mounts){if(!path.startsWith(prefix))continue;
    const file=await realpath(resolve(base,path.slice(prefix.length)||'index.html'));
    if(file!==base&&!file.startsWith(base+sep))break;
