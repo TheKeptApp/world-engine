@@ -1,0 +1,94 @@
+{
+  "checked": "2026-10-07",
+  "ratings": "Authored assessment, not signed rights",
+  "providers": [
+    {
+      "name": "FlightAware AeroAPI",
+      "display": "YELLOW \u2014 B2C embedding allowed; situational-display exclusion needs written resolution",
+      "store": "Verified raw <=30 days",
+      "resell": "YELLOW \u2014 Standard no B2B; Premium limited embedded/derived distribution, raw resale not granted",
+      "derive": "Verified allowed; live-feed mixing requires permission",
+      "latency": "Unverified source-to-client SLA",
+      "gate": "Gate/terminal data; airport-specific accuracy unverified",
+      "cost": "$100/$1,000 minima plus usage benchmark; custom rights may differ",
+      "sources": [
+        "FA-PRICE",
+        "FA-STANDARD",
+        "FA-PREMIUM"
+      ]
+    },
+    {
+      "name": "FlightAware Firehose",
+      "display": "YELLOW \u2014 negotiate exact scope",
+      "store": "Unverified negotiated retention",
+      "resell": "Unverified negotiated scope",
+      "derive": "Unverified negotiated scope",
+      "latency": "Provider sub-second event claim; position freshness SLA unverified",
+      "gate": "ExtendedFLIFO and separately licensed surface layer; six-airport accuracy unverified",
+      "cost": "Quote required at 1k/100k/1M users",
+      "sources": [
+        "FA-FIREHOSE",
+        "FA-LATENCY"
+      ]
+    },
+    {
+      "name": "Cirium",
+      "display": "YELLOW \u2014 contract unverified",
+      "store": "Unverified",
+      "resell": "Unverified",
+      "derive": "Unverified",
+      "latency": "Raw and derived track modes; no numeric SLA verified",
+      "gate": "Schema verified; accuracy unverified",
+      "cost": "PAYG available; unit prices and 1k/100k/1M costs unverified/quote",
+      "sources": [
+        "CIRIUM-STATUS",
+        "CIRIUM-TRACK",
+        "CIRIUM-PRICE"
+      ]
+    },
+    {
+      "name": "OAG",
+      "display": "YELLOW \u2014 contract unverified",
+      "store": "Unverified",
+      "resell": "Unverified",
+      "derive": "Unverified",
+      "latency": "Near-real-time status changes; coordinate stream not established",
+      "gate": "Schema verified; accuracy unverified",
+      "cost": "Quote at each scale",
+      "sources": [
+        "OAG-STATUS",
+        "OAG-COVER",
+        "OAG-ALERT"
+      ]
+    },
+    {
+      "name": "ADS-B Exchange commercial",
+      "display": "YELLOW \u2014 enterprise license required",
+      "store": "Unverified",
+      "resell": "Unverified",
+      "derive": "Unverified",
+      "latency": "5s/500ms/250ms product cadence, not end-to-end SLA",
+      "gate": "Assignments unverified; geometry and occupancy separate",
+      "cost": "Annual enterprise subscription quote at each scale; $10 community ineligible",
+      "sources": [
+        "ADSB-PRODUCT",
+        "ADSB-LICENSE",
+        "ADSB-COMMUNITY"
+      ]
+    },
+    {
+      "name": "Aviation Edge",
+      "display": "YELLOW \u2014 own-app use allowed, fanout interpretation needs confirmation",
+      "store": "Unverified cache duration; derivative database prohibited",
+      "resell": "RED \u2014 public terms prohibit resale/distribution",
+      "derive": "Derivative database prohibited; transient animation rights unverified",
+      "latency": "Provider says few-minute updates; schedule-filled gaps",
+      "gate": "Timetable fields; accuracy unverified",
+      "cost": "$299/30k, $599/100k, $1499/500k regular; unlimited quote; first-month promo excluded",
+      "sources": [
+        "AE-PRODUCT",
+        "AE-TERMS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3499 @@
+{
+  "schema": "worldengine.regional-car-mix.design.v1",
+  "date": "2026-10-07",
+  "status": "Design proposal. Local fine shares, densities, age/condition are unverified authoring fixtures, not registration statistics.",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "units": {
+    "dimensions": "metres excluding mirrors unless specified",
+    "share": "percent of ambient light-duty sample",
+    "density": "simultaneous visible vehicles per100m road, both curbs or all moving lanes total, NOT hourly traffic flow"
+  },
+  "taxonomy": {
+    "body": "Mutually exclusive; kei takes precedence over visual body shape; hatchbackEstate includes wagons; SUVs include crossovers. Buses, heavy trucks and motorcycles outside this kit.",
+    "EV": "BEV powertrain overlay across eligible body types, not a separate body share; not all EVs have distinctive silhouettes. HEV/PHEV excluded from BEV overlay.",
+    "keiOutsideJapan": "0 means no default spawning, not legal prohibition.",
+    "colour": "Eight finish families; paint hex chosen for matte shading, not measured pigment"
+  },
+  "sizes": {
+    "sedan": {
+      "lengthM": 4.65,
+      "widthM": 1.82,
+      "heightM": 1.46,
+      "wheelbaseM": 2.75
+    },
+    "hatchbackEstate": {
+      "lengthM": 4.25,
+      "widthM": 1.78,
+      "heightM": 1.48,
+      "wheelbaseM": 2.65,
+      "estateLengthGuideM": 4.6
+    },
+    "suvCrossover": {
+      "lengthM": 4.65,
+      "widthM": 1.88,
+      "heightM": 1.7,
+      "wheelbaseM": 2.75
+    },
+    "pickup": {
+      "lengthM": 5.45,
+      "widthM": 1.95,
+      "heightM": 1.83,
+      "wheelbaseM": 3.2,
+      "fullSizeVariantLengthM": 5.85
+    },
+    "minivan": {
+      "lengthM": 4.8,
+      "widthM": 1.85,
+      "heightM": 1.82,
+      "wheelbaseM": 2.9
+    },
+    "kei": {
+      "lengthM": 3.395,
+      "widthM": 1.475,
+      "heightM": 1.77,
+      "wheelbaseM": 2.45,
+      "regulatoryEnvelopeM": [
+        3.4,
+        1.48,
+        2
+      ],
+      "utilitySubtypeSharePercent": 15
+    },
+    "van": {
+      "lengthM": 4.9,
+      "widthM": 1.95,
+      "heightM": 2.05,
+      "wheelbaseM": 3.0,
+      "shortVariantLengthM": 4.4
+    }
+  },
+  "sizeStatus": "Authoring targets, not manufacturer dimensions; kei legal envelope verified separately",
+  "colours": {
+    "white": "#E9E8E0",
+    "black": "#24292D",
+    "grey": "#6E7478",
+    "silver": "#AFB7BB",
+    "blue": "#315B80",
+    "red": "#A5453F",
+    "brownBeige": "#9A8973",
+    "green": "#4F6F5A"
+  },
+  "plates": {
+    "northAmerica": {
+      "sizeM": [
+        0.3048,
+        0.1524
+      ],
+      "frontHex": "#ECEDE6",
+      "rearHex": "#ECEDE6",
+      "status": "dimensions verified California DMV, proxy elsewhere; province/state colours simplified unverified"
+    },
+    "uk": {
+      "sizeM": [
+        0.52,
+        0.111
+      ],
+      "frontHex": "#F0EFE6",
+      "rearHex": "#E6CA48",
+      "status": "colour verified GOV.UK, dimensions common-format authoring proxy unverified"
+    },
+    "netherlands": {
+      "sizeM": [
+        0.52,
+        0.11
+      ],
+      "frontHex": "#E6CA48",
+      "rearHex": "#E6CA48",
+      "status": "yellow verified RDW; dimensions authoring proxy unverified"
+    },
+    "mexico": {
+      "sizeM": [
+        0.305,
+        0.152
+      ],
+      "frontHex": "#ECEDE6",
+      "rearHex": "#ECEDE6",
+      "status": "unverified proxy; local state issue colours vary"
+    },
+    "australia": {
+      "sizeM": [
+        0.372,
+        0.134
+      ],
+      "frontHex": "#ECEDE6",
+      "rearHex": "#ECEDE6",
+      "alternateNswYellowHex": "#E6CA48",
+      "status": "White generic country proxy unverified; NSW yellow alternate verified; dimensions proxy unverified; states vary"
+    },
+    "japan": {
+      "sizeM": [
+        0.33,
+        0.165
+      ],
+      "frontHex": "#ECEDE6",
+      "rearHex": "#ECEDE6",
+      "privateKeiHex": "#E6CA48",
+      "commercialOrdinaryHex": "#315849",
+      "commercialKeiHex": "#25292C",
+      "status": "standard colour categories verified MLIT; plate dimensions proxy unverified; special plate exceptions exist"
+    }
+  },
+  "plateRenderPolicy": "Plain shape/colour only. No text,numbers,flags,seals,badges,agency markings or jurisdiction art. This is world artwork, not a road-legal plate specification.",
+  "densityBaseline": {
+    "denseCore": {
+      "movingPer100mTotalAtNoon": 3,
+      "speedKmhGuide": 25,
+      "totalVisibleParkedPer100mAtNoon": 23
+    },
+    "urbanResidential": {
+      "movingPer100mTotalAtNoon": 1.2,
+      "speedKmhGuide": 20,
+      "totalVisibleParkedPer100mAtNoon": 16
+    },
+    "suburbanResidential": {
+      "movingPer100mTotalAtNoon": 0.5,
+      "speedKmhGuide": 25,
+      "totalVisibleParkedPer100mAtNoon": 12
+    },
+    "commercialArterial": {
+      "movingPer100mTotalAtNoon": 5,
+      "speedKmhGuide": 35,
+      "totalVisibleParkedPer100mAtNoon": 5
+    },
+    "serviceAlley": {
+      "movingPer100mTotalAtNoon": 0.1,
+      "speedKmhGuide": 10,
+      "totalVisibleParkedPer100mAtNoon": 5
+    }
+  },
+  "hourProfiles": {
+    "denseCore": {
+      "00-05": [
+        0.75,
+        0.2
+      ],
+      "06-09": [
+        0.8,
+        1.5
+      ],
+      "10-15": [
+        1,
+        1
+      ],
+      "16-19": [
+        0.95,
+        1.6
+      ],
+      "20-23": [
+        0.85,
+        0.65
+      ]
+    },
+    "urbanResidential": {
+      "00-05": [
+        1.15,
+        0.12
+      ],
+      "06-09": [
+        0.85,
+        1.5
+      ],
+      "10-15": [
+        1,
+        1
+      ],
+      "16-19": [
+        1.05,
+        1.4
+      ],
+      "20-23": [
+        1.15,
+        0.55
+      ]
+    },
+    "suburbanResidential": {
+      "00-05": [
+        1.3,
+        0.1
+      ],
+      "06-09": [
+        0.8,
+        1.5
+      ],
+      "10-15": [
+        1,
+        1
+      ],
+      "16-19": [
+        1.15,
+        1.4
+      ],
+      "20-23": [
+        1.3,
+        0.45
+      ]
+    },
+    "commercialArterial": {
+      "00-05": [
+        0.4,
+        0.15
+      ],
+      "06-09": [
+        0.7,
+        1.6
+      ],
+      "10-15": [
+        1,
+        1
+      ],
+      "16-19": [
+        0.9,
+        1.8
+      ],
+      "20-23": [
+        0.55,
+        0.6
+      ]
+    },
+    "serviceAlley": {
+      "00-05": [
+        1.2,
+        0.05
+      ],
+      "06-09": [
+        0.9,
+        1.4
+      ],
+      "10-15": [
+        1,
+        1
+      ],
+      "16-19": [
+        1.1,
+        1.2
+      ],
+      "20-23": [
+        1.2,
+        0.2
+      ]
+    }
+  },
+  "hourProfileUnits": [
+    "parked multiplier also applies offStreet",
+    "moving multiplier"
+  ],
+  "densityStatus": "All proposed; no local traffic/parking counters imported",
+  "densityFormula": "Total visible parked = baseline total * region parked scale * local-hour parked multiplier * length/100; split curb/offstreet by regional parking fixture (alley curb=0), then clamp to actual visible mapped spaces. Moving = moving baseline * moving scale * moving multiplier * length/100.",
+  "capacityRules": {
+    "sampleOnlyMappedLegalBays": true,
+    "exclude": [
+      "crosswalks",
+      "driveways",
+      "junction sightlines",
+      "loading-only except authorized vehicle/time",
+      "cycle lanes",
+      "footways",
+      "fire accesses"
+    ],
+    "fallback": "If restrictions unresolved, leave curb clear rather than invent parking.",
+    "parallelBayGuideM": [
+      6,
+      2.3
+    ],
+    "angledBayGuideM": [
+      5,
+      2.5
+    ],
+    "angledAngleDeg": 60,
+    "angledPolicy": "Only mapped marked angle bays; slope alone never rotates bay.",
+    "minimumMovingHeadwaySeconds": 2,
+    "jamPolicy": "Separate observed congestion mode; do not overlap collision hulls to meet density target",
+    "mappedLaneDirectionOverridesRegion": true,
+    "oneWayPolicy": "Follow map; region side does not override one-way lanes"
+  },
+  "materials": {
+    "paintRoughness": 0.55,
+    "paintMetalnessGuide": 0.1,
+    "glassRoughness": 0.28,
+    "tyreRoughness": 0.9,
+    "rain": {
+      "paintRoughness": 0.4,
+      "tyreRoughness": 0.65,
+      "linearPaintMultiplier": 0.96,
+      "status": "unverified authoring state"
+    },
+    "roadFilm": {
+      "hex": "#867C6A",
+      "lowerBodyHeightM": 0.25,
+      "blendOpacity01": 0.24,
+      "roughness": 0.78,
+      "edgeBlendM": 0.08
+    },
+    "salt": {
+      "hex": "#C1C0B1",
+      "lowerBodyHeightM": 0.3,
+      "blendOpacity01": 0.3,
+      "roughness": 0.86,
+      "edgeBlendM": 0.1
+    },
+    "snow": {
+      "hex": "#F1F3ED",
+      "shadowAppearanceHex": "#ACBFD0",
+      "roofDepthGuideM": [
+        0.01,
+        0.08
+      ],
+      "roughness": 0.87,
+      "edgeRoundingM": 0.025,
+      "movingVehiclePolicy": "Never block driving windows; snow caps primarily parked cars; moving residual controlled by travel/melt history"
+    },
+    "dirtPolicy": "Broad smooth lower-body masks, no noise/photographic dirt; apply wetness once. Require recent wet travel, salt treatment, snowfall or dry-dust travel as appropriate, plus last-wash/melt history; geographic identity alone never adds dirt."
+  },
+  "condition": {
+    "ageBandsYears": [
+      [
+        0,
+        5
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        13,
+        null
+      ]
+    ],
+    "ageDoesNotForceDamage": true,
+    "broadFinishStatePercent": {
+      "maintained": 85,
+      "slightlyFaded": 12,
+      "minorDing": 3
+    },
+    "status": "Unverified default aesthetic mix shared across regions; no region-specific damage stereotype",
+    "ageRendering": "Broad body generations and finish ageing; all bands use same unbranded design grammar, no manufacturer-specific decade cues."
+  },
+  "detailTiers": [
+    {
+      "projectedHeightPx": [
+        48,
+        null
+      ],
+      "show": "Wheels, mirrors, body class, restrained lamps/glass, broad condition mask; no badges/plates/trim branding"
+    },
+    {
+      "projectedHeightPx": [
+        16,
+        48
+      ],
+      "show": "Body silhouette, wheels and glass groups; no small trim; merge state masks"
+    },
+    {
+      "projectedHeightPx": [
+        5,
+        16
+      ],
+      "show": "Class silhouette and finish colour group; no dirt/snow microdetail"
+    },
+    {
+      "projectedHeightPx": [
+        0,
+        5
+      ],
+      "show": "Cull ambient cars; do not enlarge them to remain visible"
+    }
+  ],
+  "regions": [
+    {
+      "id": "01-chicago",
+      "name": "Chicago",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 24,
+        "hatchbackEstate": 8,
+        "suvCrossover": 48,
+        "pickup": 7,
+        "minivan": 7,
+        "kei": 0,
+        "van": 6
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 29,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 3,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        25,
+        40,
+        35
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 70,
+        "markedAngled": 5,
+        "drivewayPad": 5,
+        "alleyGarage": 20
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 1.05,
+        "moving": 1.05
+      },
+      "note": "Curb + alley garages; flat grid. Compact/midsize SUVs and sedans; rear service vans.",
+      "weatherHistoryNote": "Frequent conditional snow/salt; rain film after wet travel.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 13.58,
+            "parkedOffStreetPer100m": 4.53,
+            "movingPer100m": 0.63
+          },
+          "06-09": {
+            "parkedCurbPer100m": 14.49,
+            "parkedOffStreetPer100m": 4.83,
+            "movingPer100m": 4.73
+          },
+          "10-15": {
+            "parkedCurbPer100m": 18.11,
+            "parkedOffStreetPer100m": 6.04,
+            "movingPer100m": 3.15
+          },
+          "16-19": {
+            "parkedCurbPer100m": 17.21,
+            "parkedOffStreetPer100m": 5.74,
+            "movingPer100m": 5.04
+          },
+          "20-23": {
+            "parkedCurbPer100m": 15.4,
+            "parkedOffStreetPer100m": 5.13,
+            "movingPer100m": 2.05
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 14.49,
+            "parkedOffStreetPer100m": 4.83,
+            "movingPer100m": 0.15
+          },
+          "06-09": {
+            "parkedCurbPer100m": 10.71,
+            "parkedOffStreetPer100m": 3.57,
+            "movingPer100m": 1.89
+          },
+          "10-15": {
+            "parkedCurbPer100m": 12.6,
+            "parkedOffStreetPer100m": 4.2,
+            "movingPer100m": 1.26
+          },
+          "16-19": {
+            "parkedCurbPer100m": 13.23,
+            "parkedOffStreetPer100m": 4.41,
+            "movingPer100m": 1.76
+          },
+          "20-23": {
+            "parkedCurbPer100m": 14.49,
+            "parkedOffStreetPer100m": 4.83,
+            "movingPer100m": 0.69
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 12.29,
+            "parkedOffStreetPer100m": 4.1,
+            "movingPer100m": 0.05
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.56,
+            "parkedOffStreetPer100m": 2.52,
+            "movingPer100m": 0.79
+          },
+          "10-15": {
+            "parkedCurbPer100m": 9.45,
+            "parkedOffStreetPer100m": 3.15,
+            "movingPer100m": 0.53
+          },
+          "16-19": {
+            "parkedCurbPer100m": 10.87,
+            "parkedOffStreetPer100m": 3.62,
+            "movingPer100m": 0.73
+          },
+          "20-23": {
+            "parkedCurbPer100m": 12.29,
+            "parkedOffStreetPer100m": 4.1,
+            "movingPer100m": 0.24
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.58,
+            "parkedOffStreetPer100m": 0.53,
+            "movingPer100m": 0.79
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.76,
+            "parkedOffStreetPer100m": 0.92,
+            "movingPer100m": 8.4
+          },
+          "10-15": {
+            "parkedCurbPer100m": 3.94,
+            "parkedOffStreetPer100m": 1.31,
+            "movingPer100m": 5.25
+          },
+          "16-19": {
+            "parkedCurbPer100m": 3.54,
+            "parkedOffStreetPer100m": 1.18,
+            "movingPer100m": 9.45
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.17,
+            "parkedOffStreetPer100m": 0.72,
+            "movingPer100m": 3.15
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.3,
+            "movingPer100m": 0.01
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.73,
+            "movingPer100m": 0.15
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.25,
+            "movingPer100m": 0.11
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.78,
+            "movingPer100m": 0.13
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.3,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 24,
+        "hatchbackEstate": 8,
+        "suvCrossover": 48,
+        "pickup": 7,
+        "minivan": 7,
+        "kei": 0,
+        "van": 6
+      },
+      "movingBodyTypePercent": {
+        "sedan": 22,
+        "hatchbackEstate": 8,
+        "suvCrossover": 48,
+        "pickup": 7,
+        "minivan": 7,
+        "kei": 0,
+        "van": 8
+      },
+      "parkedColourPercent": {
+        "white": 29,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 29,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "02-denver",
+      "name": "Denver",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 19,
+        "hatchbackEstate": 8,
+        "suvCrossover": 47,
+        "pickup": 16,
+        "minivan": 5,
+        "kei": 0,
+        "van": 5
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 30,
+        "black": 20,
+        "grey": 19,
+        "silver": 12,
+        "blue": 10,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 7,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        30,
+        40,
+        30
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 45,
+        "markedAngled": 5,
+        "drivewayPad": 45,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 0.85,
+        "moving": 0.85
+      },
+      "note": "Driveways + curb; SUVs and medium pickups; clear garage access.",
+      "weatherHistoryNote": "Snow/salt after actual treatment; dry road dust after travel; no constant mud.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 7.33,
+            "parkedOffStreetPer100m": 7.33,
+            "movingPer100m": 0.51
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.82,
+            "parkedOffStreetPer100m": 7.82,
+            "movingPer100m": 3.82
+          },
+          "10-15": {
+            "parkedCurbPer100m": 9.78,
+            "parkedOffStreetPer100m": 9.78,
+            "movingPer100m": 2.55
+          },
+          "16-19": {
+            "parkedCurbPer100m": 9.29,
+            "parkedOffStreetPer100m": 9.29,
+            "movingPer100m": 4.08
+          },
+          "20-23": {
+            "parkedCurbPer100m": 8.31,
+            "parkedOffStreetPer100m": 8.31,
+            "movingPer100m": 1.66
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 7.82,
+            "parkedOffStreetPer100m": 7.82,
+            "movingPer100m": 0.12
+          },
+          "06-09": {
+            "parkedCurbPer100m": 5.78,
+            "parkedOffStreetPer100m": 5.78,
+            "movingPer100m": 1.53
+          },
+          "10-15": {
+            "parkedCurbPer100m": 6.8,
+            "parkedOffStreetPer100m": 6.8,
+            "movingPer100m": 1.02
+          },
+          "16-19": {
+            "parkedCurbPer100m": 7.14,
+            "parkedOffStreetPer100m": 7.14,
+            "movingPer100m": 1.43
+          },
+          "20-23": {
+            "parkedCurbPer100m": 7.82,
+            "parkedOffStreetPer100m": 7.82,
+            "movingPer100m": 0.56
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 6.63,
+            "parkedOffStreetPer100m": 6.63,
+            "movingPer100m": 0.04
+          },
+          "06-09": {
+            "parkedCurbPer100m": 4.08,
+            "parkedOffStreetPer100m": 4.08,
+            "movingPer100m": 0.64
+          },
+          "10-15": {
+            "parkedCurbPer100m": 5.1,
+            "parkedOffStreetPer100m": 5.1,
+            "movingPer100m": 0.42
+          },
+          "16-19": {
+            "parkedCurbPer100m": 5.86,
+            "parkedOffStreetPer100m": 5.86,
+            "movingPer100m": 0.59
+          },
+          "20-23": {
+            "parkedCurbPer100m": 6.63,
+            "parkedOffStreetPer100m": 6.63,
+            "movingPer100m": 0.19
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 0.85,
+            "parkedOffStreetPer100m": 0.85,
+            "movingPer100m": 0.64
+          },
+          "06-09": {
+            "parkedCurbPer100m": 1.49,
+            "parkedOffStreetPer100m": 1.49,
+            "movingPer100m": 6.8
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.12,
+            "parkedOffStreetPer100m": 2.12,
+            "movingPer100m": 4.25
+          },
+          "16-19": {
+            "parkedCurbPer100m": 1.91,
+            "parkedOffStreetPer100m": 1.91,
+            "movingPer100m": 7.65
+          },
+          "20-23": {
+            "parkedCurbPer100m": 1.17,
+            "parkedOffStreetPer100m": 1.17,
+            "movingPer100m": 2.55
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.1,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.83,
+            "movingPer100m": 0.12
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.25,
+            "movingPer100m": 0.09
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.68,
+            "movingPer100m": 0.1
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.1,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 19,
+        "hatchbackEstate": 8,
+        "suvCrossover": 47,
+        "pickup": 16,
+        "minivan": 5,
+        "kei": 0,
+        "van": 5
+      },
+      "movingBodyTypePercent": {
+        "sedan": 17,
+        "hatchbackEstate": 8,
+        "suvCrossover": 47,
+        "pickup": 16,
+        "minivan": 5,
+        "kei": 0,
+        "van": 7
+      },
+      "parkedColourPercent": {
+        "white": 30,
+        "black": 20,
+        "grey": 19,
+        "silver": 12,
+        "blue": 10,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 30,
+        "black": 20,
+        "grey": 19,
+        "silver": 12,
+        "blue": 10,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "03-greenville-sc",
+      "name": "Greenville SC",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 24,
+        "hatchbackEstate": 5,
+        "suvCrossover": 42,
+        "pickup": 19,
+        "minivan": 6,
+        "kei": 0,
+        "van": 4
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 32,
+        "black": 19,
+        "grey": 19,
+        "silver": 12,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 2,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        25,
+        40,
+        35
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 18,
+        "markedAngled": 2,
+        "drivewayPad": 75,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 0.65,
+        "moving": 0.65
+      },
+      "note": "Driveway-heavy leafy residential blocks; SUVs/pickups and maintained older sedans.",
+      "weatherHistoryNote": "Rain film common scenario; snow/salt only verified unusual local event.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": false,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 2.24,
+            "parkedOffStreetPer100m": 8.97,
+            "movingPer100m": 0.39
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.39,
+            "parkedOffStreetPer100m": 9.57,
+            "movingPer100m": 2.93
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.99,
+            "parkedOffStreetPer100m": 11.96,
+            "movingPer100m": 1.95
+          },
+          "16-19": {
+            "parkedCurbPer100m": 2.84,
+            "parkedOffStreetPer100m": 11.36,
+            "movingPer100m": 3.12
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.54,
+            "parkedOffStreetPer100m": 10.17,
+            "movingPer100m": 1.27
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 2.39,
+            "parkedOffStreetPer100m": 9.57,
+            "movingPer100m": 0.09
+          },
+          "06-09": {
+            "parkedCurbPer100m": 1.77,
+            "parkedOffStreetPer100m": 7.07,
+            "movingPer100m": 1.17
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.08,
+            "parkedOffStreetPer100m": 8.32,
+            "movingPer100m": 0.78
+          },
+          "16-19": {
+            "parkedCurbPer100m": 2.18,
+            "parkedOffStreetPer100m": 8.74,
+            "movingPer100m": 1.09
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.39,
+            "parkedOffStreetPer100m": 9.57,
+            "movingPer100m": 0.43
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 2.03,
+            "parkedOffStreetPer100m": 8.11,
+            "movingPer100m": 0.03
+          },
+          "06-09": {
+            "parkedCurbPer100m": 1.25,
+            "parkedOffStreetPer100m": 4.99,
+            "movingPer100m": 0.49
+          },
+          "10-15": {
+            "parkedCurbPer100m": 1.56,
+            "parkedOffStreetPer100m": 6.24,
+            "movingPer100m": 0.33
+          },
+          "16-19": {
+            "parkedCurbPer100m": 1.79,
+            "parkedOffStreetPer100m": 7.18,
+            "movingPer100m": 0.45
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.03,
+            "parkedOffStreetPer100m": 8.11,
+            "movingPer100m": 0.15
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 0.26,
+            "parkedOffStreetPer100m": 1.04,
+            "movingPer100m": 0.49
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.46,
+            "parkedOffStreetPer100m": 1.82,
+            "movingPer100m": 5.2
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.65,
+            "parkedOffStreetPer100m": 2.6,
+            "movingPer100m": 3.25
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.59,
+            "parkedOffStreetPer100m": 2.34,
+            "movingPer100m": 5.85
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.36,
+            "parkedOffStreetPer100m": 1.43,
+            "movingPer100m": 1.95
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.9,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 2.93,
+            "movingPer100m": 0.09
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.25,
+            "movingPer100m": 0.07
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.58,
+            "movingPer100m": 0.08
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.9,
+            "movingPer100m": 0.01
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 24,
+        "hatchbackEstate": 5,
+        "suvCrossover": 42,
+        "pickup": 19,
+        "minivan": 6,
+        "kei": 0,
+        "van": 4
+      },
+      "movingBodyTypePercent": {
+        "sedan": 22,
+        "hatchbackEstate": 5,
+        "suvCrossover": 42,
+        "pickup": 19,
+        "minivan": 6,
+        "kei": 0,
+        "van": 6
+      },
+      "parkedColourPercent": {
+        "white": 32,
+        "black": 19,
+        "grey": 19,
+        "silver": 12,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 32,
+        "black": 19,
+        "grey": 19,
+        "silver": 12,
+        "blue": 9,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "04-nyc",
+      "name": "NYC",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 36,
+        "hatchbackEstate": 8,
+        "suvCrossover": 38,
+        "pickup": 2,
+        "minivan": 6,
+        "kei": 0,
+        "van": 10
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 26,
+        "black": 28,
+        "grey": 21,
+        "silver": 10,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 4,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        30,
+        40,
+        30
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 90,
+        "markedAngled": 2,
+        "drivewayPad": 3,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 1.2,
+        "moving": 1.4
+      },
+      "note": "Dense curb bays; clear crossings/loading. Unmarked delivery vans and plain yellow passenger-car proxy; no taxi branding.",
+      "weatherHistoryNote": "Rain road film and history-driven winter salt; none on freshly washed cars.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 19.04,
+            "parkedOffStreetPer100m": 1.66,
+            "movingPer100m": 0.84
+          },
+          "06-09": {
+            "parkedCurbPer100m": 20.31,
+            "parkedOffStreetPer100m": 1.77,
+            "movingPer100m": 6.3
+          },
+          "10-15": {
+            "parkedCurbPer100m": 25.39,
+            "parkedOffStreetPer100m": 2.21,
+            "movingPer100m": 4.2
+          },
+          "16-19": {
+            "parkedCurbPer100m": 24.12,
+            "parkedOffStreetPer100m": 2.1,
+            "movingPer100m": 6.72
+          },
+          "20-23": {
+            "parkedCurbPer100m": 21.58,
+            "parkedOffStreetPer100m": 1.88,
+            "movingPer100m": 2.73
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 20.31,
+            "parkedOffStreetPer100m": 1.77,
+            "movingPer100m": 0.2
+          },
+          "06-09": {
+            "parkedCurbPer100m": 15.01,
+            "parkedOffStreetPer100m": 1.31,
+            "movingPer100m": 2.52
+          },
+          "10-15": {
+            "parkedCurbPer100m": 17.66,
+            "parkedOffStreetPer100m": 1.54,
+            "movingPer100m": 1.68
+          },
+          "16-19": {
+            "parkedCurbPer100m": 18.55,
+            "parkedOffStreetPer100m": 1.61,
+            "movingPer100m": 2.35
+          },
+          "20-23": {
+            "parkedCurbPer100m": 20.31,
+            "parkedOffStreetPer100m": 1.77,
+            "movingPer100m": 0.92
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 17.22,
+            "parkedOffStreetPer100m": 1.5,
+            "movingPer100m": 0.07
+          },
+          "06-09": {
+            "parkedCurbPer100m": 10.6,
+            "parkedOffStreetPer100m": 0.92,
+            "movingPer100m": 1.05
+          },
+          "10-15": {
+            "parkedCurbPer100m": 13.25,
+            "parkedOffStreetPer100m": 1.15,
+            "movingPer100m": 0.7
+          },
+          "16-19": {
+            "parkedCurbPer100m": 15.24,
+            "parkedOffStreetPer100m": 1.32,
+            "movingPer100m": 0.98
+          },
+          "20-23": {
+            "parkedCurbPer100m": 17.22,
+            "parkedOffStreetPer100m": 1.5,
+            "movingPer100m": 0.32
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 2.21,
+            "parkedOffStreetPer100m": 0.19,
+            "movingPer100m": 1.05
+          },
+          "06-09": {
+            "parkedCurbPer100m": 3.86,
+            "parkedOffStreetPer100m": 0.34,
+            "movingPer100m": 11.2
+          },
+          "10-15": {
+            "parkedCurbPer100m": 5.52,
+            "parkedOffStreetPer100m": 0.48,
+            "movingPer100m": 7.0
+          },
+          "16-19": {
+            "parkedCurbPer100m": 4.97,
+            "parkedOffStreetPer100m": 0.43,
+            "movingPer100m": 12.6
+          },
+          "20-23": {
+            "parkedCurbPer100m": 3.04,
+            "parkedOffStreetPer100m": 0.26,
+            "movingPer100m": 4.2
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 7.2,
+            "movingPer100m": 0.01
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.4,
+            "movingPer100m": 0.2
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.0,
+            "movingPer100m": 0.14
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.6,
+            "movingPer100m": 0.17
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 7.2,
+            "movingPer100m": 0.03
+          }
+        }
+      },
+      "serviceColourOverride": {
+        "shareOfAllVehiclesPercent": 2,
+        "colourHex": "#D9AC3C",
+        "body": "sedan",
+        "status": "unverified visual fixture; generic yellow car, no taxi identifiers"
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 36,
+        "hatchbackEstate": 8,
+        "suvCrossover": 38,
+        "pickup": 2,
+        "minivan": 6,
+        "kei": 0,
+        "van": 10
+      },
+      "movingBodyTypePercent": {
+        "sedan": 34,
+        "hatchbackEstate": 8,
+        "suvCrossover": 38,
+        "pickup": 2,
+        "minivan": 6,
+        "kei": 0,
+        "van": 12
+      },
+      "parkedColourPercent": {
+        "white": 26,
+        "black": 28,
+        "grey": 21,
+        "silver": 10,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 26,
+        "black": 28,
+        "grey": 21,
+        "silver": 10,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "05-sf",
+      "name": "San Francisco",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 25,
+        "hatchbackEstate": 19,
+        "suvCrossover": 41,
+        "pickup": 3,
+        "minivan": 5,
+        "kei": 0,
+        "van": 7
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 28,
+        "black": 21,
+        "grey": 22,
+        "silver": 11,
+        "blue": 10,
+        "red": 5,
+        "brownBeige": 1,
+        "green": 2
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 12,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        35,
+        40,
+        25
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 85,
+        "markedAngled": 2,
+        "drivewayPad": 10,
+        "alleyGarage": 3
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 1.05,
+        "moving": 1
+      },
+      "note": "Narrow curb bays and garages; steep grade, wheels curbed by travel direction; EV body overlay.",
+      "weatherHistoryNote": "Rain film; no snow or salt default. Snow material available only if local history supports it.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": false,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 15.76,
+            "parkedOffStreetPer100m": 2.35,
+            "movingPer100m": 0.6
+          },
+          "06-09": {
+            "parkedCurbPer100m": 16.81,
+            "parkedOffStreetPer100m": 2.51,
+            "movingPer100m": 4.5
+          },
+          "10-15": {
+            "parkedCurbPer100m": 21.01,
+            "parkedOffStreetPer100m": 3.14,
+            "movingPer100m": 3
+          },
+          "16-19": {
+            "parkedCurbPer100m": 19.96,
+            "parkedOffStreetPer100m": 2.98,
+            "movingPer100m": 4.8
+          },
+          "20-23": {
+            "parkedCurbPer100m": 17.86,
+            "parkedOffStreetPer100m": 2.67,
+            "movingPer100m": 1.95
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 16.81,
+            "parkedOffStreetPer100m": 2.51,
+            "movingPer100m": 0.14
+          },
+          "06-09": {
+            "parkedCurbPer100m": 12.42,
+            "parkedOffStreetPer100m": 1.86,
+            "movingPer100m": 1.8
+          },
+          "10-15": {
+            "parkedCurbPer100m": 14.62,
+            "parkedOffStreetPer100m": 2.18,
+            "movingPer100m": 1.2
+          },
+          "16-19": {
+            "parkedCurbPer100m": 15.35,
+            "parkedOffStreetPer100m": 2.29,
+            "movingPer100m": 1.68
+          },
+          "20-23": {
+            "parkedCurbPer100m": 16.81,
+            "parkedOffStreetPer100m": 2.51,
+            "movingPer100m": 0.66
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 14.25,
+            "parkedOffStreetPer100m": 2.13,
+            "movingPer100m": 0.05
+          },
+          "06-09": {
+            "parkedCurbPer100m": 8.77,
+            "parkedOffStreetPer100m": 1.31,
+            "movingPer100m": 0.75
+          },
+          "10-15": {
+            "parkedCurbPer100m": 10.96,
+            "parkedOffStreetPer100m": 1.64,
+            "movingPer100m": 0.5
+          },
+          "16-19": {
+            "parkedCurbPer100m": 12.61,
+            "parkedOffStreetPer100m": 1.88,
+            "movingPer100m": 0.7
+          },
+          "20-23": {
+            "parkedCurbPer100m": 14.25,
+            "parkedOffStreetPer100m": 2.13,
+            "movingPer100m": 0.23
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.83,
+            "parkedOffStreetPer100m": 0.27,
+            "movingPer100m": 0.75
+          },
+          "06-09": {
+            "parkedCurbPer100m": 3.2,
+            "parkedOffStreetPer100m": 0.48,
+            "movingPer100m": 8.0
+          },
+          "10-15": {
+            "parkedCurbPer100m": 4.57,
+            "parkedOffStreetPer100m": 0.68,
+            "movingPer100m": 5
+          },
+          "16-19": {
+            "parkedCurbPer100m": 4.11,
+            "parkedOffStreetPer100m": 0.61,
+            "movingPer100m": 9.0
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.51,
+            "parkedOffStreetPer100m": 0.38,
+            "movingPer100m": 3.0
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.3,
+            "movingPer100m": 0.01
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.73,
+            "movingPer100m": 0.14
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.25,
+            "movingPer100m": 0.1
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.78,
+            "movingPer100m": 0.12
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.3,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 25,
+        "hatchbackEstate": 19,
+        "suvCrossover": 41,
+        "pickup": 3,
+        "minivan": 5,
+        "kei": 0,
+        "van": 7
+      },
+      "movingBodyTypePercent": {
+        "sedan": 23,
+        "hatchbackEstate": 19,
+        "suvCrossover": 41,
+        "pickup": 3,
+        "minivan": 5,
+        "kei": 0,
+        "van": 9
+      },
+      "parkedColourPercent": {
+        "white": 28,
+        "black": 21,
+        "grey": 22,
+        "silver": 11,
+        "blue": 10,
+        "red": 5,
+        "brownBeige": 1,
+        "green": 2
+      },
+      "movingColourPercent": {
+        "white": 28,
+        "black": 21,
+        "grey": 22,
+        "silver": 11,
+        "blue": 10,
+        "red": 5,
+        "brownBeige": 1,
+        "green": 2
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "06-miami",
+      "name": "Miami",
+      "scope": "city visual fixture, not measured metro fleet",
+      "bodyTypePercent": {
+        "sedan": 30,
+        "hatchbackEstate": 7,
+        "suvCrossover": 45,
+        "pickup": 7,
+        "minivan": 6,
+        "kei": 0,
+        "van": 5
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 40,
+        "black": 16,
+        "grey": 15,
+        "silver": 12,
+        "blue": 8,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 5,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        35,
+        40,
+        25
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 40,
+        "markedAngled": 8,
+        "drivewayPad": 48,
+        "alleyGarage": 4
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 0.9,
+        "moving": 1.1
+      },
+      "note": "Flat driveways and curb bays; mostly light neutral finishes; no luxury-car stereotype.",
+      "weatherHistoryNote": "Rain film after travel; snow/salt disabled in normal fixture, not fabricated seasonally.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": false,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 7.45,
+            "parkedOffStreetPer100m": 8.07,
+            "movingPer100m": 0.66
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.95,
+            "parkedOffStreetPer100m": 8.61,
+            "movingPer100m": 4.95
+          },
+          "10-15": {
+            "parkedCurbPer100m": 9.94,
+            "parkedOffStreetPer100m": 10.76,
+            "movingPer100m": 3.3
+          },
+          "16-19": {
+            "parkedCurbPer100m": 9.44,
+            "parkedOffStreetPer100m": 10.23,
+            "movingPer100m": 5.28
+          },
+          "20-23": {
+            "parkedCurbPer100m": 8.45,
+            "parkedOffStreetPer100m": 9.15,
+            "movingPer100m": 2.15
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 7.95,
+            "parkedOffStreetPer100m": 8.61,
+            "movingPer100m": 0.16
+          },
+          "06-09": {
+            "parkedCurbPer100m": 5.88,
+            "parkedOffStreetPer100m": 6.36,
+            "movingPer100m": 1.98
+          },
+          "10-15": {
+            "parkedCurbPer100m": 6.91,
+            "parkedOffStreetPer100m": 7.49,
+            "movingPer100m": 1.32
+          },
+          "16-19": {
+            "parkedCurbPer100m": 7.26,
+            "parkedOffStreetPer100m": 7.86,
+            "movingPer100m": 1.85
+          },
+          "20-23": {
+            "parkedCurbPer100m": 7.95,
+            "parkedOffStreetPer100m": 8.61,
+            "movingPer100m": 0.73
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 6.74,
+            "parkedOffStreetPer100m": 7.3,
+            "movingPer100m": 0.06
+          },
+          "06-09": {
+            "parkedCurbPer100m": 4.15,
+            "parkedOffStreetPer100m": 4.49,
+            "movingPer100m": 0.83
+          },
+          "10-15": {
+            "parkedCurbPer100m": 5.18,
+            "parkedOffStreetPer100m": 5.62,
+            "movingPer100m": 0.55
+          },
+          "16-19": {
+            "parkedCurbPer100m": 5.96,
+            "parkedOffStreetPer100m": 6.46,
+            "movingPer100m": 0.77
+          },
+          "20-23": {
+            "parkedCurbPer100m": 6.74,
+            "parkedOffStreetPer100m": 7.3,
+            "movingPer100m": 0.25
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 0.86,
+            "parkedOffStreetPer100m": 0.94,
+            "movingPer100m": 0.82
+          },
+          "06-09": {
+            "parkedCurbPer100m": 1.51,
+            "parkedOffStreetPer100m": 1.64,
+            "movingPer100m": 8.8
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.16,
+            "parkedOffStreetPer100m": 2.34,
+            "movingPer100m": 5.5
+          },
+          "16-19": {
+            "parkedCurbPer100m": 1.94,
+            "parkedOffStreetPer100m": 2.11,
+            "movingPer100m": 9.9
+          },
+          "20-23": {
+            "parkedCurbPer100m": 1.19,
+            "parkedOffStreetPer100m": 1.29,
+            "movingPer100m": 3.3
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.4,
+            "movingPer100m": 0.01
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.05,
+            "movingPer100m": 0.15
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.5,
+            "movingPer100m": 0.11
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.95,
+            "movingPer100m": 0.13
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.4,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 30,
+        "hatchbackEstate": 7,
+        "suvCrossover": 45,
+        "pickup": 7,
+        "minivan": 6,
+        "kei": 0,
+        "van": 5
+      },
+      "movingBodyTypePercent": {
+        "sedan": 28,
+        "hatchbackEstate": 7,
+        "suvCrossover": 45,
+        "pickup": 7,
+        "minivan": 6,
+        "kei": 0,
+        "van": 7
+      },
+      "parkedColourPercent": {
+        "white": 40,
+        "black": 16,
+        "grey": 15,
+        "silver": 12,
+        "blue": 8,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 40,
+        "black": 16,
+        "grey": 15,
+        "silver": 12,
+        "blue": 8,
+        "red": 6,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "07-canada",
+      "name": "Canada \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 25,
+        "hatchbackEstate": 10,
+        "suvCrossover": 41.9,
+        "pickup": 15.1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 3
+      },
+      "bodyShareStatus": "unverified fine mix; Canadian41.9% SUV and35% passenger aggregate national2024 proxy verified, remainder estimated",
+      "colourPercent": {
+        "white": 30,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 5,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 2,
+      "bevStatus": "unverified local fixture; Canada2% approximates national2024 BEV stock, not5.2% inclusive EV",
+      "ageBandPercent": [
+        25,
+        40,
+        35
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 50,
+        "markedAngled": 5,
+        "drivewayPad": 40,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "northAmerica",
+      "densityScale": {
+        "parked": 0.95,
+        "moving": 0.95
+      },
+      "note": "Toronto-style fixture; provinces and rural fleets override this mix. Passenger-car aggregate35% and SUV/crossover41.9% have national2024 evidence; subdivisions are estimates.",
+      "weatherHistoryNote": "Snow/salt depends region and road treatment, not Canada flag. Rain film shared.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.25,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 9.01,
+            "parkedOffStreetPer100m": 7.37,
+            "movingPer100m": 0.57
+          },
+          "06-09": {
+            "parkedCurbPer100m": 9.61,
+            "parkedOffStreetPer100m": 7.87,
+            "movingPer100m": 4.27
+          },
+          "10-15": {
+            "parkedCurbPer100m": 12.02,
+            "parkedOffStreetPer100m": 9.83,
+            "movingPer100m": 2.85
+          },
+          "16-19": {
+            "parkedCurbPer100m": 11.42,
+            "parkedOffStreetPer100m": 9.34,
+            "movingPer100m": 4.56
+          },
+          "20-23": {
+            "parkedCurbPer100m": 10.21,
+            "parkedOffStreetPer100m": 8.36,
+            "movingPer100m": 1.85
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 9.61,
+            "parkedOffStreetPer100m": 7.87,
+            "movingPer100m": 0.14
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.11,
+            "parkedOffStreetPer100m": 5.81,
+            "movingPer100m": 1.71
+          },
+          "10-15": {
+            "parkedCurbPer100m": 8.36,
+            "parkedOffStreetPer100m": 6.84,
+            "movingPer100m": 1.14
+          },
+          "16-19": {
+            "parkedCurbPer100m": 8.78,
+            "parkedOffStreetPer100m": 7.18,
+            "movingPer100m": 1.6
+          },
+          "20-23": {
+            "parkedCurbPer100m": 9.61,
+            "parkedOffStreetPer100m": 7.87,
+            "movingPer100m": 0.63
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 8.15,
+            "parkedOffStreetPer100m": 6.67,
+            "movingPer100m": 0.05
+          },
+          "06-09": {
+            "parkedCurbPer100m": 5.02,
+            "parkedOffStreetPer100m": 4.1,
+            "movingPer100m": 0.71
+          },
+          "10-15": {
+            "parkedCurbPer100m": 6.27,
+            "parkedOffStreetPer100m": 5.13,
+            "movingPer100m": 0.47
+          },
+          "16-19": {
+            "parkedCurbPer100m": 7.21,
+            "parkedOffStreetPer100m": 5.9,
+            "movingPer100m": 0.66
+          },
+          "20-23": {
+            "parkedCurbPer100m": 8.15,
+            "parkedOffStreetPer100m": 6.67,
+            "movingPer100m": 0.21
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.05,
+            "parkedOffStreetPer100m": 0.85,
+            "movingPer100m": 0.71
+          },
+          "06-09": {
+            "parkedCurbPer100m": 1.83,
+            "parkedOffStreetPer100m": 1.5,
+            "movingPer100m": 7.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.61,
+            "parkedOffStreetPer100m": 2.14,
+            "movingPer100m": 4.75
+          },
+          "16-19": {
+            "parkedCurbPer100m": 2.35,
+            "parkedOffStreetPer100m": 1.92,
+            "movingPer100m": 8.55
+          },
+          "20-23": {
+            "parkedCurbPer100m": 1.44,
+            "parkedOffStreetPer100m": 1.18,
+            "movingPer100m": 2.85
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.7,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.28,
+            "movingPer100m": 0.13
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.75,
+            "movingPer100m": 0.1
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.23,
+            "movingPer100m": 0.11
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.7,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 25,
+        "hatchbackEstate": 10,
+        "suvCrossover": 41.9,
+        "pickup": 15.1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 3
+      },
+      "movingBodyTypePercent": {
+        "sedan": 23,
+        "hatchbackEstate": 10,
+        "suvCrossover": 41.9,
+        "pickup": 15.1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 5
+      },
+      "parkedColourPercent": {
+        "white": 30,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 5,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 30,
+        "black": 23,
+        "grey": 20,
+        "silver": 10,
+        "blue": 9,
+        "red": 5,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "08-uk",
+      "name": "UK \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 15,
+        "hatchbackEstate": 42,
+        "suvCrossover": 30,
+        "pickup": 2,
+        "minivan": 5,
+        "kei": 0,
+        "van": 6
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 27,
+        "silver": 12,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 6,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        25,
+        40,
+        35
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 75,
+        "markedAngled": 3,
+        "drivewayPad": 20,
+        "alleyGarage": 2
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "left",
+      "platePreset": "uk",
+      "densityScale": {
+        "parked": 0.9,
+        "moving": 0.95
+      },
+      "note": "Terraced urban default: compact hatches/estates, smaller crossovers, short vans; narrow curb bays.",
+      "weatherHistoryNote": "Rain road film; salt only after actual gritting; snow caps only after snowfall.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.75,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 12.11,
+            "parkedOffStreetPer100m": 3.42,
+            "movingPer100m": 0.57
+          },
+          "06-09": {
+            "parkedCurbPer100m": 12.92,
+            "parkedOffStreetPer100m": 3.64,
+            "movingPer100m": 4.27
+          },
+          "10-15": {
+            "parkedCurbPer100m": 16.15,
+            "parkedOffStreetPer100m": 4.55,
+            "movingPer100m": 2.85
+          },
+          "16-19": {
+            "parkedCurbPer100m": 15.34,
+            "parkedOffStreetPer100m": 4.33,
+            "movingPer100m": 4.56
+          },
+          "20-23": {
+            "parkedCurbPer100m": 13.72,
+            "parkedOffStreetPer100m": 3.87,
+            "movingPer100m": 1.85
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 12.92,
+            "parkedOffStreetPer100m": 3.64,
+            "movingPer100m": 0.14
+          },
+          "06-09": {
+            "parkedCurbPer100m": 9.55,
+            "parkedOffStreetPer100m": 2.69,
+            "movingPer100m": 1.71
+          },
+          "10-15": {
+            "parkedCurbPer100m": 11.23,
+            "parkedOffStreetPer100m": 3.17,
+            "movingPer100m": 1.14
+          },
+          "16-19": {
+            "parkedCurbPer100m": 11.79,
+            "parkedOffStreetPer100m": 3.33,
+            "movingPer100m": 1.6
+          },
+          "20-23": {
+            "parkedCurbPer100m": 12.92,
+            "parkedOffStreetPer100m": 3.64,
+            "movingPer100m": 0.63
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 10.95,
+            "parkedOffStreetPer100m": 3.09,
+            "movingPer100m": 0.05
+          },
+          "06-09": {
+            "parkedCurbPer100m": 6.74,
+            "parkedOffStreetPer100m": 1.9,
+            "movingPer100m": 0.71
+          },
+          "10-15": {
+            "parkedCurbPer100m": 8.42,
+            "parkedOffStreetPer100m": 2.38,
+            "movingPer100m": 0.47
+          },
+          "16-19": {
+            "parkedCurbPer100m": 9.69,
+            "parkedOffStreetPer100m": 2.73,
+            "movingPer100m": 0.66
+          },
+          "20-23": {
+            "parkedCurbPer100m": 10.95,
+            "parkedOffStreetPer100m": 3.09,
+            "movingPer100m": 0.21
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.4,
+            "parkedOffStreetPer100m": 0.4,
+            "movingPer100m": 0.71
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.46,
+            "parkedOffStreetPer100m": 0.69,
+            "movingPer100m": 7.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 3.51,
+            "parkedOffStreetPer100m": 0.99,
+            "movingPer100m": 4.75
+          },
+          "16-19": {
+            "parkedCurbPer100m": 3.16,
+            "parkedOffStreetPer100m": 0.89,
+            "movingPer100m": 8.55
+          },
+          "20-23": {
+            "parkedCurbPer100m": 1.93,
+            "parkedOffStreetPer100m": 0.54,
+            "movingPer100m": 2.85
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.4,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.05,
+            "movingPer100m": 0.13
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.5,
+            "movingPer100m": 0.1
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.95,
+            "movingPer100m": 0.11
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.4,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 15,
+        "hatchbackEstate": 42,
+        "suvCrossover": 30,
+        "pickup": 2,
+        "minivan": 5,
+        "kei": 0,
+        "van": 6
+      },
+      "movingBodyTypePercent": {
+        "sedan": 13,
+        "hatchbackEstate": 42,
+        "suvCrossover": 30,
+        "pickup": 2,
+        "minivan": 5,
+        "kei": 0,
+        "van": 8
+      },
+      "parkedColourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 27,
+        "silver": 12,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 27,
+        "silver": 12,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "09-netherlands",
+      "name": "Netherlands \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 12,
+        "hatchbackEstate": 46,
+        "suvCrossover": 28,
+        "pickup": 1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 8
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 26,
+        "silver": 13,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 10,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        30,
+        40,
+        30
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 70,
+        "markedAngled": 12,
+        "drivewayPad": 15,
+        "alleyGarage": 3
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "netherlands",
+      "densityScale": {
+        "parked": 0.7,
+        "moving": 0.8
+      },
+      "note": "Dutch urban fixture; compact bodies, parking bays separate from cycle facilities; service vans.",
+      "weatherHistoryNote": "Rain film; winter salt/snow conditional; cycle lanes never become car parking.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.75,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 9.9,
+            "parkedOffStreetPer100m": 2.17,
+            "movingPer100m": 0.48
+          },
+          "06-09": {
+            "parkedCurbPer100m": 10.56,
+            "parkedOffStreetPer100m": 2.32,
+            "movingPer100m": 3.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 13.2,
+            "parkedOffStreetPer100m": 2.9,
+            "movingPer100m": 2.4
+          },
+          "16-19": {
+            "parkedCurbPer100m": 12.54,
+            "parkedOffStreetPer100m": 2.75,
+            "movingPer100m": 3.84
+          },
+          "20-23": {
+            "parkedCurbPer100m": 11.22,
+            "parkedOffStreetPer100m": 2.46,
+            "movingPer100m": 1.56
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 10.56,
+            "parkedOffStreetPer100m": 2.32,
+            "movingPer100m": 0.12
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.81,
+            "parkedOffStreetPer100m": 1.71,
+            "movingPer100m": 1.44
+          },
+          "10-15": {
+            "parkedCurbPer100m": 9.18,
+            "parkedOffStreetPer100m": 2.02,
+            "movingPer100m": 0.96
+          },
+          "16-19": {
+            "parkedCurbPer100m": 9.64,
+            "parkedOffStreetPer100m": 2.12,
+            "movingPer100m": 1.34
+          },
+          "20-23": {
+            "parkedCurbPer100m": 10.56,
+            "parkedOffStreetPer100m": 2.32,
+            "movingPer100m": 0.53
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 8.95,
+            "parkedOffStreetPer100m": 1.97,
+            "movingPer100m": 0.04
+          },
+          "06-09": {
+            "parkedCurbPer100m": 5.51,
+            "parkedOffStreetPer100m": 1.21,
+            "movingPer100m": 0.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 6.89,
+            "parkedOffStreetPer100m": 1.51,
+            "movingPer100m": 0.4
+          },
+          "16-19": {
+            "parkedCurbPer100m": 7.92,
+            "parkedOffStreetPer100m": 1.74,
+            "movingPer100m": 0.56
+          },
+          "20-23": {
+            "parkedCurbPer100m": 8.95,
+            "parkedOffStreetPer100m": 1.97,
+            "movingPer100m": 0.18
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.15,
+            "parkedOffStreetPer100m": 0.25,
+            "movingPer100m": 0.6
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.01,
+            "parkedOffStreetPer100m": 0.44,
+            "movingPer100m": 6.4
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.87,
+            "parkedOffStreetPer100m": 0.63,
+            "movingPer100m": 4.0
+          },
+          "16-19": {
+            "parkedCurbPer100m": 2.58,
+            "parkedOffStreetPer100m": 0.57,
+            "movingPer100m": 7.2
+          },
+          "20-23": {
+            "parkedCurbPer100m": 1.58,
+            "parkedOffStreetPer100m": 0.35,
+            "movingPer100m": 2.4
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.2,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.15,
+            "movingPer100m": 0.11
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.5,
+            "movingPer100m": 0.08
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.85,
+            "movingPer100m": 0.1
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.2,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 12,
+        "hatchbackEstate": 46,
+        "suvCrossover": 28,
+        "pickup": 1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 8
+      },
+      "movingBodyTypePercent": {
+        "sedan": 10,
+        "hatchbackEstate": 46,
+        "suvCrossover": 28,
+        "pickup": 1,
+        "minivan": 5,
+        "kei": 0,
+        "van": 10
+      },
+      "parkedColourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 26,
+        "silver": 13,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 23,
+        "black": 22,
+        "grey": 26,
+        "silver": 13,
+        "blue": 9,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "10-mexico",
+      "name": "Mexico \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 39,
+        "hatchbackEstate": 25,
+        "suvCrossover": 21,
+        "pickup": 7,
+        "minivan": 3,
+        "kei": 0,
+        "van": 5
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 35,
+        "black": 18,
+        "grey": 18,
+        "silver": 15,
+        "blue": 7,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 1,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        20,
+        40,
+        40
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 70,
+        "markedAngled": 5,
+        "drivewayPad": 23,
+        "alleyGarage": 2
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "right",
+      "platePreset": "mexico",
+      "densityScale": {
+        "parked": 1,
+        "moving": 1.2
+      },
+      "note": "Mexico City-style urban fixture; compact sedans/hatches, medium utility pickup; newer and older maintained cars. Rural regions override.",
+      "weatherHistoryNote": "Wet road film and dry dust by travel; snow/salt only in supported high-elevation/local events.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.75,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": false,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 12.94,
+            "parkedOffStreetPer100m": 4.31,
+            "movingPer100m": 0.72
+          },
+          "06-09": {
+            "parkedCurbPer100m": 13.8,
+            "parkedOffStreetPer100m": 4.6,
+            "movingPer100m": 5.4
+          },
+          "10-15": {
+            "parkedCurbPer100m": 17.25,
+            "parkedOffStreetPer100m": 5.75,
+            "movingPer100m": 3.6
+          },
+          "16-19": {
+            "parkedCurbPer100m": 16.39,
+            "parkedOffStreetPer100m": 5.46,
+            "movingPer100m": 5.76
+          },
+          "20-23": {
+            "parkedCurbPer100m": 14.66,
+            "parkedOffStreetPer100m": 4.89,
+            "movingPer100m": 2.34
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 13.8,
+            "parkedOffStreetPer100m": 4.6,
+            "movingPer100m": 0.17
+          },
+          "06-09": {
+            "parkedCurbPer100m": 10.2,
+            "parkedOffStreetPer100m": 3.4,
+            "movingPer100m": 2.16
+          },
+          "10-15": {
+            "parkedCurbPer100m": 12.0,
+            "parkedOffStreetPer100m": 4.0,
+            "movingPer100m": 1.44
+          },
+          "16-19": {
+            "parkedCurbPer100m": 12.6,
+            "parkedOffStreetPer100m": 4.2,
+            "movingPer100m": 2.02
+          },
+          "20-23": {
+            "parkedCurbPer100m": 13.8,
+            "parkedOffStreetPer100m": 4.6,
+            "movingPer100m": 0.79
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 11.7,
+            "parkedOffStreetPer100m": 3.9,
+            "movingPer100m": 0.06
+          },
+          "06-09": {
+            "parkedCurbPer100m": 7.2,
+            "parkedOffStreetPer100m": 2.4,
+            "movingPer100m": 0.9
+          },
+          "10-15": {
+            "parkedCurbPer100m": 9.0,
+            "parkedOffStreetPer100m": 3.0,
+            "movingPer100m": 0.6
+          },
+          "16-19": {
+            "parkedCurbPer100m": 10.35,
+            "parkedOffStreetPer100m": 3.45,
+            "movingPer100m": 0.84
+          },
+          "20-23": {
+            "parkedCurbPer100m": 11.7,
+            "parkedOffStreetPer100m": 3.9,
+            "movingPer100m": 0.27
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 1.5,
+            "parkedOffStreetPer100m": 0.5,
+            "movingPer100m": 0.9
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.62,
+            "parkedOffStreetPer100m": 0.88,
+            "movingPer100m": 9.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 3.75,
+            "parkedOffStreetPer100m": 1.25,
+            "movingPer100m": 6.0
+          },
+          "16-19": {
+            "parkedCurbPer100m": 3.38,
+            "parkedOffStreetPer100m": 1.12,
+            "movingPer100m": 10.8
+          },
+          "20-23": {
+            "parkedCurbPer100m": 2.06,
+            "parkedOffStreetPer100m": 0.69,
+            "movingPer100m": 3.6
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.0,
+            "movingPer100m": 0.01
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.5,
+            "movingPer100m": 0.17
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0,
+            "parkedOffStreetPer100m": 5,
+            "movingPer100m": 0.12
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 5.5,
+            "movingPer100m": 0.14
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 6.0,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 39,
+        "hatchbackEstate": 25,
+        "suvCrossover": 21,
+        "pickup": 7,
+        "minivan": 3,
+        "kei": 0,
+        "van": 5
+      },
+      "movingBodyTypePercent": {
+        "sedan": 37,
+        "hatchbackEstate": 25,
+        "suvCrossover": 21,
+        "pickup": 7,
+        "minivan": 3,
+        "kei": 0,
+        "van": 7
+      },
+      "parkedColourPercent": {
+        "white": 35,
+        "black": 18,
+        "grey": 18,
+        "silver": 15,
+        "blue": 7,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 35,
+        "black": 18,
+        "grey": 18,
+        "silver": 15,
+        "blue": 7,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "11-australia",
+      "name": "Australia \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 18,
+        "hatchbackEstate": 17,
+        "suvCrossover": 40,
+        "pickup": 18,
+        "minivan": 3,
+        "kei": 0,
+        "van": 4
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 34,
+        "black": 18,
+        "grey": 19,
+        "silver": 14,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 2,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        25,
+        40,
+        35
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 25,
+        "markedAngled": 5,
+        "drivewayPad": 65,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "left",
+      "platePreset": "australia",
+      "densityScale": {
+        "parked": 0.8,
+        "moving": 0.85
+      },
+      "note": "Suburban fixture: SUVs and double-cab medium utes, driveways and curb. State variants apply.",
+      "weatherHistoryNote": "Rain and dry dust; snow/salt only alpine/local event, no nationwide winter layer.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.75,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": false,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 4.14,
+            "parkedOffStreetPer100m": 9.66,
+            "movingPer100m": 0.51
+          },
+          "06-09": {
+            "parkedCurbPer100m": 4.42,
+            "parkedOffStreetPer100m": 10.3,
+            "movingPer100m": 3.82
+          },
+          "10-15": {
+            "parkedCurbPer100m": 5.52,
+            "parkedOffStreetPer100m": 12.88,
+            "movingPer100m": 2.55
+          },
+          "16-19": {
+            "parkedCurbPer100m": 5.24,
+            "parkedOffStreetPer100m": 12.24,
+            "movingPer100m": 4.08
+          },
+          "20-23": {
+            "parkedCurbPer100m": 4.69,
+            "parkedOffStreetPer100m": 10.95,
+            "movingPer100m": 1.66
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 4.42,
+            "parkedOffStreetPer100m": 10.3,
+            "movingPer100m": 0.12
+          },
+          "06-09": {
+            "parkedCurbPer100m": 3.26,
+            "parkedOffStreetPer100m": 7.62,
+            "movingPer100m": 1.53
+          },
+          "10-15": {
+            "parkedCurbPer100m": 3.84,
+            "parkedOffStreetPer100m": 8.96,
+            "movingPer100m": 1.02
+          },
+          "16-19": {
+            "parkedCurbPer100m": 4.03,
+            "parkedOffStreetPer100m": 9.41,
+            "movingPer100m": 1.43
+          },
+          "20-23": {
+            "parkedCurbPer100m": 4.42,
+            "parkedOffStreetPer100m": 10.3,
+            "movingPer100m": 0.56
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 3.74,
+            "parkedOffStreetPer100m": 8.74,
+            "movingPer100m": 0.04
+          },
+          "06-09": {
+            "parkedCurbPer100m": 2.3,
+            "parkedOffStreetPer100m": 5.38,
+            "movingPer100m": 0.64
+          },
+          "10-15": {
+            "parkedCurbPer100m": 2.88,
+            "parkedOffStreetPer100m": 6.72,
+            "movingPer100m": 0.42
+          },
+          "16-19": {
+            "parkedCurbPer100m": 3.31,
+            "parkedOffStreetPer100m": 7.73,
+            "movingPer100m": 0.59
+          },
+          "20-23": {
+            "parkedCurbPer100m": 3.74,
+            "parkedOffStreetPer100m": 8.74,
+            "movingPer100m": 0.19
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 0.48,
+            "parkedOffStreetPer100m": 1.12,
+            "movingPer100m": 0.64
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.84,
+            "parkedOffStreetPer100m": 1.96,
+            "movingPer100m": 6.8
+          },
+          "10-15": {
+            "parkedCurbPer100m": 1.2,
+            "parkedOffStreetPer100m": 2.8,
+            "movingPer100m": 4.25
+          },
+          "16-19": {
+            "parkedCurbPer100m": 1.08,
+            "parkedOffStreetPer100m": 2.52,
+            "movingPer100m": 7.65
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.66,
+            "parkedOffStreetPer100m": 1.54,
+            "movingPer100m": 2.55
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.8,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.6,
+            "movingPer100m": 0.12
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.0,
+            "movingPer100m": 0.09
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.4,
+            "movingPer100m": 0.1
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 4.8,
+            "movingPer100m": 0.02
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 18,
+        "hatchbackEstate": 17,
+        "suvCrossover": 40,
+        "pickup": 18,
+        "minivan": 3,
+        "kei": 0,
+        "van": 4
+      },
+      "movingBodyTypePercent": {
+        "sedan": 16,
+        "hatchbackEstate": 17,
+        "suvCrossover": 40,
+        "pickup": 18,
+        "minivan": 3,
+        "kei": 0,
+        "van": 6
+      },
+      "parkedColourPercent": {
+        "white": 34,
+        "black": 18,
+        "grey": 19,
+        "silver": 14,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingColourPercent": {
+        "white": 34,
+        "black": 18,
+        "grey": 19,
+        "silver": 14,
+        "blue": 8,
+        "red": 4,
+        "brownBeige": 2,
+        "green": 1
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    },
+    {
+      "id": "12-japan",
+      "name": "Japan \u00b7 urban default",
+      "scope": "representative urban/suburban visual default, not uniform national fleet",
+      "bodyTypePercent": {
+        "sedan": 12,
+        "hatchbackEstate": 18,
+        "suvCrossover": 14,
+        "pickup": 1,
+        "minivan": 12,
+        "kei": 38,
+        "van": 5
+      },
+      "bodyShareStatus": "unverified fine mix",
+      "colourPercent": {
+        "white": 40,
+        "black": 22,
+        "grey": 12,
+        "silver": 14,
+        "blue": 6,
+        "red": 2,
+        "brownBeige": 2,
+        "green": 2
+      },
+      "colourShareStatus": "unverified local existing-fleet fixture informed by broad production palette evidence; not local registration colours",
+      "bevOverlayPercent": 2,
+      "bevStatus": "unverified local authoring fixture",
+      "ageBandPercent": [
+        30,
+        45,
+        25
+      ],
+      "ageStatus": "unverified distribution; age is silhouette-generation cue, not damage",
+      "parkingStylePercent": {
+        "curbParallel": 5,
+        "markedAngled": 0,
+        "drivewayPad": 90,
+        "alleyGarage": 5
+      },
+      "parkingShareStatus": "unverified mix of visible parked car locations; map overrides",
+      "driveSide": "left",
+      "platePreset": "japan",
+      "densityScale": {
+        "parked": 0.55,
+        "moving": 0.7
+      },
+      "note": "Urban off-street pads: tall narrow kei passenger vehicles, compact hatches, family minivans, small delivery vans. Kei utility subtypes remain inside kei38%.",
+      "weatherHistoryNote": "Rain film; snow/salt based on local region/history (snowbelt vs mild coast); not all Japan snow-covered.",
+      "sizesRef": "#/sizes",
+      "smallBodyBias01": 0.75,
+      "snowSaltEligibilityRequiresObservedHistory": true,
+      "rareLocalEventOverrideAllowed": true,
+      "snowSaltRoutineClimateEligibility": true,
+      "densityByStreetAndHour": {
+        "denseCore": {
+          "00-05": {
+            "parkedCurbPer100m": 0.47,
+            "parkedOffStreetPer100m": 9.01,
+            "movingPer100m": 0.42
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.51,
+            "parkedOffStreetPer100m": 9.61,
+            "movingPer100m": 3.15
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.63,
+            "parkedOffStreetPer100m": 12.02,
+            "movingPer100m": 2.1
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.6,
+            "parkedOffStreetPer100m": 11.42,
+            "movingPer100m": 3.36
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.54,
+            "parkedOffStreetPer100m": 10.21,
+            "movingPer100m": 1.36
+          }
+        },
+        "urbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 0.51,
+            "parkedOffStreetPer100m": 9.61,
+            "movingPer100m": 0.1
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.37,
+            "parkedOffStreetPer100m": 7.11,
+            "movingPer100m": 1.26
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.44,
+            "parkedOffStreetPer100m": 8.36,
+            "movingPer100m": 0.84
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.46,
+            "parkedOffStreetPer100m": 8.78,
+            "movingPer100m": 1.18
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.51,
+            "parkedOffStreetPer100m": 9.61,
+            "movingPer100m": 0.46
+          }
+        },
+        "suburbanResidential": {
+          "00-05": {
+            "parkedCurbPer100m": 0.43,
+            "parkedOffStreetPer100m": 8.15,
+            "movingPer100m": 0.03
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.26,
+            "parkedOffStreetPer100m": 5.02,
+            "movingPer100m": 0.52
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.33,
+            "parkedOffStreetPer100m": 6.27,
+            "movingPer100m": 0.35
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.38,
+            "parkedOffStreetPer100m": 7.21,
+            "movingPer100m": 0.49
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.43,
+            "parkedOffStreetPer100m": 8.15,
+            "movingPer100m": 0.16
+          }
+        },
+        "commercialArterial": {
+          "00-05": {
+            "parkedCurbPer100m": 0.06,
+            "parkedOffStreetPer100m": 1.04,
+            "movingPer100m": 0.53
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.1,
+            "parkedOffStreetPer100m": 1.83,
+            "movingPer100m": 5.6
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.14,
+            "parkedOffStreetPer100m": 2.61,
+            "movingPer100m": 3.5
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.12,
+            "parkedOffStreetPer100m": 2.35,
+            "movingPer100m": 6.3
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.08,
+            "parkedOffStreetPer100m": 1.44,
+            "movingPer100m": 2.1
+          }
+        },
+        "serviceAlley": {
+          "00-05": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.3,
+            "movingPer100m": 0.0
+          },
+          "06-09": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 2.48,
+            "movingPer100m": 0.1
+          },
+          "10-15": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 2.75,
+            "movingPer100m": 0.07
+          },
+          "16-19": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.03,
+            "movingPer100m": 0.08
+          },
+          "20-23": {
+            "parkedCurbPer100m": 0.0,
+            "parkedOffStreetPer100m": 3.3,
+            "movingPer100m": 0.01
+          }
+        }
+      },
+      "parkedBodyTypePercent": {
+        "sedan": 12,
+        "hatchbackEstate": 18,
+        "suvCrossover": 14,
+        "pickup": 1,
+        "minivan": 12,
+        "kei": 38,
+        "van": 5
+      },
+      "movingBodyTypePercent": {
+        "sedan": 10,
+        "hatchbackEstate": 18,
+        "suvCrossover": 14,
+        "pickup": 1,
+        "minivan": 12,
+        "kei": 38,
+        "van": 7
+      },
+      "parkedColourPercent": {
+        "white": 40,
+        "black": 22,
+        "grey": 12,
+        "silver": 14,
+        "blue": 6,
+        "red": 2,
+        "brownBeige": 2,
+        "green": 2
+      },
+      "movingColourPercent": {
+        "white": 40,
+        "black": 22,
+        "grey": 12,
+        "silver": 14,
+        "blue": 6,
+        "red": 2,
+        "brownBeige": 2,
+        "green": 2
+      },
+      "movingMixStatus": "Unverified authoring fixture: shift2percentage points from sedan to delivery van; same finish prior. Replace with observed local traffic weights."
+    }
+  ],
+  "sources": [
+    {
+      "id": "US-AGE",
+      "url": "https://press.spglobal.com/2025-05-21-U-S-Vehicle-Age-Rises-Again-to-12-8-Years-in-2025%2C-According-to-S-P-Global-Mobility",
+      "status": "Verified national mean",
+      "claim": "US light vehicles average12.8years in2025; not a local age distribution.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "UK-COLOUR",
+      "url": "https://www.smmt.co.uk/grey-tops-uk-car-colour-chart-for-eighth-year/",
+      "status": "Verified new-car ranking",
+      "claim": "Grey most popular UK new-car colour in2025 for eighth year; not existing-fleet local colour shares.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "UK-DATA",
+      "url": "https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-files",
+      "status": "Verified inventory; no local extraction",
+      "claim": "Aggregate licensing data files can support geography/fuel/age studies; no fine-body extraction completed.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "US-FHWA",
+      "url": "https://www.fhwa.dot.gov/policyinformation/statistics/2024/mv1.cfm",
+      "status": "Verified",
+      "claim": "2024 state registration counts; automobiles/trucks are administrative categories, not sedan/SUV/pickup street shares. Covers IL,CO,SC,NY,CA,FL contexts.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "US-EPA",
+      "url": "https://www.epa.gov/automotive-trends/highlights-automotive-trends-report",
+      "status": "Verified",
+      "claim": "New model-year production distinguishes sedan/wagon, car SUV, truck SUV, pickup and minivan/van; not in-use stock or local visible traffic.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "CA-STOCK",
+      "url": "https://www150.statcan.gc.ca/n1/daily-quotidien/251017/dq251017c-eng.htm",
+      "status": "Verified",
+      "claim": "Canada2024 LDV stock: SUV/crossover41.9%, passenger35.0%; EV5.2% includes HEV,BEV,PHEV. BEV487618 of about24.6million ~=1.98% derived.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "UK-STOCK",
+      "url": "https://www.gov.uk/government/statistics/vehicle-licensing-statistics-2025/vehicle-licensing-statistics-united-kingdom-2025",
+      "status": "Verified",
+      "claim": "Year-end2025 licensed stock and age; cars average10years. Broad body types do not identify hatchbacks vs SUVs.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "UK-TABLES",
+      "url": "https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-tables",
+      "status": "Verified inventory; detailed extraction not done",
+      "claim": "VEH0105 local authority broad body/fuel; VEH1107 age; fine-body crosswalk remains unverified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NL-CBS",
+      "url": "https://www.cbs.nl/nl-nl/cijfers/detail/85237NED",
+      "status": "Verified inventory",
+      "claim": "Active passenger-car stock by vehicle attributes and region; not a direct seven-body street mix.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "NL-RDW",
+      "url": "https://www.rdw.nl/over-rdw/dienstverlening/open-data",
+      "status": "Verified inventory; aggregate retrieval unverified",
+      "claim": "Open vehicle/parking data available; body and main-colour coding could support aggregates. Attempted aggregate endpoint failed; no workaround or individual registration records retained.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "MX-INEGI",
+      "url": "https://www.inegi.org.mx/programas/vehiculosmotor/",
+      "status": "Verified inventory",
+      "claim": "VMRC registration statistics by geography and broad class; cars and cargo trucks/vans do not map directly to SUV/pickup/hatchback bins.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "AU-BITRE",
+      "url": "https://www.bitre.gov.au/resource/roads-vehicles/road-vehicles-australia-january-2025",
+      "status": "Verified",
+      "claim": "2025 registration release replaces ABS census discontinued2021; national, state and more detailed extracts available. Passenger cars11.3year average.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "JP-JAMA",
+      "url": "https://www.jama.or.jp/english/reports/docs/MIoJ2025_e.pdf",
+      "status": "Verified",
+      "claim": "End2024 passenger stock62,321,025; mini passenger23,504,976 (~37.716% derived); mini trucks8,442,692 separate. Not Tokyo observed share.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "COLOUR-AXALTA",
+      "url": "https://www.axalta.com/content/dam/New%20Axalta%20Corporate%20Website/Public/Documents/US/axalta-global-automotive-color-popularity_2025.pdf",
+      "status": "Verified",
+      "claim": "2025 build-data palette, not in-use registrations. Global white29 black23 grey22 silver7 blue6 red3 green3 gold/yellow3 brown/beige2 other2.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-UK",
+      "url": "https://www.gov.uk/guidance/the-highway-code/using-the-road-159-to-203",
+      "status": "Verified",
+      "claim": "Rule160 keep left unless signs/markings indicate otherwise.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-JP",
+      "url": "https://www.npa.go.jp/english/bureau/traffic/document/TrafficSafetyRules.pdf",
+      "status": "Verified",
+      "claim": "Keep-left Japan traffic rule.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-AU",
+      "url": "https://www.nsw.gov.au/sites/default/files/2022-11/Road-User-Handbook-English.pdf",
+      "status": "Verified",
+      "claim": "NSW left-side road rules; regional lanes/map override generic side.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-NL",
+      "url": "https://www.government.nl/documents/2024/02/09/participating-in-dutch-traffic",
+      "status": "Verified",
+      "claim": "Official English road-position rules: keep right.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-CA",
+      "url": "https://www.ontario.ca/document/official-mto-drivers-handbook",
+      "status": "Verified source located; specific page direct retrieval failed",
+      "claim": "Keep-right Ontario reference; Canada side default right, detailed clauses not reverified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "DRIVE-MX",
+      "url": "https://semovi.cdmx.gob.mx/storage/app/media/RT%202019%20CDMX.pdf",
+      "status": "Unverified specific clause",
+      "claim": "Right-side default supplied as stable design assumption; current clause not extracted. This does not establish current local parking permissions.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PLATE-US",
+      "url": "https://qr.dmv.ca.gov/portal/vehicle-registration/license-plates-decals-and-placards/license-plates/",
+      "status": "Verified",
+      "claim": "California automobile/commercial/trailer plate12x6in;305x152mm is generic North-American proxy elsewhere, not verified national/state colour standard.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PLATE-UK",
+      "url": "https://www.gov.uk/displaying-number-plates/rules-number-plates",
+      "status": "Verified colour",
+      "claim": "White front/yellow rear; no plate characters reproduced. Chosen520x111mm shape is unverified design proxy.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PLATE-NL",
+      "url": "https://www.rdw.nl/de-kentekenplaat/soorten-kentekenplaten",
+      "status": "Verified colour",
+      "claim": "Ordinary passenger yellow plates; intentionally omit EU/NL text/symbols.520x110mm size proxy unverified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PLATE-JP",
+      "url": "https://wwwtb.mlit.go.jp/tohoku/at/number2.htm",
+      "status": "Verified classes/envelope; colour table includes images",
+      "claim": "Kei4wheel envelope <=3.4x1.48x2.0m. Ordinary private white, private kei yellow; special plates exist. Artwork omits all writing.330x165mm dimension proxy unverified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PLATE-AU",
+      "url": "https://www.nsw.gov.au/driving-boating-and-transport/driving-nsw/vehicle-registration/fees-concessions-and-forms/vehicle-registration-fees",
+      "status": "Verified NSW colour",
+      "claim": "General-issue yellow/black; country states vary.372x134mm dimension proxy unverified.",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "PARK-SF",
+      "url": "https://www.sfmta.com/getting-around/drive-park/how-avoid-parking-tickets",
+      "status": "Verified",
+      "claim": "With curb: downhill wheels toward curb; uphill away. Wheel steering changes, not arbitrary car/bay rotation.",
+      "checked": "2026-10-07"
+    }
+  ],
+  "bevEligibleBodies": [
+    "sedan",
+    "hatchbackEstate",
+    "suvCrossover",
+    "minivan",
+    "kei",
+    "van",
+    "pickup"
+  ],
+  "colourScope": "Private/general ambient light-duty finishes; special service colour layer explicit separate share, not inferred from body. NYC plain-yellow service fraction2% visual assumption; renormalize other finish probabilities to98%.",
+  "drivingWitness": {
+    "forwardFacingCamera": "Right-hand traffic approaches camera on image-left; left-hand traffic approaches camera on image-right. Parked orientations independently mapped."
+  },
+  "localTimeBands": "Inclusive local clock-hour bins:00\u201305 means00:00\u201305:59, etc. DST follows place timezone."
+}

@@ -209,12 +209,16 @@ public enum WorldPackage {
                                         "position": [round(i.x, 4), round(i.height, 4), round(-i.y, 4)],
                                         "yaw": round(i.yaw, 6), "scale": round(i.scale, 6), "cell": [c.x, c.y]]
             if i.stretch != SIMD2(1, 1) { entry["stretch"] = [round(i.stretch.x, 6), round(i.stretch.y, 6)] }
+            // foliage-seasons-v1 species (pack id) and whether it came from OSM tags or the city mix.
+            if let s = i.species { entry["species"] = s }
+            if let f = i.speciesFrom { entry["speciesFrom"] = f.rawValue }
             return entry
         }
         summary.instances = instances.count
         files["instances.json"] = try json([
             "schema": 1, "count": instances.count,
             "transform": "matrix = translate(position) × rotateY(yaw, right-handed about +Y) × scale(scale·stretch[0], scale, scale·stretch[1]); stretch absent = [1, 1]",
+            "species": "trees in a region with a foliage-seasons-v1 city mix: species = pack species id, speciesFrom = mapped (OSM tags) | inferred (drawn from the mix)",
             "instances": instances,
         ] as [String: Any], pretty: false)
 

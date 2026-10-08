@@ -1,0 +1,684 @@
+{
+  "schema": "worldengine.mexico-australia-style-b.v1",
+  "version": "1.0.0",
+  "date": "2026-10-07",
+  "units": "metres unless explicitly stated",
+  "status": "authored representative modeling targets; UNVERIFIED dimensions and mix, not zoning/survey",
+  "lookSource": "~/Desktop/worldengine-gpt-drop/style-b-calibration-v2/values.json",
+  "lookSourceSha256": "8e60a40ac1aa4596e751f5d19925dc1cbf44795babb3fae3db08ca6d719fa503",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "lookOwnership": "calibration owns lighting/exposure/material response; this pack owns regional base albedo/geometry; weather/night replace daytime fixture",
+  "countries": [
+    {
+      "id": "mx",
+      "name": "Mexico",
+      "cities": [
+        "Mexico City",
+        "Guadalajara"
+      ],
+      "drivingSide": "right",
+      "archetypes": [
+        {
+          "id": "mx-01-courtyard",
+          "name": "Mexico City courtyard house",
+          "storeys": 2,
+          "floorHeightM": 3,
+          "lotWidthM": 8,
+          "setbacksM": {
+            "front": 0,
+            "sideEach": 0,
+            "rear": 4
+          },
+          "paletteHex": {
+            "wall": "#C9AD7A",
+            "trim": "#DFD4BC",
+            "roof": "#706C62"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "mx-02-art-deco",
+          "name": "Mexico City Art Deco apartment",
+          "storeys": 4,
+          "floorHeightM": 3,
+          "lotWidthM": 14,
+          "setbacksM": {
+            "front": 0,
+            "sideEach": 0,
+            "rear": 4
+          },
+          "paletteHex": {
+            "wall": "#D8D0BB",
+            "trim": "#84918A",
+            "roof": "#676D70"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "mx-03-modern-midrise",
+          "name": "Mexico City contemporary apartments",
+          "storeys": 6,
+          "floorHeightM": 3,
+          "lotWidthM": 20,
+          "setbacksM": {
+            "front": 2,
+            "sideEach": 0,
+            "rear": 5
+          },
+          "paletteHex": {
+            "wall": "#AE806C",
+            "trim": "#C7C8BC",
+            "roof": "#62696B"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "mx-04-tapatio-house",
+          "name": "Guadalajara patio house",
+          "storeys": 1,
+          "floorHeightM": 3,
+          "lotWidthM": 10,
+          "setbacksM": {
+            "front": 0,
+            "sideEach": 0,
+            "rear": 6
+          },
+          "paletteHex": {
+            "wall": "#C7A07D",
+            "trim": "#DDD0B6",
+            "roof": "#9B725C"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "mx-05-guadalajara-infill",
+          "name": "Guadalajara infill mixed-use",
+          "storeys": 2,
+          "floorHeightM": 3,
+          "lotWidthM": 12,
+          "setbacksM": {
+            "front": 0,
+            "sideEach": 0,
+            "rear": 4
+          },
+          "paletteHex": {
+            "wall": "#B49F8A",
+            "trim": "#D6D2C4",
+            "roof": "#686C6A"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        }
+      ],
+      "districts": [
+        "Mexico City \u00b7 Roma\u2013Condesa",
+        "Mexico City \u00b7 Coyoac\u00e1n",
+        "Guadalajara \u00b7 Americana"
+      ],
+      "treeMixMeaning": "authored combined illustrative specimen mix, varies by district, NOT measured canopy",
+      "trees": [
+        {
+          "id": "jacaranda",
+          "mixShare": 0.25,
+          "heightM": 14,
+          "crownDiameterM": 12
+        },
+        {
+          "id": "ahuehuete",
+          "mixShare": 0.1,
+          "heightM": 25,
+          "crownDiameterM": 20
+        },
+        {
+          "id": "ash",
+          "mixShare": 0.3,
+          "heightM": 18,
+          "crownDiameterM": 14
+        },
+        {
+          "id": "ficus",
+          "mixShare": 0.3,
+          "heightM": 16,
+          "crownDiameterM": 14
+        },
+        {
+          "id": "palm-accent",
+          "mixShare": 0.05,
+          "heightM": 15,
+          "crownDiameterM": 4
+        }
+      ],
+      "streets": [
+        {
+          "type": "local residential",
+          "rightOfWayM": 16,
+          "carriagewayM": 7,
+          "sidewalkEachSideM": 2,
+          "treeSpacingM": 10,
+          "remainder": "verges/planting/parking allocation; not additional carriageway"
+        },
+        {
+          "type": "urban avenue",
+          "rightOfWayM": 30,
+          "carriagewayM": 14,
+          "sidewalkEachSideM": 3,
+          "treeSpacingM": 9,
+          "remainder": "median/verge allocation"
+        }
+      ],
+      "seasonalLawns": {
+        "hemisphere": "north",
+        "seasonMonths": {
+          "spring": [
+            3,
+            4,
+            5
+          ],
+          "summer": [
+            6,
+            7,
+            8
+          ],
+          "autumn": [
+            9,
+            10,
+            11
+          ],
+          "winter": [
+            12,
+            1,
+            2
+          ]
+        },
+        "paletteHex": {
+          "spring": "#96956B",
+          "summer": "#74865E",
+          "autumn": "#858A65",
+          "winter": "#A19A70"
+        },
+        "condition": "Mexico highland dry/wet pattern; Australia illustrative Melbourne cool-season turf with summer stress. Irrigation/turf/rainfall can reverse seasonal colours."
+      },
+      "terrain": "Mexico City basin and Guadalajara highland plateau; no coastal tropical terrain",
+      "roadSignalReference": "../road-signs-signals-v1/mexico.html"
+    },
+    {
+      "id": "au",
+      "name": "Australia",
+      "cities": [
+        "Sydney",
+        "Melbourne"
+      ],
+      "drivingSide": "left",
+      "archetypes": [
+        {
+          "id": "au-01-terrace",
+          "name": "Sydney sandstone terrace",
+          "storeys": 2,
+          "floorHeightM": 3,
+          "lotWidthM": 5.5,
+          "setbacksM": {
+            "front": 2,
+            "sideEach": 0,
+            "rear": 5
+          },
+          "paletteHex": {
+            "wall": "#C3AD89",
+            "trim": "#E2D7C2",
+            "roof": "#777A75"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "au-02-federation",
+          "name": "Sydney Federation cottage",
+          "storeys": 1,
+          "floorHeightM": 3,
+          "lotWidthM": 13,
+          "setbacksM": {
+            "front": 5,
+            "sideEach": 1.5,
+            "rear": 7
+          },
+          "paletteHex": {
+            "wall": "#A66C54",
+            "trim": "#D9CBB1",
+            "roof": "#9D725B"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "au-03-weatherboard",
+          "name": "Melbourne weatherboard house",
+          "storeys": 1,
+          "floorHeightM": 3,
+          "lotWidthM": 12,
+          "setbacksM": {
+            "front": 4,
+            "sideEach": 1.5,
+            "rear": 6
+          },
+          "paletteHex": {
+            "wall": "#98A48F",
+            "trim": "#E0DBCB",
+            "roof": "#7D8685"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "au-04-brick-walkup",
+          "name": "Melbourne brick walk-up",
+          "storeys": 3,
+          "floorHeightM": 3,
+          "lotWidthM": 24,
+          "setbacksM": {
+            "front": 6,
+            "sideEach": 3,
+            "rear": 8
+          },
+          "paletteHex": {
+            "wall": "#AA8067",
+            "trim": "#D5CDBB",
+            "roof": "#6E736D"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        },
+        {
+          "id": "au-05-infill",
+          "name": "Sydney contemporary infill",
+          "storeys": 4,
+          "floorHeightM": 3,
+          "lotWidthM": 20,
+          "setbacksM": {
+            "front": 1,
+            "sideEach": 0,
+            "rear": 5
+          },
+          "paletteHex": {
+            "wall": "#A88773",
+            "trim": "#CCC9BD",
+            "roof": "#697074"
+          },
+          "confidence": "authored UNVERIFIED target, not measured"
+        }
+      ],
+      "districts": [
+        "Sydney \u00b7 inner-east terraces",
+        "Sydney \u00b7 garden suburb",
+        "Melbourne \u00b7 inner-north"
+      ],
+      "treeMixMeaning": "authored combined illustrative specimen mix, varies by district, NOT measured canopy",
+      "trees": [
+        {
+          "id": "eucalyptus",
+          "mixShare": 0.3,
+          "heightM": 22,
+          "crownDiameterM": 13
+        },
+        {
+          "id": "brush-box",
+          "mixShare": 0.25,
+          "heightM": 18,
+          "crownDiameterM": 12
+        },
+        {
+          "id": "jacaranda",
+          "mixShare": 0.15,
+          "heightM": 14,
+          "crownDiameterM": 12
+        },
+        {
+          "id": "paperbark",
+          "mixShare": 0.1,
+          "heightM": 15,
+          "crownDiameterM": 9
+        },
+        {
+          "id": "plane",
+          "mixShare": 0.2,
+          "heightM": 20,
+          "crownDiameterM": 16
+        }
+      ],
+      "streets": [
+        {
+          "type": "local residential",
+          "rightOfWayM": 20,
+          "carriagewayM": 7,
+          "sidewalkEachSideM": 1.8,
+          "treeSpacingM": 10,
+          "remainder": "verges/planting/parking allocation; not additional carriageway"
+        },
+        {
+          "type": "urban avenue",
+          "rightOfWayM": 28,
+          "carriagewayM": 14,
+          "sidewalkEachSideM": 3,
+          "treeSpacingM": 9,
+          "remainder": "median/verge allocation"
+        }
+      ],
+      "seasonalLawns": {
+        "hemisphere": "south",
+        "seasonMonths": {
+          "spring": [
+            9,
+            10,
+            11
+          ],
+          "summer": [
+            12,
+            1,
+            2
+          ],
+          "autumn": [
+            3,
+            4,
+            5
+          ],
+          "winter": [
+            6,
+            7,
+            8
+          ]
+        },
+        "paletteHex": {
+          "spring": "#81916B",
+          "summer": "#99956E",
+          "autumn": "#858B67",
+          "winter": "#79846A"
+        },
+        "condition": "Mexico highland dry/wet pattern; Australia illustrative Melbourne cool-season turf with summer stress. Irrigation/turf/rainfall can reverse seasonal colours."
+      },
+      "terrain": "Sydney sandstone/coastal rolling streets; Melbourne relatively flat inner grid",
+      "roadSignalReference": "../road-signs-signals-v1/australia.html"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "mx-01-courtyard",
+      "country": "mx",
+      "name": "Mexico City courtyard house"
+    },
+    {
+      "id": "mx-02-art-deco",
+      "country": "mx",
+      "name": "Mexico City Art Deco apartment"
+    },
+    {
+      "id": "mx-03-modern-midrise",
+      "country": "mx",
+      "name": "Mexico City contemporary apartments"
+    },
+    {
+      "id": "mx-04-tapatio-house",
+      "country": "mx",
+      "name": "Guadalajara patio house"
+    },
+    {
+      "id": "mx-05-guadalajara-infill",
+      "country": "mx",
+      "name": "Guadalajara infill mixed-use"
+    },
+    {
+      "id": "mx-06-roma-condesa",
+      "country": "mx",
+      "name": "Mexico City \u00b7 Roma\u2013Condesa"
+    },
+    {
+      "id": "mx-07-coyoacan",
+      "country": "mx",
+      "name": "Mexico City \u00b7 Coyoac\u00e1n"
+    },
+    {
+      "id": "mx-08-guadalajara",
+      "country": "mx",
+      "name": "Guadalajara \u00b7 Americana"
+    },
+    {
+      "id": "mx-09-block",
+      "country": "mx",
+      "name": "Mexico City block paint-over"
+    },
+    {
+      "id": "mx-10-trees",
+      "country": "mx",
+      "name": "Mexico highland trees"
+    },
+    {
+      "id": "mx-11-seasons",
+      "country": "mx",
+      "name": "Mexico City lawns \u00b7 seasons"
+    },
+    {
+      "id": "mx-12-furniture",
+      "country": "mx",
+      "name": "Mexico street furniture"
+    },
+    {
+      "id": "mx-13-signals",
+      "country": "mx",
+      "name": "Mexico signals and lane order"
+    },
+    {
+      "id": "mx-14-transit",
+      "country": "mx",
+      "name": "Mexico transit"
+    },
+    {
+      "id": "mx-15-weather",
+      "country": "mx",
+      "name": "Mexico City wet-season storm"
+    },
+    {
+      "id": "mx-16-night",
+      "country": "mx",
+      "name": "Guadalajara warm courtyard night"
+    },
+    {
+      "id": "au-01-terrace",
+      "country": "au",
+      "name": "Sydney sandstone terrace"
+    },
+    {
+      "id": "au-02-federation",
+      "country": "au",
+      "name": "Sydney Federation cottage"
+    },
+    {
+      "id": "au-03-weatherboard",
+      "country": "au",
+      "name": "Melbourne weatherboard house"
+    },
+    {
+      "id": "au-04-brick-walkup",
+      "country": "au",
+      "name": "Melbourne brick walk-up"
+    },
+    {
+      "id": "au-05-infill",
+      "country": "au",
+      "name": "Sydney contemporary infill"
+    },
+    {
+      "id": "au-06-sydney-terraces",
+      "country": "au",
+      "name": "Sydney \u00b7 inner-east terraces"
+    },
+    {
+      "id": "au-07-sydney-suburb",
+      "country": "au",
+      "name": "Sydney \u00b7 garden suburb"
+    },
+    {
+      "id": "au-08-melbourne",
+      "country": "au",
+      "name": "Melbourne \u00b7 inner-north"
+    },
+    {
+      "id": "au-09-block",
+      "country": "au",
+      "name": "Melbourne block paint-over"
+    },
+    {
+      "id": "au-10-trees",
+      "country": "au",
+      "name": "Australian urban trees"
+    },
+    {
+      "id": "au-11-seasons",
+      "country": "au",
+      "name": "Australian lawns \u00b7 seasons"
+    },
+    {
+      "id": "au-12-furniture",
+      "country": "au",
+      "name": "Australian street furniture"
+    },
+    {
+      "id": "au-13-signals",
+      "country": "au",
+      "name": "Australia \u00b7 LEFT-hand traffic"
+    },
+    {
+      "id": "au-14-transit",
+      "country": "au",
+      "name": "Melbourne tram / Sydney ferry"
+    },
+    {
+      "id": "au-15-weather",
+      "country": "au",
+      "name": "Sydney coastal rain front"
+    },
+    {
+      "id": "au-16-night",
+      "country": "au",
+      "name": "Melbourne neighborhood night"
+    }
+  ]
+}

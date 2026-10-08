@@ -1,0 +1,249 @@
+{
+  "schema": "worldengine.neighborhood.jobs.v1",
+  "inheritedCalibration": {
+    "schema": "worldengine.style-b.shared-look.v2",
+    "status": "calibration proposal; approval pending; authored values, not measured image pixels",
+    "ownership": "packs own content; this sheet owns look",
+    "inheritance": {
+      "lookRef": "#/sharedLook",
+      "scope": "Every city pack uses this block; no per-city exposure, saturation or material realism override.",
+      "contentOwnedByPack": [
+        "geometry",
+        "camera",
+        "regional architecture",
+        "base albedo palette",
+        "people placement",
+        "vehicle class",
+        "season",
+        "time and weather"
+      ],
+      "weather": "Live sun/time, clouds, precipitation and night replace the clear-day fixture; apply exposure and wetness once."
+    },
+    "sharedLook": {
+      "lighting": {
+        "sun": {
+          "hex": "#FFE8C6",
+          "elevationDeg": 40,
+          "azimuthDeg": 225,
+          "directRelative": 1,
+          "fixtureOnly": true
+        },
+        "sky": {
+          "zenithHex": "#73A5CC",
+          "midHex": "#A2C4DC",
+          "horizonHex": "#DBDCD1",
+          "fillHex": "#AEBCCA",
+          "cloudLitHex": "#F0F2EF",
+          "cloudShadeHex": "#CAD6DE",
+          "coverage01": 0.18
+        },
+        "shadow": {
+          "appearanceHex": "#7F8F99",
+          "neutralWitnessShadowToLitLinearY": 0.62,
+          "ambientVisibilityFloor": 0.65,
+          "occlusionMerge": "min; never repeatedly multiply AO",
+          "filterDrawablePx": [
+            1,
+            2
+          ]
+        },
+        "exposure": {
+          "relativeEV": 0.35,
+          "linearGain": 1.2745606273192622,
+          "contrast": 1.06,
+          "saturation": 1.08,
+          "additionalWarmth": 0,
+          "applyOnce": true,
+          "perCityOverrides": false
+        }
+      },
+      "materials": {
+        "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+        "roughness": {
+          "masonry": 0.82,
+          "plaster": 0.82,
+          "wood": 0.82,
+          "concrete": 0.82,
+          "asphalt": 0.82,
+          "foliage": 0.92,
+          "fabric": 0.9,
+          "skin": 0.65,
+          "vehiclePaint": 0.55,
+          "paintedMetal": 0.68,
+          "glass": 0.28
+        },
+        "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+        "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+        "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+        "groundBaseHex": {
+          "asphalt": "#626A70",
+          "concrete": "#C5C0B3",
+          "lawn": "#73865B",
+          "curb": "#B9B7AD"
+        }
+      },
+      "peopleVehicles": {
+        "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+        "distanceBands": [
+          {
+            "id": "near",
+            "guideDistanceM": [
+              0,
+              20
+            ],
+            "projectedHeightPx": [
+              48,
+              null
+            ],
+            "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+            "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+          },
+          {
+            "id": "mid",
+            "guideDistanceM": [
+              20,
+              80
+            ],
+            "projectedHeightPx": [
+              16,
+              48
+            ],
+            "people": "Natural pose and clothing colour groups; facial detail removed.",
+            "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+          },
+          {
+            "id": "far",
+            "guideDistanceM": [
+              80,
+              null
+            ],
+            "projectedHeightPx": [
+              5,
+              16
+            ],
+            "people": "Natural uninflated silhouette and muted colour groups.",
+            "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+          },
+          {
+            "id": "cull",
+            "projectedHeightPx": [
+              0,
+              5
+            ],
+            "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+          }
+        ],
+        "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+      },
+      "prohibited": [
+        "photo textures",
+        "cartoon outlines",
+        "toy proportions",
+        "logos",
+        "readable signage",
+        "dogs",
+        "animals",
+        "real murals",
+        "app or host content"
+      ]
+    },
+    "references": {
+      "approvedLook": "../style-b-bible-v1/images/01-calibration-scene.png",
+      "lightingValues": "../house-contrast-v1/paintover-values.json#/sharedLighting"
+    },
+    "limitations": "Generated style edits match composition visually; no camera matrices or engine implementation were provided. Numeric values are renderer-independent authoring targets.",
+    "scenes": [
+      {
+        "id": "01-lakeview",
+        "contentSource": "districts-chi-den-v1/images/03-chicago-lakeview.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/01-lakeview.png"
+      },
+      {
+        "id": "02-brooklyn",
+        "contentSource": "nyc-hero-v1/images/01-brooklyn-brownstone.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/02-brooklyn.png"
+      },
+      {
+        "id": "03-midtown",
+        "contentSource": "nyc-hero-v1/images/12-midtown-canyon.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/03-midtown.png"
+      },
+      {
+        "id": "04-san-francisco",
+        "contentSource": "us-metros-wave2-v1/sf-r2/sf-block.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/04-san-francisco.png"
+      },
+      {
+        "id": "05-alley",
+        "contentSource": "chicago-denver-life-v1/images/02-chicago-alleys.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/05-alley.png"
+      },
+      {
+        "id": "05-train",
+        "contentSource": "chicago-denver-life-v1/images/03-chicago-transit.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/05-train.png"
+      },
+      {
+        "id": "06-sloans",
+        "contentSource": "chicago-denver-life-v1/images/09-denver-moments.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/06-sloans.png"
+      },
+      {
+        "id": "07-new-orleans",
+        "contentSource": "us-metros-wave3-v1/new-orleans-block-before.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/07-new-orleans.png"
+      },
+      {
+        "id": "08-miami",
+        "contentSource": "weather-moments-v1/images/miami.png",
+        "lookRef": "#/sharedLook",
+        "frame": "frames/08-miami.png"
+      }
+    ]
+  },
+  "status": "authored proposals, no live data or engine implementation",
+  "snow": {
+    "newSnowThresholdCmProposal": 1,
+    "forecastCanActivate": false,
+    "depthDifferenceAloneCanActivate": false,
+    "persistenceKey": [
+      "playerLocalSave",
+      "eventId",
+      "segmentId"
+    ],
+    "newEvent": "fresh incremental snow only",
+    "unknown": "freeze labeled snapshot; suppress new live work"
+  },
+  "paper": {
+    "unlock": "local civil dawn",
+    "recap": "captured same daily round; no duplicate payout",
+    "targets": "generic front-walk masks, never resident data"
+  },
+  "foliageReference": "foliage-seasons-v1/foliage-values.json",
+  "monetization": {
+    "paidPower": false,
+    "paidWeatherBypass": false,
+    "paidCoopWeight": false,
+    "cosmeticPricing": "unverified"
+  },
+  "privacy": {
+    "homeCollected": false,
+    "GPS": false,
+    "individualTracking": false,
+    "heatmaps": false,
+    "coop": "synthetic here; protocol review required"
+  },
+  "art": [
+    "snow.png",
+    "mow.png",
+    "paper.png"
+  ]
+}

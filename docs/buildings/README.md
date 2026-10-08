@@ -449,6 +449,53 @@ willow winter twig bundles; 3 skeletons × 2 envelopes per family (one mesh per 
 per-tree stretch vary them); solid mid trees 182–203 triangles vs the pack's 80–180 at 50–150 m;
 card crowns have more sky holes than the pack's solid-crown targets.
 
+**Species crowns (foliage-seasons-v1, R approved and binding 2026-10-07; Lakeview `chicago-dense-north`,
+Sloan's Lake `front-range`).** Code: `Sources/WorldGen/Foliage.swift`, `Props.swift` (five species
+silhouettes), `SceneGenerator.swift` / `Yards/YardGeneration.swift` (species pick), `WorldPackage`
+(`instances.json` `species`, `speciesFrom`). Tests: `TreeSpeciesTests` (+ species kinds in the silhouette,
+look, AO and puff suites). Pack values are read by key from `Profiles/mock-values.json`:
+`style-b/foliage/species.<id>.seasonColours.summer`, `species.<id>.dimensionsM.height[0|1]`,
+`species.<id>.dimensionsM.spread[0|1]`, `cities.<chicago|denver>.mix[0–5].id`; tests also read
+`species.*.crown.nearClusterLobes / midClusterLobes / farMasses / skyHoleFractionProposal` from the pack.
+`vegetation.json` `foliageSeasons` holds only P2's choices (silhouette per species, nearest described
+species, which profiles use which city mix); families carry `packSpecies` for their summer colour.
+
+- Species pick: OSM `species` / `taxon` (exact, or nearest described) then `genus` (the mix's species of
+  that genus, else the pack's) win, `speciesFrom: mapped`; untagged mapped and all generated trees draw
+  the crown form from the profile's `crownWeights` (unchanged, own seed) and then a mix species of that
+  colour family with equal odds (`inferred`). The pack gives no abundances; keeping the form shares keeps
+  every colour family's share, so the autumn mix (Denver owner decision) is unchanged. Measured shares
+  (3,600 trees): Chicago honeylocust/silver maple/elm 0.11 each, Norway maple 0.33, ash/linden 0.14;
+  Denver Norway maple 0.40, linden/aspen 0.14, elm/cottonwood 0.11, blue spruce 0.10.
+- Silhouettes (species sheets trees-01–04): `treeRounded` Norway maple (dense dome); `treePyramidal`
+  linden (broad skirt, pointed top); `treeVase` elm, cottonwood (umbrella on arching limbs, crown base
+  ~0.7 of the height); `treeOpen` honeylocust, silver maple (separated wide lobes, 18 % sky holes);
+  `treeUpright` green ash, aspen; blue spruce = conifer. Ten near lobes, five mid lobes (pack 9–18 / 5–9),
+  one shrink-wrapped far mass (pack 1–3). Species sharing a silhouette scale its width to their pack
+  spread/height (0.79–1.13). Width/height vs pack range all inside (e.g. elm 0.64 in 0.37–1.00, honeylocust
+  1.03 in 0.75–1.33, cottonwood 0.54 in 0.35–0.80). Solid sky holes 9–18 % (pack 8–22 %).
+- Triangles (solid near / mid / far / skyline): 869–896 / 194–200 / 38 / 12 (old kinds 848 / 182 / 52 / 12).
+  Tree triangles in view: lakeview-street 32.5k → 25.0k, alley 24.9k → 18.3k, block-center 24.2k → 16.2k,
+  sloans-street 99.0k → 89.4k.
+- Draws: the renderer draws one instanced batch per kind × LOD slot (World.swift `LODBatch`). Batches in
+  view (street / alley / block-center): lakeview 14 / 13 / 10 → 21 / 17 / 15, sloans 16 → 19 (two more
+  kinds in Lakeview, one in Denver).
+  The YardTests per-400 m-cell estimate: lakeview 48 / 39 / 36 → 69 / 56 / 55, sloans 68 → 84.
+- Summer colours (species summer albedo after the daytime master's crown greens, profiles with a mix only):
+  every Chicago crown slot #4F773C; Denver #4F773C, cottonwood #49664C, crabapple (malus_ornamental),
+  blue spruce #617A86. Spring, autumn, winter unchanged (tested against the palette without the step).
+- Evidence: [trees/species-crowns-lakeview.jpg](trees/species-crowns-lakeview.jpg),
+  [trees/species-crowns-sloans.jpg](trees/species-crowns-sloans.jpg) (buildingviz 1005×565, before/after,
+  with the pack's city board summer panel and species row), [trees/species-silhouettes.jpg](trees/species-silhouettes.jpg)
+  (`TREE_SILHOUETTES` sheet: old kinds, then the five species silhouettes; near summer, bare near/mid/far,
+  far summer).
+- Gaps: the pack wants opaque crowns and no blanket alpha leaf cards by default (R's leaf-card choice
+  conflicts; cards follow the species lobes when switched on); the pack's foliage envelope (≤ 12 draws,
+  ≤ 35k triangles) is not met by draws (15–21 batches); summer greens now nearly uniform (#4F773C, the
+  pack's JSON) where the master gave three greens; aspen's pale trunk, pine silhouette, Evanston/Wilmette
+  (no mix yet) and the other ten cities not done; skyline domes of species crowns are up to a quarter
+  smaller from the side than the far mass (tested looser).
+
 38. **House contrast (house-contrast-v1, R approved 2026-10-07)**: house-details families take their house
     type's trim, roof and daytime glass colours, soffit and porch-underside colours on every down-facing face, and
     an eave/cornice shadow band (near: the 0.7 m wall-top band fades to the type's eave_shadow relativeBrightness at

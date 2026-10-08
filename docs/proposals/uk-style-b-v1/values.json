@@ -1,0 +1,495 @@
+{
+  "schema": "worldengine.uk-style-b.v1",
+  "version": "1.0.0",
+  "date": "2026-10-07",
+  "units": "metres",
+  "drivingSide": "LEFT",
+  "status": "UNVERIFIED authored modeling targets, not survey/zoning/city averages",
+  "lookSource": "~/Desktop/worldengine-gpt-drop/style-b-calibration-v2/values.json",
+  "lookSourceSha256": "8e60a40ac1aa4596e751f5d19925dc1cbf44795babb3fae3db08ca6d719fa503",
+  "lookSourceStatus": "calibration proposal; approval pending; authored values, not measured image pixels",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "uk-01-victorian",
+      "name": "London Victorian terrace",
+      "storeysAboveGround": 3,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 5.5,
+      "paletteHex": {
+        "wallBrickOrStone": "#B29B73",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-02-georgian",
+      "name": "London Georgian townhouse",
+      "storeysAboveGround": 4,
+      "basement": true,
+      "floorHeightM": 3.3,
+      "lotWidthM": 6,
+      "paletteHex": {
+        "wallBrickOrStone": "#A38B69",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-03-council",
+      "name": "London council estate",
+      "storeysAboveGround": 6,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 45,
+      "paletteHex": {
+        "wallBrickOrStone": "#9D8E78",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-04-docklands",
+      "name": "London Docklands tower",
+      "storeysAboveGround": 24,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 35,
+      "paletteHex": {
+        "wallBrickOrStone": "#929F9F",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-05-semi",
+      "name": "London suburban semi",
+      "storeysAboveGround": 2,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 9,
+      "paletteHex": {
+        "wallBrickOrStone": "#9B6452",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-06-mill",
+      "name": "Manchester red-brick mill",
+      "storeysAboveGround": 6,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 40,
+      "paletteHex": {
+        "wallBrickOrStone": "#A56952",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-07-worker-terrace",
+      "name": "Manchester worker terrace",
+      "storeysAboveGround": 2,
+      "basement": false,
+      "floorHeightM": 3,
+      "lotWidthM": 4.5,
+      "paletteHex": {
+        "wallBrickOrStone": "#A5654D",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-08-tenement",
+      "name": "Edinburgh sandstone tenement",
+      "storeysAboveGround": 4,
+      "basement": false,
+      "floorHeightM": 3.3,
+      "lotWidthM": 18,
+      "paletteHex": {
+        "wallBrickOrStone": "#B8AA8D",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    },
+    {
+      "id": "uk-09-new-town",
+      "name": "Edinburgh New Town townhouse",
+      "storeysAboveGround": 3,
+      "basement": true,
+      "floorHeightM": 3,
+      "lotWidthM": 7,
+      "paletteHex": {
+        "wallBrickOrStone": "#B5A88E",
+        "trim": "#DED9CB",
+        "roof": "#656A69"
+      },
+      "confidence": "UNVERIFIED target"
+    }
+  ],
+  "streets": [
+    {
+      "type": "terrace local",
+      "rightOfWayM": 14,
+      "carriagewayM": 6,
+      "pavementEachSideM": 2,
+      "remainderM": 4,
+      "remainderUse": "frontage/verge/parking allocation; avoid double counting parking inside carriageway"
+    },
+    {
+      "type": "Georgian square",
+      "rightOfWayM": 22,
+      "carriagewayM": 8,
+      "pavementEachSideM": 3,
+      "remainderM": 8,
+      "remainderUse": "garden frontage/verge allocation"
+    },
+    {
+      "type": "urban avenue",
+      "rightOfWayM": 28,
+      "carriagewayM": 14,
+      "pavementEachSideM": 4,
+      "remainderM": 6,
+      "remainderUse": "median/planting"
+    }
+  ],
+  "trees": [
+    {
+      "name": "London plane",
+      "mixShare": 0.45,
+      "heightM": 24,
+      "crownDiameterM": 18
+    },
+    {
+      "name": "lime",
+      "mixShare": 0.35,
+      "heightM": 20,
+      "crownDiameterM": 12
+    },
+    {
+      "name": "horse chestnut",
+      "mixShare": 0.2,
+      "heightM": 18,
+      "crownDiameterM": 15
+    }
+  ],
+  "treeMixMeaning": "authored illustrative specimen shares of requested species only; not measured city canopy",
+  "treeSpacingM": 12,
+  "seasonalLawns": {
+    "hemisphere": "north",
+    "spring": {
+      "months": [
+        3,
+        4,
+        5
+      ],
+      "hex": "#879574"
+    },
+    "summer": {
+      "months": [
+        6,
+        7,
+        8
+      ],
+      "hex": "#78865F",
+      "dryPatchHex": "#A69C74"
+    },
+    "autumn": {
+      "months": [
+        9,
+        10,
+        11
+      ],
+      "hex": "#818565"
+    },
+    "winter": {
+      "months": [
+        12,
+        1,
+        2
+      ],
+      "hex": "#89917E"
+    },
+    "note": "irrigation, turf and rainfall alter colour; winter green turf may carry thin frost, not automatic snow"
+  },
+  "roadSignalReference": "../road-signs-signals-v1/uk.html",
+  "sheets": [
+    {
+      "id": "uk-01-victorian",
+      "name": "London Victorian terrace",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-02-georgian",
+      "name": "London Georgian townhouse",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-03-council",
+      "name": "London council estate",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-04-docklands",
+      "name": "London Docklands tower",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-05-semi",
+      "name": "London suburban semi",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-06-mill",
+      "name": "Manchester red-brick mill",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-07-worker-terrace",
+      "name": "Manchester worker terrace",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-08-tenement",
+      "name": "Edinburgh sandstone tenement",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-09-new-town",
+      "name": "Edinburgh New Town townhouse",
+      "group": "archetypes"
+    },
+    {
+      "id": "uk-10-bloomsbury",
+      "name": "London \u00b7 Georgian square",
+      "group": "districts"
+    },
+    {
+      "id": "uk-11-islington",
+      "name": "London \u00b7 Victorian terraces",
+      "group": "districts"
+    },
+    {
+      "id": "uk-12-docklands",
+      "name": "London \u00b7 Docklands",
+      "group": "districts"
+    },
+    {
+      "id": "uk-13-ancoats",
+      "name": "Manchester \u00b7 mill district",
+      "group": "districts"
+    },
+    {
+      "id": "uk-14-manchester-terraces",
+      "name": "Manchester \u00b7 terrace blocks",
+      "group": "districts"
+    },
+    {
+      "id": "uk-15-edinburgh",
+      "name": "Edinburgh \u00b7 New Town",
+      "group": "districts"
+    },
+    {
+      "id": "uk-16-london-block",
+      "name": "London block paint-over",
+      "group": "blocks"
+    },
+    {
+      "id": "uk-17-edinburgh-block",
+      "name": "Edinburgh block paint-over",
+      "group": "blocks"
+    },
+    {
+      "id": "uk-18-bus-cab",
+      "name": "Red bus + black cab",
+      "group": "city systems"
+    },
+    {
+      "id": "uk-19-underground",
+      "name": "Underground entrance",
+      "group": "city systems"
+    },
+    {
+      "id": "uk-20-crossing",
+      "name": "Zebra crossing + beacons",
+      "group": "city systems"
+    },
+    {
+      "id": "uk-21-furniture",
+      "name": "Post boxes + street furniture",
+      "group": "city systems"
+    },
+    {
+      "id": "uk-22-trees",
+      "name": "Plane, lime + horse chestnut",
+      "group": "landscape"
+    },
+    {
+      "id": "uk-23-seasons",
+      "name": "UK lawns \u00b7 four seasons",
+      "group": "landscape"
+    },
+    {
+      "id": "uk-24-drizzle",
+      "name": "Manchester drizzle",
+      "group": "weather"
+    },
+    {
+      "id": "uk-25-fog",
+      "name": "Fog on the Thames",
+      "group": "weather"
+    },
+    {
+      "id": "uk-26-frost",
+      "name": "Edinburgh frost",
+      "group": "weather"
+    },
+    {
+      "id": "uk-27-summer",
+      "name": "Long summer evening",
+      "group": "weather"
+    },
+    {
+      "id": "uk-28-night",
+      "name": "London neighborhood night",
+      "group": "weather"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import Testing
 /// Tree look (look-fix-v1 §5): per-level triangle caps, clustered irregular crown outlines.
 @Suite("Tree look")
 struct PropTreeLookTests {
-    static let kinds: [PropKind] = [.treeBroad, .treeOval, .treeSpreading, .conifer]
+    static let kinds: [PropKind] = [.treeBroad, .treeOval, .treeSpreading, .conifer] + TreeSilhouetteTests.speciesKinds
     /// Whole-tree triangle caps at near, mid, far and skyline detail.
     static let caps = [PropLibrary.nearTriangleBudget, 250, PropLibrary.treeTriangleBudget.far, PropLibrary.skylineTriangleBudget]
 
@@ -43,7 +43,7 @@ struct PropTreeLookTests {
     /// The crown's outline is clustered, not a ball: from above, the outline radius around the crown
     /// varies by at least 15% (notches between lobes); from the side, the upper outline departs from
     /// the crown's bounding ellipse by at least 15% somewhere (an asymmetric top with a notch).
-    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading])
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading] + TreeSilhouetteTests.speciesKinds)
     func crownOutlineIsIrregular(_ kind: PropKind) throws {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let crown = TreeSilhouetteTests.triangles(m, .crown)
@@ -124,7 +124,7 @@ struct PropTreeLookTests {
     }
 
     /// Near trunks carry branch stubs where they enter the crown (bark, below the fork).
-    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading])
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading] + TreeSilhouetteTests.speciesKinds)
     func nearTrunkHasBranchStubs(_ kind: PropKind) throws {
         let m = try TreeSilhouetteTests.mesh(kind, lod: 0)
         let top = PropLibrary.lobes(kind).trunkTop
@@ -140,7 +140,7 @@ struct PropTreeLookTests {
 /// scaffold limbs, smooth puff normals, darker inside; far and skyline as the solid style.
 @Suite("Puff crowns")
 struct PuffCrownTests {
-    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .treeWeeping])
+    @Test(arguments: [PropKind.treeBroad, .treeOval, .treeSpreading, .treeWeeping] + TreeSilhouetteTests.speciesKinds)
     func puffTreesFitAndShadeInside(_ kind: PropKind) throws {
         let palette = try TreeSilhouetteTests.palette()
         let meshes = (0..<4).map { PropLibrary.mesh(kind, variant: 0, lod: $0, palette: palette, style: .puffs) }

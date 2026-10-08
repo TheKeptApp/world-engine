@@ -1,0 +1,29 @@
+# Research and implementation notes
+Checked 7 October 2026. Verified means the primary source supports the stated product or method; it does not mean a local dataset has been downloaded or a phone implementation measured.
+
+## Elevation sources
+**Verified:** USGS offers project 1 m DEMs with partial coverage, seamless approximately 10 m and 30 m products, and an expanding seamless 1 m product begun in 2025. Arc-second cells vary east/west with latitude. Check actual AOI footprints, acquisition dates, quality, water flattening, CRS and tile seams before promising local 1 m terrain. Resolution is not accuracy. [USGS products](https://www.usgs.gov/3d-elevation-program/about-3dep-products-services).
+
+**Verified:** 1 m products use UTM; typical vertical datum is NAVD88, but metadata governs. Convert orthometric heights through the appropriate geoid when combining with an ellipsoidal globe; do not silently add NAVD88 elevations to WGS84 ellipsoid heights. [USGS datum FAQ](https://www.usgs.gov/faqs/what-projection-horizontal-datum-vertical-datum-and-resolution-a-usgs-digital-elevation-model).
+
+**Verified:** GMTED2010 supplies 7.5, 15 and 30 arc-second global products, including breakline-emphasis and extrema aggregations. Approximately 230 m north/south at 7.5 arc-seconds is a conversion, not uniform square ground spacing. Prefer a coarsened 3DEP hierarchy in Colorado; GMTED is a fallback for distant/global horizons, not near road cuts. [USGS GMTED2010](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-multi-resolution-terrain-elevation).
+
+**Proposal / unverified:** JSON distance bands choose 1 / 10 / 30 / 60 / 120 / 240 m mesh sampling guides. Dataset resolution and rendered vertex spacing are separate. Never upsample a coarse DEM and claim new detail. Preserve ridge extrema while simplifying, compare the angular horizon against the finest available source, and refine until the projected error fits 1–2 drawable pixels. Local retaining structures and bridges need mapped geometry; bare earth cannot provide decks. Exact Sloan’s Lake viewshed, DEM tiles, acquisition dates, local road profiles and peak positions remain unverified in this concept pack.
+
+## Snow and treeline
+**Verified:** SNODAS at NSIDC is a daily ~1 km model/data assimilation dataset with depth, SWE, solid precipitation and melt-related variables. Citation is a stated condition of use. The archive currently reports Basic service; do not assume an operational SLA. [Dataset and citation](https://nsidc.org/data/g02158/versions/1), [user guide](https://nsidc.org/data/documentation/snow-data-assimilation-system-snodas-data-products-nsidc-version-1-user-guide).
+
+NOHRSC supplies SNODAS and regional snow analyses. Its homepage was search-indexed, but direct page retrieval and the product-details page failed in this session. **Unverified:** current endpoint availability, publication latency and machine-readable cover access. No blocked access was bypassed. [NOHRSC](https://www.nohrsc.noaa.gov/). Validate operational access separately.
+
+**Verified:** RMNP identifies the alpine transition at 11,000–11,500 ft depending on exposure: 3,352.8–3,505.2 m. Wind redistributes winter snow, and isolated patches can persist through summer. This is a local ecological guide, not a fixed universal Front Range treeline or snowline. [NPS alpine ecosystem](https://www.nps.gov/romo/learn/nature/alpine_tundra_ecosystem.htm).
+
+**Proposal / unverified:** Use valid observed cover first; retain daily regional depth/SWE and recent snowfall, positive-degree hours, solar exposure, aspect, wind and rain histories. Infer uncertain subcell coverage only where observations are absent. The JSON degree-day fallback is illustrative, not a calibrated mountain snow model; do not claim precision for individual gullies from 1 km input. Cloud-obscured optical cover is missing, not snow-free. Stale masks keep their timestamp and uncertainty. No snowfall or snowline is created by a month switch. Ski maintenance requires operator inputs; natural snow is not evidence a piste is open.
+
+## Phone terrain
+**Verified method:** Geometry clipmaps use nested grids around the viewer with transitions between resolutions; regular terrain supports efficient LOD. This source is a method reference, not proof of modern iPhone performance. [NVIDIA GPU Gems 2](https://developer.nvidia.com/gpugems/gpugems2/part-i-geometric-complexity/chapter-2-terrain-rendering-using-gpu-based-geometry).
+
+**Proposal / unverified:** Near heightfields retain stable anchor heights independent of visual LOD. Canyon overhangs and cuts use separate selective meshes. Far horizons use DEM-derived azimuth/elevation/depth layers, preserving occlusion and rebuilding on observer motion or projected error; static painted sky mountains fail under parallax. Recompute sunlight, snow masks and atmospheric tint, rather than baking photographic mountains. The proposed 250 m horizontal / 10 m vertical impostor refresh guides must be tightened if ridge error exceeds 2 px.
+
+The 20/50/100 km witness keeps FOV and 2,000 m relief fixed: atan(relief/distance) gives 5.711°, 2.291°, 1.146° before curvature. These are mathematical targets, not measurements of the generated panels. Curved Earth affects the 100 km horizon; use geocentric geometry and actual sightline intersections. Refraction is weather-dependent and unverified here.
+
+**Proposal / unverified:** Beer–Lambert transmittance T=exp(-beta*d) blends shaded terrain toward weather sky scatter in linear light, once. Clear beta=0.00001/m gives T=0.819/0.607/0.368 at 20/50/100 km. Summer haze beta=0.000025/m gives 0.607/0.287/0.082. These are authoring fixtures, not Denver visibility observations. No high-frequency surface information survives a tiny projected silhouette. Benchmark sustained GPU, memory, tile streaming and horizon transitions on iPhone; this pack includes browser layout QA only.

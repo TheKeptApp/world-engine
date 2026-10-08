@@ -849,13 +849,24 @@ extension SceneGenerator {
         let isConifer = !street && !r.chance(p.trees.deciduousShare)
         let young = r.chance(street ? p.trees.youngShare * 1.5 : p.trees.youngShare)
         let height = young ? r.range(p.trees.youngHeightMeters) : r.range(p.trees.heightMeters)
-        let kind: PropKind
+        var kind: PropKind
+        // foliage-seasons-v1: in a profile with a city mix, a species drawn from the mix within the crown
+        // form (own seed, so the form, height, variant and yaw draws are unchanged).
+        let foliage = VegetationLibrary.bundled.foliageSeasons
+        let mix = foliage?.mix(forProfile: p.id)
+        var sr = StableRandom(source.hashValueStable, salt: "species")
+        var species: String? = nil
         if isConifer {
             kind = .conifer
+            if let mix { species = foliage?.inferred(form: "conifer", mix: mix, random: &sr) }
         } else {
             let w = p.trees.crownWeights
             let pick = r.pick(w.keys.sorted()) { w[$0] ?? 0 }
-            kind = pick == "oval" ? .treeOval : pick == "spreading" ? .treeSpreading : .treeBroad
+            kind = PropLibrary.formKind(pick == "weeping" ? "broad" : pick)
+            if let mix, let s = foliage?.inferred(form: pick, mix: mix, random: &sr) {
+                species = s
+                kind = foliage?.kind(s) ?? kind
+            }
         }
         // Look-fix §5: no repeated silhouette among the nearest three trees of the same form.
         let count = PropLibrary.variants[kind] ?? 1
@@ -866,7 +877,9 @@ extension SceneGenerator {
             let pool = options.isEmpty ? Array(0..<count) : options
             variant = pool[Int(r.next() % UInt64(pool.count))]
         }
-        return PropInstance(kind: kind, variant: variant, source: source, x: pos.x, y: pos.y, height: 0, yaw: r.range(0, 6.28), scale: height)
+        let width = species.map { foliage?.widthScale($0) ?? 1 } ?? 1
+        return PropInstance(kind: kind, variant: variant, source: source, x: pos.x, y: pos.y, height: 0, yaw: r.range(0, 6.28), scale: height,
+                            stretch: SIMD2(width, width), species: species, speciesFrom: species == nil ? nil : .inferred)
     }
 
     /// Path clearance (owner, 2026-10-06): no foliage in a walk or carriageway corridor below 2.5 m.

@@ -1,0 +1,748 @@
+{
+  "schemaVersion": "race-organizer-ops.v1",
+  "purpose": "Builder AI proposal rules; never authorization to operate",
+  "checked": "2026-10-07",
+  "units": "SI unlessstated",
+  "statusDefinitions": {
+    "verified": "published source supports scoped rule; notautomaticlocalpermit",
+    "assumption": "author planning default requiring validation",
+    "unverified": "unknown/conflicting; dependent approval stayspending"
+  },
+  "precedence": [
+    "current permit conditions andlocal law",
+    "approvedmedical/fire/crowd/trafficplans",
+    "applicable sanctionrequirements",
+    "verifiedscoped guidance",
+    "packassumptions"
+  ],
+  "gates": {
+    "missingGeometry": "block operational approval",
+    "unknownJurisdiction": "block",
+    "missingSiteCapacity": "block",
+    "missingAccessibleRoute": "block",
+    "missingEmergencyAccess": "block",
+    "missingMedicalPlan": "block",
+    "missingWeatherPolicy": "block",
+    "permitStatusNotApproved": "proposal only",
+    "imageCannotApprove": true,
+    "missingWaitingAreaForAllArrivals": "block operational approval"
+  },
+  "requiredInputs": [
+    "Event, setup and teardown dates",
+    "Runner, staff and spectator counts",
+    "Arrival and finish distributions",
+    "Accessibility requirements",
+    "Surveyed terrain and usable widths",
+    "Landowner permitted polygon",
+    "Current closure and hazard layers",
+    "Roads, trails and separate cycle lanes",
+    "Structures, utilities and protected roots",
+    "EMS routes and sufficient lightning shelter",
+    "Course measurement status",
+    "Jurisdictions and permit conditions"
+  ],
+  "rules": [
+    {
+      "id": "accessible_route_min",
+      "value": 0.915,
+      "unit": "m",
+      "status": "verified",
+      "scope": "US ADA walking route where applicable",
+      "sourceIds": [
+        "ada"
+      ],
+      "checked": "2026-10-07",
+      "note": "36in; do not use permitted short pinch exception as layout default."
+    },
+    {
+      "id": "accessible_route_target",
+      "value": 1.8,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "village",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Preferred 2-way planning width; not ADA minimum."
+    },
+    {
+      "id": "accessible_route_running_slope_max",
+      "value": 0.05,
+      "unit": "ratio",
+      "status": "verified",
+      "scope": "ADA walking surface",
+      "sourceIds": [
+        "ada"
+      ],
+      "checked": "2026-10-07",
+      "note": "Steeper routes require compliant ramp design; sport-course accessibility assessed separately."
+    },
+    {
+      "id": "accessible_route_cross_slope_max",
+      "value": 0.020833333333333332,
+      "unit": "ratio",
+      "status": "verified",
+      "scope": "ADA walking surface",
+      "sourceIds": [
+        "ada"
+      ],
+      "checked": "2026-10-07",
+      "note": ""
+    },
+    {
+      "id": "passing_space_interval_max",
+      "value": 60.96,
+      "unit": "m",
+      "status": "verified",
+      "scope": "ADA route less than1.525m wide",
+      "sourceIds": [
+        "ada"
+      ],
+      "checked": "2026-10-07",
+      "note": "Provide60x60in compliant passing spaces; turn clearances also required."
+    },
+    {
+      "id": "portable_accessible_fraction",
+      "value": 0.05,
+      "unit": "ratio",
+      "status": "verified",
+      "scope": "each portabletoiletcluster ADA213.2",
+      "sourceIds": [
+        "ada"
+      ],
+      "checked": "2026-10-07",
+      "note": "Roundup each cluster and provide at leastone as conservative pack rule; units need accessible route/door maneuvering."
+    },
+    {
+      "id": "toilet_runners_per_unit",
+      "value": 50,
+      "unit": "runners/unit",
+      "status": "assumption",
+      "scope": "short road race baseline",
+      "sourceIds": [
+        "psai",
+        "dmse",
+        "welsh"
+      ],
+      "checked": "2026-10-07",
+      "note": "No urinal substitution assumed; consider1/30 for peak demand. Add spectators/staff,duration,and service needs; not legal minimum."
+    },
+    {
+      "id": "standing_area_per_runner",
+      "value": 0.75,
+      "unit": "m2/runner",
+      "status": "assumption",
+      "scope": "start holding only",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Layout starting point, not certified density/crowd capacity. Excludes aisles; wheelchair space separate."
+    },
+    {
+      "id": "runner_column_width",
+      "value": 0.75,
+      "unit": "m/runner-column",
+      "status": "assumption",
+      "scope": "start illustrations",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "No universal width per runner standard verified."
+    },
+    {
+      "id": "corral_cross_aisle",
+      "value": 2,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "corral access",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Barrier exits and evacuation widths require crowd/fire authority approval."
+    },
+    {
+      "id": "release_flow",
+      "value": 0.8,
+      "unit": "runners/second/metre",
+      "status": "assumption",
+      "scope": "initial bottleneck simulation",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Unvalidated; never treat as safety limit. Reduce for turns,width loss,wheelchair groups,trail or rough ground."
+    },
+    {
+      "id": "wave_clearance_buffer",
+      "value": 60,
+      "unit": "seconds",
+      "status": "assumption",
+      "scope": "after wave transit",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Release only after marshals confirm downstream clearance."
+    },
+    {
+      "id": "finish_first_service_offset",
+      "value": 30,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "clear runoff",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "No medal/photo/food queue in first30m; medical exception at side permits immediate care."
+    },
+    {
+      "id": "medical_finish_distance_target",
+      "value": 20,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "sideof finish runoff",
+      "sourceIds": [
+        "rrca"
+      ],
+      "checked": "2026-10-07",
+      "note": "Mustnot obstruct runners. EMS access/evacuation path and staffing approved by medical director."
+    },
+    {
+      "id": "emergency_lane_denver_reference",
+      "value": 6.096,
+      "unit": "m",
+      "status": "verified",
+      "scope": "Denver adjacent street guideline2024",
+      "sourceIds": [
+        "denverfire"
+      ],
+      "checked": "2026-10-07",
+      "note": "20ft;currentfirepermitmaysetdifferentrequirements. Not universal trail or village lane code."
+    },
+    {
+      "id": "emergency_lane_provisional",
+      "value": 6.1,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "service road reserve",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Turning radius,vertical clearance,bearing capacity,accessgate and ambulanceturning are pending authority requirements."
+    },
+    {
+      "id": "toilet_queue_depth",
+      "value": 8,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "baselinefrontqueue",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Queuemodel mayrequiremore; noton route/cycle path/medicalaccess."
+    },
+    {
+      "id": "vendor_queue_depth",
+      "value": 6,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "expoge arfoodqueues",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Separatefootprint fromtent;signoffrequirements canenlarge."
+    },
+    {
+      "id": "food_to_toilet_buffer",
+      "value": 15,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "initialhygieneplanning",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Not healthcode. Local foodauthority controls;service andwash stations required."
+    },
+    {
+      "id": "tent_spacing",
+      "value": null,
+      "unit": "m",
+      "status": "unverified",
+      "scope": "fire/structure authority",
+      "sourceIds": [
+        "denverfire"
+      ],
+      "checked": "2026-10-07",
+      "note": "No universal gap. Ballast/guyfootprint and cooking/generator separation must be submitted."
+    },
+    {
+      "id": "aid_station_warning",
+      "value": 100,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "approach",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Giveamplewarning; no aid tablesonturn/bridge/pinch."
+    },
+    {
+      "id": "aid_station_table_setback",
+      "value": 1,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "outside permitted running envelope",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Add volunteerworking strip andcupcleanup;retainmeasuredcoursewidth."
+    },
+    {
+      "id": "aid_station_cleanup_length",
+      "value": 50,
+      "unit": "m",
+      "status": "assumption",
+      "scope": "downstream",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Bins/recyclingoutsiderunningline; noslipperycupcarpet."
+    },
+    {
+      "id": "aid_station_road_spacing",
+      "value": 2.5,
+      "unit": "km",
+      "status": "assumption",
+      "scope": "half/marathon baseline",
+      "sourceIds": [
+        "waterrule"
+      ],
+      "checked": "2026-10-07",
+      "note": "Historical WA guidanceabout5km;pack choosescloser spacing. Heat/time-on-feet needs medical revision."
+    },
+    {
+      "id": "aid_station_trail_time_gap",
+      "value": 30,
+      "unit": "minutes",
+      "status": "assumption",
+      "scope": "slowestexpectedparticipant",
+      "sourceIds": [],
+      "checked": "2026-10-07",
+      "note": "Access/rescue/watercarry andterrain moreimportantthanuniformdistance."
+    },
+    {
+      "id": "lightning_wait",
+      "value": 30,
+      "unit": "minutes",
+      "status": "verified",
+      "scope": "afterlastthunder",
+      "sourceIds": [
+        "nws"
+      ],
+      "checked": "2026-10-07",
+      "note": "Reset onnew thunder;resumeonlyafterincidentcommand approval."
+    },
+    {
+      "id": "lightning_stop",
+      "value": true,
+      "unit": "boolean",
+      "status": "verified",
+      "scope": "thunder/lightningthreat",
+      "sourceIds": [
+        "nws"
+      ],
+      "checked": "2026-10-07",
+      "note": "Substantialbuilding orclosedhardtopvehicle;tent/tree notsafe. Triggeraheadbasedonevacuationtime."
+    },
+    {
+      "id": "wbgt_thresholds",
+      "value": null,
+      "unit": "C",
+      "status": "unverified",
+      "scope": "medical-director approved policy required",
+      "sourceIds": [
+        "rrca",
+        "waheat-old",
+        "wahealth"
+      ],
+      "checked": "2026-10-07",
+      "note": "Do not auto-select conflictingtables;never substituteairtemperatureorheatindex."
+    },
+    {
+      "id": "on_site_medical",
+      "value": true,
+      "unit": "boolean",
+      "status": "verified",
+      "scope": "road/trail eventguidance",
+      "sourceIds": [
+        "rrca"
+      ],
+      "checked": "2026-10-07",
+      "note": "Clinical staffing/AED/EMSresponse/cooling/ambulancenumbers must beprovided by medicallead."
+    }
+  ],
+  "sizeProfiles": [
+    {
+      "runners": 500,
+      "toilets": 10,
+      "toiletClusters": [
+        10
+      ],
+      "accessibleToilets": 1,
+      "registrationTents": 2,
+      "gearCheckTents": 1,
+      "expoTents": 2,
+      "foodTents": 1,
+      "medicalFootprintM": [
+        6,
+        6
+      ],
+      "startWidthM": 3,
+      "finishWidthM": 3,
+      "finishChuteLengthM": 50,
+      "waveRunners": 100,
+      "waveIntervalSeconds": 180,
+      "status": "assumption: provisional road-race planning; not site capacity",
+      "waveCount": 5,
+      "holdingNetAreaM2": 75,
+      "toiletsExclude": "additional spectators/staff/course toilets;accessible units included in total",
+      "medicalStaffCount": null,
+      "ambulanceCount": null,
+      "aidStationsByDistance": "race type plus climate and medical plan",
+      "required": [
+        "incident command",
+        "medical lead, clinical team and AED plan",
+        "timing crew and backup",
+        "water and hygiene",
+        "accessible toilets in every cluster",
+        "course marshals and sweeper",
+        "waste and cleanup",
+        "accessible arrival-to-services routes",
+        "approved emergency access",
+        "weather monitor and shelter plan",
+        "permits and insurance"
+      ],
+      "optional": [
+        "sponsor expo",
+        "stage or PA beyond required safety communications",
+        "gear check when equipment drop is needed"
+      ],
+      "additionalConditions": [
+        "Total staff and spectators plus arrival/finish distributions required",
+        "Clinical staffing and ambulance count require medical plan",
+        "10,000 runners require independent crowd/transport review; narrow trails may be rejected"
+      ],
+      "checked": "2026-10-07",
+      "assumedBottleneckWidthM": 3,
+      "waveTimingCheckSeconds": 101.66666666666666,
+      "holdingNetAreaM2Note": "One staged wave only; all other arrivals need separately sized waiting areas, exits and aisles.",
+      "allRunnersNetHoldingIfAllPresentM2": 375.0
+    },
+    {
+      "runners": 2000,
+      "toilets": 40,
+      "toiletClusters": [
+        20,
+        20
+      ],
+      "accessibleToilets": 2,
+      "registrationTents": 4,
+      "gearCheckTents": 2,
+      "expoTents": 8,
+      "foodTents": 3,
+      "medicalFootprintM": [
+        6,
+        9
+      ],
+      "startWidthM": 4,
+      "finishWidthM": 4,
+      "finishChuteLengthM": 80,
+      "waveRunners": 250,
+      "waveIntervalSeconds": 180,
+      "status": "assumption: provisional road-race planning; not site capacity",
+      "waveCount": 8,
+      "holdingNetAreaM2": 187.5,
+      "toiletsExclude": "additional spectators/staff/course toilets;accessible units included in total",
+      "medicalStaffCount": null,
+      "ambulanceCount": null,
+      "aidStationsByDistance": "race type plus climate and medical plan",
+      "required": [
+        "incident command",
+        "medical lead, clinical team and AED plan",
+        "timing crew and backup",
+        "water and hygiene",
+        "accessible toilets in every cluster",
+        "course marshals and sweeper",
+        "waste and cleanup",
+        "accessible arrival-to-services routes",
+        "approved emergency access",
+        "weather monitor and shelter plan",
+        "permits and insurance"
+      ],
+      "optional": [
+        "sponsor expo",
+        "stage or PA beyond required safety communications",
+        "gear check when equipment drop is needed"
+      ],
+      "additionalConditions": [
+        "Total staff and spectators plus arrival/finish distributions required",
+        "Clinical staffing and ambulance count require medical plan",
+        "10,000 runners require independent crowd/transport review; narrow trails may be rejected"
+      ],
+      "checked": "2026-10-07",
+      "assumedBottleneckWidthM": 3,
+      "waveTimingCheckSeconds": 164.16666666666666,
+      "holdingNetAreaM2Note": "One staged wave only; all other arrivals need separately sized waiting areas, exits and aisles.",
+      "allRunnersNetHoldingIfAllPresentM2": 1500.0
+    },
+    {
+      "runners": 10000,
+      "toilets": 200,
+      "toiletClusters": [
+        50,
+        50,
+        50,
+        50
+      ],
+      "accessibleToilets": 12,
+      "registrationTents": 12,
+      "gearCheckTents": 8,
+      "expoTents": 24,
+      "foodTents": 8,
+      "medicalFootprintM": [
+        12,
+        18
+      ],
+      "startWidthM": 8,
+      "finishWidthM": 8,
+      "finishChuteLengthM": 150,
+      "waveRunners": 500,
+      "waveIntervalSeconds": 240,
+      "status": "assumption: provisional road-race planning; not site capacity",
+      "waveCount": 20,
+      "holdingNetAreaM2": 375,
+      "toiletsExclude": "additional spectators/staff/course toilets;accessible units included in total",
+      "medicalStaffCount": null,
+      "ambulanceCount": null,
+      "aidStationsByDistance": "race type plus climate and medical plan",
+      "required": [
+        "incident command",
+        "medical lead, clinical team and AED plan",
+        "timing crew and backup",
+        "water and hygiene",
+        "accessible toilets in every cluster",
+        "course marshals and sweeper",
+        "waste and cleanup",
+        "accessible arrival-to-services routes",
+        "approved emergency access",
+        "weather monitor and shelter plan",
+        "permits and insurance"
+      ],
+      "optional": [
+        "sponsor expo",
+        "stage or PA beyond required safety communications",
+        "gear check when equipment drop is needed"
+      ],
+      "additionalConditions": [
+        "Total staff and spectators plus arrival/finish distributions required",
+        "Clinical staffing and ambulance count require medical plan",
+        "10,000 runners require independent crowd/transport review; narrow trails may be rejected"
+      ],
+      "checked": "2026-10-07",
+      "assumedBottleneckWidthM": 4,
+      "waveTimingCheckSeconds": 216.25,
+      "holdingNetAreaM2Note": "One staged wave only; all other arrivals need separately sized waiting areas, exits and aisles.",
+      "allRunnersNetHoldingIfAllPresentM2": 7500.0
+    }
+  ],
+  "tentModules": {
+    "status": "assumption commonprocurementmodules,notcodemandates",
+    "registration": [
+      3.048,
+      3.048
+    ],
+    "expo": [
+      3.048,
+      3.048
+    ],
+    "gearcheck": [
+      3.048,
+      6.096
+    ],
+    "medical": [
+      6.096,
+      6.096
+    ],
+    "stageDeck": [
+      4,
+      3
+    ],
+    "note": "Supplieractualdimensions,ballast,guysandfiregapsoverride. Stage/load/windapprovalrequired; no generic wind threshold."
+  },
+  "timing": {
+    "status": "assumption design",
+    "start": "matacrossentireapprovedwidth,flushprotectedcables,backupvideo/manualtiming",
+    "finish": "fullwidthmatandbackup; vendorantenna/read-zoneclearance",
+    "splits": "longraces/turnaroundverificationandtriathlonleg/transitions; notarbitrarydistance",
+    "matSeparationM": null,
+    "note": "Vendorownsminimumantenna/readzone spacing andwheelchair-safeprofile."
+  },
+  "barriers": {
+    "status": "assumption selectionguidance",
+    "pedestrianRail": "crowdchannel;stabilizedwithfeetoutsiderunningline;staffedemergencygates",
+    "cones": "visualcourseguideonly;notvehicleprotection",
+    "waterFilled": "onlyauthority-approvedtrafficplan;notautomaticcrashrating",
+    "vehicleMitigation": "rated systemandengineering/trafficreview;donot claim metalpedestrianrail stopsvehicles"
+  },
+  "heat": {
+    "approvedThresholdsC": null,
+    "autonomousGoNoGo": false,
+    "flags": [
+      {
+        "color": "green",
+        "meaning": "approved low-riskconditions;stillmonitor"
+      },
+      {
+        "color": "yellow",
+        "meaning": "caution;communicate precautions"
+      },
+      {
+        "color": "red",
+        "meaning": "highrisk;medicaldirector modifies/delays"
+      },
+      {
+        "color": "black",
+        "meaning": "stop/cancel;aidandmedicalstayuntilcourseclear"
+      }
+    ],
+    "measurement": "on-site calibrated outdoorWBGT; forecastsupportsplanning,notasubstitute",
+    "policyOwner": "medicaldirector withincidentcommand",
+    "conflict": "RRCApageflagtablegreenup to29.3C conflicts withits82FWBGTmodify/cancelguidance;do notshiptableasdefault"
+  },
+  "sources": [
+    {
+      "id": "rrca",
+      "url": "https://www.rrca.org/education/event-directors/safe-event-guidelines/",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "psai",
+      "url": "https://psai.org/renting-portable-units/",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "welsh",
+      "url": "https://www.welshathletics.org/image/Documents/Licences/Licensing%20Portal%20docs/Race%20Director%20resources%20with%20WA%20logo/race-director-fact-sheet-number-2-toilet-provision.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "dmse",
+      "url": "https://dmse-sports.squarespace.com/press-coverage/everything-race-directors-need-to-know-about-port-a-potties",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "ada",
+      "url": "https://www.access-board.gov/ada/",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "nws",
+      "url": "https://www.weather.gov/safety/lightning-sports",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "usatf",
+      "url": "https://www.usatf.org/resources/course-certification",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "rrtc",
+      "url": "https://www.rrtc.net/procedures_manual/html_version/Version-2019-1-001/RRTC/RRTC_Procedures_Manual_Version-2019-1-001.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "waterrule",
+      "url": "https://worldathletics.org/download/download?filename=1d445793-24b4-4821-98e4-38fc55b9f8ef.pdf&urlslug=IAAF+Road+Running+Manual",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "waheat-old",
+      "url": "https://worldathletics.org/download/download?filename=5b761756-e6f3-4133-846a-b60e28f67ef4.pdf&urlslug=IAAF%2BCompetition%2BMedical%2BGuidelines%2B-%2BJanuary%2B2013%2BFirst%2BEdition",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "wahealth",
+      "url": "https://worldathletics.org/about-iaaf/documents/health-science",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "denver",
+      "url": "https://www.denvergov.org/files/assets/public/v/1/special-events/documents/event-application-timeline.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "denver2025",
+      "url": "https://denvergov.org/files/assets/public/v/3/parks-and-recreation/documents/rentals-amp-permits/2025_parkpermitapplication.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "denverfire",
+      "url": "https://denver.prelive.opencities.com/files/assets/public/v/2/fire-department/documents/dfd-special-events-guidelines-2024.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "chicago",
+      "url": "https://www.chicagoparkdistrict.com/permits-rentals-101",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "chicagocode",
+      "url": "https://codelibrary.amlegal.com/codes/chicago/latest/chicago_il/0-0-0-2650379",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "chicagoguide",
+      "url": "https://ipi.cityofchicago.org/Resources/Information/DCASE/Special_Events_Resource_Guide.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "greenville",
+      "url": "https://www.greenvillesc.gov/permits-for-parades-festivals-parties-athletic-events",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "greenvilleB",
+      "url": "https://www.greenvillesc.gov/1796/Permit-B---Races-Walks-Parades",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "greenvilleA",
+      "url": "https://connections.greenvillesc.gov/1795/Permit-A",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "trailcounty",
+      "url": "https://codelibrary.amlegal.com/codes/greenvillecounty/latest/greenvilleco_sc/0-0-0-6067",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "lakefront",
+      "url": "https://www.chicagoparkdistrict.com/lakefront-trail",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "sloan",
+      "url": "https://visitdenver.com/blog/post/sloan-lake/",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "cleveland",
+      "url": "https://www.greenvillesc.gov/unity-park-0?contentId=cafde561-d803-4357-8002-06a06d8c32ec&viewAll=2bb42203-2777-4708-90b3-099f1367582b",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "tri",
+      "url": "https://www.usatriathlon.org/race-director/resources/event-operations-and-logistics",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "tri-flow",
+      "url": "https://www.usatriathlon.org/articles/training-tips/eight-tips-for-a-quick-smooth-transition",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "obstacle",
+      "url": "https://www.worldobstacle.org/wp-content/uploads/2023/04/FISO-Medical-Rules.pdf",
+      "checked": "2026-10-07"
+    },
+    {
+      "id": "obstacle-site",
+      "url": "https://worldobstacle.org/medical/",
+      "checked": "2026-10-07"
+    }
+  ]
+}
