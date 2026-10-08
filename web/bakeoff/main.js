@@ -9,7 +9,7 @@ import {Lighting} from '/src/lighting.js';
 import {createPost} from '/src/post.js';
 import {facadeColours,facadeDetails} from './facades.js';
 import {phenology} from './phenology.js';
-import {applySpecies} from './foliage.js';
+import {applySpecies,foliageExp1Mode} from './foliage.js';
 import {addFrontRange} from './backdrop.js';
 import {createSkyTexture} from './sky.js';
 import {appearanceToRadiance} from './sky-colour.js';
@@ -25,6 +25,7 @@ window.addEventListener('unhandledrejection',e=>{document.body.dataset.error=e.r
 const now=uniform(0);
 const rgb=c=>vec3(c.r,c.g,c.b);
 async function main(){
+ const foliageExp1=foliageExp1Mode(q.get('foliageExp1'));
  const [cal,lake,water,foliage,scenes,fixture,weather,skyCorrection,haze,p2,facadePack,facadeMechanics,facadeData]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json'),get('/packs/weather-moments-v1/values.json'),get('data/sky-correction.json'),get('data/haze-values.json'),get('data/p2-crowns.json'),get('data/facade-values.json'),get('data/facade-mechanics.json'),get(`data/${id}-facades.json`)]);
  const config=scenes[id],policy=resolvePolicy(cal,lake,fixture,skyCorrection,haze,config.climateRegion),look=policy.look,L=look.lighting;
  const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);const seasonal=phenology(fixture.date,config.region,p2);world.setSeason(seasonal.exportSeasonIndex);
@@ -69,7 +70,7 @@ async function main(){
  m.colorNode=colour;m.roughnessNode=select(flag(1),float(look.materials.roughness.glass),float(kind==='foliage'?look.materials.roughness.foliage:look.materials.roughness.masonry));m.aoNode=max(e.x,look.lighting.shadow.ambientVisibilityFloor);m.metalness=0;m.shadowSide=T.BackSide;return m;}
  const replacements=new Map(Object.entries(world.materials).filter(([k])=>k!=='water').map(([k,v])=>[v,matte(k)]));
  if(!baseline)world.root.traverse(o=>{if(o.isMesh&&replacements.has(o.material))o.material=replacements.get(o.material);});
- const species=baseline?{}:applySpecies(world,foliage,look.materials.roughness.foliage,config.region,seasonal,p2);
+ const species=baseline?{}:applySpecies(world,foliage,look.materials.roughness.foliage,config.region,seasonal,p2,foliageExp1);
  let mountains=null;
  if(config.waterProfile&&!baseline){
   const mountain=await get('/packs/mountain-terrain-v1/values.json');
@@ -132,7 +133,7 @@ async function main(){
  world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
  const shadowCasters=baseline?null:installShadowCasters(scene,world,sun,camera);
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
- window.bakeoff={shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
+ window.bakeoff={foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
  renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});
