@@ -210,6 +210,28 @@ extension World {
             g.water = SIMD4(Float(water.skyReflectClear), Float(water.skyReflectOvercast), Float(water.overcastSaturation), Float(water.rainRipples))
             g.waterB.x = Float(water.overcastReflectGain)
         }
+        // Lake water (lake-winter-v1 colour/shore/reflection, water-surfaces-v1 wave weights): waves
+        // at the current wind for each shore profile.
+        if let lake = Self.lakeWater {
+            let windKmh = Double(simd_length(SIMD2<Float>(Float(w.windVector.x), Float(w.windVector.z)))) * 3.6
+            func shallow(_ i: Int) -> SIMD4<Float> {
+                guard i < lake.profiles.count else { return .zero }
+                return SIMD4(WorldGen.Color.linear(Palette.parse(lake.profiles[i].shallowHex)), Float(lake.profiles[i].shallowBlendWidthM))
+            }
+            func wave(_ i: Int) -> SIMD4<Float> {
+                guard i < lake.profiles.count else { return SIMD4(0, 1, 0, 0) }
+                let v = lake.profiles[i].wave(windKmh: windKmh)
+                return SIMD4(Float(v.amplitudeM), Float(max(v.wavelengthM, 0.05)), Float(v.speedMps), Float(lake.roughness(windKmh: windKmh)))
+            }
+            g.lakeShallow0 = shallow(0); g.lakeShallow1 = shallow(1)
+            g.lakeWave0 = wave(0); g.lakeWave1 = wave(1)
+            g.lakeReflect = SIMD4(Float(lake.grazingStrength), Float(lake.grazingExponent), Float(lake.normalStrength), Float(lake.aerialScale))
+            g.lakeShore = SIMD4(Float(lake.shoreDarkenMultiplier), Float(lake.shoreDarkenWidthM), Float(lake.shoreTransitionWidthM), Float(lake.f0))
+            let ws = lake.waveWeights + [0, 0, 0, 0]
+            g.lakeWeights = SIMD4(Float(ws[0]), Float(ws[1]), Float(ws[2]), Float(ws[3]))
+            g.lakeLOD = SIMD4(Float(lake.detailFadeStartM), Float(lake.detailFadeEndM), Float(lake.aerialNormalScale),
+                              Float(lake.normalAmplitude(windKmh: windKmh)))
+        }
         if let ws = Self.lookSpec?.wetSheen {
             g.wetSheen = SIMD4(Float(ws.scaleM), Float(ws.low), Float(ws.high), Float(ws.glossRoughness))
         }
