@@ -176,7 +176,7 @@ Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of
 | street-ground-v1 | [street-ground-v1](street-ground-v1/STATUS.md) | `~/Desktop/world-engine/docs/proposals/street-ground-v1/` (local-only images/panels) | [street-ground-v1/values.json](street-ground-v1/values.json) | **concept pending approval** |
 | crown-silhouettes-v2 | [crown-silhouettes-v2](crown-silhouettes-v2/STATUS.md) | `~/Desktop/world-engine/docs/proposals/crown-silhouettes-v2/` (local-only images/panels) | [crown-silhouettes-v2/values.json](crown-silhouettes-v2/values.json) | **approved by R, 9 Oct 2026 — crown shape for every block; not started** |
 
-Facade tiers: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. A2 and P2 consume facade-detail-v1. The other three packs are filed concepts awaiting R, not approved targets.
+Facade tiers: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. A2 and P2 consume facade-detail-v1. Historical 8 Oct filing: the other three packs awaited R. On 9 Oct R approved crown-silhouettes-v2 for crown shape on every block; sky-cloud-v1 and street-ground-v1 remain pending.
 
 ## Facade v2 / v2b — R, 8 Oct 2026
 
