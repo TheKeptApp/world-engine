@@ -50,8 +50,8 @@ def skip_reason(rel, k):
     parts = rel.split(os.sep)
     if any(p.startswith(".") for p in parts):
         return "hidden work folder"
-    if k == "image" and BUNDLE_ZIP.search(rel):
-        return "bundle zip (its files are filed one by one)"
+    if k == "image" and rel.lower().endswith(".zip"):
+        return "zip (R, 8 Oct 2026: no zips filed; listed for R to move to the external drive)"
     if k == "image" and any(p.startswith("superseded") for p in parts[:-1]):
         return "image in a superseded folder"
     return None
@@ -92,10 +92,15 @@ def keep_prev(old, icloud_file):
 def plan(only=(), worktree_images=False):
     mp = os.path.join(HERE, "drop-map.json")
     overrides = json.load(open(mp)) if os.path.exists(mp) else {}
+    hp = os.path.join(HERE, "drop-hold.json")  # packs R told us not to file (pack -> reason); never filed, even when named explicitly
+    hold = json.load(open(hp)) if os.path.exists(hp) else {}
     out = []
     for pack in sorted(os.listdir(DROP)) if os.path.isdir(DROP) else []:
         src = os.path.join(DROP, pack)
         if not os.path.isdir(src) or pack.startswith(".") or (only and pack not in only):
+            continue
+        if pack in hold:
+            out.append((pack, "other", src, None, "skipped (HELD: " + hold[pack] + ")"))
             continue
         files = []
         for d, dirs, fs in os.walk(src):
@@ -161,6 +166,11 @@ def main():
         print(("added to" if apply else "would add to") + f" .gitignore (local-only files): {len(unignored)}")
         if apply:
             open(os.path.join(ROOT, ".gitignore"), "a").write("\n# ChatGPT drop: local-only (SVG or text over 1 MB, binary documents)\n" + "\n".join(unignored) + "\n")
+    zips = [(pack, os.path.relpath(f, DROP), os.path.getsize(f)) for pack, k, f, d, st in rows if f.lower().endswith(".zip")]
+    if zips:
+        print(f"zips left in the drop folder, not filed ({len(zips)}, {sum(z[2] for z in zips) / MB:.0f} MB), for R to move to the external drive:")
+        for pack, rel, n in sorted(zips):
+            print(f"  {n / MB:7.1f} MB  {rel}")
     news = sum(1 for r in rows if r[4] == "new")
     conflicts = sum(1 for r in rows if r[4] == "CONFLICT" and not (update_text and r[1] == "text") and not (replace_images and r[1] == "image"))
     skipped = sum(1 for r in rows if r[4].startswith("skipped"))
