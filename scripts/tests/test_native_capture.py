@@ -4,6 +4,7 @@ import struct
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -33,6 +34,14 @@ class NativeCaptureTests(unittest.TestCase):
             self.assertEqual(capture.verify_frame(root, 'view')[1], (10, 20))
             frame.write_bytes(b'not a PNG')
             with self.assertRaises(ValueError): capture.verify_frame(root, 'view')
+
+    def test_existing_output_directory_is_untouched(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'failure.json'; p.write_text('existing evidence')
+            with patch.object(sys, 'argv', ['capture-native', '--output', tmp]):
+                self.assertEqual(capture.main(), 1)
+            self.assertEqual(p.read_text(), 'existing evidence')
+            self.assertEqual(list(Path(tmp).iterdir()), [p])
 
     def test_reuses_only_booted_simulator_and_rejects_multiple(self):
         self.assertIn('LOOKLOOP_SIM', capture.simulator_env({'devices': {}}))

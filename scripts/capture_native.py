@@ -67,11 +67,13 @@ def main():
     run = (args.output or ROOT / '.build/lookloop' / f'native-{uuid.uuid4().hex[:12]}').resolve()
     started = time.monotonic()
     started_wall = time.time()
+    created_run = False
     try:
         view = frozen_view(ROOT, args.view)
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
         run.mkdir(parents=True, exist_ok=False)  # never accept frames from an earlier run
+        created_run = True
         (run / 'views.tsv').write_text(view['id'] + '\t' + ' '.join(view['args']) + '\n')
         timings = {}
         env = dict(os.environ)
@@ -96,7 +98,7 @@ def main():
         print(frame)  # stable stdout contract: the collected frame's absolute path
         return 0
     except (ValueError, StopIteration, OSError, subprocess.SubprocessError) as error:
-        if run.is_dir():
+        if created_run:
             (run / 'failure.json').write_text(json.dumps({'error': str(error), 'crashes': crash_evidence(started_wall)}, indent=2) + '\n')
         print(f'native capture failed: {error}; evidence: {run}'.replace(str(Path.home()), '~'), file=sys.stderr)
         return 1
