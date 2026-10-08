@@ -46,7 +46,7 @@ struct Globals {
     // Rain pack wet ground (texels 30–33, 35): per surface (darken, roughness, sheen, extra):
     // wetA concrete + puddle cover, wetB asphalt + puddle roughness, wetC brick + puddle sky mix
     // looking down, wetD lawn + puddle sky mix at grazing, wetE roof + raining (lake ripples).
-    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops; float4 skyMid2;
+    float4 wetA; float4 wetB; float4 wetC; float4 wetD; float4 water; float4 wetE; float4 waterB; float4 blobShadow; float4 skyMid; float4 skyWarm; float4 skyStops; float4 skyMid2; float4 wetSheen;
     float postcardAO; bool postcardQuality;   // postcard quality mode only (texel 29; zero on screen)
 };
 
@@ -89,6 +89,7 @@ Globals readGlobals(texture2d<half> tex) {
     g.blobShadow = float4(tex.read(uint2(37, 1)));
     g.skyMid = float4(tex.read(uint2(39, 1))); g.skyWarm = float4(tex.read(uint2(40, 1)));
     g.skyStops = float4(tex.read(uint2(41, 1))); g.skyMid2 = float4(tex.read(uint2(42, 1)));
+    g.wetSheen = float4(tex.read(uint2(43, 1)));
     half4 t29 = tex.read(uint2(29, 1));
     g.postcardAO = float(t29.x); g.postcardQuality = t29.w > 0.5h;
     return g;
@@ -252,8 +253,11 @@ void finish(realitykit::surface_parameters params, Globals g, Surface su, float3
             float3 r = reflect(-v, n);
             half3 sky = half3(mix(float3(g.skyHorizon), float3(g.skyTop), pow(clamp(r.y, 0.0, 1.0), 0.5)));
             su.base *= half(1.0 - row.x * exposure);
-            su.roughness = min(su.roughness, half(row.y));
-            half k = half(row.z * pow(1.0 - nv, 3.0) * exposure);
+            // Patchy sheen (look.json wetSheen): glossy and matte patches at rain-v1's mask scale, the
+            // pack's sheen on average, so wet reads at phone size without darkening past the pack.
+            float patch = smoothstep(0.35, 0.65, valueNoise(wp.xz / max(g.wetSheen.x, 0.5) + 23.7));
+            su.roughness = min(su.roughness, half(row.y * mix(1.0, g.wetSheen.w, patch)));
+            half k = half(row.z * mix(g.wetSheen.y, g.wetSheen.z, patch) * pow(1.0 - nv, 3.0) * exposure);
             su.base *= 1.0h - k;
             su.emissive += sky * k;
             if (su.surfaceClass > 0 && n.y > 0.95 && g.wetA.w > 0.0) {

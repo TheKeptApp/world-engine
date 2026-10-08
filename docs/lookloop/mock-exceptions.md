@@ -6,4 +6,4 @@ Columns: Mock key (as in mock-values.json, or `<pack>/<name>` for a non-approved
 
 | Mock key | Engine value | Reason | R approval date | Status |
 |---|---|---|---|---|
-| rain-v1/wetPathDarkening | `look.json` wetPaving.darkenScale 3.8 (about 40 % on concrete/asphalt in steady rain) vs rain-v1's about 10 % | Owner's phone check: wet paths unreadable at the pack value until 5A's sheen/reflection lands | 2026-10-07 | TEMPORARY, R approved 2026-10-07; remove when 5A's sheen/reflection lands |
+| rain-v1/wetPathDarkening | `look.json` wetPaving.darkenScale 3.8 (about 40 % on concrete/asphalt in steady rain) vs rain-v1's about 10 % | Owner's phone check: wet paths unreadable at the pack value until 5A's sheen/reflection lands | 2026-10-07 | REMOVED 2026-10-07 (5A wet surfaces: rain-v1 darkening once, patchy sheen; R's phone note: darkening at most 12 %, once) |

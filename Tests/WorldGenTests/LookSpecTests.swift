@@ -8,10 +8,9 @@ struct LookSpecTests {
         let look = try StyleLibrary.look()
         #expect(look.water.overcastReflectGain > 0 && look.water.overcastReflectGain <= 1)
         #expect(look.sky.cloudEdgeOvercast >= look.sky.cloudEdgeClear)
-        // Owner: steady rain darkens paving 35–40% (concrete; asphalt may reach the cap).
-        let steady = try StyleLibrary.rainBible().at(wetness: 0.7).surfaces["concrete"]!.darken
-        let d = min(look.wetPaving.darkenMax, steady * look.wetPaving.darkenScale)
-        #expect(d >= 0.35 && d <= 0.4)
+        // Wet darkening is the rain pack's alone (12% or less, once); patchy sheen keeps the pack's mean.
+        let ws = try #require(look.wetSheen)
+        #expect(abs((ws.low + ws.high) / 2 - 1) < 0.05 && ws.glossRoughness > 0 && ws.glossRoughness <= 1)
         // Owner: real sun shadows reach the lawns, 120–150 m.
         #expect(look.shadows.rangeM >= 120 && look.shadows.rangeM <= 150)
         #expect(look.shadows.lowSunRangeM >= look.shadows.rangeM)

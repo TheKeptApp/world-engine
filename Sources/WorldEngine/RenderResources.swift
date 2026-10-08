@@ -102,6 +102,8 @@ public struct ShaderGlobals: Sendable, Equatable {
     public var skyStops = SIMD4<Float>(30, 10, 30, 0)
     /// Second middle sky stop (texel 42): linear rgb; its elevation is skyStops.z.
     public var skyMid2 = SIMD4<Float>(0, 0, 0, 0)
+    /// Patchy wet sheen (texel 43): noise scale m, sheen low, high, gloss roughness factor.
+    public var wetSheen = SIMD4<Float>(3, 1, 1, 1)
 }
 
 /// Metal library, the palette/globals texture and the shared world materials.
@@ -255,6 +257,7 @@ final class RenderResources {
         p[w + 40] = SIMD4(h(g.skyWarm.x), h(g.skyWarm.y), h(g.skyWarm.z), h(g.skyWarm.w))
         p[w + 41] = SIMD4(h(g.skyStops.x), h(g.skyStops.y), h(g.skyStops.z), 0)
         p[w + 42] = SIMD4(h(g.skyMid2.x), h(g.skyMid2.y), h(g.skyMid2.z), 0)
+        p[w + 43] = SIMD4(h(g.wetSheen.x), h(g.wetSheen.y), h(g.wetSheen.z), h(g.wetSheen.w))
 
         guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return }
         let target = texture.replace(using: cb)
