@@ -24,17 +24,23 @@ Textures are included in total physical footprint; decoded tile bytes, JS heap a
 
 ## Batch 1 — foliage experiment 1 on iOS
 
+**Research:** `docs/research/foliage-exp1-spec.md` §§ Decision and scope, Exact candidate math, Before / after frames and execution order, Predicted appearance and A3 decision. **Mock frames:** `docs/proposals/style-b-calibration-v2/frames/06-sloans.png` and `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`; retain the other native contract targets for all four heroes.
+
 **Goal/files:** execute [A5’s exact spec](../research/foliage-exp1-spec.md) in `Sources/WorldEngine/Shaders/WorldShaders.metal`, `worldFoliageSurface` only. Fresh native **off → remove → layered**, separate rebuilt shader variants with selected constant/source hash recorded. Off preserves baseline; remove sets eligible crown emissive to zero; layered also applies A5’s exact A0/t/A1/M remap. Replace the constant `0.05 × AO` emissive term; do not stack fill or invent backlighting. Coefficients are experimental guesses, not approved pack values.
 
 **Controls/proof:** eligibility and mask exactly per A5; living opaque deciduous near/middle/far crowns only. Bark, conifers, bushes, tufts, skyline and cards stay controls. No geometry, palette, season timing, placement, wind, exposure, key/fill, haze or shadow changes; no Props.swift/RenderResources.swift/Environment.swift edits. Check numeric witnesses, off identity, non-leaf exclusion, equal topology/counts and mode provenance. Capture `ordinary-street-afternoon`, `lakeview-street-afternoon`, `lakeview-postcard-afternoon`, `wilmette-street-afternoon` using [native contract](../lookloop/a3-capture-contract.json), then specified night/overcast/bare controls and ready additional hold-outs. A3 scores blind before mode reveal. Expected zero added triangles/draws/textures is a hypothesis; log actual costs and existing overages.
 
 ## Batch 2 — Lakeview native ~414k versus <400k
 
+**Research:** `docs/perf/ios-new-tiles-v1.md` §§ Loader compatibility, Measurements and floor comparison; `docs/research/foliage-rendering-v1.md` § Budget contract. **Mock frames:** `docs/proposals/style-b-calibration-v2/frames/06-sloans.png` and `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png` for unchanged-look/hold-out review; the numeric budget test is separate from mock closeness.
+
 **Goal/files:** measure and address the open floor budget using the **existing raw-area generator**, coordinating P2’s general thinning/LOD allocation work in `Sources/WorldGen/Props.swift` and relevant existing generator consumers. 5A owns `Sources/WorldEngine/World.swift`, `WorldDiagnostics.swift` and native measurement support; scope additional files in a handoff first. No adaptive tiles, GLB loader or package integration.
 
 **Proof/boundary:** use `Tests/WorldEngineTests/ViewDrawBudgetTests.swift` under the established prerequisite-safe heavy workflow, report main triangles <400k and main draws ≤100 at frozen views, and separately establish shadow accounting against 150k (unavailable is pending). Preserve mapped geometry, stable identities, species/region rules and approved shadow reach; no Lakeview-specific constants or tier relabelling. Freeze the chosen batch-1 material state before budget comparisons; validate unchanged Sloan’s/hold-out coverage and A3 grades. A1’s smaller GLBs cannot fix this native test.
 
 ## Batch 3 — port foliage experiment 1 to web
+
+**Research:** `docs/research/foliage-exp1-spec.md` §§ Exact future implementation files, Exact candidate math (Web AO adapter), Before / after frames and execution order. **Mock frames:** `docs/proposals/style-b-calibration-v2/frames/06-sloans.png` and `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`.
 
 **Goal/files:** after native variants and blind review are recorded, coordinate A2 for the A5-specified web adapter only: `web/bakeoff/foliage.js`, `main.js`, `capture-once.mjs` and proposed `foliage-exp1.test.mjs`. Port the controlled experiment, not an assumed native win. Preserve the web default-off baseline, explicit validated `off|remove|layered` mode, mask/exp1AO attributes and exact output separation; current harness has not yet implemented mode selection.
 

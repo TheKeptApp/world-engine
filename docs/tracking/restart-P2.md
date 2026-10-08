@@ -24,17 +24,23 @@ Textures are included in total physical footprint; decoded tile bytes, JS heap a
 
 ## Batch 1 — verify generator controls for iOS foliage experiment 1
 
+**Research:** `docs/research/foliage-exp1-spec.md` §§ Decision and scope, Exact candidate math (native eligibility), Cost and stop conditions. **Mock frames:** `docs/proposals/style-b-calibration-v2/frames/06-sloans.png` and `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`; preserve every additional native contract target.
+
 **Goal/files:** read `Sources/WorldGen/Props.swift` crown AO and `extra`/flag semantics against [A5’s spec](../research/foliage-exp1-spec.md). Verify that the native eligibility mask selects opaque deciduous near/middle/far crowns and excludes bark, conifers, bushes, tufts, skyline and cards. Preserve geometry, normals/AO, palettes, placement, stable identities, LODs and all export data while 5A executes **off → remove → layered** in its shader.
 
 **Proof/boundary:** provide existing generator tests and mask/attribute evidence to 5A; A3 blind-scores frozen native variants before unmasking. Use approved foliage-seasons-v1 `species[].seasonColours`/`cities[].mix` and calibration-v2 `sharedLook` as unchanged authorities; pending crown-silhouettes-v2 grants no approval. This batch does not implement cards, native atlas bindings, regional recolouring or a second AO/emissive term. Any mismatch is a handoff, not permission to rewrite eligibility by appearance.
 
 ## Batch 2 — general thinning / LOD allocation on the existing native generator
 
+**Research:** `docs/research/foliage-rendering-v1.md` §§ Budget contract, Proven techniques and bounded cost estimates; `docs/perf/ios-new-tiles-v1.md` § Measurements and floor comparison. **Mock frames:** `docs/proposals/style-b-calibration-v2/frames/06-sloans.png` and `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`; no budget pass inferred from the images.
+
 **Goal/files:** after the experiment evidence is frozen, address Lakeview’s historical ~414k versus strict <400k using general, data/region/projected-size rules in existing `Props.swift` and relevant existing building/detail consumers, with exact touched files named before edits. Native continues from raw area data. Stable IDs, real footprints/heights and mapped placements remain authoritative; use detail allocation, not arbitrary removal of mapped buildings or a per-block constant.
 
 **Proof/boundary:** use existing generator/LOD tests and native `ViewDrawBudgetTests` with 5A, main draws ≤100, separate 150k shadow accounting, unchanged coverage and A3 paired Sloan’s/untouched hold-outs. Do not stack this into the material experiment, claim new-tile savings, shorten approved shadow reach, or promote floor failures into provisional standard/hero passes. Save measured counts by category/area; all unseen views use the same rule.
 
 ## Batch 3 — classified facade v2 / v2b migration
+
+**Research:** `docs/tracking/web-ios-parity.md` item 8 (Facades); `docs/review/verifier-2026-10-08c.md` item 7; approved facade-detail-v2/v2b STATUS and values keys cited below. **Mock frame:** `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`; untuned Sloan’s hold-out frame `docs/proposals/style-b-calibration-v2/frames/06-sloans.png`. These calibrate appearance, not exact building inventory.
 
 **Goal/files:** inspect `Sources/WorldGen/BuildingGenerator.swift`, `BuildingFacades.swift`, `HouseDetails.swift` and regional classification profiles; name the minimal actual changes in the handoff. Implement general classification/coverage handling and approved family detail within the v2/v2b boundary above. Keep unknowns explicit; first measure total/classified/supported/unknown by area rather than treating the ~40% estimate as data.
 

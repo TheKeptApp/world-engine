@@ -43,8 +43,13 @@ Tests: exact commands, results, skips and unmeasured items:
 Blocked / pending decisions / missing inputs:
 Next action + receiving lane + files permitted:
 Lock/server ownership + whether stopped/released:
+Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.
 Tracker update:
 ```
+
+## Build evidence — R, 8 Oct 2026
+
+Every build report must end with an evidence line immediately before `Tracker update:`: `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` A build report without this line is incomplete. Use the [feature index](tracking/INDEX.md) to find the source and target; cite the specific section and frame actually used. Unknown or missing evidence must be stated, not guessed.
 
 ## Standing rules — session checklist
 
@@ -74,6 +79,7 @@ Use shared heavy/load protocol. No blocked-site bypass or automation.
 Stop/report untraceable inputs, missing prerequisites and non-handoff conflicts.
 Merge only when authorized acceptance targets pass; do not bypass push guards.
 Save a state note with SHA, evidence, next steps and lock/server disposition.
+Every build report: penultimate line "Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>."
 Report ≤10 lines; final line exactly "Tracker update:".
 === END ===
 ```

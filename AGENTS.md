@@ -114,3 +114,7 @@ After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched ho
 - R's current priorities: (1) the look gate: all four afternoon heroes at closeness 4 or more and every aspect 3 or more (Lakeview, Sloan's Lake and the other heroes); (2) real data for the test cities Chicago (Lakeview), Denver (Sloan's Lake) and Greenville SC; (3) a web viewer (three.js) that proves the look is reachable in a browser. Parked: smoke, Real mode, paid flight data, the "Somewhere" brand filing.
 
 **Standing conflict rule (R, 8 Oct 2026):** Resolve add-only conflicts in `docs/tracking/handoffs.md` by keeping both entries in date order. All other conflicts still stop and must be reported.
+
+## Build report evidence — shared rule (R, 8 Oct 2026)
+
+Every build report must end with an evidence line immediately before `Tracker update:`: `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` A build report without this line is incomplete.
