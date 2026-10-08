@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-09
 
+- **Exp1 coverage attribution correction (R relaying A10):** the 600 m layered coverage loss was a capture loading race, not a variant defect. Preserve the nine original 2/5 foliage grades (7e800f7), correct current trackers/restarts, require fully loaded future pairs; no recapture or new score claimed. Crown-shape approval and single-species restart order remain unchanged.
+
 - **General crown-shape targets and restart (R):** crown-silhouettes-v2 and foliage research generally are the correct crown-shape targets for every block. Native shading exp1 scored foliage 2/5 in all nine frames (`7e800f7`); shading exp1 is not the lever, shape is the next lever to test, not a proven score gain. P2 batch 1 builds one American elm recipe (Sloan’s test, all-block rule): layered lobes, branch scaffold, near/middle/far levels. Whole scene must stay <400k main triangles, ≤150k shadow triangles, ≤100 draws; report counts, or per-crown cost and stop if it does not fit. 5A reviews colour/shading in matched native 40/150/600 m frames, A3 scores blind before/after; freeze comparison before thinning, hold-outs afterward, then water and budget. Crown pack STATUS approved; foliage-seasons-v1 STATUS already explicitly names foliage targets, so reconfirmed 9 Oct without removing 7 Oct approval. vegetation-v1 has no STATUS.md: conditional approval not applied; existing pre-rule status retained. No code, captures or new grades in this filing.
 
 ## 2026-10-08

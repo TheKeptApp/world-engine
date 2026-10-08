@@ -1,5 +1,7 @@
 # A3 native foliage exp1 — nine-frame blind review, 8 October 2026
 
+> **Attribution correction — 9 Oct 2026:** R’s 9 Oct correction, relaying A10: the 600 m layered coverage loss was a capture loading race, not a variant defect. Original frames/grades remain unchanged; no repeat capture or new score is claimed. The below cause-unknown warning records the original review; its cause is now resolved.
+
 **Result: no demonstrated foliage improvement. Do not promote layered as a look improvement.** All nine inspection frames score foliage **2/5**, overall calibration closeness **2/5**. This is a review of supplied frames only, not a new capture/build or a four-hero gate. Hold-outs remain pending. The 600 m layered frame also has a visible coverage mismatch requiring investigation before a clean paired conclusion.
 
 ## Method and provenance
