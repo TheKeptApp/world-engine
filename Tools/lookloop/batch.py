@@ -9,7 +9,7 @@ RENDER/VIEW lines while that view was up, and its VIEWSHOT line) and appends to 
 without capturing anything when the build has no view-list hook (no VIEWREADY), so the caller can fall
 back to one launch per view. Env: SETTLE (view settle seconds), LOAD_TIMEOUT.
 """
-import base64, functools, json, os, shutil, subprocess, sys, time
+import base64, functools, json, os, shutil, subprocess, sys, time, uuid
 
 print = functools.partial(print, flush=True)  # progress lines reach the run log as they happen
 
@@ -40,10 +40,16 @@ for line in open(os.path.join(run, "views.tsv")):
 
 
 def record(vid, status, seconds="-"):
+    recorded[vid] = status
     with open(os.path.join(run, "capture.tsv"), "a") as f:
         f.write(f"{vid}\t{status}\t{seconds}\n")
 
 
+recorded = {}
+sim_data = subprocess.run(["xcrun", "simctl", "getenv", udid, "SIMULATOR_SHARED_RESOURCES_DIRECTORY"],
+                          capture_output=True, text=True, check=True).stdout.strip()
+if not os.path.isabs(sim_data):
+    raise SystemExit("capture: simulator shared resources directory is unavailable")
 first = True
 for (area, day), views in groups.items():
     launch_date = next((d for _, _, d in views if d), None)
@@ -56,19 +62,25 @@ for (area, day), views in groups.items():
             a = a[:i] + a[i + 2:]
         specs.append({"id": vid, "args": a})
     log = os.path.join(run, "logs", f"_launch-{area}-{day or 'default'}.log")
-    # Never pre-create the log (com.apple.provenance on files this session makes gets the launch refused).
-    if os.path.exists(log):
-        os.remove(log)
-    launch = ["xcrun", "simctl", "launch", "--terminate-running-process", f"--stdout={log}", f"--stderr={log}", udid, bundle,
+    # simctl resolves /tmp inside the device, not the host worktree. Read that
+    # exact file; keep a host copy for the run evidence. Never pre-create it.
+    device_log = f"/tmp/worldengine-lookloop-{uuid.uuid4().hex}.log"
+    source_log = os.path.join(sim_data, device_log.lstrip("/"))
+    launch = ["xcrun", "simctl", "launch", "--terminate-running-process", f"--stdout={device_log}", f"--stderr={device_log}", udid, bundle,
               *common, *(["-area", area] if area != "sloans-lake" else []), *(["-date", launch_date] if launch_date else []),
               "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
     env = dict(os.environ, SIMCTL_CHILD_NSUnbufferedIO="YES")
     for attempt in range(6):  # refusals come and go with host load: back off for up to ~2 min
         try:
-            if subprocess.run(launch, env=env, capture_output=True, timeout=60).returncode == 0:
+            result = subprocess.run(launch, env=env, capture_output=True, text=True, timeout=60)
+            with open(log + ".launch-result", "a") as diagnostic:
+                diagnostic.write(f"attempt={attempt + 1} exit={result.returncode}\nstdout: {result.stdout}\nstderr: {result.stderr}\n")
+            print(f"  {area}: launch exit={result.returncode}; diagnostics: {log}.launch-result")
+            if result.returncode == 0:
                 break
         except subprocess.TimeoutExpired:
-            pass
+            with open(log + ".launch-result", "a") as diagnostic:
+                diagnostic.write(f"attempt={attempt + 1} exit=124 timeout=60s\n")
         time.sleep(5 * (attempt + 1))
     else:
         for vid, _ in views:
@@ -78,7 +90,9 @@ for (area, day), views in groups.items():
     t0, pos, stats, pending, t_stats = time.time(), 0, None, "", None
     seen, chunk, deadline = set(), [], time.time() + load_timeout
     while True:
-        text = open(log, errors="replace").read() if os.path.exists(log) else ""
+        text = open(source_log, errors="replace").read() if os.path.exists(source_log) else ""
+        if os.path.exists(source_log):
+            shutil.copyfile(source_log, log)
         new, pos = text[pos:], len(text)
         for ln in (pending + new).split("\n")[:-1]:
             chunk.append(ln)
@@ -126,9 +140,8 @@ for (area, day), views in groups.items():
         time.sleep(0.1)
     first = False
     for vid, _ in views:
-        if not os.path.exists(os.path.join(run, "raw", f"{vid}.png")):
-            if not any(l.startswith(vid + "\t") for l in open(os.path.join(run, "capture.tsv"))):
-                record(vid, "failed")
+        if vid not in recorded:
+            record(vid, "failed")
     subprocess.run(["xcrun", "simctl", "terminate", udid, bundle], capture_output=True)
 
 # Record where the frames came from (reviewers must not flag the missing UI overlay on in-app frames).
@@ -137,3 +150,6 @@ if os.path.exists(meta_path):
     meta = json.load(open(meta_path))
     meta["frameSource"] = "in-app capture (WorldLab -viewlist, Documents/views); UI screenshots with the OSM credit in ui/"
     json.dump(meta, open(meta_path, "w"), indent=1)
+
+# A missing frame is a failed run, even when simctl accepted the launch.
+sys.exit(1 if any(status != "ok" for status in recorded.values()) else 0)
