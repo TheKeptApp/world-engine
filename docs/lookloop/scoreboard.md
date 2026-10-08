@@ -236,3 +236,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | ec14fed; provenance 3f347f1 | 40/150/600 m inspection, baseline/remove/layered | All nine: foliage 2, overall 2 | Pending; none run | No gain; layered 600 m outer ground/road coverage mismatch. Historical street-hero 3 unchanged; not a four-hero gate. [Blind review](foliage-exp1-native-scores.md) |
 
 **9 Oct attribution correction (R relaying A10):** the exp1 layered 600 m coverage loss was a capture loading race, not a variant defect. Nine original foliage/overall 2/2 grades remain unchanged; no new captures or hold-out result.
+
+## A3 native crown BEFORE — e5a0a3e / delivery 5d159ff
+
+| Scope | Sloan's score | hold-out score | Status |
+|---|---|---|---|
+| Fresh 40/150 m only | Each overall 2; light/saturation/ground/foliage/materials 2; sky N/A | Pending; not run | [Blind BEFORE review](crown-native-before-scores.md); 600 m unscored due to noisy repeat. No AFTER/gain or four-hero pass. |

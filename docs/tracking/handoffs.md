@@ -334,3 +334,11 @@ A10 `74eac73`: new baseline/SCENEREADY native validation and nine-frame replacem
 ## A1 → R / A3 / P2 — house shortcut census, 8 October
 
 Read-only evidence: docs/data/house-shortcut-census.md and Data/quality/house-shortcut-census.json. Counts use building=yes static shortcut candidates that remain house after contextual garage overrides, with non-part loader buildings as denominator; no rendered-use or lidar-coverage claim. Tunnel guard/unsupported diagnostics status is specified but not implemented in core; existing context suppression is partial. No generator/render/input edits.
+
+### A10 BEFORE readiness ledger — source 5d159ff
+
+Verbatim A10 delivery status (the final no-new-score sentence describes A10’s delivery; A3’s subsequent two-frame grades follow separately):
+
+A10: capture-only SCENEREADY natively built and exercised in nine validation captures plus six BEFORE controls. At each of 40/150/600 m, three validation runs match all geometry/category/context counts: 313,022/53; 333,886/50; 228,159/43 main triangles/draws. Completed-frame threshold ≥3 passes; 40 m logged completion counts are 3/3/4, not exact equality. All 15 logs prove readiness before snapshot, no crashes, unchanged shipping shader/default off, per-run heavy releases. BEFORE repeats: 40 m max/mean/count 0/0/0; 150 m 1/0.0000303791/69; 600 m 7/3.1852701096/1,694,760 decoded-byte differences. STOP: 600 m control noise; allocator and AFTER candidate not started. Exposure convergence is suspected but unproved, and needs capture-only investigation before a valid crown comparison. A3 scores/hold-outs unchanged; no new score or phone-performance claim.
+
+**A3 follow-up:** [Fresh 40/150 m BEFORE grades](../lookloop/crown-native-before-scores.md): overall 2 and each visible §M aspect 2; sky N/A. 600 m not scored. Existing historical grades preserved; no AFTER or hold-out result.
