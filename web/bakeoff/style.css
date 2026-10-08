@@ -1,0 +1,4 @@
+*{box-sizing:border-box}body{margin:0;background:#19232a;color:#e7ecef;font:15px/1.5 system-ui}main{display:flex;min-height:100vh;justify-content:center;gap:32px;padding:20px}#frame{position:relative;width:min(50vw,500px);height:calc(100vh - 40px)}canvas{width:100%;height:100%;display:block}small{position:absolute;bottom:8px;left:8px;right:8px;font-size:9px;background:#172128b0;padding:3px 6px}aside{max-width:320px;padding-top:20px}a{color:#a7cfea}h1{font-size:25px}pre{white-space:pre-wrap}body.capture main{padding:0;display:block}body.capture #frame{width:100vw;height:100vh}body.capture aside{display:none}@media(max-width:650px){main{display:block;padding:0}#frame{width:100%;height:80vh}aside{padding:20px}}
+
+/* Keep required credits outside the calibration ground sampling boxes. */
+body.capture small{top:8px;bottom:auto}

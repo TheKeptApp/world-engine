@@ -1,0 +1,31 @@
+{
+  "licenceGate": "GREEN",
+  "licence": "US Government Public Domain",
+  "terms": "https://www.usgs.gov/faqs/what-are-terms-uselicensing-map-services-and-data-national-map",
+  "credit": "Map services and data available from U.S. Geological Survey, National Geospatial Program.",
+  "service": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+  "requestedBBoxWGS84": [
+    -105.95,
+    39.3,
+    -105.02,
+    40.2
+  ],
+  "request": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=-105.95%2C39.3%2C-105.02%2C40.2&bboxSR=4326&imageSR=4326&size=256%2C256&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D&f=image",
+  "modifications": "Resampled by USGS to a 256 x 256 height grid; rounded to 0.1 m for JSON. Far-view geometry only; not surveying precision.",
+  "snow": "No snow observation supplied; no invented snow mask.",
+  "retrievedUTC": "2026-10-08T04:48:17.407037+00:00",
+  "sha256": "0cc86316fcfcff41a132380a544969087d1e405b808fb960df64ee9bf256805b",
+  "width": 256,
+  "height": 256,
+  "elevationRangeM": [
+    1479.844970703125,
+    4266.49169921875
+  ],
+  "serviceVintage": "Service reports DEM data published through 2026-09-28; individual acquisition dates vary.",
+  "actualBBoxWGS84": [
+    -105.95,
+    39.285,
+    -105.02,
+    40.215
+  ]
+}

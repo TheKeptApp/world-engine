@@ -1,0 +1,102 @@
+import * as T from 'three/webgpu';
+import {fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
+import {WorldScene} from '/src/world.js';
+import {shorelineField} from './water.js';
+import {Lighting} from '/src/lighting.js';
+import {createPost} from '/src/post.js';
+import {applySpecies} from './foliage.js';
+import {addFrontRange} from './backdrop.js';
+import {LocalFrame} from '/src/geo.js';
+const q=new URLSearchParams(location.search), id=document.body.dataset.scene;
+if(q.has('capture'))document.body.classList.add('capture');
+const get=async p=>{const r=await fetch(p);if(!r.ok)throw Error(`${p}: ${r.status}`);return r.json();};
+const status=document.querySelector('#status');
+window.addEventListener('error',e=>{document.body.dataset.error=e.error?.stack||e.message;});
+window.addEventListener('unhandledrejection',e=>{document.body.dataset.error=e.reason?.stack||String(e.reason);});
+const now=uniform(0);
+const rgb=c=>vec3(c.r,c.g,c.b);
+async function main(){
+ const [cal,lake,water,foliage,scenes]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json')]);
+ const config=scenes[id],look=cal.sharedLook,L=look.lighting;
+ const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);world.setSeason(1);
+ const scene=new T.Scene();scene.add(world.root);
+ const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
+ const camera=new T.PerspectiveCamera(config.camera.fov,1,.2,150000);
+ const origin=world.manifest.frame.origin, frame=new LocalFrame(origin.latitude,origin.longitude);
+ const at=(lat,lon,y)=>new T.Vector3(...frame.scene(lat,lon,y));
+ // These are composition fits, not recovered photographic camera matrices.
+ const fit=config.camera;
+ camera.position.copy(at(...fit.eye));camera.lookAt(at(...fit.target));
+ if(q.has('eye'))camera.position.fromArray(q.get('eye').split(',').map(Number));
+ if(q.has('target'))camera.lookAt(new T.Vector3(...q.get('target').split(',').map(Number)));
+ if(q.has('fov'))camera.fov=Number(q.get('fov'));
+ const baseline=q.has('baseline');
+ const sky=L.sky;
+ const upper=new T.Color(baseline?sky.zenithHex:'#7AAFE2'),mid=new T.Color(baseline?sky.midHex:'#8FBAE7'),horizon=new T.Color(baseline?sky.horizonHex:'#A0C8F2');
+ const elev=positionWorldDirection.y.clamp(0,1);
+ const skyBase=mix(rgb(horizon),mix(rgb(mid),rgb(upper),smoothstep(.15,.85,elev)),smoothstep(0,.22,elev)), d=positionWorldDirection;
+ const skyState=world.environment.states.noon||world.environment.states[world.environment.defaultState];
+ const skyTexture=await new T.TextureLoader().loadAsync(config.world+skyState.sky);skyTexture.colorSpace=T.SRGBColorSpace;
+ const skySample=texture(skyTexture,equirectUV(positionWorldDirection)).rgb;
+ // Reuse the package's procedural cloud shapes; calibration v2 owns their colours.
+ const cloud=smoothstep(.32,.75,min(skySample.r,min(skySample.g,skySample.b))).mul(smoothstep(0,.08,elev));
+ scene.backgroundNode=vec4(mix(skyBase,rgb(new T.Color(sky.cloudLitHex)),cloud).mul(.55),1);
+ scene.fog=new T.Fog(new T.Color('#A0C8F2'),350,4000);
+ const sun=new T.DirectionalLight(L.sun.hex,2.3*L.sun.directRelative);
+ const az=T.MathUtils.degToRad(L.sun.azimuthDeg),el=T.MathUtils.degToRad(L.sun.elevationDeg);
+ const sunDirection=new T.Vector3(Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el));
+ sun.position.copy(camera.position).addScaledVector(sunDirection,180);sun.target.position.copy(camera.position);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:1,far:450});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00015;sun.shadow.normalBias=.05;scene.add(sun,sun.target);
+ scene.add(new T.HemisphereLight(sky.fillHex,'#B1A28A',4.0));
+ if(!baseline){for(const slot of world.palettes.slots){const name=slot.names?.[0],key={road:'asphalt',sidewalk:'concrete',curb:'curb',lawn:'lawn'}[name];if(key){const c=new T.Color(look.materials.groundBaseHex[key]),a=world.paletteTexture.image.data;a.set([c.r,c.g,c.b,1],slot.slot*4);}}world.paletteTexture.needsUpdate=true;}
+ const palette=world.paletteTexture;
+ // Preserve exported geometry, palette slots and stable per-building variation.
+ function matte(kind){const m=new T.MeshStandardNodeMaterial();const p=attribute('_paint','vec4'),e=attribute('_extra','vec4'),flags=int(p.z.add(.5));const flag=b=>flags.bitAnd(int(b)).notEqual(0);const slot=floor(p.x.add(.5));let colour=texture(palette,vec2(slot.add(.5).div(256),.5)).rgb.mul(p.y);const ground=look.materials.groundBaseHex;
+ colour=select(flag(4),rgb(new T.Color(ground.lawn)).mul(p.y),colour);colour=select(flag(8),rgb(new T.Color(ground.concrete)).mul(p.y),colour);
+ m.colorNode=colour;m.roughnessNode=select(flag(1),float(look.materials.roughness.glass),float(kind==='foliage'?look.materials.roughness.foliage:look.materials.roughness.masonry));m.aoNode=max(e.x,look.lighting.shadow.ambientVisibilityFloor);m.metalness=0;m.shadowSide=T.BackSide;return m;}
+ const replacements=new Map(Object.entries(world.materials).filter(([k])=>k!=='water').map(([k,v])=>[v,matte(k)]));
+ if(!baseline)world.root.traverse(o=>{if(o.isMesh&&replacements.has(o.material))o.material=replacements.get(o.material);});
+ const species=baseline?{}:applySpecies(world,foliage,look.materials.roughness.foliage);
+ if(config.waterProfile&&!baseline){
+  const mountain=await get('/packs/mountain-terrain-v1/values.json');
+  await addFrontRange(scene,config.backdrop,frame,origin,mountain);
+  scene.fog=null;scene.fogNode=fog(rgb(horizon),float(1).sub(exp(length(cameraPosition.sub(positionWorld)).mul(-mountain.haze.profiles.find(p=>p.id==='clear').betaPerM))));
+  const profile=lake.water.profiles[config.waterProfile], wave=profile.waveByWindKmh['10'];
+  const state=lake.states.find(s=>s.id===config.waterState);
+  const waterMaterial=new T.MeshPhysicalNodeMaterial({ior:water.reflectionLimits.waterIORReference});const wp=positionWorld;
+  const profileMechanics=water.profiles.find(p=>p.id===config.waterMechanicsProfile);
+  const weights=water.waveModelProposal.fourWaveWeights, energy=Math.sqrt(weights.reduce((a,b)=>a+b*b,0));
+  let gx=float(0),gz=float(0);
+  weights.forEach((weight,i)=>{const wavelength=wave.wavelengthM*(1+i*.37),k=2*Math.PI/wavelength,angle=.4+i*.63,amplitude=profileMechanics.colourConditions.calm.inferredWindOnlyHsMFixture/4*Math.SQRT2*weight/energy;
+   const phase=wp.x.mul(Math.cos(angle)*k).add(wp.z.mul(Math.sin(angle)*k)).sub(now.mul(wave.phaseSpeedMps*k)).add(i*2.39996);
+   const fade=float(1).sub(smoothstep(2,4,fwidth(phase)));const slope=cos(phase).mul(amplitude*k).mul(fade);gx=gx.add(slope.mul(Math.cos(angle)));gz=gz.add(slope.mul(Math.sin(angle)));});
+  const ripple=gx,waterNormal=normalize(vec3(gx.negate(),1,gz.negate()));
+  waterMaterial.normalNode=transformNormalToView(waterNormal);
+  // _extra.z is not shore distance. The attached attribute is computed from exported water boundary edges.
+  const meshes=[];world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water)meshes.push(o);});
+  world.root.updateMatrixWorld(true);const field=shorelineField(meshes);
+  const shore=texture(field.texture,wp.xz.sub(vec2(...field.min)).div(vec2(...field.span))).r.mul(32);
+  const body=mix(rgb(new T.Color(profile.shallowColourHex)),rgb(new T.Color(state.surfaceValues[0].baseColourHex)),smoothstep(0,profile.shallowBlendWidthM,shore));
+  const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,normalWorld))).pow(lake.water.reflection.grazingExponent);
+  const reflection=mix(float(lake.water.reflection.normalStrength),float(lake.water.reflection.grazingStrength),grazing).min(mix(water.reflectionLimits.nearBlendCap,water.reflectionLimits.farBlendCap,smoothstep(50,180,length(cameraPosition.sub(wp)))));
+  const broken=sin(wp.x.mul(1.7).add(wp.z.mul(2.3)).add(now.mul(.3))).mul(sin(wp.z.mul(3.1).sub(wp.x.mul(2.7)))).mul(.012);
+  waterMaterial.colorNode=mix(body,rgb(new T.Color(lake.water.skyStates.clear.reflectionColourHex)).add(broken),reflection).mul(mix(.88,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
+  waterMaterial.roughness=state.surfaceValues[0].roughness;waterMaterial.metalness=0;
+  world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water){o.material=waterMaterial;}});
+ }
+ let baselineLighting;
+ if(baseline){scene.remove(sun,sun.target);for(const child of [...scene.children])if(child.isHemisphereLight)scene.remove(child);const state=world.environment.states.noon||world.environment.states[world.environment.defaultState];baselineLighting=new Lighting(scene);await baselineLighting.apply(state,world.globals,`/world/${id}/${state.sky}`);}
+ let post=new T.PostProcessing(renderer);post.outputColorTransform=false;
+ const source=pass(scene,camera).getTextureNode('output').rgb;
+ // Exposure and saturation occur exactly once here, shared by both cities.
+ const mapped=acesFilmicToneMapping(source,float(L.exposure.linearGain));const y=dot(mapped,vec3(.2126,.7152,.0722));
+ const graded=mix(vec3(y),mapped,L.exposure.saturation).sub(.5).mul(L.exposure.contrast).add(.5).clamp(0,1);
+ post.outputNode=convertColorSpace(vec4(graded,1),T.LinearSRGBColorSpace,T.SRGBColorSpace);
+ if(baseline)post=createPost(renderer,scene,camera);
+ const resize=()=>{const c=renderer.domElement;renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/c.clientHeight;camera.updateProjectionMatrix();};new ResizeObserver(resize).observe(renderer.domElement);resize();
+ document.querySelector('#mock').href=`/packs/style-b-calibration-v2/frames/${config.mock}.png`;
+ world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
+ const times=[];let last=0,frameCount=0;status.textContent='Calibration v2 · summer · clear afternoon';
+ window.bakeoff={world,scene,camera,renderer,fit,species,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
+ renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();post.render();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,backend:'WebGL2',drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
+}
+main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

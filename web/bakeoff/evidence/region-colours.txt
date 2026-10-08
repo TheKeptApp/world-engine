@@ -1,0 +1,20 @@
+
+lakeview   (dE to the mock: candidate <- baseline)
+  sky                        15.6 <-  13.3   frame #7DAACB #86A1CA   mock #77B0ED
+  road                       42.8 <-  45.6   frame #59814D #B9C090   mock #6A7182
+  sidewalk                   11.5 <-  37.2   frame #B6BDBD #5D6E82   mock #CAB7AC
+  parkway lawn               19.4 <-  28.1   frame #9BAD75 #BBC292   mock #737A42
+  crowns                            - <- -   frame - -   mock -
+  wall                        7.7 <-  37.1   frame #9C9D86 #35383B   mock #8F8972   (the wall box often faces away from the sun while the mock paints it lit: wall_variants.py)
+
+sloans   (dE to the mock: candidate <- baseline)
+  sky                         8.4 <-   6.2   frame #86ADCC #81AACD   mock #7CADDB
+  sidewalk                   29.0 <-  21.4   frame #92A86C #A6B585   mock #D1B49B
+
+mean dE to the mocks by surface, over the hero views (candidate <- baseline):
+  sky                        12.0 <-   9.8   (2 regions)
+  road                       42.8 <-  45.6   (1 regions)
+  sidewalk                   20.3 <-  29.3   (2 regions)
+  lawn                       19.4 <-  28.1   (1 regions)
+  crowns                            - <- -   (1 regions)
+  wall                        7.7 <-  37.1   (1 regions)

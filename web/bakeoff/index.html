@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>A2 web look bake-off</title><link rel="stylesheet" href="style.css">
+<style>header{max-width:1100px;margin:32px auto;padding:0 20px}.gallery{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:start;min-height:0}.gallery section{background:#23313a;padding:20px;border-radius:12px}.gallery img{width:100%;height:auto}.gallery h2{font-size:20px;margin-top:0}.gallery p{color:#c7d5de}.gallery a{display:inline-block;margin-right:12px}@media(max-width:750px){.gallery{grid-template-columns:1fr;margin:20px}}</style>
+<header><p>WorldEngine / A2</p><h1>Web look bake-off</h1><p>Real exported scenes, one shared Style B treatment. Each comparison places the three.js frame on the left and calibration v2 on the right.</p></header>
+<main class="gallery">
+<section><h2>Lakeview, Chicago</h2><a href="lakeview.html">Open live scene</a><a href="evidence/lakeview-side-by-side.png">Open comparison PNG</a><p id="lakeview">Measurements pending.</p><img src="evidence/lakeview-side-by-side.png" alt="Lakeview three.js render beside the calibration mock"></section>
+<section><h2>Sloan’s Lake, Denver</h2><a href="sloans.html">Open live scene</a><a href="evidence/sloans-side-by-side.png">Open comparison PNG</a><p id="sloans">Measurements pending.</p><img src="evidence/sloans-side-by-side.png" alt="West-facing Sloan’s Lake three.js render beside the calibration mock"></section>
+</main>
+<script type="module">for(const id of ['lakeview','sloans']){try{const r=await fetch(`evidence/candidate/${id}.json`);if(!r.ok)continue;const m=await r.json();document.getElementById(id).textContent=`${m.fps.toFixed(1)} fps · ${m.drawCalls} draw calls · ${Math.round(m.triangles).toLocaleString()} triangles · ${m.viewport[1]} × ${m.viewport[2]}`;}catch{}}</script>
+</html>
