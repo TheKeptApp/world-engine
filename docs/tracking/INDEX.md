@@ -36,7 +36,7 @@ Authority: [A8 integration audit](../review/integration-audit-2026-10-08.md), pi
 | `docs/research-gpt/creator-kit-demand-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/creator-kit-ux-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/creator-kit-ux-v3` | Other / non-hero scope; iOS not started*; web not started* | none |
-| `docs/proposals/crown-silhouettes-v2` | Foliage; iOS not started*; web not started* | none |
+| `docs/proposals/crown-silhouettes-v2` | Crown shape approved by R, 9 Oct 2026, every block; iOS/web not started; see Foliage shape ledger row | none |
 | `docs/research-gpt/data-layers-research-v1` | Ground / data prerequisites; iOS not started*; web not started* | none |
 | `docs/research-gpt/data-licence-check-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
 | `docs/proposals/demo-storyboard-v1` | Other / non-hero scope; iOS not started*; web not started* | none |
