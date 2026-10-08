@@ -227,3 +227,10 @@ Read-only input exports remain unchanged. Verified outputs in A1 worktree Genera
 | Date | From → to | Item | Status / next step |
 |---|---|---|---|
 | 2026-10-08 | A8 / R → all builders / A3 | [Current state](STATE.md), [source protocol](SOURCE-OF-TRUTH.md), [input index](INDEX.md), [integration](INTEGRATION.md), [mocks](MOCKS.md) | Docs-only audit-to-ledger filing; no runtime or score improvement claimed. Every build updates consumption/row/mock citation together, then rewrites STATE after report. Any model may run a lane with the same checks and current handoff. 5A batches: foliage → water → raw-generator budget; web exp1 deferred. P2 keeps controls → budget → classified facades. A3 current branch: astra-a3-source-of-truth, base bcfc8aa; no owned lock/server; next: builder reads STATE and assigned batch, captures under strict load/lock and submits blind evidence. |
+
+## Pre-restart audit corrections — A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A8 / R → 5A, P2, A2 | Mock-content audit `8f97697` §§5,7–9 | Docs corrected: foliage → water → budget; classifier repair separate prerequisite; CSS-pixel water conversion; witness sun separate from native fixture; halving superseded/unapproved; completed web-4127a32 grade; five bounded consumers; seven spec-only briefs; literal evidence line; ground/AO partial pending build proof. No implementation or score claimed. |
+| 2026-10-08 | A3 → 5A / A7 | Native smoke `smoke-20261008-native`, main `3f6f8df` | One attempt through heavy wrapper, admitted load 6.09; Xcode exit 65 before capture: `error: The file “package” couldn’t be opened because there is no such file. (in target 'WorldLab' from project 'WorldLab')`. Own lock released. Stopped; web and West Highland not attempted, no fresh score. Local logs: `/private/tmp/worldengine-a3-web-baseline/.build/lookloop/smoke-20261008-native/`. Build/capture prerequisite needs repair in its owning lane. |

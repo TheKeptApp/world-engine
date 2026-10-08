@@ -51,3 +51,7 @@ Stop if 120/150 m approved reach is shortened, off-view shadows disappear, low-s
 ## Builder evidence-line template
 
 `Used: docs/research-gpt/mobile-rendering-v1/README.md — Top 10 T01; Shadows, time, trees and atmosphere; docs/execution/shadows.md. Mock: docs/proposals/style-b-calibration-v2/frames/06-sloans.png + 01-lakeview.png; <native contract target paths>; <before/after run IDs, SHAs, A3 grades, full reach and all-pass costs>. Deviation: <none or reason; failed/missing gates>.`
+
+Required final report line before `Tracker update:` (fill in the placeholders):
+
+`Used: ... Mock: ... Deviation: ...`

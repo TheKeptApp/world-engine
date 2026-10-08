@@ -52,3 +52,7 @@ Stop for missing 21-case coverage, untraceable conversion, unresolved observed-t
 ## Builder evidence-line template
 
 `Used: docs/research-gpt/mobile-rendering-v1/README.md — Shadows, time, trees and atmosphere; haze-visibility-v1/README.md — Formula and units, Data selection and layer handling, Explicit overrides; docs/execution/haze.md. Mock: docs/proposals/style-b-calibration-v2/frames/06-sloans.png + 01-lakeview.png; <native contract target paths>; <before/after runs, resolved region/season/state keys, 21-moment tests, A3 grades, costs>. Deviation: <none or reason; unsupported layers/missing gates>.`
+
+Required final report line before `Tracker update:` (fill in the placeholders):
+
+`Used: ... Mock: ... Deviation: ...`

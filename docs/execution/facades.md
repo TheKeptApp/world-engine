@@ -108,3 +108,7 @@ Stop for a missing family mapping/required dimension, insufficient classifier ev
 ## Builder evidence-line template
 
 `Used: docs/research-gpt/mobile-rendering-v1/README.md — Proposed world representation and selection; facade-detail-v2/README.md — Immutable albedo correction; facade-detail-v2b/values.json — coverage/content/lod; docs/execution/facades.md. Mock: docs/proposals/style-b-calibration-v2/frames/06-sloans.png + 01-lakeview.png; <native contract targets and exact corrected family-panel files>; <before/after runs, coverage totals, material-equality checks, A3 grades, costs>. Deviation: <none or reason; unknown/unsupported families and missing gates>.`
+
+Required final report line before `Tracker update:` (fill in the placeholders):
+
+`Used: ... Mock: ... Deviation: ...`
