@@ -1,5 +1,14 @@
 # Weekend brief — 5A + P2, 8 Oct 2026
 
+## Before porting any Astra value
+
+**Rule for 5A and P2 (R, 8 Oct 2026):** before porting any Astra value or recipe:
+
+1. Confirm it cites a specific pack key or repo file.
+2. Check units against RealityKit. Web light units and tone mapping are not transplantable.
+3. Render once and compare with A3's score, keeping the renderer and capture conditions explicit; web scores do not establish an iOS improvement.
+4. If anything cannot be traced, **stop and log a handoff in `docs/tracking/handoffs.md`; do not guess**.
+
 ## Scoring: one handoff to A3 after each look change
 
 From the implementation checkout, run the capture command below; then hand A3 the printed run directory, commit and previous run stamp. A3 grades §M closeness plus sky/light/saturation/ground/foliage/materials, runs the comparison and publishes. **Capture alone is not a score**; the existing command stops for review (exit 3 means ready to grade). Do not invent a one-command automatic visual grader.

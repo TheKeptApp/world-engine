@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Before porting Astra values (R):** 5A/P2 must confirm a cited pack key or repo file, check RealityKit units (web light units/tone mapping are not transplantable), render once and compare with A3’s score, and stop/log a handoff if anything cannot be traced; do not guess. Applied at the top of docs/tracking/weekend-brief.md with a handoffs.md pointer.
+
 - **Weekend map-only restart brief and HUD (R):** prepare the ordered 5A/P2 handoff with scoring commands, source/pack keys, evidence and exclusions; include fps/tris/draws/mem on R’s iPhone 14 Pro and defer MetalFX until later. Filed in docs/tracking/weekend-brief.md; no code or device installation authorized by this filing.
 
 - **Sky phase ranges (R):** sky-seasons-v1 §2.1 phase ranges approved for **A6 only**. This is not whole-pack approval or authorization for other lanes. Logged from R’s direct instruction; no phase numbers copied or source pack modified.

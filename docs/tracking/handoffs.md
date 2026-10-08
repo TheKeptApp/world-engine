@@ -115,3 +115,5 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 | Date | From → to | Item | Status |
 |---|---|---|---|
 | 2026-10-08 | A3 → 5A, P2 | Ordered map-only restart | [Weekend brief](weekend-brief.md): scoring commands, foliage/sky/MOR, shadow and Lakeview floor, six branch dispositions, later MetalFX. Today's HUD request: fps/tris/draws/mem on R's 14 Pro. Docs only; tests/device proof remain required. |
+
+2026-10-08 — R / A3 → 5A, P2: [Before porting any Astra value](weekend-brief.md#before-porting-any-astra-value): verify source and RealityKit units, render/compare with A3, and stop/log any untraceable value; do not guess.
