@@ -109,3 +109,9 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 ### A1 → 5A / A3: generic native elevation and distance backdrop (8 Oct)
 
 `Data/areas/{sloans-lake,lakeview-sheil-park,greenville-downtown}/elevation/metadata.json` indexes native unresampled 1 m GeoTIFF clips and the identical mountain-terrain-v1 distance policy through 200 km. Native rectangle plus 100 m halo and every radial band have verified 100% coverage in all three areas; 16 terrain tests and complete read-back audits pass under the heavy lock. `Data/quality/elevation-holdouts.json` is the comparison; per-area `qa.json` links metadata digests. Arrays are orthometric NAVD88 metres (EPSG:5703), not ellipsoid heights. NPZ grids contain surface/minimum/maximum arrays, affine transforms and -9999 nodata. Native local clips overlap coarser bands; prefer the native local source there. The Sloan outer envelope retains 4395.916 m Front Range elevations; do not substitute envelope maxima for the terrain surface. 5A owns datum reconciliation, loading, meshing/LOD and visual acceptance; no render/look/water edits were made. Terrain commits are size-limited groups on astra-a1-general-terrain.
+
+## Weekend restart — R, 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A3 → 5A, P2 | Ordered map-only restart | [Weekend brief](weekend-brief.md): scoring commands, foliage/sky/MOR, shadow and Lakeview floor, six branch dispositions, later MetalFX. Today's HUD request: fps/tris/draws/mem on R's 14 Pro. Docs only; tests/device proof remain required. |

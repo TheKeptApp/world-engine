@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Weekend map-only restart brief and HUD (R):** prepare the ordered 5A/P2 handoff with scoring commands, source/pack keys, evidence and exclusions; include fps/tris/draws/mem on R’s iPhone 14 Pro and defer MetalFX until later. Filed in docs/tracking/weekend-brief.md; no code or device installation authorized by this filing.
+
 - **Sky phase ranges (R):** sky-seasons-v1 §2.1 phase ranges approved for **A6 only**. This is not whole-pack approval or authorization for other lanes. Logged from R’s direct instruction; no phase numbers copied or source pack modified.
 - **Standing handoff-conflict rule (R):** resolve handoffs.md add-only conflicts by keeping both entries in date order; all other conflicts still stop. Applied identically in AGENTS.md and CLAUDE.md in this scoring commit.
 
