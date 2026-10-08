@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **FINAL native foliage category gate (R, A10):** separate build-time variant only; shipping shader byte-identical vs main; max≤2/255 AND mean≤5e-4 byte units per non-mask category/leaf fraction, report differing-byte count; remove and baseline-repeat exactly zero. No further loosening. Applied in foliage-exp1-spec.md FINAL amendment and native tests; nine Sloan’s baseline/remove/layered captures at 40/150/600 m delivered for A3; hold-outs/scoring unchanged.
+
 - **Repository source of truth and model-neutral routing (R):** current state → input index → integration ledger → feature sources/mocks; builders update consumption and mock citations in the same commit, STATE after each report, and handoff before changing models. Same checks/ownership for every model; pending packs never used. Native restart order is foliage experiment, water, then existing-generator budget; web exp1 port deferred beyond these three batches. Filed SOURCE-OF-TRUTH, STATE, INTEGRATION and MOCKS, extended INDEX/routing/restarts, mirrored shared rule. No new build or score.
 
 - **Bind build reports to evidence (R):** every build report must include `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` immediately before `Tracker update:`; missing evidence line means incomplete. Applied in CONTRIBUTING-lanes and mirrored in AGENTS/CLAUDE with reviewed fingerprints; feature INDEX links existing evidence and unknowns, and every 5A/P2 restart batch names research and mock frames. No build or score claimed.

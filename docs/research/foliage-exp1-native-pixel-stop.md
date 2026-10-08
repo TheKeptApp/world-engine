@@ -1,5 +1,7 @@
 # Native foliage experiment 1: strict pixel gate stopped
 
+Historical diagnostic stop, superseded by R’s FINAL amendment and [passing category/capture delivery](foliage-exp1-native-final-evidence.md). Original measurements below are retained.
+
 8 October 2026. Approved mask amendment merged as `66aac35`; implementation remains on local branch `astra/a10-native-foliage-exp1`, diagnostic head `bba0a3a`, and is not merged.
 
 The arithmetic witnesses and generated exclusion tests pass. Native Metal compilation passes. The isolated native rendered controls fail the required exact identity gate: `Expectation failed: (maximum → 1) == 0`, `FoliageExperimentTests.swift:130:25`. For bush (including flower-bush), conifer and other non-mask controls, maximum RGBA byte difference is **1/255** in **each** off/remove/layered mode, at both leaf fractions 1 and 0: 18 failures. Other controls include tuft, bark, skyline crown and leaf cards. This is macOS RealityKit fixture evidence, not iPhone or Sloan’s evidence.

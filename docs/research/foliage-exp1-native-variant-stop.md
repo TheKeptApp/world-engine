@@ -1,5 +1,7 @@
 # Native foliage build variant: amended gate failure
 
+Historical diagnostic stop, superseded by R’s FINAL amendment and [passing category/capture delivery](foliage-exp1-native-final-evidence.md). Original measurements below are retained.
+
 8 October 2026. R approved the build-time variant and amended ≤1/255 gate. Shipping source and fetched main both have SHA-256 `8bc481191914876a6f2b870080b8b7fb19ba6d6370426516409596437b49038a`; byte-for-byte unchanged. Default build uses original source. Generated experimental source changes only worldFoliageSurface; remove/layered compile constants 1/2. No runtime uniform transport or geometry/budget/tile changes.
 
 Arithmetic witnesses and generated exclusions pass. Native Metal build passes. Baseline-repeat control max/mean **0** for all seven categories at leaf fractions 1 and 0. Remove max/mean **0** for all seven categories. Layered results below; maximum byte differences divide by 255 for normalized differences. Mean is absolute RGBA difference over every byte of the 512×512 isolated category image, including background, not only object pixels. These are macOS RealityKit controls, not iPhone measurements.

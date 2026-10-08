@@ -8,6 +8,8 @@ Inventory of every visual file found in the filed proposal/research-pack trees i
 
 File: `docs/proposals/style-b-calibration-v2/frames/06-sloans.png`. Sloan’s lake afternoon look calibration: foliage, water, ground, AO, sky, shadows, haze; geometry/layout is not a target. Citing build/evidence: native `0b9d255` / A3 baseline; web `4127a32` saved series. Latest: native closeness 3 (foliage 2), web 2 (sky 3, other aspects 2), FAIL. Sources: [native](../lookloop/a3-baseline.md), [web](../lookloop/web-4127a32.md).
 
+A10 native foliage exp1 citing build `ec14fed`: same approved 06-sloans reference, nine Simulator inspection frames and FINAL category proof in [evidence](../research/foliage-exp1-native-final-evidence.md). Default-off optional variant consumes the spec, not a new mock; no A3 score or hold-out result yet.
+
 ## M-CAL-LAKEVIEW
 
 File: `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`. Chicago street look calibration: foliage, ground, AO, sky, shadows, haze, facades; nearest regional calibration also used for Wilmette. Citing build/evidence: native `0b9d255`; web `4127a32` saved series. Latest: native Lakeview 3 (foliage/saturation 2), Wilmette 3 (foliage 2); web Lakeview 2 (sky/materials 3, other aspects 2), FAIL. These are independent view scores, not a mock average.
