@@ -13,4 +13,5 @@ if [ -z "$existing" ] && [ -f "$old" ]; then
     exit 1
 fi
 git config --local core.hooksPath .githooks
-echo 'Push-only guard installed for this repository.'
+# The tracked hook delegates directly to push_guard.py; no generated copy can go stale.
+echo 'Push-only guard installed; render evidence warns until INTEGRATION.md lands, then blocks missing evidence.'
