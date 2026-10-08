@@ -1,138 +1,12 @@
 {
   "scene": "lakeview",
-  "tier": "standard",
-  "deviceClass": "14–15",
-  "cost": {
-    "budget": {
-      "mainTriangles": 400000,
-      "shadowTriangles": 150000,
-      "mainDraws": 100,
-      "textureMiB": null,
-      "tiers": {
-        "hero": "15 Pro+",
-        "standard": "14–15",
-        "floor": "12–13"
-      },
-      "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
-    },
-    "passes": {
-      "main/sky/composite": {
-        "draws": 1,
-        "triangles": 1984
-      },
-      "shadow/opaque world": {
-        "draws": 87,
-        "triangles": 237617
-      },
-      "shadow/foliage": {
-        "draws": 39,
-        "triangles": 84660
-      },
-      "main/opaque world": {
-        "draws": 47,
-        "triangles": 212186
-      },
-      "main/foliage": {
-        "draws": 18,
-        "triangles": 44368
-      },
-      "main/tufts": {
-        "draws": 1,
-        "triangles": 3600
-      },
-      "post/sky/composite": {
-        "draws": 1,
-        "triangles": 1
-      }
-    },
-    "textures": [
-      {
-        "name": "output",
-        "width": 390,
-        "height": 780,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 2433600,
-        "target": true
-      },
-      {
-        "name": "depth",
-        "width": 390,
-        "height": 780,
-        "levels": 1,
-        "format": "DEPTH_COMPONENT24",
-        "bytes": 1216800,
-        "target": true
-      },
-      {
-        "name": "sky gradient + cumulus",
-        "width": 2048,
-        "height": 1024,
-        "levels": 1,
-        "format": "RGBA32F",
-        "bytes": 33554432,
-        "target": false
-      },
-      {
-        "name": "ShadowMap",
-        "width": 2048,
-        "height": 2048,
-        "levels": 1,
-        "format": "RGBA8",
-        "bytes": 16777216,
-        "target": true
-      },
-      {
-        "name": "ShadowDepthTexture",
-        "width": 2048,
-        "height": 2048,
-        "levels": 1,
-        "format": "DEPTH_COMPONENT24",
-        "bytes": 16777216,
-        "target": true
-      },
-      {
-        "name": "palette",
-        "width": 256,
-        "height": 1,
-        "levels": 1,
-        "format": "RGBA32F",
-        "bytes": 4096,
-        "target": false
-      }
-    ],
-    "renderbuffers": [
-      {
-        "name": "renderbuffer",
-        "width": 390,
-        "height": 780,
-        "samples": 4,
-        "format": "RGBA16F",
-        "bytes": 9734400
-      },
-      {
-        "name": "renderbuffer",
-        "width": 390,
-        "height": 780,
-        "samples": 4,
-        "format": "DEPTH_COMPONENT24",
-        "bytes": 4867200
-      }
-    ],
-    "contentTextureMiB": 32.00390625,
-    "targetTextureMiB": 35.481292724609375,
-    "renderbufferMiB": 13.9251708984375,
-    "unknownAllocations": 0,
-    "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
-    "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
-  },
   "backend": "WebGL2",
   "drawCalls": 194,
-  "triangles": 584416,
-  "fps": 93.74107347610406,
-  "sampleDurationMs": 9942.28,
-  "p95FrameMs": 19.979999999999563,
-  "samples": 932,
+  "triangles": 1068448,
+  "fps": 89.98371944045175,
+  "sampleDurationMs": 9701.755,
+  "p95FrameMs": 20,
+  "samples": 873,
   "viewport": [
     0.5,
     390,
@@ -154,7 +28,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "1b0d47bffe7e10f4c62d9c279f46f2583528d8a2517d0fc693744556c1cc752f",
+  "inputSha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca",
   "resolved": {
     "policy": {
       "look": {
@@ -545,6 +419,6 @@
       }
     }
   },
-  "capturedUTC": "2026-10-08T06:05:28.714Z",
+  "capturedUTC": "2026-10-08T05:36:09.024Z",
   "errors": []
 }

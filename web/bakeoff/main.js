@@ -1,3 +1,4 @@
+import {installCostLedger,phoneBudget} from './budget.js';
 import * as T from 'three/webgpu';
 import {fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
 import {WorldScene} from '/src/world.js';
@@ -11,6 +12,7 @@ import {appearanceToRadiance} from './sky-colour.js';
 import {resolvePolicy} from './policy.js';
 import {LocalFrame} from '/src/geo.js';
 const q=new URLSearchParams(location.search), id=document.body.dataset.scene;
+const tier=q.get('tier')||'standard';if(!phoneBudget.tiers[tier])throw Error('Unknown phone tier');
 if(q.has('capture'))document.body.classList.add('capture');
 const get=async p=>{const r=await fetch(p);if(!r.ok)throw Error(`${p}: ${r.status}`);return r.json();};
 const status=document.querySelector('#status');
@@ -25,6 +27,9 @@ async function main(){
  const scene=new T.Scene();scene.add(world.root);
  const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
  const camera=new T.PerspectiveCamera(config.camera.fov,1,.2,150000);
+ const ledger=installCostLedger(renderer,camera);
+ world.root.traverse(o=>{if(o.isMesh)o.userData.costCategory=o.material===world.materials.water?'water':'opaque world';});
+ world.tuftMesh.userData.costCategory='tufts';
  const origin=world.manifest.frame.origin, frame=new LocalFrame(origin.latitude,origin.longitude);
  const at=(lat,lon,y)=>new T.Vector3(...frame.scene(lat,lon,y));
  // These are composition fits, not recovered photographic camera matrices.
@@ -44,7 +49,7 @@ async function main(){
  sun.position.copy(camera.position).addScaledVector(sunDirection,180);sun.target.position.copy(camera.position);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:1,far:450});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00015;sun.shadow.normalBias=.05;scene.add(sun,sun.target);
  scene.add(new T.HemisphereLight(sky.fillHex,look.materials.groundBaseHex.lawn,policy.ambientIntensity));
  if(!baseline){for(const slot of world.palettes.slots){const name=slot.names?.[0],key={road:'asphalt',sidewalk:'concrete',curb:'curb',lawn:'lawn'}[name];if(key){const c=new T.Color(look.materials.groundBaseHex[key]),a=world.paletteTexture.image.data;a.set([c.r,c.g,c.b,1],slot.slot*4);}}world.paletteTexture.needsUpdate=true;}
- const palette=world.paletteTexture;
+ const palette=world.paletteTexture;palette.name='palette';skyTexture.name='sky gradient + cumulus';
  // Preserve exported geometry, palette slots and stable per-building variation.
  function matte(kind){const m=new T.MeshStandardNodeMaterial();const p=attribute('_paint','vec4'),e=attribute('_extra','vec4'),flags=int(p.z.add(.5));const flag=b=>flags.bitAnd(int(b)).notEqual(0);const slot=floor(p.x.add(.5));let colour=texture(palette,vec2(slot.add(.5).div(256),.5)).rgb.mul(p.y);const ground=look.materials.groundBaseHex;
  colour=select(flag(4),rgb(new T.Color(ground.lawn)).mul(p.y),colour);colour=select(flag(8),rgb(new T.Color(ground.concrete)).mul(p.y),colour);
@@ -68,7 +73,7 @@ async function main(){
   waterMaterial.normalNode=transformNormalToView(waterNormal);
   // _extra.z is not shore distance. The attached attribute is computed from exported water boundary edges.
   const meshes=[];world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water)meshes.push(o);});
-  world.root.updateMatrixWorld(true);const field=shorelineField(meshes);
+  world.root.updateMatrixWorld(true);const field=shorelineField(meshes);field.texture.name='water shore distance';
   const shore=texture(field.texture,wp.xz.sub(vec2(...field.min)).div(vec2(...field.span))).r.mul(32);
   const body=mix(rgb(new T.Color(profile.shallowColourHex)),rgb(new T.Color(state.surfaceValues[0].baseColourHex)),smoothstep(0,profile.shallowBlendWidthM,shore));
   const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,normalWorld))).pow(lake.water.reflection.grazingExponent);
@@ -92,6 +97,6 @@ async function main(){
  world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
  const times=[];let last=0,frameCount=0;status.textContent='Calibration v2 · summer · clear afternoon';
  window.bakeoff={world,scene,camera,renderer,fit,species,policy,fixture,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
- renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();post.render();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,backend:'WebGL2',drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
+ renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();post.render();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

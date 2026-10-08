@@ -20,6 +20,6 @@ export async function addFrontRange(scene,config,frame,origin,pack){
  }
  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setIndex(indices);g.computeVertexNormals();
  const p=pack.palettes.summer,m=new T.MeshStandardNodeMaterial({color:p.graniteHex,roughness:p.roughness.rock,side:T.DoubleSide});
- const mesh=new T.Mesh(g,m);mesh.name='USGS 3DEP Front Range';scene.add(mesh);
+ const mesh=new T.Mesh(g,m);mesh.name='USGS 3DEP Front Range';mesh.userData.costCategory='DEM';scene.add(mesh);
  return {vertices:w*h,triangles:indices.length/3,observerElevationM:observer};
 }

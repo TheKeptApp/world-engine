@@ -11,3 +11,4 @@ node "$HERE/sky-colour.test.mjs"
 SCENES=sloans,lakeview node "$HERE/capture.mjs"
 python3 "$HERE/score.py"
 git diff --check
+if [ "${TIERS:-}" = "hero,standard,floor" ]; then python3 "$HERE/phone-report.py"; fi

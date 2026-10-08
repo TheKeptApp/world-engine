@@ -1,7 +1,7 @@
 {
-  "scene": "sloans",
-  "tier": "standard",
-  "deviceClass": "14–15",
+  "scene": "lakeview",
+  "tier": "floor",
+  "deviceClass": "12–13",
   "cost": {
     "budget": {
       "mainTriangles": 400000,
@@ -21,52 +21,56 @@
         "triangles": 1984
       },
       "shadow/opaque world": {
+        "draws": 87,
+        "triangles": 237617
+      },
+      "shadow/foliage": {
         "draws": 39,
-        "triangles": 111530
+        "triangles": 84660
       },
       "main/opaque world": {
-        "draws": 82,
-        "triangles": 197097
+        "draws": 47,
+        "triangles": 212186
       },
-      "main/water": {
-        "draws": 6,
-        "triangles": 309
+      "main/foliage": {
+        "draws": 18,
+        "triangles": 44368
       },
       "main/tufts": {
         "draws": 1,
-        "triangles": 2268
+        "triangles": 3600
       },
       "post/sky/composite": {
-        "draws": 13,
-        "triangles": 13
+        "draws": 1,
+        "triangles": 1
       }
     },
     "textures": [
       {
         "name": "output",
         "width": 390,
-        "height": 585,
+        "height": 780,
         "levels": 1,
         "format": "RGBA16F",
-        "bytes": 1825200,
+        "bytes": 2433600,
         "target": true
       },
       {
         "name": "depth",
         "width": 390,
-        "height": 585,
+        "height": 780,
         "levels": 1,
         "format": "DEPTH_COMPONENT24",
-        "bytes": 912600,
+        "bytes": 1216800,
         "target": true
       },
       {
-        "name": "renderer resource",
-        "width": 1024,
-        "height": 512,
-        "levels": 11,
-        "format": "SRGB8_ALPHA8",
-        "bytes": 2796204,
+        "name": "sky gradient + cumulus",
+        "width": 2048,
+        "height": 1024,
+        "levels": 1,
+        "format": "RGBA32F",
+        "bytes": 33554432,
         "target": false
       },
       {
@@ -95,156 +99,57 @@
         "format": "RGBA32F",
         "bytes": 4096,
         "target": false
-      },
-      {
-        "name": "UnrealBloomPass.bright",
-        "width": 195,
-        "height": 293,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 457080,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.h0",
-        "width": 195,
-        "height": 293,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 457080,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.v0",
-        "width": 195,
-        "height": 293,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 457080,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.h1",
-        "width": 98,
-        "height": 147,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 115248,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.v1",
-        "width": 98,
-        "height": 147,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 115248,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.h2",
-        "width": 49,
-        "height": 74,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 29008,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.v2",
-        "width": 49,
-        "height": 74,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 29008,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.h3",
-        "width": 25,
-        "height": 37,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 7400,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.v3",
-        "width": 25,
-        "height": 37,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 7400,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.h4",
-        "width": 13,
-        "height": 19,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 1976,
-        "target": true
-      },
-      {
-        "name": "UnrealBloomPass.v4",
-        "width": 13,
-        "height": 19,
-        "levels": 1,
-        "format": "RGBA16F",
-        "bytes": 1976,
-        "target": true
       }
     ],
     "renderbuffers": [
       {
         "name": "renderbuffer",
         "width": 390,
-        "height": 585,
+        "height": 780,
         "samples": 4,
         "format": "RGBA16F",
-        "bytes": 7300800
+        "bytes": 9734400
       },
       {
         "name": "renderbuffer",
         "width": 390,
-        "height": 585,
+        "height": 780,
         "samples": 4,
         "format": "DEPTH_COMPONENT24",
-        "bytes": 3650400
+        "bytes": 4867200
       }
     ],
-    "contentTextureMiB": 2.670574188232422,
-    "targetTextureMiB": 36.21171569824219,
-    "renderbufferMiB": 10.443878173828125,
+    "contentTextureMiB": 32.00390625,
+    "targetTextureMiB": 35.481292724609375,
+    "renderbufferMiB": 13.9251708984375,
     "unknownAllocations": 0,
     "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
     "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
   },
   "backend": "WebGL2",
-  "drawCalls": 142,
-  "triangles": 313201,
-  "fps": 99.98176562061427,
-  "sampleDurationMs": 9761.78,
-  "p95FrameMs": 10.579999999999927,
-  "samples": 976,
+  "drawCalls": 194,
+  "triangles": 584416,
+  "fps": 91.55570717792635,
+  "sampleDurationMs": 9731.779999999999,
+  "p95FrameMs": 20,
+  "samples": 891,
   "viewport": [
-    0.6666666666666666,
+    0.5,
     390,
-    585
+    780
   ],
   "camera": {
     "position": [
-      7.6703964459107254,
+      -58.874500633947775,
       1.65,
-      -219.27283405621068
+      54.2030014729452
     ],
     "direction": [
-      -0.9606407232981161,
-      0.012840000283142354,
-      -0.2774969101341513
+      -0.9814728301797053,
+      0.16043452295682312,
+      0.10474658687831259
     ],
-    "fov": 35
+    "fov": 47
   },
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
@@ -413,8 +318,233 @@
       "skyState": "clear",
       "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit."
     },
-    "species": {}
+    "species": {
+      "conifer/0/-1,-1": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/-1,-2": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/-1,0": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/-2,0": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/0,-1": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/0,-2": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/0,0": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/0,1": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "conifer/0/1,0": {
+        "species": "magnolia_grandiflora",
+        "silhouette": "oval"
+      },
+      "treeBroad/0/-1,-1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-1,-2": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-1,0": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-1,1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-2,-1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-2,-2": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-2,0": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/-2,1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/0,-1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/0,-2": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/0,0": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/0,1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/1,-1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/1,-2": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/1,0": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeBroad/0/1,1": {
+        "species": "gleditsia_triacanthos",
+        "silhouette": "spreading"
+      },
+      "treeOval/0/-1,-1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-1,-2": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-1,0": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-1,1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-2,-1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-2,0": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/-2,1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/0,-1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/0,-2": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/0,0": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/0,1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/1,-1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/1,-2": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/1,0": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeOval/0/1,1": {
+        "species": "acer_platanoides",
+        "silhouette": "rounded"
+      },
+      "treeSpreading/0/-1,-1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-1,-2": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-1,0": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-1,1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-2,-1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-2,-2": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-2,0": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/-2,1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/0,-1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/0,-2": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/0,0": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/0,1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/1,-1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/1,-2": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/1,0": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      },
+      "treeSpreading/0/1,1": {
+        "species": "acer_saccharinum",
+        "silhouette": "spreading"
+      }
+    }
   },
-  "capturedUTC": "2026-10-08T06:03:47.649Z",
+  "capturedUTC": "2026-10-08T06:05:44.802Z",
   "errors": []
 }

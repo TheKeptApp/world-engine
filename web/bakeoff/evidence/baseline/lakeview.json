@@ -1,12 +1,229 @@
 {
   "scene": "lakeview",
+  "tier": "standard",
+  "deviceClass": "14–15",
+  "cost": {
+    "budget": {
+      "mainTriangles": 400000,
+      "shadowTriangles": 150000,
+      "mainDraws": 100,
+      "textureMiB": null,
+      "tiers": {
+        "hero": "15 Pro+",
+        "standard": "14–15",
+        "floor": "12–13"
+      },
+      "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+    },
+    "passes": {
+      "main/sky/composite": {
+        "draws": 1,
+        "triangles": 1984
+      },
+      "shadow/opaque world": {
+        "draws": 70,
+        "triangles": 267113
+      },
+      "main/opaque world": {
+        "draws": 65,
+        "triangles": 251250
+      },
+      "main/tufts": {
+        "draws": 1,
+        "triangles": 3600
+      },
+      "post/sky/composite": {
+        "draws": 13,
+        "triangles": 13
+      }
+    },
+    "textures": [
+      {
+        "name": "output",
+        "width": 390,
+        "height": 780,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 2433600,
+        "target": true
+      },
+      {
+        "name": "depth",
+        "width": 390,
+        "height": 780,
+        "levels": 1,
+        "format": "DEPTH_COMPONENT24",
+        "bytes": 1216800,
+        "target": true
+      },
+      {
+        "name": "renderer resource",
+        "width": 1024,
+        "height": 512,
+        "levels": 11,
+        "format": "SRGB8_ALPHA8",
+        "bytes": 2796204,
+        "target": false
+      },
+      {
+        "name": "ShadowMap",
+        "width": 2048,
+        "height": 2048,
+        "levels": 1,
+        "format": "RGBA8",
+        "bytes": 16777216,
+        "target": true
+      },
+      {
+        "name": "ShadowDepthTexture",
+        "width": 2048,
+        "height": 2048,
+        "levels": 1,
+        "format": "DEPTH_COMPONENT24",
+        "bytes": 16777216,
+        "target": true
+      },
+      {
+        "name": "palette",
+        "width": 256,
+        "height": 1,
+        "levels": 1,
+        "format": "RGBA32F",
+        "bytes": 4096,
+        "target": false
+      },
+      {
+        "name": "UnrealBloomPass.bright",
+        "width": 195,
+        "height": 390,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 608400,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.h0",
+        "width": 195,
+        "height": 390,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 608400,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.v0",
+        "width": 195,
+        "height": 390,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 608400,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.h1",
+        "width": 98,
+        "height": 195,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 152880,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.v1",
+        "width": 98,
+        "height": 195,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 152880,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.h2",
+        "width": 49,
+        "height": 98,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 38416,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.v2",
+        "width": 49,
+        "height": 98,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 38416,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.h3",
+        "width": 25,
+        "height": 49,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 9800,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.v3",
+        "width": 25,
+        "height": 49,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 9800,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.h4",
+        "width": 13,
+        "height": 25,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 2600,
+        "target": true
+      },
+      {
+        "name": "UnrealBloomPass.v4",
+        "width": 13,
+        "height": 25,
+        "levels": 1,
+        "format": "RGBA16F",
+        "bytes": 2600,
+        "target": true
+      }
+    ],
+    "renderbuffers": [
+      {
+        "name": "renderbuffer",
+        "width": 390,
+        "height": 780,
+        "samples": 4,
+        "format": "RGBA16F",
+        "bytes": 9734400
+      },
+      {
+        "name": "renderbuffer",
+        "width": 390,
+        "height": 780,
+        "samples": 4,
+        "format": "DEPTH_COMPONENT24",
+        "bytes": 4867200
+      }
+    ],
+    "contentTextureMiB": 2.670574188232422,
+    "targetTextureMiB": 37.61045837402344,
+    "renderbufferMiB": 13.9251708984375,
+    "unknownAllocations": 0,
+    "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+    "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+  },
   "backend": "WebGL2",
   "drawCalls": 150,
   "triangles": 523960,
-  "fps": 99.26853156973716,
-  "sampleDurationMs": 9811.77,
-  "p95FrameMs": 10.4350000000004,
-  "samples": 974,
+  "fps": 99.8794998861517,
+  "sampleDurationMs": 9771.775,
+  "p95FrameMs": 10.584999999999127,
+  "samples": 976,
   "viewport": [
     0.5,
     390,
@@ -28,7 +245,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca",
+  "inputSha256": "1b0d47bffe7e10f4c62d9c279f46f2583528d8a2517d0fc693744556c1cc752f",
   "resolved": {
     "policy": {
       "look": {
@@ -194,6 +411,6 @@
     },
     "species": {}
   },
-  "capturedUTC": "2026-10-08T05:35:53.130Z",
+  "capturedUTC": "2026-10-08T06:04:56.531Z",
   "errors": []
 }

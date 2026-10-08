@@ -52,6 +52,14 @@ for scene,view in views.items():
   if a and b:baseline.append(cf.delta_e76(a,b))
  measured=[r['deltaE76'] for r in rows if r['deltaE76'] is not None]
  means[scene]={'meanFixedBoxDeltaE76':statistics.mean(measured),'existingViewerMeanDeltaE76':statistics.mean(baseline),'sampledRegions':len(measured),'totalRegions':len(rows)}
+ prior_path=HERE/'evidence/previous-a2'/f'{scene}.png'
+ if prior_path.exists():
+  prior=Image.open(prior_path).convert('RGB'); prior_values=[]
+  for surface,box in view['regions'].items():
+   a,b=rc.colour(prior,box,surface),rc.colour(mock,box,surface)
+   if a and b:prior_values.append(cf.delta_e76(a,b))
+  means[scene]['previousA2MeanDeltaE76']=statistics.mean(prior_values)
+  means[scene]['changeFromPreviousA2']=means[scene]['meanFixedBoxDeltaE76']-statistics.mean(prior_values)
  width,height=candidate.size
  sheet=Image.new('RGB',(width*2,height+35),'#19232a');sheet.paste(candidate,(0,35));sheet.paste(mock,(width,35));draw=ImageDraw.Draw(sheet);draw.text((10,10),scene+' · three.js',fill='white');draw.text((width+10,10),'Calibration v2 · mock',fill='white');sheet.save(HERE/'evidence'/f'{scene}-side-by-side.png')
 (HERE/'evidence/scores.json').write_text(json.dumps(summary,indent=2)+'\n')
