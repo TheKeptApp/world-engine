@@ -40,7 +40,7 @@ Keep the frozen iOS contract in `docs/lookloop/a3-capture-contract.json`; new ar
 
 **Proof:** `node web/bakeoff/sky-colour.test.mjs` and `node web/bakeoff/atmosphere.test.mjs`; port equivalent checks to iOS `SkyFixtureTests`/`WeatherFixtureTests` and re-score. Tests prove transfer/MOR mechanics; current web sky 3/5 and overall 2/5 do not prove final quality. **Do not touch:** camera fitting, calibration exposure/saturation, water mechanics, sky-cloud-v1 approval (pending), or A6-only sky-seasons-v1 §2.1 phase ranges.
 
-## 3. Weather-moments migration — 5A
+## 3. Weather-moments migration to 5% MOR — 5A
 
 **Goal/files:** update consumers in `Sources/WorldEnvironment/Atmosphere.swift`, `EnvironmentResolver.swift`, `Sources/WorldEngine/Environment.swift` and relevant compiled look fields, not source packs. **Cite:** haze-visibility-v1 `definition.contrastThreshold`, `overrides[pack=weather-moments-v1].paths` and `.momentMigration`; weather-moments `moments[].before/after.fog.sigmaPerM` and `visibilityEquivalentM`.
 
