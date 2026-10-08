@@ -16,7 +16,7 @@ if [ -f "$OUT/world.json" ] && [ -z "$(find "$ROOT/Sources/WorldGen" "$ROOT/Sour
       "$ROOT/Sources/WorldPackage" "$ROOT/Data/areas/$AREA" "$DEMO" -newer "$OUT/world.json" -type f | head -1)" ]; then
   exit 0
 fi
-swift build -c release --package-path "$ROOT" --product worldbake 2>&1 | grep -E "error|warning: unre" || true
+swift build -c release --package-path "$ROOT" --product worldbake
 VERSION="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo dev)$(git -C "$ROOT" diff --quiet 2>/dev/null || echo '+changes')"
 "$ROOT/.build/release/worldbake" export "$ROOT/Data/areas/$AREA" "$OUT" --date "$GOLDEN" --focus "$FOCUS" \
   --state "golden=$GOLDEN" --state "noon=$NOON" --version "$VERSION"

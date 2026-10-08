@@ -13,10 +13,9 @@ DERIVED="$ROOT/.build/xcode"
 APP="$DERIVED/Build/Products/Debug-iphonesimulator/WorldLab.app"
 
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
-  "$ROOT/scripts/generate.sh" >/dev/null
-  xcodebuild -project "$ROOT/Apps/WorldLab/WorldLab.xcodeproj" -scheme WorldLab \
-    -destination "generic/platform=iOS Simulator" -derivedDataPath "$DERIVED" -quiet build 2>&1 | grep -v IDERunDestination || true
+  "$ROOT/scripts/build-native.sh" || exit $?
 fi
+python3 "$ROOT/scripts/native_preflight.py" --stage capture || exit $?
 
 # Several simulators can share a name; use the first matching one's UDID.
 UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/')

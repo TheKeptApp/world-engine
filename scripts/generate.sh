@@ -2,6 +2,7 @@
 # Builds the pinned XcodeGen (Tools/Package.swift) if needed, then generates WorldLab.xcodeproj.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+python3 "$ROOT/scripts/native_preflight.py" --stage inputs
 XCODEGEN="$ROOT/Tools/.build/release/xcodegen"
 if [ ! -x "$XCODEGEN" ]; then
   echo "Building pinned XcodeGen (first run only)…"
@@ -11,3 +12,5 @@ fi
 "$ROOT/scripts/export-package.sh"
 "$ROOT/scripts/build-web.sh"
 "$XCODEGEN" generate --spec "$ROOT/Apps/WorldLab/project.yml" --project "$ROOT/Apps/WorldLab"
+
+python3 "$ROOT/scripts/native_preflight.py" --stage build

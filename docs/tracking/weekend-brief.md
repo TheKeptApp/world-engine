@@ -29,6 +29,17 @@ Keep the frozen iOS contract in `docs/lookloop/a3-capture-contract.json`; new ar
 
 ## 0. Establish reliable tests, branches and HUD first
 
+### Fresh-worktree native prerequisites (A7)
+
+Run `scripts/heavy.sh "prepare native assets" scripts/generate.sh` from the worktree, then `scripts/heavy.sh "build native simulator" scripts/build-native.sh`. The scripts run `native_preflight.py` and stop with a one-line producer command for missing or invalid prerequisites. Do not run a saved Xcode project copied from a different checkout.
+
+`Apps/WorldLab/project.yml` references `Generated/package`, produced by `scripts/export-package.sh` (worldbake), and `web/dist`, produced by `scripts/build-web.sh` (pinned npm dependencies). Both are ignored, as are XcodeGen's project/Info.plist/entitlements and compiled app/shaders. Fresh worktrees contain none of these outputs. A3's exit 65 reproduced with missing **package and dist**; `optional: true` does not repair references already present in a generated project. The project specification and shipping resources are unchanged.
+
+The preflight checks each bundled area's terrain `binFile` against its recorded SHA-256, tracked SwiftPM resource sources (including shaders, profiles and star catalog), generated package payload hashes, web output, project metadata and, before capture, the built app and its Simulator `default.metallib`. Xcode compiles the tracked Metal source for Simulator; `scripts/postcard_mac_check.sh` separately produces the macOS test metallib. Terrain research intermediates are not native runtime prerequisites. Optional dog resources use the existing handoff/stand-in policy; regeneration determines whether they are included. No assets are borrowed from another checkout.
+
+Capture scripts now stop on build failure, including when an older app exists. `SKIP_BUILD=1` still requires the preflight to pass. For the single native smoke, use `ordinary-street-afternoon` with the exact arguments and common arguments in `docs/lookloop/a3-capture-contract.json`; keep captures local and ungraded. Do not run the heavy wrapper inside another heavy wrapper; producer commands printed by preflight are for a new invocation after the failed job releases its own lock.
+
+
 **Goal/files:** 5A first validates `5a-no-silent-skips` (`scripts/test.sh`, affected fixture/budget tests), then measures current iOS before visual edits. Run `scripts/heavy.sh "weekend full suite" scripts/test.sh`; no silent missing shaders/data. Today's R request: display **fps / tris / draws / mem on R's iPhone 14 Pro**. Existing `Apps/WorldLab/Sources/ContentView.swift` HUD, `Metrics.swift`, `Sources/WorldEngine/WorldDiagnostics.swift` are the starting point; label visible/main counts versus all-pass counts and memory units/coverage.
 
 **Cite/recipe/proof:** visual-v2 §8.1 budgets; web `budget.js`, `gpu-timer.js`, `laptop-report.py` and `LAPTOP-BUDGET.md` provide an allocation/pass ledger, not iPhone timings. Prove HUD values with an actual 14 Pro run, screenshot and warm-run log; record missing metrics honestly. Existing HUD text is implementation evidence, not device validation. **Do not touch:** app gameplay, target budgets, phone installations without R's approval, another lane's heavy lock. No new HUD styling project.
