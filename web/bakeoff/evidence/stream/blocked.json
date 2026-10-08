@@ -1,0 +1,79 @@
+{
+  "status": "blocked-existing-admin-browser-security-denial",
+  "recordedUTC": "2026-10-08T14:44:04.773226+00:00",
+  "authorization": "R authorized one-time read-only A4 streaming capture and a handoff log; no web/stream edits.",
+  "sourceCheckoutCommit": "0dcf2f8c18e2360dfc3dd7f02a0105a533fe1c5e",
+  "sourceDirectory": "web/stream/ (primary checkout, astra/a4-streaming-prototype)",
+  "sourceFileSha256": {
+    ".gitignore": "8729bd813eac4b9c2c30249727f5b26eb63a3af22ac83e19b5f4a29048613554",
+    "README.md": "997687de0baa6e4a924e0a51b000b119c327fcc50071e741178e8fe6b7edc797",
+    "REPORT.md": "850e8c9d944a0569d0df990f9d56354e871b3839a5a7aa0363dbc037af9c978a",
+    "build.mjs": "38823f928efe0fa662452291ec6f39333f90f41f32d0310805f81c177b271983",
+    "contract.md": "fb8172b0c0d5f380f1b98de6952e186fac31304fa8bf5b9fc1a56fc4a7ec8256",
+    "decode.mjs": "0f2258ff53f5911833851caebf5fae6635381d92490c829a13b144044d60c8f9",
+    "decode.test.mjs": "4c843b7b18a1b054efaa40024216838dcc1223fbce2d53b2e7adf0842d5d0918",
+    "index.html": "ceb33e4708cedf7893a8e1555b2681ebfb7f3e58b5875bc6cf2a062a9387d11e",
+    "measure-packer.mjs": "b6cfdcfb52b177d9dd9861f06ed5d52715a85737e4e780906c30aa883675cf24",
+    "measurements-sloans-lake.json": "59ab52e430110c1ed07ce1d9e628acbcdc7d8218d8cfaa6ed34657b14e30f006",
+    "overnight-progress.json": "a49a1e2b40d2b0d00324ba0d829768489ec8604875041d3e91e52dee76e972d5",
+    "policy.mjs": "b857d6a08341fce21cfe12055d46230ab22aa3c0e56e8bccbc16a9d5c76faee5",
+    "policy.test.mjs": "c9fe031b989156e81bc64c7f09e30b6e63e80989a23ce2e36e165f441e88adc3",
+    "residency.mjs": "c6adc4de13ebf95367462e558a801e6110445b15b4c5020becd237055295318a",
+    "serve.mjs": "43c902a6d2cf3ec4a20d8751b80d435c64cca3e3dba4aec554af994097a460e4",
+    "tile-packer.csv": "27868138fa56c989591ce8fa83684893d88608501abc7c5f283896fb5d3e3461",
+    "tile-packer.json": "247b3aa15f0910a0a868360e7a7b84e2c63768a84fd8c9515e710da6fba8b0e8",
+    "tile-packer.md": "cd9c891ab18dc2ae5e1f38e7420f5419484b7ff7366dc1bd18c573040305ea53",
+    "viewer.mjs": "6ddeb8e483487b721fa35ec7e5798382bdd1fa76cf3d4bfc717c490e95c645a6",
+    "worker.mjs": "5240e02d1c9ed6aac68856f21278ef3a1928fb5c9ec55a8fc62534294cbfa630"
+  },
+  "chip": {
+    "value": "Apple M1 Max",
+    "source": "A4 REPORT.md; previously reported, not newly measured"
+  },
+  "loadBefore": null,
+  "reason": "A4 REPORT.md and overnight-progress.json record localhost access denied because an administrator-enforced browser security policy could not be verified. Using another browser driver to bypass this denial was not attempted.",
+  "heavyJobStarted": false,
+  "heavyLockAcquired": false,
+  "localhostServerStarted": false,
+  "runs": [
+    {
+      "area": "sloans-lake",
+      "requestedSpeedMps": 60,
+      "requestedDurationSeconds": 60,
+      "status": "not run",
+      "fpsMedian": null,
+      "fpsP5": null,
+      "fpsP1": null,
+      "tileLoadMedianMs": null,
+      "tileLoadP95Ms": null,
+      "tilesWithoutCoverage": null,
+      "memory": null
+    },
+    {
+      "area": "sloans-lake",
+      "requestedSpeedMps": 600,
+      "requestedDurationSeconds": 60,
+      "status": "not run",
+      "fpsMedian": null,
+      "fpsP5": null,
+      "fpsP1": null,
+      "tileLoadMedianMs": null,
+      "tileLoadP95Ms": null,
+      "tilesWithoutCoverage": null,
+      "memory": null
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "requestedSpeedMps": null,
+      "requestedDurationSeconds": null,
+      "status": "not run",
+      "fpsMedian": null,
+      "fpsP5": null,
+      "fpsP1": null,
+      "tileLoadMedianMs": null,
+      "tileLoadP95Ms": null,
+      "tilesWithoutCoverage": null,
+      "memory": null
+    }
+  ]
+}

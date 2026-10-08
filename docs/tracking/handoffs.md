@@ -129,3 +129,7 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 | Date | From → to | Item | Status |
 |---|---|---|---|
 | 2026-10-08 | A3 → A1 / render lanes | [Ten-block variety panel](../lookloop/generalization-panel.md) | Docs-only proposal; fixed panel, failure-only smoke, unseen blind checks and reject-rule connection filed. GREEN source evidence is scoped; West Highland and expansion block readiness remain unconfirmed. No data downloads. A1 must clear/freeze missing inputs before running them. |
+
+## A2 → A4 one-time streaming capture — R, 8 Oct 2026
+
+R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed Chrome on localhost under the shared heavy lock at load <25, run Sloan at 60 and 600 m/s for 60 seconds each, then load Lakeview unchanged, and file evidence plus this handoff. A2 located the A4 source at `0dcf2f8` in the primary checkout and read its REPORT/README/server. **Blocked before execution:** REPORT.md and overnight-progress.json record an administrator-enforced browser-policy verification denial; A2 did not bypass it with another driver. No browser measurements, server or heavy job started; no stream files changed. [Evidence and missing measurements](../../web/bakeoff/evidence/stream/REPORT.md), [source hashes and null results](../../web/bakeoff/evidence/stream/blocked.json). Resume only after the administrator-policy check is restored for an authorized browser route; this filing does not validate or merge A4's viewer.
