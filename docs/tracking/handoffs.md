@@ -140,3 +140,10 @@ R explicitly authorized A2 to read A4's `web/stream/` without edits, use headed 
 |---|---|---|---|
 | 2026-10-08 | R / A3 → A2, P2 | facade-detail-v2 and v2b | Approved by R; [v2](../proposals/facade-detail-v2/STATUS.md), [v2b](../proposals/facade-detail-v2b/STATUS.md). Classified buildings only; far albedo identical to near, haze separate. Roughly 40% unclassified remains P2's general classification task in [weekend brief](weekend-brief.md). Filing is not integration. |
 | 2026-10-08 | R / A3 → architecture / legal review | User corrections, private projects and world access | [Architecture sections](../architecture.md) all PROPOSED; [lawyer agenda](../research/licensing.md#proposed-lawyer-review-agenda--r-8-oct-2026) added. No implementation, legal clearance or game-dynamics restart. |
+
+## West Highland camera and cohort — 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A1 / R → A3 / capture lanes | [West Highland hold-out](../lookloop/west-highland-holdout.md) | Proposed camera confirmed unchanged before scored comparison; frozen camera/shared fixture contract must be saved with capture. Separate data-poor cohort: 19.1% heights, 19.0% roofs. No capture/score claimed. |
+| 2026-10-08 | A1 → A3 | Sparse-density test | PENDING; ladder NOT PROMOTED. Supply test definition, coverage/count/source QA and unchanged-method evidence. |

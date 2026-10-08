@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "west-highland-aerial-north-01",
+  "status": "confirmed and frozen by A3 before scored comparison",
+  "decisionDate": "2026-10-08",
+  "proposalProvenance": "A1 camera authored before any capture or scoring, as reported by R",
+  "area": "west-highland",
+  "camera": {
+    "coordinateOrder": "latitude, longitude; WGS84; y is scene metres, not ground clearance or surveyed elevation",
+    "target": {
+      "latitude": 39.764,
+      "longitude": -105.04,
+      "sceneYMetres": 0
+    },
+    "eye": {
+      "latitude": 39.759946,
+      "longitude": -105.04,
+      "sceneYMetres": 350
+    },
+    "verticalFovDegrees": 47,
+    "viewportPixels": {
+      "width": 390,
+      "height": 780
+    },
+    "rollDegrees": 0,
+    "upAxis": "+Y",
+    "autoFrame": false
+  },
+  "fixture": {
+    "status": "Simulated calibration fixture, not live weather or observed phenology",
+    "windKmh": 10,
+    "windFromDegrees": 225,
+    "skyState": "clear",
+    "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+    "atmosphereSeason": "summer",
+    "timeOfDay": "day",
+    "summitsObscured": false,
+    "atmosphereLayers": [],
+    "date": "2026-10-08"
+  },
+  "resolvedAtmosphere": {
+    "region": "front-range",
+    "sourceKey": "haze-visibility-v1/regions[id=front-range].seasons.summer.clear",
+    "preset": {
+      "visibilityKm": 75,
+      "visibilityRangeKm": [
+        50,
+        100
+      ],
+      "extinctionPerM": 3.9943097e-05,
+      "extinctionRangePerM": [
+        2.9957323e-05,
+        5.9914645e-05
+      ]
+    },
+    "airlight": {
+      "stateDayHex": {
+        "clear": "#BDD0D9",
+        "hazy": "#C3CED4",
+        "humid": "#CCD2CD",
+        "smoke": "#B1AA9A",
+        "rain": "#A1ADB0",
+        "snow": "#B9C7D0"
+      },
+      "timeHex": {
+        "blueHour": "#8294AE",
+        "night": "#475568",
+        "goldenHour": "#C4C3B6"
+      },
+      "timeMix": {
+        "day": 0,
+        "blueHour": 1,
+        "night": 1,
+        "goldenHour": 0.35
+      },
+      "mix": "Decode day and time hex; mix in linear light using timeMix. Prefer physically lit directional sky/horizon radiance when supported. These are authored palette fallbacks, not spectral scattering data.",
+      "distanceTint": "Distance changes T only; no additional distance desaturation or second fog grade. At tau .1 mix9.52%, tau .5 mix39.35%, tau1 mix63.21%, tau3 mix95.02%. Silhouettes approach actual directional airlight, not saturated blue or white. Night lighting changes airlight, not sigma just because it is dark.",
+      "preserveCalibration": "Exposure, matte materials, saturation and warm direct sunlight remain calibration-v2. No local lamps added to global airlight."
+    },
+    "integration": {
+      "applyOnce": true,
+      "sharedWorldTerm": "Same view-ray optical depth for land, water, buildings, trees and terrain. Atmosphere-rendered sky/reflections must not receive duplicate atmospheric passes.",
+      "noNearClearBubble": true,
+      "localFog": "Preserve night-fog/marine-fog layer bounds, patch masks and densitites. Base sigma from this pack; add local sigma only for physically traversed local layer. If observation already represents that local layer, fit layer plus background to total rather than adding observation and layer twice.",
+      "layerColour": "Single final homogeneous mix only if airlight is common; otherwise integrate each segment front to back with its airlight. Optical-depth-weighted colour alone is not exact for layered media.",
+      "regionalSeasonRanges": "All ranges describe scenario authoring envelopes, not percentiles, observations or prevalence. Uniform event defaults are deliberate conditional fallbacks. Use local data for mountain-valley inversions, SF marine fog, wildfire layers, tropical wet/dry seasons and location variation."
+    },
+    "sun": {
+      "hex": "#FFE8C6",
+      "elevationDeg": 40,
+      "azimuthDeg": 225,
+      "directRelative": 1,
+      "fixtureOnly": true
+    }
+  },
+  "sourceHashes": {
+    "web/bakeoff/fixture.json": "d3b798da2ff746036579e9c0adbc851c6a5ad3c0f6d26954b9132ebc41cfb9fa",
+    "docs/proposals/haze-visibility-v1/values.json": "40513e022462f30db3347c8bb6cba437f1082e06d451a319511f60e86c6e678a",
+    "docs/proposals/style-b-calibration-v2/values.json": "8e60a40ac1aa4596e751f5d19925dc1cbf44795babb3fae3db08ca6d719fa503"
+  },
+  "captureStatus": "pending; no capture or score in this docs task",
+  "cohort": "data-poor; separate from typical-block hold-outs",
+  "coverageReportedByR": {
+    "westHighland": {
+      "heightsPercent": 19.1,
+      "roofFormsPercent": 19.0
+    },
+    "lakeviewHeightsPercent": 93.5,
+    "sloansHeightsPercent": 29.1
+  },
+  "sparseDensityTest": "pending",
+  "ladderPromoted": false
+}

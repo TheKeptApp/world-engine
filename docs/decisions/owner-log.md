@@ -139,3 +139,7 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 ## Addendum — 8 Oct 2026: facade extensions and proposals
 
 R approved facade-detail-v2 and facade-detail-v2b; file add-only. Far-LOD albedo identical to near, haze separate; classified buildings only, roughly 40% unclassified remains P2 work in weekend-brief.md. R requested proposed architecture sections for private/link/facts-only contributions and default-deny world access, plus the lawyer agenda covering data licences/credits, launch-country panorama, landmark marks, home privacy/opt-out, contribution terms, ADS-B, Somewhere and sensitive sites. All architecture policy additions remain proposed; game dynamics parked. Drop-folder originals unchanged; filed personal absolute paths normalized to portable references after the repository push check. No engine or legal-readiness claim.
+
+## Addendum — 8 Oct 2026: West Highland hold-out
+
+R requested confirmation/freeze of A1's pre-capture west-highland-aerial-north-01 proposal, shared atmosphere capture record, separate data-poor scoring (19.1% height / 19.0% roof coverage; Lakeview heights 93.5%, Sloan's 29.1%), and pending sparse-density test with no ladder promotion. A3 confirmed the exact proposed camera without adjustment; contract and tracker addenda filed. No render or new coverage measurement performed.

@@ -212,3 +212,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | web / 5c72bad | Sloan's 2 → 2; aspects 3/2/2/2/2/2 → same | Lakeview 2 → 2; aspects 3/2/2/2/2/3 → same | Pair FAIL 0/2; reject condition not triggered; flag no closeness gain. Foliage fixture changed; causal comparison limited. |
 
 [Evidence](web-5c72bad.md). Aspect order: sky/light/saturation/ground/foliage/materials. ΔE ignored.
+
+## West Highland — frozen, not yet scored (8 Oct 2026)
+
+| View | Cohort | Sloan's score | hold-out score | Status |
+|---|---|---|---|---|
+| west-highland-aerial-north-01 | Data-poor: 19.1% heights, 19.0% roof forms (R report) | No new comparison | Pending capture/scoring | [Camera/fixture frozen](west-highland-holdout.md); sparse-density test pending; ladder NOT PROMOTED. |

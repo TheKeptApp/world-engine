@@ -55,3 +55,7 @@ Main advanced to b012b71. Rebase stopped on a content conflict in docs/tracking/
 ## R-approved handoff resolution — 8 October
 
 Both 8 October handoff entries retained add-only in date order, as R expressly approved for handoffs.md. Rebase complete; 126 lidar tests (3 skipped), 16 terrain tests and 4 observed QA tests pass under the heavy lock, plus read-back audits of all three saved DEM packages and both overnight building areas. Integration ready; earlier conflict status above is historical. No fallback or West Highland rectangle approved or applied.
+
+## West Highland decision — R / A3, 8 Oct 2026
+
+West Highland camera `west-highland-aerial-north-01` confirmed unchanged and frozen (8 Oct): target (39.764, -105.04), scene y=0 m; eye (39.759946, -105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. Shared atmosphere contract must accompany capture. R reports 19.1% height / 19.0% roof-form coverage, versus Lakeview heights 93.5% and Sloan's 29.1%. Separate data-poor hold-out; score/capture pending. A1 sparse-density test pending; ladder NOT PROMOTED. Earlier camera-pending notes are historical; source/package delivery must still be evidenced. [Frozen contract and cohort note](../lookloop/west-highland-holdout.md).
