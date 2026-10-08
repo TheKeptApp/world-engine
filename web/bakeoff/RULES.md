@@ -13,3 +13,15 @@ Both camera fixtures and viewports are frozen from the previous commit. A camera
 `verify.sh` forces Sloan then Lakeview. `freeze.mjs` hashes renderer files, scene/fixture data, shared viewer sources, packs, calibration frames/boxes and both exported worlds before and after every capture. Any change aborts the run. `evidence/holdout-proof.json` records the ordered timestamps and identical digest. No Lakeview feedback is used to revise the frozen look in that run.
 
 The hold-out is not blind: Lakeview was seen in earlier work. This test establishes unchanged-code transfer, not statistical independence or a passing visual grade. Region-colour scores are against the calibration-v2 images and fixed boxes; the matched-camera existing viewer is a separate control. Missing sample coverage stays missing.
+
+## Sky, haze and crown revision
+
+Sky appearance targets are encoded through the inverse of the installed ACES/grade transfer, then rendered through the existing single post pass. This corrects a colour-domain error; exposure, saturation and the pack swatches are unchanged. `weather-moments-v1/inherited.sharedLighting.sky.gradient` defines 0°/30°/90° world-elevation anchors; calibration-v2 owns the corresponding horizon/mid/zenith swatches and 18% cloud coverage. One StableRandom-seeded cumulus panorama serves both cameras; no view-specific cloud placements exist.
+
+Crown topology follows `foliage-seasons-v1/species[].crown.description`, lobe-count tiers, sky-hole proposal and contact-darkening proposal. Opaque smooth lobes retain separate layered silhouettes and branch gaps. Geometry is fitted back to the original exported envelope, and the local StableRandom port uses the repository’s SplitMix64/FNV1a arithmetic.
+
+The haze coefficient remains exactly `lake-winter-v1/water.haze.fixtureExtinctionPerM = 0.0008`. At 20 km, T = exp(-16) = 1.125×10⁻⁷; at 50 km, T = exp(-40) = 4.248×10⁻¹⁸. This contradicts a clear, visible Front Range and the calibration mock. `mountain-terrain-v1` separately proposes clear extinction 0.00001/m, but this revision does not substitute it or tune the lake value. See `data/haze-conflict.json`; source-pack precedence must be resolved. Mountains are neither enlarged nor exempted from shared haze.
+
+`FACADE-AUDIT.md` records which façade capabilities already exist and which details are absent. It is a report only; no generator or exported geometry was modified.
+
+The sky revision also restores the existing R-approved `Tools/lookloop/mock-corrections.json` entry `look-v2-sky-from-frames`, explicitly required by calibration-v2/STATUS.md. Its sky stops are #7AAFE2 / #8FBAE7 / #A0C8F2, shared across all views. The previous literal pale JSON stops were an implementation error, not a reason to resample or tune either camera. The correction is copied verbatim into `data/sky-correction.json`, and both files are included in the hold-out hash. Cumulus uses a compact lobe field with azimuth-stratified deterministic seeds and coverage from the shared pack.

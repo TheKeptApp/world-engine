@@ -4,7 +4,7 @@
     "lakeview"
   ],
   "unchanged": true,
-  "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721",
+  "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca",
   "files": {
     "Generated/package/sloans-lake/LICENSE-DATA.md": "7529d7a2f84161b2df21cc23113220284834f9d4412a3854f34eb62f53461171",
     "Generated/package/sloans-lake/boundary.glb": "599604ca810d896981c03da7a7d8ef75b508fa8d767fd086f6168d7106e28951",
@@ -295,19 +295,23 @@
     "docs/proposals/style-b-calibration-v2/frames/06-sloans.png": "e17e3150b0cd36d66cc47ed8c342cf414437056ab1a930fa4cd34a704cec2a60",
     "docs/proposals/style-b-calibration-v2/values.json": "8e60a40ac1aa4596e751f5d19925dc1cbf44795babb3fae3db08ca6d719fa503",
     "docs/proposals/water-surfaces-v1/water-values.json": "a1d7a3f98ddf1ad660e14fbf9d840c53b94980080cd925d2b14dea8ad4b59923",
+    "docs/proposals/weather-moments-v1/values.json": "dfe0410393dd98aaef3ff2016da9d56fa818b31c9456f71eb24bf63e335e14cf",
     "../../../../private/tmp/worldengine-a2-bakeoff/Tools/lookloop/calibration-regions.json": "10bcba349c56aa126e346634f06bcdb5089a9ed9aa7240d3b3990ef921cbc936",
     "../../../../private/tmp/worldengine-a2-bakeoff/Tools/lookloop/conformance.py": "565f9f94fa084a2c5e140b8a61bc6534a5e5a5f8c97159d850c0697d1c2b4ac6",
+    "../../../../private/tmp/worldengine-a2-bakeoff/Tools/lookloop/mock-corrections.json": "8b3fc05c7e2e0744322ba3ca8b38172212a5f4872c3089b4fcd184c2539604dd",
     "../../../../private/tmp/worldengine-a2-bakeoff/Tools/lookloop/region_colours.py": "0262df5b80119c8c5bf4eaaace00b31240a2db6da6749fea14d595124ec5c856",
     "backdrop.js": "ce4d3d9f9ac3764311040a6eba45c6e537242784b53d0ca1fa4207331f676954",
     "capture-once.mjs": "63e9e1636f7fff72f562f44d96aa0e39a9b3dacf82f606d726c0cd9f92b40901",
     "capture.mjs": "8108e820d0646b1b47a382850869d0b4aa1dafdc9cd560bf4d0ee21a73e0138e",
     "data/front-range.json": "2148e29212ce2b1fb58fe262f8acbb8ec7ab49cfde2c48c13ba780c7ae880df3",
+    "data/haze-conflict.json": "782e86b126375bbec8ba599625af88c1cd79fdcbf0f3089182ab0237d4d5961f",
+    "data/sky-correction.json": "9a26fdcfda7bb40effc5fc81b3c6b4fdadad5d859b1aafce94212d268da0bc47",
     "data/terrain-source.json": "e9995d7a20910fbffeee473c4e8839dfbc1d87c2ab779c870d330d4797d34588",
     "export.sh": "a6c2ced4558572862522c2720ae7fa08ddebf6befa6f65a1cd7a23a07d556569",
     "fetch-terrain.py": "fb0ad809b409820dbf5001b258e60271dccd66272eecc0b9670c33ccdd83f2ce",
     "fixture.json": "dc0440548604769beb31ce01707902de47ce73ab0373ccc95dad02398318cf50",
-    "foliage.js": "3139821b319730ee575b7eb6fca14aa5d6ad255d102da5d9db38b310ac9a238f",
-    "freeze.mjs": "99dc6a77bbf82da0f1aa2c9e639a3ec944323caba01d8d70e5234a03855fb226",
+    "foliage.js": "7182d018c4ee95b8a0d37f16d126f8649aae296bb264c24acb696e83c1a6385b",
+    "freeze.mjs": "ad48bed7c454a6eed70ef374d7adf1da5c4cc4a174a66b74f18caa3f6cb320c2",
     "generated/lakeview-sheil-park/LICENSE-DATA.md": "dbec19e9f0a950b4e6e561d769e6cbf4d5434388219851691badbdac060f38c9",
     "generated/lakeview-sheil-park/boundary.glb": "599604ca810d896981c03da7a7d8ef75b508fa8d767fd086f6168d7106e28951",
     "generated/lakeview-sheil-park/chunks/0_0/lod0.glb": "51c4c6895d94dd2b0d7a31c1793ec2a30301930d47d7ade122b731cd1fc366f4",
@@ -486,16 +490,20 @@
     "generated/lakeview-sheil-park/world.json": "9509b434662cc6f8e6932b232134bfb8558d478eccedb2f45d9bb1f1e5dc1c5f",
     "index.html": "922b8088d02c89761a2d662e987475eaa585e96a1f7714fa1ca62dbecbb6a8aa",
     "lakeview.html": "2f5632056763214561328c82e737588053b3152cc4d09c7926cedb5be2e58d0e",
-    "main.js": "6af39d6bc64c16bd0d16fd0d942cd0c3373f6dcdd8954a22bb6fc37f8545e502",
-    "policy.js": "7130bc93133c393449c3b38d1a37dc3de898feb663103bb11db48077196a4b86",
-    "policy.test.mjs": "f1fdc375a97fa7a402728183b6c8b0a5048bc5e1a8fb4ee8951f8a94c64328c0",
+    "main.js": "81fb0ea9dd84fea6bdc8736458d8fcddc8db1e9ac979a5dd49833530f57cac6d",
+    "policy.js": "200c1a5efc1ea245c07323d1c772cd7b46b63db60e8e7e6baddf999ca92e0a67",
+    "policy.test.mjs": "a79d01319edc5c87ac219f863b1cd69818b7adbbb343e1db38dca53be62fb55e",
     "provenance.json": "46e178ed54a6b03df174858f3ec073f928cce852c5746e486e9149f472ffa7ed",
     "scenes.json": "e2b8de124ce8c0edba2561d0be5924b79fd38bb05c34e7c7ce26c4dd87717044",
     "score.py": "71258cc6db3b233f6ffee1aaa676b40ec59e3d6f8b920a935476f594851b3c3b",
     "serve.mjs": "c2f7731b972b9aa9840e72ac52d71e04d448ff42a534f5ce5341d8f5c5a8e9d1",
+    "sky-colour.js": "14267f882dff80fddc583f67e12901ca5cb23a1d2e88769c6458c0e6aaf66c8c",
+    "sky-colour.test.mjs": "57a34e54af856a62bccad0016c5dfd30d9d57ee8e7005281ebba2aba5c254d0c",
+    "sky.js": "c8a3df3951827d6e69d4d78deafbfcf16d2e782d7d57662702055a28a2375752",
     "sloans.html": "e301b7cd0a50a48f975e09a0ab071eb53f49bb372690ae1620809b50d55ef659",
+    "stable-random.js": "5d13187f6ac36ce79f52344ec55ee3e3d801f412ce7c5d2fddb5d76ef5ffe94b",
     "style.css": "eaafd39482b679d0fed215957149083ebfb3786f2ff470e98782dfcfcf6c6f6b",
-    "verify.sh": "85badd5d029feaaffd4abb86779cc3322f516da0154736fabf765734488a0816",
+    "verify.sh": "e2ff79c1498952e3684bf8c8a2a4c715bc787b9b8d0e3cb151d38f2cdd6a472d",
     "water.js": "bb63ebf1b1df48ba6174b6f759b4f4f7cce4ebfd4eeb4c9e8461636d74e556da",
     "../../../../private/tmp/worldengine-a2-bakeoff/web/src/camera.js": "5d170a027c718f0fddd9dc488c3fb5246155df0a2f170745f5eeb5610b398f74",
     "../../../../private/tmp/worldengine-a2-bakeoff/web/src/dog.js": "338d621127089f426dbd3d04f2335fc07d4be0083c270203afce575bb866c186",
@@ -511,43 +519,43 @@
   "events": [
     {
       "stage": "sloans/baseline/before",
-      "utc": "2026-10-08T05:12:59.892Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:02.763Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "sloans/baseline/after",
-      "utc": "2026-10-08T05:13:15.122Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:19.388Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "sloans/candidate/before",
-      "utc": "2026-10-08T05:13:15.388Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:19.722Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "sloans/candidate/after",
-      "utc": "2026-10-08T05:13:30.942Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:36.714Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "lakeview/baseline/before",
-      "utc": "2026-10-08T05:13:31.229Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:37.159Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "lakeview/baseline/after",
-      "utc": "2026-10-08T05:13:45.608Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:53.061Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "lakeview/candidate/before",
-      "utc": "2026-10-08T05:13:45.907Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:35:53.327Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     },
     {
       "stage": "lakeview/candidate/after",
-      "utc": "2026-10-08T05:14:00.214Z",
-      "sha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721"
+      "utc": "2026-10-08T05:36:08.939Z",
+      "sha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca"
     }
   ]
 }

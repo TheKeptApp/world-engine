@@ -6,6 +6,8 @@ import {Lighting} from '/src/lighting.js';
 import {createPost} from '/src/post.js';
 import {applySpecies} from './foliage.js';
 import {addFrontRange} from './backdrop.js';
+import {createSkyTexture} from './sky.js';
+import {appearanceToRadiance} from './sky-colour.js';
 import {resolvePolicy} from './policy.js';
 import {LocalFrame} from '/src/geo.js';
 const q=new URLSearchParams(location.search), id=document.body.dataset.scene;
@@ -17,8 +19,8 @@ window.addEventListener('unhandledrejection',e=>{document.body.dataset.error=e.r
 const now=uniform(0);
 const rgb=c=>vec3(c.r,c.g,c.b);
 async function main(){
- const [cal,lake,water,foliage,scenes,fixture]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json')]);
- const config=scenes[id],policy=resolvePolicy(cal,lake,fixture),look=policy.look,L=look.lighting;
+ const [cal,lake,water,foliage,scenes,fixture,weather,skyCorrection]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json'),get('/packs/weather-moments-v1/values.json'),get('data/sky-correction.json')]);
+ const config=scenes[id],policy=resolvePolicy(cal,lake,fixture,skyCorrection),look=policy.look,L=look.lighting;
  const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);world.setSeason(fixture.exportSeasonIndex);
  const scene=new T.Scene();scene.add(world.root);
  const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
@@ -29,17 +31,13 @@ async function main(){
  const fit=config.camera;
  camera.position.copy(at(...fit.eye));camera.lookAt(at(...fit.target));
  const baseline=q.has('baseline');
- const sky=L.sky;
+ const sky=policy.sky;
  const upper=new T.Color(sky.zenithHex),mid=new T.Color(sky.midHex),horizon=new T.Color(sky.horizonHex);
- const elev=positionWorldDirection.y.clamp(0,1);
- const skyBase=mix(rgb(horizon),mix(rgb(mid),rgb(upper),smoothstep(.15,.85,elev)),smoothstep(0,.22,elev)), d=positionWorldDirection;
- const skyState=world.environment.states.noon||world.environment.states[world.environment.defaultState];
- const skyTexture=await new T.TextureLoader().loadAsync(config.world+skyState.sky);skyTexture.colorSpace=T.SRGBColorSpace;
- const skySample=texture(skyTexture,equirectUV(positionWorldDirection)).rgb;
- // Reuse the package's procedural cloud shapes; calibration v2 owns their colours.
- const cloud=smoothstep(.32,.75,min(skySample.r,min(skySample.g,skySample.b))).mul(smoothstep(0,.08,elev));
- scene.backgroundNode=vec4(mix(skyBase,rgb(new T.Color(sky.cloudLitHex)),cloud),1);
- scene.fogNode=fog(rgb(horizon),float(1).sub(exp(length(cameraPosition.sub(positionWorld)).mul(-policy.hazeExtinctionPerM))));
+ const skyTexture=createSkyTexture(sky,L.exposure,weather.inherited.sharedLighting.sky);
+ scene.backgroundNode=vec4(texture(skyTexture,equirectUV(positionWorldDirection)).rgb,1);
+ const scatter=new T.Color().fromArray(appearanceToRadiance(horizon.toArray(),L.exposure));
+ // Extinction remains the pack value; the documented visibility conflict is not tuned away.
+ scene.fogNode=fog(rgb(scatter),float(1).sub(exp(length(cameraPosition.sub(positionWorld)).mul(-policy.hazeExtinctionPerM))));
  const sun=new T.DirectionalLight(L.sun.hex,policy.directIntensity);
  const az=T.MathUtils.degToRad(L.sun.azimuthDeg),el=T.MathUtils.degToRad(L.sun.elevationDeg);
  const sunDirection=new T.Vector3(Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el));

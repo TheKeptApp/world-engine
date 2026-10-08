@@ -1,11 +1,11 @@
 {
   "scene": "sloans",
   "backend": "WebGL2",
-  "drawCalls": 157,
-  "triangles": 1134793,
-  "fps": 99.98176562061428,
-  "sampleDurationMs": 9761.779999999999,
-  "p95FrameMs": 10.649999999999636,
+  "drawCalls": 160,
+  "triangles": 1442985,
+  "fps": 99.98186804237348,
+  "sampleDurationMs": 9761.769999999999,
+  "p95FrameMs": 10.899999999999636,
   "samples": 976,
   "viewport": [
     0.6666666666666666,
@@ -28,7 +28,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721",
+  "inputSha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca",
   "resolved": {
     "policy": {
       "look": {
@@ -162,9 +162,9 @@
       "directIntensity": 3.141592653589793,
       "ambientIntensity": 5.1257564348044,
       "sky": {
-        "zenithHex": "#73A5CC",
-        "midHex": "#A2C4DC",
-        "horizonHex": "#DBDCD1",
+        "zenithHex": "#7AAFE2",
+        "midHex": "#8FBAE7",
+        "horizonHex": "#A0C8F2",
         "fillHex": "#AEBCCA",
         "cloudLitHex": "#F0F2EF",
         "cloudShadeHex": "#CAD6DE",
@@ -193,88 +193,328 @@
       "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit."
     },
     "species": {
-      "conifer/0/-1,-1": "picea_pungens",
-      "conifer/0/-1,-2": "picea_pungens",
-      "conifer/0/-1,0": "picea_pungens",
-      "conifer/0/-1,1": "picea_pungens",
-      "conifer/0/-2,-1": "picea_pungens",
-      "conifer/0/-2,-2": "picea_pungens",
-      "conifer/0/-2,0": "picea_pungens",
-      "conifer/0/-2,1": "picea_pungens",
-      "conifer/0/0,-1": "picea_pungens",
-      "conifer/0/0,-2": "picea_pungens",
-      "conifer/0/0,0": "picea_pungens",
-      "conifer/0/0,1": "picea_pungens",
-      "conifer/0/1,-1": "picea_pungens",
-      "conifer/0/1,-2": "picea_pungens",
-      "conifer/0/1,0": "picea_pungens",
-      "conifer/0/1,1": "picea_pungens",
-      "treePyramidal/0/-1,-1": "ulmus_americana",
-      "treePyramidal/0/-1,-2": "ulmus_americana",
-      "treePyramidal/0/-1,0": "ulmus_americana",
-      "treePyramidal/0/-1,1": "ulmus_americana",
-      "treePyramidal/0/-2,-1": "ulmus_americana",
-      "treePyramidal/0/-2,-2": "ulmus_americana",
-      "treePyramidal/0/-2,0": "ulmus_americana",
-      "treePyramidal/0/-2,1": "ulmus_americana",
-      "treePyramidal/0/0,-1": "ulmus_americana",
-      "treePyramidal/0/0,-2": "ulmus_americana",
-      "treePyramidal/0/0,0": "ulmus_americana",
-      "treePyramidal/0/0,1": "ulmus_americana",
-      "treePyramidal/0/1,-1": "ulmus_americana",
-      "treePyramidal/0/1,-2": "ulmus_americana",
-      "treePyramidal/0/1,0": "ulmus_americana",
-      "treePyramidal/0/1,1": "ulmus_americana",
-      "treeRounded/0/-1,-1": "ulmus_americana",
-      "treeRounded/0/-1,-2": "ulmus_americana",
-      "treeRounded/0/-1,0": "ulmus_americana",
-      "treeRounded/0/-1,1": "ulmus_americana",
-      "treeRounded/0/-2,-1": "ulmus_americana",
-      "treeRounded/0/-2,-2": "ulmus_americana",
-      "treeRounded/0/-2,0": "ulmus_americana",
-      "treeRounded/0/-2,1": "ulmus_americana",
-      "treeRounded/0/0,-1": "ulmus_americana",
-      "treeRounded/0/0,-2": "ulmus_americana",
-      "treeRounded/0/0,0": "ulmus_americana",
-      "treeRounded/0/0,1": "ulmus_americana",
-      "treeRounded/0/1,-1": "ulmus_americana",
-      "treeRounded/0/1,-2": "ulmus_americana",
-      "treeRounded/0/1,0": "ulmus_americana",
-      "treeRounded/0/1,1": "ulmus_americana",
-      "treeUpright/0/-1,-1": "ulmus_americana",
-      "treeUpright/0/-1,-2": "ulmus_americana",
-      "treeUpright/0/-1,0": "ulmus_americana",
-      "treeUpright/0/-1,1": "ulmus_americana",
-      "treeUpright/0/-2,-1": "ulmus_americana",
-      "treeUpright/0/-2,-2": "ulmus_americana",
-      "treeUpright/0/-2,0": "ulmus_americana",
-      "treeUpright/0/-2,1": "ulmus_americana",
-      "treeUpright/0/0,-1": "ulmus_americana",
-      "treeUpright/0/0,-2": "ulmus_americana",
-      "treeUpright/0/0,0": "ulmus_americana",
-      "treeUpright/0/0,1": "ulmus_americana",
-      "treeUpright/0/1,-1": "ulmus_americana",
-      "treeUpright/0/1,-2": "ulmus_americana",
-      "treeUpright/0/1,0": "ulmus_americana",
-      "treeUpright/0/1,1": "ulmus_americana",
-      "treeVase/0/-1,-1": "ulmus_americana",
-      "treeVase/0/-1,-2": "ulmus_americana",
-      "treeVase/0/-1,0": "ulmus_americana",
-      "treeVase/0/-1,1": "ulmus_americana",
-      "treeVase/0/-2,-1": "ulmus_americana",
-      "treeVase/0/-2,-2": "ulmus_americana",
-      "treeVase/0/-2,0": "ulmus_americana",
-      "treeVase/0/-2,1": "ulmus_americana",
-      "treeVase/0/0,-1": "ulmus_americana",
-      "treeVase/0/0,-2": "ulmus_americana",
-      "treeVase/0/0,0": "ulmus_americana",
-      "treeVase/0/0,1": "ulmus_americana",
-      "treeVase/0/1,-1": "ulmus_americana",
-      "treeVase/0/1,-2": "ulmus_americana",
-      "treeVase/0/1,0": "ulmus_americana",
-      "treeVase/0/1,1": "ulmus_americana"
+      "conifer/0/-1,-1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-1,-2": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-1,0": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-1,1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-2,-1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-2,-2": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-2,0": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/-2,1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/0,-1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/0,-2": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/0,0": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/0,1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/1,-1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/1,-2": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/1,0": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "conifer/0/1,1": {
+        "species": "picea_pungens",
+        "silhouette": "conical"
+      },
+      "treePyramidal/0/-1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-2,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-2,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-2,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/-2,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/0,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/0,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/0,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/0,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treePyramidal/0/1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-2,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-2,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-2,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/-2,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/0,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/0,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/0,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/0,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeRounded/0/1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-2,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-2,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-2,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/-2,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/0,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/0,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/0,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/0,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeUpright/0/1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-2,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-2,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-2,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/-2,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/0,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/0,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/0,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/0,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/1,-1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/1,-2": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/1,0": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      },
+      "treeVase/0/1,1": {
+        "species": "ulmus_americana",
+        "silhouette": "vase"
+      }
     }
   },
-  "capturedUTC": "2026-10-08T05:13:31.006Z",
+  "capturedUTC": "2026-10-08T05:35:36.785Z",
   "errors": []
 }

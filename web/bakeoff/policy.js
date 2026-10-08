@@ -1,6 +1,6 @@
 // General pack resolver: deliberately accepts no camera, scene ID or image score.
 // Renderer unit conversion is analytic, not fitted to either evaluation frame.
-export function resolvePolicy(cal,lake,fixture){
+export function resolvePolicy(cal,lake,fixture,correction){
  const look=cal.sharedLook,L=look.lighting;
  const shadowRatio=L.shadow.neutralWitnessShadowToLitLinearY;
  if(!(shadowRatio>0&&shadowRatio<1))throw Error('Invalid neutral witness ratio');
@@ -9,7 +9,8 @@ export function resolvePolicy(cal,lake,fixture){
   // Lambert BRDF divides incident radiance by pi. A/(A+D)=the pack witness ratio.
   directIntensity:Math.PI*L.sun.directRelative,
   ambientIntensity:Math.PI*L.sun.directRelative*shadowRatio/(1-shadowRatio),
-  sky:L.sky,
+  // Calibration-v2 STATUS.md: approved shared correction, never sampled from this run.
+  sky:{...L.sky,...Object.fromEntries(Object.entries(correction.set).map(([k,v])=>[k.split('.').at(-1),v]))},
   // lake-winter-v1/water.haze: one weather term, applied to every scene and terrain.
   hazeExtinctionPerM:lake.water.haze.fixtureExtinctionPerM,
   season:fixture.phenophase,
