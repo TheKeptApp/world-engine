@@ -30,3 +30,5 @@ Proposed ID `west-highland-aerial-north-01`: target the area centre (39.764, −
 ## Delivered local artifact
 
 `Generated/west-highland-web-2026-10-08/world/world.json` and `Generated/west-highland-web-2026-10-08.zip` now exist in the A1 worktree. ZIP: 90,374,679 bytes; SHA256 `8dedc53b98d8914425cc5290a3bfe69754c42a37023192a9d3b94fc04d1482c0`. All bundle payload hashes, JSON reads, observed-sidecar equality and ZIP CRC verified. Outputs are local, git-ignored artifacts, not hosted. The checked-in elevation/qa.json is PASS_WITH_GAPS as described above.
+
+Coverage denominators above belong to the observed-sidecar footprint reader, not the generated mesh population. No crosswalk between those populations is delivered here; do not transfer those percentages to rendered buildings. A8’s earlier absent-artifact finding was correct at the time; the explicit local paths and verified hashes above establish the later delivery. Independent height-reference rights remain unresolved (A9); no new reference source was loaded.

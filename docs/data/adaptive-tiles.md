@@ -28,3 +28,14 @@ Triangles are assigned whole, never clipped, simplified, moved or regenerated. T
 The exact original input packages are A4's Sloan 48-tile export in the primary checkout's Generated/package/sloans-lake and Lakeview 25-tile export in web/stream/generated/lakeview-sheil-park. A4 source files are read-only. Outputs are in the A1 worktree's Generated/adaptive/{sloans-lake,lakeview-sheil-park}; no existing package is overwritten and no A4 file is edited.
 
 `Tools/regionkit/qa/adaptive_package.py` independently decodes every GLB, validates every manifest digest, checks scene feature ranges and child bounds, and compares per-parent/per-LOD multisets of triangle material, origin and all vertex bytes. It checks both byte limits and verifies non-chunk files are unchanged. Repeat packing is checked byte-for-byte. Results are saved in Data/quality/adaptive-tile-packing.json after completion. Focused Swift tests cover deterministic splits, exact channels/triangles, coincident centroids, explicit empty LODs and impossible budgets. No look or water artifact fix is claimed.
+
+### Exporter-reported before/after (independent full audit queued)
+
+| Area | LOD | Tiles before → after | Files above 2 MiB before → after | Largest GLB after | Worst two decoded tiles before → after |
+|---|---:|---:|---:|---:|---:|
+| Sloan's Lake | 0 | 48 → 76 | 10 → 0 | 1,913,204 B | 10,399,800 → 3,756,466 B |
+| Sloan's Lake | 1 | 48 → 76 | 0 → 0 | 1,080,580 B | 2,512,230 → 2,109,800 B |
+| Lakeview | 0 | 25 → 114 | 25 → 0 | 2,094,388 B | 17,332,572 → 4,176,512 B |
+| Lakeview | 1 | 25 → 114 | 0 → 0 | 398,956 B | 2,595,662 → 766,250 B |
+
+Exporter triangle totals are unchanged: Sloan 451,997 / 133,249 (LOD0/1); Lakeview 1,370,373 / 164,560. These are package totals, not simultaneous visible triangles or a whole-view performance pass. New upload-part primitive arrays cannot exceed their bounded whole GLB files. All three focused packer tests pass. The independent full-data triangle/channel/feature audit and repeat packing are queued behind A4's newly started human long-flight server (10:22:46); do not claim them passed yet. No A4 file was changed. Rebase separately stopped on an add-only conflict in docs/tracking/a1-data.md, outside R's existing handoffs.md exception; rebase was safely aborted pending R's approval to retain all entries.
