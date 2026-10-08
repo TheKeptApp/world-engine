@@ -942,3 +942,10 @@ Status evidence: ~/Desktop/world-engine/docs/design-registry.md; ~/Desktop/world
 - Filed source: [README](../haze-visibility-v1/README.md), [values](../haze-visibility-v1/values.json), [STATUS](../haze-visibility-v1/STATUS.md).
 - Scope: 5% MOR, not 2%; named haze fields override lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Mountains require contrast ≥0.05 and projected height ≥2 px with valid sightlines; no geography compensation.
 - Owners/phase: A2 consumes now for map/look gate; 5A migrates weather-moments on restart. Filing is not engine integration.
+
+## A3 addendum — 8 Oct 2026: facade and pending concepts
+
+- [facade-detail-v1](../facade-detail-v1/STATUS.md): **APPROVED by R (8 Oct 2026)**. Facade families, bays, trim, porch and window junctions. Far: massing/colour bands; mid: bays/trim; near: geometry. Calibration-v2 owns simplification. Owners/prospective consumers: A2 and P2. Phase: Map/look gate now.
+- [sky-cloud-v1](../sky-cloud-v1/STATUS.md): **concept pending approval**. World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. Owners/prospective consumers: 5A; A2 web reference review only. Phase: Pending R approval; no implementation authorization.
+- [street-ground-v1](../street-ground-v1/STATUS.md): **concept pending approval**. Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. Owners/prospective consumers: P2; 5A for surface response; A2 web reference review only. Phase: Pending R approval; no implementation authorization.
+- [crown-silhouettes-v2](../crown-silhouettes-v2/STATUS.md): **concept pending approval**. Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. Owners/prospective consumers: P2; 5A for colour; A2 web reference review only. Phase: Pending R approval; no implementation authorization.

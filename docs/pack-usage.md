@@ -120,3 +120,12 @@ Already in the owner's checkout (gitignored, left in place):
 | Pack | Status | Owner lane | Phase | Usage / precedence |
 |---|---|---|---|---|
 | [haze-visibility-v1](proposals/haze-visibility-v1/STATUS.md) | Approved by R (8 Oct 2026) | A2 now; 5A on restart | Map/look gate now; 5A weather-moments migration on restart | 5% MOR, not 2%; field-level haze overrides for lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Mountain retained contrast ≥0.05 AND projected height ≥2 px; preserve real DEM sightlines and local fog. Integration pending lane evidence. |
+
+## Facade and concept filing — 8 Oct 2026
+
+| Pack | Status | Owner / prospective consumer lane | Phase | Scope |
+|---|---|---|---|---|
+| [facade-detail-v1](proposals/facade-detail-v1/STATUS.md) | APPROVED by R (8 Oct 2026) | A2 and P2 | Map/look gate now | Facade families, bays, trim, porch and window junctions. Far: massing/colour bands; mid: bays/trim; near: geometry. Calibration-v2 owns simplification. |
+| [sky-cloud-v1](proposals/sky-cloud-v1/STATUS.md) | concept pending approval | 5A; A2 web reference review only | Pending R approval; no implementation authorization | World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. |
+| [street-ground-v1](proposals/street-ground-v1/STATUS.md) | concept pending approval | P2; 5A for surface response; A2 web reference review only | Pending R approval; no implementation authorization | Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. |
+| [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | concept pending approval | P2; 5A for colour; A2 web reference review only | Pending R approval; no implementation authorization | Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. |

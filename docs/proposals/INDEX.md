@@ -166,3 +166,14 @@ Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of
 | Shared regional visibility/background haze; 5% MOR, not 2%; mountains contrast ≥0.05 and projected height ≥2 px | haze-visibility-v1 | None delivered | [values.json](haze-visibility-v1/values.json) | **Approved by R (8 Oct 2026)**; [STATUS](haze-visibility-v1/STATUS.md) |
 
 `haze-visibility-v1` overrides only the haze fields identified in `values.json/overrides` in lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1. Recompute weather-moments visibility equivalents with 5% MOR. Other content and local fog remain as scoped in STATUS; earlier pack files are retained. A2 consumes now; 5A migrates weather-moments on restart.
+
+## A3 filing — R, 8 Oct 2026: facade and pending concepts
+
+| Feature / pack | Status record | Images | Values | Status |
+|---|---|---|---|---|
+| facade-detail-v1 | [facade-detail-v1](facade-detail-v1/STATUS.md) | `~/Desktop/world-engine/docs/proposals/facade-detail-v1/` (local-only images/panels) | [facade-detail-v1/values.json](facade-detail-v1/values.json) | **APPROVED by R (8 Oct 2026)** |
+| sky-cloud-v1 | [sky-cloud-v1](sky-cloud-v1/STATUS.md) | `~/Desktop/world-engine/docs/proposals/sky-cloud-v1/` (local-only images/panels) | [sky-cloud-v1/values.json](sky-cloud-v1/values.json) | **concept pending approval** |
+| street-ground-v1 | [street-ground-v1](street-ground-v1/STATUS.md) | `~/Desktop/world-engine/docs/proposals/street-ground-v1/` (local-only images/panels) | [street-ground-v1/values.json](street-ground-v1/values.json) | **concept pending approval** |
+| crown-silhouettes-v2 | [crown-silhouettes-v2](crown-silhouettes-v2/STATUS.md) | `~/Desktop/world-engine/docs/proposals/crown-silhouettes-v2/` (local-only images/panels) | [crown-silhouettes-v2/values.json](crown-silhouettes-v2/values.json) | **concept pending approval** |
+
+Facade tiers: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. A2 and P2 consume facade-detail-v1. The other three packs are filed concepts awaiting R, not approved targets.

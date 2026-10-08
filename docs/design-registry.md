@@ -168,3 +168,14 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 ## A3 filing — 8 Oct 2026: haze-visibility-v1
 
 **Approved by R (8 Oct 2026)**: [haze-visibility-v1](proposals/haze-visibility-v1/STATUS.md), README and values JSON filed unchanged. A2 consumes now; 5A migrates weather-moments on restart. Field-level background haze precedence over lake-winter-v1, weather-moments-v1, mountain-terrain-v1 and night-fog-v1; 5% MOR, not 2%. Mountain retention requires contrast ≥0.05 and projected height ≥2 px. Integration pending lane evidence; regional fallbacks remain unverified.
+
+## A3 filing — 8 Oct 2026: facade and pending concepts
+
+| Pack | Status | Owner / prospective consumer lane | Phase | Scope |
+|---|---|---|---|---|
+| [facade-detail-v1](proposals/facade-detail-v1/STATUS.md) | APPROVED by R (8 Oct 2026) | A2 and P2 | Map/look gate now | Facade families, bays, trim, porch and window junctions. Far: massing/colour bands; mid: bays/trim; near: geometry. Calibration-v2 owns simplification. |
+| [sky-cloud-v1](proposals/sky-cloud-v1/STATUS.md) | concept pending approval | 5A; A2 web reference review only | Pending R approval; no implementation authorization | World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. |
+| [street-ground-v1](proposals/street-ground-v1/STATUS.md) | concept pending approval | P2; 5A for surface response; A2 web reference review only | Pending R approval; no implementation authorization | Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. |
+| [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | concept pending approval | P2; 5A for colour; A2 web reference review only | Pending R approval; no implementation authorization | Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. |
+
+Prospective ownership for pending concepts is routing only; it is not approval. Source files are retained unchanged, including historical pending labels; facade-detail-v1 STATUS records R’s controlling approval.

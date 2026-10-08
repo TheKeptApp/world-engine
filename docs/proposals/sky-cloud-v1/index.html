@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>sky-cloud-v1</title><style>*{box-sizing:border-box}body{margin:0;background:#eef0ec;color:#24373f;font:16px/1.5 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:16px}header{margin-bottom:20px}h1{font-size:28px;overflow-wrap:anywhere}h2{font-size:20px}h3{font-size:17px}a{color:#355d76}nav{display:flex;gap:18px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}article{background:#fff;padding:12px;border-radius:12px;min-width:0}article img{display:block;width:100%;height:auto}.crop{position:relative;overflow:hidden;background:#fff}.crop img{position:absolute;max-width:none}.swatches{display:flex;gap:8px;flex-wrap:wrap}.swatch{background:#fff;padding:8px;font-size:12px}.swatch i{display:block;width:80px;height:38px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}@media(max-width:600px){.grid{grid-template-columns:1fr}main{padding:10px}h1{font-size:24px}article{padding:8px}}</style><main><header><p>WORLDENGINE · SLOAN’S LAKE / LAKEVIEW</p><h1>sky-cloud-v1</h1><p>Style B · 7 October 2026 · concept pending approval</p><nav><a href="README.md">README</a><a href="values.json">Values JSON</a><a href="sources.md">Sources</a><a href="prompts.json">Prompts</a></nav><p>Shared calibration lighting. Images show intended structure and atmosphere; values are authored targets. Individual panels below preserve phone-size readability.</p></header><section class="grid"><article><h2>Sloan&#x27;s Lake · visibility</h2><a href="images/01-sloans-visibility.png"><img src="images/01-sloans-visibility.png" alt="Sloan&#x27;s Lake · visibility"></a></article><article class="panel"><h3>Clear study</h3><div class="crop" style="aspect-ratio:647.3333333333334/809.0"><img style="width:300%;height:100%;left:0%;top:0%" src="images/01-sloans-visibility.png" alt="Clear study"></div></article><article class="panel"><h3>Moderate haze study</h3><div class="crop" style="aspect-ratio:647.3333333333334/809.0"><img style="width:300%;height:100%;left:-100%;top:0%" src="images/01-sloans-visibility.png" alt="Moderate haze study"></div></article><article class="panel"><h3>Low visibility study</h3><div class="crop" style="aspect-ratio:647.3333333333334/809.0"><img style="width:300%;height:100%;left:-200%;top:0%" src="images/01-sloans-visibility.png" alt="Low visibility study"></div></article><article><h2>Lakeview · clear-day sky</h2><a href="images/02-lakeview-gradient.png"><img src="images/02-lakeview-gradient.png" alt="Lakeview · clear-day sky"></a></article><article><h2>Cumulus construction</h2><a href="images/03-cloud-shapes.png"><img src="images/03-cloud-shapes.png" alt="Cumulus construction"></a></article><article class="panel"><h3>Low cumulus</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:0%;top:0%" src="images/03-cloud-shapes.png" alt="Low cumulus"></div></article><article class="panel"><h3>Taller cumulus</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:-100%;top:0%" src="images/03-cloud-shapes.png" alt="Taller cumulus"></div></article><article class="panel"><h3>Split cloud</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:0%;top:-100%" src="images/03-cloud-shapes.png" alt="Split cloud"></div></article><article class="panel"><h3>Distant cloud</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:-100%;top:-100%" src="images/03-cloud-shapes.png" alt="Distant cloud"></div></article><article class="panel"><h3>Sparse bank</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:0%;top:-200%" src="images/03-cloud-shapes.png" alt="Sparse bank"></div></article><article class="panel"><h3>Side and underside</h3><div class="crop" style="aspect-ratio:512.0/512.0"><img style="width:200%;height:300%;left:-100%;top:-200%" src="images/03-cloud-shapes.png" alt="Side and underside"></div></article></section><h2>Exact data swatches</h2><div class="swatches"><div class="swatch"><i style="background:#73A5CC"></i><span>hex #73A5CC</span></div><div class="swatch"><i style="background:#A2C4DC"></i><span>hex #A2C4DC</span></div><div class="swatch"><i style="background:#DBDCD1"></i><span>hex #DBDCD1</span></div><div class="swatch"><i style="background:#F0F2EF"></i><span>lit #F0F2EF</span></div><div class="swatch"><i style="background:#CAD6DE"></i><span>shade #CAD6DE</span></div></div><h2>Construction values</h2><pre>{
+  &quot;gradient&quot;: {
+    &quot;space&quot;: &quot;linear RGB interpolation by world elevation angle&quot;,
+    &quot;stops&quot;: [
+      {
+        &quot;elevationDeg&quot;: 90,
+        &quot;hex&quot;: &quot;#73A5CC&quot;
+      },
+      {
+        &quot;elevationDeg&quot;: 30,
+        &quot;hex&quot;: &quot;#A2C4DC&quot;
+      },
+      {
+        &quot;elevationDeg&quot;: 0,
+        &quot;hex&quot;: &quot;#DBDCD1&quot;
+      }
+    ],
+    &quot;screenSpaceGradient&quot;: false
+  },
+  &quot;clouds&quot;: {
+    &quot;coverageFraction&quot;: [
+      0.12,
+      0.18
+    ],
+    &quot;primaryLobes&quot;: [
+      3,
+      7
+    ],
+    &quot;shape&quot;: &quot;unequal rounded lobes, flattened soft base, asymmetric gaps&quot;,
+    &quot;lit&quot;: &quot;#F0F2EF&quot;,
+    &quot;shade&quot;: &quot;#CAD6DE&quot;,
+    &quot;baseHeightAGLM&quot;: [
+      1500,
+      3000
+    ],
+    &quot;heightStatus&quot;: &quot;authored clear-day fixture, not current observation&quot;,
+    &quot;detailFade&quot;: &quot;Merge secondary lobes below 2 drawable pixels; retain outline, lower base and soft shading.&quot;
+  },
+  &quot;hazeFixtures&quot;: [
+    {
+      &quot;id&quot;: &quot;clear&quot;,
+      &quot;distanceM&quot;: [
+        300,
+        1000,
+        10000,
+        30000,
+        60000
+      ],
+      &quot;horizonMix&quot;: [
+        0.01,
+        0.03,
+        0.12,
+        0.3,
+        0.55
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;moderate&quot;,
+      &quot;distanceM&quot;: [
+        300,
+        1000,
+        10000,
+        30000,
+        60000
+      ],
+      &quot;horizonMix&quot;: [
+        0.02,
+        0.06,
+        0.35,
+        0.7,
+        0.94
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;poor&quot;,
+      &quot;distanceM&quot;: [
+        300,
+        1000,
+        10000,
+        30000,
+        60000
+      ],
+      &quot;horizonMix&quot;: [
+        0.04,
+        0.12,
+        0.8,
+        0.98,
+        1
+      ]
+    }
+  ],
+  &quot;hazeStatus&quot;: &quot;Illustrative art interpolation, not a physical visibility model&quot;,
+  &quot;frontRange&quot;: {
+    &quot;terrainOwner&quot;: &quot;mountain-terrain-v1&quot;,
+    &quot;terrainHorizonProfile&quot;: null,
+    &quot;geographicVerification&quot;: &quot;unverified&quot;,
+    &quot;direction&quot;: &quot;west through southwest when camera and occlusion permit&quot;,
+    &quot;rule&quot;: &quot;Use actual terrain projection and depth haze; never enlarge peaks to fill the sky. Retain crisp nearby path/buildings.&quot;,
+    &quot;dataInputs&quot;: [
+      &quot;terrain DEM and camera position/heading&quot;,
+      &quot;METAR visibility and haze/smoke codes&quot;,
+      &quot;weather humidity/cloud observations&quot;,
+      &quot;smoke layers where available&quot;
+    ],
+    &quot;metarCaution&quot;: &quot;10SM is a censored lower bound of 10 statute miles, not proof of a 60 km clear mountain view. Airport readings do not establish citywide sight distance.&quot;,
+    &quot;feedImplemented&quot;: false
+  }
+}</pre></main></html>

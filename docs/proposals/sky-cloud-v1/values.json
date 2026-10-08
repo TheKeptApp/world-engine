@@ -1,0 +1,268 @@
+{
+  "date": "2026-10-07",
+  "status": "concept_pending_approval",
+  "units": "metres unless named otherwise",
+  "style": "style-b",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "valuesStatus": "Authored design targets, not sampled image pixels or measured engineering dimensions",
+  "exclusions": [
+    "signs",
+    "logos",
+    "murals",
+    "dogs",
+    "characters",
+    "host-app content"
+  ],
+  "precedence": [
+    "style-b-calibration-v2",
+    "house-contrast-v1",
+    "house-archetypes-v1",
+    "foliage-seasons-v1",
+    "infrastructure-kit-v1"
+  ],
+  "lod": {
+    "metric": "drawable projected object height in pixels",
+    "nearMinPx": 20,
+    "middleMinPx": 6,
+    "farBelowPx": 6,
+    "featureCullBelowPx": 1,
+    "hysteresisFraction": 0.1,
+    "rule": "Keep silhouette and actual dimensions; do not enlarge thin features for legibility."
+  },
+  "schema": "worldengine.sky-cloud-v1",
+  "content": {
+    "gradient": {
+      "space": "linear RGB interpolation by world elevation angle",
+      "stops": [
+        {
+          "elevationDeg": 90,
+          "hex": "#73A5CC"
+        },
+        {
+          "elevationDeg": 30,
+          "hex": "#A2C4DC"
+        },
+        {
+          "elevationDeg": 0,
+          "hex": "#DBDCD1"
+        }
+      ],
+      "screenSpaceGradient": false
+    },
+    "clouds": {
+      "coverageFraction": [
+        0.12,
+        0.18
+      ],
+      "primaryLobes": [
+        3,
+        7
+      ],
+      "shape": "unequal rounded lobes, flattened soft base, asymmetric gaps",
+      "lit": "#F0F2EF",
+      "shade": "#CAD6DE",
+      "baseHeightAGLM": [
+        1500,
+        3000
+      ],
+      "heightStatus": "authored clear-day fixture, not current observation",
+      "detailFade": "Merge secondary lobes below 2 drawable pixels; retain outline, lower base and soft shading."
+    },
+    "hazeFixtures": [
+      {
+        "id": "clear",
+        "distanceM": [
+          300,
+          1000,
+          10000,
+          30000,
+          60000
+        ],
+        "horizonMix": [
+          0.01,
+          0.03,
+          0.12,
+          0.3,
+          0.55
+        ]
+      },
+      {
+        "id": "moderate",
+        "distanceM": [
+          300,
+          1000,
+          10000,
+          30000,
+          60000
+        ],
+        "horizonMix": [
+          0.02,
+          0.06,
+          0.35,
+          0.7,
+          0.94
+        ]
+      },
+      {
+        "id": "poor",
+        "distanceM": [
+          300,
+          1000,
+          10000,
+          30000,
+          60000
+        ],
+        "horizonMix": [
+          0.04,
+          0.12,
+          0.8,
+          0.98,
+          1
+        ]
+      }
+    ],
+    "hazeStatus": "Illustrative art interpolation, not a physical visibility model",
+    "frontRange": {
+      "terrainOwner": "mountain-terrain-v1",
+      "terrainHorizonProfile": null,
+      "geographicVerification": "unverified",
+      "direction": "west through southwest when camera and occlusion permit",
+      "rule": "Use actual terrain projection and depth haze; never enlarge peaks to fill the sky. Retain crisp nearby path/buildings.",
+      "dataInputs": [
+        "terrain DEM and camera position/heading",
+        "METAR visibility and haze/smoke codes",
+        "weather humidity/cloud observations",
+        "smoke layers where available"
+      ],
+      "metarCaution": "10SM is a censored lower bound of 10 statute miles, not proof of a 60 km clear mountain view. Airport readings do not establish citywide sight distance.",
+      "feedImplemented": false
+    }
+  }
+}

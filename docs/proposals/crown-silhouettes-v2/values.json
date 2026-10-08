@@ -1,0 +1,491 @@
+{
+  "date": "2026-10-07",
+  "status": "concept_pending_approval",
+  "units": "metres unless named otherwise",
+  "style": "style-b",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "valuesStatus": "Authored design targets, not sampled image pixels or measured engineering dimensions",
+  "exclusions": [
+    "signs",
+    "logos",
+    "murals",
+    "dogs",
+    "characters",
+    "host-app content"
+  ],
+  "precedence": [
+    "style-b-calibration-v2",
+    "house-contrast-v1",
+    "house-archetypes-v1",
+    "foliage-seasons-v1",
+    "infrastructure-kit-v1"
+  ],
+  "lod": {
+    "metric": "drawable projected object height in pixels",
+    "nearMinPx": 20,
+    "middleMinPx": 6,
+    "farBelowPx": 6,
+    "featureCullBelowPx": 1,
+    "hysteresisFraction": 0.1,
+    "rule": "Keep silhouette and actual dimensions; do not enlarge thin features for legibility."
+  },
+  "schema": "worldengine.crown-silhouettes-v2",
+  "content": {
+    "selectionStatus": "Eight design species per city; not a verified statistical top-eight ranking",
+    "rankingSource": "No current species-level citywide abundance ranking established in reviewed packs; Denver 2024 official metadata covers tree groups rather than exact species.",
+    "speciesByCity": {
+      "denver": [
+        {
+          "name": "American elm",
+          "rank": null,
+          "shape": "Open vase; upward limbs, high spreading top, open lower centre",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Littleleaf linden",
+          "rank": null,
+          "shape": "Heart/oval crown; low broad skirt, gently tapered top",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Norway maple",
+          "rank": null,
+          "shape": "Dense broad round crown with unequal shoulder lobes",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Eastern cottonwood",
+          "rank": null,
+          "shape": "Tall irregular rounded crown, coarse separated branch fans",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Blue spruce",
+          "rank": null,
+          "shape": "Soft tiered cone, hanging lower skirt, narrow apex",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Quaking aspen",
+          "rank": null,
+          "shape": "Slender oval crown, fine airy upper lobes, pale trunk",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Park/yard regional reference; not a default street-tree abundance claim."
+        },
+        {
+          "name": "Honeylocust",
+          "rank": null,
+          "shape": "Airy spreading crown, fine separated clusters, visible branch gaps",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Bur oak",
+          "rank": null,
+          "shape": "Heavy wide rounded crown, coarse irregular low limbs",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        }
+      ],
+      "chicago": [
+        {
+          "name": "Honeylocust",
+          "rank": null,
+          "shape": "Airy spreading crown, fine separated clusters, visible branch gaps",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Norway maple",
+          "rank": null,
+          "shape": "Dense broad round crown with unequal shoulder lobes",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Silver maple",
+          "rank": null,
+          "shape": "Large loose vase/round crown, irregular drooping outer fans",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Green ash",
+          "rank": null,
+          "shape": "Upright oval with light branch gaps; extant mapped specimens only",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Extant mapped reference only; emerald ash borer makes historical prevalence unsuitable for automatic spawn shares."
+        },
+        {
+          "name": "Littleleaf linden",
+          "rank": null,
+          "shape": "Heart/oval crown; low broad skirt, gently tapered top",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "American elm",
+          "rank": null,
+          "shape": "Open vase; upward limbs, high spreading top, open lower centre",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Sugar maple",
+          "rank": null,
+          "shape": "Rounded oval crown, denser upper layers and softened shoulders",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        },
+        {
+          "name": "Bur oak",
+          "rank": null,
+          "shape": "Heavy wide rounded crown, coarse irregular low limbs",
+          "layers": [
+            3,
+            5
+          ],
+          "primaryLobeRadiusM": [
+            0.8,
+            2.5
+          ],
+          "secondaryLeafClusterM": [
+            0.15,
+            0.45
+          ],
+          "cautions": "Cultivar, age and pruning affect crown form."
+        }
+      ]
+    },
+    "shading": {
+      "body": "#6F8758",
+      "lit": "#879466",
+      "interior": "#49664C",
+      "bark": "#716659",
+      "rule": "Three coherent green bands; open branch-connected layers; no yellow outline, black cavities or repeated balloons."
+    },
+    "construction": {
+      "nearPrimaryLobes": [
+        16,
+        32
+      ],
+      "middlePrimaryLobes": [
+        6,
+        12
+      ],
+      "farPrimaryLobes": [
+        3,
+        5
+      ],
+      "branchConnected": true,
+      "leafClusterIsIndividualLeaf": false,
+      "silhouetteSeedStable": true,
+      "transition": "Cull secondary clusters under 2 pixels; preserve mature envelope and branch rhythm. Optional 0.25 s crossfade only within measured budget.",
+      "conifers": "Tiered softened needle layers, not stacked hard cones."
+    },
+    "implementation": "Layered lobes define structural envelope. Retain owner preference for grouped leaf cards where phone profiling permits; opaque lobe fallback remains available. This does not approve a new renderer or claim measured performance.",
+    "seasonOwner": "foliage-seasons-v1",
+    "denverAutumnCompositionFixture": {
+      "mapleOrangePlusOakRussetFraction": 0.3,
+      "status": "owner visual composition fixture, not inventory abundance",
+      "rule": "Per-tree phase and restrained hue/brightness variation; retain later green linden/honeylocust."
+    }
+  }
+}

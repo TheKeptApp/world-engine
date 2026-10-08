@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Facade approval and concept filing (R, 8 Oct 2026):** facade-detail-v1 APPROVED; sky-cloud-v1, street-ground-v1 and crown-silhouettes-v2 FILED with status “concept pending approval”. A2 and P2 consume facade-detail-v1: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. Applied add-only in pack STATUS files, INDEX, pack usage, registry, research index and handoffs. No engine integration claimed.
+
 - **haze-visibility-v1 approved (R, 8 Oct 2026):** file add-only; overrides named haze fields in lake-winter-v1, weather-moments-v1 (5% MOR, not 2%), mountain-terrain-v1 and night-fog-v1. Mountain retention: contrast ≥0.05 and projected height ≥2 px, with valid sightlines. A2 consumes now; 5A migrates weather-moments on restart. Applied in pack STATUS, INDEX, pack usage, registry, research index, roadmap and handoffs; no engine integration claimed.
 
 - **A3 web scoring and map-only order (R):** establish a separate §M baseline for A2's current build using the same frozen web views; after each A2 merge record Sloan's and Lakeview before/after and apply the hold-out rejection rule. West Highland and Greenville remain pending capture-ready delivery. File A2 RULES.md for 5A/P2 restart. Current order: Sloan's gate, hold-outs, Builder, jobs game. Applied in docs/lookloop/web-baseline.md, scoreboard, docs/tracking/A2-RULES.md, handoffs and tracking/roadmap.md; shared scoring protocol mirrored in AGENTS.md and CLAUDE.md.
