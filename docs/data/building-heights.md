@@ -29,3 +29,13 @@ Run the same command with each configured area ID:
 Missing values remain null, and uncalibrated grades remain D in every area. OSM buildings added since the survey can therefore remain missing without being imputed.
 
 The common byte cap was raised from 200 MB to 600 MB after Lakeview required 275,805,345 bytes at full density. This changes the resource budget only; no decimation or area-specific cap is allowed. The 8 GB free-disk guard still applies.
+
+## Hold-out results
+
+| Area | Accepted / OSM footprints | Coverage | Null heights | Grades |
+|---|---:|---:|---:|---|
+| sloans-lake | 407 / 1399 | 29.1% | 992 | All D, uncalibrated |
+| lakeview-sheil-park | 2618 / 2799 | 93.5% | 181 | All D, uncalibrated |
+| greenville-downtown | 437 / 681 | 64.2% | 244 | All D, uncalibrated |
+
+These are coverage results within available OSM footprints, not completeness against a building census and not measured accuracy. Lakeview uses vendor class-6 returns; Sloan and Greenville use the same conservative class-1 planar fallback. No area-specific thresholds or per-building edits were applied.
