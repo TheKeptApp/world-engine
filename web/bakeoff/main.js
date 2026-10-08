@@ -1,3 +1,4 @@
+import {installShadowCasters} from './shadow-casters.js';
 import {frameTimer} from './gpu-timer.js';
 import {installCostLedger,phoneBudget} from './budget.js';
 import * as T from 'three/webgpu';
@@ -94,14 +95,23 @@ async function main(){
   const meshes=[];world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water)meshes.push(o);});
   world.root.updateMatrixWorld(true);const field=shorelineField(meshes);field.texture.name='water shore distance';
   const shore=texture(field.texture,wp.xz.sub(vec2(...field.min)).div(vec2(...field.span))).r;
-  const body=mix(rgb(new T.Color(profile.shallowColourHex)),rgb(new T.Color(state.surfaceValues[0].baseColourHex)),smoothstep(0,profile.shallowBlendWidthM,shore));
   const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,waterNormal))).pow(lake.water.reflection.grazingExponent);
   const reflection=mix(float(lake.water.reflection.normalStrength),float(lake.water.reflection.grazingStrength),grazing).min(mix(water.reflectionLimits.nearBlendCap,water.reflectionLimits.farBlendCap,smoothstep(50,180,length(cameraPosition.sub(wp)))));
-  waterMaterial.colorNode=body.mul(mix(lake.water.shoreline.linearBaseMultiplier,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
+  // Interpret the authored lake palette at the same neutral lighting witness as
+  // calibration. Invert the shared grade once, then compensate its known RGB
+  // irradiance; lighting/shadows/specular and the single airlight mix remain active.
+  const lakeRadiance=mix(rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(profile.shallowColourHex).toArray(),L.exposure))),rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(state.surfaceValues[0].baseColourHex).toArray(),L.exposure))),smoothstep(0,profile.shallowBlendWidthM,shore));
+  const irradiance=new T.Color(L.sun.hex).multiplyScalar(policy.directIntensity*Math.sin(el)).add(new T.Color(sky.fillHex).multiplyScalar(policy.ambientIntensity)).multiplyScalar(1/Math.PI);
+  waterMaterial.colorNode=lakeRadiance.div(rgb(irradiance)).mul(mix(lake.water.shoreline.linearBaseMultiplier,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
   // Already-atmospheric sky reflection bypasses the world fog mix. output.rgb
   // is the once-fogged lit water from NodeMaterial.setupOutput, before the one grade.
   const reflectedRadiance=mix(texture(skyTexture,equirectUV(reflect(view.negate(),waterNormal))).rgb,rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(policy.reflectedSky.reflectionColourHex).toArray(),L.exposure))),policy.wind.roughness);
-  waterMaterial.outputNode=vec4(mix(output.rgb,reflectedRadiance,reflection),1);
+  // Lake palette owns chroma; sky supplies broken reflection luminance. This
+  // general pigment-preserving reflection prevents blue sky from bleaching lakes.
+  const luminance=vec3(.2126,.7152,.0722); // Rec.709, same as the shared post grade.
+  const reflectedMean=rgb(new T.Color().fromArray(appearanceToRadiance(new T.Color(policy.reflectedSky.reflectionColourHex).toArray(),L.exposure)));
+  const reflectedLake=lakeRadiance.mul(dot(reflectedRadiance,luminance).div(dot(reflectedMean,luminance)));
+  waterMaterial.outputNode=vec4(mix(output.rgb,reflectedLake,reflection),1);
   waterMaterial.roughness=policy.wind.roughness;waterMaterial.metalness=0;
   world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water){o.material=waterMaterial;}});
  }
@@ -120,8 +130,9 @@ async function main(){
  const resize=()=>{const c=renderer.domElement;renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/c.clientHeight;camera.updateProjectionMatrix();mountains?.updateProjection(c.clientHeight);facades?.update(camera,c.clientHeight);};new ResizeObserver(resize).observe(renderer.domElement);resize();
  document.querySelector('#mock').href=`/packs/style-b-calibration-v2/frames/${config.mock}.png`;
  world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
+ const shadowCasters=baseline?null:installShadowCasters(scene,world,sun,camera);
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
- window.bakeoff={world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
+ window.bakeoff={shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
  renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

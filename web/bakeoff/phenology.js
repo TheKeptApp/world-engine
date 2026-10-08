@@ -1,9 +1,9 @@
 // Port of Sources/WorldEnvironment/Phenology.swift calendar priors. User requested
 // date-derived season; this explicitly inferred replay is NOT observed phenology.
 const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
-export function phenology(date,region,data){
+export function phenology(date,region,data,shiftDays=0){
  const d=new Date(date+'T12:00:00Z');if(!Number.isFinite(+d))throw Error('Invalid replay date');
- const doy=Math.floor((d-Date.UTC(d.getUTCFullYear(),0,1))/86400000)+1;
+ const doy=Math.floor((d-Date.UTC(d.getUTCFullYear(),0,1))/86400000)+1-shiftDays;
  const p=data.phenology[region];if(!p)throw Error('No regional phenology prior');
  const [start,full,mature,colour,peak,drop,end]=p;
  const g=smooth(start,full,doy),m=smooth(full,mature,doy),c=smooth(colour,peak,doy),fall=smooth(drop,end,doy);

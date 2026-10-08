@@ -47,3 +47,7 @@ Sources, pack keys, inferred inputs and limitations: [overnight sources](OVERNIG
 Actual all-pass laptop/tier cost: [laptop budget](LAPTOP-BUDGET.md).
 Run `TIERS=hero,standard,floor bash scripts/heavy.sh 'A2 verification' bash web/bakeoff/verify.sh` from the repository root; the script resolves ignored assets from the primary checkout and enforces the 8 GB guard. After capture, `python3 web/bakeoff/laptop-report.py` regenerates the cost report.
 The branch merge keeps this work isolated; neither production web files nor P2/5A sources are modified. This experiment has not passed the iOS parity/look gate.
+
+## Current round: shadow budget and crown/water colour
+
+See [SHADOW-COLOUR-REPORT.md](SHADOW-COLOUR-REPORT.md) for shared caster rules, individual phenology, lake-palette conversion, export family coverage and sources. The current round uses **A3 visual grading**, not ΔE; A3 review is pending. Run `VISUAL_ONLY=1 TIERS=hero,standard,floor` with the existing heavy-lock verification command to generate current evidence. The earlier ΔE summaries remain historical. Latest costs are in [LAPTOP-BUDGET.md](LAPTOP-BUDGET.md) and `evidence/phone-budget.json`; before/after and render/mock PNGs are in `evidence/shadow-colour/`.

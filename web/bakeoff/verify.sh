@@ -14,6 +14,6 @@ node "$HERE/overnight.test.mjs"
 node "$HERE/atmosphere.test.mjs"
 node "$HERE/sky-colour.test.mjs"
 SCENES=sloans,lakeview node "$HERE/capture.mjs"
-python3 "$HERE/score.py"
+if [ "${VISUAL_ONLY:-}" = "1" ]; then python3 "$HERE/visual-evidence.py"; else python3 "$HERE/score.py"; fi
 git diff --check
 if [ "${TIERS:-}" = "hero,standard,floor" ]; then python3 "$HERE/phone-report.py"; fi

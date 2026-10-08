@@ -21,16 +21,12 @@
         "triangles": 1984
       },
       "shadow/opaque world": {
-        "draws": 41,
-        "triangles": 179172
+        "draws": 8,
+        "triangles": 2566
       },
       "shadow/foliage": {
-        "draws": 28,
-        "triangles": 64434
-      },
-      "shadow/facade details": {
-        "draws": 1,
-        "triangles": 1548
+        "draws": 9,
+        "triangles": 2442
       },
       "main/opaque world": {
         "draws": 48,
@@ -154,19 +150,19 @@
   "backend": "WebGL2",
   "gpuTimer": {
     "available": true,
-    "samples": 975,
-    "meanMs": 2.0089764574358986,
-    "p95Ms": 3.004874,
-    "maxMs": 4.505,
+    "samples": 976,
+    "meanMs": 1.7044059877049205,
+    "p95Ms": 1.875875,
+    "maxMs": 2.584333,
     "disjointEvents": 0,
     "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
   },
-  "drawCalls": 170,
-  "triangles": 592332,
-  "fps": 99.99107771921888,
-  "sampleDurationMs": 9750.87,
-  "p95FrameMs": 11.414999999999054,
-  "samples": 975,
+  "drawCalls": 117,
+  "triangles": 352186,
+  "fps": 99.99180395049586,
+  "sampleDurationMs": 9760.8,
+  "p95FrameMs": 10.944999999999709,
+  "samples": 976,
   "viewport": [
     0.6666666666666666,
     390,
@@ -188,8 +184,17 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
+  "inputSha256": "a5da6a4a2904692f038c329a6a0c3b24da46a6962770037aa591f1b5eef9495e",
   "resolved": {
+    "shadows": {
+      "source": "Sources/WorldGen/Profiles/look.json/shadows.rangeM; R floor shadow triangles=150000",
+      "limit": 150000,
+      "maxRadiusM": 120,
+      "treeLOD": 2,
+      "radiusM": 120,
+      "potentialTriangles": 5052,
+      "draws": 18
+    },
     "policy": {
       "look": {
         "lighting": {
@@ -1113,6 +1118,6 @@
       "projectedHeightRule": 2
     }
   },
-  "capturedUTC": "2026-10-08T07:02:33.336Z",
+  "capturedUTC": "2026-10-08T14:02:46.453Z",
   "errors": []
 }

@@ -1,7 +1,7 @@
 {
   "scene": "sloans",
-  "tier": "floor",
-  "deviceClass": "12–13",
+  "tier": "standard",
+  "deviceClass": "14–15",
   "cost": {
     "budget": {
       "mainTriangles": 400000,
@@ -21,12 +21,16 @@
         "triangles": 1984
       },
       "shadow/opaque world": {
-        "draws": 8,
-        "triangles": 2566
+        "draws": 41,
+        "triangles": 179172
       },
       "shadow/foliage": {
-        "draws": 9,
-        "triangles": 2442
+        "draws": 28,
+        "triangles": 64434
+      },
+      "shadow/facade details": {
+        "draws": 1,
+        "triangles": 1548
       },
       "main/opaque world": {
         "draws": 48,
@@ -150,18 +154,18 @@
   "backend": "WebGL2",
   "gpuTimer": {
     "available": true,
-    "samples": 976,
-    "meanMs": 1.6623446895491825,
-    "p95Ms": 1.731499,
-    "maxMs": 2.239958,
+    "samples": 975,
+    "meanMs": 2.0795815558974358,
+    "p95Ms": 3.224999,
+    "maxMs": 4.638499,
     "disjointEvents": 0,
     "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
   },
-  "drawCalls": 117,
-  "triangles": 352186,
-  "fps": 99.98197046434248,
-  "sampleDurationMs": 9761.76,
-  "p95FrameMs": 10.709999999999127,
+  "drawCalls": 170,
+  "triangles": 592332,
+  "fps": 99.8793976740176,
+  "sampleDurationMs": 9771.785,
+  "p95FrameMs": 11.359999999999673,
   "samples": 976,
   "viewport": [
     0.6666666666666666,
@@ -184,17 +188,8 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "a5da6a4a2904692f038c329a6a0c3b24da46a6962770037aa591f1b5eef9495e",
+  "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
   "resolved": {
-    "shadows": {
-      "source": "Sources/WorldGen/Profiles/look.json/shadows.rangeM; R floor shadow triangles=150000",
-      "limit": 150000,
-      "maxRadiusM": 120,
-      "treeLOD": 2,
-      "radiusM": 120,
-      "potentialTriangles": 5052,
-      "draws": 18
-    },
     "policy": {
       "look": {
         "lighting": {
@@ -1118,6 +1113,6 @@
       "projectedHeightRule": 2
     }
   },
-  "capturedUTC": "2026-10-08T14:03:20.809Z",
+  "capturedUTC": "2026-10-08T07:02:50.039Z",
   "errors": []
 }

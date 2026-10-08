@@ -1,9 +1,12 @@
 import * as T from 'three/webgpu';
 import {mergeGeometries,mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
+import {attribute,mix} from 'three/tsl';
+import {phenology} from './phenology.js';
+import {stableRandom} from './stable-random.js';
 import {speciesFor} from './species-policy.js';
 // All shape numbers are P2 fcda086/Props.swift, compiled in data/p2-crowns.json.
 const v=a=>new T.Vector3(...a);
-function colour(g,c){g.setAttribute('color',new T.BufferAttribute(new Float32Array(g.attributes.position.count*3).fill(0),3));for(let i=0;i<g.attributes.position.count;i++)g.attributes.color.setXYZ(i,c.r,c.g,c.b);return g;}
+function colour(g,c,leaf=false){g.setAttribute('leafMask',new T.BufferAttribute(new Float32Array(g.attributes.position.count).fill(leaf?1:0),1));g.setAttribute('color',new T.BufferAttribute(new Float32Array(g.attributes.position.count*3).fill(0),3));for(let i=0;i<g.attributes.position.count;i++)g.attributes.color.setXYZ(i,c.r,c.g,c.b);return g;}
 function limb(a,b,r,c,sides){const delta=b.clone().sub(a),g=new T.CylinderGeometry(r*.45,r,delta.length(),sides,1,true);g.applyQuaternion(new T.Quaternion().setFromUnitVectors(v([0,1,0]),delta.normalize()));g.translate(...a.clone().add(b).multiplyScalar(.5).toArray());return colour(g,c);}
 function cubeSphere(){const g=new T.BoxGeometry(2,2,2,2,2,2),p=g.attributes.position,n=g.attributes.normal;for(let i=0;i<p.count;i++){const u=v([p.getX(i),p.getY(i),p.getZ(i)]).normalize();p.setXYZ(i,...u.toArray());n.setXYZ(i,...u.toArray());}return g;}
 function seasonal(species,state){const keys=['bud_leafout','summer','peak_colour','bare_or_evergreen'];if(species.evergreen)return new T.Color(species.seasonColours.summer);const c=new T.Color(0,0,0);keys.forEach((k,i)=>c.add(new T.Color(species.seasonColours[k]).multiplyScalar(state.weights[i])));return c;}
@@ -13,7 +16,7 @@ function build(species,lod,state,data){
  if(!s){ // P2 conifer tiers; evergreens retain their summer crown in every season.
   if(lod<3)parts.push(limb(v([0,0,0]),v([0,.22,0]),.018,bark,lod===0?6:3));
   const tiers=lod>=2?[[.14,1,.24]]:lod===1?[[.14,.58,.26],[.38,.8,.2],[.6,1,.13]]:Array.from({length:7},(_,i)=>{const t=i/6;return [.12+.62*t,i===6?1:.38+.56*t,.27-.2*t];});
-  for(const [a,b,r]of tiers){const g=new T.ConeGeometry(r,b-a,lod===0?10:lod===1?7:5,1,true);g.translate(0,(a+b)/2,0);parts.push(colour(g,leaf));}
+  for(const [a,b,r]of tiers){const g=new T.ConeGeometry(r,b-a,lod===0?10:lod===1?7:5,1,true);g.translate(0,(a+b)/2,0);parts.push(colour(g,leaf,true));}
  }else{
   const radius=s.trunkRadius,top=s.trunkTop;
   parts.push(limb(v([0,0,0]),v([0,top+.08,0]),radius,bark,lod===0?7:lod===1?5:3));
@@ -31,7 +34,7 @@ function build(species,lod,state,data){
      }
     }
     for(let i=0;i<p.count;i++){const normal=v([n.getX(i),n.getY(i),n.getZ(i)]).normalize(),cn=v([p.getX(i),p.getY(i),p.getZ(i)]).sub(c).divide(rr).normalize();normal.addScaledVector(cn,Math.max(0,normal.dot(cn))).normalize();n.setXYZ(i,...normal.toArray());}
-    parts.push(colour(g,leaf));
+    parts.push(colour(g,leaf,true));
    }
   }
   // P2 Foliage.widthScale: pack midpoint spread/height over the silhouette width.
@@ -43,7 +46,7 @@ function build(species,lod,state,data){
  const pieces=parts.map(g=>{g.deleteAttribute('uv');return g.index?g.toNonIndexed():g;}),merged=mergeGeometries(pieces),out=mergeVertices(merged);new Set([...pieces,...parts,merged]).forEach(g=>g.dispose());out.computeBoundingBox();out.computeBoundingSphere();return out;
 }
 export function applySpecies(world,pack,roughness,region,state,data){
- const assignments={},material=new T.MeshStandardNodeMaterial({vertexColors:true,roughness});material.shadowSide=T.BackSide;
+ const assignments={},material=new T.MeshStandardNodeMaterial({vertexColors:true,roughness});material.shadowSide=T.BackSide;material.vertexColors=false;material.colorNode=mix(attribute('color','vec3'),attribute('leafTint','vec3'),attribute('leafMask','float'));
  const groups=[],cache=new Map();
  for(const group of world.lodGroups){if(!group.isTree){groups.push(group);continue;}const split=new Map();
   for(const inst of group.instances){const species=speciesFor(inst,group.kind,pack,region,data);if(!split.has(species.id))split.set(species.id,{species,list:[]});split.get(species.id).list.push(inst);}
@@ -52,12 +55,27 @@ export function applySpecies(world,pack,roughness,region,state,data){
    const key=group.key+'/'+species.id,kind=(species.crownKind||data.foliageSeasons.species[species.id].kind);
    assignments[key]={species:species.id,silhouette:kind,source:list.every(i=>i.species)?'export species + provenance':'P2 inferred city/form fallback',count:list.length};
    const capacity=list.length<=256?Math.max(1,list.length):Math.max(1001,list.length);
-   const levels=group.levels.map((_,lod)=>{const gkey=species.id+'/'+lod;let g=cache.get(gkey);if(!g){g=build(species,lod,state,data);cache.set(gkey,g);}const geo=g.clone();geo.setAttribute('instOrigin',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));const m=new T.InstancedMesh(geo,material,capacity);m.count=0;m.castShadow=m.receiveShadow=true;m.userData.costCategory='foliage';world.root.add(m);return m;});
+   const levels=group.levels.map((_,lod)=>{const gkey=species.id+'/'+lod;let g=cache.get(gkey);if(!g){g=build(species,lod,state,data);cache.set(gkey,g);}const geo=g.clone();geo.setAttribute('leafTint',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));geo.setAttribute('instOrigin',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));const m=new T.InstancedMesh(geo,material,capacity);m.count=0;m.castShadow=m.receiveShadow=true;m.userData.costCategory='foliage';world.root.add(m);return m;});
    // P2 exports already applied widthScale to stretch; undo that duplication for tagged species.
    const s=data.shapes[kind],d=species.dimensionsM;let widthScale=1;if(s){const widths=[0,2].map(axis=>Math.max(...s.lobes.map(([c,r])=>c[axis]+r))-Math.min(...s.lobes.map(([c,r])=>c[axis]-r)));widthScale=Math.max(.6,Math.min(1.2,(d.spread[0]+d.spread[1])/(d.height[0]+d.height[1])/((widths[0]+widths[1])/2)));}
    const instances=list.map(i=>i.species?{...i,stretch:(i.stretch||[1,1]).map(x=>x/widthScale)}:i);
-   groups.push({...group,key,instances,levels,triangles:levels.map(m=>m.geometry.index.count/3),counts:levels.map(()=>0)});
+   groups.push({...group,key,species,instances,levels,triangles:levels.map(m=>m.geometry.index.count/3),counts:levels.map(()=>0)});
   }
  }
- world.lodGroups=groups;return assignments;
+ world.lodGroups=groups;
+ // Same rebucketing as the shared loader; colours follow identities across LODs.
+ const update=world.updateLODs.bind(world);world.updateLODs=position=>{update(position);
+  for(const g of groups.filter(g=>g.isTree)){const counts=g.levels.map(()=>0);
+   for(const inst of g.instances){const d=Math.hypot(Math.fround(inst.position[0])-position.x,Math.fround(inst.position[2])-position.z);let lod=0;while(lod<g.levels.length-1&&lod<world.runtime.lodDistances.length&&d>=world.runtime.lodDistances[lod])lod++;
+    const rng=stableRandom(inst.id+'/phenology-timing-v1'),shift=(2*rng()-1)*7;
+    const individual=phenology(state.date,region,data,shift);
+    // P2/5A vegetation regional autumn colours survive applyingFoliageSummer.
+    const family=Object.values(data.vegetation).find(f=>f.packSpecies===g.species.id);
+    const sp=family&&!g.species.evergreen?{...g.species,seasonColours:{...g.species.seasonColours,peak_colour:family.colours[2]}}:g.species;
+    const slot=Object.values(data.vegetationRegions[region].slots).find(id=>data.vegetation[id.split('@')[0]]?.packSpecies===g.species.id);
+    const lag=Number(slot?.split('@')[1]||0);if(lag){const retained=individual.weights[2]*lag;individual.weights[2]-=retained;individual.weights[1]+=retained;}
+    const c=seasonal(sp,individual);g.levels[lod].geometry.attributes.leafTint.setXYZ(counts[lod]++,c.r,c.g,c.b);
+   }g.levels.forEach(m=>m.geometry.attributes.leafTint.needsUpdate=true);
+  }
+ };return assignments;
 }

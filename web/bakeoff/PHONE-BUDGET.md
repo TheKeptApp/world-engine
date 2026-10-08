@@ -1,3 +1,5 @@
+> Historical phone-budget round. Current shadow/colour counts and all-pass floor results: [LAPTOP-BUDGET.md](LAPTOP-BUDGET.md), `evidence/phone-budget.json`, [SHADOW-COLOUR-REPORT.md](SHADOW-COLOUR-REPORT.md).
+
 # Phone-budget audit
 
 R's clarification (8 October): hero = 15 Pro+, standard = 14–15, floor = 12–13. Floor uses **400,000 main triangles, 150,000 shadow triangles, 100 main draws**. Every pass must be counted. Hero/standard numeric limits and texture limits are not filed. `visual-v2` §8.1 supplies the original separate main/shadow contract. We report main, shadow and post separately and reconcile their sum against the renderer's complete-frame counters; shadow work is never hidden in a main-only pass claim. Research proposals in `web-stack-v1` are not treated as owner-approved limits.

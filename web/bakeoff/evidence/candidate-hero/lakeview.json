@@ -21,16 +21,16 @@
         "triangles": 1984
       },
       "shadow/facade details": {
-        "draws": 6,
-        "triangles": 26292
+        "draws": 3,
+        "triangles": 2000
       },
       "shadow/opaque world": {
-        "draws": 87,
-        "triangles": 237617
+        "draws": 64,
+        "triangles": 62880
       },
       "shadow/foliage": {
-        "draws": 62,
-        "triangles": 58677
+        "draws": 14,
+        "triangles": 2310
       },
       "main/facade details": {
         "draws": 4,
@@ -137,19 +137,19 @@
   "backend": "WebGL2",
   "gpuTimer": {
     "available": true,
-    "samples": 663,
-    "meanMs": 2.0107647888386118,
-    "p95Ms": 3.689708,
-    "maxMs": 6.418333,
+    "samples": 975,
+    "meanMs": 1.4369743538461541,
+    "p95Ms": 1.516125,
+    "maxMs": 2.341874,
     "disjointEvents": 0,
     "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
   },
-  "drawCalls": 237,
-  "triangles": 587897,
-  "fps": 85.20012277029738,
-  "sampleDurationMs": 9741.77,
-  "p95FrameMs": 20.0049999999992,
-  "samples": 830,
+  "drawCalls": 163,
+  "triangles": 332501,
+  "fps": 99.98197046434248,
+  "sampleDurationMs": 9761.76,
+  "p95FrameMs": 10.510000000000218,
+  "samples": 976,
   "viewport": [
     0.5,
     390,
@@ -171,8 +171,17 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "1933890d007bf559374265617f43f68df9dc4de3e3a69bc0307fddbf0d492295",
+  "inputSha256": "a5da6a4a2904692f038c329a6a0c3b24da46a6962770037aa591f1b5eef9495e",
   "resolved": {
+    "shadows": {
+      "source": "Sources/WorldGen/Profiles/look.json/shadows.rangeM; R floor shadow triangles=150000",
+      "limit": 150000,
+      "maxRadiusM": 120,
+      "treeLOD": 2,
+      "radiusM": 120,
+      "potentialTriangles": 67190,
+      "draws": 81
+    },
     "policy": {
       "look": {
         "lighting": {
@@ -1092,6 +1101,6 @@
       }
     }
   },
-  "capturedUTC": "2026-10-08T07:03:38.238Z",
+  "capturedUTC": "2026-10-08T14:03:52.455Z",
   "errors": []
 }
