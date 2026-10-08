@@ -1,0 +1,29 @@
+// General pack resolver: deliberately accepts no camera, scene ID or image score.
+// Renderer unit conversion is analytic, not fitted to either evaluation frame.
+export function resolvePolicy(cal,lake,fixture){
+ const look=cal.sharedLook,L=look.lighting;
+ const shadowRatio=L.shadow.neutralWitnessShadowToLitLinearY;
+ if(!(shadowRatio>0&&shadowRatio<1))throw Error('Invalid neutral witness ratio');
+ return {
+  look,
+  // Lambert BRDF divides incident radiance by pi. A/(A+D)=the pack witness ratio.
+  directIntensity:Math.PI*L.sun.directRelative,
+  ambientIntensity:Math.PI*L.sun.directRelative*shadowRatio/(1-shadowRatio),
+  sky:L.sky,
+  // lake-winter-v1/water.haze: one weather term, applied to every scene and terrain.
+  hazeExtinctionPerM:lake.water.haze.fixtureExtinctionPerM,
+  season:fixture.phenophase,
+  wind:lake.water.windStates[String(fixture.windKmh)],
+  reflectedSky:lake.water.skyStates[fixture.skyState],
+ };
+}
+// Region selects an illustrative candidate pool, never an observed tree inventory.
+export function regionalSpecies(pack,region,kind,variant=0){
+ const city=pack.cities.find(c=>c.id===region);
+ if(!city)throw Error(`No foliage pack region: ${region}`);
+ const pool=city.mix.map(m=>pack.species.find(s=>s.id===m.id)).filter(Boolean);
+ const candidates=pool.filter(s=>kind==='conifer'?s.evergreen:!s.evergreen);
+ const eligible=candidates.length?candidates:pack.species.filter(s=>kind==='conifer'?s.evergreen:!s.evergreen);
+ const ordinal={treeBroad:0,treeOval:1,treeSpreading:2,conifer:3}[kind]??0;
+ return eligible[(ordinal+variant)%eligible.length];
+}

@@ -6,6 +6,7 @@ import {Lighting} from '/src/lighting.js';
 import {createPost} from '/src/post.js';
 import {applySpecies} from './foliage.js';
 import {addFrontRange} from './backdrop.js';
+import {resolvePolicy} from './policy.js';
 import {LocalFrame} from '/src/geo.js';
 const q=new URLSearchParams(location.search), id=document.body.dataset.scene;
 if(q.has('capture'))document.body.classList.add('capture');
@@ -16,9 +17,9 @@ window.addEventListener('unhandledrejection',e=>{document.body.dataset.error=e.r
 const now=uniform(0);
 const rgb=c=>vec3(c.r,c.g,c.b);
 async function main(){
- const [cal,lake,water,foliage,scenes]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json')]);
- const config=scenes[id],look=cal.sharedLook,L=look.lighting;
- const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);world.setSeason(1);
+ const [cal,lake,water,foliage,scenes,fixture]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json')]);
+ const config=scenes[id],policy=resolvePolicy(cal,lake,fixture),look=policy.look,L=look.lighting;
+ const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);world.setSeason(fixture.exportSeasonIndex);
  const scene=new T.Scene();scene.add(world.root);
  const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
  const camera=new T.PerspectiveCamera(config.camera.fov,1,.2,150000);
@@ -27,12 +28,9 @@ async function main(){
  // These are composition fits, not recovered photographic camera matrices.
  const fit=config.camera;
  camera.position.copy(at(...fit.eye));camera.lookAt(at(...fit.target));
- if(q.has('eye'))camera.position.fromArray(q.get('eye').split(',').map(Number));
- if(q.has('target'))camera.lookAt(new T.Vector3(...q.get('target').split(',').map(Number)));
- if(q.has('fov'))camera.fov=Number(q.get('fov'));
  const baseline=q.has('baseline');
  const sky=L.sky;
- const upper=new T.Color(baseline?sky.zenithHex:'#7AAFE2'),mid=new T.Color(baseline?sky.midHex:'#8FBAE7'),horizon=new T.Color(baseline?sky.horizonHex:'#A0C8F2');
+ const upper=new T.Color(sky.zenithHex),mid=new T.Color(sky.midHex),horizon=new T.Color(sky.horizonHex);
  const elev=positionWorldDirection.y.clamp(0,1);
  const skyBase=mix(rgb(horizon),mix(rgb(mid),rgb(upper),smoothstep(.15,.85,elev)),smoothstep(0,.22,elev)), d=positionWorldDirection;
  const skyState=world.environment.states.noon||world.environment.states[world.environment.defaultState];
@@ -40,13 +38,13 @@ async function main(){
  const skySample=texture(skyTexture,equirectUV(positionWorldDirection)).rgb;
  // Reuse the package's procedural cloud shapes; calibration v2 owns their colours.
  const cloud=smoothstep(.32,.75,min(skySample.r,min(skySample.g,skySample.b))).mul(smoothstep(0,.08,elev));
- scene.backgroundNode=vec4(mix(skyBase,rgb(new T.Color(sky.cloudLitHex)),cloud).mul(.55),1);
- scene.fog=new T.Fog(new T.Color('#A0C8F2'),350,4000);
- const sun=new T.DirectionalLight(L.sun.hex,2.3*L.sun.directRelative);
+ scene.backgroundNode=vec4(mix(skyBase,rgb(new T.Color(sky.cloudLitHex)),cloud),1);
+ scene.fogNode=fog(rgb(horizon),float(1).sub(exp(length(cameraPosition.sub(positionWorld)).mul(-policy.hazeExtinctionPerM))));
+ const sun=new T.DirectionalLight(L.sun.hex,policy.directIntensity);
  const az=T.MathUtils.degToRad(L.sun.azimuthDeg),el=T.MathUtils.degToRad(L.sun.elevationDeg);
  const sunDirection=new T.Vector3(Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el));
  sun.position.copy(camera.position).addScaledVector(sunDirection,180);sun.target.position.copy(camera.position);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:1,far:450});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00015;sun.shadow.normalBias=.05;scene.add(sun,sun.target);
- scene.add(new T.HemisphereLight(sky.fillHex,'#B1A28A',4.0));
+ scene.add(new T.HemisphereLight(sky.fillHex,look.materials.groundBaseHex.lawn,policy.ambientIntensity));
  if(!baseline){for(const slot of world.palettes.slots){const name=slot.names?.[0],key={road:'asphalt',sidewalk:'concrete',curb:'curb',lawn:'lawn'}[name];if(key){const c=new T.Color(look.materials.groundBaseHex[key]),a=world.paletteTexture.image.data;a.set([c.r,c.g,c.b,1],slot.slot*4);}}world.paletteTexture.needsUpdate=true;}
  const palette=world.paletteTexture;
  // Preserve exported geometry, palette slots and stable per-building variation.
@@ -55,20 +53,19 @@ async function main(){
  m.colorNode=colour;m.roughnessNode=select(flag(1),float(look.materials.roughness.glass),float(kind==='foliage'?look.materials.roughness.foliage:look.materials.roughness.masonry));m.aoNode=max(e.x,look.lighting.shadow.ambientVisibilityFloor);m.metalness=0;m.shadowSide=T.BackSide;return m;}
  const replacements=new Map(Object.entries(world.materials).filter(([k])=>k!=='water').map(([k,v])=>[v,matte(k)]));
  if(!baseline)world.root.traverse(o=>{if(o.isMesh&&replacements.has(o.material))o.material=replacements.get(o.material);});
- const species=baseline?{}:applySpecies(world,foliage,look.materials.roughness.foliage);
+ const species=baseline?{}:applySpecies(world,foliage,look.materials.roughness.foliage,config.region,policy.season);
  if(config.waterProfile&&!baseline){
   const mountain=await get('/packs/mountain-terrain-v1/values.json');
   await addFrontRange(scene,config.backdrop,frame,origin,mountain);
-  scene.fog=null;scene.fogNode=fog(rgb(horizon),float(1).sub(exp(length(cameraPosition.sub(positionWorld)).mul(-mountain.haze.profiles.find(p=>p.id==='clear').betaPerM))));
-  const profile=lake.water.profiles[config.waterProfile], wave=profile.waveByWindKmh['10'];
+  const profile=lake.water.profiles[config.waterProfile], wave=profile.waveByWindKmh[String(fixture.windKmh)];
   const state=lake.states.find(s=>s.id===config.waterState);
   const waterMaterial=new T.MeshPhysicalNodeMaterial({ior:water.reflectionLimits.waterIORReference});const wp=positionWorld;
   const profileMechanics=water.profiles.find(p=>p.id===config.waterMechanicsProfile);
   const weights=water.waveModelProposal.fourWaveWeights, energy=Math.sqrt(weights.reduce((a,b)=>a+b*b,0));
   let gx=float(0),gz=float(0);
-  weights.forEach((weight,i)=>{const wavelength=wave.wavelengthM*(1+i*.37),k=2*Math.PI/wavelength,angle=.4+i*.63,amplitude=profileMechanics.colourConditions.calm.inferredWindOnlyHsMFixture/4*Math.SQRT2*weight/energy;
+  weights.forEach((weight,i)=>{const wavelength=wave.wavelengthM*(1+i*.37),k=2*Math.PI/wavelength,angle=(fixture.windFromDegrees+180)*Math.PI/180+i*Math.PI/4,amplitude=profileMechanics.colourConditions.calm.inferredWindOnlyHsMFixture/4*Math.SQRT2*weight/energy;
    const phase=wp.x.mul(Math.cos(angle)*k).add(wp.z.mul(Math.sin(angle)*k)).sub(now.mul(wave.phaseSpeedMps*k)).add(i*2.39996);
-   const fade=float(1).sub(smoothstep(2,4,fwidth(phase)));const slope=cos(phase).mul(amplitude*k).mul(fade);gx=gx.add(slope.mul(Math.cos(angle)));gz=gz.add(slope.mul(Math.sin(angle)));});
+   const footprint=fwidth(phase).div(2*Math.PI);const fade=float(1).sub(smoothstep(1/lake.water.lod.minimumProjectedWaveWidthCssPx,1,footprint)).mul(float(1).sub(smoothstep(lake.water.lod.normalDetailFadeStartM,lake.water.lod.normalDetailFadeEndM,length(cameraPosition.sub(wp)))));const slope=cos(phase).mul(amplitude*k).mul(fade);gx=gx.add(slope.mul(Math.cos(angle)));gz=gz.add(slope.mul(Math.sin(angle)));});
   const ripple=gx,waterNormal=normalize(vec3(gx.negate(),1,gz.negate()));
   waterMaterial.normalNode=transformNormalToView(waterNormal);
   // _extra.z is not shore distance. The attached attribute is computed from exported water boundary edges.
@@ -79,12 +76,12 @@ async function main(){
   const view=normalize(cameraPosition.sub(wp));const grazing=float(1).sub(abs(dot(view,normalWorld))).pow(lake.water.reflection.grazingExponent);
   const reflection=mix(float(lake.water.reflection.normalStrength),float(lake.water.reflection.grazingStrength),grazing).min(mix(water.reflectionLimits.nearBlendCap,water.reflectionLimits.farBlendCap,smoothstep(50,180,length(cameraPosition.sub(wp)))));
   const broken=sin(wp.x.mul(1.7).add(wp.z.mul(2.3)).add(now.mul(.3))).mul(sin(wp.z.mul(3.1).sub(wp.x.mul(2.7)))).mul(.012);
-  waterMaterial.colorNode=mix(body,rgb(new T.Color(lake.water.skyStates.clear.reflectionColourHex)).add(broken),reflection).mul(mix(.88,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
-  waterMaterial.roughness=state.surfaceValues[0].roughness;waterMaterial.metalness=0;
+  waterMaterial.colorNode=mix(body,rgb(new T.Color(policy.reflectedSky.reflectionColourHex)).add(broken),reflection).mul(mix(lake.water.shoreline.linearBaseMultiplier,1,smoothstep(0,lake.water.shoreline.darkeningWidthM,shore)));
+  waterMaterial.roughness=policy.wind.roughness;waterMaterial.metalness=0;
   world.root.traverse(o=>{if(o.isMesh&&o.material===world.materials.water){o.material=waterMaterial;}});
  }
  let baselineLighting;
- if(baseline){scene.remove(sun,sun.target);for(const child of [...scene.children])if(child.isHemisphereLight)scene.remove(child);const state=world.environment.states.noon||world.environment.states[world.environment.defaultState];baselineLighting=new Lighting(scene);await baselineLighting.apply(state,world.globals,`/world/${id}/${state.sky}`);}
+ if(baseline){scene.fogNode=null;scene.remove(sun,sun.target);for(const child of [...scene.children])if(child.isHemisphereLight)scene.remove(child);const state=world.environment.states.noon||world.environment.states[world.environment.defaultState];baselineLighting=new Lighting(scene);await baselineLighting.apply(state,world.globals,`/world/${id}/${state.sky}`);}
  let post=new T.PostProcessing(renderer);post.outputColorTransform=false;
  const source=pass(scene,camera).getTextureNode('output').rgb;
  // Exposure and saturation occur exactly once here, shared by both cities.
@@ -96,7 +93,7 @@ async function main(){
  document.querySelector('#mock').href=`/packs/style-b-calibration-v2/frames/${config.mock}.png`;
  world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
  const times=[];let last=0,frameCount=0;status.textContent='Calibration v2 · summer · clear afternoon';
- window.bakeoff={world,scene,camera,renderer,fit,species,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
+ window.bakeoff={world,scene,camera,renderer,fit,species,policy,fixture,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
  renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();post.render();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,backend:'WebGL2',drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

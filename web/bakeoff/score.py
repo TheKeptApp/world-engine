@@ -12,7 +12,7 @@ ASSETS=pathlib.Path(os.environ.get('WORLDENGINE_ASSETS',ROOT))
 sys.path.insert(0,str(ROOT/'Tools/lookloop'))
 import region_colours as rc
 import conformance as cf
-frames={'lakeview':'01-lakeview','sloans':'06-sloans'}
+frames={'sloans':'06-sloans','lakeview':'01-lakeview'}
 config=json.load(open(ROOT/'Tools/lookloop/calibration-regions.json'))['frames']
 views={}
 for scene,frame in frames.items():
@@ -36,6 +36,7 @@ with contextlib.redirect_stdout(output):rc.main()
 (HERE/'evidence/region-colours.txt').write_text(output.getvalue().rstrip()+'\n')
 print(output.getvalue())
 summary={}
+means={}
 for scene,view in views.items():
  candidate=Image.open(HERE/'evidence/candidate'/f'{scene}.png').convert('RGB')
  mock=Image.open(view['mock']).convert('RGB').resize(candidate.size)
@@ -44,9 +45,17 @@ for scene,view in views.items():
   a,b=rc.colour(candidate,box,surface),rc.colour(mock,box,surface)
   rows.append({'surface':surface,'box':box,'render':a,'mock':b,'deltaE76':cf.delta_e76(a,b) if a and b else None})
  summary[scene]=rows
+ base=Image.open(HERE/'evidence/baseline'/f'{scene}.png').convert('RGB')
+ baseline=[]
+ for surface,box in view['regions'].items():
+  a,b=rc.colour(base,box,surface),rc.colour(mock,box,surface)
+  if a and b:baseline.append(cf.delta_e76(a,b))
+ measured=[r['deltaE76'] for r in rows if r['deltaE76'] is not None]
+ means[scene]={'meanFixedBoxDeltaE76':statistics.mean(measured),'existingViewerMeanDeltaE76':statistics.mean(baseline),'sampledRegions':len(measured),'totalRegions':len(rows)}
  width,height=candidate.size
  sheet=Image.new('RGB',(width*2,height+35),'#19232a');sheet.paste(candidate,(0,35));sheet.paste(mock,(width,35));draw=ImageDraw.Draw(sheet);draw.text((10,10),scene+' · three.js',fill='white');draw.text((width+10,10),'Calibration v2 · mock',fill='white');sheet.save(HERE/'evidence'/f'{scene}-side-by-side.png')
-(HERE/'evidence/scores.json').write_text(json.dumps(summary,indent=2))
+(HERE/'evidence/scores.json').write_text(json.dumps(summary,indent=2)+'\n')
+(HERE/'evidence/summary.json').write_text(json.dumps(means,indent=2)+'\n')
 # compare_runs retains its frame-change control. No fabricated reviewer scores:
 # null/ungraded fields deliberately leave art grades and parity unavailable.
 for mode in ['baseline','candidate']:

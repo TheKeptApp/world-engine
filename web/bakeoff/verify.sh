@@ -6,6 +6,7 @@ ROOT="$(cd "$HERE/../.." && pwd)"
 cd "$ROOT"
 mkdir -p "$HERE/evidence"
 for source in "$HERE"/*.js "$HERE"/*.mjs; do node --check "$source"; done
-node "$HERE/capture.mjs"
+node "$HERE/policy.test.mjs"
+SCENES=sloans,lakeview node "$HERE/capture.mjs"
 python3 "$HERE/score.py"
 git diff --check

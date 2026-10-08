@@ -3,9 +3,9 @@
   "backend": "WebGL2",
   "drawCalls": 157,
   "triangles": 1134793,
-  "fps": 99.98181683146763,
-  "sampleDurationMs": 9761.775000000001,
-  "p95FrameMs": 10.479999999999563,
+  "fps": 99.98176562061428,
+  "sampleDurationMs": 9761.779999999999,
+  "p95FrameMs": 10.649999999999636,
   "samples": 976,
   "viewport": [
     0.6666666666666666,
@@ -28,6 +28,253 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "capturedUTC": "2026-10-08T05:02:13.632Z",
+  "inputSha256": "790d11e9411252f09212a50972266cff2e6f354f44d470a866177f46d27c0721",
+  "resolved": {
+    "policy": {
+      "look": {
+        "lighting": {
+          "sun": {
+            "hex": "#FFE8C6",
+            "elevationDeg": 40,
+            "azimuthDeg": 225,
+            "directRelative": 1,
+            "fixtureOnly": true
+          },
+          "sky": {
+            "zenithHex": "#73A5CC",
+            "midHex": "#A2C4DC",
+            "horizonHex": "#DBDCD1",
+            "fillHex": "#AEBCCA",
+            "cloudLitHex": "#F0F2EF",
+            "cloudShadeHex": "#CAD6DE",
+            "coverage01": 0.18
+          },
+          "shadow": {
+            "appearanceHex": "#7F8F99",
+            "neutralWitnessShadowToLitLinearY": 0.62,
+            "ambientVisibilityFloor": 0.65,
+            "occlusionMerge": "min; never repeatedly multiply AO",
+            "filterDrawablePx": [
+              1,
+              2
+            ]
+          },
+          "exposure": {
+            "relativeEV": 0.35,
+            "linearGain": 1.2745606273192622,
+            "contrast": 1.06,
+            "saturation": 1.08,
+            "additionalWarmth": 0,
+            "applyOnce": true,
+            "perCityOverrides": false
+          }
+        },
+        "materials": {
+          "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+          "roughness": {
+            "masonry": 0.82,
+            "plaster": 0.82,
+            "wood": 0.82,
+            "concrete": 0.82,
+            "asphalt": 0.82,
+            "foliage": 0.92,
+            "fabric": 0.9,
+            "skin": 0.65,
+            "vehiclePaint": 0.55,
+            "paintedMetal": 0.68,
+            "glass": 0.28
+          },
+          "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+          "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+          "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+          "groundBaseHex": {
+            "asphalt": "#626A70",
+            "concrete": "#C5C0B3",
+            "lawn": "#73865B",
+            "curb": "#B9B7AD"
+          }
+        },
+        "peopleVehicles": {
+          "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+          "distanceBands": [
+            {
+              "id": "near",
+              "guideDistanceM": [
+                0,
+                20
+              ],
+              "projectedHeightPx": [
+                48,
+                null
+              ],
+              "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+              "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+            },
+            {
+              "id": "mid",
+              "guideDistanceM": [
+                20,
+                80
+              ],
+              "projectedHeightPx": [
+                16,
+                48
+              ],
+              "people": "Natural pose and clothing colour groups; facial detail removed.",
+              "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+            },
+            {
+              "id": "far",
+              "guideDistanceM": [
+                80,
+                null
+              ],
+              "projectedHeightPx": [
+                5,
+                16
+              ],
+              "people": "Natural uninflated silhouette and muted colour groups.",
+              "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+            },
+            {
+              "id": "cull",
+              "projectedHeightPx": [
+                0,
+                5
+              ],
+              "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+            }
+          ],
+          "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+        },
+        "prohibited": [
+          "photo textures",
+          "cartoon outlines",
+          "toy proportions",
+          "logos",
+          "readable signage",
+          "dogs",
+          "animals",
+          "real murals",
+          "app or host content"
+        ]
+      },
+      "directIntensity": 3.141592653589793,
+      "ambientIntensity": 5.1257564348044,
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "hazeExtinctionPerM": 0.0008,
+      "season": "summer",
+      "wind": {
+        "windKmh": 10,
+        "roughness": 0.28,
+        "normalAmplitude": 0.08
+      },
+      "reflectedSky": {
+        "reflectionColourHex": "#8FBDD7",
+        "sunElevationDegrees": 35,
+        "sunAzimuthDegrees": 230
+      }
+    },
+    "fixture": {
+      "status": "Simulated calibration fixture, not live weather or observed phenology",
+      "phenophase": "summer",
+      "exportSeasonIndex": 1,
+      "windKmh": 10,
+      "windFromDegrees": 225,
+      "skyState": "clear",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit."
+    },
+    "species": {
+      "conifer/0/-1,-1": "picea_pungens",
+      "conifer/0/-1,-2": "picea_pungens",
+      "conifer/0/-1,0": "picea_pungens",
+      "conifer/0/-1,1": "picea_pungens",
+      "conifer/0/-2,-1": "picea_pungens",
+      "conifer/0/-2,-2": "picea_pungens",
+      "conifer/0/-2,0": "picea_pungens",
+      "conifer/0/-2,1": "picea_pungens",
+      "conifer/0/0,-1": "picea_pungens",
+      "conifer/0/0,-2": "picea_pungens",
+      "conifer/0/0,0": "picea_pungens",
+      "conifer/0/0,1": "picea_pungens",
+      "conifer/0/1,-1": "picea_pungens",
+      "conifer/0/1,-2": "picea_pungens",
+      "conifer/0/1,0": "picea_pungens",
+      "conifer/0/1,1": "picea_pungens",
+      "treePyramidal/0/-1,-1": "ulmus_americana",
+      "treePyramidal/0/-1,-2": "ulmus_americana",
+      "treePyramidal/0/-1,0": "ulmus_americana",
+      "treePyramidal/0/-1,1": "ulmus_americana",
+      "treePyramidal/0/-2,-1": "ulmus_americana",
+      "treePyramidal/0/-2,-2": "ulmus_americana",
+      "treePyramidal/0/-2,0": "ulmus_americana",
+      "treePyramidal/0/-2,1": "ulmus_americana",
+      "treePyramidal/0/0,-1": "ulmus_americana",
+      "treePyramidal/0/0,-2": "ulmus_americana",
+      "treePyramidal/0/0,0": "ulmus_americana",
+      "treePyramidal/0/0,1": "ulmus_americana",
+      "treePyramidal/0/1,-1": "ulmus_americana",
+      "treePyramidal/0/1,-2": "ulmus_americana",
+      "treePyramidal/0/1,0": "ulmus_americana",
+      "treePyramidal/0/1,1": "ulmus_americana",
+      "treeRounded/0/-1,-1": "ulmus_americana",
+      "treeRounded/0/-1,-2": "ulmus_americana",
+      "treeRounded/0/-1,0": "ulmus_americana",
+      "treeRounded/0/-1,1": "ulmus_americana",
+      "treeRounded/0/-2,-1": "ulmus_americana",
+      "treeRounded/0/-2,-2": "ulmus_americana",
+      "treeRounded/0/-2,0": "ulmus_americana",
+      "treeRounded/0/-2,1": "ulmus_americana",
+      "treeRounded/0/0,-1": "ulmus_americana",
+      "treeRounded/0/0,-2": "ulmus_americana",
+      "treeRounded/0/0,0": "ulmus_americana",
+      "treeRounded/0/0,1": "ulmus_americana",
+      "treeRounded/0/1,-1": "ulmus_americana",
+      "treeRounded/0/1,-2": "ulmus_americana",
+      "treeRounded/0/1,0": "ulmus_americana",
+      "treeRounded/0/1,1": "ulmus_americana",
+      "treeUpright/0/-1,-1": "ulmus_americana",
+      "treeUpright/0/-1,-2": "ulmus_americana",
+      "treeUpright/0/-1,0": "ulmus_americana",
+      "treeUpright/0/-1,1": "ulmus_americana",
+      "treeUpright/0/-2,-1": "ulmus_americana",
+      "treeUpright/0/-2,-2": "ulmus_americana",
+      "treeUpright/0/-2,0": "ulmus_americana",
+      "treeUpright/0/-2,1": "ulmus_americana",
+      "treeUpright/0/0,-1": "ulmus_americana",
+      "treeUpright/0/0,-2": "ulmus_americana",
+      "treeUpright/0/0,0": "ulmus_americana",
+      "treeUpright/0/0,1": "ulmus_americana",
+      "treeUpright/0/1,-1": "ulmus_americana",
+      "treeUpright/0/1,-2": "ulmus_americana",
+      "treeUpright/0/1,0": "ulmus_americana",
+      "treeUpright/0/1,1": "ulmus_americana",
+      "treeVase/0/-1,-1": "ulmus_americana",
+      "treeVase/0/-1,-2": "ulmus_americana",
+      "treeVase/0/-1,0": "ulmus_americana",
+      "treeVase/0/-1,1": "ulmus_americana",
+      "treeVase/0/-2,-1": "ulmus_americana",
+      "treeVase/0/-2,-2": "ulmus_americana",
+      "treeVase/0/-2,0": "ulmus_americana",
+      "treeVase/0/-2,1": "ulmus_americana",
+      "treeVase/0/0,-1": "ulmus_americana",
+      "treeVase/0/0,-2": "ulmus_americana",
+      "treeVase/0/0,0": "ulmus_americana",
+      "treeVase/0/0,1": "ulmus_americana",
+      "treeVase/0/1,-1": "ulmus_americana",
+      "treeVase/0/1,-2": "ulmus_americana",
+      "treeVase/0/1,0": "ulmus_americana",
+      "treeVase/0/1,1": "ulmus_americana"
+    }
+  },
+  "capturedUTC": "2026-10-08T05:13:31.006Z",
   "errors": []
 }
