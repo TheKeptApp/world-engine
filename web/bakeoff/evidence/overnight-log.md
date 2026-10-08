@@ -26,3 +26,8 @@ Evidence: `overnight/03-light/`; Hold-out rollback condition did not trigger.
 Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 19.668067 (+0.000000), lakeview ΔE76 22.283344 (+0.000000).
 Visual: Long repeating water bands removed; smaller irregular ripples and a continuous shore gradient remain, with restrained sky reflection. Water is still too cyan/flat relative to the mock. Fixed ΔE unchanged because neither view has a water region; Lakeview pixels unchanged.
 Evidence: `overnight/04-water/`; Hold-out rollback condition did not trigger.
+
+## 05-facades — ACCEPT
+Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 19.668067 (+0.000000), lakeview ΔE76 22.283344 (+0.000000).
+Visual: Pack detail appears on eligible distant frontages, but the dominant near side walls remain unchanged because their exported family is outside the four pack families. No camera-driven family reassignment. The new geometry does not move the fixed-box medians.
+Evidence: `overnight/05-facades/`; Hold-out rollback condition did not trigger.

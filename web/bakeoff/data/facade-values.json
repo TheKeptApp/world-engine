@@ -1,0 +1,285 @@
+{
+  "date": "2026-10-07",
+  "status": "concept_pending_approval",
+  "units": "metres unless named otherwise",
+  "style": "style-b",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "valuesStatus": "Authored design targets, not sampled image pixels or measured engineering dimensions",
+  "exclusions": [
+    "signs",
+    "logos",
+    "murals",
+    "dogs",
+    "characters",
+    "host-app content"
+  ],
+  "precedence": [
+    "style-b-calibration-v2",
+    "house-contrast-v1",
+    "house-archetypes-v1",
+    "foliage-seasons-v1",
+    "infrastructure-kit-v1"
+  ],
+  "lod": {
+    "metric": "drawable projected object height in pixels",
+    "nearMinPx": 20,
+    "middleMinPx": 6,
+    "farBelowPx": 6,
+    "featureCullBelowPx": 1,
+    "hysteresisFraction": 0.1,
+    "rule": "Keep silhouette and actual dimensions; do not enlarge thin features for legibility."
+  },
+  "schema": "worldengine.facade-detail-v1",
+  "content": {
+    "eraPalettes": [
+      {
+        "era": "late 19th\u2013early 20th century association",
+        "colours": [
+          "#92513E",
+          "#98664F",
+          "#B09373"
+        ]
+      },
+      {
+        "era": "1910\u20131930 bungalow/foursquare association",
+        "colours": [
+          "#9A6650",
+          "#B59865",
+          "#925F48"
+        ]
+      },
+      {
+        "era": "later repair/infill association",
+        "colours": [
+          "#C1B18B",
+          "#A77960",
+          "#C8BBA0"
+        ]
+      }
+    ],
+    "eraCaution": "Associations are authored and unverified; never infer construction date from colour. Paint, repair and exposure vary.",
+    "families": [
+      {
+        "id": "denver-bungalow",
+        "storeys": 1,
+        "raisedBaseM": 0.6,
+        "wall": "#9A6650",
+        "trim": "#DDD0B6",
+        "roof": "#67645B",
+        "porchDepthM": [
+          1.8,
+          2.7
+        ],
+        "bayProjectionM": [
+          0.4,
+          0.8
+        ]
+      },
+      {
+        "id": "denver-foursquare",
+        "storeys": 2,
+        "wall": "#B59865",
+        "trim": "#DDD0AE",
+        "roof": "#625F59",
+        "porchDepthM": [
+          1.8,
+          2.8
+        ],
+        "bayProjectionM": [
+          0.4,
+          0.8
+        ]
+      },
+      {
+        "id": "chicago-greystone-two-flat",
+        "storeys": 2,
+        "raisedBaseM": [
+          0.8,
+          1.3
+        ],
+        "wall": "#AAA99B",
+        "sideBrick": "#98664F",
+        "corniceProjectionM": [
+          0.25,
+          0.5
+        ],
+        "bayProjectionM": [
+          0.45,
+          0.9
+        ]
+      },
+      {
+        "id": "chicago-brick-two-flat",
+        "storeys": 2,
+        "raisedBaseM": [
+          0.8,
+          1.3
+        ],
+        "wall": "#98664F",
+        "trim": "#DBC8A7",
+        "roof": "#554E49",
+        "corniceProjectionM": [
+          0.2,
+          0.4
+        ],
+        "bayProjectionM": [
+          0.45,
+          0.9
+        ]
+      }
+    ],
+    "details": {
+      "windowRecessM": [
+        0.06,
+        0.12
+      ],
+      "stoopTreadM": [
+        0.28,
+        0.32
+      ],
+      "stoopRiserM": [
+        0.15,
+        0.18
+      ],
+      "ironFenceHeightM": [
+        0.85,
+        1.15
+      ],
+      "ironBarWidthM": [
+        0.015,
+        0.025
+      ],
+      "ironColour": "#3F4748",
+      "brickTreatment": "Broad matte wall colour; shallow masonry suggestion only at near tier; no photographic grain or per-brick geometry.",
+      "middle": "Keep bays, porch depth, stoop mass and cornice silhouette; remove individual brackets and fence bars below pixel threshold.",
+      "far": "Envelope, roof and broad wall colour only."
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import {installCostLedger,phoneBudget} from './budget.js';
 import * as T from 'three/webgpu';
-import {mx_noise_float,reflect,fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,output,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
+import {fract,mx_noise_float,reflect,fog,exp,equirectUV,min,fwidth,length,transformNormalToView,attribute,texture,vec2,vec3,vec4,float,int,floor,select,max,mix,dot,clamp,smoothstep,sin,cos,abs,normalize,positionWorld,positionWorldDirection,normalWorld,cameraPosition,uniform,pass,output,convertColorSpace,acesFilmicToneMapping} from 'three/tsl';
 import {WorldScene} from '/src/world.js';
 import {shorelineField} from './water.js';
 import {Lighting} from '/src/lighting.js';
 import {createPost} from '/src/post.js';
+import {facadeColours,facadeDetails} from './facades.js';
 import {phenology} from './phenology.js';
 import {applySpecies} from './foliage.js';
 import {addFrontRange} from './backdrop.js';
@@ -22,7 +23,7 @@ window.addEventListener('unhandledrejection',e=>{document.body.dataset.error=e.r
 const now=uniform(0);
 const rgb=c=>vec3(c.r,c.g,c.b);
 async function main(){
- const [cal,lake,water,foliage,scenes,fixture,weather,skyCorrection,haze,p2]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json'),get('/packs/weather-moments-v1/values.json'),get('data/sky-correction.json'),get('data/haze-values.json'),get('data/p2-crowns.json')]);
+ const [cal,lake,water,foliage,scenes,fixture,weather,skyCorrection,haze,p2,facadePack,facadeMechanics,facadeData]=await Promise.all([get('/packs/style-b-calibration-v2/values.json'),get('/packs/lake-winter-v1/lake-winter-values.json'),get('/packs/water-surfaces-v1/water-values.json'),get('/packs/foliage-seasons-v1/foliage-values.json'),get('scenes.json'),get('fixture.json'),get('/packs/weather-moments-v1/values.json'),get('data/sky-correction.json'),get('data/haze-values.json'),get('data/p2-crowns.json'),get('data/facade-values.json'),get('data/facade-mechanics.json'),get(`data/${id}-facades.json`)]);
  const config=scenes[id],policy=resolvePolicy(cal,lake,fixture,skyCorrection,haze,config.climateRegion),look=policy.look,L=look.lighting;
  const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);const seasonal=phenology(fixture.date,config.region,p2);world.setSeason(seasonal.exportSeasonIndex);
  const scene=new T.Scene();scene.add(world.root);
@@ -37,6 +38,8 @@ async function main(){
  const fit=config.camera;
  camera.position.copy(at(...fit.eye));camera.lookAt(at(...fit.target));
  const baseline=q.has('baseline');
+ const facadeCount=baseline?0:await facadeColours(world,facadePack,config.region);
+ const facades=baseline?null:facadeDetails(scene,facadeData,frame,facadePack,config.region,look,facadeMechanics);
  const sky=policy.sky;
  const upper=new T.Color(sky.zenithHex),mid=new T.Color(sky.midHex),horizon=new T.Color(sky.horizonHex);
  const skyTexture=createSkyTexture(sky,L.exposure,weather.inherited.sharedLighting.sky);
@@ -54,6 +57,13 @@ async function main(){
  // Preserve exported geometry, palette slots and stable per-building variation.
  function matte(kind){const m=new T.MeshStandardNodeMaterial();const p=attribute('_paint','vec4'),e=attribute('_extra','vec4'),flags=int(p.z.add(.5));const flag=b=>flags.bitAnd(int(b)).notEqual(0);const slot=floor(p.x.add(.5));let colour=texture(palette,vec2(slot.add(.5).div(256),.5)).rgb.mul(p.y);const ground=look.materials.groundBaseHex;
  colour=select(flag(4),rgb(new T.Color(ground.lawn)).mul(p.y),colour);colour=select(flag(8),rgb(new T.Color(ground.concrete)).mul(p.y),colour);
+ if(kind==='static'){
+ const face=attribute('_facade','vec4');colour=select(face.w.greaterThan(0),face.rgb.mul(p.y),colour);
+ // Near-only shallow masonry cue: no per-brick geometry, physical scale never enlarged.
+ const phase=positionWorld.y.div(facadeMechanics.coursePitchM),footprint=fwidth(phase),line=float(1).sub(smoothstep(facadeMechanics.jointHeightM/facadeMechanics.coursePitchM,float(facadeMechanics.jointHeightM/facadeMechanics.coursePitchM).add(footprint),abs(fract(phase).sub(.5))));
+ const visible=float(1).sub(smoothstep(.5,1,footprint.mul(facadePack.lod.featureCullBelowPx)));
+ colour=colour.mul(float(1).sub(select(face.w.equal(1),line.mul(visible).mul(facadeMechanics.jointContrast),0)));
+ }
  m.colorNode=colour;m.roughnessNode=select(flag(1),float(look.materials.roughness.glass),float(kind==='foliage'?look.materials.roughness.foliage:look.materials.roughness.masonry));m.aoNode=max(e.x,look.lighting.shadow.ambientVisibilityFloor);m.metalness=0;m.shadowSide=T.BackSide;return m;}
  const replacements=new Map(Object.entries(world.materials).filter(([k])=>k!=='water').map(([k,v])=>[v,matte(k)]));
  if(!baseline)world.root.traverse(o=>{if(o.isMesh&&replacements.has(o.material))o.material=replacements.get(o.material);});
@@ -106,11 +116,11 @@ async function main(){
  const graded=mix(vec3(y),mapped,L.exposure.saturation).sub(.5).mul(L.exposure.contrast).add(.5).clamp(0,1);
  post.outputNode=convertColorSpace(vec4(graded,1),T.LinearSRGBColorSpace,T.SRGBColorSpace);
  if(baseline)post=createPost(renderer,scene,camera);
- const resize=()=>{const c=renderer.domElement;renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/c.clientHeight;camera.updateProjectionMatrix();mountains?.updateProjection(c.clientHeight);};new ResizeObserver(resize).observe(renderer.domElement);resize();
+ const resize=()=>{const c=renderer.domElement;renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/c.clientHeight;camera.updateProjectionMatrix();mountains?.updateProjection(c.clientHeight);facades?.update(camera,c.clientHeight);};new ResizeObserver(resize).observe(renderer.domElement);resize();
  document.querySelector('#mock').href=`/packs/style-b-calibration-v2/frames/${config.mock}.png`;
  world.updateLODs(camera.position);world.updateTufts(camera.position,camera.position);
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
- window.bakeoff={world,scene,camera,renderer,fit,species,policy,fixture,seasonal,mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
+ window.bakeoff={world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;},metrics:null};
  renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();post.render();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});
