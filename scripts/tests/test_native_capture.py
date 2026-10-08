@@ -9,9 +9,25 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import capture_native as capture
+import capture_foliage_exp1 as batch
+import base64
 
 
 class NativeCaptureTests(unittest.TestCase):
+    def test_batch_matches_each_category_including_context(self):
+        tri='chunks=2 buildings=0 foliage=0 props=0 context=3 other=0'
+        draw='chunks=1 buildings=0 foliage=0 props=0 context=1 other=0'
+        def readiness(triangles):
+            signature=base64.b64encode(f'pose|tri={triangles}|draw={draw}'.encode()).decode()
+            return dict(gpuCompletionProved=True,sceneReady=dict(signature=signature),triangles=5,draws=2,drawsplit=draw)
+        original=batch.coverage_fingerprint(readiness(tri))
+        swapped=batch.coverage_fingerprint(readiness(tri.replace('chunks=2','chunks=3').replace('context=3','context=2')))
+        self.assertNotEqual(original,swapped)
+        bad=readiness(tri);bad['triangles']=6
+        with self.assertRaisesRegex(ValueError,'disagree'): batch.coverage_fingerprint(bad)
+        bad=readiness(tri);bad['gpuCompletionProved']=False
+        with self.assertRaisesRegex(ValueError,'SCENEREADY'): batch.coverage_fingerprint(bad)
+
     def test_frozen_view_and_common_args(self):
         view = capture.frozen_view(ROOT, 'ordinary-street-afternoon')
         self.assertEqual(view['id'], 'ordinary-street-afternoon')
