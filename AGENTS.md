@@ -35,6 +35,13 @@ Other GPT roles are different: ChatGPT design chats write packs to `~/Desktop/wo
 
 ## Binding rules (mirroring `CLAUDE.md`)
 
+### RULE — NO BLOCK-SPECIFIC FIXES (R, 8 Oct)
+
+1. Every look, data and generator change must be a general rule driven by data or region (climate, species, era, material, latitude, season), never a hand-tuned value for one place, one building or one camera. Sloan's Lake is the test, not the product.
+2. HOLD-OUT TEST: after every merge that changes look, also render and score the untouched hold-out blocks — Lakeview (Chicago), one other Denver neighbourhood (not Sloan's Lake), Greenville Downtown — with NO tuning. Report both: Sloan's Lake score and hold-out score. A merge that raises Sloan's but lowers the hold-outs is rejected.
+3. Data pipelines must run unchanged on any area; report hold-out coverage/quality alongside Sloan's.
+4. docs/lookloop/mock-exceptions.md stays near empty; every new exception needs R's written approval.
+
 **Scope and privacy**
 - Work only inside this repo. Do not read, modify or reference any other repo (DogWell, Toshi, Stretchy or others).
 - No personal locations or personal data in the repo (names and emails of individuals included; role mailboxes of agencies are fine). Fetch OSM data with `out body`, not `out meta`, so contributor usernames and IDs stay out of the repo. Aggregate only; a user's home location stays on the device.

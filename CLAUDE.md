@@ -37,6 +37,13 @@ Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes
 
 ## Shared Mac, data and reporting rules (mirrored in AGENTS.md)
 
+### RULE — NO BLOCK-SPECIFIC FIXES (R, 8 Oct)
+
+1. Every look, data and generator change must be a general rule driven by data or region (climate, species, era, material, latitude, season), never a hand-tuned value for one place, one building or one camera. Sloan's Lake is the test, not the product.
+2. HOLD-OUT TEST: after every merge that changes look, also render and score the untouched hold-out blocks — Lakeview (Chicago), one other Denver neighbourhood (not Sloan's Lake), Greenville Downtown — with NO tuning. Report both: Sloan's Lake score and hold-out score. A merge that raises Sloan's but lowers the hold-outs is rejected.
+3. Data pipelines must run unchanged on any area; report hold-out coverage/quality alongside Sloan's.
+4. docs/lookloop/mock-exceptions.md stays near empty; every new exception needs R's written approval.
+
 - **Heavy jobs take turns** (Xcode/Swift builds, full test suites, Simulator runs, the look loop): run them as `scripts/heavy.sh "what it is" command…`. **Never delete, edit or "clean up" another lane's lock** (`~/.agent-heavy-lock`) or its owner file, even if it looks stuck; report an abandoned lock to R. Priority 5A > P2 > P3 > P1; one heavy job at a time; at most one booted Simulator per session.
 - **Disk guard:** keep at least 8 GB free; under 8 GB, pause heavy work and report to R. Never delete files you did not create to make room. Images stay out of git; no file over 50 MB is committed.
 - Never print, log or commit keys, tokens or credentials.
