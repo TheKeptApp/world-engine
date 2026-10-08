@@ -215,3 +215,9 @@ R relayed the exact decoded limits. The packer now separately enforces 8 MiB dec
 ## A1 → A4 / A8 — full adaptive audit verified, 8 October
 
 Read-only input exports remain unchanged. Verified outputs in A1 worktree Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}; independent evidence Data/quality/adaptive-tile-packing.json. All 73 map/package tests passed; complete geometry/channel, scene joins, hashes, parent coarse coverage and byte-identical repeat checks passed. Sloan 48→76 leaves, worst two decoded arrays 3,756,466 bytes; Lakeview 25→114, 4,176,512 bytes (original 17,332,572). Every leaf ≤8 MiB, primitive ≤2 MiB, worst pair ≤16 MiB. See docs/data/adaptive-tiles.md for replacementGroups and featureOwnership contracts. This is export validation, not viewer/A16 performance. No A4, look or generator files changed. Merge remains stopped because tracker “NOT delivered yet” and completed-delivery entries conflict under R's latest conditional approval.
+
+## Corrected restart files — R / A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A10 / A8 / A5 / A2 / R → 5A, P2 | [5A restart](restart-5A.md), [P2 restart](restart-P2.md) | Three batches and one STOP line each. 5A: native A5 exp1 off/remove/layered with blind A3 scoring; existing-generator Lakeview budget; web exp1 port. P2: preserve/verify experiment controls; general existing-generator thinning/LOD; classified v2/v2b facades. A10 confirms native raw-area input, no adaptive package reader. A4 owns web package/streaming. A8’s seven corrections included: scoped adaptive contract, unapproved shadow halving/approved reach, current saved web grade, current shadow counters, provisional envelopes and later approval chronology, facade boundary. No implementation, capture or score claimed. |
