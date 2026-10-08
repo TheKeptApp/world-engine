@@ -41,7 +41,7 @@ def classify(poly, points, height, params):
     share = height['qa']['roof_selection']['planarPointShare']
     coverage = max(0., min(1., result.get('coverage', 0.)))
     out.update(type=form, pitch_deg=pitch,
-               ridge_bearing_deg=result.get('ridge') if form in ('gable', 'hip') else None,
+               ridge_bearing_deg=(result['ridge'] % 180) if form in ('gable', 'hip') and result.get('ridge') is not None else None,
                evidence_code='measured_derived_lidar')
     out['confidence']['support_score'] = round(coverage * (share if share is not None else 1.), 3)
     return out
@@ -90,7 +90,8 @@ def run(args):
                       'pitch': 'Area-weighted plane inclination in degrees from horizontal',
                       'ridge': 'Approximate principal-footprint-axis bearing inferred from facing roof planes, clockwise from true north, modulo 180; not a traced ridge segment',
                       'confidence': 'support_score = significant-plane coverage (clamped 0–1) times accepted planar-point share; uncalibrated support indicator, not probability',
-                      'limitations': '2020 survey; current roof validation absent; unclassified returns may contain vegetation. Nulls are not flat roofs. Other is classifier complex. All quality grades D.'},
+                      'surveyCollected': heights['source']['collected'],
+                      'limitations': 'Acquisition dates are source metadata; current roof validation absent; unclassified returns may contain vegetation. Nulls are not flat roofs. Other is classifier complex. All quality grades D.'},
            'counts': dict(Counter(r['type'] or 'missing' for r in records.values())), 'records': records}
     O.disk_guard(path.parent)
     (path.parent / 'building-roofs.json').write_text(json.dumps(out, indent=2, sort_keys=True, allow_nan=False) + '\n')

@@ -16,10 +16,10 @@
     "timestamp": "2026-10-05T17:39:35Z"
   },
   "format": "worldengine-observed-roofs/1",
-  "heightSidecarSHA256": "474a0b4a84484b70d0de8c16aa0c90e6a8a8b21a9aeb7b26c71a9dee6fe141d0",
+  "heightSidecarSHA256": "723979af7e4b92b3d312646db2772470d0f6b4b61afacdf2f30ee2a1d78dea7d",
   "method": {
     "confidence": "support_score = significant-plane coverage (clamped 0\u20131) times accepted planar-point share; uncalibrated support indicator, not probability",
-    "limitations": "2020 survey; current roof validation absent; unclassified returns may contain vegetation. Nulls are not flat roofs. Other is classifier complex. All quality grades D.",
+    "limitations": "Acquisition dates are source metadata; current roof validation absent; unclassified returns may contain vegetation. Nulls are not flat roofs. Other is classifier complex. All quality grades D.",
     "parameterSource": "Existing lidar pilot params.json / roofplanes.classify_roof v1",
     "parameters": {
       "cell": 0.5,
@@ -50,6 +50,7 @@
     },
     "pitch": "Area-weighted plane inclination in degrees from horizontal",
     "ridge": "Approximate principal-footprint-axis bearing inferred from facing roof planes, clockwise from true north, modulo 180; not a traced ridge segment",
+    "surveyCollected": "2020-05-26 to 2020-06-12",
     "version": "worldengine-observed-roofs/1"
   },
   "outputBranch": "ODbL-enhanced",
@@ -500,7 +501,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "gable"
     },
     "way/1182609202": {
@@ -6737,7 +6738,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "hip"
     },
     "way/556281856": {
@@ -11926,7 +11927,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "gable"
     },
     "way/559415287": {
@@ -13325,7 +13326,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "hip"
     },
     "way/560505499": {
@@ -18074,7 +18075,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "hip"
     },
     "way/570467712": {
@@ -20821,7 +20822,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "gable"
     },
     "way/572251045": {
@@ -21936,7 +21937,7 @@
         "reasons": []
       },
       "quality_grade": "D",
-      "ridge_bearing_deg": 180.0,
+      "ridge_bearing_deg": 0.0,
       "type": "gable"
     },
     "way/572386401": {
