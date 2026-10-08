@@ -177,7 +177,7 @@ public struct MapFeatureBuilder: Sendable {
             isCrossing: tags["footway"] == "crossing" || tags["crossing"] != nil && !kind.isVehicular,
             layer: tags["layer"].flatMap(TagParsing.integer) ?? 0,
             isBridge: tags["bridge"].map { $0 != "no" } ?? false,
-            isTunnel: tags["tunnel"].map { $0 != "no" } ?? false
+            isTunnel: (tags["tunnel"].map { $0 != "no" } ?? false) || (tags["layer"].flatMap(TagParsing.integer) ?? 0) < 0
         )
     }
 

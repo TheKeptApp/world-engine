@@ -140,4 +140,15 @@ struct MapLayerTests {
         #expect(MapLayer.placeClass(["highway": "bus_stop", "amenity": "shelter"]) == nil)
         #expect(MapLayer.stopKind(["highway": "bus_stop"]) == "bus_stop")
     }
+    @Test func undergroundWaysStayConnectedInMapNetwork() throws {
+        for tags in [["highway":"residential", "tunnel":"yes"], ["highway":"residential", "layer":"-1"]] {
+            let d = try Self.doc([Self.node(1, -20, 0), Self.node(2, 0, 0), Self.node(3, 20, 0),
+                                  Self.way(10, [1,2,3], tags)])
+            let network = MapNetwork(doc: d, frame: Self.frame, playable: Rect2D(centerWidth: 100, height: 100), marginM: 0)
+            #expect(network.segments.count == 1)
+            #expect(network.segments[0].nodeIDs == [1,2,3])
+            #expect(network.segments[0].way == 10)
+        }
+    }
+
 }

@@ -301,7 +301,7 @@ public struct RoadMarkings: Sendable {
 
     public func build() -> Output {
         var out = Output()
-        let roads = features.roads
+        let roads = features.roads.filter { !$0.isTunnel && $0.layer >= 0 }
         let layouts = roads.map(layout)
         let cums = roads.map { Self.cumulative($0.centerline) }
         let boxes = roads.map { Rect2D(enclosing: $0.centerline).expanded(by: $0.width / 2 + 1) }
