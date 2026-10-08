@@ -18,6 +18,18 @@ export function applyFoliageExp1(material,mode){
  material.colorNode=mix(original,original.mul(M),mask);
  material.aoNode=mix(float(1),A1,mask);
 }
+// foliage-exp1-spec.md §Approved native eligibility amendment (66aac35).
+// Props.swift crownPaint accepts only SeasonalPalette.order deciduous1..9
+// (slots 3..6 / 24..28). Web has species identity, not native paint slots:
+// only these P2 deciduous crown generators are equivalent; never infer from RGB.
+export function deciduousExp1Identity(species,kind){
+ return species.evergreen===false&&['treeRounded','treePyramidal','treeVase','treeOpen','treeUpright'].includes(kind);
+}
+export function crownExp1Eligible(species,kind,lod,state){
+ // Generated opaque leaves only; bare leaves are omitted, no cards are built,
+ // and lod>=3 is the skyline control. Wood never calls this crown adapter.
+ return deciduousExp1Identity(species,kind)&&lod<3&&state.leafFraction>0;
+}
 const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
 export function crownExp1AO(position,normal,shape,lobes){
  const rel=(position[1]-shape.crown[1])/shape.radii[1];
@@ -63,7 +75,7 @@ export function build(species,lod,state,data){
     }
     for(let i=0;i<p.count;i++){const normal=v([n.getX(i),n.getY(i),n.getZ(i)]).normalize(),cn=v([p.getX(i),p.getY(i),p.getZ(i)]).sub(c).divide(rr).normalize();normal.addScaledVector(cn,Math.max(0,normal.dot(cn))).normalize();n.setXYZ(i,...normal.toArray());}
     colour(g,leaf,true);
-    if(!species.evergreen&&lod<3)crownExp1Attributes(g,s,lod>=2?[]:selected);
+    if(crownExp1Eligible(species,kind,lod,state))crownExp1Attributes(g,s,lod>=2?[]:selected);
     parts.push(g);
    }
   }
@@ -87,6 +99,8 @@ export function build(species,lod,state,data){
 export function applySpecies(world,pack,roughness,region,state,data,mode='off'){
  mode=foliageExp1Mode(mode);
  const assignments={},material=new T.MeshStandardNodeMaterial({vertexColors:true,roughness});material.shadowSide=T.BackSide;material.vertexColors=false;material.colorNode=mix(attribute('color','vec3'),attribute('leafTint','vec3'),attribute('leafMask','float'));
+ const controlMaterial=new T.MeshStandardNodeMaterial({roughness});
+ controlMaterial.shadowSide=T.BackSide;controlMaterial.vertexColors=false;controlMaterial.colorNode=material.colorNode;
  applyFoliageExp1(material,mode);
  const groups=[],cache=new Map();
  for(const group of world.lodGroups){if(!group.isTree){groups.push(group);continue;}const split=new Map();
@@ -96,7 +110,7 @@ export function applySpecies(world,pack,roughness,region,state,data,mode='off'){
    const key=group.key+'/'+species.id,kind=(species.crownKind||data.foliageSeasons.species[species.id].kind);
    assignments[key]={species:species.id,silhouette:kind,source:list.every(i=>i.species)?'export species + provenance':'P2 inferred city/form fallback',count:list.length};
    const capacity=list.length<=256?Math.max(1,list.length):Math.max(1001,list.length);
-   const levels=group.levels.map((_,lod)=>{const gkey=species.id+'/'+lod;let g=cache.get(gkey);if(!g){g=build(species,lod,state,data);cache.set(gkey,g);}const geo=g.clone();geo.setAttribute('leafTint',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));geo.setAttribute('instOrigin',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));const m=new T.InstancedMesh(geo,material,capacity);m.count=0;m.castShadow=m.receiveShadow=true;m.userData.costCategory='foliage';world.root.add(m);return m;});
+   const levels=group.levels.map((_,lod)=>{const gkey=species.id+'/'+lod;let g=cache.get(gkey);if(!g){g=build(species,lod,state,data);cache.set(gkey,g);}const geo=g.clone();geo.setAttribute('leafTint',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));geo.setAttribute('instOrigin',new T.InstancedBufferAttribute(new Float32Array(capacity*3),3));const m=new T.InstancedMesh(geo,deciduousExp1Identity(species,kind)?material:controlMaterial,capacity);m.count=0;m.castShadow=m.receiveShadow=true;m.userData.costCategory='foliage';world.root.add(m);return m;});
    // P2 exports already applied widthScale to stretch; undo that duplication for tagged species.
    const s=data.shapes[kind],d=species.dimensionsM;let widthScale=1;if(s){const widths=[0,2].map(axis=>Math.max(...s.lobes.map(([c,r])=>c[axis]+r))-Math.min(...s.lobes.map(([c,r])=>c[axis]-r)));widthScale=Math.max(.6,Math.min(1.2,(d.spread[0]+d.spread[1])/(d.height[0]+d.height[1])/((widths[0]+widths[1])/2)));}
    const instances=list.map(i=>i.species?{...i,stretch:(i.stretch||[1,1]).map(x=>x/widthScale)}:i);

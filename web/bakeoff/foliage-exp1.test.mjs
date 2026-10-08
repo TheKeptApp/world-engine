@@ -96,3 +96,40 @@ assert(capture.includes("resolved.foliageExp1!==(mode==='baseline'?'off':experim
 console.log(`PASS: spec numeric witnesses; masks/bark/conifer/skyline controls; ${cases} geometry cases byte-identical to ${baseline}; extra attributes ${bytes} bytes across test fixtures`);
 console.log('PASS: absent/off/remove real Three material graphs, legacy geometry and instance inputs identical; all other main.js code identical; mode validation/routing verified without browser launch');
 console.log('LIMIT: structural render-input identity, not GPU pixel readback; no captures or scores run. Layered shader compilation and visible AO consumption await A3 capture.');
+
+// Approved 66aac35 identity gate: native deciduous slots, not petal-like colour.
+for(const kind of ['treeRounded','treePyramidal','treeVase','treeOpen','treeUpright']){
+ assert(current.deciduousExp1Identity({evergreen:false},kind));
+ for(const lod of [0,1,2])assert(current.crownExp1Eligible({evergreen:false},kind,lod,{leafFraction:1}));
+ assert(!current.crownExp1Eligible({evergreen:false},kind,3,{leafFraction:1}));
+ assert(!current.crownExp1Eligible({evergreen:false},kind,0,{leafFraction:0}));
+ assert(!current.deciduousExp1Identity({evergreen:true},kind));
+}
+for(const kind of ['flowerBush','bush','conifer','tufts','unknown'])assert(!current.deciduousExp1Identity({evergreen:false},kind));
+// Bushes/petals bypass species rebuilding entirely; conifers keep the original
+// material graph even in layered mode. Compare real geometry bytes and graphs.
+function controls(){
+ const w=world();w.lodGroups[0].kind='conifer';
+ w.lodGroups[0].instances=w.lodGroups[0].instances.map(i=>({...i,species:undefined}));
+ for(const kind of ['bush','flowerBush']){
+  const geometry=new T.BoxGeometry(),material=new T.MeshStandardNodeMaterial();
+  geometry.setAttribute('_extra',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count*4).fill(.9),4));
+  geometry.setAttribute('_paint',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count*4).fill(29),4));
+  w.lodGroups.push({isTree:false,kind,instances:[],levels:[new T.Mesh(geometry,material)]});
+ }
+ return w;
+}
+function sameBytes(a,b){assert.equal(a.constructor,b.constructor);assert(Buffer.from(a.buffer,a.byteOffset,a.byteLength).equals(Buffer.from(b.buffer,b.byteOffset,b.byteLength)));}
+const control=controls();legacy.applySpecies(control,pack,.9,'denver',state,data);control.updateLODs(new T.Vector3());
+for(const mode of ['off','remove','layered']){
+ const w=controls(),bushes=w.lodGroups.filter(g=>!g.isTree);current.applySpecies(w,pack,.9,'denver',state,data,mode);w.updateLODs(new T.Vector3());
+ assert.deepEqual(w.lodGroups.filter(g=>!g.isTree),bushes);
+ for(let i=0;i<w.lodGroups.length;i++)for(let j=0;j<w.lodGroups[i].levels.length;j++){
+  const a=w.lodGroups[i].levels[j],b=control.lodGroups[i].levels[j];
+  sameBytes(a.geometry.index.array,b.geometry.index.array);
+  for(const [key,attr]of Object.entries(b.geometry.attributes))sameBytes(a.geometry.attributes[key].array,attr.array);
+  assert.equal(canonical(a.material),canonical(b.material),mode+' changed control graph');
+  if(w.lodGroups[i].isTree)assert(a.geometry.attributes.exp1Mask.array.every(x=>x===0));
+ }
+}
+console.log('PASS: bush/flower-bush/conifer geometry and material controls byte-identical to pre-experiment baseline in off/remove/layered; GPU pixels not captured');
