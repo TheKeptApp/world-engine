@@ -22,3 +22,19 @@ Authorized, licensed sources → normalized area data → WorldGen / WorldBuild
 **Hold-outs apply at both boundaries.** A1 runs the same pipeline/configuration method across areas and reports source age, coverage, missingness and quality; a new source adapter must be verified, not presumed portable. A3 compares frozen Sloan's and untuned hold-outs with the same renderer, camera, weather/date and rubric. Lakeview and Wilmette have iOS baseline evidence; web comparisons currently use Sloan's/Lakeview. Additional Denver/Greenville views require capture-ready inputs and frozen cameras; data presence alone is insufficient. See [paired tracker](tracking/look-gate.md).
 
 Report each before/after score separately. Reject-flag a Sloan's gain paired with a hold-out loss; missing evidence is pending, never pass. The full look gate remains all four heroes ≥4/5 and every aspect ≥3, with the existing confirmation requirement. Web/iOS baselines stay separate; changed fixtures limit causal comparisons. Use the [weekend scoring procedure](tracking/weekend-brief.md), and its source/unit checks before porting any value. No automatic merges or unattended scoring.
+
+## User corrections and private projects — PROPOSED
+
+All items in this section are proposals, not implemented features or publication approval. Three tiers:
+
+| Tier | Proposed boundary |
+|---|---|
+| Private | User-owned corrections/projects remain private; no automatic public-map contribution. |
+| Shared-by-link — proposed | Explicit sharing of a versioned project via a link; not automatic adoption into the base map. |
+| Submit-to-map — facts only | Submit factual corrections as structured data fields only for review; no models, textures, images or free-text content. |
+
+Across these tiers, contributions use data fields only, never uploaded models, textures, images or text. Evidence is represented by structured provenance/source references, not an exception allowing media or narrative uploads. The evidence mechanism still needs design and legal review. Proposed submissions require evidence, automated checks and review; **no instant publish**. Keep versions and provenance. A proposed contribution layer is **optional, off by default and expiring**; do not silently make it permanent base-map truth. Expiry, review and link-access details remain to be specified. No implementation or storage/rights clearance is claimed.
+
+## World access policy — PROPOSED
+
+Proposed access is **default-deny**, with an explicit **enterable allowlist**. Homes remain exterior-only or use generic interiors that disclose no actual private layout; generic interiors do not reveal or imply residence. Sensitive sites remain exterior-only. Licensed venue access comes through rights-holders. Provide resident opt-out and avoid revealing where users live, including through project sharing, contribution metadata or activity. Exact verification, enforcement, opt-out scope and legal handling remain unresolved. This describes proposed virtual-world access, not permission to enter a real property. **Game dynamics are parked.** See the lawyer review agenda in [licensing](research/licensing.md#proposed-lawyer-review-agenda--r-8-oct-2026).

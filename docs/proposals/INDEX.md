@@ -177,3 +177,12 @@ Packs filed before the STATUS.md rule (2026-10-07). P3 has **not** marked any of
 | crown-silhouettes-v2 | [crown-silhouettes-v2](crown-silhouettes-v2/STATUS.md) | `~/Desktop/world-engine/docs/proposals/crown-silhouettes-v2/` (local-only images/panels) | [crown-silhouettes-v2/values.json](crown-silhouettes-v2/values.json) | **concept pending approval** |
 
 Facade tiers: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. A2 and P2 consume facade-detail-v1. The other three packs are filed concepts awaiting R, not approved targets.
+
+## Facade v2 / v2b — R, 8 Oct 2026
+
+| Pack | Status | Values | Images |
+|---|---|---|---|
+| [facade-detail-v2](facade-detail-v2/STATUS.md) | **APPROVED by R (8 Oct 2026)** | [facade-detail-v2/values.json](facade-detail-v2/values.json) | `~/Desktop/world-engine/docs/proposals/facade-detail-v2/` (local-only images/panels) |
+| [facade-detail-v2b](facade-detail-v2b/STATUS.md) | **APPROVED by R (8 Oct 2026)** | [facade-detail-v2b/values.json](facade-detail-v2b/values.json) | `~/Desktop/world-engine/docs/proposals/facade-detail-v2b/` (local-only images/panels) |
+
+Classified buildings only; roughly 40% unclassified remains P2 work, not a new measured coverage claim. Far/mid/near albedo is identical; detail fades and haze is separate. Calibration-v2 owns simplification; the packs supplement v1.

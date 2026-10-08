@@ -949,3 +949,9 @@ Status evidence: ~/Desktop/world-engine/docs/design-registry.md; ~/Desktop/world
 - [sky-cloud-v1](../sky-cloud-v1/STATUS.md): **concept pending approval**. World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. Owners/prospective consumers: 5A; A2 web reference review only. Phase: Pending R approval; no implementation authorization.
 - [street-ground-v1](../street-ground-v1/STATUS.md): **concept pending approval**. Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. Owners/prospective consumers: P2; 5A for surface response; A2 web reference review only. Phase: Pending R approval; no implementation authorization.
 - [crown-silhouettes-v2](../crown-silhouettes-v2/STATUS.md): **concept pending approval**. Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. Owners/prospective consumers: P2; 5A for colour; A2 web reference review only. Phase: Pending R approval; no implementation authorization.
+
+## Facade extension filing — 8 Oct 2026
+
+- [facade-detail-v2](../facade-detail-v2/STATUS.md): APPROVED by R (8 Oct 2026); six additional families, supplementing v1.
+- [facade-detail-v2b](../facade-detail-v2b/STATUS.md): APPROVED by R (8 Oct 2026); corrected family additions, supplementing v2.
+- Both apply only to classified buildings; far/mid/near albedo is identical, haze separate, calibration-v2 simplification retained. Roughly 40% unclassified remains a P2 task, not a new coverage result. A2/P2 consume for the map/look gate; no integration claimed by filing.

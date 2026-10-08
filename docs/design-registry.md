@@ -179,3 +179,12 @@ The full list of owner decisions is `docs/decisions/owner-log.md`; this table ke
 | [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | concept pending approval | P2; 5A for colour; A2 web reference review only | Pending R approval; no implementation authorization | Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. |
 
 Prospective ownership for pending concepts is routing only; it is not approval. Source files are retained unchanged, including historical pending labels; facade-detail-v1 STATUS records R’s controlling approval.
+
+## Facade extensions — R, 8 Oct 2026
+
+| Pack | Status | Owner / phase | Scope |
+|---|---|---|---|
+| [facade-detail-v2](proposals/facade-detail-v2/STATUS.md) | APPROVED by R (8 Oct 2026) | A2, P2 / map-look gate | Six additional facade families; supplement v1. Classified buildings only. |
+| [facade-detail-v2b](proposals/facade-detail-v2b/STATUS.md) | APPROVED by R (8 Oct 2026) | A2, P2 / map-look gate | Corrected additional family coverage; supplements v2. Classified buildings only. |
+
+Far albedo is identical to near/mid; haze-visibility-v1 remains separate. Calibration-v2 owns simplification. Roughly 40% unclassified is R's scope note, not a fresh measurement; P2 must address classification generally, preserving unknowns. Integration and paired scores remain lane deliverables.

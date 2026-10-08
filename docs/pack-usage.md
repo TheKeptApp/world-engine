@@ -129,3 +129,12 @@ Already in the owner's checkout (gitignored, left in place):
 | [sky-cloud-v1](proposals/sky-cloud-v1/STATUS.md) | concept pending approval | 5A; A2 web reference review only | Pending R approval; no implementation authorization | World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. |
 | [street-ground-v1](proposals/street-ground-v1/STATUS.md) | concept pending approval | P2; 5A for surface response; A2 web reference review only | Pending R approval; no implementation authorization | Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. |
 | [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | concept pending approval | P2; 5A for colour; A2 web reference review only | Pending R approval; no implementation authorization | Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. |
+
+## Facade extensions — R, 8 Oct 2026
+
+| Pack | Status | Owner / phase | Scope |
+|---|---|---|---|
+| [facade-detail-v2](proposals/facade-detail-v2/STATUS.md) | APPROVED by R (8 Oct 2026) | A2, P2 / map-look gate | Six additional facade families; supplement v1. Classified buildings only. |
+| [facade-detail-v2b](proposals/facade-detail-v2b/STATUS.md) | APPROVED by R (8 Oct 2026) | A2, P2 / map-look gate | Corrected additional family coverage; supplements v2. Classified buildings only. |
+
+Far albedo is identical to near/mid; haze-visibility-v1 remains separate. Calibration-v2 owns simplification. Roughly 40% unclassified is R's scope note, not a fresh measurement; P2 must address classification generally, preserving unknowns. Integration and paired scores remain lane deliverables.

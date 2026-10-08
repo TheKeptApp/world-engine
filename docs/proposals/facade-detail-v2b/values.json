@@ -1,0 +1,744 @@
+{
+  "date": "2026-10-08",
+  "status": "concept_pending_approval",
+  "units": "metres unless named otherwise",
+  "style": "style-b",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "valuesStatus": "Authored design targets, not sampled image pixels or measured engineering dimensions",
+  "exclusions": [
+    "signs",
+    "logos",
+    "murals",
+    "dogs",
+    "characters",
+    "host-app content"
+  ],
+  "precedence": [
+    "style-b-calibration-v2",
+    "house-contrast-v1",
+    "house-archetypes-v1",
+    "foliage-seasons-v1",
+    "infrastructure-kit-v1"
+  ],
+  "lod": {
+    "metric": "drawable projected object height in pixels",
+    "nearMinPx": 20,
+    "middleMinPx": 6,
+    "farBelowPx": 6,
+    "featureCullBelowPx": 1,
+    "hysteresisFraction": 0.1,
+    "rule": "Keep silhouette and actual dimensions; do not enlarge thin features for legibility.",
+    "albedoPolicy": {
+      "immutableBaseColour": true,
+      "allowedChanges": [
+        "geometry detail",
+        "normal/detail strength",
+        "subpixel feature visibility"
+      ],
+      "forbiddenChanges": [
+        "base albedo hue",
+        "base albedo saturation",
+        "base albedo luminance",
+        "material-region recolouring",
+        "LOD-dependent exposure"
+      ],
+      "hueOffsetDeg": 0,
+      "saturationMultiplier": 1,
+      "baseColourMultiplier": [
+        1,
+        1,
+        1
+      ],
+      "distanceTintOwner": "../haze-visibility-v1/values.json",
+      "distanceTintStage": "atmospheric radiance after surface lighting; never baked into facade materials",
+      "boardFixture": {
+        "hazeEnabled": false,
+        "sameLightingAcrossPanels": true,
+        "sameMaterialAssignmentsAcrossPanels": true,
+        "nearMidFarAreDetailTiersAtComparableIllustrationSize": true
+      },
+      "rasterVerification": "Illustrative images inspected for broad colour continuity; exact albedo is specified in JSON, not proven by shaded raster pixels."
+    }
+  },
+  "schema": "worldengine.facade-detail-v2b",
+  "content": {
+    "families": [
+      {
+        "id": "denver-ranch",
+        "city": "Denver",
+        "family": "ranch",
+        "storeys": 1,
+        "widthM": 13,
+        "depthM": 10,
+        "wall": "#B6A183",
+        "accent": "#B6A183",
+        "trim": "#D8CCB5",
+        "roof": "#67645B",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 4.6,
+        "baseAlbedo": {
+          "wall": "#B6A183",
+          "accent": "#B6A183",
+          "trim": "#D8CCB5",
+          "windowGlass": "#405766",
+          "roof": "#67645B"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#B6A183",
+            "accent": "#B6A183",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "mid": {
+            "wall": "#B6A183",
+            "accent": "#B6A183",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "far": {
+            "wall": "#B6A183",
+            "accent": "#B6A183",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          }
+        }
+      },
+      {
+        "id": "denver-minimalTraditional",
+        "city": "Denver",
+        "family": "minimalTraditional",
+        "storeys": 1,
+        "widthM": 9,
+        "depthM": 9,
+        "wall": "#9A6650",
+        "accent": "#9A6650",
+        "trim": "#DDD0B6",
+        "roof": "#67645B",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 5.3,
+        "baseAlbedo": {
+          "wall": "#9A6650",
+          "accent": "#9A6650",
+          "trim": "#DDD0B6",
+          "windowGlass": "#405766",
+          "roof": "#67645B"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#9A6650",
+            "accent": "#9A6650",
+            "trim": "#DDD0B6",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "mid": {
+            "wall": "#9A6650",
+            "accent": "#9A6650",
+            "trim": "#DDD0B6",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "far": {
+            "wall": "#9A6650",
+            "accent": "#9A6650",
+            "trim": "#DDD0B6",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          }
+        }
+      },
+      {
+        "id": "denver-splitLevel",
+        "city": "Denver",
+        "family": "splitLevel",
+        "storeys": 1.5,
+        "widthM": 14,
+        "depthM": 11,
+        "wall": "#B6A183",
+        "accent": "#898D72",
+        "trim": "#D8CCB5",
+        "roof": "#67645B",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 6.5,
+        "baseAlbedo": {
+          "wall": "#B6A183",
+          "accent": "#898D72",
+          "trim": "#D8CCB5",
+          "windowGlass": "#405766",
+          "roof": "#67645B"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#B6A183",
+            "accent": "#898D72",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "mid": {
+            "wall": "#B6A183",
+            "accent": "#898D72",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          },
+          "far": {
+            "wall": "#B6A183",
+            "accent": "#898D72",
+            "trim": "#D8CCB5",
+            "windowGlass": "#405766",
+            "roof": "#67645B"
+          }
+        },
+        "splitLevelRule": "Half-floor offsets retained; do not flatten into ordinary two-storey mass."
+      },
+      {
+        "id": "denver-modern",
+        "city": "Denver",
+        "family": "modern",
+        "storeys": 2,
+        "widthM": 9,
+        "depthM": 16,
+        "wall": "#C9C4B6",
+        "accent": "#B19874",
+        "trim": "#3F4748",
+        "roof": "#625F59",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 7.2,
+        "baseAlbedo": {
+          "wall": "#C9C4B6",
+          "accent": "#B19874",
+          "trim": "#3F4748",
+          "windowGlass": "#405766",
+          "roof": "#625F59"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#C9C4B6",
+            "accent": "#B19874",
+            "trim": "#3F4748",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "mid": {
+            "wall": "#C9C4B6",
+            "accent": "#B19874",
+            "trim": "#3F4748",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "far": {
+            "wall": "#C9C4B6",
+            "accent": "#B19874",
+            "trim": "#3F4748",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          }
+        }
+      },
+      {
+        "id": "chicago-victorianRow",
+        "city": "Chicago",
+        "family": "victorianRow",
+        "storeys": 3,
+        "widthM": 18,
+        "depthM": 18,
+        "wall": "#98664F",
+        "accent": "#98664F",
+        "trim": "#DBC8A7",
+        "roof": "#554E49",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 11.5,
+        "baseAlbedo": {
+          "wall": "#98664F",
+          "accent": "#98664F",
+          "trim": "#DBC8A7",
+          "windowGlass": "#405766",
+          "roof": "#554E49"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#98664F",
+            "accent": "#98664F",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          },
+          "mid": {
+            "wall": "#98664F",
+            "accent": "#98664F",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          },
+          "far": {
+            "wall": "#98664F",
+            "accent": "#98664F",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          }
+        },
+        "rowUnits": 3,
+        "individualFrontageM": 6
+      },
+      {
+        "id": "chicago-frameCottage",
+        "city": "Chicago",
+        "family": "frameCottage",
+        "storeys": 1,
+        "widthM": 6,
+        "depthM": 13,
+        "wall": "#A6AD99",
+        "accent": "#A6AD99",
+        "trim": "#DED5C1",
+        "roof": "#625F59",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": true,
+        "heightMApprox": 7.0,
+        "baseAlbedo": {
+          "wall": "#A6AD99",
+          "accent": "#A6AD99",
+          "trim": "#DED5C1",
+          "windowGlass": "#405766",
+          "roof": "#625F59"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#A6AD99",
+            "accent": "#A6AD99",
+            "trim": "#DED5C1",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "mid": {
+            "wall": "#A6AD99",
+            "accent": "#A6AD99",
+            "trim": "#DED5C1",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "far": {
+            "wall": "#A6AD99",
+            "accent": "#A6AD99",
+            "trim": "#DED5C1",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          }
+        }
+      },
+      {
+        "id": "chicago-brickBungalow",
+        "city": "Chicago",
+        "family": "brickBungalow",
+        "storeys": 1,
+        "widthM": 8,
+        "depthM": 16,
+        "wall": "#A77960",
+        "accent": "#A77960",
+        "trim": "#DBC8A7",
+        "roof": "#554E49",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": true,
+        "heightMApprox": 7.2,
+        "baseAlbedo": {
+          "wall": "#A77960",
+          "accent": "#A77960",
+          "trim": "#DBC8A7",
+          "windowGlass": "#405766",
+          "roof": "#554E49"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#A77960",
+            "accent": "#A77960",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          },
+          "mid": {
+            "wall": "#A77960",
+            "accent": "#A77960",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          },
+          "far": {
+            "wall": "#A77960",
+            "accent": "#A77960",
+            "trim": "#DBC8A7",
+            "windowGlass": "#405766",
+            "roof": "#554E49"
+          }
+        }
+      },
+      {
+        "id": "chicago-cornerMixedUse",
+        "city": "Chicago",
+        "family": "cornerMixedUse",
+        "storeys": 3,
+        "widthM": 16,
+        "depthM": 20,
+        "wall": "#AA9271",
+        "accent": "#898D72",
+        "trim": "#C6BEAA",
+        "roof": "#625F59",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": true,
+        "atticNotFullStorey": false,
+        "heightMApprox": 10.8,
+        "baseAlbedo": {
+          "wall": "#AA9271",
+          "accent": "#898D72",
+          "trim": "#C6BEAA",
+          "windowGlass": "#405766",
+          "roof": "#625F59"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#AA9271",
+            "accent": "#898D72",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "mid": {
+            "wall": "#AA9271",
+            "accent": "#898D72",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "far": {
+            "wall": "#AA9271",
+            "accent": "#898D72",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          }
+        },
+        "cornerRule": "Glazing/awning and shop base wrap both street-facing facades; separate residential entry."
+      },
+      {
+        "id": "chicago-vintageHighRise",
+        "city": "Chicago",
+        "family": "vintageHighRise",
+        "storeys": 10,
+        "widthM": 20,
+        "depthM": 24,
+        "wall": "#AA9271",
+        "accent": "#C6BEAA",
+        "trim": "#C6BEAA",
+        "roof": "#625F59",
+        "windowGlass": "#405766",
+        "dimensionStatus": "authored unverified fallback; mapped footprint and height override",
+        "includesCommercialGroundFloor": false,
+        "atticNotFullStorey": false,
+        "heightMApprox": 33.5,
+        "baseAlbedo": {
+          "wall": "#AA9271",
+          "accent": "#C6BEAA",
+          "trim": "#C6BEAA",
+          "windowGlass": "#405766",
+          "roof": "#625F59"
+        },
+        "materialsByLod": {
+          "near": {
+            "wall": "#AA9271",
+            "accent": "#C6BEAA",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "mid": {
+            "wall": "#AA9271",
+            "accent": "#C6BEAA",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          },
+          "far": {
+            "wall": "#AA9271",
+            "accent": "#C6BEAA",
+            "trim": "#C6BEAA",
+            "windowGlass": "#405766",
+            "roof": "#625F59"
+          }
+        },
+        "setbackUpperFloors": 2,
+        "rule": "Ten full floors and upper setback remain at far; no invented extra floors."
+      }
+    ],
+    "detailRules": {
+      "near": "Window reveals, selected cornice/eave edges, entry recess and material junctions.",
+      "mid": "Silhouette, roof, bays, half-floor offsets, repeated openings and corner shop base; remove small trim/joints.",
+      "far": "Same base albedo; coherent envelope, roof profile, broad opening groups, corner base and high-rise setback. No facade tint.",
+      "materialPolicy": {
+        "immutableBaseColour": true,
+        "allowedChanges": [
+          "geometry detail",
+          "normal/detail strength",
+          "subpixel feature visibility"
+        ],
+        "forbiddenChanges": [
+          "base albedo hue",
+          "base albedo saturation",
+          "base albedo luminance",
+          "material-region recolouring",
+          "LOD-dependent exposure"
+        ],
+        "hueOffsetDeg": 0,
+        "saturationMultiplier": 1,
+        "baseColourMultiplier": [
+          1,
+          1,
+          1
+        ],
+        "distanceTintOwner": "../haze-visibility-v1/values.json",
+        "distanceTintStage": "atmospheric radiance after surface lighting; never baked into facade materials",
+        "boardFixture": {
+          "hazeEnabled": false,
+          "sameLightingAcrossPanels": true,
+          "sameMaterialAssignmentsAcrossPanels": true,
+          "nearMidFarAreDetailTiersAtComparableIllustrationSize": true
+        },
+        "rasterVerification": "Illustrative images inspected for broad colour continuity; exact albedo is specified in JSON, not proven by shaded raster pixels."
+      }
+    },
+    "eraPalettes": [
+      {
+        "era": "Late nineteenth / early twentieth-century association",
+        "families": [
+          "victorianRow",
+          "frameCottage",
+          "brickBungalow",
+          "vintageHighRise"
+        ],
+        "hex": [
+          "#98664F",
+          "#A6AD99",
+          "#A77960",
+          "#AA9271"
+        ],
+        "status": "authored association, not surveyed colours or dating classifier"
+      },
+      {
+        "era": "1940s minimal traditional association",
+        "families": [
+          "minimalTraditional"
+        ],
+        "hex": [
+          "#9A6650",
+          "#DDD0B6"
+        ],
+        "status": "authored unverified colour association"
+      },
+      {
+        "era": "Postwar ranch / split-level association",
+        "families": [
+          "ranch",
+          "splitLevel"
+        ],
+        "hex": [
+          "#B6A183",
+          "#898D72",
+          "#D8CCB5"
+        ],
+        "status": "authored unverified colour association"
+      },
+      {
+        "era": "Contemporary infill / repaired commercial finishes",
+        "families": [
+          "modern",
+          "cornerMixedUse"
+        ],
+        "hex": [
+          "#C9C4B6",
+          "#B19874",
+          "#AA9271",
+          "#898D72"
+        ],
+        "status": "authored unverified colour association; corner form is not restricted to this era"
+      }
+    ]
+  },
+  "coverage": {
+    "requestedList": [
+      "Denver/ranch",
+      "Denver/minimalTraditional",
+      "Denver/splitLevel",
+      "Denver/modern",
+      "Chicago/victorianRow",
+      "Chicago/frameCottage",
+      "Chicago/plainBlock",
+      "Chicago/brickBungalow",
+      "Chicago/cornerMixedUse",
+      "Chicago/courtyardMass",
+      "Chicago/vintageHighRise"
+    ],
+    "alreadyCoveredByV2": {
+      "Chicago/plainBlock": "chicago-apartment",
+      "Chicago/courtyardMass": "chicago-courtyard"
+    },
+    "newFamilies": 9,
+    "scope": "Supplements corrected list; does not remove v1/v2 families."
+  },
+  "preflight": {
+    "indexChecked": "docs/proposals/INDEX.md",
+    "dropChecked": "~/Desktop/worldengine-gpt-drop",
+    "date": "2026-10-08",
+    "v2bExisted": false,
+    "overlap": "Some house forms already have archetype studies; these new facade LOD/detail boards supplement them rather than replace approved geometry."
+  }
+}

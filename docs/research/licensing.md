@@ -801,3 +801,18 @@ Source: R's decision of 2026-10-08, `docs/research-gpt/real-flights-path-v1/` an
 | **LF4** | A lawyer opinion comes before launch | Q54 | Needs lawyer |
 | **LF5** | Airport gates come later, via a paid feed or FAA SWIM | Out of scope at launch; not built | Decided (later) |
 | **LF6** | Cost estimate: about $7-25 a month at 1k monthly users, $35-150 at 100k | The research's estimate under its assumptions, not a quote | Estimate |
+
+## Proposed lawyer review agenda — R, 8 Oct 2026
+
+Open questions for counsel, not legal conclusions or changes to existing source clearances. This agenda adds to the earlier questions and decisions; it does not resolve or replace them. The user-contribution/access policies in [architecture](../architecture.md) are all proposed.
+
+| Topic | Questions to resolve / scope |
+|---|---|
+| Data licences and credits | Confirm ODbL derivative-database/offer duties and credits; exact Overture theme/release and contributing-source terms; exact 3DBAG release/licence/attribution and downstream package compatibility. Separate source permission, combined-package obligations and public-release gates. |
+| Freedom of panorama | Review commercial 3D depiction and distribution separately for each launch country: Canada, UK, Netherlands, Mexico, Australia and Japan. Distinguish architecture, sculpture/public art and interiors; do not assume one country's rule applies elsewhere. |
+| Landmark trademarks | Review names, distinctive marks, trade dress, implied sponsorship and licensing for landmark depictions/marketing; existing restrictions remain. |
+| Home privacy and resident opt-out | Review private-home exteriors/generic interiors, residence inference, location/contribution metadata, verification and implementation of opt-out, removal and retention duties. No exposure of where users live. |
+| User-contribution terms | Rights to structured facts/provenance, contributor authority, licence compatibility, review/correction/dispute handling, version retention, private/link/shared boundaries and expiry. Data fields only; no media, model, texture or free-text uploads under the proposal. No instant publication. |
+| ADS-B | Carry forward Q54 and the existing launch privacy/filtering obligations; assess feed terms, ODbL handling, airliners-only/no tail numbers, LADD/PIA suppression and pre-launch counsel opinion. This entry grants no new operational approval. |
+| “Somewhere” trademark | Carry forward the name-clearance question (Q55); filing this agenda does not approve the name, brand pack or trademark use. |
+| Sensitive-site depiction | Review which sites require restrictions, acceptable exterior representation, rights/security/privacy obligations, allowlist exclusions and complaint/removal process. Proposed exterior-only access is not itself legal clearance. |
