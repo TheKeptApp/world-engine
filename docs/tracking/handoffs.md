@@ -279,3 +279,10 @@ Consumed spec amendment `66aac35` in `web/bakeoff/foliage.js`; regressions in `f
 Under heavy lock at load 4.69 and ≥8 GB disk guard: exp1 numeric/mask/control tests, policy, overnight, atmosphere and sky-colour all pass; 1,056 baseline geometry cases unchanged. Bush/flower/conifer legacy geometry buffers compare byte-for-byte and canonical material graphs match pre-experiment `fc439aa` in off/remove/layered. This proves render inputs, not GPU pixels; no captures/scoring and no visual gain claimed. Own lock released. A3 still owns GPU/capture validation.
 
 Used: docs/research/foliage-exp1-spec.md §Approved native eligibility amendment / Web AO adapter. Mock: style-b-calibration-v2/frames/06-sloans.png and frames/01-lakeview.png. Deviation: web uses the approved equivalent crown identity; GPU pixel comparisons pending, no captures run.
+
+
+### A10 — native foliage strict pixel stop (8 October 2026)
+
+See [failure evidence](../research/foliage-exp1-native-pixel-stop.md). Approved mask amendment remains merged; native implementation `bba0a3a` stays unmerged. Arithmetic/generated-mask tests and Metal compilation pass. Bush, conifer and other non-mask controls each differ by max 1/255 in all three modes; unchanged baseline repeat is exactly 0. Separate baseline-return candidate still fails. Heavy admission load 8.83, no lock bypass; job failed and released. No Sloan’s capture or self-score. Further implementation must resolve exact identity before capture/merge.
+
+Used: foliage-exp1-spec.md Mask / Exact candidate math / Cost and stop conditions; execution/ao.md Authority; weekend-brief.md §0. Mock: style-b-calibration-v2/frames/06-sloans.png. Deviation: required pixel identity failed; implementation and captures stopped.
