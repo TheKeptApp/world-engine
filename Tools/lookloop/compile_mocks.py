@@ -24,6 +24,15 @@ owns look (markings, materials, colours, bridge, rail and airport styling). The 
 foliage-seasons-v1 (R approved 2026-10-07) compiles under "style-b/foliage" (species and cities by id, regional plantings by key) and
 style-b-calibration-v2 (R approved 2026-10-07: packs own content, calibration v2 owns look and replaces the old Lakeview street as the
 look-gate target) under "style-b/look" (its sharedLook block only). Neither compiles its copied sharedLighting.
+water-surfaces-v1 (R approved 2026-10-07, MECHANICS only) compiles under "style-b/water": profiles (without their colour blocks), shore types, the
+wave model (four terms), foam, ice gating (without ice colours and roughness), live inputs, performance budget and detail tiers. Water COLOUR stays
+with lake-winter-v1 and style-b-calibration-v2 (Lake Michigan stays the #315F7F family), so the pack's colours, reflection/roughness limits,
+atmosphere/exposure and copied lighting are not compiled. lake-winter-v1's wave tables carry "supersededFor": "wave-mechanics".
+road-signs-signals-v1 (R approved 2026-10-07) compiles under "style-b/road-signs" (countries by id): it governs signs and signals everywhere and all
+road markings outside the US; infrastructure-kit-v1 governs US lane markings and crosswalks, so the pack's US marking keys carry
+"supersededFor": "us-markings" and the kit's marking and crosswalk keys carry "governs": "us-markings". Differing US marking values are listed as
+resolved conflicts. terrain-slope-v1 ("style-b/terrain") and greenville-sc-v1 ("style-b/greenville", R's test location 3) compile their own content;
+the sharedLook they copy from the calibration is not compiled.
 R-approved corrections in Tools/lookloop/mock-corrections.json are applied last (owner rule, R 2026-10-07:
 images beat JSON when an approved pack disagrees with itself). Corrected entries carry "correction" (the id) and
 "original" (the pack's value, null if the pack had no such key); the full records are copied under "corrections".
@@ -115,7 +124,13 @@ def flatten(obj, path=""):
 
 INFRA_PACK, INFRA_PREFIX = "infrastructure-kit-v1", "style-b/infrastructure"
 FOLIAGE_PACK, LOOK_PACK = "foliage-seasons-v1", "style-b-calibration-v2"
-KEY_PREFIX = {INFRA_PACK: INFRA_PREFIX, FOLIAGE_PACK: "style-b/foliage", LOOK_PACK: "style-b/look"}  # compiled key prefix per pack (default: the pack name)
+WATER_PACK, SIGNS_PACK, TERRAIN_PACK, GREENVILLE_PACK = "water-surfaces-v1", "road-signs-signals-v1", "terrain-slope-v1", "greenville-sc-v1"
+KEY_PREFIX = {INFRA_PACK: INFRA_PREFIX, FOLIAGE_PACK: "style-b/foliage", LOOK_PACK: "style-b/look", WATER_PACK: "style-b/water",
+              SIGNS_PACK: "style-b/road-signs", TERRAIN_PACK: "style-b/terrain", GREENVILLE_PACK: "style-b/greenville"}  # compiled key prefix per pack (default: the pack name)
+LAKE_PACK = "lake-winter-v1"
+LAKE_WAVE_KEYS = re.compile(r"^water\.profiles\.[^.]+\.waveByWindKmh\.")
+US_MARKING_KEYS = re.compile(r"^profiles\.us\.markings\.")
+KIT_MARKING_KEYS = re.compile(r"^assets\.roads-0[89]-(markings|crosswalks)\.")
 GEOMETRY_OWNER = "street-geometry-rules-v1"
 GEOMETRY_RULES = "docs/research-gpt/street-geometry-rules-v1/rules.csv"
 # The kit's street cross-section keys (Roads sheets 01, 02, 05, 06, 07, 08); markings, crosswalk, bridge and soundwall keys stay the kit's.
@@ -124,6 +139,8 @@ GEOMETRY_KEYS = re.compile(r"^assets\.roads-0[125678]-[^.]+\.dimensionsM\.(laneW
                            r"carriagewayWidth|travelLaneWidth|parkingLaneWidth|pavedWidth|drainStripWidth|edgeSetback)$")
 ARCH_PACK = "house-archetypes-v1"
 ARCH_KEEP = ("archetypes", "streetContexts", "streetScenes", "approvedHouseValues")
+# Packs compiled by a view of their own; kept out of the generic leaf-name conflict search.
+OWN_PACKS = (ARCH_PACK, INFRA_PACK, FOLIAGE_PACK, LOOK_PACK, WATER_PACK, SIGNS_PACK, TERRAIN_PACK, GREENVILLE_PACK)
 
 
 def arch_view(data):
@@ -152,6 +169,52 @@ def foliage_view(data):
     return out
 
 
+def by_id(items, key="id"):
+    return {x[key]: x for x in items}
+
+
+WATER_KEEP = ("shorelines", "waveModelProposal", "foamRulesProposal", "livePolicy", "performanceProposal", "screenDetailTiersProposal")
+
+
+def water_view(data):
+    """Water MECHANICS only (R, 2026-10-07): profiles without colour blocks, shore types, waves, foam, ice gating without ice colours and roughness, live inputs, budget."""
+    out = {k: data[k] for k in WATER_KEEP if k in data}
+    out["profiles"] = {p["id"]: {k: v for k, v in p.items() if k not in ("id", "colourConditions", "colourEvidence")} for p in data.get("profiles", [])}
+    ice = dict(data.get("iceRules", {}))
+    ice.pop("colours", None)
+    ice.pop("roughnessProposal", None)
+    out["iceRules"] = ice
+    return out
+
+
+def signs_view(data):
+    """Signs, signals, markings, mounting and rail by country id; the copied sharedLook, sources and descriptions are not compiled."""
+    out = {k: data[k] for k in ("colours", "verifiedAnchors", "renderPolicy") if k in data}
+    out["profiles"] = {p["id"]: {k: v for k, v in p.items() if k not in ("id", "sources", "description", "lookRef")} for p in data.get("profiles", [])}
+    return out
+
+
+def terrain_view(data):
+    """Terrain and slope rules; grade bands, scenes and coverage by id; the inherited look and the source list are not compiled."""
+    out = {k: v for k, v in data.items() if k not in ("look", "sharedLook", "gradeBands", "scenes", "coverage", "sources", "evidenceRule")}
+    out["gradeBands"] = by_id(data.get("gradeBands", []))
+    out["scenes"] = {s["id"]: {k: v for k, v in s.items() if k not in ("description", "image", "sheet")} for s in data.get("scenes", [])}
+    out["coverage"] = {c["city"].lower().replace(" ", "-"): c for c in data.get("coverage", [])}
+    return out
+
+
+def greenville_view(data):
+    """Greenville's regional content by id (archetypes, districts, streets, trees, terrain, lawns, weather); the copied sharedLook and the sheet list are not compiled."""
+    drop = ("sharedLook", "lookSource", "lookSourceSha256", "lookSourceStatus", "lookOwnership", "sheets", "blockPaintover",
+            "archetypes", "districts", "streets", "trees")
+    out = {k: v for k, v in data.items() if k not in drop}
+    out["archetypes"] = by_id(data.get("archetypes", []))
+    out["districts"] = by_id(data.get("districts", []))
+    out["streets"] = by_id(data.get("streets", []), "type")
+    out["trees"] = by_id(data.get("trees", []))
+    return out
+
+
 def look_view(data):
     """The calibration pack's shared look (lighting, materials, people and vehicles); scenes and notes are not compiled."""
     return data.get("sharedLook", {})
@@ -172,6 +235,27 @@ def look_conflicts(entries):
                                         "resolved": "master value (numeric baseline)"},
                                        {"key": ka, "pack": LOOK_PACK, "value": entries[ka]["value"], "source": entries[ka]["source"], "state": "day",
                                         "resolved": "calibration look value, from its own frames (R: images beat JSON)"}]})
+    return out
+
+
+def signs_conflicts(entries):
+    """US marking values where road-signs-signals-v1 and infrastructure-kit-v1 differ: the kit governs US lane markings and crosswalks (R, 2026-10-07)."""
+    sp, ip = f"{KEY_PREFIX[SIGNS_PACK]}/profiles.us.markings.", f"{INFRA_PREFIX}/assets."
+    pairs = [("US crosswalk stripe width (m)", "stripeWidthM", "roads-09-crosswalks.dimensionsM.stripeWidth"),
+             ("US crosswalk stripe gap (m)", "stripeGapM", "roads-09-crosswalks.dimensionsM.stripeGap"),
+             ("US crosswalk depth along the road (m)", "crosswalkTravelDepthM", "roads-09-crosswalks.dimensionsM.crossingWidthAlongRoad"),
+             ("US stop line width (m)", "stopLineWidthM", "roads-08-markings.dimensionsM.stopBarWidth"),
+             ("US yellow marking colour", "centreLineHex", "roads-08-markings.palette.Base.accentHex"),
+             ("US white marking colour", "stopLineColourHex", "roads-08-markings.palette.Base.secondaryHex")]
+    out = []
+    for name, a, b in pairs:
+        ka, kb = sp + a, ip + b
+        if ka in entries and kb in entries and entries[ka]["value"] != entries[kb]["value"]:
+            out.append({"parameter": name, "resolved": "infrastructure-kit-v1 governs US lane markings and crosswalks (R, 2026-10-07)",
+                        "definitions": [{"key": kb, "pack": INFRA_PACK, "value": entries[kb]["value"], "source": entries[kb]["source"], "state": "day",
+                                         "resolved": "governs US lane markings and crosswalks"},
+                                        {"key": ka, "pack": SIGNS_PACK, "value": entries[ka]["value"], "source": entries[ka]["source"], "state": "day",
+                                         "resolved": "superseded for US markings; the pack keeps signs, signals and non-US markings"}]})
     return out
 
 
@@ -286,6 +370,23 @@ def resolution(defs):
     return "different state"
 
 
+def precedence(packs, root):
+    """Standing ownership rules between approved packs (R decisions); each is listed only when its packs are approved."""
+    names = {p for p, _ in packs}
+    out = [{"id": "street-geometry-owner", "decided": "R, 2026-10-07",
+            "statement": f"{GEOMETRY_OWNER} owns street geometry (carriageway, lane, sidewalk widths by country and class); the infrastructure kit owns look (markings, materials, colours, bridge, rail and airport styling). Keys marked supersededFor=geometry are not geometry sources. Images beat JSON applies to look, not measurements."}]
+    if SIGNS_PACK in names:
+        out.append({"id": "signs-signals-markings-owner", "decided": "R, 2026-10-07",
+                    "statement": f"{SIGNS_PACK} governs signs and signals everywhere and all road markings outside the US; {INFRA_PACK} governs US lane markings and crosswalks. "
+                                 "Keys marked supersededFor=us-markings are not sources for US markings; keys marked governs=us-markings are."})
+    if WATER_PACK in names:
+        out.append({"id": "water-colour-and-mechanics-owner", "decided": "R, 2026-10-07",
+                    "statement": f"{LAKE_PACK} and style-b-calibration-v2 own water colour (Lake Michigan stays the #315F7F family); {WATER_PACK} is approved for mechanics only: "
+                                 "wave terms, foam, shore types, ice gating, live inputs and budget. Its colour, reflection/roughness, exposure and ice colour keys are not compiled; "
+                                 "lake-winter-v1 wave tables carry supersededFor=wave-mechanics."})
+    return out
+
+
 def build(root=ROOT):
     packs = approved_packs((root / "docs/proposals/INDEX.md").read_text())
     entries, dates = {}, []
@@ -295,6 +396,8 @@ def build(root=ROOT):
             dates.append(data["date"])
         rows = (flatten_labelled(arch_view(data)) if pack == ARCH_PACK else flatten_labelled(infra_view(data)) if pack == INFRA_PACK
                 else flatten_labelled(foliage_view(data)) if pack == FOLIAGE_PACK else flatten_labelled(look_view(data)) if pack == LOOK_PACK
+                else flatten_labelled(water_view(data)) if pack == WATER_PACK else flatten_labelled(signs_view(data)) if pack == SIGNS_PACK
+                else flatten_labelled(terrain_view(data)) if pack == TERRAIN_PACK else flatten_labelled(greenville_view(data)) if pack == GREENVILLE_PACK
                 else ((p, v, None) for p, v in flatten(data)))
         prefix = KEY_PREFIX.get(pack, pack)
         for path, value, label in rows:
@@ -306,6 +409,14 @@ def build(root=ROOT):
             if pack == INFRA_PACK and GEOMETRY_KEYS.match(path):
                 entry["supersededFor"] = "geometry"
                 entry["geometryOwner"] = GEOMETRY_OWNER
+            if pack == SIGNS_PACK and US_MARKING_KEYS.match(path):
+                entry["supersededFor"] = "us-markings"
+                entry["markingsOwner"] = INFRA_PACK
+            if pack == INFRA_PACK and KIT_MARKING_KEYS.match(path):
+                entry["governs"] = "us-markings"
+            if pack == LAKE_PACK and LAKE_WAVE_KEYS.match(path) and any(p == WATER_PACK for p, _ in packs):
+                entry["supersededFor"] = "wave-mechanics"
+                entry["supersededBy"] = WATER_PACK
             entries[f"{prefix}/{path}"] = entry
     cpath = root / CORRECTIONS
     corrections = json.loads(cpath.read_text())["corrections"] if cpath.exists() else []
@@ -332,10 +443,9 @@ def build(root=ROOT):
         "generated": max(dates) if dates else "unknown",
         "generator": "Tools/lookloop/compile_mocks.py",
         "approvedPacks": [p for p, _ in packs],
-        "precedence": [{"id": "street-geometry-owner", "decided": "R, 2026-10-07",
-                        "statement": f"{GEOMETRY_OWNER} owns street geometry (carriageway, lane, sidewalk widths by country and class); the infrastructure kit owns look (markings, materials, colours, bridge, rail and airport styling). Keys marked supersededFor=geometry are not geometry sources. Images beat JSON applies to look, not measurements."}],
-        "conflicts": (find_conflicts({k: e for k, e in entries.items() if e["pack"] not in (ARCH_PACK, INFRA_PACK, FOLIAGE_PACK, LOOK_PACK)})
-                      + archetype_conflicts(entries) + geometry_conflict(entries, root) + look_conflicts(entries)),
+        "precedence": precedence(packs, root),
+        "conflicts": (find_conflicts({k: e for k, e in entries.items() if e["pack"] not in OWN_PACKS})
+                      + archetype_conflicts(entries) + geometry_conflict(entries, root) + look_conflicts(entries) + signs_conflicts(entries)),
         "entries": entries,
     }
 

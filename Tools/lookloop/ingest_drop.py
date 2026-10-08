@@ -17,7 +17,9 @@ owner's checkout (--worktree-images also copies them here); text files over 1 MB
 are kept local like images and named in .gitignore; the pack's own bundle zips (*-all.zip, *-all-files.zip, *-complete.zip)
 and the images inside superseded* folders are skipped (their text is filed); --quiet prints one line per pack.
 --update-text also replaces already-filed TEXT files that ChatGPT has since revised in place (git history keeps the previous
-version; images are never replaced).
+version; images are never replaced unless --replace-images is given).
+--replace-images (R, 7 Oct 2026, for regenerated images): a conflicting image is replaced by the drop-folder version, and the old
+local file is first copied to iCloud WorldEngine-Design-Backup/proposals/<pack>/<file>.prev (.prev2, ... if one exists). Nothing is deleted.
 Nothing in the drop folder is ever changed or deleted. A destination file that already exists with different
 content is reported and left alone, never overwritten. The caller commits, updates docs/design-registry.md
 and runs the backup.
@@ -27,6 +29,7 @@ import filecmp, json, os, re, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 OWNER = os.path.expanduser("~/Desktop/world-engine")
+ICLOUD = os.path.expanduser("~/Library/Mobile Documents/com~apple~CloudDocs/WorldEngine-Design-Backup/proposals")
 DROP = os.environ.get("GPT_DROP") or os.path.expanduser("~/Desktop/worldengine-gpt-drop")
 IMAGE = {".png", ".jpg", ".jpeg", ".zip"}
 DOC = {".xlsx", ".pdf", ".docx", ".pptx", ".key", ".numbers", ".mp4", ".mov"}
@@ -73,6 +76,19 @@ def same(a, b):
         return False
 
 
+def keep_prev(old, icloud_file):
+    """Copy the old local image to iCloud as <file>.prev (.prev2, ... when one exists with different content); returns the path."""
+    os.makedirs(os.path.dirname(icloud_file), exist_ok=True)
+    n, dest = 1, icloud_file + ".prev"
+    while os.path.exists(dest):
+        if filecmp.cmp(old, dest, shallow=False):
+            return dest
+        n += 1
+        dest = f"{icloud_file}.prev{n}"
+    shutil.copy2(old, dest)
+    return dest
+
+
 def plan(only=(), worktree_images=False):
     mp = os.path.join(HERE, "drop-map.json")
     overrides = json.load(open(mp)) if os.path.exists(mp) else {}
@@ -108,6 +124,7 @@ def main():
     apply = "--apply" in sys.argv
     quiet = "--quiet" in sys.argv
     update_text = "--update-text" in sys.argv
+    replace_images = "--replace-images" in sys.argv
     rows = plan(tuple(a for a in sys.argv[1:] if not a.startswith("--")), worktree_images="--worktree-images" in sys.argv)
     per = {}
     for pack, k, f, d, state in rows:
@@ -123,8 +140,13 @@ def main():
             if apply:
                 open(d, "wb").write(scrub(open(f, "rb").read()))
             state = "updated"
+        if state == "CONFLICT" and k == "image" and replace_images and d.startswith(os.path.join(OWNER, "docs/proposals") + os.sep):
+            if apply:
+                keep_prev(d, os.path.join(ICLOUD, os.path.relpath(d, os.path.join(OWNER, "docs/proposals"))))
+                shutil.copy2(f, d)
+            state = "replaced"
         c = per.setdefault(pack, {})
-        key = state if state.startswith(("new", "CONFLICT", "updated")) else "skipped"
+        key = state if state.startswith(("new", "CONFLICT", "updated", "replaced")) else "skipped"
         c[key] = c.get(key, 0) + 1
         if not quiet or state == "CONFLICT":
             print(f"{state:9} {k:5} {pack}: {os.path.relpath(f, DROP)} -> {d}")
@@ -140,7 +162,7 @@ def main():
         if apply:
             open(os.path.join(ROOT, ".gitignore"), "a").write("\n# ChatGPT drop: local-only (SVG or text over 1 MB, binary documents)\n" + "\n".join(unignored) + "\n")
     news = sum(1 for r in rows if r[4] == "new")
-    conflicts = sum(1 for r in rows if r[4] == "CONFLICT" and not (update_text and r[1] == "text"))
+    conflicts = sum(1 for r in rows if r[4] == "CONFLICT" and not (update_text and r[1] == "text") and not (replace_images and r[1] == "image"))
     skipped = sum(1 for r in rows if r[4].startswith("skipped"))
     print(f"{'copied' if apply else 'would copy'} {news} file(s); {conflicts} conflict(s) left for review; {skipped} skipped; drop folder untouched")
     sys.exit(1 if conflicts else 0)

@@ -1,0 +1,481 @@
+{
+  "schema": "worldengine.greenville-style-b.v1",
+  "version": "1.0.0",
+  "date": "2026-10-07",
+  "status": "authored regional concept, dimensions/palettes/mixes unverified",
+  "lookOwnership": "style-b-calibration-v2 owns light, exposure and material response; regional base albedo and geometry belong to this pack",
+  "sharedLook": {
+    "lighting": {
+      "sun": {
+        "hex": "#FFE8C6",
+        "elevationDeg": 40,
+        "azimuthDeg": 225,
+        "directRelative": 1,
+        "fixtureOnly": true
+      },
+      "sky": {
+        "zenithHex": "#73A5CC",
+        "midHex": "#A2C4DC",
+        "horizonHex": "#DBDCD1",
+        "fillHex": "#AEBCCA",
+        "cloudLitHex": "#F0F2EF",
+        "cloudShadeHex": "#CAD6DE",
+        "coverage01": 0.18
+      },
+      "shadow": {
+        "appearanceHex": "#7F8F99",
+        "neutralWitnessShadowToLitLinearY": 0.62,
+        "ambientVisibilityFloor": 0.65,
+        "occlusionMerge": "min; never repeatedly multiply AO",
+        "filterDrawablePx": [
+          1,
+          2
+        ]
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      }
+    },
+    "materials": {
+      "surfacePolicy": "Simplified matte albedo fields. Recesses and trim are selective geometry; no photo textures, brick grain, asphalt noise, pores or procedural dirt.",
+      "roughness": {
+        "masonry": 0.82,
+        "plaster": 0.82,
+        "wood": 0.82,
+        "concrete": 0.82,
+        "asphalt": 0.82,
+        "foliage": 0.92,
+        "fabric": 0.9,
+        "skin": 0.65,
+        "vehiclePaint": 0.55,
+        "paintedMetal": 0.68,
+        "glass": 0.28
+      },
+      "glass": "Restrained dark panes with broad reflections; no mirrored photographic panorama.",
+      "foliage": "Irregular organic lobed crowns, selective silhouette detail; no repeated spherical clusters, no dense leaf microgeometry.",
+      "detailLevel": "Real proportions and silhouette; selective structural detail, simplified surface information.",
+      "groundBaseHex": {
+        "asphalt": "#626A70",
+        "concrete": "#C5C0B3",
+        "lawn": "#73865B",
+        "curb": "#B9B7AD"
+      }
+    },
+    "peopleVehicles": {
+      "policy": "Near-photoreal generic form under the same matte lighting, no brands, detailed faces, readable signage or insignia.",
+      "distanceBands": [
+        {
+          "id": "near",
+          "guideDistanceM": [
+            0,
+            20
+          ],
+          "projectedHeightPx": [
+            48,
+            null
+          ],
+          "people": "Real anatomy, gait, clothing folds at broad scale; non-identifying facial planes, no detailed features.",
+          "vehicles": "Real class proportions, wheels, broad glass and panel forms; no badge, identifying grille or plate text."
+        },
+        {
+          "id": "mid",
+          "guideDistanceM": [
+            20,
+            80
+          ],
+          "projectedHeightPx": [
+            16,
+            48
+          ],
+          "people": "Natural pose and clothing colour groups; facial detail removed.",
+          "vehicles": "Silhouette, wheel placement, glass groups; merge small trim."
+        },
+        {
+          "id": "far",
+          "guideDistanceM": [
+            80,
+            null
+          ],
+          "projectedHeightPx": [
+            5,
+            16
+          ],
+          "people": "Natural uninflated silhouette and muted colour groups.",
+          "vehicles": "Real class silhouette, subdued broad glazing, no trim."
+        },
+        {
+          "id": "cull",
+          "projectedHeightPx": [
+            0,
+            5
+          ],
+          "policy": "Cull ambient actors below visibility threshold; never inflate actors."
+        }
+      ],
+      "selection": "Projected size determines detail; metre bands are illustrative and depend on FOV, viewport and camera."
+    },
+    "prohibited": [
+      "photo textures",
+      "cartoon outlines",
+      "toy proportions",
+      "logos",
+      "readable signage",
+      "dogs",
+      "animals",
+      "real murals",
+      "app or host content"
+    ]
+  },
+  "lookSource": "~/Desktop/worldengine-gpt-drop/style-b-calibration-v2/values.json",
+  "lookSourceSha256": "8e60a40ac1aa4596e751f5d19925dc1cbf44795babb3fae3db08ca6d719fa503",
+  "units": "metres unless explicitly stated",
+  "archetypes": [
+    {
+      "id": "01-mill-cottage",
+      "storeys": 1,
+      "floorHeightM": 2.8,
+      "lotWidthM": 14,
+      "frontSetbackM": 5,
+      "sideSetbackM": 2,
+      "rearSetbackM": 8,
+      "paletteHex": {
+        "wall": "#D8D1BB",
+        "trim": "#F0EBDF",
+        "roof": "#665F55"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    },
+    {
+      "id": "02-bungalow",
+      "storeys": 1.5,
+      "floorHeightM": 2.8,
+      "lotWidthM": 18,
+      "frontSetbackM": 8,
+      "sideSetbackM": 2,
+      "rearSetbackM": 8,
+      "paletteHex": {
+        "wall": "#8B9783",
+        "trim": "#E0DAC7",
+        "roof": "#635F53"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    },
+    {
+      "id": "03-brick-ranch",
+      "storeys": 1,
+      "floorHeightM": 2.8,
+      "lotWidthM": 25,
+      "frontSetbackM": 10,
+      "sideSetbackM": 2,
+      "rearSetbackM": 8,
+      "paletteHex": {
+        "wall": "#955F4B",
+        "trim": "#D4C5AE",
+        "roof": "#655F56"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    },
+    {
+      "id": "04-craftsman",
+      "storeys": 2,
+      "floorHeightM": 2.8,
+      "lotWidthM": 20,
+      "frontSetbackM": 8,
+      "sideSetbackM": 2,
+      "rearSetbackM": 8,
+      "paletteHex": {
+        "wall": "#7D8D91",
+        "trim": "#D8CDB8",
+        "roof": "#625C50"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    },
+    {
+      "id": "05-infill-townhouse",
+      "storeys": 3,
+      "floorHeightM": 2.8,
+      "lotWidthM": 6,
+      "frontSetbackM": 3,
+      "sideSetbackM": 0,
+      "rearSetbackM": 8,
+      "paletteHex": {
+        "wall": "#A47C64",
+        "trim": "#DED8CC",
+        "roof": "#565D60"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    },
+    {
+      "id": "06-mixed-use",
+      "storeys": 3,
+      "floorHeightM": 3.2,
+      "lotWidthM": 8,
+      "frontSetbackM": 0,
+      "sideSetbackM": 0,
+      "rearSetbackM": 5,
+      "paletteHex": {
+        "wall": "#A1745B",
+        "trim": "#C9B9A3",
+        "roof": "#526068"
+      },
+      "status": "representative authored modeling target, not parcel survey or zoning requirement"
+    }
+  ],
+  "districts": [
+    {
+      "id": "07-downtown",
+      "description": "District with tree-lined two-lane Main Street, attached 2\u20135-storey brick storefront blocks transitioning to terraced river park with shallow rock cascade and GENERIC slender curved pedestrian bridge shell over Reedy-like river. Not exact Liberty Bridge reproduction, no monuments/public art. Street left, aerial center shows park linkage, far right rolling urban setting.",
+      "surveyed": false
+    },
+    {
+      "id": "08-north-main",
+      "description": "Leafy residential district with 1920s bungalows, Craftsman houses and modest infill, mature broad oaks, gently rolling streets, front porches, 18\u201325m lots and 6\u201310m setbacks, no enormous mountains.",
+      "surveyed": false
+    },
+    {
+      "id": "09-augusta-road",
+      "description": "District inspired by residential streets around Augusta Road: brick ranches, bungalows and selective two-storey homes, generous oak-shaded yards and rolling grades, small blank neighborhood storefront cluster near main corridor; not North Augusta.",
+      "surveyed": false
+    },
+    {
+      "id": "10-mill-village",
+      "description": "Compact textile mill-village district, small repeating gable cottages with individual variations, front porches and modest lawns on rolling lanes; distant generic red-brick former mill shell, no named landmark or chimney text.",
+      "surveyed": false
+    }
+  ],
+  "streets": [
+    {
+      "type": "downtown Main-style",
+      "rightOfWayM": 22,
+      "carriagewayM": 7,
+      "sidewalkEachSideM": 4,
+      "treeSpacingM": 8,
+      "status": "authored representative, not surveyed"
+    },
+    {
+      "type": "neighborhood",
+      "rightOfWayM": 16,
+      "carriagewayM": 6.5,
+      "sidewalkEachSideM": 1.5,
+      "treeSpacingM": 12,
+      "status": "authored representative, not surveyed"
+    },
+    {
+      "type": "mill-village lane",
+      "rightOfWayM": 12,
+      "carriagewayM": 5.5,
+      "sidewalkEachSideM": 1.2,
+      "treeSpacingM": 14,
+      "status": "authored representative, not surveyed"
+    },
+    {
+      "type": "Augusta-style corridor",
+      "rightOfWayM": 24,
+      "carriagewayM": 10,
+      "sidewalkEachSideM": 2,
+      "treeSpacingM": 10,
+      "status": "authored representative, not surveyed"
+    }
+  ],
+  "trees": [
+    {
+      "id": "oak",
+      "name": "Oaks",
+      "heightM": 20,
+      "crownDiameterM": 18,
+      "mixShare": 0.45,
+      "evergreen": false
+    },
+    {
+      "id": "magnolia",
+      "name": "Southern magnolia",
+      "heightM": 12,
+      "crownDiameterM": 8,
+      "mixShare": 0.12,
+      "evergreen": true
+    },
+    {
+      "id": "crape",
+      "name": "Crape myrtle",
+      "heightM": 6,
+      "crownDiameterM": 5,
+      "mixShare": 0.15,
+      "evergreen": false
+    },
+    {
+      "id": "dogwood",
+      "name": "Flowering dogwood",
+      "heightM": 7,
+      "crownDiameterM": 6,
+      "mixShare": 0.1,
+      "evergreen": false
+    },
+    {
+      "id": "pine",
+      "name": "Loblolly pine",
+      "heightM": 26,
+      "crownDiameterM": 8,
+      "mixShare": 0.18,
+      "evergreen": true
+    }
+  ],
+  "treeMixMeaning": "illustrative planted scene mix by specimen count, not measured city canopy; placement varies by district",
+  "terrain": {
+    "landform": "rolling Piedmont with narrow creek valleys",
+    "streetGradePercentRange": [
+      0,
+      8
+    ],
+    "typicalLocalReliefM": [
+      10,
+      40
+    ],
+    "status": "authored rendering target, no DEM supplied",
+    "noAlpineMountains": true
+  },
+  "seasonalLawns": {
+    "warmSeasonReferenceHex": {
+      "spring": "#82946B",
+      "summer": "#73865B",
+      "autumn": "#8E8E69",
+      "winter": "#AAA17F"
+    },
+    "coolSeasonAlternativeHex": {
+      "spring": "#7A9067",
+      "summer": "#7D8864",
+      "autumn": "#78895E",
+      "winter": "#7C876A"
+    },
+    "policy": "turf type, irrigation, drought and temperature history control dormancy; winter browning is not universal; no grass blade microgeometry"
+  },
+  "weather": {
+    "summerThunderstorm": {
+      "cloudCoverage01": 0.95,
+      "directSunRelative": 0.15,
+      "wetness01": 0.3,
+      "rainMaterialDarkeningCap01": 0.12,
+      "reflectionPolicy": "broken eligible patches only, no mirror road",
+      "mode": "authored not live"
+    },
+    "night": {
+      "directSunRelative": 0,
+      "warmWindowShare": 0.18,
+      "warmLightHex": "#F3D0A0",
+      "coolFillHex": "#8396AB",
+      "roadWetness01": 0,
+      "mode": "authored not live"
+    },
+    "precedence": "time/weather replaces clear-day lighting fixture, exposure and wetness apply once"
+  },
+  "sheets": [
+    {
+      "id": "01-mill-cottage",
+      "name": "Mill-village cottage",
+      "image": "images/01-mill-cottage.png",
+      "page": "sheets/01-mill-cottage.html"
+    },
+    {
+      "id": "02-bungalow",
+      "name": "1920s bungalow",
+      "image": "images/02-bungalow.png",
+      "page": "sheets/02-bungalow.html"
+    },
+    {
+      "id": "03-brick-ranch",
+      "name": "Brick ranch",
+      "image": "images/03-brick-ranch.png",
+      "page": "sheets/03-brick-ranch.html"
+    },
+    {
+      "id": "04-craftsman",
+      "name": "Craftsman",
+      "image": "images/04-craftsman.png",
+      "page": "sheets/04-craftsman.html"
+    },
+    {
+      "id": "05-infill-townhouse",
+      "name": "Newer infill townhouse",
+      "image": "images/05-infill-townhouse.png",
+      "page": "sheets/05-infill-townhouse.html"
+    },
+    {
+      "id": "06-mixed-use",
+      "name": "Downtown mixed-use storefront",
+      "image": "images/06-mixed-use.png",
+      "page": "sheets/06-mixed-use.html"
+    },
+    {
+      "id": "07-downtown",
+      "name": "Downtown Main Street / river park",
+      "image": "images/07-downtown.png",
+      "page": "sheets/07-downtown.html"
+    },
+    {
+      "id": "08-north-main",
+      "name": "North Main",
+      "image": "images/08-north-main.png",
+      "page": "sheets/08-north-main.html"
+    },
+    {
+      "id": "09-augusta-road",
+      "name": "Augusta Road",
+      "image": "images/09-augusta-road.png",
+      "page": "sheets/09-augusta-road.html"
+    },
+    {
+      "id": "10-mill-village",
+      "name": "Mill village",
+      "image": "images/10-mill-village.png",
+      "page": "sheets/10-mill-village.html"
+    },
+    {
+      "id": "11-block-base",
+      "name": "Block / source concept",
+      "image": "images/11-block-base.png",
+      "page": "sheets/11-block-base.html"
+    },
+    {
+      "id": "12-piedmont",
+      "name": "Rolling Piedmont terrain",
+      "image": "images/12-piedmont.png",
+      "page": "sheets/12-piedmont.html"
+    },
+    {
+      "id": "13-trees",
+      "name": "Regional tree silhouettes",
+      "image": "images/13-trees.png",
+      "page": "sheets/13-trees.html"
+    },
+    {
+      "id": "14-summer-storm",
+      "name": "Summer thunderstorm",
+      "image": "images/14-summer-storm.png",
+      "page": "sheets/14-summer-storm.html"
+    },
+    {
+      "id": "15-night",
+      "name": "Neighborhood night",
+      "image": "images/15-night.png",
+      "page": "sheets/15-night.html"
+    },
+    {
+      "id": "16-seasonal-lawns",
+      "name": "Lawn colour by season",
+      "image": "images/16-seasonal-lawns.png",
+      "page": "sheets/16-seasonal-lawns.html"
+    }
+  ],
+  "lookSourceStatus": "calibration proposal; approval pending; authored values, not measured image pixels",
+  "blockPaintover": {
+    "source": "images/11-block-base.png",
+    "calibrated": "images/11-block-paintover.png",
+    "sourceKind": "generated Greenville block, not surveyed photo",
+    "cameraRetention": "approximate visual"
+  }
+}

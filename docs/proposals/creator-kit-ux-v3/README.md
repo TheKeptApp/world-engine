@@ -21,13 +21,13 @@ Each sheet has HTML and export PNG companions. `screens/` contains eight Easy de
 
 Big buttons and plain words take the organizer from an existing site map or place choice to a proposed layout. Site confirmation appears before layout generation: use three visible anchor points and one known distance; uncertain registration needs a correction path. The design does not turn map upload into an automatically trusted location. AI suggestions remain a proposal until “Use this layout.” Individual changes use tap, move, turn, remove and undo; adding a part remains optional.
 
-No CAD words, layer list, axis fields or service-envelope settings dominate Easy. Event details ask only date, time, people and a short note. Review keeps the practical item list visible. Sharing creates a version snapshot rather than exposing the private editor. A later edit does not mutate the previously shared layout.
+Easy keeps the technical layer list, axis fields and service-envelope settings in Pro. Event details ask only date, time, people and a short note. Review keeps the practical item list visible. Sharing creates a version snapshot rather than exposing the private editor. A later edit does not mutate the previously shared layout.
 
 ## Pro behaviour
 
 The desktop workspace keeps library/layers on the left, the world in the middle, and the selected part’s dimensions on the right. Part sizes and local coordinates use metres. Snapping offers 0.1 / 0.25 / 0.5 / 1 m. The service envelope is an editable planning allowance: footprint plus a margin on all sides, with supplier-provided values taking priority. It is not a clearance certification. A locked verified place layer stays separate from customer event parts.
 
-Named versions support restore without throwing away the current plan. Exports include the layout data and a parts list; scaled PDF/CAD and georeferenced output are specified production features. Brands use reusable part palettes and layouts across sites; venue teams use repeatable event versions. These are the same primitives, not six separate editors.
+Named versions support restore without throwing away the current plan. Exports include the layout data and a parts list; scaled PDF/CAD and georeferenced output are specified production features. Brands use reusable part palettes and layouts across sites; venue teams use repeatable event versions. All six segments share the same primitives.
 
 ## Shared view and weather
 
@@ -52,3 +52,5 @@ The local preview link includes its snapshot; treat it as visible data, not a se
 [validation.json](validation.json) records screen and layout checks, mode preservation, exact-value editing, undo, versions, snapshot isolation and local exports. Phone checks cover 320 and 390 CSS pixels, with tablet width checked at 768 and desktop at 1440. Preview screenshots are in `phone-check/`. Browser verification is for UX and local data behaviour, not engine/device performance, physical clearance or production weather accuracy.
 
 No git. No files were written to the world-engine project or its docs/proposals.
+
+Final exports: **9 review poster sheets, 36 individual screen PNGs and 8 world studies**. All 21 screen states passed viewport checks at 320, 390, 768 and 1440 pixels; the mode dialog was also checked for internal clipping and button contrast. All nine review sheets and their gallery passed image/link and phone-width checks. Exact shared-look inheritance and all selected artwork hashes were verified.
