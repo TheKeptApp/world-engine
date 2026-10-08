@@ -299,7 +299,6 @@ public struct SceneGenerator: Sendable {
             append(m, feature: "gen:ground:\(chunks[key]!.id)", to: key)
         }
         // Areas: parks, pitches, parking, water.
-        let waterProfile = ShoreBand.profile(for: profile.id)
         for area in features.areas {
             let style: (String, Double, Paint.Flags, Float)? = switch area.kind {
             case .park, .grass, .garden, .meadow, .recreation, .cemetery, .wood, .scrub: ("lawn", GroundLayer.park, .lawn, 0.97)
@@ -315,6 +314,7 @@ public struct SceneGenerator: Sendable {
                       var cap = Triangulator.cap(clean, y: y) else { continue }
                 cap.repaint(from: 0, Paint(slot: n(slotName), shade: shade, flags: flags))
                 if area.kind == .water || area.kind == .pool {
+                    let waterProfile = ShoreBand.profile(for: area.polygon)
                     // Open water: far from the shore (extra.z, metres) and the lake profile (extra.w).
                     for i in cap.extras.indices { cap.extras[i].z = Float(ShoreBand.openWater); cap.extras[i].w = Float(waterProfile.index) }
                     chunks[key]!.waterFeatures.append(FeatureRange(feature: area.ref.description, start: chunks[key]!.waterMesh.vertexCount, count: cap.vertexCount))
@@ -323,7 +323,8 @@ public struct SceneGenerator: Sendable {
                     append(cap, feature: area.ref.description, to: key)
                 }
             }
-            if area.kind == .water, let width = waterProfile.blendWidth {
+            if area.kind == .water, let width = ShoreBand.profile(for: area.polygon).blendWidth {
+                let waterProfile = ShoreBand.profile(for: area.polygon)
                 // Shallow/shoreline band (lake-winter-v1): a mitred strip inward from the shore carrying the
                 // distance to the shore in extra.z, so the water shader can blend the shallow colour and darken
                 // the shoreline. Distributed to chunks by triangle.

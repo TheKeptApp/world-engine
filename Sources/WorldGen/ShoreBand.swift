@@ -12,12 +12,17 @@ enum ShoreBand {
 
     struct Profile { var index: Int; var id: String?; var blendWidth: Double? }
 
-    /// The lake-winter-v1 water profile for a style profile (look.json water.shoreProfiles).
-    static func profile(for styleProfile: String) -> Profile {
-        guard let sp = LookSpec.bundled?.water.shoreProfiles,
-              let id = sp.profiles[styleProfile] ?? sp.profiles["default"], let index = sp.order.firstIndex(of: id) else {
-            return Profile(index: 0, id: nil, blendWidth: nil)
-        }
+    /// The lake-winter-v1 water profile for one water body, from its own size (R, 8 Oct: no place-specific
+    /// fixes): large open water (area or longest fetch at or over look.json water.shoreProfiles.largeWater)
+    /// takes `large`, everything smaller `small`. Fetch = the longest side of the oriented bounding box.
+    static func profile(for polygon: Polygon2D) -> Profile {
+        guard let sp = LookSpec.bundled?.water.shoreProfiles else { return Profile(index: 0, id: nil, blendWidth: nil) }
+        let area = polygon.area
+        let obb = FootprintAnalysis(polygon).obb
+        let fetch = 2 * max(obb.halfLength, obb.halfWidth)
+        let large = area >= sp.largeWater.minAreaM2 || fetch >= sp.largeWater.minFetchM
+        let id = large ? sp.largeWater.profile : sp.smallWater
+        guard let index = sp.order.firstIndex(of: id) else { return Profile(index: 0, id: nil, blendWidth: nil) }
         let w = MockValues.bundled?.number("lake-winter-v1/water.profiles.\(id).shallowBlendWidthM")
         return Profile(index: index, id: id, blendWidth: w)
     }

@@ -7,10 +7,13 @@ import WorldMesh
 /// Lake shore band (lake-winter-v1): water-mesh vertices carry the distance to the shore (extra.z) and the
 /// lake profile (extra.w); the band is the profile's shallowBlendWidthM wide.
 struct ShoreBandTests {
-    @Test func profilesComeFromLookAndMockValues() throws {
-        let sloans = ShoreBand.profile(for: "front-range"), chicago = ShoreBand.profile(for: "evanston")
-        #expect(sloans.id == "sloans_lake" && sloans.blendWidth == 2)
-        #expect(chicago.id == "lake_michigan" && chicago.blendWidth == 4)
+    @Test func profileFollowsWaterBodySize() {
+        let pond = Polygon2D(outer: [LocalPoint(0, 0), LocalPoint(800, 0), LocalPoint(800, 600), LocalPoint(0, 600)])
+        let lake = Polygon2D(outer: [LocalPoint(0, 0), LocalPoint(20_000, 0), LocalPoint(20_000, 3_000), LocalPoint(0, 3_000)])
+        let narrowLong = Polygon2D(outer: [LocalPoint(0, 0), LocalPoint(6_000, 0), LocalPoint(6_000, 200), LocalPoint(0, 200)])
+        #expect(ShoreBand.profile(for: pond).id == "sloans_lake" && ShoreBand.profile(for: pond).blendWidth == 2)
+        #expect(ShoreBand.profile(for: lake).id == "lake_michigan" && ShoreBand.profile(for: lake).blendWidth == 4)
+        #expect(ShoreBand.profile(for: narrowLong).id == "lake_michigan", "long fetch counts as open water")
     }
 
     @Test func squarePondBandIsMitredAndInward() {

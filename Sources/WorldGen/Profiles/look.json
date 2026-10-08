@@ -13,18 +13,17 @@
     "rainRipples": 0.6,
     "overcastReflectGain": 0.42,
     "shoreProfiles": {
-      "comment": "Generator (P2): style profile → lake-winter-v1 water profile (water.profiles.<id>; index = position in 'order', sent in water-mesh extra.w). Shore band width = that profile's shallowBlendWidthM from mock-values.json; extra.z = metres from the shore (open water 1000).",
+      "comment": "Generator (P2): lake-winter-v1 water profile per water body from its own size (R, 8 Oct: no place-specific fixes). Large open water (area >= minAreaM2 or longest fetch >= minFetchM) takes largeWater.profile, everything else smallWater; index = position in 'order', sent in water-mesh extra.w; band width = that profile's shallowBlendWidthM from mock-values. Thresholds are P2 judgments (the pack gives none): Lake Michigan is thousands of km2; urban lakes like Sloan's are under 1 km2.",
       "order": [
         "lake_michigan",
         "sloans_lake"
       ],
-      "profiles": {
-        "evanston": "lake_michigan",
-        "wilmette": "lake_michigan",
-        "chicago-dense-north": "lake_michigan",
-        "default": "sloans_lake",
-        "front-range": "sloans_lake"
-      }
+      "largeWater": {
+        "minAreaM2": 10000000,
+        "minFetchM": 5000,
+        "profile": "lake_michigan"
+      },
+      "smallWater": "sloans_lake"
     }
   },
   "sky": {

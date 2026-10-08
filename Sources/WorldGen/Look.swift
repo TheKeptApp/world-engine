@@ -17,8 +17,14 @@ public struct LookSpec: Codable, Sendable {
         public var shoreProfiles: ShoreProfiles?
     }
     public struct ShoreProfiles: Codable, Sendable {
+        public struct LargeWater: Codable, Sendable {
+            public var minAreaM2: Double
+            public var minFetchM: Double
+            public var profile: String
+        }
         public var order: [String]
-        public var profiles: [String: String]
+        public var largeWater: LargeWater
+        public var smallWater: String
     }
     public struct Sky: Codable, Sendable {
         /// Width of a cloud edge in noise units, clear sky and full overcast (soft edges as the deck closes,
