@@ -1,0 +1,17 @@
+# Crown allocator and capture-only exposure — 2026-10-08
+
+## Allocator, first
+
+`Sources/WorldEngine/CrownLODAllocator.swift` implements the pure opt-in native policy. Inputs.enabled defaults to false; disabled returns nil without inspecting inputs or changing assignments. Shipping World.swift/LOD/culling/mesh/placement/shadow paths and shaders are unchanged. This API is not wired into shipping mesh selection: enabling a renderer adapter still requires measured elm/non-elm/main/draw/all-pass-shadow costs and recipe identity from the crown handoff. No live native promotion or denied-promotion measurement is claimed.
+
+Enabled callers provide stable source IDs, 3D eye distances, valid far/skyline fallback, projected desired LOD and measured costs for every level in the requested chain. The allocator reserves every fallback, then promotes nearest first, with lexical source-ID ties. It never removes an eligible instance. Shared occupied main draw slots are counted once; moving the last instance releases its old slot. It logs each denied request through Result.denied.log, including assigned/requested level and foliage/draw/shadow reason. Shadow costs must sum every submitted pass/cascade, including off-camera casters; nil is an error.
+
+Ledger: `F=max(0,min(120000,500000-N-20000))`, `E=max(0,F-U)`, elm main, non-foliage N, unchanged other foliage U, whole main, all-pass shadows, main draws, separately optional postprocess draws, standard headroom and floor gaps/strict boundary pass. F is authored planning allowance, not measured capacity. Standard ceilings 500000/180000/120; independent strict floor 400000/150000/100. Reference bounds/actual drawable projection feed 20/6 px thresholds with 10% hysteresis; skyline eligibility remains caller-owned existing distance policy. Near/middle/far/skyline caps 1200/360/80/12 are hypotheses only. They never replace missing measured costs or create a shadow proxy. Geometry, leaf season and other species are untouched.
+
+Validation: standalone Swift contract checks passed, then discoverable `Tests/WorldEngineTests/CrownLODAllocatorTests.swift` passed through `POSTCARD_FILTER=CrownLODAllocatorTests FOLIAGE_EXP1_BUILD=off HEAVY_AGENT=A10 HEAVY_LOAD=25 scripts/heavy.sh ... scripts/postcard_mac_check.sh .build/a10-allocator-tests`. No captures were required for the allocator. Coverage includes disabled behaviour, fallback reservation/failure, instance conservation, nearest/tie order, denied promotions, occupied draw replacement, all-pass shadow refusal, unknown cost refusal, duplicate IDs, N-dependent allowance, skyline fallback, strict floor boundary and 6/20 px hysteresis. Initial standalone test assertion had a Swift throwing-autoclosure compile error; corrected before passing runs.
+
+Illustrative unit log (synthetic fixture, not native performance): `CROWN_DENIED source=b requested=near assigned=middle reason=foliageAllowance fixture=true`.
+
+## Ledger text for A3
+
+A10: budgeted crown allocator API and cost ledger implemented, default disabled, unit contract passes with shader-safe native workflow. Shipping render sources/shader are unchanged and no renderer mesh-selection integration is claimed. Actual elm cost chain, U and all-pass shadow measurements remain required before runtime enablement; proposed 1200/360/80/12 caps remain hypotheses. Capture-only exposure work follows allocator tests. No score/hold-out or phone-performance claim. INTEGRATION.md, STATE.md and handoffs.md remain A3-owned.
