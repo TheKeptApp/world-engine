@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Sloan’s Lake · sky state</title>
+<style>
+:root {color-scheme:light dark;font:16px/1.5 system-ui,sans-serif} body {max-width:760px;margin:32px auto;padding:0 20px} h1 {font-size:1.7rem} label {display:block;margin:18px 0 6px} input[type=range] {width:100%;min-height:44px} select {font:inherit;padding:8px} pre {padding:16px;border:1px solid #888;border-radius:8px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:13px} .badge {font-weight:bold} output {font-variant-numeric:tabular-nums} .colour {width:44px;height:24px;border:1px solid #888;display:inline-block;vertical-align:middle}
+</style>
+<main>
+<h1>Sloan’s Lake · sky state</h1>
+<p><span class="badge">DEMO · fixtures only</span><br>21 June 2026 · Denver (MDT). No live weather feed.</p>
+<label for="minute">Local time: <output id="clock" for="minute"></output></label>
+<input id="minute" type="range" min="0" max="1439" value="720" step="1">
+<label for="weather">Weather fixture</label>
+<select id="weather"><option value="clear">Clear</option><option value="hazy">Hazy</option><option value="humid">Humid</option><option value="rain">Rain</option><option value="snow">Snow</option></select>
+<p id="summary" aria-live="polite"></p>
+<p>Airlight fallback <span id="swatch" class="colour"></span></p>
+<pre id="state" aria-label="Sky state JSON"></pre>
+<p>This page prints map lighting inputs; it does not render or change the map.</p>
+</main>
+<!-- INLINE_MODULE -->
+</html>
