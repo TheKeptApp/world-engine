@@ -154,7 +154,7 @@ public struct GLBFile {
 
     public func primitiveCount(mesh m: Int) -> Int { (meshes[m]["primitives"] as? [[String: Any]])?.count ?? 0 }
 
-    private func bytes(_ accessor: Int) -> (Data, [String: Any]) {
+    func bytes(_ accessor: Int) -> (Data, [String: Any]) {
         let a = accessors[accessor]
         let v = bufferViews[a["bufferView"] as! Int]
         let start = (v["byteOffset"] as? Int ?? 0) + (a["byteOffset"] as? Int ?? 0)

@@ -60,3 +60,7 @@ A renderer that can't read these must reject the package rather than draw the fa
 
 ## Size (Sloan's Lake area B)
 188 files (189 with `LICENSE-DATA.md`), 47.7 MB uncompressed: lod0 258,769 triangles, lod1 100,197; 6,076 instances; 42,671 tuft candidates. Not yet compressed (meshopt or quantization would cut it several-fold before any web sharing).
+
+## Optional adaptive export packing
+
+`worldbake pack <existing-package-dir> <new-output-dir>` deterministically subdivides exported triangle payloads to the shared upload/decoded-queue budgets. It preserves vertex/material values and feature identities. The resulting package adds the required `adaptive-budget-bvh/1` capability: use unique child IDs and actual bounds, not the parent grid index, and honor explicit `emptyLODs`. See [adaptive exporter contract](data/adaptive-tiles.md) for the budgets, exact preservation guarantees, metadata and A4 integration responsibilities. Legacy `worldbake export` output is unchanged.

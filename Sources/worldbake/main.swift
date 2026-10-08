@@ -69,6 +69,7 @@ let usage = """
 worldbake init-area <dir> --id ID --name NAME --lat LAT --lon LON --width M --height M
 worldbake fetch <dir> [--layers all|buildings|overture] [--release R]
 worldbake stats <dir>
+worldbake pack <existing-package-dir> <new-output-dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
 worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S] [--margin M] [--map-diagnostics FILE] [--previous PKG]
@@ -153,6 +154,11 @@ do {
         enc.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         print(String(data: try enc.encode(result), encoding: .utf8)!)
         print(String(format: "composed in %.2f s", Date().timeIntervalSince(start)))
+
+    case "pack":
+        guard args.positional.count == 3 else { throw ToolError.usage(usage) }
+        let report = try AdaptiveTilePacker.pack(source: dir, to: URL(fileURLWithPath: args.positional[2], isDirectory: true))
+        print("Packed \(report["beforeTiles"]!) → \(report["afterTiles"]!) tiles; budgets and measured arrays are in world.json tilePacking")
 
     case "export":
         guard args.positional.count >= 3 else { throw ToolError.usage(usage) }
