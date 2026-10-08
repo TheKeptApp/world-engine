@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import re
 from pathlib import Path
 import shutil
 import struct
@@ -62,6 +63,50 @@ def verify_frame(run, view_id):
     if not all(size):
         raise ValueError('capture frame has empty dimensions')
     return frame, size, hashlib.sha256(data).hexdigest()
+
+
+def context_expected(root, view):
+    args = view['args']
+    common = json.loads((root / 'docs/lookloop/a3-capture-contract.json').read_text())['commonArgs']
+    if any('noContext' in arg.split(',') for arg in args + common):
+        return False
+    area = args[args.index('-area') + 1] if '-area' in args else 'sloans-lake'
+    if '/' in area or area in ('.', '..'):
+        raise ValueError('invalid capture area id')
+    manifest = json.loads((root / 'Data/areas' / area / 'manifest.json').read_text())
+    return any(source.get('format') == 'osm-overpass-json' and 'context' in source.get('layers', [])
+               and 'all' not in source.get('layers', []) for source in manifest['sources'])
+
+
+def verify_scene_readiness(run, view_id, require_context):
+    """CPU attachment proof only; does not claim GPU completion or equal paired coverage."""
+    matched = []
+    for path in sorted((run / 'logs').glob('_launch-*.log')):
+        lines = path.read_text(errors='replace').splitlines()
+        shots = [i for i, line in enumerate(lines)
+                 if line.startswith(f'VIEWSHOT id={view_id} ') and 'file=' in line]
+        for shot in shots:
+            before = lines[:shot]
+            completions = [i for i, line in enumerate(before) if re.match(r'CONTEXT cells=\d+ ', line)]
+            if require_context and not completions:
+                raise ValueError('scene not ready: context attachment did not complete before VIEWSHOT; no automatic recapture')
+            ready = [i for i, line in enumerate(before) if line == f'VIEWREADY id={view_id}']
+            if require_context and (not ready or completions[-1] >= ready[-1]):
+                raise ValueError('scene not ready: context attachment must precede VIEWREADY, not just the saved-image log')
+            if any(line.startswith('CONTEXT failed:') for line in before) and require_context:
+                raise ValueError('scene not ready: context loading failed')
+            if require_context and not any(line.startswith('VIEW t=') for line in before[completions[-1] + 1:]):
+                raise ValueError('scene not ready: no post-attachment view update before VIEWSHOT')
+            drawsplit = re.search(r'drawsplit\[([^]]+)\]', lines[shot])
+            cost = re.search(r' triangles=(\d+) draws=(\d+) ', lines[shot])
+            if not drawsplit or not cost:
+                raise ValueError('capture lacks scene coverage counters')
+            matched.append(dict(contextRequired=require_context, contextAttachedBeforeCapture=bool(completions),
+                                gpuCompletionProved=False, triangles=int(cost[1]), draws=int(cost[2]),
+                                drawsplit=drawsplit[1], launchLog=str(path), shotLine=shot + 1))
+    if len(matched) != 1:
+        raise ValueError('capture lacks one unambiguous launch-log VIEWSHOT')
+    return matched[0]
 
 
 def simulator_env(devices):
@@ -122,7 +167,8 @@ def main():
                 timings[label + 'Seconds'] = round(time.monotonic() - t, 2)
         frame, size, digest = verify_frame(run, args.view)
         timings['totalSeconds'] = round(time.monotonic() - started, 2)
-        report = dict(timings, crashes=crash_evidence(started_wall), view=args.view, args=view['args'], frame=str(frame), size=size, sha256=digest,
+        readiness = verify_scene_readiness(run, args.view, context_expected(ROOT, view))
+        report = dict(timings, sceneReadiness=readiness, crashes=crash_evidence(started_wall), view=args.view, args=view['args'], frame=str(frame), size=size, sha256=digest,
                       commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip())
         if args.foliageexp1 is not None:
             logs = '\n'.join(p.read_text(errors='replace') for p in sorted((run / 'logs').glob('_launch-*.log')))

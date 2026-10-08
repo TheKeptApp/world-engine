@@ -55,6 +55,41 @@ class NativeCaptureTests(unittest.TestCase):
             self.assertEqual(p.read_text(), 'existing evidence')
             self.assertEqual(list(Path(tmp).iterdir()), [p])
 
+    def test_context_completion_must_precede_capture_and_view_update(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp); (run / 'logs').mkdir()
+            log = run / 'logs/_launch-fixture.log'
+            shot = 'VIEWSHOT id=view file=views/view.png triangles=228159 draws=43 drawsplit[context=6]'
+            log.write_text('VIEWREADY id=view\n' + shot + '\nCONTEXT cells=18 parse=0.5s\n')
+            with self.assertRaisesRegex(ValueError, 'before VIEWSHOT'):
+                capture.verify_scene_readiness(run, 'view', True)
+            log.write_text('VIEWREADY id=view\nCONTEXT cells=18 parse=0.5s\nVIEW t=34 triangles=228159\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'precede VIEWREADY'):
+                capture.verify_scene_readiness(run, 'view', True)
+            log.write_text('CONTEXT cells=18 parse=0.5s\nVIEWREADY id=view\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'post-attachment'):
+                capture.verify_scene_readiness(run, 'view', True)
+            log.write_text('CONTEXT cells=18 parse=0.5s\nVIEW t=34 triangles=228159\nVIEWREADY id=view\n' + shot + '\n')
+            proof = capture.verify_scene_readiness(run, 'view', True)
+            self.assertEqual(proof['draws'], 43)
+            self.assertFalse(proof['gpuCompletionProved'])
+            log.write_text(shot + '\n')
+            self.assertFalse(capture.verify_scene_readiness(run, 'view', False)['contextRequired'])
+
+    def test_missing_or_duplicate_capture_logs_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp); (run / 'logs').mkdir()
+            with self.assertRaisesRegex(ValueError, 'unambiguous'):
+                capture.verify_scene_readiness(run, 'view', False)
+            shot = 'VIEWSHOT id=view file=views/view.png triangles=5 draws=1 drawsplit[context=0]'
+            (run / 'logs/_launch-fixture.log').write_text(shot + '\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'unambiguous'):
+                capture.verify_scene_readiness(run, 'view', False)
+
+    def test_manifest_drives_context_requirement(self):
+        self.assertTrue(capture.context_expected(ROOT, {'args': []}))
+        self.assertFalse(capture.context_expected(ROOT, {'args': ['-diagnostics', 'noContext,noPost']}))
+
     def test_reuses_only_booted_simulator_and_rejects_multiple(self):
         self.assertIn('LOOKLOOP_SIM', capture.simulator_env({'devices': {}}))
         one = {'udid': 'fixture', 'state': 'Booted'}
