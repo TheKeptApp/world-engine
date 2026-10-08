@@ -1,6 +1,6 @@
 # Current state — 8 Oct 2026
 
-**Handover snapshot:** based on main `bcfc8aa` and R’s source-of-truth/restart instruction. This report changes documentation only. Rewrite this page after every lane report; keep history in [handoffs](handoffs.md). Read [INDEX](INDEX.md), [INTEGRATION](INTEGRATION.md), then the relevant feature’s sources/[MOCKS](MOCKS.md); apply [SOURCE-OF-TRUTH](SOURCE-OF-TRUTH.md). Work on an isolated branch from fetched main; do not reuse chat memory as authority.
+**Handover snapshot:** based on integration audit `bcfc8aa`, source-of-truth filing `6190368`, latest A4 review `4cff16b` and R’s source-of-truth/restart instruction. This report changes documentation only. Rewrite this page after every lane report; keep history in [handoffs](handoffs.md). Read [INDEX](INDEX.md), [INTEGRATION](INTEGRATION.md), then the relevant feature’s sources/[MOCKS](MOCKS.md); apply [SOURCE-OF-TRUTH](SOURCE-OF-TRUTH.md). Work on an isolated branch from fetched main; do not reuse chat memory as authority.
 
 **Phase / gates:** map only: Sloan’s → untouched hold-outs → Builder → jobs game. Native `0b9d255`: four heroes 3/5, foliage 2 throughout, Lakeview saturation 2; **FAIL 0/4**. Saved web `4127a32`: Sloan’s/Lakeview 2/5, sky 3, foliage 2, **FAIL 0/2**, all aspects unchanged. No verified (score moved) feature in A8’s audit. Passing needs all four heroes ≥4, every aspect ≥3 and full confirmation; no cross-renderer delta. West Highland and Greenville visual grades pending.
 
@@ -12,7 +12,7 @@
 | A1 | `4d58fe3`: West Highland local export/terrain hashes delivered; heights 19.1%, roofs 19.0%, grade-D observations not applied to mesh. Adaptive exporter audited; not a native reader or renderer pass. [Data handoff](../data/west-highland.md). |
 | A2 | Graded bakeoff partial; fresh captures pending, saved pair 2/5. Exp1 web port is deferred beyond the current three 5A batches; no silent implementation. |
 | A3 | Source/consumption/mock registries filed; blind scoring ready only when valid captures exist. Latest browser retry failed before navigation: `codex app-server exited before returning initialize`; stopped after one attempt, own lock released. |
-| A4 | Owns web package/streaming, branch evidence only; adaptive consumer not integrated on audited main. Runtime identity/coverage limits remain per [A8](../review/verifier-2026-10-08b.md). |
+| A4 | Owns web package/streaming; branch `8afbd1` remains unmerged. [Latest A8 review](../review/a4-streaming-review-2026-10-08.md): upload FAIL 5.8/4.8 ms vs 0.5 ms, buffer lifetime gap; CPU ledger is not GPU residency, atomic coverage visual proof pending. |
 | A5 | Foliage exp1 spec `8e4b713` ready, not executed; country/source research not ingestion approval. |
 | A6 | Separate live-sky API/demo; not graded bakeoff integration. Only recorded sky phase scope approved. |
 | A7 | Generator source-status fix `df81ad8` landed; mock-conflicts freshness verified. Heavy wrapper enforces <25; never bypass guard. |

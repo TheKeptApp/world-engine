@@ -2327,3 +2327,4 @@ Inventory covers tracked textual docs, packs, specs and research (Markdown, JSON
 | `docs/lookloop/web-baseline/scenes.json` | File-specific consumer untraced; capture/score files are evidence, not implementation | none |
 | `docs/lookloop/west-highland-capture-contract.json` | File-specific consumer untraced; capture/score files are evidence, not implementation | none |
 | `docs/lookloop/west-highland-holdout.md` | File-specific consumer untraced; capture/score files are evidence, not implementation | none |
+| `docs/review/a4-streaming-review-2026-10-08.md` | Later A8 branch review `4cff16b`; upload FAIL and buffer-lifetime concerns, not implemented fixes | none |
