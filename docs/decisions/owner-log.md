@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **A3 web scoring and map-only order (R):** establish a separate §M baseline for A2's current build using the same frozen web views; after each A2 merge record Sloan's and Lakeview before/after and apply the hold-out rejection rule. West Highland and Greenville remain pending capture-ready delivery. File A2 RULES.md for 5A/P2 restart. Current order: Sloan's gate, hold-outs, Builder, jobs game. Applied in docs/lookloop/web-baseline.md, scoreboard, docs/tracking/A2-RULES.md, handoffs and tracking/roadmap.md; shared scoring protocol mirrored in AGENTS.md and CLAUDE.md.
+
 - **A3 merge resolution and foliage handoff (R):** preserve both handoff-log additions, add-only in date order, finish the merge and file the baseline. Foliage 2/5 in all 4 views, Lakeview saturation 2/5. Needs ONE general rule: layered/softer crown shading + region-driven greens. Owners: P2 (crowns), 5A (colour). Waiting for Claude restart. Applied in docs/tracking/handoffs.md and the look-gate tracker.
 
 - **A3 takes over look scoring (R, 8 Oct):** P3 paused; A3 re-scores current main first and records the Claude P3 → A3 grader change. Keep §M calibration closeness and §N noise controls; pass requires all four heroes ≥4/5 and every aspect ≥3. Score Sloan's plus untouched Lakeview, Wilmette and another Denver neighbourhood after every 5A/P2/A2 look merge; add Greenville when data exists. Log individual scores, reject-flag Sloan's gains paired with hold-out losses. Baseline, frozen views and data limitations: docs/lookloop/a3-baseline.md. Mirrored ownership in AGENTS.md/CLAUDE.md; no engine edits or scheduled automation.

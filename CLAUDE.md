@@ -37,6 +37,10 @@ Approved GPT mocks are the exact visual direction (owner, 2026-10-07). All lanes
 
 ## Shared Mac, data and reporting rules (mirrored in AGENTS.md)
 
+### A3 web scoring and map-only order (R, 8 Oct 2026)
+
+Keep an A3 web baseline separate from iOS, using GRADING.md §M and §N and the frozen A2 views. After each A2 merge, record Sloan's and Lakeview before/after closeness and six aspects; reject-flag Sloan's gains paired with hold-out losses. West Highland and Greenville stay pending capture-ready data/export/cameras; data delivery alone is not a visual pass. File A2 RULES.md in docs/tracking and cross-link it for 5A/P2 restart. Current execution order is map-only: Sloan's gate, hold-outs, Builder Easy + Pro, then jobs game (docs/tracking/roadmap.md). No unattended recurring automation or auto-merges.
+
 ### A3 look-scoring takeover (R, 8 Oct 2026)
 
 A3 now owns look capture, scoring and reporting; Claude P3 is paused. Re-score current main as the A3 baseline and explicitly record the grader change from Claude P3; do not interpret cross-grader score movement as engine improvement. Preserve GRADING.md §M closeness and §N noise controls. The look gate remains all four heroes ≥4/5 with every aspect ≥3; the existing full confirmation requirement remains.

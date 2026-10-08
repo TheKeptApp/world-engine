@@ -192,3 +192,15 @@ Fresh current-main calibration review; historical Claude full-core reports are r
 | Date | Engine | Branch | Views | Parity | Gate passes | Ordinary parity | Mean /50 | AD /5 | Worst view | Median tris | Median frame ms | Run min | Grader | Regressions | Sloan's score | hold-out score |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2026-10-07 22:50 (R 8 Oct) | `1c44e94` / main `0b9d255` | main | 4/4 calibration only | not re-graded | **look FAIL 0/4** | not re-graded | not re-graded | not re-graded | foliage 2/5, all heroes | not reported | not reported | 6.5 capture | A3-Codex (new baseline) | baseline; cross-grader deltas not causal | [3/5; foliage 2](a3-baseline.md) | Lakeview street 3/5; postcard 3/5; Wilmette 3/5 (all min aspect 2); West Highland proposed/pending; Greenville deferred |
+
+## Web — A3 baseline, 8 October 2026
+
+Independent renderer series; [rubric, findings and capture proof](web-baseline.md). No before/after comparison with iOS or the existing-viewer control.
+
+| Renderer | Build | Grader | Sloan's score (before → after) | hold-out score (before → after) | Gate / reject decision |
+|---|---|---|---|---|---|
+| web | `08e2cce` A2 candidate, unmerged at review | A3-Codex | — → 2/5; sky/light/saturation/ground/foliage/materials — → 3/2/2/2/2/2 | Lakeview — → 2/5; aspects — → 3/2/2/2/2/3. West Highland pending; Greenville web export/camera pending. | Pair FAIL 0/2; full four-hero gate NOT EVALUATED; first baseline, reject comparison N/A. |
+
+After each A2 merge, append both before/after view scores and aspect vectors, merged SHA and matching evidence. Reject-flag any Sloan's gain paired with a hold-out loss; unchanged-frame changes are grader noise under §N.
+
+**Publication update (8 Oct):** A2 `08e2cce` reached main while this report was being filed. Its captured look inputs are identical to the reviewed baseline. This is the initial A3 web baseline on that merge: Sloan's 2/5, Lakeview 2/5; no comparable pre-merge A3 web score exists, so the reject comparison remains N/A, not a pass.

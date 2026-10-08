@@ -1,0 +1,97 @@
+{
+  "renderer": "web",
+  "grader": "A3-Codex",
+  "reviewDate": "2026-10-08",
+  "rubric": "GRADING.md \u00a7M; noise controls \u00a7N",
+  "sourceCommit": "08e2ccede13a668122b4a8fd89b9ae99f31e8f13",
+  "mainAtReview": "eb9bba6",
+  "sourceStatus": "A2 candidate at initial review; same commit reached main before report publication",
+  "method": "Independent visual grading of saved A2 captures; live frozen inputs verified equal to capture manifest. No new render in this review.",
+  "inputSha256": "93061a2e8440bef101ee2b22ee201bb1a15c20103888d50535021cfdd62a73ca",
+  "rulesSha256": "a670730f8ce1d5a00b644f07a9cd6602b3207850cceec088973db5a1dee7af08",
+  "grades": {
+    "sloans": {
+      "closeness": 2,
+      "aspects": {
+        "sky": 3,
+        "light": 2,
+        "saturation": 2,
+        "ground": 2,
+        "foliage": 2,
+        "materials": 2
+      },
+      "before": null,
+      "rejectComparison": "not applicable: first A3 web baseline",
+      "imageSha256": "2c4ade3ae59c1c12ab1c24c12fff2b2bb5ff4acc343205ddcc565856c8d4fb8e",
+      "imageLocalArchive": "/private/tmp/worldengine-a3-web-baseline/.build/lookloop/web-a3-08e2cce/sloans.png",
+      "capture": {
+        "capturedUTC": "2026-10-08T05:35:36.785Z",
+        "camera": {
+          "position": [
+            7.6703964459107254,
+            1.65,
+            -219.27283405621068
+          ],
+          "direction": [
+            -0.9606407232981161,
+            0.012840000283142354,
+            -0.2774969101341513
+          ],
+          "fov": 35
+        },
+        "viewport": [
+          0.6666666666666666,
+          390,
+          585
+        ],
+        "backend": "WebGL2",
+        "errors": []
+      }
+    },
+    "lakeview": {
+      "closeness": 2,
+      "aspects": {
+        "sky": 3,
+        "light": 2,
+        "saturation": 2,
+        "ground": 2,
+        "foliage": 2,
+        "materials": 3
+      },
+      "before": null,
+      "rejectComparison": "not applicable: first A3 web baseline",
+      "imageSha256": "9d2bae6eb3aec04ea99b57ef8e87333bd1047cecdb49bc15d2d78931485565b6",
+      "imageLocalArchive": "/private/tmp/worldengine-a3-web-baseline/.build/lookloop/web-a3-08e2cce/lakeview.png",
+      "capture": {
+        "capturedUTC": "2026-10-08T05:36:09.024Z",
+        "camera": {
+          "position": [
+            -58.874500633947775,
+            1.65,
+            54.2030014729452
+          ],
+          "direction": [
+            -0.9814728301797053,
+            0.16043452295682312,
+            0.10474658687831259
+          ],
+          "fov": 47
+        },
+        "viewport": [
+          0.5,
+          390,
+          780
+        ],
+        "backend": "WebGL2",
+        "errors": []
+      }
+    }
+  },
+  "pairGate": "FAIL 0/2",
+  "fullFourHeroGate": "NOT EVALUATED",
+  "pending": [
+    "West Highland: A1 data/export and frozen web camera",
+    "Greenville: A1 height/roof data present; web export and frozen camera pending"
+  ],
+  "mainAtPublication": "08e2cce"
+}

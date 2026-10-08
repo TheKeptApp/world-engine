@@ -13,3 +13,15 @@ After each 5A/P2/A2 look merge, append its SHA and frozen-view run, each before/
 Foliage 2/5 in all 4 views, Lakeview saturation 2/5. Needs ONE general rule: layered/softer crown shading + region-driven greens. Owners: P2 (crowns), 5A (colour). Waiting for Claude restart.
 
 Web merge `9b7403e` is isolated to `web/bakeoff/`; it leaves this iOS baseline unchanged. A3 web-specific scoring and complete hold-out coverage remain pending.
+
+## Web baseline — 8 October 2026
+
+The earlier pending web-baseline entry is superseded by this review; iOS scores above remain separate. [A3 web evidence](../lookloop/web-baseline.md).
+
+| Renderer / build | Sloan's score (before → after) | hold-out score (before → after) | Decision |
+|---|---|---|---|
+| web / A2 `08e2cce` (unmerged at review) | — → 2/5; aspects — → 3/2/2/2/2/2 | Lakeview — → 2/5; aspects — → 3/2/2/2/2/3 | First A3 web baseline; pair FAIL 0/2; reject comparison N/A; full four-hero gate NOT EVALUATED. |
+
+Aspect order: sky/light/saturation/ground/foliage/materials. Append each A2 merge's paired before/after scores and evidence here and in the scoreboard; reject-flag Sloan's gains paired with hold-out losses. West Highland pending data/export/camera. Greenville A1 data present, web export/camera pending. Current execution order: [map-only roadmap](roadmap.md).
+
+**Publication update (8 Oct):** A2 `08e2cce` reached main while this report was being filed. Its captured look inputs are identical to the reviewed baseline. This is the initial A3 web baseline on that merge: Sloan's 2/5, Lakeview 2/5; no comparable pre-merge A3 web score exists, so the reject comparison remains N/A, not a pass.

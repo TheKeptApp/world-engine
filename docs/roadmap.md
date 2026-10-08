@@ -2,6 +2,10 @@
 
 Owner direction as decided; details and dates live in each lane's plan. Every change here is also in `docs/decisions/owner-log.md`. Maintained by A3 on the owner's instruction; P3 is paused.
 
+## Current execution order — R, 8 October 2026
+
+**Map-only: Sloan's gate → hold-outs → Builder (Easy + Pro) → jobs game.** This order supersedes earlier near-term sequencing below; broader launch scope remains recorded. See [tracking roadmap](tracking/roadmap.md). The separate [web baseline](lookloop/web-baseline.md), A2 `08e2cce` candidate, is 2/5 for Sloan's and Lakeview, pair FAIL 0/2. West Highland and Greenville web captures remain pending; Greenville's A1 area/height/roof data has arrived.
+
 ## Principle: home + landmarks first (owner, 2026-10-06)
 
 People look for their own house first, then for famous places. Work is ordered to serve that.

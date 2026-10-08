@@ -1,0 +1,55 @@
+{
+  "lakeview": {
+    "world": "/world/lakeview/",
+    "mock": "01-lakeview",
+    "viewport": {
+      "width": 390,
+      "height": 780
+    },
+    "camera": {
+      "eye": [
+        41.945182,
+        -87.66432,
+        1.65
+      ],
+      "target": [
+        41.94508,
+        -87.6656,
+        19
+      ],
+      "fov": 47
+    },
+    "cameraEvidence": "Visual composition fit to style-b-calibration-v2/scenes/01-lakeview; camera matrices unavailable. Cornelia Avenue, south sidewalk.",
+    "region": "chicago"
+  },
+  "sloans": {
+    "world": "/world/sloans/",
+    "mock": "06-sloans",
+    "viewport": {
+      "width": 390,
+      "height": 585
+    },
+    "camera": {
+      "eye": [
+        39.7513749,
+        -105.0444105,
+        1.65
+      ],
+      "target": [
+        39.753,
+        -105.0517,
+        10
+      ],
+      "fov": 35
+    },
+    "cameraEvidence": "Visual composition fit to style-b-calibration-v2/scenes/06-sloans; west-facing from mapped path way/231141080 on the eastern shore; camera matrices unavailable.",
+    "waterProfile": "sloans_lake",
+    "waterState": "sloans_lake_clear_wind_10",
+    "waterMechanicsProfile": "sloan",
+    "backdrop": {
+      "dem": "data/front-range.json",
+      "evidence": "USGS 3DEP public-domain elevation; see data/terrain-source.json. True scale; no observed snow supplied."
+    },
+    "region": "denver"
+  }
+}

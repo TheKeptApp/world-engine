@@ -72,3 +72,15 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 ### A1 → P2 / A3: common roof evidence on three areas (8 Oct)
 
 `building-roofs.json` now exists for Sloan, Lakeview and Greenville Downtown. Known forms / OSM footprints: 407/1399 (29.1%), 2563/2799 (91.6%), 419/681 (61.5%). All grades D; support scores are not calibrated probabilities. Pitch is degrees from horizontal; ridge is an approximate north-clockwise axis in [0,180), not a traced segment. Preserve source ages, observed versus generated estimates, and unknown/null forms. The shared ridge normalization is regenerated from point data in all areas; no per-building edits. `Data/quality/roof-holdouts.json` reports identical methods and no evidence errors under the heavy lock. Commit 285678f; this handoff/report follows. P2 owns consumer wiring and visual validation; A3 owns frozen look comparisons. No render/look/water files changed.
+
+## Web baseline and map-only order — R, 8 October 2026
+
+| Date | From → to | Item | Status / evidence / next step |
+|---|---|---|---|
+| 2026-10-08 | A2 → A3 | Current web candidate `08e2cce` | Independent A3 baseline filed: Sloan's 2/5, Lakeview 2/5; pair FAIL 0/2. Verified saved captures, separate from iOS. Candidate not merged on main at review. See [report](../lookloop/web-baseline.md). |
+| 2026-10-08 | A2 / A3 → 5A, P2 | Shared look rules on restart | Read [A2 RULES.md snapshot](A2-RULES.md), byte-identical to A2 `08e2cce`, including general sky/crown rules and unresolved haze precedence. Filed for restart visibility; no engine handoff or rule override implied. |
+| 2026-10-08 | A2 → A3 | Each subsequent A2 merge | Supply merge SHA and frozen Sloan's + Lakeview captures/proof. Record before/after closeness and six aspects; reject-flag Sloan's gain with hold-out loss. [Tracker](look-gate.md). No unattended automation. |
+| 2026-10-08 | A1 → A2 / A3 | Remaining web hold-outs | West Highland pending data/export/camera. Greenville A1 height/roof data received; web export and frozen camera pending. No visual pass from data checks. |
+| 2026-10-08 | R → all lanes | Map-only order | [Sloan's gate → hold-outs → Builder Easy + Pro → jobs game](roadmap.md). |
+
+**Publication update (8 Oct):** A2 `08e2cce` reached main while this report was being filed. Its captured look inputs are identical to the reviewed baseline. This is the initial A3 web baseline on that merge: Sloan's 2/5, Lakeview 2/5; no comparable pre-merge A3 web score exists, so the reject comparison remains N/A, not a pass.
