@@ -1,7 +1,8 @@
+import {resolveAtmosphere} from './atmosphere.js';
 // General pack resolver: deliberately accepts no camera, scene ID or image score.
 // Renderer unit conversion is analytic, not fitted to either evaluation frame.
-export function resolvePolicy(cal,lake,fixture,correction){
- const look=cal.sharedLook,L=look.lighting;
+export function resolvePolicy(cal,lake,fixture,correction,haze,climateRegion){
+ const look=cal.sharedLook,L=look.lighting,atmosphere=resolveAtmosphere(haze,climateRegion,fixture);
  const shadowRatio=L.shadow.neutralWitnessShadowToLitLinearY;
  if(!(shadowRatio>0&&shadowRatio<1))throw Error('Invalid neutral witness ratio');
  return {
@@ -11,8 +12,9 @@ export function resolvePolicy(cal,lake,fixture,correction){
   ambientIntensity:Math.PI*L.sun.directRelative*shadowRatio/(1-shadowRatio),
   // Calibration-v2 STATUS.md: approved shared correction, never sampled from this run.
   sky:{...L.sky,...Object.fromEntries(Object.entries(correction.set).map(([k,v])=>[k.split('.').at(-1),v]))},
-  // lake-winter-v1/water.haze: one weather term, applied to every scene and terrain.
-  hazeExtinctionPerM:lake.water.haze.fixtureExtinctionPerM,
+  // haze-visibility-v1 explicitly supersedes lake-winter-v1 background extinction.
+  atmosphere,
+  hazeExtinctionPerM:atmosphere.sigmaPerM,
   season:fixture.phenophase,
   wind:lake.water.windStates[String(fixture.windKmh)],
   reflectedSky:lake.water.skyStates[fixture.skyState],

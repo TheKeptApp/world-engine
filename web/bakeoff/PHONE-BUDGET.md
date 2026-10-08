@@ -68,3 +68,5 @@ Browser error, policy, sky-transfer, hash consistency, tier image identity and p
 ### Merge-time pack arrival
 
 Main advanced to `6ce875f` during this audit and filed `haze-visibility-v1`. Rebase was clean; every rendering-input hash remained identical. This particular crown/budget comparison deliberately retains its already-frozen 0.0008/m baseline. The newly filed pack supersedes that coefficient for the next atmosphere integration; it is **not consumed by this run**, and the old coefficient must not be represented as the current production target. No new haze comparison or visibility-conformance claim is made here.
+
+Haze follow-up: the migration requested by R is now implemented; see HAZE-REPORT.md. This document preserves the preceding crown/budget round as history. Its geometry and memory counts remain unchanged in the haze run, while its old extinction and colour scores are superseded.

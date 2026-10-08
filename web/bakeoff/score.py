@@ -52,7 +52,7 @@ for scene,view in views.items():
   if a and b:baseline.append(cf.delta_e76(a,b))
  measured=[r['deltaE76'] for r in rows if r['deltaE76'] is not None]
  means[scene]={'meanFixedBoxDeltaE76':statistics.mean(measured),'existingViewerMeanDeltaE76':statistics.mean(baseline),'sampledRegions':len(measured),'totalRegions':len(rows)}
- prior_path=HERE/'evidence/previous-a2'/f'{scene}.png'
+ prior_path=HERE/'evidence/pre-haze'/f'{scene}.png'
  if prior_path.exists():
   prior=Image.open(prior_path).convert('RGB'); prior_values=[]
   for surface,box in view['regions'].items():

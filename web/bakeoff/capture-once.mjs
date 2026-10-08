@@ -27,7 +27,7 @@ try{
  if(!(metrics.triangles>0&&metrics.drawCalls>0&&Number.isFinite(metrics.fps)))throw Error('Renderer produced invalid metrics');
  if(scene==='sloans'&&metrics.camera.direction[0]>=0)throw Error('Sloan camera must face west');
  await checkFrozen(`${scene}/${mode}/${tier}/after`);
- const resolved=await page.evaluate(()=>({policy:window.bakeoff.policy,fixture:window.bakeoff.fixture,species:window.bakeoff.species}));
+ const resolved=await page.evaluate(()=>({policy:window.bakeoff.policy,fixture:window.bakeoff.fixture,species:window.bakeoff.species,mountains:window.bakeoff.mountains}));
  const dir=`web/bakeoff/evidence/${mode}${tier==='standard'?'':'-'+tier}`;await mkdir(dir,{recursive:true});await page.evaluate(()=>{window.bakeoff.freeze=true;});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`${dir}/${scene}.png`});await writeFile(`${dir}/${scene}.json`,JSON.stringify({...metrics,inputSha256:frozen.sha256,resolved,capturedUTC:new Date().toISOString(),errors},null,2));console.log(JSON.stringify({...metrics,cost:metrics.cost?{passes:metrics.cost.passes,contentTextureMiB:metrics.cost.contentTextureMiB,targetTextureMiB:metrics.cost.targetTextureMiB,renderbufferMiB:metrics.cost.renderbufferMiB,unknownAllocations:metrics.cost.unknownAllocations}:null,errors}));if(errors.length)throw Error(errors.join('\n'));await page.close();
  }
  if(order.join(',')==='sloans,lakeview'&&!process.env.MODES)await writeFile('web/bakeoff/evidence/holdout-proof.json',JSON.stringify({order,unchanged:true,...frozen,events},null,2)+'\n');

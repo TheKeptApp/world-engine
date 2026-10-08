@@ -146,9 +146,9 @@
   "backend": "WebGL2",
   "drawCalls": 159,
   "triangles": 658577,
-  "fps": 99.98186804237346,
-  "sampleDurationMs": 9761.77,
-  "p95FrameMs": 10.989999999999782,
+  "fps": 99.97966602079393,
+  "sampleDurationMs": 9761.985,
+  "p95FrameMs": 10.440000000002328,
   "samples": 976,
   "viewport": [
     0.6666666666666666,
@@ -171,7 +171,7 @@
   "visibility": "visible",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
-  "inputSha256": "1b0d47bffe7e10f4c62d9c279f46f2583528d8a2517d0fc693744556c1cc752f",
+  "inputSha256": "7e369c3e29b290e0ce0d0ff432d881f4052bd807a78d0e4c37a8d33e8bc92bee",
   "resolved": {
     "policy": {
       "look": {
@@ -313,7 +313,126 @@
         "cloudShadeHex": "#CAD6DE",
         "coverage01": 0.18
       },
-      "hazeExtinctionPerM": 0.0008,
+      "atmosphere": {
+        "region": "front-range",
+        "season": "summer",
+        "state": "clear",
+        "time": "day",
+        "visibilityKm": 75,
+        "sigmaPerM": 0.000039943097,
+        "airlightLinear": [
+          0.5088813208549338,
+          0.6307571363461468,
+          0.6938717612919899
+        ],
+        "airlightSource": "haze-visibility-v1/airlight.stateDayHex + timeHex/timeMix; palette fallback",
+        "sourceKey": "haze-visibility-v1/regions[id=front-range].seasons.summer.clear",
+        "status": "authored regional fallback; simulated, not observed",
+        "mountains": {
+          "retainRule": "Require real map/DEM position and unoccluded curved-earth sightline; cloud/stratus may cut off summits. Compute linear luminance horizon contrast C0=abs(Ymountain-Yair)/max(Yair,0.001); retainedContrast=C0*T. Keep silhouette when retainedContrast>=0.05 and projected height>=2px. Simplify internal detail below 0.10 contrast; fade/cull geometry below0.03, with smooth transition across0.03–0.05. Thresholds are phone authoring targets, not guaranteed human visual acuity.",
+          "nominalContrast": 0.5,
+          "retainContrast": 0.05,
+          "cullContrast": 0.03,
+          "internalDetailContrast": 0.1,
+          "minProjectedHeightPx": 2,
+          "important": "MOR is not a hard clip plane. A mountain may be obscured closer than MOR because initial contrast is lower than a black test target. Peaks above a boundary haze layer can remain visible; integrate actual ray through layers rather than applying ground visibility uniformly to every altitude.",
+          "nominalMaxDistance": "dMax=ln(C0/0.05)/sigma; for C0=.5 dMax=.7686*V (same distance units)",
+          "geography": "Sloan lake west view has Front Range; east downtown view has no mountains behind downtown. Never invent mountain positions.",
+          "earthRadiusM": 6371000,
+          "curvature": "Use geocentric terrain/rays for20–100km; no flat-earth horizon. Refraction off unless validated model.",
+          "lod": "20km relief/major folds;50km silhouette + large lit planes;100km simplified horizon. Actual projected size and contrast decide, not arbitrary mountain boost.",
+          "examples": [
+            {
+              "visibilityKm": 20,
+              "extinctionPerM": 0.000149786614,
+              "distanceKm": 20,
+              "transmittance": 0.05,
+              "retainedContrastForC0Half": 0.025
+            },
+            {
+              "visibilityKm": 20,
+              "extinctionPerM": 0.000149786614,
+              "distanceKm": 50,
+              "transmittance": 0.000559,
+              "retainedContrastForC0Half": 0.00028
+            },
+            {
+              "visibilityKm": 20,
+              "extinctionPerM": 0.000149786614,
+              "distanceKm": 100,
+              "transmittance": 0,
+              "retainedContrastForC0Half": 0
+            },
+            {
+              "visibilityKm": 50,
+              "extinctionPerM": 0.000059914645,
+              "distanceKm": 20,
+              "transmittance": 0.301709,
+              "retainedContrastForC0Half": 0.150854
+            },
+            {
+              "visibilityKm": 50,
+              "extinctionPerM": 0.000059914645,
+              "distanceKm": 50,
+              "transmittance": 0.05,
+              "retainedContrastForC0Half": 0.025
+            },
+            {
+              "visibilityKm": 50,
+              "extinctionPerM": 0.000059914645,
+              "distanceKm": 100,
+              "transmittance": 0.0025,
+              "retainedContrastForC0Half": 0.00125
+            },
+            {
+              "visibilityKm": 75,
+              "extinctionPerM": 0.000039943097,
+              "distanceKm": 20,
+              "transmittance": 0.449841,
+              "retainedContrastForC0Half": 0.22492
+            },
+            {
+              "visibilityKm": 75,
+              "extinctionPerM": 0.000039943097,
+              "distanceKm": 50,
+              "transmittance": 0.135721,
+              "retainedContrastForC0Half": 0.06786
+            },
+            {
+              "visibilityKm": 75,
+              "extinctionPerM": 0.000039943097,
+              "distanceKm": 100,
+              "transmittance": 0.01842,
+              "retainedContrastForC0Half": 0.00921
+            },
+            {
+              "visibilityKm": 100,
+              "extinctionPerM": 0.000029957323,
+              "distanceKm": 20,
+              "transmittance": 0.54928,
+              "retainedContrastForC0Half": 0.27464
+            },
+            {
+              "visibilityKm": 100,
+              "extinctionPerM": 0.000029957323,
+              "distanceKm": 50,
+              "transmittance": 0.223607,
+              "retainedContrastForC0Half": 0.111803
+            },
+            {
+              "visibilityKm": 100,
+              "extinctionPerM": 0.000029957323,
+              "distanceKm": 100,
+              "transmittance": 0.05,
+              "retainedContrastForC0Half": 0.025
+            }
+          ]
+        },
+        "summitsObscured": false,
+        "layers": "none supplied; homogeneous ray optical depth",
+        "applyOnce": true
+      },
+      "hazeExtinctionPerM": 0.000039943097,
       "season": "summer",
       "wind": {
         "windKmh": 10,
@@ -333,7 +452,11 @@
       "windKmh": 10,
       "windFromDegrees": 225,
       "skyState": "clear",
-      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit."
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation.",
+      "atmosphereSeason": "summer",
+      "timeOfDay": "day",
+      "summitsObscured": false,
+      "atmosphereLayers": []
     },
     "species": {
       "conifer/0/-1,-1": {
@@ -656,8 +779,24 @@
         "species": "ulmus_americana",
         "silhouette": "vase"
       }
+    },
+    "mountains": {
+      "vertices": 65536,
+      "triangles": 129144,
+      "observerElevationM": 1618.9,
+      "source": "haze-visibility-v1/mountains + mountain-terrain-v1/lod.horizonImpostor.azimuthSampleDeg",
+      "sightline": "geocentric DEM plus ordinary terrain/world depth occlusion; refraction off",
+      "cloud": "simulated clear fixture; no summit-obscuring cloud layer",
+      "airlightLinear": [
+        0.5088813208549338,
+        0.6307571363461468,
+        0.6938717612919899
+      ],
+      "eligibleVerticesBeforeDepthOcclusion": 28015,
+      "maxEstimatedRetainedContrast": 0.5838852417785599,
+      "projectedHeightRule": 2
     }
   },
-  "capturedUTC": "2026-10-08T06:04:05.168Z",
+  "capturedUTC": "2026-10-08T06:21:53.563Z",
   "errors": []
 }

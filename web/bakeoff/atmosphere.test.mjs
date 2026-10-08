@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {resolveAtmosphere,transmittance,mountainVisibility} from './atmosphere.js';
+const pack=JSON.parse(await readFile('web/bakeoff/data/haze-values.json','utf8'));
+const fixture=JSON.parse(await readFile('web/bakeoff/fixture.json','utf8'));
+const denver=resolveAtmosphere(pack,'front-range',fixture),chicago=resolveAtmosphere(pack,'great-lakes',fixture);
+assert.equal(denver.visibilityKm,75);assert.equal(chicago.visibilityKm,20);
+assert.ok(Math.abs(transmittance(denver.sigmaPerM,75000)-.05)<1e-8);
+assert.ok(Math.abs(transmittance(chicago.sigmaPerM,20000)-.05)<1e-8);
+assert.ok(Math.abs(transmittance(denver.sigmaPerM,20000)-.449841)<1e-6);
+assert.equal(transmittance(denver.sigmaPerM,0),1);
+assert.deepEqual(denver.airlightLinear,chicago.airlightLinear,'Regional extinction must not invent a city-specific airlight');
+const day=resolveAtmosphere(pack,'front-range',fixture),night=resolveAtmosphere(pack,'front-range',{...fixture,timeOfDay:'night'});
+assert.equal(day.sigmaPerM,night.sigmaPerM,'Darkness cannot change extinction');
+assert.throws(()=>resolveAtmosphere(pack,'missing',fixture));
+assert.throws(()=>resolveAtmosphere(pack,'front-range',{...fixture,atmosphereLayers:[{}]}));
+// Nominal 0.5 initial contrast should retain at 50km in MOR75 and fail at100km.
+const rule=pack.mountains,lit=[.5,.5,.5],air=[1,1,1];
+assert.equal(mountainVisibility(rule,lit,air,day.sigmaPerM,50000,3).retain,true);
+assert.equal(mountainVisibility(rule,lit,air,day.sigmaPerM,100000,3).alpha,0);
+assert.equal(mountainVisibility(rule,lit,air,day.sigmaPerM,20000,1.9).alpha,0);
+assert.equal(mountainVisibility(rule,lit,air,day.sigmaPerM,20000,3,true).alpha,0);
+assert.equal(mountainVisibility(rule,air,air,day.sigmaPerM,20000,3).alpha,0,'No initial contrast means no visible mountain');
+assert.equal(mountainVisibility(rule,lit,air,day.sigmaPerM,50000,3).internalDetail,false);
+console.log('PASS: 5% MOR, regional anchors, shared airlight, night invariance, layer refusal and mountain contrast/size/occlusion gates');

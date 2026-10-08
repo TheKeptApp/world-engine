@@ -1,5 +1,5 @@
 {
-  "status": "CONFLICT \u2014 unchanged, not tuned",
+  "status": "RESOLVED by approved haze-visibility-v1; historical coefficient retained here as evidence only",
   "pack": "lake-winter-v1/water.haze.fixtureExtinctionPerM",
   "extinctionPerM": 0.0008,
   "transmittance": {
@@ -9,7 +9,13 @@
     "50000": 4.248354255291589e-18
   },
   "requirement": "Clear-weather Front Range DEM must remain visible; the calibration mock depicts strong distant ridge contrast.",
-  "finding": "The supplied fixture destroys that contrast at real mountain distances. One shared value remains applied to both scenes.",
+  "finding": "Historical 0.0008/m fixture destroyed distant contrast; renderer now selects approved regional MOR presets.",
   "otherApprovedPack": "mountain-terrain-v1/haze.profiles[id=clear].betaPerM is 0.00001; NOT substituted without resolving pack precedence.",
-  "neededDecision": "Resolve the shared clear-weather extinction in the source packs; no camera or terrain-only multiplier."
+  "neededDecision": "Resolved: haze-visibility-v1/overrides gives field-level precedence.",
+  "resolution": {
+    "pack": "haze-visibility-v1",
+    "frontRangeKey": "regions[id=front-range].seasons.summer.clear",
+    "chicagoKey": "regions[id=great-lakes].seasons.summer.clear",
+    "notAVisualPass": "Actual mountain visibility is still governed by contrast, projected size, cloud and real DEM sightlines."
+  }
 }

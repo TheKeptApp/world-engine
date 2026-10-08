@@ -8,6 +8,7 @@ export async function freezeInputs(){
  selected.push(...await files(resolve(root,'web/src')),...await files(resolve(here,'data')));
  const packs=['style-b-calibration-v2/values.json','foliage-seasons-v1/foliage-values.json','lake-winter-v1/lake-winter-values.json','water-surfaces-v1/water-values.json','mountain-terrain-v1/values.json','weather-moments-v1/values.json'];
  selected.push(...packs.map(p=>resolve(assets,'docs/proposals',p)));
+ selected.push(resolve(root,'docs/proposals/haze-visibility-v1/values.json'));
  selected.push(resolve(root,'Tools/lookloop/mock-corrections.json'),resolve(root,'Tools/lookloop/calibration-regions.json'),resolve(root,'Tools/lookloop/region_colours.py'),resolve(root,'Tools/lookloop/conformance.py'),...['01-lakeview','06-sloans'].map(n=>resolve(assets,'docs/proposals/style-b-calibration-v2/frames',n+'.png')));
  selected.push(...await files(resolve(here,'generated/lakeview-sheil-park')),...await files(resolve(assets,'Generated/package/sloans-lake')));
  const hashes={};for(const p of selected.sort())hashes[relative(p.startsWith(here)?here:assets,p)]=createHash('sha256').update(await readFile(p)).digest('hex');
