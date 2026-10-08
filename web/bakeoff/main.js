@@ -48,7 +48,7 @@ async function main(){
  const az=T.MathUtils.degToRad(L.sun.azimuthDeg),el=T.MathUtils.degToRad(L.sun.elevationDeg);
  const sunDirection=new T.Vector3(Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el));
  sun.position.copy(camera.position).addScaledVector(sunDirection,180);sun.target.position.copy(camera.position);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:1,far:450});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00015;sun.shadow.normalBias=.05;scene.add(sun,sun.target);
- scene.add(new T.HemisphereLight(sky.fillHex,look.materials.groundBaseHex.lawn,policy.ambientIntensity));
+ scene.add(new T.HemisphereLight(sky.fillHex,sky.fillHex,policy.ambientIntensity));
  if(!baseline){for(const slot of world.palettes.slots){const name=slot.names?.[0],key={road:'asphalt',sidewalk:'concrete',curb:'curb',lawn:'lawn'}[name];if(key){const c=new T.Color(look.materials.groundBaseHex[key]),a=world.paletteTexture.image.data;a.set([c.r,c.g,c.b,1],slot.slot*4);}}world.paletteTexture.needsUpdate=true;}
  const palette=world.paletteTexture;palette.name='palette';skyTexture.name='sky gradient + cumulus';
  // Preserve exported geometry, palette slots and stable per-building variation.
@@ -94,7 +94,10 @@ async function main(){
  let post=new T.PostProcessing(renderer);post.outputColorTransform=false;
  const source=pass(scene,camera).getTextureNode('output').rgb;
  // Exposure and saturation occur exactly once here, shared by both cities.
- const mapped=acesFilmicToneMapping(source,float(L.exposure.linearGain));const y=dot(mapped,vec3(.2126,.7152,.0722));
+ // 5A hue-preserving luminance curve; same ACES fit, one exposure + grade.
+ const sourceY=dot(source,vec3(.2126,.7152,.0722)),x=sourceY.mul(L.exposure.linearGain/.6);
+ const mappedY=x.mul(x.add(.0245786)).sub(.000090537).div(x.mul(x.mul(.983729).add(.432951)).add(.238081)).max(0);
+ const mapped=source.mul(mappedY.div(sourceY.max(.000001)));const y=dot(mapped,vec3(.2126,.7152,.0722));
  const graded=mix(vec3(y),mapped,L.exposure.saturation).sub(.5).mul(L.exposure.contrast).add(.5).clamp(0,1);
  post.outputNode=convertColorSpace(vec4(graded,1),T.LinearSRGBColorSpace,T.SRGBColorSpace);
  if(baseline)post=createPost(renderer,scene,camera);

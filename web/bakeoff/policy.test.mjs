@@ -11,6 +11,6 @@ assert.equal(a.sky.zenithHex,correction.set['lighting.sky.zenithHex']);
 assert.deepEqual(a,b,'Camera and scene must not influence look policy');
 assert.equal(a.look.lighting.exposure.linearGain,cal.sharedLook.lighting.exposure.linearGain);
 assert.equal(a.hazeExtinctionPerM,haze.regions.find(r=>r.id==='front-range').seasons.summer.clear.extinctionPerM);
-assert.ok(Math.abs(a.ambientIntensity/(a.directIntensity+a.ambientIntensity)-cal.sharedLook.lighting.shadow.neutralWitnessShadowToLitLinearY)<1e-12);
+assert.ok(Math.abs(a.witness.ratio-cal.sharedLook.lighting.shadow.neutralWitnessShadowToLitLinearY)<1e-12);
 for(const region of ['denver','chicago'])for(const kind of ['treeBroad','treeOval','treeSpreading'])assert.ok(foliage.cities.find(c=>c.id===region).mix.some(m=>m.id===regionalSpecies(foliage,region,kind).id));
 console.log('PASS: camera-independent policy, pack ratios, shared haze and regional foliage');

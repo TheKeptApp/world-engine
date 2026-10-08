@@ -16,3 +16,8 @@ Evidence: `overnight/01-haze/`; Hold-out rollback condition did not trigger.
 Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 16.609379 (+0.000000), lakeview ΔE76 22.258022 (+0.000000).
 Visual: P2 species forms and branches replace angular generic crowns; October calendar prior turns foliage gold. Lakeview still has coarse near lobes. Fixed-box medians are unchanged: Sloan has no crown box, and Lakeview green-mask medians do not reflect the yellow crown change.
 Evidence: `overnight/02-trees/`; Hold-out rollback condition did not trigger.
+
+## 03-light — ACCEPT
+Ordered capture: Sloan then Lakeview, frozen inputs. sloans ΔE76 19.668067 (+3.058688), lakeview ΔE76 22.283344 (+0.025322).
+Visual: Hue-preserving light keeps blue sky and reduces cyan on the lake, but sampled foreground grass diverges further from the mock sidewalk. Lakeview walls become too pale; its crown mask now has too few green pixels (5/6 regions scored), so mean comparisons have reduced coverage.
+Evidence: `overnight/03-light/`; Hold-out rollback condition did not trigger.

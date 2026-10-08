@@ -13,3 +13,7 @@ for(const region of ['denver','chicago']){
 assert.notDeepEqual(phenology('2026-10-08','denver',data),phenology('2026-10-08','chicago',data));
 for(const shape of Object.values(data.shapes)){assert.equal(shape.lobes.length,10);assert.equal(shape.midCount,5);assert.ok(shape.trunkRadius<shape.trunkTop);}
 console.log('PASS: date-derived seasonal continuity, regional prior, winter leaf loss, P2 shape data');
+
+const {witnessLight}=await import('./lighting.js');
+for(const elevation of [15,40,75]){const p=witnessLight({sun:{hex:'#FFE8C6',directRelative:1,elevationDeg:elevation},sky:{fillHex:'#AEBCCA'},shadow:{neutralWitnessShadowToLitLinearY:.62}});assert.ok(Math.abs(p.witness.ratio-.62)<1e-12);}
+console.log('PASS: linear-Y neutral witness ratio across sun elevations');

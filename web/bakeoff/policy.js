@@ -1,3 +1,4 @@
+import {witnessLight} from './lighting.js';
 import {resolveAtmosphere} from './atmosphere.js';
 // General pack resolver: deliberately accepts no camera, scene ID or image score.
 // Renderer unit conversion is analytic, not fitted to either evaluation frame.
@@ -8,8 +9,7 @@ export function resolvePolicy(cal,lake,fixture,correction,haze,climateRegion){
  return {
   look,
   // Lambert BRDF divides incident radiance by pi. A/(A+D)=the pack witness ratio.
-  directIntensity:Math.PI*L.sun.directRelative,
-  ambientIntensity:Math.PI*L.sun.directRelative*shadowRatio/(1-shadowRatio),
+  ...witnessLight(L),
   // Calibration-v2 STATUS.md: approved shared correction, never sampled from this run.
   sky:{...L.sky,...Object.fromEntries(Object.entries(correction.set).map(([k,v])=>[k.split('.').at(-1),v]))},
   // haze-visibility-v1 explicitly supersedes lake-winter-v1 background extinction.
