@@ -204,3 +204,11 @@ Independent renderer series; [rubric, findings and capture proof](web-baseline.m
 After each A2 merge, append both before/after view scores and aspect vectors, merged SHA and matching evidence. Reject-flag any Sloan's gain paired with a hold-out loss; unchanged-frame changes are grader noise under §N.
 
 **Publication update (8 Oct):** A2 `08e2cce` reached main while this report was being filed. Its captured look inputs are identical to the reviewed baseline. This is the initial A3 web baseline on that merge: Sloan's 2/5, Lakeview 2/5; no comparable pre-merge A3 web score exists, so the reject comparison remains N/A, not a pass.
+
+## Web visual review — 8 Oct 2026
+
+| Renderer / merge | Sloan’s score | hold-out score | Decision |
+|---|---|---|---|
+| web / 5c72bad | Sloan's 2 → 2; aspects 3/2/2/2/2/2 → same | Lakeview 2 → 2; aspects 3/2/2/2/2/3 → same | Pair FAIL 0/2; reject condition not triggered; flag no closeness gain. Foliage fixture changed; causal comparison limited. |
+
+[Evidence](web-5c72bad.md). Aspect order: sky/light/saturation/ground/foliage/materials. ΔE ignored.

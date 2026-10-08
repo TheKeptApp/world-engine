@@ -12,3 +12,7 @@ Evidence: [web baseline](../lookloop/web-baseline.md), [paired tracker](look-gat
 ## Current map-gate input — 8 Oct 2026
 
 [haze-visibility-v1](../proposals/haze-visibility-v1/STATUS.md) is approved by R. A2 consumes now; 5A migrates weather-moments on restart. Use 5% MOR and mountain contrast ≥0.05 / projected height ≥2 px. Filing leaves scores unchanged; implementation requires paired look evidence. Map-only order above remains unchanged.
+
+## Web score update — 8 Oct 2026
+
+A2 5c72bad: Sloan's 2/5 and Lakeview 2/5, unchanged from the web baseline; pair FAIL 0/2. No closeness gain; the paired reject condition does not trigger. Changed foliage fixture limits causal comparison. Map gate remains open; Builder/jobs-game order unchanged. Evidence: docs/lookloop/web-5c72bad.md.

@@ -4,6 +4,9 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-08
 
+- **Sky phase ranges (R):** sky-seasons-v1 §2.1 phase ranges approved for **A6 only**. This is not whole-pack approval or authorization for other lanes. Logged from R’s direct instruction; no phase numbers copied or source pack modified.
+- **Standing handoff-conflict rule (R):** resolve handoffs.md add-only conflicts by keeping both entries in date order; all other conflicts still stop. Applied identically in AGENTS.md and CLAUDE.md in this scoring commit.
+
 - **Facade approval and concept filing (R, 8 Oct 2026):** facade-detail-v1 APPROVED; sky-cloud-v1, street-ground-v1 and crown-silhouettes-v2 FILED with status “concept pending approval”. A2 and P2 consume facade-detail-v1: far massing/colour bands, mid bays/trim, near geometry; calibration-v2 owns simplification. Applied add-only in pack STATUS files, INDEX, pack usage, registry, research index and handoffs. No engine integration claimed.
 
 - **haze-visibility-v1 approved (R, 8 Oct 2026):** file add-only; overrides named haze fields in lake-winter-v1, weather-moments-v1 (5% MOR, not 2%), mountain-terrain-v1 and night-fog-v1. Mountain retention: contrast ≥0.05 and projected height ≥2 px, with valid sightlines. A2 consumes now; 5A migrates weather-moments on restart. Applied in pack STATUS, INDEX, pack usage, registry, research index, roadmap and handoffs; no engine integration claimed.

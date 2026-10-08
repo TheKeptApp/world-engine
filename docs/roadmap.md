@@ -141,3 +141,7 @@ From ChatGPT's competitors-as-customers teardown (`docs/research-gpt/creator-kit
    - Weather labelled observed or forecast.
 
 Licensing questions already open: `docs/research/licensing.md` (Q49–Q52 user content and logos; §16 data layers; §18 weather redistribution). The engine stays generic (CLAUDE.md): SDKs and viewers wrap it; partner logic stays in the partner's app.
+
+## Web score update — 8 Oct 2026
+
+A2 5c72bad: Sloan's 2/5 and Lakeview 2/5, unchanged from the web baseline; pair FAIL 0/2. No closeness gain; the paired reject condition does not trigger. Changed foliage fixture limits causal comparison. Map gate remains open; Builder/jobs-game order unchanged. Evidence: docs/lookloop/web-5c72bad.md.

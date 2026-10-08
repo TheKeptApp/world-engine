@@ -98,3 +98,11 @@ The height step now runs unchanged on Sloan's Lake, Lakeview and Greenville Down
 |---|---|---|---|
 | 2026-10-08 | R / A3 → A2, P2 | Consume facade-detail-v1 | [Approved by R (8 Oct 2026)](../proposals/facade-detail-v1/STATUS.md). Tiers: **far massing/colour bands; mid bays/trim; near geometry; calibration-v2 owns simplification**. Filed; implementation pending lane evidence. Use general data/region-driven rules and report look merges for paired scoring. |
 | 2026-10-08 | A3 → R | sky-cloud-v1, street-ground-v1, crown-silhouettes-v2 | FILED with status **concept pending approval**. Await R’s approval; no consumption authorization or replacement of approved targets inferred. |
+
+## A3 visual scoring and owner rules — 8 Oct 2026
+
+| Date | From → to | Item | Status |
+|---|---|---|---|
+| 2026-10-08 | A3 → A2 | 5c72bad visual §M review | Sloan's 2 → 2, Lakeview 2 → 2; FAIL 0/2. Reject condition not triggered; no closeness gain flagged. Seasonal fixture changed; preserve matched conditions for future deltas. [Report](../lookloop/web-5c72bad.md). |
+| 2026-10-08 | R → A6 | sky-seasons-v1 §2.1 phase ranges | Approved for A6 only. No whole-pack or other-lane approval inferred. |
+| 2026-10-08 | R → all lanes | Add-only handoff conflicts | Keep both entries in date order in handoffs.md; all other conflicts still stop. Mirrored in AGENTS.md and CLAUDE.md. |

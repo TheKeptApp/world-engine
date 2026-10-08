@@ -101,7 +101,7 @@ After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched ho
 
 ## Git, reporting and merging
 
-- Work on a branch or worktree; the tests for your area pass before you merge. **Stop on any merge conflict** and report it.
+- Work on a branch or worktree; the tests for your area pass before you merge. Follow the standing conflict rule below.
 - Plan before coding. Reports are at most 15 lines in plain English (a one-table report is fine), say first whether the work is done or blocked, and list everything you touched. No silent workarounds: if something cannot be done, stop and say so.
 - Decide what the specs already decide and log it; stop and ask only for decisions that are irreversible, outside the specs, or that change cost or privacy.
 - **Merge to main when done.** Small and often, at least daily: fetch, rebase on `origin/main`, run the tests for your area (under the heavy lock), run `Tools/lookloop/commit_size.sh` (20 MB per commit), then push. Never force-push or rewrite pushed history.
@@ -112,3 +112,5 @@ After each look merge from 5A, P2 or A2, A3 scores Sloan's Lake and untouched ho
 
 - Last line of every Astra report: `Tracker update: <what changed, status, next>`, so the trackers stay current.
 - R's current priorities: (1) the look gate: all four afternoon heroes at closeness 4 or more and every aspect 3 or more (Lakeview, Sloan's Lake and the other heroes); (2) real data for the test cities Chicago (Lakeview), Denver (Sloan's Lake) and Greenville SC; (3) a web viewer (three.js) that proves the look is reachable in a browser. Parked: smoke, Real mode, paid flight data, the "Somewhere" brand filing.
+
+**Standing conflict rule (R, 8 Oct 2026):** Resolve add-only conflicts in `docs/tracking/handoffs.md` by keeping both entries in date order. All other conflicts still stop and must be reported.
