@@ -36,10 +36,9 @@ fi
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
   # Incremental: about 3 s when nothing changed.
   echo "build: WorldLab (Simulator)"
-  "$ROOT/scripts/generate.sh" >/dev/null
-  xcodebuild -project "$ROOT/Apps/WorldLab/WorldLab.xcodeproj" -scheme WorldLab -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED" -quiet build 2>&1 | grep -v IDERunDestination || true
+  "$ROOT/scripts/build-native.sh" || exit $?
 fi
+python3 "$ROOT/scripts/native_preflight.py" --stage capture || exit $?
 [ -d "$APP" ] || { echo "capture: no WorldLab build at $APP"; exit 1; }
 
 # simctl calls can hang (not fail) on a degraded Simulator: run them with a time limit (exit 124 on timeout).
