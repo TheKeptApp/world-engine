@@ -1,0 +1,114 @@
+{
+  "units": "RGB channels normalized 0..1; maximum <=2/255, mean <=1e-3",
+  "worldCrop": "Top 32 rows excluded, same boundary as diagnosis \u00a73; requires R approval for control gate",
+  "controls": [
+    {
+      "name": "sloans-absent",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-absent/sloans-150-foliage-off-crown-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+      "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 80,
+        "maxNormalized": 0.3137254901960784,
+        "meanNormalized": 0.00030827642112187626,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "sloans-off",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-off/sloans-150-foliage-off-crown-off-palette-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+      "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 80,
+        "maxNormalized": 0.3137254901960784,
+        "meanNormalized": 0.00030827642112187626,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "lakeview-absent",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-absent/lakeview-foliage-off-crown-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/lakeview-foliage-off-crown-off.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 59,
+        "maxNormalized": 0.23137254901960785,
+        "meanNormalized": 0.0003507248303568628,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "lakeview-off",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-off/lakeview-foliage-off-crown-off-palette-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/lakeview-foliage-off-crown-off.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 59,
+        "maxNormalized": 0.23137254901960785,
+        "meanNormalized": 0.0003507248303568628,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    }
+  ]
+}

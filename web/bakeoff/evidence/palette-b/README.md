@@ -1,5 +1,7 @@
 # Palette B: lot and tableA trial
 
+**Rebased branch, not merged:** [9 October rebase evidence](REBASE.md). Four fresh controls preserve every world pixel but fail the whole-image maximum at the credits background edge; R gate decision pending. The 34-frame tables below describe the preserved original trial captures.
+
 R authorized this reduced-scope trial after the surface-role admission stop. Roofs, walls, plaster and the mapped-colour guard remain deferred. No feature IDs, colour-equality selectors, camera/block look rules, global desaturation or native changes. This trial does not promote the diagnosis hypotheses into approved pack values.
 
 ## Consumers and selectors

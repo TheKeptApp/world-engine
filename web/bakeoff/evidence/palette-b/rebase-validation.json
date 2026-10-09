@@ -1,0 +1,131 @@
+{
+  "status": "whole-image gate blocked; world gate awaits R approval",
+  "rebasedOnto": "0db563f823ca95f48d3edea1ae6404b37215222b",
+  "priorFrames": 34,
+  "sourceHashes": {
+    "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+    "web/bakeoff/palette-b.js": "45b1bc836c8fb07d91a7ee2dde8c3e5542507ebb6b7c8baace416cc7329080f2",
+    "web/bakeoff/foliage.js": "a82a3625544d421b13f83c99a11a1bdb0c0025e17229b9ff17e543d7beb8df3c",
+    "web/bakeoff/crown-v3.js": "7e281759c6c881b889e5f2b1e01e3b186f63c046badfc3e718cbb55b31e1ddd1",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883"
+  },
+  "controls": [
+    {
+      "name": "sloans-absent",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-absent/sloans-150-foliage-off-crown-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+      "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 80,
+        "maxNormalized": 0.3137254901960784,
+        "meanNormalized": 0.00030827642112187626,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0,
+        "meanNormalized": 0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "sloans-off",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-off/sloans-150-foliage-off-crown-off-palette-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+      "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 80,
+        "maxNormalized": 0.3137254901960784,
+        "meanNormalized": 0.00030827642112187626,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0,
+        "meanNormalized": 0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "lakeview-absent",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-absent/lakeview-foliage-off-crown-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/lakeview-foliage-off-crown-off.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 59,
+        "maxNormalized": 0.23137254901960785,
+        "meanNormalized": 0.0003507248303568628,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0,
+        "meanNormalized": 0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    },
+    {
+      "name": "lakeview-off",
+      "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-off/lakeview-foliage-off-crown-off-palette-off.png",
+      "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/lakeview-foliage-off-crown-off.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "pngByteIdentical": false,
+      "wholeImage": {
+        "maxByte": 59,
+        "maxNormalized": 0.23137254901960785,
+        "meanNormalized": 0.0003507248303568628,
+        "differingChannels": 2967,
+        "gatePass": false
+      },
+      "worldBelow32": {
+        "maxByte": 0,
+        "maxNormalized": 0,
+        "meanNormalized": 0,
+        "differingChannels": 0,
+        "gatePass": true
+      },
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ]
+    }
+  ],
+  "noiseGate": {
+    "units": "channel values normalized to 0..1",
+    "max": 0.00784313725490196,
+    "mean": 0.001,
+    "observedWorldMax": 0,
+    "observedWorldMean": 0,
+    "wholeImagePassed": false
+  },
+  "reason": "Render inputs and all prior fixture/scene/camera values identical; existingExports path unused; server MIME correction affects JS overrides not used here, HTML/JSON bodies unchanged; idempotent close affects teardown only. Four fresh controls have identical world pixels but a credits background edge mismatch on row 27. No scores."
+}
