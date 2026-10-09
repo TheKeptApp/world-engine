@@ -39,7 +39,15 @@ async function main(){
  if(!['off','lot','tableA'].includes(paletteMode))throw Error('Invalid paletteB: '+paletteMode);
  const paletteB=paletteMode==='off'?null:await (await import('./palette-b.js')).preparePaletteB(paletteMode,{look,foliage,p2,lake,config});
  // PALETTE_B_END
+ // LIGHT_TRIAL_BEGIN
+ const lightMode=q.get('lightTrial')??'off';
+ if(!['off','on'].includes(lightMode))throw Error('Invalid lightTrial: '+lightMode);
+ let lightTrial=null;
+ // LIGHT_TRIAL_END
  const world=new WorldScene(config.world);await world.load(p=>status.textContent=`Loading export… ${Math.round(p*100)}%`);const seasonal=phenology(fixture.date,config.region,p2);world.setSeason(seasonal.exportSeasonIndex);
+ // SURFACE_ROLES_BEGIN
+ if(q.has('surfaceRoles')&&q.get('surfaceRoles')!=='off')world.surfaceRoles=await (await import('./surface-roles.js')).loadSurfaceRoles(config.world,q.get('surfaceRoles'),world.manifest);
+ // SURFACE_ROLES_END
  const scene=new T.Scene();scene.add(world.root);
  const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
  const camera=new T.PerspectiveCamera(config.camera.fov,1,.2,150000);
@@ -67,6 +75,9 @@ async function main(){
  const sunDirection=new T.Vector3(Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el));
  sun.position.copy(camera.position).addScaledVector(sunDirection,180);sun.target.position.copy(camera.position);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-90,right:90,top:90,bottom:-90,near:1,far:450});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.00015;sun.shadow.normalBias=.05;scene.add(sun,sun.target);
  scene.add(new T.HemisphereLight(sky.fillHex,sky.fillHex,policy.ambientIntensity));
+ // LIGHT_TRIAL_BEGIN
+ if(!baseline&&lightMode==='on')lightTrial=(await import('./light-trial.js')).installLightTrial(scene,sun,policy);
+ // LIGHT_TRIAL_END
  if(!baseline){for(const slot of world.palettes.slots){const name=slot.names?.[0],key={road:'asphalt',sidewalk:'concrete',curb:'curb',lawn:'lawn'}[name];if(key){const c=new T.Color(look.materials.groundBaseHex[key]),a=world.paletteTexture.image.data;a.set([c.r,c.g,c.b,1],slot.slot*4);}}world.paletteTexture.needsUpdate=true;}
  // PALETTE_B_BEGIN
  paletteB?.applyPalette(world);
@@ -151,7 +162,7 @@ async function main(){
  const shadowCasters=baseline?null:installShadowCasters(scene,world,sun,camera);
  if(v3&&q.has('capture')){scene.updateMatrixWorld(true);world.crownV3Report.fragments=v3Module.estimateFragments(v3.groups,camera,renderer.domElement.width,renderer.domElement.height);}
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
- window.bakeoff={paletteB:paletteB?.report??null,crownV3:!baseline&&crownV3!=='off'?crownV3:false,crownV2:!baseline&&crownV2,foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
+ window.bakeoff={lightTrial,paletteB:paletteB?.report??null,crownV3:!baseline&&crownV3!=='off'?crownV3:false,crownV2:!baseline&&crownV2,foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
  renderer.setAnimationLoop(t=>{updateCameraNear(camera);now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});
