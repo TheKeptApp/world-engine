@@ -36,7 +36,7 @@ export async function preparePaletteB(mode,{look,foliage,p2,lake,config={}}){
  const bytes=new TextEncoder().encode(JSON.stringify(TABLE));
  const tableHash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
  const report={mode,tableHash,source:TABLE.source,colourSpace:TABLE.colourSpace,resolved:[],deferred:['roof','wall','plaster','mapped colour guard'],lawnRule:'Paint.Flags.lawn=4: mix exported lawnA/lawnB in linear light by clamp(extra.y,0,1), multiplied by paint.y (native WorldShaders.metal)',transfer:'one sRGB decode at input; unchanged main.js grade and one explicit sRGB output encode'};
- const record=(selector,from,to,semantic='albedo')=>report.resolved.push({selector,from,to,valueSemantic:semantic});
+ const record=(selector,from,to,semantic='albedo')=>report.resolved.push({selector,from,to,fromColourSpace:Array.isArray(from)?'linear sRGB':'sRGB or named fallback',toColourSpace:'sRGB',valueSemantic:semantic});
  if(mode==='tableA'){
   // These calibration keys only feed the already-named ground overrides.
   for(const [key,name]of Object.entries({asphalt:'road',concrete:'sidewalk',curb:'curb'})){

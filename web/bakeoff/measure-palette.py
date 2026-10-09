@@ -29,7 +29,7 @@ if __name__ == '__main__':
     ap=argparse.ArgumentParser();ap.add_argument('runs',nargs='+');ap.add_argument('--output',required=True);args=ap.parse_args()
     root=Path(__file__).resolve().parents[2]
     result={'method':'docs/execution/palette-diagnosis.md §3; exclude top 32 rows; every RGB8 channel >1 and <254; reconstructed source nonnegative; mean per-pixel Lab D65 L*/C*. Eligibility recomputed per frame; no score.', 'frames':[]}
-    for run in map(Path,args.runs):
+    for run in (Path(p).resolve() for p in args.runs):
         report=json.loads((run/'web-capture.json').read_text())
         assert report['status']=='passed',run
         for row in report['frames']:

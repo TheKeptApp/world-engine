@@ -23,6 +23,7 @@ for(let slot=0;slot<256;slot++)if(!changed.has(slot))assert.deepEqual(Array.from
 // Explicit same-hex control: only the named road assignment may change.
 const twin={palettes:{slots:[{slot:0,names:['road'],srgb:'#626A70'},{slot:1,names:['door'],srgb:'#626A70'}]},paletteTexture:createPaletteTexture()};
 twin.paletteTexture.image.data.fill(.25);applySlots(twin,{road:TABLE.slots.road});assert.deepEqual(Array.from(twin.paletteTexture.image.data.slice(4,8)),[.25,.25,.25,.25]);
+assert.throws(()=>applySlots(twin,{missing:'#727A5B'}),/one exported named slot/);
 const h=TABLE.slots.road.slice(1),expected=[0,2,4].map(i=>srgbToLinear(parseInt(h.slice(i,i+2),16)/255));
 for(let i=0;i<3;i++)assert(Math.abs(twin.paletteTexture.image.data[i]-expected[i])<1e-7);
 assert.equal(twin.paletteTexture.colorSpace,T.NoColorSpace);
@@ -34,6 +35,7 @@ const endpoints=Object.values(lot.report.lawnEndpoints).map(v=>v.linearRGB);
 const mixLot=t=>endpoints[0].map((a,i)=>a+(endpoints[1][i]-a)*Math.max(0,Math.min(1,t)));
 assert.notDeepEqual(mixLot(0),mixLot(1));assert.deepEqual(mixLot(-1),mixLot(0));assert.deepEqual(mixLot(2),mixLot(1));
 assert.equal(tableInput.foliage.species.find(s=>s.id==='populus_tremuloides').bark,original.foliage.species.find(s=>s.id==='populus_tremuloides').bark);
+assert.deepEqual(tableInput.p2.vegetation['denver-aspen'].branches,original.p2.vegetation['denver-aspen'].branches);
 assert.deepEqual(tableInput.p2.phenology,original.p2.phenology);assert.deepEqual(tableInput.p2.vegetationRegions,original.p2.vegetationRegions);
 for(const [i,s]of tableInput.foliage.species.entries()){const old=original.foliage.species[i];assert.deepEqual(s.dimensionsM,old.dimensionsM);assert.equal(s.evergreen,old.evergreen);}
 assert.equal((main.match(/post.outputNode=convertColorSpace/g)||[]).length,1);assert(main.includes('post.outputColorTransform=false'));

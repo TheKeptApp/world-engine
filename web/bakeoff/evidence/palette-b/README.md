@@ -19,10 +19,31 @@ Set `WORLDENGINE_ASSETS` to this checkout for the existing arithmetic suites. Ru
 
 Only `scripts/capture-web.sh` performs renders, under its existing heavy admission, watchdog and cleanup. Each invocation releases its own lock. The only capture-tool additions are palette query/metadata routing and the requested Lakeview 150 m inspection height using the saved Lakeview eye and existing 270°/45°/50° inspection recipe. The saved street contract and Sloan ladder are unchanged.
 
-All trial captures use crown OFF, foliage exp1 OFF, no sceneBudget, fixed grade/date/pose. Sloan 40/150/600 m: lot and tableA, plus additional absent/off controls for c8c361d identity; Sloan 150 m v3+tableA; Lakeview 150 m absent vs tableA. Each condition has a fresh/repeat pair. This is 30 frames including 12 additional default-identity controls.
+All trial captures use crown OFF, foliage exp1 OFF, no sceneBudget, fixed grade/date/pose. Sloan 40/150/600 m: lot and tableA, plus additional absent/off controls for c8c361d identity; Sloan 150 m v3+tableA; Lakeview 150 m absent vs tableA. Each condition has a fresh/repeat pair. This is 30 trial/ladder frames including 12 additional Sloan default-identity controls, plus 4 Lakeview 600 m absent/off fresh/repeat controls: 34 frames total.
 
 `measure-palette.py` implements diagnosis §3's eligible-pixel method, excluding top 32 rows, clipped channels and negative reconstructed source radiance. Mean L*/C* is the mean of eligible per-pixel Lab D65 values. Eligibility is recomputed for each frame: report its share, since different eligible populations are not a strict matched-pixel causal estimate. No score or ΔE is computed. PNGs remain local/ignored; manifest and compact evidence are committed.
 
+## Sloan measurements (crown OFF)
+
+| Height | Default L*/C* | lot L*/C* | tableA L*/C* | tableA eligible share |
+|---|---:|---:|---:|---:|
+| 40 m | 66.02 / 27.65 | 67.71 / 29.62 | 61.38 / 21.20 | 95.81% |
+| 150 m | 68.35 / 26.65 | 69.71 / 29.04 | 64.33 / 21.28 | 95.31% |
+| 600 m | 70.11 / 24.90 | 71.19 / 30.81 | 64.02 / 17.07 | 99.29% |
+
+The lot-only rule increases lightness/chroma because the exported autumn endpoints are lighter/warmer than bakeoff's former constant. tableA reduces the eligible means; this is not a closeness score or approval to ship. Orange mapped roofs remain unchanged/deferred. All three modes retain the pre-existing crown-OFF main costs: 729,101 triangles / 182 draws; 791,795 / 251; 624,433 / 292. This trial does not resolve the existing scene-budget overage.
+
+
+| Additional condition | Mean L* | Mean C* | Eligible share |
+|---|---:|---:|---:|
+| sloans-150 v3 tableA | 63.62 | 18.16 | 95.30% |
+| lakeview absent | 66.10 | 17.45 | 98.47% |
+| lakeview tableA | 64.00 | 14.85 | 99.80% |
+
+All 34 frames (17 fresh/repeat pairs) are validated. Absent/off Sloan 40/150/600 and Lakeview 600 PNG bytes equal c8c361d controls exactly. Every lot/tableA pass count equals its default; v3+tableA equals the existing v3 pass counts. Lakeview 150 m is newly captured at the unchanged inspection recipe; no prior c8c361d frame exists at that height. Its repeat and paired coverage checks pass. Mean changes are ungraded.
+
 ## Ledger text for A3
 
-Pending capture validation. No visual score claimed. Used: `docs/execution/palette-diagnosis.md` §§3–4 and R's reduced-scope authorization. Mock: calibration-v2 frames 06-sloans and 01-lakeview; identity controls c8c361d/A7 post-near-plane ladder. Deviation: surface-role-dependent rows deferred by R; Lakeview 150 m is a new inspection pair, not a historical street-frame comparison.
+Integrated behind default OFF, capture/identity validation passed; visual acceptance pending A3. Implementation 7f16c53 plus this evidence commit; exact captured source hashes, table hash, selectors and values are in manifest.json and each batch web-capture.json. Arithmetic suites pass (1,056 identity cases; 228 v3 cases; 14 capture-tooling tests). No visual score claimed. Used: `docs/execution/palette-diagnosis.md` §§3–4 and R's reduced-scope authorization. Mock: calibration-v2 frames 06-sloans and 01-lakeview; identity controls c8c361d/A7 post-near-plane ladder. Deviation: surface-role-dependent rows deferred by R; Lakeview 150 m is a new inspection pair, not a historical street-frame comparison.
+
+Touched: web/bakeoff palette adapter, bounded main hooks, identity/arithmetic/capture-evidence tests, measurement script and evidence; minimal scripts capture query/metadata and Lakeview-150 routing plus its test. No pack, native, tracking, grade, light, geometry or shadow changes. Named seasonal slots are independently allocated before hex-deduplicated building tuples (`Sources/WorldGen/Palette.swift::init(seasonal:)`); this is why equal-hex building slots are not recoloured.
