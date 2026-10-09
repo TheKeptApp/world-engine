@@ -78,3 +78,11 @@ Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: 
 [Palette-B fresh blind sessions](../review/palette-b-paired-scores.md):34PNGs/13unique hashes verified; tableA overall beats lot atSloan40/150/600 and Lakeview150 default6/6 each. Versus c8c361d, tableA winsSloan40/150;600 splits4–2/inconclusive. All6 identical controls pass. Whole-point overall mostly2 with disclosed2/3 variation; foliage preference inconclusive, light ties. No promotion or gate pass; no captures/code.
 
 Used: paired protocol0bd9d52 and supplied palette-B hashes. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.
+
+### A10 spatial ordering and shadow diagnosis — filed 9 Oct 2026
+
+Source: [spatial-order-and-shadow-diagnosis.md §Ledger text for A3](../execution/spatial-order-and-shadow-diagnosis.md#ledger-text-for-a3). The text below is filed verbatim; “above” refers to the source diagnosis. Technical identity evidence is separate from visual scoring and floor acceptance.
+
+A10 repaired prototype ordering: all twelve fixed bakeoff/shipping comparisons and twelve repeat controls exact 0/0. Default route/shipping sources and all shadow submissions unchanged. Ordering preservation regresses Lakeview 150 m draws to 181 bakeoff/234 shipping, and every 600 m view exceeds 100; no floor promotion. Reconciled Sloan/Lakeview shadow breakdown attributes 560,465–996,184 submissions to broad LOD0 chunks/instance groups. Existing-frustum individual-bounds model is 24,383–46,338; back-face/LOD/proxy models and visible-risk limits are documented above. Shadow models remain unimplemented/unqualified; reach unchanged and any change requires R. A3 applies this text to the shared ledger.
+
+Used: spatial-cells-prototype.md §§Corrected capture gate, Unchanged shadow cost; spatial-cells-design.md §Renderer responsibilities. Mock: retained matched default ladder/scoreboard frames. Deviation: shadow usefulness is conservative geometric modeling, not shadow depth ownership or a native measurement.

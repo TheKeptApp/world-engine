@@ -434,3 +434,13 @@ Used: docs/execution/world-edge-options.md Recommendation and first test; native
 [Palette-B fresh blind sessions](../review/palette-b-paired-scores.md):34PNGs/13unique hashes verified; tableA overall beats lot atSloan40/150/600 and Lakeview150 default6/6 each. Versus c8c361d, tableA winsSloan40/150;600 splits4–2/inconclusive. All6 identical controls pass. Whole-point overall mostly2 with disclosed2/3 variation; foliage preference inconclusive, light ties. No promotion or gate pass; no captures/code.
 
 Used: paired protocol0bd9d52 and supplied palette-B hashes. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.
+
+### 2026-10-09 — A10 → A3: spatial ordering and shadow diagnosis filed
+
+A10 ordering diagnosis filed: twelve bakeoff/shipping comparisons and twelve repeats exact 0/0; shadows/default unchanged. Lakeview 150 m draws 181 bakeoff/234 shipping; every 600 m view exceeds 100, no floor promotion. Shadow bounds model 24,383–46,338 versus 560,465–996,184 submitted; models unimplemented/unqualified, reach unchanged, R approval required for changes. [Source](../execution/spatial-order-and-shadow-diagnosis.md). Full ledger text preserved verbatim in [INTEGRATION](INTEGRATION.md#a10-spatial-ordering-and-shadow-diagnosis--filed-9-oct-2026). No new capture, score or code change.
+
+### 2026-10-09 — R → A3: A2 light trial scoring queued
+
+Standing by for A2 light trial: pending landed, hash-identified frames; same paired protocol (0bd9d52), fresh independent sessions, randomized spatial A/B, repeats/identical controls and whole-point grades at Sloan 40/150/600 m plus Lakeview 150 m. No scoring before delivery; no promotion or unattended polling. Palette-B commit 1d11d76 already landed as 8f08c42 after conflict preservation and revalidation; not duplicated.
+
+Used: A10 diagnosis §Ledger text for A3; paired protocol 0bd9d52. Mock: retained matched control frames; next light trial uses the same registered Sloan/Lakeview targets. Deviation: filing and pending scoring scope only.
