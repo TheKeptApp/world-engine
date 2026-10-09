@@ -329,7 +329,13 @@ struct RealityKitScreen: View {
                   o.inspectionPose == nil || InspectionCamera.Input(o.inspectionPose!) != nil else {
                 print("VIEWS failed: invalid foliage mode or inspection pose for \(spec.id)"); fflush(nil); return
             }
-            defer { if o.sceneReady { post.captureFrames.end() } }
+            let shippingAutoExposure = post.settings.autoExposure
+            defer {
+                if o.sceneReady {
+                    post.captureFrames.end()
+                    post.settings.autoExposure = shippingAutoExposure
+                }
+            }
             var captureSignature: String?
             var captureSize: String?
             await applyView(o, world: world, camera: camera, env: env, demo: demo)
@@ -340,6 +346,9 @@ struct RealityKitScreen: View {
                         throw NSError(domain: "SceneReady", code: 4, userInfo: [NSLocalizedDescriptionKey: "SCENEREADY requires the Metal frame completion observer; noPost and offscreen capturequality are unsupported"])
                     }
                     try await world.awaitCaptureSceneCompletion()
+                    // Capture-only deterministic gain: the unchanged composite kernel uses gain 1
+                    // when autoExposure is false. Keep look grading; restore shipping policy on exit.
+                    post.settings.autoExposure = false
                     post.captureFrames.begin()
                     let deadline = Date().addingTimeInterval(30)
                     while post.captureFrames.proof() == nil {
@@ -354,7 +363,7 @@ struct RealityKitScreen: View {
                     captureSignature = proof.signature
                     captureSize = "\(proof.width)x\(proof.height)"
                     let signature = Data(proof.signature.utf8).base64EncodedString()
-                    print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
+                    print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") exposure=pinned-1 gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
                 } catch {
                     post.captureFrames.end()
                     print("VIEWS failed: SCENEREADY id=\(spec.id): \(error)"); fflush(nil); return

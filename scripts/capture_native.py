@@ -103,6 +103,8 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
                 proof = dict(field.split('=', 1) for field in signals[0].split()[1:])
                 if proof.get('context') != ('ready' if require_context else 'not-required'):
                     raise ValueError('scene not ready: unexpected context state')
+                if proof.get('exposure') != 'pinned-1':
+                    raise ValueError('scene not ready: deterministic capture exposure was not confirmed')
                 if int(proof.get('gpuCompleted', '0')) < 3 or int(proof.get('stableFrames', '0')) < 3:
                     raise ValueError('scene not ready: insufficient completed stable frames')
                 if not re.fullmatch(r'[1-9]\d*x[1-9]\d*', proof.get('size', '')) or not proof.get('signature'):
@@ -117,7 +119,7 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
             if not drawsplit or not cost:
                 raise ValueError('capture lacks scene coverage counters')
             matched.append(dict(contextRequired=require_context, contextAttachedBeforeCapture=bool(completions),
-                                gpuCompletionProved=proof is not None, sceneReady=proof, triangles=int(cost[1]), draws=int(cost[2]),
+                                gpuCompletionProved=proof is not None, captureExposure=({'mode': 'pinned', 'gain': 1.0} if proof else None), sceneReady=proof, triangles=int(cost[1]), draws=int(cost[2]),
                                 drawsplit=drawsplit[1], launchLog=str(path), shotLine=shot + 1))
     if len(matched) != 1:
         raise ValueError('capture lacks one unambiguous launch-log VIEWSHOT')

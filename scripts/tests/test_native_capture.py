@@ -95,10 +95,13 @@ class NativeCaptureTests(unittest.TestCase):
     def test_scene_ready_requires_completed_frames_and_correct_order(self):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp); (run / 'logs').mkdir(); log = run / 'logs/_launch-fixture.log'
-            signal = 'SCENEREADY id=view context=ready gpuCompleted=3 stableFrames=3 size=1005x565 signature=cG9zZQ=='
+            signal = 'SCENEREADY id=view context=ready exposure=pinned-1 gpuCompleted=3 stableFrames=3 size=1005x565 signature=cG9zZQ=='
             shot = 'VIEWSHOT id=view file=views/view.png triangles=5 draws=1 drawsplit[context=1]'
             log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + shot + '\n')
             self.assertTrue(capture.verify_scene_readiness(run, 'view', True, True)['gpuCompletionProved'])
+            log.write_text('CONTEXT cells=18 parse=1s\n' + signal.replace(' exposure=pinned-1', '') + '\nVIEWREADY id=view\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'exposure'):
+                capture.verify_scene_readiness(run, 'view', True, True)
             log.write_text('CONTEXT cells=18 parse=1s\nVIEWREADY id=view\n' + shot + '\n')
             with self.assertRaisesRegex(ValueError, 'SCENEREADY'):
                 capture.verify_scene_readiness(run, 'view', True, True)
