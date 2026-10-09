@@ -46,3 +46,13 @@ export function verifyPixels({width,height,data},expected) {
  if(max-min<8||variance<4)throw Error('Flat frame: insufficient pixel range/variance below the credits overlay');
  return {range:max-min,variance};
 }
+
+export function byteDifference(a,b) {
+ const length=Math.max(a.length,b.length);let differingBytes=0,max=0,sum=0;
+ for(let i=0;i<length;i++){
+  const delta=i>=a.length||i>=b.length?255:Math.abs(a[i]-b[i]);
+  if(delta) differingBytes++;
+  max=Math.max(max,delta);sum+=delta;
+ }
+ return {freshBytes:a.length,repeatBytes:b.length,differingBytes,max,mean:length?sum/length:0};
+}

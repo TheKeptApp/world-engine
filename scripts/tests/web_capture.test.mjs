@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
-import {modeQueries,verifyCounters,verifyCoverage,verifyPixels} from '../web_capture_checks.mjs';
+import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference} from '../web_capture_checks.mjs';
 import {startCaptureServer} from '../web_capture_server.mjs';
 test('mode matrix and invalid values',()=>{assert.equal(modeQueries({matrix:true}).length,3);assert.throws(()=>modeQueries({crown:'pretend'}));});
 test('counter guard rejects incomplete and unequal scene coverage',()=>{
@@ -56,4 +56,10 @@ test('owned server replays frozen JSON without editing renderer files',async()=>
   assert.equal((await fetch(server.origin+'/favicon.ico')).status,204);
   assert.deepEqual(server.failures,[]);
  }finally{if(server)await server.close();await rm(root,{recursive:true});}
+});
+
+test('repeat byte difference reports exact equality, changes and unequal lengths',()=>{
+ assert.deepEqual(byteDifference(Buffer.from([1,2]),Buffer.from([1,2])),{freshBytes:2,repeatBytes:2,differingBytes:0,max:0,mean:0});
+ assert.deepEqual(byteDifference(Buffer.from([1,2]),Buffer.from([1,4])),{freshBytes:2,repeatBytes:2,differingBytes:1,max:2,mean:1});
+ assert.equal(byteDifference(Buffer.from([1]),Buffer.from([1,2])).differingBytes,1);
 });
