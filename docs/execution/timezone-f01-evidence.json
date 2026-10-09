@@ -1,0 +1,170 @@
+{
+  "schema": "timezone-f01-recheck/1",
+  "baseline": "5a7fe5a",
+  "tests": {
+    "legacy": 87,
+    "companion": 3,
+    "timezone": 2,
+    "passed": 92,
+    "suites": 16,
+    "seconds": 98.775,
+    "admissionLoad": 5.09
+  },
+  "roadStatic": {
+    "matched": 20,
+    "admissionLoad": 5.39,
+    "areas": [
+      {
+        "area": "sloans-lake",
+        "before": {
+          "graphSHA256": "0106ddc90934d164e069edf800e2c36f43be075099f32fffbb31c1e3c6fbba60",
+          "staticGeometrySHA256": "f971c695d1a4ca85d68f181afeb74df0d04eeae49e80e96eca5211e885e5c630"
+        },
+        "after": {
+          "graphSHA256": "0106ddc90934d164e069edf800e2c36f43be075099f32fffbb31c1e3c6fbba60",
+          "staticGeometrySHA256": "ebe086d58916d38f09fa6a421b4f42dd6ffbe4781e46fe1fab4953d296cbdb96"
+        }
+      },
+      {
+        "area": "lakeview-sheil-park",
+        "before": {
+          "graphSHA256": "0654dbaf30bb753a7c539c7349c52db54932fe230196abbc5a187296527a33e2",
+          "staticGeometrySHA256": "863ea0cfe2083658cc56d9e00ce25856f26a2531f013fea08883412493c162ff"
+        },
+        "after": {
+          "graphSHA256": "0654dbaf30bb753a7c539c7349c52db54932fe230196abbc5a187296527a33e2",
+          "staticGeometrySHA256": "863ea0cfe2083658cc56d9e00ce25856f26a2531f013fea08883412493c162ff"
+        }
+      },
+      {
+        "area": "wilmette-vattmann-park",
+        "before": {
+          "graphSHA256": "6b2ecd7861231ed1247e6e15851eee282803d3897e4443f2ef0c33775017f562",
+          "staticGeometrySHA256": "eff2f2cea53f10541eb7903ec3ea5ebb71b31ef7846c5e4639150e2335f81816"
+        },
+        "after": {
+          "graphSHA256": "6b2ecd7861231ed1247e6e15851eee282803d3897e4443f2ef0c33775017f562",
+          "staticGeometrySHA256": "eff2f2cea53f10541eb7903ec3ea5ebb71b31ef7846c5e4639150e2335f81816"
+        }
+      },
+      {
+        "area": "west-highland",
+        "before": {
+          "graphSHA256": "eac7e33c61189835ca31c37a974dd95b41b74e2c30f7c1514da81dbfc583792c",
+          "staticGeometrySHA256": "31c1d6b845e6890039056256b18c85c20fb9c67287c9f3f73384ce8a141dbbeb"
+        },
+        "after": {
+          "graphSHA256": "eac7e33c61189835ca31c37a974dd95b41b74e2c30f7c1514da81dbfc583792c",
+          "staticGeometrySHA256": "31c1d6b845e6890039056256b18c85c20fb9c67287c9f3f73384ce8a141dbbeb"
+        }
+      },
+      {
+        "area": "greenville-downtown",
+        "before": {
+          "graphSHA256": "5f3a0c134b3d80f5022fd45f2b851bdec7d35248fb901d241921abfbf110bd0a",
+          "staticGeometrySHA256": "c4eaa962c7b660e0f20d195a7491a9f6c182647a56a9f68d27bd25ce8c8f6f5a"
+        },
+        "after": {
+          "graphSHA256": "5f3a0c134b3d80f5022fd45f2b851bdec7d35248fb901d241921abfbf110bd0a",
+          "staticGeometrySHA256": "212ee81ecfd4e439e44e973db7b664e9cab5ff25117f4e2c76142d88b3fdd61b"
+        }
+      }
+    ]
+  },
+  "packages": [
+    {
+      "area": "sloans-lake",
+      "arguments": [
+        "--date",
+        "2026-10-15T23:44:01Z",
+        "--focus",
+        "39.747058,-105.04345,39.752462,-105.037966"
+      ],
+      "files": 281,
+      "changedFiles": [],
+      "timezoneBefore": "America/Denver",
+      "timezoneAfter": "America/Denver",
+      "allOtherFieldsAndFilesIdentical": true,
+      "bindings": {
+        "before": {
+          "environment.json": "1e68a16aee8c8d7aa8f959537ec7d68391cfe7708f40e9db6e94accb38561810",
+          "world.json": "4ca4bb79fc888bf3214a7caba466562e1f997a921acaa23df924fd44a353f9a2"
+        },
+        "after": {
+          "environment.json": "1e68a16aee8c8d7aa8f959537ec7d68391cfe7708f40e9db6e94accb38561810",
+          "world.json": "4ca4bb79fc888bf3214a7caba466562e1f997a921acaa23df924fd44a353f9a2"
+        }
+      }
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "arguments": [
+        "--date",
+        "2026-07-15T20:00:00Z",
+        "--season",
+        "1"
+      ],
+      "files": 212,
+      "changedFiles": [
+        "environment.json",
+        "world.json"
+      ],
+      "timezoneBefore": "America/Denver",
+      "timezoneAfter": "America/Chicago",
+      "allOtherFieldsAndFilesIdentical": true,
+      "bindings": {
+        "before": {
+          "environment.json": "95c0bf26032543bb795f04687c772c05702d42ca1b8579b673df0ae507ad19cd",
+          "world.json": "daaf1fe42bc8fcf87695104f5a42b4c078e20e305998bac6aa58bab41170ff7e"
+        },
+        "after": {
+          "environment.json": "9718cf4fbf25a8be69aaa4da2a9e1540e03e1c3491bd90c1bbd44e499d35708a",
+          "world.json": "13e3e764b2b2f56f6c02a522428adcd8a551d0c6087e7c58944836d577d6b50d"
+        }
+      }
+    },
+    {
+      "area": "wilmette-vattmann-park",
+      "arguments": [
+        "--date",
+        "2026-07-15T20:00:00Z",
+        "--season",
+        "1"
+      ],
+      "files": 209,
+      "changedFiles": [
+        "environment.json",
+        "world.json"
+      ],
+      "timezoneBefore": "America/Denver",
+      "timezoneAfter": "America/Chicago",
+      "allOtherFieldsAndFilesIdentical": true,
+      "bindings": {
+        "before": {
+          "environment.json": "a78e44e8afd5e45c4de9a275646d1c8469464cc212a209f3fcf06075f41e7208",
+          "world.json": "c5ac7837ef602a00683fe5dfac6fb0401a5b39ea86d1e6998a26cb866d0c4aa3"
+        },
+        "after": {
+          "environment.json": "16c9e2e22e5a44e20fc418bda32f27ad914b77423a7b80742ab4e0b541f2fc4f",
+          "world.json": "3460c20b2b91075bf6fff247c6b2d173b2f93e4d77ddac89edb1e13ffc550bc7"
+        }
+      }
+    }
+  ],
+  "exportStageLoads": [
+    4.95,
+    4.7,
+    4.7,
+    4.87,
+    4.32,
+    3.78,
+    3.89,
+    5.11
+  ],
+  "packageComparisonScriptSHA256": "0c0f911450c2f4b1e2f7f9c4afdf6791c18e67ec758922e281657f00f0a3d84a",
+  "limits": [
+    "Package semantic difference is timezone only; environment SHA-256 and byte count in world.json necessarily update.",
+    "All original data payloads unchanged; area manifest input hashes change solely from new timezone metadata.",
+    "No rendering, sun computation or companion-format changes."
+  ]
+}

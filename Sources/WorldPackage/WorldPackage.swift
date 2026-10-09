@@ -28,6 +28,11 @@ import WorldMesh
 ///     map/*.json                    map data layer (worldengine.map/2, see MapLayer): network, buildings,
 ///                                   lots, entry points, places, transit; world.json `mapLayer`, `mapSnapshotID`
 public enum WorldPackage {
+    /// Missing or invalid area metadata stays explicitly unknown; no demo-zone fallback.
+    static func exportedTimezone(_ identifier: String?) -> String {
+        identifier.flatMap { TimeZone(identifier: $0)?.identifier } ?? "unknown"
+    }
+
     public static let schema = "worldengine.package/1"
     /// world.json `frame.type` and `frame.vertical` (the map layer header repeats them verbatim).
     public static let frameType = "local tangent plane (ENU) on WGS84, exact"
@@ -288,7 +293,7 @@ public enum WorldPackage {
         }
         files["environment.json"] = try json([
             "schema": 1,
-            "location": ["latitude": build.manifest.center.latitude, "longitude": build.manifest.center.longitude, "timezone": "America/Denver"],
+            "location": ["latitude": build.manifest.center.latitude, "longitude": build.manifest.center.longitude, "timezone": exportedTimezone(build.manifest.timezone)],
             "defaultState": options.lightStates.first?.name ?? "",
             "states": states,
             "skyConvention": "equirectangular RGBA8 sRGB, row 0 = zenith; direction = (cos(lat)·cos(lon), sin(lat), cos(lat)·sin(lon)), lon = 2π·u − π",

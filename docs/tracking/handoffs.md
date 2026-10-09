@@ -398,3 +398,9 @@ Used: native BEFORE evidence and paired protocol. Mock: calibration 06-sloans. D
 ## 2026-10-08 — R-authorized A4 surface companion → P2 / A1 / A2
 
 R explicitly authorized A4 to implement the export-only companion from `989f3c9`, including the minimal generator changes P2 owns. Scope: semantic paint annotations only in BuildingGenerator/BuildingFacades/BuildingDetails, an opt-in task-local recorder in WorldMesh, and separate companion serialization/CLI in WorldPackage/worldbake. No native renderer, water, profile/look values or web viewer changes. P2 should review semantic callsites after the credit reset; A1 owns any future adaptive-packer remapping, and A2 owns optional companion consumption. Detailed touched-file list, fixtures and measured evidence: [implementation report](../execution/surface-role-implementation.md). No score or palette-trial delivery claimed.
+
+## A4 timezone F01 — 9 Oct 2026
+
+R authorized exporter timezone correction only and remote publication of 5a7fe5a. Area-owned optional IANA metadata, invalid/missing → unknown; known eight area manifests annotated, no coordinate guesses or rendering changes. Validation PASS: 92/92 tests, 20/20 reproduced hashes unchanged; Sloan byte-identical, Lakeview/Wilmette timezone + required integrity entry only. Own heavy lock released; [report](../execution/timezone-f01.md). Shared remote af49fd6 integrated without conflicts. Push guard rejects historical merge 9712ae2 for missing evidence line; exemption requested, no bypass or rewrite.
+
+Used: docs/review/block-specific-scan.md F01. Mock: none (metadata only). Deviation: required environment checksum update, remote publication blocked.

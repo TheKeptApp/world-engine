@@ -45,6 +45,8 @@ public struct AreaManifest: Codable, Sendable, Equatable {
     public var name: String
     /// Origin of the local frame: (0, 0) in world meters.
     public var center: GeoCoordinate
+    /// Optional IANA civil timezone, supplied by the area data owner. Never inferred from longitude.
+    public var timezone: String? = nil
     public var widthMeters: Double
     public var heightMeters: Double
     public var sources: [Source] = []
