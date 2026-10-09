@@ -1,6 +1,6 @@
 {
   "units": "RGB channels normalized 0..1; maximum <=2/255, mean <=1e-3",
-  "worldCrop": "Top 32 rows excluded, same boundary as diagnosis \u00a73; requires R approval for control gate",
+  "worldCrop": "R-approved gate: rows y >= 32 must have exact max/mean 0/0 against c8c361d. Credits rows 0..31 excluded; whole-image statistics are diagnostic only. Four fresh controls are the post-rebase baseline.",
   "controls": [
     {
       "name": "sloans-absent",

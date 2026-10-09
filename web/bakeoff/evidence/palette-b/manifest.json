@@ -8744,7 +8744,7 @@
     "coverage": "lot/tableA retain every pass triangle/draw count, frozen camera and exposure",
     "repeats": "All 17 conditions have PNG-identical fresh/repeat pairs",
     "scores": "not run",
-    "arithmetic": "Rebase rerun passed: palette/policy/atmosphere/sky/overnight/foliage/crown suites; 1056 identity cases, 228 v3 cases, 16 capture-tooling tests, 5 qualification tests."
+    "arithmetic": "Passed after rebase onto 69f7141 under heavy admission, load 7.25: palette, policy, atmosphere, sky, overnight, foliage exp1, crown v2/v3; 1056 legacy identity and 228 v3 cases; 16 capture-tooling and 5 qualification tests; 34-frame evidence and exact-world gate audit."
   },
   "implementationCommit": "7f16c53; final follow-up labels metadata units and adds evidence checks; renderer hashes below identify captured source",
   "sourceHashes": {
@@ -8807,5 +8807,52 @@
     }
   ],
   "rebaseValidation": "web/bakeoff/evidence/palette-b/rebase-validation.json",
-  "mergeStatus": "Not merged: fresh full-image control maximum fails at credits row 27; world pixels exact; awaiting R gate decision."
+  "mergeStatus": "Approved for merge under R coordinator exact-world gate; default OFF; A3 scoring next.",
+  "approvedControlGate": {
+    "authority": "R coordinator decision, 9 October 2026",
+    "reference": "c8c361d controls",
+    "region": "rows y >= 32",
+    "requiredMax": 0,
+    "requiredMean": 0,
+    "observedMax": 0,
+    "observedMean": 0,
+    "excluded": "credits strip rows 0..31; preserved visibly in PNGs",
+    "postRebaseBaselines": [
+      {
+        "name": "sloans-absent",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-absent/sloans-150-foliage-off-crown-off.png",
+        "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905"
+      },
+      {
+        "name": "sloans-off",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-off/sloans-150-foliage-off-crown-off-palette-off.png",
+        "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905"
+      },
+      {
+        "name": "lakeview-absent",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-absent/lakeview-foliage-off-crown-off.png",
+        "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7"
+      },
+      {
+        "name": "lakeview-off",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-off/lakeview-foliage-off-crown-off-palette-off.png",
+        "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7"
+      }
+    ],
+    "creditsEvidence": {
+      "differenceBounds": [
+        8,
+        27,
+        996,
+        27
+      ],
+      "differingRGBChannels": 2967,
+      "sloansMaxByte": 80,
+      "lakeviewMaxByte": 59,
+      "cause": "Unestablished; fractional credits overlay bottom edge at 27.5 px is a supported hypothesis, not proof. Same recorded Chrome version and unchanged CSS/HTML."
+    },
+    "reusedFrames": 34,
+    "paletteTableChanged": false,
+    "scores": null
+  }
 }

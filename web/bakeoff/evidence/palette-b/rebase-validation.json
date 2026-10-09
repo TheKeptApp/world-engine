@@ -1,6 +1,6 @@
 {
-  "status": "whole-image gate blocked; world gate awaits R approval",
-  "rebasedOnto": "0db563f823ca95f48d3edea1ae6404b37215222b",
+  "status": "passed R-approved exact-world gate; credits strip excluded",
+  "rebasedOnto": "69f71415897212959dc85b8736700118067a3ea2",
   "priorFrames": 34,
   "sourceHashes": {
     "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
@@ -120,12 +120,36 @@
     }
   ],
   "noiseGate": {
-    "units": "channel values normalized to 0..1",
-    "max": 0.00784313725490196,
-    "mean": 0.001,
+    "authority": "R coordinator decision, 9 October 2026",
+    "region": "rows y >= 32",
+    "excluded": "credits rows 0..31",
+    "max": 0,
+    "mean": 0,
     "observedWorldMax": 0,
     "observedWorldMean": 0,
-    "wholeImagePassed": false
+    "wholeImageGating": false,
+    "postRebaseBaseline": [
+      {
+        "name": "sloans-absent",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-absent/sloans-150-foliage-off-crown-off.png",
+        "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905"
+      },
+      {
+        "name": "sloans-off",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/sloans-off/sloans-150-foliage-off-crown-off-palette-off.png",
+        "sha256": "cc0eca885ac348e4676831b175d87b03c357d0d75605f8091c4cbb6deb4bf905"
+      },
+      {
+        "name": "lakeview-absent",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-absent/lakeview-foliage-off-crown-off.png",
+        "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7"
+      },
+      {
+        "name": "lakeview-off",
+        "frame": "web/bakeoff/evidence/palette-b/rebase-controls/lakeview-off/lakeview-foliage-off-crown-off-palette-off.png",
+        "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7"
+      }
+    ]
   },
   "reason": "Render inputs and all prior fixture/scene/camera values identical; existingExports path unused; server MIME correction affects JS overrides not used here, HTML/JSON bodies unchanged; idempotent close affects teardown only. Four fresh controls have identical world pixels but a credits background edge mismatch on row 27. No scores."
 }
