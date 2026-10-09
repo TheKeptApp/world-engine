@@ -119,6 +119,7 @@ public final class World {
 
     /// The context ring's entities and level state (World+Context.swift).
     var context = ContextRuntime()
+    public internal(set) var captureSceneState: CaptureSceneState = .notRequired
     private var tuftEntity: (entity: Entity, data: LowLevelInstanceData, center: LocalPoint)?
     private var tuftMesh: MeshResource?
     /// LOD props (trees, bushes) per kind/variant over the whole world, drawn by slot: 0 = near

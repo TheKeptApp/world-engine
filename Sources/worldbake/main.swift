@@ -78,6 +78,7 @@ worldbake compose <dir> --date ISO [--focus S,W,N,E]
 worldbake fetch <dir> --layers context [--building-band-km 1.5|1.0|0.5] [--max-mb 25] [--probe 1] [--split 1] [--no-split 1] [--cache-dir PATH] [--dry-run 1]
     (context ring: real OSM at low detail, area bounds + 3 km, building footprints within the band; see docs/data/context-rings.md)
 worldbake stats <dir> --layers context
+worldbake diagnostics <dir> [<dir> ...] --date ISO [--season N] [--output Data/quality/unsupported-features.json]
 """
 
 func writeManifest(_ m: AreaManifest, to dir: URL) throws {
@@ -124,6 +125,20 @@ do {
         } else {
             print("Wrote \(source.path): \(source.bytes ?? 0) bytes, OSM data \(source.dataTimestamp ?? "?")")
         }
+
+    case "diagnostics":
+        // R: generic per-area audit; no fixed hero list or inferred geometry.
+        let date = ISO8601DateFormatter().date(from: try args.require("date"))
+        guard let date else { throw ToolError.usage("--date must be ISO 8601") }
+        var reports: [String: UnsupportedFeatures.Report] = [:]
+        for path in args.positional.dropFirst() {
+            let build = try WorldBuild.generate(areaDirectory: URL(fileURLWithPath: path), recipe: WorldRecipe(date: date, season: args.options["season"].flatMap(Int.init)))
+            reports[build.manifest.id] = build.unsupportedFeatures
+        }
+        let target = URL(fileURLWithPath: args.options["output"] ?? "Data/quality/unsupported-features.json")
+        try FileManager.default.createDirectory(at: target.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        try encoder.encode(reports).write(to: target, options: .atomic)
 
     case "stats":
         print(try Stats.markdown(for: dir))

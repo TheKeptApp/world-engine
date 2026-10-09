@@ -1,4 +1,5 @@
 import * as T from 'three/webgpu';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 // Sources/WorldGen/Profiles/look.json shadows.rangeM; R's shared floor includes the entire shadow pass.
 export function installShadowCasters(scene,world,sun,camera){
  const root=new T.Group();root.name='budgeted shadow-only casters';scene.add(root);
@@ -21,11 +22,22 @@ export function installShadowCasters(scene,world,sun,camera){
     }if(!ids.length)continue;const g=geo.clone();g.setIndex(ids);const mesh=new T.Mesh(g,material);mesh.matrixAutoUpdate=false;mesh.matrix.copy(source.matrixWorld);add(mesh,source.userData.costCategory);
    }
    for(const group of world.lodGroups.filter(g=>g.isTree)){const list=group.instances.filter(i=>near(new T.Vector3(...i.position)));if(!list.length)continue;
-    const mesh=new T.InstancedMesh(group.levels[Math.min(report.treeLOD,group.levels.length-1)].geometry.clone(),material,list.length),m=new T.Matrix4();list.forEach((i,n)=>{const s=i.stretch||[1,1];m.compose(new T.Vector3(...i.position),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i.yaw),new T.Vector3(i.scale*s[0],i.scale,i.scale*s[1]));mesh.setMatrixAt(n,m.premultiply(world.root.matrixWorld));});mesh.computeBoundingSphere();add(mesh,'foliage');
+    const depthMaterial=group.crownV3?new T.MeshBasicNodeMaterial({side:T.DoubleSide,shadowSide:T.DoubleSide,alphaTest:.5}):material;
+    if(group.crownV3)depthMaterial.opacityNode=group.levels[2].material.opacityNode;
+    const mesh=new T.InstancedMesh(group.levels[Math.min(report.treeLOD,group.levels.length-1)].geometry.clone(),depthMaterial,list.length),m=new T.Matrix4();list.forEach((i,n)=>{const s=i.stretch||[1,1];m.compose(new T.Vector3(...i.position),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i.yaw),new T.Vector3(i.scale*s[0],i.scale,i.scale*s[1]));mesh.setMatrixAt(n,m.premultiply(world.root.matrixWorld));});mesh.computeBoundingSphere();mesh.userData.crownV2=!!group.crownV2;add(mesh,'foliage');
    }
    if(total<=report.limit)break;
    for(const mesh of [...root.children]){root.remove(mesh);mesh.geometry.dispose();mesh.dispose?.();}radius/=2;
    if(radius<Number.EPSILON)throw Error('Cannot meet shadow floor');
+  }
+  // All elm far casters share the same depth material. Batch shadow-only
+  // triangles across seed variants; keep every instance and its exact LOD.
+  // Other crowns and the default-off path are untouched.
+  const elms=root.children.filter(m=>m.userData.crownV2);
+  if(elms.length>1){const pieces=[],matrix=new T.Matrix4();
+   for(const mesh of elms)for(let i=0;i<mesh.count;i++){mesh.getMatrixAt(i,matrix);const geo=new T.BufferGeometry();for(const name of ['position','normal'])geo.setAttribute(name,mesh.geometry.attributes[name].clone());geo.setIndex(mesh.geometry.index.clone());geo.applyMatrix4(matrix);pieces.push(geo);}
+   const geometry=mergeGeometries(pieces),batch=new T.Mesh(geometry,material);batch.layers.set(1);batch.castShadow=true;batch.userData.costCategory='foliage';root.add(batch);
+   pieces.forEach(g=>g.dispose());for(const mesh of elms){root.remove(mesh);mesh.geometry.dispose();mesh.dispose();}
   }
   Object.assign(report,{radiusM:radius,potentialTriangles:total,draws:root.children.length});
  }

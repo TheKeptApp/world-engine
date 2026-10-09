@@ -1,0 +1,924 @@
+{
+  "status": "passed",
+  "frames": [
+    {
+      "scene": "sloans-40",
+      "repeat": false,
+      "view": "sloans-40-frozen-web",
+      "camera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          40
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          -59.999999999999986
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 40,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "date": "2026-10-15",
+      "foliageExp1": "off",
+      "crownV2": false,
+      "url": "http://127.0.0.1:53405/sloans-40.html?capture=&tier=standard&foliageExp1=off&crownV2=off",
+      "metrics": {
+        "scene": "sloans-40",
+        "tier": "standard",
+        "deviceClass": "14\u201315",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14\u201315",
+              "floor": "12\u201313"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "shadow/opaque world": {
+              "draws": 48,
+              "triangles": 57075
+            },
+            "shadow/foliage": {
+              "draws": 12,
+              "triangles": 11880
+            },
+            "shadow/facade details": {
+              "draws": 2,
+              "triangles": 684
+            },
+            "main/opaque world": {
+              "draws": 110,
+              "triangles": 390298
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 3996
+            },
+            "main/water": {
+              "draws": 2,
+              "triangles": 86
+            },
+            "main/foliage": {
+              "draws": 65,
+              "triangles": 199993
+            },
+            "main/tufts": {
+              "draws": 1,
+              "triangles": 3600
+            },
+            "main/DEM": {
+              "draws": 1,
+              "triangles": 129144
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 69,
+          "meanMs": 2.966730188405796,
+          "p95Ms": 4.120291,
+          "maxMs": 26.20325,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 245,
+        "triangles": 798741,
+        "fps": 21.13612615180013,
+        "sampleDurationMs": 4210.8,
+        "p95FrameMs": 20.100000000000364,
+        "samples": 89,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            40,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856092,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "crownBudget": null,
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "stableUpdates": 3,
+      "pixels": {
+        "range": 184,
+        "variance": 932.221395147888
+      },
+      "frame": "sloans-40-foliage-off-crown-off.png",
+      "sha256": "31f147f6cf76e6bd2c19cb382ab93d76126d5f367c5edcaeb4fabbc4ac7106e8",
+      "seconds": 6.203259833000003,
+      "localEvidenceFrame": "before-sloans-40-foliage-off-crown-off.png"
+    },
+    {
+      "scene": "sloans-150",
+      "repeat": false,
+      "view": "sloans-150-frozen-web",
+      "camera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          150
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          50.000000000000014
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 150,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "date": "2026-10-15",
+      "foliageExp1": "off",
+      "crownV2": false,
+      "url": "http://127.0.0.1:53405/sloans-150.html?capture=&tier=standard&foliageExp1=off&crownV2=off",
+      "metrics": {
+        "scene": "sloans-150",
+        "tier": "standard",
+        "deviceClass": "14\u201315",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14\u201315",
+              "floor": "12\u201313"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "shadow/opaque world": {
+              "draws": 33,
+              "triangles": 55969
+            },
+            "shadow/foliage": {
+              "draws": 7,
+              "triangles": 11308
+            },
+            "shadow/facade details": {
+              "draws": 2,
+              "triangles": 684
+            },
+            "main/opaque world": {
+              "draws": 148,
+              "triangles": 434457
+            },
+            "main/facade details": {
+              "draws": 4,
+              "triangles": 4512
+            },
+            "main/water": {
+              "draws": 12,
+              "triangles": 371
+            },
+            "main/foliage": {
+              "draws": 85,
+              "triangles": 221327
+            },
+            "main/DEM": {
+              "draws": 1,
+              "triangles": 129144
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 69,
+          "meanMs": 2.965914971014493,
+          "p95Ms": 4.776208,
+          "maxMs": 10.705374,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 294,
+        "triangles": 859757,
+        "fps": 19.299995662922324,
+        "sampleDurationMs": 4611.4,
+        "p95FrameMs": 21,
+        "samples": 89,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            150,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856092,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "crownBudget": null,
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "stableUpdates": 3,
+      "pixels": {
+        "range": 195.33333333333334,
+        "variance": 648.2214791332262
+      },
+      "frame": "sloans-150-foliage-off-crown-off.png",
+      "sha256": "fcedd8cbd1d20154074acea67be87dc791e62b5258116bd6dc15502327a26520",
+      "seconds": 6.4843126670000055,
+      "localEvidenceFrame": "before-sloans-150-foliage-off-crown-off.png"
+    },
+    {
+      "scene": "sloans-600",
+      "repeat": false,
+      "view": "sloans-600-frozen-web",
+      "camera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          600
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          500
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 600,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "date": "2026-10-15",
+      "foliageExp1": "off",
+      "crownV2": false,
+      "url": "http://127.0.0.1:53405/sloans-600.html?capture=&tier=standard&foliageExp1=off&crownV2=off",
+      "metrics": {
+        "scene": "sloans-600",
+        "tier": "standard",
+        "deviceClass": "14\u201315",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14\u201315",
+              "floor": "12\u201313"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/opaque world": {
+              "draws": 166,
+              "triangles": 339981
+            },
+            "main/facade details": {
+              "draws": 3,
+              "triangles": 2052
+            },
+            "main/water": {
+              "draws": 27,
+              "triangles": 762
+            },
+            "main/foliage": {
+              "draws": 94,
+              "triangles": 150510
+            },
+            "main/DEM": {
+              "draws": 1,
+              "triangles": 129144
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 69,
+          "meanMs": 2.6398806086956528,
+          "p95Ms": 3.609374,
+          "maxMs": 13.956791,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 293,
+        "triangles": 624434,
+        "fps": 19.26031725421455,
+        "sampleDurationMs": 4620.9,
+        "p95FrameMs": 20.099999999999454,
+        "samples": 89,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            600,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856093,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "crownBudget": null,
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "stableUpdates": 3,
+      "pixels": {
+        "range": 181,
+        "variance": 242.6995863910306
+      },
+      "frame": "sloans-600-foliage-off-crown-off.png",
+      "sha256": "41b54bc399d2f8115b8d4703ea1a9435e1e12d37e249475591d83460088b1ec0",
+      "seconds": 6.551525499999989,
+      "localEvidenceFrame": "before-sloans-600-foliage-off-crown-off.png"
+    }
+  ],
+  "events": [
+    {
+      "stage": "server-ready",
+      "origin": "http://127.0.0.1:53405"
+    }
+  ],
+  "startedUTC": "2026-10-09T02:03:00.653Z",
+  "contract": {
+    "source": "R A7 CLEAR LOCK, PUSH, WEB CAMERA LADDER; native hero pose; docs/research/crown-native-before-evidence.md Build and frozen capture contract",
+    "scenes": {
+      "sloans-40": {
+        "world": "/world/sloans/",
+        "mock": "06-sloans",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            40
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            -59.999999999999986
+          ],
+          "fov": 50
+        },
+        "cameraEvidence": "Visual composition fit to style-b-calibration-v2/scenes/06-sloans; west-facing from mapped path way/231141080 on the eastern shore; camera matrices unavailable.",
+        "waterProfile": "sloans_lake",
+        "waterState": "sloans_lake_clear_wind_10",
+        "waterMechanicsProfile": "sloan",
+        "backdrop": {
+          "dem": "data/front-range.json",
+          "evidence": "USGS 3DEP public-domain elevation; see data/terrain-source.json. True scale; no observed snow supplied."
+        },
+        "region": "denver",
+        "climateRegion": "front-range",
+        "templateScene": "sloans",
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 40,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        }
+      },
+      "sloans-150": {
+        "world": "/world/sloans/",
+        "mock": "06-sloans",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            150
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            50.000000000000014
+          ],
+          "fov": 50
+        },
+        "cameraEvidence": "Visual composition fit to style-b-calibration-v2/scenes/06-sloans; west-facing from mapped path way/231141080 on the eastern shore; camera matrices unavailable.",
+        "waterProfile": "sloans_lake",
+        "waterState": "sloans_lake_clear_wind_10",
+        "waterMechanicsProfile": "sloan",
+        "backdrop": {
+          "dem": "data/front-range.json",
+          "evidence": "USGS 3DEP public-domain elevation; see data/terrain-source.json. True scale; no observed snow supplied."
+        },
+        "region": "denver",
+        "climateRegion": "front-range",
+        "templateScene": "sloans",
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 150,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        }
+      },
+      "sloans-600": {
+        "world": "/world/sloans/",
+        "mock": "06-sloans",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            600
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            500
+          ],
+          "fov": 50
+        },
+        "cameraEvidence": "Visual composition fit to style-b-calibration-v2/scenes/06-sloans; west-facing from mapped path way/231141080 on the eastern shore; camera matrices unavailable.",
+        "waterProfile": "sloans_lake",
+        "waterState": "sloans_lake_clear_wind_10",
+        "waterMechanicsProfile": "sloan",
+        "backdrop": {
+          "dem": "data/front-range.json",
+          "evidence": "USGS 3DEP public-domain elevation; see data/terrain-source.json. True scale; no observed snow supplied."
+        },
+        "region": "denver",
+        "climateRegion": "front-range",
+        "templateScene": "sloans",
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        }
+      }
+    },
+    "fixture": {
+      "status": "Simulated calibration fixture, not live weather or observed phenology",
+      "windKmh": 10,
+      "windFromDegrees": 225,
+      "skyState": "clear",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+      "atmosphereSeason": "summer",
+      "timeOfDay": "day",
+      "summitsObscured": false,
+      "atmosphereLayers": [],
+      "date": "2026-10-15"
+    },
+    "tier": "standard",
+    "deviceScaleFactor": 1,
+    "ladder": {
+      "schemaVersion": 1,
+      "source": "R A7 CLEAR LOCK, PUSH, WEB CAMERA LADDER; native hero pose; docs/research/crown-native-before-evidence.md Build and frozen capture contract",
+      "id": "sloans-native-hero-web-ladder-v1",
+      "area": "sloans-lake",
+      "pose": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50
+      },
+      "altitudesAGLMetres": [
+        40,
+        150,
+        600
+      ],
+      "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground",
+      "utc": "2026-10-15T20:30:00Z",
+      "viewport": {
+        "width": 1005,
+        "height": 565
+      },
+      "tier": "standard",
+      "deviceScaleFactor": 1,
+      "webFixture": "calendar date 2026-10-15, existing simulated clear/day atmosphere and calibration afternoon light; UTC retained in metadata (web does not calculate astronomical sunlight from time)"
+    },
+    "sha256": "c15f66d2a19cee38354c25de4ab2101a1e20ee11c310af24f47f7f8479349d97"
+  },
+  "exportFrame": {
+    "axes": {
+      "x": "east",
+      "y": "up",
+      "z": "south (north is \u2212Z)"
+    },
+    "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+    "origin": {
+      "height": 0,
+      "latitude": 39.7494,
+      "longitude": -105.0445
+    },
+    "type": "local tangent plane (ENU) on WGS84, exact",
+    "units": "meters",
+    "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+  },
+  "origin": "http://127.0.0.1:53405",
+  "browser": {
+    "version": "155.0.8059.39",
+    "engine": "Chromium via Playwright (installed Chrome)",
+    "sandbox": true
+  },
+  "coverage": {
+    "expectedDifferent": false,
+    "deltas": []
+  },
+  "seconds": 135.58006554200003
+}

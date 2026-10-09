@@ -15,10 +15,9 @@ shot() { # $1 = name, rest = app args
   echo "  $name"
 }
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
-  "$ROOT/scripts/generate.sh" >/dev/null
-  xcodebuild -project "$ROOT/Apps/WorldLab/WorldLab.xcodeproj" -scheme WorldLab -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$ROOT/.build/xcode" -quiet build 2>&1 | grep -v IDERunDestination || true
+  "$ROOT/scripts/build-native.sh" || exit $?
 fi
+python3 "$ROOT/scripts/native_preflight.py" --stage capture || exit $?
 for n in 01 02 03 04 05 06 07 08 09 10 11 12; do shot "showcase-$n" -showcase "$n"; done
 for p in v2-01 v2-04 v2-06; do shot "$p" -preset "$p"; done
 python3 "$ROOT/scripts/compose_gate.py" "$RAW" "$OUT"

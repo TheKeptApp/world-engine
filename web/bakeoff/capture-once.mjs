@@ -1,3 +1,13 @@
+// Pure selection helpers are exercised without launching a browser.
+function experimentMode(value){
+ const mode=value??'off';
+ if(!['off','remove','layered'].includes(mode))throw Error('Invalid FOLIAGE_EXP1: '+mode);
+ return mode;
+}
+function experimentSuffix(mode,experiment){return mode==='baseline'?'&baseline':'&foliageExp1='+experiment;}
+function evidenceDirectory(mode,tier,experiment){return mode==='baseline'?`web/bakeoff/evidence/baseline${tier==='standard'?'':'-'+tier}`:`web/bakeoff/evidence/foliage-exp1/${experiment}/${tier}`;}
+const experiment=experimentMode(process.env.FOLIAGE_EXP1);
+// Runtime capture (never executed by the arithmetic tests).
 // Run under scripts/heavy.sh. Uses installed laptop Chrome, not a synthetic timing estimate.
 import {freezeInputs} from './freeze.mjs';
 import {createRequire} from 'node:module';
@@ -16,7 +26,7 @@ try{
  await checkFrozen(`${scene}/${mode}/${tier}/before`);
  const viewport=scenes[scene].viewport;
  const page=await browser.newPage({viewport,deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>{errors.push(e.stack||e.message);console.error(e.stack||e.message);page.evaluate(message=>{document.body.dataset.error=message;},e.stack||e.message).catch(()=>{});});page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
- await page.goto(`http://127.0.0.1:8782/${scene}.html?capture${mode==='baseline'?'&baseline':''}&tier=${tier}`);
+ await page.goto(`http://127.0.0.1:8782/${scene}.html?capture${experimentSuffix(mode,experiment)}&tier=${tier}`);
  await page.waitForFunction(()=>document.body.dataset.ready==='1'||document.body.dataset.error,null,{timeout:180000});
  console.log(`${scene}/${mode}: first frame ready`);
  const failure=await page.evaluate(()=>document.body.dataset.error);if(failure)throw Error(failure);
@@ -27,8 +37,9 @@ try{
  if(!(metrics.triangles>0&&metrics.drawCalls>0&&Number.isFinite(metrics.fps)))throw Error('Renderer produced invalid metrics');
  if(scene==='sloans'&&metrics.camera.direction[0]>=0)throw Error('Sloan camera must face west');
  await checkFrozen(`${scene}/${mode}/${tier}/after`);
- const resolved=await page.evaluate(()=>({shadows:window.bakeoff.shadows,policy:window.bakeoff.policy,fixture:window.bakeoff.fixture,seasonal:window.bakeoff.seasonal,facades:window.bakeoff.facades,species:window.bakeoff.species,mountains:window.bakeoff.mountains}));
- const dir=`web/bakeoff/evidence/${mode}${tier==='standard'?'':'-'+tier}`;await mkdir(dir,{recursive:true});await page.evaluate(()=>{window.bakeoff.freeze=true;});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`${dir}/${scene}.png`});await writeFile(`${dir}/${scene}.json`,JSON.stringify({...metrics,inputSha256:frozen.sha256,resolved,capturedUTC:new Date().toISOString(),errors},null,2));console.log(JSON.stringify({...metrics,cost:metrics.cost?{passes:metrics.cost.passes,contentTextureMiB:metrics.cost.contentTextureMiB,targetTextureMiB:metrics.cost.targetTextureMiB,renderbufferMiB:metrics.cost.renderbufferMiB,unknownAllocations:metrics.cost.unknownAllocations}:null,errors}));if(errors.length)throw Error(errors.join('\n'));await page.close();
+ const resolved=await page.evaluate(()=>({foliageExp1:window.bakeoff.foliageExp1,shadows:window.bakeoff.shadows,policy:window.bakeoff.policy,fixture:window.bakeoff.fixture,seasonal:window.bakeoff.seasonal,facades:window.bakeoff.facades,species:window.bakeoff.species,mountains:window.bakeoff.mountains}));
+ if(resolved.foliageExp1!==(mode==='baseline'?'off':experiment))throw Error('Rendered foliageExp1 mode differs from requested mode');
+ const dir=evidenceDirectory(mode,tier,experiment);await mkdir(dir,{recursive:true});await page.evaluate(()=>{window.bakeoff.freeze=true;});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`${dir}/${scene}.png`});await writeFile(`${dir}/${scene}.json`,JSON.stringify({...metrics,inputSha256:frozen.sha256,resolved,capturedUTC:new Date().toISOString(),errors},null,2));console.log(JSON.stringify({...metrics,cost:metrics.cost?{passes:metrics.cost.passes,contentTextureMiB:metrics.cost.contentTextureMiB,targetTextureMiB:metrics.cost.targetTextureMiB,renderbufferMiB:metrics.cost.renderbufferMiB,unknownAllocations:metrics.cost.unknownAllocations}:null,errors}));if(errors.length)throw Error(errors.join('\n'));await page.close();
  }
- if(order.join(',')==='sloans,lakeview'&&!process.env.MODES)await writeFile('web/bakeoff/evidence/holdout-proof.json',JSON.stringify({order,unchanged:true,...frozen,events},null,2)+'\n');
+ if(order.join(',')==='sloans,lakeview'){const dir=`web/bakeoff/evidence/foliage-exp1/${experiment}`;await mkdir(dir,{recursive:true});await writeFile(`${dir}/holdout-proof.json`,JSON.stringify({order,foliageExp1:experiment,modes:process.env.MODES||'baseline,candidate',tiers:process.env.TIERS||'standard',unchanged:true,...frozen,events},null,2)+'\n');}
 }finally{await browser.close();}

@@ -36,10 +36,9 @@ fi
 if [ "${SKIP_BUILD:-0}" != "1" ]; then
   # Incremental: about 3 s when nothing changed.
   echo "build: WorldLab (Simulator)"
-  "$ROOT/scripts/generate.sh" >/dev/null
-  xcodebuild -project "$ROOT/Apps/WorldLab/WorldLab.xcodeproj" -scheme WorldLab -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED" -quiet build 2>&1 | grep -v IDERunDestination || true
+  "$ROOT/scripts/build-native.sh" || exit $?
 fi
+python3 "$ROOT/scripts/native_preflight.py" --stage capture || exit $?
 [ -d "$APP" ] || { echo "capture: no WorldLab build at $APP"; exit 1; }
 
 # simctl calls can hang (not fail) on a degraded Simulator: run them with a time limit (exit 124 on timeout).
@@ -48,7 +47,10 @@ try: sys.exit(subprocess.run(sys.argv[2:], timeout=float(sys.argv[1])).returncod
 except subprocess.TimeoutExpired: sys.exit(124)' "$@"; }
 
 # One dedicated Simulator, kept booted between views and runs (never a second one).
-UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/' || true)
+UDID="${LOOKLOOP_UDID:-}"
+if [ -z "$UDID" ]; then
+  UDID=$(xcrun simctl list devices available | grep -F "    $SIM (" | head -1 | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/' || true)
+fi
 if [ -z "$UDID" ]; then
   RT=$(xcrun simctl list runtimes available | grep -E '^iOS 26' | tail -1 | sed -E 's/.* - (com\.apple[^ ]+).*/\1/')
   UDID=$(xcrun simctl create "$SIM" com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro "$RT")
@@ -56,38 +58,16 @@ if [ -z "$UDID" ]; then
 fi
 if ! xcrun simctl list devices | grep -F "($UDID) (Booted)" >/dev/null; then
   xcrun simctl boot "$UDID" 2>/dev/null || true
-  xcrun simctl bootstatus "$UDID" -b >/dev/null
 fi
+limit 300 xcrun simctl bootstatus "$UDID" -b
 # Fixed status bar and appearance: identical frames run to run.
 xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
 xcrun simctl ui "$UDID" appearance light >/dev/null 2>&1 || true
-# Install only when the build changed (stamp: the app executable's size and modification time).
-STAMP="$ROOT/.build/lookloop/installed-$UDID"
-NOW=$(stat -f '%z %m' "$APP/WorldLab")
-if [ "$(cat "$STAMP" 2>/dev/null)" != "$NOW" ] || ! xcrun simctl get_app_container "$UDID" "$BUNDLE" >/dev/null 2>&1; then
-  xcrun simctl install "$UDID" "$APP"
-  mkdir -p "$(dirname "$STAMP")"; echo "$NOW" > "$STAMP"
-  # SpringBoard can refuse launches for minutes while it registers a fresh install, and a degraded
-  # Simulator can hang them: probe with a time limit; if it never launches, reboot this one Simulator once.
-  probe() {
-    for _ in $(seq 1 18); do
-      if limit 20 xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE" >/dev/null 2>&1; then
-        limit 20 xcrun simctl terminate "$UDID" "$BUNDLE" >/dev/null 2>&1 || true; return 0; fi
-      sleep 5
-    done
-    return 1
-  }
-  echo "install: waiting until WorldLab is launchable"
-  if ! probe; then
-    echo "capture: WorldLab not launchable for 3 min; rebooting $SIM once"
-    limit 120 xcrun simctl shutdown "$UDID" >/dev/null 2>&1 || true
-    xcrun simctl boot "$UDID" 2>/dev/null || true
-    limit 300 xcrun simctl bootstatus "$UDID" -b >/dev/null
-    xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
-    xcrun simctl install "$UDID" "$APP"
-    probe || { echo "capture: WorldLab still not launchable after a reboot; stopping (see the Simulator)"; exit 2; }
-  fi
-fi
+# Install this worktree's build every time: another worktree can replace the
+# shared bundle without changing our local stamp. Launch only the requested view,
+# with diagnostics in batch.py; no unobserved warm-up launches or automatic reboot.
+limit 120 xcrun simctl install "$UDID" "$APP"
+echo "install: exit=0 ($UDID)"
 
 COMMON=$(python3 -c "import json;print(' '.join(json.load(open('$VIEWS'))['commonArgs']))")
 
@@ -106,12 +86,17 @@ if [ "${LOOKLOOP_BATCH:-1}" != 0 ]; then
   [ "$rc" = 4 ] && echo "capture: this WorldLab has no view-list hook; one launch per view" || { echo "capture: batch capture failed ($rc)"; exit "$rc"; }
   rm -f "$RUN/capture.tsv"
 fi
+SIM_DATA=$(xcrun simctl getenv "$UDID" SIMULATOR_SHARED_RESOURCES_DIRECTORY)
+[[ "$SIM_DATA" = /* ]] || { echo "capture: simulator shared resources directory is unavailable"; exit 1; }
 now() { python3 -c 'import time;print(time.time())'; }
 while IFS=$'\t' read -r id args; do
   log="$RUN/logs/$id.log"
   # Never pre-create the log: a file this session creates carries com.apple.provenance, and the
   # Simulator's launchd then refuses the whole launch ("Operation not permitted"). simctl creates it.
   rm -f "$log"
+  # /tmp is inside the simulated device; poll its host-backed path.
+  device_log="/tmp/worldengine-lookloop-$(uuidgen).log"
+  source_log="$SIM_DATA$device_log"
   t0=$(now)
   # NSUnbufferedIO (as Xcode sets it) makes print() reach the log at once, so STATS/RENDER lines arrive live.
   # Right after an install SpringBoard can refuse the launch while it registers the app: retry, then
@@ -119,7 +104,7 @@ while IFS=$'\t' read -r id args; do
   launched=0
   for attempt in 1 2 3 4 5 6; do
     # shellcheck disable=SC2086
-    if SIMCTL_CHILD_NSUnbufferedIO=YES limit 60 xcrun simctl launch --terminate-running-process --stdout="$log" --stderr="$log" \
+    if SIMCTL_CHILD_NSUnbufferedIO=YES limit 60 xcrun simctl launch --terminate-running-process --stdout="$device_log" --stderr="$device_log" \
       "$UDID" "$BUNDLE" $COMMON $args >/dev/null 2>"$RUN/logs/$id.launch-error"; then launched=1; break; fi
     sleep $((attempt * 5))
   done
@@ -130,10 +115,11 @@ while IFS=$'\t' read -r id args; do
   fi
   ok=0
   for _ in $(seq 1 $((LOAD_TIMEOUT * 10))); do
-    if grep -q '^STATS ' "$log" 2>/dev/null; then ok=1; break; fi
-    if grep -q 'Failed to build world' "$log" 2>/dev/null; then break; fi
+    if grep -q '^STATS ' "$source_log" 2>/dev/null; then ok=1; break; fi
+    if grep -q 'Failed to build world' "$source_log" 2>/dev/null; then break; fi
     sleep 0.1
   done
+  [ ! -f "$source_log" ] || cp "$source_log" "$log"
   t1=$(now)
   if [ "$ok" = 1 ]; then
     sleep "$SETTLE"

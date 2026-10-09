@@ -228,3 +228,35 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | web / 4127a32 series, main f6de893 | Baseline 2 → 2; sky/light/saturation/ground/foliage/materials 3/2/2/2/2/2 → same | Lakeview 2 → 2; 3/2/2/2/2/3 → same. West Highland data-poor: all pending | Saved pair FAIL 0/2; no gain flag; reject condition not triggered for the pair. Fresh captures blocked, full hold-out clearance pending. |
 
 [Review and provenance](web-4127a32.md). Saved A2 captures graded, no new render claimed; browser connection unavailable. West Highland scene/export delivery remains pending. ΔE ignored.
+
+## A3 native foliage exp1 — supplied nine frames, 8 Oct 2026
+
+| Capture build | Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|---|
+| ec14fed; provenance 3f347f1 | 40/150/600 m inspection, baseline/remove/layered | All nine: foliage 2, overall 2 | Pending; none run | No gain; layered 600 m outer ground/road coverage mismatch. Historical street-hero 3 unchanged; not a four-hero gate. [Blind review](foliage-exp1-native-scores.md) |
+
+**9 Oct attribution correction (R relaying A10):** the exp1 layered 600 m coverage loss was a capture loading race, not a variant defect. Nine original foliage/overall 2/2 grades remain unchanged; no new captures or hold-out result.
+
+## A3 native crown BEFORE — e5a0a3e / delivery 5d159ff
+
+| Scope | Sloan's score | hold-out score | Status |
+|---|---|---|---|
+| Fresh 40/150 m only | Each overall 2; light/saturation/ground/foliage/materials 2; sky N/A | Pending; not run | [Blind BEFORE review](crown-native-before-scores.md); 600 m unscored due to noisy repeat. No AFTER/gain or four-hero pass. |
+
+## A3 native summer BEFORE — 0600748 / delivery ae0e110
+
+| Scope | Sloan's score | hold-out score | Status |
+|---|---|---|---|
+| July 15 pinned, fresh 40/150/600 m | Each overall 2; light/saturation/ground/foliage/materials 2; sky N/A | Not run | [Season check](crown-native-summer-scores.md). Historical October 40/150 m grades unchanged numerically; exposure/revision confound prevents season-only attribution. October 600 m unscored. No gate/date change. |
+
+## A3 web crown ladder — capture fd99b9d / delivery 2fba43a
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| 18 blind frames: October OFF fresh/repeat, standard, floor; July OFF/standard; 40/150/600 m | Foliage 2 throughout; overall 2 at 40/150, 1 at 600; no whole-point seasonal delta | Not run; pending | [Report](../review/crown-web-ladder-scores.md): no foliage ≥3, all whole-scene main budgets fail, shared lake artifacts at 600 m; no promotion. |
+
+## A3 current post-near-plane ladder — c8c361d / 1580115
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| OFF / v2 standard / v2 floor / v3 standard, 40/150/600 m | Overall 2, foliage 2 throughout; lake bands gone, historical 600 m overall 1 → 2 | Lakeview 600 m overall 1, foliage 2; matched prior score absent; others pending | [Blind report](../review/crown-v3-ladder-scores.md). No foliage threshold pass or promotion; popping untested. Earlier batches superseded as current controls. |

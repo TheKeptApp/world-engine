@@ -188,6 +188,13 @@ private struct WorldRealityView: View {
                     let cutTarget = camera.update(camera: cam, scene: event.scene, dt: Float(dt))
                     world.update(deltaTime: dt, camera: cam, focusPoint: camera.lookTarget, cutAwayTarget: cutTarget)
                     surface.frame(camera: cam)
+                    if let tracker = post?.captureFrames, tracker.isArmed {
+                        let costs = world.estimateView(camera: cam)
+                        // Refresh diagnostic counters only; no culling or geometry mutation.
+                        world.stats.viewTriangleSplit = costs.triangles; world.stats.viewDraws = costs.draws
+                        world.stats.viewTriangles = costs.triangles.total; world.stats.viewDrawCalls = costs.draws.total
+                        tracker.noteScene("\(cam.transformMatrix(relativeTo: nil))|fov=\(cam.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50)|tri=\(costs.triangles.summary)|draw=\(costs.draws.summary)")
+                    }
                     if let post {
                         post.settings.exposureTarget = world.exposureTarget
                         post.settings.saturation = WorldPostProcess.Settings.default.saturation * world.gradeSaturation * world.lookTuning.saturation

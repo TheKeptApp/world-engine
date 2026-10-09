@@ -128,7 +128,7 @@ Already in the owner's checkout (gitignored, left in place):
 | [facade-detail-v1](proposals/facade-detail-v1/STATUS.md) | APPROVED by R (8 Oct 2026) | A2 and P2 | Map/look gate now | Facade families, bays, trim, porch and window junctions. Far: massing/colour bands; mid: bays/trim; near: geometry. Calibration-v2 owns simplification. |
 | [sky-cloud-v1](proposals/sky-cloud-v1/STATUS.md) | concept pending approval | 5A; A2 web reference review only | Pending R approval; no implementation authorization | World-angle sky gradients and sparse unequal cumulus; haze-visibility-v1 remains the approved haze authority. |
 | [street-ground-v1](proposals/street-ground-v1/STATUS.md) | concept pending approval | P2; 5A for surface response; A2 web reference review only | Pending R approval; no implementation authorization | Regional seasonal ground junctions; existing mapped widths, markings and wet-surface authorities remain. |
-| [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | concept pending approval | P2; 5A for colour; A2 web reference review only | Pending R approval; no implementation authorization | Layered species crown candidates and distance detail; no verified abundance ranking or automatic supersession of approved foliage packs. |
+| [crown-silhouettes-v2](proposals/crown-silhouettes-v2/STATUS.md) | approved by R, 9 Oct 2026 | P2; 5A for colour; A2 web reference review only | Look gate: one American elm shape trial, not started | General crown-shape target on every block; P2 shape, 5A colour/shading review, A3 blind before/after; whole-scene floor required. No verified abundance ranking. |
 
 ## Facade extensions — R, 8 Oct 2026
 

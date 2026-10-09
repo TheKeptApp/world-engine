@@ -1,0 +1,207 @@
+{
+  "scene": "lakeview",
+  "mode": "off",
+  "label": "after",
+  "status": "passed",
+  "sourceHashes": {
+    "main.js": "cc6a69e255f25206bababa6b4540fcdbb3adc8391847d031c315de8f26b3f21a",
+    "foliage.js": "a82a3625544d421b13f83c99a11a1bdb0c0025e17229b9ff17e543d7beb8df3c",
+    "shadow-casters.js": "6ba697611966d4f57f8139a37a9818d988fbbe4edb31784c01678a823400988a",
+    "crown-runtime.test.mjs": "32f8a9089ea9e7c633770b19d956af61720f448a34de25c6bb3d4e27d90e06c5",
+    "scenes.json": "d0cd9bde3441f33262bb8ce654b2d5fde2fc8cf9b88f09fb2389aa7ef4bd22f9",
+    "fixture.json": "d3b798da2ff746036579e9c0adbc851c6a5ad3c0f6d26954b9132ebc41cfb9fa"
+  },
+  "browser": "155.0.8059.39",
+  "secondsToReady": 4.646,
+  "metrics": {
+    "scene": "lakeview",
+    "tier": "standard",
+    "deviceClass": "14–15",
+    "cost": {
+      "budget": {
+        "mainTriangles": 400000,
+        "shadowTriangles": 150000,
+        "mainDraws": 100,
+        "textureMiB": null,
+        "tiers": {
+          "hero": "15 Pro+",
+          "standard": "14–15",
+          "floor": "12–13"
+        },
+        "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+      },
+      "passes": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/facade details": {
+          "draws": 3,
+          "triangles": 2000
+        },
+        "shadow/opaque world": {
+          "draws": 64,
+          "triangles": 62880
+        },
+        "shadow/foliage": {
+          "draws": 14,
+          "triangles": 2310
+        },
+        "main/facade details": {
+          "draws": 4,
+          "triangles": 19812
+        },
+        "main/opaque world": {
+          "draws": 47,
+          "triangles": 212186
+        },
+        "main/tufts": {
+          "draws": 1,
+          "triangles": 3600
+        },
+        "main/foliage": {
+          "draws": 28,
+          "triangles": 27728
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "textures": [
+        {
+          "name": "output",
+          "width": 390,
+          "height": 780,
+          "levels": 1,
+          "format": "RGBA16F",
+          "bytes": 2433600,
+          "target": true
+        },
+        {
+          "name": "depth",
+          "width": 390,
+          "height": 780,
+          "levels": 1,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 1216800,
+          "target": true
+        },
+        {
+          "name": "sky gradient + cumulus",
+          "width": 2048,
+          "height": 1024,
+          "levels": 1,
+          "format": "RGBA32F",
+          "bytes": 33554432,
+          "target": false
+        },
+        {
+          "name": "ShadowMap",
+          "width": 2048,
+          "height": 2048,
+          "levels": 1,
+          "format": "RGBA8",
+          "bytes": 16777216,
+          "target": true
+        },
+        {
+          "name": "ShadowDepthTexture",
+          "width": 2048,
+          "height": 2048,
+          "levels": 1,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 16777216,
+          "target": true
+        },
+        {
+          "name": "palette",
+          "width": 256,
+          "height": 1,
+          "levels": 1,
+          "format": "RGBA32F",
+          "bytes": 4096,
+          "target": false
+        }
+      ],
+      "renderbuffers": [
+        {
+          "name": "renderbuffer",
+          "width": 390,
+          "height": 780,
+          "samples": 4,
+          "format": "RGBA16F",
+          "bytes": 9734400
+        },
+        {
+          "name": "renderbuffer",
+          "width": 390,
+          "height": 780,
+          "samples": 4,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 4867200
+        }
+      ],
+      "contentTextureMiB": 32.00390625,
+      "targetTextureMiB": 35.481292724609375,
+      "renderbufferMiB": 13.9251708984375,
+      "unknownAllocations": 0,
+      "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+      "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+    },
+    "backend": "WebGL2",
+    "gpuTimer": {
+      "available": true,
+      "samples": 89,
+      "meanMs": 1.6575715842696621,
+      "p95Ms": 3.417458,
+      "maxMs": 7.347708,
+      "disjointEvents": 0,
+      "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+    },
+    "drawCalls": 163,
+    "triangles": 332501,
+    "fps": 23.62927002812945,
+    "sampleDurationMs": 3766.5150000000003,
+    "p95FrameMs": 16.670000000000073,
+    "samples": 89,
+    "viewport": [
+      0.5,
+      390,
+      780
+    ],
+    "camera": {
+      "position": [
+        -58.874500633947775,
+        1.65,
+        54.2030014729452
+      ],
+      "direction": [
+        -0.9814728301797053,
+        0.16043452295682312,
+        0.10474658687831259
+      ],
+      "fov": 47
+    },
+    "visibility": "visible",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36"
+  },
+  "resolvedMode": false,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+  "measured": {
+    "main": {
+      "triangles": 265310,
+      "draws": 81
+    },
+    "shadow": {
+      "triangles": 67190,
+      "draws": 81
+    },
+    "post": {
+      "triangles": 1,
+      "draws": 1
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -48,3 +48,7 @@ If Sloan's does not improve, that does not convert a hold-out regression or smok
 ## West Highland decision — R / A3, 8 Oct 2026
 
 West Highland camera `west-highland-aerial-north-01` confirmed unchanged and frozen (8 Oct): target (39.764, -105.04), scene y=0 m; eye (39.759946, -105.04), scene y=350 m; vertical FOV 47°, portrait 390×780. Shared atmosphere contract must accompany capture. R reports 19.1% height / 19.0% roof-form coverage, versus Lakeview heights 93.5% and Sloan's 29.1%. Separate data-poor hold-out; score/capture pending. A1 sparse-density test pending; ladder NOT PROMOTED. Earlier camera-pending notes are historical; source/package delivery must still be evidenced. [Frozen contract and cohort note](west-highland-holdout.md).
+
+## Metro photo references — additional hold-out check
+
+Apply the [metro skyline check](../screenshots/metro-reference/README.md#metro-skyline-check) to every R-supplied reference image: matched viewpoint, blind build labels, skyline height/massing PASS/FAIL plus the tallest ten visible buildings and source/uncertainty. Missing inputs are pending. Detailed photos/metadata remain private and local; file only safe summaries. Keep this structural review separate from failure-only smoke and §M scores; flag skyline regressions alongside existing hold-out results.

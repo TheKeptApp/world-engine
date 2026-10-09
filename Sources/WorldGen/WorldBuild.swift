@@ -43,6 +43,8 @@ public struct WorldBuild: Sendable {
     public var experience: ExperienceDefaults?
     /// Per-building zone profiles (nil when the recipe forces one profile).
     public var zones: ZoneProfiles?
+    /// Observational diagnostics only; never used to select or modify geometry.
+    public var unsupportedFeatures: UnsupportedFeatures.Report?
 
     public static func generate(areaDirectory: URL, recipe: WorldRecipe) throws -> WorldBuild {
         let manifest = try AreaLoader.loadManifest(areaDirectory)
@@ -61,6 +63,11 @@ public struct WorldBuild: Sendable {
         var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
                                focus: focus, scene: scene)
         build.zones = zones
+        let document = try AreaLoader.loadDocument(areaDirectory, manifest: manifest, layers: ["all"])
+        let drawn = Set(scene.chunks.flatMap { ($0.staticFeatures + $0.waterFeatures).filter { $0.count > 0 }.map(\.feature) }
+            + scene.instances.map(\.source) + scene.buildings.filter { !$0.mesh.isEmpty }.map { $0.ref.description })
+        build.unsupportedFeatures = UnsupportedFeatures.collect(area: manifest.id, document: document, features: features, drawnRefs: drawn)
+        print(build.unsupportedFeatures!.summary)
         build.experience = ExperienceDefaults.compose(build: build, date: recipe.date)
         return build
     }

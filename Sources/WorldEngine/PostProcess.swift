@@ -36,6 +36,7 @@ public final class WorldPostProcess: @unchecked Sendable {
     }
 
     public var settings = Settings()
+    public let captureFrames = CaptureFrameTracker()
     private let lock = NSLock()
     private var gpuSamples: [Double] = []
     private var pipelines: [String: MTLComputePipelineState] = [:]
@@ -250,8 +251,10 @@ struct WorldPostEffect: PostProcessEffect {
         }
         post.encode(context.commandBuffer, device: context.device, source: context.sourceColorTexture, target: context.targetColorTexture)
         let post = post
+        let ticket = post.captureFrames.submit(width: context.targetColorTexture.width, height: context.targetColorTexture.height)
         context.commandBuffer.addCompletedHandler { cb in
             post.record((cb.gpuEndTime - cb.gpuStartTime) * 1000)
+            if let ticket { post.captureFrames.complete(ticket, succeeded: cb.status == .completed) }
         }
     }
 }

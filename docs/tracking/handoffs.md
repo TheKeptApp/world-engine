@@ -215,3 +215,176 @@ R relayed the exact decoded limits. The packer now separately enforces 8 MiB dec
 ## A1 → A4 / A8 — full adaptive audit verified, 8 October
 
 Read-only input exports remain unchanged. Verified outputs in A1 worktree Generated/adaptive-targets/{sloans-lake,lakeview-sheil-park}; independent evidence Data/quality/adaptive-tile-packing.json. All 73 map/package tests passed; complete geometry/channel, scene joins, hashes, parent coarse coverage and byte-identical repeat checks passed. Sloan 48→76 leaves, worst two decoded arrays 3,756,466 bytes; Lakeview 25→114, 4,176,512 bytes (original 17,332,572). Every leaf ≤8 MiB, primitive ≤2 MiB, worst pair ≤16 MiB. See docs/data/adaptive-tiles.md for replacementGroups and featureOwnership contracts. This is export validation, not viewer/A16 performance. No A4, look or generator files changed. Merge remains stopped because tracker “NOT delivered yet” and completed-delivery entries conflict under R's latest conditional approval.
+
+## Corrected restart files — R / A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A10 / A8 / A5 / A2 / R → 5A, P2 | [5A restart](restart-5A.md), [P2 restart](restart-P2.md) | Three batches and one STOP line each. 5A: native A5 exp1 off/remove/layered with blind A3 scoring; existing-generator Lakeview budget; web exp1 port. P2: preserve/verify experiment controls; general existing-generator thinning/LOD; classified v2/v2b facades. A10 confirms native raw-area input, no adaptive package reader. A4 owns web package/streaming. A8’s seven corrections included: scoped adaptive contract, unapproved shadow halving/approved reach, current saved web grade, current shadow counters, provisional envelopes and later approval chronology, facade boundary. No implementation, capture or score claimed. |
+
+## Source-of-truth handover — R / A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A8 / R → all builders / A3 | [Current state](STATE.md), [source protocol](SOURCE-OF-TRUTH.md), [input index](INDEX.md), [integration](INTEGRATION.md), [mocks](MOCKS.md) | Docs-only audit-to-ledger filing; no runtime or score improvement claimed. Every build updates consumption/row/mock citation together, then rewrites STATE after report. Any model may run a lane with the same checks and current handoff. 5A batches: foliage → water → raw-generator budget; web exp1 deferred. P2 keeps controls → budget → classified facades. A3 current branch: astra-a3-source-of-truth, base bcfc8aa; no owned lock/server; next: builder reads STATE and assigned batch, captures under strict load/lock and submits blind evidence. |
+
+## Pre-restart audit corrections — A3, 8 Oct 2026
+
+| Date | From → to | Item | Status / next step |
+|---|---|---|---|
+| 2026-10-08 | A8 / R → 5A, P2, A2 | Mock-content audit `8f97697` §§5,7–9 | Docs corrected: foliage → water → budget; classifier repair separate prerequisite; CSS-pixel water conversion; witness sun separate from native fixture; halving superseded/unapproved; completed web-4127a32 grade; five bounded consumers; seven spec-only briefs; literal evidence line; ground/AO partial pending build proof. No implementation or score claimed. |
+| 2026-10-08 | A3 → 5A / A7 | Native smoke `smoke-20261008-native`, main `3f6f8df` | One attempt through heavy wrapper, admitted load 6.09; Xcode exit 65 before capture: `error: The file “package” couldn’t be opened because there is no such file. (in target 'WorldLab' from project 'WorldLab')`. Own lock released. Stopped; web and West Highland not attempted, no fresh score. Local logs: `/private/tmp/worldengine-a3-web-baseline/.build/lookloop/smoke-20261008-native/`. Build/capture prerequisite needs repair in its owning lane. |
+
+## Web foliage experiment 1 implementation — A2, 8 Oct 2026
+
+R explicitly authorized web implementation now, superseding the deferred web schedule. Branch `astra-a2-foliage-exp1`, control `fc439aadce9a560a6f46fd1c5a81d972ce5e32d6`. Renderer scope: `web/bakeoff/foliage.js`, `main.js`, `capture-once.mjs`, new `foliage-exp1.test.mjs`. Default/absent off; invalid modes error; remove is the web identity control. Layered alone uses the spec AO remap and sole base multiplier. New attributes are remapped through the original weld indices; lights, palette, exposure, topology, shadows, haze and placement stay unchanged. Pending crown-silhouettes-v2 excluded.
+
+Arithmetic suite passed under `scripts/heavy.sh`, admitted load 14.77, disk guard passed, own lock released: exp1 numeric witnesses/mask/bark; policy, overnight, atmosphere, sky-colour tests; JS syntax and diff checks. 1,056 species/region/date/LOD cases match control geometry bytes and bounds; absent/off/remove retain exact material graphs and instance inputs. This is structural render-input identity, **not GPU pixel readback**. Layered shader compilation and visible hemisphere AO remain unverified. Added buffers are 8 bytes per vertex before copies; synthetic fixture aggregate 886,800 bytes is not scene residency or measured GPU memory. No captures, browser, server or scoring run; no new score claimed.
+
+A3 after capture repair: use `MODES=candidate TIERS=standard FOLIAGE_EXP1=off`, then remove/layered via the spec capture workflow; Sloan's then Lakeview unchanged. Outputs route to `web/bakeoff/evidence/foliage-exp1/<mode>/<tier>/`, with mode provenance and hold-out proof. Archive each run. Legacy baseline remains separate and unchanged; do not use old `verify.sh`/`score.py` legacy candidate paths for experiment scoring. Verify GPU default-off pixel identity against control and layered compilation before blind scoring. No approval of native parity or performance inferred from arithmetic.
+
+Used: docs/research/foliage-exp1-spec.md, Exact candidate math / Web AO adapter / Cost and stop conditions. Mock: style-b-calibration-v2/frames/06-sloans.png and frames/01-lakeview.png. Deviation: no captures per R; off proof is structural, rendered pixels and shader response pending A3.
+
+
+### A10 → A3: WorldLab inspection camera (8 October 2026)
+
+R requested app-only free-camera controls and reproducible poses. Aerial/Explore consume `InspectionCamera` through the existing postcard API; one-finger orbit, two-finger pan, pinch, 8–1,500 m clearance, Reset view, Debug → Camera pose (off by default), copy launch argument, and `-inspectionpose lat,lon,alt,heading,pitch`. Rendering/shaders/budgets/tile inputs unchanged. See [experience-inspection §1–3](../experience-inspection.md) for conventions, capture recipe and local files. Seven focused tests (including seven invalid-input cases), simulator build, three Sloan’s zoom screenshots and same-pose repeated-frame check (≤1/255 RGB difference) pass under heavy lock. No device install, A3 score, or web parity claim. Earlier harness timeout was corrected by reading simulator-local log paths. Main advanced with A7 capture/preflight tooling during the task; rebased and camera checks rerun before merge.
+
+Used: docs/experience-inspection.md §1–3 (R’s A10 request). Mock: docs/proposals/style-b-calibration-v2/frames/06-sloans.png (unchanged-world reference). Deviation: controls per R; simulator evidence only, no visual scoring.
+
+
+### A10 native foliage experiment 1 — eligibility reconciliation pending (8 October 2026)
+
+Execution-main `a77c4e4`. Read `docs/research/foliage-exp1-spec.md` and `docs/execution/ao.md`; no AO/finish edits are included in this task. Shader baseline `WorldShaders.metal:468–490` remains unchanged, including `su.emissive=su.base*0.05h*half(extra.x)`. R now explicitly requests launch-argument mode selection and Sloan’s inspection poses at 40/150/600 m, superseding the spec’s build-only mode selection and frozen street-camera capture order. Implementation has not started.
+
+The exact spec mask selects a non-crown control: `Props.swift:392–394` adds flower-bush accents, `:538–539` assigns unflagged flower paint and `extra=(1,0.9,0,0)`. At full leaf these meet `extra.y>0 && extra.z<0.5 && !su.leafCut && !(flags&512)`. The spec explicitly says to keep bushes as controls and “If generator semantics differ at execution time, stop and reconcile the mask; do not widen it by appearance.” No shader changes, builds, captures, scores or pixel-diff claims were made.
+
+Concrete reconciliation proposed for R: retain the exact predicate and additionally require `(slot>=3 && slot<=6) || (slot>=24 && slot<=28)`, using the already-resolved `paletteSlot`, with provenance `StyleProfile.swift:222–232` (`SeasonalPalette.order`) and `Props.swift:950–960` (`crownPaint`, restricted deciduous family slots). This narrows eligibility to existing deciduous crown identities, excluding flowers without changing geometry or palette. Awaiting R’s decision rather than guessing a replacement for the exact spec mask.
+
+R’s runtime selection also requires app option parsing and material/uniform transport, beyond the spec’s build-only local constant. Before implementation, name those additional files in the handoff; change no other shader function, AO merge, budget or tile logic. Use A7’s merged single capture command when available, with baseline/off identity required to be exactly zero, 3 heights × 3 modes and source/mode provenance; A3 scores, not A10.
+
+Read-only coordination: A4’s chat was idle with its own latest validation stopped; A7 owned the heavy lock (`native capture: prepare, build, install and collect`), sampled load 169.85. No A4/A7 process or lock touched, and no heavy work started. Recheck A4 status, load <25, lock and disk before execution; idle chat alone does not authorize concurrent browser benchmarking.
+
+Used: foliage-exp1-spec.md Decision and scope / Exact candidate math / Cost and stop conditions; execution/ao.md Authority. Mock: style-b-calibration-v2/frames/06-sloans.png (reference only, no new capture). Deviation: stopped for mask reconciliation; R-requested runtime selection and inspection capture order supersede the older spec workflow.
+
+
+### A10 — approved foliage mask / runtime wiring (8 October 2026)
+
+R approved the corrected mask: exact spec predicate plus deciduous slots 3–6 or 24–28. Dated amendment is in foliage-exp1-spec.md. Additional runtime files named before implementation: `RenderResources.swift` adds a default-zero mode to `ShaderGlobals` and unused row-1 texel 52; WorldLab `Demo.swift` parses `-foliageexp1 off|remove|layered`, and `ContentView.swift` validates and sets it before environment application. Environment retains existing globals, so no Environment/World/Props changes are required. Only `worldFoliageSurface` reads the new texel; default local constant is 0. Separate focused tests cover arithmetic, generated eligibility and isolated native category pixels, without production geometry changes. Capture baseline/off exact identity and 3 heights × 3 modes remain required before merge; no score inferred. Heavy admission must stop after ten minutes without acquisition and report the current lock holder.
+
+## Web exp1 approved identity correction — A2, 8 Oct 2026
+
+Consumed spec amendment `66aac35` in `web/bakeoff/foliage.js`; regressions in `foliage-exp1.test.mjs`. Web rebuilds crowns without native palette indices, so the equivalent to crownPaint's deciduous1..9 (slots 3–6/24–28) is an explicit whitelist of P2 deciduous crown generators plus non-evergreen identity, existing live-leaf omission, opaque-only geometry and LOD <3. No RGB inference, new palette or geometry. Bush/flower groups bypass rebuilding; conifers now retain the original material graph in every mode. Default remains off. Tests caught and fixed a Three material-clone roughness reset before merge; explicit control initialization preserves the original calibrated value.
+
+Under heavy lock at load 4.69 and ≥8 GB disk guard: exp1 numeric/mask/control tests, policy, overnight, atmosphere and sky-colour all pass; 1,056 baseline geometry cases unchanged. Bush/flower/conifer legacy geometry buffers compare byte-for-byte and canonical material graphs match pre-experiment `fc439aa` in off/remove/layered. This proves render inputs, not GPU pixels; no captures/scoring and no visual gain claimed. Own lock released. A3 still owns GPU/capture validation.
+
+Used: docs/research/foliage-exp1-spec.md §Approved native eligibility amendment / Web AO adapter. Mock: style-b-calibration-v2/frames/06-sloans.png and frames/01-lakeview.png. Deviation: web uses the approved equivalent crown identity; GPU pixel comparisons pending, no captures run.
+
+
+### A10 — native foliage strict pixel stop (8 October 2026)
+
+See [failure evidence](../research/foliage-exp1-native-pixel-stop.md). Approved mask amendment remains merged; native implementation `bba0a3a` stays unmerged. Arithmetic/generated-mask tests and Metal compilation pass. Bush, conifer and other non-mask controls each differ by max 1/255 in all three modes; unchanged baseline repeat is exactly 0. Separate baseline-return candidate still fails. Heavy admission load 8.83, no lock bypass; job failed and released. No Sloan’s capture or self-score. Further implementation must resolve exact identity before capture/merge.
+
+Used: foliage-exp1-spec.md Mask / Exact candidate math / Cost and stop conditions; execution/ao.md Authority; weekend-brief.md §0. Mock: style-b-calibration-v2/frames/06-sloans.png. Deviation: required pixel identity failed; implementation and captures stopped.
+
+### A3 — A8 restart recheck applied (8 October 2026)
+
+Applied [165d5e1 recheck](../review/restart-recheck-2026-10-08.md) §§2–8, preserving its original file/line citations: restart-5A:3,25,31,33 / STATE:9,26 ownership; restart-P2:3,31,33,41,43 coordination; both restarts:23 capture and evidence; spec:1,15–23,39,45,81,83 superseded owner/mode/files/order/mask/web status; STATE:14 versus 18,32–48 historical failure versus 3/3 readiness. Both restart files now start with the batch-1-only instruction. 5A reviews A10 after A3 scoring (keep/reject/pending), then water, then existing-generator budget. P2 preserves controls and waits for both comparisons before thinning. Native strict-pixel failure remains pending/unmerged; web 4210f1d/c3dbacf remains default-off with pixels/scores pending. No code, captures or scores changed.
+
+
+### A10 — separate-build variant / amended gate stop (8 October 2026)
+
+R approved and spec records separate build-time variants with shipping source byte-identical to main, amended non-mask ≤1/255 gate and baseline-repeat zero. Branch `astra/a10-foliage-build-variant`, head `9c4b054`, compiles; arithmetic/generated-mask and five capture CLI tests pass. Baseline-repeat and remove are max/mean 0 for all seven categories; layered skyline at full leaf has max 2/255 and fails. Both equivalent flow layouts fail. All category maximum/mean measurements and shipping SHA-256 are in [evidence](../research/foliage-exp1-native-variant-stop.md). No Sloan’s capture, A3 score or native code integration. Additional branch files are the variant generator, native/mac build scripts, capture worker/tests, WorldLab batch-pose/provenance parsing and focused native tests; no RenderResources or runtime uniforms changed. Heavy jobs use load <25 and release their locks.
+
+Used: foliage-exp1-spec.md Approved native build-variant / pixel gate amendment; execution/ao.md Authority; weekend-brief.md §0. Mock: style-b-calibration-v2/frames/06-sloans.png. Deviation: layered skyline max 2/255 fails amended gate; captures and native code merge stopped.
+
+### A10 — R-approved separate native build variant (8 October 2026)
+
+R supersedes the pixel gate as amended in the spec. Shipping Metal source stays unchanged; generated `scripts/foliage_variant.py` inserts only the approved rule into worldFoliageSurface in a temporary source. Additional build files: `scripts/build-native.sh` and `scripts/postcard_mac_check.sh` compile explicit FOLIAGE_EXP1_BUILD remove/layered variants; default off compiles shipping source. `scripts/capture_native.py` and its focused tests select build mode, freeze inspection poses and record compiled source/library hashes. WorldLab Demo.swift / ContentView.swift parse mode for capture provenance and apply inspection pose in batch views. No runtime material/uniform transport, RenderResources, Props, Environment, geometry, budget or tile changes. Native arithmetic/mask/category fixture is Tests/WorldEngineTests/FoliageExperimentTests.swift. Validation and captures pending; A3 scores.
+
+
+### A10 → A3 / 5A: FINAL native foliage variant and nine frames (8 October 2026)
+
+Capture build `ec14fed`; separate build-time remove/layered constants 1/2, default shipping source unchanged (SHA-256 in evidence). Generator→native build→engine resource bundle→unchanged RenderResources.init is the reachable native path. No Props/Environment/render-source/budget/tile changes, no runtime uniform transport. FINAL category gate passes at both leaf fractions for all seven categories; repeat/remove max/mean/differing bytes exactly 0; layered max 2/255, worst mean 9.34600830078e-5 byte units, largest differing count 98. Exact per-category/fraction table: [final evidence](../research/foliage-exp1-native-final-evidence.md).
+
+One heavy admission (load 5.62, no wait) ran tests then immediately the nine-frame batch. All baseline/remove/layered × 40/150/600 m Sloan’s frames succeed, 1005×565 RealityKit captures, zero crashes; observed poses and frame/library hashes checked. Images/JSON/logs remain ignored in `/private/tmp/worldengine-a10/.build/a10-foliage-final/`; keep this worktree until A3 consumes them. Main docs link every frame and provenance. No self-score; A3 scores, 5A reviews only after scores; hold-out and confirmation gates unchanged/pending. Source/build/test/capture changes listed in the evidence.
+
+Used: foliage-exp1-spec.md FINAL native non-mask gate amendment / Exact candidate math; execution/ao.md Authority; weekend-brief.md §0. Mock: style-b-calibration-v2/frames/06-sloans.png. Deviation: owner-approved variant/FINAL gate; Simulator evidence only, no score or hold-out pass.
+
+### A3 → 5A / A10 / A4 — native exp1 blind scores, 8 Oct 2026
+
+[Nine-frame review](../lookloop/foliage-exp1-native-scores.md): baseline/remove/layered at 40/150/600 m all foliage 2, overall 2, no 2→3 uplift. Faceted crown blobs persist at 40 m. Layered 600 m lacks the baseline/remove outer road/ground grid: investigate loading/visibility before causal comparison; no code diagnosis or fix asserted. Do not promote layered as a demonstrated improvement. Native category tolerance pass retained; historical street hero 3 unchanged. A3 preserved source PNGs and checked all hashes; no captures, builds or heavy lock. Hold-outs Wilmette, Lakeview street/postcard, West Highland data-poor and Greenville wait until A4 finishes and missing native contracts/fixtures are ready; one gated batch command filed in review.
+
+### R → P2 / 5A / A3 — crown-shape approval, 9 Oct 2026
+
+Crown-silhouettes-v2 approved for every block; foliage research is the shape direction. STATUS changed: crown-silhouettes-v2 and foliage-seasons-v1 (existing binding foliage target, reconfirmed); vegetation-v1 unchanged because STATUS.md absent. Exp1 shading 7e800f7 stays 2/5 across all nine, not the lever; shape is the next lever, unbuilt/unscored. P2 builds one American elm all-block recipe with layered lobes/scaffold/near-middle-far, whole-scene <400k main / ≤150k shadow / ≤100 draws; if it does not fit, report per-crown cost and stop. 5A reviews colour/shading; A3 blind before/after at 40/150/600 m under A10’s delivered procedure, then hold-outs. Freeze shape before thinning and retain water freeze before budget. fd0eaa5’s other boundaries, batch-1-only opening, three batches, STOP and report template retained; no code or capture in this filing.
+
+### R / A10 → A3 / P2 / 5A — coverage attribution correction, 9 Oct 2026
+
+R’s 9 Oct correction, relaying A10: the 600 m layered coverage loss was a capture loading race, not a variant defect. Original frames/grades remain unchanged; no repeat capture or new score is claimed. Current STATE/INTEGRATION/MOCKS and both restarts corrected; historical score observations retained with an explicit later correction. Crown-silhouettes-v2 and foliage-seasons-v1 approvals/reconfirmation remain filed; vegetation-v1 unchanged (no STATUS.md). P2 one American elm all-block recipe, whole-scene floor and per-crown-cost stop; 5A review → water → budget; A3 blind before/after and later hold-outs remain unchanged.
+
+### R → A3 / P2 / 5A — vegetation-v1 filing complete, 9 Oct 2026
+
+Created vegetation-v1 STATUS under explicit approval for every block; original README/JSON/images untouched. Proposals INDEX, input/mock/consumption ledgers and STATE updated. Native vegetation profile/Props references remain partial; no direct web file consumer or per-sheet visual acceptance claimed. [Related pack status inventory](foliage-approval-review.md) records approval recommendations without changing other packs. Only vegetation-v1 received a new status in this filing; no additional approval blocks the American elm trial.
+
+### A10 → A3 — blocked matched-batch validation (8 Oct report; filed after 9 Oct directions)
+
+A10 `74eac73`: new baseline/SCENEREADY native validation and nine-frame replacement batch **pending valid heavy admission**, not delivered. All six triangle/draw categories (including context) and snapshot-vs-SCENEREADY counters must match; ten lightweight tests pass, native app/GPU proof unproved. A10 cancelled only its queued wrapper after 10m18s behind A4’s live lock; no build/capture or new batch directory. Original frames and A3 scores preserved. Evidence: [investigation, matched-batch preparation](../research/foliage-exp1-600m-coverage-investigation.md#matched-batch-validation-preparation--2026-10-08). Reported A4 owner PID 86011, job “A4 last-round confirming pair server”, start 2026-10-08 16:45:35; cancellation at 17:11:02, load 16.98. This preserves the report’s timing, not a live lock claim. No new frame paths or scoring request; A3 performed docs-only filing and did not inspect or alter locks.
+
+## A1 → R / A3 / P2 — house shortcut census, 8 October
+
+Read-only evidence: docs/data/house-shortcut-census.md and Data/quality/house-shortcut-census.json. Counts use building=yes static shortcut candidates that remain house after contextual garage overrides, with non-part loader buildings as denominator; no rendered-use or lidar-coverage claim. Tunnel guard/unsupported diagnostics status is specified but not implemented in core; existing context suppression is partial. No generator/render/input edits.
+
+### A10 BEFORE readiness ledger — source 5d159ff
+
+Verbatim A10 delivery status (the final no-new-score sentence describes A10’s delivery; A3’s subsequent two-frame grades follow separately):
+
+A10: capture-only SCENEREADY natively built and exercised in nine validation captures plus six BEFORE controls. At each of 40/150/600 m, three validation runs match all geometry/category/context counts: 313,022/53; 333,886/50; 228,159/43 main triangles/draws. Completed-frame threshold ≥3 passes; 40 m logged completion counts are 3/3/4, not exact equality. All 15 logs prove readiness before snapshot, no crashes, unchanged shipping shader/default off, per-run heavy releases. BEFORE repeats: 40 m max/mean/count 0/0/0; 150 m 1/0.0000303791/69; 600 m 7/3.1852701096/1,694,760 decoded-byte differences. STOP: 600 m control noise; allocator and AFTER candidate not started. Exposure convergence is suspected but unproved, and needs capture-only investigation before a valid crown comparison. A3 scores/hold-outs unchanged; no new score or phone-performance claim.
+
+**A3 follow-up:** [Fresh 40/150 m BEFORE grades](../lookloop/crown-native-before-scores.md): overall 2 and each visible §M aspect 2; sky N/A. 600 m not scored. Existing historical grades preserved; no AFTER or hold-out result.
+
+## A1 → R / A3 / P2 / 5A — core tunnel guard and diagnostics, 8 October
+
+R-authorized changes in Sources/WorldGen/SceneGenerator.swift, RoadMarkings.swift and WorldBuild.swift plus WorldMap classification/diagnostics and worldbake CLI. Underground carriageways/paint/generated street detail suppressed; data/network preserved; no railway, look, portal or other feature geometry change. Data/quality/unsupported-features.json and tunnel-guard-comparison.json delivered; docs/data/tunnel-guard.md explains unique-object counts, fallback distinction and reproduction. 85 tests and CLI pass. Road triangles: Sloan 2544→2540 (two tagged building_passage ways), Lakeview 2088 unchanged, Wilmette 1136 unchanged, West Highland 1888 unchanged, Greenville 7301→7279. All graph hashes and mesh batch counts unchanged; unaffected areas have identical full static geometry hashes. A3: only Sloan/Greenville underground strips expected to disappear after rebuilding; no capture/score or hardware draw proof claimed. Used: A8 long-tail row 2 / archetypes stage 0. Mock: none (safety guard). Deviation: Sloan expected zero contradicted by mapped passages.
+
+### A3 — A10/A1 ledger and input-index reconciliation
+
+A10 5d159ff exact ledger text and two fresh BEFORE blind scores already filed in 9650d7c; retained without duplicate grading, original 40/150 m hashes rechecked. Overall and light/saturation/ground/foliage/materials each 2, sky N/A; 600 m excluded, no hold-outs. A1 855babe tunnel results were already delivered in these trackers; pinned implementation SHA instead of “this commit”. Road-strip triangles Sloan 2544→2540 (two building_passage ways), Greenville 7301→7279, Lakeview 2088, Wilmette 1136, West Highland 1888 unchanged. All graphs/mesh batch counts unchanged; unaffected full static geometry byte-identical. 85 tests + CLI passed per A1; these are generation results, not measured renderer draws or a visual pass. Added budget-tiers.md (cecd8c9) and community-builds.md (ca2141c) as proposal-only index entries with no consumer/build claim. Other lane rows preserved; docs only.
+
+### A2 → A3 — web crown ledger, 8 October 2026
+
+Verbatim [A2 crown report](../../web/bakeoff/evidence/crown-v2/REPORT.md#ledger-text-for-a3):
+
+A2 web foliage shape: partial, American elm only, default-off crownV2 standard/floor. Consumer `main.js` → `foliage.js` (`buildElmV2`, `allocateCrownBudget`, pooled instancing); target crown-silhouettes-v2 approved by R. Implementation revision: commit introducing this report on `astra-a2-elm-budget`; control `855babe`, supersedes unmerged `aa3a068`. Both scenes fit their requested CPU tier criteria with unchanged shadow reach. Default-off identity and allocation tests pass; GPU counts/pixels, secondary details, hold-out appearance and A3 grade remain pending. Current capture/scoring status unchanged. No INTEGRATION/STATE edits made per R's explicit routing instruction.
+
+Implementation is on main as `0c0316e`; native ownership/status and historical scores are unchanged. Requested Sloan’s OFF/standard/floor × 40/150/600 m captures and provenance are not yet filed on main. All nine overall/six-aspect grades, foliage ≥3 at 40/150 m, aspect regressions and comparison to the saved web pair (2/5) remain pending. No hold-outs run; the reject rule cannot be evaluated without their evidence. No capture, build or render-code change in this filing.
+
+## A1 → R / A3 / P2 / 5A — tunnel audit correction, 8 October 2026
+
+Supersedes the initial negative-layer policy and Greenville −22 claim above. R/A8 correction restores source isTunnel semantics (any tunnel value other than no), with a separate yes/building_passage/culvert render predicate for carriageways, generated curbs/sidewalks/lamps and paint. Context negative-layer bridge exception restored; yards, occupancy and postcard candidates retain semantic policy. Layer-only Greenville ways 311413668, 757360129, 757360130 remain drawn and diagnosed as layer-only, review. 87 tests pass under the heavy wrapper, including negative bridge, tunnel=no, layer-only, covered, occupancy and postcard controls. Filed generic Python/Swift harness regenerated baseline df3adf8 and corrected five-area hashes: Sloan 2544→2540, Lakeview 2088→2088, Wilmette 1136→1136, West Highland 1888→1888, Greenville 7301→7287 road triangles; merged batch counts unchanged. Road identifier/centerline hashes match in these five areas; canonical static position/index hashes match in the three zero-change areas. No full routing, GPU draw, arbitrary-area or visual equivalence claim. Evidence and serialization: docs/data/tunnel-guard.md; Data/quality/tunnel-guard-comparison.json and unsupported-features.json. Used: A8 audit 1e5edfb, semantics/scope/hash findings. Mock: none (tag-policy safety fix). Deviation: none.
+
+A3: rebuilding restores the three Greenville layer-only strips (8 triangles versus 855babe); Sloan building passages remain suppressed. Native capture/scoring remains a separate pending check; no look values changed.
+
+### A10 → A3 → R — summer BEFORE season check, 8 October 2026
+
+[Summer season check](../lookloop/crown-native-summer-scores.md), evidence ae0e110 / capture 0600748: July 15 pinned BEFORE 40/150/600 m each overall/foliage 2; light/saturation/ground/materials 2, sky N/A. No grade change against historical October 40/150 m; October 600 m remains unscored. Summer green mock is a look/form reference, not a literal October pigment target. Auto-exposed October versus pinned July is not a season-only control. No gate-date change recommended or applied; no hold-outs. A10’s 150 m control max 1/255, mean 0.000213093822921 byte units, 484 differing bytes; original frames preserved. Report only; no render/fixture edits or new captures.
+
+### R → A3 — private metro reference collection, 8 October 2026
+
+[Metro reference folder](../screenshots/metro-reference/README.md) established: city-state subfolders on delivery, coordinate/heading filenames when known and private per-metro metadata covering location, capture date/time and R ownership. Metro contents are gitignored; no images supplied, moved or published. INDEX and hold-out protocols now require matched-view blind skyline height/massing PASS/FAIL plus tallest-ten building evidence, with missing inputs pending and no gate threshold change.
+
+### A7 → A3 → A2 / R — web crown ladder grades, 8 October 2026
+
+[A3 web crown ladder review](../review/crown-web-ladder-scores.md), delivery 2fba43a / capture fd99b9d: all 18 blind-graded. OFF/standard/floor foliage 2 at every height; overall 2 at 40/150 m, 1 at 600 m due to shared lake bands/striping. July OFF/standard have no whole-point seasonal grade delta. All ladder modes fail main triangle/draw tiers; shadows ≤70,497. No hold-outs or promotion; real-render provenance/hashes checked. A2 follow-up evidence: main non-foliage alone 529,108/117, 570,468/166, 473,923/198 triangles/draws at 40/150/600 m; whole-scene floor cannot be certified from the elm allowance. Shared 600 m water/ground rectangles and striping need a separately authorized general investigation; no code or new capture by A3.
+
+### 2026-10-08 — A3 → A2/A7/5A/P2: current crown ladder grades
+
+[Post-near-plane blind review](../review/crown-v3-ladder-scores.md), delivery c8c361d / capture 1580115: 16 PNGs, 12 unique hashes; OFF repeats and identical v2 600 m aliases scored once. Sloan OFF/v2 standard/v2 floor/v3 standard foliage and overall 2 at 40/150/600 m; lake bands gone, historical 600 m overall 1 → 2 from projection correction. v3 does not reach foliage 3; clearer scaffolds but thin repeated sprays, no whole-point aspect gain/drop versus v2. Lakeview 600 m overall 1, foliage 2, ground 1; no matched prior score, reject-rule comparison pending. Sky N/A; popping untested. No promotion, code, captures or builds.
+
+Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: unobservable sky; motion and matched hold-out comparisons pending.
+
+### 2026-10-08 — A3 → builders/reviewers: proposed comparison and NYC audit protocols
+
+A3 protocol-only update: [paired preferences](../review/paired-preference-protocol.md) proposed beside GRADING §M (six balanced judgments, identity/position controls; not validated reliability or a gate change). [NYC audit](../review/nyc-wrongness-audit-protocol.md) retains five fixed cells/taxonomy/counting and adds sceneBudget=1 web measurement; Midtown result unknown pending registered scene/data. No captures, code or scoring.
+
+Used: GRADING.md §§M/N; archetypes.md; scene-budget-variant.md. Mock: future registered approved pair targets. Deviation: protocols only, unvalidated proposed repetition thresholds.

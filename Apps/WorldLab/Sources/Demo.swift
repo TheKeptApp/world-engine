@@ -144,6 +144,11 @@ struct LaunchOptions {
     var weather: String?
     /// `-debughud`: keep the performance HUD under the experience UI.
     var debugHUD = false
+    /// `-inspectionpose lat,lon,alt,heading,pitch`: AGL metres, degrees clockwise from north / down.
+    var inspectionPose: String?
+    var cameraDebug = false
+    /// foliage-exp1-spec approved runtime selection (R, 8 Oct); validated before scene load.
+    var foliageExperiment = "off"
     /// `-snapshot SECONDS`: SECONDS after the world is on screen, save a PNG of the RealityKit view to the
     /// app's Documents (`snapshot-realitykit-<name>.png`) and print `SNAPSHOT saved <file>`. For device
     /// screenshots (scripts/device_snapshots.sh). The web renderer has its own `-snapshot` (WebScreen).
@@ -170,6 +175,7 @@ struct LaunchOptions {
     var viewList: [ViewSpec]?
     /// `-viewsettle SECONDS`: wait after setting each view up (default 4).
     var viewSettle: Double = 4
+    var sceneReady = false
     /// `-viewhold SECONDS`: wait this long after `VIEWREADY` before capturing and moving on, so an
     /// outside screenshot (simctl io, with the letterbox and the OSM credit) lands on the same view.
     var viewHold: Double = 0
@@ -198,6 +204,9 @@ struct LaunchOptions {
         showcase = value("-showcase")
         weather = value("-weather")
         debugHUD = args.contains("-debughud")
+        inspectionPose = value("-inspectionpose")
+        cameraDebug = args.contains("-cameradebug")
+        foliageExperiment = value("-foliageexp1") ?? "off"
         snapshotSeconds = value("-snapshot").flatMap(Double.init)
         snapshotName = value("-snapshotname")
         if value("-snapshotsource") == "compositor" { snapshotSource = .compositor }
@@ -211,6 +220,7 @@ struct LaunchOptions {
         let listData = value("-viewlist").flatMap { FileManager.default.contents(atPath: $0) }
             ?? value("-viewlist64").flatMap { Data(base64Encoded: $0) }
         viewList = listData.flatMap { try? JSONDecoder().decode([ViewSpec].self, from: $0) }
+        sceneReady = args.contains("-sceneready")
         viewSettle = value("-viewsettle").flatMap(Double.init) ?? 4
         viewHold = value("-viewhold").flatMap(Double.init) ?? 0
     }

@@ -19,6 +19,7 @@ OUT="${OUT:-$ROOT/docs/perf}"
 case "${1:-build}" in
 build)
   "$ROOT/scripts/generate.sh" >/dev/null
+  python3 "$ROOT/scripts/native_preflight.py" --stage build
   xcodebuild -project "$ROOT/Apps/WorldLab/WorldLab.xcodeproj" -scheme WorldLab -configuration Release \
     -destination "generic/platform=iOS" -derivedDataPath "$DERIVED" -allowProvisioningUpdates \
     DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic -quiet build

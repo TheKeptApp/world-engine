@@ -1,6 +1,7 @@
 // Camera rig, ported from Sources/WorldEngine/WorldCamera.swift: street follow (projected-bounds
 // framing at 22% of the view height, occlusion pull-in, recenter), overview orbit and fixed.
 import * as THREE from 'three/webgpu';
+import { updateCameraNear } from './camera-near.js';
 
 export const streetSettings = {
   screenFraction: 0.22, fieldOfViewDegrees: 50, pitchDegrees: 14, minPitchDegrees: 4, maxPitchDegrees: 60,
@@ -55,11 +56,7 @@ export class CameraRig {
    * the centimeter-spaced ground layers fight. RealityKit keeps 0.1 m (its depth is precise).
    */
   updateNear() {
-    const near = Math.min(500, Math.max(0.1, 0.25 * this.camera.position.y));
-    if (Math.abs(near - this.camera.near) > 0.05 * this.camera.near) {
-      this.camera.near = near;
-      this.camera.updateProjectionMatrix();
-    }
+    updateCameraNear(this.camera);
   }
 
   /** Places the camera; returns the cut-away target (character center) in street mode, else null. */

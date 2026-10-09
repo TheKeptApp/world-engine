@@ -1,0 +1,73 @@
+{
+  "locked_at": "2026-10-09T01:17:51.512927+00:00",
+  "grader": "A3",
+  "rubric": "GRADING.md \u00a7M, with \u00a7S/\u00a7V seasonal interpretation",
+  "blinding": "Fresh summer images shuffled into neutral labels; altitude visually inferable, summer known. Mapping unopened until grades locked.",
+  "grades": {
+    "R": {
+      "overall": 2,
+      "aspects": {
+        "sky": null,
+        "light": 2,
+        "saturation": 2,
+        "ground": 2,
+        "foliage": 2,
+        "materials": 2
+      },
+      "reasons": [
+        "Large angular lobes and hard joins remain faceted blobs; exposed scaffold reads mechanically.",
+        "Strong green/teal foliage and bright roof accents lack the target\u2019s restrained balance.",
+        "Flat lawns/roads, simple matte surfaces and broad uniform shadows remain far from the target\u2019s depth."
+      ],
+      "source": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-40/raw/ordinary-street-afternoon.png",
+      "sha256": "05790d7cc7e1495e706a8d513e950471fd1381ca5b72e25073ab068b6976dd89",
+      "altitude_m": 40,
+      "metadata": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-40/native-capture.json"
+    },
+    "S": {
+      "overall": 2,
+      "aspects": {
+        "sky": null,
+        "light": 2,
+        "saturation": 2,
+        "ground": 2,
+        "foliage": 2,
+        "materials": 2
+      },
+      "reasons": [
+        "Repeated blocky crown masses dominate the neighbourhood; greens vary but remain strong and disconnected.",
+        "Ground and roofs read as broad flat colour patches; lighting lacks the target\u2019s graded depth."
+      ],
+      "source": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-150/raw/ordinary-street-afternoon.png",
+      "sha256": "3796b3e3416319533656e0de4f6f7d0c5832ef592abd8e1f79ab10102b78fe20",
+      "altitude_m": 150,
+      "metadata": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-150/native-capture.json"
+    },
+    "T": {
+      "overall": 2,
+      "aspects": {
+        "sky": null,
+        "light": 2,
+        "saturation": 2,
+        "ground": 2,
+        "foliage": 2,
+        "materials": 2
+      },
+      "reasons": [
+        "Crown detail is too distant to establish a near-shape improvement; broad colour and vegetation masses remain simplified.",
+        "Flat cyan water and weak distant depth reduce overall closeness; outer context is schematic. No sky visible."
+      ],
+      "source": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-600/raw/ordinary-street-afternoon.png",
+      "sha256": "ba131806a9cf72243715a587c73833fbfdd23741713da1d62ac4c17e058ad299",
+      "altitude_m": 600,
+      "metadata": "/private/tmp/worldengine-a10/.build/a10-summer-before-20260715/fresh-600/native-capture.json"
+    }
+  },
+  "evidence_commit": "ae0e110",
+  "capture_commit": "06007488627604d188d50c4847c6954a8fde9517",
+  "date": "2026-07-15T20:30:00Z",
+  "mock": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png",
+  "comparison": "October 15 BEFORE, crown-native-before-scores.json; descriptive only: auto-exposure versus pinned gain plus different source revision",
+  "gate_changed": false,
+  "holdouts": "not run"
+}

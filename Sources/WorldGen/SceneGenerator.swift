@@ -346,7 +346,9 @@ public struct SceneGenerator: Sendable {
         }
 
         // Roads, paths, sidewalks (mapped).
-        for road in features.roads {
+        // R tunnel guard / A8 long-tail review row 2: retain underground ways in data/graph,
+        // but never project their carriageway or generated street detail onto the surface.
+        for road in features.roads where !road.suppressesSurfaceRendering {
             let service = road.kind == .service || road.kind == .track
             var paint = Paint(slot: n("road"), shade: service ? 1.06 : 1, flags: .road)
             if let (slot, pattern) = Self.paving(road.tags["surface"]) {
@@ -413,7 +415,7 @@ public struct SceneGenerator: Sendable {
         var lampSpots = features.points(of: .streetLamp).map(\.position)
         var generatedSidewalkMeters = 0.0, curbMeters = 0.0, generatedLamps = 0
         var generatedWalkways: [[LocalPoint]] = []
-        for (i, road) in features.roads.enumerated() {
+        for (i, road) in features.roads.enumerated() where !road.suppressesSurfaceRendering {
             for piece in Clipping.clip(polyline: road.centerline, to: focus) {
                 for curb in streetscape.curbLines(roadIndex: i, piece: piece) where lod == 0 {
                     curbMeters += Polyline.length(curb)

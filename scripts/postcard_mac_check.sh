@@ -17,7 +17,15 @@ nice -n 10 swift build --build-tests
 BIN="$(swift build --show-bin-path)"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
-xcrun -sdk macosx metal -c Sources/WorldEngine/Shaders/WorldShaders.metal -o "$TMP/WorldShaders.air"
+SHADER=Sources/WorldEngine/Shaders/WorldShaders.metal
+MODE=0
+case "${FOLIAGE_EXP1_BUILD:-off}" in
+ off) ;;
+ remove|layered) MODE=1; [ "$FOLIAGE_EXP1_BUILD" != layered ] || MODE=2
+ python3 scripts/foliage_variant.py "$TMP/WorldShaders.metal"; SHADER="$TMP/WorldShaders.metal" ;;
+ *) echo 'Invalid FOLIAGE_EXP1_BUILD' >&2; exit 1 ;;
+esac
+xcrun -sdk macosx metal -DFOLIAGE_EXP1_MODE="$MODE" -c "$SHADER" -o "$TMP/WorldShaders.air"
 xcrun -sdk macosx metallib "$TMP/WorldShaders.air" -o "$BIN/WorldEngine_WorldEngine.bundle/default.metallib"
 mkdir -p "$OUT"
 POSTCARD_TEST_OUT="$OUT" nice -n 10 swift test --skip-build --filter "$FILTER"

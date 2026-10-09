@@ -100,10 +100,71 @@ def outgoing(local, remote, remote_name, cwd=None):
     return git(*args, cwd=cwd).decode().split()
 
 
-def check(commits, cwd=None, check_mocks=True):
+
+INTEGRATION = 'docs/tracking/INTEGRATION.md'
+RENDER_ROOTS = ('Sources/WorldEngine/', 'Sources/WorldGen/', 'web/bakeoff/', 'web/src/')
+# Existing capture/server scripts in the bake-off are tooling, not renderer inputs.
+RENDER_TOOLING = {'capture.mjs', 'capture-once.mjs', 'freeze.mjs', 'serve.mjs'}
+EVIDENCE_ERROR = ('Add a non-empty "Used: ... Mock: ... Deviation: ..." line to the commit message '
+                  'or update docs/tracking/INTEGRATION.md in the same commit.')
+
+
+def render_change(path):
+    if not path.startswith(RENDER_ROOTS):
+        return False
+    parts = Path(path).parts
+    name = parts[-1].lower()
+    if any(p.lower() in {'docs', 'tests', '__tests__', 'test', 'scripts', 'tools'} for p in parts[:-1]):
+        return False
+    if name.endswith(('.md', '.rst', '.txt', '.adoc', '.py', '.sh')) or name in RENDER_TOOLING:
+        return False
+    if re.search(r'(?:^test_|[._](?:test|spec)[._]|tests?\.swift$)', name):
+        return False
+    return True
+
+
+def has_evidence(message):
+    # All three labelled, non-empty fields must be on one line, in order.
+    for line in message.splitlines():
+        match = re.fullmatch(r'\s*Used:[ \t]*(.*?)\s+Mock:[ \t]*(.*?)\s+Deviation:[ \t]*(.*?)\s*', line)
+        if match and all(field.strip() for field in match.groups()):
+            return True
+    return False
+
+
+def integration_seen(ref, cwd=None):
+    # Once introduced on main, deleting the ledger must not restore warning mode.
+    resolved = subprocess.run(['git', 'rev-parse', '--verify', f'{ref}^{{commit}}'], cwd=cwd,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if resolved.returncode:
+        return False
+    return bool(git('log', '-1', '--format=%H', resolved.stdout.decode().strip(), '--', INTEGRATION, cwd=cwd).strip())
+
+
+def evidence_check(commit, changed, main_has_integration, cwd=None):
+    if not any(render_change(path) for path in changed):
+        return [], []
+    message = git('show', '-s', '--format=%B', commit, cwd=cwd).decode()
+    if has_evidence(message):
+        return [], []
+    ledger_exists = bool(git('ls-tree', '--name-only', commit, '--', INTEGRATION, cwd=cwd).strip())
+    if INTEGRATION in changed and ledger_exists:
+        return [], []
+    if main_has_integration or integration_seen(commit, cwd):
+        return [EVIDENCE_ERROR], []
+    return [], [f'{commit[:10]}: evidence warning: INTEGRATION.md has not landed on main; {EVIDENCE_ERROR}']
+
+
+def check(commits, cwd=None, check_mocks=True, evidence_refs=()):
     errors, seen = [], set()
+    main_has_integration = any(integration_seen(ref, cwd) for ref in
+                               ('refs/remotes/origin/main', 'refs/heads/main', *evidence_refs))
     for commit in commits:
         changed = git('diff-tree', '--root', '-m', '--no-commit-id', '--name-only', '-r', '-z', commit, cwd=cwd).decode().split('\0')
+        evidence_errors, warnings = evidence_check(commit, changed, main_has_integration, cwd)
+        errors.extend(f'{commit[:10]}: {reason}' for reason in evidence_errors)
+        for warning in warnings:
+            print(warning, file=sys.stderr)
         read = lambda p: git('show', f'{commit}:{p}', cwd=cwd)
         errors.extend(f'{commit[:10]}: {reason}' for reason in instruction_check(read, changed))
         if check_mocks:
@@ -130,11 +191,14 @@ def main():
     try:
         commits = set()
         remote_name = sys.argv[1] if len(sys.argv) > 1 else 'origin'
+        evidence_refs = [f'refs/remotes/{remote_name}/main']
         for line in sys.stdin:
-            _, local, _, remote = line.split()
+            _, local, remote_ref, remote = line.split()
+            if remote_ref == 'refs/heads/main' and remote != ZERO:
+                evidence_refs.append(remote)
             if local != ZERO:  # deletion sends no new objects
                 commits.update(outgoing(local, remote, remote_name))
-        errors = check(sorted(commits))
+        errors = check(sorted(commits), evidence_refs=evidence_refs)
     except Exception:
         print('Push blocked: guard could not verify the outgoing commits.', file=sys.stderr)
         return 1

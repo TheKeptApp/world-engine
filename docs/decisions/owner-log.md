@@ -2,7 +2,21 @@
 
 The single list of R's decisions, newest first, one line each: date, decision, where it is applied. Maintained by A3; every owner decision passed to A3 is added here and mentioned in A3's next report. Pack-specific decisions are also cross-listed in `docs/design-registry.md`.
 
+## 2026-10-09
+
+- **vegetation-v1 explicit approval (R):** approved 9 Oct 2026 as a foliage target for every block. Create its missing STATUS from README/addendum limits; authored values remain targets, not measurements. Supersedes the earlier conditional filing hold. Record partial native palette/shape references without inventing full consumption or acceptance. Other related packs are inventoried for scoped approval recommendations only; no status changes to them.
+
+- **Exp1 coverage attribution correction (R relaying A10):** the 600 m layered coverage loss was a capture loading race, not a variant defect. Preserve the nine original 2/5 foliage grades (7e800f7), correct current trackers/restarts, require fully loaded future pairs; no recapture or new score claimed. Crown-shape approval and single-species restart order remain unchanged.
+
+- **General crown-shape targets and restart (R):** crown-silhouettes-v2 and foliage research generally are the correct crown-shape targets for every block. Native shading exp1 scored foliage 2/5 in all nine frames (`7e800f7`); shading exp1 is not the lever, shape is the next lever to test, not a proven score gain. P2 batch 1 builds one American elm recipe (Sloan’s test, all-block rule): layered lobes, branch scaffold, near/middle/far levels. Whole scene must stay <400k main triangles, ≤150k shadow triangles, ≤100 draws; report counts, or per-crown cost and stop if it does not fit. 5A reviews colour/shading in matched native 40/150/600 m frames, A3 scores blind before/after; freeze comparison before thinning, hold-outs afterward, then water and budget. Crown pack STATUS approved; foliage-seasons-v1 STATUS already explicitly names foliage targets, so reconfirmed 9 Oct without removing 7 Oct approval. vegetation-v1 has no STATUS.md: conditional approval not applied; existing pre-rule status retained. No code, captures or new grades in this filing.
+
 ## 2026-10-08
+
+- **FINAL native foliage category gate (R, A10):** separate build-time variant only; shipping shader byte-identical vs main; max≤2/255 AND mean≤5e-4 byte units per non-mask category/leaf fraction, report differing-byte count; remove and baseline-repeat exactly zero. No further loosening. Applied in foliage-exp1-spec.md FINAL amendment and native tests; nine Sloan’s baseline/remove/layered captures at 40/150/600 m delivered for A3; hold-outs/scoring unchanged.
+
+- **Repository source of truth and model-neutral routing (R):** current state → input index → integration ledger → feature sources/mocks; builders update consumption and mock citations in the same commit, STATE after each report, and handoff before changing models. Same checks/ownership for every model; pending packs never used. Native restart order is foliage experiment, water, then existing-generator budget; web exp1 port deferred beyond these three batches. Filed SOURCE-OF-TRUTH, STATE, INTEGRATION and MOCKS, extended INDEX/routing/restarts, mirrored shared rule. No new build or score.
+
+- **Bind build reports to evidence (R):** every build report must include `Used: <research doc and section>. Mock: <mock file or frame>. Deviation: <none or reason>.` immediately before `Tracker update:`; missing evidence line means incomplete. Applied in CONTRIBUTING-lanes and mirrored in AGENTS/CLAUDE with reviewed fingerprints; feature INDEX links existing evidence and unknowns, and every 5A/P2 restart batch names research and mock frames. No build or score claimed.
 
 - **Private Builder brand assets (R):** users may upload their own logos and brand assets into private projects; the engine ships no brands. This is the private-project exception, not permission to bundle brands in the engine or publish/share assets without rights. Supersedes A12 `dd0af9a`'s pending owner decision on private uploads; rights, sharing, takedown and retention remain counsel questions Q62. Implementation not started.
 - **Builder plan/map AI in two steps (R):** Builder will include AI that takes an uploaded plan or map and proposes a layout for user approval. Build manual placement with the plan as an underlay first, AI proposals second. This supersedes A12's blanket AI exclusion as product direction; it does not assert implementation, automatic approval or launch readiness. Filing: lane reviews, handoffs and tracking roadmap; upload/processing rights in Q62.
@@ -155,3 +169,8 @@ R requested confirmation/freeze of A1's pre-capture west-highland-aerial-north-0
 ## Addendum — 8 Oct 2026: contributor onboarding
 
 R requests a repo-based lane guide for another Claude plan or a human: 5A/P2/P3/A1–A11, session start/state notes, standing rules, copy-paste prompt, Sonnet default and Opus for render, external inputs/shared versioning proposal, and Xcode/Mac boundaries. Filed in docs/CONTRIBUTING-lanes.md. No assets moved, sharing service created, lane ownership transferred or implementation changed.
+
+
+## Addendum — 8 Oct 2026: native foliage experiment eligibility
+
+R approved the original foliage-exp1 native predicate **plus deciduous palette slots 3–6 or 24–28**. Flower-bush petals (`Props.swift:394,539`) otherwise pass the original mask and must stay controls. The exact predicate/slot list is recorded in the dated foliage-exp1-spec.md amendment for A2 parity. R requires max pixel difference per bush/conifer/other-nonmask category against baseline for off/remove/layered, baseline/off exact zero, and Sloan’s inspection-pose captures at 40/150/600 m. Runtime launch selection is authorized, default off; A3 scores. Wait for load <25 and free heavy lock (never overlap A4/A7); after >10 minutes without admission, stop and identify the lock holder. This records authorization, not a completed build or proof.
