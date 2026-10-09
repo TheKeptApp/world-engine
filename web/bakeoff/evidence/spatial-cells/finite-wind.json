@@ -1,0 +1,851 @@
+{
+  "status": "exact-pass",
+  "comparisonViews": 24,
+  "repeatControls": 24,
+  "sourceHashes": {
+    "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+    "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+    "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+    "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+    "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+    "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+    "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+    "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+    "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+    "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+    "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+    "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+    "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+    "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+    "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+  },
+  "rows": [
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "main": {
+        "triangles": 656467,
+        "draws": 169
+      },
+      "shadowBefore": {
+        "triangles": 560465,
+        "draws": 111
+      },
+      "shadowAfter": {
+        "triangles": 26164,
+        "draws": 40
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/40-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/40-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "main": {
+        "triangles": 785361,
+        "draws": 238
+      },
+      "shadowBefore": {
+        "triangles": 572162,
+        "draws": 113
+      },
+      "shadowAfter": {
+        "triangles": 43729,
+        "draws": 38
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/150-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/150-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "main": {
+        "triangles": 502798,
+        "draws": 285
+      },
+      "shadowBefore": {
+        "triangles": 75831,
+        "draws": 4
+      },
+      "shadowAfter": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/600-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/600-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/40",
+      "altitude": 40,
+      "main": {
+        "triangles": 1057862,
+        "draws": 210
+      },
+      "shadowBefore": {
+        "triangles": 924485,
+        "draws": 123
+      },
+      "shadowAfter": {
+        "triangles": 23935,
+        "draws": 41
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/40-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/40-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/150",
+      "altitude": 150,
+      "main": {
+        "triangles": 1181951,
+        "draws": 224
+      },
+      "shadowBefore": {
+        "triangles": 996184,
+        "draws": 149
+      },
+      "shadowAfter": {
+        "triangles": 45313,
+        "draws": 39
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/150-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/150-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "main": {
+        "triangles": 936137,
+        "draws": 203
+      },
+      "shadowBefore": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "shadowAfter": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/600-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/600-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-40",
+      "altitude": 40,
+      "main": {
+        "triangles": 729101,
+        "draws": 182
+      },
+      "shadowBefore": {
+        "triangles": 69639,
+        "draws": 62
+      },
+      "shadowAfter": {
+        "triangles": 61209,
+        "draws": 60
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/40-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/40-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-150",
+      "altitude": 150,
+      "main": {
+        "triangles": 791795,
+        "draws": 251
+      },
+      "shadowBefore": {
+        "triangles": 67961,
+        "draws": 42
+      },
+      "shadowAfter": {
+        "triangles": 21291,
+        "draws": 32
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/150-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/150-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-600",
+      "altitude": 600,
+      "main": {
+        "triangles": 624433,
+        "draws": 292
+      },
+      "shadowBefore": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowAfter": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/600-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/600-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-40",
+      "altitude": 40,
+      "main": {
+        "triangles": 320733,
+        "draws": 112
+      },
+      "shadowBefore": {
+        "triangles": 76124,
+        "draws": 79
+      },
+      "shadowAfter": {
+        "triangles": 67505,
+        "draws": 76
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/40-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/40-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-150",
+      "altitude": 150,
+      "main": {
+        "triangles": 323901,
+        "draws": 131
+      },
+      "shadowBefore": {
+        "triangles": 73212,
+        "draws": 62
+      },
+      "shadowAfter": {
+        "triangles": 26436,
+        "draws": 51
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/150-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/150-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-600",
+      "altitude": 600,
+      "main": {
+        "triangles": 209528,
+        "draws": 101
+      },
+      "shadowBefore": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowAfter": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/600-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/600-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/light-edge",
+      "altitude": 150,
+      "main": {
+        "triangles": 747693,
+        "draws": 243
+      },
+      "shadowBefore": {
+        "triangles": 526080,
+        "draws": 118
+      },
+      "shadowAfter": {
+        "triangles": 43637,
+        "draws": 42
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/light-edge-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/light-edge-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/offscreen-caster",
+      "altitude": 150,
+      "main": {
+        "triangles": 464034,
+        "draws": 63
+      },
+      "shadowBefore": {
+        "triangles": 581616,
+        "draws": 117
+      },
+      "shadowAfter": {
+        "triangles": 29444,
+        "draws": 41
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/offscreen-caster-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/offscreen-caster-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/low-sun",
+      "altitude": 8,
+      "main": {
+        "triangles": 769719,
+        "draws": 313
+      },
+      "shadowBefore": {
+        "triangles": 579573,
+        "draws": 126
+      },
+      "shadowAfter": {
+        "triangles": 86468,
+        "draws": 97
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/low-sun-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/low-sun-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/light-edge",
+      "altitude": 150,
+      "main": {
+        "triangles": 1115890,
+        "draws": 237
+      },
+      "shadowBefore": {
+        "triangles": 1003011,
+        "draws": 147
+      },
+      "shadowAfter": {
+        "triangles": 47521,
+        "draws": 40
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/light-edge-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/light-edge-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/offscreen-caster",
+      "altitude": 150,
+      "main": {
+        "triangles": 878453,
+        "draws": 165
+      },
+      "shadowBefore": {
+        "triangles": 933875,
+        "draws": 146
+      },
+      "shadowAfter": {
+        "triangles": 50363,
+        "draws": 38
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/offscreen-caster-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/offscreen-caster-lossless.png"
+    },
+    {
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/low-sun",
+      "altitude": 8,
+      "main": {
+        "triangles": 953215,
+        "draws": 197
+      },
+      "shadowBefore": {
+        "triangles": 995299,
+        "draws": 145
+      },
+      "shadowAfter": {
+        "triangles": 87157,
+        "draws": 101
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/low-sun-default.png",
+      "on": "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/low-sun-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-light-edge",
+      "altitude": 150,
+      "main": {
+        "triangles": 788812,
+        "draws": 251
+      },
+      "shadowBefore": {
+        "triangles": 68282,
+        "draws": 41
+      },
+      "shadowAfter": {
+        "triangles": 22466,
+        "draws": 29
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/light-edge-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/light-edge-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-offscreen-caster",
+      "altitude": 150,
+      "main": {
+        "triangles": 427832,
+        "draws": 60
+      },
+      "shadowBefore": {
+        "triangles": 68081,
+        "draws": 42
+      },
+      "shadowAfter": {
+        "triangles": 21411,
+        "draws": 32
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/offscreen-caster-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/offscreen-caster-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-low-sun",
+      "altitude": 8,
+      "main": {
+        "triangles": 826691,
+        "draws": 322
+      },
+      "shadowBefore": {
+        "triangles": 69639,
+        "draws": 62
+      },
+      "shadowAfter": {
+        "triangles": 63106,
+        "draws": 62
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/low-sun-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/low-sun-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-light-edge",
+      "altitude": 150,
+      "main": {
+        "triangles": 316254,
+        "draws": 131
+      },
+      "shadowBefore": {
+        "triangles": 74353,
+        "draws": 67
+      },
+      "shadowAfter": {
+        "triangles": 27552,
+        "draws": 45
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/light-edge-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/light-edge-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-offscreen-caster",
+      "altitude": 150,
+      "main": {
+        "triangles": 308171,
+        "draws": 83
+      },
+      "shadowBefore": {
+        "triangles": 73308,
+        "draws": 62
+      },
+      "shadowAfter": {
+        "triangles": 26532,
+        "draws": 51
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/offscreen-caster-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/offscreen-caster-lossless.png"
+    },
+    {
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-low-sun",
+      "altitude": 8,
+      "main": {
+        "triangles": 321074,
+        "draws": 130
+      },
+      "shadowBefore": {
+        "triangles": 76124,
+        "draws": 79
+      },
+      "shadowAfter": {
+        "triangles": 69672,
+        "draws": 76
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "depthDifference": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "off": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/low-sun-default.png",
+      "on": "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/low-sun-lossless.png"
+    }
+  ],
+  "reports": [
+    "/private/tmp/a10-finite-wind-scoreboard-sloans-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-fixed-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-bakeoff-sloans-fixed-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-bakeoff-lakeview-fixed-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-scoreboard-sloans-lake-stress-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-scoreboard-lakeview-sheil-park-stress-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-bakeoff-sloans-stress-v1/qualification.json",
+    "/private/tmp/a10-finite-wind-bakeoff-lakeview-stress-v1/qualification.json"
+  ]
+}
