@@ -9,9 +9,10 @@ import {createHash,randomUUID} from 'node:crypto';
 import {parseArgs} from 'node:util';
 import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,verifyModes} from './web_capture_checks.mjs';
 import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.mjs';
+import {verifyLadderPose,THRESHOLDS,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -65,7 +66,8 @@ try{
   scenes.lakeview.inspection.groundDatum=manifest.frame.vertical;report.exportFrame=manifest.frame;
   report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
  }
- const overrides={'/scenes.json':scenes,'/fixture.json':fixture};
+ const overrides={'/scenes.json':scenes,'/fixture.json':fixture,'/capture-probes.mjs':await readFile(resolve(root,'scripts/world_scoreboard_probes.mjs'),'utf8')};
+ const probeMetadata={};
  for(const scene of selected)if(scenes[scene].templateScene){
   const template=scenes[scene].templateScene;
   overrides['/'+scene+'.html']=(await readFile(resolve(root,'web/bakeoff',template+'.html'),'utf8')).replace('data-scene="'+template+'"','data-scene="'+scene+'"');
@@ -75,12 +77,21 @@ try{
   const out=resolve(root,'Generated/web-capture',spec.area);
   if(values.existingExports){if(!await exists('Generated/web-capture/'+spec.area+'/world.json'))throw Error('Requested existing export is absent: '+spec.area);}
   else await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas',spec.area),out,'--date',spec.date,'--focus',spec.focus,'--margin','100']);
-  const facades=await facadeInputs(root,spec.area,out);
+  const facades=await facadeInputs(root,spec.area,out),manifest=await readJSON(out+'/world.json');
+  const metadata=values.screen?await Promise.all(manifest.chunks.map(c=>readJSON(out+'/'+c.scene))):null;
   for(const scene of selected.filter(scene=>scenes[scene].area===spec.area)){
+   if(scenes[scene].inspection){
+    const pose=scenes[scene].inspection;
+    if(!manifest.frame.vertical.includes('y = 0 is ground'))throw Error('Inspection requires flat-ground datum');
+    scenes[scene].camera=inspectionCamera(pose,pose.altitudeAGLMetres,manifest.frame.origin);
+    pose.groundDatum=manifest.frame.vertical;
+   }
+   if(metadata)probeMetadata[scene]=metadata;
    overrides['/data/'+scene+'-facades.json']=facades;
    overrides['/'+scene+'.html']=(await readFile(resolve(root,'web/bakeoff/lakeview.html'),'utf8')).replace('data-scene="lakeview"','data-scene="'+scene+'"');
   }
  }
+ report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:report.exportFrame??null}));
  stage='server';server=await startCaptureServer(root,overrides);report.origin=server.origin;
  for(const scene of Object.keys(identities)){const response=await fetch(`${server.origin}/${scene}.html`);if(!response.ok)throw Error('Server readiness HTTP '+response.status);}
  report.events.push({stage:'server-ready',origin:server.origin});
@@ -109,6 +120,15 @@ try{
   if(values.sceneBudget!==!!evidence.sceneBudget?.enabled)throw Error('sceneBudget did not resolve as requested');
   if((evidence.crownV3||'off')!==(mode.crownV3||'off'))throw Error('crownV3 did not resolve as requested');
   verifyCounters(evidence.metrics);
+  if(scenes[scene].inspection)evidence.cameraCheck=verifyLadderPose(evidence.metrics.camera,scenes[scene].inspection);
+  if(values.screen){
+   if(!probeMetadata[scene])throw Error('Screen requires capture-export metadata');
+   evidence.detectors=await page.evaluate(async ({metadata,thresholds,viewport})=>{
+    const {probeScene}=await import('/capture-probes.mjs'),T=await import('three/webgpu'),b=window.bakeoff;
+    return probeScene({...b,T,spec:{viewport}},metadata,thresholds);
+   },{metadata:probeMetadata[scene],thresholds:THRESHOLDS,viewport});
+   const totals=passTotals(evidence.metrics.cost.passes);evidence.budgets={totals,tiers:tierChecks(totals.main,totals.shadow)};
+  }
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
   const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${values.sceneBudget?'-scene-budget':''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;

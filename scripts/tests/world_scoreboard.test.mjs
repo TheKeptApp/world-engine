@@ -49,3 +49,23 @@ test('JSON diff handles first run, metrics, changed contract and removed blocks'
  assert.equal(compareRuns({rows:[{...changed,comparisonInputs:{sourceHash:'new'}}]},{rows:[row]}).changes[0].comparable,false);
  assert.deepEqual(compareRuns({rows:[]},{rows:[row]}).removed,['a/40']);
 });
+
+// Historical Wilmette inherited 3° while its ladder metadata claimed 45°.
+import {verifyLadderPose} from '../world_scoreboard_checks.mjs';
+import {inspectionCamera,blockContract} from '../web_capture_blocks.mjs';
+import {fileURLToPath} from 'node:url';
+const poseCamera=p=>({position:[0,40,0],direction:[Math.cos(p*Math.PI/180),-Math.sin(p*Math.PI/180),0],fov:50});
+test('resolved ladder pitch rejects historical 3 degrees and >2 degree drift',()=>{
+ assert.throws(()=>verifyLadderPose(poseCamera(3),{pitchDown:45}),/more than 2/);
+ for(const p of [43,45,47])assert.equal(verifyLadderPose(poseCamera(p),{pitchDown:45}).pass,true);
+ for(const p of [42.99,47.01])assert.throws(()=>verifyLadderPose(poseCamera(p),{pitchDown:45}),/more than 2/);
+ assert.throws(()=>verifyLadderPose(poseCamera(45),{pitchDown:3}),/annotation/);
+});
+test('Wilmette ladder overrides postcard pitch at every altitude',async()=>{
+ const root=fileURLToPath(new URL('../../',import.meta.url)),contract=await blockContract(root,'wilmette');
+ for(const s of Object.values(contract.scenes)){
+  const [a,b,h]=s.camera.eye,[c,d,k]=s.camera.target,frame=new LocalFrame(a,b),eye=frame.scene(a,b,h),target=frame.scene(c,d,k);
+  assert.equal(s.inspection.pitchDown,45);assert.equal(s.inspection.fov,50);
+  verifyLadderPose({position:eye,direction:target.map((v,i)=>v-eye[i]),fov:s.camera.fov},s.inspection);
+ }
+});

@@ -6,7 +6,7 @@ export function probeScene(b,metadata,thresholds){
  const {T,world,camera}=b;world.root.updateMatrixWorld(true);camera.updateMatrixWorld(true);
  const meshes=[],labels=new Map();
  for(let i=0;i<world.manifest.chunks.length;i++)world.root.children[i].traverse(o=>{
-  if(!o.isMesh)return;meshes.push(o);const water=o.material===world.materials.water;
+  if(!o.isMesh)return;meshes.push(o);const water=o.userData.costCategory==='water'||o.material===world.materials.water;
   labels.set(o,metadata[i].features.flatMap(f=>(f.lod0[water?'water':'static']||[]).map(([start,count])=>({start,end:start+count,kind:f.kind,id:f.id}))));
  });
  world.root.children[world.manifest.chunks.length].traverse(o=>{if(o.isMesh){meshes.push(o);labels.set(o,[{start:0,end:Infinity,kind:'boundary',id:'boundary'}]);}});
