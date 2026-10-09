@@ -1,4 +1,6 @@
-# Post-fix October web crown controls
+# Historical pre-current-fix October web crown controls — superseded
+
+**Pre-current-integrated-fix; not comparable controls for the new all-mode acceptance batch.** This earlier set already used the near-plane correction, but predates the merged v3/near-plane capture revision. Use [the current 16-frame batch](../a7-web-crown-all-near-fix/manifest.json) for A3 re-scoring. Original images/manifest hashes remain untouched; these are not mislabelled as near=0.2 frames.
 
 13 ungraded PNGs: Sloan's OFF fresh/repeat, standard and floor at 40/150/600 m (nine primary views plus three OFF repeats), and Lakeview OFF at 600 m. [Manifest](manifest.json) records poses, date, exposure, actual near/far planes, source hashes, pass counts, clipping audit and exact-repeat evidence. A3 owns re-scoring; no grade or budget acceptance is claimed.
 
