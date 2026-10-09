@@ -1,5 +1,7 @@
 # Lossless spatial-cells prototype — 2026-10-09
 
+**Later ordering repair:** [spatial-order-and-shadow-diagnosis.md](spatial-order-and-shadow-diagnosis.md) supersedes the three failed fixed-view pixel comparisons below: twelve fresh views are exact, with draw-count regressions. This document retains the original prototype evidence; no budget/motion/native promotion follows.
+
 ## Contract and scope
 
 Implements the first prototype of [ff4f86e](spatial-cells-design.md): default-off `?spatialCells=1` (`spatialGroup=400|800`, default 800), crown/foliage experiments OFF, Sloan/Lakeview execution only. The normal entry still imports shipping `main.js`; no experiment module or interception is installed unless explicitly requested. Shipping `main.js`, `web/src`, native renderer, shaders, budgets, crowns and the shipping exporter are unchanged.

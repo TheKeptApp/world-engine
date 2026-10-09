@@ -11,7 +11,7 @@ for(const signal of ['SIGTERM','SIGINT'])process.once(signal,()=>{Promise.allSet
 function regions(a,b,width,height){const keys=new Set();for(let i=0;i<a.length;i+=4)if(a.slice(i,i+4).some((v,j)=>v!==b[i+j]))keys.add(`${Math.floor((i/4%width)/32)*32},${Math.floor(Math.floor(i/4/width)/32)*32}`);return [...keys].map(k=>k.split(',').map(Number));}
 try{
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Disk guard under 8 GB');await mkdir(out,{recursive:false});
- for(const name of ['web/bakeoff/spatial-cells.js','web/bakeoff/spatial-cells-entry.js','web/bakeoff/main.js','web/src/world.js','scripts/world_scoreboard_page.mjs','web/bakeoff/entry.js','web/bakeoff/tools/qualify-spatial-cells.mjs'])report.sourceHashes[name]=sha(await readFile(resolve(root,name)));
+ for(const name of ['web/bakeoff/spatial-cells.js','web/bakeoff/spatial-cells-entry.js','web/bakeoff/main.js','web/src/world.js','scripts/world_scoreboard_page.mjs','web/bakeoff/entry.js','web/bakeoff/tools/qualify-spatial-cells.mjs','web/bakeoff/spatial-diagnostics.js'])report.sourceHashes[name]=sha(await readFile(resolve(root,name)));
  let views;
  if(family==='bakeoff'){
   if(!['sloans','lakeview'].includes(area))throw Error('Bakeoff scope is Sloan/Lakeview only');const contract=await blockContract(root,area==='sloans'?'sloans-ladder':'lakeview-ladder');
@@ -33,7 +33,7 @@ try{
   source=source.replace(' let prior=',` let spatial,proxies=[];
  if(active){const {installSpatialCells}=await import('/spatial-cells.js'),sidecar=await (await fetch(spec.world+'spatial-cells.json')).json();
  scene.updateMatrixWorld(true);scene.traverse(o=>{if(o.isMesh&&o.castShadow){const p=o.clone();p.layers.set(1);p.matrixAutoUpdate=false;p.matrix.copy(o.matrixWorld);proxies.push([o,p]);}});for(const [,p]of proxies)scene.add(p);scene.traverse(o=>{if(o.isLight&&o.shadow)o.shadow.camera.layers.enable(1);});
- spatial=installSpatialCells(scene,camera,{features,sidecar});}
+ spatial=installSpatialCells(scene,camera,{renderer,features,sidecar});}
  let prior=`);
   source=source.replace('  renderer.info.reset();',`  if(spatial){for(const [o,p]of proxies){p.geometry=o.geometry;p.visible=o.visible;p.count=o.count;if(o.isInstancedMesh)p.instanceMatrix=o.instanceMatrix;}spatial.update();}
   renderer.info.reset();`);
@@ -54,9 +54,9 @@ try{
     await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
    }
    const metrics=await page.evaluate(()=>{const b=window.bakeoff??window.scoreboard;b.freeze=true;b.renderer.setAnimationLoop(null);b.renderer.backend.gl.finish();return {metrics:b.metrics,spatial:b.spatialCells};});
-   if(errors.length)throw Error(errors.join('\n'));const image=await page.screenshot(),png=PNG.sync.read(image),path=resolve(out,view.altitude+'-'+mode+'.png');await writeFile(path,image);
+   if(errors.length)throw Error(errors.join('\n'));const diagnostics=process.env.A10_DIAGNOSTICS?await page.evaluate(async ({family,altitude})=>{const {diagnose}=await import('/spatial-diagnostics.js');return diagnose(window.bakeoff??window.scoreboard,family==='bakeoff'?(altitude===40?[[0,125],[64,125]]:altitude===150?[[283,546]]:[]):altitude===600?[[500,344]]:[]);},{family,altitude:view.altitude}):undefined;const image=await page.screenshot(),png=PNG.sync.read(image),path=resolve(out,view.altitude+'-'+mode+'.png');await writeFile(path,image);
    const passes=metrics.metrics.cost?.passes??metrics.metrics.passes,main=Object.entries(passes).filter(([k])=>k.startsWith('main/')).reduce((a,[,v])=>({triangles:a.triangles+v.triangles,draws:a.draws+v.draws}),{triangles:0,draws:0});
-   const row={view:view.id,altitude:view.altitude,mode,path,pngSha256:sha(image),main,metrics};if(mode!=='default'){row.diff=byteDifference(frames[0].data,png.data);row.regions=regions(frames[0].data,png.data,png.width,png.height);row.pass=mode==='repeat'?row.diff.max<=2&&row.diff.mean<=.001:row.diff.max===0;}
+   const row={view:view.id,altitude:view.altitude,mode,path,pngSha256:sha(image),main,metrics,diagnostics};if(mode!=='default'){row.diff=byteDifference(frames[0].data,png.data);row.regions=regions(frames[0].data,png.data,png.width,png.height);row.pass=mode==='repeat'?row.diff.max<=2&&row.diff.mean<=.001:row.diff.max===0;}
    frames.push({data:png.data});report.frames.push(row);console.log(JSON.stringify({view:view.id,mode,main,diff:row.diff,pass:row.pass}));await page.close();
   }
  }

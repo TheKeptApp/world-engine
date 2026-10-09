@@ -23,9 +23,22 @@ const box=a=>new T.Box3(new T.Vector3(...a.slice(0,3)),new T.Vector3(...a.slice(
 const layout=g=>JSON.stringify(Object.entries(g.attributes).filter(([,a])=>!a.isInstancedBufferAttribute).sort().map(([n,a])=>[n,a.itemSize,a.normalized,a.array.constructor.name]));
 const capacity=n=>n<=256?Math.max(1,n):Math.max(1001,n);
 function effectiveVisible(o){for(let p=o;p;p=p.parent)if(!p.visible)return false;return true;}
-export function installSpatialCells(scene,camera,{features=new WeakMap(),sidecar,groupMetres=800}={}){
+// Match Three r180's opaque comparator, retaining source identity for derived draws.
+export function spatialOpaqueSort(a,b){
+ const A=a.object.userData.spatialOrder,B=b.object.userData.spatialOrder;
+ return (A?.groupOrder??a.groupOrder)-(B?.groupOrder??b.groupOrder)||a.renderOrder-b.renderOrder||a.z-b.z||(A?.sourceID??a.id)-(B?.sourceID??b.id)||(A?.run??0)-(B?.run??0)||a.id-b.id;
+}
+export function orderedCellRuns(rows,index,groupMetres){
+ // A complete feature can revisit a cell. Preserve original primitive order across runs.
+ const owners=new Map();for(const row of rows)for(let i=0;i<row.indices.length;i+=3){const key=row.indices.slice(i,i+3).join(',');let q=owners.get(key);if(!q){q=[];owners.set(key,q);}q.push(row);}
+ const runs=[];let current;
+ for(let i=0;i<index.count;i+=3){const ids=[index.getX(i),index.getX(i+1),index.getX(i+2)],q=owners.get(ids.join(',')),row=q?.shift();if(!row)throw Error('Spatial rows do not cover original primitive order');const c=row.worldBounds.getCenter(new T.Vector3()),cell=`${Math.floor(c.x/groupMetres)},${Math.floor(c.z/groupMetres)}`;
+  if(current?.cell!==cell){current={cell,atoms:[]};runs.push(current);}let atom=current.atoms.at(-1);if(atom?.row!==row){atom={row,indices:[]};current.atoms.push(atom);}atom.indices.push(...ids);
+ }return runs;
+}
+export function installSpatialCells(scene,camera,{renderer,features=new WeakMap(),sidecar,groupMetres=800}={}){
  if(sidecar?.schema!==SCHEMA||![400,800].includes(groupMetres))throw Error('Invalid spatial sidecar/group size');
- scene.updateMatrixWorld(true);const root=new T.Group();root.name='spatial cells opt-in main';scene.add(root);
+ renderer?.setOpaqueSort(spatialOpaqueSort);scene.updateMatrixWorld(true);const root=new T.Group();root.name='spatial cells opt-in main';scene.add(root);
  const sources=[],known=new WeakSet(),pools=new Map(),scratch=new T.Matrix4(),bounds=new T.Box3(),frustum=new T.Frustum();
  const report={enabled:true,schema:SCHEMA,leafMetres:100,pageMetres:200,groupMetres,geometryErrorMetres:0,updates:0,rebuilds:0,bufferBytes:0,exportRows:0,derivedRows:0};
  let previous='',pages=new Map();
@@ -56,9 +69,9 @@ export function installSpatialCells(scene,camera,{features=new WeakMap(),sidecar
   for(const s of sources){if(s.removed)continue;const o=s.o,g=o.geometry;
    const attrs=Object.entries(g.attributes).filter(([,a])=>a.isInstancedBufferAttribute).sort().map(([n,a])=>[n,a.itemSize,a.normalized,a.meshPerAttribute,a.array.constructor.name]);
    // Preserve original model transforms; no Float32 world-matrix rebaking.
-   const base=JSON.stringify([o.isInstancedMesh,o.material.uuid,s.key,attrs,o.matrixWorld.elements,o.renderOrder,o.receiveShadow,o.userData.costCategory,o.material.transparent?o.uuid:null]);
+   const base=JSON.stringify([o.isInstancedMesh,o.material.uuid,s.key,attrs,o.matrixWorld.elements,o.renderOrder,o.receiveShadow,o.userData.costCategory,o.material.transparent||!o.isInstancedMesh?o.uuid:null]);
    const put=(key,atom)=>{if(!bins.has(key))bins.set(key,{o,atoms:[],base,order:order++});bins.get(key).atoms.push(atom);};
-   if(o.isInstancedMesh)put(base,{s});else for(const row of s.rows){const c=row.worldBounds.getCenter(new T.Vector3()),cell=`${Math.floor(c.x/groupMetres)},${Math.floor(c.z/groupMetres)}`;put(base+'/'+cell,{s,row});}
+   if(o.isInstancedMesh)put(base,{s});else{const runs=orderedCellRuns(s.rows,g.index,groupMetres);runs.forEach((run,i)=>{for(const atom of run.atoms)put(base+'/'+i,{s,...atom});});}
   }
   const staticStorage=new Map();
   for(const b of bins.values())if(!b.o.isInstancedMesh){let store=staticStorage.get(b.base);if(!store){store={sources:new Set()};staticStorage.set(b.base,store);}for(const {s}of b.atoms)store.sources.add(s);}
@@ -81,11 +94,10 @@ export function installSpatialCells(scene,camera,{features=new WeakMap(),sidecar
    }else{
     const store=staticStorage.get(b.base),offsets=store.offsets;for(const [name,a]of Object.entries(store.attrs))g.setAttribute(name,a);
     // Shared storage must not change the previous group's render-sort centre.
-    const localBounds=new T.Box3();for(const source of new Set(atoms.map(a=>a.s))){if(!source.geometry.boundingBox)source.geometry.computeBoundingBox();localBounds.union(source.geometry.boundingBox);}
-    g.boundingBox=localBounds;g.boundingSphere=new T.Sphere(localBounds.getCenter(new T.Vector3()),localBounds.getSize(new T.Vector3()).length()/2);
-    const indices=new T.BufferAttribute(new Uint32Array(atoms.reduce((n,{row})=>n+row.indices.length,0)),1);indices.setUsage(T.DynamicDrawUsage);g.setIndex(indices);report.bufferBytes+=indices.array.byteLength;p={mesh:new T.Mesh(g,o.material),atoms,offsets,instance:false};mesh=p.mesh;
+    if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();if(!o.geometry.boundingSphere)o.geometry.computeBoundingSphere();g.boundingBox=o.geometry.boundingBox.clone();g.boundingSphere=o.geometry.boundingSphere.clone();
+    const indices=new T.BufferAttribute(new Uint32Array(atoms.reduce((n,{indices})=>n+indices.length,0)),1);indices.setUsage(T.DynamicDrawUsage);g.setIndex(indices);report.bufferBytes+=indices.array.byteLength;p={mesh:new T.Mesh(g,o.material),atoms,offsets,instance:false};mesh=p.mesh;
    }
-   mesh.matrixAutoUpdate=false;mesh.matrix.copy(o.matrixWorld);mesh.castShadow=false;mesh.receiveShadow=o.receiveShadow;mesh.renderOrder=o.renderOrder;mesh.userData.costCategory=o.userData.costCategory;mesh.frustumCulled=false;mesh.name='spatial '+o.name;root.add(mesh);pools.set(key,p);
+   mesh.matrixAutoUpdate=false;mesh.matrix.copy(o.matrixWorld);mesh.castShadow=false;mesh.receiveShadow=o.receiveShadow;mesh.renderOrder=o.renderOrder;mesh.userData.costCategory=o.userData.costCategory;mesh.frustumCulled=false;mesh.name='spatial '+o.name;let groupOrder=0;for(let ancestor=o.parent;ancestor;ancestor=ancestor.parent)if(ancestor.isGroup&&ancestor.renderOrder)groupOrder=ancestor.renderOrder;mesh.userData.spatialOrder={sourceID:o.id,groupOrder,run:b.order};root.add(mesh);pools.set(key,p);
   }report.rebuilds++;report.poolCapacity=pools.size;
  }
  function update(){
@@ -98,11 +110,11 @@ export function installSpatialCells(scene,camera,{features=new WeakMap(),sidecar
   let triangles=0,draws=0;
   for(const p of pools.values()){
    const {mesh,atoms}=p;let count=0;
-   for(const {s,row}of atoms){const o=s.o;if(!eligible.get(s))continue;
+   for(const {s,row,indices}of atoms){const o=s.o;if(!eligible.get(s))continue;
     if(p.instance){const g=o.geometry;if(!g.boundingBox)g.computeBoundingBox();for(let i=0;i<o.count;i++){
      o.getMatrixAt(i,scratch);bounds.copy(g.boundingBox).applyMatrix4(scratch).applyMatrix4(o.matrixWorld).expandByScalar(.5);if(!frustum.intersectsBox(bounds))continue;
      mesh.setMatrixAt(count,scratch);for(const [name,a]of Object.entries(g.attributes))if(a.isInstancedBufferAttribute)for(let k=0;k<a.itemSize;k++)mesh.geometry.attributes[name].array[count*a.itemSize+k]=a.array[i*a.itemSize+k];count++;
-    }}else if(row.selected){const a=mesh.geometry.index.array,offset=p.offsets.get(s);for(const index of row.indices)a[count++]=index+offset;}
+    }}else if(row.selected){const a=mesh.geometry.index.array,offset=p.offsets.get(s);for(const index of indices)a[count++]=index+offset;}
    }
    mesh.visible=count>0;
    if(p.instance){mesh.count=count;mesh.instanceMatrix.needsUpdate=true;for(const a of Object.values(mesh.geometry.attributes))if(a.isInstancedBufferAttribute)a.needsUpdate=true;triangles+=count*(mesh.geometry.index?.count??mesh.geometry.attributes.position.count)/3;}

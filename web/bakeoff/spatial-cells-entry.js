@@ -12,7 +12,7 @@ WorldScene.prototype.load=async function(...args){
  try{return await load.apply(this,args);}finally{T.BufferGeometry.prototype.deleteAttribute=remove;WorldScene.prototype.load=load;}
 };
 T.WebGPURenderer.prototype.setAnimationLoop=function(callback){
- T.WebGPURenderer.prototype.setAnimationLoop=loop;const b=window.bakeoff,v=installSpatialCells(b.scene,b.camera,{features,sidecar,groupMetres:Number(query.get('spatialGroup')??800)});b.spatialCells=v.report;
+ T.WebGPURenderer.prototype.setAnimationLoop=loop;const b=window.bakeoff,v=installSpatialCells(b.scene,b.camera,{renderer:this,features,sidecar,groupMetres:Number(query.get('spatialGroup')??800)});b.spatialCells=v.report;
  return loop.call(this,t=>{v.update();callback(t);});
 };
 await import('./main.js');
