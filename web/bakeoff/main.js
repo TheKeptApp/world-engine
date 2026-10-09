@@ -68,9 +68,6 @@ async function main(){
  updateCameraNear(camera);
  const baseline=q.has('baseline');
  const facadeCount=baseline?0:await facadeColours(world,facadePack,config.region);
- // GROUND_TRIAL_BEGIN
- if(!baseline&&groundMode==='on')groundTrial=await (await import('./ground-trial.js')).prepareGroundTrial(world);
- // GROUND_TRIAL_END
  const facades=baseline?null:facadeDetails(scene,facadeData,frame,facadePack,config.region,look,facadeMechanics);
  const sky=policy.sky;
  const upper=new T.Color(sky.zenithHex),mid=new T.Color(sky.midHex),horizon=new T.Color(sky.horizonHex);
@@ -91,6 +88,9 @@ async function main(){
  // PALETTE_B_BEGIN
  paletteB?.applyPalette(world);
  // PALETTE_B_END
+ // GROUND_TRIAL_BEGIN
+ if(!baseline&&groundMode==='on')groundTrial=await (await import('./ground-trial.js')).prepareGroundTrial(world);
+ // GROUND_TRIAL_END
  const palette=world.paletteTexture;palette.name='palette';skyTexture.name='sky gradient + cumulus';
  // Preserve exported geometry, palette slots and stable per-building variation.
  function matte(kind){const m=new T.MeshStandardNodeMaterial();const p=attribute('_paint','vec4'),e=attribute('_extra','vec4'),flags=int(p.z.add(.5));const flag=b=>flags.bitAnd(int(b)).notEqual(0);const slot=floor(p.x.add(.5));let colour=texture(palette,vec2(slot.add(.5).div(256),.5)).rgb.mul(p.y);const ground=look.materials.groundBaseHex;

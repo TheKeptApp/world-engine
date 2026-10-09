@@ -25,6 +25,10 @@ const mappedFixture=await surfaceFixture({tags:{'roof:colour':'#888888'},word:0x
 world.surfaceRoles=await readSurfaceRoles({readPackage:async p=>mappedFixture.files[p],readCompanion:async p=>p==='index.json'?mappedFixture.enc(mappedFixture.index):mappedFixture.payload});
 g.attributes._facade.array.fill(.5);const mappedBefore=Buffer.from(g.attributes._facade.array.buffer).slice();
 assert.equal((await prepareGroundTrial(world)).report.mappedTriangles,1);assert(Buffer.from(g.attributes._facade.array.buffer).equals(mappedBefore));
+const wallFixture=await surfaceFixture({word:0x0802});
+world.surfaceRoles=await readSurfaceRoles({readPackage:async p=>wallFixture.files[p],readCompanion:async p=>p==='index.json'?wallFixture.enc(wallFixture.index):wallFixture.payload});
+for(let i=0;i<3;i++)g.attributes._facade.setXYZW(i,.5,.5,.5,1);
+await prepareGroundTrial(world);assert.deepEqual(Array.from(g.attributes._facade.array.slice(0,4)),[.25,.25,.25,1]); // existing wall detail classification survives
 const positions=new Float32Array(18);positions[0]=1;
 await assert.rejects(roles.matchGeometry('chunks/0/lod0.glb',positions,g.index.array),/does not uniquely match/);
 assert.notEqual(await surfaceGeometryHash(positions,g.index.array),await surfaceGeometryHash(new Float32Array(18),g.index.array));

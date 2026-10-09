@@ -28,15 +28,22 @@ export async function prepareGroundTrial(world){
     }
     if(cp===1)report.mappedTriangles++;
     for(let k=0;k<3;k++){
-     const v=idx[t*3+k],prior=values.get(v);
-     if(prior!==undefined&&prior!==restore)throw Error('groundTrial rejects a shared vertex crossing semantic role boundaries');
-     values.set(v,restore);
+     const v=idx[t*3+k],prior=values.get(v),action=restore?(role===2&&face.getW(v)>0?2:1):0;
+     if(prior!==undefined&&prior!==action)throw Error('groundTrial rejects a shared vertex crossing semantic role boundaries');
+     values.set(v,action);
     }
    }
-   edits.push({face,values});
+   edits.push({face,values,paint:g.attributes._paint});
   }
  }
- for(const {face,values}of edits){for(const [v,restore]of values)if(restore)face.setXYZW(v,0,0,0,0);face.needsUpdate=true;}
+ for(const {face,values,paint}of edits){
+  for(const [v,role]of values)if(role){
+   // Preserve existing wall course/stone classification; change only its albedo.
+   if(role===2&&face.getW(v)>0){const slot=Math.round(paint.getX(v)),a=world.paletteTexture.image.data;face.setXYZW(v,a[slot*4],a[slot*4+1],a[slot*4+2],face.getW(v));}
+   else face.setXYZW(v,0,0,0,0);
+  }
+  face.needsUpdate=true;
+ }
  report.restoredSlots=[...restoredSlots.values()].sort((a,b)=>a.slot-b.slot);
  return {report,lawnNode(palette,tone,shade,original,flag){
   const [a,b]=slots.map(slot=>texture(palette,vec2((slot+.5)/256,.5)).rgb);

@@ -1,0 +1,118 @@
+{
+  "status": "blocked; not merged",
+  "mainParent": "591e4be",
+  "baseline": "c8c361d; top 32 credit rows excluded",
+  "flag": "groundTrial=on; absent/off unchanged",
+  "sourceHashes": {
+    "web/bakeoff/main.js": "aaa45a7425501f2921db640bb974a7fa77614ce2fca74fda2252381f9ac7a057",
+    "web/bakeoff/ground-trial.js": "7c2cb07ed8fc65d5894dfcface72cc8d18b337f7159fcd9cdb6b710073f1e6c8",
+    "web/bakeoff/surface-roles.js": "f8a0cdefbaeb030302d7c8dc294056682c9ec5c5411abfaf1a4c5a02b0a82de9",
+    "web/bakeoff/prepare-ground-companions.mjs": "5a5bc81294e872ea1edddfe2676be38d3b58e9925bbb98ee84c1afa79602629a",
+    "scripts/capture_web.mjs": "a77895987d5c2ecf1c8e05394442d60fe8496b35e91dd81e7f80e39a6b0ec397"
+  },
+  "reports": [
+    {
+      "path": "current-main/bare-main-control/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/lakeview-historical-control/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/lakeview-off/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/lakeview-on/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/sloans-off/web-capture.json",
+      "status": "passed",
+      "frames": 6,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/sloans-on/web-capture.json",
+      "status": "passed",
+      "frames": 6,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/west-highland-off/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/west-highland-on/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/west-highland-on-rejected-empty-lod/web-capture.json",
+      "status": "failed",
+      "frames": 0,
+      "allRepeatPNGsExact": true,
+      "error": {
+        "stage": "capture west-highland/off/off",
+        "message": "page.waitForFunction: Error: Error: Surface companion rejected: incomplete coverage/trailing payload\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at eval (eval at predicate (eval at evaluate (:311:30)), <anonymous>:2:41)\n    at predicate (eval at evaluate (:311:30), <anonymous>:7:27)\n    at next (eval at evaluate (:311:30), <anonymous>:29:33)\n    at /private/tmp/worldengine-a2-bakeoff/scripts/capture_web.mjs:117:14"
+      }
+    },
+    {
+      "path": "current-main/wilmette-off/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/wilmette-on/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    }
+  ],
+  "comparisons": "current-main/comparisons.json",
+  "blindPairs": "current-main/blind/",
+  "blindKey": "current-main/blind-key.json",
+  "controlReplays": {
+    "bareMain591e4beVsTrialOff600": {
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
+      "pngIdentical": true
+    },
+    "lakeviewHistorical600": {
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
+      "pngIdentical": true
+    }
+  },
+  "blocked": [
+    "Historical Sloan 600 m control differs after main water/exporter correction; R baseline decision pending. Trial OFF is PNG-identical to unmodified main 591e4be replay.",
+    "Greenville has no approved bakeoff haze/phenology/species adapter; R regional-profile decision pending."
+  ],
+  "scores": null,
+  "tests": "11 arithmetic/reader suites plus 16 capture-tooling tests passed under heavy admission; 31 reader checks, 1056 geometry-identity fixtures, 228 crown-v3 cases"
+}

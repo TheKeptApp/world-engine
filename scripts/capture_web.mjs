@@ -4,7 +4,7 @@ import {homedir} from 'node:os';
 import {dirname,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {mkdir,readFile,writeFile,access,statfs} from 'node:fs/promises';
-import {spawn} from 'node:child_process';
+import {spawn,execFileSync} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {parseArgs} from 'node:util';
 import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,verifyModes} from './web_capture_checks.mjs';
@@ -12,7 +12,7 @@ import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.
 import {verifyLadderPose,THRESHOLDS,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},paletteB:{type:'string'},lightTrial:{type:'string'},groundTrial:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},paletteB:{type:'string'},lightTrial:{type:'string'},groundTrial:{type:'string'},controlMain:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -70,6 +70,12 @@ try{
   report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
  }
  const overrides={'/scenes.json':scenes,'/fixture.json':fixture,'/capture-probes.mjs':await readFile(resolve(root,'scripts/world_scoreboard_probes.mjs'),'utf8')};
+ // Bounded control replay: serve the committed main renderer with every trial off.
+ if(values.controlMain){
+  if(!/^[a-f0-9]{7,40}$/.test(values.controlMain)||values.sceneBudget||modes.some(m=>Object.values(m).some(v=>v!=='off')))throw Error('controlMain requires a commit hash and all trials OFF');
+  const source=execFileSync('git',['show',values.controlMain+':web/bakeoff/main.js'],{cwd:root,encoding:'utf8'});
+  overrides['/main.js']=source;report.controlMain={commit:values.controlMain,sha256:hash(source),scope:'main.js; current unchanged default dependency modules and current export'};
+ }
  const probeMetadata={};
  for(const scene of selected)if(scenes[scene].templateScene){
   const template=scenes[scene].templateScene;

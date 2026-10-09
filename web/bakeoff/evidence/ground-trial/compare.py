@@ -1,10 +1,10 @@
 """Compare captured controls and pass ledgers; no visual scoring."""
-import json, hashlib, shutil
+import json, hashlib, shutil, sys
 from pathlib import Path
 import numpy as np
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[4]
-HERE=Path(__file__).resolve().parent
+HERE=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else Path(__file__).resolve().parent
 
 def difference(a,b):
     x=np.array(Image.open(a).convert('RGB'))[32:].astype(np.int16)
@@ -41,10 +41,13 @@ for name in ['sloans','lakeview','wilmette','west-highland']:
         row['delta']={p:{k:row['onTotals'][p][k]-row['offTotals'][p][k] for k in ['triangles','draws']} for p in ['main','shadow','post']}
         assert row['passLedgerIdentical'],row['view']+' changed rendering pass costs'
         assert row['appearanceDifference']['changedComponents']>0,row['view']+' trial is a no-op'
-        if control: assert row['controlDifference']['max']==0,row['view']+' failed control gate'
+        if control: row['controlGatePassed']=row['controlDifference']['max']==0
         results.append(row)
 (HERE/'comparisons.json').write_text(json.dumps(results,indent=2)+'\n')
 for r in results:
     print(r['view'],'same pass ledger',r['passLedgerIdentical'],'control',r.get('controlDifference'))
 
 (HERE/'blind-key.json').write_text(json.dumps(key,indent=2)+'\n')
+
+if any(r.get('controlGatePassed') is False for r in results):
+    print('FAIL: historical control gate; see comparisons.json');sys.exit(1)

@@ -1,13 +1,15 @@
 // Small self-contained companion fixture: same material colour, distinct roof/door roles.
 import {sha256} from './surface-roles.js';
-export async function surfaceFixture({tags={},word=0x0801,mixed=false}={}){
+export async function surfaceFixture({tags={},word=0x0801,mixed=false,emptyLOD=false}={}){
  const enc=x=>new TextEncoder().encode(JSON.stringify(x));
  const bin=new Uint8Array(108),dv=new DataView(bin.buffer);[0,1,2,3,4,5].forEach((n,i)=>dv.setUint32(i*4,n,true));
  if(mixed)dv.setUint16(24,1,true);
  const g={asset:{version:'2.0'},buffers:[{byteLength:108}],bufferViews:[{buffer:0,byteOffset:0,byteLength:24},{buffer:0,byteOffset:24,byteLength:12},{buffer:0,byteOffset:36,byteLength:72}],accessors:[{bufferView:0,componentType:5125,count:6,type:'SCALAR'},{bufferView:1,componentType:5123,count:6,type:'SCALAR'},{bufferView:2,componentType:5126,count:6,type:'VEC3'}],meshes:[{primitives:[{indices:0,attributes:{_FEATURE:1,POSITION:2},material:0,mode:4}]}],materials:[{pbrMetallicRoughness:{baseColorFactor:[.5,.5,.5,1]}}]};
- const j=enc(g),n=Math.ceil(j.length/4)*4,data=new Uint8Array(28+n+bin.length),v=new DataView(data.buffer);v.setUint32(0,0x46546c67,true);v.setUint32(4,2,true);v.setUint32(8,data.length,true);v.setUint32(12,n,true);v.setUint32(16,0x4e4f534a,true);data.fill(32,20,20+n);data.set(j,20);v.setUint32(20+n,bin.length,true);v.setUint32(24+n,0x004e4942,true);data.set(bin,28+n);
+ function makeGLB(document){const j=enc(document),n=Math.ceil(j.length/4)*4,data=new Uint8Array(28+n+bin.length),v=new DataView(data.buffer);v.setUint32(0,0x46546c67,true);v.setUint32(4,2,true);v.setUint32(8,data.length,true);v.setUint32(12,n,true);v.setUint32(16,0x4e4f534a,true);data.fill(32,20,20+n);data.set(j,20);v.setUint32(20+n,bin.length,true);v.setUint32(24+n,0x004e4942,true);data.set(bin,28+n);return data;}
+ const data=makeGLB(g);
  const scene=enc({features:[{index:0,id:'fixture/1',kind:'building',source:tags,generated:{profile:'fixture',role:'block',colors:['#888888','#888888','#888888','#888888'],colorSet:0}}]});
  const files={'chunks/0/lod0.glb':data,'chunks/0/scene.json':scene};
+ if(emptyLOD){const empty=structuredClone(g);empty.meshes[0].primitives=[];files['chunks/0/lod1.glb']=makeGLB(empty);}
  const manifest={files:{},chunks:[{lods:['chunks/0/lod0.glb'],scene:'chunks/0/scene.json'}]};
  for(const [p,b]of Object.entries(files))manifest.files[p]={sha256:await sha256(b),bytes:b.length};files['world.json']=enc(manifest);
  const payload=new Uint8Array([word&255,word>>8,4,8]); // family-colour roof/door; material unknown

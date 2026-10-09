@@ -16,6 +16,9 @@ for(const options of [{tags:{'roof:material':'brick','roof:colour':'#888888'},wo
  const v=await surfaceFixture(options),go=()=>readSurfaceRoles({readPackage:async p=>v.files[p],readCompanion:async p=>p==='index.json'?v.enc(v.index):v.payload});
  if(options.mixed)await assert.rejects(go(),/mixed feature triangle/);else {assert.equal((await go()).word('chunks/0/lod0.glb',0,0,0),0x0509);v.index.featureSources[0].tags['roof:colour']='#777777';await assert.rejects(go(),/mapped colour witness/);}tests++;
 }
+const empty=await surfaceFixture({emptyLOD:true});
+const emptyReader=await readSurfaceRoles({readPackage:async p=>empty.files[p],readCompanion:async p=>p==='index.json'?empty.enc(empty.index):empty.payload});
+assert.equal(emptyReader.report.primitives,1);tests++;
 const main=await readFile('web/bakeoff/main.js','utf8');assert(main.includes("q.has('surfaceRoles')&&q.get('surfaceRoles')!=='off'"));assert(main.includes("loadSurfaceRoles(config.world,q.get('surfaceRoles'),world.manifest)"));
 const priorFetch=globalThis.fetch,priorLocation=globalThis.location;let fetches=0;
 globalThis.location={origin:'http://localhost',href:'http://localhost/view.html'};

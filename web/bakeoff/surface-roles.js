@@ -63,7 +63,7 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
   const key=JSON.stringify([e.path,e.mesh,e.primitive]);check(!records.has(key),'duplicate primitive');records.set(key,e);
   if(!groups.has(e.path))groups.set(e.path,[]);groups.get(e.path).push(e);
  }
- check(end===payload.length&&groups.size===paths.length,'incomplete coverage/trailing payload');
+ check(end===payload.length,'trailing payload'); // Empty GLBs correctly have no primitive records; verified below.
  const scenes=new Map();
  for(const p of paths){
   const data=bytes(await readPackage(path(p))),hash=await sha256(data),file=world.files[p];check(hash===file.sha256&&data.length===file.bytes,'package GLB hash');
@@ -96,7 +96,7 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
    }
    triangles+=e.triangleCount;count++;
   }
-  check(count===groups.get(p).length,'extra primitive');primitiveCount+=count;
+  check(count===(groups.get(p)?.length??0),'extra primitive');primitiveCount+=count;
  }
  // No partial records escape on rejection. Metadata is CPU-only, no GPU changes.
  return Object.freeze({report:Object.freeze({schema:index.schema,packageHash:index.packageHash.sha256,payloadHash:index.payload.sha256,primitives:primitiveCount,triangles,roles,payloadBytes:payload.length,status:'validated; no appearance application'}),
