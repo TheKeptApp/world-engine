@@ -18,7 +18,7 @@ struct UndergroundGuardTests {
     }
     @Test func undergroundRoadsRetainGraphButLoseSurface() throws {
         for tags in [["highway":"residential","tunnel":"yes"],["highway":"residential","tunnel":"building_passage"],
-                     ["highway":"residential","tunnel":"culvert"],["highway":"residential","layer":"-1"]] {
+                     ["highway":"residential","tunnel":"culvert"]] {
             let (_,f) = try fixture(tags)
             #expect(f.roads.count == 1 && f.roads[0].centerline.count == 3)
             #expect(f.roads[0].isTunnel)
@@ -27,7 +27,7 @@ struct UndergroundGuardTests {
             let g = try WorldBuild.generator(features:f,profile:StyleLibrary.profile(id:"front-range"),season:1,focus:f.bounds)
             let scene = g.generate()
             #expect(!scene.chunks.flatMap(\.staticFeatures).contains { $0.feature == "way/10" })
-            var surface = f; surface.roads[0].isTunnel=false; surface.roads[0].layer=0
+            var surface = f; surface.roads[0].isTunnel=false; surface.roads[0].tags["tunnel"]="no"; surface.roads[0].layer=0
             let visible = try WorldBuild.generator(features:surface,profile:StyleLibrary.profile(id:"front-range"),season:1,focus:f.bounds).generate()
             #expect(visible.chunks.flatMap(\.staticFeatures).contains { $0.feature == "way/10" })
             #expect(surface.roads[0].centerline == f.roads[0].centerline)
@@ -55,6 +55,44 @@ struct UndergroundGuardTests {
         var duplicated = f; duplicated.roads += f.roads
         let report = UnsupportedFeatures.collect(area:"fixture",document:doc,features:duplicated,drawnRefs:[])
         #expect(report.entries.count == 1 && report.entries[0].count == 1)
+    }
+
+    @Test func semanticAndRenderControlsStaySeparate() throws {
+        let controls: [[String:String]] = [
+            ["highway":"residential","bridge":"yes","layer":"-1"],
+            ["highway":"residential","tunnel":"no","layer":"-1"],
+            ["highway":"residential","layer":"-1"],
+            ["highway":"residential","covered":"yes","layer":"0"],
+            ["highway":"residential","tunnel":"no"],
+            ["highway":"residential","tunnel":"unreviewed-value"]]
+        for tags in controls {
+            let (doc,f) = try fixture(tags), road = f.roads[0]
+            #expect(road.isTunnel == (tags["tunnel"].map { $0 != "no" } ?? false))
+            #expect(!road.suppressesSurfaceRendering)
+            let scene = try WorldBuild.generator(features:f,profile:StyleLibrary.profile(id:"front-range"),season:1,focus:f.bounds).generate()
+            #expect(scene.chunks.flatMap(\.staticFeatures).contains { $0.feature == "way/10" })
+            let occupancy = RayWorld(features:f,scene:scene)
+            #expect((occupancy.ground(LocalPoint(0,0)) == .road) == (!road.isTunnel && !road.isBridge))
+            let context = ContextData(document:doc,frame:f.frame,coverage:f.bounds,core:f.bounds)
+            #expect(context.roads.contains { $0.ref == road.ref } == (!road.isTunnel && (road.layer >= 0 || road.isBridge)))
+            let report = UnsupportedFeatures.collect(area:"control",document:doc,features:f,drawnRefs:["way/10"])
+            #expect(report.entries.contains { $0.reason == "layer-only, review" } == (road.layer < 0 && !road.isTunnel))
+            #expect(!report.entries.contains { $0.reason == "undergroundSuppressed" })
+        }
+    }
+
+    @Test func postcardPathsKeepSemanticTunnelPolicy() throws {
+        for tags in [["highway":"footway","layer":"-1"], ["highway":"footway","tunnel":"no","layer":"-1"],
+                     ["highway":"footway","covered":"yes"], ["highway":"footway","tunnel":"unreviewed-value"]] {
+            let (_,loaded) = try fixture(tags)
+            var f = loaded; f.bounds = Rect2D(centerWidth:200,height:200)
+            let scene = try WorldBuild.generator(features:f,profile:StyleLibrary.profile(id:"front-range"),season:1,focus:f.bounds).generate()
+            let world = RayWorld(features:f,scene:scene)
+            let composer = PostcardComposer(features:f,scene:scene,focus:f.bounds,lightTimes:[])
+            var rejected: [String:Int] = [:]
+            let paths = composer.makeCandidates(world:world,rejected:&rejected).filter { $0.source.hasPrefix("way/10@") }
+            #expect(!paths.isEmpty == !f.paths[0].isTunnel)
+        }
     }
 
 }

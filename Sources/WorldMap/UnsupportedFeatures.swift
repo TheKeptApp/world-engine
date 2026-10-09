@@ -23,7 +23,8 @@ public enum UnsupportedFeatures {
                                drawnRefs: Set<String>) -> Report {
         var grouped: [String: Set<String>] = [:]
         let roadRefs = Set(features.roads.map { $0.ref.description })
-        let underground = Set(features.roads.filter { $0.isTunnel || $0.layer < 0 }.map { $0.ref.description })
+        let underground = Set(features.roads.filter { $0.suppressesSurfaceRendering }.map { $0.ref.description })
+        let layerOnly = Set(features.roads.filter { $0.layer < 0 && !$0.isTunnel }.map { $0.ref.description })
         let typedRefs = Set(features.buildings.map { $0.ref.description } + features.roads.map { $0.ref.description }
             + features.paths.map { $0.ref.description } + features.sidewalks.map { $0.ref.description }
             + features.areas.map { $0.ref.description } + features.points.map { $0.ref.description }
@@ -49,6 +50,9 @@ public enum UnsupportedFeatures {
                 else if drawnRefs.contains(id) { continue }
                 else { reason = "notDrawn" }
                 grouped[key + "=" + tags[key]! + "\t" + reason, default: []].insert(id)
+            }
+            if layerOnly.contains(id) {
+                grouped["layer=" + (tags["layer"] ?? "unknown") + "\tlayer-only, review", default: []].insert(id)
             }
             if underground.contains(id) {
                 let key = tags["tunnel"].flatMap { $0 == "no" ? nil : "tunnel=" + $0 } ?? "layer=" + (tags["layer"] ?? "unknown")

@@ -113,7 +113,14 @@ public struct WayFeature: Sendable {
     public var isCrossing: Bool
     public var layer: Int
     public var isBridge: Bool
+    /// Source semantics: a tunnel tag other than "no"; layer alone never sets this flag.
     public var isTunnel: Bool
+    /// R / A8 tunnel audit: an explicit, bounded surface-render policy, separate from source semantics.
+    /// Only carriageways, their generated curbs/sidewalks/lamps, and road paint use this predicate.
+    /// Yards, road occupancy, postcard candidates and context keep their existing isTunnel policy.
+    public var suppressesSurfaceRendering: Bool {
+        ["yes", "building_passage", "culvert"].contains(tags["tunnel"] ?? "")
+    }
 }
 
 // MARK: - Areas
