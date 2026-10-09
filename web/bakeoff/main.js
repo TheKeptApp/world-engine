@@ -15,6 +15,7 @@ import {createSkyTexture} from './sky.js';
 import {appearanceToRadiance} from './sky-colour.js';
 import {resolvePolicy} from './policy.js';
 import {LocalFrame} from '/src/geo.js';
+import {updateCameraNear} from '/src/camera-near.js';
 const q=new URLSearchParams(location.search), id=document.body.dataset.scene;
 const tier=q.get('tier')||'standard';if(!phoneBudget.tiers[tier])throw Error('Unknown phone tier');
 if(q.has('capture'))document.body.classList.add('capture');
@@ -45,6 +46,7 @@ async function main(){
  // These are composition fits, not recovered photographic camera matrices.
  const fit=config.camera;
  camera.position.copy(at(...fit.eye));camera.lookAt(at(...fit.target));
+ updateCameraNear(camera);
  const baseline=q.has('baseline');
  const facadeCount=baseline?0:await facadeColours(world,facadePack,config.region);
  const facades=baseline?null:facadeDetails(scene,facadeData,frame,facadePack,config.region,look,facadeMechanics);
@@ -142,6 +144,6 @@ async function main(){
  if(v3&&q.has('capture')){scene.updateMatrixWorld(true);world.crownV3Report.fragments=v3Module.estimateFragments(v3.groups,camera,renderer.domElement.width,renderer.domElement.height);}
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
  window.bakeoff={crownV3:!baseline&&crownV3!=='off'?crownV3:false,crownV2:!baseline&&crownV2,foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
- renderer.setAnimationLoop(t=>{now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
+ renderer.setAnimationLoop(t=>{updateCameraNear(camera);now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

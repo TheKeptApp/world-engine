@@ -17,6 +17,10 @@ export function inspectionCamera(pose,altitude,origin={latitude:pose.lat,longitu
 export async function blockContract(root,block){
  const read=async p=>JSON.parse(await readFile(resolve(root,p),'utf8'));
  const frozen=await read('scripts/web_capture_contract.json');
+ if(block==='lakeview-600'){
+  const saved=frozen.scenes.lakeview,pose={lat:saved.camera.eye[0],lon:saved.camera.eye[1],heading:270,pitchDown:45,fov:50};
+  return {...frozen,source:'R near-plane follow-up; saved Lakeview web eye, same 600 m/270/45/50 diagnostic recipe as lake-banding-diagnosis.md',fixture:{...frozen.fixture,date:'2026-10-15'},scenes:{lakeview:{...saved,viewport:{width:1005,height:565},camera:inspectionCamera(pose,600),inspection:{...pose,altitudeAGLMetres:600,utc:'2026-10-15T20:30:00Z',groundDatum:'export flat ground y=0; resolved from generated manifest before navigation'}}}};
+ }
  if(block==='sloans-ladder'){
   const ladder=await read('scripts/web_sloans_ladder.json');
   return {...frozen,source:ladder.source,ladder,tier:ladder.tier,fixture:{...frozen.fixture,date:ladder.utc.slice(0,10)},scenes:Object.fromEntries(ladder.altitudesAGLMetres.map(alt=>['sloans-'+alt,{...frozen.scenes.sloans,templateScene:'sloans',viewport:ladder.viewport,camera:inspectionCamera(ladder.pose,alt),inspection:{...ladder.pose,altitudeAGLMetres:alt,utc:ladder.utc,groundDatum:ladder.groundDatum}}]))};

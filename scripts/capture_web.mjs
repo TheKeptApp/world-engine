@@ -57,6 +57,13 @@ try{
  }
  // Exactly the existing bakeoff/export.sh recipe, using the release exporter already built above.
  if(selected.includes('lakeview'))await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
+ if(values.block==='lakeview-600'){
+  const manifest=await readJSON('web/bakeoff/generated/lakeview-sheil-park/world.json');
+  if(!manifest.frame.vertical.includes('y = 0 is ground'))throw Error('Lakeview inspection requires its flat-ground datum');
+  scenes.lakeview.camera=inspectionCamera(scenes.lakeview.inspection,600,manifest.frame.origin);
+  scenes.lakeview.inspection.groundDatum=manifest.frame.vertical;report.exportFrame=manifest.frame;
+  report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
+ }
  const overrides={'/scenes.json':scenes,'/fixture.json':fixture};
  for(const scene of selected)if(scenes[scene].templateScene){
   const template=scenes[scene].templateScene;
@@ -95,7 +102,7 @@ try{
   },null,{polling:'raf',timeout:180000});
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
+  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
   verifyModes(evidence,mode);
   if((evidence.crownV3||'off')!==(mode.crownV3||'off'))throw Error('crownV3 did not resolve as requested');
   verifyCounters(evidence.metrics);
