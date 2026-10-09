@@ -82,7 +82,7 @@ for(const mode of [undefined,'off','remove','layered']){
  }
 }
 // The rest of main is byte-identical after removing only flag plumbing.
-const main=await readFile(new URL('./main.js',import.meta.url),'utf8'),oldMain=execFileSync('git',['show',`${baseline}:web/bakeoff/main.js`],{encoding:'utf8'});
+const main=(await readFile(new URL('./main.js',import.meta.url),'utf8')).replace(',crownV2Mode','').replace(" const crownV2=crownV2Mode(q.get('crownV2'));\n const crownPack=crownV2?await get('/packs/crown-silhouettes-v2/values.json'):null;\n",'').replace(',crownV2?{pack:crownPack,tier:crownV2,camera,height:()=>renderer.domElement.clientHeight}:null','').replace('crownV2:!baseline&&crownV2,',''),oldMain=execFileSync('git',['show',`${baseline}:web/bakeoff/main.js`],{encoding:'utf8'});
 const unchanged=main.replace('applySpecies,foliageExp1Mode','applySpecies').replace(" const foliageExp1=foliageExp1Mode(q.get('foliageExp1'));\n",'').replace('config.region,seasonal,p2,foliageExp1);','config.region,seasonal,p2);').replace("foliageExp1:baseline?'off':foliageExp1,",'');assert.equal(unchanged,oldMain,'non-experiment renderer code changed');
 const capture=await readFile(new URL('./capture-once.mjs',import.meta.url),'utf8'),preamble=capture.split('// Runtime capture')[0];
 for(const mode of [undefined,'off','remove','layered']){
@@ -133,3 +133,5 @@ for(const mode of ['off','remove','layered']){
  }
 }
 console.log('PASS: bush/flower-bush/conifer geometry and material controls byte-identical to pre-experiment baseline in off/remove/layered; GPU pixels not captured');
+
+export {load,current,legacy,T,data,pack,phenology,canonical,equalGeometry,world};
