@@ -281,3 +281,9 @@ Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not th
 |---|---|---|---|
 | Context OFF/ON600; three fresh sessions | Ground ON6/6, grade2→2; overall2→2, 2ON/4ties inconclusive | Lakeview/Wilmette ground1→2 all sessions, ON6/6; overall2ON/4ties inconclusive, AFTER2; other aspects ties | [Report](../review/context-water-paired-scores.md). No loss, no ship pass; light1 and foliage1/2 variation disclosed. |
 | Far-water/ring600 BEFORE/AFTER | All six aspects tie6/6; overall2→2 | Lakeview/Wilmette all six aspects tie6/6; overall2→2; ground1/2 inter-session variation | No visible loss; six identical controls pass. A4 final frames/provenance pending; West Highland/Greenville ungraded. |
+
+## A4 fresh rebased far-parent600 — 9 Oct 2026, no promotion
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Default/far600; three fresh sessions, rebased batch only | All six aspects tie6/6; overall2→2; foliage1/2/2 across sessions, unchanged within pairs | Lakeview/Wilmette same: overall2→2, foliage1/2/2, all aspects tie6/6; West Highland/Greenville pending | [Report](../review/far-parent-paired-scores.md). Six identical controls pass; static counters fit, overall≥3 fails. No visible loss, native acceptance or promotion. A4 code merge remains separate. |

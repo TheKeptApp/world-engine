@@ -473,3 +473,7 @@ R authorized >=400 m far-geometry differences with A3 paired scoring + budget, w
 ### 2026-10-09 — A3 → A5/A4: context/water scored; final A4 delivery pending
 
 [Context/water blind review](../review/context-water-paired-scores.md): three fresh sessions, six identical controls pass. Context ground ON wins6/6 at Sloan/Lakeview/Wilmette600; Lakeview/Wilmette ground1→2 in all sessions, Sloan2→2. Overall2ON/4ties at each site, inconclusive; all other aspects tie6/6. Water/ring all six aspects tie6/6 at all three sites, overall2→2; no visible loss. No hold-out regression in Lakeview/Wilmette; West Highland/Greenville visual pending. No promotion or ship-bar pass. A4 final far-parent delivery/provenance pending (working source hashes differ in three files); no A4 score.
+
+### 2026-10-09 — A3 → A4: rebased far parents scored; no promotion
+
+[A4 fresh rebased far-parent review](../review/far-parent-paired-scores.md): three fresh sessions, six identical controls pass; all six aspects tie6/6 for Sloan/Lakeview/Wilmette600. Overall2→2 in every session; foliage1/2/2 across sessions unchanged within every pair, other aspects2 throughout. No visible loss or focus/hold-out regression, but overall≥3 fails; no native acceptance/promotion. Static far main T/D195293/72,139666/44,106489/42; device/memory and West Highland/Greenville pending. A4 implementation remains blocked on its own merge conflicts; A3 scores/docs only. Delivered rebased hashes supersede prior A4 pending-source status.

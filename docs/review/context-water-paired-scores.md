@@ -1,5 +1,7 @@
 # Context masses and far-water/ring — A3 blind review, 9 Oct 2026
 
+**Queue update:** A4 subsequently delivered the fresh rebased set; [separate locked review](far-parent-paired-scores.md) supersedes the historical A4 pending status below. A5 judgments are unchanged.
+
 **No promotion.** A2 light trial is already scored in [5cc9adc](light-trial-paired-scores.md), so not repeated. Context masses improve ground preference in all three 600 m pairs, but overall preference is inconclusive; the far-water/ring change has no visible look loss in these six-aspect comparisons. A4’s final far-geometry delivery remains pending; its working snapshot is not silently treated as current-main evidence.
 
 ## Frozen sources and method
