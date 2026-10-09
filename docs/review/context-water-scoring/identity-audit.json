@@ -1,0 +1,787 @@
+{
+  "context": [
+    {
+      "pair": "context-sloans-600",
+      "matched": {
+        "contract": true,
+        "projection": true,
+        "exposure": true,
+        "cameraCheck": true
+      },
+      "repeatSHAExact": true,
+      "sourceCommit": "8f08c42f4a8b38c3a54decb04d0be1f8b8f67967",
+      "contract": {
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            600
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "beforeHash": "b6f61c840066c7c1896576ef77410ddf48f333b72a56ddbf01b0f5a8d0b778cf",
+      "afterHash": "4696130827b8acdc56103c3c195bc7ba7415e9b52a39f662b520f377833fa884",
+      "beforeBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 320036,
+            "draws": 112
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "afterBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 360036,
+            "draws": 118
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      }
+    },
+    {
+      "pair": "context-lakeview-600",
+      "matched": {
+        "contract": true,
+        "projection": true,
+        "exposure": true,
+        "cameraCheck": true
+      },
+      "repeatSHAExact": true,
+      "sourceCommit": "8f08c42f4a8b38c3a54decb04d0be1f8b8f67967",
+      "contract": {
+        "camera": {
+          "eye": [
+            41.945182,
+            -87.66432,
+            600
+          ],
+          "target": [
+            41.945181986209434,
+            -87.66552595502687,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 41.945182,
+          "lon": -87.66432,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "beforeHash": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "afterHash": "ad916672207d345f68442f74d8ab26b2d4d07716e913ec1af6166fc34949eb46",
+      "beforeBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 72065,
+            "draws": 32
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "afterBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 112061,
+            "draws": 38
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      }
+    },
+    {
+      "pair": "context-wilmette-600",
+      "matched": {
+        "contract": true,
+        "projection": true,
+        "exposure": true,
+        "cameraCheck": true
+      },
+      "repeatSHAExact": true,
+      "sourceCommit": "8f08c42f4a8b38c3a54decb04d0be1f8b8f67967",
+      "contract": {
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            600
+          ],
+          "target": [
+            42.07493303044959,
+            -87.71878759174007,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 600,
+          "utc": "2026-09-15T19:56:00Z"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-09-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "beforeHash": "362ea8375f104d476d48ef49c90b3fc1130ecd8f78733ef0f4ae5a0c3eb3a363",
+      "afterHash": "8d9fe3303345c348a6038f3661adcf81a237b35e78a9d49e3bd0a089d62c7053",
+      "beforeBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 368862,
+            "draws": 75
+          },
+          "shadow": {
+            "triangles": 5918,
+            "draws": 1
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "afterBudgets": {
+        "totals": {
+          "main": {
+            "triangles": 385868,
+            "draws": 81
+          },
+          "shadow": {
+            "triangles": 5918,
+            "draws": 1
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      }
+    }
+  ],
+  "water": [
+    {
+      "pair": "water-sloans-lake-600",
+      "repeatSHAExact": true,
+      "camera": {
+        "position": [
+          479.9371916990588,
+          600,
+          -190.93080230114043
+        ],
+        "direction": [
+          -0.7071067811874858,
+          -0.7071067811856093,
+          3.5138558729386205e-12
+        ],
+        "fov": 50,
+        "near": 150,
+        "far": 5000
+      },
+      "shaderTime": 0,
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "beforeHash": "95d318a16561df6aac274ce1262ec9b97e0fb30521c50755489aa2efadf5add4",
+      "afterHash": "a36d97566ab31b5c826f88e9ec6184dfa5dd50712f1c1cb86e3aed17012b9a97",
+      "beforeMain": {
+        "triangles": 353611,
+        "draws": 112
+      },
+      "afterMain": {
+        "triangles": 353611,
+        "draws": 82
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "sourceHashes": {
+        "web/bakeoff/far-water.js": "3b45225969ee943dcc50a652306120120c3442fce6894130a4c81228d055e111",
+        "web/bakeoff/context-ring.js": "5fb4a4cb8746b74c8c34d3e13434e5b62212e9fcb4c6c3d6a9319eee41e61504",
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-water.mjs": "2c101ce7c92ec5e715c469ee7c1cf39de5177ea1f2b1b5199cdf73e6b9508a24",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270",
+        "Generated/web-capture/farwater-sloans-lake/world.json": "c10d16b6af95c7f7dda31c8d0813a8e82c42b96f2d7cdd1a3ad9811d6fdd9c2a",
+        "Generated/web-capture/farwater-sloans-lake/spatial-cells.json": "6f9bf5a63228ffb4ddb70c21f913499364f740479aaf146c9a46cbe4280a7afc",
+        "Generated/web-capture/farwater-sloans-lake/environment.json": "87e606f7a33327ae4ad7028fec7356c9af6ecef875df78d719c4862e228ebfe5",
+        "Generated/web-capture/farwater-sloans-lake/boundary.glb": "599604ca810d896981c03da7a7d8ef75b508fa8d767fd086f6168d7106e28951",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_0/lod0.glb": "cb9f2f4289765bbbb497e4c664ff39ca4358871a8dab570908f51d27c5fb244f",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_0/lod1.glb": "be3da747be0507b197c1d66618525eb0346ffaf804e584057d2a621f199bca7d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_1/lod0.glb": "0108440453629420d3e88714f9028b5e265e9b4614502495f3486864d7d250f8",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_1/lod1.glb": "b9c7e72867d50aef1d33240a6a7f1d927a704f801c9ba385daf06c3f67c16700",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_2/lod0.glb": "fe219ae4771d7598c9469feba4fde34622c07ba7b2a9d8f5bcd98b23958fbfc2",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_2/lod1.glb": "1e35931ac98228cc7e1d84dd350f8430e057d4d227b7417619ef45d9914e095d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_3/lod0.glb": "32a193976615676fa4aa486f98f092fc88e048aefcca50d017473e746dfc4ea3",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_3/lod1.glb": "5140470bb5cfa8ede226f355ca772b20a556f72c21aaee3aa5c19eb808ded44c",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_4/lod0.glb": "6264993170d1ea7ec7c4b2c28d1333a4b1385dc68e1a790ffdb74e1a798978f5",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_4/lod1.glb": "739c78ebe424ff3557472870c95b8093d36cd7b3a5901a513b9b5af536067abd",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_5/lod0.glb": "442547cf44cfb93440c7e22ef37591ba44945c35189390ce97e2d85fd21b821c",
+        "Generated/web-capture/farwater-sloans-lake/chunks/0_5/lod1.glb": "36ceca99a8b7b317f302114beb5677b48992ac932312ceeaeb7309006c78c6eb",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_0/lod0.glb": "626614a025ea690f314506dbf48196cf3c76e2bdd18685bcfdbbc93d021ea63e",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_0/lod1.glb": "00acd410ea7e8d2491cb9abd781b62cc8a470b2421a114301080b675abd1420e",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_1/lod0.glb": "7a05b98035f4225880df70bcc2d793ff2f025059b1f99536345467f37d95eb15",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_1/lod1.glb": "1fec4426b55722af1f08805ff8fa02451a8600b2130e2fbde4ce04db4411c437",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_2/lod0.glb": "e74fc5b4c035e3610b6e66ac4d813a8dcffa5d895075a7d2ba7bfa93ad3cf3b2",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_2/lod1.glb": "d1e6cdaea9aac693b6332cc1cd2e5d614c0d60217808a147401ae6c13424db73",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_3/lod0.glb": "8a06decb8631321932a6b6a4aba97e57e3391af8aee5555bf109bb1f02cc3192",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_3/lod1.glb": "203067d17b0d3a76b3e6ebd723d8638747f1cde19877a92208794093d7c20f1b",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_4/lod0.glb": "9f1b1ffb065ed4b4f93ef98eec8cc916374a461461f2ef70821b5309d64fb2ee",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_4/lod1.glb": "b534a1a3e27e331c7de3b618e901a44a6d0e12c65065fb457c6fe6594b9494d8",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_5/lod0.glb": "e54dad361d6586bb7bf9415de657f89a1ef42eaa95178a258441eb8b8c25c58f",
+        "Generated/web-capture/farwater-sloans-lake/chunks/1_5/lod1.glb": "7dfc07a7f67d29170c19101e1d84281fdb79123e62a8f573eb6d839f978e9b3c",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_0/lod0.glb": "d9f175fbe7b1eb7908bb1f005a1ff75eb815ea5caf177ddfbf1a8d03aa235e5d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_0/lod1.glb": "3aa102decb0e2783faf2c472de9c870bcd614a4680715baf9b50ecb56b0f71a5",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_1/lod0.glb": "f1b4c127a6ae263eb571a9bfc047cd73c212a020ba9e1319efc9d9892a7e20bb",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_1/lod1.glb": "4bc634ae1612a33602613f31d5d831443aa93291e88eaec710161aba96037dad",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_2/lod0.glb": "25a3bfe4e0abe227db1bb24bb16329b1b4079c7c2a99715d0bd3665f415e0d37",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_2/lod1.glb": "eac73102456c3caa4750e77a4d0b29da8c7da55c4605b6b3a34311df483442a0",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_3/lod0.glb": "855b35dafb4fafac04ca4232ef14e7f85ccd459058a1058284faadab180140ac",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_3/lod1.glb": "a0cb6fd41b73793a56b3d94d458f7aabdeaffe64da1b52d6affeec95d5c212cb",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_4/lod0.glb": "7bb991db054a01970793607bddcc3c9bf338ef5815731790f654522a3a9a43fd",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_4/lod1.glb": "0fbe94fc22bd6f356c4e4f4da001be4e17dc87c819ef5fc6133ee04edb1ef41b",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_5/lod0.glb": "ed24fdabbabeff1ece36d274cb6f25cddcc9a251d9d47f05997cde22dd7c2dec",
+        "Generated/web-capture/farwater-sloans-lake/chunks/2_5/lod1.glb": "5fc0d81d877b2245b9d605e6c955ea12a5811da4283325b5b23bd4a7d5eb89c0",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_0/lod0.glb": "20420b5bf12e9f4ea9ea1b9cc13ad4594695fdcdbd47006f9e06f75ad45755c8",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_0/lod1.glb": "8038e27e7755c0d119eb988c853c87e08f1a681649a570037281b07c29ce4163",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_1/lod0.glb": "cbe3bac28e8745e768b9179c7353d63b2413ea511145fae322bbcf2b216fe344",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_1/lod1.glb": "c41fde20de4fa9631a2e048df752914fe0b32dfc512ab686e898f6c7c4e98f0c",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_2/lod0.glb": "3c40b024e99b0431b2805ff7e8ac97626945886076d6d13e1ffaf5b876cbde10",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_2/lod1.glb": "002207e1882eee99bff2d5a54f53d29b6e0baa3b9e4bed60cd846ff9af93c735",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_3/lod0.glb": "0a21aee814a98520f750a556973e4a69e7c95884bddc47c1528b356d86ec621f",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_3/lod1.glb": "b55a0fe3b4ec9d50031d916ab450154f0f8e652da6124784b7d1642a2ba34f13",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_4/lod0.glb": "1eda2e781153cfa198d0269cb18e3ab67bd608db9f295db255dea7a55332d5a1",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_4/lod1.glb": "ae5805726221229c282afbd2b73b03a3530b28b21063182d034d3309f3cc4bef",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_5/lod0.glb": "18c409430164d5f8c1febb9189932c3d3c89a59194e671161f2d1157e7561d0f",
+        "Generated/web-capture/farwater-sloans-lake/chunks/3_5/lod1.glb": "d5ae47b3e96008d20ff24be25197e611ec0741f9627909df979b8585e1028928",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_0/lod0.glb": "f88fae045bef49b2cdfc4f32e54f92de019f3e6287595b214d315d389d97b5aa",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_0/lod1.glb": "92b7b861f68acd9645ef647d19db81f6ccd5282c92013e711dfae46efae282bb",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_1/lod0.glb": "7542ae77faf70a4099ef2a00e8d1680ef5809f9e7d3657127a16a4bcd7d9e5e6",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_1/lod1.glb": "39e3a802762c2a7baf8c5a95ffb30ee5a2e398a294b265d7cef93542fd9d801b",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_2/lod0.glb": "9a9078ffd4a479e8ecb21d47bc4eb8130e15844458141fed430149d8b35d2dd6",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_2/lod1.glb": "89046ccc2c6f4e1d48355a553f3e4ff41c12cbdb71a7295a62e1e35e8a39f7f5",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_3/lod0.glb": "930f784682e6440577e0b88404e7dfc214f95584db5417b12f5b2156c5949d4d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_3/lod1.glb": "4d86b5bba44257ed2ea10a8ac7c136a456c1474e5e6d77ebc267fe98deaa2e61",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_4/lod0.glb": "fb9b95b143e62060bbdc7c18d1e23bc1c3537df428c0ea69e90336fdb18536df",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_4/lod1.glb": "ceef4443ccc567797fb4d89160d6d30a74b2dc5ad430445dc36b535dcf1b307d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_5/lod0.glb": "7ed1a2bcd32bf756039150c4d08cea58af10a8bc23e4c95d8449bc11e3bac8d0",
+        "Generated/web-capture/farwater-sloans-lake/chunks/4_5/lod1.glb": "a85174f4c5d580732e49626923bd2e17b911cdac7e2bcdbbe4f0fc3c3d0555a0",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_0/lod0.glb": "beed10b43e175ce16a471ed0295e7b1e5f523958e038c0ce7019dca98905be00",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_0/lod1.glb": "a2cdabbc6a360d9013a43c44d2faec2534e962823db6ee693cdbe3f8074c02dd",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_1/lod0.glb": "eb37aa0d217659891a98330df92c4a0a4fbe1ebd8f713c73c45b752aed9ffb40",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_1/lod1.glb": "59c79ed17d2a54dd21d2232396aacee41d2d6673425c37a4dc7556f397de4803",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_2/lod0.glb": "dafe01c1e2608637ed11c153bac1430a18dc295365812cb5e484de6badb5c888",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_2/lod1.glb": "ef2361e075853ffc3fe24c073e2b8c136d6c12fa8a375a5d38a12608a245116d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_3/lod0.glb": "cc26e75d2da5c573f99ab4512e630d371252ab5290a384cbd552f43f50e92091",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_3/lod1.glb": "aa314c96da29414881577e89d2af89ce1104563c55992c755bb326874903a6fb",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_4/lod0.glb": "6be4de9b7b817b20526b18697bedc62d4676174b73f847441719b8f76b181499",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_4/lod1.glb": "3d739b47ab2c3998b932db4b228a5d84b9b9eb847d951023963dbf2c248f64c6",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_5/lod0.glb": "3aac2eee2310fab65112925fa7299337fc53c227899a7ed77726c97d5afea2ae",
+        "Generated/web-capture/farwater-sloans-lake/chunks/5_5/lod1.glb": "b3d6921b8ceee0809df910cddd3e80f0c8aaf12b1af955795476a80754e7167b",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_0/lod0.glb": "c42764a1d976f4d8e5d91e1dd9e17b19b626def7cdda725da91b122d3676a874",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_0/lod1.glb": "09cd94356b111c9dcaebf69125cf77835c10b255874f07e370dc3cab53c15b89",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_1/lod0.glb": "39615e91239e1497bf5ff2c85bb4d0492b7b9a752c53e2d9ea8b9d003d3d031d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_1/lod1.glb": "6e10f83e7c45f8202eb8a3ccca9cd16c5903d2cac7ca6ac1de60d9c04178b1e1",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_2/lod0.glb": "4638988d019b61731b5496d773fbafda6ebb87b13ffbbe71b8a2c7a58db981c1",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_2/lod1.glb": "16bfb7e1e809b8678d973724d4a0473768677cf9a7e1ec9f816a194d972758d5",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_3/lod0.glb": "5af539d3158a04ffeeb39aa86ed88ba427ebda246868988e550410eeedd09c43",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_3/lod1.glb": "c37e01dbeab72f733d457599d5e04752939fadf0ce89e69d2a81d3d68124900c",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_4/lod0.glb": "6cb47d3c67d1e03e94aef09d27911da4c1d40671d03bc108cab63c41e8447936",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_4/lod1.glb": "0498b3b24eda2cbd0efd857e13d4ac6bf0cce65326301081bb62bc2b0882ad3a",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_5/lod0.glb": "c7e35edb8492e3dd8c387b045cafe923ca2b9a0613397c19d001a3c5b71ee4d6",
+        "Generated/web-capture/farwater-sloans-lake/chunks/6_5/lod1.glb": "62001e0c59431a18163f9190ceb27cf7feb5354019b95867ac58c16b7b05e91d",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_0/lod0.glb": "30c9c482c6da600e207e53c31789c94d522bf33ff2b0879bff98de6338a327b5",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_0/lod1.glb": "c8325dc03a7d4c1f8713eb6f57a2443f8d37433da0c89d71afad979ce02e5600",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_1/lod0.glb": "c3d8c7872fae590bbe1112cb89168a88c4ce1a4aea0b24143e580850c4df43fa",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_1/lod1.glb": "a85469f12fd7cba3382efdaa9f4c09b7251009ed34ee4c14176633948916c907",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_2/lod0.glb": "eea2537e6672d860ca05b7f75b4beefcb5099f8d1b9a24ba634bec1f38215075",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_2/lod1.glb": "67b1bd28c6688070d122f8ec02a81645bbbe410f7f351f25b9355cd6432c823b",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_3/lod0.glb": "1f2c7c6871dd29fc5f8476af7d45a422e632f8281a37f0eaf61b55c5331ad9aa",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_3/lod1.glb": "b5c2eb501065bd688001b46d787531a1fc52004904c76ba738c25c797d6b6f5e",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_4/lod0.glb": "fc3cd30dedaac459a249262b5a6b3362ded54749a635a37246b7d8f685b35f54",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_4/lod1.glb": "2d75f83375254da4a4f6221d40801616059f21c3910547f600cbc4bbd9344276",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_5/lod0.glb": "36c446219b3cc718b84262c0707b023cff74a759955ec0badb8bf8830e9a6acd",
+        "Generated/web-capture/farwater-sloans-lake/chunks/7_5/lod1.glb": "80dd5d0db856a2511086d7dc8ed472c130aaffc2b988d2b42ab54c1139a24da0",
+        "web/bakeoff/generated/context/sloans-lake.json": "18b88f7fbefe812d1174b29c4a09d24f13149ed52d7818a5f564edfd9356a348"
+      }
+    },
+    {
+      "pair": "water-lakeview-sheil-park-600",
+      "repeatSHAExact": true,
+      "camera": {
+        "position": [
+          0,
+          600,
+          0
+        ],
+        "direction": [
+          -0.707106781185129,
+          -0.707106781187966,
+          9.893863506249545e-12
+        ],
+        "fov": 50,
+        "near": 150,
+        "far": 5000
+      },
+      "shaderTime": 0,
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "beforeHash": "7e9f9a38b23a8099005a0edc2147418a396b9ff24d3b3a1658cf18f7ac6eb8e4",
+      "afterHash": "7e9f9a38b23a8099005a0edc2147418a396b9ff24d3b3a1658cf18f7ac6eb8e4",
+      "beforeMain": {
+        "triangles": 526478,
+        "draws": 60
+      },
+      "afterMain": {
+        "triangles": 526478,
+        "draws": 56
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "sourceHashes": {
+        "web/bakeoff/far-water.js": "3b45225969ee943dcc50a652306120120c3442fce6894130a4c81228d055e111",
+        "web/bakeoff/context-ring.js": "5fb4a4cb8746b74c8c34d3e13434e5b62212e9fcb4c6c3d6a9319eee41e61504",
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-water.mjs": "2c101ce7c92ec5e715c469ee7c1cf39de5177ea1f2b1b5199cdf73e6b9508a24",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270",
+        "Generated/web-capture/farwater-lakeview-sheil-park/world.json": "686bbd9bf1066cd1fc93df5c57c0ea9d27612e6198d58a648db216af085bc509",
+        "Generated/web-capture/farwater-lakeview-sheil-park/spatial-cells.json": "8cfe8388c8089feb9e413e1b34ad3250514db3873daab3070a1a17e78d97c615",
+        "Generated/web-capture/farwater-lakeview-sheil-park/environment.json": "427d0116c0c886d06d30c3c88dafad8412cf4134e910fc775800c63822719f4e",
+        "Generated/web-capture/farwater-lakeview-sheil-park/boundary.glb": "599604ca810d896981c03da7a7d8ef75b508fa8d767fd086f6168d7106e28951",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_0/lod0.glb": "24ca385bc1cd6584028bc94d732fefd307dbe5c2b051119eb3f0ec95d513ad4b",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_0/lod1.glb": "3b20a54041d2e675f506c34603838e8f831eb3e563f08c5ae90df16fc07a6dbb",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_1/lod0.glb": "52d69a4e197c84d592a4fb4987e7de83f10e8f1bef3f93c4779bbb762042f37f",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_1/lod1.glb": "6ab424531c9db235668ee583e8768ea8af4c7c679b73d2c12d48883816b65caf",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_2/lod0.glb": "fe519ea0a467ce47cf52f81e24154e0a967a65ca458515a7231505040e626c10",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_2/lod1.glb": "5b6670d2b0cd5dd554fbb9864f162f2b117cb3c9e4f222e0ec144434b199c594",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_3/lod0.glb": "ff581c3f89cfe0cbb36df9e1843cd8bd9af6cc11c3465a153dc97df3a7ab6be7",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_3/lod1.glb": "d5b3a4b0fd22095c34b241ea77a9ed21d5a1cd6368323e107d631cb9f8268460",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_4/lod0.glb": "0d6f763e6e855117895f6c309149e7398d010446f0409e35eb227a5cc1af7d29",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/0_4/lod1.glb": "155bbecb40c12b4291ef756d888e192c976ef1b9a97fb16a9c96f51a00943588",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_0/lod0.glb": "d61deca68465b1b177980d43892485fb1547b2663fc49e39b510e9d425b51f43",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_0/lod1.glb": "e4d8790e89092808dfe9a19ee1c562691ddb589509c161c4be04a110073c96ac",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_1/lod0.glb": "75398d31f863d059d340110ac43d23a25c30e3aa87e308d5ad318e4525e374ea",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_1/lod1.glb": "0a5887d71d109c9f80f0a3c8d1680520ba95fdf3dc48ef0fde2d983b36b337df",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_2/lod0.glb": "4a64322a7accc97ade8cf64f7cfc21bc06f4b1a466dc55d949d3f2be18017fbe",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_2/lod1.glb": "e3393cdcac0be3f44b37a0d98ccf9464efaf971bc02947026b43c7e4b3c1d24b",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_3/lod0.glb": "754b976b180a9b304fba0de6c1ed86b93c6695d97ef7c879a591daab47f09219",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_3/lod1.glb": "b1a49562bd08c4a41475056b800cbe0ad0c85b0471219d9816a12e2edab078ba",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_4/lod0.glb": "d835c4538e52e3953df0b592d636fe5d4ccd77e0727269aa9445c47d7f3ba3fc",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/1_4/lod1.glb": "06a8075a070087121939ad2702f1d31ae6bce6a30318c3cdfb498ac62d63763a",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_0/lod0.glb": "292b05df1a2f0fbb11e35c243fc643b9fc1f749a6dba9ea34bfa776168c38007",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_0/lod1.glb": "234a6bc3600b1ddd634199193cbc41281da355ee52dbcd9fb2b6c8745ad7e30a",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_1/lod0.glb": "19b61a19ecf5c65e29ee8b3fb95db76e9f0afd6a1fcc5488f4f9d40a7d40fb88",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_1/lod1.glb": "15e6cae6bf78e9bdf9a6b4c7052bb9cfed39d976e343e48f520d337f73b27b84",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_2/lod0.glb": "d091dc6bbeaeac1a29f07f2e10ce161b8a396af5c76af8959c52ea63afb50d07",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_2/lod1.glb": "0283e5ba305d7b065661a8cf98ec6b2079966181b31bbb434562dcb16bcc7eb6",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_3/lod0.glb": "81964325c0a610e6b8560abfa27a28752e00fedf98d1f5eb15654dad3db3c020",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_3/lod1.glb": "7df0b5bbfe3112e603db14dc971cb795d6d4a48cb5ac85b683487f3d56e30d52",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_4/lod0.glb": "8078edd189a31e6f41ea8941f3381466ad577552a267f6972129377e6a13565f",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/2_4/lod1.glb": "cdafe0c1580382e7d6061d03a6c2e818e90bd262c2b5bd9aa3aa4873f9aba51e",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_0/lod0.glb": "85dcc15cae9e2751f9e9f79ef713f03404802eb1f8fdc5f284a00466e0aab545",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_0/lod1.glb": "b2abeb54be3e47a507948e56d6d4ad846962084d46637368480f56737229c544",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_1/lod0.glb": "4e9c37dae09428707fa7d4206c39505446973e47c80c86a9098749b8cf6de25e",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_1/lod1.glb": "2bbcec9758764a3b220190012a50b98ed0ba26e669d1a269feb5db5a5d32c85b",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_2/lod0.glb": "38683da933f51d118e68b90eaa6df7a264bec5f2e630c763c6345fd24836eb75",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_2/lod1.glb": "4a85d1e852f9c69032507b05340e097fabc93eea739dc11dcad743e41f2e6e3e",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_3/lod0.glb": "f08343de9f48b91c7dec82b3aa0aa029cff8d6a5b274e045eb4e3d3e8926c2d2",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_3/lod1.glb": "91d6104ed24d92755a8a6cbe1957d9e3be7efbdbdc18d89bb4ba3686ee92e03b",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_4/lod0.glb": "7c008ec15447111d0a750de0926bc82b0a9ee334ac727faa99e18c5ff2a37f47",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/3_4/lod1.glb": "f0ab78f5006b7a2f3fe4aa0e756f69a8551976b1b4935697ec2998ce949eb12d",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_0/lod0.glb": "677bd50148f292d9cc98adbc2505946af9a9316df6fe494d8b43312ca746f8da",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_0/lod1.glb": "67a9148f05a015f30e345e37063fa53921de25f736c4adf39dac006e1faa9824",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_1/lod0.glb": "14a0d9e434994bd6784cf8137b41ae1159bb17649f5d866fa8e75891d04f7210",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_1/lod1.glb": "dbd6497d448c946a118d8d0096b56535f812c12770da7b47dce5e9c8ca0287e9",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_2/lod0.glb": "6b9a50741579f33588daf104a6145bf89787525af32eac5110c83ac563403a76",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_2/lod1.glb": "6fc131df80ac38b3689f4cabdb3cc674f1381e005bbd3ee9bac7a426e7b1687f",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_3/lod0.glb": "692a676d84e2cb4fb2527686bbbecf5db71a7f7de0a768d2c9af9a02d697fe88",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_3/lod1.glb": "90926bc03a784e0c5d412090f0899a0f5ee4251ced4d2d465cef9138df681672",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_4/lod0.glb": "0af229e9010f9313b984f359f7fdf75478c644f8beec592f4073eac4723ee0f0",
+        "Generated/web-capture/farwater-lakeview-sheil-park/chunks/4_4/lod1.glb": "33b9e804ab45a9ebd57abcde3457eedc2e685115cb96f81d7471376e90cc5abf",
+        "web/bakeoff/generated/context/lakeview-sheil-park.json": "2078a0a4e7afdfadd1d69300d95eb84e51585b1a7e2f922d255772fe4cefd53e"
+      }
+    },
+    {
+      "pair": "water-wilmette-vattmann-park-600",
+      "repeatSHAExact": true,
+      "camera": {
+        "position": [
+          -289.306198502288,
+          600,
+          140.72579507741324
+        ],
+        "direction": [
+          0.7071067811856807,
+          -0.7071067811874144,
+          -7.198686091669517e-12
+        ],
+        "fov": 50,
+        "near": 150,
+        "far": 5000
+      },
+      "shaderTime": 0,
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "beforeHash": "daad21b16f1e6dcb68ec26ad961a4f90fadfb6f04f847c2524210f7c94f0a264",
+      "afterHash": "daad21b16f1e6dcb68ec26ad961a4f90fadfb6f04f847c2524210f7c94f0a264",
+      "beforeMain": {
+        "triangles": 485157,
+        "draws": 66
+      },
+      "afterMain": {
+        "triangles": 485157,
+        "draws": 62
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "sourceHashes": {
+        "web/bakeoff/far-water.js": "3b45225969ee943dcc50a652306120120c3442fce6894130a4c81228d055e111",
+        "web/bakeoff/context-ring.js": "5fb4a4cb8746b74c8c34d3e13434e5b62212e9fcb4c6c3d6a9319eee41e61504",
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-water.mjs": "2c101ce7c92ec5e715c469ee7c1cf39de5177ea1f2b1b5199cdf73e6b9508a24",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/world.json": "33964f77538001bed5709b0e96a7035c6103b68468861a43e04d00bba3aa4a33",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/spatial-cells.json": "eb11d9f9434d3ca57a7fc38fc84d47789e1847e1338b8d86dd3bf4c6ecdd04bc",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/environment.json": "66cdd801c22af7da6946102c86b4d1c8cf69aad9ee14a21dfe481cf2819899d5",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/boundary.glb": "599604ca810d896981c03da7a7d8ef75b508fa8d767fd086f6168d7106e28951",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_0/lod0.glb": "575ff1c9e53332f3badfc92cda2b39654c1d953e0b0fc518bb828aabd3349985",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_0/lod1.glb": "a53d4f867d33948d120cb90eeffb692550bbbcced7fb3ae51f5d90bbf8349b02",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_1/lod0.glb": "f67e41850cdbcf59ac23771a771f93a976929e5220f568154436f9f8fc270a0c",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_1/lod1.glb": "88c43acb903099ceaa4de5cd4d423ae6d5cc1d95d18a67ecc60e89ac65c82498",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_2/lod0.glb": "a4ce781dd0d126d1f1b6d67b76184f7a6b4f5ea84f5cd81349fcb0a8004f7173",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_2/lod1.glb": "47e43bbc40c51e7f8464bfb4c9f4d7c039f1441b31656a82a171c3f07b545436",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_3/lod0.glb": "68556d0cda3fc53a18d9185df4cd1432264dc705f9b5c1185a153cfecc6de257",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_3/lod1.glb": "9259344ce293fa2e2fd12feb144d380b19cdc72689aefaea113e3efbd097dfff",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_4/lod0.glb": "d29c7de8adc9620a05583be28b685d588246bc42e1a91a58fad2ce72b8309c79",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/0_4/lod1.glb": "e50cf9f9b7ff1b481016c51094d0efa4d473d71fe083ec081f53d69d868231cf",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_0/lod0.glb": "49acb17e7dec0d65e2fb5a2d2c61da47e0a4401d4ff8d1c2633d891404d8a3f9",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_0/lod1.glb": "c20a034439bb5e8d128706f677dcefc4e56fb408dd2dc7b9d16b6945a4c58ccc",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_1/lod0.glb": "a763457cb9e0aa512a9249fb52ecbba178ed7e3eee4afa0d464a7a5973b6558d",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_1/lod1.glb": "59e964e2e855e4e350cb898a46e4b07f9b47b4c3b9ef67a9f0781214bc4888f0",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_2/lod0.glb": "46aa95b616b64f9e3982e4ac1bf655d41f8f261c4a73cf17c8b041db2c6b68e2",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_2/lod1.glb": "587241a3e368d7551ca9d69a0a8cde7431acf035d897db15cb0f161ce5c89596",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_3/lod0.glb": "52a4e8dd5ea3850c899e0f1af9e8265523d7d211db99d96ec74c8eaae5be043f",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_3/lod1.glb": "e09e8737d67ad02c078d9eab5f27bb07582884b6570568085238fe254fbc2148",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_4/lod0.glb": "a91023f9c27880c5a613bc31032112e8c83ef03e0f0723e9179f9472dfc1fbdb",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/1_4/lod1.glb": "3146d5271567e4e07de909041e95ece79ecdd4370e5edc42c11e7ef09de04b77",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_0/lod0.glb": "aadd10bf9e3460faeb745dd6b096763b328346337dba8cd43c391c96892a757f",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_0/lod1.glb": "a8cdf35d11ccc5646b7447f08b6e36ff32542f15a264cb2b87d01c01194f6777",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_1/lod0.glb": "dc6d935ee764be7a93892d2f8f0bfbda1731593f4500b3911703f884d3c90f8e",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_1/lod1.glb": "b12fedc9b0cc4ac7a6cae45320f3887df6bb40195383dad48af22f77a88c9926",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_2/lod0.glb": "32a4b5500da5f0ba88fea535067df5b42ef3ec4a5b8cf2d1b1e3c364eacdb8f4",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_2/lod1.glb": "47979d1bc786a9bcb2f7d196cfd8a11b2c18305c76c7b343acaab99cc86986f0",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_3/lod0.glb": "8ab62abf91df74db2e1614c9d1fcbcc1ff8b50d8e6aea49e1247210b1a1e3e20",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_3/lod1.glb": "3e0cf78a189fe9985623131cfa19167d939d3020c2d83e5124641c2c526aa0a0",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_4/lod0.glb": "382d64ee1fe90b06d7a51a7ef19993076647afcfdae6ab2997a6606fce83de1d",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/2_4/lod1.glb": "26827addcff9a14b98d5f4d50d40affdb2a2275c198abbd6bc1c2cb02dc0434f",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_0/lod0.glb": "8a9d2dedad26fc03ed45fdf268b3ff1ac56eac4091ee7157c9a58aabcc109145",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_0/lod1.glb": "7e591ab09f68be7984a7fcac1b880ff4acea47a3e759f15243dff003f588f239",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_1/lod0.glb": "97e0069c67b655cff64b3ca83a6e3cbd969c349bddbed6a495ad8c91fc28fadb",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_1/lod1.glb": "14a6751907305aaa2e6a5a8b14c51602a0a4e731333851bc18a6c259018af861",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_2/lod0.glb": "33f81697563c5fef5fd6e33d281b9fee698e11da39a63b25a25ffb609371d156",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_2/lod1.glb": "6e4fa21de559ebf4a0595a2bbf9af6c4073dc13a26640fb8c071a9491e079ac0",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_3/lod0.glb": "ba51ecc8711d73e030d23c8fb247416dd25f64df9a287b15b9dff457aa9cd02c",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_3/lod1.glb": "45a7fae3346acfd9695379b101c8fc6d537b4cf9a3bcaa38f08e2d74238f46ee",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_4/lod0.glb": "0b8749e8c2cbd0711adc7adc0694b4046a5e59417309542f445cd4db6bca58d8",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/3_4/lod1.glb": "a247759a1ee7d3a1846265587468e5f396daa074ff12e361c6ddddac49ea8b0a",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_0/lod0.glb": "d9f6a29fca023f2a6ab494a96906fe5a88d2ef8c7ed8edca1e7ae02207a9aa45",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_0/lod1.glb": "b4ef337d4361adaf62b7892ac9dfc657c4293f862132df6f7b3d8a75f274ac5b",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_1/lod0.glb": "329e25177e9cf1cd73e1566ae5fee6c29cc064a9ab8fd6bbdaa6bbfdfedb39cb",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_1/lod1.glb": "a8b53699638f944ee82946beeedd5b477dff8cb84f5377301cbf7be5f7e8890a",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_2/lod0.glb": "cc096d4cdde23bd21abf5517f56bb372b3a74582e903514dbebe6980b5bf7535",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_2/lod1.glb": "30f60930e08977a3aba22a57dfb86da0f39da70cff06cb912a00b01720a96a1d",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_3/lod0.glb": "8e6b92de37dcd9aaa1226f22018e803d93859aea857219cb4210ebe101e74fb5",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_3/lod1.glb": "489fa8652108cf5808d6df76a40a0a602baddc552ce79928ec9d3d0f20918d60",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_4/lod0.glb": "996ec71d089a3f6ba30a6bf40b5fb3c59d0be01b3866e41488d4ae3a31d33e9e",
+        "Generated/web-capture/farwater-wilmette-vattmann-park/chunks/4_4/lod1.glb": "08cfb97cff00176ed069a55d9fa38c652b2a6bdd42b9b69d43f9b4b1ed74fd5e",
+        "web/bakeoff/generated/context/wilmette-vattmann-park.json": "2c96ab5fc9a10fd5c973b60f2457260357e1a92519b360cce75ce2f65e658a82"
+      }
+    }
+  ]
+}

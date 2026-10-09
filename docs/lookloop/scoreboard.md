@@ -272,3 +272,12 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | OFF/ON light trial; three fresh sessions | Light/materials/overall ON preferred6/6 at40/150m;600m all ties. Whole-point overall2 throughout | Lakeview150m overall tie6/6, overall2; light/materials2ON+4ties inconclusive | [Report](../review/light-trial-paired-scores.md). All6 identical controls pass; no promotion. |
+
+## Context masses and far-water/ring — 9 Oct 2026, no promotion
+
+Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not the historical 4/3 threshold above; no historical result is retroactively promoted.
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Context OFF/ON600; three fresh sessions | Ground ON6/6, grade2→2; overall2→2, 2ON/4ties inconclusive | Lakeview/Wilmette ground1→2 all sessions, ON6/6; overall2ON/4ties inconclusive, AFTER2; other aspects ties | [Report](../review/context-water-paired-scores.md). No loss, no ship pass; light1 and foliage1/2 variation disclosed. |
+| Far-water/ring600 BEFORE/AFTER | All six aspects tie6/6; overall2→2 | Lakeview/Wilmette all six aspects tie6/6; overall2→2; ground1/2 inter-session variation | No visible loss; six identical controls pass. A4 final frames/provenance pending; West Highland/Greenville ungraded. |

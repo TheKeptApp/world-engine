@@ -93,3 +93,7 @@ Used: spatial-cells-prototype.md §§Corrected capture gate, Unchanged shadow co
 [Light-trial blind review](../review/light-trial-paired-scores.md): three fresh sessions; six identical controls pass. ON wins light/materials/overall 6/6 at Sloan 40/150 m; Sloan 600 m ties all four aspects. Lakeview 150 m overall ties 6/6; light/materials 2 ON + 4 ties, inconclusive. Saturation ties throughout; no OFF→ON whole-point movement. Default off; experimental lower fill remains unapproved; no promotion or gate pass. A4/A5 far-geometry 600 m review pending matched delivered frames and hashes; same protocol.
 
 Used: A2 light-trial evidence and paired protocol0bd9d52. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.
+
+### Context and far-water/ring paired review — 9 Oct 2026
+
+[Context/water blind review](../review/context-water-paired-scores.md): three fresh sessions, six identical controls pass. Context ground ON wins6/6 at Sloan/Lakeview/Wilmette600; Lakeview/Wilmette ground1→2 in all sessions, Sloan2→2. Overall2ON/4ties at each site, inconclusive; all other aspects tie6/6. Water/ring all six aspects tie6/6 at all three sites, overall2→2; no visible loss. No hold-out regression in Lakeview/Wilmette; West Highland/Greenville visual pending. No promotion or ship-bar pass. A4 final far-parent delivery/provenance pending (working source hashes differ in three files); no A4 score.
