@@ -1,0 +1,15 @@
+// Capture-only readback of the Float32 depth values sampled by the shadow shader.
+// Call after the normal frame screenshot and stop animation; the page is closed afterwards.
+export function readShadowDepth(b){
+ const renderer=b.renderer,gl=renderer.backend.gl,lights=[];b.scene.traverse(o=>{if(o.isDirectionalLight&&o.castShadow)lights.push(o);});if(lights.length!==1)throw Error('One shadow map required');
+ const depth=lights[0].shadow.map?.depthTexture;if(!depth)throw Error('Shadow depth texture unavailable');const gpu=renderer.backend.get(depth).textureGPU;if(!gpu)throw Error('Shadow GPU texture unavailable');
+ const width=depth.image.width,height=depth.image.height,program=gl.createProgram(),shaders=[];
+ const compile=(type,source)=>{const s=gl.createShader(type);shaders.push(s);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));gl.attachShader(program,s);};
+ compile(gl.VERTEX_SHADER,'#version 300 es\nvoid main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);gl_Position=vec4(p*2.-1.,0.,1.);}');
+ compile(gl.FRAGMENT_SHADER,'#version 300 es\nprecision highp float;precision highp int;uniform highp sampler2D sourceDepth;out vec4 color;void main(){uint d=floatBitsToUint(texelFetch(sourceDepth,ivec2(gl_FragCoord.xy),0).r);color=vec4(float(d&255u),float((d>>8u)&255u),float((d>>16u)&255u),float(d>>24u))/255.;}');
+ gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));
+ const texture=gl.createTexture(),framebuffer=gl.createFramebuffer(),vao=gl.createVertexArray();gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.texStorage2D(gl.TEXTURE_2D,1,gl.RGBA8,width,height);gl.bindFramebuffer(gl.FRAMEBUFFER,framebuffer);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('Shadow readback framebuffer incomplete');
+ gl.bindTexture(gl.TEXTURE_2D,gpu);const compare=gl.getTexParameter(gl.TEXTURE_2D,gl.TEXTURE_COMPARE_MODE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_COMPARE_MODE,gl.NONE);gl.bindSampler(0,null);gl.useProgram(program);gl.uniform1i(gl.getUniformLocation(program,'sourceDepth'),0);gl.bindVertexArray(vao);gl.viewport(0,0,width,height);for(const option of [gl.DITHER,gl.BLEND,gl.DEPTH_TEST,gl.CULL_FACE,gl.SCISSOR_TEST])gl.disable(option);gl.colorMask(true,true,true,true);gl.drawArrays(gl.TRIANGLES,0,3);
+ const bytes=new Uint8Array(width*height*4);gl.readPixels(0,0,width,height,gl.RGBA,gl.UNSIGNED_BYTE,bytes);const error=gl.getError();gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_COMPARE_MODE,compare);gl.deleteVertexArray(vao);gl.deleteFramebuffer(framebuffer);gl.deleteTexture(texture);gl.deleteProgram(program);shaders.forEach(s=>gl.deleteShader(s));if(error!==gl.NO_ERROR)throw Error('Shadow readback GL error '+error);
+ let binary='';for(let i=0;i<bytes.length;i+=16384)binary+=String.fromCharCode(...bytes.subarray(i,i+16384));return {width,height,encoding:'little-endian Float32 sampled depth',base64:btoa(binary)};
+}

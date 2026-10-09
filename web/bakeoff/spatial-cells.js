@@ -17,6 +17,7 @@ export function describeRows(mesh,feature){
 export function validateSpatialQuery(q){
  if(q.get('spatialCells')!=='1'||['sceneBudget','baseline'].some(k=>q.has(k))||['crownV2','crownV3','foliageExp1'].some(k=>q.has(k)&&q.get(k)!=='off'))throw Error('spatialCells=1 requires default crown/foliage OFF, no other experiment');
  if(q.has('spatialGroup')&&!['400','800'].includes(q.get('spatialGroup')))throw Error('spatialGroup must be 400 or 800');
+ if(q.has('spatialMergeRuns')&&!['0','1'].includes(q.get('spatialMergeRuns')))throw Error('spatialMergeRuns must be 0 or 1');
  if(q.has('spatialFar'))throw Error('Simplified far parents are unavailable until the lossless pixel gate passes');
 }
 const box=a=>new T.Box3(new T.Vector3(...a.slice(0,3)),new T.Vector3(...a.slice(3)));
@@ -36,11 +37,11 @@ export function orderedCellRuns(rows,index,groupMetres){
   if(current?.cell!==cell){current={cell,atoms:[]};runs.push(current);}let atom=current.atoms.at(-1);if(atom?.row!==row){atom={row,indices:[]};current.atoms.push(atom);}atom.indices.push(...ids);
  }return runs;
 }
-export function installSpatialCells(scene,camera,{renderer,features=new WeakMap(),sidecar,groupMetres=800}={}){
+export function installSpatialCells(scene,camera,{renderer,features=new WeakMap(),sidecar,groupMetres=800,mergeSourceRuns=false}={}){
  if(sidecar?.schema!==SCHEMA||![400,800].includes(groupMetres))throw Error('Invalid spatial sidecar/group size');
  renderer?.setOpaqueSort(spatialOpaqueSort);scene.updateMatrixWorld(true);const root=new T.Group();root.name='spatial cells opt-in main';scene.add(root);
  const sources=[],known=new WeakSet(),pools=new Map(),scratch=new T.Matrix4(),bounds=new T.Box3(),frustum=new T.Frustum();
- const report={enabled:true,schema:SCHEMA,leafMetres:100,pageMetres:200,groupMetres,geometryErrorMetres:0,updates:0,rebuilds:0,bufferBytes:0,exportRows:0,derivedRows:0};
+ const report={enabled:true,schema:SCHEMA,leafMetres:100,pageMetres:200,groupMetres,mergeSourceRuns,geometryErrorMetres:0,updates:0,rebuilds:0,bufferBytes:0,exportRows:0,derivedRows:0};
  let previous='',pages=new Map();
  const attached=o=>{for(let p=o;p;p=p.parent){if(p===root)return false;if(p===scene)return true;}return false;};
  function collect(){
@@ -71,7 +72,7 @@ export function installSpatialCells(scene,camera,{renderer,features=new WeakMap(
    // Preserve original model transforms; no Float32 world-matrix rebaking.
    const base=JSON.stringify([o.isInstancedMesh,o.material.uuid,s.key,attrs,o.matrixWorld.elements,o.renderOrder,o.receiveShadow,o.userData.costCategory,o.material.transparent||!o.isInstancedMesh?o.uuid:null]);
    const put=(key,atom)=>{if(!bins.has(key))bins.set(key,{o,atoms:[],base,order:order++});bins.get(key).atoms.push(atom);};
-   if(o.isInstancedMesh)put(base,{s});else{const runs=orderedCellRuns(s.rows,g.index,groupMetres);runs.forEach((run,i)=>{for(const atom of run.atoms)put(base+'/'+i,{s,...atom});});}
+   if(o.isInstancedMesh)put(base,{s});else{const runs=orderedCellRuns(s.rows,g.index,groupMetres);runs.forEach((run,i)=>{for(const atom of run.atoms)put(mergeSourceRuns?base:base+'/'+i,{s,...atom});});}
   }
   const staticStorage=new Map();
   for(const b of bins.values())if(!b.o.isInstancedMesh){let store=staticStorage.get(b.base);if(!store){store={sources:new Set()};staticStorage.set(b.base,store);}for(const {s}of b.atoms)store.sources.add(s);}

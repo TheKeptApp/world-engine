@@ -1,0 +1,4831 @@
+{
+  "status": "stopped-for-R-draw-budget",
+  "defaultOff": true,
+  "shippingChanged": false,
+  "shadowOnlyViews": 12,
+  "shadowStressViews": 12,
+  "combinedViews": 6,
+  "repeatControls": 30,
+  "pixelGate": {
+    "max": 0,
+    "mean": 0
+  },
+  "floor": {
+    "mainTrianglesStrictlyBelow": 400000,
+    "mainDrawsAtMost": 100,
+    "shadowTrianglesAtMost": 150000
+  },
+  "rows": [
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 656467,
+        "draws": 169
+      },
+      "variantMain": {
+        "triangles": 656467,
+        "draws": 169
+      },
+      "defaultShadow": {
+        "triangles": 560465,
+        "draws": 111
+      },
+      "variantShadow": {
+        "triangles": 206614,
+        "draws": 101
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -353851,
+        "draws": -10
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 191315,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "92d4209a7f099283c6aacf7e78551aee8348fbe54da67ad1b487fa09b23e9318",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 785361,
+        "draws": 238
+      },
+      "variantMain": {
+        "triangles": 785361,
+        "draws": 238
+      },
+      "defaultShadow": {
+        "triangles": 572162,
+        "draws": 113
+      },
+      "variantShadow": {
+        "triangles": 223517,
+        "draws": 105
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -348645,
+        "draws": -8
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 203012,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "92d4209a7f099283c6aacf7e78551aee8348fbe54da67ad1b487fa09b23e9318",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 502798,
+        "draws": 285
+      },
+      "variantMain": {
+        "triangles": 502798,
+        "draws": 285
+      },
+      "defaultShadow": {
+        "triangles": 75831,
+        "draws": 4
+      },
+      "variantShadow": {
+        "triangles": 12578,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -63253,
+        "draws": -3
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 12578,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-sloans-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "92d4209a7f099283c6aacf7e78551aee8348fbe54da67ad1b487fa09b23e9318",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 1057862,
+        "draws": 210
+      },
+      "variantMain": {
+        "triangles": 1057862,
+        "draws": 210
+      },
+      "defaultShadow": {
+        "triangles": 924485,
+        "draws": 123
+      },
+      "variantShadow": {
+        "triangles": 83662,
+        "draws": 110
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -840823,
+        "draws": -13
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 63486,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "d9942677fd075a2eb4617501eff908efb499255aba19b71a967e66fd1d8e7542",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 1181951,
+        "draws": 224
+      },
+      "variantMain": {
+        "triangles": 1181951,
+        "draws": 224
+      },
+      "defaultShadow": {
+        "triangles": 996184,
+        "draws": 149
+      },
+      "variantShadow": {
+        "triangles": 112279,
+        "draws": 136
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -883905,
+        "draws": -13
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 73576,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "d9942677fd075a2eb4617501eff908efb499255aba19b71a967e66fd1d8e7542",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 936137,
+        "draws": 203
+      },
+      "variantMain": {
+        "triangles": 936137,
+        "draws": 203
+      },
+      "defaultShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "variantShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 2280,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-scoreboard-lakeview-v3/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "d9942677fd075a2eb4617501eff908efb499255aba19b71a967e66fd1d8e7542",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "28d81970fb0c97144b42db98a6b353257047df55202b2172c87d9c19c678559f",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 729101,
+        "draws": 182
+      },
+      "variantMain": {
+        "triangles": 729101,
+        "draws": 182
+      },
+      "defaultShadow": {
+        "triangles": 69639,
+        "draws": 62
+      },
+      "variantShadow": {
+        "triangles": 61209,
+        "draws": 60
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -8430,
+        "draws": -2
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 676108,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "48f9715fbbb194e0e69f8bb13fc6287b2e4406182b1783bac2f9cc0f2eb7fb5f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 791795,
+        "draws": 251
+      },
+      "variantMain": {
+        "triangles": 791795,
+        "draws": 251
+      },
+      "defaultShadow": {
+        "triangles": 67961,
+        "draws": 42
+      },
+      "variantShadow": {
+        "triangles": 21291,
+        "draws": 32
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -46670,
+        "draws": -10
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 676108,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "48f9715fbbb194e0e69f8bb13fc6287b2e4406182b1783bac2f9cc0f2eb7fb5f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 624433,
+        "draws": 292
+      },
+      "variantMain": {
+        "triangles": 624433,
+        "draws": 292
+      },
+      "defaultShadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "variantShadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 676108,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-sloans-v4/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "48f9715fbbb194e0e69f8bb13fc6287b2e4406182b1783bac2f9cc0f2eb7fb5f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 320733,
+        "draws": 112
+      },
+      "variantMain": {
+        "triangles": 320733,
+        "draws": 112
+      },
+      "defaultShadow": {
+        "triangles": 76124,
+        "draws": 79
+      },
+      "variantShadow": {
+        "triangles": 67505,
+        "draws": 76
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -8619,
+        "draws": -3
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 802816,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "4b3cb75a91b9d78fb341e1f9b3ea7e30025e36ac6f628975606e7237407cf904",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 323901,
+        "draws": 131
+      },
+      "variantMain": {
+        "triangles": 323901,
+        "draws": 131
+      },
+      "defaultShadow": {
+        "triangles": 73212,
+        "draws": 62
+      },
+      "variantShadow": {
+        "triangles": 26436,
+        "draws": 51
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -46776,
+        "draws": -11
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 802816,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "4b3cb75a91b9d78fb341e1f9b3ea7e30025e36ac6f628975606e7237407cf904",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-only",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 209528,
+        "draws": 101
+      },
+      "variantMain": {
+        "triangles": 209528,
+        "draws": 101
+      },
+      "defaultShadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "variantShadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 802816,
+      "frame": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-cells-bakeoff-lakeview-v5/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "4b3cb75a91b9d78fb341e1f9b3ea7e30025e36ac6f628975606e7237407cf904",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/light-edge",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 747693,
+        "draws": 243
+      },
+      "variantMain": {
+        "triangles": 747693,
+        "draws": 243
+      },
+      "defaultShadow": {
+        "triangles": 526080,
+        "draws": 118
+      },
+      "variantShadow": {
+        "triangles": 246251,
+        "draws": 112
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -279829,
+        "draws": -6
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 225232,
+      "shadowBuffersBytes": 7667780,
+      "shadowAudit": {
+        "offscreenInstances": 130,
+        "offscreenTriangles": 7429,
+        "edgeInstances": 70,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 0,
+            "bounds": [
+              401.5894259358315,
+              0.027406437760387092,
+              -219.51112951733688,
+              403.01946438792254,
+              0.7414309074179073,
+              -218.08140222830406
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 31,
+            "bounds": [
+              422.3405699172395,
+              0.028051088172645677,
+              -367.0789383609762,
+              423.78919180153105,
+              0.7588707419672573,
+              -365.634376588266
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 1",
+            "instance": 0,
+            "bounds": [
+              412.27644386402955,
+              -0.043986357659406394,
+              -210.55045197305242,
+              413.30272859166865,
+              0.934710147372698,
+              -209.43001116704198
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 1",
+            "instance": 37,
+            "bounds": [
+              421.8346926295854,
+              -0.0519935167135257,
+              -365.562125898649,
+              423.50181006722056,
+              1.1048622858485686,
+              -363.9513458643388
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 1",
+            "instance": 38,
+            "bounds": [
+              422.18640116913355,
+              -0.043876236888552356,
+              -366.81468812420337,
+              423.3575231643924,
+              0.932370080874108,
+              -365.5654766740058
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 1",
+            "instance": 39,
+            "bounds": [
+              422.2113809877462,
+              -0.0392899981299788,
+              -368.0248535963917,
+              423.51253912324313,
+              0.834912502342462,
+              -366.7073318218742
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 1",
+            "instance": 17,
+            "bounds": [
+              353.9653532723319,
+              -0.030743078498324472,
+              -248.62589835101343,
+              354.5636885506533,
+              1.0375789408344502,
+              -248.0361505266415
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 1",
+            "instance": 22,
+            "bounds": [
+              355.7365073536068,
+              -0.0413877573299164,
+              -269.2574642227645,
+              356.60513272235954,
+              1.396836865775441,
+              -268.3820864828503
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 31,
+            "bounds": [
+              422.3405699172395,
+              0.028051088172645677,
+              -367.0789383609762,
+              423.78919180153105,
+              0.7588707419672573,
+              -365.634376588266
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 30,
+            "bounds": [
+              422.5410493181727,
+              0.05638707839794144,
+              -364.7820837123623,
+              423.55124337282354,
+              0.5978290796683261,
+              -363.7602999160804
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 45,
+            "bounds": [
+              453.50207206150355,
+              0.0466915114107227,
+              -281.9947285625729,
+              454.3246616569502,
+              0.49503439596569976,
+              -281.16048271497453
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 46,
+            "bounds": [
+              453.4986413031,
+              0.062372104981282206,
+              -277.8300365249599,
+              454.35343163125236,
+              0.6612837404836611,
+              -276.9407859751901
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 1",
+            "instance": 3,
+            "bounds": [
+              431.0947134320883,
+              -0.04231579685995435,
+              -249.97488134689993,
+              431.9198437126432,
+              0.4760527127040035,
+              -249.09906604864864
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 1",
+            "instance": 4,
+            "bounds": [
+              428.0998245653566,
+              -0.03963383824451627,
+              -261.9407576292317,
+              428.86959027764084,
+              0.4458806784052136,
+              -261.1228622121414
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 1",
+            "instance": 18,
+            "bounds": [
+              429.18345581056246,
+              -0.032479559649238876,
+              -344.82265752579536,
+              429.8464699152836,
+              0.36539504454148997,
+              -344.12783675749915
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 1",
+            "instance": 19,
+            "bounds": [
+              430.9638157839688,
+              -0.03542359988189636,
+              -346.85024185666316,
+              431.74195812003876,
+              0.3985154970217941,
+              -346.09789121558646
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/light-edge-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/light-edge-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/offscreen-caster",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 464034,
+        "draws": 63
+      },
+      "variantMain": {
+        "triangles": 464034,
+        "draws": 63
+      },
+      "defaultShadow": {
+        "triangles": 581616,
+        "draws": 117
+      },
+      "variantShadow": {
+        "triangles": 232395,
+        "draws": 111
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -349221,
+        "draws": -6
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 218927,
+      "shadowBuffersBytes": 7667780,
+      "shadowAudit": {
+        "offscreenInstances": 93,
+        "offscreenTriangles": 3892,
+        "edgeInstances": 87,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 2",
+            "instance": 53,
+            "bounds": [
+              679.0678177478164,
+              -0.03770853821222886,
+              -289.0372847912461,
+              680.6971969006211,
+              0.7918790527231181,
+              -287.4079056384414
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 2",
+            "instance": 23,
+            "bounds": [
+              613.0786926877081,
+              0.024229139444770453,
+              -321.2253234255732,
+              614.4557311404169,
+              0.7834085746089272,
+              -319.8482849728643
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 2",
+            "instance": 49,
+            "bounds": [
+              613.8105321380683,
+              -0.04630400077319141,
+              -321.79734837151625,
+              615.4446897056888,
+              0.983960066022874,
+              -320.193498851223
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/1,0 2",
+            "instance": 88,
+            "bounds": [
+              678.9541337830586,
+              -0.04670204058210459,
+              -288.79902891562585,
+              680.5506265580713,
+              0.992418412388588,
+              -287.161441023097
+            ]
+          },
+          {
+            "mesh": "LOD bush/5/1,0 1",
+            "instance": 53,
+            "bounds": [
+              597.103272907707,
+              -0.049521917189912834,
+              -293.108511437422,
+              597.8967271660863,
+              1.17614554479065,
+              -290.8415010647829
+            ]
+          },
+          {
+            "mesh": "LOD bush/5/1,0 2",
+            "instance": 118,
+            "bounds": [
+              671.517951965332,
+              -0.03321144029770551,
+              -292.88746680553527,
+              673.732048034668,
+              1.0516956197375293,
+              -292.11253319446473
+            ]
+          },
+          {
+            "mesh": "LOD bush/5/1,0 2",
+            "instance": 119,
+            "bounds": [
+              673.4655702114105,
+              -0.033283259124682996,
+              -292.88830469185444,
+              675.684454202652,
+              1.053969882614112,
+              -292.11169530814556
+            ]
+          },
+          {
+            "mesh": "LOD bush/5/1,0 2",
+            "instance": 120,
+            "bounds": [
+              675.4361034631729,
+              -0.032667627796509224,
+              -292.8811223263209,
+              677.6139453649521,
+              1.0344748903641587,
+              -292.1188776736791
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 2",
+            "instance": 68,
+            "bounds": [
+              609.0655549880023,
+              -0.03913759395615557,
+              -286.1805692795759,
+              610.3726774338727,
+              0.8218892138813203,
+              -284.8734468337054
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 2",
+            "instance": 69,
+            "bounds": [
+              630.7942878423402,
+              -0.037768044650619004,
+              -283.9912956537536,
+              632.3226555170348,
+              0.7931286875352157,
+              -282.4629279790589
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 31,
+            "bounds": [
+              552.0555576732141,
+              0.05168786008370674,
+              -220.4643043258672,
+              553.0141116698617,
+              0.5480068608235555,
+              -219.50372175943153
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 32,
+            "bounds": [
+              551.9879251773971,
+              0.06427428828181903,
+              -216.87815594683534,
+              553.0721995950486,
+              0.6814511356427957,
+              -215.77234586654708
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 2",
+            "instance": 23,
+            "bounds": [
+              613.0786926877081,
+              0.024229139444770453,
+              -321.2253234255732,
+              614.4557311404169,
+              0.7834085746089272,
+              -319.8482849728643
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 2",
+            "instance": 24,
+            "bounds": [
+              615.4344059554455,
+              0.016352610024782166,
+              -321.04337724767953,
+              616.4305842789295,
+              0.5287342103029289,
+              -320.04719892419547
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 2",
+            "instance": 25,
+            "bounds": [
+              619.0249296749099,
+              0.024189395529731428,
+              -321.1655000125901,
+              620.2363007938401,
+              0.7821235217946878,
+              -319.9541288936599
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 2",
+            "instance": 26,
+            "bounds": [
+              624.768341240291,
+              0.024195292100216648,
+              -321.28942853509966,
+              626.181609931584,
+              0.7823141775086242,
+              -319.8761598438066
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/offscreen-caster-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/offscreen-caster-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/low-sun",
+      "altitude": 8,
+      "defaultMain": {
+        "triangles": 769719,
+        "draws": 313
+      },
+      "variantMain": {
+        "triangles": 769719,
+        "draws": 313
+      },
+      "defaultShadow": {
+        "triangles": 579573,
+        "draws": 126
+      },
+      "variantShadow": {
+        "triangles": 255580,
+        "draws": 120
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -323993,
+        "draws": -6
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 210423,
+      "shadowBuffersBytes": 7667780,
+      "shadowAudit": {
+        "offscreenInstances": 387,
+        "offscreenTriangles": 20386,
+        "edgeInstances": 129,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 28,
+            "bounds": [
+              425.54623583159105,
+              0.021322456086179997,
+              -190.0398412188942,
+              426.6549152529722,
+              0.5768399418623176,
+              -188.93304525570665
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 51,
+            "bounds": [
+              453.8663523819567,
+              0.024561796480345066,
+              -235.78991912502903,
+              455.1087442895297,
+              0.6644743549472878,
+              -234.55347175398296
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/1,0 1",
+            "instance": 40,
+            "bounds": [
+              488.0588414974257,
+              0.04624452042739158,
+              -288.8455792163729,
+              488.9162498516722,
+              0.490295292331016,
+              -287.9918565949009
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 1",
+            "instance": 27,
+            "bounds": [
+              488.64766498396625,
+              -0.04029816060591873,
+              -288.55939232627276,
+              489.3790828669187,
+              0.45335430494005635,
+              -287.76929567546193
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 2",
+            "instance": 14,
+            "bounds": [
+              429.15531981544945,
+              -0.032479559649238876,
+              -344.8613759832793,
+              429.84468018455055,
+              0.36539504454148997,
+              -344.1386240167207
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 2",
+            "instance": 15,
+            "bounds": [
+              430.9189211243312,
+              -0.03542359988189636,
+              -346.8769581495236,
+              431.7282956725438,
+              0.3985154970217941,
+              -346.09466050282015
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 2",
+            "instance": 17,
+            "bounds": [
+              431.9317334215641,
+              -0.028825918983833798,
+              -348.69163982791895,
+              432.6048876721859,
+              0.32429158722581874,
+              -348.0271712072373
+            ]
+          },
+          {
+            "mesh": "LOD bush/2/1,0 2",
+            "instance": 20,
+            "bounds": [
+              435.0596547792098,
+              -0.026071638478227577,
+              -353.8716416890139,
+              435.6615366270402,
+              0.29330593166600494,
+              -353.2625746195798
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 3,
+            "bounds": [
+              422.25625211558145,
+              0.022414382241773723,
+              -261.7242564657401,
+              423.1436131195043,
+              0.6063800012984757,
+              -260.850937354724
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 4,
+            "bounds": [
+              425.07849292031364,
+              0.021976656615624535,
+              -269.864973927144,
+              426.20156508866353,
+              0.594538137316249,
+              -268.73786317127013
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 5,
+            "bounds": [
+              421.5592739788931,
+              0.019932269497834554,
+              -279.7071329462732,
+              422.53819211468834,
+              0.5392309934579771,
+              -278.72197080254983
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 6,
+            "bounds": [
+              419.9253968781866,
+              0.026748226942689968,
+              -286.69172669076676,
+              421.3210941469241,
+              0.7236242209705779,
+              -285.2962176662577
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 7,
+            "bounds": [
+              417.8139674143216,
+              0.025839150146310885,
+              -286.6181717759328,
+              419.04570847723113,
+              0.6990308155836829,
+              -285.39663474912254
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 8,
+            "bounds": [
+              420.2273548907632,
+              0.020651097306352284,
+              -293.0912468919691,
+              421.09711203202176,
+              0.5586775614142425,
+              -292.21003359155674
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 9,
+            "bounds": [
+              418.63309031811764,
+              0.020112845092096876,
+              -293.05167416545487,
+              419.4329911985476,
+              0.5441161349667709,
+              -292.26429588709954
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/1,0 1",
+            "instance": 32,
+            "bounds": [
+              419.9549779125044,
+              0.026124847038445864,
+              -314.5560299459884,
+              421.15337673683126,
+              0.7067598210032884,
+              -313.3696784030653
+            ]
+          }
+        ],
+        "syntheticLowSun": {
+          "kind": "low-sun",
+          "elevationDegrees": 6.5,
+          "synthetic": true,
+          "frames": 6
+        }
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/low-sun-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/low-sun-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/light-edge",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 1115890,
+        "draws": 237
+      },
+      "variantMain": {
+        "triangles": 1115890,
+        "draws": 237
+      },
+      "defaultShadow": {
+        "triangles": 1003011,
+        "draws": 147
+      },
+      "variantShadow": {
+        "triangles": 116571,
+        "draws": 138
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -886440,
+        "draws": -9
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 76874,
+      "shadowBuffersBytes": 19460356,
+      "shadowAudit": {
+        "offscreenInstances": 105,
+        "offscreenTriangles": 7226,
+        "edgeInstances": 19,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/0/0,0 1",
+            "instance": 4,
+            "bounds": [
+              48.86518142460089,
+              0.0268867226660241,
+              -169.6465141929063,
+              50.22698823095133,
+              0.727370968750165,
+              -168.2910827462791
+            ]
+          },
+          {
+            "mesh": "LOD treeOpen/0/-1,0 1",
+            "instance": 1,
+            "bounds": [
+              -132.55150433378284,
+              0,
+              -60.451627690231646,
+              -118.86577951993894,
+              12.542786907887375,
+              -46.77579858128075
+            ]
+          },
+          {
+            "mesh": "LOD treeOpen/0/0,0 1",
+            "instance": 4,
+            "bounds": [
+              54.32841995237695,
+              0,
+              -173.45159289278664,
+              69.88095062469424,
+              12.584773681345496,
+              -157.8426077788169
+            ]
+          },
+          {
+            "mesh": "LOD treeOpen/0/0,0 1",
+            "instance": 5,
+            "bounds": [
+              53.300267682247124,
+              0,
+              -163.6528309691609,
+              73.03662331717456,
+              14.175292038165708,
+              -143.88882137769087
+            ]
+          },
+          {
+            "mesh": "LOD treeOpen/0/0,0 1",
+            "instance": 6,
+            "bounds": [
+              38.431933021383415,
+              0,
+              -157.61806355345942,
+              51.573562813929435,
+              11.844301467358491,
+              -144.54388491543568
+            ]
+          },
+          {
+            "mesh": "LOD treeOpen/0/0,0 1",
+            "instance": 7,
+            "bounds": [
+              19.269159670779487,
+              0,
+              -158.3512123318132,
+              32.41945685816418,
+              12.000098976418485,
+              -145.196149024336
+            ]
+          },
+          {
+            "mesh": "LOD treePyramidal/0/-1,0 0",
+            "instance": 0,
+            "bounds": [
+              -43.18775756029558,
+              0,
+              -43.956171443802276,
+              -29.633047982760274,
+              12.180512556225779,
+              -30.391776850364863
+            ]
+          },
+          {
+            "mesh": "LOD treePyramidal/0/-1,0 1",
+            "instance": 0,
+            "bounds": [
+              -147.40910737879472,
+              0,
+              -61.94604000103709,
+              -129.5001187577667,
+              14.50211699864667,
+              -44.03350930616915
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/-1,0 0",
+            "instance": 6,
+            "bounds": [
+              -43.706961143224284,
+              -0.01217344091025474,
+              -47.746545468744024,
+              -42.54954196801391,
+              0.6168666275335042,
+              -46.58530688964856
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 7,
+            "bounds": [
+              -43.89107803014117,
+              0.02742252457132821,
+              -53.80919838882769,
+              -42.649309458630874,
+              0.7418661065830747,
+              -52.580601622289265
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 10,
+            "bounds": [
+              -21.68338770361565,
+              0.025898590684448664,
+              -92.15991921824615,
+              -20.571338736428775,
+              0.7006388703230186,
+              -91.06205763386907
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 11,
+            "bounds": [
+              -21.514038313087585,
+              0.02242679206735687,
+              -90.23436964060583,
+              -20.65066594512416,
+              0.6067157263687477,
+              -89.38554653541856
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 12,
+            "bounds": [
+              -21.365782947090487,
+              0.024226487680635955,
+              -82.79067989548712,
+              -20.418296531222634,
+              0.6554031903615396,
+              -81.85861188764473
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 14,
+            "bounds": [
+              -44.387848427134536,
+              0.018819737918084556,
+              -100.16133247189558,
+              -43.44760520028134,
+              0.509133492063711,
+              -99.22641219075788
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 15,
+            "bounds": [
+              -44.52640443803068,
+              0.022023000937286596,
+              -111.11386285366305,
+              -43.578572117872696,
+              0.595791897938625,
+              -110.17803700548048
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 17,
+            "bounds": [
+              -45.15493672758081,
+              0.02496729826088817,
+              -127.18041154598909,
+              -43.94972377798483,
+              0.6754444618884463,
+              -125.98441981592354
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/light-edge-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/light-edge-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/offscreen-caster",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 878453,
+        "draws": 165
+      },
+      "variantMain": {
+        "triangles": 878453,
+        "draws": 165
+      },
+      "defaultShadow": {
+        "triangles": 933875,
+        "draws": 146
+      },
+      "variantShadow": {
+        "triangles": 114457,
+        "draws": 133
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -819418,
+        "draws": -13
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 68911,
+      "shadowBuffersBytes": 19460356,
+      "shadowAudit": {
+        "offscreenInstances": 57,
+        "offscreenTriangles": 872,
+        "edgeInstances": 29,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/2/0,0 1",
+            "instance": 6,
+            "bounds": [
+              85.4256911235206,
+              -0.027013198725584164,
+              -40.90292100105835,
+              85.87753346132617,
+              0.30389848440492173,
+              -40.405793766181695
+            ]
+          },
+          {
+            "mesh": "LOD bush/3/0,0 2",
+            "instance": 31,
+            "bounds": [
+              185.17126869306708,
+              -0.0486637581438476,
+              -129.70609628214123,
+              186.85928579754318,
+              1.0341049126766677,
+              -128.07312692221404
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 1",
+            "instance": 10,
+            "bounds": [
+              87.33142668408594,
+              -0.039967400134338416,
+              -42.046066934039686,
+              88.04004340765057,
+              1.3488998085066086,
+              -41.323802252986404
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 2",
+            "instance": 120,
+            "bounds": [
+              231.17210616866603,
+              -0.0387577596584463,
+              -147.5303116182998,
+              232.06038819693956,
+              1.3080744408117297,
+              -146.63884309517348
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 2",
+            "instance": 134,
+            "bounds": [
+              206.94230570605887,
+              -0.0384076801298332,
+              -147.1800108200443,
+              207.82522425596144,
+              1.296259256248284,
+              -146.30371115751697
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/0,0 2",
+            "instance": 137,
+            "bounds": [
+              185.65635611689942,
+              -0.03542947928392559,
+              -128.31214623434522,
+              186.31869687816445,
+              1.1957449736770869,
+              -127.69664384271951
+            ]
+          },
+          {
+            "mesh": "LOD bush/7/0,0 1",
+            "instance": 6,
+            "bounds": [
+              86.055048641291,
+              -0.03551575819740238,
+              -42.04049814839411,
+              86.68486418639898,
+              0.4617048499509053,
+              -41.406391004446235
+            ]
+          },
+          {
+            "mesh": "LOD flowerBush/2/0,0 1",
+            "instance": 0,
+            "bounds": [
+              119.53497623670694,
+              -0.024701759263088707,
+              -70.52638722715093,
+              120.05270577543801,
+              0.27789479055948263,
+              -70.0363811912193
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 18,
+            "bounds": [
+              158.42729648474887,
+              -0.030765935863996674,
+              -98.86560360070034,
+              159.55109706993863,
+              0.6460844493892637,
+              -97.7418030155106
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 19,
+            "bounds": [
+              158.33873220535466,
+              -0.031186740282223013,
+              -100.54577402023128,
+              159.57407907394222,
+              0.6549213393851403,
+              -99.31042715164372
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 20,
+            "bounds": [
+              158.18630231525898,
+              -0.0338401562309798,
+              -102.6238020548582,
+              159.64710222575664,
+              0.7106430567361599,
+              -101.16300214436055
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 56,
+            "bounds": [
+              176.7802093261397,
+              -0.02874449794617817,
+              -104.3732864624345,
+              177.9359771972978,
+              0.6036342665025245,
+              -103.21751859127643
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 57,
+            "bounds": [
+              176.95281980270673,
+              -0.02628677818549363,
+              -99.92787935500813,
+              177.9065857148714,
+              0.5520221678049779,
+              -98.97411344284343
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 2",
+            "instance": 58,
+            "bounds": [
+              176.79375587000845,
+              -0.03778640813322909,
+              -98.22395195469859,
+              178.1280580948353,
+              0.793514320548411,
+              -96.88964972987172
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/0,0 2",
+            "instance": 16,
+            "bounds": [
+              158.62043751976987,
+              0.017402565210019816,
+              -95.2627564499567,
+              159.4985505173395,
+              0.5626827497029865,
+              -94.38464345238705
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/0,0 2",
+            "instance": 17,
+            "bounds": [
+              158.4836879681382,
+              0.02040617521832644,
+              -97.04731026184227,
+              159.56730690490866,
+              0.6597994401513745,
+              -95.96369132507179
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/offscreen-caster-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/offscreen-caster-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/low-sun",
+      "altitude": 8,
+      "defaultMain": {
+        "triangles": 953215,
+        "draws": 197
+      },
+      "variantMain": {
+        "triangles": 953215,
+        "draws": 197
+      },
+      "defaultShadow": {
+        "triangles": 995299,
+        "draws": 145
+      },
+      "variantShadow": {
+        "triangles": 147398,
+        "draws": 138
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -847901,
+        "draws": -7
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 72691,
+      "shadowBuffersBytes": 19460356,
+      "shadowAudit": {
+        "offscreenInstances": 116,
+        "offscreenTriangles": 4755,
+        "edgeInstances": 46,
+        "edgeExamples": [
+          {
+            "mesh": "LOD bush/0/-1,-1 0",
+            "instance": 7,
+            "bounds": [
+              -42.41340119586717,
+              -0.014854458494912848,
+              2.1606328093925704,
+              -40.81871311112358,
+              0.7527222404204821,
+              3.7569487648881577
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 0",
+            "instance": 1,
+            "bounds": [
+              -20.089351010132262,
+              -0.012077087316617607,
+              -18.03188334605734,
+              -18.921004245581926,
+              0.6119840871904856,
+              -16.85996812193917
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/0,0 1",
+            "instance": 1,
+            "bounds": [
+              10.613577934596474,
+              0.019433111125835012,
+              -45.11697402477675,
+              11.616607406474714,
+              0.5257271792106621,
+              -44.11139820801686
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/-1,-1 1",
+            "instance": 26,
+            "bounds": [
+              -106.354625124258,
+              0.04507464165996389,
+              57.7901659126706,
+              -105.5256240853004,
+              0.47789196222905517,
+              58.61282253886077
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/-1,-1 2",
+            "instance": 93,
+            "bounds": [
+              -210.66554575795,
+              0.023738604003597175,
+              41.09865635996992,
+              -209.20905751353436,
+              0.7675479340921356,
+              42.555144604385546
+            ]
+          },
+          {
+            "mesh": "LOD bush/1/-1,0 1",
+            "instance": 14,
+            "bounds": [
+              -44.51618607736421,
+              0.06440143274257082,
+              -102.30653254472722,
+              -43.37062651699332,
+              0.682799151147691,
+              -101.17782562524863
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/-1,-1 2",
+            "instance": 182,
+            "bounds": [
+              -169.577827694547,
+              -0.0366472402964404,
+              112.3757661248717,
+              -168.7906083207257,
+              1.2368444094939477,
+              113.18752537687031
+            ]
+          },
+          {
+            "mesh": "LOD bush/4/-1,-1 2",
+            "instance": 189,
+            "bounds": [
+              -216.95119102307177,
+              -0.030641478807297062,
+              95.34874715601809,
+              -216.29037209975928,
+              1.0341499511250731,
+              96.02943168266665
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "LOD bush/0/-1,0 0",
+            "instance": 0,
+            "bounds": [
+              -20.231830691966117,
+              -0.013784119759199243,
+              -20.442280519410517,
+              -18.884905775484484,
+              0.6984848024532155,
+              -19.09144003518574
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 0",
+            "instance": 1,
+            "bounds": [
+              -20.089351010132262,
+              -0.012077087316617607,
+              -18.03188334605734,
+              -18.921004245581926,
+              0.6119840871904856,
+              -16.85996812193917
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 6,
+            "bounds": [
+              -15.726123799992536,
+              0.026820692166545257,
+              -44.595214998538566,
+              -14.596330232516973,
+              0.725584634693405,
+              -43.48067109023585
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 7,
+            "bounds": [
+              -43.61628245478595,
+              0.021672192792012268,
+              -47.67017232717547,
+              -42.62322417690697,
+              0.5863014269859832,
+              -46.68714436446538
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 8,
+            "bounds": [
+              -43.89107803014117,
+              0.02742252457132821,
+              -53.80919838882769,
+              -42.649309458630874,
+              0.7418661065830747,
+              -52.580601622289265
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 10,
+            "bounds": [
+              -9.401983424955047,
+              0.028618856717212537,
+              -63.71704218166922,
+              -7.9924844137249575,
+              0.7742306785953588,
+              -62.316772560252886
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 12,
+            "bounds": [
+              -21.68338770361565,
+              0.025898590684448664,
+              -92.15991921824615,
+              -20.571338736428775,
+              0.7006388703230186,
+              -91.06205763386907
+            ]
+          },
+          {
+            "mesh": "LOD bush/0/-1,0 1",
+            "instance": 13,
+            "bounds": [
+              -21.514038313087585,
+              0.02242679206735687,
+              -90.23436964060583,
+              -20.65066594512416,
+              0.6067157263687477,
+              -89.38554653541856
+            ]
+          }
+        ],
+        "syntheticLowSun": {
+          "kind": "low-sun",
+          "elevationDegrees": 6.5,
+          "synthetic": true,
+          "frames": 6
+        }
+      },
+      "frame": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/low-sun-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/low-sun-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-light-edge",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 788812,
+        "draws": 251
+      },
+      "variantMain": {
+        "triangles": 788812,
+        "draws": 251
+      },
+      "defaultShadow": {
+        "triangles": 68282,
+        "draws": 41
+      },
+      "variantShadow": {
+        "triangles": 22466,
+        "draws": 29
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -45816,
+        "draws": -12
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 683904,
+      "shadowAudit": {
+        "offscreenInstances": 236,
+        "offscreenTriangles": 7627,
+        "edgeInstances": 46,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 8,
+            "bounds": [
+              480.63649183069595,
+              -0.04976067908643156,
+              -286.03044111564816,
+              482.2608893728753,
+              1.0574144838814021,
+              -284.3752110566483
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 25,
+            "bounds": [
+              475.3110645987764,
+              -0.041658038161887845,
+              -289.8207864633646,
+              476.06149954370443,
+              1.4059588442194695,
+              -289.0846691048123
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 26,
+            "bounds": [
+              473.2199869597402,
+              -0.04305332087606217,
+              -289.70298366051384,
+              473.87991972541954,
+              1.4530496377070676,
+              -289.0250811989157
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              568.2610596417144,
+              -0.05004363901815623,
+              -194.33271746050804,
+              570.6261470975201,
+              1.1885364383329033,
+              -192.43147311708776
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              468.01849599892887,
+              -0.043973077744847267,
+              -293.8522745733709,
+              470.0314920561399,
+              1.0443606066784028,
+              -293.1477253611042
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              469.93695054889076,
+              -0.04535179990488736,
+              -293.8633194204659,
+              472.0130613878227,
+              1.0771052583003637,
+              -293.13668064711356
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              477.5165853585347,
+              -0.042681797980923974,
+              -288.8842116012075,
+              478.4575874655442,
+              0.3841362056786295,
+              -287.83686613173796
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 12,
+            "bounds": [
+              475.4162054476759,
+              -0.0389136782531363,
+              -288.699830130027,
+              476.07378094583777,
+              1.3133366935930724,
+              -288.0571600125091
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              532.7580021690947,
+              0.022520296465710743,
+              -318.6271177371616,
+              533.8179987907636,
+              0.6092453163696518,
+              -317.57654692340253
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              532.6765090072049,
+              0.0239178355028411,
+              -320.27853951438226,
+              533.8990566361076,
+              0.6470531717907306,
+              -319.0607693598143
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              532.6979170682882,
+              0.02759068881807636,
+              -321.8205051396906,
+              533.8499076417565,
+              0.746415481848544,
+              -320.65295972858553
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              532.8057874211478,
+              0.02062530818512265,
+              -325.2777523947673,
+              533.7162358844234,
+              0.5579798840392414,
+              -324.3779206654674
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              532.8839667118583,
+              0.01880017958247393,
+              -327.0702824426177,
+              533.619127587221,
+              0.5086043771657387,
+              -326.3470886769858
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 5,
+            "bounds": [
+              562.9158626372529,
+              0.022212691376461535,
+              -312.260579942057,
+              564.0209296070751,
+              0.6009236248589787,
+              -311.16207175573976
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 6,
+            "bounds": [
+              580.6918630839643,
+              0.023634998319103317,
+              -213.74487170118596,
+              581.6276705902844,
+              0.6394015305368157,
+              -212.79457148676158
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 7,
+            "bounds": [
+              552.00532217759,
+              0.02083731469892669,
+              -228.0553691221628,
+              553.0889611412225,
+              0.5637153314287389,
+              -226.97029056137154
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/light-edge-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/light-edge-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-offscreen-caster",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 427832,
+        "draws": 60
+      },
+      "variantMain": {
+        "triangles": 427832,
+        "draws": 60
+      },
+      "defaultShadow": {
+        "triangles": 68081,
+        "draws": 42
+      },
+      "variantShadow": {
+        "triangles": 21411,
+        "draws": 32
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -46670,
+        "draws": -10
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 677548,
+      "shadowAudit": {
+        "offscreenInstances": 182,
+        "offscreenTriangles": 5853,
+        "edgeInstances": 41,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              557.6327091326344,
+              -0.04758799923387169,
+              -166.3429243429651,
+              558.6891995358468,
+              0.5353649891650676,
+              -165.27398429087467
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              557.557209040716,
+              -0.043713478064980826,
+              -167.45581783955515,
+              558.8090574372335,
+              0.9289114556988949,
+              -166.13790519440363
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              557.8746099494314,
+              -0.03215575861582698,
+              -167.99515645672804,
+              558.5750415604051,
+              1.0852568967078682,
+              -167.29711302196534
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              557.4113460600165,
+              0.025173380179177585,
+              -168.0520244146986,
+              558.4127628233364,
+              0.5342968777195978,
+              -167.05314771020988
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              509.8478406439581,
+              -0.040373996785864286,
+              -215.10367727292194,
+              510.81226562046305,
+              1.362622446044682,
+              -214.11458749657817
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              554.7654815245868,
+              6.447720435554237e-9,
+              -155.9613209382266,
+              559.2254750067672,
+              10.817480087280273,
+              -151.6647102213341
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              480.1745224269504,
+              8.701875718673089e-9,
+              -240.44448681146298,
+              485.5235995897969,
+              14.599325180053711,
+              -235.09407380481838
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              478.6966544128369,
+              6.1958461153434496e-9,
+              -247.6019997295511,
+              481.9797717554413,
+              10.394905090332031,
+              -244.1320807152963
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              563.7009900574975,
+              0.019824466557494702,
+              -190.7466626972644,
+              564.6463039565415,
+              0.53631458262862,
+              -189.80916574902832
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 5,
+            "bounds": [
+              552.00532217759,
+              0.02083731469892669,
+              -228.0553691221628,
+              553.0889611412225,
+              0.5637153314287389,
+              -226.97029056137154
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 6,
+            "bounds": [
+              530.7356622924331,
+              0.02153402884964173,
+              -217.34785888829217,
+              531.6659684293558,
+              0.582563654931846,
+              -216.42919906726166
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 7,
+            "bounds": [
+              532.479755644228,
+              0.026747922556484838,
+              -285.9185049237982,
+              533.8743348560362,
+              0.7236159863600733,
+              -284.5231453987296
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 8,
+            "bounds": [
+              465.53539724180723,
+              0.02436597874686086,
+              -270.1021247528983,
+              466.80648774058756,
+              0.6591768653174768,
+              -268.830737725473
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              565.6858774302,
+              0.06482767458368954,
+              -190.84491616451456,
+              566.8266856210273,
+              0.687318267491932,
+              -189.7227870437398
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 6,
+            "bounds": [
+              552.1871769119131,
+              0.054211526800173715,
+              -231.80766890117746,
+              552.9172961858508,
+              0.574763369466325,
+              -231.04696527206977
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 7,
+            "bounds": [
+              552.0555576732141,
+              0.05168786008370674,
+              -220.4643043258672,
+              553.0141116698617,
+              0.5480068608235555,
+              -219.50372175943153
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/offscreen-caster-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/offscreen-caster-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "sloans",
+      "view": "sloans-low-sun",
+      "altitude": 8,
+      "defaultMain": {
+        "triangles": 826691,
+        "draws": 322
+      },
+      "variantMain": {
+        "triangles": 826691,
+        "draws": 322
+      },
+      "defaultShadow": {
+        "triangles": 69639,
+        "draws": 62
+      },
+      "variantShadow": {
+        "triangles": 63106,
+        "draws": 62
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -6533,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 676108,
+      "shadowAudit": {
+        "offscreenInstances": 560,
+        "offscreenTriangles": 19212,
+        "edgeInstances": 34,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              422.25625211558145,
+              0.022414382241773723,
+              -261.7242564657401,
+              423.1436131195043,
+              0.6063800012984757,
+              -260.850937354724
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 8,
+            "bounds": [
+              558.8428651859865,
+              -0.048005679964892245,
+              -142.80594107147775,
+              560.2813446212517,
+              1.0201207506690508,
+              -141.4415927797511
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 8,
+            "bounds": [
+              426.10302254126776,
+              -0.030299038209787632,
+              -264.98729158992325,
+              426.7597657301467,
+              1.022592580496692,
+              -264.3334619672131
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 21,
+            "bounds": [
+              423.8157824889179,
+              -0.03998275905886084,
+              -263.18421789461127,
+              425.56300181715557,
+              0.9495905369571567,
+              -261.4369977150577
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 26,
+            "bounds": [
+              535.128421810748,
+              -0.04638271704950814,
+              -120.56165218366999,
+              535.8715782583677,
+              1.1015895407251364,
+              -118.43834809279255
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 7,
+            "bounds": [
+              559.3816548779511,
+              -0.0458954800837752,
+              -143.53795074184066,
+              560.1976156095299,
+              1.5489725148054845,
+              -142.70640205330187
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              422.08499803294416,
+              -0.05150663737565342,
+              -261.1473871938135,
+              422.7888467459779,
+              0.6695862762896354,
+              -260.42693299771565
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              358.4637242708203,
+              2.925222523217353e-8,
+              -213.12016367824728,
+              368.59724357847045,
+              10.34706881947983,
+              -200.98796750953565
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              459.3873716636576,
+              -0.011281207146103256,
+              -164.39566097848555,
+              460.4792499545058,
+              0.5716543299488492,
+              -163.30714822622488
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              501.164766998453,
+              -0.01343899590783515,
+              -216.19916276108637,
+              502.62903201305875,
+              0.6809962889062362,
+              -214.7351497417498
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              489.07557087017705,
+              -0.01623260297868967,
+              -216.35751112132482,
+              490.6158321681842,
+              0.8225571659956472,
+              -214.81212428679788
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              477.8563259812232,
+              -0.010725807456033465,
+              -215.8112717887597,
+              478.74203136295455,
+              0.5435104767628616,
+              -214.92106582408067
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              422.25625211558145,
+              0.022414382241773723,
+              -261.7242564657401,
+              423.1436131195043,
+              0.6063800012984757,
+              -260.850937354724
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              563.7009900574975,
+              0.019824466557494702,
+              -190.7466626972644,
+              564.6463039565415,
+              0.53631458262862,
+              -189.80916574902832
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 5,
+            "bounds": [
+              558.166136976152,
+              0.024920955461157135,
+              -158.78392277309487,
+              559.1230462775561,
+              0.6741907424391229,
+              -157.8432297262376
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 6,
+            "bounds": [
+              557.52427544881,
+              0.019340524451889607,
+              -164.51883762491727,
+              558.3193915182488,
+              0.5232224165604293,
+              -163.71252027308967
+            ]
+          }
+        ],
+        "syntheticLowSun": {
+          "kind": "low-sun",
+          "elevationDegrees": 6.5,
+          "synthetic": true,
+          "frames": 6
+        }
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/low-sun-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/low-sun-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-light-edge",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 316254,
+        "draws": 131
+      },
+      "variantMain": {
+        "triangles": 316254,
+        "draws": 131
+      },
+      "defaultShadow": {
+        "triangles": 74353,
+        "draws": 67
+      },
+      "variantShadow": {
+        "triangles": 27552,
+        "draws": 45
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -46801,
+        "draws": -22
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 817948,
+      "shadowAudit": {
+        "offscreenInstances": 82,
+        "offscreenTriangles": 2890,
+        "edgeInstances": 12,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -0.6806483904157308,
+              0,
+              20.364081384639224,
+              1.0283463674123723,
+              0.8999999761581421,
+              20.86312473078661
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -19.557382083388056,
+              0.015027626276724604,
+              0.28572414773901134,
+              -18.611572943039572,
+              0.5370896538289216,
+              1.2211289210027267
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              51.445219252125405,
+              -0.03347711965120315,
+              30.518656165991423,
+              51.93753274782969,
+              0.4352025492300413,
+              31.000972472511595
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -19.817899762542638,
+              -0.010913019909224886,
+              -1.6173880697290368,
+              -18.37364777966456,
+              0.8007212045297365,
+              -0.20408114446833636
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -42.87555862301024,
+              -0.007565304507714643,
+              -23.871013230283204,
+              -41.791892389344625,
+              0.5550892226386281,
+              -22.778385376678784
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              51.014925698568064,
+              -0.04245643997662274,
+              31.105382438565268,
+              51.903395419250984,
+              1.4329049065449482,
+              31.986049606717437
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -34.42328717617806,
+              0,
+              -7.734387182281575,
+              -33.84071276278679,
+              5.564000068664541,
+              -7.1518127688903
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -40.495596225032216,
+              8.814726715555007e-8,
+              -4.848273394339913,
+              -30.899298903213435,
+              12.258366122657606,
+              6.447351899645241
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -40.643994367911816,
+              0,
+              -55.946586322846265,
+              -40.145410250829435,
+              0.8999999761581421,
+              -54.23770864672063
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -24.350358456349184,
+              0,
+              -101.21915433862158,
+              -23.85123789610761,
+              0.8999999761581421,
+              -99.51013986666887
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -0.6806483904157308,
+              0,
+              20.364081384639224,
+              1.0283463674123723,
+              0.8999999761581421,
+              20.86312473078661
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -19.815840328579974,
+              -0.011126479739722583,
+              -5.5981079008826775,
+              -18.609267481469193,
+              0.5638138044914456,
+              -4.392277683520607
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -19.68860968261033,
+              -0.011038086794332713,
+              -3.3525892673922773,
+              -18.639443278131793,
+              0.5593346552909537,
+              -2.3069260436444967
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -20.13541623182744,
+              0.02453965999357699,
+              -20.32175491763039,
+              -18.980683606552784,
+              0.6638754928983417,
+              -19.177305147929648
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -19.99731256339228,
+              0.02150065594611128,
+              -17.954561488102893,
+              -18.995377642071997,
+              0.5816608122361231,
+              -16.961997865343765
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -42.90819127448926,
+              0.023488536808780935,
+              -29.545079941807234,
+              -41.825391440618425,
+              0.6354392830003235,
+              -28.45198922084497
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/light-edge-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/light-edge-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-offscreen-caster",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 308171,
+        "draws": 83
+      },
+      "variantMain": {
+        "triangles": 308171,
+        "draws": 83
+      },
+      "defaultShadow": {
+        "triangles": 73308,
+        "draws": 62
+      },
+      "variantShadow": {
+        "triangles": 26532,
+        "draws": 51
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -46776,
+        "draws": -11
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 803968,
+      "shadowAudit": {
+        "offscreenInstances": 100,
+        "offscreenTriangles": 3020,
+        "edgeInstances": 4,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -3.04568006020447,
+              0.06950041517223227,
+              54.90385960122519,
+              -1.7575432731995022,
+              0.7368597632556018,
+              56.18618537068827
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -112.33281853390571,
+              1.8424106699248244e-8,
+              -38.08551908311935,
+              -95.07063392216966,
+              13.833632122106792,
+              -20.828072947942104
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -42.809364471870666,
+              2.4727791997405506e-8,
+              34.51738586822364,
+              -31.06465447518741,
+              12.523544720274913,
+              46.96691490768448
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -40.79481332064136,
+              2.2357472495798756e-8,
+              13.139760980309767,
+              -30.132308413493178,
+              11.323081602386083,
+              22.904567864049426
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -23.016686653890897,
+              0,
+              -0.7435022964019761,
+              -22.515505990584636,
+              0.8999999761581421,
+              0.9660359257119286
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -22.983487343588163,
+              0,
+              11.863197706745149,
+              -22.4823066802819,
+              0.8999999761581421,
+              13.572735928859053
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -22.942088341512967,
+              0,
+              3.87709750990677,
+              -22.440907678206706,
+              0.8999999761581421,
+              5.5866357320206745
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              -22.942088341512967,
+              0,
+              1.5890976415138258,
+              -22.440907678206706,
+              0.8999999761581421,
+              3.2986358636277306
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              -16.97159240877881,
+              0,
+              13.006764354385945,
+              -16.470412334440965,
+              0.8999999761581421,
+              14.716302415399669
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 5,
+            "bounds": [
+              -9.14389274752393,
+              0,
+              19.73776430098018,
+              -8.642712673186084,
+              0.8999999761581421,
+              21.44730236199391
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -40.643994367911816,
+              0,
+              -55.946586322846265,
+              -40.145410250829435,
+              0.8999999761581421,
+              -54.23770864672063
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -37.81669334252119,
+              0,
+              -3.1983863831184793,
+              -37.31810922543881,
+              0.8999999761581421,
+              -1.4895087069928448
+            ]
+          }
+        ],
+        "syntheticLowSun": null
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/offscreen-caster-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/offscreen-caster-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "shadow-stress",
+      "family": "bakeoff",
+      "area": "lakeview",
+      "view": "lakeview-low-sun",
+      "altitude": 8,
+      "defaultMain": {
+        "triangles": 321074,
+        "draws": 130
+      },
+      "variantMain": {
+        "triangles": 321074,
+        "draws": 130
+      },
+      "defaultShadow": {
+        "triangles": 76124,
+        "draws": 79
+      },
+      "variantShadow": {
+        "triangles": 69672,
+        "draws": 76
+      },
+      "mainDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadowDelta": {
+        "triangles": -6452,
+        "draws": -3
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 0,
+      "shadowBuffersBytes": 802816,
+      "shadowAudit": {
+        "offscreenInstances": 252,
+        "offscreenTriangles": 7886,
+        "edgeInstances": 5,
+        "edgeExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -39.460416956096736,
+              0.02772267372048276,
+              161.62232212030364,
+              -38.10640333630445,
+              0.749986091309438,
+              162.985394134626
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -143.15977544176653,
+              8.274949560088109e-8,
+              -2.493728834640251,
+              -131.1548676677367,
+              11.5077148308049,
+              8.79944888296177
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -37.79817160508429,
+              3.083253135833701e-8,
+              143.36126740905019,
+              -28.4198241075415,
+              10.906053174122178,
+              154.67719024387537
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -112.33281853390571,
+              1.8424106699248244e-8,
+              -38.08551908311935,
+              -95.07063392216966,
+              13.833632122106792,
+              -20.828072947942104
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -173.09818174683596,
+              2.165816199181745e-8,
+              37.59307478211741,
+              -162.03855541358948,
+              10.968911429372383,
+              48.1371912585212
+            ]
+          }
+        ],
+        "offscreenExamples": [
+          {
+            "mesh": "shadowCells ",
+            "instance": 0,
+            "bounds": [
+              -37.978352842022815,
+              0,
+              135.09671503595587,
+              -37.47305650533424,
+              0.8999999761581421,
+              136.80729248754895
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 1,
+            "bounds": [
+              -21.61670385317777,
+              0,
+              80.00572839784957,
+              -21.113291561435375,
+              0.8999999761581421,
+              81.71583128756794
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 2,
+            "bounds": [
+              -37.928452787091175,
+              0,
+              117.96941095880743,
+              -37.4231564504026,
+              0.8999999761581421,
+              119.67998841040053
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 3,
+            "bounds": [
+              -23.016686653890897,
+              0,
+              -0.7435022964019761,
+              -22.515505990584636,
+              0.8999999761581421,
+              0.9660359257119286
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 4,
+            "bounds": [
+              -22.983487343588163,
+              0,
+              11.863197706745149,
+              -22.4823066802819,
+              0.8999999761581421,
+              13.572735928859053
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 5,
+            "bounds": [
+              -22.942088341512967,
+              0,
+              3.87709750990677,
+              -22.440907678206706,
+              0.8999999761581421,
+              5.5866357320206745
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 6,
+            "bounds": [
+              -22.942088341512967,
+              0,
+              1.5890976415138258,
+              -22.440907678206706,
+              0.8999999761581421,
+              3.2986358636277306
+            ]
+          },
+          {
+            "mesh": "shadowCells ",
+            "instance": 7,
+            "bounds": [
+              -16.97159240877881,
+              0,
+              13.006764354385945,
+              -16.470412334440965,
+              0.8999999761581421,
+              14.716302415399669
+            ]
+          }
+        ],
+        "syntheticLowSun": {
+          "kind": "low-sun",
+          "elevationDegrees": 6.5,
+          "synthetic": true,
+          "frames": 6
+        }
+      },
+      "frame": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/low-sun-lossless.png",
+      "depth": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/low-sun-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-stress-bakeoff-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "08e3fa4c04260edd0e28e5fec2fa2915c78631830e08cf0046f7caf57aea90c0",
+        "web/bakeoff/spatial-cells-entry.js": "6f02da79a531d49a04aae896ae128da7a2f2472d5c6301ca5da894805e22df91",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "51a678fd6cef06ae8ca2c6a4323157aa538d805171e9eefcb9c78d0a0a7a907a",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 656467,
+        "draws": 169
+      },
+      "variantMain": {
+        "triangles": 54974,
+        "draws": 41
+      },
+      "defaultShadow": {
+        "triangles": 560465,
+        "draws": 111
+      },
+      "variantShadow": {
+        "triangles": 206614,
+        "draws": 101
+      },
+      "mainDelta": {
+        "triangles": -601493,
+        "draws": -128
+      },
+      "shadowDelta": {
+        "triangles": -353851,
+        "draws": -10
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 191315,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 785361,
+        "draws": 238
+      },
+      "variantMain": {
+        "triangles": 203078,
+        "draws": 68
+      },
+      "defaultShadow": {
+        "triangles": 572162,
+        "draws": 113
+      },
+      "variantShadow": {
+        "triangles": 223517,
+        "draws": 105
+      },
+      "mainDelta": {
+        "triangles": -582283,
+        "draws": -170
+      },
+      "shadowDelta": {
+        "triangles": -348645,
+        "draws": -8
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 203012,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 502798,
+        "draws": 285
+      },
+      "variantMain": {
+        "triangles": 313611,
+        "draws": 106
+      },
+      "defaultShadow": {
+        "triangles": 75831,
+        "draws": 4
+      },
+      "variantShadow": {
+        "triangles": 12578,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": -189187,
+        "draws": -179
+      },
+      "shadowDelta": {
+        "triangles": -63253,
+        "draws": -3
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 12578,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 1057862,
+        "draws": 210
+      },
+      "variantMain": {
+        "triangles": 38224,
+        "draws": 35
+      },
+      "defaultShadow": {
+        "triangles": 924485,
+        "draws": 123
+      },
+      "variantShadow": {
+        "triangles": 83662,
+        "draws": 110
+      },
+      "mainDelta": {
+        "triangles": -1019638,
+        "draws": -175
+      },
+      "shadowDelta": {
+        "triangles": -840823,
+        "draws": -13
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 63486,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 1181951,
+        "draws": 224
+      },
+      "variantMain": {
+        "triangles": 323705,
+        "draws": 76
+      },
+      "defaultShadow": {
+        "triangles": 996184,
+        "draws": 149
+      },
+      "variantShadow": {
+        "triangles": 112279,
+        "draws": 136
+      },
+      "mainDelta": {
+        "triangles": -858246,
+        "draws": -148
+      },
+      "shadowDelta": {
+        "triangles": -883905,
+        "draws": -13
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 73576,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 936137,
+        "draws": 203
+      },
+      "variantMain": {
+        "triangles": 486482,
+        "draws": 54
+      },
+      "defaultShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "variantShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": -449655,
+        "draws": -149
+      },
+      "shadowDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 2280,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    }
+  ],
+  "remainingFloorFailures": [
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "defaultMain": {
+        "triangles": 656467,
+        "draws": 169
+      },
+      "variantMain": {
+        "triangles": 54974,
+        "draws": 41
+      },
+      "defaultShadow": {
+        "triangles": 560465,
+        "draws": 111
+      },
+      "variantShadow": {
+        "triangles": 206614,
+        "draws": 101
+      },
+      "mainDelta": {
+        "triangles": -601493,
+        "draws": -128
+      },
+      "shadowDelta": {
+        "triangles": -353851,
+        "draws": -10
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 191315,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/40-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/40-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "defaultMain": {
+        "triangles": 785361,
+        "draws": 238
+      },
+      "variantMain": {
+        "triangles": 203078,
+        "draws": 68
+      },
+      "defaultShadow": {
+        "triangles": 572162,
+        "draws": 113
+      },
+      "variantShadow": {
+        "triangles": 223517,
+        "draws": 105
+      },
+      "mainDelta": {
+        "triangles": -582283,
+        "draws": -170
+      },
+      "shadowDelta": {
+        "triangles": -348645,
+        "draws": -8
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 203012,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/150-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/150-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "sloans-lake",
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 502798,
+        "draws": 285
+      },
+      "variantMain": {
+        "triangles": 313611,
+        "draws": 106
+      },
+      "defaultShadow": {
+        "triangles": 75831,
+        "draws": 4
+      },
+      "variantShadow": {
+        "triangles": 12578,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": -189187,
+        "draws": -179
+      },
+      "shadowDelta": {
+        "triangles": -63253,
+        "draws": -3
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 12578,
+      "shadowBuffersBytes": 7667780,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    },
+    {
+      "kind": "combined",
+      "family": "scoreboard",
+      "area": "lakeview-sheil-park",
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "defaultMain": {
+        "triangles": 936137,
+        "draws": 203
+      },
+      "variantMain": {
+        "triangles": 486482,
+        "draws": 54
+      },
+      "defaultShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "variantShadow": {
+        "triangles": 2280,
+        "draws": 1
+      },
+      "mainDelta": {
+        "triangles": -449655,
+        "draws": -149
+      },
+      "shadowDelta": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "image": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "shadowDepth": {
+        "freshBytes": 16777216,
+        "repeatBytes": 16777216,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "unboundedShadowTriangles": 2280,
+      "shadowBuffersBytes": 19460356,
+      "frame": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/600-lossless.png",
+      "depth": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/600-lossless.shadow-depth.bin",
+      "qualification": "/private/tmp/a10-shadow-draw-scoreboard-lakeview-v1/qualification.json",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "8c0a8f196fb124b835cff7a85c49b57fce8fee1cff29cdd7ef15f24ab08cc793",
+        "web/bakeoff/spatial-cells-entry.js": "a144df1ba1469f6f8bf10f3fb3bf0ca924e63a68fc9509406e089175660af5a3",
+        "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "c6b1ca54fcca47380f87a64c1093af9d56383fde244ea2c776b79ced744e47ff",
+        "web/bakeoff/tools/qualify-spatial-cells.mjs": "26901ef3bdcf1f72c0fc9ea67e773010f63491b3efa8894f172028d7de356d0d",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "55f389f3decaaec2fd37d51cb7547ea1939c25a9dc601e14cb5cd54e42fbbd85",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      }
+    }
+  ],
+  "drawGate": {
+    "pass": false,
+    "limit": 100
+  },
+  "orderedRunDeltas": [
+    {
+      "area": "sloans-lake",
+      "height": 40,
+      "orderedRuns": {
+        "triangles": 54974,
+        "draws": 42
+      },
+      "sourceConcatenation": {
+        "triangles": 54974,
+        "draws": 41
+      },
+      "drawDelta": -1,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    },
+    {
+      "area": "sloans-lake",
+      "height": 150,
+      "orderedRuns": {
+        "triangles": 203078,
+        "draws": 72
+      },
+      "sourceConcatenation": {
+        "triangles": 203078,
+        "draws": 68
+      },
+      "drawDelta": -4,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    },
+    {
+      "area": "sloans-lake",
+      "height": 600,
+      "orderedRuns": {
+        "triangles": 313611,
+        "draws": 111
+      },
+      "sourceConcatenation": {
+        "triangles": 313611,
+        "draws": 106
+      },
+      "drawDelta": -5,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "height": 40,
+      "orderedRuns": {
+        "triangles": 38224,
+        "draws": 86
+      },
+      "sourceConcatenation": {
+        "triangles": 38224,
+        "draws": 35
+      },
+      "drawDelta": -51,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "height": 150,
+      "orderedRuns": {
+        "triangles": 323705,
+        "draws": 234
+      },
+      "sourceConcatenation": {
+        "triangles": 323705,
+        "draws": 76
+      },
+      "drawDelta": -158,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "height": 600,
+      "orderedRuns": {
+        "triangles": 486482,
+        "draws": 163
+      },
+      "sourceConcatenation": {
+        "triangles": 486482,
+        "draws": 54
+      },
+      "drawDelta": -109,
+      "triangleDelta": 0,
+      "pixels": {
+        "max": 0,
+        "mean": 0,
+        "count": 0
+      }
+    }
+  ],
+  "rejectedAdjacentProbe": {
+    "qualification": "/private/tmp/a10-shadow-draw-scoreboard-sloans-v3/qualification.json",
+    "source": "/private/tmp/a10-adjacent-draws-rejected/adjacent-draws.js",
+    "allPixelsExact": true,
+    "retainedRuntime": false,
+    "views": [
+      {
+        "altitude": 40,
+        "main": {
+          "triangles": 54974,
+          "draws": 41
+        },
+        "adapter": {
+          "enabled": true,
+          "buffersBytes": 0,
+          "families": 0,
+          "views": 0,
+          "updates": 0,
+          "drawsSaved": 0,
+          "updateMs": 0,
+          "maxUpdateMs": 0
+        }
+      },
+      {
+        "altitude": 150,
+        "main": {
+          "triangles": 203078,
+          "draws": 68
+        },
+        "adapter": {
+          "enabled": true,
+          "buffersBytes": 0,
+          "families": 0,
+          "views": 0,
+          "updates": 0,
+          "drawsSaved": 0,
+          "updateMs": 0,
+          "maxUpdateMs": 0
+        }
+      },
+      {
+        "altitude": 600,
+        "main": {
+          "triangles": 313611,
+          "draws": 106
+        },
+        "adapter": {
+          "enabled": true,
+          "buffersBytes": 0,
+          "families": 0,
+          "views": 0,
+          "updates": 0,
+          "drawsSaved": 0,
+          "updateMs": 0,
+          "maxUpdateMs": 0
+        }
+      }
+    ]
+  }
+}
