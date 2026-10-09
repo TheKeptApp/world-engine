@@ -97,3 +97,48 @@ The fresh captures consumed unchanged WorldScene/material/light/post/sidecar con
 ## Owner-authorized resolution — 9 October 2026
 
 R subsequently authorized the two tracker conflict resolutions, preserving both lanes’ entries and all earlier A4 evidence. The historical stop above remains recorded; this authorization permits the web-only default-off delivery. Native approval is withdrawn, with the full plan filed for 5A in docs/tracking/handoffs.md. Tests will be rerun before merge and the existing scoreboard run after merge.
+
+## Authorized resolution recheck and new merge stop
+
+Both authorized tracker conflicts were resolved without dropping upstream A3 context/water updates or earlier A4 surface-role/stream evidence. Native approval withdrawal and the 5A-only implementation plan are recorded in handoffs.md. Saved correction commit: a37092f.
+
+Fresh main f7fdfe1 includes A10 43008a7, which independently added the far-parent report and four implementation files. Rebasing produced five new add/add conflicts: docs/execution/simplified-far-parent.md, web/bakeoff/spatial-far.js, web/bakeoff/tools/export-far-parent.mjs, web/bakeoff/tools/far-parent.test.mjs, and web/bakeoff/tools/qualify-far-parent.mjs. These are outside R's two named tracker resolutions. Rebase was aborted without resolving them; branch work is preserved. No main merge or post-merge scoreboard run is claimed. No native files were edited.
+
+The requested focused recheck passed 21/21 after the aborted rebase, under an actual A4-owned heavy lock and fresh load below 25. The wrapper released its own lock on completion. Raw admission and test log:
+
+```text
+HEAVY start: A4 authorized tracker resolution focused tests (load 4.87, waited 0s for load)
+A4 verified admission UTC=2026-10-09T20:34:19Z load=4.87 pid=40312
+✔ query is explicit OFF-only and does not permit far stage before lossless gate (0.580375ms)
+✔ negative cell addresses and complete feature bounds (1.126542ms)
+✔ motion reuses geometry/buffers and preserves vertices, indices and shadow proxies (3.457917ms)
+✔ instanced matrices and per-instance attributes retain exact local bytes (8.238708ms)
+✔ 400/800 grouping is independent from 100m addressing and is lossless (0.736541ms)
+✔ geometry replacements retire old pools without retaining detached sources (0.531042ms)
+✔ static model transforms are preserved exactly rather than rebaked (0.288375ms)
+✔ exported ranges are consumed rather than reconstructing deleted provenance (0.342792ms)
+✔ default routing has one import and shipping source remains outside experiment modules (4.953125ms)
+✔ multiple spatial draw groups share a single immutable source vertex buffer (0.492917ms)
+✔ coplanar draws keep source sphere centre and ID rather than pooled bounds (0.431459ms)
+✔ a source revisiting a spatial cell keeps interleaved primitive order (0.16975ms)
+✔ opt-in same-source concatenation preserves selected primitive order and bounded buffers through motion (0.382208ms)
+✔ same-source concatenation never merges different original source ordering units (0.333958ms)
+✔ complete actual bounds retain exact near and admit only >=400 m (0.922833ms)
+✔ parent crossing eye/near plane always retains children (0.100083ms)
+✔ atomic far/child swap restores children and leaves original geometry alive (1.278041ms)
+✔ missing source fails closed before any original visibility changes (0.267541ms)
+✔ a wide or tall complete parent prevents a premature partial swap (0.100166ms)
+✔ off-screen crossing does not disqualify visible changed bounds (0.137292ms)
+✔ a changed feature crossing the visible near plane blocks the whole atomic swap (0.103083ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.024708
+HEAVY done: A4 authorized tracker resolution focused tests (exit 0)
+```
+
+Standing by for the new implementation-file conflict decision; no additional work started.
