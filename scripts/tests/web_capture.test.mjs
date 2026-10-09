@@ -1,8 +1,32 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
-import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference} from '../web_capture_checks.mjs';
+import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,verifyModes} from '../web_capture_checks.mjs';
 import {startCaptureServer} from '../web_capture_server.mjs';
 test('mode matrix and invalid values',()=>{assert.equal(modeQueries({matrix:true}).length,3);assert.throws(()=>modeQueries({crown:'pretend'}));});
+test('crown modes preserve standard/floor spelling and reject wrong resolved state',()=>{
+ for(const crown of ['off','on','standard','floor']){
+  const mode=modeQueries({crown})[0];assert.equal(mode.crownV2,crown);
+  const evidence={foliageExp1:'off',crownV2:crown==='off'?false:crown==='on'?'standard':crown};
+  verifyModes(evidence,mode);
+  assert.throws(()=>verifyModes({...evidence,crownV2:crown==='floor'?'standard':'floor'},mode));
+ }
+});
+test('authorized Sloan ladder is distinct from the saved web pair and has exact pose directions',async()=>{
+ const {blockContract,inspectionCamera}=await import('../web_capture_blocks.mjs');
+ const {LocalFrame}=await import('../../web/src/geo.js');
+ const {fileURLToPath}=await import('node:url');
+ const {readFile}=await import('node:fs/promises');
+ const root=fileURLToPath(new URL('../../',import.meta.url));
+ const before=await readFile(new URL('../web_capture_contract.json',import.meta.url));
+ const c=await blockContract(root,'sloans-ladder');
+ assert.equal(c.ladder.utc,'2026-10-15T20:30:00Z');assert.equal(c.fixture.date,'2026-10-15');
+ assert.deepEqual(Object.values(c.scenes).map(s=>s.camera.eye),[40,150,600].map(h=>[39.7511195,-105.0389,h]));
+ const origin={latitude:39.7494,longitude:-105.0445},frame=new LocalFrame(origin.latitude,origin.longitude);
+ const camera=inspectionCamera(c.ladder.pose,40,origin),a=frame.local(...camera.eye),b=frame.local(...camera.target);
+ assert.ok(Math.abs(b[0]-a[0]+100)<1e-6);assert.ok(Math.abs(b[1]-a[1])<1e-6);
+ assert.ok(Math.abs(camera.eye[2]-camera.target[2]-100)<1e-6);assert.equal(camera.fov,50);
+ assert.deepEqual(await readFile(new URL('../web_capture_contract.json',import.meta.url)),before);
+});
 test('counter guard rejects incomplete and unequal scene coverage',()=>{
  assert.throws(()=>verifyCounters({triangles:0,drawCalls:1}));
  const a={scene:'sloans',metrics:{triangles:10,drawCalls:2,cost:{passes:{'main/opaque world':{triangles:10,draws:2}}}}};
@@ -73,7 +97,7 @@ test('block adapters retain frozen camera and native inspection pose recipe',asy
  for(const heading of [0,90,180,270]){
   const c=inspectionCamera({lat:42,lon:-87,heading,fov:50},40),f=new LocalFrame(42,-87),[e,n]=f.local(...c.target);
   assert.ok(Math.abs(e-100*Math.sin(heading*Math.PI/180))<1e-6);assert.ok(Math.abs(n-100*Math.cos(heading*Math.PI/180))<1e-6);
-  assert.equal(c.eye[2]-c.target[2],100);
+  assert.ok(Math.abs(c.eye[2]-c.target[2]-100)<1e-6);
  }
  const h=await blockContract(root,'west-highland');assert.deepEqual(h.scenes['west-highland'].camera.eye,[39.759946,-105.04,350]);
  await assert.rejects(blockContract(root,'greenville-downtown'),/No integrated web region/);

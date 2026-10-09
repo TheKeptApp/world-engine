@@ -4,6 +4,11 @@ export function modeQueries({foliage='off',crown='off',matrix=false}={}) {
  if(fs.some(x=>!['off','remove','layered'].includes(x))||cs.some(x=>!['off','on','standard','floor'].includes(x)))throw Error('Unsupported capture mode');
  return cs.flatMap(crownV2=>fs.map(foliageExp1=>({foliageExp1,crownV2})));
 }
+export function verifyModes(evidence,mode) {
+ const expected=mode.crownV2==='on'?'standard':mode.crownV2;
+ const resolved=evidence.crownV2===false?'off':evidence.crownV2;
+ if(evidence.foliageExp1!==mode.foliageExp1||resolved!==expected)throw Error('Rendered experiment modes differ from requested query');
+}
 export function verifyCounters(metrics) {
  if(!metrics||!Number.isSafeInteger(metrics.triangles)||metrics.triangles<=0||!Number.isSafeInteger(metrics.drawCalls)||metrics.drawCalls<=0)throw Error('Scene-ready signal has missing/invalid triangle or draw counters');
  return [metrics.triangles,metrics.drawCalls];

@@ -2,9 +2,9 @@
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {LocalFrame} from '../web/src/geo.js';
-export function inspectionCamera(pose,altitude){
- const {lat,lon,heading,fov}=pose,frame=new LocalFrame(lat,lon),r=heading*Math.PI/180;
- const east=100*Math.sin(r),north=100*Math.cos(r);let latitude=lat,longitude=lon;
+export function inspectionCamera(pose,altitude,origin={latitude:pose.lat,longitude:pose.lon}){
+ const {lat,lon,heading,fov}=pose,frame=new LocalFrame(origin.latitude,origin.longitude),r=heading*Math.PI/180;
+ const base=frame.local(lat,lon),east=base[0]+100*Math.sin(r),north=base[1]+100*Math.cos(r);let latitude=lat,longitude=lon;
  // Invert the existing WGS84 local frame for an exact horizontal direction.
  for(let i=0;i<5;i++){
   const p=frame.local(latitude,longitude),a=frame.local(latitude+1e-5,longitude),b=frame.local(latitude,longitude+1e-5);
@@ -12,11 +12,15 @@ export function inspectionCamera(pose,altitude){
   latitude+=((east-p[0])*j11-(north-p[1])*j01)/det;
   longitude+=(j00*(north-p[1])-j10*(east-p[0]))/det;
  }
- return {eye:[lat,lon,altitude],target:[latitude,longitude,altitude-100],fov};
+ return {eye:[lat,lon,altitude],target:[latitude,longitude,altitude-100*Math.tan((pose.pitchDown??45)*Math.PI/180)],fov};
 }
 export async function blockContract(root,block){
  const read=async p=>JSON.parse(await readFile(resolve(root,p),'utf8'));
  const frozen=await read('scripts/web_capture_contract.json');
+ if(block==='sloans-ladder'){
+  const ladder=await read('scripts/web_sloans_ladder.json');
+  return {...frozen,source:ladder.source,ladder,tier:ladder.tier,fixture:{...frozen.fixture,date:ladder.utc.slice(0,10)},scenes:Object.fromEntries(ladder.altitudesAGLMetres.map(alt=>['sloans-'+alt,{...frozen.scenes.sloans,templateScene:'sloans',viewport:ladder.viewport,camera:inspectionCamera(ladder.pose,alt),inspection:{...ladder.pose,altitudeAGLMetres:alt,utc:ladder.utc,groundDatum:ladder.groundDatum}}]))};
+ }
  if(block==='wilmette'){
   const demo=(await read('Apps/WorldLab/Resources/demo.json')).areas['wilmette-vattmann-park'];
   const native=(await read('docs/lookloop/a3-capture-contract.json')).views.find(v=>v.id==='wilmette-street-afternoon');

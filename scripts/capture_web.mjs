@@ -7,8 +7,8 @@ import {mkdir,readFile,writeFile,access,statfs} from 'node:fs/promises';
 import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {parseArgs} from 'node:util';
-import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference} from './web_capture_checks.mjs';
-import {blockContract,facadeInputs} from './web_capture_blocks.mjs';
+import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,verifyModes} from './web_capture_checks.mjs';
+import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
@@ -19,6 +19,12 @@ const run=resolve(values.output||resolve(root,'.build/lookloop/web-'+randomUUID(
 const readJSON=async path=>JSON.parse(await readFile(resolve(root,path),'utf8'));
 const hash=data=>createHash('sha256').update(data).digest('hex');
 let browser,server,created=false,stage='contract';
+// Signal trap: cleanup is bounded by the outer capture_timeout.py watchdog.
+for(const sig of ['SIGTERM','SIGINT'])process.once(sig,()=>{
+ console.error('web capture interrupted: closing owned browser and server');
+ const forced=setTimeout(()=>process.exit(130),8000);
+ Promise.allSettled([browser?.close(),server?.close()]).finally(()=>{clearTimeout(forced);process.exit(130);});
+});
 const report={status:'failed',frames:[],events:[],startedUTC:new Date().toISOString()};
 const started=performance.now();
 async function command(executable,args){
@@ -34,16 +40,28 @@ try{
  const freshFrames=new Map();
  const identities=Object.fromEntries(selected.map(scene=>[scene,scene+'-frozen-web']));
  const modes=modeQueries({foliage:values.foliage,crown:values.crown,matrix:values.matrix});
- if(modes.some(m=>m.crownV2==='on')&&!(await readFile(resolve(root,'web/bakeoff/main.js'),'utf8')).includes('crownV2'))throw Error('crownV2=on is unsupported by this checkout; do not label an unchanged frame as the prototype');
+ if(modes.some(m=>m.crownV2!=='off')&&!(await readFile(resolve(root,'web/bakeoff/main.js'),'utf8')).includes('crownV2'))throw Error('Requested crown mode is unsupported by this checkout');
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Less than 8 GB free; capture not started');
  await mkdir(dirname(run),{recursive:true});await mkdir(run,{recursive:false});created=true;
  report.contract={...contract,sha256:hash(JSON.stringify(contract))};
  stage='assets';console.error('web capture: preparing worktree-local assets');
  if(!await exists('web/node_modules/three'))await command('npm',['ci','--prefix',resolve(root,'web'),'--no-audit','--no-fund']);
  await command(resolve(root,'scripts/export-package.sh'),[]);
+ if(contract.ladder){
+  const manifest=await readJSON('Generated/package/sloans-lake/world.json');
+  if(!manifest.frame.vertical.includes('y = 0 is ground'))throw Error('Web ladder requires the frozen flat-ground export datum; viewer adapter required for terrain');
+  for(const scene of selected)scenes[scene].camera=inspectionCamera(contract.ladder.pose,scenes[scene].inspection.altitudeAGLMetres,manifest.frame.origin);
+  report.exportFrame=manifest.frame;
+  report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
+ }
  // Exactly the existing bakeoff/export.sh recipe, using the release exporter already built above.
  if(selected.includes('lakeview'))await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
  const overrides={'/scenes.json':scenes,'/fixture.json':fixture};
+ for(const scene of selected)if(scenes[scene].templateScene){
+  const template=scenes[scene].templateScene;
+  overrides['/'+scene+'.html']=(await readFile(resolve(root,'web/bakeoff',template+'.html'),'utf8')).replace('data-scene="'+template+'"','data-scene="'+scene+'"');
+  overrides['/data/'+scene+'-facades.json']=await readJSON('web/bakeoff/data/'+template+'-facades.json');
+ }
  for(const spec of contract.exports||[]){
   const out=resolve(root,'Generated/web-capture',spec.area);
   await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas',spec.area),out,'--date',spec.date,'--focus',spec.focus,'--margin','100']);
@@ -76,14 +94,14 @@ try{
   },null,{polling:'raf',timeout:180000});
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
-  if(evidence.foliageExp1!==mode.foliageExp1||Boolean(evidence.crownV2)!==(mode.crownV2==='on'))throw Error('Rendered experiment modes differ from requested query');
+  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
+  verifyModes(evidence,mode);
   verifyCounters(evidence.metrics);
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
   const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
   await writeFile(resolve(run,filename),image);
-  report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
+  report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,inspection:scenes[scene].inspection??null,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
   await page.close();
   if(values.repeat){
    const key=JSON.stringify([scene,mode]);
