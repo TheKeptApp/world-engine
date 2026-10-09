@@ -368,3 +368,7 @@ A3: rebuilding restores the three Greenville layer-only strips (8 triangles vers
 ### A10 → A3 → R — summer BEFORE season check, 8 October 2026
 
 [Summer season check](../lookloop/crown-native-summer-scores.md), evidence ae0e110 / capture 0600748: July 15 pinned BEFORE 40/150/600 m each overall/foliage 2; light/saturation/ground/materials 2, sky N/A. No grade change against historical October 40/150 m; October 600 m remains unscored. Summer green mock is a look/form reference, not a literal October pigment target. Auto-exposed October versus pinned July is not a season-only control. No gate-date change recommended or applied; no hold-outs. A10’s 150 m control max 1/255, mean 0.000213093822921 byte units, 484 differing bytes; original frames preserved. Report only; no render/fixture edits or new captures.
+
+### R → A3 — private metro reference collection, 8 October 2026
+
+[Metro reference folder](../screenshots/metro-reference/README.md) established: city-state subfolders on delivery, coordinate/heading filenames when known and private per-metro metadata covering location, capture date/time and R ownership. Metro contents are gitignored; no images supplied, moved or published. INDEX and hold-out protocols now require matched-view blind skyline height/massing PASS/FAIL plus tallest-ten building evidence, with missing inputs pending and no gate threshold change.

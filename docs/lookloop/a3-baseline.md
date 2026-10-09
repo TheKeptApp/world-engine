@@ -23,6 +23,10 @@ Greenville Downtown is deferred until area data exists, as R instructed. Design-
 5. Log the merge/run and individual before/after values in scoreboard **Sloan's score** and **hold-out score** and the tracking ledger. If Sloan's rises and any hold-out falls, **REJECT-FLAG** the merge; investigate changed frames/reasons before attributing cause. A flagged merge gets no A3 clearance; this does not authorize reverting someone else's code. Missing required evidence is **PENDING**, never pass. An unchanged-frame score shift is logged as variance and does not establish a look gain/loss.
 6. Update roadmap and handoffs with the lane report. Run only when R asks or a lane report arrives; no unattended schedule or auto-merge. This scoring/reporting merge is explicitly requested by R.
 
+## Metro skyline check — R, 8 Oct 2026
+
+For every R-supplied metro reference photo, add the [private matched-view skyline check](../screenshots/metro-reference/README.md#metro-skyline-check) to hold-out review: A3 hides build labels, grades skyline height/massing PASS/FAIL, and reports the tallest ten visible buildings with public IDs, sourced heights, rendered heights and uncertainties. Missing reference/camera/height evidence stays PENDING; no guessed ranks or per-block tuning. The linked protocol governs privacy, matching and structural regression reporting; it supplements, without changing, the §M look gate. No photos or completed checks are claimed by this addition.
+
 ## New A3 baseline — captured 2026-10-07 22:50 MDT (R’s 8 Oct instruction)
 
 **Look gate: FAIL, 0/4 heroes.** All four closeness scores are 3/5; foliage is 2/5 throughout, and Lakeview saturation is 2/5. Every other calibration aspect is 3/5. These are fresh A3 visual judgments after reviewing raw frames and phone-size comparisons; no old grades were reused. Passing needs 4/5 closeness and every aspect ≥3, so no full confirmation run was triggered.
