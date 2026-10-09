@@ -404,3 +404,11 @@ R explicitly authorized A4 to implement the export-only companion from `989f3c9`
 R authorized exporter timezone correction only and remote publication of 5a7fe5a. Area-owned optional IANA metadata, invalid/missing → unknown; known eight area manifests annotated, no coordinate guesses or rendering changes. Validation PASS: 92/92 tests, 20/20 reproduced hashes unchanged; Sloan byte-identical, Lakeview/Wilmette timezone + required integrity entry only. Own heavy lock released; [report](../execution/timezone-f01.md). Shared remote advanced af49fd6 → 75be597; both integrated without conflicts, no source/test/data changes upstream. Post-integration timezone fixtures 2/2 pass; timezone implementation b1ccb50. Push guard rejects historical merge 9712ae2 for missing evidence line; exemption requested, no bypass or rewrite.
 
 Used: docs/review/block-specific-scan.md F01. Mock: none (metadata only). Deviation: required environment checksum update, remote publication blocked.
+
+## 2026-10-09 — R → A4: ONE scoped push-guard exemption
+
+R explicitly authorizes one push-guard exemption for ancestor `9712ae2` only, and only its missing `Used: ... Mock: ... Deviation: ...` evidence line. Preserve every commit (including 5a7fe5a, b1ccb50 and 7202d39); no force push, history rewrite or other bypass. The one-use temporary pre-push adapter runs the unchanged repository guard and suppresses only that exact commit’s exact evidence-line error; secrets/privacy, blob size, instruction-pair, mock freshness and every other commit’s evidence checks remain enforced. No permanent hook/config/guard edit. The adapter refuses reuse. Publication outcome will be recorded after remote verification.
+
+A8 doc corrections: design bits 10–11 are independent colour provenance, 12–15 reserved zero; implementation report now says no supported material tag reached an annotated exported face. No exporter, consumer, look, viewer, native or test changes.
+
+Used: R’s 9 Oct one-time exemption; surface-role-companion-audit.md. Mock: none (docs/publication). Deviation: exact historical evidence-line exemption only.
