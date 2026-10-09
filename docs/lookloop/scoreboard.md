@@ -242,3 +242,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | Scope | Sloan's score | hold-out score | Status |
 |---|---|---|---|
 | Fresh 40/150 m only | Each overall 2; light/saturation/ground/foliage/materials 2; sky N/A | Pending; not run | [Blind BEFORE review](crown-native-before-scores.md); 600 m unscored due to noisy repeat. No AFTER/gain or four-hero pass. |
+
+## A3 native summer BEFORE — 0600748 / delivery ae0e110
+
+| Scope | Sloan's score | hold-out score | Status |
+|---|---|---|---|
+| July 15 pinned, fresh 40/150/600 m | Each overall 2; light/saturation/ground/foliage/materials 2; sky N/A | Not run | [Season check](crown-native-summer-scores.md). Historical October 40/150 m grades unchanged numerically; exposure/revision confound prevents season-only attribution. October 600 m unscored. No gate/date change. |
