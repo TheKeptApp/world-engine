@@ -11,7 +11,7 @@ import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,ve
 import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},sceneBudget:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -73,7 +73,8 @@ try{
  }
  for(const spec of contract.exports||[]){
   const out=resolve(root,'Generated/web-capture',spec.area);
-  await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas',spec.area),out,'--date',spec.date,'--focus',spec.focus,'--margin','100']);
+  if(values.existingExports){if(!await exists('Generated/web-capture/'+spec.area+'/world.json'))throw Error('Requested existing export is absent: '+spec.area);}
+  else await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas',spec.area),out,'--date',spec.date,'--focus',spec.focus,'--margin','100']);
   const facades=await facadeInputs(root,spec.area,out);
   for(const scene of selected.filter(scene=>scenes[scene].area===spec.area)){
    overrides['/data/'+scene+'-facades.json']=facades;

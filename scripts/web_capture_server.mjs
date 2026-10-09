@@ -10,7 +10,7 @@ export async function startCaptureServer(root, overrides={}) {
  const failures=[];
  const server=createServer(async(req,res)=>{try{
   const path=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-  if(Object.hasOwn(overrides,path)){res.writeHead(200,{'Content-Type':typeof overrides[path]==='string'?'text/html':'application/json','Cache-Control':'no-store'});res.end(typeof overrides[path]==='string'?overrides[path]:JSON.stringify(overrides[path]));return;}
+  if(Object.hasOwn(overrides,path)){res.writeHead(200,{'Content-Type':typeof overrides[path]==='string'?(types[extname(path)]||'text/plain'):'application/json','Cache-Control':'no-store'});res.end(typeof overrides[path]==='string'?overrides[path]:JSON.stringify(overrides[path]));return;}
   if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}
   for(const [prefix,base] of mounts){if(!path.startsWith(prefix))continue;
    const file=await realpath(resolve(base,path.slice(prefix.length)||'index.html'));
@@ -19,5 +19,6 @@ export async function startCaptureServer(root, overrides={}) {
   }
  }catch{}failures.push(req.url);res.writeHead(404);res.end('Not found');});
  await new Promise((ok,no)=>{server.once('error',no);server.listen(0,'127.0.0.1',ok);});
- return {origin:`http://127.0.0.1:${server.address().port}`,failures,close:()=>new Promise((ok,no)=>{server.close(error=>error?no(error):ok());server.closeAllConnections();})};
+ let closing;
+ return {origin:`http://127.0.0.1:${server.address().port}`,failures,close:()=>closing??=new Promise((ok,no)=>{server.close(error=>error?no(error):ok());server.closeAllConnections();})};
 }
