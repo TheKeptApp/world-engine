@@ -182,3 +182,7 @@ The web target now passes, default off. This does not repair the five unqualifie
 ## Ledger text for A3 — far consumer
 
 Default-off consumer of A4's reported final sidecar plus A5 water/ring reaches floor and standard in all nine measured Sloan/Lakeview/Wilmette ladder views. Near pairs and all repeats exact; unchanged shadow submissions; 600 m differences intentionally retained for A3 paired scoring, no A10 score or promotion. Frame paths and full numeric deltas are above. Shipping main/world/material/Metal bytes unchanged. Native shared-file gate, production-memory limit and remaining scoreboard/hold-out gaps prevent adoption claims.
+
+## Merge verification
+
+Consumer merged as 43008a7 after a clean rebase onto 1fcb233. Intervening changes are A3 scoring docs, A1 water/native corrections (591e4be), and A5 held-context preparation/evidence. None changed the captured bundle runtime, main.js, world.js or materials.js. A1 independently changed WorldShaders.metal water selection; therefore the earlier Metal SHA is a capture-baseline record, not the current main SHA. This lane's diff against merge parent contains no native/shipping source change. Existing captures retain their original package/context bindings; A5's newly reported West Highland context does not retroactively qualify this batch. No production promotion or new native proof is inferred.
