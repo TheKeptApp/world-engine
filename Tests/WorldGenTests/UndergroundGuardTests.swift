@@ -95,4 +95,29 @@ struct UndergroundGuardTests {
         }
     }
 
+    @Test func pedestrianSurfacesRespectTunnelTagsWithoutDeletingLoadedPaths() throws {
+        let cases: [(Tags,Bool)] = [
+            (["tunnel":"yes","layer":"-1"],true), (["tunnel":"yes","layer":"-2"],true),
+            (["tunnel":"culvert"],true), (["tunnel":"covered","layer":"-1"],true),
+            (["tunnel":"building_passage","layer":"-1"],true),
+            (["tunnel":"building_passage"],false), (["tunnel":"no","layer":"-1"],false),
+            (["layer":"-1"],false), (["covered":"yes","layer":"0"],false),
+            (["bridge":"yes","layer":"-1"],false)]
+        for sidewalk in [false,true] {
+            for (control,hidden) in cases {
+                var tags=control; tags["highway"]="footway"
+                if sidewalk { tags["footway"]="sidewalk" }
+                let (doc,f)=try fixture(tags)
+                let ways=f.paths+f.sidewalks
+                #expect(ways.count == 1 && ways[0].centerline.count == 3)
+                #expect(ways[0].suppressesPedestrianSurfaceRendering == hidden)
+                let scene=try WorldBuild.generator(features:f,profile:StyleLibrary.profile(id:"front-range"),season:1,focus:f.bounds).generate()
+                let drawn=Set(scene.chunks.flatMap(\.staticFeatures).map(\.feature))
+                #expect(drawn.contains("way/10") == !hidden)
+                let report=UnsupportedFeatures.collect(area:"fixture",document:doc,features:f,drawnRefs:drawn)
+                #expect(report.entries.contains { $0.reason == "undergroundSuppressed" } == hidden)
+            }
+        }
+    }
+
 }

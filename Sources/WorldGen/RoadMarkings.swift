@@ -327,7 +327,7 @@ public struct RoadMarkings: Sendable {
         // Crosswalks at mapped crossing ways.
         var extraCuts: [(road: Int, along: Double, signals: Bool)] = []
         let crossingNodes = features.points(of: .crossing)
-        for (pi, path) in features.paths.enumerated() where path.isCrossing && path.centerline.count >= 2 {
+        for (pi, path) in features.paths.enumerated() where path.isCrossing && !path.suppressesPedestrianSurfaceRendering && path.centerline.count >= 2 {
             let pbox = Rect2D(enclosing: path.centerline)
             let pcum = Self.cumulative(path.centerline)
             for (ri, road) in roads.enumerated() where boxes[ri].intersects(pbox) && road.layer == path.layer {

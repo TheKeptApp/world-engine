@@ -1,6 +1,7 @@
 import Foundation
 import simd
 import WorldGeo
+import WorldMap
 import WorldMesh
 
 /// Lake shore band (lake-winter-v1 water.profiles / water.shoreline): geometry and a distance-to-shore
@@ -12,14 +13,17 @@ enum ShoreBand {
 
     struct Profile { var index: Int; var id: String?; var blendWidth: Double? }
 
-    /// The lake-winter-v1 water profile for a style profile (look.json water.shoreProfiles).
-    static func profile(for styleProfile: String) -> Profile {
-        guard let sp = LookSpec.bundled?.water.shoreProfiles,
-              let id = sp.profiles[styleProfile] ?? sp.profiles["default"], let index = sp.order.firstIndex(of: id) else {
-            return Profile(index: 0, id: nil, blendWidth: nil)
-        }
-        let w = MockValues.bundled?.number("lake-winter-v1/water.profiles.\(id).shallowBlendWidthM")
-        return Profile(index: index, id: id, blendWidth: w)
+    /// Selection uses water identity carried through clipping, never the area's land style.
+    /// Unknown bodies use the renderer's existing generic response, not either example lake.
+    static func profile(for area: AreaFeature) -> Profile {
+        let neutral = Profile(index: -1, id: nil, blendWidth: nil)
+        guard area.kind == .water, area.tags["water"] == "lake",
+              let sp = LookSpec.bundled?.water.shoreProfiles, let bodies = sp.waterBodies else { return neutral }
+        let id = area.tags["wikidata"].flatMap { bodies["wikidata:" + $0] }
+            ?? bodies["osm:" + area.ref.description]
+        guard let id, let index = sp.order.firstIndex(of: id) else { return neutral }
+        let width = MockValues.bundled?.number("lake-winter-v1/water.profiles.\(id).shallowBlendWidthM")
+        return Profile(index: index, id: id, blendWidth: width)
     }
 
     /// A strip from every ring of `polygon` inward by `width` (mitred, the miter capped at 2 × width), the

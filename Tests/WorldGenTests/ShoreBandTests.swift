@@ -2,15 +2,30 @@ import Foundation
 import Testing
 import WorldGeo
 import WorldMesh
+@testable import WorldMap
 @testable import WorldGen
 
 /// Lake shore band (lake-winter-v1): water-mesh vertices carry the distance to the shore (extra.z) and the
 /// lake profile (extra.w); the band is the profile's shallowBlendWidthM wide.
 struct ShoreBandTests {
-    @Test func profilesComeFromLookAndMockValues() throws {
-        let sloans = ShoreBand.profile(for: "front-range"), chicago = ShoreBand.profile(for: "evanston")
-        #expect(sloans.id == "sloans_lake" && sloans.blendWidth == 2)
-        #expect(chicago.id == "lake_michigan" && chicago.blendWidth == 4)
+    func water(_ id: Int64, _ tags: Tags, kind: AreaFeature.Kind = .water) -> AreaFeature {
+        AreaFeature(ref: OSMRef(.relation,id), kind:kind,
+                    polygon:Polygon2D(outer:[LocalPoint(0,0),LocalPoint(20,0),LocalPoint(20,20),LocalPoint(0,20)]), tags:tags)
+    }
+    @Test func profilesFollowWaterIdentityRatherThanSurroundingRegion() {
+        let sloans = ShoreBand.profile(for:water(4049789,["water":"lake","wikidata":"Q7352210"]))
+        let michigan = ShoreBand.profile(for:water(999,["water":"lake","wikidata":"Q1169"]))
+        #expect(sloans.id == "sloans_lake" && sloans.blendWidth == 2 && sloans.index == 1)
+        #expect(michigan.id == "lake_michigan" && michigan.blendWidth == 4 && michigan.index == 0)
+        // The same clipped Michigan feature works at Soldier Field and every other region.
+        #expect(ShoreBand.profile(for:water(1205149,["water":"lake"])).id == "lake_michigan")
+        #expect(ShoreBand.profile(for:water(4049789,["water":"lake"])).id == "sloans_lake")
+        for tags in [["water":"lake"],["water":"lake","name":"Sloan’s Lake"],
+                     ["water":"river"],["water":"pond"],["water":"basin"]] {
+            let p = ShoreBand.profile(for:water(999,tags))
+            #expect(p.index == -1 && p.id == nil && p.blendWidth == nil)
+        }
+        #expect(ShoreBand.profile(for:water(1205149,["water":"lake"],kind:.pool)).index == -1)
     }
 
     @Test func squarePondBandIsMitredAndInward() {

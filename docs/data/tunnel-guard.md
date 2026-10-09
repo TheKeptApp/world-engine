@@ -1,5 +1,7 @@
 # Core tunnel guard and unsupported-feature diagnostics — 8 October 2026
 
+> 9 October extension: mapped pedestrian strips and crossing paint now use a separate tag/layer guard; see [eight-area water/tunnel correction](water-tunnel-held-areas.md). The five-area tables below are the historical 8 October measurements, not the current eight-area baseline.
+
 ## Implementation
 
 R's A8-audit correction separates source semantics from a narrow core render policy. `MapFeatureBuilder` sets `isTunnel` exactly as before the original guard: a `tunnel` tag other than `no`; layer alone never sets it. `WayFeature.suppressesSurfaceRendering` recognizes exactly `tunnel=yes`, `tunnel=building_passage`, and `tunnel=culvert`. Negative layer alone, `tunnel=no`, and `covered=yes` alone do not trigger it; unreviewed tunnel values are not added by inference. Layer-only negative roads remain visible in the core and are diagnosed as `layer-only, review`.

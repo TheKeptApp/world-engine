@@ -23,7 +23,8 @@ public enum UnsupportedFeatures {
                                drawnRefs: Set<String>) -> Report {
         var grouped: [String: Set<String>] = [:]
         let roadRefs = Set(features.roads.map { $0.ref.description })
-        let underground = Set(features.roads.filter { $0.suppressesSurfaceRendering }.map { $0.ref.description })
+        let underground = Set(features.roads.filter { $0.suppressesSurfaceRendering }.map { $0.ref.description }
+            + (features.paths + features.sidewalks).filter { $0.suppressesPedestrianSurfaceRendering }.map { $0.ref.description })
         let layerOnly = Set(features.roads.filter { $0.layer < 0 && !$0.isTunnel }.map { $0.ref.description })
         let typedRefs = Set(features.buildings.map { $0.ref.description } + features.roads.map { $0.ref.description }
             + features.paths.map { $0.ref.description } + features.sidewalks.map { $0.ref.description }
