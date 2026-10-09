@@ -21,7 +21,7 @@ try{
   for(const v of views){overrides['/'+v.id+'.html']=(await readFile(resolve(root,'web/bakeoff/'+area+'.html'),'utf8')).replace('data-scene="'+area+'"','data-scene="'+v.id+'"');overrides['/data/'+v.id+'-facades.json']=await json('web/bakeoff/data/'+area+'-facades.json');}
  }else{
   const scoreboard=await json('docs/scoreboard/world-scoreboard-v0.json'),old=scoreboard.rows.filter(r=>r.area===area);if(old.length!==3)throw Error('Unknown scoreboard area');
-  const world=await json('Generated/web-capture/scoreboard-'+area+'/world.json');views=old.map(r=>({id:r.key,altitude:r.altitude,row:r,world,camera:inspectionCamera(r.pose,r.altitude,world.frame.origin)}));
+  const worldBytes=await readFile(resolve(root,'Generated/web-capture/scoreboard-'+area+'/world.json')),spatialMetadata=await json('Generated/web-capture/scoreboard-'+area+'/spatial-cells.json');if(spatialMetadata.sourceWorldSha256!==sha(worldBytes))throw Error('Spatial metadata must be regenerated for this package');const world=JSON.parse(worldBytes);views=old.map(r=>({id:r.key,altitude:r.altitude,row:r,world,camera:inspectionCamera(r.pose,r.altitude,world.frame.origin)}));
   overrides['/scoreboard.html']='<!doctype html><html><style>body{margin:0}canvas{display:block;width:100vw;height:100vh}small{position:absolute;left:8px;top:8px;background:#172128b0;color:white;font:9px system-ui;padding:3px 6px}</style><script type="importmap">{"imports":{"three":"/vendor/build/three.webgpu.js","three/webgpu":"/vendor/build/three.webgpu.js","three/tsl":"/vendor/build/three.tsl.js","three/addons/":"/vendor/examples/jsm/"}}</script><body><canvas></canvas><small>© OpenStreetMap contributors · Overture Maps · USGS 3DEP; see package LICENSE-DATA.md</small><script type="module" src="/scoreboard-page.mjs"></script></body></html>';
   let source=await readFile(resolve(root,'scripts/world_scoreboard_page.mjs'),'utf8');
   for(const anchor of [" const world=new WorldScene(spec.world);await world.load();",' let prior=','  renderer.info.reset();',"backend:'WebGL2',crownV2",'ledger.reset();post.render();samples++;'])if(source.split(anchor).length!==2)throw Error('Scoreboard capture anchor changed: '+anchor);
@@ -44,14 +44,14 @@ try{
   const base=views.find(v=>v.altitude===150),makePose=kind=>{const pose=structuredClone(family==='bakeoff'?base.config.inspection:base.row.pose);if(kind==='low-sun'){pose.pitchDown=0;pose.altitudeAGLMetres=8;}if(kind==='light-edge')pose.lat+=40/111320;if(kind==='offscreen-caster'){pose.heading=90;pose.fov=25;}return pose;};
   views=['light-edge','offscreen-caster','low-sun'].map(kind=>{const v=structuredClone(base),pose=makePose(kind),origin=family==='bakeoff'?bakeoffOrigin:v.world.frame.origin;v.stress=kind;v.altitude=kind==='low-sun'?8:150;v.key=kind;v.id=family==='bakeoff'?area+'-'+kind:area+'/'+kind;if(family==='bakeoff'){v.config.inspection=pose;v.config.camera=inspectionCamera(pose,v.altitude,origin);overrides['/scenes.json'][v.id]=v.config;overrides['/'+v.id+'.html']=(overrides['/'+base.id+'.html']).replace('data-scene="'+base.id+'"','data-scene="'+v.id+'"');overrides['/data/'+v.id+'-facades.json']=overrides['/data/'+base.id+'-facades.json'];}else{v.row.pose=pose;v.camera=inspectionCamera(pose,v.altitude,origin);}return v;});
  }
- report.contract=views;
+ report.shippingDefaultOnly=!!process.env.A4_SHIPPING_ONLY;report.contract=views;
  server=await startCaptureServer(root,overrides);browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
  for(const view of views){
   if(family==='scoreboard')overrides['/scoreboard-contract.json']={world:'/world/capture/scoreboard-'+area+'/',pose:view.row.pose,camera:view.camera,viewport:view.row.evidence.viewport,metadata:[],thresholds:{}};
-  const active=true,frames=[];
+  const active=!process.env.A4_SHIPPING_ONLY,frames=[];
   for(const mode of active?['default','repeat','far']:['default']){
    const viewport=family==='bakeoff'?view.config.viewport:view.row.evidence.viewport,page=await browser.newPage({viewport,deviceScaleFactor:1}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('**/*',route=>new URL(route.request().url()).origin===server.origin?route.continue():route.abort());
-   await page.goto(server.origin+(family==='bakeoff'?'/'+view.id+'.html?capture&crownV2=off&foliageExp1=off':'/scoreboard.html?')+'&spatialCells=1&spatialMergeRuns=1'+(mode==='far'?'&farParent=1':''),{waitUntil:'domcontentloaded'});
+   await page.goto(server.origin+(family==='bakeoff'?'/'+view.id+'.html?capture&crownV2=off&foliageExp1=off':'/scoreboard.html?')+(process.env.A4_SHIPPING_ONLY?'':'&spatialCells=1&spatialMergeRuns=1'+(mode==='far'?'&farParent=1':'')),{waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>{if(document.body.dataset.error)throw Error(document.body.dataset.error);return document.body.dataset.ready==='1'&&(window.bakeoff?.metrics?.samples>=4||window.scoreboard?.metrics?.stable>=3);},null,{timeout:180000});
    if(view.stress==='low-sun'){await page.evaluate(async()=>{const b=window.bakeoff??window.scoreboard,{installShadowStress}=await import('/shadow-stress-capture.js');b.shadowStress=installShadowStress(b.scene,b.camera,'low-sun');if(window.bakeoff)b.metrics=null;});await page.evaluate(()=>new Promise(resolve=>{let n=0;const next=()=>++n>=4?resolve():requestAnimationFrame(next);requestAnimationFrame(next);}));}
    if(family==='bakeoff'){
@@ -71,4 +71,4 @@ try{
  }
  for(const [file,digest] of Object.entries(report.sourceHashes))if(sha(await readFile(resolve(root,file)))!==digest)throw Error('Source changed during capture: '+file);
  if(server.failures.length)throw Error('Resource failures: '+server.failures.join(', '));report.status=report.frames.some(f=>f.pass===false)?'pixel-gate-failed':'completed';if(report.status!=='completed')process.exitCode=1;
-}catch(e){report.status='failed';report.error=e.stack||String(e);console.error(report.error);process.exitCode=1;}finally{await browser?.close();await server?.close();await writeFile(resolve(out,'qualification.json'),JSON.stringify(report,null,2)+'\n').catch(()=>{});}
+}catch(e){report.status='failed';report.error=e.stack||String(e);console.error(report.error);process.exitCode=1;}finally{report.resourceFailures=server?.failures??[];await browser?.close();await server?.close();await writeFile(resolve(out,'qualification.json'),JSON.stringify(report,null,2)+'\n').catch(()=>{});}
