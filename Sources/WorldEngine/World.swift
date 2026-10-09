@@ -45,6 +45,10 @@ public struct WorldStats: Sendable {
     public var clutterInstances = 0
     /// Triangles submitted for the current view (entities whose bounds meet the camera frustum).
     public var viewTriangles = 0
+    /// Analytic sun shadow-pass cost in view (`World.shadowEstimate`), for logs.
+    public var shadowSummary = ""
+    /// GPU geometry bytes by kind (chunks, building LODs, building tiles, props), for memory attribution.
+    public var meshBytesByKind: [String: Int] = [:]
     /// Draw calls for the current view (same test), refreshed twice a second.
     public var viewDrawCalls = 0
     /// `viewDrawCalls` and `viewTriangles` by category (same test, same refresh).
@@ -257,6 +261,7 @@ public final class World {
         stats.lightKeys = "\(lighting.keyA)→\(lighting.keyB) \(String(format: "%.2f", lighting.blend)), sun \(String(format: "%.1f° az %.1f°", lighting.sunElevation, lighting.sunAzimuth))"
         stats.generated = scene.stats
         stats.chunkCount = scene.chunks.count
+        if !options.diagnostics.contains("keepLoadGeometry") { releaseLoadOnlyGeometry() }
         resources.update(globals: shaderGlobals)
     }
 
@@ -369,6 +374,8 @@ public final class World {
             (stats.viewTriangleSplit, stats.viewDraws) = estimateView(camera: camera)
             stats.viewTriangles = stats.viewTriangleSplit.total
             stats.viewDrawCalls = stats.viewDraws.total
+            let sh = shadowEstimate(camera: camera)
+            stats.shadowSummary = "shadowTriangles=\(sh.triangles) shadowDraws=\(sh.draws) shadowRange=\(Int(sh.range)) shadowsplit[\(sh.casters)]"
         }
     }
 
@@ -451,6 +458,7 @@ public final class World {
             cullables.append((BoundingBox(min: b.min, max: b.max), part.triangleCount, 1, \.chunks, name))
             baseDrawCalls += 1
             stats.meshBytes += part.gpuBytes
+            stats.meshBytesByKind["chunks", default: 0] += part.gpuBytes
         }
         for (parts, suffix, casts) in [(flatBy, " ground", false), (raisedBy, "", true)] {
             func tile(_ key: SIMD2<Int>, size: Int) throws {
@@ -498,6 +506,7 @@ public final class World {
                     state.bounds = state.bounds.map { $0.union(box) } ?? box
                 }
                 stats.meshBytes += m.gpuBytes
+                stats.meshBytesByKind["building-\(lod)", default: 0] += m.gpuBytes
             }
             guard !state.levels.isEmpty else { continue }
             buildingCells.append(state)
@@ -531,6 +540,7 @@ public final class World {
                     rootEntity.addChild(e)
                     tile.levels.append((lod, e, merged.triangleCount, BoundingBox(min: b.min, max: b.max)))
                     stats.meshBytes += merged.gpuBytes
+                    stats.meshBytesByKind["building-tile-\(lod)", default: 0] += merged.gpuBytes
                 }
                 if !tile.levels.isEmpty { buildingTiles.append(tile) }
             }
@@ -607,6 +617,19 @@ public final class World {
     }
 
     private var meshCache: [String: (MeshResource, WorldMesh.MeshBuffers)] = [:]
+    var meshCacheCPUBytes: Int { meshCache.values.reduce(0) { $0 + $1.1.cpuBytes } }
+    /// Whether the CPU copies of chunk, building-cell and boundary meshes were freed after upload.
+    private(set) var loadOnlyGeometryReleased = false
+
+    /// Frees the CPU copies of geometry that only the load path reads (chunk, building-cell and
+    /// boundary meshes): once uploaded, nothing reads them again, so rendering is unchanged.
+    /// Counts, palette, instances, clutter and occluders stay.
+    func releaseLoadOnlyGeometry() {
+        for i in scene.chunks.indices { scene.chunks[i].staticMesh = .init(); scene.chunks[i].waterMesh = .init() }
+        for i in scene.buildingCells.indices { scene.buildingCells[i].meshes = [:] }
+        scene.boundaryGround = .init()
+        loadOnlyGeometryReleased = true
+    }
     private func cached(_ k: PropKind, _ v: Int, lod: Int = 0) throws -> (MeshResource, WorldMesh.MeshBuffers)? {
         let key = "\(k.rawValue)/\(v)/\(lod)"
         if let c = meshCache[key] { return c }

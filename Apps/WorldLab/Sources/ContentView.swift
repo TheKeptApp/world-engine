@@ -212,6 +212,14 @@ struct RealityKitScreen: View {
             print("ATTR end \(iso.string(from: Date()))")
         }
         .task {
+            // `-memreport`: the engine's MEMORY attribution line every 10 s (5A Batch 1, device runs).
+            guard ProcessInfo.processInfo.arguments.contains("-memreport") else { return }
+            while true {
+                try? await Task.sleep(for: .seconds(10))
+                if let world { print(world.memoryReport()); fflush(nil) }
+            }
+        }
+        .task {
             // `-pausetest N`: the host pauses the view at N s and resumes it at 2N s.
             guard let n = options.pauseTest else { return }
             try? await Task.sleep(for: .seconds(n))
@@ -365,6 +373,7 @@ struct RealityKitScreen: View {
                     captureSignature = proof.signature
                     captureSize = "\(proof.width)x\(proof.height)"
                     let signature = Data(proof.signature.utf8).base64EncodedString()
+                    print(world.memoryReport()); fflush(nil)
                     print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") exposure=pinned-1 gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
                 } catch {
                     post.captureFrames.end()
@@ -390,7 +399,7 @@ struct RealityKitScreen: View {
             do { try shot.data.write(to: file, options: .atomic) } catch {
                 print("VIEWSHOT id=\(spec.id) failed: \(error)"); fflush(nil); continue
             }
-            print("VIEWSHOT id=\(spec.id) file=views/\(spec.id).png size=\(shot.size) source=\(shot.source) triangles=\(world.stats.viewTriangles) draws=\(world.stats.viewDrawCalls) \(render.summary) drawsplit[\(world.stats.viewDraws.summary)]")
+            print("VIEWSHOT id=\(spec.id) file=views/\(spec.id).png size=\(shot.size) source=\(shot.source) triangles=\(world.stats.viewTriangles) draws=\(world.stats.viewDrawCalls) \(render.summary) drawsplit[\(world.stats.viewDraws.summary)] \(world.stats.shadowSummary)")
             fflush(nil)
             done += 1
         }

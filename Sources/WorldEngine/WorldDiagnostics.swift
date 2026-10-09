@@ -1,4 +1,5 @@
 import Foundation
+import Metal
 import RealityKit
 import WorldGen
 import WorldGeo
@@ -144,5 +145,102 @@ extension World {
         shadow.shadowProjection = .automatic(maximumDistance: meters)
         shadow.depthBias = Self.shadowBias(range: meters)
         sunEntity.components.set(shadow)
+    }
+}
+
+// MARK: - Memory attribution (5A Batch 1)
+
+extension WorldMesh.MeshBuffers {
+    /// CPU bytes held by these buffers (Swift arrays; SIMD3<Float> is 16-byte aligned).
+    var cpuBytes: Int {
+        positions.count * 16 + normals.count * 16 + paints.count * 16 + extras.count * 16
+            + uvs.count * 8 + surfaceWords.count * 2 + indices.count * 4
+    }
+}
+
+@MainActor
+extension World {
+    /// The app process's physical footprint (what iOS counts against its limit), in bytes.
+    nonisolated static func physicalFootprint() -> Int {
+        var info = task_vm_info_data_t()
+        var count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<integer_t>.size)
+        let kr = withUnsafeMutablePointer(to: &info) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) { task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), $0, &count) }
+        }
+        return kr == KERN_SUCCESS ? Int(info.phys_footprint) : 0
+    }
+
+    /// One `MEMORY` line attributing the process footprint (MiB): GPU allocations (Metal device total),
+    /// of which world geometry (vertex/index buffers we upload) and the rest (RealityKit render targets,
+    /// shadow maps, IBL, textures); CPU copies of generated geometry still held; and everything else
+    /// (RealityKit/CPU heap, code, OSM-derived data). Shadow maps are not separable from RealityKit's
+    /// own allocations without a GPU capture.
+    public func memoryReport() -> String {
+        func mib(_ b: Int) -> String { String(format: "%.1f", Double(b) / 1_048_576) }
+        let footprint = Self.physicalFootprint()
+        let gpu = Int(MTLCreateSystemDefaultDevice()?.currentAllocatedSize ?? 0)
+        var sceneCPU = scene.boundaryGround.cpuBytes
+        for c in scene.chunks { sceneCPU += c.staticMesh.cpuBytes + c.waterMesh.cpuBytes }
+        for c in scene.buildingCells { for m in c.meshes.values { sceneCPU += m.cpuBytes } }
+        let propCPU = meshCacheCPUBytes
+        let geometry = stats.meshBytes
+        let other = max(0, footprint - gpu - sceneCPU - propCPU)
+        return "MEMORY footprint=\(mib(footprint)) gpuAllocated=\(mib(gpu)) geometryGPU=\(mib(geometry)) gpuOther=\(mib(max(0, gpu - geometry))) "
+            + "sceneCPU=\(mib(sceneCPU)) propCacheCPU=\(mib(propCPU)) other=\(mib(other)) loadOnlyReleased=\(loadOnlyGeometryReleased) "
+            + "geometry[" + stats.meshBytesByKind.sorted { $0.key < $1.key }.map { "\($0.key)=\(mib($0.value))" }.joined(separator: " ") + "]"
+    }
+}
+
+// MARK: - Shadow-pass estimate (5A Batch 1)
+
+@MainActor
+extension World {
+    /// Analytic sun shadow-pass cost for a camera, from the scene graph (RealityKit exposes no
+    /// shadow counters): the shadow map covers the view frustum from the near plane out to the
+    /// applied shadow range, seen along the sun. A caster is drawn when its bounds, projected
+    /// across the light, overlap that region and it is not wholly beyond the receivers. Casters:
+    /// raised chunk geometry, building cells/tiles at their active level, instanced trees/bushes/props.
+    /// Flat ground, water, context ring, tufts and sky do not cast. One map; RealityKit's cascade
+    /// split (not exposed) redraws casters per cascade, so the per-pass total is this × the casters
+    /// shared between cascades (at most × cascade count).
+    public func shadowEstimate(camera: Entity) -> (triangles: Int, draws: Int, range: Float, casters: String) {
+        guard sunEntity.components.has(DirectionalLightComponent.Shadow.self) else { return (0, 0, 0, "no sun shadow") }
+        let range = appliedShadowRange > 0 ? appliedShadowRange : shadowDistance
+        let fov = (camera.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50) * .pi / 180
+        let m = camera.transformMatrix(relativeTo: nil)
+        let eye = SIMD3(m.columns.3.x, m.columns.3.y, m.columns.3.z)
+        let fwd = -SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z), right = SIMD3(m.columns.0.x, m.columns.0.y, m.columns.0.z),
+            up = SIMD3(m.columns.1.x, m.columns.1.y, m.columns.1.z)
+        let ty = tan(fov / 2), tx = ty * viewAspect
+        var corners: [SIMD3<Float>] = []
+        for d: Float in [0.1, range] { for sx: Float in [-1, 1] { for sy: Float in [-1, 1] { corners.append(eye + fwd * d + right * (sx * tx * d) + up * (sy * ty * d)) } } }
+        // Light frame: travel = direction the light shines (sun entity −Z); u, v across it.
+        let sm = sunEntity.transformMatrix(relativeTo: nil)
+        let travel = simd_normalize(-SIMD3(sm.columns.2.x, sm.columns.2.y, sm.columns.2.z))
+        let u = simd_normalize(simd_cross(travel, abs(travel.y) > 0.99 ? SIMD3(1, 0, 0) : SIMD3(0, 1, 0))), v = simd_cross(travel, u)
+        func proj(_ p: SIMD3<Float>) -> SIMD3<Float> { SIMD3(simd_dot(p, u), simd_dot(p, v), simd_dot(p, travel)) }
+        let pc = corners.map(proj)
+        let lo = pc.reduce(SIMD3(repeating: .infinity)) { simd_min($0, $1) }, hi = pc.reduce(SIMD3(repeating: -.infinity)) { simd_max($0, $1) }
+        func casts(_ b: BoundingBox) -> Bool {
+            var bl = SIMD3<Float>(repeating: .infinity), bh = SIMD3<Float>(repeating: -.infinity)
+            for i in 0..<8 {
+                let p = proj(SIMD3(i & 1 == 0 ? b.min.x : b.max.x, i & 2 == 0 ? b.min.y : b.max.y, i & 4 == 0 ? b.min.z : b.max.z))
+                bl = simd_min(bl, p); bh = simd_max(bh, p)
+            }
+            return bh.x >= lo.x && bl.x <= hi.x && bh.y >= lo.y && bl.y <= hi.y && bl.z <= hi.z
+        }
+        var tris = 0, draws = 0
+        var split: [String: (Int, Int)] = [:]
+        func add(_ k: String, _ t: Int, _ d: Int) { tris += t; draws += d; split[k, default: (0, 0)].0 += t; split[k, default: (0, 0)].1 += d }
+        for c in cullables where c.category == \ViewCost.chunks && !c.name.hasSuffix("ground") && !c.name.contains("water") && casts(c.bounds) {
+            add("chunks", c.triangles, c.draws)
+        }
+        for cell in buildingCells { if let b = cell.bounds, let a = cell.active, casts(b) { add("buildings", cell.levels[a].triangles, 1) } }
+        for tile in buildingTiles { if let a = tile.active, casts(tile.levels[a].bounds) { add("buildings", tile.levels[a].triangles, 1) } }
+        for batch in lodBatches where batch.count > 0 {
+            if let b = batch.bounds, casts(b) { add(batch.kind.isFoliage ? "foliage" : "props", batch.count * batch.triangles, 1) }
+        }
+        let s = split.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value.0)/\($0.value.1)" }.joined(separator: " ")
+        return (tris, draws, range, s)
     }
 }
