@@ -287,3 +287,9 @@ Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not th
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | Default/far600; three fresh sessions, rebased batch only | All six aspects tie6/6; overall2→2; foliage1/2/2 across sessions, unchanged within pairs | Lakeview/Wilmette same: overall2→2, foliage1/2/2, all aspects tie6/6; West Highland/Greenville pending | [Report](../review/far-parent-paired-scores.md). Six identical controls pass; static counters fit, overall≥3 fails. No visible loss, native acceptance or promotion. A4 code merge remains separate. |
+
+## Ground / semantic materials trial — 9 Oct 2026, no promotion
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Current-main OFF/ON; three fresh sessions | Overall2→2 at40/150/600; OFF overall6/6 at40/150,600ties6/6; ground/materials2→2 | All overall2→2; OFF overall6/6 Wilmette150/West Highland; Lakeview4OFF/2ties,Greenville2OFF/4ties inconclusive | [Report](../review/ground-trial-paired-scores.md).5/6 identity controls fully pass; session3 fails ground/saturation, pooled aspect preferences unreliable. No promotion; all7views over draw budgets. |
