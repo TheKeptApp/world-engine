@@ -1,3 +1,4 @@
+import {stripPaletteB} from './palette-b-identity.mjs';
 // No DOM, browser, GPU render, capture or grading. Baseline is immutable Git data.
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -85,7 +86,7 @@ for(const mode of [undefined,'off','remove','layered']){
 const v3Plumbing=[" const crownV3=q.get('crownV3')??'off';\n", " if(!['off','standard'].includes(crownV3))throw Error('Invalid crownV3: '+crownV3);\n", " if(crownV3!=='off'&&crownV2)throw Error('Choose one crown experiment');\n", ' let v3=null,v3Module=null;\n', " if(!baseline&&crownV3==='standard'){v3Module=await import('./crown-v3.js');v3=v3Module.installCrownV3(world,camera,()=>renderer.domElement.clientHeight,p2,seasonal,sunDirection);}\n", " if(v3&&q.has('capture')){scene.updateMatrixWorld(true);world.crownV3Report.fragments=v3Module.estimateFragments(v3.groups,camera,renderer.domElement.width,renderer.domElement.height);}\n", "crownV3:!baseline&&crownV3!=='off'?crownV3:false,"];
 // R-authorized camera-only correction; enumerate its exact import/calls, never shader logic.
 const nearPlumbing=["import {updateCameraNear} from '/src/camera-near.js';\n", ' updateCameraNear(camera);\n', 'updateCameraNear(camera);now.value='];
-const withoutNear=nearPlumbing.reduce((s,line)=>{assert.equal(s.split(line).length,2,'missing/duplicate bounded near plumbing');return s.replace(line,line.endsWith('now.value=')?'now.value=':'');},await readFile(new URL('./main.js',import.meta.url),'utf8'));
+const withoutNear=nearPlumbing.reduce((s,line)=>{assert.equal(s.split(line).length,2,'missing/duplicate bounded near plumbing');return s.replace(line,line.endsWith('now.value=')?'now.value=':'');},stripPaletteB(await readFile(new URL('./main.js',import.meta.url),'utf8')));
 assert.equal(withoutNear,execFileSync('git',['show','34f8a7f:web/bakeoff/main.js'],{encoding:'utf8'}),'A2 v3 logic changed during camera merge');
 const withoutV3=v3Plumbing.reduce((s,line)=>{assert(s.includes(line),'missing bounded v3 plumbing');return s.replace(line,'');},withoutNear);
 const main=withoutV3.replace(',crownV2Mode','').replace(" const crownV2=crownV2Mode(q.get('crownV2'));\n const crownPack=crownV2?await get('/packs/crown-silhouettes-v2/values.json'):null;\n",'').replace(',crownV2?{pack:crownPack,tier:crownV2,camera,height:()=>renderer.domElement.clientHeight}:null','').replace('crownV2:!baseline&&crownV2,',''),oldMain=execFileSync('git',['show',`${baseline}:web/bakeoff/main.js`],{encoding:'utf8'});

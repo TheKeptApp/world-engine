@@ -12,7 +12,7 @@ import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.
 import {verifyLadderPose,THRESHOLDS,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},paletteB:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -44,6 +44,7 @@ try{
  if(modes.some(m=>m.crownV2!=='off')&&!(await readFile(resolve(root,'web/bakeoff/main.js'),'utf8')).includes('crownV2'))throw Error('Requested crown mode is unsupported by this checkout');
  if(values.crownV3!==undefined){if(!['off','standard'].includes(values.crownV3)||modes.some(m=>m.crownV2!=='off'))throw Error('Invalid crownV3 capture mode');for(const mode of modes)mode.crownV3=values.crownV3;}
  if(values.sceneBudget){if(modes.some(m=>m.crownV2!=='off'||m.foliageExp1!=='off')||values.crownV3&&values.crownV3!=='off')throw Error('sceneBudget capture requires all crown/foliage modes OFF');for(const mode of modes)mode.sceneBudget='1';}
+ if(values.paletteB!==undefined){if(!['off','lot','tableA'].includes(values.paletteB))throw Error('Invalid paletteB capture mode');for(const mode of modes)mode.paletteB=values.paletteB;}
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Less than 8 GB free; capture not started');
  await mkdir(dirname(run),{recursive:true});await mkdir(run,{recursive:false});created=true;
  report.contract={...contract,sha256:hash(JSON.stringify(contract))};
@@ -59,10 +60,10 @@ try{
  }
  // Exactly the existing bakeoff/export.sh recipe, using the release exporter already built above.
  if(selected.includes('lakeview'))await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
- if(values.block==='lakeview-600'){
+ if(['lakeview-600','lakeview-150'].includes(values.block)){
   const manifest=await readJSON('web/bakeoff/generated/lakeview-sheil-park/world.json');
   if(!manifest.frame.vertical.includes('y = 0 is ground'))throw Error('Lakeview inspection requires its flat-ground datum');
-  scenes.lakeview.camera=inspectionCamera(scenes.lakeview.inspection,600,manifest.frame.origin);
+  scenes.lakeview.camera=inspectionCamera(scenes.lakeview.inspection,scenes.lakeview.inspection.altitudeAGLMetres,manifest.frame.origin);
   scenes.lakeview.inspection.groundDatum=manifest.frame.vertical;report.exportFrame=manifest.frame;
   report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
  }
@@ -115,8 +116,9 @@ try{
   },null,{polling:'raf',timeout:180000});
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {sceneBudget:b.sceneBudget??null,metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
+  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {paletteBReport:b.paletteB??null,sceneBudget:b.sceneBudget??null,metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
   verifyModes(evidence,mode);
+  if((evidence.paletteBReport?.mode??'off')!==(mode.paletteB??'off'))throw Error('paletteB did not resolve as requested');
   if(values.sceneBudget!==!!evidence.sceneBudget?.enabled)throw Error('sceneBudget did not resolve as requested');
   if((evidence.crownV3||'off')!==(mode.crownV3||'off'))throw Error('crownV3 did not resolve as requested');
   verifyCounters(evidence.metrics);
@@ -131,7 +133,7 @@ try{
   }
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
-  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${values.sceneBudget?'-scene-budget':''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
+  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${mode.paletteB?'-palette-'+mode.paletteB:''}${values.sceneBudget?'-scene-budget':''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
   await writeFile(resolve(run,filename),image);
   report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,inspection:scenes[scene].inspection??null,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
   await page.close();

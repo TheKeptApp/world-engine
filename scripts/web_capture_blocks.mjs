@@ -23,6 +23,12 @@ export async function blockContract(root,block){
   if(!manifest.frame.vertical.includes('y = 0 is ground'))throw Error('Lakeview ladder requires its flat-ground export');
   return {...frozen,source:'R scene-budget hold-out qualification; existing Lakeview eye and shared 40/150/600 m, heading270/pitch45/FOV50 recipe',fixture:{...frozen.fixture,date:'2026-10-15'},scenes:Object.fromEntries([40,150,600].map(alt=>['lakeview-'+alt,{...saved,templateScene:'lakeview',viewport:{width:1005,height:565},camera:inspectionCamera(pose,alt,manifest.frame.origin),inspection:{...pose,altitudeAGLMetres:alt,utc:'2026-10-15T20:30:00Z',groundDatum:manifest.frame.vertical}}]))};
  }
+ if(block==='lakeview-150'){
+  const control=await blockContract(root,'lakeview-600'),view=control.scenes.lakeview;
+  view.camera=inspectionCamera(view.inspection,150);view.inspection.altitudeAGLMetres=150;
+  control.source='R palette-B hold-out: existing Lakeview inspection pose at 150 m';
+  return control;
+ }
  if(block==='lakeview-600'){
   const saved=frozen.scenes.lakeview,pose={lat:saved.camera.eye[0],lon:saved.camera.eye[1],heading:270,pitchDown:45,fov:50};
   return {...frozen,source:'R near-plane follow-up; saved Lakeview web eye, same 600 m/270/45/50 diagnostic recipe as lake-banding-diagnosis.md',fixture:{...frozen.fixture,date:'2026-10-15'},scenes:{lakeview:{...saved,viewport:{width:1005,height:565},camera:inspectionCamera(pose,600),inspection:{...pose,altitudeAGLMetres:600,utc:'2026-10-15T20:30:00Z',groundDatum:'export flat ground y=0; resolved from generated manifest before navigation'}}}};
