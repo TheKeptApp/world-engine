@@ -7,10 +7,10 @@ import {mkdir,readFile,writeFile,access,statfs} from 'node:fs/promises';
 import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {parseArgs} from 'node:util';
-import {modeQueries,verifyCounters,verifyCoverage,verifyPixels} from './web_capture_checks.mjs';
+import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference} from './web_capture_checks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -28,7 +28,10 @@ async function exists(path){try{await access(resolve(root,path));return true;}ca
 try{
  const contract=await readJSON('scripts/web_capture_contract.json');
  const {scenes,fixture}=contract;
- const identities=Object.fromEntries(Object.keys(scenes).map(scene=>[scene,scene+'-frozen-web']));
+ const selected=values.scene?[values.scene]:['sloans','lakeview'];
+ if(selected.some(scene=>!Object.hasOwn(scenes,scene)))throw Error('Unsupported frozen web scene: '+values.scene);
+ const freshFrames=new Map();
+ const identities=Object.fromEntries(selected.map(scene=>[scene,scene+'-frozen-web']));
  const modes=modeQueries({foliage:values.foliage,crown:values.crown,matrix:values.matrix});
  if(modes.some(m=>m.crownV2==='on')&&!(await readFile(resolve(root,'web/bakeoff/main.js'),'utf8')).includes('crownV2'))throw Error('crownV2=on is unsupported by this checkout; do not label an unchanged frame as the prototype');
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Less than 8 GB free; capture not started');
@@ -38,13 +41,14 @@ try{
  if(!await exists('web/node_modules/three'))await command('npm',['ci','--prefix',resolve(root,'web'),'--no-audit','--no-fund']);
  await command(resolve(root,'scripts/export-package.sh'),[]);
  // Exactly the existing bakeoff/export.sh recipe, using the release exporter already built above.
- await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
+ if(selected.includes('lakeview'))await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
  stage='server';server=await startCaptureServer(root,{'/scenes.json':scenes,'/fixture.json':fixture});report.origin=server.origin;
  for(const scene of Object.keys(identities)){const response=await fetch(`${server.origin}/${scene}.html`);if(!response.ok)throw Error('Server readiness HTTP '+response.status);}
  report.events.push({stage:'server-ready',origin:server.origin});
  stage='browser';browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,timeout:30000,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
  report.browser={version:browser.version(),engine:'Chromium via Playwright (installed Chrome)',sandbox:true};
- for(const scene of ['sloans','lakeview'])for(const mode of modes){
+ for(const scene of selected)for(const mode of modes)for(const repeat of (values.repeat?[false,true]:[false])){
+  if(repeat){await browser.close();browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,timeout:30000,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});}
   stage=`capture ${scene}/${mode.foliageExp1}/${mode.crownV2}`;console.error('web capture: '+stage);
   const viewport=scenes[scene].viewport,page=await browser.newPage({viewport,deviceScaleFactor:1}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
@@ -66,10 +70,20 @@ try{
   verifyCounters(evidence.metrics);
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
-  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}.png`;
+  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
   await writeFile(resolve(run,filename),image);
-  report.frames.push({scene,view:identities[scene],camera:scenes[scene].camera,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
+  report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
   await page.close();
+  if(values.repeat){
+   const key=JSON.stringify([scene,mode]);
+   if(!repeat)freshFrames.set(key,image);
+   else{
+    const fresh=freshFrames.get(key),difference={scene,...mode,png:byteDifference(fresh,image),rgba:byteDifference(PNG.sync.read(fresh).data,PNG.sync.read(image).data)};
+    (report.repeatDifferences??=[]).push(difference);
+    report.coverage=verifyCoverage(report.frames,{expectedDifferent:values.expectedDifferent});
+    if(difference.png.differingBytes||difference.rgba.differingBytes)throw Error(`Noisy repeat: ${scene}; PNG ${difference.png.differingBytes} differing bytes; RGBA ${difference.rgba.differingBytes}, max ${difference.rgba.max}, mean ${difference.rgba.mean}; batch stopped`);
+   }
+  }
  }
  stage='coverage';report.coverage=verifyCoverage(report.frames,{expectedDifferent:values.expectedDifferent});
  if(server.failures.length)throw Error('Server resource failures: '+server.failures.join(', '));
