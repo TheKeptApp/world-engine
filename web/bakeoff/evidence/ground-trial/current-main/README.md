@@ -1,5 +1,7 @@
 # Rebased validation
 
+**Update, R 9 October:** fresh unmodified current-main OFF is now the approved control, with exact trial OFF equality. c8c361d is historical only. See [adapter/gate update](../REGIONAL-ADAPTER.md); old blocker text below is retained as history.
+
 Parent main `591e4be` changes exporter water selection and tunnel handling. These fresh pairs supersede the pre-rebase captures for review; the historical gate below remains failed. Historical evidence is retained one directory above. No scores.
 
 

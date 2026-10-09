@@ -102,13 +102,15 @@
       "changedComponents": 232709,
       "excludedCreditRows": 32
     },
-    "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-40-foliage-off-crown-off-fresh.png",
+    "control": "web/bakeoff/evidence/ground-trial/current-main/sloans-main/sloans-40-foliage-off-crown-off-ground-off-fresh.png",
     "controlDifference": {
       "max": 0,
       "mean": 0.0,
       "changedComponents": 0,
       "excludedCreditRows": 32
     },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 729089,
@@ -248,13 +250,15 @@
       "changedComponents": 276896,
       "excludedCreditRows": 32
     },
-    "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+    "control": "web/bakeoff/evidence/ground-trial/current-main/sloans-main/sloans-150-foliage-off-crown-off-ground-off-fresh.png",
     "controlDifference": {
       "max": 0,
       "mean": 0.0,
       "changedComponents": 0,
       "excludedCreditRows": 32
     },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 791749,
@@ -370,13 +374,15 @@
       "changedComponents": 92052,
       "excludedCreditRows": 32
     },
-    "control": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-600-foliage-off-crown-off-fresh.png",
+    "control": "web/bakeoff/evidence/ground-trial/current-main/sloans-main/sloans-600-foliage-off-crown-off-ground-off-fresh.png",
     "controlDifference": {
-      "max": 25,
-      "mean": 0.0027703882090485657,
-      "changedComponents": 590,
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
       "excludedCreditRows": 32
     },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 624291,
@@ -419,7 +425,7 @@
         "draws": 0
       }
     },
-    "controlGatePassed": false
+    "controlGatePassed": true
   },
   {
     "view": "lakeview",
@@ -500,13 +506,15 @@
       "changedComponents": 109072,
       "excludedCreditRows": 32
     },
-    "control": "web/bakeoff/evidence/palette-b/lakeview-default/lakeview-foliage-off-crown-off-fresh.png",
+    "control": "web/bakeoff/evidence/ground-trial/current-main/lakeview-main/lakeview-foliage-off-crown-off-ground-off-fresh.png",
     "controlDifference": {
       "max": 0,
       "mean": 0.0,
       "changedComponents": 0,
       "excludedCreditRows": 32
     },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 323901,
@@ -614,6 +622,15 @@
       "changedComponents": 478241,
       "excludedCreditRows": 32
     },
+    "control": "web/bakeoff/evidence/ground-trial/current-main/wilmette-main/wilmette-150-foliage-off-crown-off-ground-off-fresh.png",
+    "controlDifference": {
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
+      "excludedCreditRows": 32
+    },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 624169,
@@ -655,7 +672,8 @@
         "triangles": 0,
         "draws": 0
       }
-    }
+    },
+    "controlGatePassed": true
   },
   {
     "view": "west-highland",
@@ -728,6 +746,15 @@
       "changedComponents": 142711,
       "excludedCreditRows": 32
     },
+    "control": "web/bakeoff/evidence/ground-trial/current-main/west-highland-main/west-highland-foliage-off-crown-off-ground-off-fresh.png",
+    "controlDifference": {
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
+      "excludedCreditRows": 32
+    },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
     "offTotals": {
       "main": {
         "triangles": 1044327,
@@ -769,6 +796,131 @@
         "triangles": 0,
         "draws": 0
       }
-    }
+    },
+    "controlGatePassed": true
+  },
+  {
+    "view": "greenville-150",
+    "off": "greenville-150-foliage-off-crown-off-ground-off-fresh.png",
+    "on": "greenville-150-foliage-off-crown-off-ground-on-fresh.png",
+    "passesOff": {
+      "main/sky/composite": {
+        "draws": 1,
+        "triangles": 1984
+      },
+      "shadow/opaque world": {
+        "draws": 23,
+        "triangles": 30283
+      },
+      "shadow/foliage": {
+        "draws": 3,
+        "triangles": 176
+      },
+      "main/opaque world": {
+        "draws": 131,
+        "triangles": 448629
+      },
+      "main/water": {
+        "draws": 5,
+        "triangles": 59
+      },
+      "main/foliage": {
+        "draws": 37,
+        "triangles": 16698
+      },
+      "post/sky/composite": {
+        "draws": 1,
+        "triangles": 1
+      }
+    },
+    "passesOn": {
+      "main/sky/composite": {
+        "draws": 1,
+        "triangles": 1984
+      },
+      "shadow/opaque world": {
+        "draws": 23,
+        "triangles": 30283
+      },
+      "shadow/foliage": {
+        "draws": 3,
+        "triangles": 176
+      },
+      "main/opaque world": {
+        "draws": 131,
+        "triangles": 448629
+      },
+      "main/water": {
+        "draws": 5,
+        "triangles": 59
+      },
+      "main/foliage": {
+        "draws": 37,
+        "triangles": 16698
+      },
+      "post/sky/composite": {
+        "draws": 1,
+        "triangles": 1
+      }
+    },
+    "passLedgerIdentical": true,
+    "appearanceDifference": {
+      "max": 27,
+      "mean": 0.6641738151021005,
+      "changedComponents": 80010,
+      "excludedCreditRows": 32
+    },
+    "control": "web/bakeoff/evidence/ground-trial/current-main/greenville-main/greenville-150-foliage-off-crown-off-ground-off-fresh.png",
+    "controlDifference": {
+      "max": 0,
+      "mean": 0.0,
+      "changedComponents": 0,
+      "excludedCreditRows": 32
+    },
+    "controlPNGIdentical": true,
+    "controlCommit": "f7fdfe1",
+    "offTotals": {
+      "main": {
+        "triangles": 467370,
+        "draws": 174
+      },
+      "shadow": {
+        "triangles": 30459,
+        "draws": 26
+      },
+      "post": {
+        "triangles": 1,
+        "draws": 1
+      }
+    },
+    "onTotals": {
+      "main": {
+        "triangles": 467370,
+        "draws": 174
+      },
+      "shadow": {
+        "triangles": 30459,
+        "draws": 26
+      },
+      "post": {
+        "triangles": 1,
+        "draws": 1
+      }
+    },
+    "delta": {
+      "main": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "post": {
+        "triangles": 0,
+        "draws": 0
+      }
+    },
+    "controlGatePassed": true
   }
 ]

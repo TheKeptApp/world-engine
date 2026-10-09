@@ -70,6 +70,11 @@ try{
   report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:manifest.frame}));
  }
  const overrides={'/scenes.json':scenes,'/fixture.json':fixture,'/capture-probes.mjs':await readFile(resolve(root,'scripts/world_scoreboard_probes.mjs'),'utf8')};
+ if(contract.regionalInput){
+  const {regionalAdapter}=await import('../web/bakeoff/regional-adapter.mjs');
+  const adapted=regionalAdapter(contract.regionalInput,{haze:await readJSON('web/bakeoff/data/haze-values.json'),fullHaze:await readJSON('docs/proposals/haze-visibility-v1/values.json'),foliage:await readJSON('docs/proposals/foliage-seasons-v1/foliage-values.json'),p2:await readJSON('web/bakeoff/data/p2-crowns.json')});
+  overrides['/data/haze-values.json']=adapted.haze;overrides['/data/p2-crowns.json']=adapted.p2;overrides['/packs/foliage-seasons-v1/foliage-values.json']=adapted.foliage;report.regionalAdapter=adapted.report;
+ }
  // Bounded control replay: serve the committed main renderer with every trial off.
  if(values.controlMain){
   if(!/^[a-f0-9]{7,40}$/.test(values.controlMain)||values.sceneBudget||modes.some(m=>Object.values(m).some(v=>v!=='off')))throw Error('controlMain requires a commit hash and all trials OFF');
@@ -123,7 +128,7 @@ try{
    p.stable=p.key===key?p.stable+1:1;p.key=key;p.samples=m.samples;
    return p.stable>=3;
   },null,{polling:'raf',timeout:180000});
-  await page.evaluate(()=>{window.bakeoff.freeze=true;});
+  await page.evaluate(async()=>{window.bakeoff.freeze=true;const {time}=await import('three/tsl');time.onRenderUpdate(()=>0);});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {groundTrialReport:b.groundTrial??null,lightTrialReport:b.lightTrial??null,paletteBReport:b.paletteB??null,sceneBudget:b.sceneBudget??null,metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
   verifyModes(evidence,mode);

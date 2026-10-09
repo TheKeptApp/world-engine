@@ -1,14 +1,17 @@
 {
-  "status": "blocked; not merged",
-  "mainParent": "591e4be",
-  "baseline": "c8c361d; top 32 credit rows excluded",
+  "status": "validated; ready to merge default off",
+  "mainParent": "f7fdfe1",
+  "baseline": "fresh unmodified current-main OFF; exact trial OFF equality; c8c361d historical only",
   "flag": "groundTrial=on; absent/off unchanged",
   "sourceHashes": {
     "web/bakeoff/main.js": "aaa45a7425501f2921db640bb974a7fa77614ce2fca74fda2252381f9ac7a057",
     "web/bakeoff/ground-trial.js": "7c2cb07ed8fc65d5894dfcface72cc8d18b337f7159fcd9cdb6b710073f1e6c8",
     "web/bakeoff/surface-roles.js": "f8a0cdefbaeb030302d7c8dc294056682c9ec5c5411abfaf1a4c5a02b0a82de9",
     "web/bakeoff/prepare-ground-companions.mjs": "5a5bc81294e872ea1edddfe2676be38d3b58e9925bbb98ee84c1afa79602629a",
-    "scripts/capture_web.mjs": "a77895987d5c2ecf1c8e05394442d60fe8496b35e91dd81e7f80e39a6b0ec397"
+    "scripts/capture_web.mjs": "faf2be3c1fcfb8699c6109c6a49871ab302d36b37236a7c6460014e18f0d831d",
+    "web/bakeoff/regional-adapter.mjs": "63d857c8be0f230ae443c1f8403ea140acbabc6b25f24574578f0be77c740e3c",
+    "web/bakeoff/phenology.js": "62e18e8fe1d52eb9019a890e9355d24c9fcf3f08fbf62a0bee96ee043cac9c5c",
+    "scripts/web_capture_blocks.mjs": "524057558fdeb22daf92f5f13904e2144f44bddcd6a1cc2a9481fbe3ba58f719"
   },
   "reports": [
     {
@@ -19,7 +22,45 @@
       "error": null
     },
     {
+      "path": "current-main/greenville-main/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/greenville-off/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/greenville-off-rejected-live-water-clock/web-capture.json",
+      "status": "failed",
+      "frames": 2,
+      "allRepeatPNGsExact": false,
+      "error": {
+        "stage": "capture greenville-150/off/off",
+        "message": "Error: Noisy repeat: greenville-150; PNG 160445 differing bytes; RGBA 43822, max 2, mean 0.019742438251221767; batch stopped\n    at file:///private/tmp/worldengine-a2-bakeoff/scripts/capture_web.mjs:163:76"
+      }
+    },
+    {
+      "path": "current-main/greenville-on/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
       "path": "current-main/lakeview-historical-control/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/lakeview-main/web-capture.json",
       "status": "passed",
       "frames": 2,
       "allRepeatPNGsExact": true,
@@ -40,6 +81,13 @@
       "error": null
     },
     {
+      "path": "current-main/sloans-main/web-capture.json",
+      "status": "passed",
+      "frames": 6,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
       "path": "current-main/sloans-off/web-capture.json",
       "status": "passed",
       "frames": 6,
@@ -50,6 +98,13 @@
       "path": "current-main/sloans-on/web-capture.json",
       "status": "passed",
       "frames": 6,
+      "allRepeatPNGsExact": true,
+      "error": null
+    },
+    {
+      "path": "current-main/west-highland-main/web-capture.json",
+      "status": "passed",
+      "frames": 2,
       "allRepeatPNGsExact": true,
       "error": null
     },
@@ -76,6 +131,13 @@
         "stage": "capture west-highland/off/off",
         "message": "page.waitForFunction: Error: Error: Surface companion rejected: incomplete coverage/trailing payload\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at eval (eval at predicate (eval at evaluate (:311:30)), <anonymous>:2:41)\n    at predicate (eval at evaluate (:311:30), <anonymous>:7:27)\n    at next (eval at evaluate (:311:30), <anonymous>:29:33)\n    at /private/tmp/worldengine-a2-bakeoff/scripts/capture_web.mjs:117:14"
       }
+    },
+    {
+      "path": "current-main/wilmette-main/web-capture.json",
+      "status": "passed",
+      "frames": 2,
+      "allRepeatPNGsExact": true,
+      "error": null
     },
     {
       "path": "current-main/wilmette-off/web-capture.json",
@@ -109,10 +171,17 @@
       "pngIdentical": true
     }
   },
-  "blocked": [
-    "Historical Sloan 600 m control differs after main water/exporter correction; R baseline decision pending. Trial OFF is PNG-identical to unmodified main 591e4be replay.",
-    "Greenville has no approved bakeoff haze/phenology/species adapter; R regional-profile decision pending."
-  ],
+  "blocked": [],
   "scores": null,
-  "tests": "11 arithmetic/reader suites plus 16 capture-tooling tests passed under heavy admission; 31 reader checks, 1056 geometry-identity fixtures, 228 crown-v3 cases"
+  "tests": "12 arithmetic/reader suites and 16 capture-tooling tests; final heavy admission load 16.97",
+  "regionalAdapter": "REGIONAL-ADAPTER.md",
+  "captureClock": "Both bakeoff now and Three time frozen to zero; failed initial Greenville repeat retained",
+  "controlGate": "All 7 views: full PNG bytes exact, world RGB max/mean 0/0 versus fresh f7fdfe1 main controls",
+  "holdouts": [
+    "lakeview",
+    "wilmette-150",
+    "west-highland",
+    "greenville-150"
+  ],
+  "pairedCostDelta": "0 triangles / 0 draws in every main, shadow and post bucket"
 }

@@ -1,6 +1,6 @@
 # Ground / semantic materials trial — A2, 9 October 2026
 
-**Implemented on the task branch; merge blocked by the requested historical control gate and the missing Greenville adapter. No scores.** See [current-main evidence](current-main/README.md) and [manifest](manifest.json). Pre-rebase captures and the old `blind/` directory below are superseded; use `current-main/blind/` for A3. `?groundTrial=on` resolves the prepared companion by exported area ID; an explicit `surfaceRoles=<same-origin companion/index.json>` can override its location; absent/off does not import the trial or load a companion. Other look flags remain off for the paired trial.
+**R approved the fresh-main rebaseline and inferred regional adapter on 9 October. All seven fresh-main controls and paired cost gates pass; default-off merge ready. No scores.** See [regional adapter and gate decision](REGIONAL-ADAPTER.md). See [current-main evidence](current-main/README.md) and [manifest](manifest.json). Pre-rebase captures and the old `blind/` directory below are superseded; use `current-main/blind/` for A3. `?groundTrial=on` resolves the prepared companion by exported area ID; an explicit `surfaceRoles=<same-origin companion/index.json>` can override its location; absent/off does not import the trial or load a companion. Other look flags remain off for the paired trial.
 
 ## Rule and inputs
 
@@ -18,7 +18,7 @@ No new geometry, materials, draw submissions, lights, shadow rules, exposure, da
 - Opened ground-v1 `images/03-beds-and-transitions.png`, `04-region-chicago.png`, `05-region-denver.png`, `06-region-miami.png`, including their aerial insets.
 - Opened `~/Desktop/world-engine/docs/proposals/house-contrast-v1/images/{denver-hero,lakeview-hero,wilmette-hero}.png` (street scope) and `~/Desktop/world-engine/docs/proposals/house-archetypes-v1/{denver-02-bungalow-sheet,denver-04-ranch-sheet,chicago-02-flats-sheet,chicago-04-foursquare-sheet}.png` (paired aerial/street). Worktree image omissions were resolved from the main checkout, not substituted.
 
-## Validation plan / remaining gap
+## Historical validation plan / superseded blockers
 
 OFF controls: exact RGB max/mean 0/0 below the top 32 credit rows against c8c361d Sloan 40/150/600 controls; Lakeview 150 uses the already-qualified matching-pose control, with literal historical Lakeview 600 checked separately. Capture both modes at Sloan 40/150/600, Lakeview 150, Wilmette 150 and frozen West Highland. Greenville is currently rejected by the bakeoff capture adapter: no approved regional haze/phenology/species integration. R has been asked which approved profile to use; no Denver/Chicago substitution is made.
 
@@ -26,8 +26,14 @@ OFF controls: exact RGB max/mean 0/0 below the top 32 credit rows against c8c361
 
 First Wilmette ON attempt rejected an identical repeated relation witness in A4's `featureSources`. The failed `web-capture.json` is retained under `wilmette-on-rejected-duplicate-witness/`. The reader now accepts repeated source IDs only when the canonical tag sets match exactly; conflicting provenance still rejects. No exporter, role recovery or source-colour changes. Dedicated positive/negative tests cover this case.
 
-## Ledger text for A3
+## Historical ledger text (superseded by REGIONAL-ADAPTER.md)
 
 Default-off ground/semantic-material trial implemented on `astra-a2-ground-trial`, rebased onto `591e4be`; not merged. Current-main pairs: Sloan 40/150/600, Lakeview 150, Wilmette 150, frozen West Highland, each fresh/repeat. All paired main/shadow/post cost deltas are 0 triangles / 0 draws. Arithmetic/reader suites and 16 capture-tooling tests pass. Mapped colours remain unchanged; no new palette values or geometry. Target Ground/Materials 2→3 is unscored; A3 owns grading. Sloan 600 m historical c8c361d gate fails after main's upstream water correction, while bare-main versus trial-OFF is PNG-exact. R's baseline decision and Greenville regional adapter are pending. No merge, promotion, or post-merge scoreboard is claimed.
 
 Touched: `web/bakeoff/{main.js,ground-trial.js,ground-trial.test.mjs,surface-roles.js,surface-roles.test.mjs,surface-roles-fixture.mjs,palette-b-identity.mjs,light-trial.test.mjs,prepare-ground-companions.mjs,evidence/ground-trial/}` and minimal ground-mode/control-replay additions to `scripts/capture_web.mjs`; watchdog/lock-release and camera ladder unchanged.
+
+## Current completion record
+
+See [approved rebaseline and regional adapter](REGIONAL-ADAPTER.md) for current status; historical blocked notes above are superseded. Accepted OFF/ON pairs cover Sloan 40/150/600, Lakeview 150, Wilmette 150, West Highland frozen view and Greenville 150. All accepted repeats are PNG-exact; all fresh-main controls equal trial OFF byte-for-byte. All rendering-pass deltas are zero.
+
+Additional touched files: `regional-adapter.mjs`, `regional-adapter.test.mjs`, `phenology.js`, `scripts/web_capture_blocks.mjs`; capture tooling freezes the shared material clock as well as the bakeoff clock. Existing approved look values, mapped materials and camera recipes remain unchanged.

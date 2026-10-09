@@ -43,6 +43,12 @@ export async function blockContract(root,block){
   const pose={...demo.cameras['northshore-postcard'],pitchDown:45},area=native.area;
   return {...frozen,source:'a3-capture-contract.json wilmette-street-afternoon + demo.json northshore-postcard; crown-native-before-evidence.md pose recipe (40/150/600 m, pitch 45, 1005x565)',fixture:{...frozen.fixture,date:native.utc.slice(0,10)},scenes:Object.fromEntries([40,150,600].map(alt=>['wilmette-'+alt,{world:'/world/capture/'+area+'/',mock:'01-lakeview',viewport:{width:1005,height:565},camera:inspectionCamera(pose,alt),region:'chicago',climateRegion:'great-lakes',area,inspection:{...pose,altitudeAGLMetres:alt,utc:native.utc}}])),exports:[{area,date:native.utc,focus:[demo.focus.south,demo.focus.west,demo.focus.north,demo.focus.east].join(',')}]};
  }
+ if(block==='greenville'){
+  const area='greenville-downtown',manifest=await read('Data/areas/'+area+'/manifest.json'),b=manifest.approvedBounds,ladder=await read('scripts/web_sloans_ladder.json');
+  const pose={lat:manifest.center.latitude,lon:manifest.center.longitude,heading:270,pitchDown:45,fov:50};
+  const regionalInput={id:'southeast-inland-proxy',climateRegion:'southeast-inland',speciesRegion:'atlanta',latitude:manifest.center.latitude,source:'haze-visibility-v1/regions.southeast-inland.locations includes Greenville SC and Atlanta; foliage-seasons-v1/cities.atlanta is the available same-climate mix; inferred proxy, not inventory'};
+  return {...frozen,source:'scripts/world_scoreboard.py held-area centre + shared 150 m/270/45/50 ladder; no camera tuning',fixture:{...frozen.fixture,date:ladder.utc.slice(0,10)},regionalInput,scenes:{'greenville-150':{world:'/world/capture/'+area+'/',mock:'01-lakeview',viewport:ladder.viewport,camera:inspectionCamera(pose,150),region:regionalInput.id,climateRegion:regionalInput.climateRegion,area,inspection:{...pose,altitudeAGLMetres:150,utc:ladder.utc},judgingMock:'greenville-sc-v1/images/07-downtown.png (aerial inset; composition not a surveyed view)'}},exports:[{area,date:ladder.utc,focus:[b.south,b.west,b.north,b.east].join(',')}]};
+ }
  if(block==='west-highland'){
   const prior=await read('docs/lookloop/west-highland-capture-contract.json'),c=prior.camera,area=prior.area;
   const manifest=await read('Data/areas/'+area+'/manifest.json'),b=manifest.approvedBounds;

@@ -16,7 +16,7 @@ def difference(a,b):
 results=[]
 blind=HERE/'blind';blind.mkdir(exist_ok=True)
 key=[]
-for name in ['sloans','lakeview','wilmette','west-highland']:
+for name in ['sloans','lakeview','wilmette','west-highland','greenville']:
     before=HERE/(name+'-off')/'web-capture.json';after=HERE/(name+'-on')/'web-capture.json'
     if not before.exists() or not after.exists(): continue
     off=json.loads(before.read_text());on=json.loads(after.read_text())
@@ -25,12 +25,15 @@ for name in ['sloans','lakeview','wilmette','west-highland']:
         b=next(f for f in on['frames'] if f['scene']==a['scene'] and not f['repeat'])
         passesA=a['metrics']['cost']['passes'];passesB=b['metrics']['cost']['passes']
         row=dict(view=a['scene'],off=a['frame'],on=b['frame'],passesOff=passesA,passesOn=passesB,passLedgerIdentical=passesA==passesB,appearanceDifference=difference(before.parent/a['frame'],after.parent/b['frame']))
-        if name=='sloans':
-            control=ROOT/'docs/lookloop/captures/a7-web-crown-all-near-fix'/(a['scene']+'-foliage-off-crown-off-fresh.png')
-        elif name=='lakeview':
-            control=ROOT/'web/bakeoff/evidence/palette-b/lakeview-default/lakeview-foliage-off-crown-off-fresh.png'
-        else: control=None
-        if control: row['control']=str(control.relative_to(ROOT));row['controlDifference']=difference(control,before.parent/a['frame'])
+        controlReport=HERE/(name+'-main')/'web-capture.json'
+        control=None
+        if controlReport.exists():
+            main=json.loads(controlReport.read_text());assert main['status']=='passed'
+            frame=next(f for f in main['frames'] if f['scene']==a['scene'] and not f['repeat'])
+            control=controlReport.parent/frame['frame']
+            row['control']=str(control.relative_to(ROOT));row['controlDifference']=difference(control,before.parent/a['frame'])
+            row['controlPNGIdentical']=control.read_bytes()==(before.parent/a['frame']).read_bytes()
+            row['controlCommit']=main['controlMain']['commit']
         for label,src in zip(['A','B'],[before.parent/a['frame'],after.parent/b['frame']] if int(hashlib.sha256(a['scene'].encode()).hexdigest()[:8],16)%2 else [after.parent/b['frame'],before.parent/a['frame']]):
             dest=blind/(a['scene']+'-'+label+'.png');shutil.copyfile(src,dest);key.append(dict(view=a['scene'],label=label,source=str(src.relative_to(HERE))))
         def totals(passes,prefix):
@@ -41,7 +44,7 @@ for name in ['sloans','lakeview','wilmette','west-highland']:
         row['delta']={p:{k:row['onTotals'][p][k]-row['offTotals'][p][k] for k in ['triangles','draws']} for p in ['main','shadow','post']}
         assert row['passLedgerIdentical'],row['view']+' changed rendering pass costs'
         assert row['appearanceDifference']['changedComponents']>0,row['view']+' trial is a no-op'
-        if control: row['controlGatePassed']=row['controlDifference']['max']==0
+        row['controlGatePassed']=bool(control) and row['controlDifference']['max']==0 and row['controlPNGIdentical']
         results.append(row)
 (HERE/'comparisons.json').write_text(json.dumps(results,indent=2)+'\n')
 for r in results:
@@ -50,4 +53,4 @@ for r in results:
 (HERE/'blind-key.json').write_text(json.dumps(key,indent=2)+'\n')
 
 if any(r.get('controlGatePassed') is False for r in results):
-    print('FAIL: historical control gate; see comparisons.json');sys.exit(1)
+    print('FAIL: fresh main control gate; see comparisons.json');sys.exit(1)
