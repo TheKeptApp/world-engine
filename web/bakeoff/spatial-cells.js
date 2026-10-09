@@ -47,7 +47,7 @@ export function installSpatialCells(scene,camera,{renderer,features=new WeakMap(
  function collect(){
   let changed=false;
   for(let i=sources.length-1;i>=0;i--)if(!attached(sources[i].o)){known.delete(sources[i].o);sources.splice(i,1);changed=true;}
-  scene.traverse(o=>{if(o.isMesh&&attached(o)&&!known.has(o)&&camera.layers.test(o.layers)&&!Array.isArray(o.material)){known.add(o);sources.push({o});changed=true;}});
+  scene.traverse(o=>{if(o.isMesh&&!o.userData.contextRing&&attached(o)&&!known.has(o)&&camera.layers.test(o.layers)&&!Array.isArray(o.material)){known.add(o);sources.push({o});changed=true;}});
   for(const s of sources){const o=s.o;if(!attached(o)){if(!s.removed){s.removed=true;changed=true;}continue;}
    if(s.geometry===o.geometry)continue;changed=true;s.geometry=o.geometry;
    if(o.isInstancedMesh){s.key=geometryKey(o.geometry);s.rows=null;}

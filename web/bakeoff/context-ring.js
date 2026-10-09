@@ -1,6 +1,7 @@
 // world-edge-options.md §First test; native ContextRing aerial geometry and 200 m coverage fade.
 // Calibration-v2 owns matte response; existing palette and single scene airlight/grade are reused.
 import * as T from 'three/webgpu';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {attribute,positionWorld,vec3,float,min,smoothstep,mix} from 'three/tsl';
 
 export function ringStrips(core,cov){const [x0,z0,x1,z1]=core,[a,b,c,d]=cov;return [[a,b,c,z0],[a,z1,c,d],[a,z0,x0,z1],[x1,z0,c,z1]].filter(r=>r[2]>r[0]&&r[3]>r[1]);}
@@ -20,7 +21,7 @@ export function clippedTriangles(mesh,core,coverage){
   }}
  }return out;
 }
-export function installContextRing(b,data,{mergeLand=false}={}){
+export function installContextRing(b,data,{mergeLand=false,mergeOpaque=false}={}){
  const report={enabled:true,status:data.status,area:data.area,source:data.source,buildings:0,addedShadowTriangles:0,addedShadowDraws:0,uploadedTriangles:0,uploadedDraws:0,geometryBytes:0};
  if(data.status==='missing-context-source')return {report,meshes:[]};
  if(![1,2].includes(data.formatVersion))throw Error('Unsupported context geometry version');
@@ -59,8 +60,9 @@ export function installContextRing(b,data,{mergeLand=false}={}){
  report.buildingsSkippedByBudget=report.buildingCandidates-report.buildings;
  groups.push(masses);
  if(landCount>40000)throw Error('Existing ring alone exceeds 40k triangle cap');
- if(mergeLand){groups[0].push(...groups[1],...groups[2],...groups[3]);groups[1]=[];groups[2]=[];groups[3]=[];}
- report.mergeLand=mergeLand;
+ if(mergeLand&&!mergeOpaque){groups[0].push(...groups[1],...groups[2],...groups[3]);groups[1]=[];groups[2]=[];groups[3]=[];}
+
+ report.mergeLand=mergeLand;report.mergeOpaque=mergeOpaque;
  const meshes=[];
  for(let group=0;group<groups.length;group++){
   if(!groups[group].length)continue;const position=[],colors=[],normals=[],extra=[],paint=[],facade=[];
@@ -71,6 +73,19 @@ export function installContextRing(b,data,{mergeLand=false}={}){
   mesh.castShadow=false;mesh.receiveShadow=false;mesh.userData.contextRing=true;mesh.userData.costCategory=group===4?'context water':group===5?'context buildings':'context land/roads';mesh.userData.contextKind=group===4?'context-water':group===5?'context-building':'context-mapped-land-roads';
   b.scene.add(mesh);meshes.push(mesh);report.uploadedTriangles+=position.length/9;report.uploadedDraws++;report.geometryBytes+=Object.values(geometry.attributes).reduce((s,a)=>s+a.array.byteLength,0)+geometry.index.array.byteLength;
  }
+ // Preserve original ring-source depth ordering before pooling; all share one material.
+ // R requires exact Sloan pixels. This is a general camera rule, not a location recipe.
+ const originals=meshes.filter(m=>m.userData.contextKind!=='context-water');let merged,priorOrder='';
+ const update=()=>{if(!mergeOpaque||!originals.length)return;
+  b.camera?.updateMatrixWorld();const projection=b.camera?new T.Matrix4().multiplyMatrices(b.camera.projectionMatrix,b.camera.matrixWorldInverse):null;
+  const ordered=originals.map(m=>({m,z:projection?m.geometry.boundingSphere.center.clone().applyMatrix4(m.matrixWorld).applyMatrix4(projection).z:0})).sort((a,c)=>a.z-c.z||a.m.id-c.m.id).map(x=>x.m);
+  const order=ordered.map(m=>m.id).join(',');if(order===priorOrder)return;priorOrder=order;
+  const geometry=mergeGeometries(ordered.map(m=>m.geometry),false);if(!geometry)throw Error('Ring opaque layouts differ');
+  if(merged){merged.geometry.dispose();merged.geometry=geometry;}else{merged=new T.Mesh(geometry,material);merged.name='context ring opaque';merged.castShadow=false;merged.receiveShadow=false;merged.userData={contextRing:true,costCategory:'context land/roads',contextKind:'context-mapped-land-roads'};b.scene.add(merged);}
+  for(const m of originals)b.scene.remove(m);
+  report.opaqueSourceOrder=ordered.map(m=>m.name);report.uploadedDraws=meshes.filter(m=>m.userData.contextKind==='context-water').length+1;
+ };
+ update();
  report.coverage=data.coverage;report.core=data.core;report.stats=data.stats;
- return {report,meshes};
+ return {report,meshes:mergeOpaque&&merged?[...meshes.filter(m=>m.userData.contextKind==='context-water'),merged]:meshes,update};
 }

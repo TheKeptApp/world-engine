@@ -49,6 +49,7 @@ test('mapped masses preserve wall normals, count inferred heights, add no shadow
  const land={position:[-3,0,-3,-2,0,-3,-2,0,-2,2,0,2,3,0,2,3,0,3],paint:Array(6).fill([0,1,0,0]).flat(),index:[0,1,2,3,4,5]};
  const separate=installContextRing(b,{...data,cells:[{mesh:land}]}),merged=installContextRing(b,{...data,cells:[{mesh:land}]},{mergeLand:true});
  assert.equal(separate.report.uploadedTriangles,merged.report.uploadedTriangles);assert.equal(separate.report.uploadedDraws,3);assert.equal(merged.report.uploadedDraws,2);assert.equal(merged.meshes.filter(m=>m.userData.contextKind==='context-building').length,1);
+ const opaque=installContextRing(b,{...data,cells:[{mesh:land}],water:land},{mergeOpaque:true});assert.equal(opaque.report.uploadedDraws,2);assert.equal(opaque.report.uploadedTriangles,separate.report.uploadedTriangles+2);assert(opaque.meshes.every(m=>!m.castShadow));
  const many={...data,buildingMasses:[{...data.buildingMasses[0],mesh:{...triangle,index:Array(40001).fill([0,1,2]).flat()}}]};
  assert.equal(installContextRing(b,many).report.buildings,0);
 });
