@@ -17,6 +17,9 @@ struct CrownRuntimeAdapterTests {
         adapter.enabled = true
         let slots = try adapter.plan([c("elm", slot: 0), c("cottonwood", "populus_deltoides"), c("unknown", nil), c("bare", bare: true)], inputs: inputs)
         #expect(slots == ["elm": 0]); #expect(adapter.result?.ledger.elmMain == 1200)
+        var shared = inputs; shared.occupiedNonElmDrawSlots = ["slot-3"]
+        let sharedResult = try adapter.plan([c("elm")], inputs: shared)
+        #expect(sharedResult == ["elm": 1]); #expect(adapter.result?.ledger.mainDraws == 10)
         var missing = inputs; missing.nonElmAllPassShadow = nil
         #expect(throws: CrownLODAllocator.Failure.unknownShadowCost("non-elm")) { try adapter.plan([c("elm")], inputs: missing) }
         #expect(adapter.previous == ["elm": .near])

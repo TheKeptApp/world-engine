@@ -35,11 +35,14 @@ public enum CrownLODAllocator {
         public var nonElmAllPassShadow: Int?
         /// Occupied main draw slots excluding elms. Postprocessing is reported separately.
         public var nonElmMainDraws: Int
+        /// Named occupied slots shared with the elm chain; these are already included in nonElmMainDraws.
+        public var occupiedNonElmDrawSlots: Set<String>
         public var postprocessDraws: Int?
-        public init(nonFoliageMain: Int, otherFoliageMain: Int, nonElmAllPassShadow: Int?, nonElmMainDraws: Int, postprocessDraws: Int? = nil) {
+        public init(nonFoliageMain: Int, otherFoliageMain: Int, nonElmAllPassShadow: Int?, nonElmMainDraws: Int, postprocessDraws: Int? = nil, occupiedNonElmDrawSlots: Set<String> = []) {
             self.nonFoliageMain = nonFoliageMain; self.otherFoliageMain = otherFoliageMain
             self.nonElmAllPassShadow = nonElmAllPassShadow; self.nonElmMainDraws = nonElmMainDraws
             self.postprocessDraws = postprocessDraws
+            self.occupiedNonElmDrawSlots = occupiedNonElmDrawSlots
         }
     }
     public struct Ledger: Sendable {
@@ -78,6 +81,8 @@ public enum CrownLODAllocator {
         guard inputs.enabled else { return nil }
         guard inputs.nonFoliageMain >= 0, inputs.otherFoliageMain >= 0, inputs.nonElmMainDraws >= 0,
               inputs.postprocessDraws.map({ $0 >= 0 }) ?? true,
+              inputs.occupiedNonElmDrawSlots.count <= inputs.nonElmMainDraws,
+              inputs.occupiedNonElmDrawSlots.allSatisfy({ !$0.isEmpty }),
               Set(crowns.map(\.sourceID)).count == crowns.count,
               crowns.allSatisfy({ !$0.sourceID.isEmpty && $0.eyeDistance.isFinite && $0.eyeDistance >= 0 && $0.fallback <= .far && $0.requested >= $0.fallback }) else { throw Failure.invalidInput }
         guard let baseShadow = inputs.nonElmAllPassShadow else { throw Failure.unknownShadowCost("non-elm") }
@@ -100,10 +105,11 @@ public enum CrownLODAllocator {
             for slot in cost.drawSlots { slots[slot, default: 0] += sign; if slots[slot] == 0 { slots.removeValue(forKey: slot) } }
         }
         for crown in crowns { add(crown.costs[crown.fallback]!, sign: 1) }
+        func addedDraws() -> Int { slots.keys.filter { !inputs.occupiedNonElmDrawSlots.contains($0) }.count }
         func violation() -> String? {
             if elm > e || inputs.otherFoliageMain + elm > f { return "foliageAllowance" }
             if inputs.nonFoliageMain + inputs.otherFoliageMain + elm > 500_000 { return "mainTriangles" }
-            if inputs.nonElmMainDraws + slots.count > 120 { return "mainDraws" }
+            if inputs.nonElmMainDraws + addedDraws() > 120 { return "mainDraws" }
             if shadow > 180_000 { return "allPassShadow" }
             return nil
         }
@@ -125,7 +131,7 @@ public enum CrownLODAllocator {
         return Result(assigned: assigned, ledger: Ledger(foliageAllowance: f, elmAllowance: e,
             nonFoliageMain: inputs.nonFoliageMain, otherFoliageMain: inputs.otherFoliageMain,
             elmMain: elm, wholeMain: inputs.nonFoliageMain + inputs.otherFoliageMain + elm,
-            allPassShadow: shadow, mainDraws: inputs.nonElmMainDraws + slots.count,
+            allPassShadow: shadow, mainDraws: inputs.nonElmMainDraws + addedDraws(),
             postprocessDraws: inputs.postprocessDraws), denied: denied)
     }
 }
