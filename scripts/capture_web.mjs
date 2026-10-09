@@ -12,7 +12,7 @@ import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.
 import {verifyLadderPose,THRESHOLDS,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},paletteB:{type:'string'},lightTrial:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},paletteB:{type:'string'},lightTrial:{type:'string'},groundTrial:{type:'string'},sceneBudget:{type:'boolean',default:false},existingExports:{type:'boolean',default:false},screen:{type:'boolean',default:false},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -46,6 +46,7 @@ try{
  if(values.sceneBudget){if(modes.some(m=>m.crownV2!=='off'||m.foliageExp1!=='off')||values.crownV3&&values.crownV3!=='off')throw Error('sceneBudget capture requires all crown/foliage modes OFF');for(const mode of modes)mode.sceneBudget='1';}
  if(values.paletteB!==undefined){if(!['off','lot','tableA'].includes(values.paletteB))throw Error('Invalid paletteB capture mode');for(const mode of modes)mode.paletteB=values.paletteB;}
  if(values.lightTrial!==undefined){if(!['off','on'].includes(values.lightTrial))throw Error('Invalid lightTrial capture mode');for(const mode of modes)mode.lightTrial=values.lightTrial;}
+ if(values.groundTrial!==undefined){if(!['off','on'].includes(values.groundTrial))throw Error('Invalid groundTrial capture mode');for(const mode of modes)mode.groundTrial=values.groundTrial;}
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Less than 8 GB free; capture not started');
  await mkdir(dirname(run),{recursive:true});await mkdir(run,{recursive:false});created=true;
  report.contract={...contract,sha256:hash(JSON.stringify(contract))};
@@ -94,6 +95,7 @@ try{
   }
  }
  report.contract.sha256=hash(JSON.stringify({...contract,exportFrame:report.exportFrame??null}));
+ const companions=values.groundTrial==='on'?await (await import('../web/bakeoff/prepare-ground-companions.mjs')).prepareGroundCompanions(root,contract,selected):{};
  stage='server';server=await startCaptureServer(root,overrides);report.origin=server.origin;
  for(const scene of Object.keys(identities)){const response=await fetch(`${server.origin}/${scene}.html`);if(!response.ok)throw Error('Server readiness HTTP '+response.status);}
  report.events.push({stage:'server-ready',origin:server.origin});
@@ -104,7 +106,7 @@ try{
   stage=`capture ${scene}/${mode.foliageExp1}/${mode.crownV2}`;console.error('web capture: '+stage);
   const viewport=scenes[scene].viewport,page=await browser.newPage({viewport,deviceScaleFactor:1}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-  const query=new URLSearchParams({capture:'',tier:contract.tier,...mode}),url=`${server.origin}/${scene}.html?${query}`;
+  const query=new URLSearchParams({capture:'',tier:contract.tier,...mode,...(companions[scene]?{surfaceRoles:companions[scene]}:{})}),url=`${server.origin}/${scene}.html?${query}`;
   const t=performance.now();await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>{
    if(document.body.dataset.error)throw Error(document.body.dataset.error);
@@ -117,8 +119,9 @@ try{
   },null,{polling:'raf',timeout:180000});
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {lightTrialReport:b.lightTrial??null,paletteBReport:b.paletteB??null,sceneBudget:b.sceneBudget??null,metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
+  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {groundTrialReport:b.groundTrial??null,lightTrialReport:b.lightTrial??null,paletteBReport:b.paletteB??null,sceneBudget:b.sceneBudget??null,metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure,stableUpdates:window.__captureReadiness.stable};});
   verifyModes(evidence,mode);
+  if((evidence.groundTrialReport?.mode??'off')!==(mode.groundTrial??'off'))throw Error('groundTrial did not resolve as requested');
   if((evidence.lightTrialReport?.mode??'off')!==(mode.lightTrial??'off'))throw Error('lightTrial did not resolve as requested');
   if((evidence.paletteBReport?.mode??'off')!==(mode.paletteB??'off'))throw Error('paletteB did not resolve as requested');
   if(values.sceneBudget!==!!evidence.sceneBudget?.enabled)throw Error('sceneBudget did not resolve as requested');
@@ -135,7 +138,7 @@ try{
   }
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
-  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${mode.paletteB?'-palette-'+mode.paletteB:''}${mode.lightTrial?'-light-'+mode.lightTrial:''}${values.sceneBudget?'-scene-budget':''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
+  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${mode.paletteB?'-palette-'+mode.paletteB:''}${mode.lightTrial?'-light-'+mode.lightTrial:''}${mode.groundTrial?'-ground-'+mode.groundTrial:''}${values.sceneBudget?'-scene-budget':''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
   await writeFile(resolve(run,filename),image);
   report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,inspection:scenes[scene].inspection??null,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
   await page.close();

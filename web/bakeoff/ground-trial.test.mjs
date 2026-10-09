@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import * as T from 'three/webgpu';
+import {groundTrialMode,prepareGroundTrial} from './ground-trial.js';
+import {readSurfaceRoles,surfaceGeometryHash} from './surface-roles.js';
+import {surfaceFixture} from './surface-roles-fixture.mjs';
+const main=await readFile('web/bakeoff/main.js','utf8');
+const stripped=main.replace(/ \/\/ GROUND_TRIAL_BEGIN\n[\s\S]*? \/\/ GROUND_TRIAL_END\n/g,'').replace('groundTrial:groundTrial?.report??null,','');
+assert.equal(stripped,execFileSync('git',['show','294a89b:web/bakeoff/main.js'],{encoding:'utf8'}));
+assert.equal(groundTrialMode(), 'off');assert.equal(groundTrialMode('off'),'off');assert.equal(groundTrialMode('on'),'on');assert.throws(()=>groundTrialMode('yes'));
+const f=await surfaceFixture();
+const roles=await readSurfaceRoles({readPackage:async p=>f.files[p],readCompanion:async p=>p==='index.json'?f.enc(f.index):f.payload});
+const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(18),3));g.setIndex([0,1,2,3,4,5]);g.setAttribute('_paint',new T.BufferAttribute(new Float32Array(24),4));g.setAttribute('_facade',new T.BufferAttribute(new Float32Array(24).fill(.5),4));
+const root=new T.Group(),chunk=new T.Group(),material=new T.MeshBasicMaterial(),mesh=new T.Mesh(g,material);chunk.add(mesh);root.add(chunk);
+const world={root,materials:{static:material},manifest:{chunks:[{lods:['chunks/0/lod0.glb']}]},palettes:{slots:[{slot:1,names:['lawnA']},{slot:2,names:['lawnB']}]},paletteTexture:{image:{data:new Float32Array(1024).fill(.25)}},surfaceRoles:roles};
+const before={position:Buffer.from(g.attributes.position.array.buffer),index:Buffer.from(g.index.array.buffer),palette:world.paletteTexture.image.data.slice()};
+const trial=await prepareGroundTrial(world);
+assert.equal(trial.report.mappedTriangles,0);assert.equal(trial.report.restoredTriangles[1],1);
+assert.deepEqual(Array.from(g.attributes._facade.array.slice(0,12)),Array(12).fill(0));
+assert.deepEqual(Array.from(g.attributes._facade.array.slice(12)),Array(12).fill(.5)); // same-hex door untouched
+assert.deepEqual(world.paletteTexture.image.data,before.palette);assert(Buffer.from(g.index.array.buffer).equals(before.index));assert(Buffer.from(g.attributes.position.array.buffer).equals(before.position));assert.equal(mesh.material,material);
+assert.equal(trial.report.addedTriangles,0);assert.equal(trial.report.addedDraws,0);
+const mappedFixture=await surfaceFixture({tags:{'roof:colour':'#888888'},word:0x0401});
+world.surfaceRoles=await readSurfaceRoles({readPackage:async p=>mappedFixture.files[p],readCompanion:async p=>p==='index.json'?mappedFixture.enc(mappedFixture.index):mappedFixture.payload});
+g.attributes._facade.array.fill(.5);const mappedBefore=Buffer.from(g.attributes._facade.array.buffer).slice();
+assert.equal((await prepareGroundTrial(world)).report.mappedTriangles,1);assert(Buffer.from(g.attributes._facade.array.buffer).equals(mappedBefore));
+const positions=new Float32Array(18);positions[0]=1;
+await assert.rejects(roles.matchGeometry('chunks/0/lod0.glb',positions,g.index.array),/does not uniquely match/);
+assert.notEqual(await surfaceGeometryHash(positions,g.index.array),await surfaceGeometryHash(new Float32Array(18),g.index.array));
+await assert.rejects(prepareGroundTrial({...world,surfaceRoles:null}),/validated A4/);
+const source=await readFile('web/bakeoff/ground-trial.js','utf8');assert(source.includes('mix(a,b,clamp(tone,0,1)).mul(shade)'));assert(!source.includes('new T.Color')); // linear endpoint interpolation, no extra transfer
+console.log('PASS ground trial: off source identity, semantic binding/rejection, mapped raw colour, same-hex door unchanged, no geometry/palette/material mutation, native lawn tone/shade contract.');

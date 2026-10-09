@@ -8,6 +8,8 @@ let tests=2;
 const f=await surfaceFixture();
 const fixtureRun=async(edit=()=>{},payload=f.payload)=>{const index=structuredClone(f.index);edit(index);return readSurfaceRoles({readPackage:async p=>f.files[p],readCompanion:async p=>p==='index.json'?f.enc(index):payload});};
 const valid=await fixtureRun();assert.equal(valid.word('chunks/0/lod0.glb',0,0,0)&7,1);assert.equal(valid.word('chunks/0/lod0.glb',0,0,1)&7,4);tests++;
+await fixtureRun(x=>x.featureSources.push(structuredClone(x.featureSources[0])));tests++;
+await assert.rejects(fixtureRun(x=>x.featureSources.push({...x.featureSources[0],tags:{'roof:colour':'conflict'}})),/conflicting feature witness/);tests++;
 for(const edit of [x=>x.schema='bad',x=>x.packageHash.sha256='bad',x=>x.payload.sha256='bad',x=>x.primitives[0].triangleCount++,x=>x.primitives[0].byteOffset=2,x=>x.primitives[0].mesh++,x=>x.primitives[0].lod++,x=>x.primitives.push(x.primitives[0]),x=>x.primitives=[],x=>x.featureSources=[],x=>x.roles[1]='door',x=>x.primitives[0].path='../escape.glb',x=>x.encoding.colourProvenanceBits=[8,9]]){await assert.rejects(fixtureRun(edit),/Surface companion rejected/);tests++;}
 for(const word of [0x8001,5,0x0901,0x0019,0x0404]){const p=f.payload.slice();new DataView(p.buffer).setUint16(0,word,true);const hash=await sha256(p);await assert.rejects(fixtureRun(x=>x.payload.sha256=hash,p),/Surface companion rejected/);tests++;}
 for(const options of [{tags:{'roof:material':'brick','roof:colour':'#888888'},word:0x0509},{mixed:true}]){
