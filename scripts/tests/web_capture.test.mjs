@@ -63,3 +63,33 @@ test('repeat byte difference reports exact equality, changes and unequal lengths
  assert.deepEqual(byteDifference(Buffer.from([1,2]),Buffer.from([1,4])),{freshBytes:2,repeatBytes:2,differingBytes:1,max:2,mean:1});
  assert.equal(byteDifference(Buffer.from([1]),Buffer.from([1,2])).differingBytes,1);
 });
+test('block adapters retain frozen camera and native inspection pose recipe',async()=>{
+ const {blockContract,inspectionCamera}=await import('../web_capture_blocks.mjs');
+ const {LocalFrame}=await import('../../web/src/geo.js');
+ const {fileURLToPath}=await import('node:url');
+ const root=fileURLToPath(new URL('../../',import.meta.url));
+ const w=await blockContract(root,'wilmette');assert.equal(w.fixture.date,'2026-09-15');
+ assert.deepEqual(Object.values(w.scenes).map(s=>s.camera.eye[2]),[40,150,600]);
+ for(const heading of [0,90,180,270]){
+  const c=inspectionCamera({lat:42,lon:-87,heading,fov:50},40),f=new LocalFrame(42,-87),[e,n]=f.local(...c.target);
+  assert.ok(Math.abs(e-100*Math.sin(heading*Math.PI/180))<1e-6);assert.ok(Math.abs(n-100*Math.cos(heading*Math.PI/180))<1e-6);
+  assert.equal(c.eye[2]-c.target[2],100);
+ }
+ const h=await blockContract(root,'west-highland');assert.deepEqual(h.scenes['west-highland'].camera.eye,[39.759946,-105.04,350]);
+ await assert.rejects(blockContract(root,'greenville-downtown'),/No integrated web region/);
+});
+test('facade adapter reads only this area and export semantics',async()=>{
+ const {facadeInputs}=await import('../web_capture_blocks.mjs');
+ const root=await mkdtemp(join(tmpdir(),'web-facades-test-'));
+ try{
+  await mkdir(join(root,'Data/areas/test'),{recursive:true});await mkdir(join(root,'export'));
+  const nodes=[{type:'node',id:1,lat:1,lon:2},{type:'node',id:2,lat:2,lon:3},{type:'node',id:3,lat:3,lon:4}];
+  await writeFile(join(root,'Data/areas/test/osm.json'),JSON.stringify({elements:[...nodes,{type:'way',id:4,nodes:[1,2,3,1]},{type:'way',id:5,nodes:[1,2],tags:{highway:'residential'}}]}));
+  await writeFile(join(root,'export/world.json'),JSON.stringify({chunks:[{scene:'scene.json'}]}));
+  const building={kind:'building',id:'way/4',generated:{family:'fixture'},source:{building:'yes'}};
+  await writeFile(join(root,'export/scene.json'),JSON.stringify({features:[building,building,{kind:'generated-fence',id:'gen:fence:way/4'}]}));
+  const result=await facadeInputs(root,'test',join(root,'export'));
+  assert.equal(result.features.length,1);assert.equal(result.features[0].hasFence,true);
+  assert.deepEqual(result.features[0].ring,[[1,2],[2,3],[3,4]]);assert.deepEqual(result.roads,[[[1,2],[2,3]]]);
+ }finally{await rm(root,{recursive:true});}
+});
