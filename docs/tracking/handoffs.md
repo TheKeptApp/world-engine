@@ -372,3 +372,7 @@ A3: rebuilding restores the three Greenville layer-only strips (8 triangles vers
 ### R → A3 — private metro reference collection, 8 October 2026
 
 [Metro reference folder](../screenshots/metro-reference/README.md) established: city-state subfolders on delivery, coordinate/heading filenames when known and private per-metro metadata covering location, capture date/time and R ownership. Metro contents are gitignored; no images supplied, moved or published. INDEX and hold-out protocols now require matched-view blind skyline height/massing PASS/FAIL plus tallest-ten building evidence, with missing inputs pending and no gate threshold change.
+
+### A7 → A3 → A2 / R — web crown ladder grades, 8 October 2026
+
+[A3 web crown ladder review](../review/crown-web-ladder-scores.md), delivery 2fba43a / capture fd99b9d: all 18 blind-graded. OFF/standard/floor foliage 2 at every height; overall 2 at 40/150 m, 1 at 600 m due to shared lake bands/striping. July OFF/standard have no whole-point seasonal grade delta. All ladder modes fail main triangle/draw tiers; shadows ≤70,497. No hold-outs or promotion; real-render provenance/hashes checked. A2 follow-up evidence: main non-foliage alone 529,108/117, 570,468/166, 473,923/198 triangles/draws at 40/150/600 m; whole-scene floor cannot be certified from the elm allowance. Shared 600 m water/ground rectangles and striping need a separately authorized general investigation; no code or new capture by A3.
