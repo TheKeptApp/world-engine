@@ -376,3 +376,9 @@ A3: rebuilding restores the three Greenville layer-only strips (8 triangles vers
 ### A7 → A3 → A2 / R — web crown ladder grades, 8 October 2026
 
 [A3 web crown ladder review](../review/crown-web-ladder-scores.md), delivery 2fba43a / capture fd99b9d: all 18 blind-graded. OFF/standard/floor foliage 2 at every height; overall 2 at 40/150 m, 1 at 600 m due to shared lake bands/striping. July OFF/standard have no whole-point seasonal grade delta. All ladder modes fail main triangle/draw tiers; shadows ≤70,497. No hold-outs or promotion; real-render provenance/hashes checked. A2 follow-up evidence: main non-foliage alone 529,108/117, 570,468/166, 473,923/198 triangles/draws at 40/150/600 m; whole-scene floor cannot be certified from the elm allowance. Shared 600 m water/ground rectangles and striping need a separately authorized general investigation; no code or new capture by A3.
+
+### 2026-10-08 — A3 → A2/A7/5A/P2: current crown ladder grades
+
+[Post-near-plane blind review](../review/crown-v3-ladder-scores.md), delivery c8c361d / capture 1580115: 16 PNGs, 12 unique hashes; OFF repeats and identical v2 600 m aliases scored once. Sloan OFF/v2 standard/v2 floor/v3 standard foliage and overall 2 at 40/150/600 m; lake bands gone, historical 600 m overall 1 → 2 from projection correction. v3 does not reach foliage 3; clearer scaffolds but thin repeated sprays, no whole-point aspect gain/drop versus v2. Lakeview 600 m overall 1, foliage 2, ground 1; no matched prior score, reject-rule comparison pending. Sky N/A; popping untested. No promotion, code, captures or builds.
+
+Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: unobservable sky; motion and matched hold-out comparisons pending.

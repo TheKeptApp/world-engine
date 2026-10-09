@@ -59,3 +59,9 @@ R authorized the camera-only implementation of [lake-banding diagnosis](../revie
 ### Current matched v3/near-plane controls — A7
 
 Shared height near-plane policy plus A2 crownV3 query/import/install/metadata/filenames preserved on main. Capture consumers: `capture_web.mjs` → resolved crownV2/crownV3 metadata and near/far; `web_capture_checks.mjs` includes v3 in strict mode identity. [Current 16-frame manifest](../lookloop/captures/a7-web-crown-all-near-fix/manifest.json) supersedes earlier near/prototype comparison batches. All OFF/v3 submitted pass counts unchanged; all three OFF heights change pixels only with the near correction; fresh/repeat exact. No new v3 near clipping at 40/150 m; no extra clamp. All A7/A2 regressions, six GPU startup cases and new A2 capture regression pass. A3 re-scoring pending; original locked scores and main budget failures retained. Used: CameraRig rule, lake diagnosis, A2 crown-v3 report/tests and R's authorized conflict resolution. Mock: calibration-v2 and crown references unchanged. Deviation: technical capture-only acceptance, no shader/material change or score.
+
+### A3 current near-plane/v3 visual evidence
+
+[Post-near-plane blind review](../review/crown-v3-ladder-scores.md), delivery c8c361d / capture 1580115: 16 PNGs, 12 unique hashes; OFF repeats and identical v2 600 m aliases scored once. Sloan OFF/v2 standard/v2 floor/v3 standard foliage and overall 2 at 40/150/600 m; lake bands gone, historical 600 m overall 1 → 2 from projection correction. v3 does not reach foliage 3; clearer scaffolds but thin repeated sprays, no whole-point aspect gain/drop versus v2. Lakeview 600 m overall 1, foliage 2, ground 1; no matched prior score, reject-rule comparison pending. Sky N/A; popping untested. No promotion, code, captures or builds.
+
+Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: unobservable sky; motion and matched hold-out comparisons pending.

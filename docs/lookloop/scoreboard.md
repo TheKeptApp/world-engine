@@ -254,3 +254,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | 18 blind frames: October OFF fresh/repeat, standard, floor; July OFF/standard; 40/150/600 m | Foliage 2 throughout; overall 2 at 40/150, 1 at 600; no whole-point seasonal delta | Not run; pending | [Report](../review/crown-web-ladder-scores.md): no foliage ≥3, all whole-scene main budgets fail, shared lake artifacts at 600 m; no promotion. |
+
+## A3 current post-near-plane ladder — c8c361d / 1580115
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| OFF / v2 standard / v2 floor / v3 standard, 40/150/600 m | Overall 2, foliage 2 throughout; lake bands gone, historical 600 m overall 1 → 2 | Lakeview 600 m overall 1, foliage 2; matched prior score absent; others pending | [Blind report](../review/crown-v3-ladder-scores.md). No foliage threshold pass or promotion; popping untested. Earlier batches superseded as current controls. |
