@@ -1,0 +1,2119 @@
+{
+  "status": "qualification-incomplete",
+  "renderer": "bakeoff-existing-look/full-scoreboard-package",
+  "sourceHashes": {
+    "web/bakeoff/entry.js": "b839d34f9b53f7dfd49407d55b9bdf42f5f4f6f995b9028bb57531213ce038a0",
+    "web/bakeoff/tools/capture-budget-bundle.mjs": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b",
+    "web/bakeoff/candidate-bundle-entry.js": "e47e2234f634ff70246d37ac034cb0e82ba5b1594ac911b1dbee7ed1475d1b89",
+    "web/bakeoff/candidate-bundle.js": "96e3aa3a12303319926277ba70d936562821d5a4ad3f755069deca94d49549c3",
+    "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+    "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+    "web/bakeoff/context-ring.js": "5fb4a4cb8746b74c8c34d3e13434e5b62212e9fcb4c6c3d6a9319eee41e61504",
+    "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+    "web/bakeoff/light-trial.js": "a4e261cf286167ea87f3a8061430d52189e66da5499be0a416aed6f5369aad12",
+    "web/bakeoff/palette-b.js": "45b1bc836c8fb07d91a7ee2dde8c3e5542507ebb6b7c8baace416cc7329080f2",
+    "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883"
+  },
+  "captureWorkerVersions": [
+    "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b",
+    "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+  ],
+  "controlRepair": "Only capture worker differs: retained attribution uses integer line-height after rejected Evanston row-27 control. All render modules and served render clock sources remain identical; within-area OFF/ON styles match. No pixel mask.",
+  "views": 24,
+  "measured": 19,
+  "floorPass": 17,
+  "standardPass": 18,
+  "rows": [
+    {
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 791213,
+        "draws": 184
+      },
+      "shadowOff": {
+        "triangles": 69697,
+        "draws": 62
+      },
+      "main": {
+        "triangles": 89454,
+        "draws": 52
+      },
+      "shadow": {
+        "triangles": 61367,
+        "draws": 60
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1533525,
+        "max": 92,
+        "mean": 11.023947078765465
+      },
+      "off": "/private/tmp/a10-budget-bundle-sloans-v2/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-sloans-v2/40-on.png",
+      "pngHashes": {
+        "off": "6c1bf8593871e93e482b539c6e3d2feea9d26a0a87b09eb321f455c27d442bb8",
+        "on": "f3a2d7fc892b14dda0da72c69ffe9a1fd0bbc682e270c75eddd919934c6ddbac"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 6,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-sloans-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 935422,
+        "draws": 257
+      },
+      "shadowOff": {
+        "triangles": 68019,
+        "draws": 42
+      },
+      "main": {
+        "triangles": 245049,
+        "draws": 81
+      },
+      "shadow": {
+        "triangles": 21405,
+        "draws": 32
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1451233,
+        "max": 90,
+        "mean": 9.842271826707172
+      },
+      "off": "/private/tmp/a10-budget-bundle-sloans-v2/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-sloans-v2/150-on.png",
+      "pngHashes": {
+        "off": "1315dafc27fcfb8fbffce774ce50e53b64520fe6a73b418548e6e48dba4c27f4",
+        "on": "226c3d02bec3382912e48dc811f6f65a876ad5b94df9efd1c558454877cbb36e"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 6,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-sloans-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 698361,
+        "draws": 305
+      },
+      "shadowOff": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "main": {
+        "triangles": 412672,
+        "draws": 117
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": false,
+          "mainTrianglesPass": false,
+          "mainDrawsPass": false,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1637167,
+        "max": 81,
+        "mean": 10.67063047593889
+      },
+      "off": "/private/tmp/a10-budget-bundle-sloans-v2/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-sloans-v2/600-on.png",
+      "pngHashes": {
+        "off": "0de5f86101e15ad7c15f2e36691e0d4e3389d5f4e07da2b4673618f89d0c1c70",
+        "on": "0595faba7a27b36f148822a3ff1275e071389db4bdc14f685060c1960e6f1158"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 6,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-sloans-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "lakeview-sheil-park/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 1084028,
+        "draws": 219
+      },
+      "shadowOff": {
+        "triangles": 87604,
+        "draws": 92
+      },
+      "main": {
+        "triangles": 92088,
+        "draws": 45
+      },
+      "shadow": {
+        "triangles": 78074,
+        "draws": 91
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1252669,
+        "max": 90,
+        "mean": 7.451732928278959
+      },
+      "off": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/40-on.png",
+      "pngHashes": {
+        "off": "b47d95c1325114793ea94810b567a76ae0f6d90bd2ab1b7b980469d4943d7147",
+        "on": "13c41629f930e0c3888db4a504a1fcfcc733e802f546772baa23d8351844f5ee"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 6,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "lakeview-sheil-park/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 1209778,
+        "draws": 238
+      },
+      "shadowOff": {
+        "triangles": 81537,
+        "draws": 47
+      },
+      "main": {
+        "triangles": 374137,
+        "draws": 89
+      },
+      "shadow": {
+        "triangles": 38399,
+        "draws": 33
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1178202,
+        "max": 82,
+        "mean": 5.206304759388896
+      },
+      "off": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/150-on.png",
+      "pngHashes": {
+        "off": "1f4401866ad8f24f87fc28a79a055b0e33a3790c8ed3966a1706af982e2f659d",
+        "on": "c69991f78696a22798bf941d9feef97b49948584f5b9241337aecd8aaa47cf37"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 6,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 960351,
+        "draws": 219
+      },
+      "shadowOff": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "main": {
+        "triangles": 547180,
+        "draws": 69
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": false,
+          "mainTrianglesPass": false,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": false,
+          "mainTrianglesPass": false,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1497503,
+        "max": 66,
+        "mean": 8.647751948223485
+      },
+      "off": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/600-on.png",
+      "pngHashes": {
+        "off": "766d2384c2fa00a18391eb8f75cfd0fe62271b8eb6d8024546ff65032fc117e9",
+        "on": "9755399bf2e52e4469b76563400dcb65f684424fb403cd7ee248f4359b3d5c03"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 6,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "wilmette-vattmann-park/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 539594,
+        "draws": 217
+      },
+      "shadowOff": {
+        "triangles": 58262,
+        "draws": 111
+      },
+      "main": {
+        "triangles": 49790,
+        "draws": 40
+      },
+      "shadow": {
+        "triangles": 52381,
+        "draws": 109
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1626611,
+        "max": 91,
+        "mean": 12.122964821908159
+      },
+      "off": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/40-on.png",
+      "pngHashes": {
+        "off": "e0b5dc574429b2bee940d1e2b121e2e6664f240f51b90db3793482e7e3513c88",
+        "on": "ee4a3b6158a58546f0a0f41eba15f97c301a172cc00677bb6249aa08d846244f"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 6,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "wilmette-vattmann-park/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 526404,
+        "draws": 234
+      },
+      "shadowOff": {
+        "triangles": 52388,
+        "draws": 75
+      },
+      "main": {
+        "triangles": 191244,
+        "draws": 88
+      },
+      "shadow": {
+        "triangles": 24975,
+        "draws": 54
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1569994,
+        "max": 82,
+        "mean": 8.70851626821644
+      },
+      "off": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/150-on.png",
+      "pngHashes": {
+        "off": "bac850a4ba5277f780ac538726f6aef480d9880fc9054f5cdbb84bb548ddb25b",
+        "on": "6f5ba94159e5f0c23c57c287e3798aa568910681d4a830e1d3f5008b769d0f11"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 6,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "wilmette-vattmann-park/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 378991,
+        "draws": 226
+      },
+      "shadowOff": {
+        "triangles": 1988,
+        "draws": 1
+      },
+      "main": {
+        "triangles": 239028,
+        "draws": 63
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1559560,
+        "max": 69,
+        "mean": 9.170131642671597
+      },
+      "off": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/600-on.png",
+      "pngHashes": {
+        "off": "edd98404628be3f443b7db1dad797abe4b7eed5572f3e420035f60fded4c855e",
+        "on": "d0617d1a226d8816c37a5b9ee42ea0231780356d9ee6e894cc453298243c4bf4"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 6,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "west-highland/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 970403,
+        "draws": 251
+      },
+      "shadowOff": {
+        "triangles": 58004,
+        "draws": 108
+      },
+      "main": {
+        "triangles": 42932,
+        "draws": 42
+      },
+      "shadow": {
+        "triangles": 50753,
+        "draws": 108
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1565357,
+        "max": 104,
+        "mean": 12.89572931801171
+      },
+      "off": "/private/tmp/a10-budget-bundle-west-highland-v2/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-west-highland-v2/40-on.png",
+      "pngHashes": {
+        "off": "44a76fb9f1195e9d0a5eaef3a87732f4fa2cf200ad5589a87eb5c398124c6770",
+        "on": "ecfd9029ca01499960a2bac4014eebf6e5f95b16ce5b9b77af8667092da838e4"
+      },
+      "context": {
+        "enabled": true,
+        "status": "missing-context-source",
+        "area": "west-highland",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 0,
+        "uploadedDraws": 0,
+        "geometryBytes": 0
+      },
+      "source": "/private/tmp/a10-budget-bundle-west-highland-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "west-highland/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 920831,
+        "draws": 254
+      },
+      "shadowOff": {
+        "triangles": 51200,
+        "draws": 67
+      },
+      "main": {
+        "triangles": 252393,
+        "draws": 84
+      },
+      "shadow": {
+        "triangles": 12848,
+        "draws": 44
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1377824,
+        "max": 90,
+        "mean": 9.140855016950646
+      },
+      "off": "/private/tmp/a10-budget-bundle-west-highland-v2/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-west-highland-v2/150-on.png",
+      "pngHashes": {
+        "off": "6b3948e0b0c99a26d234d9243c66407d745d3dfbc2a667be0d45ff4dc5fa8703",
+        "on": "120f55005897a5c1b5577020ebc34f2a3d8680a7aa7604c824d33e38fd1aab2d"
+      },
+      "context": {
+        "enabled": true,
+        "status": "missing-context-source",
+        "area": "west-highland",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 0,
+        "uploadedDraws": 0,
+        "geometryBytes": 0
+      },
+      "source": "/private/tmp/a10-budget-bundle-west-highland-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "west-highland/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 783076,
+        "draws": 238
+      },
+      "shadowOff": {
+        "triangles": 364,
+        "draws": 2
+      },
+      "main": {
+        "triangles": 358627,
+        "draws": 65
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1579694,
+        "max": 82,
+        "mean": 11.213184960154978
+      },
+      "off": "/private/tmp/a10-budget-bundle-west-highland-v2/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-west-highland-v2/600-on.png",
+      "pngHashes": {
+        "off": "7e41e4cfcc05bbfdb8e28cd63e40466edd3134c2d54e3b091b816d3baed448d1",
+        "on": "a396c214c52315d4ccc54925d42d0caf52d6359c0b127503cac8eb1d6acb343e"
+      },
+      "context": {
+        "enabled": true,
+        "status": "missing-context-source",
+        "area": "west-highland",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 0,
+        "uploadedDraws": 0,
+        "geometryBytes": 0
+      },
+      "source": "/private/tmp/a10-budget-bundle-west-highland-v2/manifest.json",
+      "creditsStyle": "original 13.5px fractional line-height",
+      "captureWorkerSha256": "791fd013c18f4d66d80055bdacc5d5eaca0c5dc42079a1b4be4e0c7cb7c5766b"
+    },
+    {
+      "view": "evanston-south/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 525893,
+        "draws": 242
+      },
+      "shadowOff": {
+        "triangles": 64087,
+        "draws": 115
+      },
+      "main": {
+        "triangles": 60786,
+        "draws": 48
+      },
+      "shadow": {
+        "triangles": 56613,
+        "draws": 114
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1629926,
+        "max": 87,
+        "mean": 10.029244485536918
+      },
+      "off": "/private/tmp/a10-budget-bundle-evanston-south-v3/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-evanston-south-v3/40-on.png",
+      "pngHashes": {
+        "off": "50a9d8d6679e31b7232f5a2cb264e350e85dc54d0efc8a9c81d2bf6ababe906a",
+        "on": "4c861bf91b23dd9321cfb8c320ff7eb2aee1b6431a3d19ae59bafc29cec936e5"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "evanston-south",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1171,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 29567,
+        "uploadedDraws": 6,
+        "geometryBytes": 7628286,
+        "buildingCandidates": 1171,
+        "inferredHeights": 1155,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5437168314884,
+          -3499.9982925991217,
+          3499.9999999992892,
+          3499.9982909115597
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1105,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7489,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 3322,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3346,
+          "tri.aerial.main": 3032,
+          "tri.aerial.minor": 5222,
+          "tri.far.area": 2375,
+          "tri.far.main": 1192,
+          "tri.near.area": 4940,
+          "tri.near.main": 4014,
+          "tri.near.minor": 4196,
+          "tri.street.area": 3495,
+          "tri.street.main": 1882,
+          "triangles.aerial": 11600,
+          "triangles.far": 3567,
+          "triangles.near": 13150,
+          "triangles.street": 5377,
+          "triangles.water": 766,
+          "waterPolygons": 60,
+          "waterways": 5
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-evanston-south-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "evanston-south/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 495636,
+        "draws": 231
+      },
+      "shadowOff": {
+        "triangles": 53205,
+        "draws": 68
+      },
+      "main": {
+        "triangles": 154224,
+        "draws": 86
+      },
+      "shadow": {
+        "triangles": 22737,
+        "draws": 60
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1523702,
+        "max": 84,
+        "mean": 8.678814335402633
+      },
+      "off": "/private/tmp/a10-budget-bundle-evanston-south-v3/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-evanston-south-v3/150-on.png",
+      "pngHashes": {
+        "off": "e1179da0a740a099060b626c0b728fdf07412b488a81c6121040cd2c09810dee",
+        "on": "0ca5f225a6c5fd79c0d2d3fb3f009d35b235dd26a49733fccf1378f9e4e41d0a"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "evanston-south",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1171,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 29567,
+        "uploadedDraws": 6,
+        "geometryBytes": 7628286,
+        "buildingCandidates": 1171,
+        "inferredHeights": 1155,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5437168314884,
+          -3499.9982925991217,
+          3499.9999999992892,
+          3499.9982909115597
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1105,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7489,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 3322,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3346,
+          "tri.aerial.main": 3032,
+          "tri.aerial.minor": 5222,
+          "tri.far.area": 2375,
+          "tri.far.main": 1192,
+          "tri.near.area": 4940,
+          "tri.near.main": 4014,
+          "tri.near.minor": 4196,
+          "tri.street.area": 3495,
+          "tri.street.main": 1882,
+          "triangles.aerial": 11600,
+          "triangles.far": 3567,
+          "triangles.near": 13150,
+          "triangles.street": 5377,
+          "triangles.water": 766,
+          "waterPolygons": 60,
+          "waterways": 5
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-evanston-south-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "evanston-south/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 355096,
+        "draws": 241
+      },
+      "shadowOff": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "main": {
+        "triangles": 172283,
+        "draws": 65
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1550466,
+        "max": 67,
+        "mean": 10.002596310482984
+      },
+      "off": "/private/tmp/a10-budget-bundle-evanston-south-v3/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-evanston-south-v3/600-on.png",
+      "pngHashes": {
+        "off": "327698521556cea3af6404123ce6261d698dcdd8c13a9d1b9f8527a653cc380b",
+        "on": "56b9de72cd2771be118b93a4f6b9e0ebe9ee8cc4c16da5a3245749b45d59dba6"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "evanston-south",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1171,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 29567,
+        "uploadedDraws": 6,
+        "geometryBytes": 7628286,
+        "buildingCandidates": 1171,
+        "inferredHeights": 1155,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5437168314884,
+          -3499.9982925991217,
+          3499.9999999992892,
+          3499.9982909115597
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1105,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7489,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 3322,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3346,
+          "tri.aerial.main": 3032,
+          "tri.aerial.minor": 5222,
+          "tri.far.area": 2375,
+          "tri.far.main": 1192,
+          "tri.near.area": 4940,
+          "tri.near.main": 4014,
+          "tri.near.minor": 4196,
+          "tri.street.area": 3495,
+          "tri.street.main": 1882,
+          "triangles.aerial": 11600,
+          "triangles.far": 3567,
+          "triangles.near": 13150,
+          "triangles.street": 5377,
+          "triangles.water": 766,
+          "waterPolygons": 60,
+          "waterways": 5
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-evanston-south-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "kenilworth-station/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 429058,
+        "draws": 218
+      },
+      "shadowOff": {
+        "triangles": 18892,
+        "draws": 57
+      },
+      "main": {
+        "triangles": 45804,
+        "draws": 35
+      },
+      "shadow": {
+        "triangles": 17147,
+        "draws": 55
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1558574,
+        "max": 84,
+        "mean": 9.416129969620922
+      },
+      "off": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/40-on.png",
+      "pngHashes": {
+        "off": "03ca010b2665778a28c930a12bb2adddc1f931c78a9972cb11fe6243b5dd3daf",
+        "on": "15c04c48bacb1d3d476c328b5b0f1cc99f28624aa51aabec96f6b5b0e7c0c3aa"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "kenilworth-station",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 54,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 15023,
+        "uploadedDraws": 6,
+        "geometryBytes": 3875934,
+        "buildingCandidates": 54,
+        "inferredHeights": 50,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5376725077945,
+          -3499.998286621536,
+          3499.9999999997353,
+          3499.998284923634
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 943,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 405,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2089,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3292,
+          "tri.aerial.main": 2314,
+          "tri.aerial.minor": 5439,
+          "tri.far.area": 1607,
+          "tri.far.main": 650,
+          "tri.near.area": 4720,
+          "tri.near.main": 2936,
+          "tri.near.minor": 3068,
+          "tri.street.area": 4130,
+          "tri.street.main": 1534,
+          "triangles.aerial": 11045,
+          "triangles.far": 2257,
+          "triangles.near": 10724,
+          "triangles.street": 5664,
+          "triangles.water": 957,
+          "waterPolygons": 73,
+          "waterways": 16
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "kenilworth-station/150",
+      "altitude": 150,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 422859,
+        "draws": 239
+      },
+      "shadowOff": {
+        "triangles": 16650,
+        "draws": 29
+      },
+      "main": {
+        "triangles": 177458,
+        "draws": 88
+      },
+      "shadow": {
+        "triangles": 7390,
+        "draws": 24
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1469374,
+        "max": 82,
+        "mean": 7.695340994144322
+      },
+      "off": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/150-off.png",
+      "on": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/150-on.png",
+      "pngHashes": {
+        "off": "7c5852f38739db86fc62e4e1e67268f729da9dd2c061bf6a52eb68519c5366e1",
+        "on": "f7bf5ecfd4c1551d661292295f4c36b5742140c7107020579c1aedd27974562c"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "kenilworth-station",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 54,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 15023,
+        "uploadedDraws": 6,
+        "geometryBytes": 3875934,
+        "buildingCandidates": 54,
+        "inferredHeights": 50,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5376725077945,
+          -3499.998286621536,
+          3499.9999999997353,
+          3499.998284923634
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 943,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 405,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2089,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3292,
+          "tri.aerial.main": 2314,
+          "tri.aerial.minor": 5439,
+          "tri.far.area": 1607,
+          "tri.far.main": 650,
+          "tri.near.area": 4720,
+          "tri.near.main": 2936,
+          "tri.near.minor": 3068,
+          "tri.street.area": 4130,
+          "tri.street.main": 1534,
+          "triangles.aerial": 11045,
+          "triangles.far": 2257,
+          "triangles.near": 10724,
+          "triangles.street": 5664,
+          "triangles.water": 957,
+          "waterPolygons": 73,
+          "waterways": 16
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "kenilworth-station/600",
+      "altitude": 600,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 369837,
+        "draws": 239
+      },
+      "shadowOff": {
+        "triangles": 12064,
+        "draws": 2
+      },
+      "main": {
+        "triangles": 255201,
+        "draws": 67
+      },
+      "shadow": {
+        "triangles": 0,
+        "draws": 0
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1476485,
+        "max": 94,
+        "mean": 8.039994276405583
+      },
+      "off": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/600-off.png",
+      "on": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/600-on.png",
+      "pngHashes": {
+        "off": "9be7f1b80c2ff191385512eb6821922c8f89b3ce5ef4a68135330663c1e45981",
+        "on": "e1dd82d8721c1091f13b7dbac5ca832043911d39256fe482985766849742469a"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "kenilworth-station",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 54,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 15023,
+        "uploadedDraws": 6,
+        "geometryBytes": 3875934,
+        "buildingCandidates": 54,
+        "inferredHeights": 50,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.5376725077945,
+          -3499.998286621536,
+          3499.9999999997353,
+          3499.998284923634
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 943,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 405,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2089,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3292,
+          "tri.aerial.main": 2314,
+          "tri.aerial.minor": 5439,
+          "tri.far.area": 1607,
+          "tri.far.main": 650,
+          "tri.near.area": 4720,
+          "tri.near.main": 2936,
+          "tri.near.minor": 3068,
+          "tri.street.area": 4130,
+          "tri.street.main": 1534,
+          "triangles.aerial": 11045,
+          "triangles.far": 2257,
+          "triangles.near": 10724,
+          "triangles.street": 5664,
+          "triangles.water": 957,
+          "waterPolygons": 73,
+          "waterways": 16
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-kenilworth-station-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "winnetka-village-green/40",
+      "altitude": 40,
+      "status": "measured",
+      "mainOff": {
+        "triangles": 322738,
+        "draws": 198
+      },
+      "shadowOff": {
+        "triangles": 23363,
+        "draws": 89
+      },
+      "main": {
+        "triangles": 28096,
+        "draws": 36
+      },
+      "shadow": {
+        "triangles": 20017,
+        "draws": 88
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "imageDifference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 1677997,
+        "max": 87,
+        "mean": 13.877664773477743
+      },
+      "off": "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/40-off.png",
+      "on": "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/40-on.png",
+      "pngHashes": {
+        "off": "232c55cd8085caa2e051b942f9869bedc04f82676c5b8762d8f0e76c7c07ff41",
+        "on": "02ea1e2d331d9bed62ecee62836a267b71a13a48992b5e182d5b6d690ae8ffb1"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "winnetka-village-green",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 21,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 13790,
+        "uploadedDraws": 6,
+        "geometryBytes": 3557820,
+        "buildingCandidates": 21,
+        "inferredHeights": 21,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": false,
+        "coverage": [
+          -3496.53547895003,
+          -3499.9982844485367,
+          3500.0000000005684,
+          3499.9982827486965
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 860,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 186,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 14,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 1272,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4818,
+          "tri.aerial.main": 1648,
+          "tri.aerial.minor": 4383,
+          "tri.far.area": 2292,
+          "tri.far.main": 338,
+          "tri.near.area": 6229,
+          "tri.near.main": 2102,
+          "tri.near.minor": 1958,
+          "tri.street.area": 5718,
+          "tri.street.main": 1092,
+          "triangles.aerial": 10849,
+          "triangles.far": 2630,
+          "triangles.near": 10289,
+          "triangles.street": 6810,
+          "triangles.water": 1680,
+          "waterPolygons": 63,
+          "waterways": 37
+        }
+      },
+      "source": "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/manifest.json",
+      "creditsStyle": "capture-only integer 14px line-height; attribution retained, no masked pixels",
+      "captureWorkerSha256": "9b0407daa62d8140ef8a32ea9b7b942b380b832ce810d8ca54dbcc0a68d26faf"
+    },
+    {
+      "view": "winnetka-village-green/150",
+      "altitude": 150,
+      "status": "unqualified",
+      "main": null,
+      "shadow": null,
+      "tiers": {
+        "floor": {
+          "pass": false
+        },
+        "standard": {
+          "pass": false
+        }
+      },
+      "reason": "page.waitForFunction: Timeout 180000ms exceeded.\n    at /private/tmp/worldengine-a10/web/bakeoff/tools/capture-budget-bundle.mjs:33:16",
+      "source": "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/manifest.json"
+    },
+    {
+      "view": "winnetka-village-green/600",
+      "altitude": 600,
+      "status": "unqualified",
+      "main": null,
+      "shadow": null,
+      "tiers": {
+        "floor": {
+          "pass": false
+        },
+        "standard": {
+          "pass": false
+        }
+      },
+      "reason": "page.waitForFunction: Timeout 180000ms exceeded.\n    at /private/tmp/worldengine-a10/web/bakeoff/tools/capture-budget-bundle.mjs:33:16",
+      "source": "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/manifest.json"
+    },
+    {
+      "view": "greenville-downtown/40",
+      "altitude": 40,
+      "main": null,
+      "shadow": null,
+      "tiers": {
+        "floor": {
+          "pass": false
+        },
+        "standard": {
+          "pass": false
+        }
+      },
+      "reason": "Existing bakeoff haze/phenology capture adapters cover Denver/Chicagoland only; Greenville cannot run the entire palette/light bundle without inventing regional inputs.",
+      "status": "unqualified"
+    },
+    {
+      "view": "greenville-downtown/150",
+      "altitude": 150,
+      "main": null,
+      "shadow": null,
+      "tiers": {
+        "floor": {
+          "pass": false
+        },
+        "standard": {
+          "pass": false
+        }
+      },
+      "reason": "Existing bakeoff haze/phenology capture adapters cover Denver/Chicagoland only; Greenville cannot run the entire palette/light bundle without inventing regional inputs.",
+      "status": "unqualified"
+    },
+    {
+      "view": "greenville-downtown/600",
+      "altitude": 600,
+      "main": null,
+      "shadow": null,
+      "tiers": {
+        "floor": {
+          "pass": false
+        },
+        "standard": {
+          "pass": false
+        }
+      },
+      "reason": "Existing bakeoff haze/phenology capture adapters cover Denver/Chicagoland only; Greenville cannot run the entire palette/light bundle without inventing regional inputs.",
+      "status": "unqualified"
+    }
+  ],
+  "reports": [
+    "/private/tmp/a10-budget-bundle-sloans-v2/manifest.json",
+    "/private/tmp/a10-budget-bundle-lakeview-sheil-park-v1/manifest.json",
+    "/private/tmp/a10-budget-bundle-wilmette-vattmann-park-v1/manifest.json",
+    "/private/tmp/a10-budget-bundle-west-highland-v2/manifest.json",
+    "/private/tmp/a10-budget-bundle-evanston-south-v3/manifest.json",
+    "/private/tmp/a10-budget-bundle-kenilworth-station-v3/manifest.json",
+    "/private/tmp/a10-budget-bundle-winnetka-village-green-v3/manifest.json",
+    "/private/tmp/a10-budget-bundle-greenville-v1/manifest.json"
+  ],
+  "scoring": "A3 paired scoring only; no score or promotion"
+}
