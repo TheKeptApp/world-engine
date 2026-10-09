@@ -40,3 +40,10 @@ The capture tool takes `scoreboard AREA FRESH_OUTPUT_DIRECTORY` and uses the exi
 Main advanced through `591e4be` during capture. Rebase was clean. A10's new entry routes a separate light/palette bundle; this harness serves its own pinned scoreboard page and does not use that entry. A1 changed native water/underground generation and shader code; these captures intentionally use the already-held, hashed core packages and unchanged web materials. They do not claim results for newly exported A1 packages or native. The context source/export bytes and direct capture path are unchanged; affected tests are rerun after rebase. Post-merge shipping-default scoreboard is a separate configuration and will be recorded separately.
 
 Rebased verification: all 35 context-ring, far-water, spatial-cell and shadow-cell tests passed under the heavy lock (admission load 3.75). Source-selection staging is byte-identical on repeat. No visual score is assigned.
+
+
+## Merge and post-merge scoreboard
+
+Implementation/source preparation and A3 handoff merged as `1fcb2331dafc891d001a23e7eab2446e5a6025a8`, default off. The [post-merge shipping-default scoreboard](post-merge-scoreboard.md) / [JSON](post-merge-scoreboard.json) is pinned to that revision and completed 24 frames over eight held areas in 871.513 seconds including lock/build waits. Every step completed on its first attempt; source/inventory guards passed. Status `completed-with-failures`: 24 floor failures, 24 standard failures, seven 600 m blank-ground failures, zero tunnel flags.
+
+Compared with the preceding `d82a68d` default scoreboard, 12 rows have technical changes after A1's intervening `591e4be` water/underground generation changes; the six former Kenilworth/Winnetka tunnel flags disappear. A5 changed no shipping renderer, source manifest or core generator. These are intervening-main observations, not an A5-only paired improvement or pixel claim. Do not combine this newly exported, default-off configuration with the held-package opt-in table. Visual grading and native/device qualification remain pending.
