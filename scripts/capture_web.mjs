@@ -8,9 +8,10 @@ import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {parseArgs} from 'node:util';
 import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference} from './web_capture_checks.mjs';
+import {blockContract,facadeInputs} from './web_capture_blocks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -26,9 +27,9 @@ async function command(executable,args){
 }
 async function exists(path){try{await access(resolve(root,path));return true;}catch{return false;}}
 try{
- const contract=await readJSON('scripts/web_capture_contract.json');
+ const contract=values.block?await blockContract(root,values.block):await readJSON('scripts/web_capture_contract.json');
  const {scenes,fixture}=contract;
- const selected=values.scene?[values.scene]:['sloans','lakeview'];
+ const selected=values.scene?[values.scene]:(values.block?Object.keys(scenes):['sloans','lakeview']);
  if(selected.some(scene=>!Object.hasOwn(scenes,scene)))throw Error('Unsupported frozen web scene: '+values.scene);
  const freshFrames=new Map();
  const identities=Object.fromEntries(selected.map(scene=>[scene,scene+'-frozen-web']));
@@ -42,13 +43,23 @@ try{
  await command(resolve(root,'scripts/export-package.sh'),[]);
  // Exactly the existing bakeoff/export.sh recipe, using the release exporter already built above.
  if(selected.includes('lakeview'))await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas/lakeview-sheil-park'),resolve(root,'web/bakeoff/generated/lakeview-sheil-park'),'--date','2026-07-15T20:00:00Z','--season','1','--focus','41.9445,-87.6660,41.9465,-87.6630','--margin','100','--version','a2-existing-exporter']);
- stage='server';server=await startCaptureServer(root,{'/scenes.json':scenes,'/fixture.json':fixture});report.origin=server.origin;
+ const overrides={'/scenes.json':scenes,'/fixture.json':fixture};
+ for(const spec of contract.exports||[]){
+  const out=resolve(root,'Generated/web-capture',spec.area);
+  await command(resolve(root,'.build/release/worldbake'),['export',resolve(root,'Data/areas',spec.area),out,'--date',spec.date,'--focus',spec.focus,'--margin','100']);
+  const facades=await facadeInputs(root,spec.area,out);
+  for(const scene of selected.filter(scene=>scenes[scene].area===spec.area)){
+   overrides['/data/'+scene+'-facades.json']=facades;
+   overrides['/'+scene+'.html']=(await readFile(resolve(root,'web/bakeoff/lakeview.html'),'utf8')).replace('data-scene="lakeview"','data-scene="'+scene+'"');
+  }
+ }
+ stage='server';server=await startCaptureServer(root,overrides);report.origin=server.origin;
  for(const scene of Object.keys(identities)){const response=await fetch(`${server.origin}/${scene}.html`);if(!response.ok)throw Error('Server readiness HTTP '+response.status);}
  report.events.push({stage:'server-ready',origin:server.origin});
  stage='browser';browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,timeout:30000,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
  report.browser={version:browser.version(),engine:'Chromium via Playwright (installed Chrome)',sandbox:true};
  for(const scene of selected)for(const mode of modes)for(const repeat of (values.repeat?[false,true]:[false])){
-  if(repeat){await browser.close();browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,timeout:30000,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});}
+  if(values.repeat&&report.frames.length){await browser.close();browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,timeout:30000,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});}
   stage=`capture ${scene}/${mode.foliageExp1}/${mode.crownV2}`;console.error('web capture: '+stage);
   const viewport=scenes[scene].viewport,page=await browser.newPage({viewport,deviceScaleFactor:1}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
