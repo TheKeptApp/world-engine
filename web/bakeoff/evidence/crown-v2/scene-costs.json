@@ -7,13 +7,17 @@
     "web/bakeoff/scenes.json": "d0cd9bde3441f33262bb8ce654b2d5fde2fc8cf9b88f09fb2389aa7ef4bd22f9"
   },
   "kind": "CPU scene submission model, not rendered counters",
-  "notes": "Uses shared WorldScene, frozen camera/date, actual facade and DEM geometry, actual shadow caster selection. Main frustum culling at mesh/instance-batch bounds. Includes Three Background sphere; post fullscreen triangle listed separately. Shadow is pre-frustum upper bound. Water/facade material-only changes cannot alter these topology counts. No GPU/frame-time claim.",
+  "notes": "Uses shared WorldScene, frozen camera/date, actual facade and DEM geometry, actual shadow caster selection. Main frustum culling at mesh/instance-batch bounds. Includes Three Background sphere; post fullscreen triangle listed separately. Shadow submitted counts use the actual light camera frustum; upper bounds are separately retained. All-pass totals include shadow and post. Water/facade material-only changes cannot alter these topology counts. No GPU/frame-time claim.",
   "results": [
     {
       "scene": "sloans",
       "crownV2": "off",
       "mainTriangles": 347177,
       "mainDraws": 99,
+      "shadowTriangles": 5008,
+      "shadowDraws": 17,
+      "allPassTriangles": 352186,
+      "allPassDraws": 117,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -54,6 +58,10 @@
       },
       "mainTriangles": 489507,
       "mainDraws": 101,
+      "shadowTriangles": 5162,
+      "shadowDraws": 17,
+      "allPassTriangles": 494670,
+      "allPassDraws": 119,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -63,7 +71,7 @@
         "draws": 1
       },
       "shadowTrianglesUpperBound": 5206,
-      "shadowDrawsUpperBound": 21,
+      "shadowDrawsUpperBound": 18,
       "shadowRadiusM": 120,
       "elmCount": 705,
       "lodCounts": [
@@ -94,6 +102,10 @@
       },
       "mainTriangles": 383481,
       "mainDraws": 96,
+      "shadowTriangles": 5162,
+      "shadowDraws": 17,
+      "allPassTriangles": 388644,
+      "allPassDraws": 114,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -103,7 +115,7 @@
         "draws": 1
       },
       "shadowTrianglesUpperBound": 5206,
-      "shadowDrawsUpperBound": 21,
+      "shadowDrawsUpperBound": 18,
       "shadowRadiusM": 120,
       "elmCount": 705,
       "lodCounts": [
@@ -127,6 +139,10 @@
       "crownV2": "off",
       "mainTriangles": 265310,
       "mainDraws": 81,
+      "shadowTriangles": 67190,
+      "shadowDraws": 81,
+      "allPassTriangles": 332501,
+      "allPassDraws": 163,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -167,6 +183,10 @@
       },
       "mainTriangles": 303842,
       "mainDraws": 83,
+      "shadowTriangles": 67300,
+      "shadowDraws": 81,
+      "allPassTriangles": 371143,
+      "allPassDraws": 165,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -176,7 +196,7 @@
         "draws": 1
       },
       "shadowTrianglesUpperBound": 67300,
-      "shadowDrawsUpperBound": 84,
+      "shadowDrawsUpperBound": 81,
       "shadowRadiusM": 120,
       "elmCount": 215,
       "lodCounts": [
@@ -207,6 +227,10 @@
       },
       "mainTriangles": 275968,
       "mainDraws": 80,
+      "shadowTriangles": 67300,
+      "shadowDraws": 81,
+      "allPassTriangles": 343269,
+      "allPassDraws": 162,
       "background": {
         "triangles": 1984,
         "draws": 1
@@ -216,7 +240,7 @@
         "draws": 1
       },
       "shadowTrianglesUpperBound": 67300,
-      "shadowDrawsUpperBound": 84,
+      "shadowDrawsUpperBound": 81,
       "shadowRadiusM": 120,
       "elmCount": 215,
       "lodCounts": [

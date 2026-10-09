@@ -1,5 +1,7 @@
 # Budget-aware American elm prototype
 
+**Runtime update:** [measured six-mode results and corrected accounting](RUNTIME.md) supersede the CPU-only pass estimates below. The mode parser is fixed; default remains off. Ledger text for this correction is in RUNTIME.md.
+
 R's “CROWN: FIT STANDARD BUDGET + CLEAN BRANCH” authorizes this revision of `aa3a068`. Fresh branch `astra-a2-elm-budget` from main `855babe`; only web/bakeoff files carried across. No tracking files edited. Default remains off. Select `?crownV2=standard` (also `on` or bare flag) or `?crownV2=floor`; `off`/absent preserves the old renderer. Invalid values error. No captures, scores or GPU measurements.
 
 ## General allocation rule
