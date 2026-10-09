@@ -22,7 +22,9 @@ export function installShadowCasters(scene,world,sun,camera){
     }if(!ids.length)continue;const g=geo.clone();g.setIndex(ids);const mesh=new T.Mesh(g,material);mesh.matrixAutoUpdate=false;mesh.matrix.copy(source.matrixWorld);add(mesh,source.userData.costCategory);
    }
    for(const group of world.lodGroups.filter(g=>g.isTree)){const list=group.instances.filter(i=>near(new T.Vector3(...i.position)));if(!list.length)continue;
-    const mesh=new T.InstancedMesh(group.levels[Math.min(report.treeLOD,group.levels.length-1)].geometry.clone(),material,list.length),m=new T.Matrix4();list.forEach((i,n)=>{const s=i.stretch||[1,1];m.compose(new T.Vector3(...i.position),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i.yaw),new T.Vector3(i.scale*s[0],i.scale,i.scale*s[1]));mesh.setMatrixAt(n,m.premultiply(world.root.matrixWorld));});mesh.computeBoundingSphere();mesh.userData.crownV2=!!group.crownV2;add(mesh,'foliage');
+    const depthMaterial=group.crownV3?new T.MeshBasicNodeMaterial({side:T.DoubleSide,shadowSide:T.DoubleSide,alphaTest:.5}):material;
+    if(group.crownV3)depthMaterial.opacityNode=group.levels[2].material.opacityNode;
+    const mesh=new T.InstancedMesh(group.levels[Math.min(report.treeLOD,group.levels.length-1)].geometry.clone(),depthMaterial,list.length),m=new T.Matrix4();list.forEach((i,n)=>{const s=i.stretch||[1,1];m.compose(new T.Vector3(...i.position),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i.yaw),new T.Vector3(i.scale*s[0],i.scale,i.scale*s[1]));mesh.setMatrixAt(n,m.premultiply(world.root.matrixWorld));});mesh.computeBoundingSphere();mesh.userData.crownV2=!!group.crownV2;add(mesh,'foliage');
    }
    if(total<=report.limit)break;
    for(const mesh of [...root.children]){root.remove(mesh);mesh.geometry.dispose();mesh.dispose?.();}radius/=2;

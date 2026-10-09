@@ -1,0 +1,217 @@
+{
+  "baseCommit": "4c9eb2640e8a3574ea8668c6e7fa7733af030544",
+  "sourceHashes": {
+    "web/bakeoff/main.js": "67f65fe9620dc19088646bc5b234d0faf801900a26107adfd3d39ef2aa9c590c",
+    "web/bakeoff/foliage.js": "a82a3625544d421b13f83c99a11a1bdb0c0025e17229b9ff17e543d7beb8df3c",
+    "web/bakeoff/crown-v3.js": "7e281759c6c881b889e5f2b1e01e3b186f63c046badfc3e718cbb55b31e1ddd1",
+    "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+    "scripts/capture_web.mjs": "c4fd784f379a63510edb5f54e07e0d86fd9af1cbff0e2ff7a183ecef618fa8c1",
+    "scripts/capture-web.sh": "ad13f408fbe9c604d4f36b5d6c90d5c04e03b9a2682e0491efee5fd9064ab3b8",
+    "scripts/capture_timeout.py": "879a0084673b5e215d28ca806c6cc254dca093d6e82d70c9e74167983d78ce71",
+    "scripts/heavy.sh": "c0af876146f279d6440454053e41580fbfe5735c7eb949762822c6ede35004c1",
+    "scripts/web_sloans_ladder.json": "2cc917d86223346806a503ae7db85fa029c0d6d9dd58446eadbf829b00bddb45",
+    "web/bakeoff/data/p2-crowns.json": "a73c9f5e54d95a8e2db3b96671e5dbca0b5ba355684f1912fb42c4bab24f0fb3"
+  },
+  "captureCommand": "HEAVY_AGENT=\"A2 crown v3 final candidate\" HEAVY_LOAD_WAIT=0 bash scripts/capture-web.sh --block sloans-ladder --crownV3 standard --output /private/tmp/a2-crown-v3-final",
+  "admissionLoads": {
+    "before": 4.56,
+    "off": 7.23,
+    "candidate": 4.52,
+    "finalTests": 4.23
+  },
+  "byteIdentityAllThree": true,
+  "rows": [
+    {
+      "scene": "sloans-40",
+      "off": {
+        "main": {
+          "triangles": 729101,
+          "draws": 182
+        },
+        "shadow": {
+          "triangles": 69639,
+          "draws": 62
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "candidate": {
+        "main": {
+          "triangles": 610961,
+          "draws": 131
+        },
+        "shadow": {
+          "triangles": 84423,
+          "draws": 57
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "fragments": {
+        "method": "CPU pixel-centre raster estimate; cutout field; no scene/depth occlusion; no MSAA; full drawable crop",
+        "width": 1005,
+        "height": 565,
+        "preCutoutFragments": 306749,
+        "postCutoutFragments": 227061,
+        "coveredPixels": 96812,
+        "averageCardLayers": 2.3453807379250504,
+        "pixelsAbove6": 2044,
+        "peakLayers": 13,
+        "over6Flag": true,
+        "nearClippedTrianglesOmitted": 0
+      },
+      "lodCounts": [
+        78,
+        0,
+        0,
+        0
+      ],
+      "delta": {
+        "main": {
+          "triangles": -118140,
+          "draws": -51
+        },
+        "shadow": {
+          "triangles": 14784,
+          "draws": -5
+        },
+        "post": {
+          "triangles": 0,
+          "draws": 0
+        }
+      }
+    },
+    {
+      "scene": "sloans-150",
+      "off": {
+        "main": {
+          "triangles": 791795,
+          "draws": 251
+        },
+        "shadow": {
+          "triangles": 67961,
+          "draws": 42
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "candidate": {
+        "main": {
+          "triangles": 1210739,
+          "draws": 192
+        },
+        "shadow": {
+          "triangles": 83273,
+          "draws": 41
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "fragments": {
+        "method": "CPU pixel-centre raster estimate; cutout field; no scene/depth occlusion; no MSAA; full drawable crop",
+        "width": 1005,
+        "height": 565,
+        "preCutoutFragments": 313521,
+        "postCutoutFragments": 239216,
+        "coveredPixels": 108149,
+        "averageCardLayers": 2.21191134453393,
+        "pixelsAbove6": 1727,
+        "peakLayers": 17,
+        "over6Flag": true,
+        "nearClippedTrianglesOmitted": 0
+      },
+      "lodCounts": [
+        555,
+        403,
+        2,
+        0
+      ],
+      "delta": {
+        "main": {
+          "triangles": 418944,
+          "draws": -59
+        },
+        "shadow": {
+          "triangles": 15312,
+          "draws": -1
+        },
+        "post": {
+          "triangles": 0,
+          "draws": 0
+        }
+      }
+    },
+    {
+      "scene": "sloans-600",
+      "off": {
+        "main": {
+          "triangles": 624433,
+          "draws": 292
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "candidate": {
+        "main": {
+          "triangles": 847545,
+          "draws": 229
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        },
+        "post": {
+          "triangles": 1,
+          "draws": 1
+        }
+      },
+      "fragments": {
+        "method": "CPU pixel-centre raster estimate; cutout field; no scene/depth occlusion; no MSAA; full drawable crop",
+        "width": 1005,
+        "height": 565,
+        "preCutoutFragments": 44329,
+        "postCutoutFragments": 39547,
+        "coveredPixels": 22644,
+        "averageCardLayers": 1.7464670552905848,
+        "pixelsAbove6": 60,
+        "peakLayers": 9,
+        "over6Flag": true,
+        "nearClippedTrianglesOmitted": 0
+      },
+      "lodCounts": [
+        0,
+        1423,
+        861,
+        12
+      ],
+      "delta": {
+        "main": {
+          "triangles": 223112,
+          "draws": -63
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        },
+        "post": {
+          "triangles": 0,
+          "draws": 0
+        }
+      }
+    }
+  ]
+}

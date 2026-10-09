@@ -11,7 +11,7 @@ import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,ve
 import {blockContract,facadeInputs,inspectionCamera} from './web_capture_blocks.mjs';
 import {startCaptureServer} from './web_capture_server.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},expectedDifferent:{type:'boolean',default:false}}});
+const {values}=parseArgs({options:{output:{type:'string'},scene:{type:'string'},block:{type:'string'},repeat:{type:'boolean',default:false},matrix:{type:'boolean'},foliage:{type:'string',default:'off'},crown:{type:'string',default:'off'},crownV3:{type:'string'},expectedDifferent:{type:'boolean',default:false}}});
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json'));
 const {chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -41,6 +41,7 @@ try{
  const identities=Object.fromEntries(selected.map(scene=>[scene,scene+'-frozen-web']));
  const modes=modeQueries({foliage:values.foliage,crown:values.crown,matrix:values.matrix});
  if(modes.some(m=>m.crownV2!=='off')&&!(await readFile(resolve(root,'web/bakeoff/main.js'),'utf8')).includes('crownV2'))throw Error('Requested crown mode is unsupported by this checkout');
+ if(values.crownV3!==undefined){if(!['off','standard'].includes(values.crownV3)||modes.some(m=>m.crownV2!=='off'))throw Error('Invalid crownV3 capture mode');for(const mode of modes)mode.crownV3=values.crownV3;}
  const disk=await statfs(root);if(disk.bavail*disk.bsize<8*1024**3)throw Error('Less than 8 GB free; capture not started');
  await mkdir(dirname(run),{recursive:true});await mkdir(run,{recursive:false});created=true;
  report.contract={...contract,sha256:hash(JSON.stringify(contract))};
@@ -94,12 +95,13 @@ try{
   },null,{polling:'raf',timeout:180000});
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
+  const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,crownBudget:b.world.crownBudget??null,crownV3:b.crownV3??false,crownV3Report:b.world.crownV3Report??null,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
   verifyModes(evidence,mode);
+  if((evidence.crownV3||'off')!==(mode.crownV3||'off'))throw Error('crownV3 did not resolve as requested');
   verifyCounters(evidence.metrics);
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));
-  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
+  const filename=`${scene}-foliage-${mode.foliageExp1}-crown-${mode.crownV2}${mode.crownV3?'-v3-'+mode.crownV3:''}${values.repeat?(repeat?'-repeat':'-fresh'):''}.png`;
   await writeFile(resolve(run,filename),image);
   report.frames.push({scene,repeat,view:identities[scene],camera:scenes[scene].camera,inspection:scenes[scene].inspection??null,date:fixture.date,...mode,url,...evidence,pixels,frame:filename,sha256:hash(image),seconds:(performance.now()-t)/1000});
   await page.close();
