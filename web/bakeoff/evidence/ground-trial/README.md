@@ -1,6 +1,6 @@
 # Ground / semantic materials trial — A2, 9 October 2026
 
-**R approved the fresh-main rebaseline and inferred regional adapter on 9 October. All seven fresh-main controls and paired cost gates pass; default-off merge ready. No scores.** See [regional adapter and gate decision](REGIONAL-ADAPTER.md). See [current-main evidence](current-main/README.md) and [manifest](manifest.json). Pre-rebase captures and the old `blind/` directory below are superseded; use `current-main/blind/` for A3. `?groundTrial=on` resolves the prepared companion by exported area ID; an explicit `surfaceRoles=<same-origin companion/index.json>` can override its location; absent/off does not import the trial or load a companion. Other look flags remain off for the paired trial.
+**R approved the fresh-main rebaseline and inferred regional adapter on 9 October. All seven fresh-main controls and paired cost gates pass; merged default off as `978396b`. No scores.** See [regional adapter and gate decision](REGIONAL-ADAPTER.md). See [current-main evidence](current-main/README.md) and [manifest](manifest.json). Pre-rebase captures and the old `blind/` directory below are superseded; use `current-main/blind/` for A3. `?groundTrial=on` resolves the prepared companion by exported area ID; an explicit `surfaceRoles=<same-origin companion/index.json>` can override its location; absent/off does not import the trial or load a companion. Other look flags remain off for the paired trial.
 
 ## Rule and inputs
 
@@ -37,3 +37,11 @@ Touched: `web/bakeoff/{main.js,ground-trial.js,ground-trial.test.mjs,surface-rol
 See [approved rebaseline and regional adapter](REGIONAL-ADAPTER.md) for current status; historical blocked notes above are superseded. Accepted OFF/ON pairs cover Sloan 40/150/600, Lakeview 150, Wilmette 150, West Highland frozen view and Greenville 150. All accepted repeats are PNG-exact; all fresh-main controls equal trial OFF byte-for-byte. All rendering-pass deltas are zero.
 
 Additional touched files: `regional-adapter.mjs`, `regional-adapter.test.mjs`, `phenology.js`, `scripts/web_capture_blocks.mjs`; capture tooling freezes the shared material clock as well as the bakeoff clock. Existing approved look values, mapped materials and camera recipes remain unchanged.
+
+## Post-merge scoreboard and handoff
+
+Merged to main as `978396b`; current-main OFF gate exact for all seven views. Existing `scripts/world-scoreboard.sh` completed after merge: **24 frames / eight held areas**, `completed-with-failures`, 474.6 seconds. Floor and standard budget flags occur in all 24 rows; blank-ground coverage in seven. Four additional areas would be needed to reach the scoreboard’s twelve-area inventory goal. This is the shipping-web-module scoreboard, not a bakeoff visual grade. The default previous scoreboard (`ee66770`) is marked non-comparable by its own source/contract check; no improvement/regression claim is inferred from that diff. See [JSON](post-merge-scoreboard.json) and [report](post-merge-scoreboard.md).
+
+### Ledger text for A3
+
+Ground trial merged default OFF as `978396b`. R approved a fresh-current-main OFF baseline (exact trial-OFF equality; c8c361d historical only) and an inferred general regional adapter where approved regional inputs are missing. Approved Southeast haze is consumed without tuning; same-climate foliage proxies, missing scaffold forms and unknown calendar timing are labelled. No pending pack values. Review Sloan 40/150/600 and untouched Lakeview 150, Wilmette 150, West Highland frozen view, Greenville 150 in [blinded gallery](current-main/review.html); coordinator key is `current-main/blind-key.json`. All seven controls are full-PNG exact and every paired rendering-pass triangle/draw delta is zero. A3 owns paired visual scoring and tracker filing; A2 assigns no score or promotion. Complete sources/mock citations and deviations: [regional adapter](REGIONAL-ADAPTER.md) plus sources above.

@@ -1,5 +1,5 @@
 {
-  "status": "validated; ready to merge default off",
+  "status": "merged default off; post-merge scoreboard completed; A3 scoring pending",
   "mainParent": "f7fdfe1",
   "baseline": "fresh unmodified current-main OFF; exact trial OFF equality; c8c361d historical only",
   "flag": "groundTrial=on; absent/off unchanged",
@@ -183,5 +183,19 @@
     "west-highland",
     "greenville-150"
   ],
-  "pairedCostDelta": "0 triangles / 0 draws in every main, shadow and post bucket"
+  "pairedCostDelta": "0 triangles / 0 draws in every main, shadow and post bucket",
+  "mergeCommit": "978396b",
+  "scoreboard": {
+    "path": "post-merge-scoreboard.json",
+    "status": "completed-with-failures",
+    "frames": 24,
+    "areas": 8,
+    "failureCounts": {
+      "budget-floor": 24,
+      "budget-standard": 24,
+      "blank-ground": 7
+    },
+    "scope": "shipping-web-modules/WebGL2/package-light-state/crown-off/no-host-character",
+    "visualScores": null
+  }
 }

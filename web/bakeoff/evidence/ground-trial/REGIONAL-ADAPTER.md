@@ -42,3 +42,7 @@ All seven views pass the approved current-main control gate: full PNG-byte equal
 | greenville-150 | 467,370 / 174 | 30,459 / 26 | 0 / 0 |
 
 The original four-area pairs are reused after exact fresh-main comparisons; Greenville adds new accepted pairs. `current-main/blind/` and `blind-key.json` now include all seven views. No scores.
+
+## Merge and scoreboard
+
+Merged default off as `978396b`. The post-merge existing scoreboard completed 24 frames/eight areas, with budget-floor and budget-standard failures in all 24 and blank-ground in seven. It measures shipping web modules, not this look trial; no visual score or promotion follows. The original scoreboard comparison target is non-comparable due to source/contract drift. Full report is adjacent in `post-merge-scoreboard.json` / `.md`.
