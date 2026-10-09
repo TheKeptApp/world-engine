@@ -51,6 +51,16 @@ class NativeCaptureTests(unittest.TestCase):
             with self.assertRaises(ValueError): capture.inspection_view(view, bad, 'off')
         with self.assertRaises(ValueError): capture.inspection_view(view, pose, 'invalid')
 
+    def test_capture_date_override_is_explicit_validated_and_preserves_default(self):
+        view = capture.frozen_view(ROOT, 'ordinary-street-afternoon')
+        before = list(view['args'])
+        changed = capture.inspection_view(view, '39.7511195,-105.0389,150,270,45', 'off', '2026-07-15T20:30:00Z')
+        self.assertEqual(changed['args'][changed['args'].index('-date')+1], '2026-07-15T20:30:00Z')
+        self.assertEqual(view['args'], before)
+        self.assertEqual(changed['utc'], '2026-07-15T20:30:00Z')
+        for date in ('2026-02-30T20:30:00Z', '2026-07-15', '2026-07-15T20:30:00-06:00'):
+            with self.assertRaises(ValueError): capture.inspection_view(view, None, None, date)
+
     def test_failed_or_stale_frame_cannot_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); (root / 'raw').mkdir()

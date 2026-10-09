@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Worker for capture-native.sh; the shell entry point acquires the heavy lock."""
 import argparse
+from datetime import datetime
 import hashlib
 import json
 import math
@@ -25,7 +26,7 @@ def frozen_view(root, view_id):
     return next(v for v in contract['views'] if v['id'] == view_id)
 
 
-def inspection_view(view, pose, mode):
+def inspection_view(view, pose, mode, date=None):
     """R's 8 Oct A10 capture override; frozen hero defaults remain unchanged when absent."""
     result = dict(view)
     args = list(view['args'])
@@ -47,6 +48,14 @@ def inspection_view(view, pose, mode):
     if mode is not None:
         if mode not in ('off', 'remove', 'layered'): raise ValueError('invalid foliage experiment mode')
         args += ['-foliageexp1', mode]
+    if date is not None:
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z', date):
+            raise ValueError('capture date requires UTC YYYY-MM-DDTHH:MM:SSZ')
+        datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
+        if args.count('-date') != 1:
+            raise ValueError('capture date override requires one existing clock argument')
+        args[args.index('-date') + 1] = date
+        result['utc'] = date
     result['args'] = args
     return result
 
@@ -155,6 +164,7 @@ def crash_evidence(since):
 def main():
     parser = argparse.ArgumentParser(description='Fresh-worktree native capture; call scripts/capture-native.sh.')
     parser.add_argument('--view', default='ordinary-street-afternoon')
+    parser.add_argument('--date', help='explicit capture-only UTC date override; frozen defaults stay unchanged')
     parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
     parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 build variant, absent defaults off')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
@@ -164,7 +174,7 @@ def main():
     started_wall = time.time()
     created_run = False
     try:
-        view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1)
+        view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1, args.date)
         view["args"] = view["args"] + ["-sceneready"]
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
