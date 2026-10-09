@@ -4,6 +4,8 @@ R’s decisions, newest date first; one line per decision with its application/r
 
 ## 2026-10-09 — R
 
+- **Ground-trial control and regional gaps (R approval recorded by A2):** use fresh current-main OFF with exact full-PNG trial-OFF equality (`f7fdfe1` for this delivery); `c8c361d` is historical only. General data-driven regional inference is allowed where approved inputs are missing; label inferred/unknown fields and exclude pending packs. [A2 approval record and limits](../../web/bakeoff/evidence/ground-trial/REGIONAL-ADAPTER.md).
+
 - **Feature-reference application:** this reference-map task targets foliage/light/ground/materials 2→3; read the affected feature rows, camera scopes, visible traits, citation history and missing targets before work. [REFERENCE-MAP](REFERENCE-MAP.md).
 
 - **Surfaces:** web and iOS move together; web is the main surface and carries Builder; iOS is the native renderer; web scores are not a proxy for native. [Integration ledger](INTEGRATION.md).

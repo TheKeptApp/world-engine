@@ -1,0 +1,32 @@
+HEAVY start: A4 producer 21-test recheck (load 8.61, waited 0s for load)
+A4 verified admission UTC=2026-10-09T21:03:58Z load=8.61 pid=44459
+✔ query is explicit OFF-only and does not permit far stage before lossless gate (0.603125ms)
+✔ negative cell addresses and complete feature bounds (0.993166ms)
+✔ motion reuses geometry/buffers and preserves vertices, indices and shadow proxies (3.183458ms)
+✔ instanced matrices and per-instance attributes retain exact local bytes (7.829792ms)
+✔ 400/800 grouping is independent from 100m addressing and is lossless (0.656917ms)
+✔ geometry replacements retire old pools without retaining detached sources (0.507292ms)
+✔ static model transforms are preserved exactly rather than rebaked (0.279916ms)
+✔ exported ranges are consumed rather than reconstructing deleted provenance (0.668042ms)
+✔ default routing has one import and shipping source remains outside experiment modules (5.426417ms)
+✔ multiple spatial draw groups share a single immutable source vertex buffer (0.457ms)
+✔ coplanar draws keep source sphere centre and ID rather than pooled bounds (0.435333ms)
+✔ a source revisiting a spatial cell keeps interleaved primitive order (0.147833ms)
+✔ opt-in same-source concatenation preserves selected primitive order and bounded buffers through motion (0.32975ms)
+✔ same-source concatenation never merges different original source ordering units (0.538959ms)
+✔ complete actual bounds retain exact near and admit only >=400 m (0.938792ms)
+✔ parent crossing eye/near plane always retains children (0.097667ms)
+✔ atomic far/child swap restores children and leaves original geometry alive (1.261083ms)
+✔ missing source fails closed before any original visibility changes (0.316417ms)
+✔ a wide or tall complete parent prevents a premature partial swap (0.101584ms)
+✔ off-screen crossing does not disqualify visible changed bounds (0.131541ms)
+✔ a changed feature crossing the visible near plane blocks the whole atomic swap (0.099667ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.201875
+HEAVY done: A4 producer 21-test recheck (exit 0)

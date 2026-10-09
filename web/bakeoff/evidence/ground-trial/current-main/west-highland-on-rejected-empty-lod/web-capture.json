@@ -1,0 +1,73 @@
+{
+  "status": "failed",
+  "frames": [],
+  "events": [
+    {
+      "stage": "server-ready",
+      "origin": "http://127.0.0.1:63891"
+    }
+  ],
+  "startedUTC": "2026-10-09T19:27:27.155Z",
+  "contract": {
+    "source": "docs/lookloop/west-highland-capture-contract.json (existing frozen web camera)",
+    "scenes": {
+      "west-highland": {
+        "world": "/world/capture/west-highland/",
+        "mock": "06-sloans",
+        "viewport": {
+          "width": 390,
+          "height": 780
+        },
+        "camera": {
+          "eye": [
+            39.759946,
+            -105.04,
+            350
+          ],
+          "target": [
+            39.764,
+            -105.04,
+            0
+          ],
+          "fov": 47
+        },
+        "region": "denver",
+        "climateRegion": "front-range",
+        "area": "west-highland"
+      }
+    },
+    "fixture": {
+      "status": "Simulated calibration fixture, not live weather or observed phenology",
+      "windKmh": 10,
+      "windFromDegrees": 225,
+      "skyState": "clear",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+      "atmosphereSeason": "summer",
+      "timeOfDay": "day",
+      "summitsObscured": false,
+      "atmosphereLayers": [],
+      "date": "2026-10-08"
+    },
+    "tier": "standard",
+    "deviceScaleFactor": 1,
+    "exports": [
+      {
+        "area": "west-highland",
+        "date": "2026-10-08T20:30:00Z",
+        "focus": "39.75949671668853,-105.04583518358649,39.768503283311475,-105.03416481641352"
+      }
+    ],
+    "sha256": "9df3d99c4aa84b800872c4b4091134eccb4e998796efeffb22bfc176714a20d2"
+  },
+  "origin": "http://127.0.0.1:63891",
+  "browser": {
+    "version": "155.0.8059.39",
+    "engine": "Chromium via Playwright (installed Chrome)",
+    "sandbox": true
+  },
+  "error": {
+    "stage": "capture west-highland/off/off",
+    "message": "page.waitForFunction: Error: Error: Surface companion rejected: incomplete coverage/trailing payload\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at check (http://127.0.0.1:63891/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:63891/surface-roles.js:66:2)\n    at async main (http://127.0.0.1:63891/main.js:49:77)\n    at eval (eval at predicate (eval at evaluate (:311:30)), <anonymous>:2:41)\n    at predicate (eval at evaluate (:311:30), <anonymous>:7:27)\n    at next (eval at evaluate (:311:30), <anonymous>:29:33)\n    at /private/tmp/worldengine-a2-bakeoff/scripts/capture_web.mjs:117:14"
+  },
+  "seconds": 11.382506
+}

@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-09
 
+- **Ground trial: fresh-main control and general regional inference (R approval relayed/filed by A2, `978396b` / evidence `77e9b12`):** [REGIONAL-ADAPTER](../../web/bakeoff/evidence/ground-trial/REGIONAL-ADAPTER.md) records fresh current-main OFF as exact control (`f7fdfe1` here), with historical `c8c361d` retained as historical rather than relabelled a pass. Data-driven inferred regional gaps are allowed; pending packs remain excluded. Greenville consumes approved Southeast inland haze unchanged; same-climate foliage/P2 display proxies and absent calibrated seasonal timing stay explicitly inferred/unknown. This records A2’s sourced approval report, not a new pack approval or measured regional inventory.
+
 - **Permanent decisions and reference rule (R):** [dated decision register](../tracking/DECISIONS.md#2026-10-09--r) records web/native roles, Builder product scope, revised ship bar, lossless versus paired-score gates, city-tree data, process cut, owner-controlled shadow reach and private/external legal boundary. Read it first; before every task read all research/mocks for the touched features and cite Used / Mock / Deviation. Binding rule mirrored in AGENTS.md and CLAUDE.md.
 
 - **vegetation-v1 explicit approval (R):** approved 9 Oct 2026 as a foliage target for every block. Create its missing STATUS from README/addendum limits; authored values remain targets, not measurements. Supersedes the earlier conditional filing hold. Record partial native palette/shape references without inventing full consumption or acceptance. Other related packs are inventoried for scoped approval recommendations only; no status changes to them.

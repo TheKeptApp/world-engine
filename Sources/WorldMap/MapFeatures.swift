@@ -121,6 +121,13 @@ public struct WayFeature: Sendable {
     public var suppressesSurfaceRendering: Bool {
         ["yes", "building_passage", "culvert"].contains(tags["tunnel"] ?? "")
     }
+    /// Mapped pedestrian ribbons/paint: ground-level building passages retain their floor.
+    /// Explicit tunnels/culverts, or any affirmative tunnel tag with underground layer, do not.
+    /// Layer alone, tunnel=no, bridges and covered=yes at ground level do not imply underground.
+    public var suppressesPedestrianSurfaceRendering: Bool {
+        let tunnel = tags["tunnel"] ?? "no"
+        return ["yes", "culvert"].contains(tunnel) || (layer < 0 && tunnel != "no" && !tunnel.isEmpty)
+    }
 }
 
 // MARK: - Areas

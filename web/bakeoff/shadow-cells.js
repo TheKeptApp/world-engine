@@ -1,3 +1,4 @@
+import {casterVisible} from './candidate-far-policy.js';
 // Default-off, same shadow source geometry/material/order/reach. Unsupported deformation retains source.
 import * as T from 'three/webgpu';
 import {featureRows} from './scene-budget.js';
@@ -33,7 +34,7 @@ export function installShadowCells(scene,camera,world,{features=new WeakMap(),re
  const sources=[],known=new WeakSet(),provenance=new Map();world.root.traverse(o=>{if(o.isMesh&&features.has(o.geometry)){const key=positionKey(o.geometry),old=provenance.get(key),attr=features.get(o.geometry);if(old&&(old.count!==attr.count||old.array.some((v,i)=>v!==attr.array[i])))throw Error('Shadow provenance collision');provenance.set(key,attr);}});
  const precision=renderer?.backend?.gl?.getShaderPrecisionFormat(renderer.backend.gl.VERTEX_SHADER,renderer.backend.gl.HIGH_FLOAT)?.precision??23;
  const report={highpPrecision:precision,enabled:true,reachChanged:false,lodChanged:false,padding:'rigid: gamma8 highp transform interval; known wind: .0025*maxPositiveSway*maxAbsPostInstanceY, 16 ulps + 1e-5m slack; unknown deformation retained',updates:0,triangles:0,draws:0,unboundedTriangles:0,bufferBytes:0};
- const attached=o=>{for(let p=o;p;p=p.parent){if(p===root)return false;if(p===scene)return true;}return false;},visible=o=>{for(let p=o;p;p=p.parent)if(!p.visible)return false;return true;};
+ const attached=o=>{for(let p=o;p;p=p.parent){if(p===root)return false;if(p===scene)return true;}return false;},visible=casterVisible;
  function collect(){scene.traverse(o=>{if(o.isMesh&&attached(o)&&o.castShadow&&!known.has(o)&&((mask&0xFFFFFFFE)?(mask&o.layers.mask):camera.layers.test(o.layers))){known.add(o);sources.push({o,geometry:null});}});}
  function prepare(s){const o=s.o,g=o.geometry;if(s.geometry===g)return;if(s.mesh){root.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.dispose?.();}s.geometry=g;s.unbounded=precision<23||needsUnboundedPadding(o,world);s.mesh=null;if(s.unbounded)return;s.sway=0;if(o.material.positionNode===world?.materials?.foliage?.positionNode&&g.attributes._paint)for(let i=0;i<g.attributes._paint.count;i++)s.sway=Math.max(s.sway,g.attributes._paint.getW(i));
   const clone=new T.BufferGeometry();for(const [name,a]of Object.entries(g.attributes)){if(a.isInstancedBufferAttribute){const b=new T.InstancedBufferAttribute(new a.array.constructor(a.array.length),a.itemSize,a.normalized,a.meshPerAttribute);b.setUsage(a.usage);clone.setAttribute(name,b);report.bufferBytes+=b.array.byteLength;}else clone.setAttribute(name,a);}clone.boundingSphere=g.boundingSphere?.clone()??null;clone.boundingBox=g.boundingBox?.clone()??null;

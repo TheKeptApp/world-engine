@@ -21,7 +21,16 @@ function glb(data){
   check(integer(begin)&&integer(offset)&&integer(b.byteLength)&&integer(stride)&&stride>=size&&(begin+offset)%size===0&&stride%size===0&&begin+b.byteLength<=len&&offset+(a.count? (a.count-1)*stride+size:0)<=b.byteLength,'accessor bounds');
   return {count:a.count,get(i){check(integer(i)&&i<a.count,'accessor index');const at=start+begin+offset+i*stride;return size===1?v.getUint8(at):size===2?v.getUint16(at,true):v.getUint32(at,true);}};
  }
- return {g,scalar};
+ function positions(id){
+  const a=g.accessors?.[id],b=g.bufferViews?.[a?.bufferView];
+  check(a&&b&&a.componentType===5126&&a.type==='VEC3'&&!a.sparse&&!a.normalized&&b.buffer===0,'position accessor');
+  const offset=a.byteOffset??0,begin=b.byteOffset??0,stride=b.byteStride??12;
+  check(integer(a.count)&&integer(begin)&&integer(offset)&&integer(stride)&&stride>=12&&stride%4===0&&(begin+offset)%4===0&&offset+(a.count?(a.count-1)*stride+12:0)<=b.byteLength&&begin+b.byteLength<=len,'position bounds');
+  const out=new Float32Array(a.count*3);
+  for(let i=0;i<a.count;i++)for(let k=0;k<3;k++)out[i*3+k]=v.getFloat32(start+begin+offset+i*stride+k*4,true);
+  return out;
+ }
+ return {g,scalar,positions};
 }
 export async function readSurfaceRoles({readPackage,readCompanion,expectedManifest}){
  const index=json(bytes(await readCompanion('index.json')));
@@ -36,8 +45,15 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
  check(payload.length===index.payload.bytes&&await sha256(payload)===index.payload.sha256,'payload hash/length');
  const view=new DataView(payload.buffer,payload.byteOffset,payload.byteLength),entries=index.primitives;
  check(Array.isArray(entries)&&Array.isArray(index.featureSources),'records');
- const witnesses=new Map();for(const w of index.featureSources){check(typeof w.feature==='string'&&w.tags&&typeof w.tags==='object'&&!witnesses.has(w.feature),'feature witness');witnesses.set(w.feature,w.tags);}
+ const witnesses=new Map();for(const w of index.featureSources){
+  check(typeof w.feature==='string'&&w.tags&&typeof w.tags==='object'&&!Array.isArray(w.tags),'feature witness');
+  // A source relation may emit multiple polygon features. Repeated identical
+  // provenance is valid; conflicting tags for the same source ID remain fatal.
+  const prior=witnesses.get(w.feature),canonical=t=>JSON.stringify(Object.entries(t).sort(([a],[b])=>a.localeCompare(b)));
+  check(!prior||canonical(prior)===canonical(w.tags),'conflicting feature witness');witnesses.set(w.feature,w.tags);
+ }
  const paths=Object.keys(world.files??{}).filter(p=>p.endsWith('.glb')).sort();check(paths.length>0,'package GLB inventory');
+ const bindings=new Map();
  const groups=new Map(),records=new Map(),roles=[0,0,0,0,0];let end=0,triangles=0,primitiveCount=0;
  for(const e of entries){
   path(e.path);check(paths.includes(e.path)&&integer(e.mesh)&&integer(e.primitive)&&integer(e.lod)&&integer(e.triangleCount)&&integer(e.byteOffset),'primitive identity');
@@ -47,14 +63,16 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
   const key=JSON.stringify([e.path,e.mesh,e.primitive]);check(!records.has(key),'duplicate primitive');records.set(key,e);
   if(!groups.has(e.path))groups.set(e.path,[]);groups.get(e.path).push(e);
  }
- check(end===payload.length&&groups.size===paths.length,'incomplete coverage/trailing payload');
+ check(end===payload.length,'trailing payload'); // Empty GLBs correctly have no primitive records; verified below.
  const scenes=new Map();
  for(const p of paths){
   const data=bytes(await readPackage(path(p))),hash=await sha256(data),file=world.files[p];check(hash===file.sha256&&data.length===file.bytes,'package GLB hash');
-  const {g,scalar}=glb(data);let count=0;
+  const {g,scalar,positions}=glb(data);let count=0;
   for(const [mi,m]of g.meshes.entries())for(const [pi,prim]of m.primitives.entries()){
    const e=records.get(JSON.stringify([p,mi,pi]));check(e&&e.sha256===hash,'GLB binding/primitive coverage');
    check((prim.mode??4)===4,'primitive mode');const inds=scalar(prim.indices);check(inds.count%3===0&&inds.count/3===e.triangleCount,'triangle count');
+   const geometryHash=await surfaceGeometryHash(positions(prim.attributes.POSITION),Uint32Array.from({length:inds.count},(_,i)=>inds.get(i)));
+   if(!bindings.has(p))bindings.set(p,[]);bindings.get(p).push({mesh:mi,primitive:pi,geometryHash,triangleCount:e.triangleCount});
    let ids=null,features=null;
    for(let i=0;i<e.triangleCount;i++){
     const word=view.getUint16(e.byteOffset+2*i,true),role=word&7,material=word>>3&31,mp=word>>8&3,cp=word>>10&3;
@@ -78,10 +96,14 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
    }
    triangles+=e.triangleCount;count++;
   }
-  check(count===groups.get(p).length,'extra primitive');primitiveCount+=count;
+  check(count===(groups.get(p)?.length??0),'extra primitive');primitiveCount+=count;
  }
  // No partial records escape on rejection. Metadata is CPU-only, no GPU changes.
  return Object.freeze({report:Object.freeze({schema:index.schema,packageHash:index.packageHash.sha256,payloadHash:index.payload.sha256,primitives:primitiveCount,triangles,roles,payloadBytes:payload.length,status:'validated; no appearance application'}),
+  async matchGeometry(p,position,index){
+   const key=await surfaceGeometryHash(position,index),found=bindings.get(p)?.filter(b=>b.geometryHash===key)??[];
+   check(found.length===1,'loaded geometry does not uniquely match validated primitive');return Object.freeze({...found[0]});
+  },
   word(p,mesh,primitive,triangle){const e=records.get(JSON.stringify([p,mesh,primitive]));check(e&&integer(triangle)&&triangle<e.triangleCount,'record lookup');return view.getUint16(e.byteOffset+2*triangle,true);}});
 }
 export async function loadSurfaceRoles(packageBase,companionIndex,expectedManifest){
@@ -91,4 +113,14 @@ export async function loadSurfaceRoles(packageBase,companionIndex,expectedManife
  const side=new URL('./',index);
  const reader=root=>async p=>{const url=new URL(path(p),root);check(url.origin===origin&&url.pathname.startsWith(root.pathname),'path escape');const r=await fetch(url,{cache:'no-store'});check(r.ok&&!r.redirected,'fetch '+p);return new Uint8Array(await r.arrayBuffer());};
  return readSurfaceRoles({readPackage:reader(base),readCompanion:reader(side),expectedManifest});
+}
+
+// Canonical little-endian representation: independent of GLB buffer interleaving.
+export async function surfaceGeometryHash(position,index){
+ check(position.length%3===0&&index.length%3===0,'geometry shape');
+ const raw=new Uint8Array(8+4*(position.length+index.length)),v=new DataView(raw.buffer);
+ v.setUint32(0,position.length,true);v.setUint32(4,index.length,true);
+ for(let i=0;i<position.length;i++){check(Number.isFinite(position[i]),'nonfinite position');v.setFloat32(8+4*i,position[i],true);}
+ for(let i=0;i<index.length;i++){check(integer(index[i])&&index[i]<position.length/3,'geometry index');v.setUint32(8+4*(position.length+i),index[i],true);}
+ return sha256(raw);
 }

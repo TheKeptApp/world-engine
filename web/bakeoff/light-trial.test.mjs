@@ -5,7 +5,7 @@ import * as T from 'three/webgpu';
 import {lightTrialMode,lightTrialValues,installLightTrial} from './light-trial.js';
 import {witnessLight} from './lighting.js';
 const main=await readFile('web/bakeoff/main.js','utf8');
-const stripped=main.replace(/ \/\/ SURFACE_ROLES_BEGIN\n[\s\S]*? \/\/ SURFACE_ROLES_END\n/g,'').replace(/ \/\/ LIGHT_TRIAL_BEGIN\n[\s\S]*? \/\/ LIGHT_TRIAL_END\n/g,'').replace('lightTrial,','');
+const stripped=main.replace(/ \/\/ GROUND_TRIAL_BEGIN\n[\s\S]*? \/\/ GROUND_TRIAL_END\n/g,'').replace('groundTrial:groundTrial?.report??null,','').replace(/ \/\/ SURFACE_ROLES_BEGIN\n[\s\S]*? \/\/ SURFACE_ROLES_END\n/g,'').replace(/ \/\/ LIGHT_TRIAL_BEGIN\n[\s\S]*? \/\/ LIGHT_TRIAL_END\n/g,'').replace('lightTrial,','');
 assert.equal(stripped,execFileSync('git',['show','8f08c42:web/bakeoff/main.js'],{encoding:'utf8'}));
 assert.equal(lightTrialMode(), 'off');assert.equal(lightTrialMode('off'),'off');assert.equal(lightTrialMode('on'),'on');assert.throws(()=>lightTrialMode('soft'));
 const look=JSON.parse(await readFile('docs/proposals/style-b-calibration-v2/values.json')).sharedLook,L=look.lighting;

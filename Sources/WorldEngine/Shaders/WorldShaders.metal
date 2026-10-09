@@ -544,7 +544,10 @@ void worldWaterSurface(realitykit::surface_parameters params)
     half3 sky;
     float fres;
     float3 rr;
-    if (g.lakeReflect.x > 0.0) {
+    // Context uv3 stores coverage bounds, not a lake index. Unknown/core-negative profiles
+    // and coarse context water use the existing generic response, never an example lake.
+    bool hasLakeProfile = (uint(paint.z + 0.5) & 256u) == 0u && params.geometry().uv3().w >= 0.0;
+    if (g.lakeReflect.x > 0.0 && hasLakeProfile) {
         // Lake water (lake-winter-v1 colour, shoreline and reflection; water-surfaces-v1 four wave terms),
         // values from mock-values.json. extra.z = metres from the shore (open water 1000), extra.w = profile.
         float4 extra = params.geometry().uv3();
@@ -621,7 +624,7 @@ void worldWaterSurface(realitykit::surface_parameters params)
     }
     su.roughness = 0.45h; su.specular = 0.6h; su.ao = 1.0h; su.cuttable = false;
     // Lake roughness by wind (lake-winter-v1 water.windStates), same for both profiles.
-    if (g.lakeReflect.x > 0.0) { su.roughness = half(max(g.lakeWave0.w, 0.05)); }
+    if (g.lakeReflect.x > 0.0 && hasLakeProfile) { su.roughness = half(max(g.lakeWave0.w, 0.05)); }
     su.weathered = false;
     if (uint(paint.z + 0.5) & 256u) { contextCoverageFade(tex, g, su, params.geometry().uv3(), paint.w, wp); }   // context ring
     finish(params, g, su, wp);

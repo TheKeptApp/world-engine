@@ -1,0 +1,49 @@
+# Context hold-out coverage — default-off
+
+## Used / Mock / Deviation
+
+Used: `docs/tracking/REFERENCE-MAP.md`, Context ring/world edge row and Camera and coverage gaps; `docs/tracking/DECISIONS.md`, 9 October ship bar/comparison/process; `docs/tracking/INDEX.md`, `MOCKS.md` and `SOURCE-OF-TRUTH.md`; `docs/data/context-rings.md`, Files/selection/Reading it; `docs/data/context-coverage-check.md` §§1–4; `docs/legal/data-licence-inventory-v1.md`, OSM extracts/context rings core row; `docs/data-licensing.md` §§1–4; `docs/execution/world-edge-options.md`, Recommendation/measured basis; context-buildings README, General rule/measurement contract; far-water-ring README, representation/capture contract; `docs/research/aerial.md`, Summary; `docs/research/region-kit.md`, Summary; `docs/data/adaptive-tiles.md`, preservation/consumer contract; `docs/perf/ios-new-tiles-v1.md`, loader compatibility. The current AGENTS/CLAUDE, roadmap, owner log, proposal INDEX, pack usage and integration ledger were consulted. No alternate colour, terrain, canopy or streaming policy is introduced.
+
+Mock: inspected `docs/proposals/look-fix-v1/images/aerial-01-continuation-clear.png` for mapped continuation, not pixel composition or new look values (research scope). Approved appearance remains `style-b-calibration-v2/frames/06-sloans.png` / `01-lakeview.png`, inspected in the preceding far-water experiment; no material changes here. REFERENCE-MAP explicitly records no approved height/FOV/date-matched 600 m target. Pending street-to-space and other concepts are excluded. No scores.
+
+Deviation: Greenville's wider source is absent, so no acquisition/export is attempted there. West Highland reuses a neighbouring held extract at its actual coverage; this is not a complete 3 km-per-side or systematic 500 m building ring around West Highland. Native renders remain independently unmeasured. This experiment changes only bakeoff source preparation/capture tools; shipping data manifests, native code and defaults stay unchanged.
+
+## Held-source rule and licence
+
+`tools/prepare-held-context.py` searches held area manifests for an ODbL context-layer source whose declared rectangle contains the requested core plus 500 m. The margin is the existing prototype's building-band limit, not new acquisition or proof of all feature categories. Choose smallest qualifying rectangle, then source path for stable ties; verify bytes and SHA-256 before use. No location constants or new fetches. A staged manifest points to the original bytes. The unchanged `export-context` uses the target's frame/core/profile and actual source bounds. Buildings remain mapped footprints subject to the existing 500 m and 40k-triangle selection rules; no fabricated masses.
+
+A11's specific held OSM/context inventory grants GREEN source rights (ODbL 1.0); the broad metro research pack's YELLOW release warning is not a source prohibition for these audited extracts. The public ODbL offer remains unresolved and no publication clearance is claimed. Credits remain visible. Source timestamps, credit, bounds and hashes are retained.
+
+- West Highland: held Sloan context, 19,332,840 bytes; exact hash and bounds in [source-audit.json](source-audit.json). The broad road/land/water box covers the core. Original systematic building selection is Sloan-centred, ending near West Highland's southern edge: sparse/absent northern masses are a source gap, not empty-city truth. Export contains 1,822 eligible candidate masses; rendered selection is separately budgeted. 10,179,854-byte uncompressed JSON; no phone/network qualification.
+- Greenville Downtown: only core OSM (with 100 m processing buffer), local observation sidecars and elevation are held. No wider context-layer map extract contains core plus 500 m. Needs a licensed, bounded wider roads/land/water/building extract with provenance; no raw download is authorized by this task. Its ON frame explicitly retains missing-context status and cannot prove context coverage.
+
+## Capture contract
+
+`qualify-context-holdouts.mjs` derives from the preceding fixed-clock water harness. OFF and fresh OFF-repeat use the same held detailed packages, A10 spatial/source-run/shadow stack and fixed shader time zero. ON adds context ring with `contextMerge=2` and `farWater=1`; water pooling activates only at >=400 m. Every area uses its previously frozen camera contract, including corrected Wilmette. 40/150 m exact equality is required; 600 m appearance changes go to A3 paired review. No source/export/material/camera tuning after inspection.
+
+Blank coverage uses the existing 81×45 structural context ray probe: boundary/generated-ground samples are blank; mapped context counts as coverage. Instances are excluded; it is not a visual score or proof of an endless populated city. Main and shadow submissions are measured separately; post-processing is outside main. Floor: main <400,000, shadow <=150,000, main draws <=100. Standard: <=500,000 /180,000 /120. Device frame time remains unmeasured.
+
+West Highland completed: blank 65.19% →47.33% at 600 m, still above the strict 35% gate. Main 318,226/58 →358,223/59, shadow 0/0 unchanged. 40/150 m OFF/repeat/ON pixels are identical. The ring adds 39,997 uploaded triangles in two draws and selects 1,021 candidate masses; far water saves one detailed draw. Visible coarse land/road lines continue, but the northern/western empty building fields and hard core/context appearance seam remain far below the populated-continuation reference. No fabricated massing is added to conceal this source gap. All four ladders completed; every fresh repeat and all eight 40/150 m OFF/ON pairs are exact. Every shadow ledger remains unchanged. Greenville600 remains 63.43% blank, 228,607 triangles /56 draws ON. Lakeview600 blank 66.20%→7.82%, 526,478/56 ON (floor and standard fail). Wilmette600 blank 53.72%→7.54%, 485,157/62 ON (floor fail, standard pass). All 40/150 m OFF and ON frames fit both counter tiers. West Highland and Greenville fit both counter tiers at 600 m but fail blank coverage. No ship-bar pass.
+
+[Per-frame floor/standard table](results.md), [machine summary](summary.json), [paired frames for A3](review.html). Each area has its own qualification.json with exact PNG hashes and source pins. Thirty-six images comprise OFF/repeat/ON at three heights for four areas; all PNGs are local ignored evidence. No scores. Capture source base is `294a89b`; detailed packages are the held, hash-pinned far-water fixtures rather than newly generated core data.
+
+
+## Reproduction and scope
+
+Run `python3 web/bakeoff/tools/prepare-held-context.py west-highland greenville-downtown`, then under `scripts/heavy.sh` run `.build/release/export-context Generated/context-held/west-highland web/bakeoff/generated/context/west-highland.json`. `prepare-context.sh` incorporates the same staging step for normal prototype preparation. Shipping `Data/areas` manifests are not changed; the new source is therefore bakeoff-only and default off. Retain the original source extract and query with its ODbL provenance.
+
+The capture tool takes `scoreboard AREA FRESH_OUTPUT_DIRECTORY` and uses the existing held `Generated/web-capture/farwater-AREA` packages. Run under the shared heavy lock with `HEAVY_LOAD=25`; each report pins package, renderer, probe and source hashes. The summary helper copies local ignored PNGs into this evidence folder and writes all per-frame budget results and a 390 CSS-pixel paired gallery. The stage-selection rerun was byte-identical. Export validation checked 63,450 candidate vertex entries (including source bounds, no core incursion and the 500 m maximum). No screenshots or raw data are committed.
+
+
+## Main reconciliation
+
+Main advanced through `591e4be` during capture. Rebase was clean. A10's new entry routes a separate light/palette bundle; this harness serves its own pinned scoreboard page and does not use that entry. A1 changed native water/underground generation and shader code; these captures intentionally use the already-held, hashed core packages and unchanged web materials. They do not claim results for newly exported A1 packages or native. The context source/export bytes and direct capture path are unchanged; affected tests are rerun after rebase. Post-merge shipping-default scoreboard is a separate configuration and will be recorded separately.
+
+Rebased verification: all 35 context-ring, far-water, spatial-cell and shadow-cell tests passed under the heavy lock (admission load 3.75). Source-selection staging is byte-identical on repeat. No visual score is assigned.
+
+
+## Merge and post-merge scoreboard
+
+Implementation/source preparation and A3 handoff merged as `1fcb2331dafc891d001a23e7eab2446e5a6025a8`, default off. The [post-merge shipping-default scoreboard](post-merge-scoreboard.md) / [JSON](post-merge-scoreboard.json) is pinned to that revision and completed 24 frames over eight held areas in 871.513 seconds including lock/build waits. Every step completed on its first attempt; source/inventory guards passed. Status `completed-with-failures`: 24 floor failures, 24 standard failures, seven 600 m blank-ground failures, zero tunnel flags.
+
+Compared with the preceding `d82a68d` default scoreboard, 12 rows have technical changes after A1's intervening `591e4be` water/underground generation changes; the six former Kenilworth/Winnetka tunnel flags disappear. A5 changed no shipping renderer, source manifest or core generator. These are intervening-main observations, not an A5-only paired improvement or pixel claim. Do not combine this newly exported, default-off configuration with the held-package opt-in table. Visual grading and native/device qualification remain pending.

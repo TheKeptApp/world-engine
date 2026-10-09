@@ -1,0 +1,152 @@
+{
+  "status": "failed",
+  "frames": [],
+  "events": [
+    {
+      "stage": "server-ready",
+      "origin": "http://127.0.0.1:62706"
+    }
+  ],
+  "startedUTC": "2026-10-09T19:07:31.150Z",
+  "contract": {
+    "source": "a3-capture-contract.json wilmette-street-afternoon + demo.json northshore-postcard; crown-native-before-evidence.md pose recipe (40/150/600 m, pitch 45, 1005x565)",
+    "scenes": {
+      "wilmette-40": {
+        "world": "/world/capture/wilmette-vattmann-park/",
+        "mock": "01-lakeview",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            40
+          ],
+          "target": [
+            42.074932993638114,
+            -87.71878759174055,
+            -59.999999999999986
+          ],
+          "fov": 50
+        },
+        "region": "chicago",
+        "climateRegion": "great-lakes",
+        "area": "wilmette-vattmann-park",
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 40,
+          "utc": "2026-09-15T19:56:00Z"
+        }
+      },
+      "wilmette-150": {
+        "world": "/world/capture/wilmette-vattmann-park/",
+        "mock": "01-lakeview",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            150
+          ],
+          "target": [
+            42.07493303044959,
+            -87.71878759174007,
+            50.000000000000014
+          ],
+          "fov": 50
+        },
+        "region": "chicago",
+        "climateRegion": "great-lakes",
+        "area": "wilmette-vattmann-park",
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 150,
+          "utc": "2026-09-15T19:56:00Z",
+          "groundDatum": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+        }
+      },
+      "wilmette-600": {
+        "world": "/world/capture/wilmette-vattmann-park/",
+        "mock": "01-lakeview",
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        },
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            600
+          ],
+          "target": [
+            42.074932993638114,
+            -87.71878759174055,
+            500
+          ],
+          "fov": 50
+        },
+        "region": "chicago",
+        "climateRegion": "great-lakes",
+        "area": "wilmette-vattmann-park",
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 600,
+          "utc": "2026-09-15T19:56:00Z"
+        }
+      }
+    },
+    "fixture": {
+      "status": "Simulated calibration fixture, not live weather or observed phenology",
+      "windKmh": 10,
+      "windFromDegrees": 225,
+      "skyState": "clear",
+      "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+      "atmosphereSeason": "summer",
+      "timeOfDay": "day",
+      "summitsObscured": false,
+      "atmosphereLayers": [],
+      "date": "2026-09-15"
+    },
+    "tier": "standard",
+    "deviceScaleFactor": 1,
+    "exports": [
+      {
+        "area": "wilmette-vattmann-park",
+        "date": "2026-09-15T19:56:00Z",
+        "focus": "42.072,-87.7225,42.079,-87.713"
+      }
+    ],
+    "sha256": "96b71dbe788e4111e62cf0ccd65ea201192dc1b9036138b00994bad0190bd250"
+  },
+  "origin": "http://127.0.0.1:62706",
+  "browser": {
+    "version": "155.0.8059.39",
+    "engine": "Chromium via Playwright (installed Chrome)",
+    "sandbox": true
+  },
+  "error": {
+    "stage": "capture wilmette-150/off/off",
+    "message": "page.waitForFunction: Error: Error: Surface companion rejected: feature witness\n    at check (http://127.0.0.1:62706/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:62706/surface-roles.js:48:65)\n    at async main (http://127.0.0.1:62706/main.js:49:77)\n    at check (http://127.0.0.1:62706/surface-roles.js:5:41)\n    at readSurfaceRoles (http://127.0.0.1:62706/surface-roles.js:48:65)\n    at async main (http://127.0.0.1:62706/main.js:49:77)\n    at eval (eval at predicate (eval at evaluate (:311:30)), <anonymous>:2:41)\n    at predicate (eval at evaluate (:311:30), <anonymous>:7:27)\n    at next (eval at evaluate (:311:30), <anonymous>:29:33)\n    at /private/tmp/worldengine-a2-bakeoff/scripts/capture_web.mjs:111:14"
+  },
+  "seconds": 7.3140659160000006
+}

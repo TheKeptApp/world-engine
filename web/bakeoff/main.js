@@ -48,6 +48,12 @@ async function main(){
  // SURFACE_ROLES_BEGIN
  if(q.has('surfaceRoles')&&q.get('surfaceRoles')!=='off')world.surfaceRoles=await (await import('./surface-roles.js')).loadSurfaceRoles(config.world,q.get('surfaceRoles'),world.manifest);
  // SURFACE_ROLES_END
+ // GROUND_TRIAL_BEGIN
+ const groundMode=q.get('groundTrial')??'off';
+ if(!['off','on'].includes(groundMode))throw Error('Invalid groundTrial: '+groundMode);
+ let groundTrial=null;
+ if(groundMode==='on'&&!world.surfaceRoles)world.surfaceRoles=await (await import('./surface-roles.js')).loadSurfaceRoles(config.world,config.surfaceRoles??('/generated/ground-companions/'+encodeURIComponent(world.manifest.area.id)+'/index.json'),world.manifest);
+ // GROUND_TRIAL_END
  const scene=new T.Scene();scene.add(world.root);
  const renderer=new T.WebGPURenderer({canvas:document.querySelector('#c'),antialias:true,forceWebGL:true});await renderer.init();renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.info.autoReset=false;
  const camera=new T.PerspectiveCamera(config.camera.fov,1,.2,150000);
@@ -82,10 +88,16 @@ async function main(){
  // PALETTE_B_BEGIN
  paletteB?.applyPalette(world);
  // PALETTE_B_END
+ // GROUND_TRIAL_BEGIN
+ if(!baseline&&groundMode==='on')groundTrial=await (await import('./ground-trial.js')).prepareGroundTrial(world);
+ // GROUND_TRIAL_END
  const palette=world.paletteTexture;palette.name='palette';skyTexture.name='sky gradient + cumulus';
  // Preserve exported geometry, palette slots and stable per-building variation.
  function matte(kind){const m=new T.MeshStandardNodeMaterial();const p=attribute('_paint','vec4'),e=attribute('_extra','vec4'),flags=int(p.z.add(.5));const flag=b=>flags.bitAnd(int(b)).notEqual(0);const slot=floor(p.x.add(.5));let colour=texture(palette,vec2(slot.add(.5).div(256),.5)).rgb.mul(p.y);const ground=look.materials.groundBaseHex;
  colour=paletteB?paletteB.lawnNode(palette,e.y,p.y,colour,flag(4)):select(flag(4),rgb(new T.Color(ground.lawn)).mul(p.y),colour);colour=select(flag(8),rgb(new T.Color(ground.concrete)).mul(p.y),colour);
+ // GROUND_TRIAL_BEGIN
+ if(groundTrial)colour=groundTrial.lawnNode(palette,e.y,p.y,colour,flag(4).and(e.w.greaterThan(0)));
+ // GROUND_TRIAL_END
  if(kind==='static'){
  const face=attribute('_facade','vec4');colour=select(face.w.greaterThan(0),face.rgb.mul(p.y),colour);
  // Near-only shallow masonry cue: no per-brick geometry, physical scale never enlarged.
@@ -162,7 +174,7 @@ async function main(){
  const shadowCasters=baseline?null:installShadowCasters(scene,world,sun,camera);
  if(v3&&q.has('capture')){scene.updateMatrixWorld(true);world.crownV3Report.fragments=v3Module.estimateFragments(v3.groups,camera,renderer.domElement.width,renderer.domElement.height);}
  const times=[];let last=0,frameCount=0;status.textContent=`Calibration v2 · ${fixture.date} inferred foliage · clear atmosphere`;
- window.bakeoff={lightTrial,paletteB:paletteB?.report??null,crownV3:!baseline&&crownV3!=='off'?crownV3:false,crownV2:!baseline&&crownV2,foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
+ window.bakeoff={groundTrial:groundTrial?.report??null,lightTrial,paletteB:paletteB?.report??null,crownV3:!baseline&&crownV3!=='off'?crownV3:false,crownV2:!baseline&&crownV2,foliageExp1:baseline?'off':foliageExp1,shadows:shadowCasters?.report,world,scene,camera,renderer,fit,species,policy,fixture,seasonal,facades:{count:facadeCount,report:facades?.report},mountains:mountains?.diagnostics,resetMetrics:()=>{times.length=0;last=0;gpuTimer.reset();},metrics:null};
  renderer.setAnimationLoop(t=>{updateCameraNear(camera);now.value=(q.has('still')||window.bakeoff.freeze)?0:t/1000;baselineLighting?.update(camera.position,camera.position,world.globals);renderer.info.reset();ledger.reset();gpuTimer.begin();post.render();gpuTimer.end();if(last)times.push(t-last);last=t;if(times.length>2400)times.shift();const r=renderer.info.render;if(++frameCount%30!==0&&window.bakeoff.metrics){document.body.dataset.ready="1";return;}const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);window.bakeoff.metrics={scene:id,tier,deviceClass:phoneBudget.tiers[tier],cost:ledger.snapshot(),backend:'WebGL2',gpuTimer:gpuTimer.snapshot(),drawCalls:r.drawCalls,triangles:r.triangles,fps:1000/avg,sampleDurationMs:avg*times.length,p95FrameMs:[...times].sort((a,b)=>a-b)[Math.floor(times.length*.95)]??0,samples:times.length,viewport:[camera.aspect,renderer.domElement.width,renderer.domElement.height],camera:{position:camera.position.toArray(),direction:camera.getWorldDirection(new T.Vector3()).toArray(),fov:camera.fov},visibility:document.visibilityState,userAgent:navigator.userAgent};document.querySelector('#metrics').textContent=`${r.drawCalls} draw calls · ${r.triangles.toLocaleString()} triangles\n${(1000/avg).toFixed(1)} fps · ${times.length} samples`;document.body.dataset.ready='1';});
 }
 main().catch(e=>{status.textContent=`Unable to load: ${e.message}`;document.body.dataset.error=e.stack||e.message;console.error(e);});

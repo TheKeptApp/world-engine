@@ -4,7 +4,9 @@ const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3
 export function phenology(date,region,data,shiftDays=0){
  const d=new Date(date+'T12:00:00Z');if(!Number.isFinite(+d))throw Error('Invalid replay date');
  const doy=Math.floor((d-Date.UTC(d.getUTCFullYear(),0,1))/86400000)+1-shiftDays;
- const p=data.phenology[region];if(!p)throw Error('No regional phenology prior');
+ const p=data.phenology[region];
+ if(p?.quality==='unknown')return {date,dayOfYear:doy,source:'foliage-seasons-v1/phenologyPolicy; R inferred adapter authorization 2026-10-09',dataKind:p.status,phenologyQuality:'unknown',weights:[0,1,0,0],leafFraction:1,colourProgress:0,exportSeasonIndex:1};
+ if(!p)throw Error('No regional phenology prior');
  const [start,full,mature,colour,peak,drop,end]=p;
  const g=smooth(start,full,doy),m=smooth(full,mature,doy),c=smooth(colour,peak,doy),fall=smooth(drop,end,doy);
  const weights=[g*(1-m)*(1-c)*(1-fall),g*m*(1-c)*(1-fall),g*c*(1-fall),1-g+g*fall];

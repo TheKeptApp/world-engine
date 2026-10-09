@@ -13,17 +13,16 @@
     "rainRipples": 0.6,
     "overcastReflectGain": 0.42,
     "shoreProfiles": {
-      "comment": "Generator (P2): style profile → lake-winter-v1 water profile (water.profiles.<id>; index = position in 'order', sent in water-mesh extra.w). Shore band width = that profile's shallowBlendWidthM from mock-values.json; extra.z = metres from the shore (open water 1000).",
+      "comment": "Water-body identity → approved lake recipe; never selected by land style or block. Unknown water uses profile index -1, existing generic water response and no inferred shallow band. Identities from held OSM lake relations; lake-winter-v1 water.profiles owns known-body parameters.",
       "order": [
         "lake_michigan",
         "sloans_lake"
       ],
-      "profiles": {
-        "evanston": "lake_michigan",
-        "wilmette": "lake_michigan",
-        "chicago-dense-north": "lake_michigan",
-        "default": "sloans_lake",
-        "front-range": "sloans_lake"
+      "waterBodies": {
+        "wikidata:Q1169": "lake_michigan",
+        "osm:relation/1205149": "lake_michigan",
+        "wikidata:Q7352210": "sloans_lake",
+        "osm:relation/4049789": "sloans_lake"
       }
     }
   },

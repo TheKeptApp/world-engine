@@ -151,6 +151,17 @@ struct RoadMarkingsTests {
         #expect(out.crossingSpans[0] == [(12 - main.width / 2)...(12 + main.width / 2)])
     }
 
+    @Test func undergroundCrossingDoesNotPaintOrRenumberVisiblePaths() {
+        let main = Self.road(1, .primary, Self.eastWest, tags:["lanes":"2"])
+        let hidden = Self.crossing(10,[LocalPoint(-20,-12),LocalPoint(-20,12)],tags:["tunnel":"yes","crossing:markings":"zebra"])
+        let visible = Self.crossing(11,[LocalPoint(20,-12),LocalPoint(20,12)],tags:["tunnel":"building_passage","crossing:markings":"zebra"])
+        let out=Self.build(roads:[main],paths:[hidden,visible])
+        #expect(out.crosswalks.count == 1 && out.crosswalks[0].source == visible.ref)
+        #expect(out.crossingSpans[0] == nil && out.crossingSpans[1] != nil)
+        #expect(!out.marks.contains { $0.source == hidden.ref })
+        #expect(out.marks.contains { $0.source == visible.ref && $0.role == .crosswalkBar })
+    }
+
     @Test func crossingStylesFollowTags() {
         #expect(RoadMarkings.style(["crossing:markings": "ladder"])?.style == .ladder)
         #expect(RoadMarkings.style(["crossing:markings": "lines"])?.style == .lines)

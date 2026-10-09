@@ -62,7 +62,10 @@ def main():
             rows.append({'area':before['area'],'before':before,'after':after,
                          'roadTriangleDelta':after['roadTriangles']-before['roadTriangles'],
                          'roadGraphUnchanged':before['graphSHA256']==after['graphSHA256'],
-                         'meshBatchDelta':after['staticChunkBatches']-before['staticChunkBatches']})
+                         'meshBatchDelta':after['staticChunkBatches']-before['staticChunkBatches'],
+                         'pedestrianTriangleDelta':after['pedestrianTriangles']-before['pedestrianTriangles'],
+                         'pedestrianGraphUnchanged':before['pedestrianGraphSHA256']==after['pedestrianGraphSHA256'],
+                         'waterUnchanged':before['waterSHA256']==after['waterSHA256']})
         hashes = {}
         for area in a.areas:
             directory = ROOT/'Data/areas'/area
@@ -72,10 +75,11 @@ def main():
         source_files = ['Sources/WorldMap/MapFeatures.swift','Sources/WorldMap/MapFeatureBuilder.swift','Sources/WorldMap/UnsupportedFeatures.swift',
                         'Sources/WorldGen/SceneGenerator.swift','Sources/WorldGen/RoadMarkings.swift','Sources/WorldGen/WorldBuild.swift',
                         'Sources/WorldGen/Context/ContextFeatures.swift','Sources/worldbake/main.swift',
+                        'Sources/WorldGen/ShoreBand.swift','Sources/WorldGen/Look.swift','Sources/WorldGen/Profiles/look.json','Sources/WorldEngine/Shaders/WorldShaders.metal',
                         'Tools/regionkit/qa/road_guard_measurement.py','Tools/regionkit/qa/RoadGuardMeasurement.swift']
         report = {'schema':'road-guard-measurement/2','baselineCommit':baseline,
                   'recipe':{'date':a.date,'season':a.season,'focus':'full manifest bounds','profile':'normal regional/zoned selection'},
-                  'measurement':'Five supplied areas only. Loaded road ref/centerline JSON hash; canonical static position/index v2 hash. Not full routing equivalence, materials, dynamic props, water geometry or GPU draw calls.',
+                  'measurement':'Supplied areas only. Pedestrian ref/centerline JSON and water position/index/extra hashes included. Loaded road ref/centerline JSON hash; canonical static position/index v2 hash. Not full routing equivalence, materials, dynamic props or GPU draw calls.',
                   'areas':rows,'sourceHashes':hashes,'implementationHashes':{s:sha(ROOT/s) for s in source_files}}
         a.output.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
 

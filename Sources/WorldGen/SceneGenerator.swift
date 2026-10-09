@@ -305,8 +305,8 @@ public struct SceneGenerator: Sendable {
             append(m, feature: "gen:ground:\(chunks[key]!.id)", to: key)
         }
         // Areas: parks, pitches, parking, water.
-        let waterProfile = ShoreBand.profile(for: profile.id)
         for area in features.areas {
+            let waterProfile = ShoreBand.profile(for: area)
             let style: (String, Double, Paint.Flags, Float)? = switch area.kind {
             case .park, .grass, .garden, .meadow, .recreation, .cemetery, .wood, .scrub: ("lawn", GroundLayer.park, .lawn, 0.97)
             case .pitch: ("pitch", GroundLayer.pitch, .lawn, 1)
@@ -360,7 +360,7 @@ public struct SceneGenerator: Sendable {
         // Road paint (infrastructure-kit-v1 stage 1): lane lines and crosswalks from tags, full detail only.
         // (At reduced detail only the crossing bands' carriageway parts are dropped, so the LODs agree.)
         let roadPaint: RoadMarkings.Output? = markingValues.flatMap { v in markingTuning.map { RoadMarkings(features: features, values: v, tuning: $0).build() } }
-        for (pi, path) in features.paths.enumerated() {
+        for (pi, path) in features.paths.enumerated() where !path.suppressesPedestrianSurfaceRendering {
             let gravel = ["gravel", "fine_gravel", "dirt", "compacted", "ground", "unpaved"].contains(path.tags["surface"] ?? "")
             let (paint, y, w): (Paint, Double, Double) = path.isCrossing
                 ? (Paint(slot: n("crossing")), GroundLayer.crossing, 2.4)
@@ -403,7 +403,7 @@ public struct SceneGenerator: Sendable {
                 "crosswalksPainted": roadPaint.crosswalks.filter { $0.style != .none }.count, "markingConflicts": roadPaint.conflicts,
             ]) { _, new in new }
         }
-        for sw in features.sidewalks {
+        for sw in features.sidewalks where !sw.suppressesPedestrianSurfaceRendering {
             addLines(sw.centerline, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),
                      feature: sw.ref.description, into: &chunks)
             if lod == 0, Rect2D(enclosing: sw.centerline).intersects(focus) {
