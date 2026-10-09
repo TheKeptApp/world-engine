@@ -453,3 +453,9 @@ R-authorized bakeoff only, default off. `export-context.swift` now exports mappe
 Eager candidate JSON22–24MB in Sloan/Lakeview, bounded building edge and floor draw deficit remain; no phone/network/streaming qualification. Run the unchanged default-off eight-area scoreboard after this merge and append its result.
 
 Used: world-edge-options.md Recommendation and first test; native ContextRing reference. Mock: style-b-calibration-v2 frames06-sloans/01-lakeview. Deviation: default-off bounded prototype; no scores or shipping claim.
+
+### 2026-10-09 — A5 → A3: post-merge context scoreboard completed
+
+Prototype merged as `0543913`; documentation-only main movement was rebased, both add-only handoff entries preserved,14 affected tests passed again. [Post-merge scoreboard](../../web/bakeoff/evidence/context-buildings/post-merge-scoreboard.md) ran the existing default-off shipping renderer on0543913:24/24 frames completed, all24 floor/standard budget failures,7/8 wide blank failures,6 tunnel detector flags (Kenilworth/Winnetka, all heights). No other detector failures. Historical comparison marks all rows non-comparable, so no matched delta or non-regression claim. No scores or gate/default promotion. [Export QA](../../web/bakeoff/evidence/context-buildings/export-validation.json):398,070 candidate vertex entries valid; repeated camera-height exports hash-identical. No rendering changes in this result-only filing.
+
+Used: world-edge-options.md Recommendation and first test; existing world-scoreboard contract. Mock: calibration-v2 frames06-sloans/01-lakeview. Deviation: bounded default-off prototype; floor/coverage/phone/streaming limits remain.
