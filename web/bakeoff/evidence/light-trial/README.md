@@ -22,3 +22,7 @@ All 16 requested frames (fresh/repeat OFF/ON at four views) pass input and per-p
 | lakeview | 323,901/131 | 73,212/62 | 2.896 → 2.186 |
 
 One post pass adds one triangle/draw in every view. Existing main-budget overages are unchanged (standard ≤500k main /180k shadow /120 main draws). Timers are whole-frame laptop observations, not isolated filter timings or phone qualification; no budget was raised. Shadow caster source bytes equal starting main.
+
+Regression admission load 5.28: light source identity/witness/filter assertions, portable companion checks, palette identity, policy/atmosphere/sky/overnight, 1,056 legacy geometry/material identity cases, crown v2/v3 (228 v3 cases), and 16 capture-tooling tests all passed. Main advanced with documentation only and was rebased without conflict. Actual A8 package validation and the post-merge Lakeview check are recorded in the completion note.
+
+Production reader: 61 checks passed at admitted load 8.75, including actual Sloan/Lakeview A8 packages and actual incompatible repack. Default-off light/role hooks preserve the control source after removing only explicit opt-in plumbing. Ready for A3 blind review; no score or promotion.

@@ -15,6 +15,17 @@ for(const options of [{tags:{'roof:material':'brick','roof:colour':'#888888'},wo
  if(options.mixed)await assert.rejects(go(),/mixed feature triangle/);else {assert.equal((await go()).word('chunks/0/lod0.glb',0,0,0),0x0509);v.index.featureSources[0].tags['roof:colour']='#777777';await assert.rejects(go(),/mapped colour witness/);}tests++;
 }
 const main=await readFile('web/bakeoff/main.js','utf8');assert(main.includes("q.has('surfaceRoles')&&q.get('surfaceRoles')!=='off'"));assert(main.includes("loadSurfaceRoles(config.world,q.get('surfaceRoles'),world.manifest)"));
+const priorFetch=globalThis.fetch,priorLocation=globalThis.location;let fetches=0;
+globalThis.location={origin:'http://localhost',href:'http://localhost/view.html'};
+globalThis.fetch=async url=>{fetches++;const p=new URL(url).pathname;const data=p==='/companion/index.json'?f.enc(f.index):p==='/companion/triangles.u16le'?f.payload:f.files[p.replace('/package/','')];return {ok:!!data,redirected:false,arrayBuffer:async()=>data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength)};};
+try{
+ assert.equal(await loadSurfaceRoles('/package/',null),null);assert.equal(await loadSurfaceRoles('/package/','off'),null);assert.equal(fetches,0);
+ assert.equal((await loadSurfaceRoles('/package/','/companion/index.json',JSON.parse(new TextDecoder().decode(f.files['world.json'])))).report.triangles,2);
+ await assert.rejects(loadSurfaceRoles('/package/','https://external.invalid/index.json'),/same-origin/);
+ await assert.rejects(loadSurfaceRoles('/package/','/companion/index.json',{wrong:'manifest'}),/loaded manifest differs/);
+ const savedSchema=f.index.schema;f.index.schema='invalid';await assert.rejects(loadSurfaceRoles('/package/','/companion/index.json'),/schema/);f.index.schema=savedSchema;
+ tests+=5;
+}finally{globalThis.fetch=priorFetch;if(priorLocation===undefined)delete globalThis.location;else globalThis.location=priorLocation;}
 for(const area of root?['sloans-lake','lakeview-sheil-park']:[]){
  const packageDir=root+'/'+area+'-on',companionDir=root+'/'+area+'-companion';
  const readPackage=async p=>new Uint8Array(await readFile(packageDir+'/'+p));

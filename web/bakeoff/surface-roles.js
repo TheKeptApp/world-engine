@@ -18,7 +18,7 @@ function glb(data){
   const a=g.accessors?.[id],b=g.bufferViews?.[a?.bufferView],size={5121:1,5123:2,5125:4}[a?.componentType];
   check(a&&b&&size&&a.type==='SCALAR'&&!a.sparse&&!a.normalized&&integer(a.count)&&b.buffer===0,'scalar accessor');
   const offset=a.byteOffset??0,begin=b.byteOffset??0,stride=b.byteStride??size;
-  check(integer(begin)&&integer(offset)&&integer(b.byteLength)&&integer(stride)&&stride>=size&&begin+b.byteLength<=len&&offset+(a.count? (a.count-1)*stride+size:0)<=b.byteLength,'accessor bounds');
+  check(integer(begin)&&integer(offset)&&integer(b.byteLength)&&integer(stride)&&stride>=size&&(begin+offset)%size===0&&stride%size===0&&begin+b.byteLength<=len&&offset+(a.count? (a.count-1)*stride+size:0)<=b.byteLength,'accessor bounds');
   return {count:a.count,get(i){check(integer(i)&&i<a.count,'accessor index');const at=start+begin+offset+i*stride;return size===1?v.getUint8(at):size===2?v.getUint16(at,true):v.getUint32(at,true);}};
  }
  return {g,scalar};
@@ -72,7 +72,7 @@ export async function readSurfaceRoles({readPackage,readCompanion,expectedManife
     }
     const corners=[0,1,2].map(k=>ids.get(inds.get(i*3+k)));check(corners.every(x=>x===corners[0]),'mixed feature triangle');
     const f=features.get(corners[0]),tags=witnesses.get(f?.id);check(f?.kind==='building'&&tags,'missing building witness');
-    if(cp===2)check(typeof f.generated?.profile==='string'&&typeof f.generated?.role==='string'&&Array.isArray(f.generated?.colors)&&f.generated.colors.length===4&&integer(f.generated.colorSet),'missing generator colour inference witness');
+    if(cp===2)check(typeof f.generated?.profile==='string'&&f.generated.profile.length>0&&typeof f.generated?.role==='string'&&f.generated.role.length>0&&Array.isArray(f.generated?.colors)&&f.generated.colors.length===4&&integer(f.generated.colorSet),'missing generator colour inference witness');
     if(cp===1){const key=role===1?'roof:colour':role===2?'building:colour':'';check(typeof tags[key]==='string'&&tags[key]===f.source?.[key],'missing/mismatched mapped colour witness');}
     if(mp===1){const key=role===1?'roof:material':'building:material',tag=tags[key];check(typeof tag==='string'&&tag===f.source?.[key]&&tag.trim().toLowerCase()===materials[material],'material witness mismatch');}
    }
