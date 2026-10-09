@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {startCaptureServer} from './web_capture_server.mjs';
 import {inspectionCamera} from './web_capture_blocks.mjs';
 import {LocalFrame} from '../web/src/geo.js';
-import {THRESHOLDS,sha256,parseStats,typeTag,sourceRoads,featureChecks,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
+import {THRESHOLDS,verifyLadderPose,sha256,parseStats,typeTag,sourceRoads,featureChecks,passTotals,tierChecks} from './world_scoreboard_checks.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),spec=JSON.parse(await readFile(process.argv[2],'utf8'));
 const runtime=process.env.PLAYWRIGHT_ROOT||resolve(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
 const require=createRequire(resolve(runtime,'package.json')),{chromium}=require('playwright'),{PNG}=require('pngjs');
@@ -64,6 +64,7 @@ try{
   const started=performance.now();await page.goto(server.origin+'/scoreboard.html',{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>{if(document.body.dataset.error)throw Error(document.body.dataset.error);return document.body.dataset.ready==='1'&&window.scoreboard?.metrics?.stable>=3;},null,{polling:'raf',timeout:180000});
   const evidence=await page.evaluate(()=>{const b=window.scoreboard;b.freeze=true;b.renderer.setAnimationLoop(null);b.renderer.backend.gl.finish();return b.metrics;});
+  const cameraCheck=verifyLadderPose(evidence.camera,pose);
   const image=await page.screenshot({type:'png'}),png=PNG.sync.read(image);
   if(png.width!==spec.viewport.width||png.height!==spec.viewport.height)throw Error('Wrong capture size');
   let n=0,sum=0,sum2=0,min=255,max=0;for(let y=30;y<png.height;y+=2)for(let x=0;x<png.width;x+=2){const i=(y*png.width+x)*4,v=(png.data[i]+png.data[i+1]+png.data[i+2])/3;n++;sum+=v;sum2+=v*v;min=Math.min(min,v);max=Math.max(max,v);}
@@ -76,7 +77,7 @@ try{
   if(!probes.clipping.pass)failures.push('clipping');if(!pixels.pass)failures.push('flat-frame');
   for(const [name,check] of Object.entries(tiers))if(!check.pass)failures.push('budget-'+name);
   const row={key:spec.area+'/'+altitude,area:spec.area,type:block.type,altitude,pose,date:spec.utc,renderer:spec.renderer,crown:'off',metrics:{mainTriangles:totals.main.triangles,mainDraws:totals.main.draws,shadowTriangles:totals.shadow.triangles,shadowDraws:totals.shadow.draws,blankGroundFraction:probes.blankGround.fraction,sourceBuildings:stats.buildings,exportedBuildings:checks.buildings.exportedUnique,buildingRelativeError:checks.buildings.relativeError,sourceWater:checks.water.source,exportedWater:checks.water.exportedUnique,sourceParks:checks.park.source,exportedParks:checks.park.exportedUnique,tunnelSurfaceRanges:tunnelRanges.filter(r=>r.surface).length,nearClipTriangles:probes.clipping.intersectingTriangles},tiers,detectors:probes,featureChecks:checks,passes:evidence.passes,evidence:{camera:evidence.camera,exposure:evidence.exposure,season:evidence.season,samples:evidence.samples,stable:evidence.stable,allPass:evidence.allPass,pngSha256:sha256(image),viewport:spec.viewport,seconds:(performance.now()-started)/1000},failures,warnings:probes.clipping.potential?['potential-near-clipping']:[],comparisonInputs:{pose,date:spec.utc,viewport:spec.viewport,renderer:spec.renderer,sourceHash:spec.sourceHash,detectorContract:spec.detectorContract,exportRecipe:{focus:'entire held area',date:spec.utc},harnessHash:spec.harnessHash}};
-  row.detectors.pixels=pixels;row.metrics.clippedStaticFraction=probes.clipping.lostStaticFraction;row.metrics.pixelVariance=pixels.variance;
+  row.detectors.camera=cameraCheck;row.detectors.pixels=pixels;row.metrics.clippedStaticFraction=probes.clipping.lostStaticFraction;row.metrics.pixelVariance=pixels.variance;
   await writeFile(resolve(spec.output,altitude+'.png'),image);block.rows.push(row);await page.close();
  }
  if(server.failures.length)throw Error('Resource failures: '+server.failures.join(', '));

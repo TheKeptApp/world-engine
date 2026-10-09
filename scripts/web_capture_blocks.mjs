@@ -34,8 +34,8 @@ export async function blockContract(root,block){
  if(block==='wilmette'){
   const demo=(await read('Apps/WorldLab/Resources/demo.json')).areas['wilmette-vattmann-park'];
   const native=(await read('docs/lookloop/a3-capture-contract.json')).views.find(v=>v.id==='wilmette-street-afternoon');
-  const pose=demo.cameras['northshore-postcard'],area=native.area;
-  return {...frozen,source:'a3-capture-contract.json wilmette-street-afternoon + demo.json northshore-postcard; crown-native-before-evidence.md pose recipe (40/150/600 m, pitch 45, 1005x565)',fixture:{...frozen.fixture,date:native.utc.slice(0,10)},scenes:Object.fromEntries([40,150,600].map(alt=>['wilmette-'+alt,{world:'/world/capture/'+area+'/',mock:'01-lakeview',viewport:{width:1005,height:565},camera:inspectionCamera(pose,alt),region:'chicago',climateRegion:'great-lakes',area,inspection:{altitudeMetres:alt,heading:pose.heading,pitchDown:45,sourceUTC:native.utc}}])),exports:[{area,date:native.utc,focus:[demo.focus.south,demo.focus.west,demo.focus.north,demo.focus.east].join(',')}]};
+  const pose={...demo.cameras['northshore-postcard'],pitchDown:45},area=native.area;
+  return {...frozen,source:'a3-capture-contract.json wilmette-street-afternoon + demo.json northshore-postcard; crown-native-before-evidence.md pose recipe (40/150/600 m, pitch 45, 1005x565)',fixture:{...frozen.fixture,date:native.utc.slice(0,10)},scenes:Object.fromEntries([40,150,600].map(alt=>['wilmette-'+alt,{world:'/world/capture/'+area+'/',mock:'01-lakeview',viewport:{width:1005,height:565},camera:inspectionCamera(pose,alt),region:'chicago',climateRegion:'great-lakes',area,inspection:{...pose,altitudeAGLMetres:alt,utc:native.utc}}])),exports:[{area,date:native.utc,focus:[demo.focus.south,demo.focus.west,demo.focus.north,demo.focus.east].join(',')}]};
  }
  if(block==='west-highland'){
   const prior=await read('docs/lookloop/west-highland-capture-contract.json'),c=prior.camera,area=prior.area;

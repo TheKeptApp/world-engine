@@ -58,3 +58,16 @@ export function compareRuns(current,previous){
  }
  return {status:'compared',previousCommit:previous.commit,added:[...now.keys()].filter(k=>!old.has(k)),removed:[...old.keys()].filter(k=>!now.has(k)),changes};
 }
+
+// Validate the resolved camera, never trust an inspection annotation alone.
+export function resolvedPose(camera){
+ const [x,y,z]=camera.direction;
+ if(![x,y,z,camera.fov,...camera.position].every(Number.isFinite)||Math.hypot(x,y,z)<1e-9)throw Error('Invalid resolved camera');
+ return {pitchDown:Math.atan2(-y,Math.hypot(x,z))*180/Math.PI,heading:(Math.atan2(x,-z)*180/Math.PI+360)%360,fov:camera.fov,height:camera.position[1]};
+}
+export function verifyLadderPose(camera,annotation){
+ if(!Number.isFinite(annotation.pitchDown))throw Error('Ladder pitch annotation is missing');
+ const resolved=resolvedPose(camera),pitchError=Math.abs(resolved.pitchDown-45),annotationError=Math.abs(resolved.pitchDown-annotation.pitchDown);
+ if(pitchError>2+1e-9||annotationError>2+1e-9)throw Error(`Ladder pitch ${resolved.pitchDown.toFixed(6)}° disagrees with the 45° contract or annotation by more than 2°`);
+ return {resolved,pitchError,annotationError,pass:true};
+}

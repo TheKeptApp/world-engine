@@ -20,6 +20,8 @@ Reuse `scripts/web_sloans_ladder.json`: 40/150/600 m above the flat export datum
 
 Readiness requires all package loading to finish and at least four rendered frames with three consecutive identical submitted-pass counters. Freeze and finish the GPU before taking the frame; no guessed scene-load sleep. Browser/server use an owned ephemeral loopback port and close in `finally`; watchdog cleanup is bounded. Hash-check every exported package file before capture and reject input changes during the run. Record browser version, camera, date, exposure, per-pass counts and PNG hash. Screenshots are local provenance only.
 
+Resolved camera pitch is checked before a scoreboard frame is accepted: reject deviations greater than 2° from either the 45° ladder contract or its pitch annotation. A metadata claim alone cannot pass this guard. See [held-camera audit and Wilmette correction](../review/holdout-camera-contracts.md).
+
 ## Automatic technical detectors and thresholds
 
 These are **catastrophic-failure screens, never look grades**. Thresholds are v0 tooling policy chosen before the run, shared across every block/height and recorded in JSON. No threshold adjusts an engine value.
