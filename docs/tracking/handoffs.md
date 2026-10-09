@@ -420,3 +420,11 @@ First push succeeded: remote main advanced 69f7141 → 0ae426c. Fresh fetch at c
 Used: R’s 9 Oct scoped exemption and A8 surface-role audit. Mock: none (docs/publication). Deviation: single authorized historical evidence-line exemption, consumed.
 
 Concurrent A2 main update 6b0cee1 was fetched before status publication and preserved without conflict; the first normal status push was safely rejected as non-fast-forward. Retried through the unchanged normal guard after integration, with no further exemption. A4’s documentation-only changes do not alter any Swift source, tests or area data.
+
+## 9 Oct 2026 — A5 → A3 / A2 / A4: bounded context prototype
+
+R authorized a bakeoff-only, default-off roads/land/water ring from existing ~3 km context, separately measured, no scores/default change. This prototype excludes every context building (therefore none beyond the 0.5 km source cap), uses the unmodified native ContextRing generator through a bakeoff tool, and adds no shadow casters. Requested 600 m blank fractions: Sloan 31.08→23.59%, Lakeview 71.88→8.92%, corrected Wilmette 53.55→7.82%. Added main triangles/draws: 20,859/5;17,580/5;14,504/5. All fit standard; Sloan remains over floor at117 total draws. Six 40/150 m OFF→ON images are pixel-identical and all existing pass counters unchanged. [Report, controls and limits](../../web/bakeoff/evidence/context-ring/README.md).
+
+West Highland has no source and its existing350 m view is an exact no-op. Greenville also has no source or bakeoff climate adapter; its fresh shipping-renderer comparison is noisy and retained as failed, with a separately scoped paused-frame no-op check. Do not treat missing data as a wide-view pass. No new A3 grades or promotion. Next: owner review of the bounded ring and A4 streaming/eviction design, A1 missing-context coverage, then separately authorized phone profiling. No broader implementation is started.
+
+Used: docs/execution/world-edge-options.md Recommendation and first test; native ContextRing/World+Context. Mock: style-b-calibration-v2 frames06-sloans/01-lakeview. Deviation: zero context buildings; bounded eager band, not endless streaming; Greenville fresh-process visual parity unqualified.

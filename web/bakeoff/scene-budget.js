@@ -29,7 +29,7 @@ export function installSceneBudget(scene,camera,features=new WeakMap()){
  const attached=o=>{for(let p=o;p;p=p.parent){if(p===root)return false;if(p===scene)return true;}return false;};
  function collect(){
   sources=sources.filter(({mesh:o})=>attached(o));
-  scene.traverse(o=>{if(o.isMesh&&attached(o)&&!known.has(o)&&camera.layers.test(o.layers)&&!Array.isArray(o.material)){known.add(o);sources.push({mesh:o,geometry:null});}});
+  scene.traverse(o=>{if(o.isMesh&&!o.userData.contextRing&&attached(o)&&!known.has(o)&&camera.layers.test(o.layers)&&!Array.isArray(o.material)){known.add(o);sources.push({mesh:o,geometry:null});}});
   for(const source of sources)if(source.geometry!==source.mesh.geometry){const o=source.mesh;source.geometry=o.geometry;source.rows=o.isInstancedMesh?null:featureRows(o,features.get(o.geometry));source.key=o.isInstancedMesh?geometryKey(o.geometry):layout(o.geometry);}
  }
  collect();scene.add(root);let previous=null;

@@ -1,0 +1,3116 @@
+{
+  "sourceCommit": "89efa9c46ac4e346cc2893c680e7683560557ab3",
+  "frames": [
+    {
+      "id": "sloans-600",
+      "area": "sloans-lake",
+      "variant": "off",
+      "frame": "sloans-600-off.png",
+      "sha256": "b6f61c840066c7c1896576ef77410ddf48f333b72a56ddbf01b0f5a8d0b778cf",
+      "contract": {
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            600
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "sloans-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/opaque world": {
+              "draws": 70,
+              "triangles": 212371
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 2052
+            },
+            "main/water": {
+              "draws": 27,
+              "triangles": 756
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 102873
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 149,
+          "meanMs": 2.10909344966443,
+          "p95Ms": 2.153791,
+          "maxMs": 8.237374,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 113,
+        "triangles": 320037,
+        "fps": 45.84615384615385,
+        "sampleDurationMs": 3250,
+        "p95FrameMs": 9.099999999999454,
+        "samples": 149,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            600,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856093,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.31083676268861454,
+        "blankSamples": 1133,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 1103,
+          "generated-ground": 30,
+          "parking": 20,
+          "road": 174,
+          "path": 65,
+          "sidewalk": 54,
+          "building": 219,
+          "generated-lot": 221,
+          "park": 558,
+          "water": 1079,
+          "scrub": 1,
+          "generated-garden": 7,
+          "generated-shore": 12,
+          "grass": 16,
+          "pitch": 30,
+          "generated-driveway": 1,
+          "generated-paving": 32,
+          "generated-sidewalk": 12,
+          "generated-curb": 5,
+          "playground": 2,
+          "generated-walk": 3,
+          "generated-bed": 1
+        },
+        "pass": true,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999992398,
+          "heading": 269.99999999971527,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.602096729897312e-11,
+        "annotationError": 7.602096729897312e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 190.33333333333334,
+        "variance": 558.574075445682
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 320036,
+            "draws": 112
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "sloans-600",
+      "area": "sloans-lake",
+      "variant": "off-repeat",
+      "frame": "sloans-600-off-repeat.png",
+      "sha256": "b6f61c840066c7c1896576ef77410ddf48f333b72a56ddbf01b0f5a8d0b778cf",
+      "contract": {
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            600
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "sloans-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/opaque world": {
+              "draws": 70,
+              "triangles": 212371
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 2052
+            },
+            "main/water": {
+              "draws": 27,
+              "triangles": 756
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 102873
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 149,
+          "meanMs": 2.1351932953020136,
+          "p95Ms": 2.172166,
+          "maxMs": 9.083041,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 113,
+        "triangles": 320037,
+        "fps": 45.61317577909753,
+        "sampleDurationMs": 3266.6000000000004,
+        "p95FrameMs": 9,
+        "samples": 149,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            600,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856093,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.31083676268861454,
+        "blankSamples": 1133,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 1103,
+          "generated-ground": 30,
+          "parking": 20,
+          "road": 174,
+          "path": 65,
+          "sidewalk": 54,
+          "building": 219,
+          "generated-lot": 221,
+          "park": 558,
+          "water": 1079,
+          "scrub": 1,
+          "generated-garden": 7,
+          "generated-shore": 12,
+          "grass": 16,
+          "pitch": 30,
+          "generated-driveway": 1,
+          "generated-paving": 32,
+          "generated-sidewalk": 12,
+          "generated-curb": 5,
+          "playground": 2,
+          "generated-walk": 3,
+          "generated-bed": 1
+        },
+        "pass": true,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999992398,
+          "heading": 269.99999999971527,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.602096729897312e-11,
+        "annotationError": 7.602096729897312e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 190.33333333333334,
+        "variance": 558.574075445682
+      },
+      "repeat": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 320036,
+            "draws": 112
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "sloans-600",
+      "area": "sloans-lake",
+      "variant": "on",
+      "frame": "sloans-600-on.png",
+      "sha256": "025c180efcd8b887b56401ffe30df3d3f85a9ae6d4c261fbbaf5916d301fa28b",
+      "contract": {
+        "camera": {
+          "eye": [
+            39.7511195,
+            -105.0389,
+            600
+          ],
+          "target": [
+            39.7511195504243,
+            -105.04006681934511,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 39.7511195,
+          "lon": -105.0389,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "sloans-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/context land/roads": {
+              "draws": 4,
+              "triangles": 19306
+            },
+            "main/opaque world": {
+              "draws": 70,
+              "triangles": 212371
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 2052
+            },
+            "main/water": {
+              "draws": 27,
+              "triangles": 756
+            },
+            "main/context water": {
+              "draws": 1,
+              "triangles": 1553
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 102873
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "water shore distance",
+              "width": 1024,
+              "height": 1024,
+              "levels": 1,
+              "format": "R16F",
+              "bytes": 2097152,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 34.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 149,
+          "meanMs": 2.1716068657718126,
+          "p95Ms": 2.250499,
+          "maxMs": 8.469416,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 118,
+        "triangles": 340896,
+        "fps": 20.67090258316917,
+        "sampleDurationMs": 7208.2,
+        "p95FrameMs": 9.299999999999272,
+        "samples": 149,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            479.9371916990588,
+            600,
+            -190.93080230114043
+          ],
+          "direction": [
+            -0.7071067811874858,
+            -0.7071067811856093,
+            3.5138558729386205e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 20859,
+        "uploadedDraws": 5,
+        "geometryBytes": 5381622,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "blank": {
+        "fraction": 0.23593964334705075,
+        "blankSamples": 860,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 830,
+          "context-mapped-land-roads": 273,
+          "generated-ground": 30,
+          "parking": 20,
+          "road": 174,
+          "path": 65,
+          "sidewalk": 54,
+          "building": 219,
+          "generated-lot": 221,
+          "park": 558,
+          "water": 1079,
+          "scrub": 1,
+          "generated-garden": 7,
+          "generated-shore": 12,
+          "grass": 16,
+          "pitch": 30,
+          "generated-driveway": 1,
+          "generated-paving": 32,
+          "generated-sidewalk": 12,
+          "generated-curb": 5,
+          "playground": 2,
+          "generated-walk": 3,
+          "generated-bed": 1
+        },
+        "pass": true,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999992398,
+          "heading": 269.99999999971527,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.602096729897312e-11,
+        "annotationError": 7.602096729897312e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 190.33333333333334,
+        "variance": 561.5347006445772
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 340895,
+            "draws": 117
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {
+        "main/context land/roads": {
+          "draws": 4,
+          "triangles": 19306
+        },
+        "main/context water": {
+          "draws": 1,
+          "triangles": 1553
+        }
+      }
+    },
+    {
+      "id": "lakeview-600",
+      "area": "lakeview-sheil-park",
+      "variant": "off",
+      "frame": "lakeview-600-off.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "contract": {
+        "camera": {
+          "eye": [
+            41.945182,
+            -87.66432,
+            600
+          ],
+          "target": [
+            41.945181986209434,
+            -87.66552595502687,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 41.945182,
+          "lon": -87.66432,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "lakeview-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 11616
+            },
+            "main/opaque world": {
+              "draws": 17,
+              "triangles": 44653
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 13812
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 179,
+          "meanMs": 1.2471766424581,
+          "p95Ms": 1.389374,
+          "maxMs": 8.316458,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 33,
+        "triangles": 72066,
+        "fps": 53.36592928269036,
+        "sampleDurationMs": 3354.2,
+        "p95FrameMs": 8.900000000000091,
+        "samples": 179,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -58.874500633947775,
+            600,
+            54.2030014729452
+          ],
+          "direction": [
+            -0.7071067811813914,
+            -0.7071067811917037,
+            3.995470621021013e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.7187928669410151,
+        "blankSamples": 2620,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 2509,
+          "building": 582,
+          "generated-ground": 111,
+          "parking": 14,
+          "road": 236,
+          "generated-paving": 73,
+          "generated-lot": 63,
+          "sidewalk": 35,
+          "path": 2,
+          "generated-garden": 15,
+          "generated-walk": 2,
+          "park": 3
+        },
+        "pass": false,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.0000000004178,
+          "heading": 269.9999999996762,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 4.177991286269389e-10,
+        "annotationError": 4.177991286269389e-10,
+        "pass": true
+      },
+      "pixels": {
+        "range": 137.66666666666669,
+        "variance": 224.27531219182492
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 72065,
+            "draws": 32
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "lakeview-600",
+      "area": "lakeview-sheil-park",
+      "variant": "off-repeat",
+      "frame": "lakeview-600-off-repeat.png",
+      "sha256": "5d0f03ebc7d385ddf8d7c8fdd511476861dedf63a44067a7f105bc6f6a438ed7",
+      "contract": {
+        "camera": {
+          "eye": [
+            41.945182,
+            -87.66432,
+            600
+          ],
+          "target": [
+            41.945181986209434,
+            -87.66552595502687,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 41.945182,
+          "lon": -87.66432,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "lakeview-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 11616
+            },
+            "main/opaque world": {
+              "draws": 17,
+              "triangles": 44653
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 13812
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 179,
+          "meanMs": 1.2360371899441343,
+          "p95Ms": 1.326124,
+          "maxMs": 8.743791,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 33,
+        "triangles": 72066,
+        "fps": 53.969306841137275,
+        "sampleDurationMs": 3316.7000000000003,
+        "p95FrameMs": 9,
+        "samples": 179,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -58.874500633947775,
+            600,
+            54.2030014729452
+          ],
+          "direction": [
+            -0.7071067811813914,
+            -0.7071067811917037,
+            3.995470621021013e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.7187928669410151,
+        "blankSamples": 2620,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 2509,
+          "building": 582,
+          "generated-ground": 111,
+          "parking": 14,
+          "road": 236,
+          "generated-paving": 73,
+          "generated-lot": 63,
+          "sidewalk": 35,
+          "path": 2,
+          "generated-garden": 15,
+          "generated-walk": 2,
+          "park": 3
+        },
+        "pass": false,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.0000000004178,
+          "heading": 269.9999999996762,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 4.177991286269389e-10,
+        "annotationError": 4.177991286269389e-10,
+        "pass": true
+      },
+      "pixels": {
+        "range": 137.66666666666669,
+        "variance": 224.27531219182492
+      },
+      "repeat": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 72065,
+            "draws": 32
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "lakeview-600",
+      "area": "lakeview-sheil-park",
+      "variant": "on",
+      "frame": "lakeview-600-on.png",
+      "sha256": "b41fc63554129f34dffa347adedbe5bb78e7e313bc4799184acf6082b3e53bb7",
+      "contract": {
+        "camera": {
+          "eye": [
+            41.945182,
+            -87.66432,
+            600
+          ],
+          "target": [
+            41.945181986209434,
+            -87.66552595502687,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 41.945182,
+          "lon": -87.66432,
+          "heading": 270,
+          "pitchDown": 45,
+          "fov": 50,
+          "altitudeAGLMetres": 600,
+          "utc": "2026-10-15T20:30:00Z",
+          "groundDatum": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-10-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "lakeview-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/context land/roads": {
+              "draws": 4,
+              "triangles": 15867
+            },
+            "main/context water": {
+              "draws": 1,
+              "triangles": 1713
+            },
+            "main/foliage": {
+              "draws": 12,
+              "triangles": 11616
+            },
+            "main/opaque world": {
+              "draws": 17,
+              "triangles": 44653
+            },
+            "main/facade details": {
+              "draws": 2,
+              "triangles": 13812
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 179,
+          "meanMs": 1.2767332067039112,
+          "p95Ms": 1.557625,
+          "maxMs": 6.855416,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 38,
+        "triangles": 89646,
+        "fps": 35.56809601398879,
+        "sampleDurationMs": 5032.6,
+        "p95FrameMs": 8.600000000000364,
+        "samples": 179,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -58.874500633947775,
+            600,
+            54.2030014729452
+          ],
+          "direction": [
+            -0.7071067811813914,
+            -0.7071067811917037,
+            3.995470621021013e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17580,
+        "uploadedDraws": 5,
+        "geometryBytes": 4535640,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "blank": {
+        "fraction": 0.08916323731138547,
+        "blankSamples": 325,
+        "totalSamples": 3645,
+        "counts": {
+          "context-water": 1,
+          "context-mapped-land-roads": 2294,
+          "boundary": 214,
+          "building": 582,
+          "generated-ground": 111,
+          "parking": 14,
+          "road": 236,
+          "generated-paving": 73,
+          "generated-lot": 63,
+          "sidewalk": 35,
+          "path": 2,
+          "generated-garden": 15,
+          "generated-walk": 2,
+          "park": 3
+        },
+        "pass": true,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.0000000004178,
+          "heading": 269.9999999996762,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 4.177991286269389e-10,
+        "annotationError": 4.177991286269389e-10,
+        "pass": true
+      },
+      "pixels": {
+        "range": 137.66666666666669,
+        "variance": 264.12042186704275
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 89645,
+            "draws": 37
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {
+        "main/context land/roads": {
+          "draws": 4,
+          "triangles": 15867
+        },
+        "main/context water": {
+          "draws": 1,
+          "triangles": 1713
+        }
+      }
+    },
+    {
+      "id": "wilmette-600",
+      "area": "wilmette-vattmann-park",
+      "variant": "off",
+      "frame": "wilmette-600-off.png",
+      "sha256": "362ea8375f104d476d48ef49c90b3fc1130ecd8f78733ef0f4ae5a0c3eb3a363",
+      "contract": {
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            600
+          ],
+          "target": [
+            42.07493303044959,
+            -87.71878759174007,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 600,
+          "utc": "2026-09-15T19:56:00Z"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-09-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "wilmette-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "shadow/opaque world": {
+              "draws": 1,
+              "triangles": 5918
+            },
+            "main/opaque world": {
+              "draws": 60,
+              "triangles": 301891
+            },
+            "main/foliage": {
+              "draws": 14,
+              "triangles": 64987
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 119,
+          "meanMs": 2.3883644285714287,
+          "p95Ms": 2.462374,
+          "maxMs": 11.721,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 77,
+        "triangles": 374781,
+        "fps": 18.714222809335094,
+        "sampleDurationMs": 6358.8,
+        "p95FrameMs": 8.700000000000728,
+        "samples": 119,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -289.306198502288,
+            600,
+            140.72579507741324
+          ],
+          "direction": [
+            0.7071067811856807,
+            -0.7071067811874144,
+            -7.198686091669517e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.5355281207133059,
+        "blankSamples": 1952,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 1812,
+          "building": 513,
+          "generated-lot": 737,
+          "generated-ground": 140,
+          "road": 232,
+          "sidewalk": 30,
+          "generated-paving": 58,
+          "crossing": 2,
+          "generated-walk": 20,
+          "generated-driveway": 9,
+          "path": 3,
+          "park": 37,
+          "parking": 3,
+          "pitch": 8,
+          "playground": 8,
+          "generated-sidewalk": 22,
+          "generated-bed": 4,
+          "generated-fence": 2,
+          "generated-curb": 5
+        },
+        "pass": false,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.000000000070244,
+          "heading": 89.99999999941667,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.02442548572435e-11,
+        "annotationError": 7.02442548572435e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 126.33333333333334,
+        "variance": 264.8428415753224
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 368862,
+            "draws": 75
+          },
+          "shadow": {
+            "triangles": 5918,
+            "draws": 1
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "wilmette-600",
+      "area": "wilmette-vattmann-park",
+      "variant": "off-repeat",
+      "frame": "wilmette-600-off-repeat.png",
+      "sha256": "362ea8375f104d476d48ef49c90b3fc1130ecd8f78733ef0f4ae5a0c3eb3a363",
+      "contract": {
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            600
+          ],
+          "target": [
+            42.07493303044959,
+            -87.71878759174007,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 600,
+          "utc": "2026-09-15T19:56:00Z"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-09-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "wilmette-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "shadow/opaque world": {
+              "draws": 1,
+              "triangles": 5918
+            },
+            "main/opaque world": {
+              "draws": 60,
+              "triangles": 301891
+            },
+            "main/foliage": {
+              "draws": 14,
+              "triangles": 64987
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 119,
+          "meanMs": 2.3609217647058816,
+          "p95Ms": 2.461,
+          "maxMs": 11.626,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 77,
+        "triangles": 374781,
+        "fps": 41.631682059893656,
+        "sampleDurationMs": 2858.3999999999996,
+        "p95FrameMs": 8.800000000000182,
+        "samples": 119,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -289.306198502288,
+            600,
+            140.72579507741324
+          ],
+          "direction": [
+            0.7071067811856807,
+            -0.7071067811874144,
+            -7.198686091669517e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": null,
+      "blank": {
+        "fraction": 0.5355281207133059,
+        "blankSamples": 1952,
+        "totalSamples": 3645,
+        "counts": {
+          "boundary": 1812,
+          "building": 513,
+          "generated-lot": 737,
+          "generated-ground": 140,
+          "road": 232,
+          "sidewalk": 30,
+          "generated-paving": 58,
+          "crossing": 2,
+          "generated-walk": 20,
+          "generated-driveway": 9,
+          "path": 3,
+          "park": 37,
+          "parking": 3,
+          "pitch": 8,
+          "playground": 8,
+          "generated-sidewalk": 22,
+          "generated-bed": 4,
+          "generated-fence": 2,
+          "generated-curb": 5
+        },
+        "pass": false,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.000000000070244,
+          "heading": 89.99999999941667,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.02442548572435e-11,
+        "annotationError": 7.02442548572435e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 126.33333333333334,
+        "variance": 264.8428415753224
+      },
+      "repeat": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 368862,
+            "draws": 75
+          },
+          "shadow": {
+            "triangles": 5918,
+            "draws": 1
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {}
+    },
+    {
+      "id": "wilmette-600",
+      "area": "wilmette-vattmann-park",
+      "variant": "on",
+      "frame": "wilmette-600-on.png",
+      "sha256": "6861fb5894b6d5c770979bd318ca877a5849ff1783b3fccda66737d08380eae8",
+      "contract": {
+        "camera": {
+          "eye": [
+            42.074933,
+            -87.719996,
+            600
+          ],
+          "target": [
+            42.07493303044959,
+            -87.71878759174007,
+            500
+          ],
+          "fov": 50
+        },
+        "inspection": {
+          "lat": 42.074933,
+          "lon": -87.719996,
+          "heading": 90,
+          "pitchDown": 45,
+          "fov": 50,
+          "note": "Highland Avenue looking east: the regions fixture's northshore-postcard composition at its own location (P2 wilmette-street)",
+          "altitudeAGLMetres": 600,
+          "utc": "2026-09-15T19:56:00Z"
+        },
+        "fixture": {
+          "status": "Simulated calibration fixture, not live weather or observed phenology",
+          "windKmh": 10,
+          "windFromDegrees": 225,
+          "skyState": "clear",
+          "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+          "atmosphereSeason": "summer",
+          "timeOfDay": "day",
+          "summitsObscured": false,
+          "atmosphereLayers": [],
+          "date": "2026-09-15"
+        },
+        "viewport": {
+          "width": 1005,
+          "height": 565
+        }
+      },
+      "metrics": {
+        "scene": "wilmette-600",
+        "tier": "standard",
+        "deviceClass": "14–15",
+        "cost": {
+          "budget": {
+            "mainTriangles": 400000,
+            "shadowTriangles": 150000,
+            "mainDraws": 100,
+            "textureMiB": null,
+            "tiers": {
+              "hero": "15 Pro+",
+              "standard": "14–15",
+              "floor": "12–13"
+            },
+            "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+          },
+          "passes": {
+            "main/sky/composite": {
+              "draws": 1,
+              "triangles": 1984
+            },
+            "main/context land/roads": {
+              "draws": 4,
+              "triangles": 13701
+            },
+            "shadow/opaque world": {
+              "draws": 1,
+              "triangles": 5918
+            },
+            "main/opaque world": {
+              "draws": 60,
+              "triangles": 301891
+            },
+            "main/foliage": {
+              "draws": 14,
+              "triangles": 64987
+            },
+            "main/context water": {
+              "draws": 1,
+              "triangles": 803
+            },
+            "post/sky/composite": {
+              "draws": 1,
+              "triangles": 1
+            }
+          },
+          "textures": [
+            {
+              "name": "output",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "RGBA16F",
+              "bytes": 4542600,
+              "target": true
+            },
+            {
+              "name": "depth",
+              "width": 1005,
+              "height": 565,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 2271300,
+              "target": true
+            },
+            {
+              "name": "sky gradient + cumulus",
+              "width": 2048,
+              "height": 1024,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 33554432,
+              "target": false
+            },
+            {
+              "name": "ShadowMap",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "RGBA8",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "ShadowDepthTexture",
+              "width": 2048,
+              "height": 2048,
+              "levels": 1,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 16777216,
+              "target": true
+            },
+            {
+              "name": "palette",
+              "width": 256,
+              "height": 1,
+              "levels": 1,
+              "format": "RGBA32F",
+              "bytes": 4096,
+              "target": false
+            }
+          ],
+          "renderbuffers": [
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "RGBA16F",
+              "bytes": 18170400
+            },
+            {
+              "name": "renderbuffer",
+              "width": 1005,
+              "height": 565,
+              "samples": 4,
+              "format": "DEPTH_COMPONENT24",
+              "bytes": 9085200
+            }
+          ],
+          "contentTextureMiB": 32.00390625,
+          "targetTextureMiB": 38.49824142456055,
+          "renderbufferMiB": 25.992965698242188,
+          "unknownAllocations": 0,
+          "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+          "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+        },
+        "backend": "WebGL2",
+        "gpuTimer": {
+          "available": true,
+          "samples": 119,
+          "meanMs": 2.37960731932773,
+          "p95Ms": 2.466999,
+          "maxMs": 10.93725,
+          "disjointEvents": 0,
+          "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+        },
+        "drawCalls": 82,
+        "triangles": 389285,
+        "fps": 18.282659128270524,
+        "sampleDurationMs": 6508.9,
+        "p95FrameMs": 8.900000000000546,
+        "samples": 119,
+        "viewport": [
+          1.7787610619469028,
+          1005,
+          565
+        ],
+        "camera": {
+          "position": [
+            -289.306198502288,
+            600,
+            140.72579507741324
+          ],
+          "direction": [
+            0.7071067811856807,
+            -0.7071067811874144,
+            -7.198686091669517e-12
+          ],
+          "fov": 50
+        },
+        "visibility": "visible",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 14504,
+        "uploadedDraws": 5,
+        "geometryBytes": 3742032,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "blank": {
+        "fraction": 0.07818930041152264,
+        "blankSamples": 285,
+        "totalSamples": 3645,
+        "counts": {
+          "context-mapped-land-roads": 1667,
+          "boundary": 145,
+          "building": 513,
+          "generated-lot": 737,
+          "generated-ground": 140,
+          "road": 232,
+          "sidewalk": 30,
+          "generated-paving": 58,
+          "crossing": 2,
+          "generated-walk": 20,
+          "generated-driveway": 9,
+          "path": 3,
+          "park": 37,
+          "parking": 3,
+          "pitch": 8,
+          "playground": 8,
+          "generated-sidewalk": 22,
+          "generated-bed": 4,
+          "generated-fence": 2,
+          "generated-curb": 5
+        },
+        "pass": true,
+        "method": "81x45 structural ray mask; unchanged boundary/generated-ground numerator; actual mapped context triangles added; instances excluded; strict <35%"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 45.000000000070244,
+          "heading": 89.99999999941667,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 7.02442548572435e-11,
+        "annotationError": 7.02442548572435e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 126.33333333333334,
+        "variance": 279.91687849560185
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 383366,
+            "draws": 80
+          },
+          "shadow": {
+            "triangles": 5918,
+            "draws": 1
+          },
+          "post": {
+            "triangles": 1,
+            "draws": 1
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": true,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": true,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "contextPasses": {
+        "main/context land/roads": {
+          "draws": 4,
+          "triangles": 13701
+        },
+        "main/context water": {
+          "draws": 1,
+          "triangles": 803
+        }
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "sloans-600",
+      "area": "sloans-lake",
+      "status": "available",
+      "bytes": 3905575,
+      "sha256": "1cb042229091f2fe37091655f9ace06ae7574b845b954b2516ebc84e2492bad3",
+      "sources": [
+        {
+          "attribution": "© OpenStreetMap contributors",
+          "bounds": {
+            "east": -105.00014116676583,
+            "north": 39.781815160992515,
+            "south": 39.71696772209613,
+            "west": -105.08881726391722
+          },
+          "bytes": 19332840,
+          "dataTimestamp": "2026-10-06T18:02:40Z",
+          "fetchedAt": "2026-10-06T18:04:19Z",
+          "format": "osm-overpass-json",
+          "layers": [
+            "context"
+          ],
+          "license": "ODbL-1.0",
+          "path": "context.json",
+          "sha256": "8338043f81a55299cc66fddd5459ce5fc48a3966d5e5973a0f9c52157c986e62"
+        }
+      ],
+      "stats": {
+        "areas": 3607,
+        "buildingsFirstRow": 0,
+        "buildingsInData": 7641,
+        "buildingsLow": 0,
+        "buildingsTall": 0,
+        "cells": 18,
+        "partialWaterRelations": 0,
+        "rails": 0,
+        "roads": 5808,
+        "skippedPieces": 0,
+        "tri.aerial.area": 3165,
+        "tri.aerial.main": 6540,
+        "tri.aerial.minor": 8321,
+        "tri.far.area": 1735,
+        "tri.far.main": 1682,
+        "tri.near.area": 6175,
+        "tri.near.main": 9270,
+        "tri.near.minor": 6168,
+        "tri.street.area": 3548,
+        "tri.street.main": 4946,
+        "triangles.aerial": 18026,
+        "triangles.far": 3417,
+        "triangles.near": 21613,
+        "triangles.street": 8494,
+        "triangles.water": 1479,
+        "waterPolygons": 67,
+        "waterways": 46
+      },
+      "origin": {
+        "height": 0,
+        "latitude": 39.7494,
+        "longitude": -105.0445
+      }
+    },
+    {
+      "id": "lakeview-600",
+      "area": "lakeview-sheil-park",
+      "status": "available",
+      "bytes": 2955709,
+      "sha256": "fa6dd46300b0bfaf2c8d0d463b2d090ed3b472dc764bb4a673201a236bfd0c8f",
+      "sources": [
+        {
+          "attribution": "© OpenStreetMap contributors",
+          "bounds": {
+            "east": -87.62138045258075,
+            "north": 41.977173179763184,
+            "south": 41.91415113011374,
+            "west": -87.70579797880725
+          },
+          "bytes": 23102065,
+          "dataTimestamp": "2026-10-06T17:59:36Z",
+          "fetchedAt": "2026-10-06T18:01:18Z",
+          "format": "osm-overpass-json",
+          "layers": [
+            "context"
+          ],
+          "license": "ODbL-1.0",
+          "path": "context.json",
+          "sha256": "068d3bf1e7251f4ab7cd41bf678c1096eb7977c7856e1d2205f3c3b0479808b3"
+        }
+      ],
+      "stats": {
+        "areas": 3351,
+        "buildingsFirstRow": 0,
+        "buildingsInData": 9881,
+        "buildingsLow": 0,
+        "buildingsTall": 0,
+        "cells": 16,
+        "partialWaterRelations": 1,
+        "rails": 0,
+        "roads": 5488,
+        "shorelineDropped": 0,
+        "shorelinePieces": 1,
+        "skippedPieces": 0,
+        "tri.aerial.area": 4847,
+        "tri.aerial.main": 4710,
+        "tri.aerial.minor": 5575,
+        "tri.far.area": 2935,
+        "tri.far.main": 2160,
+        "tri.near.area": 8925,
+        "tri.near.main": 6324,
+        "tri.near.minor": 6708,
+        "tri.street.area": 5380,
+        "tri.street.main": 3286,
+        "triangles.aerial": 15132,
+        "triangles.far": 5095,
+        "triangles.near": 21957,
+        "triangles.street": 8666,
+        "triangles.water": 1693,
+        "waterPolygons": 37,
+        "waterways": 19
+      },
+      "origin": {
+        "height": 0,
+        "latitude": 41.94567,
+        "longitude": -87.66361
+      }
+    },
+    {
+      "id": "wilmette-600",
+      "area": "wilmette-vattmann-park",
+      "status": "available",
+      "bytes": 2520190,
+      "sha256": "badcdfed2300a85168dc52c8c4793570f66c1cac050ee05ae994cda0a355ab10",
+      "sources": [
+        {
+          "attribution": "© OpenStreetMap contributors",
+          "bounds": {
+            "east": -87.67418393197556,
+            "north": 42.10770242521361,
+            "south": 42.04468181381128,
+            "west": -87.75877422339357
+          },
+          "bytes": 6746246,
+          "dataTimestamp": "2026-10-06T19:41:36Z",
+          "fetchedAt": "2026-10-06T19:43:50Z",
+          "format": "osm-overpass-json",
+          "layers": [
+            "context"
+          ],
+          "license": "ODbL-1.0",
+          "path": "context.json",
+          "sha256": "884ed34fece5d90e2719010b9d1282b872242dd60838286f21c8d4de58a1e665"
+        }
+      ],
+      "stats": {
+        "areas": 1098,
+        "buildingsFirstRow": 0,
+        "buildingsInData": 694,
+        "buildingsLow": 0,
+        "buildingsTall": 0,
+        "cells": 15,
+        "partialWaterRelations": 1,
+        "rails": 0,
+        "roads": 2784,
+        "shorelineDropped": 0,
+        "shorelinePieces": 2,
+        "skippedPieces": 3,
+        "tri.aerial.area": 3383,
+        "tri.aerial.main": 3094,
+        "tri.aerial.minor": 6274,
+        "tri.far.area": 1914,
+        "tri.far.main": 978,
+        "tri.near.area": 5558,
+        "tri.near.main": 3974,
+        "tri.near.minor": 4946,
+        "tri.street.area": 4214,
+        "tri.street.main": 2138,
+        "triangles.aerial": 12751,
+        "triangles.far": 2892,
+        "triangles.near": 14478,
+        "triangles.street": 6352,
+        "triangles.water": 756,
+        "waterPolygons": 54,
+        "waterways": 11
+      },
+      "origin": {
+        "height": 0,
+        "latitude": 42.0762,
+        "longitude": -87.7165
+      }
+    }
+  ],
+  "status": "complete"
+}
