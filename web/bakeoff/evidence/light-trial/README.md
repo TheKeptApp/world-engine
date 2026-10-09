@@ -26,3 +26,11 @@ One post pass adds one triangle/draw in every view. Existing main-budget overage
 Regression admission load 5.28: light source identity/witness/filter assertions, portable companion checks, palette identity, policy/atmosphere/sky/overnight, 1,056 legacy geometry/material identity cases, crown v2/v3 (228 v3 cases), and 16 capture-tooling tests all passed. Main advanced with documentation only and was rebased without conflict. Actual A8 package validation and the post-merge Lakeview check are recorded in the completion note.
 
 Production reader: 61 checks passed at admitted load 8.75, including actual Sloan/Lakeview A8 packages and actual incompatible repack. Default-off light/role hooks preserve the control source after removing only explicit opt-in plumbing. Ready for A3 blind review; no score or promotion.
+
+## Completion / post-merge hold-out
+
+Merged default-off implementation `421b408` and validation `9a6eb0e`; main advanced with A5 opt-in context work, retained without changes to the captured render path. Post-merge Lakeview 150 OFF/ON fresh/repeats passed through scripts/capture-web.sh at admitted loads 5.65/6.82, each releasing its own lock. All four frames have world max/mean 0/0 versus their pre-merge counterparts and identical per-pass triangles/draws. PNG repeats within each mode are byte-identical. `manifest.json/postMergeHoldout` records paths/hashes and exact comparisons. A3 blind scoring is next; no scores or promotion claimed.
+
+Touched: light module/main opt-in hooks; capture query/metadata plumbing; production companion reader; identity/reader fixtures and tests; read-only measurement/check scripts and evidence. Caster logic, palette tables and native code unchanged.
+
+Ledger text for A3: light trial and optional role-reader merged default off, all controls and post-merge Lakeview checks pass; light aspect remains unscored, existing budget overages unchanged. Used: calibration-v2 sharedLook.lighting.shadow/sky, A4 companion contract and A8 audit. Mock: 06-sloans/01-lakeview; c8c361d controls. Deviation: lower-fill interpretation experimental; credits top 32 rows excluded; no GPU role colour application.

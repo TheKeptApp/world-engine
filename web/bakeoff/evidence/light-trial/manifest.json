@@ -3502,5 +3502,51 @@
     "web/bakeoff/surface-roles.js": "0d60f85035e07b1cd6889a5c053b583550e8e2ac11a615c6b337818f63a0bfca"
   },
   "captureSourceNote": "Captures ran with the light changes uncommitted on 8f08c42, before adding the optional surfaceRoles hook. sourceHashes describe delivery files; the reconstructed captured main removes only that inactive hook. Post-merge hold-out checks exercise the delivered default path.",
-  "capturedMainReconstructedSha256": "0ca282c1c1481da5a255809ce2cb2e2b8683cdd493dee96bf14b053c28486d19"
+  "capturedMainReconstructedSha256": "0ca282c1c1481da5a255809ce2cb2e2b8683cdd493dee96bf14b053c28486d19",
+  "postMergeHoldout": {
+    "revision": "9a6eb0e",
+    "rows": [
+      {
+        "mode": "off",
+        "repeat": false,
+        "frame": "web/bakeoff/evidence/light-trial/post-merge-off/lakeview-foliage-off-crown-off-palette-off-light-off-fresh.png",
+        "control": "web/bakeoff/evidence/light-trial/lakeview-off/lakeview-foliage-off-crown-off-palette-off-light-off-fresh.png",
+        "sha256": "33036dbe4ecb4368985c7716414d3942b1c8533047fd7e95899d74f5c65d0350",
+        "worldMax": 0,
+        "worldMean": 0.0,
+        "passesUnchanged": true
+      },
+      {
+        "mode": "off",
+        "repeat": true,
+        "frame": "web/bakeoff/evidence/light-trial/post-merge-off/lakeview-foliage-off-crown-off-palette-off-light-off-repeat.png",
+        "control": "web/bakeoff/evidence/light-trial/lakeview-off/lakeview-foliage-off-crown-off-palette-off-light-off-repeat.png",
+        "sha256": "33036dbe4ecb4368985c7716414d3942b1c8533047fd7e95899d74f5c65d0350",
+        "worldMax": 0,
+        "worldMean": 0.0,
+        "passesUnchanged": true
+      },
+      {
+        "mode": "on",
+        "repeat": false,
+        "frame": "web/bakeoff/evidence/light-trial/post-merge-on/lakeview-foliage-off-crown-off-palette-off-light-on-fresh.png",
+        "control": "web/bakeoff/evidence/light-trial/lakeview-on/lakeview-foliage-off-crown-off-palette-off-light-on-fresh.png",
+        "sha256": "584dfa7743e9b8cf78131111e304d750ce5033e244e9090ffa47913dfb784a90",
+        "worldMax": 0,
+        "worldMean": 0.0,
+        "passesUnchanged": true
+      },
+      {
+        "mode": "on",
+        "repeat": true,
+        "frame": "web/bakeoff/evidence/light-trial/post-merge-on/lakeview-foliage-off-crown-off-palette-off-light-on-repeat.png",
+        "control": "web/bakeoff/evidence/light-trial/lakeview-on/lakeview-foliage-off-crown-off-palette-off-light-on-repeat.png",
+        "sha256": "584dfa7743e9b8cf78131111e304d750ce5033e244e9090ffa47913dfb784a90",
+        "worldMax": 0,
+        "worldMean": 0.0,
+        "passesUnchanged": true
+      }
+    ],
+    "status": "passed exact world 0/0 and unchanged passes; no score"
+  }
 }
