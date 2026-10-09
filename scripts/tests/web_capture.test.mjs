@@ -34,6 +34,12 @@ test('counter guard rejects incomplete and unequal scene coverage',()=>{
  assert.throws(()=>verifyCoverage([a,{...a,metrics:{...a.metrics,triangles:9}}]),/Unequal/);
  assert.throws(()=>verifyCoverage([a,{...a,metrics:{...a.metrics,drawCalls:1}}]),/Unequal/);
 });
+test('v3 is a distinct coverage mode; repeats and non-foliage stay strict',()=>{
+ const row=(v3,n,ground=10)=>({scene:'sloans',foliageExp1:'off',crownV2:false,crownV3:v3,metrics:{triangles:ground+n,drawCalls:3,cost:{passes:{'main/opaque world':{triangles:ground,draws:2},'main/foliage':{triangles:n,draws:1}}}}});
+ assert.equal(verifyCoverage([row(false,5),row('standard',8)],{expectedDifferent:true}).deltas[0].crownV3,'standard');
+ assert.throws(()=>verifyCoverage([row('standard',8),row('standard',9)],{expectedDifferent:true}),/identical-mode repeat/);
+ assert.throws(()=>verifyCoverage([row(false,5),row('standard',8,11)],{expectedDifferent:true}),/non-foliage/);
+});
 test('size and flat-image checks do not accept credit text as world evidence',()=>{
  const p={width:20,height:20,data:Buffer.alloc(20*20*4)};
  for(let i=0;i<20*3*4;i++)p.data[i]=i%256;

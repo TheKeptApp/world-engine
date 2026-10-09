@@ -26,7 +26,7 @@ export function verifyCoverage(records,{expectedDifferent=false}={}) {
  const seen=new Map(),sameModes=new Map(),deltas=[];
  for(const row of records){
   const passes=coveragePasses(row.metrics),full=JSON.stringify([verifyCounters(row.metrics),passes]);
-  const mode=JSON.stringify([row.scene,row.foliageExp1||'off',row.crownV2||'off']);
+  const mode=JSON.stringify([row.scene,row.foliageExp1||'off',row.crownV2||'off',row.crownV3||'off']);
   if(sameModes.has(mode)&&sameModes.get(mode)!==full)throw Error(`Unequal scene coverage: ${row.scene} identical-mode repeat differs`);
   sameModes.set(mode,full);
   const nonFoliage=Object.fromEntries(Object.entries(passes).filter(([key])=>!key.endsWith('/foliage')));
@@ -34,7 +34,7 @@ export function verifyCoverage(records,{expectedDifferent=false}={}) {
   const first=seen.get(row.scene);
   if(first){
    if(expectedDifferent?JSON.stringify(first.nonFoliage)!==JSON.stringify(nonFoliage):first.full!==full)throw Error(`Unequal scene coverage: ${row.scene} ${expectedDifferent?'non-foliage passes':'triangles/draws'} differ; batch rejected`);
-   deltas.push({scene:row.scene,foliageExp1:row.foliageExp1,crownV2:row.crownV2,foliageDelta:{triangles:foliage.triangles-first.foliage.triangles,draws:foliage.draws-first.foliage.draws}});
+   deltas.push({scene:row.scene,foliageExp1:row.foliageExp1,crownV2:row.crownV2,crownV3:row.crownV3||'off',foliageDelta:{triangles:foliage.triangles-first.foliage.triangles,draws:foliage.draws-first.foliage.draws}});
   }else seen.set(row.scene,{full,nonFoliage,foliage});
  }
  return {expectedDifferent,deltas};
