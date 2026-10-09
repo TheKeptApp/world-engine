@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {modeQueries,verifyCounters,verifyCoverage,verifyPixels,byteDifference,verifyModes} from '../web_capture_checks.mjs';
@@ -121,5 +122,24 @@ test('facade adapter reads only this area and export semantics',async()=>{
   const result=await facadeInputs(root,'test',join(root,'export'));
   assert.equal(result.features.length,1);assert.equal(result.features[0].hasFence,true);
   assert.deepEqual(result.features[0].ring,[[1,2],[2,3],[3,4]]);assert.deepEqual(result.roads,[[[1,2],[2,3]]]);
+ }finally{await rm(root,{recursive:true});}
+});
+
+test('capture overrides serve JavaScript with the correct MIME and close idempotently',async()=>{const server=await startCaptureServer(fileURLToPath(new URL('../../',import.meta.url)),{'/probe.mjs':'export const probe=1;'});try{const r=await fetch(server.origin+'/probe.mjs');assert.equal(r.headers.get('content-type'),'text/javascript');assert.equal(await r.text(),'export const probe=1;');}finally{await server.close();await server.close();}});
+
+
+test('Lakeview ladder reuses the saved eye and exact shared pose with its export origin',async()=>{
+ const {blockContract}=await import('../web_capture_blocks.mjs');
+ const {LocalFrame}=await import('../../web/src/geo.js');
+ const root=await mkdtemp(join(tmpdir(),'lakeview-ladder-test-'));
+ try {
+  await mkdir(join(root,'scripts'));await mkdir(join(root,'web/bakeoff/generated/lakeview-sheil-park'),{recursive:true});
+  await writeFile(join(root,'scripts/web_capture_contract.json'),JSON.stringify({fixture:{date:'old'},scenes:{lakeview:{camera:{eye:[41.945182,-87.66432,100],target:[0,0,0]},world:'/world/lakeview/'}}}));
+  const manifest={frame:{origin:{latitude:41.943,longitude:-87.666},vertical:'flat y = 0 is ground'}};
+  const file=join(root,'web/bakeoff/generated/lakeview-sheil-park/world.json');await writeFile(file,JSON.stringify(manifest));
+  const c=await blockContract(root,'lakeview-ladder'),frame=new LocalFrame(41.943,-87.666);
+  assert.deepEqual(Object.values(c.scenes).map(v=>v.camera.eye[2]),[40,150,600]);
+  for(const v of Object.values(c.scenes)){const a=frame.local(...v.camera.eye),b=frame.local(...v.camera.target);assert.ok(Math.abs(b[0]-a[0]+100)<1e-6);assert.ok(Math.abs(b[1]-a[1])<1e-6);assert.equal(v.camera.fov,50);assert.equal(v.templateScene,'lakeview');}
+  await writeFile(file,JSON.stringify({frame:{...manifest.frame,vertical:'unknown'}}));await assert.rejects(blockContract(root,'lakeview-ladder'),/flat-ground/);
  }finally{await rm(root,{recursive:true});}
 });

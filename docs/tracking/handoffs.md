@@ -388,3 +388,9 @@ Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: 
 A3 protocol-only update: [paired preferences](../review/paired-preference-protocol.md) proposed beside GRADING §M (six balanced judgments, identity/position controls; not validated reliability or a gate change). [NYC audit](../review/nyc-wrongness-audit-protocol.md) retains five fixed cells/taxonomy/counting and adds sceneBudget=1 web measurement; Midtown result unknown pending registered scene/data. No captures, code or scoring.
 
 Used: GRADING.md §§M/N; archetypes.md; scene-budget-variant.md. Mock: future registered approved pair targets. Deviation: protocols only, unvalidated proposed repetition thresholds.
+
+### 2026-10-08 — A3 → A7/A10/A2/5A: native/web matching limits
+
+[Native/web comparison](../review/native-vs-web-matched-comparison.md): requested-pose/date pairs reviewed with six balanced presentation orders, but resolved native eye +0.16 m, unmatched exposure/wind and noisy native600 exclude every pair from fully matched acceptance. Exploratory native preferences, saturation ties at40/150; no platform/gate gain. Protocol limitations (same context, sequential rather than spatial A/B, recognizable identities) disclosed. No captures/code.
+
+Used: native BEFORE evidence and paired protocol. Mock: calibration 06-sloans. Deviation: unmatched inputs; no accepted matched score.
