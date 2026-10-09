@@ -2,7 +2,9 @@
 
 The repository is the only source of truth. Chat memory, outside packs and informal reports are not build authority until their decisions, status and evidence are filed here. Local ignored images/data must match the repository’s recorded paths/hashes; if absent, record the missing input. Source-document suggestions are not permission to expand a task.
 
-**Read in order:** [STATE.md](STATE.md) → [INDEX.md](INDEX.md) → [INTEGRATION.md](INTEGRATION.md) → the relevant feature row and its linked spec sections / [MOCKS.md](MOCKS.md) entries. Read the applicable lane rules and newest [handoff](handoffs.md) before acting. INDEX is the input inventory; INTEGRATION is implementation evidence; MOCKS is visual-reference evidence; STATE is the current handover. Keep history in handoffs and reports, not competing state files.
+**Read first:** [R’s dated decisions](DECISIONS.md), then the [repository index](../INDEX.md) and [complete mock registry](MOCKS.md). Read every research document and mock for each affected feature, not only the two familiar calibration frames; list them in the Used / Mock / Deviation evidence line. A report without feature research/mock references is incomplete. Current decisions supersede conflicting historical gate/process wording.
+
+**Continue in order:** [STATE.md](STATE.md) → [INDEX.md](INDEX.md) → [INTEGRATION.md](INTEGRATION.md) → the relevant feature row and its linked spec sections / [MOCKS.md](MOCKS.md) entries. Read the applicable lane rules and newest [handoff](handoffs.md) before acting. INDEX is the input inventory; INTEGRATION is implementation evidence; MOCKS is visual-reference evidence; STATE is the current handover. Keep history in handoffs and reports, not competing state files.
 
 | Status | Required proof |
 |---|---|

@@ -4,6 +4,8 @@ The single list of R's decisions, newest first, one line each: date, decision, w
 
 ## 2026-10-09
 
+- **Permanent decisions and reference rule (R):** [dated decision register](../tracking/DECISIONS.md#2026-10-09--r) records web/native roles, Builder product scope, revised ship bar, lossless versus paired-score gates, city-tree data, process cut, owner-controlled shadow reach and private/external legal boundary. Read it first; before every task read all research/mocks for the touched features and cite Used / Mock / Deviation. Binding rule mirrored in AGENTS.md and CLAUDE.md.
+
 - **vegetation-v1 explicit approval (R):** approved 9 Oct 2026 as a foliage target for every block. Create its missing STATUS from README/addendum limits; authored values remain targets, not measurements. Supersedes the earlier conditional filing hold. Record partial native palette/shape references without inventing full consumption or acceptance. Other related packs are inventoried for scoped approval recommendations only; no status changes to them.
 
 - **Exp1 coverage attribution correction (R relaying A10):** the 600 m layered coverage loss was a capture loading race, not a variant defect. Preserve the nine original 2/5 foliage grades (7e800f7), correct current trackers/restarts, require fully loaded future pairs; no recapture or new score claimed. Crown-shape approval and single-species restart order remain unchanged.
