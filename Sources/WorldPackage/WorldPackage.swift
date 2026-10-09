@@ -39,15 +39,18 @@ public enum WorldPackage {
         public var lightStates: [(name: String, date: Date)]
         /// Generator version string recorded in world.json (e.g. the git commit).
         public var generatorVersion: String
+        /// External export-only surface companion destination; nil leaves legacy files untouched.
+        public var surfaceRolesTo: URL?
         /// The map data layer (nil = left out of the package).
         public var mapLayer: MapLayer.Options?
 
         public init(recipe: WorldRecipe, lightStates: [(name: String, date: Date)], generatorVersion: String = "dev",
-                    mapLayer: MapLayer.Options? = .init()) {
+                    mapLayer: MapLayer.Options? = .init(), surfaceRolesTo: URL? = nil) {
             self.recipe = recipe
             self.lightStates = lightStates
             self.generatorVersion = generatorVersion
             self.mapLayer = mapLayer
+            self.surfaceRolesTo = surfaceRolesTo
         }
     }
 
@@ -63,8 +66,19 @@ public enum WorldPackage {
     /// Generates the world and writes the package into `out` (replacing what was there).
     @discardableResult
     public static func export(areaDirectory: URL, to out: URL, options: Options) throws -> Summary {
-        let build = try WorldBuild.generate(areaDirectory: areaDirectory, recipe: options.recipe)
-        let reduced = try build.reducedDetail()
+        // Refuse companions inside the legacy package (including symlink aliases).
+        if let destination = options.surfaceRolesTo {
+            let package = out.resolvingSymlinksInPath().standardizedFileURL.path
+            let companion = destination.resolvingSymlinksInPath().standardizedFileURL.path
+            guard companion != package && !companion.hasPrefix(package + "/") && !package.hasPrefix(companion + "/") else {
+                throw SurfaceCompanion.Error.overlappingDestination
+            }
+        }
+        let (build, reduced) = try SurfaceCapture.$enabled.withValue(options.surfaceRolesTo != nil) {
+            let build = try WorldBuild.generate(areaDirectory: areaDirectory, recipe: options.recipe)
+            return (build, try build.reducedDetail())
+        }
+        var annotations: [String: [[UInt16]]] = [:]
         let palette = reduced.palette
         // LOD1 continues LOD0's palette, so every LOD0 slot keeps its number.
         precondition(Array(palette.colors.prefix(build.scene.palette.colors.count)) == build.scene.palette.colors)
@@ -146,6 +160,11 @@ public enum WorldPackage {
             let base = "chunks/\(c0.id)"
             files["\(base)/lod0.glb"] = try chunkGLB(c0, origin: origin, featureIndex: index, name: "chunk \(c0.id) lod0")
             files["\(base)/lod1.glb"] = try chunkGLB(c1, origin: origin, featureIndex: index, name: "chunk \(c0.id) lod1")
+            if options.surfaceRolesTo != nil {
+                for (lod, chunk) in [(0, c0), (1, c1)] {
+                    annotations["\(base)/lod\(lod).glb"] = try [chunk.staticMesh, chunk.waterMesh].filter { !$0.isEmpty }.map(SurfaceCompanion.triangles)
+                }
+            }
             func ranges(_ list: [FeatureRange], _ id: String) -> [[Int]] { list.filter { $0.feature == id }.map { [$0.start, $0.count] } }
             let features: [[String: Any]] = featureIDs.enumerated().map { i, id in
                 var f: [String: Any] = ["index": i, "id": id, "kind": kind(id),
@@ -383,6 +402,14 @@ public enum WorldPackage {
             try fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             try data.write(to: url)
             summary.bytes += data.count
+        }
+        if let destination = options.surfaceRolesTo {
+            let witnesses = build.features.buildings.map { b -> [String: Any] in
+                ["feature": b.ref.description, "tags": b.tags.filter {
+                    ["building:material", "roof:material", "building:colour", "roof:colour"].contains($0.key)
+                }]
+            }
+            try SurfaceCompanion.write(files: files, annotations: annotations, witnesses: witnesses, to: destination)
         }
         summary.files = files.count
         return summary

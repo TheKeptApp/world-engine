@@ -205,7 +205,7 @@ extension BuildingGenerator {
         // Cornice along the street wall of flat-roofed masses.
         if facade.cornice == true, c.envelope == nil, g.roofShape == .flat {
             let top = c.H + c.parapet
-            m.paint = Paint(slot: c.trim.slot, shade: 0.95)
+            m.paint = c.trim.shaded(0.95)
             let start = m.positions.count
             // Around mapped street bays too, so the cornice wraps their faces.
             let bayFaces = Set(c.mappedBays.flatMap { $0 })
@@ -247,7 +247,7 @@ extension BuildingGenerator {
                 guard len >= 2.5, let gable = Self.gable(env.profile(p, p + dir * len), length: len, eave: c.H), gable.peak - c.H >= 1.6 else { continue }
                 if facade.halfTimber == true, near {
                     // Dark timber: the family trim when it has one (Tudor trim is the timber brown).
-                    m.paint = c.grammar.details?.trim != nil ? c.trim : Paint(slot: c.door.slot, shade: 0.8)
+                    m.paint = c.grammar.details?.trim != nil ? c.trim : c.door.shaded(0.8).annotated(.trim, familyColour: true)
                     let half = (gable.s1 - gable.s0) / 2
                     m.addWallQuad(origin: p, dir: dir, normal: n, s0: gable.s0 + 0.25, s1: gable.s1 - 0.25, z0: c.H, z1: c.H + 0.2, offset: 0.04)
                     for sx in [-1.0, 1.0] {
@@ -280,7 +280,7 @@ extension BuildingGenerator {
                     m.paint = c.glass
                     m.addWallQuad(origin: p, dir: dir, normal: n, s0: s0, s1: s1, z0: c.F + 0.35, z1: c.F + 2.75, offset: 0.03)
                 }
-                m.paint = Paint(slot: c.door.slot, shade: 0.9)
+                m.paint = c.door.shaded(0.9).annotated(.trim, familyColour: true)
                 m.addWallQuad(origin: p, dir: dir, normal: n, s0: 0.2, s1: len - 0.2, z0: c.F + 2.95, z1: c.F + 3.45, offset: 0.05)
             }
         }

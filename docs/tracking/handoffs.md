@@ -394,3 +394,7 @@ Used: GRADING.md §§M/N; archetypes.md; scene-budget-variant.md. Mock: future r
 [Native/web comparison](../review/native-vs-web-matched-comparison.md): requested-pose/date pairs reviewed with six balanced presentation orders, but resolved native eye +0.16 m, unmatched exposure/wind and noisy native600 exclude every pair from fully matched acceptance. Exploratory native preferences, saturation ties at40/150; no platform/gate gain. Protocol limitations (same context, sequential rather than spatial A/B, recognizable identities) disclosed. No captures/code.
 
 Used: native BEFORE evidence and paired protocol. Mock: calibration 06-sloans. Deviation: unmatched inputs; no accepted matched score.
+
+## 2026-10-08 — R-authorized A4 surface companion → P2 / A1 / A2
+
+R explicitly authorized A4 to implement the export-only companion from `989f3c9`, including the minimal generator changes P2 owns. Scope: semantic paint annotations only in BuildingGenerator/BuildingFacades/BuildingDetails, an opt-in task-local recorder in WorldMesh, and separate companion serialization/CLI in WorldPackage/worldbake. No native renderer, water, profile/look values or web viewer changes. P2 should review semantic callsites after the credit reset; A1 owns any future adaptive-packer remapping, and A2 owns optional companion consumption. Detailed touched-file list, fixtures and measured evidence: [implementation report](../execution/surface-role-implementation.md). No score or palette-trial delivery claimed.

@@ -65,3 +65,9 @@ Shared height near-plane policy plus A2 crownV3 query/import/install/metadata/fi
 [Post-near-plane blind review](../review/crown-v3-ladder-scores.md), delivery c8c361d / capture 1580115: 16 PNGs, 12 unique hashes; OFF repeats and identical v2 600 m aliases scored once. Sloan OFF/v2 standard/v2 floor/v3 standard foliage and overall 2 at 40/150/600 m; lake bands gone, historical 600 m overall 1 → 2 from projection correction. v3 does not reach foliage 3; clearer scaffolds but thin repeated sprays, no whole-point aspect gain/drop versus v2. Lakeview 600 m overall 1, foliage 2, ground 1; no matched prior score, reject-rule comparison pending. Sky N/A; popping untested. No promotion, code, captures or builds.
 
 Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: unobservable sky; motion and matched hold-out comparisons pending.
+
+## Surface-role companion (R-authorized A4 exporter work)
+
+| Component | Design/input | Native | Web | Evidence / remaining work |
+|---|---|---|---|---|
+| Opt-in surface roles | [989f3c9 design](../execution/surface-role-attribute.md); R implementation request; mock N/A (metadata only) | ignores external file; paint channels/rendering unchanged | consumer not implemented; A2 palette/viewer untouched | `WorldPackage.Options.surfaceRolesTo` / `worldbake --surface-roles-to`; [implementation and touched files](../execution/surface-role-implementation.md). 90/90 tests and 20 reproduced hashes pass; clean-baseline/default/enabled package bytes and normalized archives match for both areas. Companion sizes 1,089,142 / 3,847,048 bytes. Exporter component only; renderer integration and palette trial remain pending. |

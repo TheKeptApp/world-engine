@@ -194,7 +194,7 @@ extension BuildingGenerator {
         for sx in [-1.0, 1.0] {
             m.addCleanFace([q(sx * hw, 0, z0), q(sx * hw, depth, z0), q(sx * hw, depth, zv), q(sx * hw, 0, zv)], facing: D(dir * sx))
         }
-        m.paint = c.grammar.facade?.gablePanel == true || c.grammar.facade?.halfTimber == true ? Paint(slot: c.panel.slot, shade: 0.97) : c.wall
+        m.paint = c.grammar.facade?.gablePanel == true || c.grammar.facade?.halfTimber == true ? c.panel.shaded(0.97) : c.wall
         m.addCleanFace([q(-hw, depth, zv), q(hw, depth, zv), q(0, depth, peak)], facing: D(n))
         // Roof: two steep planes from the front rake back to the wall (or under the main roof).
         m.paint = c.roof
@@ -204,7 +204,7 @@ extension BuildingGenerator {
             m.addCleanFace(face, facing: sceneUp + D(dir * sx))
             if near {
                 // Underside (seen only through the overhang).
-                m.paint = Paint(slot: c.trim.slot, shade: 0.9)
+                m.paint = c.trim.shaded(0.9)
                 m.addCleanFace(face, facing: -sceneUp - D(dir * sx))
                 m.paint = c.roof
             }
@@ -380,7 +380,7 @@ extension BuildingGenerator {
         }
         // Fascia band under the cap (near).
         if near {
-            m.paint = Paint(slot: c.trim.slot, shade: 0.95)
+            m.paint = c.trim.shaded(0.95)
             for f in faces {
                 m.addWallQuad(origin: f.0, dir: f.1, normal: f.2, s0: 0, s1: f.4, z0: top - 0.24, z1: top, offset: 0.03)
             }

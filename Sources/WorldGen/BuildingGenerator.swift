@@ -299,10 +299,10 @@ public struct BuildingGenerator: Sendable {
             }
         }
         g.colors = tuple
-        let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03)))
-        let trim = Paint(slot: palette.slot(hex: tuple[1]))
-        let doorPaint = Paint(slot: palette.slot(hex: tuple[2]))
-        let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04)))
+        let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03))).annotated(.wall, material: b.tags["building:material"], mappedColour: b.tags["building:colour"].flatMap(Self.hexColor) != nil, familyColour: true)
+        let trim = Paint(slot: palette.slot(hex: tuple[1])).annotated(.trim, familyColour: true)
+        let doorPaint = Paint(slot: palette.slot(hex: tuple[2])).annotated(.door, familyColour: true)
+        let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04))).annotated(.roof, material: b.tags["roof:material"], mappedColour: b.tags["roof:colour"].flatMap(Self.hexColor) != nil, familyColour: true)
         // Brick families stand on a stone base course in the trim (stone) colour (house-contrast-v1 paint-overs).
         let foundation = Paint(slot: brickWalls ? palette.slot(hex: tuple[1]) : palette.named("foundation"))
         let glassHex = archetype.map { $0.variants[g.colorSet % $0.variants.count].glass } ?? contrastType?.glass
@@ -310,7 +310,7 @@ public struct BuildingGenerator: Sendable {
         var sideWall: Paint?
         if let sides = facade.sideWall, !sides.isEmpty, b.tags["building:colour"] == nil {
             var sr = b.ref.random("side-wall")
-            sideWall = Paint(slot: palette.slot(hex: sides[Int(sr.next() % UInt64(sides.count))]), shade: wallPaint.shade)
+            sideWall = Paint(slot: palette.slot(hex: sides[Int(sr.next() % UInt64(sides.count))]), shade: wallPaint.shade).annotated(.wall, material: b.tags["building:material"], familyColour: true)
         }
 
         // Roof shape: OSM roof:shape, else type/outbuilding mix, then footprint constraints.
@@ -425,8 +425,8 @@ public struct BuildingGenerator: Sendable {
         let near = lod == .near
         let streetFacing = streetFacingEdges(ring, front: g.frontEdge)
         let wallFor: (Int) -> Paint = { e in sideWall != nil && !streetFacing.contains(e) ? sideWall! : wallPaint }
-        let panel = Paint(slot: palette.slot(hex: panelHex))
-        let gablePaint: Paint? = (facade.gablePanel == true || facade.halfTimber == true) ? Paint(slot: panel.slot, shade: 0.97) : nil
+        let panel = Paint(slot: palette.slot(hex: panelHex)).annotated(.wall, familyColour: true)
+        let gablePaint: Paint? = (facade.gablePanel == true || facade.halfTimber == true) ? panel.shaded(0.97) : nil
 
         // Walls in bands so baked AO has vertices to live on: base contact, eave shadow.
         for (ri, wallRing) in ([fp.outer] + fp.holes).enumerated() {
@@ -514,7 +514,7 @@ public struct BuildingGenerator: Sendable {
                                mappedBays: facade.mappedBays == true && (role == .house || role == .block)
                                    ? mappedBays(ring, front: g.frontEdge, streetFacing: streetFacing) : [])
         if brickWalls, let t = contrastType, near {
-            ctx.reveal = Paint(slot: palette.slot(hex: t.soffit))
+            ctx.reveal = Paint(slot: palette.slot(hex: t.soffit)).annotated(.trim, familyColour: true)
             ctx.stoneOpenings = true
         }
         if lod <= .mid {
@@ -776,7 +776,7 @@ public struct BuildingGenerator: Sendable {
             m.paint = c.door
             m.addWallQuad(origin: p, dir: dir, normal: n, s0: s0, s1: s0 + w, z0: F, z1: F + 2.12, offset: 0.04)
             if near {
-                m.paint = Paint(slot: c.door.slot, shade: 0.85)
+                m.paint = c.door.shaded(0.85)
                 for k in 1..<4 {
                     let z = F + 2.12 * Double(k) / 4
                     m.addWallQuad(origin: p, dir: dir, normal: n, s0: s0 + 0.05, s1: s0 + w - 0.05, z0: z - 0.02, z1: z + 0.02, offset: 0.05)
@@ -805,7 +805,7 @@ public struct BuildingGenerator: Sendable {
         if near, let sh = details?.shutters, let cols = sh.colours {
             var sr = b.ref.random("shutters")
             if sr.chance(sh.chance ?? 1), let hex = HouseDetailColours.pick(cols, ref: b.ref, salt: "shutter-colour") {
-                shutter = Paint(slot: palette.slot(hex: hex))
+                shutter = Paint(slot: palette.slot(hex: hex)).annotated(.trim, familyColour: true)
             }
         }
         for e in 0..<ring.count {
@@ -956,7 +956,7 @@ public struct BuildingGenerator: Sendable {
         }
     }
 
-    func roofPaint(_ roof: Paint, _ trim: Paint, _ style: String) -> Paint { style == "canopy" ? trim : roof }
+    func roofPaint(_ roof: Paint, _ trim: Paint, _ style: String) -> Paint { style == "canopy" ? trim.annotated(.roof, familyColour: true) : roof }
 
     /// R1: a soft occlusion strip on the ground around the walls (contact with the lawn).
     func addContactSkirt(_ ring: Ring, palette: Palette, into m: inout MeshBuffers) {

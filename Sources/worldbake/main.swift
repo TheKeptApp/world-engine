@@ -9,7 +9,7 @@
 //   worldbake ring-stats <dir> --inner-width M --inner-height M
 //   worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID]
 //                    [--season N] [--version STRING]      (shared world package, see WorldPackage)
-//                    [--margin M] [--map-diagnostics FILE] [--previous PKG]  (map data layer: road margin beyond the
+//                    [--margin M] [--map-diagnostics FILE] [--previous PKG] [--surface-roles-to EXTERNAL-DIR]  (map data layer: road margin beyond the
 //                                       area, confidence features for calibration, ID migration from the previous package)
 //   worldbake fetch <dir> --layers relations [--margin M]  (turn restrictions and transit routes for the map layer)
 //
@@ -72,7 +72,7 @@ worldbake stats <dir>
 worldbake pack <existing-package-dir> <new-output-dir>
 worldbake datamap <dir> <out.png> [--scale PX_PER_M]
 worldbake ring-stats <dir> --inner-width M --inner-height M
-worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S] [--margin M] [--map-diagnostics FILE] [--previous PKG]
+worldbake export <dir> <out-dir> --date ISO [--state NAME=ISO ...] [--focus S,W,N,E] [--profile ID] [--season N] [--version S] [--margin M] [--map-diagnostics FILE] [--previous PKG] [--surface-roles-to EXTERNAL-DIR]
 worldbake fetch <dir> --layers relations [--margin M]
 worldbake compose <dir> --date ISO [--focus S,W,N,E]
 worldbake fetch <dir> --layers context [--building-band-km 1.5|1.0|0.5] [--max-mb 25] [--probe 1] [--split 1] [--no-split 1] [--cache-dir PATH] [--dry-run 1]
@@ -201,7 +201,8 @@ do {
         mapOptions.previousPackage = args.options["previous"].map { URL(fileURLWithPath: $0, isDirectory: true) }
         let s = try WorldPackage.export(areaDirectory: dir, to: out, options: .init(recipe: recipe, lightStates: states,
                                                                                     generatorVersion: args.options["version"] ?? "dev",
-                                                                                    mapLayer: mapOptions))
+                                                                                    mapLayer: mapOptions,
+                                                                                    surfaceRolesTo: args.options["surface-roles-to"].map { URL(fileURLWithPath: $0, isDirectory: true) }))
         print(String(format: "Wrote %@: %d files, %.1f MB, %d chunks, %d/%d triangles (lod0/lod1), %d instances, %d tuft candidates, %.1f s",
                      out.path, s.files, Double(s.bytes) / 1_048_576, s.chunks, s.triangles[0], s.triangles[1], s.instances, s.tufts,
                      Date().timeIntervalSince(start)))

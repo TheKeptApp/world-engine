@@ -37,6 +37,9 @@ public struct Paint: Hashable, Sendable {
         public static let paving = Flags(rawValue: 1024)
     }
 
+    /// Optional semantic word, excluded from paint equality/hash and packed rendering.
+    public var surface: UInt16 = 0
+
     public var slot: Int
     public var shade: Float
     public var flags: Flags
@@ -49,12 +52,31 @@ public struct Paint: Hashable, Sendable {
         self.sway = sway
     }
 
+    public func annotated(_ role: SurfaceRole, material: String? = nil, mappedColour: Bool = false,
+                          familyColour: Bool = false) -> Paint {
+        var p = self
+        if SurfaceCapture.enabled { p.surface = SurfaceCapture.word(role: role, material: material, mappedColour: mappedColour, familyColour: familyColour) }
+        return p
+    }
+    public func shaded(_ shade: Float) -> Paint { var p = self; p.shade = shade; return p }
+    public static func == (a: Paint, b: Paint) -> Bool {
+        a.slot == b.slot && a.shade == b.shade && a.flags == b.flags && a.sway == b.sway
+    }
+    public func hash(into h: inout Hasher) { h.combine(slot); h.combine(shade); h.combine(flags); h.combine(sway) }
+
     public var packed: SIMD4<Float> { SIMD4(Float(slot), shade, Float(flags.rawValue), sway) }
 }
 
 /// Plain triangle-mesh data, independent of any renderer. RealityKit upload happens elsewhere.
 /// Triangles are counter-clockwise when seen from the side their normal points to.
 public struct MeshBuffers: Sendable, Equatable {
+    /// Empty in native/default generation; per vertex only to survive append/partition.
+    public var surfaceWords: [UInt16] = []
+    public static func == (a: MeshBuffers, b: MeshBuffers) -> Bool {
+        a.positions == b.positions && a.normals == b.normals && a.paints == b.paints && a.extras == b.extras
+        && a.indices == b.indices && a.uvs == b.uvs && a.paint == b.paint && a.extra == b.extra
+    }
+
     public var positions: [SIMD3<Float>] = []
     public var normals: [SIMD3<Float>] = []
     /// Packed `Paint` per vertex (see `Paint.packed`).
@@ -95,6 +117,7 @@ public struct MeshBuffers: Sendable, Equatable {
         positions.append(p)
         normals.append(n)
         paints.append(paint.packed)
+        if SurfaceCapture.enabled { surfaceWords.append(paint.surface) }
         extras.append(extra)
         if !uvs.isEmpty { uvs.append(.zero) }
         return UInt32(positions.count - 1)
@@ -107,6 +130,7 @@ public struct MeshBuffers: Sendable, Equatable {
         positions.append(p)
         normals.append(n)
         paints.append(paint.packed)
+        if SurfaceCapture.enabled { surfaceWords.append(paint.surface) }
         extras.append(extra)
         uvs.append(uv)
         return UInt32(positions.count - 1)
@@ -127,6 +151,10 @@ public struct MeshBuffers: Sendable, Equatable {
             positions.append(SIMD3(q.x, q.y, q.z))
         }
         for n in other.normals { normals.append(simd_normalize(normalMatrix * n)) }
+        if !surfaceWords.isEmpty || !other.surfaceWords.isEmpty {
+            if surfaceWords.count < Int(base) { surfaceWords.append(contentsOf: repeatElement(0, count: Int(base) - surfaceWords.count)) }
+            surfaceWords.append(contentsOf: other.surfaceWords.isEmpty ? Array(repeating: 0, count: other.vertexCount) : other.surfaceWords)
+        }
         paints.append(contentsOf: other.paints)
         extras.append(contentsOf: other.extras)
         if !uvs.isEmpty || !other.uvs.isEmpty {
@@ -147,6 +175,7 @@ public struct MeshBuffers: Sendable, Equatable {
                 mesh.positions.append(positions[i])
                 mesh.normals.append(normals[i])
                 mesh.paints.append(paints[i])
+                if !surfaceWords.isEmpty { mesh.surfaceWords.append(surfaceWords[i]) }
                 mesh.extras.append(extras[i])
                 if !uvs.isEmpty { mesh.uvs.append(uvs[i]) }
                 map[i] = Int32(mesh.positions.count - 1)
@@ -168,7 +197,10 @@ public struct MeshBuffers: Sendable, Equatable {
 
     /// Sets the paint of every vertex from `start` on.
     public mutating func repaint(from start: Int, _ p: Paint) {
-        for i in start..<paints.count { paints[i] = p.packed }
+        for i in start..<paints.count {
+            paints[i] = p.packed
+            if !surfaceWords.isEmpty { surfaceWords[i] = p.surface }
+        }
     }
 
     /// Sets the AO of every vertex from `start` on with a function of its position.
