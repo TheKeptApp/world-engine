@@ -266,3 +266,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | Fresh sessions; whole-point vectors retained | Overall mostly2; tableA preferred overlot6/6 at40/150/600; overc8c361d6/6 at40/150,4–2 inconclusive at600 | Lakeview150 tableA overdefault6/6; overall default3/2/2 vs tableA3/2/3 | [All aspects and raw counts](../review/palette-b-paired-scores.md). Grader variation disclosed; no promotion/gate pass. |
+
+## Light trial — 9 Oct 2026, no gate change
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| OFF/ON light trial; three fresh sessions | Light/materials/overall ON preferred6/6 at40/150m;600m all ties. Whole-point overall2 throughout | Lakeview150m overall tie6/6, overall2; light/materials2ON+4ties inconclusive | [Report](../review/light-trial-paired-scores.md). All6 identical controls pass; no promotion. |

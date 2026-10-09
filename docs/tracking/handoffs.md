@@ -459,3 +459,9 @@ Used: world-edge-options.md Recommendation and first test; native ContextRing re
 Prototype merged as `0543913`; documentation-only main movement was rebased, both add-only handoff entries preserved,14 affected tests passed again. [Post-merge scoreboard](../../web/bakeoff/evidence/context-buildings/post-merge-scoreboard.md) ran the existing default-off shipping renderer on0543913:24/24 frames completed, all24 floor/standard budget failures,7/8 wide blank failures,6 tunnel detector flags (Kenilworth/Winnetka, all heights). No other detector failures. Historical comparison marks all rows non-comparable, so no matched delta or non-regression claim. No scores or gate/default promotion. [Export QA](../../web/bakeoff/evidence/context-buildings/export-validation.json):398,070 candidate vertex entries valid; repeated camera-height exports hash-identical. No rendering changes in this result-only filing.
 
 Used: world-edge-options.md Recommendation and first test; existing world-scoreboard contract. Mock: calibration-v2 frames06-sloans/01-lakeview. Deviation: bounded default-off prototype; floor/coverage/phone/streaming limits remain.
+
+### 2026-10-09 — A3 → A2/A4/A5: light scored; far geometry pending
+
+[Light-trial blind review](../review/light-trial-paired-scores.md): three fresh sessions; six identical controls pass. ON wins light/materials/overall 6/6 at Sloan 40/150 m; Sloan 600 m ties all four aspects. Lakeview 150 m overall ties 6/6; light/materials 2 ON + 4 ties, inconclusive. Saturation ties throughout; no OFF→ON whole-point movement. Default off; experimental lower fill remains unapproved; no promotion or gate pass. A4/A5 far-geometry 600 m review pending matched delivered frames and hashes; same protocol.
+
+Used: A2 light-trial evidence and paired protocol0bd9d52. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.

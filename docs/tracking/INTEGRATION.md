@@ -86,3 +86,9 @@ Source: [spatial-order-and-shadow-diagnosis.md §Ledger text for A3](../executio
 A10 repaired prototype ordering: all twelve fixed bakeoff/shipping comparisons and twelve repeat controls exact 0/0. Default route/shipping sources and all shadow submissions unchanged. Ordering preservation regresses Lakeview 150 m draws to 181 bakeoff/234 shipping, and every 600 m view exceeds 100; no floor promotion. Reconciled Sloan/Lakeview shadow breakdown attributes 560,465–996,184 submissions to broad LOD0 chunks/instance groups. Existing-frustum individual-bounds model is 24,383–46,338; back-face/LOD/proxy models and visible-risk limits are documented above. Shadow models remain unimplemented/unqualified; reach unchanged and any change requires R. A3 applies this text to the shared ledger.
 
 Used: spatial-cells-prototype.md §§Corrected capture gate, Unchanged shadow cost; spatial-cells-design.md §Renderer responsibilities. Mock: retained matched default ladder/scoreboard frames. Deviation: shadow usefulness is conservative geometric modeling, not shadow depth ownership or a native measurement.
+
+### A2 light trial — blind visual evidence, 9 Oct 2026
+
+[Light-trial blind review](../review/light-trial-paired-scores.md): three fresh sessions; six identical controls pass. ON wins light/materials/overall 6/6 at Sloan 40/150 m; Sloan 600 m ties all four aspects. Lakeview 150 m overall ties 6/6; light/materials 2 ON + 4 ties, inconclusive. Saturation ties throughout; no OFF→ON whole-point movement. Default off; experimental lower fill remains unapproved; no promotion or gate pass. A4/A5 far-geometry 600 m review pending matched delivered frames and hashes; same protocol.
+
+Used: A2 light-trial evidence and paired protocol0bd9d52. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.
