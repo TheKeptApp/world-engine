@@ -53,4 +53,8 @@ V1's fixed-order ring was rejected; V2's Lakeview attribution-strip control was 
 
 Main advanced during work. The prototype rebased cleanly; all affected tests, the actual preview route and all six comparisons were rerun. A3 has 600 m before/after frames plus repeat and isolated variants; [review.html](review.html) uses 390 CSS-pixel panels with responsive stacking. No scores, no new native capture, no public deployment or phone installation.
 
-The post-merge default-off scoreboard is pending until the implementation merge completes. It exercises shipping defaults, not this opt-in stack.
+Implementation merged as `d82a68de8ed53e9f28f5671a078a8630c2c57a0b`. [Validation manifest](validation.json) records the 35 focused tests, preview smoke and accepted source-hash checks.
+
+The [post-merge shipping-default scoreboard](post-merge-scoreboard.md) / [JSON](post-merge-scoreboard.json) completed all 24 frames across eight held areas at that commit, with stable inputs. Status is `completed-with-failures`: all 24 fail floor and standard budgets; seven of eight 600 m views fail blank-ground; Kenilworth and Winnetka retain tunnel flags. Its technical comparison to `0543913` reports no added, removed or changed rows. This is not pixel identity, a human score or a gate pass. Kenilworth's first capture timed out waiting for readiness after 180 seconds; the normal bounded retry completed all three frames. Total wall time including shared-lock waits was 1,433.9 seconds.
+
+This scoreboard exercises shipping defaults, not the opt-in A10/water/ring stack. For example its Sloan600 is 502,798 main triangles /285 draws; the separate matched opt-in run above is 353,611 /82. These different configurations must not be combined or presented as a direct before/after. No new native/device qualification or default promotion.
