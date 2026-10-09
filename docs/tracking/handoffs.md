@@ -519,3 +519,7 @@ Used: shadow-floor-candidate.md native boundary and finite-wind evidence; curren
 ### 2026-10-09 — A3 → A2: ground trial scored; control failure retained
 
 [Ground-trial paired review](../review/ground-trial-paired-scores.md),978396b/evidence77e9b12: three fresh sessions,7pairs/all4hold-outs; freshf7fdfe1 OFF controls exact, paired costs unchanged. Overall2→2 everywhere; OFF overall6/6 at Sloan40/150,Wilmette150,West Highland; Sloan600ties6/6,Lakeview4OFF/2ties,Greenville2OFF/4ties inconclusive. One identical control fails ground/saturation: all pooled preferences for those aspects unreliable; raw votes retained. Other control votes pass, but false ground rationale limits confidence. No Ground/Materials2→3, no promotion; defaultOFF, all views remain over draw budgets. R decisions filed with A2 provenance.
+
+### 2026-10-09 — A4 delivered default-off far-parent integration and scoreboard
+
+Authorized five-file comparison: four implementation files identical to A10/main; only A4 report corrections retained. Both lanes’ tracker entries preserved. Merge b95e060; A10 exact consumer 52/52 and A4 21/21 overlapping sets pass. Existing post-merge scoreboard completed 24 frames, floor0/24 and standard0/24; default-off floor remains failed, no scores/device promotion. [Full delivery](../execution/simplified-far-parent.md). No native edits; 5A plan and withdrawn A4 native approval remain. Own locks released; standing by.

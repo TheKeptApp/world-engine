@@ -146,3 +146,11 @@ Standing by for the new implementation-file conflict decision; no additional wor
 ## Five-file resolution authorized and verified
 
 R authorized the new five-file resolution. All four implementation files are byte-identical to main/A10 43008a7; main bytes retained. This report contains only later A4 corrections and historical stop/recheck evidence; no A10-only changes were found. Both agents’ dated tracker entries and A3’s later paired-score filing were preserved. Exact A10 consumer set passed 52/52 and A4 producer set 21/21 (overlapping sets, not 73 unique tests). Both ran with verified owned heavy locks and fresh load below 25. Default remains off; no native edits. Existing scoreboard follows the merge.
+
+## Completed main delivery and existing scoreboard
+
+The authorized resolution merged/pushed as b95e060, default off. The existing scripts/world-scoreboard.sh then completed all 24 frames across eight held areas in 601.196 seconds, status completed-with-failures; final source/input hashes remained stable. Per-child actual owned locks and fresh load <25 were verified through an external admission-only launcher; dependencies used the local offline cache. Nine admissions (build plus eight areas), maximum admission load 9.87; every wrapper released its lock. No native files edited by A4.
+
+Default shipping route: floor 0/24 and provisional standard 0/24 budget passes. Failure counts by recorded label: {'budget-floor': 24, 'budget-standard': 24, 'blank-ground': 7}. These default-off measurements are not the opt-in far-parent counters or a device qualification. Full source/input hashes, per-frame counters and detector limits are in [postmerge-scoreboard.json](../../web/bakeoff/evidence/spatial-cells/far-parent/postmerge-scoreboard.json); readable table and owned-lock admission evidence are alongside it. A3's subsequently filed far-parent paired review reports no visible loss but overall 2→2, so no look promotion or ship-bar pass. Native plan stays with 5A; production memory debt remains.
+
+Four more qualifying areas are unavailable in the held inventory; no new datasets or substitute areas were created. The requested delivery and scoreboard run are complete; A4 stands by with no additional work.
