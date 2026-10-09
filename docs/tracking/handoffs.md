@@ -412,3 +412,9 @@ R explicitly authorizes one push-guard exemption for ancestor `9712ae2` only, an
 A8 doc corrections: design bits 10–11 are independent colour provenance, 12–15 reserved zero; implementation report now says no supported material tag reached an annotated exported face. No exporter, consumer, look, viewer, native or test changes.
 
 Used: R’s 9 Oct one-time exemption; surface-role-companion-audit.md. Mock: none (docs/publication). Deviation: exact historical evidence-line exemption only.
+
+### 2026-10-09 — A4 publication verified; exemption consumed
+
+First push succeeded: remote main advanced 69f7141 → 0ae426c. Fresh fetch and ancestry checks confirm original 5a7fe5a, b1ccb50, 7202d39 and doc correction 1c6203c on remote main. Full preflight and push-time guard each checked 15 outgoing commits; the sole waiver was ancestor 9712ae2’s exact missing evidence-line error. The one-use adapter consumed its marker and cannot be reused; no permanent hook/config edit, force push or history rewrite. Subsequent pushes use the normal unchanged repository hook. Main advanced before publication; 69f7141 preserved without conflicts. No code/test changes in the doc correction, no heavy lock taken.
+
+Used: R’s 9 Oct scoped exemption and A8 surface-role audit. Mock: none (docs/publication). Deviation: single authorized historical evidence-line exemption, consumed.

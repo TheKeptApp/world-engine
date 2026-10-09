@@ -1,6 +1,6 @@
 # A4 — F01 package civil timezone
 
-Status: timezone validation PASS; 92/92 tests, all 20 road/static hashes unchanged, all three complete package comparisons pass. Remote publication remains blocked by the historical evidence-line guard.
+Status: timezone validation PASS; 92/92 tests, all 20 road/static hashes unchanged, all three complete package comparisons pass. Published on remote main 9 Oct 2026; original commit ancestry verified. R’s single authorized historical evidence-line exemption was consumed, with every other guard check enforced.
 
 Replaces the universal Denver display timezone with an optional `AreaManifest.timezone` IANA identifier. The exporter validates it through Foundation `TimeZone`; absent or invalid metadata exports the literal `unknown`. No longitude-to-zone approximation, network lookup, device-local timezone or demo fallback. Civil timezone metadata is authored for all eight currently held areas: Denver neighbourhoods America/Denver; Chicago-area municipalities America/Chicago; Greenville SC America/New_York. New areas must supply verified metadata or remain unknown. This changes display metadata only: UTC moments, geographic sun computation, geometry, palettes and rendering stay unchanged.
 
@@ -41,4 +41,6 @@ All eight manifest comparisons against the pre-fix tree differ only by this fiel
 
 `unknown` is an explicit unresolved status, not an IANA timezone identifier. No geographic inference or consumer behavior change is included.
 
-Post-integration fixture check: 2/2 timezone tests pass, 0.002 s, admission load 7.54; Sources/Tests/Data identical to the full checked tree. Commit-size guard passed. Fix commit b1ccb50; latest remote docs/tooling integrated without conflict. No task-owned heavy lock remains. Remote still lacks 5a7fe5a and publication is pending explicit permission for the historical evidence-line hook exemption.
+Post-integration fixture check: 2/2 timezone tests pass, 0.002 s, admission load 7.54; Sources/Tests/Data identical to the full checked tree. Commit-size guard passed. Fix commit b1ccb50; latest remote docs/tooling integrated without conflict. No task-owned heavy lock remains. At that validation checkpoint remote lacked 5a7fe5a; publication was pending explicit permission for the historical evidence-line hook exemption.
+
+Publication completed 9 Oct: fresh remote main 0ae426c contains 5a7fe5a, b1ccb50 and 7202d39. R authorized and consumed ONE exemption for ancestor 9712ae2 missing evidence line only; all other guard checks pass. Both A8 doc corrections are on main as 1c6203c. Newer remote 69f7141 preserved without conflicts; no source/test/data changes to the validated timezone fix. See dated handoff for the authorization and verification.
