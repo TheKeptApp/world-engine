@@ -444,3 +444,12 @@ A10 ordering diagnosis filed: twelve bakeoff/shipping comparisons and twelve rep
 Standing by for A2 light trial: pending landed, hash-identified frames; same paired protocol (0bd9d52), fresh independent sessions, randomized spatial A/B, repeats/identical controls and whole-point grades at Sloan 40/150/600 m plus Lakeview 150 m. No scoring before delivery; no promotion or unattended polling. Palette-B commit 1d11d76 already landed as 8f08c42 after conflict preservation and revalidation; not duplicated.
 
 Used: A10 diagnosis §Ledger text for A3; paired protocol 0bd9d52. Mock: retained matched control frames; next light trial uses the same registered Sloan/Lakeview targets. Deviation: filing and pending scoring scope only.
+### 2026-10-09 — A5 → A3/A2: mapped context masses and fresh-process capture repair
+
+R-authorized bakeoff only, default off. `export-context.swift` now exports mapped footprint extrusions with tag/levels/inferred-height provenance; `context-ring.js` allocates whole nearest masses under total 40k triangles/8 draws. No facades, extra shadows, invented footprints or buildings beyond the 500 m held band. No native/source-data edits. [Evidence](../../web/bakeoff/evidence/context-buildings/README.md), source hashes, matched manifests and 390px comparison page retained.
+
+600m Sloan/Lakeview/corrected Wilmette blank:20.25%/8.26%/7.38%. Ring:40,000/39,996/17,006 triangles,6 draws each,0 shadow additions. Sloan main360,036/118 remains above floor draws; four same-material land batches merge to one for115 draws and exact Sloan pixels. Lakeview600 merge differs by one byte (max1), so no universal exact-equivalence claim or ordinary-ON promotion. All six lower40/150 comparisons and West Highland missing-source comparisons are exact; detailed pass counts unchanged. Greenville raw-clock fresh processes differed19 bytes; fixed shader time0 gives exact fresh-repeat/ON. Save candidate/difference PNGs before checks; prior screenshot-timeout attempt retained.14 focused tests pass; no scores.
+
+Eager candidate JSON22–24MB in Sloan/Lakeview, bounded building edge and floor draw deficit remain; no phone/network/streaming qualification. Run the unchanged default-off eight-area scoreboard after this merge and append its result.
+
+Used: world-edge-options.md Recommendation and first test; native ContextRing reference. Mock: style-b-calibration-v2 frames06-sloans/01-lakeview. Deviation: default-off bounded prototype; no scores or shipping claim.

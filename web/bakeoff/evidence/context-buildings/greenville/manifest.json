@@ -1,0 +1,822 @@
+{
+  "qualification": "fresh-process shipping scoreboard; raw time versus fixed shader time 0; missing-context no-op only",
+  "frames": [
+    {
+      "mode": "raw-off",
+      "metrics": {
+        "passes": {
+          "main/sky/composite": {
+            "draws": 1,
+            "triangles": 1984
+          },
+          "main/opaque world": {
+            "draws": 27,
+            "triangles": 393439
+          },
+          "main/instances": {
+            "draws": 166,
+            "triangles": 34283
+          },
+          "main/water": {
+            "draws": 5,
+            "triangles": 129
+          },
+          "post/sky/composite": {
+            "draws": 13,
+            "triangles": 13
+          }
+        },
+        "allPass": {
+          "triangles": 429848,
+          "draws": 212
+        },
+        "samples": 4,
+        "stable": 4,
+        "camera": {
+          "position": [
+            0,
+            600,
+            0
+          ],
+          "direction": [
+            -0.7071067811877049,
+            -0.7071067811853904,
+            9.170442183403793e-14
+          ],
+          "fov": 50,
+          "near": 150,
+          "far": 5000
+        },
+        "backend": "WebGL2",
+        "crownV2": "off",
+        "crownV3": "off",
+        "exposure": {
+          "kind": "package light state; no auto exposure",
+          "value": 1.0407174,
+          "date": "2026-10-15T20:30:00Z"
+        },
+        "season": 2
+      },
+      "shaderTime": 2.0914000000357627,
+      "context": null,
+      "detectors": {
+        "blankGround": {
+          "fraction": 0.6342935528120713,
+          "blankSamples": 2312,
+          "totalSamples": 3645,
+          "counts": {
+            "boundary": 1697,
+            "building": 516,
+            "road": 162,
+            "generated-ground": 615,
+            "pedestrianArea": 4,
+            "sidewalk": 59,
+            "generated-lot": 335,
+            "pitch": 36,
+            "wood": 14,
+            "parking": 98,
+            "generated-driveway": 1,
+            "generated-curb": 4,
+            "generated-sidewalk": 10,
+            "recreation": 21,
+            "generated-garden": 4,
+            "crossing": 9,
+            "path": 4,
+            "generated-fence": 2,
+            "generated-paving": 12,
+            "water": 2,
+            "grass": 29,
+            "park": 6,
+            "pool": 1,
+            "generated-markings": 2,
+            "generated-bed": 2
+          },
+          "pass": false,
+          "method": "81x45 pixel-centre structural ray mask of static/water/boundary; excludes instance occlusion; upper bound, not colour grading"
+        },
+        "clipping": {
+          "potential": false,
+          "intersectingTriangles": 0,
+          "maxSegmentPixels": 0,
+          "lostStaticFraction": 0,
+          "pass": true,
+          "meshes": [],
+          "status": "pass",
+          "method": "static nearest-hit loss >=1% fails; near-plane triangle intersections including instances >=2 px warn; instance occlusion not resolved"
+        }
+      },
+      "frame": "raw-off.png",
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999990623,
+          "heading": 269.99999999999255,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 9.377032483826042e-11,
+        "annotationError": 9.377032483826042e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 163.33333333333331,
+        "variance": 479.65482107586286
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 429835,
+            "draws": 199
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 13,
+            "draws": 13
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": false,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "sha256": "7de11a9e4cf97cf7f8dcf9e0f0ed2bedabce141f0bb05e66c783e9fd85516621"
+    },
+    {
+      "mode": "raw-on",
+      "metrics": {
+        "passes": {
+          "main/sky/composite": {
+            "draws": 1,
+            "triangles": 1984
+          },
+          "main/opaque world": {
+            "draws": 27,
+            "triangles": 393439
+          },
+          "main/instances": {
+            "draws": 166,
+            "triangles": 34283
+          },
+          "main/water": {
+            "draws": 5,
+            "triangles": 129
+          },
+          "post/sky/composite": {
+            "draws": 13,
+            "triangles": 13
+          }
+        },
+        "allPass": {
+          "triangles": 429848,
+          "draws": 212
+        },
+        "samples": 4,
+        "stable": 4,
+        "camera": {
+          "position": [
+            0,
+            600,
+            0
+          ],
+          "direction": [
+            -0.7071067811877049,
+            -0.7071067811853904,
+            9.170442183403793e-14
+          ],
+          "fov": 50,
+          "near": 150,
+          "far": 5000
+        },
+        "backend": "WebGL2",
+        "crownV2": "off",
+        "crownV3": "off",
+        "exposure": {
+          "kind": "package light state; no auto exposure",
+          "value": 1.0407174,
+          "date": "2026-10-15T20:30:00Z"
+        },
+        "season": 2
+      },
+      "shaderTime": 2.0855,
+      "context": {
+        "enabled": true,
+        "status": "missing-context-source",
+        "area": "greenville-downtown",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 0,
+        "uploadedDraws": 0,
+        "geometryBytes": 0
+      },
+      "detectors": {
+        "blankGround": {
+          "fraction": 0.6342935528120713,
+          "blankSamples": 2312,
+          "totalSamples": 3645,
+          "counts": {
+            "boundary": 1697,
+            "building": 516,
+            "road": 162,
+            "generated-ground": 615,
+            "pedestrianArea": 4,
+            "sidewalk": 59,
+            "generated-lot": 335,
+            "pitch": 36,
+            "wood": 14,
+            "parking": 98,
+            "generated-driveway": 1,
+            "generated-curb": 4,
+            "generated-sidewalk": 10,
+            "recreation": 21,
+            "generated-garden": 4,
+            "crossing": 9,
+            "path": 4,
+            "generated-fence": 2,
+            "generated-paving": 12,
+            "water": 2,
+            "grass": 29,
+            "park": 6,
+            "pool": 1,
+            "generated-markings": 2,
+            "generated-bed": 2
+          },
+          "pass": false,
+          "method": "81x45 pixel-centre structural ray mask of static/water/boundary; excludes instance occlusion; upper bound, not colour grading"
+        },
+        "clipping": {
+          "potential": false,
+          "intersectingTriangles": 0,
+          "maxSegmentPixels": 0,
+          "lostStaticFraction": 0,
+          "pass": true,
+          "meshes": [],
+          "status": "pass",
+          "method": "static nearest-hit loss >=1% fails; near-plane triangle intersections including instances >=2 px warn; instance occlusion not resolved"
+        }
+      },
+      "frame": "raw-on.png",
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 19,
+        "max": 13,
+        "mean": 0.00001629023026460617
+      },
+      "diffFrame": "raw-on-diff-x16.png",
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999990623,
+          "heading": 269.99999999999255,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 9.377032483826042e-11,
+        "annotationError": 9.377032483826042e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 163.33333333333331,
+        "variance": 479.6547491956517
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 429835,
+            "draws": 199
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 13,
+            "draws": 13
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": false,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "sha256": "57c976c7fc2eeba377c38a516d82200623d7b3721e6787de43be3d0abb26ee34"
+    },
+    {
+      "mode": "fixed-off",
+      "metrics": {
+        "passes": {
+          "main/sky/composite": {
+            "draws": 1,
+            "triangles": 1984
+          },
+          "main/opaque world": {
+            "draws": 27,
+            "triangles": 393439
+          },
+          "main/instances": {
+            "draws": 166,
+            "triangles": 34283
+          },
+          "main/water": {
+            "draws": 5,
+            "triangles": 129
+          },
+          "post/sky/composite": {
+            "draws": 13,
+            "triangles": 13
+          }
+        },
+        "allPass": {
+          "triangles": 429848,
+          "draws": 212
+        },
+        "samples": 4,
+        "stable": 4,
+        "camera": {
+          "position": [
+            0,
+            600,
+            0
+          ],
+          "direction": [
+            -0.7071067811877049,
+            -0.7071067811853904,
+            9.170442183403793e-14
+          ],
+          "fov": 50,
+          "near": 150,
+          "far": 5000
+        },
+        "backend": "WebGL2",
+        "crownV2": "off",
+        "crownV3": "off",
+        "exposure": {
+          "kind": "package light state; no auto exposure",
+          "value": 1.0407174,
+          "date": "2026-10-15T20:30:00Z"
+        },
+        "season": 2
+      },
+      "shaderTime": 0,
+      "context": null,
+      "detectors": {
+        "blankGround": {
+          "fraction": 0.6342935528120713,
+          "blankSamples": 2312,
+          "totalSamples": 3645,
+          "counts": {
+            "boundary": 1697,
+            "building": 516,
+            "road": 162,
+            "generated-ground": 615,
+            "pedestrianArea": 4,
+            "sidewalk": 59,
+            "generated-lot": 335,
+            "pitch": 36,
+            "wood": 14,
+            "parking": 98,
+            "generated-driveway": 1,
+            "generated-curb": 4,
+            "generated-sidewalk": 10,
+            "recreation": 21,
+            "generated-garden": 4,
+            "crossing": 9,
+            "path": 4,
+            "generated-fence": 2,
+            "generated-paving": 12,
+            "water": 2,
+            "grass": 29,
+            "park": 6,
+            "pool": 1,
+            "generated-markings": 2,
+            "generated-bed": 2
+          },
+          "pass": false,
+          "method": "81x45 pixel-centre structural ray mask of static/water/boundary; excludes instance occlusion; upper bound, not colour grading"
+        },
+        "clipping": {
+          "potential": false,
+          "intersectingTriangles": 0,
+          "maxSegmentPixels": 0,
+          "lostStaticFraction": 0,
+          "pass": true,
+          "meshes": [],
+          "status": "pass",
+          "method": "static nearest-hit loss >=1% fails; near-plane triangle intersections including instances >=2 px warn; instance occlusion not resolved"
+        }
+      },
+      "frame": "fixed-off.png",
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999990623,
+          "heading": 269.99999999999255,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 9.377032483826042e-11,
+        "annotationError": 9.377032483826042e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 163.33333333333331,
+        "variance": 479.69144039849925
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 429835,
+            "draws": 199
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 13,
+            "draws": 13
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": false,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "sha256": "5132bc42214d827b0271f3713c06551ecd6ed59aac06f9ba5f447bfee2f79f55"
+    },
+    {
+      "mode": "fixed-repeat",
+      "metrics": {
+        "passes": {
+          "main/sky/composite": {
+            "draws": 1,
+            "triangles": 1984
+          },
+          "main/opaque world": {
+            "draws": 27,
+            "triangles": 393439
+          },
+          "main/instances": {
+            "draws": 166,
+            "triangles": 34283
+          },
+          "main/water": {
+            "draws": 5,
+            "triangles": 129
+          },
+          "post/sky/composite": {
+            "draws": 13,
+            "triangles": 13
+          }
+        },
+        "allPass": {
+          "triangles": 429848,
+          "draws": 212
+        },
+        "samples": 4,
+        "stable": 4,
+        "camera": {
+          "position": [
+            0,
+            600,
+            0
+          ],
+          "direction": [
+            -0.7071067811877049,
+            -0.7071067811853904,
+            9.170442183403793e-14
+          ],
+          "fov": 50,
+          "near": 150,
+          "far": 5000
+        },
+        "backend": "WebGL2",
+        "crownV2": "off",
+        "crownV3": "off",
+        "exposure": {
+          "kind": "package light state; no auto exposure",
+          "value": 1.0407174,
+          "date": "2026-10-15T20:30:00Z"
+        },
+        "season": 2
+      },
+      "shaderTime": 0,
+      "context": null,
+      "detectors": {
+        "blankGround": {
+          "fraction": 0.6342935528120713,
+          "blankSamples": 2312,
+          "totalSamples": 3645,
+          "counts": {
+            "boundary": 1697,
+            "building": 516,
+            "road": 162,
+            "generated-ground": 615,
+            "pedestrianArea": 4,
+            "sidewalk": 59,
+            "generated-lot": 335,
+            "pitch": 36,
+            "wood": 14,
+            "parking": 98,
+            "generated-driveway": 1,
+            "generated-curb": 4,
+            "generated-sidewalk": 10,
+            "recreation": 21,
+            "generated-garden": 4,
+            "crossing": 9,
+            "path": 4,
+            "generated-fence": 2,
+            "generated-paving": 12,
+            "water": 2,
+            "grass": 29,
+            "park": 6,
+            "pool": 1,
+            "generated-markings": 2,
+            "generated-bed": 2
+          },
+          "pass": false,
+          "method": "81x45 pixel-centre structural ray mask of static/water/boundary; excludes instance occlusion; upper bound, not colour grading"
+        },
+        "clipping": {
+          "potential": false,
+          "intersectingTriangles": 0,
+          "maxSegmentPixels": 0,
+          "lostStaticFraction": 0,
+          "pass": true,
+          "meshes": [],
+          "status": "pass",
+          "method": "static nearest-hit loss >=1% fails; near-plane triangle intersections including instances >=2 px warn; instance occlusion not resolved"
+        }
+      },
+      "frame": "fixed-repeat.png",
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "diffFrame": "fixed-repeat-diff-x16.png",
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999990623,
+          "heading": 269.99999999999255,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 9.377032483826042e-11,
+        "annotationError": 9.377032483826042e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 163.33333333333331,
+        "variance": 479.69144039849925
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 429835,
+            "draws": 199
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 13,
+            "draws": 13
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": false,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "sha256": "5132bc42214d827b0271f3713c06551ecd6ed59aac06f9ba5f447bfee2f79f55"
+    },
+    {
+      "mode": "fixed-on",
+      "metrics": {
+        "passes": {
+          "main/sky/composite": {
+            "draws": 1,
+            "triangles": 1984
+          },
+          "main/opaque world": {
+            "draws": 27,
+            "triangles": 393439
+          },
+          "main/instances": {
+            "draws": 166,
+            "triangles": 34283
+          },
+          "main/water": {
+            "draws": 5,
+            "triangles": 129
+          },
+          "post/sky/composite": {
+            "draws": 13,
+            "triangles": 13
+          }
+        },
+        "allPass": {
+          "triangles": 429848,
+          "draws": 212
+        },
+        "samples": 4,
+        "stable": 4,
+        "camera": {
+          "position": [
+            0,
+            600,
+            0
+          ],
+          "direction": [
+            -0.7071067811877049,
+            -0.7071067811853904,
+            9.170442183403793e-14
+          ],
+          "fov": 50,
+          "near": 150,
+          "far": 5000
+        },
+        "backend": "WebGL2",
+        "crownV2": "off",
+        "crownV3": "off",
+        "exposure": {
+          "kind": "package light state; no auto exposure",
+          "value": 1.0407174,
+          "date": "2026-10-15T20:30:00Z"
+        },
+        "season": 2
+      },
+      "shaderTime": 0,
+      "context": {
+        "enabled": true,
+        "status": "missing-context-source",
+        "area": "greenville-downtown",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 0,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 0,
+        "uploadedDraws": 0,
+        "geometryBytes": 0
+      },
+      "detectors": {
+        "blankGround": {
+          "fraction": 0.6342935528120713,
+          "blankSamples": 2312,
+          "totalSamples": 3645,
+          "counts": {
+            "boundary": 1697,
+            "building": 516,
+            "road": 162,
+            "generated-ground": 615,
+            "pedestrianArea": 4,
+            "sidewalk": 59,
+            "generated-lot": 335,
+            "pitch": 36,
+            "wood": 14,
+            "parking": 98,
+            "generated-driveway": 1,
+            "generated-curb": 4,
+            "generated-sidewalk": 10,
+            "recreation": 21,
+            "generated-garden": 4,
+            "crossing": 9,
+            "path": 4,
+            "generated-fence": 2,
+            "generated-paving": 12,
+            "water": 2,
+            "grass": 29,
+            "park": 6,
+            "pool": 1,
+            "generated-markings": 2,
+            "generated-bed": 2
+          },
+          "pass": false,
+          "method": "81x45 pixel-centre structural ray mask of static/water/boundary; excludes instance occlusion; upper bound, not colour grading"
+        },
+        "clipping": {
+          "potential": false,
+          "intersectingTriangles": 0,
+          "maxSegmentPixels": 0,
+          "lostStaticFraction": 0,
+          "pass": true,
+          "meshes": [],
+          "status": "pass",
+          "method": "static nearest-hit loss >=1% fails; near-plane triangle intersections including instances >=2 px warn; instance occlusion not resolved"
+        }
+      },
+      "frame": "fixed-on.png",
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "diffFrame": "fixed-on-diff-x16.png",
+      "cameraCheck": {
+        "resolved": {
+          "pitchDown": 44.99999999990623,
+          "heading": 269.99999999999255,
+          "fov": 50,
+          "height": 600
+        },
+        "pitchError": 9.377032483826042e-11,
+        "annotationError": 9.377032483826042e-11,
+        "pass": true
+      },
+      "pixels": {
+        "range": 163.33333333333331,
+        "variance": 479.69144039849925
+      },
+      "budgets": {
+        "totals": {
+          "main": {
+            "triangles": 429835,
+            "draws": 199
+          },
+          "shadow": {
+            "triangles": 0,
+            "draws": 0
+          },
+          "post": {
+            "triangles": 13,
+            "draws": 13
+          }
+        },
+        "tiers": {
+          "floor": {
+            "pass": false,
+            "mainTrianglesPass": false,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          },
+          "standard": {
+            "pass": false,
+            "mainTrianglesPass": true,
+            "mainDrawsPass": false,
+            "shadowTrianglesPass": true,
+            "shadowDrawLimit": null
+          }
+        }
+      },
+      "sha256": "5132bc42214d827b0271f3713c06551ecd6ed59aac06f9ba5f447bfee2f79f55"
+    }
+  ],
+  "status": "passed"
+}

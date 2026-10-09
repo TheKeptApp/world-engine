@@ -39,3 +39,16 @@ test('clipping preserves mapped area and holes represented by triangulation',()=
  const area=tris.reduce((sum,{points:[a,b,c]})=>sum+Math.abs((b[0]-a[0])*(c[2]-a[2])-(b[2]-a[2])*(c[0]-a[0]))/2,0);
  assert.ok(Math.abs(area-32)<1e-7); // 36 m² mapped quad minus 4 m² detailed core; no duplicate strips.
 });
+
+test('mapped masses preserve wall normals, count inferred heights, add no shadow, and merge compatible land only',async()=>{
+ const T=await import('three/webgpu'),{installContextRing}=await import('./context-ring.js');
+ const blank={position:[],paint:[],index:[]},triangle={position:[2,0,0,2,3,0,2,3,1],paint:[],index:[0,1,2]};
+ const data={formatVersion:2,status:'available',area:'synthetic',origin:{latitude:0,longitude:0},core,coverage:cov,fadeWidthM:1,namedSlots:{residential:0,backdrop:1},palette:['#888888','#888888'],cells:[],water:blank,buildingMasses:[{mesh:triangle,normal:[-1,0,0,-1,0,0,-1,0,0],heightSource:'typeDefault'}]};
+ const b={world:{manifest:{frame:{origin:data.origin}},palettes:{slots:[]},paletteTexture:{image:{data:[]}},materials:{water:new T.MeshBasicMaterial()},root:new T.Group()},policy:{look:{materials:{roughness:{masonry:1},groundBaseHex:{}}}},scene:new T.Scene()};
+ const got=installContextRing(b,data);assert.equal(got.report.buildings,1);assert.equal(got.report.inferredHeights,1);assert.equal(got.report.uploadedTriangles,1);assert.equal(got.report.uploadedDraws,1);assert.equal(got.meshes[0].castShadow,false);assert.deepEqual(Array.from(got.meshes[0].geometry.attributes.normal.array),triangle.position.map((_,i)=>i%3===0?-1:0));
+ const land={position:[-3,0,-3,-2,0,-3,-2,0,-2,2,0,2,3,0,2,3,0,3],paint:Array(6).fill([0,1,0,0]).flat(),index:[0,1,2,3,4,5]};
+ const separate=installContextRing(b,{...data,cells:[{mesh:land}]}),merged=installContextRing(b,{...data,cells:[{mesh:land}]},{mergeLand:true});
+ assert.equal(separate.report.uploadedTriangles,merged.report.uploadedTriangles);assert.equal(separate.report.uploadedDraws,3);assert.equal(merged.report.uploadedDraws,2);assert.equal(merged.meshes.filter(m=>m.userData.contextKind==='context-building').length,1);
+ const many={...data,buildingMasses:[{...data.buildingMasses[0],mesh:{...triangle,index:Array(40001).fill([0,1,2]).flat()}}]};
+ assert.equal(installContextRing(b,many).report.buildings,0);
+});

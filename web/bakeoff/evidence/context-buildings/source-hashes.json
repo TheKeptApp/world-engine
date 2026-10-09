@@ -1,0 +1,27 @@
+{
+  "baseCommit": "8f08c42f4a8b38c3a54decb04d0be1f8b8f67967",
+  "note": "Uncommitted implementation identified by exact source hashes; screenshot timeout extended after retained first lower-view attempt. No renderer changes between 600m and hold-outs.",
+  "sha256": {
+    "web/bakeoff/context-ring.js": "0b5d1ac408777b891fd9158543b913a817193e375030f9ece4a4416dcdfd96c9",
+    "web/bakeoff/context-ring-entry.js": "236039836507c970d839a6b35a1e2b8ce2d6b521ee2be412466c1edb49ea90b6",
+    "web/bakeoff/entry.js": "c1f3a290c138d538765f5a695cc99ad915f66ed25aeb6412e8137986805ea760",
+    "web/bakeoff/tools/export-context.swift": "492ccf48447b45b8e8dcd234ac2b4530b0421c6ecbbe40bbefd0cfdb75618fba",
+    "web/bakeoff/tools/capture-context.mjs": "4e090460915a41398cc56a09725cc7b062c975ffc6d74e39f0a4e08097689d8d",
+    "web/bakeoff/tools/capture-context-missing.mjs": "a1f8b9a9bc63e7b77f3e76530f71facfc3f4195eda0e69d79836fef51b676e65",
+    "web/bakeoff/main.js": "2e1d8a6729dc6c7c4b38980016c2741a962a8229bfeeef209d496cec50efa44b",
+    "web/bakeoff/scene-budget.js": "2f7a5db351946dc1a22f13d32c84cf6bec1af7f5c0783fcdf00470d262c9fefc",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+    "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+    "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b"
+  },
+  "captureHarnessPhases": {
+    "600m_and_40m": "Original freeze flag; screenshot timeout extended for 40m retry.",
+    "150m_and_west_highland": "Explicit renderer.setAnimationLoop(null) after ready, as in the shipping scoreboard; prevents continued bakeoff rendering during screenshot. Same per-pair procedure; no renderer changes.",
+    "finalCaptureHarnessSHA256": "5574ece1aab77f4285dd8dc5e8bdaf888b231da3162d49fbc8dd1568372d90b9",
+    "sha256ByPhase": {
+      "main-600_and_holdouts-40_failed": "1c4be53a34fff0487bac0ba1e0cbc3f75b5878b3f59f09f8a2722ad757eab56c",
+      "holdouts-40-r2": "4e090460915a41398cc56a09725cc7b062c975ffc6d74e39f0a4e08097689d8d",
+      "holdouts-150_and_west-highland": "5574ece1aab77f4285dd8dc5e8bdaf888b231da3162d49fbc8dd1568372d90b9"
+    }
+  }
+}

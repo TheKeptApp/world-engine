@@ -9,7 +9,7 @@ if(!response.ok)throw Error(`Missing context export for ${id}; run tools/export-
 const data=await response.json(),loop=T.WebGPURenderer.prototype.setAnimationLoop;
 T.WebGPURenderer.prototype.setAnimationLoop=function(callback){
  T.WebGPURenderer.prototype.setAnimationLoop=loop;
- const b=window.bakeoff,variant=installContextRing(b,data);
+ const b=window.bakeoff,variant=installContextRing(b,data,{mergeLand:q.get('contextMerge')==='1'});
  b.contextRing=variant.report;b.contextMeshes=variant.meshes;
  // sceneBudget is already installed by its entry; keep ring batches separate from its pools.
  const result=loop.call(this,t=>{callback(t);});

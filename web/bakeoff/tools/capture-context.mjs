@@ -38,17 +38,20 @@ try{
    overrides['/'+id+'.html']=(await readFile(resolve(root,'web/bakeoff/lakeview.html'),'utf8')).replace('data-scene="lakeview"','data-scene="'+id+'"');
    report.sources.push({id,area,status:data.status,bytes:bytes.length,sha256:hash(bytes),sources:data.sources??[],stats:data.stats??{},origin:manifest.frame.origin});
    server=await startCaptureServer(root,overrides);
-   let fresh;
-   for(const variant of ['off','off-repeat','on']){
+   let fresh,onPixels;
+   for(const variant of ['off','off-repeat','on','merged']){
     console.error(`context capture ${id} ${variant}`);
     browser=await chromium.launch({channel:'chrome',headless:false,chromiumSandbox:true,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
     const page=await browser.newPage({viewport:config.viewport,deviceScaleFactor:1}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-    await page.goto(`${server.origin}/${id}.html?capture&still&sceneBudget=1&foliageExp1=off&crownV2=off${variant==='on'?'&contextRing=1':''}`,{waitUntil:'domcontentloaded'});
+    await page.goto(`${server.origin}/${id}.html?capture&still&sceneBudget=1&foliageExp1=off&crownV2=off${['on','merged'].includes(variant)?'&contextRing=1':''}${variant==='merged'?'&contextMerge=1':''}`,{waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>{if(document.body.dataset.error)throw Error(document.body.dataset.error);const b=window.bakeoff,m=b?.metrics;if(!m||m.samples<3)return false;const key=JSON.stringify([m.cost.passes,m.camera]),p=window.__stable??={key:null,samples:-1,n:0};if(p.samples===m.samples)return false;p.n=p.key===key?p.n+1:1;p.key=key;p.samples=m.samples;return p.n>=3;},null,{timeout:180000,polling:'raf'});
-    await page.evaluate(()=>{window.bakeoff.freeze=true;});
+    await page.evaluate(()=>{window.bakeoff.freeze=true;window.bakeoff.renderer.setAnimationLoop(null);});
     const e=await page.evaluate(async metadata=>{const b=window.bakeoff,T=await import('three/webgpu'),{contextBlankProbe}=await import('/context-probe.mjs');b.renderer.backend.gl.finish();return {metrics:b.metrics,context:b.contextRing??null,blank:contextBlankProbe(b,metadata,T),projection:{near:b.camera.near,far:b.camera.far},exposure:b.policy.look.lighting.exposure};},metadata);
     if(config.inspection)e.cameraCheck=verifyLadderPose(e.metrics.camera,config.inspection);
-    const image=await page.screenshot(),png=PNG.sync.read(image);e.pixels=verifyPixels(png,config.viewport);
+    const image=await page.screenshot({timeout:120000}),png=PNG.sync.read(image);e.pixels=verifyPixels(png,config.viewport);
+    await writeFile(resolve(out,id+'-'+variant+'.png'),image);
+    if(variant==='on')onPixels=png.data;
+    if(variant==='merged')e.mergeDifference=byteDifference(onPixels,png.data);
     if(errors.length)throw Error(errors.join('\n'));
     if(variant==='off')fresh=png.data;
     if(variant==='off-repeat'||variant==='on'&&data.status==='missing-context-source'){e.repeat=byteDifference(fresh,png.data);if(e.repeat.differingBytes)throw Error('Control/no-source repeat changed: '+id);}

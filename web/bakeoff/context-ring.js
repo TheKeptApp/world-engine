@@ -20,10 +20,10 @@ export function clippedTriangles(mesh,core,coverage){
   }}
  }return out;
 }
-export function installContextRing(b,data){
+export function installContextRing(b,data,{mergeLand=false}={}){
  const report={enabled:true,status:data.status,area:data.area,source:data.source,buildings:0,addedShadowTriangles:0,addedShadowDraws:0,uploadedTriangles:0,uploadedDraws:0,geometryBytes:0};
  if(data.status==='missing-context-source')return {report,meshes:[]};
- if(data.formatVersion!==1||data.buildings!==0)throw Error('Unsupported context geometry or buildings present');
+ if(![1,2].includes(data.formatVersion))throw Error('Unsupported context geometry version');
  const origin=b.world.manifest.frame.origin;
  if(Math.abs(origin.latitude-data.origin.latitude)>1e-8||Math.abs(origin.longitude-data.origin.longitude)>1e-8)throw Error('Context and detailed origins differ');
  const names=new Map(Object.entries(data.namedSlots).map(([name,slot])=>[slot,name])),slots=new Map();
@@ -47,14 +47,28 @@ export function installContextRing(b,data){
   groups[(x>=cx?1:0)+(z>=cz?2:0)].push(tri);
  }
  groups[4]=clippedTriangles(data.water,data.core,data.coverage);
+ // Keep the existing five ring batches; one opaque mass batch is bounded by the total cap.
+ const landCount=groups.reduce((s,g)=>s+g.length,0);
+ report.buildingCandidates=(data.buildingMasses||[]).length;report.buildings=0;report.inferredHeights=0;
+ const masses=[];
+ for(const b of data.buildingMasses||[]){
+  if(landCount+masses.length+b.mesh.index.length/3>40000)continue;
+  for(let i=0;i<b.mesh.index.length;i+=3){const ids=b.mesh.index.slice(i,i+3);masses.push({points:ids.map(n=>b.mesh.position.slice(n*3,n*3+3)),normal:b.normal.slice(ids[0]*3,ids[0]*3+3),paint:[data.namedSlots.residential,1,0,0]});}
+  report.buildings++;if(b.heightSource==='typeDefault')report.inferredHeights++;
+ }
+ report.buildingsSkippedByBudget=report.buildingCandidates-report.buildings;
+ groups.push(masses);
+ if(landCount>40000)throw Error('Existing ring alone exceeds 40k triangle cap');
+ if(mergeLand){groups[0].push(...groups[1],...groups[2],...groups[3]);groups[1]=[];groups[2]=[];groups[3]=[];}
+ report.mergeLand=mergeLand;
  const meshes=[];
  for(let group=0;group<groups.length;group++){
   if(!groups[group].length)continue;const position=[],colors=[],normals=[],extra=[],paint=[],facade=[];
-  for(const tri of groups[group])for(const p of tri.points){position.push(...p);colors.push(...colour(tri.paint));normals.push(0,1,0);extra.push(1,0,0,0);paint.push(...tri.paint);facade.push(0,0,0,0);}
+  for(const tri of groups[group])for(const p of tri.points){position.push(...p);colors.push(...colour(tri.paint));normals.push(...(tri.normal||[0,1,0]));extra.push(1,0,0,0);paint.push(...tri.paint);facade.push(0,0,0,0);}
   const geometry=new T.BufferGeometry();for(const [name,array,size] of [['position',position,3],['normal',normals,3],['color',colors,3],['_extra',extra,4],['_paint',paint,4],['_facade',facade,4]])geometry.setAttribute(name,new T.Float32BufferAttribute(array,size));
   geometry.setIndex(Array.from({length:position.length/3},(_,i)=>i));geometry.computeBoundingBox();geometry.computeBoundingSphere();
-  const mesh=new T.Mesh(geometry,group===4?waterMaterial:material);mesh.name=`context ring ${group===4?'water':'land-roads-'+group}`;
-  mesh.castShadow=false;mesh.receiveShadow=false;mesh.userData.contextRing=true;mesh.userData.costCategory=group===4?'context water':'context land/roads';mesh.userData.contextKind=group===4?'context-water':'context-mapped-land-roads';
+  const mesh=new T.Mesh(geometry,group===4?waterMaterial:material);mesh.name=`context ring ${group===4?'water':group===5?'building-masses':'land-roads-'+group}`;
+  mesh.castShadow=false;mesh.receiveShadow=false;mesh.userData.contextRing=true;mesh.userData.costCategory=group===4?'context water':group===5?'context buildings':'context land/roads';mesh.userData.contextKind=group===4?'context-water':group===5?'context-building':'context-mapped-land-roads';
   b.scene.add(mesh);meshes.push(mesh);report.uploadedTriangles+=position.length/9;report.uploadedDraws++;report.geometryBytes+=Object.values(geometry.attributes).reduce((s,a)=>s+a.array.byteLength,0)+geometry.index.array.byteLength;
  }
  report.coverage=data.coverage;report.core=data.core;report.stats=data.stats;
