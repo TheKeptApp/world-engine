@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import * as T from 'three/webgpu';
+import {float,vec3,vec4,attribute} from 'three/tsl';
+import {TABLE,preparePaletteB,paletteBMode,applySlots} from './palette-b.js';
+import {stripPaletteB} from './palette-b-identity.mjs';
+const read=async p=>JSON.parse(await readFile(new URL(p,import.meta.url)));
+const main=await readFile(new URL('./main.js',import.meta.url),'utf8');
+assert.equal(stripPaletteB(main),execFileSync('git',['show','c8c361d:web/bakeoff/main.js'],{encoding:'utf8'}));
+assert.equal(paletteBMode(), 'off');assert.equal(paletteBMode('off'),'off');
+for(const value of ['', 'table','guard','on'])assert.throws(()=>paletteBMode(value));
+assert.equal(await preparePaletteB('off',{}),null);
+const inputs=async()=>({config:{waterProfile:'sloans_lake',waterState:'sloans_lake_clear_wind_10'},look:structuredClone((await read('../../docs/proposals/style-b-calibration-v2/values.json')).sharedLook),foliage:await read('../../docs/proposals/foliage-seasons-v1/foliage-values.json'),p2:await read('./data/p2-crowns.json'),lake:await read('../../docs/proposals/lake-winter-v1/lake-winter-values.json')});
+const {createPaletteTexture,setPalette,srgbToLinear}=await import('../src/materials.js');
+const palettes=await read('../../Generated/package/sloans-lake/palettes.json');
+const make=()=>{const w={palettes:structuredClone(palettes),paletteTexture:createPaletteTexture()};setPalette(w.paletteTexture,w.palettes,2);return w;};
+const w=make(),before=Array.from(w.paletteTexture.image.data),lotInput=await inputs(),lotBefore=JSON.stringify(lotInput),lot=await preparePaletteB('lot',lotInput);
+lot.applyPalette(w);assert.deepEqual(Array.from(w.paletteTexture.image.data),before);assert.equal(JSON.stringify(lotInput),lotBefore);
+const tableInput=await inputs(),original=structuredClone(tableInput),table=await preparePaletteB('tableA',tableInput);table.applyPalette(w);
+const changed=new Set(Object.keys(TABLE.slots).map(name=>palettes.slots.find(s=>s.names?.includes(name)).slot));
+for(let slot=0;slot<256;slot++)if(!changed.has(slot))assert.deepEqual(Array.from(w.paletteTexture.image.data.slice(slot*4,slot*4+4)),before.slice(slot*4,slot*4+4));
+// Explicit same-hex control: only the named road assignment may change.
+const twin={palettes:{slots:[{slot:0,names:['road'],srgb:'#626A70'},{slot:1,names:['door'],srgb:'#626A70'}]},paletteTexture:createPaletteTexture()};
+twin.paletteTexture.image.data.fill(.25);applySlots(twin,{road:TABLE.slots.road});assert.deepEqual(Array.from(twin.paletteTexture.image.data.slice(4,8)),[.25,.25,.25,.25]);
+assert.throws(()=>applySlots(twin,{missing:'#727A5B'}),/one exported named slot/);
+const h=TABLE.slots.road.slice(1),expected=[0,2,4].map(i=>srgbToLinear(parseInt(h.slice(i,i+2),16)/255));
+for(let i=0;i<3;i++)assert(Math.abs(twin.paletteTexture.image.data[i]-expected[i])<1e-7);
+assert.equal(twin.paletteTexture.colorSpace,T.NoColorSpace);
+// Actual TSL graph keeps extra.y, a clamped mix, both endpoint samples and shade.
+const p=attribute('_paint','vec4'),e=attribute('_extra','vec4');
+const m=new T.MeshStandardNodeMaterial();m.colorNode=lot.lawnNode(w.paletteTexture,e.y,p.y,vec3(1),float(1).equal(1));
+const graph=JSON.stringify(m.toJSON());assert(graph.includes('_extra'));assert(graph.includes('mix'));assert(graph.includes('clamp'));assert(graph.includes('_paint'));
+const endpoints=Object.values(lot.report.lawnEndpoints).map(v=>v.linearRGB);
+const mixLot=t=>endpoints[0].map((a,i)=>a+(endpoints[1][i]-a)*Math.max(0,Math.min(1,t)));
+assert.notDeepEqual(mixLot(0),mixLot(1));assert.deepEqual(mixLot(-1),mixLot(0));assert.deepEqual(mixLot(2),mixLot(1));
+assert.equal(tableInput.foliage.species.find(s=>s.id==='populus_tremuloides').bark,original.foliage.species.find(s=>s.id==='populus_tremuloides').bark);
+assert.deepEqual(tableInput.p2.vegetation['denver-aspen'].branches,original.p2.vegetation['denver-aspen'].branches);
+assert.deepEqual(tableInput.p2.phenology,original.p2.phenology);assert.deepEqual(tableInput.p2.vegetationRegions,original.p2.vegetationRegions);
+for(const [i,s]of tableInput.foliage.species.entries()){const old=original.foliage.species[i];assert.deepEqual(s.dimensionsM,old.dimensionsM);assert.equal(s.evergreen,old.evergreen);}
+assert.equal((main.match(/post.outputNode=convertColorSpace/g)||[]).length,1);assert(main.includes('post.outputColorTransform=false'));
+assert(main.includes('appearanceToRadiance(new T.Color(profile.shallowColourHex).toArray(),L.exposure)'));
+assert.equal(tableInput.lake.water.profiles.sloans_lake.shallowColourHex,TABLE.water.shallow);
+assert.equal(tableInput.lake.states.find(s=>s.id==='sloans_lake_clear_wind_10').surfaceValues[0].baseColourHex,TABLE.water.deep);
+assert.match(table.report.tableHash,/^[a-f0-9]{64}$/);assert.equal(table.report.tableHash,lot.report.tableHash);
+console.log('PASS palette B: c8c361d off-source identity; lot endpoint graph and scalar witnesses; semantic same-hex isolation; one input decode/no texture decode/one output encode; unchanged phenology and dimensions; water inverse grade; provenance/hash.');

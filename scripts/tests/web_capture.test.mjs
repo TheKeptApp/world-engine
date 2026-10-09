@@ -143,3 +143,14 @@ test('Lakeview ladder reuses the saved eye and exact shared pose with its export
   await writeFile(file,JSON.stringify({frame:{...manifest.frame,vertical:'unknown'}}));await assert.rejects(blockContract(root,'lakeview-ladder'),/flat-ground/);
  }finally{await rm(root,{recursive:true});}
 });
+
+test('palette trial Lakeview 150 uses the existing inspection pose without moving the saved contract',async()=>{
+ const {blockContract}=await import('../web_capture_blocks.mjs');
+ const {fileURLToPath}=await import('node:url');
+ const root=fileURLToPath(new URL('../../',import.meta.url));
+ const a=await blockContract(root,'lakeview-150'),b=await blockContract(root,'lakeview-600');
+ assert.deepEqual(a.scenes.lakeview.camera.eye.slice(0,2),b.scenes.lakeview.camera.eye.slice(0,2));
+ assert.equal(a.scenes.lakeview.camera.eye[2],150);assert.equal(b.scenes.lakeview.camera.eye[2],600);
+ assert.equal(a.scenes.lakeview.camera.fov,b.scenes.lakeview.camera.fov);
+ assert.deepEqual(a.fixture,b.fixture);
+});
