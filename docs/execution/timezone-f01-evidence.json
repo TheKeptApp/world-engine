@@ -166,5 +166,12 @@
     "Package semantic difference is timezone only; environment SHA-256 and byte count in world.json necessarily update.",
     "All original data payloads unchanged; area manifest input hashes change solely from new timezone metadata.",
     "No rendering, sun computation or companion-format changes."
-  ]
+  ],
+  "postIntegration": {
+    "main": "75be597",
+    "sourceTestDataChangesUpstream": false,
+    "timezoneTestsPassed": 2,
+    "seconds": 0.002,
+    "admissionLoad": 7.54
+  }
 }

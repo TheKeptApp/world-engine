@@ -40,3 +40,5 @@ All eight manifest comparisons against the pre-fix tree differ only by this fiel
 | Wilmette | 209 | America/Denver → America/Chicago | environment checksum/byte count in world.json |
 
 `unknown` is an explicit unresolved status, not an IANA timezone identifier. No geographic inference or consumer behavior change is included.
+
+Post-integration fixture check: 2/2 timezone tests pass, 0.002 s, admission load 7.54; Sources/Tests/Data identical to the full checked tree. Commit-size guard passed. Fix commit b1ccb50; latest remote docs/tooling integrated without conflict. No task-owned heavy lock remains. Remote still lacks 5a7fe5a and publication is pending explicit permission for the historical evidence-line hook exemption.
