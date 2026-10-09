@@ -1,6 +1,6 @@
 # Feature evidence index — 8 Oct 2026
 
-Read [current owner decisions](DECISIONS.md) first; [repository entry point](../INDEX.md) routes to this inventory and the complete [mock registry](MOCKS.md).
+Read [current owner decisions](DECISIONS.md) first; Use the [feature reference map](REFERENCE-MAP.md) for camera scope, visible checks, usage and gaps, alongside the complete [mock registry](MOCKS.md). These references do not promote pending packs or historical scores.
 
 One row per feature, drawn only from existing reports. “Last build commit” records the latest implementation/evidence revision explicitly identified by the cited report, **not** proof of the latest runtime build or a native pass. Unknown provenance is `unknown`; research/filing SHAs are not build SHAs. Calibration PNGs are gitignored local reference assets: absence in a clone is not permission to invent a target. The [report evidence line](../CONTRIBUTING-lanes.md#build-evidence--r-8-oct-2026) must name the source/section and actual frame used.
 

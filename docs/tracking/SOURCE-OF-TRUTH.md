@@ -2,9 +2,9 @@
 
 The repository is the only source of truth. Chat memory, outside packs and informal reports are not build authority until their decisions, status and evidence are filed here. Local ignored images/data must match the repository’s recorded paths/hashes; if absent, record the missing input. Source-document suggestions are not permission to expand a task.
 
-**Read first:** [R’s dated decisions](DECISIONS.md), then the [repository index](../INDEX.md) and [complete mock registry](MOCKS.md). Read every research document and mock for each affected feature, not only the two familiar calibration frames; list them in the Used / Mock / Deviation evidence line. A report without feature research/mock references is incomplete. Current decisions supersede conflicting historical gate/process wording.
+**Read first:** [R’s dated decisions](DECISIONS.md), then the [feature index](INDEX.md) and [complete mock registry](MOCKS.md). Read every research document and mock for each affected feature, not only the two familiar calibration frames; list them in the Used / Mock / Deviation evidence line. A report without feature research/mock references is incomplete. Current decisions supersede conflicting historical gate/process wording.
 
-**Continue in order:** [STATE.md](STATE.md) → [INDEX.md](INDEX.md) → [INTEGRATION.md](INTEGRATION.md) → the relevant feature row and its linked spec sections / [MOCKS.md](MOCKS.md) entries. Read the applicable lane rules and newest [handoff](handoffs.md) before acting. INDEX is the input inventory; INTEGRATION is implementation evidence; MOCKS is visual-reference evidence; STATE is the current handover. Keep history in handoffs and reports, not competing state files.
+**Continue in order:** [STATE.md](STATE.md) → [INDEX.md](INDEX.md) → [INTEGRATION.md](INTEGRATION.md) → the relevant [REFERENCE-MAP](REFERENCE-MAP.md) row and its linked spec sections / [MOCKS.md](MOCKS.md) entries. Read the applicable lane rules and newest [handoff](handoffs.md) before acting. INDEX is the input inventory; INTEGRATION is implementation evidence; MOCKS is visual-reference evidence; STATE is the current handover. REFERENCE-MAP owns navigation, camera scope, visible checks and citation history, not approvals or scores. Keep history in handoffs and reports, not competing state files.
 
 | Status | Required proof |
 |---|---|
@@ -17,7 +17,7 @@ Pending or unapproved packs are never used in builds. Retain their inventory row
 
 A feature is done only when a renderer file actually consumes it **and INTEGRATION.md records that consumption**. This is a necessary delivery condition, not permission to waive visual, performance or rights gates. The builder updates its INTEGRATION row, input consumption and mock citations **in the same commit**. A3 records actual scores; missing evidence stays pending. Update STATE after every report by rewriting its current snapshot; retain history in handoffs. Before a lane changes hands, its state note must be current.
 
-Every build report ends with this evidence line immediately before `Tracker update:`; without it the report is incomplete:
+Every build report lists every research doc and mock actually used in the evidence line immediately before `Tracker update:`; without a feature-specific research doc or mock it is incomplete. Compare the REFERENCE-MAP traits for the touched features, not only the two calibration frames. Record a missing mock as a gap/deviation. Reports are at most ten lines plus one evidence link, whose destination can contain the full list:
 
 `Used: <doc §>. Mock: <file/frame>. Deviation: <none or why>`
 

@@ -4,6 +4,8 @@ R’s decisions, newest date first; one line per decision with its application/r
 
 ## 2026-10-09 — R
 
+- **Feature-reference application:** this reference-map task targets foliage/light/ground/materials 2→3; read the affected feature rows, camera scopes, visible traits, citation history and missing targets before work. [REFERENCE-MAP](REFERENCE-MAP.md).
+
 - **Surfaces:** web and iOS move together; web is the main surface and carries Builder; iOS is the native renderer; web scores are not a proxy for native. [Integration ledger](INTEGRATION.md).
 - **Builder product:** web AI outdoor event layout is a product; the engine’s top-down camera is its canvas, with a detailed 3D site core and coarse 3D context ring; site-scoped builds (stadiums, race courses), not whole cities; approximate sun/shadows are fine. [Architecture](../architecture.md).
 - **Ship bar:** overall ≥3/5, no aspect <2, no catastrophic failures, floor budget on the minimum device, and hold-outs after every look merge: Lakeview, Wilmette, West Highland, Greenville Downtown; no block-specific fixes, rules must work anywhere. [Current state and historical gates](STATE.md).
