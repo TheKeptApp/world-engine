@@ -20,7 +20,7 @@ Shipping Sloan 40 m: original 560,465/111 shadow T/D → conservative unbounded 
 
 A temporary batch wrapper used the status spelling `complete` instead of the capture tool's `completed`, and stopped before running any remaining batch. The accepted Sloan capture itself completed and passed; the wrapper spelling was corrected, then remaining batches resumed. No failed render is hidden or counted.
 
-## Pending producer boundary
+## Producer boundary at the finite-wind milestone
 
 A4 reported its **plan**, not a completed far sidecar: existing package LOD1, additive hash-bound companion, complete-parent nearest-bound >=400 m, original near geometry and shadow casters retained. Consumption is not started. A5's water/ring prototype is merged as d82a68d; its report records pooled native water already present and explicitly leaves device qualification unproven. The final consumer must also keep the entire 40/150 m view on original transforms/order; a distance-only predicate cannot silently enable far rebaking in those views. Target-pose altitude and complete-parent distance are independent safeguards.
 
@@ -134,3 +134,51 @@ The bundle has not reached floor at Sloan600 (412,672/117) or Lakeview600 (547,1
 ## Ledger text for A3 — candidate bundle
 
 Default-off combined web route captured 19/24 scoreboard views: 17 floor/18 standard. Four requested hold-outs have explicit per-view rows: Lakeview, Wilmette and West Highland measured; Greenville cannot run this existing look adapter. Wynn150/600 timeout retained; no promotion. All accepted repeat controls exact; palette/light/context paired scoring belongs to A3. Raw OFF/ON images are in candidate-bundle.json. Native not implemented or qualified.
+
+## Reported A4 dependency and far consumer
+
+A4 reported its completed/rebased three-area validation on 9 October, then stopped on stash-restoration conflicts in its STATE.md/handoffs.md. This lane imports only its reported final source/tests/report/machine evidence; none of its ledgers or conflict markers. Initial producer commit f2b28da is provenance, not a claim that it contains the final corrected bounds. The copied spatial-far.js, exporter and qualifier SHA values match A4's rebased capture summary. Original/package/GLB and payload bindings were checked before copying the two additive sidecars. No geometry export was run or rewritten by this consumer.
+
+The independent candidate-far-runtime adapter consumes A4's unchanged representation and adds a conservative view-height gate: camera Y minus the larger of declared package maximum Y and A4's actual complete-core static maximum Y must be >=400 m. This includes every original and simplified ground/static point; it is conservative relative to exported ground, rather than an assumed zero datum. The current flat-datum packages declare 40 m, above their actual static maximums (11.45 /25.49 /15.95 m). Missing/nonfinite bounds reject the trial. A4's complete-parent 3D distance and visible changed-building near-plane tests still apply. A 40/150 m camera outside the core cannot activate the trial solely because it is distant. On descent, restore exact original source visibility and remove farShadowVisible overrides. Unknown static deformation rejects far consumption. No new shadow reach or caster LOD.
+
+Original far-hidden rigid sources retain shadow visibility in shadowCells; the parent itself casts no shadows. The actual caster test verifies full selected source submission while main visibility is false, and a hidden ancestor still disables it. A5 farWater and two-draw ring consume their existing representation with the same conservative height predicate. Ring pooling restores the original source objects/geometry/IDs below the threshold and reuses the pool on ascent; a transition test verifies exclusive coverage and unchanged source indices. All options require the explicit bundle and separate `farParent=1&farWater=1&contextMerge=2`; shipping defaults remain unchanged.
+
+Used additionally: A4 simplified-far-parent.md §§Decision/contract, Validation, Rebase verification; facades.md §§One general rule, Exact values/coverage (authority, not a v2 migration); REFERENCE-MAP Facades/Context/camera gaps; facade-detail-v2 and v2b STATUS (immutable base colours, classification scope). Opened facade-detail-v2/panels/12-chicago-apartment-block-far.png and 09-denver-mixed-use-strip-far.png as qualitative form references only. No colours/dimensions were sampled or family classifier changed; A4 reuses the package's pre-existing LOD1 instead of adopting v2/v2b. There is no approved calibrated 600 m whole-scene target, so A3 judges the requested matched pairs.
+
+A4's payloads duplicate original ground and cost 49,264,633 /66,786,122 /46,662,547 bytes (Sloan/Lakeview/Wilmette), with original resources still resident. This is not a memory or device pass; Lakeview exceeds the 48 MiB production policy even before original buffers. No budget is raised to accommodate it. Shipping main/world/material/Metal source hashes remain identical to approved merge 6e76ca7.
+
+### Consumer setup failures, retained
+
+Far bundle V1 stopped at Sloan40 ON with `Far source coverage mismatch`. Existing main.js replaces the mesh's static material but leaves world.materials.static referring to the loader material. V2 uses the actually bound compatible material; it stopped with `Ambiguous far source identity`. Seven chunks have the identical local four-vertex geometry fingerprint `4/6/291370567`, so a hash alone cannot identify a chunk. These are binding failures before a candidate PNG, not pixel passes. Both BEFORE controls were exact, and both failed directories remain intact.
+
+V3 follows the loader's documented manifest chunk order (the same contract facadeColours already uses), verifies exactly one matching static source and the expected signature inside each chunk, and passes that ordered source list to the transfer. No geography, feature ID whitelist, sort relaxation or exporter change. The parent reuses the actual compatible static material. Existing _facade assignments are copied by ordered feature plus original paint slot; ambiguity/missing provenance stops before swapping, and uncovered far paint slots retain the original palette fallback with a reported count. This supplies the attribute required by the existing matte shader without classifying or recolouring any building. Focused tests cover repeated local signatures with different feature overrides, actual material replacement, exact original restoration and caster visibility. A4's copied runtime/exporter bytes remain identical to its reported source hashes.
+
+## Final far-consumer qualification
+
+V3 stopped before a candidate frame with `Ambiguous within-feature facade assignment`: a feature/paint slot can include both declared facade body and non-body geometry. V4 resolves this through the producer's hash-bound `lod1.static` ranges, not a guessed normal or colour predicate. Preparation rechecks original scene/LOD1 SHA values, reconstructs the producer's vertex-first-appearance ordering and copies only the original declared body overrides; temporary parsed resources are disposed. Missing provenance fails closed. The focused test covers a body and non-body sharing a slot. A4 runtime/exporter/qualifier remain byte-identical to its reported final source.
+
+52 focused tests passed under heavy admission; every V4 capture admitted below load 25 and released its lock. All 27 frames completed. Nine independent BEFORE repeats and all six 40/150 m BEFORE/AFTER comparisons are exact full-image max/mean/count 0/0/0. Original shadow triangle/draw submissions remain unchanged at all nine views. The far parent, pooled water and pooled ring are active only at 600 m. Machine evidence includes source/package/frame hashes, actual pass counts, flags and all raw paths: [far-bundle.json](../../web/bakeoff/evidence/spatial-cells/far-bundle.json).
+
+| View | AFTER main T/D | AFTER shadow T/D | Floor / standard |
+|---|---:|---:|---|
+| Sloan40 | 89,454/52 | 61,367/60 | PASS / PASS |
+| Sloan150 | 245,049/81 | 21,405/32 | PASS / PASS |
+| Sloan600 | 294,354/53 | 0/0 | PASS / PASS |
+| Lakeview40 | 92,088/45 | 78,074/91 | PASS / PASS |
+| Lakeview150 | 374,137/89 | 38,399/33 | PASS / PASS |
+| Lakeview600 | 200,364/55 | 0/0 | PASS / PASS |
+| Wilmette40 | 49,790/40 | 52,381/109 | PASS / PASS |
+| Wilmette150 | 191,244/88 | 24,975/54 | PASS / PASS |
+| Wilmette600 | 134,377/50 | 0/0 | PASS / PASS |
+
+At 600 m the full pre-far bundle → consumer main deltas are Sloan 412,672/117 →294,354/53 (−118,318 triangles/−64 draws); Lakeview 547,180/69 →200,364/55 (−346,816/−14); Wilmette 239,028/63 →134,377/50 (−104,651/−13). Shadow draws have no tier limit. These are actual bakeoff passes, not shipping-material or native counts.
+
+Intentional far-look full-image differences, byte units: Sloan max127 /mean0.1773389688724519 /35,061 differing bytes; Lakeview 149 /0.7189569849865716 /116,002; Wilmette118 /0.2155628934971162 /50,117. These are not lossless claims and are handed to A3 without a score. Phone-width paired board `/private/tmp/a10-far-review.png` was opened: existing ground/road coverage remains visible; far building detail changes remain for paired judgment. No calibrated whole-scene 600 m mock exists.
+
+A3 frame directories (all contain `40`, `150`, `600` × `before`, `repeat`, `after` PNGs): `/private/tmp/a10-far-bundle-sloans-lake-v4/`, `/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/`, `/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/`. Before is the explicit candidate bundle; after adds separate farParent/farWater/contextMerge flags. Earlier default OFF versus candidate ON paths remain in candidate-bundle.json. Raw failed V1/V2/V3 directories are preserved; a mistaken summary-tool path produced MODULE_NOT_FOUND, corrected to web/bakeoff/tools with no rendering rerun.
+
+The web target now passes, default off. This does not repair the five unqualified scoreboard rows, absent Greenville look adapter, missing mapped-building context in West Highland/Greenville, or Lakeview sidecar memory excess. Native implementation/qualification still requires R's shared-file approval; no answer has been received and no native files were edited. A3 look approval remains pending.
+
+## Ledger text for A3 — far consumer
+
+Default-off consumer of A4's reported final sidecar plus A5 water/ring reaches floor and standard in all nine measured Sloan/Lakeview/Wilmette ladder views. Near pairs and all repeats exact; unchanged shadow submissions; 600 m differences intentionally retained for A3 paired scoring, no A10 score or promotion. Frame paths and full numeric deltas are above. Shipping main/world/material/Metal bytes unchanged. Native shared-file gate, production-memory limit and remaining scoreboard/hold-out gaps prevent adoption claims.

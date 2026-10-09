@@ -21,7 +21,7 @@ export function clippedTriangles(mesh,core,coverage){
   }}
  }return out;
 }
-export function installContextRing(b,data,{mergeLand=false,mergeOpaque=false}={}){
+export function installContextRing(b,data,{mergeLand=false,mergeOpaque=false,mergeAllowed=()=>true}={}){
  const report={enabled:true,status:data.status,area:data.area,source:data.source,buildings:0,addedShadowTriangles:0,addedShadowDraws:0,uploadedTriangles:0,uploadedDraws:0,geometryBytes:0};
  if(data.status==='missing-context-source')return {report,meshes:[]};
  if(![1,2].includes(data.formatVersion))throw Error('Unsupported context geometry version');
@@ -77,6 +77,8 @@ export function installContextRing(b,data,{mergeLand=false,mergeOpaque=false}={}
  // R requires exact Sloan pixels. This is a general camera rule, not a location recipe.
  const originals=meshes.filter(m=>m.userData.contextKind!=='context-water');let merged,priorOrder='';
  const update=()=>{if(!mergeOpaque||!originals.length)return;
+  if(!mergeAllowed()){if(merged)b.scene.remove(merged);for(const m of originals)if(m.parent!==b.scene)b.scene.add(m);report.uploadedDraws=meshes.length;report.mergeActive=false;return;}
+  for(const m of originals)b.scene.remove(m);if(merged&&merged.parent!==b.scene)b.scene.add(merged);report.mergeActive=true;report.uploadedDraws=meshes.filter(m=>m.userData.contextKind==='context-water').length+1;
   b.camera?.updateMatrixWorld();const projection=b.camera?new T.Matrix4().multiplyMatrices(b.camera.projectionMatrix,b.camera.matrixWorldInverse):null;
   const ordered=originals.map(m=>({m,z:projection?m.geometry.boundingSphere.center.clone().applyMatrix4(m.matrixWorld).applyMatrix4(projection).z:0})).sort((a,c)=>a.z-c.z||a.m.id-c.m.id).map(x=>x.m);
   const order=ordered.map(m=>m.id).join(',');if(order===priorOrder)return;priorOrder=order;
@@ -87,5 +89,5 @@ export function installContextRing(b,data,{mergeLand=false,mergeOpaque=false}={}
  };
  update();
  report.coverage=data.coverage;report.core=data.core;report.stats=data.stats;
- return {report,meshes:mergeOpaque&&merged?[...meshes.filter(m=>m.userData.contextKind==='context-water'),merged]:meshes,update};
+ return {report,get meshes(){return mergeOpaque&&merged&&report.mergeActive?[...meshes.filter(m=>m.userData.contextKind==='context-water'),merged]:meshes;},update};
 }

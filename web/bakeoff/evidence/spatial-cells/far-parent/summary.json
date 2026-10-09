@@ -1,0 +1,2149 @@
+{
+  "schema": "a4-far-parent-evidence/1",
+  "mockCopies": [
+    {
+      "source": "docs/proposals/style-b-calibration-v2/frames/06-sloans.png",
+      "localCopy": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/mocks/06-sloans.png",
+      "sha256": "e17e3150b0cd36d66cc47ed8c342cf414437056ab1a930fa4cd34a704cec2a60",
+      "scope": "Street-level calibration reference, not matched 600 m target"
+    },
+    {
+      "source": "docs/proposals/style-b-calibration-v2/frames/01-lakeview.png",
+      "localCopy": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/mocks/01-lakeview.png",
+      "sha256": "afb414115361d92751b40bbcbd04d5a4edae7637b06947356338187a1c72f5c6",
+      "scope": "Street-level calibration reference, not matched 600 m target"
+    }
+  ],
+  "scope": "Default-off static web trial; no Swift, shader, water, look or shipping entry changes; A3 pending",
+  "tests": {
+    "passed": 21,
+    "transcript": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/rebased.log"
+  },
+  "bindings": {
+    "sloans-lake": {
+      "capturePackageUnchangedFiles": 281,
+      "worldSha256": "d82fba1cb0b0eb45d1f9db5f1e0333575f4a9dcd212e26a0520de4cb8e44e89a",
+      "companionRegression": {
+        "boundFixtureWorldSha256": "9a88d73d1bf5fb7d3462f2c2b9cd0f6ae3e6aa6c0d87ca9b23b8b341982a060f",
+        "boundPrimitives": 271,
+        "filesUnchanged": 281,
+        "payloadUnchanged": true
+      }
+    },
+    "lakeview-sheil-park": {
+      "capturePackageUnchangedFiles": 212,
+      "worldSha256": "666096ddc03b912acdb74c0a2a6ce2e39194b0c8867d2e2be471f13484b4848f",
+      "companionRegression": {
+        "boundFixtureWorldSha256": "5eae6e83ba0f7bae28c13f40f32588a779734bd1a0bb6798a6dd0131e39fdcf3",
+        "boundPrimitives": 159,
+        "filesUnchanged": 212,
+        "payloadUnchanged": true
+      }
+    },
+    "wilmette-vattmann-park": {
+      "capturePackageUnchangedFiles": 209,
+      "worldSha256": "a84b0d1bbee069d37719aa41f7fbc76ccf35ef6b878276c5401d824345e43787"
+    }
+  },
+  "areas": [
+    {
+      "area": "sloans-lake",
+      "export": {
+        "package": "/private/tmp/worldengine-a4-surface/Generated/web-capture/scoreboard-sloans-lake",
+        "sidecarBytes": 49264633,
+        "jsonBytes": 8387593,
+        "binaryBytes": 40877040,
+        "exportSeconds": 1.0991704580000001,
+        "triangles": 293710,
+        "buildings": 1399,
+        "unchangedGround": 5626,
+        "errorMetres": 88.32991878180256,
+        "originalFilesUnchanged": 145,
+        "payloadSha256": "09390fcf5258d59e7296cbea811276dba639442df823e7dfb6c6aef7e059d7ba"
+      },
+      "status": "completed",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-parent.mjs": "59b7e4edc741c18c1c768447426d49651bf0537d08415114c7f68a1600ef666a",
+        "web/bakeoff/spatial-far.js": "e63172e0b8aad0671f11a8842ba3749fe1b17362a52132021cac7726041044cd",
+        "web/bakeoff/tools/export-far-parent.mjs": "fac4f7e317976390e05de1989c4653c8f7c45b44b06117813485cc98ec47716f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      },
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "contract": [
+        {
+          "id": "sloans-lake/40",
+          "altitude": 40,
+          "camera": {
+            "eye": [
+              39.7511195,
+              -105.0389,
+              40
+            ],
+            "target": [
+              39.7511195504243,
+              -105.04006681934511,
+              -59.999999999999986
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 39.7511195,
+            "lon": -105.0389,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 40
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 39.7494,
+              "longitude": -105.0445
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -800,
+              -600,
+              800,
+              600
+            ],
+            "profile": "front-range",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "sloans-lake/150",
+          "altitude": 150,
+          "camera": {
+            "eye": [
+              39.7511195,
+              -105.0389,
+              150
+            ],
+            "target": [
+              39.7511195504243,
+              -105.04006681934511,
+              50.000000000000014
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 39.7511195,
+            "lon": -105.0389,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 150
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 39.7494,
+              "longitude": -105.0445
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -800,
+              -600,
+              800,
+              600
+            ],
+            "profile": "front-range",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "sloans-lake/600",
+          "altitude": 600,
+          "camera": {
+            "eye": [
+              39.7511195,
+              -105.0389,
+              600
+            ],
+            "target": [
+              39.7511195504243,
+              -105.04006681934511,
+              500
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 39.7511195,
+            "lon": -105.0389,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 600
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 39.7494,
+              "longitude": -105.0445
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -800,
+              -600,
+              800,
+              600
+            ],
+            "profile": "front-range",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        }
+      ],
+      "servedScoreboardPageSha256": "eeba51c1771e7b91788ddf1a39aa6dde4e929280adc5589c1bcd47d09d856e7f",
+      "frames": [
+        {
+          "view": "sloans-lake/40",
+          "altitude": 40,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/40-default.png",
+          "pngSha256": "f21f79659d97051231243005bc64fc7c1a4d4a978c2aab239f90b840a777b66e",
+          "main": {
+            "triangles": 54974,
+            "draws": 41
+          },
+          "shadow": {
+            "triangles": 560465,
+            "draws": 111
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              40,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/40",
+          "altitude": 40,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/40-repeat.png",
+          "pngSha256": "f21f79659d97051231243005bc64fc7c1a4d4a978c2aab239f90b840a777b66e",
+          "main": {
+            "triangles": 54974,
+            "draws": 41
+          },
+          "shadow": {
+            "triangles": 560465,
+            "draws": 111
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              40,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/40",
+          "altitude": 40,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/40-far.png",
+          "pngSha256": "f21f79659d97051231243005bc64fc7c1a4d4a978c2aab239f90b840a777b66e",
+          "main": {
+            "triangles": 54974,
+            "draws": 41
+          },
+          "shadow": {
+            "triangles": 560465,
+            "draws": 111
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              40,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 88.32991878180256,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 48,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -806.4773559570312,
+              -0.5,
+              -601.5097045898438,
+              806.5325317382812,
+              11.954073905944824,
+              601.8889770507812
+            ],
+            "cameraBounds": [
+              -792.8197793535446,
+              -259.57560428488995,
+              -938.2702747066564,
+              410.5789022950959,
+              889.8009855404357,
+              211.10631512167282
+            ],
+            "minimumDepthMetres": -211.10631512167282,
+            "visibleChangedCameraBounds": [
+              -98.08023925128633,
+              -35.7136205015135,
+              -119.47812671464663,
+              104.2669210881497,
+              69.68047880455262,
+              -15.128045306966442
+            ],
+            "visibleChangedMinimumDepthMetres": 15.128045306966442,
+            "nearestDistanceMetres": 28.045926094055176,
+            "projectedErrorPlanningPixels": 3537.292056695594
+          }
+        },
+        {
+          "view": "sloans-lake/150",
+          "altitude": 150,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/150-default.png",
+          "pngSha256": "e3d0ceca5841ff4fedd41c8c46a12ffb1d1fe6f1bcd2dff5bc25a1f26a926497",
+          "main": {
+            "triangles": 203078,
+            "draws": 68
+          },
+          "shadow": {
+            "triangles": 572162,
+            "draws": 113
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              150,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/150",
+          "altitude": 150,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/150-repeat.png",
+          "pngSha256": "e3d0ceca5841ff4fedd41c8c46a12ffb1d1fe6f1bcd2dff5bc25a1f26a926497",
+          "main": {
+            "triangles": 203078,
+            "draws": 68
+          },
+          "shadow": {
+            "triangles": 572162,
+            "draws": 113
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              150,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/150",
+          "altitude": 150,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/150-far.png",
+          "pngSha256": "e3d0ceca5841ff4fedd41c8c46a12ffb1d1fe6f1bcd2dff5bc25a1f26a926497",
+          "main": {
+            "triangles": 203078,
+            "draws": 68
+          },
+          "shadow": {
+            "triangles": 572162,
+            "draws": 113
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              150,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856092,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 88.32991878180256,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 48,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -806.4773559570312,
+              -0.5,
+              -601.5097045898438,
+              806.5325317382812,
+              11.954073905944824,
+              601.8889770507812
+            ],
+            "cameraBounds": [
+              -792.8197793535446,
+              -337.3573502155134,
+              -1016.0520206370734,
+              410.5789022950959,
+              812.0192396098122,
+              133.32456919125582
+            ],
+            "minimumDepthMetres": -133.32456919125582,
+            "visibleChangedCameraBounds": [
+              -250.64136214467288,
+              -71.80757195414515,
+              -352.4602731144663,
+              301.24470429238556,
+              143.88260488722653,
+              -134.30086785574304
+            ],
+            "visibleChangedMinimumDepthMetres": 134.30086785574304,
+            "nearestDistanceMetres": 138.04592609405518,
+            "projectedErrorPlanningPixels": 398.4509955299975
+          }
+        },
+        {
+          "view": "sloans-lake/600",
+          "altitude": 600,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/600-default.png",
+          "pngSha256": "04db2b077403972f355ae61b7c97c2153d0e92bb3b9df94345450fd8306cd458",
+          "main": {
+            "triangles": 313611,
+            "draws": 106
+          },
+          "shadow": {
+            "triangles": 75831,
+            "draws": 4
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              600,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856093,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/600",
+          "altitude": 600,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/600-repeat.png",
+          "pngSha256": "04db2b077403972f355ae61b7c97c2153d0e92bb3b9df94345450fd8306cd458",
+          "main": {
+            "triangles": 313611,
+            "draws": 106
+          },
+          "shadow": {
+            "triangles": 75831,
+            "draws": 4
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              479.9371916990588,
+              600,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856093,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "sloans-lake/600",
+          "altitude": 600,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/sloans-lake-rebased-frames/600-far.png",
+          "pngSha256": "6c9db6c4158a09fe479ae6be80f1e1e01d3f73776aef16b69b7185541831cfa9",
+          "main": {
+            "triangles": 195293,
+            "draws": 72
+          },
+          "shadow": {
+            "triangles": 75831,
+            "draws": 4
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 22581,
+            "max": 114,
+            "mean": 0.10312244089288072
+          },
+          "exact": false,
+          "visualReview": "A3 pending",
+          "camera": {
+            "position": [
+              479.9371916990588,
+              600,
+              -190.93080230114043
+            ],
+            "direction": [
+              -0.7071067811874858,
+              -0.7071067811856093,
+              3.5138558729386205e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": true,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 88.32991878180256,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 1,
+            "children": 48,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -806.4773559570312,
+              -0.5,
+              -601.5097045898438,
+              806.5325317382812,
+              11.954073905944824,
+              601.8889770507812
+            ],
+            "cameraBounds": [
+              -792.8197793535446,
+              -655.5554017498821,
+              -1334.2500721705976,
+              410.5789022950959,
+              493.82118807544373,
+              -184.8734823422683
+            ],
+            "minimumDepthMetres": 184.8734823422683,
+            "visibleChangedCameraBounds": [
+              -769.7216958495595,
+              -290.3253623205676,
+              -1334.25007216932,
+              406.88871674643724,
+              490.62992176515854,
+              -552.6992703080073
+            ],
+            "visibleChangedMinimumDepthMetres": 552.6992703080073,
+            "nearestDistanceMetres": 588.0459260940552,
+            "projectedErrorPlanningPixels": 96.81994779519466
+          }
+        }
+      ],
+      "mainFloor600": {
+        "trianglesBelow400k": true,
+        "drawsAtMost100": true
+      },
+      "sidecarSha256": {
+        "far-parent.json": "314a020be4a91d17c171c77c37a1ad1a68a2d36704bc0e1a8bd2a34a8d9efce4",
+        "far-parent.bin": "09390fcf5258d59e7296cbea811276dba639442df823e7dfb6c6aef7e059d7ba"
+      }
+    },
+    {
+      "area": "lakeview-sheil-park",
+      "export": {
+        "package": "/private/tmp/worldengine-a4-surface/Generated/web-capture/scoreboard-lakeview-sheil-park",
+        "sidecarBytes": 66786122,
+        "jsonBytes": 11567942,
+        "binaryBytes": 55218180,
+        "exportSeconds": 2.205948917,
+        "triangles": 396635,
+        "buildings": 2823,
+        "unchangedGround": 7160,
+        "errorMetres": 159.18974011430828,
+        "originalFilesUnchanged": 76,
+        "payloadSha256": "be765b4ed797b7697500c10ed91756d356e95fb6e22e39ed71328c2bcbf25ce5"
+      },
+      "status": "completed",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-parent.mjs": "59b7e4edc741c18c1c768447426d49651bf0537d08415114c7f68a1600ef666a",
+        "web/bakeoff/spatial-far.js": "e63172e0b8aad0671f11a8842ba3749fe1b17362a52132021cac7726041044cd",
+        "web/bakeoff/tools/export-far-parent.mjs": "fac4f7e317976390e05de1989c4653c8f7c45b44b06117813485cc98ec47716f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      },
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "contract": [
+        {
+          "id": "lakeview-sheil-park/40",
+          "altitude": 40,
+          "camera": {
+            "eye": [
+              41.94567,
+              -87.66361,
+              40
+            ],
+            "target": [
+              41.945669993666705,
+              -87.66481596422334,
+              -59.999999999999986
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 41.94567,
+            "lon": -87.66361,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 40
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 41.94567,
+              "longitude": -87.66361
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "chicago-dense-north",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "lakeview-sheil-park/150",
+          "altitude": 150,
+          "camera": {
+            "eye": [
+              41.94567,
+              -87.66361,
+              150
+            ],
+            "target": [
+              41.945669993666705,
+              -87.66481596422334,
+              50.000000000000014
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 41.94567,
+            "lon": -87.66361,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 150
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 41.94567,
+              "longitude": -87.66361
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "chicago-dense-north",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "lakeview-sheil-park/600",
+          "altitude": 600,
+          "camera": {
+            "eye": [
+              41.94567,
+              -87.66361,
+              600
+            ],
+            "target": [
+              41.945669993666705,
+              -87.66481596422334,
+              500
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 41.94567,
+            "lon": -87.66361,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 600
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 41.94567,
+              "longitude": -87.66361
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "chicago-dense-north",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        }
+      ],
+      "servedScoreboardPageSha256": "eeba51c1771e7b91788ddf1a39aa6dde4e929280adc5589c1bcd47d09d856e7f",
+      "frames": [
+        {
+          "view": "lakeview-sheil-park/40",
+          "altitude": 40,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/40-default.png",
+          "pngSha256": "28fe917655c03062fd13641204f061e37a29608ef0a082ff05e815260a583de2",
+          "main": {
+            "triangles": 38224,
+            "draws": 35
+          },
+          "shadow": {
+            "triangles": 924485,
+            "draws": 123
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/40",
+          "altitude": 40,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/40-repeat.png",
+          "pngSha256": "28fe917655c03062fd13641204f061e37a29608ef0a082ff05e815260a583de2",
+          "main": {
+            "triangles": 38224,
+            "draws": 35
+          },
+          "shadow": {
+            "triangles": 924485,
+            "draws": 123
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/40",
+          "altitude": 40,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/40-far.png",
+          "pngSha256": "28fe917655c03062fd13641204f061e37a29608ef0a082ff05e815260a583de2",
+          "main": {
+            "triangles": 38224,
+            "draws": 35
+          },
+          "shadow": {
+            "triangles": 924485,
+            "draws": 123
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 159.18974011430828,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -518.7509765625,
+              -0.7000000029802322,
+              -507.0538330078125,
+              511.7992248535156,
+              25.992382049560547,
+              505.4203186035156
+            ],
+            "cameraBounds": [
+              -505.4203186106768,
+              -390.67594850202426,
+              -395.5915792752098,
+              507.05383301507095,
+              356.9074516392175,
+              351.9918208631842
+            ],
+            "minimumDepthMetres": -351.9918208631842,
+            "visibleChangedCameraBounds": [
+              -97.19866943222793,
+              -42.919812271446894,
+              -115.38964454961948,
+              97.80001831224558,
+              67.81241265415198,
+              -8.104124832061498
+            ],
+            "visibleChangedMinimumDepthMetres": 8.104124832061498,
+            "nearestDistanceMetres": 14.007617950439453,
+            "projectedErrorPlanningPixels": null
+          }
+        },
+        {
+          "view": "lakeview-sheil-park/150",
+          "altitude": 150,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/150-default.png",
+          "pngSha256": "fd910f8d69665e32b8baf6123dde850f18d26bfc5fcaf133a0a6f42f3a7fc04c",
+          "main": {
+            "triangles": 323705,
+            "draws": 76
+          },
+          "shadow": {
+            "triangles": 996184,
+            "draws": 149
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/150",
+          "altitude": 150,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/150-repeat.png",
+          "pngSha256": "fd910f8d69665e32b8baf6123dde850f18d26bfc5fcaf133a0a6f42f3a7fc04c",
+          "main": {
+            "triangles": 323705,
+            "draws": 76
+          },
+          "shadow": {
+            "triangles": 996184,
+            "draws": 149
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/150",
+          "altitude": 150,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/150-far.png",
+          "pngSha256": "fd910f8d69665e32b8baf6123dde850f18d26bfc5fcaf133a0a6f42f3a7fc04c",
+          "main": {
+            "triangles": 323705,
+            "draws": 76
+          },
+          "shadow": {
+            "triangles": 996184,
+            "draws": 149
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811851292,
+              -0.7071067811879659,
+              9.89364146164462e-12
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 159.18974011430828,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -518.7509765625,
+              -0.7000000029802322,
+              -507.0538330078125,
+              511.7992248535156,
+              25.992382049560547,
+              505.4203186035156
+            ],
+            "cameraBounds": [
+              -505.4203186106769,
+              -468.45769443238845,
+              -473.3733252058861,
+              507.0538330150709,
+              279.12570570885333,
+              274.21007493250795
+            ],
+            "minimumDepthMetres": -274.21007493250795,
+            "visibleChangedCameraBounds": [
+              -349.743896479101,
+              -80.16878967712876,
+              -408.6923680915429,
+              341.92391968367883,
+              208.13487444569097,
+              -122.08997519611893
+            ],
+            "visibleChangedMinimumDepthMetres": 122.08997519611893,
+            "nearestDistanceMetres": 124.00761795043945,
+            "projectedErrorPlanningPixels": 789.9161123691462
+          }
+        },
+        {
+          "view": "lakeview-sheil-park/600",
+          "altitude": 600,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/600-default.png",
+          "pngSha256": "53ee69ec81803659f3e9a644cd85ac7bdaee1752d9462321c5c8941e9fbb839e",
+          "main": {
+            "triangles": 486482,
+            "draws": 54
+          },
+          "shadow": {
+            "triangles": 2280,
+            "draws": 1
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.707106781185129,
+              -0.707106781187966,
+              9.893863506249545e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/600",
+          "altitude": 600,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/600-repeat.png",
+          "pngSha256": "53ee69ec81803659f3e9a644cd85ac7bdaee1752d9462321c5c8941e9fbb839e",
+          "main": {
+            "triangles": 486482,
+            "draws": 54
+          },
+          "shadow": {
+            "triangles": 2280,
+            "draws": 1
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.707106781185129,
+              -0.707106781187966,
+              9.893863506249545e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "lakeview-sheil-park/600",
+          "altitude": 600,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/lakeview-sheil-park-rebased-frames/600-far.png",
+          "pngSha256": "22329de6d261b1157030a1d9c4e23e6d8ae2cc7648331cbb54a63bac6029f785",
+          "main": {
+            "triangles": 139666,
+            "draws": 44
+          },
+          "shadow": {
+            "triangles": 2280,
+            "draws": 1
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 103902,
+            "max": 189,
+            "mean": 0.5922304407167701
+          },
+          "exact": false,
+          "visualReview": "A3 pending",
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.707106781185129,
+              -0.707106781187966,
+              9.893863506249545e-12
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": true,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 159.18974011430828,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 1,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -518.7509765625,
+              -0.7000000029802322,
+              -507.0538330078125,
+              511.7992248535156,
+              25.992382049560547,
+              505.4203186035156
+            ],
+            "cameraBounds": [
+              -505.42031861067676,
+              -786.6557459656967,
+              -791.5713767404709,
+              507.0538330150709,
+              -39.072345824454715,
+              -43.9879766020768
+            ],
+            "minimumDepthMetres": 43.9879766020768,
+            "visibleChangedCameraBounds": [
+              -504.1229858345609,
+              -299.0589100202569,
+              -791.4299553803328,
+              504.5181884834379,
+              -42.61357933414257,
+              -542.4701666389594
+            ],
+            "visibleChangedMinimumDepthMetres": 542.4701666389594,
+            "nearestDistanceMetres": 574.0076179504395,
+            "projectedErrorPlanningPixels": 177.78090759108946
+          }
+        }
+      ],
+      "mainFloor600": {
+        "trianglesBelow400k": true,
+        "drawsAtMost100": true
+      },
+      "sidecarSha256": {
+        "far-parent.json": "84b510b45906bf05441d184a8bcccae8082e39a385359f41261b8ce688876472",
+        "far-parent.bin": "be765b4ed797b7697500c10ed91756d356e95fb6e22e39ed71328c2bcbf25ce5"
+      }
+    },
+    {
+      "area": "wilmette-vattmann-park",
+      "export": {
+        "package": "/private/tmp/worldengine-a4-surface/Generated/web-capture/scoreboard-wilmette-vattmann-park",
+        "sidecarBytes": 46662547,
+        "jsonBytes": 7243339,
+        "binaryBytes": 39419208,
+        "exportSeconds": 1.027492125,
+        "triangles": 276164,
+        "buildings": 1258,
+        "unchangedGround": 3240,
+        "errorMetres": 154.188230923834,
+        "originalFilesUnchanged": 76,
+        "payloadSha256": "26c93c95d76a4fc597f25d3360e49bb54e12e9ec5a9fa25ceacf53c874b090ea"
+      },
+      "status": "completed",
+      "sourceHashes": {
+        "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+        "web/bakeoff/spatial-cells-entry.js": "94e78496b9d6e3b730583930da7cd805811bfb5d1a3b00ac49deef0bb4808b15",
+        "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+        "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+        "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+        "web/src/lighting.js": "81c3573725f22231f33756318cbe0d8ca8ed58e173cb6f1b981e4a4a01ae2e77",
+        "web/src/post.js": "7e666a806bc6d5d9b6c3229d0ccb03c37e447c12f96c87ec45c3745742d9f1e3",
+        "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+        "scripts/world_scoreboard_page.mjs": "f3113272381598f98b251680129c80d6f5a987c03b6ef9b1f1c2b32238d7716b",
+        "web/bakeoff/entry.js": "3847548de6a392a12926b334a6bc04329e734ea8dcda28fd01f7f6dc7651adb5",
+        "web/bakeoff/tools/qualify-far-parent.mjs": "59b7e4edc741c18c1c768447426d49651bf0537d08415114c7f68a1600ef666a",
+        "web/bakeoff/spatial-far.js": "e63172e0b8aad0671f11a8842ba3749fe1b17362a52132021cac7726041044cd",
+        "web/bakeoff/tools/export-far-parent.mjs": "fac4f7e317976390e05de1989c4653c8f7c45b44b06117813485cc98ec47716f",
+        "web/bakeoff/spatial-diagnostics.js": "dd387342a79666406add184497e25024e545bd6786a954cd319b201572603198",
+        "web/bakeoff/shadow-cells.js": "0dff184033a89602c2bc821db495cfd1222f4c0c0e69e1061e2da66eea993c9b",
+        "web/bakeoff/shadow-depth-capture.js": "8270c75aa4d7ef3171361c27d7a2d78eecf05782a1e3531ba47f06f8b34d832e",
+        "web/bakeoff/shadow-stress-capture.js": "cb40bf5c15a914dc2dc1b474527d462a30dba53768962b57a462b8a0cbc1daaf",
+        "web/bakeoff/shadow-capture-audit.js": "ec56cc59f8f0a44e3106c441d5501b22ecbdad245eade2b46706ac7206b86270"
+      },
+      "captureClock": {
+        "seconds": 0,
+        "captureOnly": true,
+        "method": "served scoreboard NodeFrame time/deltaTime pin"
+      },
+      "contract": [
+        {
+          "id": "wilmette-vattmann-park/40",
+          "altitude": 40,
+          "camera": {
+            "eye": [
+              42.0762,
+              -87.7165,
+              40
+            ],
+            "target": [
+              42.076199993637836,
+              -87.71770843229483,
+              -59.999999999999986
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 42.0762,
+            "lon": -87.7165,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 40
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 42.0762,
+              "longitude": -87.7165
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "wilmette",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "wilmette-vattmann-park/150",
+          "altitude": 150,
+          "camera": {
+            "eye": [
+              42.0762,
+              -87.7165,
+              150
+            ],
+            "target": [
+              42.076199993637836,
+              -87.71770843229483,
+              50.000000000000014
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 42.0762,
+            "lon": -87.7165,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 150
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 42.0762,
+              "longitude": -87.7165
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "wilmette",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        },
+        {
+          "id": "wilmette-vattmann-park/600",
+          "altitude": 600,
+          "camera": {
+            "eye": [
+              42.0762,
+              -87.7165,
+              600
+            ],
+            "target": [
+              42.076199993637836,
+              -87.71770843229483,
+              500
+            ],
+            "fov": 50
+          },
+          "pose": {
+            "lat": 42.0762,
+            "lon": -87.7165,
+            "heading": 270,
+            "pitchDown": 45,
+            "fov": 50,
+            "altitudeAGLMetres": 600
+          },
+          "viewport": {
+            "width": 1005,
+            "height": 565
+          },
+          "worldFrame": {
+            "axes": {
+              "x": "east",
+              "y": "up",
+              "z": "south (north is \u2212Z)"
+            },
+            "meshVertices": "float32, relative to each chunk node's translation (its origin)",
+            "origin": {
+              "height": 0,
+              "latitude": 42.0762,
+              "longitude": -87.7165
+            },
+            "type": "local tangent plane (ENU) on WGS84, exact",
+            "units": "meters",
+            "vertical": "flat terrain; y = 0 is ground (no terrain payload in this version)"
+          },
+          "worldRecipe": {
+            "date": "2026-10-15T20:30:00Z",
+            "focus": [
+              -500,
+              -500,
+              500,
+              500
+            ],
+            "profile": "wilmette",
+            "profileVersion": 2,
+            "season": 2
+          },
+          "worldGenerator": {
+            "name": "WorldEngine WorldGen",
+            "version": "6e76ca7fbc3c7d0bc6e05aabf4794d9e33a417a8"
+          }
+        }
+      ],
+      "servedScoreboardPageSha256": "eeba51c1771e7b91788ddf1a39aa6dde4e929280adc5589c1bcd47d09d856e7f",
+      "frames": [
+        {
+          "view": "wilmette-vattmann-park/40",
+          "altitude": 40,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/40-default.png",
+          "pngSha256": "ce7f445fdb9be40d39353a570289d17f024ad70ac04c315cdef7d2e9bd472e38",
+          "main": {
+            "triangles": 35690,
+            "draws": 29
+          },
+          "shadow": {
+            "triangles": 410139,
+            "draws": 114
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/40",
+          "altitude": 40,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/40-repeat.png",
+          "pngSha256": "ce7f445fdb9be40d39353a570289d17f024ad70ac04c315cdef7d2e9bd472e38",
+          "main": {
+            "triangles": 35690,
+            "draws": 29
+          },
+          "shadow": {
+            "triangles": 410139,
+            "draws": 114
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/40",
+          "altitude": 40,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/40-far.png",
+          "pngSha256": "ce7f445fdb9be40d39353a570289d17f024ad70ac04c315cdef7d2e9bd472e38",
+          "main": {
+            "triangles": 35690,
+            "draws": 29
+          },
+          "shadow": {
+            "triangles": 410139,
+            "draws": 114
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              40,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 10,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 154.188230923834,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -506.4076232910156,
+              -0.5,
+              -505.005615234375,
+              512.7926025390625,
+              16.453325271606445,
+              505.6742858886719
+            ],
+            "cameraBounds": [
+              -505.6742858961142,
+              -391.2369512404662,
+              -386.7220891174489,
+              505.0056152419112,
+              341.4342511034712,
+              345.94911322866545
+            ],
+            "minimumDepthMetres": -345.94911322866545,
+            "visibleChangedCameraBounds": [
+              -88.62613678134782,
+              -14.566136965551616,
+              -114.77884567768986,
+              71.78363799956281,
+              65.80420164018491,
+              -39.12576072410432
+            ],
+            "visibleChangedMinimumDepthMetres": 39.12576072410432,
+            "nearestDistanceMetres": 23.546674728393555,
+            "projectedErrorPlanningPixels": 2387.45027597089
+          }
+        },
+        {
+          "view": "wilmette-vattmann-park/150",
+          "altitude": 150,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/150-default.png",
+          "pngSha256": "bf42507d3f8fb67be66529ae3aac74c49bde17c8bc391839c465b86f956cf099",
+          "main": {
+            "triangles": 177680,
+            "draws": 73
+          },
+          "shadow": {
+            "triangles": 454124,
+            "draws": 154
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/150",
+          "altitude": 150,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/150-repeat.png",
+          "pngSha256": "bf42507d3f8fb67be66529ae3aac74c49bde17c8bc391839c465b86f956cf099",
+          "main": {
+            "triangles": 177680,
+            "draws": 73
+          },
+          "shadow": {
+            "triangles": 454124,
+            "draws": 154
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/150",
+          "altitude": 150,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/150-far.png",
+          "pngSha256": "bf42507d3f8fb67be66529ae3aac74c49bde17c8bc391839c465b86f956cf099",
+          "main": {
+            "triangles": 177680,
+            "draws": 73
+          },
+          "shadow": {
+            "triangles": 454124,
+            "draws": 154
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              150,
+              0
+            ],
+            "direction": [
+              -0.7071067811876336,
+              -0.7071067811854616,
+              -1.0391909555096392e-11
+            ],
+            "fov": 50,
+            "near": 37.5,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": false,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 154.188230923834,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 0,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -506.4076232910156,
+              -0.5,
+              -505.005615234375,
+              512.7926025390625,
+              16.453325271606445,
+              505.6742858886719
+            ],
+            "cameraBounds": [
+              -505.6742858961142,
+              -469.01869717110594,
+              -464.50383504784963,
+              505.0056152419112,
+              263.6525051728315,
+              268.1673672982647
+            ],
+            "minimumDepthMetres": -268.1673672982647,
+            "visibleChangedCameraBounds": [
+              -318.50933838436094,
+              -75.94018355560988,
+              -441.5281947161235,
+              296.0171508741674,
+              236.01954636917267,
+              -129.06801783165722
+            ],
+            "visibleChangedMinimumDepthMetres": 129.06801783165722,
+            "nearestDistanceMetres": 133.54667472839355,
+            "projectedErrorPlanningPixels": 723.7331897369735
+          }
+        },
+        {
+          "view": "wilmette-vattmann-park/600",
+          "altitude": 600,
+          "mode": "default",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/600-default.png",
+          "pngSha256": "8f8bb250e546c93c600667ea2a51552c6ca1f80317cb0043217be41d5d64e296",
+          "main": {
+            "triangles": 211140,
+            "draws": 51
+          },
+          "shadow": {
+            "triangles": 34776,
+            "draws": 2
+          },
+          "diff": null,
+          "exact": null,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.7071067811876335,
+              -0.7071067811854617,
+              -1.0391798532793928e-11
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/600",
+          "altitude": 600,
+          "mode": "repeat",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/600-repeat.png",
+          "pngSha256": "8f8bb250e546c93c600667ea2a51552c6ca1f80317cb0043217be41d5d64e296",
+          "main": {
+            "triangles": 211140,
+            "draws": 51
+          },
+          "shadow": {
+            "triangles": 34776,
+            "draws": 2
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "exact": true,
+          "visualReview": null,
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.7071067811876335,
+              -0.7071067811854617,
+              -1.0391798532793928e-11
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": null
+        },
+        {
+          "view": "wilmette-vattmann-park/600",
+          "altitude": 600,
+          "mode": "far",
+          "path": "/private/tmp/worldengine-a4-surface/Generated/a4-far-parent/wilmette-vattmann-park-rebased-frames/600-far.png",
+          "pngSha256": "88dbdb42a095aa725387b45fd5e5a9c06c3554107776dc078c8e259ccf298a3f",
+          "main": {
+            "triangles": 106489,
+            "draws": 42
+          },
+          "shadow": {
+            "triangles": 34776,
+            "draws": 2
+          },
+          "diff": {
+            "freshBytes": 2271300,
+            "repeatBytes": 2271300,
+            "differingBytes": 46660,
+            "max": 157,
+            "mean": 0.1774014881345485
+          },
+          "exact": false,
+          "visualReview": "A3 pending",
+          "camera": {
+            "position": [
+              0,
+              600,
+              0
+            ],
+            "direction": [
+              -0.7071067811876335,
+              -0.7071067811854617,
+              -1.0391798532793928e-11
+            ],
+            "fov": 50,
+            "near": 150,
+            "far": 5000
+          },
+          "farParent": {
+            "enabled": true,
+            "selected": true,
+            "minimumDistanceMetres": 400,
+            "geometryErrorMetres": 154.188230923834,
+            "parentScope": "complete core static union; conservative all-or-nothing admission",
+            "swaps": 1,
+            "children": 25,
+            "atomicCoverage": true,
+            "worldBounds": [
+              -506.4076232910156,
+              -0.5,
+              -505.005615234375,
+              512.7926025390625,
+              16.453325271606445,
+              505.6742858886719
+            ],
+            "cameraBounds": [
+              -505.67428589611416,
+              -787.216748705541,
+              -782.7018865813072,
+              505.00561524191124,
+              -54.5455463616035,
+              -50.030684235193064
+            ],
+            "minimumDepthMetres": 50.030684235193064,
+            "visibleChangedCameraBounds": [
+              -504.1578979549688,
+              -288.6892154026905,
+              -776.0096845367163,
+              500.84060668265954,
+              -65.5620959853473,
+              -551.589457996749
+            ],
+            "visibleChangedMinimumDepthMetres": 551.589457996749,
+            "nearestDistanceMetres": 583.5466747283936,
+            "projectedErrorPlanningPixels": 169.3484291334741
+          }
+        }
+      ],
+      "mainFloor600": {
+        "trianglesBelow400k": true,
+        "drawsAtMost100": true
+      },
+      "sidecarSha256": {
+        "far-parent.json": "ec6face04a00dcb2f42f9af747ad8fda36da03b7d8be8daa7d8bfa3ba9596547",
+        "far-parent.bin": "26c93c95d76a4fc597f25d3360e49bb54e12e9ec5a9fa25ceacf53c874b090ea"
+      }
+    }
+  ],
+  "loadEvidence": [
+    "A4 complete-bound distance and visible-changed-bound final qualification (load 6.45, waited 0s for load)",
+    "A4 verified admission UTC=2026-10-09T18:32:54Z load=6.45 pid=19631",
+    "A4 capture area=sloans-lake UTC=2026-10-09T18:33:14Z load=6.00",
+    "A4 capture area=lakeview-sheil-park UTC=2026-10-09T18:33:39Z load=7.47",
+    "A4 capture area=wilmette-vattmann-park UTC=2026-10-09T18:34:14Z load=6.48",
+    "A4 rebased far-parent tests and three-area qualification (load 8.01, waited 0s for load)",
+    "A4 verified admission UTC=2026-10-09T18:47:33Z load=8.01 pid=23613",
+    "A4 rebased capture area=sloans-lake UTC=2026-10-09T18:47:34Z load=8.01",
+    "A4 rebased capture area=lakeview-sheil-park UTC=2026-10-09T18:49:14Z load=24.69",
+    "A4 rebased capture area=wilmette-vattmann-park UTC=2026-10-09T18:49:50Z load=17.63"
+  ],
+  "limitations": [
+    "600 m differences intentional, A3 owns visual acceptance; no scores assigned",
+    "The sidecar duplicates ground buffers and does not establish the 48 MiB production memory policy",
+    "Export seconds are this JavaScript post-stage only; no native/full-export timing claim",
+    "Web static draw/triangle measurements do not prove native or phone behavior",
+    "Original surface-role regression fixtures are separately bound packages, not the capture packages",
+    "Unconsumed f8ae242/7ece3d9 remain unmerged"
+  ],
+  "priorAttempts": [
+    "Own dependency setup rejected path-symlink security; local Three copy fixed setup",
+    "Missing spatial metadata 404 corrected with existing opt-in metadata exporter",
+    "One batch rejected by source mutation guard, discarded",
+    "Complete-core near-plane admission retained Lakeview/Wilmette originals; complete changed-building visible bounds added generically"
+  ]
+}

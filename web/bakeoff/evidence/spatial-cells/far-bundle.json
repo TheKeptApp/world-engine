@@ -1,0 +1,1637 @@
+{
+  "schema": "a10-far-budget-bundle/1",
+  "status": "static-counter-qualified; A3/native/memory pending",
+  "sourceHashes": {
+    "web/bakeoff/entry.js": "b839d34f9b53f7dfd49407d55b9bdf42f5f4f6f995b9028bb57531213ce038a0",
+    "web/bakeoff/tools/capture-far-bundle.mjs": "f397671346070ebbcd7b6dafb9d6229a7b83e0228b7e9f46201ceef4e2eebc6e",
+    "web/bakeoff/candidate-bundle-entry.js": "8edc9807083d1857d365375ea298ef005f1d9f4805abc20aca7e03618d9ae4cd",
+    "web/bakeoff/candidate-bundle.js": "96e3aa3a12303319926277ba70d936562821d5a4ad3f755069deca94d49549c3",
+    "web/bakeoff/candidate-facade-transfer.js": "26d4f3b15fdeb24474d62b6260433f2f857ed672ab69877aae366444f38a8585",
+    "web/bakeoff/candidate-far-runtime.js": "daf8c6ce4f2582f1250e3b085fffd8dcb39a2ac334ac44c773b63174efff1b26",
+    "web/bakeoff/spatial-far.js": "e63172e0b8aad0671f11a8842ba3749fe1b17362a52132021cac7726041044cd",
+    "web/bakeoff/candidate-far-policy.js": "424d4600e0b3ffb1a0c5b94d94c2d51f409beb447826c0585babd03c3dd2ba76",
+    "web/bakeoff/far-water.js": "3b45225969ee943dcc50a652306120120c3442fce6894130a4c81228d055e111",
+    "web/bakeoff/spatial-cells.js": "48ac29797ab1748118b0abce1c4bb94566bd815cdd40f8fa60df30b17c581d6e",
+    "web/bakeoff/shadow-cells.js": "7cab5e4a4913bb2382a24c70d7df2869c8350bf62b5df8c76a8d16b9cb1c2d69",
+    "web/bakeoff/context-ring.js": "ba8d321d6a76e1b73c491188500f692c9970ed2cb1267c3d25dbe7f2d49af045",
+    "web/bakeoff/main.js": "7ca8bb66947cfcce503f6a1de3f741e08419333cf1160d1e07ba92bff0fbc188",
+    "web/bakeoff/light-trial.js": "a4e261cf286167ea87f3a8061430d52189e66da5499be0a416aed6f5369aad12",
+    "web/bakeoff/palette-b.js": "45b1bc836c8fb07d91a7ee2dde8c3e5542507ebb6b7c8baace416cc7329080f2",
+    "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883"
+  },
+  "rows": [
+    {
+      "view": "sloans-lake/40",
+      "altitude": 40,
+      "before": {
+        "main": {
+          "triangles": 89454,
+          "draws": 52
+        },
+        "shadow": {
+          "triangles": 61367,
+          "draws": 60
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 89454,
+          "draws": 52
+        },
+        "shadow": {
+          "triangles": 61367,
+          "draws": 60
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-sloans-lake-v4/40-before.png",
+        "after": "/private/tmp/a10-far-bundle-sloans-lake-v4/40-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-sloans-lake-v4/40-repeat.png"
+      },
+      "pngHashes": {
+        "before": "0cd13f37b8bf23f88a872d09140a84edbb253161a81d328fb7cdc4befdb81b5c",
+        "after": "0cd13f37b8bf23f88a872d09140a84edbb253161a81d328fb7cdc4befdb81b5c",
+        "repeat": "0cd13f37b8bf23f88a872d09140a84edbb253161a81d328fb7cdc4befdb81b5c"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 88.32991878180256,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 48,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -806.4773559570312,
+          -0.5,
+          -601.5097045898438,
+          806.5325317382812,
+          11.954073905944824,
+          601.8889770507812
+        ],
+        "cameraBounds": [
+          -792.8197793535446,
+          -259.57560428488995,
+          -938.2702747066564,
+          410.5789022950959,
+          889.8009855404357,
+          211.10631512167282
+        ],
+        "minimumDepthMetres": -211.10631512167282,
+        "visibleChangedCameraBounds": [
+          -98.08023925128633,
+          -35.7136205015135,
+          -119.47812671464663,
+          104.2669210881497,
+          69.68047880455262,
+          -15.128045306966442
+        ],
+        "visibleChangedMinimumDepthMetres": 15.128045306966442,
+        "nearestDistanceMetres": 28.045926094055176,
+        "projectedErrorPlanningPixels": 3537.292056695594,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 61,
+          "copiedVertices": 1045,
+          "unmappedWallVertices": 1998
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 0,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 6,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-sloans-lake-v4/manifest.json"
+    },
+    {
+      "view": "sloans-lake/150",
+      "altitude": 150,
+      "before": {
+        "main": {
+          "triangles": 245049,
+          "draws": 81
+        },
+        "shadow": {
+          "triangles": 21405,
+          "draws": 32
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 245049,
+          "draws": 81
+        },
+        "shadow": {
+          "triangles": 21405,
+          "draws": 32
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-sloans-lake-v4/150-before.png",
+        "after": "/private/tmp/a10-far-bundle-sloans-lake-v4/150-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-sloans-lake-v4/150-repeat.png"
+      },
+      "pngHashes": {
+        "before": "205ea1bc842cce28881f094fd8ba7c81bf4c2d16b68d3c3a0ae1cbb37f7cb91c",
+        "after": "205ea1bc842cce28881f094fd8ba7c81bf4c2d16b68d3c3a0ae1cbb37f7cb91c",
+        "repeat": "205ea1bc842cce28881f094fd8ba7c81bf4c2d16b68d3c3a0ae1cbb37f7cb91c"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 88.32991878180256,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 48,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -806.4773559570312,
+          -0.5,
+          -601.5097045898438,
+          806.5325317382812,
+          11.954073905944824,
+          601.8889770507812
+        ],
+        "cameraBounds": [
+          -792.8197793535446,
+          -337.3573502155134,
+          -1016.0520206370734,
+          410.5789022950959,
+          812.0192396098122,
+          133.32456919125582
+        ],
+        "minimumDepthMetres": -133.32456919125582,
+        "visibleChangedCameraBounds": [
+          -250.64136214467288,
+          -71.80757195414515,
+          -352.4602731144663,
+          301.24470429238556,
+          143.88260488722653,
+          -134.30086785574304
+        ],
+        "visibleChangedMinimumDepthMetres": 134.30086785574304,
+        "nearestDistanceMetres": 138.04592609405518,
+        "projectedErrorPlanningPixels": 398.4509955299975,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 61,
+          "copiedVertices": 1045,
+          "unmappedWallVertices": 1998
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 110,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 6,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-sloans-lake-v4/manifest.json"
+    },
+    {
+      "view": "sloans-lake/600",
+      "altitude": 600,
+      "before": {
+        "main": {
+          "triangles": 412672,
+          "draws": 117
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 294354,
+          "draws": 53
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 35061,
+        "max": 127,
+        "mean": 0.1773389688724519
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-sloans-lake-v4/600-before.png",
+        "after": "/private/tmp/a10-far-bundle-sloans-lake-v4/600-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-sloans-lake-v4/600-repeat.png"
+      },
+      "pngHashes": {
+        "before": "4ea29bedc860e953000e0ce3ddff0f8c0c9d87391d6f884bb500604808dbfeb1",
+        "after": "3b921ad96978812a62a44f4be94a2223b94533cbc46b07146f4f15f4fa661bc7",
+        "repeat": "4ea29bedc860e953000e0ce3ddff0f8c0c9d87391d6f884bb500604808dbfeb1"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": true,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 88.32991878180256,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 1,
+        "children": 48,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -806.4773559570312,
+          -0.5,
+          -601.5097045898438,
+          806.5325317382812,
+          11.954073905944824,
+          601.8889770507812
+        ],
+        "cameraBounds": [
+          -792.8197793535446,
+          -655.5554017498821,
+          -1334.2500721705976,
+          410.5789022950959,
+          493.82118807544373,
+          -184.8734823422683
+        ],
+        "minimumDepthMetres": 184.8734823422683,
+        "visibleChangedCameraBounds": [
+          -769.7216958495595,
+          -290.3253623205676,
+          -1334.25007216932,
+          406.88871674643724,
+          490.62992176515854,
+          -552.6992703080073
+        ],
+        "visibleChangedMinimumDepthMetres": 552.6992703080073,
+        "nearestDistanceMetres": 588.0459260940552,
+        "projectedErrorPlanningPixels": 96.81994779519466,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 61,
+          "copiedVertices": 1045,
+          "unmappedWallVertices": 1998
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 560,
+        "viewAllowed": true
+      },
+      "farWater": {
+        "enabled": true,
+        "active": true,
+        "sourceDraws": 27,
+        "draws": 1,
+        "triangles": 756,
+        "bufferBytes": 132840,
+        "rebuilds": 1,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "sloans-lake",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1033,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 40000,
+        "uploadedDraws": 2,
+        "geometryBytes": 10320000,
+        "buildingCandidates": 5710,
+        "inferredHeights": 916,
+        "buildingsSkippedByBudget": 4677,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": true,
+        "opaqueSourceOrder": [
+          "context ring building-masses",
+          "context ring land-roads-2",
+          "context ring land-roads-0",
+          "context ring land-roads-1",
+          "context ring land-roads-3"
+        ],
+        "coverage": [
+          -3796.4389646591444,
+          -3599.9982379263456,
+          3799.999999999878,
+          3599.998236274514
+        ],
+        "core": [
+          -800,
+          -600,
+          800,
+          600
+        ],
+        "stats": {
+          "areas": 3607,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 7641,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 18,
+          "partialWaterRelations": 0,
+          "rails": 0,
+          "roads": 5808,
+          "skippedPieces": 0,
+          "tri.aerial.area": 3165,
+          "tri.aerial.main": 6540,
+          "tri.aerial.minor": 8321,
+          "tri.far.area": 1735,
+          "tri.far.main": 1682,
+          "tri.near.area": 6175,
+          "tri.near.main": 9270,
+          "tri.near.minor": 6168,
+          "tri.street.area": 3548,
+          "tri.street.main": 4946,
+          "triangles.aerial": 18026,
+          "triangles.far": 3417,
+          "triangles.near": 21613,
+          "triangles.street": 8494,
+          "triangles.water": 1479,
+          "waterPolygons": 67,
+          "waterways": 46
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-sloans-lake-v4/manifest.json"
+    },
+    {
+      "view": "lakeview-sheil-park/40",
+      "altitude": 40,
+      "before": {
+        "main": {
+          "triangles": 92088,
+          "draws": 45
+        },
+        "shadow": {
+          "triangles": 78074,
+          "draws": 91
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 92088,
+          "draws": 45
+        },
+        "shadow": {
+          "triangles": 78074,
+          "draws": 91
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/40-before.png",
+        "after": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/40-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/40-repeat.png"
+      },
+      "pngHashes": {
+        "before": "13c41629f930e0c3888db4a504a1fcfcc733e802f546772baa23d8351844f5ee",
+        "after": "13c41629f930e0c3888db4a504a1fcfcc733e802f546772baa23d8351844f5ee",
+        "repeat": "13c41629f930e0c3888db4a504a1fcfcc733e802f546772baa23d8351844f5ee"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 159.18974011430828,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -518.7509765625,
+          -0.7000000029802322,
+          -507.0538330078125,
+          511.7992248535156,
+          25.992382049560547,
+          505.4203186035156
+        ],
+        "cameraBounds": [
+          -505.4203186106768,
+          -390.67594850202426,
+          -395.5915792752098,
+          507.05383301507095,
+          356.9074516392175,
+          351.9918208631842
+        ],
+        "minimumDepthMetres": -351.9918208631842,
+        "visibleChangedCameraBounds": [
+          -97.19866943222793,
+          -42.919812271446894,
+          -115.38964454961948,
+          97.80001831224558,
+          67.81241265415198,
+          -8.104124832061498
+        ],
+        "visibleChangedMinimumDepthMetres": 8.104124832061498,
+        "nearestDistanceMetres": 14.007617950439453,
+        "projectedErrorPlanningPixels": null,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 196,
+          "copiedVertices": 1171,
+          "unmappedWallVertices": 533
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 0,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 6,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/manifest.json"
+    },
+    {
+      "view": "lakeview-sheil-park/150",
+      "altitude": 150,
+      "before": {
+        "main": {
+          "triangles": 374137,
+          "draws": 89
+        },
+        "shadow": {
+          "triangles": 38399,
+          "draws": 33
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 374137,
+          "draws": 89
+        },
+        "shadow": {
+          "triangles": 38399,
+          "draws": 33
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/150-before.png",
+        "after": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/150-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/150-repeat.png"
+      },
+      "pngHashes": {
+        "before": "c69991f78696a22798bf941d9feef97b49948584f5b9241337aecd8aaa47cf37",
+        "after": "c69991f78696a22798bf941d9feef97b49948584f5b9241337aecd8aaa47cf37",
+        "repeat": "c69991f78696a22798bf941d9feef97b49948584f5b9241337aecd8aaa47cf37"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 159.18974011430828,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -518.7509765625,
+          -0.7000000029802322,
+          -507.0538330078125,
+          511.7992248535156,
+          25.992382049560547,
+          505.4203186035156
+        ],
+        "cameraBounds": [
+          -505.4203186106769,
+          -468.45769443238845,
+          -473.3733252058861,
+          507.0538330150709,
+          279.12570570885333,
+          274.21007493250795
+        ],
+        "minimumDepthMetres": -274.21007493250795,
+        "visibleChangedCameraBounds": [
+          -349.743896479101,
+          -80.16878967712876,
+          -408.6923680915429,
+          341.92391968367883,
+          208.13487444569097,
+          -122.08997519611893
+        ],
+        "visibleChangedMinimumDepthMetres": 122.08997519611893,
+        "nearestDistanceMetres": 124.00761795043945,
+        "projectedErrorPlanningPixels": 789.9161123691462,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 196,
+          "copiedVertices": 1171,
+          "unmappedWallVertices": 533
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 110,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 6,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/manifest.json"
+    },
+    {
+      "view": "lakeview-sheil-park/600",
+      "altitude": 600,
+      "before": {
+        "main": {
+          "triangles": 547180,
+          "draws": 69
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 200364,
+          "draws": 55
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 116002,
+        "max": 149,
+        "mean": 0.7189569849865716
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/600-before.png",
+        "after": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/600-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/600-repeat.png"
+      },
+      "pngHashes": {
+        "before": "9755399bf2e52e4469b76563400dcb65f684424fb403cd7ee248f4359b3d5c03",
+        "after": "4a7573e72275ec984cf456e36098e1f9d473fb101cf02ca8b82d47186bbb7c2b",
+        "repeat": "9755399bf2e52e4469b76563400dcb65f684424fb403cd7ee248f4359b3d5c03"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": true,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 159.18974011430828,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 1,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -518.7509765625,
+          -0.7000000029802322,
+          -507.0538330078125,
+          511.7992248535156,
+          25.992382049560547,
+          505.4203186035156
+        ],
+        "cameraBounds": [
+          -505.42031861067676,
+          -786.6557459656967,
+          -791.5713767404709,
+          507.0538330150709,
+          -39.072345824454715,
+          -43.9879766020768
+        ],
+        "minimumDepthMetres": 43.9879766020768,
+        "visibleChangedCameraBounds": [
+          -504.1229858345609,
+          -299.0589100202569,
+          -791.4299553803328,
+          504.5181884834379,
+          -42.61357933414257,
+          -542.4701666389594
+        ],
+        "visibleChangedMinimumDepthMetres": 542.4701666389594,
+        "nearestDistanceMetres": 574.0076179504395,
+        "projectedErrorPlanningPixels": 177.78090759108946,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 196,
+          "copiedVertices": 1171,
+          "unmappedWallVertices": 533
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 560,
+        "viewAllowed": true
+      },
+      "farWater": {
+        "enabled": true,
+        "active": true,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 1,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "lakeview-sheil-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 1315,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 39996,
+        "uploadedDraws": 2,
+        "geometryBytes": 10453464,
+        "buildingCandidates": 6396,
+        "inferredHeights": 673,
+        "buildingsSkippedByBudget": 5081,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": true,
+        "opaqueSourceOrder": [
+          "context ring building-masses",
+          "context ring land-roads-0",
+          "context ring land-roads-2",
+          "context ring land-roads-3",
+          "context ring land-roads-1"
+        ],
+        "coverage": [
+          -3496.5547791885574,
+          -3499.9983035137584,
+          3499.9999999998663,
+          3499.9983018433377
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 3351,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 9881,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 16,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 5488,
+          "shorelineDropped": 0,
+          "shorelinePieces": 1,
+          "skippedPieces": 0,
+          "tri.aerial.area": 4847,
+          "tri.aerial.main": 4710,
+          "tri.aerial.minor": 5575,
+          "tri.far.area": 2935,
+          "tri.far.main": 2160,
+          "tri.near.area": 8925,
+          "tri.near.main": 6324,
+          "tri.near.minor": 6708,
+          "tri.street.area": 5380,
+          "tri.street.main": 3286,
+          "triangles.aerial": 15132,
+          "triangles.far": 5095,
+          "triangles.near": 21957,
+          "triangles.street": 8666,
+          "triangles.water": 1693,
+          "waterPolygons": 37,
+          "waterways": 19
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-lakeview-sheil-park-v4/manifest.json"
+    },
+    {
+      "view": "wilmette-vattmann-park/40",
+      "altitude": 40,
+      "before": {
+        "main": {
+          "triangles": 49790,
+          "draws": 40
+        },
+        "shadow": {
+          "triangles": 52381,
+          "draws": 109
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 49790,
+          "draws": 40
+        },
+        "shadow": {
+          "triangles": 52381,
+          "draws": 109
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/40-before.png",
+        "after": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/40-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/40-repeat.png"
+      },
+      "pngHashes": {
+        "before": "ee4a3b6158a58546f0a0f41eba15f97c301a172cc00677bb6249aa08d846244f",
+        "after": "ee4a3b6158a58546f0a0f41eba15f97c301a172cc00677bb6249aa08d846244f",
+        "repeat": "ee4a3b6158a58546f0a0f41eba15f97c301a172cc00677bb6249aa08d846244f"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 154.188230923834,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -506.4076232910156,
+          -0.5,
+          -505.005615234375,
+          512.7926025390625,
+          16.453325271606445,
+          505.6742858886719
+        ],
+        "cameraBounds": [
+          -505.6742858961142,
+          -391.2369512404662,
+          -386.7220891174489,
+          505.0056152419112,
+          341.4342511034712,
+          345.94911322866545
+        ],
+        "minimumDepthMetres": -345.94911322866545,
+        "visibleChangedCameraBounds": [
+          -88.62613678134782,
+          -14.566136965551616,
+          -114.77884567768986,
+          71.78363799956281,
+          65.80420164018491,
+          -39.12576072410432
+        ],
+        "visibleChangedMinimumDepthMetres": 39.12576072410432,
+        "nearestDistanceMetres": 23.546674728393555,
+        "projectedErrorPlanningPixels": 2387.45027597089,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 0,
+          "copiedVertices": 0,
+          "unmappedWallVertices": 0
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 0,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 6,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/manifest.json"
+    },
+    {
+      "view": "wilmette-vattmann-park/150",
+      "altitude": 150,
+      "before": {
+        "main": {
+          "triangles": 191244,
+          "draws": 88
+        },
+        "shadow": {
+          "triangles": 24975,
+          "draws": 54
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 191244,
+          "draws": 88
+        },
+        "shadow": {
+          "triangles": 24975,
+          "draws": 54
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/150-before.png",
+        "after": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/150-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/150-repeat.png"
+      },
+      "pngHashes": {
+        "before": "13a43e8fa8f2a18f92a5d63a37cb97dda3b5d5914f3d730b525fd6fdc01f5665",
+        "after": "13a43e8fa8f2a18f92a5d63a37cb97dda3b5d5914f3d730b525fd6fdc01f5665",
+        "repeat": "13a43e8fa8f2a18f92a5d63a37cb97dda3b5d5914f3d730b525fd6fdc01f5665"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": false,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 154.188230923834,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 0,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -506.4076232910156,
+          -0.5,
+          -505.005615234375,
+          512.7926025390625,
+          16.453325271606445,
+          505.6742858886719
+        ],
+        "cameraBounds": [
+          -505.6742858961142,
+          -469.01869717110594,
+          -464.50383504784963,
+          505.0056152419112,
+          263.6525051728315,
+          268.1673672982647
+        ],
+        "minimumDepthMetres": -268.1673672982647,
+        "visibleChangedCameraBounds": [
+          -318.50933838436094,
+          -75.94018355560988,
+          -441.5281947161235,
+          296.0171508741674,
+          236.01954636917267,
+          -129.06801783165722
+        ],
+        "visibleChangedMinimumDepthMetres": 129.06801783165722,
+        "nearestDistanceMetres": 133.54667472839355,
+        "projectedErrorPlanningPixels": 723.7331897369735,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 0,
+          "copiedVertices": 0,
+          "unmappedWallVertices": 0
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 110,
+        "viewAllowed": false
+      },
+      "farWater": {
+        "enabled": true,
+        "active": false,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 0,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 6,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": false,
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/manifest.json"
+    },
+    {
+      "view": "wilmette-vattmann-park/600",
+      "altitude": 600,
+      "before": {
+        "main": {
+          "triangles": 239028,
+          "draws": 63
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "after": {
+        "main": {
+          "triangles": 134377,
+          "draws": 50
+        },
+        "shadow": {
+          "triangles": 0,
+          "draws": 0
+        }
+      },
+      "tiers": {
+        "floor": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        },
+        "standard": {
+          "pass": true,
+          "mainTrianglesPass": true,
+          "mainDrawsPass": true,
+          "shadowTrianglesPass": true,
+          "shadowDrawLimit": null
+        }
+      },
+      "difference": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 50117,
+        "max": 118,
+        "mean": 0.2155628934971162
+      },
+      "paths": {
+        "before": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/600-before.png",
+        "after": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/600-after.png",
+        "repeat": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/600-repeat.png"
+      },
+      "pngHashes": {
+        "before": "5765ff986a8fe270b5d63d74c171ae92c8fbcba862e08eb2f24c50eae8374ac6",
+        "after": "dd7e4655fcbd5f6522740e257ac8a436aa3a9ee3b71157bf773fd57542d3c03f",
+        "repeat": "5765ff986a8fe270b5d63d74c171ae92c8fbcba862e08eb2f24c50eae8374ac6"
+      },
+      "farParent": {
+        "enabled": true,
+        "selected": true,
+        "minimumDistanceMetres": 400,
+        "geometryErrorMetres": 154.188230923834,
+        "parentScope": "complete core static union; conservative all-or-nothing admission",
+        "swaps": 1,
+        "children": 25,
+        "atomicCoverage": true,
+        "worldBounds": [
+          -506.4076232910156,
+          -0.5,
+          -505.005615234375,
+          512.7926025390625,
+          16.453325271606445,
+          505.6742858886719
+        ],
+        "cameraBounds": [
+          -505.67428589611416,
+          -787.216748705541,
+          -782.7018865813072,
+          505.00561524191124,
+          -54.5455463616035,
+          -50.030684235193064
+        ],
+        "minimumDepthMetres": 50.030684235193064,
+        "visibleChangedCameraBounds": [
+          -504.1578979549688,
+          -288.6892154026905,
+          -776.0096845367163,
+          500.84060668265954,
+          -65.5620959853473,
+          -551.589457996749
+        ],
+        "visibleChangedMinimumDepthMetres": 551.589457996749,
+        "nearestDistanceMetres": 583.5466747283936,
+        "projectedErrorPlanningPixels": 169.3484291334741,
+        "surfaceTransfer": {
+          "rule": "Existing nonzero runtime override + hash-bound scene.lod1.static ranges; exact exporter vertex order",
+          "featuresWithOverrides": 0,
+          "copiedVertices": 0,
+          "unmappedWallVertices": 0
+        },
+        "viewMinimumAltitudeMetres": 400,
+        "groundCeiling": 40,
+        "altitudeAboveCeiling": 560,
+        "viewAllowed": true
+      },
+      "farWater": {
+        "enabled": true,
+        "active": true,
+        "sourceDraws": 0,
+        "draws": 0,
+        "triangles": 0,
+        "bufferBytes": 0,
+        "rebuilds": 1,
+        "thresholdM": 400
+      },
+      "context": {
+        "enabled": true,
+        "status": "available",
+        "area": "wilmette-vattmann-park",
+        "source": "Sources/WorldGen/Context/ContextRing.swift; World+Context.swift non-casting reference",
+        "buildings": 90,
+        "addedShadowTriangles": 0,
+        "addedShadowDraws": 0,
+        "uploadedTriangles": 17006,
+        "uploadedDraws": 2,
+        "geometryBytes": 4387548,
+        "buildingCandidates": 90,
+        "inferredHeights": 85,
+        "buildingsSkippedByBudget": 0,
+        "mergeLand": false,
+        "mergeOpaque": true,
+        "mergeActive": true,
+        "opaqueSourceOrder": [
+          "context ring building-masses",
+          "context ring land-roads-2",
+          "context ring land-roads-0",
+          "context ring land-roads-3",
+          "context ring land-roads-1"
+        ],
+        "coverage": [
+          -3496.538993619651,
+          -3499.9982879280096,
+          3499.999999999779,
+          3499.998286233078
+        ],
+        "core": [
+          -500,
+          -500,
+          500,
+          500
+        ],
+        "stats": {
+          "areas": 1098,
+          "buildingsFirstRow": 0,
+          "buildingsInData": 694,
+          "buildingsLow": 0,
+          "buildingsTall": 0,
+          "cells": 15,
+          "partialWaterRelations": 1,
+          "rails": 0,
+          "roads": 2784,
+          "shorelineDropped": 0,
+          "shorelinePieces": 2,
+          "skippedPieces": 3,
+          "tri.aerial.area": 3383,
+          "tri.aerial.main": 3094,
+          "tri.aerial.minor": 6274,
+          "tri.far.area": 1914,
+          "tri.far.main": 978,
+          "tri.near.area": 5558,
+          "tri.near.main": 3974,
+          "tri.near.minor": 4946,
+          "tri.street.area": 4214,
+          "tri.street.main": 2138,
+          "triangles.aerial": 12751,
+          "triangles.far": 2892,
+          "triangles.near": 14478,
+          "triangles.street": 6352,
+          "triangles.water": 756,
+          "waterPolygons": 54,
+          "waterways": 11
+        }
+      },
+      "source": "/private/tmp/a10-far-bundle-wilmette-vattmann-park-v4/manifest.json"
+    }
+  ],
+  "controls": "Nine exact full-image repeats; six exact near-view comparisons; original shadow submissions retained",
+  "scoring": "A3 only",
+  "floorPass": 9,
+  "standardPass": 9
+}
