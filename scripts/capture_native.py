@@ -97,6 +97,7 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
                 raise ValueError('scene not ready: context loading failed')
             signals = [line for line in before if line.startswith(f'SCENEREADY id={view_id} ')]
             proof = None
+            output_proof = None
             if require_scene_ready:
                 if len(signals) != 1:
                     raise ValueError('scene not ready: missing or ambiguous SCENEREADY')
@@ -112,6 +113,15 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
                 signal_index = before.index(signals[0])
                 if not ready or signal_index >= ready[-1] or (require_context and signal_index <= completions[-1]):
                     raise ValueError('scene not ready: SCENEREADY ordering is invalid')
+                outputs = [(i, line) for i, line in enumerate(before) if line.startswith(f'OUTPUTSTABLE id={view_id} ')]
+                if len(outputs) != 1 or outputs[0][0] <= signal_index:
+                    raise ValueError('scene not ready: missing, ambiguous or unordered OUTPUTSTABLE')
+                output_proof = dict(field.split('=', 1) for field in outputs[0][1].split()[1:])
+                if (output_proof.get('exposure') != 'pinned-1' or int(output_proof.get('samples', '0')) < 3 or
+                    int(output_proof.get('observations', '0')) < int(output_proof['samples']) or
+                    int(output_proof.get('completed', '0')) < int(proof['gpuCompleted']) + 2):
+                    raise ValueError('scene not ready: insufficient completed-frame output stability')
+
             if require_context and not require_scene_ready and not any(line.startswith('VIEW t=') for line in before[completions[-1] + 1:]):
                 raise ValueError('scene not ready: no post-attachment view update before VIEWSHOT')
             drawsplit = re.search(r'drawsplit\[([^]]+)\]', lines[shot])
@@ -119,7 +129,7 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
             if not drawsplit or not cost:
                 raise ValueError('capture lacks scene coverage counters')
             matched.append(dict(contextRequired=require_context, contextAttachedBeforeCapture=bool(completions),
-                                gpuCompletionProved=proof is not None, captureExposure=({'mode': 'pinned', 'gain': 1.0} if proof else None), sceneReady=proof, triangles=int(cost[1]), draws=int(cost[2]),
+                                gpuCompletionProved=proof is not None, captureExposure=({'mode': 'pinned', 'gain': 1.0} if proof else None), sceneReady=proof, outputStability=output_proof, triangles=int(cost[1]), draws=int(cost[2]),
                                 drawsplit=drawsplit[1], launchLog=str(path), shotLine=shot + 1))
     if len(matched) != 1:
         raise ValueError('capture lacks one unambiguous launch-log VIEWSHOT')

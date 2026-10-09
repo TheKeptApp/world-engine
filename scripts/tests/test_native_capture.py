@@ -96,9 +96,17 @@ class NativeCaptureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp); (run / 'logs').mkdir(); log = run / 'logs/_launch-fixture.log'
             signal = 'SCENEREADY id=view context=ready exposure=pinned-1 gpuCompleted=3 stableFrames=3 size=1005x565 signature=cG9zZQ=='
+            output = 'OUTPUTSTABLE id=view samples=3 observations=3 completed=5 exposure=pinned-1'
             shot = 'VIEWSHOT id=view file=views/view.png triangles=5 draws=1 drawsplit[context=1]'
-            log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + shot + '\n')
+            log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + output + '\n' + shot + '\n')
             self.assertTrue(capture.verify_scene_readiness(run, 'view', True, True)['gpuCompletionProved'])
+            log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'OUTPUTSTABLE'):
+                capture.verify_scene_readiness(run, 'view', True, True)
+            log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + output.replace('samples=3', 'samples=2') + '\n' + shot + '\n')
+            with self.assertRaisesRegex(ValueError, 'output stability'):
+                capture.verify_scene_readiness(run, 'view', True, True)
+
             log.write_text('CONTEXT cells=18 parse=1s\n' + signal.replace(' exposure=pinned-1', '') + '\nVIEWREADY id=view\n' + shot + '\n')
             with self.assertRaisesRegex(ValueError, 'exposure'):
                 capture.verify_scene_readiness(run, 'view', True, True)
