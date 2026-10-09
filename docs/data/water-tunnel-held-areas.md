@@ -33,11 +33,46 @@ HEAVY_AGENT=A1 scripts/heavy.sh 'A1 eight-area water/tunnel comparison' python3 
 | wilmette-vattmann-park | 1136 → 1136 | 2426 → 2426 | 22 → 22 | yes / yes | yes |
 | winnetka-village-green | 1330 → 1330 | 3289 → 3285 | 17 → 17 | yes / yes | yes |
 
-Kenilworth `way/206236052` (tunnel=yes, layer −1) loses 2 triangles; Winnetka `way/323015881` (tunnel=yes, layer −2) loses 4. The same ways remain in loaded path data. Static position/index hashes are unchanged for the other six areas. All static chunk-batch totals remain unchanged. The West Highland covered underground source way lies outside this held core; it is covered by synthetic controls, not counted as a measured core removal. Lakeview’s three ground-level building passages remain drawn.
+Kenilworth `way/206236052` (tunnel=yes, layer −1) loses 2 triangles; Winnetka `way/323015881` (tunnel=yes, layer −2) loses 4. The same ways remain in loaded path data. Static position/index hashes are unchanged for the other six areas. All static chunk-batch totals remain unchanged. The West Highland covered underground source way lies about 48 m south of this held core (local north −547.59…−547.55 m; core edge −500 m); it is covered by synthetic controls, not counted as a measured core removal. Lakeview’s three ground-level building passages remain drawn.
 
 Lakeview and Wilmette have no core water geometry on either side: their identical core water hashes are a geometry control, not a lake-appearance score. Native context appearance changes as explained above; coarse geometry is untouched. Sloan’s retained lake still selects profile 1 / 2 m band; its four other water bodies and pool use neutral. Greenville’s river/pond/basin/pools and West Highland’s pools lose the erroneous Sloan profile. No source-water outline is deleted.
 
-Validation so far: nine focused water/tunnel tests passed under the wrapper at load 12.10; eight-area paired measurement completed under its own wrapper and released the lock. After rebase onto f021865: 64 tests in 10 affected suites passed (35.795 s test execution), native Metal compile and metallib link both passed; wrapper admitted at load 3.78 and exited 0/released lock. Post-merge scoreboard remains pending below.
+Validation so far: nine focused water/tunnel tests passed under the wrapper at load 12.10; eight-area paired measurement completed under its own wrapper and released the lock. After rebase onto f021865: 64 tests in 10 affected suites passed (35.795 s test execution), native Metal compile and metallib link both passed; wrapper admitted at load 3.78 and exited 0/released lock. The completed independent post-merge scoreboard is filed below.
+
+## Post-merge 24-frame scoreboard
+
+Implementation merged as **591e4be**. Independent shared run at **1fcb233** (a descendant of that merge) completed all eight held areas at 40/150/600 m, then was filed on main in **a1bc333**. [Canonical report](../../web/bakeoff/evidence/context-holdouts/post-merge-scoreboard.md) and [JSON](../../web/bakeoff/evidence/context-holdouts/post-merge-scoreboard.json); [reuse receipt and local PNG hashes](water-tunnel-scoreboard-provenance.json). All **147 scoreboard code files**, all **29 held inputs**, and native/map implementation hashes matched A1 exactly. All 24 image hashes were checked and the images preserved locally under `.build/a1-water-tunnel-scoreboard/` (ignored; no PNGs committed). A1 stopped its duplicate run after Evanston while queued for Greenville; no other lane’s process, files or lock were changed.
+
+Comparable BEFORE is the filed far-water scoreboard at **d82a68d**, not the older `world-scoreboard-v0` JSON: all 24 comparison-input objects (source, harness, camera, date, viewport and recipe) match. The older v0 has different source/harness hashes and is not used for quantitative deltas. Kenilworth/Winnetka tunnel flags are **6 → 0** across the six affected frames; all 24 AFTER frames have zero tunnel surface ranges. Existing failures remain: **24 floor, 24 standard, seven blank-ground**. No look grade, floor promotion, native frame-equivalence claim or unrelated fix.
+
+| Area / metres | Main triangles B → A | Main draws B → A | Shadow triangles B → A | Shadow draws B → A | Tunnel ranges B → A |
+|---|---:|---:|---:|---:|---:|
+| evanston-south/40 | 544177 → 544177 | 214 → 214 | 419142 → 419142 | 125 → 125 | 0 → 0 |
+| evanston-south/150 | 506058 → 506058 | 204 → 204 | 424718 → 424718 | 150 → 150 | 0 → 0 |
+| evanston-south/600 | 342496 → 342496 | 211 → 211 | 56720 → 56720 | 4 → 4 | 0 → 0 |
+| greenville-downtown/40 | 417590 → 417520 | 111 → 111 | 307703 → 307703 | 35 → 35 | 0 → 0 |
+| greenville-downtown/150 | 461301 → 461065 | 171 → 170 | 312464 → 312464 | 70 → 70 | 0 → 0 |
+| greenville-downtown/600 | 429835 → 429771 | 199 → 199 | 0 → 0 | 0 → 0 | 0 → 0 |
+| kenilworth-station/40 | 430028 → 430026 | 198 → 198 | 264349 → 264347 | 108 → 108 | 1 → 0 |
+| kenilworth-station/150 | 425114 → 425112 | 216 → 216 | 345470 → 345468 | 138 → 138 | 1 → 0 |
+| kenilworth-station/600 | 361786 → 361784 | 213 → 213 | 49127 → 49127 | 4 → 4 | 1 → 0 |
+| lakeview-sheil-park/40 | 1057862 → 1057862 | 210 → 210 | 924485 → 924485 | 123 → 123 | 0 → 0 |
+| lakeview-sheil-park/150 | 1181951 → 1181951 | 224 → 224 | 996184 → 996184 | 149 → 149 | 0 → 0 |
+| lakeview-sheil-park/600 | 936137 → 936137 | 203 → 203 | 2280 → 2280 | 1 → 1 | 0 → 0 |
+| sloans-lake/40 | 656467 → 656455 | 169 → 169 | 560465 → 560465 | 111 → 111 | 0 → 0 |
+| sloans-lake/150 | 785361 → 785315 | 238 → 238 | 572162 → 572162 | 113 → 113 | 0 → 0 |
+| sloans-lake/600 | 502798 → 502656 | 285 → 285 | 75831 → 75831 | 4 → 4 | 0 → 0 |
+| west-highland/40 | 818648 → 818648 | 233 → 233 | 678189 → 678189 | 138 → 138 | 0 → 0 |
+| west-highland/150 | 747771 → 747771 | 239 → 239 | 790133 → 790133 | 146 → 146 | 0 → 0 |
+| west-highland/600 | 599781 → 599781 | 222 → 222 | 147346 → 147346 | 9 → 9 | 0 → 0 |
+| wilmette-vattmann-park/40 | 553853 → 553853 | 191 → 191 | 410139 → 410139 | 114 → 114 | 0 → 0 |
+| wilmette-vattmann-park/150 | 534459 → 534459 | 207 → 207 | 454124 → 454124 | 154 → 154 | 0 → 0 |
+| wilmette-vattmann-park/600 | 366066 → 366066 | 197 → 197 | 34776 → 34776 | 2 → 2 | 0 → 0 |
+| winnetka-village-green/40 | 326717 → 326713 | 180 → 180 | 224875 → 224875 | 102 → 102 | 1 → 0 |
+| winnetka-village-green/150 | 324009 → 324005 | 197 → 197 | 253587 → 253587 | 130 → 130 | 1 → 0 |
+| winnetka-village-green/600 | 236963 → 236959 | 202 → 202 | 0 → 0 | 0 → 0 | 1 → 0 |
+
+Lakeview/Wilmette web main/shadow counts stay unchanged in all six views. Greenville and Sloan’s main-triangle reductions reflect removal of falsely assigned shallow bands; Greenville150 loses one draw. Their source water outlines remain loaded. Native context-water appearance changes are explained in the rule section and are not scored by this shipping-web run.
 
 ## Ledger text for A3
 
