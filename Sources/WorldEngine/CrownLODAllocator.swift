@@ -1,6 +1,6 @@
 import Foundation
 
-/// Pure opt-in policy from docs/execution/crowns.md. No shipping renderer calls this policy.
+/// Pure opt-in policy from docs/execution/crowns.md. The shipping renderer does not call this policy; the opt-in crown build variant does.
 /// Costs must be measured submissions, including duplicates and every shadow pass; pack caps
 /// (1200/360/80/12) are hypotheses, never substituted for missing measurements.
 public enum CrownLODAllocator {

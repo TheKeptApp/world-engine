@@ -2,9 +2,9 @@
 
 ## Allocator, first
 
-`Sources/WorldEngine/CrownLODAllocator.swift` implements the pure opt-in native policy. Inputs.enabled defaults to false; disabled returns nil without inspecting inputs or changing assignments. Shipping World.swift/LOD/culling/mesh/placement/shadow paths and shaders are unchanged. This API is not wired into shipping mesh selection: enabling a renderer adapter still requires measured elm/non-elm/main/draw/all-pass-shadow costs and recipe identity from the crown handoff. No live native promotion or denied-promotion measurement is claimed.
+`Sources/WorldEngine/CrownLODAllocator.swift` implements the pure opt-in native policy. Inputs.enabled defaults to false; disabled returns nil without inspecting inputs or changing assignments. Shipping World.swift/LOD/culling/mesh/placement/shadow paths and shaders are unchanged. Initially this API was not wired into mesh selection (superseded by the opt-in runtime adapter section below): enabling a renderer adapter still requires measured elm/non-elm/main/draw/all-pass-shadow costs and recipe identity from the crown handoff. No live native promotion or denied-promotion measurement is claimed.
 
-Enabled callers provide stable source IDs, 3D eye distances, valid far/skyline fallback, projected desired LOD and measured costs for every level in the requested chain. The allocator reserves every fallback, then promotes nearest first, with lexical source-ID ties. It never removes an eligible instance. Shared occupied main draw slots are counted once; moving the last instance releases its old slot. It logs each denied request through Result.denied.log, including assigned/requested level and foliage/draw/shadow reason. Shadow costs must sum every submitted pass/cascade, including off-camera casters; nil is an error.
+Enabled callers provide stable source IDs, 3D eye distances, valid far/skyline fallback, projected desired LOD and measured costs for every level in the requested chain. The allocator reserves every fallback, then promotes nearest first, with lexical source-ID ties. It never removes an eligible instance. Shared occupied main draw slots are counted once; moving the last instance releases its old slot. It provides each denied request through Result.denied.log, including assigned/requested level and foliage/draw/shadow reason. Shadow costs must sum every submitted pass/cascade, including off-camera casters; nil is an error.
 
 Ledger: `F=max(0,min(120000,500000-N-20000))`, `E=max(0,F-U)`, elm main, non-foliage N, unchanged other foliage U, whole main, all-pass shadows, main draws, separately optional postprocess draws, standard headroom and floor gaps/strict boundary pass. F is authored planning allowance, not measured capacity. Standard ceilings 500000/180000/120; independent strict floor 400000/150000/100. Reference bounds/actual drawable projection feed 20/6 px thresholds with 10% hysteresis; skyline eligibility remains caller-owned existing distance policy. Near/middle/far/skyline caps 1200/360/80/12 are hypotheses only. They never replace missing measured costs or create a shadow proxy. Geometry, leaf season and other species are untouched.
 
@@ -41,3 +41,49 @@ Preserved evidence: `.build/a10-allocator-exposure/stable600/pair-1/fresh/pipeli
 ### Ledger text for A3 — final result
 
 Allocator policy/cost-ledger API landed default disabled; measured-cost renderer adapter is still pending. Capture-only gain pin and bounded output witness built; focused Swift/Python checks passed. Native output witness timed out on first fresh 600 m capture, so repeatability and three-pair target remain unverified. Pin-only trial failed mean by 0.000002355479241 byte units. No accepted new frame for scoring; old evidence is preserved. Shipping shader SHA-256 remains 8bc481191914876a6f2b870080b8b7fb19ba6d6370426516409596437b49038a.
+
+## Pin-only capture default and separate control-noise proposal — 2026-10-08
+
+R requested two additional pin-only pairs after the initial trial. The exact-output observer is removed from the app capture path and no longer required by the worker: its timeout cannot discard a snapshot. The unused pure observer utility/test remains historical; it is not a capture default. Scene-ready context/completed-frame/pose/size checks and fixed gain 1.0 remain required. Ordinary shipping interactive exposure is unchanged. All FINAL shader gates in foliage-exp1-spec.md remain untouched.
+
+**Control-noise gate proposal, pending R's yes:** max ≤2/255 and mean absolute difference ≤1e-3 **byte units**. This proposal is separate from the **FINAL shader non-mask gate** max ≤2/255 and mean ≤5e-4 byte units. Meeting a proposed control gate is not approval or a shader-category pass. Full-frame controls cannot replace category/leaf-fraction tests.
+
+| Pin-only 600 m pair | Max (byte values) | Mean absolute difference (byte units) | Differing bytes / 2,271,300 | Proposed control numbers | FINAL shader numbers (full-frame only) |
+|---|---:|---:|---:|---|---|
+| 1 | 2 | 0.000502355479241 | 1136 | meet; approval pending | fail mean |
+| 2 | 2 | 0.000123717694712 | 280 | meet; approval pending | meet |
+| 3 | 2 | 0.000114031611852 | 255 | meet; approval pending | meet |
+
+Pair 1 was captured at 456b013; pairs 2/3 at c78ea10, before adapter sources were installed. All six frames match category triangle/draw fingerprints, pose 39.7511195,-105.0389,600,270,45, date 2026-10-15T20:30:00Z, clear/cloud0/wind0/character none, mode off, size 1005×565, source shader SHA 8bc481191914876a6f2b870080b8b7fb19ba6d6370426516409596437b49038a and both compiled metallib hashes. Main 228155 triangles/43 draws, context 7321/6. No crashes. Metadata proves SCENEREADY precedes VIEWSHOT in each. New captures were admitted at loads 12.26/14.56/13.50/8.87, each through the wrapper's own heavy lock, released after each run; initial admission waited for A7. No phone install or scoring.
+
+Combined local evidence `.build/a10-allocator-exposure/pinonly-control-three-pairs.json` contains six frame hashes, full metadata and both numeric gates. Raw frames remain:
+
+- `.build/a10-allocator-exposure/pinned600/pair-1/{fresh,repeat}/raw/ordinary-street-afternoon.png`
+- `.build/a10-allocator-exposure/pinonly-extra600/pair-2/{fresh,repeat}/raw/ordinary-street-afternoon.png`
+- `.build/a10-allocator-exposure/pinonly-extra600/pair-3/{fresh,repeat}/raw/ordinary-street-afternoon.png`
+
+## Runtime adapter variant and P2 elm-mesh handoff — 2026-10-08
+
+Shipping World.swift, WorldView.swift, shader, PostProcess.swift and mesh generators remain byte-identical: the runtime hook is an explicit generated **build variant**, never a rewrite of the default renderer. Package.swift defaults to compiling original World.swift and excluding ignored CrownBudgetWorld.generated.swift. Build the reviewed experimental path explicitly:
+
+```sh
+python3 scripts/crown_budget_variant.py Sources/WorldEngine/CrownBudgetWorld.generated.swift
+CROWN_BUDGET_VARIANT=1 POSTCARD_FILTER='CrownLODAllocatorTests|CrownRuntimeAdapterTests|CrownBudgetRuntimeTests' HEAVY_AGENT=A10 HEAVY_LOAD=25 scripts/heavy.sh 'crown adapter tests' scripts/postcard_mac_check.sh .build/crown-adapter-tests
+```
+
+Even this variant defaults `world.crownBudget.adapter.enabled=false`. No launch flag enables it accidentally. Enabled updateLODs re-evaluates on every update (camera/FOV/drawable changes included), constructs requests for exactly the existing visibility/shadow-eligible explicit `ulmus_americana` instances, excludes winter bare-season instances, obtains current-frame measured costs, uses reference crown height × instance scale and perspective depth to project drawable pixels, and logs CROWN_LEDGER (N/U/F/E, whole main/all-pass shadow/main and separate postprocess draws, floor gaps/strict pass and standard headrooms) and CROWN_DENIED, and sends allocator-selected slots into the same existing instanced bucket/transforms/bounds/count/recount path. Near cut-away uses slot 0, near opaque slot 1, middle 2, far 3, skyline 4. Other species, unknown species, winter bare meshes, existing eligibility and all instance transforms are preserved. A failed accounting/duplicate-ID/fallback/slot check retains the legacy instances but logs CROWN_ADAPTER_FAILED: that candidate is invalid, and the capture worker rejects such a log. It cannot be silently accepted as an allocator result.
+
+P2 interface: preserve unique stable PropInstance.source and species=`ulmus_americana`; provide the new complete elm meshes in the existing per-kind/variant LOD batches; provide invariant object-space **crown** height through `world.crownBudget.referenceCrownHeight`, not active-LOD or whole-tree guessed bounds. Supply actual renderer drawable height through `world.crownBudget.drawableHeight`. `measure(requests)` receives each stable ID's actual native complete mesh triangle counts and occupied batch index per level. Return `CrownBudgetMeasurement(inputs:costs:)` with N/U/non-elm occupied main draws/separate postprocess draws and **all-pass shadow** total, plus per-instance per-level main/all-pass shadow costs and drawSlots=`batch-BATCHINDEX` (empty allowed for shadow-only main=0). Count actual duplicate submissions and every pass/cascade; unknown shadow costs are errors. Shared non-elm batch accounting must be reconciled by 5A, not guessed from meshes. Caps near/middle/far/skyline **1200/360/80/12 are hypotheses**, complete tree including wood; no automatic clamping, tree removal, extra proxy or material is added. P2 must verify mesh bounds, season identity and caps before enablement. 5A review is pending after credit reset; this is wired code/unit validation, not native promotion-performance or appearance acceptance.
+
+### Ledger text for A3 — pin-only and adapter handoff
+
+Pin-only fixed-gain capture is the capture-only default; exact-output timeout removed. Three 600 m controls recorded: max 2/255 each; means 0.000502355479241/0.000123717694712/0.000114031611852 byte units; differing bytes 1136/280/255. Proposed control gate mean ≤0.001 remains pending R yes; FINAL shader gate mean ≤0.0005 is untouched and pair 1 still fails its numeric mean. Default-OFF renderer adapter is wired through an explicit build variant, preserving shipping renderer bytes. Measured bounds/cost callbacks, P2 elm mesh and 5A review are required before enablement. No INTEGRATION/STATE/handoff edits, messages or scores.
+
+Validation completed: opt-in generated renderer compiled; all three focused Swift suites passed through scripts/heavy.sh and shader-safe postcard_mac_check workflow, including measured crown bounds, measurement-required OFF/ON behaviour, occupied batch identity, failed-update atomicity, elm-only/non-elm/unknown/bare isolation and near cut-away identity. Default target also compiled original World.swift and passed the same three suites. Eleven native capture-worker and two variant-generator Python tests pass; generator is deterministic and refuses changed anchors. No captures were required for adapter validation. Logs remain `/private/tmp/a10-crown-adapter-ledger-tests.log` and `/private/tmp/a10-crown-shipping-default-tests.log`; output directories `.build/a10-crown-adapter-ledger-tests` and `.build/a10-crown-shipping-default-tests`. Compile selection is demonstrated by generated-vs-original World source compile lines; render identity is by unchanged default source/build path, not a new pixel test or device-performance claim.
+
+Shipping source SHA-256 audit (against pre-change main 8bf50ab):
+
+- `Sources/WorldEngine/World.swift`: `0264177eae19afe036bb1d9daa9a28657320befcefcfcb748418ef8bb2a12058`; identical.
+- `Sources/WorldEngine/WorldView.swift`: `b00c5efd3fbfa8220c28777b0a5124029e8a354b19a4dec52bada62d3e5d3856`; identical.
+- `Sources/WorldEngine/PostProcess.swift`: `d1ace115067a0958e3ae4ba1f7becbf88e149a4f1658e56f9e1f1065d6ae6026`; identical.
+- `Sources/WorldEngine/Shaders/WorldShaders.metal`: `8bc481191914876a6f2b870080b8b7fb19ba6d6370426516409596437b49038a`; identical.

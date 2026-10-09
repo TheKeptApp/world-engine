@@ -116,6 +116,13 @@ class NativeCaptureTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'ordering'):
                 capture.verify_scene_readiness(run, 'view', True, True)
 
+    def test_failed_runtime_adapter_rejects_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp); (run / 'logs').mkdir()
+            (run / 'logs/_launch-fixture.log').write_text('CROWN_ADAPTER_FAILED error=unknownShadowCost\nVIEWSHOT id=view triangles=5 draws=1 drawsplit[context=0]\n')
+            with self.assertRaisesRegex(ValueError, 'adapter accounting'):
+                capture.verify_scene_readiness(run, 'view', False)
+
     def test_missing_or_duplicate_capture_logs_fail_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             run = Path(tmp); (run / 'logs').mkdir()

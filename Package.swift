@@ -1,5 +1,9 @@
 // swift-tools-version:6.2
 import PackageDescription
+import Foundation
+
+// Explicit opt-in source variant; the default target compiles untouched World.swift.
+let crownBudgetVariant = ProcessInfo.processInfo.environment["CROWN_BUDGET_VARIANT"] == "1"
 
 let package = Package(
     name: "WorldEngine",
@@ -22,7 +26,7 @@ let package = Package(
         // Pure Swift: procedural street-level detail (houses, sidewalks, props, vegetation), seeded by OSM ID.
         .target(name: "WorldGen", dependencies: ["WorldGeo", "WorldMap", "WorldMesh"], resources: [.copy("Profiles")]),
         // RealityKit + SwiftUI: the public engine surface.
-        .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen", "WorldEnvironment"], resources: [.process("Shaders")]),
+        .target(name: "WorldEngine", dependencies: ["WorldGeo", "WorldMap", "WorldMesh", "WorldGen", "WorldEnvironment"], exclude: crownBudgetVariant ? ["World.swift"] : ["CrownBudgetWorld.generated.swift"], resources: [.process("Shaders")]),
         // Pure Swift: time, weather, sky and season resolved into the environment.json contract.
         .target(name: "WorldEnvironment", dependencies: ["WorldGeo", "WorldMap", "WorldGen"], resources: [.copy("Catalog")]),
         // Pure Swift, no dependencies, no simd: sidereal time, Sun/Moon/planets, stars, limiting magnitude,

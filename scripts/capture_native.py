@@ -83,6 +83,8 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
     matched = []
     for path in sorted((run / 'logs').glob('_launch-*.log')):
         lines = path.read_text(errors='replace').splitlines()
+        if any(line.startswith('CROWN_ADAPTER_FAILED') for line in lines):
+            raise ValueError('crown adapter accounting failed; candidate capture rejected')
         shots = [i for i, line in enumerate(lines)
                  if line.startswith(f'VIEWSHOT id={view_id} ') and 'file=' in line]
         for shot in shots:
