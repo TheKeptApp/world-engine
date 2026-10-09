@@ -77,7 +77,7 @@ try{
   await page.evaluate(()=>{window.bakeoff.freeze=true;});
   await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   const evidence=await page.evaluate(()=>{const b=window.bakeoff,g=b.renderer.backend.gl;g.finish();return {metrics:b.metrics,foliageExp1:b.foliageExp1,crownV2:b.crownV2??false,fixture:b.fixture,stableUpdates:window.__captureReadiness.stable};});
-  if(evidence.foliageExp1!==mode.foliageExp1||evidence.crownV2!==(mode.crownV2==='on'))throw Error('Rendered experiment modes differ from requested query');
+  if(evidence.foliageExp1!==mode.foliageExp1||Boolean(evidence.crownV2)!==(mode.crownV2==='on'))throw Error('Rendered experiment modes differ from requested query');
   verifyCounters(evidence.metrics);
   const image=await page.screenshot({type:'png'}),pixels=verifyPixels(PNG.sync.read(image),viewport);
   if(errors.length)throw Error(errors.join('\n'));

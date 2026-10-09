@@ -1,7 +1,7 @@
 // Capture validation only; never modifies renderer state or look values.
 export function modeQueries({foliage='off',crown='off',matrix=false}={}) {
  const fs=matrix?['off','remove','layered']:[foliage],cs=crown.split(',');
- if(fs.some(x=>!['off','remove','layered'].includes(x))||cs.some(x=>!['off','on'].includes(x)))throw Error('Unsupported capture mode');
+ if(fs.some(x=>!['off','remove','layered'].includes(x))||cs.some(x=>!['off','on','standard','floor'].includes(x)))throw Error('Unsupported capture mode');
  return cs.flatMap(crownV2=>fs.map(foliageExp1=>({foliageExp1,crownV2})));
 }
 export function verifyCounters(metrics) {
