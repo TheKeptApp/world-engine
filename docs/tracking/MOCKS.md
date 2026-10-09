@@ -6,7 +6,7 @@ Inventory of every visual file found in the filed proposal/research-pack trees i
 
 ## M-CROWN-AMERICAN-ELM
 
-Approved by R, 9 Oct 2026, for every block: [crown-silhouettes-v2 STATUS](../proposals/crown-silhouettes-v2/STATUS.md). Shape target `docs/proposals/crown-silhouettes-v2/panels/01-american-elm.png` (Denver-labelled test reference, not a location-specific implementation); `panels/14-american-elm.png` is the same-species regional comparison. Values: `content.speciesByCity.denver[name=American elm]` and `lod`; layered lobes, branch scaffold, near/middle/far. Calibration frames govern overall look. Citing shape build: **none — unused; approved, not started**. Latest A3 shape score: unknown. Existing shading exp1 stayed foliage 2/5 in all nine frames (7e800f7); not evidence that this shape is implemented. Foliage-seasons-v1 binding foliage targets reconfirmed 9 Oct; vegetation-v1 subsequently approved explicitly by R on 9 Oct as a foliage target; see its new STATUS.md. Historical concept captions remain provenance, superseded by current STATUS.
+Approved by R, 9 Oct 2026, for every block: [crown-silhouettes-v2 STATUS](../proposals/crown-silhouettes-v2/STATUS.md). Shape target `docs/proposals/crown-silhouettes-v2/panels/01-american-elm.png` (Denver-labelled test reference, not a location-specific implementation); `panels/14-american-elm.png` is the same-species regional comparison. Values: `content.speciesByCity.denver[name=American elm]` and `lod`; layered lobes, branch scaffold, near/middle/far. Calibration frames govern overall look. Citing shape build: **web 0c0316e — partial, American elm only, default-off standard/floor**; [A2 report](../../web/bakeoff/evidence/crown-v2/REPORT.md) cites panels 01/14/17–22 and construction/distance images. Native shape trial not started at the filed A10 snapshot; web visual acceptance pending. Latest A3 shape score: unknown. Existing shading exp1 stayed foliage 2/5 in all nine frames (7e800f7); not evidence that this shape is implemented. Foliage-seasons-v1 binding foliage targets reconfirmed 9 Oct; vegetation-v1 subsequently approved explicitly by R on 9 Oct as a foliage target; see its new STATUS.md. Historical concept captions remain provenance, superseded by current STATUS.
 
 ## M-VEGETATION-V1
 
@@ -289,12 +289,12 @@ File: `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`. Chicago st
 | `docs/proposals/creator-kit-ux-v3/sheets/08-segments.html` | Six segments. Shared primitives. | Other / non-hero scope; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/creator-kit-ux-v3/sheets/08-segments.png` | 08 segments | Other / non-hero scope; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/creator-kit-ux-v3/sheets/gallery-preview.png` | gallery preview | Other / non-hero scope; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/images/03-lobe-construction.png` | 03 lobe construction | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/images/04-distance-fade.png` | 04 distance fade | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
+| `docs/proposals/crown-silhouettes-v2/images/03-lobe-construction.png` | 03 lobe construction | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/images/04-distance-fade.png` | 04 distance fade | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
 | `docs/proposals/crown-silhouettes-v2/images/chicago-eight-species.png` | chicago eight species | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/images/denver-eight-species.png` | denver eight species | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/index.html` | crown-silhouettes-v2 | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/01-american-elm.png` | 01 american elm | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
+| `docs/proposals/crown-silhouettes-v2/panels/01-american-elm.png` | 01 american elm | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
 | `docs/proposals/crown-silhouettes-v2/panels/02-littleleaf-linden.png` | 02 littleleaf linden | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/03-norway-maple.png` | 03 norway maple | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/04-eastern-cottonwood.png` | 04 eastern cottonwood | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
@@ -307,15 +307,15 @@ File: `docs/proposals/style-b-calibration-v2/frames/01-lakeview.png`. Chicago st
 | `docs/proposals/crown-silhouettes-v2/panels/11-silver-maple.png` | 11 silver maple | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/12-green-ash.png` | 12 green ash | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/13-littleleaf-linden.png` | 13 littleleaf linden | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/14-american-elm.png` | 14 american elm | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
+| `docs/proposals/crown-silhouettes-v2/panels/14-american-elm.png` | 14 american elm | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
 | `docs/proposals/crown-silhouettes-v2/panels/15-sugar-maple.png` | 15 sugar maple | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/16-bur-oak.png` | 16 bur oak | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/17-branch-scaffold.png` | 17 branch scaffold | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/18-lower-layer.png` | 18 lower layer | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/19-middle-layer.png` | 19 middle layer | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/20-upper-layer.png` | 20 upper layer | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/21-near-crown.png` | 21 near crown | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
-| `docs/proposals/crown-silhouettes-v2/panels/22-middle-crown.png` | 22 middle crown | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
+| `docs/proposals/crown-silhouettes-v2/panels/17-branch-scaffold.png` | 17 branch scaffold | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/panels/18-lower-layer.png` | 18 lower layer | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/panels/19-middle-layer.png` | 19 middle layer | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/panels/20-upper-layer.png` | 20 upper layer | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/panels/21-near-crown.png` | 21 near crown | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
+| `docs/proposals/crown-silhouettes-v2/panels/22-middle-crown.png` | 22 middle crown | Foliage; approval per pack STATUS/INDEX | web 0c0316e (A2 REPORT; partial) | pending — no A3 crown frame grade |
 | `docs/proposals/crown-silhouettes-v2/panels/23-honeylocust-near.png` | 23 honeylocust near | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/24-honeylocust-middle.png` | 24 honeylocust middle | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |
 | `docs/proposals/crown-silhouettes-v2/panels/25-honeylocust-far.png` | 25 honeylocust far | Foliage; approval per pack STATUS/INDEX | none documented | unknown — unused |

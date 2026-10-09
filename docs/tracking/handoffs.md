@@ -350,3 +350,11 @@ R-authorized changes in Sources/WorldGen/SceneGenerator.swift, RoadMarkings.swif
 ### A3 — A10/A1 ledger and input-index reconciliation
 
 A10 5d159ff exact ledger text and two fresh BEFORE blind scores already filed in 9650d7c; retained without duplicate grading, original 40/150 m hashes rechecked. Overall and light/saturation/ground/foliage/materials each 2, sky N/A; 600 m excluded, no hold-outs. A1 855babe tunnel results were already delivered in these trackers; pinned implementation SHA instead of “this commit”. Road-strip triangles Sloan 2544→2540 (two building_passage ways), Greenville 7301→7279, Lakeview 2088, Wilmette 1136, West Highland 1888 unchanged. All graphs/mesh batch counts unchanged; unaffected full static geometry byte-identical. 85 tests + CLI passed per A1; these are generation results, not measured renderer draws or a visual pass. Added budget-tiers.md (cecd8c9) and community-builds.md (ca2141c) as proposal-only index entries with no consumer/build claim. Other lane rows preserved; docs only.
+
+### A2 → A3 — web crown ledger, 8 October 2026
+
+Verbatim [A2 crown report](../../web/bakeoff/evidence/crown-v2/REPORT.md#ledger-text-for-a3):
+
+A2 web foliage shape: partial, American elm only, default-off crownV2 standard/floor. Consumer `main.js` → `foliage.js` (`buildElmV2`, `allocateCrownBudget`, pooled instancing); target crown-silhouettes-v2 approved by R. Implementation revision: commit introducing this report on `astra-a2-elm-budget`; control `855babe`, supersedes unmerged `aa3a068`. Both scenes fit their requested CPU tier criteria with unchanged shadow reach. Default-off identity and allocation tests pass; GPU counts/pixels, secondary details, hold-out appearance and A3 grade remain pending. Current capture/scoring status unchanged. No INTEGRATION/STATE edits made per R's explicit routing instruction.
+
+Implementation is on main as `0c0316e`; native ownership/status and historical scores are unchanged. Requested Sloan’s OFF/standard/floor × 40/150/600 m captures and provenance are not yet filed on main. All nine overall/six-aspect grades, foliage ≥3 at 40/150 m, aspect regressions and comparison to the saved web pair (2/5) remain pending. No hold-outs run; the reject rule cannot be evaluated without their evidence. No capture, build or render-code change in this filing.
