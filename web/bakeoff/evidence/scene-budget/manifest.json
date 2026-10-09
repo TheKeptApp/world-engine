@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "baselineEvidenceCommit": "c8c361d11a98a6ecc48c96e1b68811ed4b0c76ba",
+  "analysisBaseCommit": "c8c361d11a98a6ecc48c96e1b68811ed4b0c76ba",
+  "query": "sceneBudget=1; all crown/foliage OFF",
+  "scores": null,
+  "sourceHashes": {
+    "web/bakeoff/main.js": "55b0834efc482a33a320e008c3c58d8a533dd9bdbc9b1b723fdc19a7e25e76d5",
+    "web/src/world.js": "e521c5b09ea1044b69bc1a3133dbd0050ce7b23d8627b728448e964bd295030c",
+    "web/src/materials.js": "9256b5c5114bb5cfe6af915251ffcd6f3a6648c68d013dbbc86900bbe0a41883",
+    "web/src/camera-near.js": "20bca6df4e829b7499d1331e388dc6090b54c31ab7b0ee29d81bd6665fab8259",
+    "web/bakeoff/foliage.js": "a82a3625544d421b13f83c99a11a1bdb0c0025e17229b9ff17e543d7beb8df3c",
+    "web/bakeoff/shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+    "web/bakeoff/entry.js": "cf40565af16ee8a1726cf7ed9b65e0ce8f315815de5ebe8acf4add8aff2e59af",
+    "web/bakeoff/scene-budget-entry.js": "8537591471faa4098d448d57fb603390245f16ea732f92830b31f405fa3977d1",
+    "web/bakeoff/scene-budget.js": "68e27c9447472f8baabcb0a18cf2c309b5ba9ea72a43b7d2ee2b17e41ff69dd8",
+    "scripts/capture_web.mjs": "09267499261c25559dbc7a669d11bd55501dc5d3af3869ee17eabc569497acb0"
+  },
+  "captureDirectories": {
+    "variant": "/private/tmp/a10-scene-budget-on-verified",
+    "defaultControl": "/private/tmp/a10-scene-budget-off-control",
+    "initial800m": "/private/tmp/a10-scene-budget-on-first"
+  },
+  "finalCaptureReportSHA256": "e19b1df6e7e7c92e81c57df55554457f168eef605fa92e4fb77c217304ddc2e5",
+  "frames": [
+    {
+      "heightMetres": 40,
+      "baselineFrame": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-40-foliage-off-crown-off-fresh.png",
+      "variantFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-40-foliage-off-crown-off-scene-budget-fresh.png",
+      "variantRepeatFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-40-foliage-off-crown-off-scene-budget-repeat.png",
+      "defaultFrame": "/private/tmp/a10-scene-budget-off-control/sloans-40-foliage-off-crown-off.png",
+      "sha256": "e1ac9873b1f81df6f82b6fd9a43544374d7f24a1bf9ce5c9c9cd18506e34ea4a",
+      "baselineSHA256": "e1ac9873b1f81df6f82b6fd9a43544374d7f24a1bf9ce5c9c9cd18506e34ea4a",
+      "camera": {
+        "position": [
+          479.9371916990588,
+          40,
+          -190.93080230114043
+        ],
+        "direction": [
+          -0.7071067811874858,
+          -0.7071067811856092,
+          3.5138558729386205e-12
+        ],
+        "fov": 50
+      },
+      "requestedCamera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          40
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          -59.999999999999986
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 40,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "projection": {
+        "near": 10,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "mainOff": {
+        "triangles": 729101,
+        "draws": 182
+      },
+      "mainOn": {
+        "triangles": 49844,
+        "draws": 45
+      },
+      "initial800mMain": {
+        "triangles": 49844,
+        "draws": 45
+      },
+      "passesOn": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/opaque world": {
+          "draws": 48,
+          "triangles": 57075
+        },
+        "shadow/foliage": {
+          "draws": 12,
+          "triangles": 11880
+        },
+        "shadow/facade details": {
+          "draws": 2,
+          "triangles": 684
+        },
+        "main/opaque world": {
+          "draws": 30,
+          "triangles": 25436
+        },
+        "main/facade details": {
+          "draws": 1,
+          "triangles": 3996
+        },
+        "main/foliage": {
+          "draws": 12,
+          "triangles": 18104
+        },
+        "main/tufts": {
+          "draws": 1,
+          "triangles": 324
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "passesOff": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/opaque world": {
+          "draws": 48,
+          "triangles": 57075
+        },
+        "shadow/foliage": {
+          "draws": 12,
+          "triangles": 11880
+        },
+        "shadow/facade details": {
+          "draws": 2,
+          "triangles": 684
+        },
+        "main/opaque world": {
+          "draws": 110,
+          "triangles": 390298
+        },
+        "main/facade details": {
+          "draws": 2,
+          "triangles": 3996
+        },
+        "main/water": {
+          "draws": 2,
+          "triangles": 86
+        },
+        "main/foliage": {
+          "draws": 65,
+          "triangles": 199993
+        },
+        "main/tufts": {
+          "draws": 1,
+          "triangles": 3600
+        },
+        "main/DEM": {
+          "draws": 1,
+          "triangles": 129144
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "variantReport": {
+        "enabled": true,
+        "source": "scene-budget-diagnosis.md",
+        "paddingMetres": 0.5,
+        "staticPoolMetres": 800,
+        "instancePool": "all compatible visible instances",
+        "distanceLOD": false,
+        "updates": 1,
+        "retainedTriangles": 47860,
+        "rejectedTriangles": 679257,
+        "pooledDraws": 44,
+        "mainSourceMeshes": 981
+      },
+      "difference": {
+        "maxByte": 0,
+        "meanAbsoluteByte": 0.0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingBytes": 0,
+        "differingPixels": 0,
+        "comparedRGBABytes": 2271300,
+        "regions": []
+      },
+      "stableUpdates": 3,
+      "captureUTC": "2026-10-09T03:30:40.960Z",
+      "seconds": 4.898970666
+    },
+    {
+      "heightMetres": 150,
+      "baselineFrame": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-150-foliage-off-crown-off-fresh.png",
+      "variantFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-150-foliage-off-crown-off-scene-budget-fresh.png",
+      "variantRepeatFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-150-foliage-off-crown-off-scene-budget-repeat.png",
+      "defaultFrame": "/private/tmp/a10-scene-budget-off-control/sloans-150-foliage-off-crown-off.png",
+      "sha256": "ea9f9e78f42e471788547a077f14562d1741522fc965596f0a8cdbe086624db6",
+      "baselineSHA256": "ea9f9e78f42e471788547a077f14562d1741522fc965596f0a8cdbe086624db6",
+      "camera": {
+        "position": [
+          479.9371916990588,
+          150,
+          -190.93080230114043
+        ],
+        "direction": [
+          -0.7071067811874858,
+          -0.7071067811856092,
+          3.5138558729386205e-12
+        ],
+        "fov": 50
+      },
+      "requestedCamera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          150
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          50.000000000000014
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 150,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "projection": {
+        "near": 37.5,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "mainOff": {
+        "triangles": 791795,
+        "draws": 251
+      },
+      "mainOn": {
+        "triangles": 205349,
+        "draws": 75
+      },
+      "initial800mMain": {
+        "triangles": 205349,
+        "draws": 102
+      },
+      "passesOn": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/opaque world": {
+          "draws": 33,
+          "triangles": 55969
+        },
+        "shadow/foliage": {
+          "draws": 7,
+          "triangles": 11308
+        },
+        "shadow/facade details": {
+          "draws": 2,
+          "triangles": 684
+        },
+        "main/opaque world": {
+          "draws": 51,
+          "triangles": 140123
+        },
+        "main/facade details": {
+          "draws": 2,
+          "triangles": 4512
+        },
+        "main/water": {
+          "draws": 3,
+          "triangles": 105
+        },
+        "main/foliage": {
+          "draws": 18,
+          "triangles": 58625
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "passesOff": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/opaque world": {
+          "draws": 33,
+          "triangles": 55969
+        },
+        "shadow/foliage": {
+          "draws": 7,
+          "triangles": 11308
+        },
+        "shadow/facade details": {
+          "draws": 2,
+          "triangles": 684
+        },
+        "main/opaque world": {
+          "draws": 148,
+          "triangles": 434457
+        },
+        "main/facade details": {
+          "draws": 4,
+          "triangles": 4512
+        },
+        "main/water": {
+          "draws": 12,
+          "triangles": 371
+        },
+        "main/foliage": {
+          "draws": 85,
+          "triangles": 221327
+        },
+        "main/DEM": {
+          "draws": 1,
+          "triangles": 129144
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "variantReport": {
+        "enabled": true,
+        "source": "scene-budget-diagnosis.md",
+        "paddingMetres": 0.5,
+        "staticPoolMetres": 800,
+        "instancePool": "all compatible visible instances",
+        "distanceLOD": false,
+        "updates": 1,
+        "retainedTriangles": 203365,
+        "rejectedTriangles": 586446,
+        "pooledDraws": 74,
+        "mainSourceMeshes": 981
+      },
+      "difference": {
+        "maxByte": 0,
+        "meanAbsoluteByte": 0.0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingBytes": 0,
+        "differingPixels": 0,
+        "comparedRGBABytes": 2271300,
+        "regions": []
+      },
+      "stableUpdates": 3,
+      "captureUTC": "2026-10-09T03:30:40.960Z",
+      "seconds": 4.819143834
+    },
+    {
+      "heightMetres": 600,
+      "baselineFrame": "docs/lookloop/captures/a7-web-crown-all-near-fix/sloans-600-foliage-off-crown-off-fresh.png",
+      "variantFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-600-foliage-off-crown-off-scene-budget-fresh.png",
+      "variantRepeatFrame": "/private/tmp/a10-scene-budget-on-verified/sloans-600-foliage-off-crown-off-scene-budget-repeat.png",
+      "defaultFrame": "/private/tmp/a10-scene-budget-off-control/sloans-600-foliage-off-crown-off.png",
+      "sha256": "cdb41641abbe438ac3c9980173ce1dab549eb636197a88145dbf87b30538bd84",
+      "baselineSHA256": "cdb41641abbe438ac3c9980173ce1dab549eb636197a88145dbf87b30538bd84",
+      "camera": {
+        "position": [
+          479.9371916990588,
+          600,
+          -190.93080230114043
+        ],
+        "direction": [
+          -0.7071067811874858,
+          -0.7071067811856093,
+          3.5138558729386205e-12
+        ],
+        "fov": 50
+      },
+      "requestedCamera": {
+        "eye": [
+          39.7511195,
+          -105.0389,
+          600
+        ],
+        "target": [
+          39.7511195504243,
+          -105.04006681934511,
+          500
+        ],
+        "fov": 50
+      },
+      "inspection": {
+        "lat": 39.7511195,
+        "lon": -105.0389,
+        "heading": 270,
+        "pitchDown": 45,
+        "fov": 50,
+        "altitudeAGLMetres": 600,
+        "utc": "2026-10-15T20:30:00Z",
+        "groundDatum": "export manifest.frame.vertical: flat terrain; y = 0 is ground"
+      },
+      "projection": {
+        "near": 150,
+        "far": 150000
+      },
+      "exposure": {
+        "relativeEV": 0.35,
+        "linearGain": 1.2745606273192622,
+        "contrast": 1.06,
+        "saturation": 1.08,
+        "additionalWarmth": 0,
+        "applyOnce": true,
+        "perCityOverrides": false
+      },
+      "fixture": {
+        "status": "Simulated calibration fixture, not live weather or observed phenology",
+        "windKmh": 10,
+        "windFromDegrees": 225,
+        "skyState": "clear",
+        "source": "style-b-calibration-v2/sharedLook; foliage-seasons-v1/species.seasonColours; lake-winter-v1/water.windStates and skyStates. Wind direction is a shared simulated input, not a camera fit.; haze-visibility-v1 regions[].seasons.summer.clear. Homogeneous authored clear fallback, no local layer or summit-obscuring cloud supplied; not an observation. Date is an explicit deterministic replay input; foliage follows regional calendar art prior at R request, not observed phenology. Summer-clear atmosphere remains the separately requested test fixture.",
+        "atmosphereSeason": "summer",
+        "timeOfDay": "day",
+        "summitsObscured": false,
+        "atmosphereLayers": [],
+        "date": "2026-10-15"
+      },
+      "mainOff": {
+        "triangles": 624433,
+        "draws": 292
+      },
+      "mainOn": {
+        "triangles": 320036,
+        "draws": 112
+      },
+      "initial800mMain": {
+        "triangles": 320036,
+        "draws": 186
+      },
+      "passesOn": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "main/opaque world": {
+          "draws": 70,
+          "triangles": 212371
+        },
+        "main/facade details": {
+          "draws": 2,
+          "triangles": 2052
+        },
+        "main/water": {
+          "draws": 27,
+          "triangles": 756
+        },
+        "main/foliage": {
+          "draws": 12,
+          "triangles": 102873
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "passesOff": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "main/opaque world": {
+          "draws": 166,
+          "triangles": 339981
+        },
+        "main/facade details": {
+          "draws": 3,
+          "triangles": 2052
+        },
+        "main/water": {
+          "draws": 27,
+          "triangles": 762
+        },
+        "main/foliage": {
+          "draws": 94,
+          "triangles": 150510
+        },
+        "main/DEM": {
+          "draws": 1,
+          "triangles": 129144
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "variantReport": {
+        "enabled": true,
+        "source": "scene-budget-diagnosis.md",
+        "paddingMetres": 0.5,
+        "staticPoolMetres": 800,
+        "instancePool": "all compatible visible instances",
+        "distanceLOD": false,
+        "updates": 1,
+        "retainedTriangles": 318052,
+        "rejectedTriangles": 304397,
+        "pooledDraws": 111,
+        "mainSourceMeshes": 981
+      },
+      "difference": {
+        "maxByte": 0,
+        "meanAbsoluteByte": 0.0,
+        "maxNormalized": 0.0,
+        "meanNormalized": 0.0,
+        "differingBytes": 0,
+        "differingPixels": 0,
+        "comparedRGBABytes": 2271300,
+        "regions": []
+      },
+      "stableUpdates": 3,
+      "captureUTC": "2026-10-09T03:30:40.960Z",
+      "seconds": 4.6754989170000005
+    }
+  ],
+  "repeatDifferences": [
+    {
+      "scene": "sloans-40",
+      "foliageExp1": "off",
+      "crownV2": "off",
+      "sceneBudget": "1",
+      "png": {
+        "freshBytes": 307241,
+        "repeatBytes": 307241,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "rgba": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      }
+    },
+    {
+      "scene": "sloans-150",
+      "foliageExp1": "off",
+      "crownV2": "off",
+      "sceneBudget": "1",
+      "png": {
+        "freshBytes": 551322,
+        "repeatBytes": 551322,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "rgba": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      }
+    },
+    {
+      "scene": "sloans-600",
+      "foliageExp1": "off",
+      "crownV2": "off",
+      "sceneBudget": "1",
+      "png": {
+        "freshBytes": 593150,
+        "repeatBytes": 593150,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "rgba": {
+        "freshBytes": 2271300,
+        "repeatBytes": 2271300,
+        "differingBytes": 0,
+        "max": 0,
+        "mean": 0
+      }
+    }
+  ],
+  "heavyAdmissions": {
+    "initialVariant": 4.16,
+    "defaultControl": 4.89,
+    "firstGlobalVariant": 3.93,
+    "finalVerifiedVariant": 5.56,
+    "regressionRetry": 12.32,
+    "completedRegressions": 5.67
+  },
+  "runtimeQualification": "web main/shadow submissions and exact images only; no native, hold-out or device performance qualification",
+  "tests": {
+    "nodeSuites": 30,
+    "passed": 30,
+    "failed": 0,
+    "geometryWitnesses": 1056,
+    "v3Witnesses": 228,
+    "captureEvidenceVerifier": "passed for all three heights, fresh and repeat",
+    "prerequisiteFailures": [
+      "WORLDENGINE_ASSETS absent",
+      "Lakeview instances.json absent; existing export prepared"
+    ]
+  }
+}
