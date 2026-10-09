@@ -260,3 +260,9 @@ After each A2 merge, append both before/after view scores and aspect vectors, me
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | OFF / v2 standard / v2 floor / v3 standard, 40/150/600 m | Overall 2, foliage 2 throughout; lake bands gone, historical 600 m overall 1 → 2 | Lakeview 600 m overall 1, foliage 2; matched prior score absent; others pending | [Blind report](../review/crown-v3-ladder-scores.md). No foliage threshold pass or promotion; popping untested. Earlier batches superseded as current controls. |
+
+## Palette-B paired preferences —9Oct2026 (no gate change)
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Fresh sessions; whole-point vectors retained | Overall mostly2; tableA preferred overlot6/6 at40/150/600; overc8c361d6/6 at40/150,4–2 inconclusive at600 | Lakeview150 tableA overdefault6/6; overall default3/2/2 vs tableA3/2/3 | [All aspects and raw counts](../review/palette-b-paired-scores.md). Grader variation disclosed; no promotion/gate pass. |

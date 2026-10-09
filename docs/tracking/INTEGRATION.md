@@ -72,3 +72,9 @@ Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: 
 | Component | Design/input | Native | Web | Evidence / remaining work |
 |---|---|---|---|---|
 | Opt-in surface roles | [989f3c9 design](../execution/surface-role-attribute.md); R implementation request; mock N/A (metadata only) | ignores external file; paint channels/rendering unchanged | consumer not implemented; A2 palette/viewer untouched | `WorldPackage.Options.surfaceRolesTo` / `worldbake --surface-roles-to`; [implementation and touched files](../execution/surface-role-implementation.md). 90/90 tests and 20 reproduced hashes pass; clean-baseline/default/enabled package bytes and normalized archives match for both areas. Companion sizes 1,089,142 / 3,847,048 bytes. Exporter component only; renderer integration and palette trial remain pending. |
+
+### Palette-B visual trial — A3,9Oct2026
+
+[Palette-B fresh blind sessions](../review/palette-b-paired-scores.md):34PNGs/13unique hashes verified; tableA overall beats lot atSloan40/150/600 and Lakeview150 default6/6 each. Versus c8c361d, tableA winsSloan40/150;600 splits4–2/inconclusive. All6 identical controls pass. Whole-point overall mostly2 with disclosed2/3 variation; foliage preference inconclusive, light ties. No promotion or gate pass; no captures/code.
+
+Used: paired protocol0bd9d52 and supplied palette-B hashes. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.

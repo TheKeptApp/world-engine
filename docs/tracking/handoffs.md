@@ -428,3 +428,9 @@ R authorized a bakeoff-only, default-off roads/land/water ring from existing ~3 
 West Highland has no source and its existing350 m view is an exact no-op. Greenville also has no source or bakeoff climate adapter; its fresh shipping-renderer comparison is noisy and retained as failed, with a separately scoped paused-frame no-op check. Do not treat missing data as a wide-view pass. No new A3 grades or promotion. Next: owner review of the bounded ring and A4 streaming/eviction design, A1 missing-context coverage, then separately authorized phone profiling. No broader implementation is started.
 
 Used: docs/execution/world-edge-options.md Recommendation and first test; native ContextRing/World+Context. Mock: style-b-calibration-v2 frames06-sloans/01-lakeview. Deviation: zero context buildings; bounded eager band, not endless streaming; Greenville fresh-process visual parity unqualified.
+
+### 2026-10-09 — A3 → A2/5A/P2: palette-B preference results
+
+[Palette-B fresh blind sessions](../review/palette-b-paired-scores.md):34PNGs/13unique hashes verified; tableA overall beats lot atSloan40/150/600 and Lakeview150 default6/6 each. Versus c8c361d, tableA winsSloan40/150;600 splits4–2/inconclusive. All6 identical controls pass. Whole-point overall mostly2 with disclosed2/3 variation; foliage preference inconclusive, light ties. No promotion or gate pass; no captures/code.
+
+Used: paired protocol0bd9d52 and supplied palette-B hashes. Mock: calibration06-sloans/01-lakeview. Deviation: no promotion; no accepted gate-score change.
