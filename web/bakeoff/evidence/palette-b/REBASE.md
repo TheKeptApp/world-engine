@@ -21,3 +21,5 @@ Tests: palette/policy/atmosphere/sky/overnight/foliage/crown arithmetic, origina
 ## Ledger text for A3
 
 Palette B lot/tableA ready for scoring, default OFF; R-approved world gate passed 0/0, credits strip excluded, four fresh controls designated baseline. Surface-role rows remain deferred. No scores claimed. Used: palette-diagnosis §§3–4 and R's approved exact-world gate. Mock: c8c361d controls. Deviation: historical credits row 27 differs; cause unestablished.
+
+Final merge base advanced again to 0ae426c during commit-message evidence checks. Rebase retained those main changes; the palette renderer and capture files are byte-identical to the tested 69f7141-based result. The read-only source/fixture/camera/control-hash audit passed again.
