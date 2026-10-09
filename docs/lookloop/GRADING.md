@@ -303,3 +303,8 @@ Add this field to the JSON of section G:
 `lookloop.sh` writes one prompt per view into `<run>/reviewers.md`. The template:
 
 > Repo root is the current checkout; relative paths are relative to it. Modify no file except the grades JSON named below. You are a strict visual reviewer for WorldEngine. Follow docs/lookloop/GRADING.md exactly to grade view `<id>` of look-loop run `<run>`. Read GRADING.md first, then the view entry in `<manifest>`, the `<id>` entry in `<run>`/signals.json, the contact sheet `<run>`/sheets/`<id>`.jpg, the full frame `<run>`/frames/`<id>`.jpg and the target PNG(s) if any. Write only the JSON object of section G to `<run>`/grades/`<id>`.json (set "grader" to your model id), then reply "done".
+
+
+## PP. Paired preference — PROPOSED (owner approval pending)
+
+Use the [paired-preference protocol](../review/paired-preference-protocol.md) beside, never instead of, §M whole-point grades. Proposed method: shuffled neutral A/B pairs, balanced randomized positions, saturation/materials/ground/foliage/light and overall A/B/tie judgments, plus separate yes/no roof-competition answers for each image. Six judgments across three sessions (three positions each way), hidden identical-image controls, locked answers before unblinding and reported position/recognition bias checks. A 5/6 preference with ≥2/3 in each position and passing controls is a repeatability screen, not statistical reliability, a fractional grade or gate acceptance. Inconclusive results and missing hold-outs stay pending. Full preparation, stopping and reporting rules live in the linked protocol; this section is proposed only. No scoring or gate change accompanies this addition.

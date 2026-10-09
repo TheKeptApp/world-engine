@@ -382,3 +382,9 @@ A3: rebuilding restores the three Greenville layer-only strips (8 triangles vers
 [Post-near-plane blind review](../review/crown-v3-ladder-scores.md), delivery c8c361d / capture 1580115: 16 PNGs, 12 unique hashes; OFF repeats and identical v2 600 m aliases scored once. Sloan OFF/v2 standard/v2 floor/v3 standard foliage and overall 2 at 40/150/600 m; lake bands gone, historical 600 m overall 1 → 2 from projection correction. v3 does not reach foliage 3; clearer scaffolds but thin repeated sprays, no whole-point aspect gain/drop versus v2. Lakeview 600 m overall 1, foliage 2, ground 1; no matched prior score, reject-rule comparison pending. Sky N/A; popping untested. No promotion, code, captures or builds.
 
 Used: GRADING.md §§M/N. Mock: calibration-v2/frames/06-sloans.png. Deviation: unobservable sky; motion and matched hold-out comparisons pending.
+
+### 2026-10-08 — A3 → builders/reviewers: proposed comparison and NYC audit protocols
+
+A3 protocol-only update: [paired preferences](../review/paired-preference-protocol.md) proposed beside GRADING §M (six balanced judgments, identity/position controls; not validated reliability or a gate change). [NYC audit](../review/nyc-wrongness-audit-protocol.md) retains five fixed cells/taxonomy/counting and adds sceneBudget=1 web measurement; Midtown result unknown pending registered scene/data. No captures, code or scoring.
+
+Used: GRADING.md §§M/N; archetypes.md; scene-budget-variant.md. Mock: future registered approved pair targets. Deviation: protocols only, unvalidated proposed repetition thresholds.
