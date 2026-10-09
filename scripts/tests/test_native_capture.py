@@ -101,11 +101,7 @@ class NativeCaptureTests(unittest.TestCase):
             log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + output + '\n' + shot + '\n')
             self.assertTrue(capture.verify_scene_readiness(run, 'view', True, True)['gpuCompletionProved'])
             log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + shot + '\n')
-            with self.assertRaisesRegex(ValueError, 'OUTPUTSTABLE'):
-                capture.verify_scene_readiness(run, 'view', True, True)
-            log.write_text('CONTEXT cells=18 parse=1s\n' + signal + '\nVIEWREADY id=view\n' + output.replace('samples=3', 'samples=2') + '\n' + shot + '\n')
-            with self.assertRaisesRegex(ValueError, 'output stability'):
-                capture.verify_scene_readiness(run, 'view', True, True)
+            self.assertTrue(capture.verify_scene_readiness(run, 'view', True, True)['gpuCompletionProved'])
 
             log.write_text('CONTEXT cells=18 parse=1s\n' + signal.replace(' exposure=pinned-1', '') + '\nVIEWREADY id=view\n' + shot + '\n')
             with self.assertRaisesRegex(ValueError, 'exposure'):

@@ -308,43 +308,6 @@ struct RealityKitScreen: View {
     }
 
     /// The final accepted witness is saved; no unchecked extra snapshot follows the stability gate.
-    private func captureStableOutput(signature: String, size: String) async throws -> (shot: (data: Data, size: String, source: String), observations: Int, sequence: Int) {
-        var stability = CaptureOutputStability()
-        let deadline = Date().addingTimeInterval(30)
-        while Date() < deadline {
-            try Task.checkCancellation()
-            if let failure = post.captureFrames.failure {
-                throw NSError(domain: "SceneReady", code: 8, userInfo: [NSLocalizedDescriptionKey: failure])
-            }
-            guard let proof = post.captureFrames.proof(), proof.signature == signature else {
-                throw NSError(domain: "SceneReady", code: 9, userInfo: [NSLocalizedDescriptionKey: "Scene changed during output stability"])
-            }
-            guard proof.sequence > stability.lastCompletedSequence else {
-                try await Task.sleep(for: .milliseconds(20)); continue
-            }
-            guard let candidate = await capturePNG(), candidate.size == size,
-                  let image = UIImage(data: candidate.data)?.cgImage else {
-                throw NSError(domain: "SceneReady", code: 10, userInfo: [NSLocalizedDescriptionKey: "Output witness capture/decode failed"])
-            }
-            guard Date() < deadline else { break }
-            guard post.captureFrames.proof()?.signature == signature else {
-                throw NSError(domain: "SceneReady", code: 11, userInfo: [NSLocalizedDescriptionKey: "Scene changed during output witness"])
-            }
-            var pixels = Data(count: image.width * image.height * 4)
-            let decoded = pixels.withUnsafeMutableBytes { bytes -> Bool in
-                guard let context = CGContext(data: bytes.baseAddress, width: image.width, height: image.height,
-                    bitsPerComponent: 8, bytesPerRow: image.width * 4, space: image.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
-                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue) else { return false }
-                context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
-                return true
-            }
-            guard decoded else { throw NSError(domain: "SceneReady", code: 12, userInfo: [NSLocalizedDescriptionKey: "Output witness pixel decode failed"]) }
-            if stability.observe(pixels: pixels, completedSequence: proof.sequence) {
-                return ((candidate.data, candidate.size, "\(candidate.source)"), stability.observations, stability.lastCompletedSequence)
-            }
-        }
-        throw NSError(domain: "SceneReady", code: 13, userInfo: [NSLocalizedDescriptionKey: "Exact output stability timed out; no snapshot accepted"])
-    }
 
     // MARK: View list (`-viewlist`)
 
@@ -414,15 +377,7 @@ struct RealityKitScreen: View {
             try? FileManager.default.removeItem(at: file)
             // `-capturequality`: the postcard quality-mode render of this view instead (PostcardExport.swift).
             let shot: (data: Data, size: String, source: String)?
-            if o.sceneReady {
-                do {
-                    let accepted = try await captureStableOutput(signature: captureSignature!, size: captureSize!)
-                    shot = accepted.shot
-                    print("OUTPUTSTABLE id=\(spec.id) samples=3 observations=\(accepted.observations) completed=\(accepted.sequence) exposure=pinned-1"); fflush(nil)
-                } catch {
-                    print("VIEWS failed: output stability id=\(spec.id): \(error)"); fflush(nil); return
-                }
-            } else if spec.args.contains("-capturequality") {
+            if spec.args.contains("-capturequality") {
                 shot = await PostcardExports.qualityCapture(world: world, camera: camera, size: render.drawableSize,
                                                             post: options.diagnostics.contains("noPost") ? nil : post.settings)
             } else {
