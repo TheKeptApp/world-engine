@@ -1,0 +1,444 @@
+{
+ "id": "p2-batch1-lawn-walls",
+ "branchCommitOfCaptures": "64d1185dda3a7d2371885300510498592e5bec29",
+ "renderer": "native WorldLab (Simulator)",
+ "viewport": [
+  1005,
+  565
+ ],
+ "exposure": "pinned gain 1.0",
+ "weather": "clear, cloud 0, wind 0",
+ "utc": "2026-10-15T20:30:00Z",
+ "camera": "web ladder: heading 270, pitch down 45, FOV 50 (as p2-native-ladder-b0)",
+ "modes": {
+  "off": "current main (no -lookexp)",
+  "lawnsmooth": "-lookexp lawnsmooth",
+  "wallspread": "-lookexp wallspread"
+ },
+ "pairs": [
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-lawnsmooth.png"
+   ],
+   "lever": "lawnsmooth"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-wallspread.png"
+   ],
+   "lever": "wallspread"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  }
+ ],
+ "frames": [
+  {
+   "file": "sloans-40-off.png",
+   "mode": "off",
+   "sha256": "41bd4276f96ede35ff48552d194d13a586711a22b494675dfec20edc5939a09e",
+   "mainTriangles": 312880,
+   "mainDraws": 53,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-40-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "d4604245f7b24489d0d7fa792ca4db665d13460d6457acf2e9b63be4e724158b",
+   "mainTriangles": 312880,
+   "mainDraws": 53,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-40-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "b277014a4b17e4590f9b78a2f640080b5cb99987226ecf65db7b131c893551a3",
+   "mainTriangles": 312880,
+   "mainDraws": 53,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-150-off.png",
+   "mode": "off",
+   "sha256": "4e1026e769ca255f26ce70aa73d7270a36592bd4b00e4dda5295040146397089",
+   "mainTriangles": 333744,
+   "mainDraws": 50,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-150-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "dd0ec37afa8cc192ce376e388eaf0edb32846391d020466a77fefc35a64c9107",
+   "mainTriangles": 333744,
+   "mainDraws": 50,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-150-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "eeb112d146a5f18c45a14cf4989fbfac535b85b99dd5c7627e3d098910dae636",
+   "mainTriangles": 333744,
+   "mainDraws": 50,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-600-off.png",
+   "mode": "off",
+   "sha256": "ab4892f5c30c2e10a3d0028acfa85b6394b34d6e890843a5a09fab2d5c5c48da",
+   "mainTriangles": 228013,
+   "mainDraws": 43,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,600.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-600-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "4c2b0f137c08fdc9ceb0a8433647eeacfe599703705e0c01e56831588f563b5c",
+   "mainTriangles": 228013,
+   "mainDraws": 43,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,600.000000,270.000000,45.000000"
+  },
+  {
+   "file": "sloans-600-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "6ff86e4d25b152abe7d49051f15e7ac5e449104c1201db0982b1788bc0b591a9",
+   "mainTriangles": 228013,
+   "mainDraws": 43,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 39.751119500,-105.038900000,600.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-40-off.png",
+   "mode": "off",
+   "sha256": "7771776939501ea42fecfacc2d74f3e58f16d116e3038d3e83c9ca8d7142cebb",
+   "mainTriangles": 295759,
+   "mainDraws": 56,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-40-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "9b101e0ba3bc784c2838c30a27ce17c81e8e614e0b8dd8454039dce9e911e2a5",
+   "mainTriangles": 295759,
+   "mainDraws": 56,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-40-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "7803761ab1628c517b3d99e47c3dbcc7453926a83f11a857f0148d8f876be625",
+   "mainTriangles": 295759,
+   "mainDraws": 56,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,40.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-150-off.png",
+   "mode": "off",
+   "sha256": "768e1dc9f41d8e402198642bcc14d2d644cc008e8b443f263c9a39194a141ee8",
+   "mainTriangles": 271763,
+   "mainDraws": 48,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-150-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "71313fccf2c7277909032f7c09cfdb8d68fc36b0815b54aed81092a0e2314024",
+   "mainTriangles": 271763,
+   "mainDraws": 48,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-150-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "f366aed5c1634cd8cd1a314c96fe0d6adedb7a2c32b853a35a436e3fcc41f3e3",
+   "mainTriangles": 271763,
+   "mainDraws": 48,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,150.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-600-off.png",
+   "mode": "off",
+   "sha256": "1942c2b653c0890daa138c83d99d1bc2f05152182c4b97960ae364d082946b1e",
+   "mainTriangles": 194160,
+   "mainDraws": 35,
+   "observedLookExperiments": "",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,600.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-600-lawnsmooth.png",
+   "mode": "lawnsmooth",
+   "sha256": "c85b0bed6277a35048aabf71a679bfbe55536380300e6109324f619af936eaa8",
+   "mainTriangles": 194160,
+   "mainDraws": 35,
+   "observedLookExperiments": "lawnsmooth",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,600.000000,270.000000,45.000000"
+  },
+  {
+   "file": "lakeview-600-wallspread.png",
+   "mode": "wallspread",
+   "sha256": "e42aa9af8fa2446bf9eb8a11359de19461ae1d537cc21d9b118df098648e8113",
+   "mainTriangles": 194160,
+   "mainDraws": 35,
+   "observedLookExperiments": "wallspread",
+   "observedCamera": "CAMERA -inspectionpose 41.945182000,-87.664320000,600.000000,270.000000,45.000000"
+  }
+ ],
+ "offVsMainBatch0": {
+  "sloans-40": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "sloans-150": {
+   "maxByte": 1,
+   "meanByte": 2.1e-05,
+   "bytesDiffer": 36,
+   "pixelsDiffer": 29
+  },
+  "sloans-600": {
+   "maxByte": 2,
+   "meanByte": 0.000186,
+   "bytesDiffer": 316,
+   "pixelsDiffer": 271
+  },
+  "lakeview-40": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "lakeview-150": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "lakeview-600": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  }
+ },
+ "onVsOff": {
+  "lawnsmooth": {
+   "sloans-40": {
+    "maxByte": 54,
+    "meanByte": 2.488497,
+    "bytesDiffer": 230397,
+    "pixelsDiffer": 77013
+   },
+   "sloans-150": {
+    "maxByte": 64,
+    "meanByte": 1.76129,
+    "bytesDiffer": 239784,
+    "pixelsDiffer": 81957
+   },
+   "sloans-600": {
+    "maxByte": 64,
+    "meanByte": 0.478926,
+    "bytesDiffer": 77874,
+    "pixelsDiffer": 27135
+   },
+   "lakeview-40": {
+    "maxByte": 44,
+    "meanByte": 0.703429,
+    "bytesDiffer": 83105,
+    "pixelsDiffer": 27732
+   },
+   "lakeview-150": {
+    "maxByte": 55,
+    "meanByte": 0.565977,
+    "bytesDiffer": 91140,
+    "pixelsDiffer": 31367
+   },
+   "lakeview-600": {
+    "maxByte": 50,
+    "meanByte": 0.161345,
+    "bytesDiffer": 31441,
+    "pixelsDiffer": 10882
+   }
+  },
+  "wallspread": {
+   "sloans-40": {
+    "maxByte": 18,
+    "meanByte": 0.187764,
+    "bytesDiffer": 51600,
+    "pixelsDiffer": 17375
+   },
+   "sloans-150": {
+    "maxByte": 21,
+    "meanByte": 0.201466,
+    "bytesDiffer": 65526,
+    "pixelsDiffer": 22829
+   },
+   "sloans-600": {
+    "maxByte": 16,
+    "meanByte": 0.060568,
+    "bytesDiffer": 23298,
+    "pixelsDiffer": 8423
+   },
+   "lakeview-40": {
+    "maxByte": 15,
+    "meanByte": 0.80681,
+    "bytesDiffer": 257077,
+    "pixelsDiffer": 87434
+   },
+   "lakeview-150": {
+    "maxByte": 18,
+    "meanByte": 1.127574,
+    "bytesDiffer": 320563,
+    "pixelsDiffer": 110583
+   },
+   "lakeview-600": {
+    "maxByte": 17,
+    "meanByte": 0.26892,
+    "bytesDiffer": 95324,
+    "pixelsDiffer": 33977
+   }
+  }
+ }
+}
