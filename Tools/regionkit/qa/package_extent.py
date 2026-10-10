@@ -72,6 +72,18 @@ def receipt(area, package, extent):
     missing = [(e['id'], n) for e in elements.values() if e['type'] == 'way'
                for n in e['nodes'] if ('node', n) not in elements]
     assert not missing, 'Incomplete way recursion'
+    retention = {}
+    if extent.get('previousArea'):
+        old = json.loads((area.parent / extent['previousArea'] / 'osm.json').read_text())
+        previous = {(e['type'], e['id']): e for e in old['elements']}
+        for label, key, value in [('buildings', 'building', None), ('roadsAndPaths', 'highway', None), ('water', 'natural', 'water')]:
+            def tagged(e):
+                tag = e.get('tags', {}).get(key)
+                return bool(tag) if value is None else tag == value
+            refs = [k for k, e in previous.items() if e['type'] in ('way', 'relation') and tagged(e)]
+            retention[label] = {'oldSourceRefs': len(refs),
+                                'absentFromExtendedSource': [f'{k[0]}/{k[1]}' for k in refs if k not in elements],
+                                'presentButTagChanged': [f'{k[0]}/{k[1]}' for k in refs if k in elements and not tagged(elements[k])]}
     water = []
     for e in elements.values():
         if e['type'] != 'relation' or e.get('tags', {}).get('natural') != 'water':
@@ -88,7 +100,7 @@ def receipt(area, package, extent):
             'cells': nx * ny, 'grid': [nx, ny], 'detailCounts': dict(Counter(c['detail'] for c in world['chunks'])),
             'lods': lods, 'totalPackageBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()),
             'commonAndMetadataBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()) - sum(x['bytes'] for x in lods),
-            'missingWayNodeReferences': len(missing), 'waterRelations': water, 'sources': sources,
+            'previousSourceRetention': retention, 'missingWayNodeReferences': len(missing), 'waterRelations': water, 'sources': sources,
             'heightRoofObservationSidecarsPresent': all((area / x).is_file() for x in ('building-heights.json', 'building-roofs.json')),
             'terrainPresent': (area / 'elevation/metadata.json').is_file(),
             'dataLicense': world['dataLicense']}
