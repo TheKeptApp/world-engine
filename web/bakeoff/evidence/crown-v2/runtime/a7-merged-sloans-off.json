@@ -1,0 +1,220 @@
+{
+  "scene": "sloans",
+  "mode": "off",
+  "label": "a7-merged",
+  "status": "passed",
+  "sourceHashes": {
+    "main.js": "55b0834efc482a33a320e008c3c58d8a533dd9bdbc9b1b723fdc19a7e25e76d5",
+    "foliage.js": "a82a3625544d421b13f83c99a11a1bdb0c0025e17229b9ff17e543d7beb8df3c",
+    "shadow-casters.js": "ca42a4194afcdd8907f619a64039b4aed7577a42c5f9ea0a0f4765af47dce7ea",
+    "crown-runtime.test.mjs": "32f8a9089ea9e7c633770b19d956af61720f448a34de25c6bb3d4e27d90e06c5",
+    "scenes.json": "d0cd9bde3441f33262bb8ce654b2d5fde2fc8cf9b88f09fb2389aa7ef4bd22f9",
+    "fixture.json": "d3b798da2ff746036579e9c0adbc851c6a5ad3c0f6d26954b9132ebc41cfb9fa"
+  },
+  "browser": "155.0.8059.39",
+  "secondsToReady": 8.632,
+  "metrics": {
+    "scene": "sloans",
+    "tier": "standard",
+    "deviceClass": "14–15",
+    "cost": {
+      "budget": {
+        "mainTriangles": 400000,
+        "shadowTriangles": 150000,
+        "mainDraws": 100,
+        "textureMiB": null,
+        "tiers": {
+          "hero": "15 Pro+",
+          "standard": "14–15",
+          "floor": "12–13"
+        },
+        "tierAllocations": "R: floor uses shared limits; hero/standard and texture budgets not filed"
+      },
+      "passes": {
+        "main/sky/composite": {
+          "draws": 1,
+          "triangles": 1984
+        },
+        "shadow/opaque world": {
+          "draws": 8,
+          "triangles": 2566
+        },
+        "shadow/foliage": {
+          "draws": 9,
+          "triangles": 2442
+        },
+        "main/opaque world": {
+          "draws": 48,
+          "triangles": 127747
+        },
+        "main/water": {
+          "draws": 6,
+          "triangles": 309
+        },
+        "main/tufts": {
+          "draws": 1,
+          "triangles": 2268
+        },
+        "main/foliage": {
+          "draws": 39,
+          "triangles": 80913
+        },
+        "main/facade details": {
+          "draws": 2,
+          "triangles": 984
+        },
+        "main/DEM": {
+          "draws": 1,
+          "triangles": 129144
+        },
+        "post/sky/composite": {
+          "draws": 1,
+          "triangles": 1
+        }
+      },
+      "textures": [
+        {
+          "name": "output",
+          "width": 390,
+          "height": 585,
+          "levels": 1,
+          "format": "RGBA16F",
+          "bytes": 1825200,
+          "target": true
+        },
+        {
+          "name": "depth",
+          "width": 390,
+          "height": 585,
+          "levels": 1,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 912600,
+          "target": true
+        },
+        {
+          "name": "sky gradient + cumulus",
+          "width": 2048,
+          "height": 1024,
+          "levels": 1,
+          "format": "RGBA32F",
+          "bytes": 33554432,
+          "target": false
+        },
+        {
+          "name": "ShadowMap",
+          "width": 2048,
+          "height": 2048,
+          "levels": 1,
+          "format": "RGBA8",
+          "bytes": 16777216,
+          "target": true
+        },
+        {
+          "name": "ShadowDepthTexture",
+          "width": 2048,
+          "height": 2048,
+          "levels": 1,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 16777216,
+          "target": true
+        },
+        {
+          "name": "palette",
+          "width": 256,
+          "height": 1,
+          "levels": 1,
+          "format": "RGBA32F",
+          "bytes": 4096,
+          "target": false
+        },
+        {
+          "name": "water shore distance",
+          "width": 1024,
+          "height": 1024,
+          "levels": 1,
+          "format": "R16F",
+          "bytes": 2097152,
+          "target": false
+        }
+      ],
+      "renderbuffers": [
+        {
+          "name": "renderbuffer",
+          "width": 390,
+          "height": 585,
+          "samples": 4,
+          "format": "RGBA16F",
+          "bytes": 7300800
+        },
+        {
+          "name": "renderbuffer",
+          "width": 390,
+          "height": 585,
+          "samples": 4,
+          "format": "DEPTH_COMPONENT24",
+          "bytes": 3650400
+        }
+      ],
+      "contentTextureMiB": 34.00390625,
+      "targetTextureMiB": 34.61096954345703,
+      "renderbufferMiB": 10.443878173828125,
+      "unknownAllocations": 0,
+      "excludes": "default framebuffer, driver padding, CPU copies; allocation ledger not process memory",
+      "gpuMilliseconds": "unmeasured; desktop frame intervals are not per-effect or phone GPU time"
+    },
+    "backend": "WebGL2",
+    "gpuTimer": {
+      "available": true,
+      "samples": 89,
+      "meanMs": 1.6855286179775284,
+      "p95Ms": 1.901874,
+      "maxMs": 21.360041,
+      "disjointEvents": 0,
+      "scope": "all passes in post.render; hardware GPU timer when available; no per-effect timing"
+    },
+    "drawCalls": 116,
+    "triangles": 348358,
+    "fps": 14.833926690400949,
+    "sampleDurationMs": 5999.76,
+    "p95FrameMs": 16.670000000000073,
+    "samples": 89,
+    "viewport": [
+      0.6666666666666666,
+      390,
+      585
+    ],
+    "camera": {
+      "position": [
+        7.6703964459107254,
+        1.65,
+        -219.27283405621068
+      ],
+      "direction": [
+        -0.9606407232981161,
+        0.012840000283142354,
+        -0.2774969101341513
+      ],
+      "fov": 35
+    },
+    "visibility": "visible",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36"
+  },
+  "resolvedMode": false,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+  "measured": {
+    "main": {
+      "triangles": 343349,
+      "draws": 98
+    },
+    "shadow": {
+      "triangles": 5008,
+      "draws": 17
+    },
+    "post": {
+      "triangles": 1,
+      "draws": 1
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
